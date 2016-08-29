@@ -1,0 +1,9 @@
+{
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": "off",
+    "prefer-arrow-callback": "off"
+  }
+}

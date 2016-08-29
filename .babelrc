@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "istanbul",
+          {
+            "include": [
+              "src/**/*.js"
+            ]
+          }
+        ]
+      ]
+    }
+  }
+}
