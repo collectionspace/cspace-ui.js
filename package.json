@@ -13,7 +13,7 @@
     "web",
     "browser"
   ],
-  "main": "src/index.js",
+  "main": "src/index.jsx",
   "files": [
     "dist",
     "lib",
@@ -43,6 +43,7 @@
     "test-node-integration": "cross-env NODE_ENV=test nyc mocha --compilers js:babel-register --recursive test/integration"
   },
   "dependencies": {
+    "cspace-client": ">=0.0.1",
     "history": "^2.1.2",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",

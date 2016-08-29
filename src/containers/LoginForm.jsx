@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { login, resetLogin } from '../actions';
@@ -9,6 +10,24 @@ import {
 } from '../reducers';
 
 import LoginForm from '../components/LoginForm';
+
+class LoginFormContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(username, password) {
+    this.props.login(username, password);
+  }
+
+  render() {
+    return (
+      <LoginForm onSubmit={this.handleSubmit} />
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {

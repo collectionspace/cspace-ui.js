@@ -127,7 +127,7 @@ module.exports = function karma(config) {
       module: {
         loaders: [
           {
-            test: /\.js$/,
+            test: /\.js$|\.jsx$/,
             exclude: /node_modules/,
             loader: 'babel',
           },
@@ -143,6 +143,9 @@ module.exports = function karma(config) {
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         }),
       ],
+      resolve: {
+        extensions: ['', '.js', '.jsx'],
+      },
     },
 
     port: 9876,
@@ -170,7 +173,7 @@ module.exports = function karma(config) {
     browserDisconnectTolerance: 1,
     browserNoActivityTimeout: 4 * 60 * 1000,
     captureTimeout: 4 * 60 * 1000,
-    
+
     // Add middleware to fall back to the base path.
     // This allows running React Router with browser history.
 
@@ -183,28 +186,26 @@ module.exports = function karma(config) {
         'middleware:fallbackMiddleware': ['factory', function create() {
           const contextPath = '/context.html';
           const debugPath = '/debug.html';
-          
-          return function(req, res, next) {
+
+          return function fallback(req, res, next) {
             let basePath = null;
-            
+
             if (req.url.startsWith(contextPath)) {
               basePath = contextPath;
-            }
-            else if (req.url.startsWith(debugPath)) {
+            } else if (req.url.startsWith(debugPath)) {
               basePath = debugPath;
             }
-            
+
             if (basePath) {
               const rest = req.url.substring(basePath.length);
-              
+
               if (rest.indexOf('.') >= 0) {
-                req.url = rest;
-              }
-              else {
-                req.url = basePath;
+                req.url = rest; // eslint-disable-line no-param-reassign
+              } else {
+                req.url = basePath; // eslint-disable-line no-param-reassign
               }
             }
-            
+
             next();
           };
         }],

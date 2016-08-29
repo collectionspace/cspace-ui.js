@@ -1,6 +1,8 @@
+/* global document */
+
 import React from 'react';
 import { render } from 'react-dom';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
@@ -16,7 +18,7 @@ export default (config) => {
     basename,
     cspaceUrl,
   } = config;
-  
+
   const container = document.querySelector(selector);
 
   if (container) {
@@ -24,7 +26,7 @@ export default (config) => {
     const history = syncHistoryWithStore(
       useRouterHistory(createHistory)({ basename }),
       store);
-    
+
     store.dispatch(configureCSpace({
       url: cspaceUrl,
     }));
@@ -34,6 +36,6 @@ export default (config) => {
       history,
     };
 
-    render(<App {...props}/>, container);
+    render(<App {...props} />, container);
   }
 };

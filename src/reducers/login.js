@@ -7,9 +7,9 @@ import {
 } from '../actions';
 
 export default (state = {}, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case RESET_LOGIN:
-    console.log('resetting login');
+      console.log('resetting login');
       return Object.assign({}, state, {
         isPending: false,
         username: null,

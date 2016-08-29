@@ -6,11 +6,9 @@ import {
 
 import LoginPage from '../components/LoginPage';
 
-const mapStateToProps = (state) => {
-  return {
-    continuation: getLoginContinuation(state),
-  };
-};
+const mapStateToProps = state => ({
+  continuation: getLoginContinuation(state),
+});
 
 export default connect(
   mapStateToProps

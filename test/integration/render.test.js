@@ -1,3 +1,5 @@
+/* global window, document */
+
 import chai from 'chai';
 import cspaceUI from '../../src';
 
@@ -5,7 +7,7 @@ chai.should();
 
 function setup() {
   document.body.insertAdjacentHTML(
-    'beforeend', 
+    'beforeend',
     '<div id="cspace"></div>');
 }
 
@@ -15,15 +17,15 @@ function getBasePath() {
   if (path.startsWith('/context.html')) {
     return '/context.html';
   }
-  
+
   if (path.startsWith('/debug.html')) {
     return '/debug.html';
   }
-  
+
   return '';
 }
 
-describe(`ui`, function suite() {
+describe('ui', function suite() {
   beforeEach(function check() {
     if (typeof window === 'undefined') {
       this.skip();
@@ -31,7 +33,7 @@ describe(`ui`, function suite() {
 
     setup();
   });
-  
+
   it('renders successfully', () => {
     cspaceUI({
       basename: getBasePath(),

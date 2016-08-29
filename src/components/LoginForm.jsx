@@ -1,20 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { login } from '../actions';
+import React, { Component, PropTypes } from 'react';
 
-export default class LoginForm extends React.Component {
+export default class LoginForm extends Component {
   constructor(props) {
     super(props);
-    
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   componentDidUpdate() {
     const {
       response,
       onSuccess,
     } = this.props;
-    
+
     if (response && onSuccess) {
       setTimeout(onSuccess, 0);
     }
@@ -22,14 +20,14 @@ export default class LoginForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    
+
     const form = event.target;
     const username = form.username.value;
     const password = form.password.value;
 
     this.props.login(username, password);
   }
-  
+
   render() {
     const {
       isPending,
@@ -37,27 +35,27 @@ export default class LoginForm extends React.Component {
       response,
       error,
     } = this.props;
-    
+
     if (isPending) {
       return (
         <div>Signing in {username}...</div>
       );
     }
-    
+
     if (response) {
       return (
         <div>Success!</div>
       )
     }
-    
+
     const errorMessage = error
       ? <p>Error! Try again.</p>
       : null;
-    
+
     return (
       <div>
         {errorMessage}
-      
+
         <form onSubmit={this.handleSubmit}>
           <input name="username" type="text" placeholder="Email" defaultValue={username}/><br/>
           <input name="password" type="password" placeholder="Password"/><br/>
@@ -69,10 +67,10 @@ export default class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  login: React.PropTypes.func.isRequired,
-  onSuccess: React.PropTypes.func,
-  isPending: React.PropTypes.bool,
-  username: React.PropTypes.string,
-  response: React.PropTypes.object,
-  error: React.PropTypes.object,
+  login: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
+  isPending: PropTypes.bool,
+  username: PropTypes.string,
+  response: PropTypes.object,
+  error: PropTypes.object,
 }

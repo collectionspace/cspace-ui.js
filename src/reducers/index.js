@@ -13,24 +13,24 @@ export default combineReducers({
 
 export function getUserUsername(state) {
   return fromUser.getUsername(state.user);
-};
+}
 
 export function getLoginContinuation(state) {
   return fromLogin.getContinuation(state.login);
-};
+}
 
 export function getLoginUsername(state) {
   return fromLogin.getUsername(state.login);
-};
+}
 
 export function isLoginPending(state) {
   return fromLogin.isPending(state.login);
-};
+}
 
 export function getLoginResponse(state) {
   return fromLogin.getResponse(state.login);
-};
+}
 
 export function getLoginError(state) {
   return fromLogin.getError(state.login);
-};
+}

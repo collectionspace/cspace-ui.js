@@ -8,7 +8,7 @@ const isProduction = env === 'production';
 const filename = `${library}${isProduction ? '.min' : ''}.js`;
 
 const config = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     filename,
     path: 'dist',
@@ -17,7 +17,7 @@ const config = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.js$|\.jsx$/,
         exclude: /node_modules/,
         loader: 'babel',
       },
@@ -34,6 +34,9 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
 };
 
 if (isProduction) {

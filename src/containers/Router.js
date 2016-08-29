@@ -5,11 +5,9 @@ import { getUserUsername } from '../reducers';
 
 import Router from '../components/Router';
 
-const mapStateToProps = (state) => {
-  return {
-    username: getUserUsername(state),
-  }
-};
+const mapStateToProps = state => ({
+  username: getUserUsername(state),
+});
 
 export default connect(
   mapStateToProps,
