@@ -6,55 +6,80 @@ export default class LoginForm extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  componentDidUpdate() {
+  
+  componentDidUpdate(prevProps) {
     const {
-      response,
       onSuccess,
+      isPending,
+      response,
     } = this.props;
-
-    if (response && onSuccess) {
-      setTimeout(onSuccess, 0);
+    
+    if (onSuccess) {
+      const isSuccess = (prevProps.isPending && !isPending && response);
+      
+      if (isSuccess) {
+        window.setTimeout(onSuccess, 100);
+      }
     }
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    const form = event.target;
-    const username = form.username.value;
-    const password = form.password.value;
+    const {
+      onSubmit,
+    } = this.props;
+    
+    if (onSubmit) {
+      const form = event.target;
+      const username = form.username.value;
+      const password = form.password.value;
 
-    this.props.login(username, password);
+      onSubmit(username, password);
+    }
   }
 
-  render() {
+  renderPending() {
     const {
-      isPending,
       username,
-      response,
-      error,
     } = this.props;
 
-    if (isPending) {
-      return (
-        <div>Signing in {username}...</div>
-      );
+    return (
+      <div>Signing in {username}...</div>
+    );
+  }
+  
+  renderSuccess() {
+    return (
+      <div>Success!</div>
+    )
+  }
+  
+  renderError() {
+    const {
+      error,
+    } = this.props;
+    
+    if (!error) {
+      return null;
     }
-
-    if (response) {
-      return (
-        <div>Success!</div>
-      )
-    }
-
-    const errorMessage = error
-      ? <p>Error! Try again.</p>
-      : null;
+    
+    return (
+      <div>
+        <div>Error: {error.response.data.error_description}!</div>
+        <div>Try again.</div>
+      </div>
+    );
+  }
+  
+  renderForm() {
+    const {
+      username,
+    } = this.props;
 
     return (
       <div>
-        {errorMessage}
+        {this.renderError()}
 
         <form onSubmit={this.handleSubmit}>
           <input name="username" type="text" placeholder="Email" defaultValue={username}/><br/>
@@ -64,13 +89,30 @@ export default class LoginForm extends Component {
       </div>
     );
   }
+
+  render() {
+    const {
+      isPending,
+      response,
+    } = this.props;
+
+    if (isPending) {
+      return this.renderPending();
+    }
+
+    if (response) {
+      return this.renderSuccess();
+    }
+
+    return this.renderForm();
+  }
 }
 
 LoginForm.propTypes = {
-  login: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func,
   isPending: PropTypes.bool,
   username: PropTypes.string,
   response: PropTypes.object,
   error: PropTypes.object,
+  onSubmit: PropTypes.func,
+  onSuccess: PropTypes.func,
 }

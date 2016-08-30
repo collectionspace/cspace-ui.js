@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import Router from '../containers/Router';
+import RouterContainer from '../containers/RouterContainer';
 
 export default function App(props) {
   const {
@@ -10,7 +10,7 @@ export default function App(props) {
 
   return (
     <Provider store={store}>
-      <Router history={history} />
+      <RouterContainer history={history} />
     </Provider>
   );
 }

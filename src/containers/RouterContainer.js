@@ -9,7 +9,11 @@ const mapStateToProps = state => ({
   username: getUserUsername(state),
 });
 
+const mapDispatchToProps = {
+  redirectLogin,
+};
+
 export default connect(
   mapStateToProps,
-  { redirectLogin }
+  mapDispatchToProps
 )(Router);

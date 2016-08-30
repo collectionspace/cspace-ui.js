@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 
-import LoginForm from '../containers/LoginForm';
+import LoginFormContainer from '../containers/LoginFormContainer';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <LoginForm onSuccess={this.onSuccess} />
+      <LoginFormContainer onSuccess={this.onSuccess} />
     );
   }
 }
