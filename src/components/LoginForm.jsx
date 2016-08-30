@@ -52,7 +52,7 @@ export default class LoginForm extends Component {
   renderSuccess() {
     return (
       <div>Success!</div>
-    )
+    );
   }
   
   renderError() {

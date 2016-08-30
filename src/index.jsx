@@ -23,6 +23,7 @@ export default (config) => {
 
   if (container) {
     const store = createStore(reducer, applyMiddleware(thunk));
+    
     const history = syncHistoryWithStore(
       useRouterHistory(createHistory)({ basename }),
       store);

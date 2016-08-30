@@ -6,10 +6,10 @@ export default class Router extends Component {
   constructor(props) {
     super(props);
 
-    this.routes = routes(this.enterProtected.bind(this));
+    this.routes = routes(this.onEnterProtected.bind(this));
   }
 
-  enterProtected(nextState, replace) {
+  onEnterProtected(nextState, replace) {
     const {
       username,
       redirectLogin,

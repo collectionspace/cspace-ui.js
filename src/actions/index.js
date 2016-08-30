@@ -68,3 +68,30 @@ export const login = (username, password) => dispatch => {
     }));
 };
 
+export const LOGOUT_STARTED = 'LOGOUT_STARTED';
+export const LOGOUT_FULFILLED = 'LOGOUT_FULFILLED';
+export const LOGOUT_REJECTED = 'LOGOUT_REJECTED';
+
+export const logout = () => dispatch => {
+  dispatch({
+    type: LOGOUT_STARTED,
+  });
+
+  if (session) {
+    session.logout()
+      .then(response => dispatch({
+        type: LOGOUT_FULFILLED,
+        payload: response,
+      }))
+      .catch(error => dispatch({
+        type: LOGOUT_REJECTED,
+        payload: error,
+      }));
+  } else {
+    setTimeout(() =>
+      dispatch({
+        type: LOGOUT_FULFILLED,
+        payload: {},
+      }), 0);
+  }
+};

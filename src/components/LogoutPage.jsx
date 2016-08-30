@@ -1,5 +1,31 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { withRouter } from 'react-router';
+import LogoutIndicatorContainer from '../containers/LogoutIndicatorContainer';
 
-export default () => (
-  <div>Logout</div>
-);
+class LogoutPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onSuccess = this.onSuccess.bind(this);
+  }
+
+  onSuccess() {
+    const {
+      router,
+    } = this.props;
+
+    router.replace('/login');
+  }
+
+  render() {
+    return (
+      <LogoutIndicatorContainer onSuccess={this.onSuccess} />
+    );
+  }
+}
+
+LogoutPage.propTypes = {
+  router: PropTypes.object.isRequired,
+};
+
+export default withRouter(LogoutPage);

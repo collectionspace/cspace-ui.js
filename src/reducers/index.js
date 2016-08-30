@@ -3,11 +3,13 @@ import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
 import user, * as fromUser from './user';
 import login, * as fromLogin from './login';
+import logout, * as fromLogout from './logout';
 
 export default combineReducers({
   routing,
   cspace,
   login,
+  logout,
   user,
 });
 
@@ -33,4 +35,16 @@ export function getLoginResponse(state) {
 
 export function getLoginError(state) {
   return fromLogin.getError(state.login);
+}
+
+export function isLogoutPending(state) {
+  return fromLogout.isPending(state.logout);
+}
+
+export function getLogoutResponse(state) {
+  return fromLogout.getResponse(state.logout);
+}
+
+export function getLogoutError(state) {
+  return fromLogout.getError(state.logout);
 }
