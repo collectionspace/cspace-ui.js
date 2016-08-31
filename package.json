@@ -32,15 +32,12 @@
     "lint": "eslint *.js src test examples",
     "start": "cross-env NODE_ENV=test karma start",
     "start-webpack": "webpack-dev-server --inline --content-base . --history-api-fallback",
-    "test": "npm run test-node && npm run test-browser",
-    "test-specs": "npm run test-node-specs && npm run test-browser-specs",
-    "test-integration": "npm run test-node-integration && npm run test-browser-integration",
+    "test": "npm run test-browser",
+    "test-specs": "npm run test-browser-specs",
+    "test-integration": "npm run test-browser-integration",
     "test-browser": "cross-env NODE_ENV=test karma start --singleRun=true",
     "test-browser-specs": "cross-env NODE_ENV=test karma start --singleRun=true --dir=specs",
-    "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=integration",
-    "test-node": "cross-env NODE_ENV=test nyc mocha --compilers js:babel-register --recursive test",
-    "test-node-specs": "cross-env NODE_ENV=test nyc mocha --compilers js:babel-register --recursive test/specs",
-    "test-node-integration": "cross-env NODE_ENV=test nyc mocha --compilers js:babel-register --recursive test/integration"
+    "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=integration"
   },
   "dependencies": {
     "cspace-client": ">=0.0.1",
