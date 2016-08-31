@@ -7,10 +7,11 @@ export const CSPACE_CONFIGURED = 'CSPACE_CONFIGURED';
 
 export const configureCSpace = (config) => {
   cspace = client(config);
+  session = cspace.session();
 
   return {
     type: CSPACE_CONFIGURED,
-    payload: config,
+    payload: session.config(),
   };
 };
 
@@ -77,21 +78,13 @@ export const logout = () => dispatch => {
     type: LOGOUT_STARTED,
   });
 
-  if (session) {
-    session.logout()
-      .then(response => dispatch({
-        type: LOGOUT_FULFILLED,
-        payload: response,
-      }))
-      .catch(error => dispatch({
-        type: LOGOUT_REJECTED,
-        payload: error,
-      }));
-  } else {
-    setTimeout(() =>
-      dispatch({
-        type: LOGOUT_FULFILLED,
-        payload: {},
-      }), 0);
-  }
+  session.logout()
+    .then(response => dispatch({
+      type: LOGOUT_FULFILLED,
+      payload: response,
+    }))
+    .catch(error => dispatch({
+      type: LOGOUT_REJECTED,
+      payload: error,
+    }));
 };

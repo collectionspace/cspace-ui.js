@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+
+import Header from './Header';
 import NavLink from './NavLink';
+
+require('../styles/CSpaceUI.css');
 
 export default function RootPage(props) {
   const {
@@ -8,14 +11,8 @@ export default function RootPage(props) {
   } = props;
 
   return (
-    <div>
-      <h1><Link to="/">CollectionSpace</Link></h1>
-      <ul>
-        <li><NavLink to="/login">Login</NavLink></li>
-        <li><NavLink to="/logout">Logout</NavLink></li>
-        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-        <li><NavLink to="/search">Search</NavLink></li>
-      </ul>
+    <div className="CSpaceUI">
+      <Header />
 
       {children}
     </div>

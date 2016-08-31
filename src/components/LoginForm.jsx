@@ -55,20 +55,24 @@ export default class LoginForm extends Component {
     );
   }
   
-  renderError() {
+  renderMessage() {
     const {
       error,
     } = this.props;
     
     if (!error) {
-      return null;
+      return (
+        <p>Please sign in.</p>
+      );
     }
     
+    const message = error.response.data.error_description;
+    
     return (
-      <div>
-        <div>Error: {error.response.data.error_description}!</div>
-        <div>Try again.</div>
-      </div>
+      <p>
+        Sign in failed: {message}<br/>
+        Please try again.
+      </p>
     );
   }
   
@@ -79,11 +83,11 @@ export default class LoginForm extends Component {
 
     return (
       <div>
-        {this.renderError()}
+        {this.renderMessage()}
 
         <form onSubmit={this.handleSubmit}>
-          <input name="username" type="text" placeholder="Email" defaultValue={username}/><br/>
-          <input name="password" type="password" placeholder="Password"/><br/>
+          <input name="username" type="text" placeholder="Email" defaultValue={username} /><br/>
+          <input name="password" type="password" placeholder="Password" /><br/>
           <button>Sign in</button>
         </form>
       </div>

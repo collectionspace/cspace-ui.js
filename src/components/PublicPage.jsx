@@ -7,8 +7,6 @@ export default function PublicPage(props) {
   
   return (
     <div>
-      <div>Public</div>
-
       {children}
     </div>
   );

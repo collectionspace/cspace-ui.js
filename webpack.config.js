@@ -26,6 +26,11 @@ const config = {
         exclude: /node_modules/,
         loader: 'style-loader!css-loader',
       },
+      {
+        test: /\.(png|jpg|svg)$/,
+        exclude: /node_modules/,
+        loader: 'url-loader',
+      },
     ],
   },
   plugins: [

@@ -1,3 +1,16 @@
+.NavLink {
+  color: #4D4D4D;
+}
+
 .NavLink.active {
-  color: green;
+  color: rgb(111, 158, 205);
+}
+
+.NavLink > div {
+  padding-right: 30px;
+  border-bottom: 2px solid #4D4D4D;
+}
+
+.NavLink.active > div {
+  border-bottom-color: rgb(111, 158, 205);
 }
