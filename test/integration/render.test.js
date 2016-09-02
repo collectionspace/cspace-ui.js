@@ -8,7 +8,7 @@ chai.should();
 function setup() {
   document.body.insertAdjacentHTML(
     'beforeend',
-    '<div id="cspace"></div>');
+    '<main></main>');
 }
 
 function getBasePath() {
@@ -37,7 +37,6 @@ describe('ui', function suite() {
   it('renders successfully', () => {
     cspaceUI({
       basename: getBasePath(),
-      selector: '#cspace',
       cspaceUrl: 'http://nightly.collectionspace.org:8180',
     });
   });

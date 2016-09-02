@@ -6,19 +6,19 @@ export default class LoginForm extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   componentDidUpdate(prevProps) {
     const {
       onSuccess,
       isPending,
       response,
     } = this.props;
-    
+
     if (onSuccess) {
       const isSuccess = (prevProps.isPending && !isPending && response);
-      
+
       if (isSuccess) {
-        window.setTimeout(onSuccess, 100);
+        onSuccess();
       }
     }
   }
@@ -29,7 +29,7 @@ export default class LoginForm extends Component {
     const {
       onSubmit,
     } = this.props;
-    
+
     if (onSubmit) {
       const form = event.target;
       const username = form.username.value;
@@ -48,34 +48,34 @@ export default class LoginForm extends Component {
       <div>Signing in {username}...</div>
     );
   }
-  
+
   renderSuccess() {
     return (
       <div>Success!</div>
     );
   }
-  
+
   renderMessage() {
     const {
       error,
     } = this.props;
-    
+
     if (!error) {
       return (
         <p>Please sign in.</p>
       );
     }
-    
+
     const message = error.response.data.error_description;
-    
+
     return (
       <p>
-        Sign in failed: {message}<br/>
+        Sign in failed: {message}<br />
         Please try again.
       </p>
     );
   }
-  
+
   renderForm() {
     const {
       username,
@@ -86,8 +86,8 @@ export default class LoginForm extends Component {
         {this.renderMessage()}
 
         <form onSubmit={this.handleSubmit}>
-          <input name="username" type="text" placeholder="Email" defaultValue={username} /><br/>
-          <input name="password" type="password" placeholder="Password" /><br/>
+          <input name="username" type="text" placeholder="Email" defaultValue={username} /><br />
+          <input name="password" type="password" placeholder="Password" /><br />
           <button>Sign in</button>
         </form>
       </div>
@@ -119,4 +119,4 @@ LoginForm.propTypes = {
   error: PropTypes.object,
   onSubmit: PropTypes.func,
   onSuccess: PropTypes.func,
-}
+};

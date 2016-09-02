@@ -4,7 +4,7 @@ export default function PublicPage(props) {
   const {
     children,
   } = props;
-  
+
   return (
     <div>
       {children}

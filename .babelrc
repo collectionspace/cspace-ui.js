@@ -3,6 +3,9 @@
     "es2015",
     "react"
   ],
+  "plugins": [
+    "dev-expression"
+  ],
   "env": {
     "test": {
       "plugins": [

@@ -7,12 +7,12 @@ export default class LogoutIndicator extends Component {
       isPending,
       response,
     } = this.props;
-    
+
     if (onSuccess) {
       const isSuccess = (prevProps.isPending && !isPending && response);
-      
+
       if (isSuccess) {
-        window.setTimeout(onSuccess, 100);
+        onSuccess();
       }
     }
   }
@@ -22,18 +22,18 @@ export default class LogoutIndicator extends Component {
       <div>Signing out...</div>
     );
   }
-  
+
   renderSuccess() {
     return (
       <div>Success!</div>
     );
   }
-  
+
   renderError() {
     const {
       error,
     } = this.props;
-    
+
     return (
       <div>Error: {error.response.data.error_description}!</div>
     );
@@ -57,7 +57,7 @@ export default class LogoutIndicator extends Component {
     if (error) {
       return this.renderError();
     }
-    
+
     return null;
   }
 }
@@ -67,4 +67,4 @@ LogoutIndicator.propTypes = {
   response: PropTypes.object,
   error: PropTypes.object,
   onSuccess: PropTypes.func,
-}
+};

@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 
 import Header from './Header';
-import NavLink from './NavLink';
 
-require('../styles/CSpaceUI.css');
+require('../styles/cspace-ui.css');
 
 export default function RootPage(props) {
   const {
@@ -11,7 +10,7 @@ export default function RootPage(props) {
   } = props;
 
   return (
-    <div className="CSpaceUI">
+    <div className="cspace-ui">
       <Header />
 
       {children}

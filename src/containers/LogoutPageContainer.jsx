@@ -10,7 +10,7 @@ class LogoutPageContainer extends Component {
     const {
       onMount,
     } = this.props;
-    
+
     if (onMount) {
       onMount();
     }
@@ -27,7 +27,7 @@ LogoutPageContainer.propTypes = {
   onMount: PropTypes.func,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   onMount: logout,

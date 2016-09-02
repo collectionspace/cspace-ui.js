@@ -7,23 +7,40 @@ import thunk from 'redux-thunk';
 import { useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
+import warning from 'warning';
 
 import reducer from './reducers';
 import { configureCSpace } from './actions';
 import App from './components/App';
 
-export default (config) => {
+const defaultConfig = {
+  container: 'main',
+  basename: '',
+  cspaceUrl: '',
+};
+
+export default uiConfig => {
+  const config = Object.assign({}, defaultConfig, uiConfig);
+
   const {
-    selector,
+    container,
     basename,
     cspaceUrl,
   } = config;
 
-  const container = document.querySelector(selector);
+  const mountNode = document.querySelector(container);
 
-  if (container) {
+  warning(mountNode,
+    `No container element was found using the selector '${container}'. ` +
+    'The CollectionSpace UI will not be rendered.');
+
+  if (mountNode) {
+    warning(mountNode !== document.body,
+      `The container element for the CollectionSpace UI found using the selector '${container}' ` +
+      'is the document body. This may cause problems, and is not supported.');
+
     const store = createStore(reducer, applyMiddleware(thunk));
-    
+
     const history = syncHistoryWithStore(
       useRouterHistory(createHistory)({ basename }),
       store);
@@ -37,6 +54,6 @@ export default (config) => {
       history,
     };
 
-    render(<App {...props} />, container);
+    render(<App {...props} />, mountNode);
   }
 };

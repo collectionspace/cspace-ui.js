@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const logoUrl = require('../images/logo.png');
-
-export default props => (
+export default () => (
   <header>
-      <Link to="/"><img src={logoUrl} style={{ height: '44px' }} /></Link>
+    <div className="logo">
+      <Link to="/" />
+    </div>
   </header>
 );
