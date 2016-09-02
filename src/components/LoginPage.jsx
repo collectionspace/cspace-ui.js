@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 
@@ -16,7 +18,7 @@ class LoginPage extends Component {
       continuation,
     } = this.props;
 
-    router.replace(continuation);
+    window.setTimeout(() => router.replace(continuation), 0);
   }
 
   render() {
