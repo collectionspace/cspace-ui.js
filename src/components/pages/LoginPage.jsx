@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 
-import LoginFormContainer from '../../containers/LoginFormContainer';
+import LoginFormContainer from '../../containers/login/LoginFormContainer';
 
 class LoginPage extends Component {
   constructor(props) {

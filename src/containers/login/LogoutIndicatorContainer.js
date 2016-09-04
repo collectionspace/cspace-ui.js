@@ -4,9 +4,9 @@ import {
   isLogoutPending,
   getLogoutResponse,
   getLogoutError,
-} from '../reducers';
+} from '../../reducers';
 
-import LogoutIndicator from '../components/LogoutIndicator';
+import LogoutIndicator from '../../components/login/LogoutIndicator';
 
 const mapStateToProps = state => ({
   isPending: isLogoutPending(state),

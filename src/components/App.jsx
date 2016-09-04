@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
+
 import RouterContainer from '../containers/RouterContainer';
 
 export default function App(props) {

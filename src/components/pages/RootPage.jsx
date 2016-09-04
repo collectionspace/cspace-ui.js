@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import Header from '../Header';
+import Header from '../sections/Header';
 
 require('../../styles/cspace-ui.css');
 
