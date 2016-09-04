@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 
-import NavLink from '../navigation/NavLink';
+import Header from '../sections/Header';
 
 export default function ProtectedPage(props) {
   const {
@@ -11,16 +10,7 @@ export default function ProtectedPage(props) {
 
   return (
     <div>
-      <div style={{ position: 'absolute', right: '10px', top: '29px' }}>
-        {username} | <Link to="/logout">Sign out</Link>
-      </div>
-
-      <nav>
-        <ul>
-          <li><NavLink to="/dashboard"><div>My CollectionSpace</div></NavLink></li>
-          <li><NavLink to="/search"><div>Search</div></NavLink></li>
-        </ul>
-      </nav>
+      <Header username={username} />
 
       {children}
     </div>

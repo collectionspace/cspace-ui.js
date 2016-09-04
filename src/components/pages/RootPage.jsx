@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 
-import Header from '../sections/Header';
-
 require('../../styles/cspace-ui.css');
 
 export default function RootPage(props) {
@@ -11,8 +9,6 @@ export default function RootPage(props) {
 
   return (
     <div className="cspace-ui">
-      <Header />
-
       {children}
     </div>
   );
