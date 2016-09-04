@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 
-import Header from './Header';
+import Header from '../Header';
 
-require('../styles/cspace-ui.css');
+require('../../styles/cspace-ui.css');
 
 export default function RootPage(props) {
   const {

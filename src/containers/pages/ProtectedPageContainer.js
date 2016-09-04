@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 
-import { getUserUsername } from '../reducers';
-import ProtectedPage from '../components/ProtectedPage';
+import ProtectedPage from '../../components/pages/ProtectedPage';
+
+import { getUserUsername } from '../../reducers';
 
 const mapStateToProps = state => ({
   username: getUserUsername(state),

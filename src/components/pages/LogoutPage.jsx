@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
-import LogoutIndicatorContainer from '../containers/LogoutIndicatorContainer';
+
+import LogoutIndicatorContainer from '../../containers/LogoutIndicatorContainer';
 
 class LogoutPage extends Component {
   constructor(props) {

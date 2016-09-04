@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { logout } from '../actions';
+import LogoutPage from '../../components/pages/LogoutPage';
 
-import LogoutPage from '../components/LogoutPage';
+import { logout } from '../../actions';
 
 class LogoutPageContainer extends Component {
   componentWillMount() {

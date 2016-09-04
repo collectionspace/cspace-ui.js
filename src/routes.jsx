@@ -1,13 +1,14 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
 
-import RootPage from './components/RootPage';
-import PublicPage from './components/PublicPage';
-import ProtectedPageContainer from './containers/ProtectedPageContainer';
-import LoginPageContainer from './containers/LoginPageContainer';
-import LogoutPageContainer from './containers/LogoutPageContainer';
-import DashboardPage from './components/DashboardPage';
-import SearchPage from './components/SearchPage';
+import DashboardPage from './components/pages/DashboardPage';
+import PublicPage from './components/pages/PublicPage';
+import RootPage from './components/pages/RootPage';
+import SearchPage from './components/pages/SearchPage';
+
+import LoginPageContainer from './containers/pages/LoginPageContainer';
+import LogoutPageContainer from './containers/pages/LogoutPageContainer';
+import ProtectedPageContainer from './containers/pages/ProtectedPageContainer';
 
 export default onEnterProtected => (
   <Route path="/" component={RootPage}>

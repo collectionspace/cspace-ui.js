@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import NavLink from './NavLink';
+import NavLink from '../NavLink';
 
 export default function ProtectedPage(props) {
   const {
