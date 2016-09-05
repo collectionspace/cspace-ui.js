@@ -134,7 +134,7 @@ module.exports = function karma(config) {
           {
             test: /\.css$/,
             exclude: /node_modules/,
-            loader: 'style-loader!css-loader',
+            loader: 'style-loader!css-loader?modules&localIdentName=[folder]-[name]--[local]',
           },
           {
             test: /\.(png|jpg|svg)$/,

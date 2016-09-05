@@ -1,0 +1,27 @@
+.common {
+  margin-top: 15px; 
+}
+
+.menu {
+  display: flex;
+  list-style-type: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.menu a {
+  text-decoration: none;
+}
+
+.menu > li {
+  flex: none;
+  margin-right: 2px;
+  color: #4D4D4D;
+}
+
+.menu::after {
+  flex: 100%;
+  border-bottom: 2px solid #4D4D4D;
+  content: "";
+}

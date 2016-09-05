@@ -1,0 +1,9 @@
+.common {
+  width: 380px;
+}
+
+.common input {
+  height: 32px;
+  padding: 6px;
+  margin-bottom: 6px;
+}

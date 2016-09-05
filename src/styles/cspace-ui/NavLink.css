@@ -1,0 +1,19 @@
+.common > div {
+  font-family: Arial, sans-serif;
+  border-bottom: 2px solid rgb(70, 70, 70);
+  padding-right: 30px;
+}
+
+.normal {
+  composes: common;
+  color: rgb(70, 70, 70);
+}
+
+.active {
+  composes: common;
+  color: rgb(111, 158, 205);
+}
+
+.active > div {
+  border-bottom-color: rgb(111, 158, 205);
+}

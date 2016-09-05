@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-require('../../styles/NavLink.css');
+import styles from '../../styles/cspace-ui/NavLink.css';
 
 export default function NavLink(props) {
   const {
@@ -12,8 +12,8 @@ export default function NavLink(props) {
   return (
     <Link
       to={to}
-      className="NavLink"
-      activeClassName="active"
+      className={styles.normal}
+      activeClassName={styles.active}
     >
       <div>{children}</div>
     </Link>

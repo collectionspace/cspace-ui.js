@@ -1,0 +1,19 @@
+.common {
+  width: 1050px;
+  
+  margin-left: auto;
+  margin-right: auto;
+  padding: 140px 0;
+  
+  background-image: url(../../images/logo.svg);
+  background-position: 0 30px;
+  background-repeat: no-repeat;
+  background-size: auto 44px;
+  
+  display: flex;
+  align-items: baseline;
+}
+
+.common > div:first-of-type {
+  margin-right: 60px;
+}

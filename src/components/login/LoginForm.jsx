@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { Button, LineInput, PasswordInput } from 'cspace-input';
+import styles from '../../styles/cspace-ui/LoginForm.css';
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -62,7 +64,7 @@ export default class LoginForm extends Component {
 
     if (!error) {
       return (
-        <p>Please sign in.</p>
+        <p>Please sign in to continue.</p>
       );
     }
 
@@ -83,12 +85,14 @@ export default class LoginForm extends Component {
 
     return (
       <div>
+        <h2>Sign In</h2>
+        
         {this.renderMessage()}
 
-        <form onSubmit={this.handleSubmit}>
-          <input name="username" type="text" placeholder="Email" defaultValue={username} /><br />
-          <input name="password" type="password" placeholder="Password" /><br />
-          <button>Sign in</button>
+        <form className={styles.common} onSubmit={this.handleSubmit}>
+          <LineInput name="username" type="text" placeholder="Email" value={username} />
+          <PasswordInput name="password" type="password" placeholder="Password" />
+          <Button>Sign in</Button>
         </form>
       </div>
     );

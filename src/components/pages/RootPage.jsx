@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-
-require('../../styles/cspace-ui.css');
+import styles from '../../styles/cspace-ui/RootPage.css';
 
 export default function RootPage(props) {
   const {
@@ -8,7 +7,7 @@ export default function RootPage(props) {
   } = props;
 
   return (
-    <div className="cspace-ui">
+    <div className={styles.common}>
       {children}
     </div>
   );

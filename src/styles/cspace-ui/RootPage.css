@@ -1,0 +1,17 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
+
+.common {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4D4D4D;
+}
+
+.common h1, .common h2 {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+.common h2 {
+  font-size: 22px;
+}
