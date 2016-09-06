@@ -84,6 +84,7 @@
     "karma-webpack": "^1.8.0",
     "mocha": "^3.0.2",
     "nyc": "^8.0.0",
+    "react-intl": "^2.1.5",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",

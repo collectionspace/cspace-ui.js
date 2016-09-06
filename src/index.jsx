@@ -17,6 +17,8 @@ const defaultConfig = {
   container: 'main',
   basename: '',
   cspaceUrl: '',
+  locale: 'en',
+  messages: null,
 };
 
 export default uiConfig => {
@@ -26,6 +28,8 @@ export default uiConfig => {
     container,
     basename,
     cspaceUrl,
+    locale,
+    messages,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -52,6 +56,8 @@ export default uiConfig => {
     const props = {
       store,
       history,
+      locale,
+      messages,
     };
 
     render(<App {...props} />, mountNode);

@@ -14,6 +14,10 @@
   align-items: baseline;
 }
 
-.common > div:first-of-type {
+.common > .about {
   margin-right: 60px;
+}
+
+.common > .login {
+  flex: 0 0 36%;
 }

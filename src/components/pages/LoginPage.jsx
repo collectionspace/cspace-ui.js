@@ -25,10 +25,8 @@ class LoginPage extends Component {
   render() {
     return (
       <div className={styles.common}>
-        <About />
-        <LoginFormContainer
-          onSuccess={this.onSuccess}
-        />
+        <div className={styles.about}><About /></div>
+        <div className={styles.login}><LoginFormContainer onSuccess={this.onSuccess} /></div>
       </div>
     );
   }

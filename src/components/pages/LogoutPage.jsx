@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
-
+import About from '../sections/About';
 import LogoutIndicatorContainer from '../../containers/login/LogoutIndicatorContainer';
+import styles from '../../styles/cspace-ui/LoginPage.css';
 
 class LogoutPage extends Component {
   constructor(props) {
@@ -20,7 +21,10 @@ class LogoutPage extends Component {
 
   render() {
     return (
-      <LogoutIndicatorContainer onSuccess={this.onSuccess} />
+      <div className={styles.common}>
+        <div className={styles.about}><About /></div>
+        <div className={styles.login}><LogoutIndicatorContainer onSuccess={this.onSuccess} /></div>
+      </div>
     );
   }
 }

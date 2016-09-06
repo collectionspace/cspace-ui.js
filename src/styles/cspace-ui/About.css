@@ -1,0 +1,14 @@
+.normal ul {
+  display: inline-table;
+  margin: 0;
+  padding: 0;
+}
+
+.normal li {
+  display: table-row;
+}
+
+.normal li > * {
+  display: table-cell;
+  padding-right: 1em;
+}

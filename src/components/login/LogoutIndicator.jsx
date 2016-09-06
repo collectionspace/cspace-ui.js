@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+// TODO: i18n
+
 export default class LogoutIndicator extends Component {
   componentDidUpdate(prevProps) {
     const {
@@ -25,7 +27,10 @@ export default class LogoutIndicator extends Component {
 
   renderSuccess() {
     return (
-      <div>Success!</div>
+      <div>
+        <h2><br /></h2>
+        <div>Success!</div>
+      </div>
     );
   }
 
