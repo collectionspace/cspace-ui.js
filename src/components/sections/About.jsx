@@ -59,7 +59,7 @@ const messages = defineMessages({
   },
 });
 
-export default function About(props) {
+export default function About() {
   return (
     <div className={styles.normal}>
       <h2><FormattedMessage {...messages.title} /></h2>

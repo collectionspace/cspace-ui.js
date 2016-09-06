@@ -106,14 +106,14 @@ class LoginForm extends Component {
     } = this.props;
 
     let messageKey = 'prompt';
-    
+
     if (isPending) {
       messageKey = 'pending';
     } else if (response) {
       messageKey = 'success';
     } else if (error) {
       messageKey = 'error';
-      
+
       if (error.response && error.response.data) {
         const desc = error.response.data.error_description;
         messageKey = errorMessageMap[desc];
@@ -166,6 +166,7 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
+  intl: PropTypes.object.isRequired,
   isPending: PropTypes.bool,
   username: PropTypes.string,
   response: PropTypes.object,
