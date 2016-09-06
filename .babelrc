@@ -4,16 +4,20 @@
     "react"
   ],
   "plugins": [
-    "dev-expression"
+    "dev-expression",
+    [
+      "react-intl", {
+        "messagesDir": "./build/messages/"
+      }
+    ]
   ],
   "env": {
     "test": {
       "plugins": [
         [
-          "istanbul",
-          {
+          "istanbul", {
             "include": [
-              "src/**/*.js"
+              "src/**/*.(js|jsx)"
             ]
           }
         ]
