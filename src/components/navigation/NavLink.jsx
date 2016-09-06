@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-
-import styles from '../../styles/cspace-ui/NavLink.css';
+import styles from '../../../styles/cspace-ui/NavLink.css';
 
 export default function NavLink(props) {
   const {

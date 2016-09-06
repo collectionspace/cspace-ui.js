@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 import About from '../sections/About';
 import LogoutIndicatorContainer from '../../containers/login/LogoutIndicatorContainer';
-import styles from '../../styles/cspace-ui/LoginPage.css';
+import styles from '../../../styles/cspace-ui/LoginPage.css';
 
 class LogoutPage extends Component {
   constructor(props) {

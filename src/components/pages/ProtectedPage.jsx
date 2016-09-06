@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-
 import Header from '../sections/Header';
 
 export default function ProtectedPage(props) {

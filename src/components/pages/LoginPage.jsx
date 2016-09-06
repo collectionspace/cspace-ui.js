@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 import About from '../sections/About';
 import LoginFormContainer from '../../containers/login/LoginFormContainer';
-import styles from '../../styles/cspace-ui/LoginPage.css';
+import styles from '../../../styles/cspace-ui/LoginPage.css';
 
 class LoginPage extends Component {
   constructor(props) {

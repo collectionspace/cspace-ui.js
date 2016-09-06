@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
-import styles from '../../styles/cspace-ui/Header.css';
+import styles from '../../../styles/cspace-ui/Header.css';
 
 export default function Header(props) {
   const {

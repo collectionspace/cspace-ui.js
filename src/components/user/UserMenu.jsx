@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import styles from '../../styles/cspace-ui/UserMenu.css';
+import styles from '../../../styles/cspace-ui/UserMenu.css';
 
 export default function UserMenu(props) {
   const {

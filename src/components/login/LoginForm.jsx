@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import { Button, LineInput, PasswordInput } from 'cspace-input';
-import styles from '../../styles/cspace-ui/LoginForm.css';
+import styles from '../../../styles/cspace-ui/LoginForm.css';
 
 const messages = defineMessages({
   title: {

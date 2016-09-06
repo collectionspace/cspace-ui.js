@@ -1,6 +1,6 @@
 import React from 'react';
 import NavLink from './NavLink';
-import styles from '../../styles/cspace-ui/NavBar.css';
+import styles from '../../../styles/cspace-ui/NavBar.css';
 
 export default function NavBar() {
   return (

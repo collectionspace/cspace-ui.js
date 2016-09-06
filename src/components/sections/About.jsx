@@ -1,6 +1,6 @@
 import React from 'react';
 import { defineMessages, FormattedMessage, FormattedHTMLMessage } from 'react-intl';
-import styles from '../../styles/cspace-ui/About.css';
+import styles from '../../../styles/cspace-ui/About.css';
 
 const messages = defineMessages({
   title: {

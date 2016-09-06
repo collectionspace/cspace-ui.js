@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import styles from '../../styles/cspace-ui/RootPage.css';
+import styles from '../../../styles/cspace-ui/RootPage.css';
 
 export default function RootPage(props) {
   const {
