@@ -4,7 +4,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { useRouterHistory } from 'react-router';
+import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import warning from 'warning';
@@ -17,6 +17,7 @@ const defaultConfig = {
   container: 'main',
   basename: '',
   cspaceUrl: '',
+  prettyUrls: false,
   locale: 'en',
   messages: null,
 };
@@ -28,6 +29,7 @@ export default uiConfig => {
     container,
     basename,
     cspaceUrl,
+    prettyUrls,
     locale,
     messages,
   } = config;
@@ -45,9 +47,8 @@ export default uiConfig => {
 
     const store = createStore(reducer, applyMiddleware(thunk));
 
-    const history = syncHistoryWithStore(
-      useRouterHistory(createHistory)({ basename }),
-      store);
+    const baseHistory = prettyUrls ? useRouterHistory(createHistory)({ basename }) : hashHistory;
+    const history = syncHistoryWithStore(baseHistory, store);
 
     store.dispatch(configureCSpace({
       url: cspaceUrl,

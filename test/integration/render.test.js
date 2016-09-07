@@ -26,11 +26,7 @@ function getBasePath() {
 }
 
 describe('ui', function suite() {
-  beforeEach(function check() {
-    if (typeof window === 'undefined') {
-      this.skip();
-    }
-
+  beforeEach(function before() {
     setup();
   });
 
@@ -38,6 +34,10 @@ describe('ui', function suite() {
     cspaceUI({
       basename: getBasePath(),
       cspaceUrl: 'http://nightly.collectionspace.org:8180',
+      prettyUrls: true,
+      messages: {
+        'about.title': 'CollectionSpace is running in Karma',
+      },
     });
   });
 });
