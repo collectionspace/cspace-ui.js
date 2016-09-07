@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 
 import React from 'react';
 import { render } from 'react-dom';
@@ -7,11 +7,22 @@ import thunk from 'redux-thunk';
 import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
+import script from 'scriptjs';
 import warning from 'warning';
 
 import reducer from './reducers';
 import { configureCSpace } from './actions';
 import App from './components/App';
+
+function loadPolyfills(locale, callback) {
+  if (window.Intl) {
+    window.setTimeout(callback, 0);
+  } else {
+    const url = `https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.${locale}`;
+
+    script(url, callback);
+  }
+}
 
 const defaultConfig = {
   container: 'main',
@@ -61,6 +72,8 @@ export default uiConfig => {
       messages,
     };
 
-    render(<App {...props} />, mountNode);
+    loadPolyfills(locale, () => {
+      render(<App {...props} />, mountNode);
+    });
   }
 };
