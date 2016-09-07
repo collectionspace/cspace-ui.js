@@ -11,8 +11,9 @@ const config = {
   entry: './src/index.jsx',
   output: {
     filename,
+    library,
+    libraryTarget: 'umd',
     path: 'dist',
-    publicPath: '',
   },
   module: {
     loaders: [

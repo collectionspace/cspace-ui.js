@@ -33,7 +33,7 @@ const defaultConfig = {
   messages: null,
 };
 
-export default uiConfig => {
+export function init(uiConfig) {
   const config = Object.assign({}, defaultConfig, uiConfig);
 
   const {
@@ -76,4 +76,8 @@ export default uiConfig => {
       render(<App {...props} />, mountNode);
     });
   }
+}
+
+export default {
+  init,
 };

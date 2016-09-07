@@ -1,7 +1,7 @@
 /* global window, document */
 
 import chai from 'chai';
-import cspaceUI from '../../src';
+import { init } from '../../src';
 
 chai.should();
 
@@ -31,7 +31,7 @@ describe('ui', function suite() {
   });
 
   it('renders successfully', () => {
-    cspaceUI({
+    init({
       basename: getBasePath(),
       cspaceUrl: 'http://nightly.collectionspace.org:8180',
       prettyUrls: true,
