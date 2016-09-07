@@ -10,7 +10,7 @@ export default function Header(props) {
   } = props;
 
   return (
-    <header>
+    <header className={styles.normal}>
       <div className={styles.logo}>
         <Link to="/" />
       </div>

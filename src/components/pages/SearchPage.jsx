@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default () => (
-  <div>Search</div>
+  <h2>Search</h2>
 );

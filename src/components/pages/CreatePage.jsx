@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default () => (
-  <div>Create New</div>
+  <h2>Create New</h2>
 );

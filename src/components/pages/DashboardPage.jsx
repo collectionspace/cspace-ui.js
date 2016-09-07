@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default () => (
-  <div>My CollectionSpace</div>
+  <h2>My CollectionSpace</h2>
 );

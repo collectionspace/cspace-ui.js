@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default () => (
-  <div>Administration</div>
+  <h2>Administration</h2>
 );

@@ -1,3 +1,7 @@
+.normal {
+  position: relative;
+}
+
 .logo {
   display: inline-block;
 
@@ -13,5 +17,5 @@
 
   background-image: url(../../images/logo.svg);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 }
