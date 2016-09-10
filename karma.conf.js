@@ -76,13 +76,13 @@ module.exports = function karma(config) {
       ];
     }
   } else {
-    // This is a local run. Use Chrome.
+    // This is a local run.
+    const karmaBrowsers = process.env.KARMA_BROWSERS;
+    const localBrowsers = karmaBrowsers ? karmaBrowsers.split(',') : ['Chrome'];
 
     console.log('Running locally.');
 
-    browsers = [
-      'Chrome',
-    ];
+    browsers = localBrowsers;
   }
 
   let testDirs = [
