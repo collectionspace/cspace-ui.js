@@ -25,24 +25,26 @@ function loadPolyfills(locale, callback) {
 }
 
 const defaultConfig = {
-  container: 'main',
   basename: '',
+  container: 'main',
   cspaceUrl: '',
-  prettyUrls: false,
+  index: undefined,
   locale: 'en',
-  messages: null,
+  messages: undefined,
+  prettyUrls: false,
 };
 
 export function init(uiConfig) {
   const config = Object.assign({}, defaultConfig, uiConfig);
 
   const {
-    container,
     basename,
+    container,
     cspaceUrl,
-    prettyUrls,
+    index,
     locale,
     messages,
+    prettyUrls,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -66,10 +68,11 @@ export function init(uiConfig) {
     }));
 
     const props = {
-      store,
       history,
+      index,
       locale,
       messages,
+      store,
     };
 
     loadPolyfills(locale, () => {

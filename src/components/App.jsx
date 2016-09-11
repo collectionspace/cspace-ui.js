@@ -5,16 +5,20 @@ import RouterContainer from '../containers/RouterContainer';
 
 export default function App(props) {
   const {
-    store,
     history,
+    index,
     locale,
     messages,
+    store,
   } = props;
 
   return (
     <IntlProvider locale={locale} messages={messages}>
       <Provider store={store}>
-        <RouterContainer history={history} />
+        <RouterContainer
+          history={history}
+          index={index}
+        />
       </Provider>
     </IntlProvider>
   );
@@ -23,6 +27,7 @@ export default function App(props) {
 App.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  index: PropTypes.string,
   locale: PropTypes.string,
   messages: PropTypes.object,
 };

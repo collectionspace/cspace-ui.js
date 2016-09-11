@@ -6,7 +6,7 @@ export default class Router extends Component {
   constructor(props) {
     super(props);
 
-    this.routes = routes(this.onEnterProtected.bind(this));
+    this.routes = routes(props.index, this.onEnterProtected.bind(this));
   }
 
   onEnterProtected(nextState, replace) {
@@ -36,6 +36,6 @@ export default class Router extends Component {
 Router.propTypes = {
   history: PropTypes.object.isRequired,
   redirectLogin: PropTypes.func.isRequired,
+  index: PropTypes.string,
   username: PropTypes.string,
 };
-

@@ -12,9 +12,9 @@ import LoginPageContainer from './containers/pages/LoginPageContainer';
 import LogoutPageContainer from './containers/pages/LogoutPageContainer';
 import ProtectedPageContainer from './containers/pages/ProtectedPageContainer';
 
-export default onEnterProtected => (
+export default (index = '/dashboard', onEnterProtected) => (
   <Route path="/" component={RootPage}>
-    <IndexRedirect to="/dashboard" />
+    <IndexRedirect to={index} />
 
     <Route component={PublicPage}>
       <Route path="login" component={LoginPageContainer} />

@@ -1,5 +1,9 @@
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600';
 
+.common a {
+  color: #4D4D4D;
+}
+
 .common {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
