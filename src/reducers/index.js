@@ -4,6 +4,7 @@ import cspace from './cspace';
 import user, * as fromUser from './user';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
+import record, * as fromRecord from './record';
 
 export default combineReducers({
   routing,
@@ -11,6 +12,7 @@ export default combineReducers({
   login,
   logout,
   user,
+  record,
 });
 
 export function getUserUsername(state) {
@@ -47,4 +49,8 @@ export function getLogoutResponse(state) {
 
 export function getLogoutError(state) {
   return fromLogout.getError(state.logout);
+}
+
+export function getRecordData(state, csid) {
+  return fromRecord.getData(state.record, csid);
 }

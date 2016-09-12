@@ -5,6 +5,7 @@ import AdminPage from './components/pages/AdminPage';
 import CreatePage from './components/pages/CreatePage';
 import DashboardPage from './components/pages/DashboardPage';
 import PublicPage from './components/pages/PublicPage';
+import RecordPage from './components/pages/RecordPage';
 import RootPage from './components/pages/RootPage';
 import SearchPage from './components/pages/SearchPage';
 
@@ -12,7 +13,11 @@ import LoginPageContainer from './containers/pages/LoginPageContainer';
 import LogoutPageContainer from './containers/pages/LogoutPageContainer';
 import ProtectedPageContainer from './containers/pages/ProtectedPageContainer';
 
-export default (index = '/dashboard', onEnterProtected) => (
+export default (
+  index = '/dashboard',
+  onEnterRecord,
+  onEnterProtected
+) => (
   <Route path="/" component={RootPage}>
     <IndexRedirect to={index} />
 
@@ -25,6 +30,7 @@ export default (index = '/dashboard', onEnterProtected) => (
       <Route path="dashboard" component={DashboardPage} />
       <Route path="create" component={CreatePage} />
       <Route path="search" component={SearchPage} />
+      <Route path="record/:service/:csid" component={RecordPage} onEnter={onEnterRecord} />
       <Route path="admin" component={AdminPage} />
     </Route>
   </Route>

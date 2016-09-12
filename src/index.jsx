@@ -14,6 +14,8 @@ import reducer from './reducers';
 import { configureCSpace } from './actions';
 import App from './components/App';
 
+import collectionobjectsRecordPlugin from './plugins/record/collectionobjects';
+
 function loadPolyfills(locale, callback) {
   if (window.Intl) {
     window.setTimeout(callback, 0);
@@ -24,6 +26,10 @@ function loadPolyfills(locale, callback) {
   }
 }
 
+const defaultRecordConfig = {
+  collectionobjects: collectionobjectsRecordPlugin,
+};
+
 const defaultConfig = {
   basename: '',
   container: 'main',
@@ -32,6 +38,7 @@ const defaultConfig = {
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
+  records: defaultRecordConfig,
 };
 
 export function init(uiConfig) {
@@ -45,6 +52,7 @@ export function init(uiConfig) {
     locale,
     messages,
     prettyUrls,
+    records,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -72,6 +80,7 @@ export function init(uiConfig) {
       index,
       locale,
       messages,
+      records,
       store,
     };
 

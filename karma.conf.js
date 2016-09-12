@@ -203,7 +203,10 @@ module.exports = function karma(config) {
               const rest = req.url.substring(basePath.length);
 
               if (rest.indexOf('.') >= 0) {
-                req.url = rest; // eslint-disable-line no-param-reassign
+                const parts = rest.split('/');
+                const last = parts.pop();
+
+                req.url = `/${last}`; // eslint-disable-line no-param-reassign
               } else {
                 req.url = basePath; // eslint-disable-line no-param-reassign
               }
