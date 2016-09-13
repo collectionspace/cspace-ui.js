@@ -20,7 +20,7 @@ function pageTitle(data) {
   const objectNumber = common.objectNumber;
   const titleGroupList = common.titleGroupList;
   let title;
-  
+
   if (titleGroupList) {
     const titleGroup = getFirst(common.titleGroupList.titleGroup);
     title = titleGroup ? titleGroup.title : null;
