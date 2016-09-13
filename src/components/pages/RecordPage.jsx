@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
+import styles from '../../../styles/cspace-ui/RecordPage.css';
 
 export default function RecordPage(props) {
   const {
@@ -9,7 +10,7 @@ export default function RecordPage(props) {
   } = props.params;
 
   return (
-    <div>
+    <div className={styles.common}>
       <RecordTitleBarContainer csid={csid} service={service} />
       <RecordEditorContainer csid={csid} />
     </div>
