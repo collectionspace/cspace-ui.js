@@ -18,8 +18,14 @@ function pageTitle(data) {
 
   const common = data.document['ns2:collectionobjects_common'];
   const objectNumber = common.objectNumber;
-  const titleGroup = getFirst(common.titleGroupList.titleGroup);
-  const title = titleGroup ? titleGroup.title : null;
+  const titleGroupList = common.titleGroupList;
+  let title;
+  
+  if (titleGroupList) {
+    const titleGroup = getFirst(common.titleGroupList.titleGroup);
+    title = titleGroup ? titleGroup.title : null;
+  }
+
   const parts = [];
 
   [objectNumber, title].forEach((part) => {
