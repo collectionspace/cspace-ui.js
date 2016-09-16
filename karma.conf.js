@@ -50,6 +50,21 @@ const sauceLaunchers = {
   },
 };
 
+const getTestFiles = (config) => {
+  if (config.file) {
+    return config.file.split(',');
+  }
+
+  const defaultTestDirs = [
+    'specs',
+    'integration',
+  ];
+
+  const testDirs = config.dir ? config.dir.split(',') : defaultTestDirs;
+
+  return testDirs.map(dir => `test/${dir}/**/*.+(js|jsx)`);
+};
+
 module.exports = function karma(config) {
   let browsers = [];
   let customLaunchers = {};
@@ -85,21 +100,10 @@ module.exports = function karma(config) {
     browsers = localBrowsers;
   }
 
-  let testDirs = [
-    'specs',
-    'integration',
-  ];
-
-  if (config.dir) {
-    testDirs = config.dir.split(',');
-  }
-
-  const files = testDirs.map(dir => `test/${dir}/**/*.js`);
-
   config.set({
     browsers,
     customLaunchers,
-    files,
+    files: getTestFiles(config),
 
     frameworks: [
       'mocha',
