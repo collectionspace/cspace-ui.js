@@ -73,7 +73,7 @@ export default class RecordTitleBar extends Component {
             {record.pageTitle(data)}
           </h1>
           <h2 className={styles.recordType}>
-            <FormattedMessage {...record.messages.recordNameTitle} />
+            <FormattedMessage {...record.messageDescriptors.recordNameTitle} />
           </h2>
         </div>
       </header>

@@ -5,6 +5,7 @@
   ],
   "plugins": [
     "dev-expression",
+    "transform-object-rest-spread",
     [
       "react-intl", {
         "messagesDir": "./build/messages/"

@@ -12,7 +12,7 @@ export default function RecordPage(props) {
   return (
     <div className={styles.common}>
       <RecordTitleBarContainer csid={csid} service={service} />
-      <RecordEditorContainer csid={csid} />
+      <RecordEditorContainer csid={csid} service={service} />
     </div>
   );
 }

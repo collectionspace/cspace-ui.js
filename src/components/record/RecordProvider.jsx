@@ -18,5 +18,5 @@ RecordProvider.propTypes = {
 };
 
 RecordProvider.childContextTypes = {
-  records: PropTypes.object.isRequired,
+  records: PropTypes.object,
 };

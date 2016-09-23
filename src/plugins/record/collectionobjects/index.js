@@ -1,15 +1,6 @@
-import { defineMessages } from 'react-intl';
-import { default as getFirst } from '../../../utils/RecordUtils';
-
-const service = 'collectionobjects';
-
-const messages = defineMessages({
-  recordNameTitle: {
-    id: `record.${service}.recordNameTitle`,
-    description: `The name of the record managed by the ${service} service, when used as a title.`,
-    defaultMessage: 'Object',
-  },
-});
+import getFirst from '../../../utils/RecordUtils';
+import formTemplate from './formTemplate';
+import messageDescriptors from './messageDescriptors';
 
 function pageTitle(data) {
   if (!data) {
@@ -19,6 +10,7 @@ function pageTitle(data) {
   const common = data.document['ns2:collectionobjects_common'];
   const objectNumber = common.objectNumber;
   const titleGroupList = common.titleGroupList;
+
   let title;
 
   if (titleGroupList) {
@@ -38,7 +30,7 @@ function pageTitle(data) {
 }
 
 export default {
-  service,
-  messages,
+  formTemplate,
+  messageDescriptors,
   pageTitle,
 };

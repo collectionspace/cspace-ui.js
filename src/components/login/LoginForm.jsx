@@ -26,8 +26,7 @@ const messages = defineMessages({
   },
   error: {
     id: 'loginForm.error',
-    description:
-      'Generic error message displayed when a more specific error message is not available.',
+    description: 'Generic error message displayed when a more specific error message is not available.',
     defaultMessage: 'Sign in failed.',
   },
   badCredentialsError: {
@@ -149,7 +148,9 @@ class LoginForm extends Component {
           placeholder={intl.formatMessage(messages.password)}
           type="password"
         />
-        <Button><FormattedMessage {...messages.submit} /></Button>
+        <Button type="submit">
+          <FormattedMessage {...messages.submit} />
+        </Button>
       </form>
     );
   }
