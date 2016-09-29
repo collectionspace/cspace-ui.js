@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 import Immutable from 'immutable';
-import { deepGet, deepSet } from '../helpers/deepAccessor';
+import {
+  createRecordData,
+  deepGet,
+  deepSet,
+} from '../helpers/recordDataHelpers';
 
 import {
   ADD_FIELD_INSTANCE,
@@ -44,26 +48,12 @@ function createNewRecord(state, action) {
 
   // TODO: Implement cloning an existing record.
 
-  const data = {
-    document: {
-      '@name': serviceConfig.name,
-    },
-  };
-
-  const parts = serviceConfig.parts;
-
-  Object.keys(parts).forEach((part) => {
-    data.document[part] = {
-      '@xmlns:ns2': parts[part],
-    };
-  });
-
   // This code assumes that only one new record of any type may be in the process of being
   // edited at any time. The new record's data is stored alongside existing record data, at
   // key ''.
 
   return Object.assign({}, state, {
-    '': Immutable.fromJS(data),
+    '': createRecordData(serviceConfig),
   });
 }
 
@@ -117,8 +107,10 @@ function handleRecordSaveFulfilled(state, action) {
   const csid = action.meta.csid;
 
   if (response.status === 201 && response.headers.location) {
-    // A new record was created. There won't be any data in the response,
-    // but we can copy the empty csid record data to the new record.
+    // A new record was created. There won't be any data in the response. Copy the data in the
+    // slot for the empty csid to the data slot for the new record. This prevents the form data
+    // from blinking out when the browser is directed to the new csid, as it would otherwise find
+    // no data until the read call to the REST API completed.
 
     const location = response.headers.location;
     const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);

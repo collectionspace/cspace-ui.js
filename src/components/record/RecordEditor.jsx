@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import { Label } from 'cspace-input';
+import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 function getLabel(component, messageDescriptors) {
@@ -76,11 +77,9 @@ export default function RecordEditor(props, context) {
     onRemoveInstance,
   };
 
-  const rootProperty = 'document';
-
   const formContent = React.cloneElement(formTemplate, {
-    name: rootProperty,
-    value: data.get(rootProperty),
+    name: DOCUMENT_PROPERTY_NAME,
+    value: data.get(DOCUMENT_PROPERTY_NAME),
     children: React.Children.map(
       formTemplate.props.children,
       child => applyMessages(child, messageDescriptors, handlers)),

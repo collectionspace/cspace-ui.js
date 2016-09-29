@@ -1,11 +1,12 @@
 import Immutable from 'immutable';
+import { getPart } from '../../../helpers/recordDataHelpers';
 
-export default function pageTitle(document) {
-  if (!document) {
+export default function pageTitle(cspaceDocument) {
+  if (!cspaceDocument) {
     return '';
   }
 
-  const common = document.get('ns2:collectionobjects_common');
+  const common = getPart(cspaceDocument, 'collectionobjects_common');
 
   if (!common) {
     return '';

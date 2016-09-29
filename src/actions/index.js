@@ -2,7 +2,7 @@
 
 import client from 'cspace-client';
 import { getRecordData } from '../reducers';
-import prepareRecordData from '../helpers/prepareRecordData';
+import { prepareForSending } from '../helpers/recordDataHelpers';
 
 let cspace;
 let session;
@@ -160,7 +160,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
   const data = getRecordData(getState(), csid);
 
   const config = {
-    data: prepareRecordData(data).toJS(),
+    data: prepareForSending(data).toJS(),
   };
 
   const save = csid

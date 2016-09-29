@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
+import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordTitleBar.css';
 
 export default class RecordTitleBar extends Component {
@@ -60,7 +61,7 @@ export default class RecordTitleBar extends Component {
       return null;
     }
 
-    const doc = data ? data.get('document') : undefined;
+    const cspaceDocument = data ? data.get(DOCUMENT_PROPERTY_NAME) : undefined;
     const className = docked ? styles.docked : styles.common;
     const inlineStyle = docked ? { height: this.domNode.offsetHeight } : {};
 
@@ -72,7 +73,7 @@ export default class RecordTitleBar extends Component {
       >
         <div className={styles.inner}>
           <h1 className={styles.title}>
-            {recordTypePlugin.pageTitle(doc)}
+            {recordTypePlugin.pageTitle(cspaceDocument)}
           </h1>
           <h2 className={styles.recordType}>
             <FormattedMessage {...recordTypePlugin.messageDescriptors.recordNameTitle} />

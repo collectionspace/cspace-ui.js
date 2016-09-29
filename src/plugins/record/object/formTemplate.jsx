@@ -8,8 +8,10 @@ import {
 import Panel from '../../../components/layout/Panel';
 import Row from '../../../components/layout/Row';
 
+import { getPartPropertyName } from '../../../helpers/recordDataHelpers';
+
 export default (
-  <Group defaultChildSubpath="ns2:collectionobjects_common">
+  <Group defaultChildSubpath={getPartPropertyName('collectionobjects_common')}>
     <Panel>
       <Row>
         <div>

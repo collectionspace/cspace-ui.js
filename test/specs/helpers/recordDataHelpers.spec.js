@@ -1,7 +1,10 @@
 import chai from 'chai';
 import Immutable from 'immutable';
 
-import { deepGet, deepSet } from '../../../src/helpers/deepAccessor';
+import {
+  deepGet,
+  deepSet,
+} from '../../../src/helpers/recordDataHelpers';
 
 const expect = chai.expect;
 
