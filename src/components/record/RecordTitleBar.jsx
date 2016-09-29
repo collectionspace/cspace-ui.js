@@ -10,6 +10,7 @@ export default class RecordTitleBar extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.setDomNode = this.setDomNode.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
 
     this.state = {
@@ -23,6 +24,10 @@ export default class RecordTitleBar extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll, false);
+  }
+
+  setDomNode(ref) {
+    this.domNode = ref;
   }
 
   handleScroll() {
@@ -44,6 +49,7 @@ export default class RecordTitleBar extends Component {
   render() {
     const {
       data,
+      // isReadPending,
       recordType,
     } = this.props;
 
@@ -68,7 +74,7 @@ export default class RecordTitleBar extends Component {
     return (
       <header
         className={className}
-        ref={(ref) => { this.domNode = ref; }}
+        ref={this.setDomNode}
         style={inlineStyle}
       >
         <div className={styles.inner}>
@@ -86,7 +92,7 @@ export default class RecordTitleBar extends Component {
 
 RecordTitleBar.propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
-  isReadPending: PropTypes.bool,
+  // isReadPending: PropTypes.bool,
   recordType: PropTypes.string,
 };
 
