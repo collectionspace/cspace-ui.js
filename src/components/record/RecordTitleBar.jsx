@@ -1,6 +1,7 @@
 /* global window */
 
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/RecordTitleBar.css';
 
@@ -42,7 +43,7 @@ export default class RecordTitleBar extends Component {
   render() {
     const {
       data,
-      service,
+      recordType,
     } = this.props;
 
     const {
@@ -50,15 +51,16 @@ export default class RecordTitleBar extends Component {
     } = this.state;
 
     const {
-      records,
+      recordTypePlugins,
     } = this.context;
 
-    const record = records[service];
+    const recordTypePlugin = recordTypePlugins[recordType];
 
-    if (!record) {
+    if (!recordTypePlugin) {
       return null;
     }
 
+    const doc = data ? data.get('document') : undefined;
     const className = docked ? styles.docked : styles.common;
     const inlineStyle = docked ? { height: this.domNode.offsetHeight } : {};
 
@@ -70,10 +72,10 @@ export default class RecordTitleBar extends Component {
       >
         <div className={styles.inner}>
           <h1 className={styles.title}>
-            {record.pageTitle(data)}
+            {recordTypePlugin.pageTitle(doc)}
           </h1>
           <h2 className={styles.recordType}>
-            <FormattedMessage {...record.messageDescriptors.recordNameTitle} />
+            <FormattedMessage {...recordTypePlugin.messageDescriptors.recordNameTitle} />
           </h2>
         </div>
       </header>
@@ -82,11 +84,13 @@ export default class RecordTitleBar extends Component {
 }
 
 RecordTitleBar.propTypes = {
-  data: PropTypes.object,
-  service: PropTypes.string,
+  data: PropTypes.instanceOf(Immutable.Map),
+  isReadPending: PropTypes.bool,
+  recordType: PropTypes.string,
+  recordTypePlugins: PropTypes.object,
   title: PropTypes.string,
 };
 
 RecordTitleBar.contextTypes = {
-  records: React.PropTypes.object,
+  recordTypePlugins: PropTypes.object,
 };

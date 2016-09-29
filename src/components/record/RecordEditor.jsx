@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
+import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import { Label } from 'cspace-input';
+import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 function getLabel(component, messageDescriptors) {
   const {
@@ -20,15 +22,23 @@ function getLabel(component, messageDescriptors) {
   );
 }
 
-function applyMessages(component, messageDescriptors) {
+function applyMessages(component, messageDescriptors, handlers) {
   const overrideProps = {};
   const type = component.type;
 
   if (type) {
     const propTypes = type.propTypes;
 
-    if (propTypes && propTypes.name && propTypes.label) {
-      overrideProps.label = getLabel(component, messageDescriptors);
+    if (propTypes) {
+      if (propTypes.name && propTypes.label && !component.props.label) {
+        overrideProps.label = getLabel(component, messageDescriptors);
+      }
+
+      Object.keys(handlers).forEach((handlerName) => {
+        if (propTypes[handlerName]) {
+          overrideProps[handlerName] = handlers[handlerName];
+        }
+      });
     }
   }
 
@@ -37,49 +47,64 @@ function applyMessages(component, messageDescriptors) {
     overrideProps,
     React.Children.map(
       component.props.children,
-      child => applyMessages(child, messageDescriptors)));
+      child => applyMessages(child, messageDescriptors, handlers)));
 }
 
 export default function RecordEditor(props, context) {
   const {
     data,
-    service,
+    recordType,
+    onAddInstance,
+    onCommit,
+    onRemoveInstance,
   } = props;
 
   const {
-    records,
+    recordTypePlugins,
   } = context;
 
-  const record = records[service];
+  const recordTypePlugin = recordTypePlugins[recordType];
 
   const {
     formTemplate,
     messageDescriptors,
-  } = record;
+  } = recordTypePlugin;
+
+  const handlers = {
+    onAddInstance,
+    onCommit,
+    onRemoveInstance,
+  };
+
+  const rootProperty = 'document';
 
   const formContent = React.cloneElement(formTemplate, {
-    value: data.document,
+    name: rootProperty,
+    value: data.get(rootProperty),
     children: React.Children.map(
       formTemplate.props.children,
-      child => applyMessages(child, messageDescriptors)),
+      child => applyMessages(child, messageDescriptors, handlers)),
   });
 
   return (
-    <form>
+    <form className={styles.common}>
       {formContent}
     </form>
   );
 }
 
 RecordEditor.propTypes = {
-  service: PropTypes.string.isRequired,
-  data: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  data: PropTypes.instanceOf(Immutable.Map),
+  onAddInstance: PropTypes.func,
+  onCommit: PropTypes.func,
+  onRemoveInstance: PropTypes.func,
 };
 
 RecordEditor.defaultProps = {
-  data: {},
+  data: Immutable.Map(),
 };
 
 RecordEditor.contextTypes = {
-  records: React.PropTypes.object.isRequired,
+  recordTypePlugins: PropTypes.object,
 };

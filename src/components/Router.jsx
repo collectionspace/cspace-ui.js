@@ -14,15 +14,32 @@ export default class Router extends Component {
 
   onEnterRecord(nextState) {
     const {
+      createNewRecord,
       readRecord,
     } = this.props;
 
     const {
-      service,
+      recordType,
       csid,
     } = nextState.params;
 
-    readRecord(service, csid);
+    const {
+      recordTypePlugins,
+    } = this.context;
+
+    const recordTypePlugin = recordTypePlugins[recordType];
+
+    if (recordTypePlugin) {
+      const serviceConfig = recordTypePlugin.serviceConfig;
+
+      if (csid) {
+        readRecord(serviceConfig, csid);
+      } else {
+        createNewRecord(serviceConfig);
+      }
+    } else {
+      // TODO: Unknown record type. Show error page.
+    }
   }
 
   onEnterProtected(nextState, replace) {
@@ -50,9 +67,14 @@ export default class Router extends Component {
 }
 
 Router.propTypes = {
+  createNewRecord: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   readRecord: PropTypes.func.isRequired,
   redirectLogin: PropTypes.func.isRequired,
   index: PropTypes.string,
   username: PropTypes.string,
+};
+
+Router.contextTypes = {
+  recordTypePlugins: PropTypes.object,
 };

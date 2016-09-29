@@ -1,0 +1,11 @@
+.common {
+  display: flex;
+}
+
+.common > * {
+  flex: 1;
+}
+
+.common > * + * {
+  margin-left: 10px;
+}

@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import RecordTitleBar from '../../components/record/RecordTitleBar';
-import { getRecordData } from '../../reducers';
+
+import {
+  getRecordData,
+  isRecordReadPending,
+} from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -9,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     data: getRecordData(state, csid),
+    isReadPending: isRecordReadPending(state, csid),
   };
 };
 

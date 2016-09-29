@@ -30,7 +30,8 @@ export default (
       <Route path="dashboard" component={DashboardPage} />
       <Route path="create" component={CreatePage} />
       <Route path="search" component={SearchPage} />
-      <Route path="record/:service/:csid" component={RecordPage} onEnter={onEnterRecord} />
+      <Route path="record/:recordType" component={RecordPage} onEnter={onEnterRecord} />
+      <Route path="record/:recordType/:csid" component={RecordPage} onEnter={onEnterRecord} />
       <Route path="admin" component={AdminPage} />
     </Route>
   </Route>

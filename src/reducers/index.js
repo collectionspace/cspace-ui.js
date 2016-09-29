@@ -54,3 +54,15 @@ export function getLogoutError(state) {
 export function getRecordData(state, csid) {
   return fromRecord.getData(state.record, csid);
 }
+
+export function getNewRecordData(state) {
+  return fromRecord.getNewData(state.record);
+}
+
+export function isRecordReadPending(state, csid) {
+  return fromRecord.isReadPending(state.record, csid);
+}
+
+export function isRecordSavePending(state, csid) {
+  return fromRecord.isSavePending(state.record, csid);
+}

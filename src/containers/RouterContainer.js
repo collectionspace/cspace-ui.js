@@ -1,7 +1,14 @@
 import { connect } from 'react-redux';
 
-import { readRecord, redirectLogin } from '../actions';
-import { getUserUsername } from '../reducers';
+import {
+  createNewRecord,
+  readRecord,
+  redirectLogin,
+} from '../actions';
+
+import {
+  getUserUsername,
+} from '../reducers';
 
 import Router from '../components/Router';
 
@@ -10,6 +17,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  createNewRecord,
   readRecord,
   redirectLogin,
 };

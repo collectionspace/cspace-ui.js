@@ -10,11 +10,11 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import script from 'scriptjs';
 import warning from 'warning';
 
-import reducer from './reducers';
 import { configureCSpace } from './actions';
+import reducer from './reducers';
 import App from './components/App';
 
-import collectionobjectsRecordPlugin from './plugins/record/collectionobjects';
+import objectRecordPlugin from './plugins/record/object';
 
 function loadPolyfills(locale, callback) {
   if (window.Intl) {
@@ -26,8 +26,8 @@ function loadPolyfills(locale, callback) {
   }
 }
 
-const defaultRecordConfig = {
-  collectionobjects: collectionobjectsRecordPlugin,
+const defaultRecordTypePlugins = {
+  object: objectRecordPlugin,
 };
 
 const defaultConfig = {
@@ -38,7 +38,7 @@ const defaultConfig = {
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
-  records: defaultRecordConfig,
+  recordTypePlugins: defaultRecordTypePlugins,
 };
 
 export function init(uiConfig) {
@@ -52,7 +52,7 @@ export function init(uiConfig) {
     locale,
     messages,
     prettyUrls,
-    records,
+    recordTypePlugins,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -80,7 +80,7 @@ export function init(uiConfig) {
       index,
       locale,
       messages,
-      records,
+      recordTypePlugins,
       store,
     };
 

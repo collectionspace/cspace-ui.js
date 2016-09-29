@@ -11,9 +11,9 @@ export default (state = {}, action) => {
     case RESET_LOGIN:
       return Object.assign({}, state, {
         isPending: false,
-        username: null,
-        response: null,
-        error: null,
+        username: undefined,
+        response: undefined,
+        error: undefined,
       });
     case LOGIN_REDIRECTED:
       return Object.assign({}, state, {
@@ -23,21 +23,21 @@ export default (state = {}, action) => {
       return Object.assign({}, state, {
         isPending: true,
         username: action.meta.username,
-        response: null,
-        error: null,
+        response: undefined,
+        error: undefined,
       });
     case LOGIN_FULFILLED:
       return Object.assign({}, state, {
         isPending: false,
         username: action.meta.username,
         response: action.payload,
-        error: null,
+        error: undefined,
       });
     case LOGIN_REJECTED:
       return Object.assign({}, state, {
         isPending: false,
         username: action.meta.username,
-        response: null,
+        response: undefined,
         error: action.payload,
       });
     default:
