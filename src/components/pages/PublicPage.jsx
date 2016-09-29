@@ -13,6 +13,5 @@ export default function PublicPage(props) {
 }
 
 PublicPage.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.node,
 };
-

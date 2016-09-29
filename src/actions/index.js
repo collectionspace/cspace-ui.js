@@ -94,7 +94,7 @@ export const logout = () => (dispatch) => {
 
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
 
-export const createNewRecord = (serviceConfig) => (dispatch) => {
+export const createNewRecord = serviceConfig => (dispatch) => {
   // TODO: Accept csid to clone.
 
   // Force this to be async, to be consistent with reading an existing record.
@@ -168,7 +168,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
     : session.create(serviceName, config);
 
   save
-    .then(response => {
+    .then((response) => {
       dispatch({
         type: RECORD_SAVE_FULFILLED,
         payload: response,
@@ -180,6 +180,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
 
       if (response.status === 201 && response.headers.location) {
         // Redirect to the new record.
+
         const location = response.headers.location;
         const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
 

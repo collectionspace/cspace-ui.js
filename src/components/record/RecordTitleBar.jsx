@@ -88,8 +88,6 @@ RecordTitleBar.propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   isReadPending: PropTypes.bool,
   recordType: PropTypes.string,
-  recordTypePlugins: PropTypes.object,
-  title: PropTypes.string,
 };
 
 RecordTitleBar.contextTypes = {

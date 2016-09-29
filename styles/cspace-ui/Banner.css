@@ -1,0 +1,8 @@
+.common {
+  position: relative;
+  display: flex;
+}
+
+.common > a {
+  display: block;
+}
