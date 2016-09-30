@@ -178,8 +178,8 @@ module.exports = function karma(config) {
 
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 1,
-    browserNoActivityTimeout: 4 * 60 * 1000,
-    captureTimeout: 4 * 60 * 1000,
+    browserNoActivityTimeout: 10 * 60 * 1000,
+    captureTimeout: 10 * 60 * 1000,
 
     // Add middleware to fall back to the base path.
     // This allows running React Router with browser history.
