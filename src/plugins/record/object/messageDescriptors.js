@@ -6,6 +6,72 @@ export default defineMessages({
     description: 'The name of the record when used as a title.',
     defaultMessage: 'Object',
   },
+
+  // Panels
+
+  idPanel: {
+    id: 'panel.idPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object Identification Information',
+  },
+  descPanel: {
+    id: 'panel.descPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object Description Information',
+  },
+  contentPanel: {
+    id: 'panel.contentPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Content',
+  },
+  textInscriptPanel: {
+    id: 'panel.textInscriptPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Textual Inscription',
+  },
+  nonTextInscriptPanel: {
+    id: 'panel.nonTextInscriptPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Non-Textual Inscription',
+  },
+  prodPanel: {
+    id: 'panel.prodPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object Production Information',
+  },
+  histPanel: {
+    id: 'panel.histPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object History and Association Information',
+  },
+  assocPanel: {
+    id: 'panel.assocPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Associations',
+  },
+  ownerPanel: {
+    id: 'panel.ownerPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object Owner\'s Contribution Information',
+  },
+  viewerPanel: {
+    id: 'panel.viewerPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object Viewer\'s Contribution Information',
+  },
+  referencePanel: {
+    id: 'panel.referencePanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Reference Information',
+  },
+  collectPanel: {
+    id: 'panel.collectPanel.label',
+    description: 'A descriptive label used as the title of the panel.',
+    defaultMessage: 'Object Collection Information',
+  },
+
+  // Fields
+
   objectNumber: {
     id: 'field.objectNumber.label',
     description: 'A short field label used in the record editor form.',

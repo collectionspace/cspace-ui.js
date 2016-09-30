@@ -243,3 +243,18 @@ export const setFieldValue = (csid, path, value) => (dispatch) => {
     },
   });
 };
+
+export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
+
+export const collapsePanel = (recordType, name, collapsed) => (dispatch) => {
+  // TODO: Store in user profile/local storage.
+
+  dispatch({
+    type: COLLAPSE_PANEL,
+    payload: collapsed,
+    meta: {
+      recordType,
+      name,
+    },
+  });
+};

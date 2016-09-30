@@ -1,4 +1,85 @@
 .common {
-  padding: 7px 10px 3px 10px;
+  border-top: 1px solid rgb(220, 220, 220);
+  border-bottom: 1px solid rgb(220, 220, 220);
   background-color: rgba(230, 230, 230, .3);
 }
+
+.common + .common {
+  margin-top: 5px;
+}
+
+.common > header {
+  background-repeat: no-repeat;
+  background-size: 20px auto;
+}
+
+.common > header > button {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+
+  background: none;
+  background-repeat: no-repeat;
+  background-position: right center;
+
+  margin: 0;
+  border: none;
+  padding: 7px 10px;
+  
+  text-align: left;
+  
+  font-family: "Open Sans", sans-serif;
+  color: #4D4D4D;
+}
+
+.common > header > button:focus {
+  outline: none;
+}
+
+.common > header > button:hover,
+.common > header > button:focus {
+  background-color: rgba(230, 230, 230, .3);
+}
+
+.common > header > button > h3 {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: default;
+}
+
+.common > div {
+  padding: 7px 10px 3px 10px;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > header {
+  background-image: url(../../images/expanded.svg);
+  background-position: 4px -9px;
+}
+
+.normal > header > button:hover,
+.normal > header > button:focus{
+  background-image: url(../../images/collapse.svg);
+}
+
+.collapsed {
+  composes: common;
+  border-bottom: none;
+}
+
+.collapsed > header {
+  background-image: url(../../images/collapsed.svg);
+  background-position: -8px center;
+}
+
+.collapsed > header > button:hover,
+.collapsed > header > button:focus{
+  background-image: url(../../images/expand.svg);
+}
+

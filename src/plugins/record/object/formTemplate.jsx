@@ -12,7 +12,7 @@ import { getPartPropertyName } from '../../../helpers/recordDataHelpers';
 
 export default (
   <Group defaultChildSubpath={getPartPropertyName('collectionobjects_common')}>
-    <Panel>
+    <Panel name="idPanel" collapsible>
       <Row>
         <div>
           <Text name="objectNumber" />
@@ -75,6 +75,36 @@ export default (
           <Text name="objectNameNote" />
         </Group>
       </Group>
+    </Panel>
+    
+    <Panel name="descPanel" collapsible>
+      <Panel name="contentPanel" collapsible>
+      </Panel>
+      <Panel name="textInscriptPanel" collapsible>
+      </Panel>
+      <Panel name="nonTextInscriptPanel" collapsible>
+      </Panel>
+    </Panel>
+    
+    <Panel name="prodPanel" collapsible>
+      
+    </Panel>
+
+    <Panel name="histPanel" collapsible>
+      <Panel name="assocPanel" collapsible>
+      </Panel>
+    </Panel>
+
+    <Panel name="ownerPanel" collapsible>
+    </Panel>
+
+    <Panel name="viewerPanel" collapsible>
+    </Panel>
+
+    <Panel name="referencePanel" collapsible>
+    </Panel>
+
+    <Panel name="collectPanel" collapsible>
     </Panel>
   </Group>
 );

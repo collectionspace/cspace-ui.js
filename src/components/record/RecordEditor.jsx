@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import { Label } from 'cspace-input';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
-function getLabel(component, messageDescriptors) {
+function getMessage(Wrapper, component, messageDescriptors) {
   const {
     msgkey,
     name,
@@ -19,11 +19,13 @@ function getLabel(component, messageDescriptors) {
   }
 
   return (
-    <Label><FormattedMessage {...messageDescriptor} /></Label>
+    <Wrapper>
+      <FormattedMessage {...messageDescriptor} />
+    </Wrapper>
   );
 }
 
-function applyMessages(component, messageDescriptors, handlers) {
+function renderTemplate(component, messageDescriptors, handlers) {
   const overrideProps = {};
   const type = component.type;
 
@@ -31,8 +33,14 @@ function applyMessages(component, messageDescriptors, handlers) {
     const propTypes = type.propTypes;
 
     if (propTypes) {
-      if (propTypes.name && propTypes.label && !component.props.label) {
-        overrideProps.label = getLabel(component, messageDescriptors);
+      if (propTypes.name) {
+        if (propTypes.label && !component.props.label) {
+          overrideProps.label = getMessage(Label, component, messageDescriptors);
+        }
+
+        if (propTypes.header && !component.props.header) {
+          overrideProps.header = getMessage('h3', component, messageDescriptors);
+        }
       }
 
       Object.keys(handlers).forEach((handlerName) => {
@@ -48,50 +56,58 @@ function applyMessages(component, messageDescriptors, handlers) {
     overrideProps,
     React.Children.map(
       component.props.children,
-      child => applyMessages(child, messageDescriptors, handlers)));
+      child => renderTemplate(child, messageDescriptors, handlers)));
 }
 
-export default function RecordEditor(props, context) {
-  const {
-    data,
-    recordType,
-    onAddInstance,
-    onCommit,
-    onMoveInstance,
-    onRemoveInstance,
-  } = props;
+export default class RecordEditor extends Component {
+  getChildContext() {
+    return {
+      recordType: this.props.recordType,
+    };
+  }
 
-  const {
-    recordTypePlugins,
-  } = context;
+  render() {
+    const {
+      data,
+      recordType,
+      onAddInstance,
+      onCommit,
+      onMoveInstance,
+      onRemoveInstance,
+    } = this.props;
 
-  const recordTypePlugin = recordTypePlugins[recordType];
+    const {
+      recordTypePlugins,
+    } = this.context;
 
-  const {
-    formTemplate,
-    messageDescriptors,
-  } = recordTypePlugin;
+    const recordTypePlugin = recordTypePlugins[recordType];
 
-  const handlers = {
-    onAddInstance,
-    onCommit,
-    onMoveInstance,
-    onRemoveInstance,
-  };
+    const {
+      formTemplate,
+      messageDescriptors,
+    } = recordTypePlugin;
 
-  const formContent = React.cloneElement(formTemplate, {
-    name: DOCUMENT_PROPERTY_NAME,
-    value: data.get(DOCUMENT_PROPERTY_NAME),
-    children: React.Children.map(
-      formTemplate.props.children,
-      child => applyMessages(child, messageDescriptors, handlers)),
-  });
+    const handlers = {
+      onAddInstance,
+      onCommit,
+      onMoveInstance,
+      onRemoveInstance,
+    };
 
-  return (
-    <form className={styles.common}>
-      {formContent}
-    </form>
-  );
+    const formContent = React.cloneElement(formTemplate, {
+      name: DOCUMENT_PROPERTY_NAME,
+      value: data.get(DOCUMENT_PROPERTY_NAME),
+      children: React.Children.map(
+        formTemplate.props.children,
+        child => renderTemplate(child, messageDescriptors, handlers)),
+    });
+
+    return (
+      <form className={styles.common}>
+        {formContent}
+      </form>
+    );
+  }
 }
 
 RecordEditor.propTypes = {
@@ -105,6 +121,10 @@ RecordEditor.propTypes = {
 
 RecordEditor.defaultProps = {
   data: Immutable.Map(),
+};
+
+RecordEditor.childContextTypes = {
+  recordType: PropTypes.string,
 };
 
 RecordEditor.contextTypes = {
