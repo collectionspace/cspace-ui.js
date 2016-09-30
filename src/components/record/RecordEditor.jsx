@@ -57,6 +57,7 @@ export default function RecordEditor(props, context) {
     recordType,
     onAddInstance,
     onCommit,
+    onMoveInstance,
     onRemoveInstance,
   } = props;
 
@@ -74,6 +75,7 @@ export default function RecordEditor(props, context) {
   const handlers = {
     onAddInstance,
     onCommit,
+    onMoveInstance,
     onRemoveInstance,
   };
 
@@ -97,6 +99,7 @@ RecordEditor.propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
+  onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
 };
 

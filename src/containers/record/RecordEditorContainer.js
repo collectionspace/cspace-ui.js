@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import {
   addFieldInstance,
+  moveFieldValue,
   setFieldValue,
   deleteFieldValue,
 } from '../../actions';
@@ -33,6 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onCommit: (path, value) => {
       dispatch(setFieldValue(csid, path, value));
+    },
+    onMoveInstance: (path, newPosition) => {
+      dispatch(moveFieldValue(csid, path, newPosition));
     },
     onRemoveInstance: (path) => {
       dispatch(deleteFieldValue(csid, path));

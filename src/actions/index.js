@@ -199,6 +199,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
 
 export const ADD_FIELD_INSTANCE = 'ADD_FIELD_INSTANCE';
 export const DELETE_FIELD_VALUE = 'DELETE_FIELD_VALUE';
+export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
 
 export const addFieldInstance = (csid, path) => (dispatch) => {
@@ -217,6 +218,17 @@ export const deleteFieldValue = (csid, path) => (dispatch) => {
     meta: {
       csid,
       path,
+    },
+  });
+};
+
+export const moveFieldValue = (csid, path, newPosition) => (dispatch) => {
+  dispatch({
+    type: MOVE_FIELD_VALUE,
+    meta: {
+      csid,
+      path,
+      newPosition,
     },
   });
 };

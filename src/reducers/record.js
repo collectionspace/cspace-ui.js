@@ -10,6 +10,7 @@ import {
   ADD_FIELD_INSTANCE,
   CREATE_NEW_RECORD,
   DELETE_FIELD_VALUE,
+  MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
@@ -76,6 +77,40 @@ function deleteFieldValue(state, action) {
   });
 }
 
+function moveFieldValue(state, action) {
+  const {
+    csid,
+    path,
+    newPosition,
+  } = action.meta;
+
+  const data = state[csid];
+
+  if (!data) {
+    return state;
+  }
+
+  const listPath = path.slice(0, -1);
+  const oldPosition = path[path.length - 1];
+
+  let list = deepGet(data, listPath);
+
+  if (!Immutable.List.isList(list)) {
+    return state;
+  }
+
+  const value = list.get(oldPosition);
+
+  list = list.delete(oldPosition);
+  list = list.insert(newPosition, value);
+
+  const updatedData = deepSet(data, listPath, list);
+
+  return Object.assign({}, state, {
+    [csid]: updatedData,
+  });
+}
+
 function setFieldValue(state, action) {
   const {
     csid,
@@ -133,6 +168,8 @@ const data = (state = {}, action) => {
       return createNewRecord(state, action);
     case DELETE_FIELD_VALUE:
       return deleteFieldValue(state, action);
+    case MOVE_FIELD_VALUE:
+      return moveFieldValue(state, action);
     case SET_FIELD_VALUE:
       return setFieldValue(state, action);
     case RECORD_READ_FULFILLED:
