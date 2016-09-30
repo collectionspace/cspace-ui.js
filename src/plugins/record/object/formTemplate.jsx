@@ -76,35 +76,25 @@ export default (
         </Group>
       </Group>
     </Panel>
-    
+
     <Panel name="descPanel" collapsible>
-      <Panel name="contentPanel" collapsible>
-      </Panel>
-      <Panel name="textInscriptPanel" collapsible>
-      </Panel>
-      <Panel name="nonTextInscriptPanel" collapsible>
-      </Panel>
+      <Panel name="contentPanel" collapsible />
+      <Panel name="textInscriptPanel" collapsible />
+      <Panel name="nonTextInscriptPanel" collapsible />
     </Panel>
-    
-    <Panel name="prodPanel" collapsible>
-      
-    </Panel>
+
+    <Panel name="prodPanel" collapsible />
 
     <Panel name="histPanel" collapsible>
-      <Panel name="assocPanel" collapsible>
-      </Panel>
+      <Panel name="assocPanel" collapsible />
     </Panel>
 
-    <Panel name="ownerPanel" collapsible>
-    </Panel>
+    <Panel name="ownerPanel" collapsible />
 
-    <Panel name="viewerPanel" collapsible>
-    </Panel>
+    <Panel name="viewerPanel" collapsible />
 
-    <Panel name="referencePanel" collapsible>
-    </Panel>
+    <Panel name="referencePanel" collapsible />
 
-    <Panel name="collectPanel" collapsible>
-    </Panel>
+    <Panel name="collectPanel" collapsible />
   </Group>
 );
