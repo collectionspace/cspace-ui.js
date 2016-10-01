@@ -1,4 +1,5 @@
 /* global window, document */
+/* eslint-disable no-unused-expressions */
 
 import chai from 'chai';
 import { init } from '../../src';
@@ -30,7 +31,7 @@ describe('ui', function suite() {
     setup();
   });
 
-  it('renders successfully', () => {
+  it('renders successfully', function test(done) {
     init({
       basename: getBasePath(),
       cspaceUrl: 'http://nightly.collectionspace.org:8180',
@@ -39,5 +40,10 @@ describe('ui', function suite() {
         'about.title': 'CollectionSpace is running in Karma',
       },
     });
+
+    window.setTimeout(() => {
+      document.body.querySelector('main').firstElementChild.should.not.be.null;
+      done();
+    }, 1000);
   });
 });
