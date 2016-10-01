@@ -172,6 +172,9 @@ module.exports = function karma(config) {
       testName: 'cspace-ui tests',
       recordScreenshots: false,
       public: true,
+      connectOptions: {
+        directDomains: ['cdn.polyfill.io'],
+      },
     },
 
     // Tolerate Sauce Labs slowness/flakiness.
