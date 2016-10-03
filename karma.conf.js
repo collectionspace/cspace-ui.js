@@ -28,26 +28,26 @@ const sauceLaunchers = {
     version: 'latest-1',
     platform: 'OS X 10.11',
   },
-  'safari-latest-osx': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    version: 'latest',
-    platform: 'OS X 10.11',
-  },
-  'edge-latest-win10': {
-    base: 'SauceLabs',
-    browserName: 'microsoftedge',
-    version: 'latest',
-    platform: 'Windows 10',
-  },
-  'safari-ios-9.3': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    platformName: 'iOS',
-    platformVersion: '9.3',
-    deviceName: 'iPad Retina Simulator',
-    appiumVersion: '1.5.3',
-  },
+  // 'safari-latest-osx': {
+  //   base: 'SauceLabs',
+  //   browserName: 'safari',
+  //   version: 'latest',
+  //   platform: 'OS X 10.11',
+  // },
+  // 'edge-latest-win10': {
+  //   base: 'SauceLabs',
+  //   browserName: 'microsoftedge',
+  //   version: 'latest',
+  //   platform: 'Windows 10',
+  // },
+  // 'safari-ios-9.3': {
+  //   base: 'SauceLabs',
+  //   browserName: 'safari',
+  //   platformName: 'iOS',
+  //   platformVersion: '9.3',
+  //   deviceName: 'iPad Retina Simulator',
+  //   appiumVersion: '1.5.3',
+  // },
 };
 
 const getTestFiles = (config) => {
