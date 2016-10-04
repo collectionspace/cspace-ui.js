@@ -1,0 +1,24 @@
+<!--
+  This page is used to run the CollectionSpace UI in a dev server.
+
+  Use the command: npm run devserver
+  Then open a browser to: http://localhost:8080
+
+  The CollectionSpace UI may also be run in Karma. See test/integration/render.test.js.
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CollectionSpace</title>
+</head>
+<body>
+  <main></main>
+  <script src="/cspaceUI.js"></script>
+  <script>
+    cspaceUI.init({
+      cspaceUrl: 'http://nightly.collectionspace.org:8180',
+      prettyUrls: true,
+    });
+  </script>
+</body>
+</html>
