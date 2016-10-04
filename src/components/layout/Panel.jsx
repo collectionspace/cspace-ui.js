@@ -104,8 +104,14 @@ const mapStateToProps = (state, ownProps) => {
     recordType,
   } = ownProps;
 
+  let collapsed = isPanelCollapsed(state, recordType, name);
+
+  if (typeof collapsed === 'undefined') {
+    collapsed = ownProps.collapsed;
+  }
+
   return {
-    collapsed: isPanelCollapsed(state, recordType, name),
+    collapsed,
   };
 };
 
