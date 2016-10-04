@@ -1,13 +1,9 @@
 .common {
-  /*
-  border-top: 1px solid rgb(220, 220, 220);
-  border-bottom: 1px solid rgb(220, 220, 220);
-  */
   background-color: rgba(230, 230, 230, .4);
 }
 
 .common + .common {
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 .common > header {
@@ -26,7 +22,7 @@
 
   margin: 0;
   border: none;
-  padding: 7px 10px;
+  padding: 7px 10px 7px 21px;
   
   text-align: left;
   
@@ -35,7 +31,7 @@
 }
 
 .common > header > button:focus {
-  outline: none;
+  outline: 2px solid black;
 }
 
 .common > header > button:hover,
@@ -62,7 +58,7 @@
 
 .normal > header {
   background-image: url(../../images/expanded.svg);
-  background-position: 4px -9px;
+  background-position: 3px center;
 }
 
 .normal > header > button:hover,
@@ -77,7 +73,7 @@
 
 .collapsed > header {
   background-image: url(../../images/collapsed.svg);
-  background-position: -8px center;
+  background-position: 3px center;
 }
 
 .collapsed > header > button:hover,
