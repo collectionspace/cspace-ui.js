@@ -3,8 +3,7 @@
 const webpack = require('webpack');
 
 const library = 'cspaceUI';
-const env = process.env.NODE_ENV;
-const isProduction = env === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 const filename = `${library}${isProduction ? '.min' : ''}.js`;
 
 const config = {

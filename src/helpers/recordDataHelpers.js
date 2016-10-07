@@ -128,7 +128,7 @@ export function getDocument(data) {
  * Comparator function to sort properties that represent XML attributes and namespace declarations
  * (those that start with '@') to the top.
  */
-function attributePropertiesToTop(propertyNameA, propertyNameB) {
+export function attributePropertiesToTop(propertyNameA, propertyNameB) {
   const firstCharA = propertyNameA.charAt(0);
   const firstCharB = propertyNameB.charAt(0);
 
