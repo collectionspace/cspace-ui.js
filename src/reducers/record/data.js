@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux';
 import Immutable from 'immutable';
+
 import {
   createRecordData,
   deepGet,
   deepSet,
-} from '../helpers/recordDataHelpers';
+} from '../../helpers/recordDataHelpers';
 
 import {
   ADD_FIELD_INSTANCE,
@@ -12,15 +12,11 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
-  RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
-  RECORD_READ_REJECTED,
-  RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
-  RECORD_SAVE_REJECTED,
-} from '../actions';
+} from '../../actions';
 
-function addFieldInstance(state, action) {
+const addFieldInstance = (state, action) => {
   const {
     csid,
     path,
@@ -40,9 +36,9 @@ function addFieldInstance(state, action) {
   return Object.assign({}, state, {
     [csid]: updatedData,
   });
-}
+};
 
-function createNewRecord(state, action) {
+const createNewRecord = (state, action) => {
   const {
     serviceConfig,
   } = action.meta;
@@ -56,9 +52,9 @@ function createNewRecord(state, action) {
   return Object.assign({}, state, {
     '': createRecordData(serviceConfig),
   });
-}
+};
 
-function deleteFieldValue(state, action) {
+const deleteFieldValue = (state, action) => {
   const {
     csid,
     path,
@@ -75,9 +71,9 @@ function deleteFieldValue(state, action) {
   return Object.assign({}, state, {
     [csid]: updatedData,
   });
-}
+};
 
-function moveFieldValue(state, action) {
+const moveFieldValue = (state, action) => {
   const {
     csid,
     path,
@@ -109,9 +105,9 @@ function moveFieldValue(state, action) {
   return Object.assign({}, state, {
     [csid]: updatedData,
   });
-}
+};
 
-function setFieldValue(state, action) {
+const setFieldValue = (state, action) => {
   const {
     csid,
     path,
@@ -129,15 +125,13 @@ function setFieldValue(state, action) {
   return Object.assign({}, state, {
     [csid]: updatedData,
   });
-}
+};
 
-function handleRecordReadFulfilled(state, action) {
-  return Object.assign({}, state, {
-    [action.meta.csid]: Immutable.fromJS(action.payload.data),
-  });
-}
+const handleRecordReadFulfilled = (state, action) => Object.assign({}, state, {
+  [action.meta.csid]: Immutable.fromJS(action.payload.data),
+});
 
-function handleRecordSaveFulfilled(state, action) {
+const handleRecordSaveFulfilled = (state, action) => {
   const response = action.payload;
   const csid = action.meta.csid;
 
@@ -158,9 +152,9 @@ function handleRecordSaveFulfilled(state, action) {
   return Object.assign({}, state, {
     [csid]: Immutable.fromJS(response.data),
   });
-}
+};
 
-const data = (state = {}, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case ADD_FIELD_INSTANCE:
       return addFieldInstance(state, action);
@@ -181,70 +175,6 @@ const data = (state = {}, action) => {
   }
 };
 
-const savesPending = (state = {}, action) => {
-  let nextState;
+export const get = (state, csid) => state[csid];
 
-  switch (action.type) {
-    case RECORD_SAVE_STARTED:
-      return Object.assign({}, state, {
-        [action.meta.csid]: true,
-      });
-    case RECORD_SAVE_FULFILLED:
-      nextState = Object.assign({}, state);
-      delete nextState[action.meta.csid];
-
-      return nextState;
-    case RECORD_SAVE_REJECTED:
-      nextState = Object.assign({}, state);
-      delete nextState[action.meta.csid];
-
-      return nextState;
-    default:
-      return state;
-  }
-};
-
-const readsPending = (state = {}, action) => {
-  let nextState;
-
-  switch (action.type) {
-    case RECORD_READ_STARTED:
-      return Object.assign({}, state, {
-        [action.meta.csid]: true,
-      });
-    case RECORD_READ_FULFILLED:
-      nextState = Object.assign({}, state);
-      delete nextState[action.meta.csid];
-
-      return nextState;
-    case RECORD_READ_REJECTED:
-      nextState = Object.assign({}, state);
-      delete nextState[action.meta.csid];
-
-      return nextState;
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({
-  data,
-  savesPending,
-  readsPending,
-});
-
-export function getData(state, csid) {
-  return state.data[csid];
-}
-
-export function getNewData(state) {
-  return state.data[''];
-}
-
-export function isSavePending(state, csid) {
-  return state.savesPending[csid];
-}
-
-export function isReadPending(state, csid) {
-  return state.readsPending[csid];
-}
+export const getNew = state => get(state, '');

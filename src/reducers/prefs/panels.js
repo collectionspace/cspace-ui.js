@@ -1,10 +1,8 @@
-import { combineReducers } from 'redux';
-
 import {
   COLLAPSE_PANEL,
-} from '../actions';
+} from '../../actions';
 
-const collapsePanel = (state, action) => {
+const collapse = (state, action) => {
   const {
     recordType,
     name,
@@ -21,29 +19,25 @@ const collapsePanel = (state, action) => {
   });
 };
 
-const panels = (state = {}, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case COLLAPSE_PANEL:
-      return collapsePanel(state, action);
+      return collapse(state, action);
     default:
       return state;
   }
 };
 
-export default combineReducers({
-  panels,
-});
-
-export function isPanelCollapsed(store, recordType, name) {
-  if (!(store && store.panels)) {
+export const isCollapsed = (state, recordType, name) => {
+  if (!state) {
     return undefined;
   }
 
-  const recordTypePanels = store.panels[recordType];
+  const recordTypePanelStates = state[recordType];
 
-  if (!recordTypePanels) {
+  if (!recordTypePanelStates) {
     return undefined;
   }
 
-  return recordTypePanels[name];
-}
+  return recordTypePanelStates[name];
+};
