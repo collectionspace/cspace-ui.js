@@ -77,15 +77,15 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     const {
-      recordTypePlugins,
+      recordPlugins,
     } = this.context;
 
-    const recordTypePlugin = recordTypePlugins[recordType];
+    const recordPlugin = recordPlugins[recordType];
 
     const {
       formTemplate,
       messageDescriptors,
-    } = recordTypePlugin;
+    } = recordPlugin;
 
     const handlers = {
       onAddInstance,
@@ -128,5 +128,5 @@ RecordEditor.childContextTypes = {
 };
 
 RecordEditor.contextTypes = {
-  recordTypePlugins: PropTypes.object,
+  recordPlugins: PropTypes.object,
 };

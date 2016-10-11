@@ -24,13 +24,13 @@ export default class Router extends Component {
     } = nextState.params;
 
     const {
-      recordTypePlugins,
+      recordPlugins,
     } = this.context;
 
-    const recordTypePlugin = recordTypePlugins[recordType];
+    const recordPlugin = recordPlugins[recordType];
 
-    if (recordTypePlugin) {
-      const serviceConfig = recordTypePlugin.serviceConfig;
+    if (recordPlugin) {
+      const serviceConfig = recordPlugin.serviceConfig;
 
       if (csid) {
         readRecord(serviceConfig, csid);
@@ -76,5 +76,5 @@ Router.propTypes = {
 };
 
 Router.contextTypes = {
-  recordTypePlugins: PropTypes.object,
+  recordPlugins: PropTypes.object,
 };

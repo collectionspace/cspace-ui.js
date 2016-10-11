@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
+import { defineMessages } from 'react-intl';
 import script from 'scriptjs';
 import warning from 'warning';
 
@@ -16,7 +17,7 @@ import App from './components/App';
 
 import objectRecordPlugin from './plugins/record/object';
 
-function loadPolyfills(locale, callback) {
+const loadPolyfills = (locale, callback) => {
   if (window.Intl) {
     window.setTimeout(callback, 0);
   } else {
@@ -24,10 +25,35 @@ function loadPolyfills(locale, callback) {
 
     script(url, callback);
   }
-}
+};
 
-const defaultRecordTypePlugins = {
-  object: objectRecordPlugin,
+const preparePlugins = (plugins) => {
+  const preparedPlugins = {};
+
+  const pluginContext = {
+    React,
+    defineMessages,
+  };
+
+  Object.keys(plugins).forEach((type) => {
+    const pluginsForType = plugins[type];
+    const preparedPluginsForType = {};
+
+    Object.keys(pluginsForType).forEach((name) => {
+      const plugin = pluginsForType[name];
+      const preparedPlugin = plugin(pluginContext);
+
+      preparedPluginsForType[name] = preparedPlugin;
+    });
+
+    preparedPlugins[type] = preparedPluginsForType;
+  });
+
+  return preparedPlugins;
+};
+
+const defaultRecordPlugins = {
+  object: objectRecordPlugin(),
 };
 
 const defaultConfig = {
@@ -38,7 +64,9 @@ const defaultConfig = {
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
-  recordTypePlugins: defaultRecordTypePlugins,
+  plugins: {
+    record: defaultRecordPlugins,
+  },
 };
 
 export function init(uiConfig) {
@@ -52,7 +80,7 @@ export function init(uiConfig) {
     locale,
     messages,
     prettyUrls,
-    recordTypePlugins,
+    plugins,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -80,8 +108,8 @@ export function init(uiConfig) {
       index,
       locale,
       messages,
-      recordTypePlugins,
       store,
+      plugins: preparePlugins(plugins),
     };
 
     loadPolyfills(locale, () => {

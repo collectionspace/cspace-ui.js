@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
-import RecordTypePluginProvider from './record/RecordTypePluginProvider';
+import RecordPluginProvider from './record/RecordPluginProvider';
 import RouterContainer from '../containers/RouterContainer';
 
 export default function App(props) {
@@ -10,19 +10,19 @@ export default function App(props) {
     index,
     locale,
     messages,
-    recordTypePlugins,
+    plugins,
     store,
   } = props;
 
   return (
     <IntlProvider locale={locale} messages={messages}>
       <StoreProvider store={store}>
-        <RecordTypePluginProvider recordTypePlugins={recordTypePlugins}>
+        <RecordPluginProvider recordPlugins={plugins.record}>
           <RouterContainer
             history={history}
             index={index}
           />
-        </RecordTypePluginProvider>
+        </RecordPluginProvider>
       </StoreProvider>
     </IntlProvider>
   );
@@ -34,7 +34,7 @@ App.propTypes = {
   index: PropTypes.string,
   locale: PropTypes.string,
   messages: PropTypes.object,
-  recordTypePlugins: PropTypes.object,
+  plugins: PropTypes.object,
 };
 
 App.defaultProps = {
