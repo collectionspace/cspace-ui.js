@@ -1,10 +1,11 @@
 <!--
-  This page is used to run the CollectionSpace UI in a dev server.
+  This page is used to run the CollectionSpace UI using a local development server.
 
   Use the command: npm run devserver
   Then open a browser to: http://localhost:8080
 
-  The CollectionSpace UI may also be run in Karma. See test/integration/render.test.js.
+  The CollectionSpace UI may also be run in Karma during development.
+  See test/integration/render.test.js.
 -->
 <html>
 <head>
@@ -13,9 +14,13 @@
 </head>
 <body>
   <main></main>
+  <!--
+    webpack dev server generates a JS bundle into memory, and updates it as files are edited.
+    This bundle is served from the URL /cspaceUI.js, but it does not exist in the filesystem.
+  -->
   <script src="/cspaceUI.js"></script>
   <script>
-    cspaceUI.init({
+    cspaceUI({
       cspaceUrl: 'http://nightly.collectionspace.org:8180',
       prettyUrls: true,
     });

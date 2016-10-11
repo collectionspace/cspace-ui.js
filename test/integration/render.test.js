@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 
 import chai from 'chai';
-import { init } from '../../src';
+import init from '../../src';
 
 chai.should();
 
@@ -34,7 +34,7 @@ describe('ui', function suite() {
   it('renders successfully', function test(done) {
     init({
       basename: getBasePath(),
-      cspaceUrl: 'http://localhost:8180',
+      cspaceUrl: 'http://nightly.collectionspace.org:8180',
       prettyUrls: true,
       messages: {
         'about.title': 'CollectionSpace is running in Karma',

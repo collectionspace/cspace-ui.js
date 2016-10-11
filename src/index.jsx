@@ -8,6 +8,8 @@ import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { defineMessages } from 'react-intl';
+import defaultsDeep from 'lodash/defaultsDeep';
+import merge from 'lodash/merge';
 import script from 'scriptjs';
 import warning from 'warning';
 
@@ -69,8 +71,16 @@ const defaultConfig = {
   },
 };
 
-export function init(uiConfig) {
-  const config = Object.assign({}, defaultConfig, uiConfig);
+const resolveConfig = (uiConfig) => {
+  if (typeof uiConfig === 'function') {
+    return uiConfig(merge({}, defaultConfig));
+  }
+
+  return defaultsDeep({}, uiConfig, defaultConfig);
+};
+
+const cspaceUI = (uiConfig) => {
+  const config = resolveConfig(uiConfig);
 
   const {
     basename,
@@ -86,16 +96,13 @@ export function init(uiConfig) {
   const mountNode = document.querySelector(container);
 
   warning(mountNode,
-    `No container element was found using the selector '${container}'. ` +
-    'The CollectionSpace UI will not be rendered.');
+    `No container element was found using the selector '${container}'. The CollectionSpace UI will not be rendered.`);
 
   if (mountNode) {
     warning(mountNode !== document.body,
-      `The container element for the CollectionSpace UI found using the selector '${container}' ` +
-      'is the document body. This may cause problems, and is not supported.');
+      `The container element for the CollectionSpace UI found using the selector '${container}' is the document body. This may cause problems, and is not supported.`);
 
     const store = createStore(reducer, applyMiddleware(thunk));
-
     const baseHistory = prettyUrls ? useRouterHistory(createHistory)({ basename }) : hashHistory;
     const history = syncHistoryWithStore(baseHistory, store);
 
@@ -116,8 +123,6 @@ export function init(uiConfig) {
       render(<App {...props} />, mountNode);
     });
   }
-}
-
-export default {
-  init,
 };
+
+module.exports = cspaceUI;
