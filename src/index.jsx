@@ -8,6 +8,7 @@ import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { defineMessages } from 'react-intl';
+import Immutable from 'immutable';
 import defaultsDeep from 'lodash/defaultsDeep';
 import merge from 'lodash/merge';
 import script from 'scriptjs';
@@ -33,6 +34,7 @@ const preparePlugins = (plugins) => {
   const preparedPlugins = {};
 
   const pluginContext = {
+    Immutable,
     React,
     defineMessages,
   };
@@ -79,9 +81,7 @@ const resolveConfig = (uiConfig) => {
   return defaultsDeep({}, uiConfig, defaultConfig);
 };
 
-const cspaceUI = (uiConfig) => {
-  const config = resolveConfig(uiConfig);
-
+module.exports = (uiConfig) => {
   const {
     basename,
     container,
@@ -91,7 +91,7 @@ const cspaceUI = (uiConfig) => {
     messages,
     prettyUrls,
     plugins,
-  } = config;
+  } = resolveConfig(uiConfig);
 
   const mountNode = document.querySelector(container);
 
@@ -124,5 +124,3 @@ const cspaceUI = (uiConfig) => {
     });
   }
 };
-
-module.exports = cspaceUI;

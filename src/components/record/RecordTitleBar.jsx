@@ -79,7 +79,7 @@ export default class RecordTitleBar extends Component {
       >
         <div className={styles.inner}>
           <h1 className={styles.title}>
-            {recordPlugin.pageTitle(cspaceDocument)}
+            {recordPlugin.title(cspaceDocument)}
           </h1>
           <h2 className={styles.recordType}>
             <FormattedMessage {...recordPlugin.messageDescriptors.recordNameTitle} />

@@ -1,11 +1,15 @@
 import formTemplate from './formTemplate';
 import messageDescriptors from './messageDescriptors';
-import pageTitle from './pageTitle';
-import serviceConfig from './serviceConfig';
+import title from './title';
 
 export default config => pluginContext => ({ // eslint-disable-line no-unused-vars
-  pageTitle,
-  serviceConfig,
   messageDescriptors,
+  serviceConfig: {
+    name: 'collectionobjects',
+    parts: {
+      collectionobjects_common: 'http://collectionspace.org/services/collectionobject',
+    },
+  },
+  title: title(pluginContext),
   formTemplate: formTemplate(pluginContext),
 });

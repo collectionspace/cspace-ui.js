@@ -52,7 +52,7 @@ const sauceLaunchers = {
 
 const getTestFiles = (config) => {
   if (config.file) {
-    return config.file.split(',');
+    return config.file.split(',').map(file => `test/${file}`);
   }
 
   const defaultTestDirs = [

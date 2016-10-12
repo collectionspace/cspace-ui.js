@@ -1,10 +1,13 @@
-import Immutable from 'immutable';
 import { getPart } from '../../../helpers/recordDataHelpers';
 
-export default function pageTitle(cspaceDocument) {
+export default pluginContext => (cspaceDocument) => {
   if (!cspaceDocument) {
     return '';
   }
+
+  const {
+    Immutable,
+  } = pluginContext;
 
   const common = getPart(cspaceDocument, 'collectionobjects_common');
 
@@ -36,4 +39,4 @@ export default function pageTitle(cspaceDocument) {
   });
 
   return parts.join(' – ');
-}
+};
