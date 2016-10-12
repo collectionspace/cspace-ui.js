@@ -4,7 +4,7 @@ import {
   LOGOUT_STARTED,
   LOGOUT_FULFILLED,
   LOGOUT_REJECTED,
-} from '../../../src/actions';
+} from '../../../src/actions/logout';
 
 import reducer, {
   getError,

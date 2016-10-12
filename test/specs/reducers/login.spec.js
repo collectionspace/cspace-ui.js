@@ -6,7 +6,7 @@ import {
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
-} from '../../../src/actions';
+} from '../../../src/actions/login';
 
 import reducer, {
   getContinuation,

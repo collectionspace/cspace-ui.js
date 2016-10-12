@@ -1,4 +1,4 @@
-import { CSPACE_CONFIGURED } from '../actions';
+import { CSPACE_CONFIGURED } from '../actions/cspace';
 
 export default (state = {}, action) => {
   switch (action.type) {

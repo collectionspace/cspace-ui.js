@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-
-import { login } from '../../actions';
+import LoginForm from '../../components/login/LoginForm';
+import { login } from '../../actions/login';
 
 import {
   getLoginUsername,
@@ -8,8 +8,6 @@ import {
   getLoginResponse,
   getLoginError,
 } from '../../reducers';
-
-import LoginForm from '../../components/login/LoginForm';
 
 const mapStateToProps = state => ({
   isPending: isLoginPending(state),

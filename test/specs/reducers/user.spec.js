@@ -2,9 +2,15 @@ import chai from 'chai';
 
 import {
   CSPACE_CONFIGURED,
+} from '../../../src/actions/cspace';
+
+import {
   LOGIN_FULFILLED,
+} from '../../../src/actions/login';
+
+import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions';
+} from '../../../src/actions/logout';
 
 import reducer, {
   getUsername,

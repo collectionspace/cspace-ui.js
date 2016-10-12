@@ -2,7 +2,7 @@ import chai from 'chai';
 
 import {
   COLLAPSE_PANEL,
-} from '../../../../src/actions';
+} from '../../../../src/actions/prefs';
 
 import reducer, {
   isCollapsed,

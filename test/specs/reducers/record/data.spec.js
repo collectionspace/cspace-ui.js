@@ -9,7 +9,7 @@ import {
   SET_FIELD_VALUE,
   RECORD_READ_FULFILLED,
   RECORD_SAVE_FULFILLED,
-} from '../../../../src/actions';
+} from '../../../../src/actions/record';
 
 import reducer, {
   get,

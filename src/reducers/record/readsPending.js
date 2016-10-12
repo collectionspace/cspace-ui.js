@@ -2,7 +2,7 @@ import {
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
-} from '../../actions';
+} from '../../actions/record';
 
 export default (state = {}, action) => {
   let nextState;

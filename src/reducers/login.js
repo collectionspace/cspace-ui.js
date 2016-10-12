@@ -4,7 +4,7 @@ import {
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
-} from '../actions';
+} from '../actions/login';
 
 export default (state = {}, action) => {
   switch (action.type) {

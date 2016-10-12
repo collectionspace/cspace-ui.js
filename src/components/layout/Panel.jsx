@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import withRecordType from '../../enhancers/withRecordType';
-import { collapsePanel } from '../../actions';
+import { collapsePanel } from '../../actions/prefs';
 import { isPanelCollapsed } from '../../reducers';
 
 import styles from '../../../styles/cspace-ui/Panel.css';

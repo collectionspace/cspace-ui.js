@@ -14,7 +14,7 @@ import {
   SET_FIELD_VALUE,
   RECORD_READ_FULFILLED,
   RECORD_SAVE_FULFILLED,
-} from '../../actions';
+} from '../../actions/record';
 
 const addFieldInstance = (state, action) => {
   const {

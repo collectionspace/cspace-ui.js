@@ -2,7 +2,7 @@ import {
   LOGOUT_STARTED,
   LOGOUT_FULFILLED,
   LOGOUT_REJECTED,
-} from '../actions';
+} from '../actions/logout';
 
 export default (state = {}, action) => {
   switch (action.type) {

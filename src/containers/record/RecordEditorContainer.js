@@ -5,7 +5,7 @@ import {
   moveFieldValue,
   setFieldValue,
   deleteFieldValue,
-} from '../../actions';
+} from '../../actions/record';
 
 import {
   getRecordData,

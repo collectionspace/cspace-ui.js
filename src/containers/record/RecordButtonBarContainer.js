@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import RecordButtonBar from '../../components/record/RecordButtonBar';
-import { saveRecord } from '../../actions';
+import { saveRecord } from '../../actions/record';
 import { isRecordSavePending } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {

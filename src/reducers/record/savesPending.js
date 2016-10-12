@@ -2,7 +2,7 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
-} from '../../actions';
+} from '../../actions/record';
 
 export default (state = {}, action) => {
   let nextState;

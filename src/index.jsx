@@ -14,7 +14,7 @@ import merge from 'lodash/merge';
 import script from 'scriptjs';
 import warning from 'warning';
 
-import { configureCSpace } from './actions';
+import { configureCSpace } from './actions/cspace';
 import reducer from './reducers';
 import App from './components/App';
 

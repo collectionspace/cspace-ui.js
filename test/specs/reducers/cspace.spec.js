@@ -1,6 +1,6 @@
 import chai from 'chai';
 
-import { CSPACE_CONFIGURED } from '../../../src/actions';
+import { CSPACE_CONFIGURED } from '../../../src/actions/cspace';
 import reducer, { getConfig } from '../../../src/reducers/cspace';
 
 chai.should();

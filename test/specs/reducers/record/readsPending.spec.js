@@ -4,7 +4,7 @@ import {
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
-} from '../../../../src/actions';
+} from '../../../../src/actions/record';
 
 import reducer, {
   get,

@@ -4,7 +4,7 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
-} from '../../../../src/actions';
+} from '../../../../src/actions/record';
 
 import reducer, {
   get,

@@ -1,13 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
 import LoginPage from '../../components/pages/LoginPage';
-
-import { resetLogin } from '../../actions';
-
-import {
-  getLoginContinuation,
-} from '../../reducers';
+import { resetLogin } from '../../actions/login';
+import { getLoginContinuation } from '../../reducers';
 
 class LoginPageContainer extends Component {
   componentWillMount() {

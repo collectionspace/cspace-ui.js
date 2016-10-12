@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import {
   createNewRecord,
   readRecord,
+} from '../actions/record';
+
+import {
   redirectLogin,
-} from '../actions';
+} from '../actions/login';
 
 import {
   getUserUsername,

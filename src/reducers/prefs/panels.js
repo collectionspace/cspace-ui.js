@@ -1,6 +1,6 @@
 import {
   COLLAPSE_PANEL,
-} from '../../actions';
+} from '../../actions/prefs';
 
 const collapse = (state, action) => {
   const {
