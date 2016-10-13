@@ -49,10 +49,6 @@ export function getLogoutResponse(state) {
   return fromLogout.getResponse(state.logout);
 }
 
-export function getLogoutError(state) {
-  return fromLogout.getError(state.logout);
-}
-
 export function getRecordData(state, csid) {
   return fromRecord.getData(state.record, csid);
 }

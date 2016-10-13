@@ -1,6 +1,6 @@
 /* global window */
 
-import getSession from './login';
+import getSession from './cspace';
 import { getRecordData } from '../reducers';
 import { prepareForSending } from '../helpers/recordDataHelpers';
 
@@ -16,20 +16,21 @@ export const DELETE_FIELD_VALUE = 'DELETE_FIELD_VALUE';
 export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
 
-export const createNewRecord = serviceConfig => (dispatch) => {
-  // TODO: Accept csid to clone.
+// TODO: Accept csid to clone.
 
-  // Force this to be async, to be consistent with reading an existing record.
-
-  window.setTimeout(() => {
-    dispatch({
-      type: CREATE_NEW_RECORD,
-      meta: {
-        serviceConfig,
-      },
-    });
-  }, 0);
-};
+// Force this to be async, to be consistent with reading an existing record.
+export const createNewRecord = serviceConfig => dispatch =>
+  new Promise((resolve) => {
+    window.setTimeout(() => {
+      resolve();
+    }, 0);
+  })
+  .then(() => dispatch({
+    type: CREATE_NEW_RECORD,
+    meta: {
+      serviceConfig,
+    },
+  }));
 
 export const readRecord = (serviceConfig, csid) => (dispatch) => {
   dispatch({
@@ -42,7 +43,7 @@ export const readRecord = (serviceConfig, csid) => (dispatch) => {
 
   const serviceName = serviceConfig.name;
 
-  getSession().read(`${serviceName}/${csid}`)
+  return getSession().read(`${serviceName}/${csid}`)
     .then(response => dispatch({
       type: RECORD_READ_FULFILLED,
       payload: response,
@@ -81,9 +82,9 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
     ? getSession().update(`${serviceName}/${csid}`, config)
     : getSession().create(serviceName, config);
 
-  save
+  return save
     .then((response) => {
-      dispatch({
+      const action = dispatch({
         type: RECORD_SAVE_FULFILLED,
         payload: response,
         meta: {
@@ -100,6 +101,8 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
 
         replace(`/record/${recordType}/${newRecordCsid}`);
       }
+
+      return action;
     })
     .catch(error => dispatch({
       type: RECORD_SAVE_REJECTED,

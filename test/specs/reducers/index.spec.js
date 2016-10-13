@@ -10,7 +10,6 @@ import reducer, {
   getLoginError,
   isLogoutPending,
   getLogoutResponse,
-  getLogoutError,
   getRecordData,
   getNewRecordData,
   isRecordReadPending,
@@ -118,18 +117,6 @@ describe('reducer', function suite() {
           response,
         },
       }).should.equal(response);
-    });
-  });
-
-  describe('getLogoutError selector', function selectorSuite() {
-    it('should select from the logout key', function test() {
-      const error = {};
-
-      getLogoutError({
-        logout: {
-          error,
-        },
-      }).should.equal(error);
     });
   });
 

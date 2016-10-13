@@ -153,6 +153,9 @@ module.exports = function karma(config) {
       resolve: {
         extensions: ['', '.js', '.jsx'],
       },
+      node: {
+        fs: 'empty',
+      },
     },
 
     port: 9876,

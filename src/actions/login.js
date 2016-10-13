@@ -1,12 +1,10 @@
-import getClient from './cspace';
+import getSession, { createSession } from './cspace';
 
 export const LOGIN_REDIRECTED = 'LOGIN_REDIRECTED';
 export const RESET_LOGIN = 'RESET_LOGIN';
 export const LOGIN_STARTED = 'LOGIN_STARTED';
 export const LOGIN_FULFILLED = 'LOGIN_FULFILLED';
 export const LOGIN_REJECTED = 'LOGIN_REJECTED';
-
-let session;
 
 export const redirectLogin = (replace, attemptedUrl) => {
   replace('/login');
@@ -31,12 +29,9 @@ export const login = (username, password) => (dispatch) => {
     },
   });
 
-  session = getClient().session({
-    username,
-    password,
-  });
+  createSession(username, password);
 
-  session.login()
+  return getSession().login()
     .then(response => dispatch({
       type: LOGIN_FULFILLED,
       payload: response,
@@ -52,5 +47,3 @@ export const login = (username, password) => (dispatch) => {
       },
     }));
 };
-
-export default () => session;

@@ -3,11 +3,9 @@ import chai from 'chai';
 import {
   LOGOUT_STARTED,
   LOGOUT_FULFILLED,
-  LOGOUT_REJECTED,
 } from '../../../src/actions/logout';
 
 import reducer, {
-  getError,
   getResponse,
   isPending,
 } from '../../../src/reducers/logout';
@@ -27,7 +25,6 @@ describe('logout reducer', function suite() {
     state.should.deep.equal({
       isPending: true,
       response: null,
-      error: null,
     });
 
     isPending(state).should.equal(true);
@@ -49,28 +46,9 @@ describe('logout reducer', function suite() {
     state.should.deep.equal({
       isPending: false,
       response: logoutResponse,
-      error: null,
     });
 
     getResponse(state).should.equal(logoutResponse);
-    isPending(state).should.equal(false);
-  });
-
-  it('should handle LOGOUT_REJECTED', function test() {
-    const logoutError = new Error();
-
-    const state = reducer({}, {
-      type: LOGOUT_REJECTED,
-      payload: logoutError,
-    });
-
-    state.should.deep.equal({
-      isPending: false,
-      response: null,
-      error: logoutError,
-    });
-
-    getError(state).should.equal(logoutError);
     isPending(state).should.equal(false);
   });
 });
