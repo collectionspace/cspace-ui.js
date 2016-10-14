@@ -7,7 +7,10 @@ export default function withRecordType(BaseComponent) {
     } = context;
 
     return (
-      <BaseComponent {...props} recordType={recordType} />
+      <BaseComponent
+        {...props}
+        recordType={recordType}
+      />
     );
   }
 

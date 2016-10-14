@@ -120,7 +120,7 @@ module.exports = function karma(config) {
     singleRun: config.singleRun === 'true',
 
     preprocessors: {
-      'test/**/*.js': [
+      'test/**/*.+(js|jsx)': [
         'webpack',
         'sourcemap',
       ],
@@ -152,9 +152,6 @@ module.exports = function karma(config) {
       ],
       resolve: {
         extensions: ['', '.js', '.jsx'],
-      },
-      node: {
-        fs: 'empty',
       },
     },
 
