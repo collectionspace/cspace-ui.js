@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import {
   COLLAPSE_PANEL,
 } from '../../../../src/actions/prefs';

@@ -13,6 +13,16 @@ class LoginPage extends Component {
     this.onSuccess = this.onSuccess.bind(this);
   }
 
+  componentWillMount() {
+    const {
+      onMount,
+    } = this.props;
+
+    if (onMount) {
+      onMount();
+    }
+  }
+
   onSuccess() {
     const {
       router,
@@ -35,6 +45,7 @@ class LoginPage extends Component {
 LoginPage.propTypes = {
   router: PropTypes.object.isRequired,
   continuation: PropTypes.string,
+  onMount: PropTypes.func,
 };
 
 LoginPage.defaultProps = {

@@ -1,7 +1,6 @@
 /* global window, document */
 /* eslint-disable no-unused-expressions */
 
-import chai from 'chai';
 import init from '../../src';
 
 chai.should();

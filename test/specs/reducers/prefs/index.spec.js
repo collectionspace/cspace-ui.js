@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import reducer, {
   isPanelCollapsed,
 } from '../../../../src/reducers/prefs';

@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import getSession, {
   CSPACE_CONFIGURED,
   configureCSpace,

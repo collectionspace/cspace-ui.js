@@ -29,7 +29,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default withRouter(connect(
+export const ConnectedRecordButtonBar = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RecordButtonBar));
+)(RecordButtonBar);
+
+export default withRouter(ConnectedRecordButtonBar);

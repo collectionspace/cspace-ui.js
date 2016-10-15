@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import {
   CSPACE_CONFIGURED,
 } from '../../../src/actions/cspace';

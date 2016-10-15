@@ -1,4 +1,3 @@
-import chai from 'chai';
 import Immutable from 'immutable';
 
 import {

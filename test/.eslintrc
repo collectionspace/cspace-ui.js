@@ -2,6 +2,9 @@
   "env": {
     "mocha": true
   },
+  "globals": {
+    "chai": true
+  },
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "prefer-arrow-callback": "off"

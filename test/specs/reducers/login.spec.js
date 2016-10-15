@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import {
   RESET_LOGIN,
   LOGIN_REDIRECTED,

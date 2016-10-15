@@ -11,6 +11,16 @@ class LogoutPage extends Component {
     this.onSuccess = this.onSuccess.bind(this);
   }
 
+  componentWillMount() {
+    const {
+      onMount,
+    } = this.props;
+
+    if (onMount) {
+      onMount();
+    }
+  }
+
   onSuccess() {
     const {
       router,
@@ -31,6 +41,7 @@ class LogoutPage extends Component {
 
 LogoutPage.propTypes = {
   router: PropTypes.object.isRequired,
+  onMount: PropTypes.func,
 };
 
 export default withRouter(LogoutPage);

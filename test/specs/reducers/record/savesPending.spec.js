@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
