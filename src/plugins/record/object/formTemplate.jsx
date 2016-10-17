@@ -9,7 +9,7 @@ import {
   VocabularyControlledInput,
 } from 'cspace-input';
 
-import Panel from '../../../components/layout/Panel';
+import Panel from '../../../containers/layout/PanelContainer';
 import Row from '../../../components/layout/Row';
 
 import { getPartPropertyName } from '../../../helpers/recordDataHelpers';

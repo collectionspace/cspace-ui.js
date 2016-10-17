@@ -1,12 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import withRecordType from '../../enhancers/withRecordType';
-import { collapsePanel } from '../../actions/prefs';
-import { isPanelCollapsed } from '../../reducers';
-
 import styles from '../../../styles/cspace-ui/Panel.css';
 
-class Panel extends Component {
+export default class Panel extends Component {
   constructor(props) {
     super(props);
 
@@ -95,43 +90,3 @@ Panel.defaultProps = {
   collapsible: false,
   collapsed: false,
 };
-
-// FIXME: Split the container out to a different file.
-
-const mapStateToProps = (state, ownProps) => {
-  const {
-    name,
-    recordType,
-  } = ownProps;
-
-  let collapsed = isPanelCollapsed(state, recordType, name);
-
-  if (typeof collapsed === 'undefined') {
-    collapsed = ownProps.collapsed;
-  }
-
-  return {
-    collapsed,
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const {
-    recordType,
-  } = ownProps;
-
-  return {
-    onToggleCollapsed: (name, collapsed) => {
-      dispatch(collapsePanel(recordType, name, collapsed));
-    },
-  };
-};
-
-const ConnectedPanel = withRecordType(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Panel));
-
-ConnectedPanel.propTypes = Panel.propTypes;
-
-export default ConnectedPanel;
