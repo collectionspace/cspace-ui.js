@@ -155,6 +155,14 @@ module.exports = function karma(config) {
       },
     },
 
+    // Make webpack output less verbose, so Travis can display the entire log.
+
+    webpackMiddleware: {
+      stats: {
+        chunks: false,
+      },
+    },
+
     port: 9876,
     colors: true,
 
