@@ -1,6 +1,18 @@
 import React, { Component, PropTypes } from 'react';
+import { defineMessages, FormattedMessage } from 'react-intl';
 
-// TODO: i18n
+const messages = defineMessages({
+  pending: {
+    id: 'logoutIndicator.pending',
+    description: 'Message displayed while logout is in progress.',
+    defaultMessage: 'Signing out...',
+  },
+  success: {
+    id: 'logoutIndicator.success',
+    description: 'Message displayed when logout completes successfully.',
+    defaultMessage: 'Success!',
+  },
+});
 
 export default class LogoutIndicator extends Component {
   componentDidUpdate(prevProps) {
@@ -29,7 +41,7 @@ export default class LogoutIndicator extends Component {
     }
 
     return (
-      <div>Signing out...</div>
+      <div><FormattedMessage {...messages.pending} /></div>
     );
   }
 
@@ -45,7 +57,7 @@ export default class LogoutIndicator extends Component {
     return (
       <div>
         <h2><br /></h2>
-        <div>Success!</div>
+        <div><FormattedMessage {...messages.success} /></div>
       </div>
     );
   }
@@ -60,7 +72,7 @@ export default class LogoutIndicator extends Component {
     }
 
     return (
-      <div>Error: {error.response.data.error_description}</div>
+      <div>{error.message}</div>
     );
   }
 

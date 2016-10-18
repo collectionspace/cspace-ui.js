@@ -16,13 +16,13 @@ const messages = defineMessages({
   },
   pending: {
     id: 'loginForm.pending',
-    description: '',
+    description: 'Message displayed while login is in progress.',
     defaultMessage: 'Signing in...',
   },
   success: {
     id: 'loginForm.success',
-    description: '',
-    defaultMessage: 'Success!',
+    description: 'Message displayed when login completes successfully.',
+    defaultMessage: 'Sign in complete.',
   },
   error: {
     id: 'loginForm.error',
