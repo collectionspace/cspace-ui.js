@@ -29,7 +29,14 @@ class LoginPage extends Component {
       continuation,
     } = this.props;
 
-    window.setTimeout(() => router.replace(continuation), 0);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 0);
+    })
+    .then(() => {
+      router.replace(continuation);
+    });
   }
 
   render() {
