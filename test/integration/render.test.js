@@ -1,7 +1,7 @@
 /* global window, document */
 /* eslint-disable no-unused-expressions */
 
-import init from '../../src';
+import cspaceUI from '../../src';
 
 chai.should();
 
@@ -30,8 +30,8 @@ describe('ui', function suite() {
     setup();
   });
 
-  it('renders successfully', function test(done) {
-    init({
+  it('renders successfully', function test() {
+    cspaceUI({
       basename: getBasePath(),
       cspaceUrl: 'http://nightly.collectionspace.org:8180',
       prettyUrls: true,
@@ -39,10 +39,5 @@ describe('ui', function suite() {
         'about.title': 'CollectionSpace is running in Karma',
       },
     });
-
-    window.setTimeout(() => {
-      document.body.querySelector('main').firstElementChild.should.not.be.null;
-      done();
-    }, 1000);
   });
 });
