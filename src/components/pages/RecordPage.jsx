@@ -5,13 +5,8 @@ import RecordTitleBarContainer from '../../containers/record/RecordTitleBarConta
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 
 export default function RecordPage(props, context) {
-  let {
-    csid,
-  } = props.params;
-
-  const {
-    recordType,
-  } = props.params;
+  let csid = props.params.csid;
+  const recordType = props.params.recordType;
 
   const {
     recordPlugins,
@@ -33,9 +28,12 @@ export default function RecordPage(props, context) {
 }
 
 RecordPage.propTypes = {
-  params: PropTypes.object.isRequired,
+  params: PropTypes.shape({
+    csid: PropTypes.string,
+    recordType: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 RecordPage.contextTypes = {
-  recordPlugins: PropTypes.object,
+  recordPlugins: PropTypes.object.isRequired,
 };
