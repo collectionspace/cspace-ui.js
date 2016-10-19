@@ -61,7 +61,7 @@ const messages = defineMessages({
 
 export default function About() {
   return (
-    <div className={styles.normal}>
+    <div className={styles.common}>
       <h2><FormattedMessage {...messages.title} /></h2>
       <div><FormattedHTMLMessage {...messages.content} /></div>
     </div>
