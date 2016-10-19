@@ -4,7 +4,6 @@ import { findRenderedComponentWithType } from 'react-addons-test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import chai from 'chai';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 

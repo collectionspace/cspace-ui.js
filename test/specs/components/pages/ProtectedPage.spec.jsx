@@ -3,7 +3,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
-import chai from 'chai';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 

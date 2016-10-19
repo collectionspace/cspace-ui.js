@@ -1,7 +1,6 @@
 import React from 'react';
 import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
-import chai from 'chai';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
