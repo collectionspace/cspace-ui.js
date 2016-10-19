@@ -7,7 +7,6 @@ import thunk from 'redux-thunk';
 import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { defineMessages } from 'react-intl';
 import Immutable from 'immutable';
 import defaultsDeep from 'lodash/defaultsDeep';
 import merge from 'lodash/merge';
@@ -36,7 +35,6 @@ const preparePlugins = (plugins) => {
   const pluginContext = {
     Immutable,
     React,
-    defineMessages,
   };
 
   Object.keys(plugins).forEach((type) => {

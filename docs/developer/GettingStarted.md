@@ -1,16 +1,16 @@
 # Getting Started
 
-Follow these instructions to set up your development environment.
+Follow these steps to set up your environment for cspace-ui development.
 
 ## Prerequisites
 
-The following software must be installed on your development system.
+The following software must be installed on your development system. Development is supported on Mac, Windows, and Linux.
 
-- Git. The cspace-ui source code is version controlled using Git. You must have a git client [installed](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+- Git. The cspace-ui source code is version controlled using Git. You'll need to have a Git client [installed](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
-- Node.js and npm. [Node.js](https://nodejs.org/) is used to run the development tools. [npm](https://www.npmjs.com/) is used to install and manage the JavaScript libraries required by cspace-ui. On Mac and Windows, download the Node.js installer from [nodejs.org](https://nodejs.org/). This will install npm as well. On Linux, use your package manager to [install the necessary packages](https://nodejs.org/en/download/package-manager/).
+- Node.js and npm. [Node.js](https://nodejs.org/) is used to run JavaScript development tools. [npm](https://www.npmjs.com/) is used to install and manage JavaScript libraries required by cspace-ui. On Mac and Windows, download the Node.js installer from [nodejs.org](https://nodejs.org/). This will install npm as well. On Linux, [install the necessary packages](https://nodejs.org/en/download/package-manager/) using your package manager.
 
-- Chrome or Firefox. cspace-ui is a JavaScript application for web browsers, so a web browser is required to run and test it during development. The automated test runner will attempt to use [Chrome](https://www.google.com/chrome/browser/desktop/index.html) by default. If you prefer to use [Firefox](https://www.mozilla.org/en-US/firefox/new/), set the environment variable `KARMA_BROWSERS` to `Firefox` in the shell in which you run tests.
+- Chrome or Firefox. cspace-ui is a JavaScript application for web browsers, so a web browser is required to run and test it during development. The test runner ([Karma](https://karma-runner.github.io/)) will attempt to use [Chrome](https://www.google.com/chrome/browser/desktop/index.html) by default. If you prefer to use [Firefox](https://www.mozilla.org/en-US/firefox/new/), set the environment variable `KARMA_BROWSERS` to `Firefox` in the shell in which you run tests.
 
 - A text editor for editing code and markup.
 
@@ -18,22 +18,24 @@ The following software must be installed on your development system.
 
 To install the cspace-ui source code on your development system:
 
-- [Clone this repository](https://help.github.com/articles/cloning-a-repository/) from GitHub by running `git clone`.
+- [Clone this repository](https://help.github.com/articles/cloning-a-repository/) from GitHub using the `git clone` command.
   ```
   $ git clone https://github.com/collectionspace/cspace-ui.js.git
   ```
 
-- Download JavaScript dependencies by running `npm install` in the local repository.
+- Download the required JavaScript dependencies by running `npm install` in the local repository.
   ```
-  $ cd cspace-ui.js.git
+  $ cd cspace-ui.js
   $ npm install
   ```
+  This will create a node_modules directory containing the downloaded dependencies.
 
 - Run tests. This will start a web browser, execute the tests, close the browser, and report the results in your terminal.
   ```
   $ npm test
   ```
-  If the tests succeed, your development environment is ready.
+
+If the tests succeed, your development environment is ready.
 
 ## Running the Application
 
@@ -41,23 +43,25 @@ To run the cspace-ui application, use the command:
 ```
 $ npm run devserver
 ```
-This starts a local web server, listening on port 8080. In a browser window, open the URL `http://localhost:8080`. You should see the CollectionSpace UI. This UI is configured (in the top level `index.html` file) to connect to the REST API on the nightly build server, so you should be able to log in and see records from that server.
+This starts a local web server, listening on port 8080. In a browser open the URL `http://localhost:8080`. You should see the CollectionSpace UI. This UI is configured to connect to the REST API on the nightly build server (http://nightly.collectionspace.org:8080), so you should be able to log in and see records from that server.
 
-As you edit files, your changes are automatically built and deployed to the dev server. Reload the page in your browser to see your changes. To stop the dev server, type control-c in the shell in which the devserver was started. 
+As you edit files, changes are automatically detected and deployed into the dev server. Reload the page in your browser to see the latest code. To stop the dev server, type control-c in the shell in which it was started. 
 
 ## Running Tests
 
-The `npm test` command runs tests a single time, but during development you usually want to run the tests continuously, as files are edited. To do this, use the command:
+The `npm test` command runs tests once and exits, but during development you usually want to run the tests continuously, as files are edited. To do this, use the command:
 ```
 $ npm start
 ```
-This starts a local web server, listening on port 9876, as well as a browser. The browser will automatically connect to the test web server, execute the tests, and report results to your terminal. As you edit files, the tests will be rerun automatically. To stop running tests, type control-c in the shell in which they were started. This will stop the server, and close the browser window in which the tests are running.
+This starts a local web server, listening on port 9876, and opens a browser window. The browser will connect to the web server, execute the tests, and report results to your terminal. As you edit files, the tests will rerun automatically. To stop, type control-c in the shell in which the test server was started. This will also close the associated browser window.
 
-The test server and the dev server may be run simultaneously. During development you'll typically have two terminal windows/tabs and two browser windows open off to the side. In one terminal, `npm run devserver` will be running. In the other, `npm start` will be running. One browser window will be the one you started, and that is viewing `http://localhost:8080`. You'll reload that window periodically to see and interact with your latest changes. The other browser window will be the one that `npm start` opened, in which unit and integration tests are automatically being rerun. You can ignore that window, since it is completely managed by the test runner. It just needs to be open to run the tests. Results will be reported in the terminal window, so keep an eye on that window for failures.
+The test server and the dev server may be run simultaneously. During development you'll typically keep two terminal windows/tabs and two browser windows open on the side. In one terminal, `npm run devserver` will be running. In the other, `npm start` will be running. One browser window will be the one you started, viewing `http://localhost:8080`. You'll reload that window periodically to see and interact with your latest changes. The other browser window will be the one that `npm start` opened, in which unit and integration tests are continuously running. You can ignore that window, since it is completely managed by the test runner. It just needs to remain open to run the tests. Results will be reported in the terminal window, so keep an eye on that window for failures.
 
 ## Further Reading
 
 - The [Overview of Languages, Tools, and Libraries](https://wiki.collectionspace.org/display/~rhlee@berkeley.edu/Overview+of+Languages%2C+Tools%2C+and+Libraries) on the CollectionSpace Wiki gives an overview of many of the development tools used in CollectionSpace JS projects (of which cspace-ui is one).
-- The Architectural Overview of cspace-ui describes the high-level structure of the application. (Coming soon)
-- The Plugin Guide describes how to write plugins to extend the UI. (Coming soon)
+- The [Architectural Overview](ArchitecturalOverview.md) describes the high-level structure of the application. (Coming soon)
+- The [File Directory](FileDirectory.md) describes the filesystem layout of the project.
+- The [Plugin Guide](PluginGuide) describes how to write plugins to extend the UI.
+- The [Cookbook](Cookbook) provides recipes for common tasks in cspace-ui development.
 - The [Overview of Projects](https://wiki.collectionspace.org/display/~rhlee@berkeley.edu/Overview+of+Projects) on the CollectionSpace Wiki describes how cspace-ui fits into the larger suite of CollectionSpace JS projects.
