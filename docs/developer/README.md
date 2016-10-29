@@ -6,7 +6,7 @@ This documentation is intended for developers who want to modify cspace-ui sourc
 
 - [Getting Started](GettingStarted.md)
 - [Architectural Overview](ArchitecturalOverview.md)
-- [Files](Files.md)
+- [File Directory](FileDirectory.md)
 - [Plugin Guide](PluginGuide)
   - [Record Type Plugins](PluginGuide/RecordTypePlugins.md)
 - [Cookbook](Cookbook)
