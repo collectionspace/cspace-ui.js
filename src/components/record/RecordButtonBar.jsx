@@ -21,6 +21,7 @@ export default function RecordButtonBar(props) {
     <div className={styles.common}>
       <Button
         disabled={isSavePending}
+        name="save"
         onClick={onSaveButtonClick}
       >
         <FormattedMessage {...messages.save} />

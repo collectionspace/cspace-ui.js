@@ -33,6 +33,8 @@ export default class RecordTitleBar extends Component {
   handleScroll() {
     const node = this.domNode;
 
+    if (!node) return;
+
     if (this.state.docked) {
       if (window.scrollY < node.offsetTop) {
         this.setState({
