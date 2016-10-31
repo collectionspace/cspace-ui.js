@@ -20,6 +20,7 @@ const redirectLogin = () => null;
 const mockStore = configureMockStore();
 
 const store = mockStore({
+  login: {},
   user: {
     username: '',
   },
