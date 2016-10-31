@@ -9,7 +9,8 @@ export default class Router extends Component {
     this.routes = routes(
       props.index,
       this.onEnterRecord.bind(this),
-      this.onEnterProtected.bind(this));
+      this.onEnterProtected.bind(this)
+    );
   }
 
   onEnterRecord(nextState) {
