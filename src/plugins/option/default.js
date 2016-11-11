@@ -275,7 +275,7 @@ const messageDescriptors = {
     },
     pacing_pedometer: {
       id: 'option.measurementMethods.pacing_pedometer',
-      defaultMessage: 'pacing_pedometer',
+      defaultMessage: 'pacing pedometer',
     },
     odometer: {
       id: 'option.measurementMethods.odometer',
