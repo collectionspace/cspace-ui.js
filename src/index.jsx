@@ -14,10 +14,12 @@ import script from 'scriptjs';
 import warning from 'warning';
 
 import { configureCSpace } from './actions/cspace';
+import { addOptions } from './actions/options';
 import reducer from './reducers';
 import App from './components/App';
 
 import objectRecordPlugin from './plugins/record/object';
+import defaultOptions from './plugins/option/default';
 
 const loadPolyfills = (locale, callback) => {
   if (window.Intl) {
@@ -29,12 +31,17 @@ const loadPolyfills = (locale, callback) => {
   }
 };
 
-const preparePlugins = (plugins) => {
+const preparePlugins = (plugins, store) => {
+  const dispatchAddOptions = (options, messageDescriptors) => {
+    store.dispatch(addOptions(options, messageDescriptors));
+  };
+
   const preparedPlugins = {};
 
   const pluginContext = {
     Immutable,
     React,
+    addOptions: dispatchAddOptions,
   };
 
   Object.keys(plugins).forEach((type) => {
@@ -58,6 +65,10 @@ const defaultRecordPlugins = {
   object: objectRecordPlugin(),
 };
 
+const defaultOptionPlugins = {
+  default: defaultOptions(),
+};
+
 const defaultConfig = {
   basename: '',
   container: 'main',
@@ -68,6 +79,7 @@ const defaultConfig = {
   prettyUrls: false,
   plugins: {
     record: defaultRecordPlugins,
+    option: defaultOptionPlugins,
   },
 };
 
@@ -114,7 +126,7 @@ module.exports = (uiConfig) => {
       locale,
       messages,
       store,
-      plugins: preparePlugins(plugins),
+      plugins: preparePlugins(plugins, store),
     };
 
     loadPolyfills(locale, () => {

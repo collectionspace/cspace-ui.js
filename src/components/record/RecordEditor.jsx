@@ -103,7 +103,10 @@ export default class RecordEditor extends Component {
     });
 
     return (
-      <form className={styles.common}>
+      <form
+        autoComplete="off"
+        className={styles.common}
+      >
         {formContent}
       </form>
     );

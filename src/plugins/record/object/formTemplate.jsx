@@ -3,11 +3,12 @@ import {
   CompoundInput,
   DateInput,
   IDGeneratorInput,
-  StaticControlledInput,
   StructuredDateInput,
   TextInput,
   VocabularyControlledInput,
 } from 'cspace-input';
+
+import OptionListInput from '../../../containers/input/OptionListInputContainer';
 
 import Panel from '../../../containers/layout/PanelContainer';
 import Row from '../../../components/layout/Row';
@@ -29,14 +30,18 @@ export default (pluginContext) => {
             <CompoundInput name="otherNumberList">
               <CompoundInput name="otherNumber" tabular repeating>
                 <TextInput name="numberValue" />
-                <TextInput name="numberType" />
+                <OptionListInput name="numberType" optionListName="numberTypes" />
               </CompoundInput>
             </CompoundInput>
             <CompoundInput name="responsibleDepartments">
-              <TextInput name="responsibleDepartment" repeating />
+              <OptionListInput
+                name="responsibleDepartment"
+                optionListName="departments"
+                repeating
+              />
             </CompoundInput>
-            <TextInput name="collection" />
-            <TextInput name="recordStatus" />
+            <OptionListInput name="collection" optionListName="collections" />
+            <OptionListInput name="recordStatus" optionListName="recordStatuses" />
           </div>
           <div>
             <CompoundInput name="briefDescriptions">
@@ -57,10 +62,10 @@ export default (pluginContext) => {
               <Row>
                 <div>
                   <TextInput name="title" />
-                  <TextInput name="titleLanguage" />
+                  <VocabularyControlledInput name="titleLanguage" />
                 </div>
                 <div>
-                  <TextInput name="titleType" />
+                  <OptionListInput name="titleType" optionListName="titleTypes" />
                   <CompoundInput name="titleTranslationSubGroupList">
                     <CompoundInput name="titleTranslationSubGroup" tabular repeating>
                       <TextInput name="titleTranslation" />
@@ -76,11 +81,11 @@ export default (pluginContext) => {
         <CompoundInput name="objectNameList">
           <CompoundInput name="objectNameGroup" tabular repeating>
             <TextInput name="objectName" />
-            <TextInput name="objectNameCurrency" />
-            <TextInput name="objectNameLevel" />
-            <TextInput name="objectNameSystem" />
-            <TextInput name="objectNameType" />
-            <TextInput name="objectNameLanguage" />
+            <OptionListInput name="objectNameCurrency" optionListName="nameCurrencies" />
+            <OptionListInput name="objectNameLevel" optionListName="nameLevels" />
+            <OptionListInput name="objectNameSystem" optionListName="nameSystems" />
+            <OptionListInput name="objectNameType" optionListName="nameTypes" />
+            <VocabularyControlledInput name="objectNameLanguage" />
             <TextInput name="objectNameNote" />
           </CompoundInput>
         </CompoundInput>
@@ -92,14 +97,14 @@ export default (pluginContext) => {
             <TextInput name="copyNumber" />
 
             <CompoundInput name="objectStatusList">
-              <StaticControlledInput name="objectStatus" repeating />
+              <OptionListInput name="objectStatus" optionListName="objectStatuses" repeating />
             </CompoundInput>
 
-            <StaticControlledInput name="sex" />
-            <StaticControlledInput name="phase" />
+            <OptionListInput name="sex" optionListName="sexes" />
+            <OptionListInput name="phase" optionListName="phases" />
 
             <CompoundInput name="forms">
-              <StaticControlledInput name="form" repeating />
+              <OptionListInput name="form" optionListName="forms" repeating />
             </CompoundInput>
           </div>
 
@@ -109,7 +114,7 @@ export default (pluginContext) => {
             <CompoundInput tabular msgkey="ageGroup">
               <TextInput name="age" />
               <VocabularyControlledInput name="ageQualifier" />
-              <StaticControlledInput name="ageUnit" />
+              <OptionListInput name="ageUnit" optionListName="ageUnits" />
             </CompoundInput>
 
             <CompoundInput name="styles">
@@ -138,7 +143,7 @@ export default (pluginContext) => {
           <div>
             <CompoundInput name="objectComponentGroupList">
               <CompoundInput name="objectComponentGroup" tabular repeating>
-                <StaticControlledInput name="objectComponentName" />
+                <OptionListInput name="objectComponentName" optionListName="objectComponentNames" />
                 <TextInput name="objectComponentInformation" />
               </CompoundInput>
             </CompoundInput>
@@ -147,9 +152,18 @@ export default (pluginContext) => {
           <div>
             <CompoundInput name="technicalAttributeGroupList">
               <CompoundInput name="technicalAttributeGroup" tabular repeating>
-                <StaticControlledInput name="technicalAttribute" />
-                <StaticControlledInput name="technicalAttributeMeasurement" />
-                <StaticControlledInput name="technicalAttributeMeasurementUnit" />
+                <OptionListInput
+                  name="technicalAttribute"
+                  optionListName="technicalAttributes"
+                />
+                <OptionListInput
+                  name="technicalAttributeMeasurement"
+                  optionListName="technicalAttributeMeasurements"
+                />
+                <OptionListInput
+                  name="technicalAttributeMeasurementUnit"
+                  optionListName="technicalAttributeMeasurementUnits"
+                />
               </CompoundInput>
             </CompoundInput>
           </div>
@@ -160,7 +174,7 @@ export default (pluginContext) => {
             <Panel>
               <Row>
                 <div>
-                  <StaticControlledInput name="measuredPart" />
+                  <OptionListInput name="measuredPart" optionListName="measuredParts" />
                 </div>
 
                 <div>
@@ -170,11 +184,11 @@ export default (pluginContext) => {
 
               <CompoundInput name="dimensionSubGroupList">
                 <CompoundInput name="dimensionSubGroup" tabular repeating>
-                  <StaticControlledInput name="dimension" />
+                  <OptionListInput name="dimension" optionListName="dimensions" />
                   <AuthorityControlledInput name="measuredBy" />
-                  <StaticControlledInput name="measurementMethod" />
+                  <OptionListInput name="measurementMethod" optionListName="measurementMethods" />
                   <TextInput name="value" />
-                  <StaticControlledInput name="measurementUnit" />
+                  <OptionListInput name="measurementUnit" optionListName="measurementUnits" />
                   <TextInput name="valueQualifier" />
                   <DateInput name="valueDate" />
                 </CompoundInput>
@@ -203,13 +217,13 @@ export default (pluginContext) => {
               <StructuredDateInput name="contentDate" />
 
               <CompoundInput name="contentPositions">
-                <StaticControlledInput name="contentPosition" repeating />
+                <OptionListInput name="contentPosition" optionListName="positions" repeating />
               </CompoundInput>
 
               <CompoundInput name="contentObjectGroupList">
                 <CompoundInput name="contentObjectGroup" tabular repeating>
                   <TextInput name="contentObject" />
-                  <StaticControlledInput name="contentObjectType" />
+                  <OptionListInput name="contentObjectType" optionListName="contentObjectTypes" />
                 </CompoundInput>
               </CompoundInput>
             </div>
@@ -228,7 +242,7 @@ export default (pluginContext) => {
               </CompoundInput>
 
               <CompoundInput name="contentScripts">
-                <StaticControlledInput name="contentScript" repeating />
+                <OptionListInput name="contentScript" optionListName="scripts" repeating />
               </CompoundInput>
 
               <CompoundInput name="contentOrganizations">
@@ -268,9 +282,18 @@ export default (pluginContext) => {
                   </div>
 
                   <div>
-                    <StaticControlledInput name="inscriptionContentPosition" />
-                    <StaticControlledInput name="inscriptionContentScript" />
-                    <StaticControlledInput name="inscriptionContentType" />
+                    <OptionListInput
+                      name="inscriptionContentPosition"
+                      optionListName="positions"
+                    />
+                    <OptionListInput
+                      name="inscriptionContentScript"
+                      optionListName="scripts"
+                    />
+                    <OptionListInput
+                      name="inscriptionContentType"
+                      optionListName="inscriptionTypes"
+                    />
                     <TextInput name="inscriptionContentMethod" />
                   </div>
                 </Row>
@@ -296,8 +319,14 @@ export default (pluginContext) => {
                   </div>
 
                   <div>
-                    <StaticControlledInput name="inscriptionDescriptionPosition" />
-                    <StaticControlledInput name="inscriptionDescriptionType" />
+                    <OptionListInput
+                      name="inscriptionDescriptionPosition"
+                      optionListName="positions"
+                    />
+                    <OptionListInput
+                      name="inscriptionDescriptionType"
+                      optionListName="inscriptionTypes"
+                    />
                     <TextInput name="inscriptionDescriptionMethod" />
                   </div>
                 </Row>
@@ -331,7 +360,7 @@ export default (pluginContext) => {
             </CompoundInput>
 
             <CompoundInput name="objectProductionReasons">
-              <TextInput name="objectProductionReason" multiline reapeating />
+              <TextInput name="objectProductionReason" multiline repeating />
             </CompoundInput>
           </div>
 
@@ -491,11 +520,11 @@ export default (pluginContext) => {
           <div>
             <Row>
               <div>
-                <StaticControlledInput name="ownershipAccess" />
+                <OptionListInput name="ownershipAccess" optionListName="ownershipAccessLevels" />
               </div>
 
               <div>
-                <StaticControlledInput name="ownershipCategory" />
+                <OptionListInput name="ownershipCategory" optionListName="ownershipCategories" />
               </div>
             </Row>
 
@@ -504,7 +533,10 @@ export default (pluginContext) => {
         </Row>
 
         <CompoundInput tabular msgkey="ownershipExchangeGroup">
-          <StaticControlledInput name="ownershipExchangeMethod" />
+          <OptionListInput
+            name="ownershipExchangeMethod"
+            optionListName="ownershipExchangeMethods"
+          />
           <TextInput name="ownershipExchangeNote" />
           <VocabularyControlledInput name="ownershipExchangePriceCurrency" />
           <TextInput name="ownershipExchangePriceValue" />

@@ -1,20 +1,22 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
-import prefs, * as fromPrefs from './prefs';
-import user, * as fromUser from './user';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
+import options, * as fromOptions from './options';
+import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
+import user, * as fromUser from './user';
 
 export default combineReducers({
-  routing,
   cspace,
   login,
   logout,
+  options,
   prefs,
-  user,
   record,
+  routing,
+  user,
 });
 
 export function getUserUsername(state) {
@@ -67,4 +69,8 @@ export function isRecordSavePending(state, csid) {
 
 export function isPanelCollapsed(state, recordType, name) {
   return fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
+}
+
+export function getOptions(state, optionListName) {
+  return fromOptions.get(state.options, optionListName);
 }
