@@ -1,8 +1,20 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { defineMessages, injectIntl } from 'react-intl';
 import { DropdownMenuInput } from 'cspace-input';
 import { getOptions } from '../../reducers';
+
+const messages = defineMessages({
+  count: {
+    id: 'optionListInput.count',
+    description: 'Message displayed in the option list dropdown when filtering options.',
+    defaultMessage: `{count, plural,
+        =0 {No matches}
+        one {# match}
+        other {# matches}
+    } found`,
+  },
+});
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -31,14 +43,17 @@ const mapDispatchToProps = () => ({});
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
-    /* eslint-disable no-unused-vars */
     intl,
+    /* eslint-disable no-unused-vars */
     optionListName,
     /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
 
+  const formatFilterMessage = count => intl.formatMessage(messages.count, { count });
+
   return {
+    formatFilterMessage,
     ...remainingOwnProps,
     ...stateProps,
     ...dispatchProps,
