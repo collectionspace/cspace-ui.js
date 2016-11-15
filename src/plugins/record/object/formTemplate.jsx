@@ -5,10 +5,10 @@ import {
   IDGeneratorInput,
   StructuredDateInput,
   TextInput,
-  VocabularyControlledInput,
 } from 'cspace-input';
 
 import OptionControlledInput from '../../../containers/input/OptionControlledInputContainer';
+import VocabularyControlledInput from '../../../containers/input/VocabularyControlledInputContainer';
 
 import Panel from '../../../containers/layout/PanelContainer';
 import Row from '../../../components/layout/Row';
@@ -62,14 +62,14 @@ export default (pluginContext) => {
               <Row>
                 <div>
                   <TextInput name="title" />
-                  <VocabularyControlledInput name="titleLanguage" />
+                  <VocabularyControlledInput name="titleLanguage" vocabularyName="languages" />
                 </div>
                 <div>
                   <OptionControlledInput name="titleType" optionListName="titleTypes" />
                   <CompoundInput name="titleTranslationSubGroupList">
                     <CompoundInput name="titleTranslationSubGroup" tabular repeating>
                       <TextInput name="titleTranslation" />
-                      <TextInput name="titleTranslationLanguage" />
+                      <VocabularyControlledInput name="titleTranslationLanguage" vocabularyName="languages" />
                     </CompoundInput>
                   </CompoundInput>
                 </div>
@@ -85,7 +85,7 @@ export default (pluginContext) => {
             <OptionControlledInput name="objectNameLevel" optionListName="nameLevels" />
             <OptionControlledInput name="objectNameSystem" optionListName="nameSystems" />
             <OptionControlledInput name="objectNameType" optionListName="nameTypes" />
-            <VocabularyControlledInput name="objectNameLanguage" />
+            <VocabularyControlledInput name="objectNameLanguage" vocabularyName="languages" />
             <TextInput name="objectNameNote" />
           </CompoundInput>
         </CompoundInput>
@@ -117,7 +117,7 @@ export default (pluginContext) => {
 
             <CompoundInput tabular msgkey="ageGroup">
               <TextInput name="age" />
-              <VocabularyControlledInput name="ageQualifier" />
+              <VocabularyControlledInput name="ageQualifier" vocabularyName="agequalifier" />
               <OptionControlledInput name="ageUnit" optionListName="ageUnits" />
             </CompoundInput>
 
@@ -213,7 +213,7 @@ export default (pluginContext) => {
           <Row>
             <div>
               <CompoundInput name="contentLanguages">
-                <VocabularyControlledInput name="contentLanguage" repeating />
+                <VocabularyControlledInput name="contentLanguage" vocabularyName="languages" repeating />
               </CompoundInput>
 
               <CompoundInput name="contentActivities">
@@ -294,7 +294,7 @@ export default (pluginContext) => {
                 <Row>
                   <div>
                     <AuthorityControlledInput name="inscriptionContentInscriber" />
-                    <VocabularyControlledInput name="inscriptionContentLanguage" />
+                    <VocabularyControlledInput name="inscriptionContentLanguage" vocabularyName="languages" />
                     <StructuredDateInput name="inscriptionContentDateGroup" />
                   </div>
 
@@ -561,7 +561,7 @@ export default (pluginContext) => {
             optionListName="ownershipExchangeMethods"
           />
           <TextInput name="ownershipExchangeNote" />
-          <VocabularyControlledInput name="ownershipExchangePriceCurrency" />
+          <VocabularyControlledInput name="ownershipExchangePriceCurrency" vocabularyName="currency" />
           <TextInput name="ownershipExchangePriceValue" />
         </CompoundInput>
       </Panel>
@@ -604,7 +604,7 @@ export default (pluginContext) => {
             <StructuredDateInput name="fieldCollectionDate" />
 
             <CompoundInput name="fieldCollectionMethods">
-              <VocabularyControlledInput name="fieldCollectionMethod" repeating />
+              <VocabularyControlledInput name="fieldCollectionMethod" vocabularyName="collectionmethod" repeating />
             </CompoundInput>
 
             <TextInput name="fieldCollectionNote" multiline />

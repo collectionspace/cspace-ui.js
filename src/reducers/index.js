@@ -7,6 +7,7 @@ import options, * as fromOptions from './options';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
 import user, * as fromUser from './user';
+import vocabulary, * as fromVocabulary from './vocabulary';
 
 export default combineReducers({
   cspace,
@@ -17,6 +18,7 @@ export default combineReducers({
   record,
   routing,
   user,
+  vocabulary,
 });
 
 export function getUserUsername(state) {
@@ -73,4 +75,8 @@ export function isPanelCollapsed(state, recordType, name) {
 
 export function getOptions(state, optionListName) {
   return fromOptions.get(state.options, optionListName);
+}
+
+export function getVocabulary(state, vocabularyName) {
+  return fromVocabulary.get(state.vocabulary, vocabularyName);
 }

@@ -19,7 +19,7 @@ import reducer from './reducers';
 import App from './components/App';
 
 import objectRecordPlugin from './plugins/record/object';
-import defaultOptions from './plugins/option/default';
+import defaultOptions from './plugins/options/default';
 
 const loadPolyfills = (locale, callback) => {
   if (window.Intl) {

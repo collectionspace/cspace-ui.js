@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
   options: getOptions(state, ownProps.optionListName),
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = {};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
