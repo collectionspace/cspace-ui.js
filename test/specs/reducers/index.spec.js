@@ -14,6 +14,8 @@ import reducer, {
   isRecordReadPending,
   isRecordSavePending,
   isPanelCollapsed,
+  getOptions,
+  getVocabulary,
 } from '../../../src/reducers';
 
 chai.should();
@@ -30,6 +32,8 @@ describe('reducer', function suite() {
       'prefs',
       'user',
       'record',
+      'options',
+      'vocabulary',
     ]);
   });
 
@@ -190,6 +194,41 @@ describe('reducer', function suite() {
           },
         },
       }, recordType, name).should.equal(true);
+    });
+  });
+
+  describe('getOptions selector', function selectorSuite() {
+    it('should select from the options key', function test() {
+      const sizes = [
+        { value: 'S', label: 'Small' },
+        { value: 'M', label: 'Medium' },
+        { value: 'L', label: 'Large' },
+      ];
+
+      getOptions({
+        options: {
+          sizes,
+        },
+      }, 'sizes').should.deep.equal(sizes);
+    });
+  });
+
+  describe('getVocabulary selector', function selectorSuite() {
+    it('should select from the vocabulary key', function test() {
+      const vocabularyName = 'states';
+
+      const vocabulary = {
+        items: [
+          { displayName: 'California' },
+          { displayName: 'New York' },
+        ],
+      };
+
+      getVocabulary({
+        vocabulary: {
+          [vocabularyName]: vocabulary,
+        },
+      }, vocabularyName).should.deep.equal(vocabulary);
     });
   });
 });

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { intlShape } from 'react-intl';
+import { repeatable } from 'cspace-input';
 import ControlledInput from './ControlledInput';
 import { getDisplayName } from '../../helpers/refNameHelpers';
 
-class VocabularyControlledInput extends Component {
+export class BaseVocabularyControlledInput extends Component {
   componentDidMount() {
     const {
       onMount,
@@ -16,21 +16,21 @@ class VocabularyControlledInput extends Component {
 
   render() {
     const {
-      intl,
       items,
-      onMount,
       value,
+      /* eslint-disable no-unused-vars */
+      onMount,
+      /* eslint-disable no-unused-vars */
       ...remainingProps
     } = this.props;
 
-    const options = items ? items.map(option => ({
-      value: option.refName,
-      label: option.displayName,
+    const options = items ? items.map(item => ({
+      value: item.refName,
+      label: item.displayName,
     })) : [];
 
     return (
       <ControlledInput
-        intl={intl}
         options={options}
         value={value}
         valueLabel={getDisplayName(value)}
@@ -38,14 +38,15 @@ class VocabularyControlledInput extends Component {
       />
     );
   }
-};
+}
 
-VocabularyControlledInput.propTypes = {
+BaseVocabularyControlledInput.propTypes = {
   ...ControlledInput.propTypes,
-  intl: intlShape,
-  isLoading: PropTypes.bool,
-  items: PropTypes.array,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    refName: PropTypes.string,
+    displayName: PropTypes.string,
+  })),
   onMount: PropTypes.func,
 };
 
-export default VocabularyControlledInput;
+export default repeatable(BaseVocabularyControlledInput);

@@ -25,15 +25,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-const ConnectedInput = injectIntl(connect(
+export const ConnectedOptionControlledInput = connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps
-)(OptionControlledInput));
+)(OptionControlledInput);
 
-ConnectedInput.propTypes = {
+const IntlAwareConnectedOptionControlledInput = injectIntl(ConnectedOptionControlledInput);
+
+IntlAwareConnectedOptionControlledInput.propTypes = {
   ...OptionControlledInput.propTypes,
   optionListName: PropTypes.string,
 };
 
-export default ConnectedInput;
+export default IntlAwareConnectedOptionControlledInput;

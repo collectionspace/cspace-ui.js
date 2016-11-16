@@ -10,13 +10,13 @@ const mapStateToProps = (state, ownProps) => {
   const {
     vocabularyName,
   } = ownProps;
-  
+
   const vocabulary = getVocabulary(state, vocabularyName);
 
   return {
-    isLoading: vocabulary ? vocabulary.isLoading : true,
+    isLoading: vocabulary ? vocabulary.isReadPending : true,
     items: vocabulary ? vocabulary.items : null,
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -33,9 +33,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       onMount: () => {
         dispatch(readVocabularyItems(vocabularyName));
       },
-    }
+    };
   }
-  
+
   return {};
 };
 
@@ -55,15 +55,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-const ConnectedInput = injectIntl(connect(
+export const ConnectedVocabularyControlledInput = connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps
-)(VocabularyControlledInput));
+)(VocabularyControlledInput);
 
-ConnectedInput.propTypes = {
+const IntlAwareConnectedVocabularyControlledInput = injectIntl(ConnectedVocabularyControlledInput);
+
+IntlAwareConnectedVocabularyControlledInput.propTypes = {
   ...VocabularyControlledInput.propTypes,
   vocabularyName: PropTypes.string.isRequired,
 };
 
-export default ConnectedInput;
+export default IntlAwareConnectedVocabularyControlledInput;

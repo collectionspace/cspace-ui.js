@@ -69,7 +69,10 @@ export default (pluginContext) => {
                   <CompoundInput name="titleTranslationSubGroupList">
                     <CompoundInput name="titleTranslationSubGroup" tabular repeating>
                       <TextInput name="titleTranslation" />
-                      <VocabularyControlledInput name="titleTranslationLanguage" vocabularyName="languages" />
+                      <VocabularyControlledInput
+                        name="titleTranslationLanguage"
+                        vocabularyName="languages"
+                      />
                     </CompoundInput>
                   </CompoundInput>
                 </div>
@@ -213,7 +216,11 @@ export default (pluginContext) => {
           <Row>
             <div>
               <CompoundInput name="contentLanguages">
-                <VocabularyControlledInput name="contentLanguage" vocabularyName="languages" repeating />
+                <VocabularyControlledInput
+                  name="contentLanguage"
+                  vocabularyName="languages"
+                  repeating
+                />
               </CompoundInput>
 
               <CompoundInput name="contentActivities">
@@ -294,7 +301,10 @@ export default (pluginContext) => {
                 <Row>
                   <div>
                     <AuthorityControlledInput name="inscriptionContentInscriber" />
-                    <VocabularyControlledInput name="inscriptionContentLanguage" vocabularyName="languages" />
+                    <VocabularyControlledInput
+                      name="inscriptionContentLanguage"
+                      vocabularyName="languages"
+                    />
                     <StructuredDateInput name="inscriptionContentDateGroup" />
                   </div>
 
@@ -561,7 +571,10 @@ export default (pluginContext) => {
             optionListName="ownershipExchangeMethods"
           />
           <TextInput name="ownershipExchangeNote" />
-          <VocabularyControlledInput name="ownershipExchangePriceCurrency" vocabularyName="currency" />
+          <VocabularyControlledInput
+            name="ownershipExchangePriceCurrency"
+            vocabularyName="currency"
+          />
           <TextInput name="ownershipExchangePriceValue" />
         </CompoundInput>
       </Panel>
@@ -604,7 +617,11 @@ export default (pluginContext) => {
             <StructuredDateInput name="fieldCollectionDate" />
 
             <CompoundInput name="fieldCollectionMethods">
-              <VocabularyControlledInput name="fieldCollectionMethod" vocabularyName="collectionmethod" repeating />
+              <VocabularyControlledInput
+                name="fieldCollectionMethod"
+                vocabularyName="collectionmethod"
+                repeating
+              />
             </CompoundInput>
 
             <TextInput name="fieldCollectionNote" multiline />
