@@ -1,6 +1,8 @@
 import React from 'react';
 import { defineMessages, intlShape } from 'react-intl';
-import { DropdownMenuInput } from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
+
+const { DropdownMenuInput } = inputComponents;
 
 const messages = defineMessages({
   count: {

@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Button } from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/RecordButtonBar.css';
+
+const { Button } = inputComponents;
 
 const messages = defineMessages({
   save: {

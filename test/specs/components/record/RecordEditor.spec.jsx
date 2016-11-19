@@ -5,11 +5,7 @@ import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-
-import {
-  CompoundInput,
-  TextInput,
-} from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
@@ -18,6 +14,11 @@ import RecordPluginProvider from '../../../../src/components/record/RecordPlugin
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 
 chai.should();
+
+const {
+  CompoundInput,
+  TextInput,
+} = inputComponents;
 
 const expectedClassName = 'cspace-ui-RecordEditor--common';
 const mockStore = configureMockStore();

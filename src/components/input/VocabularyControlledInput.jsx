@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { repeatable } from 'cspace-input';
+import { enhancers as inputEnhancers } from 'cspace-input';
 import ControlledInput from './ControlledInput';
 import { getDisplayName } from '../../helpers/refNameHelpers';
+
+const { repeatable } = inputEnhancers;
 
 export class BaseVocabularyControlledInput extends Component {
   componentDidMount() {

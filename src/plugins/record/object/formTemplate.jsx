@@ -1,11 +1,4 @@
-import {
-  AuthorityControlledInput,
-  CompoundInput,
-  DateInput,
-  IDGeneratorInput,
-  StructuredDateInput,
-  TextInput,
-} from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
 
 import OptionControlledInput from '../../../containers/input/OptionControlledInputContainer';
 import VocabularyControlledInput from '../../../containers/input/VocabularyControlledInputContainer';
@@ -14,6 +7,15 @@ import Panel from '../../../containers/layout/PanelContainer';
 import Row from '../../../components/layout/Row';
 
 import { getPartPropertyName } from '../../../helpers/recordDataHelpers';
+
+const {
+  AuthorityControlledInput,
+  CompoundInput,
+  DateInput,
+  IDGeneratorInput,
+  StructuredDateInput,
+  TextInput,
+} = inputComponents;
 
 export default (pluginContext) => {
   const {

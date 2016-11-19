@@ -1,8 +1,10 @@
 import React from 'react';
-import { CompoundInput } from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
 import formTemplate from '../../../../../src/plugins/record/object/formTemplate';
 
 chai.should();
+
+const { CompoundInput } = inputComponents;
 
 describe('formTemplate', function suite() {
   it('should be a CompoundInput with defaultChildSubpath prop', function test() {

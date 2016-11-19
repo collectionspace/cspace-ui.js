@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
-import { Label } from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
+
+const { Label } = inputComponents;
 
 function getMessage(Wrapper, component, messageDescriptors) {
   const {

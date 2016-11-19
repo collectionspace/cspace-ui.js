@@ -1,9 +1,11 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import { DropdownMenuInput } from 'cspace-input';
+import { components as inputComponents } from 'cspace-input';
 import ControlledInput from '../../../../src/components/input/ControlledInput';
 
 chai.should();
+
+const { DropdownMenuInput } = inputComponents;
 
 describe('ControlledInput', function suite() {
   it('should render as a DropdownMenuInput', function test() {
