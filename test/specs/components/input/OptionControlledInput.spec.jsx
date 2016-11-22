@@ -1,12 +1,12 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import ControlledInput from '../../../../src/components/input/ControlledInput';
+import PrefixFilteringControlledInput from '../../../../src/components/input/PrefixFilteringControlledInput';
 import OptionControlledInput from '../../../../src/components/input/OptionControlledInput';
 
 chai.should();
 
 describe('OptionControlledInput', function suite() {
-  it('should render as a ControlledInput', function test() {
+  it('should render as a PrefixFilteringControlledInput', function test() {
     const shallowRenderer = createRenderer();
 
     const intl = {
@@ -24,7 +24,7 @@ describe('OptionControlledInput', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(ControlledInput);
+    result.type.should.equal(PrefixFilteringControlledInput);
   });
 
   it('should label the options and pass them to the base component', function test() {

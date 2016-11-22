@@ -1,4 +1,4 @@
-import messageDescriptors from '../../../../../src/plugins/record/object/messageDescriptors';
+import messageDescriptors from '../../../../../src/plugins/recordTypes/object/messageDescriptors';
 
 chai.should();
 

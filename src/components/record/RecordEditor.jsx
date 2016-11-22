@@ -85,7 +85,7 @@ export default class RecordEditor extends Component {
     const recordPlugin = recordPlugins[recordType];
 
     const {
-      formTemplate,
+      forms,
       messageDescriptors,
     } = recordPlugin;
 
@@ -95,6 +95,8 @@ export default class RecordEditor extends Component {
       onMoveInstance,
       onRemoveInstance,
     };
+
+    const formTemplate = forms.default;
 
     const formContent = React.cloneElement(formTemplate, {
       name: DOCUMENT_PROPERTY_NAME,

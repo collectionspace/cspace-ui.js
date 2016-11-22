@@ -1,4 +1,4 @@
-import serviceConfig from '../../../../../src/plugins/record/object/serviceConfig';
+import serviceConfig from '../../../../../src/plugins/recordTypes/object/serviceConfig';
 
 chai.should();
 

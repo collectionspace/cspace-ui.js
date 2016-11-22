@@ -7,21 +7,20 @@ chai.should();
 
 describe('options action creator', function suite() {
   describe('addOptions', function actionSuite() {
-    it('should create a ADD_OPTIONS action', function test() {
+    it('should create an ADD_OPTIONS action', function test() {
       const options = {
-        states: [
-          'CA',
-          'CT',
-          'MA',
-          'NY',
-        ],
-      };
-
-      const messageDescriptors = {
         states: {
-          CA: { defaultMessage: 'California' },
-          MA: { defaultMessage: 'Massachusetts' },
-          NY: { defaultMessage: 'New York' },
+          values: [
+            'CA',
+            'CT',
+            'MA',
+            'NY',
+          ],
+          messageDescriptors: {
+            CA: { defaultMessage: 'California' },
+            MA: { defaultMessage: 'Massachusetts' },
+            NY: { defaultMessage: 'New York' },
+          },
         },
       };
 
@@ -45,7 +44,7 @@ describe('options action creator', function suite() {
         ],
       };
 
-      addOptions(options, messageDescriptors).should.deep.equal({
+      addOptions(options).should.deep.equal({
         type: ADD_OPTIONS,
         payload: mergedOptions,
       });

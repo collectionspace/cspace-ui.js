@@ -53,7 +53,7 @@ describe('VocabularyControlledInputContainer', function suite() {
 
     result.type.should.equal(VocabularyControlledInput);
     result.props.should.have.property('items', vocabulary.items);
-    result.props.should.have.property('isLoading', vocabulary.isReadPending);
+    // result.props.should.have.property('isLoading', vocabulary.isReadPending);
     result.props.should.have.property('onMount').that.is.a('function');
 
     // The call to onMount will fail because we haven't stubbed out everything it needs,

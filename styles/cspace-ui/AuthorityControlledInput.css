@@ -1,0 +1,7 @@
+.normal input, .normal textarea {
+  background-image: url(../../images/autocomplete.svg);
+}
+
+.searching input, .searching textarea {
+  background-image: url(../../images/autocompleteSearching.svg);
+}

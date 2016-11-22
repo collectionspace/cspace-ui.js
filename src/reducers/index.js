@@ -4,6 +4,7 @@ import cspace from './cspace';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
 import options, * as fromOptions from './options';
+import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
 import user, * as fromUser from './user';
@@ -14,6 +15,7 @@ export default combineReducers({
   login,
   logout,
   options,
+  partialTermSearch,
   prefs,
   record,
   routing,
@@ -79,4 +81,8 @@ export function getOptions(state, optionListName) {
 
 export function getVocabulary(state, vocabularyName) {
   return fromVocabulary.get(state.vocabulary, vocabularyName);
+}
+
+export function getPartialTermSearchMatches(state) {
+  return fromPartialTermSearch.getMatches(state.partialTermSearch);
 }

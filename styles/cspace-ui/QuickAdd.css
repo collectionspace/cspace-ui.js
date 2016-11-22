@@ -1,0 +1,35 @@
+.normal > div {
+  font-size: 12px;
+  /* Italic lean makes padding on the right appear smaller */
+  padding: 4px 4px 2px 4px;
+  box-sizing: border-box;
+}
+
+.normal > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.normal button {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(70, 70, 70);
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid white;
+  padding: 0 18px;
+  white-space: nowrap;
+  text-align: left;
+  background: white url(../../images/addTerm.svg) no-repeat 2px center;
+  background-size: 14px 14px;
+}
+
+.normal button:hover, .normal button:focus {
+  background-color: #4A7F28;
+  background-image: url(../../images/addTermActive.svg);
+  color: white;
+}

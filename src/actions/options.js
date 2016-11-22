@@ -1,19 +1,21 @@
 export const ADD_OPTIONS = 'ADD_OPTIONS';
 
-export const addOptions = (options, messageDescriptors) => {
+export const addOptions = (optionLists) => {
   const mergedOptions = {};
 
-  Object.keys(options).forEach((optionListName) => {
-    const values = options[optionListName];
-    const descriptors = messageDescriptors[optionListName];
+  Object.keys(optionLists).forEach((optionListName) => {
+    const {
+      values,
+      messageDescriptors,
+    } = optionLists[optionListName];
 
     mergedOptions[optionListName] = values.map((value) => {
       const merged = {
         value,
       };
 
-      if (descriptors && descriptors[value]) {
-        merged.messageDescriptor = descriptors[value];
+      if (messageDescriptors && messageDescriptors[value]) {
+        merged.messageDescriptor = messageDescriptors[value];
       }
 
       return merged;

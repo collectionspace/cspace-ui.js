@@ -1,6 +1,6 @@
 import React from 'react';
 import { components as inputComponents } from 'cspace-input';
-import formTemplate from '../../../../../src/plugins/record/object/formTemplate';
+import formTemplate from '../../../../../src/plugins/recordTypes/object/formTemplate';
 
 chai.should();
 

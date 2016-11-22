@@ -30,7 +30,9 @@ const params = {
 const recordPlugins = {
   [recordType]: {
     serviceConfig,
-    formTemplate: <div />,
+    forms: {
+      default: <div />,
+    },
     messageDescriptors: {
       recordNameTitle: {
         id: 'recordNameTitle',
