@@ -29,7 +29,11 @@
 }
 
 .normal button:hover, .normal button:focus {
-  background-color: #4A7F28;
-  background-image: url(../../images/addTermActive.svg);
-  color: white;
+  background-color: #C3E2AF;
+}
+
+.normal button:focus {
+  background-color: #BBE2A1;
+  outline-offset: -1px;
+  outline: 1px dotted black;
 }
