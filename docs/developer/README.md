@@ -8,6 +8,5 @@ This documentation is intended for developers who want to modify cspace-ui sourc
 - [Architectural Overview](ArchitecturalOverview.md)
 - [File Directory](FileDirectory.md)
 - [Plugin Guide](PluginGuide)
-  - [Record Type Plugins](PluginGuide/RecordTypePlugins.md)
 - [Cookbook](Cookbook)
   - [Adding support for a new record type](Cookbook/NewRecordType.md)
