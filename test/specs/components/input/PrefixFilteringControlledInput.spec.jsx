@@ -1,14 +1,11 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import { components as inputComponents } from 'cspace-input';
-import ControlledInput from '../../../../src/components/input/ControlledInput';
+import PrefixFilteringControlledInput from '../../../../src/components/input/PrefixFilteringControlledInput';
 
 chai.should();
 
-const { DropdownMenuInput } = inputComponents;
-
-describe('ControlledInput', function suite() {
-  it('should render as a DropdownMenuInput', function test() {
+describe('PrefixFilteringControlledInput', function suite() {
+  it('should render as a PrefixFilteringDropdownMenuInput', function test() {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -24,14 +21,14 @@ describe('ControlledInput', function suite() {
       },
     };
 
-    shallowRenderer.render(<ControlledInput />, context);
+    shallowRenderer.render(<PrefixFilteringControlledInput />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(DropdownMenuInput);
+    result.type.displayName.should.contain('PrefixFilteringDropdownMenuInput');
   });
 
-  it('should set the formatFilterMessage prop', function test() {
+  it('should set the formatStatusMessage prop', function test() {
     const shallowRenderer = createRenderer();
 
     let formatMessageCalled = false;
@@ -49,13 +46,13 @@ describe('ControlledInput', function suite() {
       now: () => null,
     };
 
-    shallowRenderer.render(<ControlledInput intl={intl} />, context);
+    shallowRenderer.render(<PrefixFilteringControlledInput intl={intl} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.formatFilterMessage.should.be.a('function');
+    result.props.formatStatusMessage.should.be.a('function');
 
-    result.props.formatFilterMessage();
+    result.props.formatStatusMessage();
 
     formatMessageCalled.should.equal(true);
   });

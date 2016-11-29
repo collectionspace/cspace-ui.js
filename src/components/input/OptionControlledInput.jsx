@@ -1,8 +1,23 @@
 import React, { PropTypes } from 'react';
 import { intlShape } from 'react-intl';
-import ControlledInput from './ControlledInput';
+import PrefixFilteringControlledInput from './PrefixFilteringControlledInput';
 
-const OptionControlledInput = (props) => {
+const propTypes = {
+  ...PrefixFilteringControlledInput.propTypes,
+  intl: intlShape,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    messageDescriptor: PropTypes.shape({
+      id: PropTypes.string,
+      defaultMessage: PropTypes.string,
+    }),
+  })),
+};
+
+const defaultProps = {
+  options: [],
+};
+
+export default function OptionControlledInput(props) {
   const {
     intl,
     options,
@@ -20,23 +35,13 @@ const OptionControlledInput = (props) => {
   });
 
   return (
-    <ControlledInput
+    <PrefixFilteringControlledInput
+      {...remainingProps}
       intl={intl}
       options={labeledOptions}
-      {...remainingProps}
     />
   );
-};
+}
 
-OptionControlledInput.propTypes = {
-  ...ControlledInput.propTypes,
-  intl: intlShape,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    messageDescriptor: PropTypes.shape({
-      id: PropTypes.string,
-      defaultMessage: PropTypes.string,
-    }),
-  })),
-};
-
-export default OptionControlledInput;
+OptionControlledInput.propTypes = propTypes;
+OptionControlledInput.defaultProps = defaultProps;

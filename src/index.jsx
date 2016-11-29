@@ -8,8 +8,6 @@ import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import Immutable from 'immutable';
-import defaultsDeep from 'lodash/defaultsDeep';
-import merge from 'lodash/merge';
 import script from 'scriptjs';
 import warning from 'warning';
 
@@ -18,8 +16,14 @@ import { addOptions } from './actions/options';
 import reducer from './reducers';
 import App from './components/App';
 
-import objectRecordPlugin from './plugins/record/object';
-import defaultOptions from './plugins/options/default';
+import citationRecordType from './plugins/recordTypes/citation';
+import conceptRecordType from './plugins/recordTypes/concept';
+import objectRecordType from './plugins/recordTypes/object';
+import personRecordType from './plugins/recordTypes/person';
+import placeRecordType from './plugins/recordTypes/place';
+import organizationRecordType from './plugins/recordTypes/organization';
+
+import { initConfig, mergeConfig } from './helpers/configHelpers';
 
 const loadPolyfills = (locale, callback) => {
   if (window.Intl) {
@@ -31,45 +35,12 @@ const loadPolyfills = (locale, callback) => {
   }
 };
 
-const preparePlugins = (plugins, store) => {
-  const dispatchAddOptions = (options, messageDescriptors) => {
-    store.dispatch(addOptions(options, messageDescriptors));
-  };
-
-  const preparedPlugins = {};
-
-  const pluginContext = {
-    Immutable,
-    React,
-    addOptions: dispatchAddOptions,
-  };
-
-  Object.keys(plugins).forEach((type) => {
-    const pluginsForType = plugins[type];
-    const preparedPluginsForType = {};
-
-    Object.keys(pluginsForType).forEach((name) => {
-      const plugin = pluginsForType[name];
-      const preparedPlugin = plugin(pluginContext);
-
-      preparedPluginsForType[name] = preparedPlugin;
-    });
-
-    preparedPlugins[type] = preparedPluginsForType;
-  });
-
-  return preparedPlugins;
+const pluginContext = {
+  Immutable,
+  React,
 };
 
-const defaultRecordPlugins = {
-  object: objectRecordPlugin(),
-};
-
-const defaultOptionPlugins = {
-  default: defaultOptions(),
-};
-
-const defaultConfig = {
+const defaultConfig = initConfig({
   basename: '',
   container: 'main',
   cspaceUrl: '',
@@ -77,19 +48,15 @@ const defaultConfig = {
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
-  plugins: {
-    record: defaultRecordPlugins,
-    option: defaultOptionPlugins,
-  },
-};
-
-const resolveConfig = (uiConfig) => {
-  if (typeof uiConfig === 'function') {
-    return uiConfig(merge({}, defaultConfig));
-  }
-
-  return defaultsDeep({}, uiConfig, defaultConfig);
-};
+  plugins: [
+    citationRecordType(),
+    conceptRecordType(),
+    objectRecordType(),
+    personRecordType(),
+    placeRecordType(),
+    organizationRecordType(),
+  ],
+}, pluginContext);
 
 module.exports = (uiConfig) => {
   const {
@@ -99,9 +66,10 @@ module.exports = (uiConfig) => {
     index,
     locale,
     messages,
+    optionLists,
     prettyUrls,
-    plugins,
-  } = resolveConfig(uiConfig);
+    recordTypes,
+  } = mergeConfig(defaultConfig, uiConfig, pluginContext);
 
   const mountNode = document.querySelector(container);
 
@@ -120,13 +88,15 @@ module.exports = (uiConfig) => {
       url: cspaceUrl,
     }));
 
+    store.dispatch(addOptions(optionLists));
+
     const props = {
       history,
       index,
       locale,
       messages,
+      recordTypes,
       store,
-      plugins: preparePlugins(plugins, store),
     };
 
     loadPolyfills(locale, () => {

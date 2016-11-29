@@ -4,20 +4,33 @@ import { Provider as StoreProvider } from 'react-redux';
 import RecordPluginProvider from './record/RecordPluginProvider';
 import RouterContainer from '../containers/RouterContainer';
 
+const propTypes = {
+  store: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  index: PropTypes.string,
+  locale: PropTypes.string,
+  messages: PropTypes.object,
+  recordTypes: PropTypes.object,
+};
+
+const defaultProps = {
+  locale: 'en',
+};
+
 export default function App(props) {
   const {
     history,
     index,
     locale,
     messages,
-    plugins,
+    recordTypes,
     store,
   } = props;
 
   return (
     <IntlProvider locale={locale} messages={messages}>
       <StoreProvider store={store}>
-        <RecordPluginProvider recordPlugins={plugins.record}>
+        <RecordPluginProvider recordPlugins={recordTypes}>
           <RouterContainer
             history={history}
             index={index}
@@ -28,15 +41,5 @@ export default function App(props) {
   );
 }
 
-App.propTypes = {
-  store: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  index: PropTypes.string,
-  locale: PropTypes.string,
-  messages: PropTypes.object,
-  plugins: PropTypes.object,
-};
-
-App.defaultProps = {
-  locale: 'en',
-};
+App.propTypes = propTypes;
+App.defaultProps = defaultProps;

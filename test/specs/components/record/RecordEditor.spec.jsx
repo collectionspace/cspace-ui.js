@@ -28,16 +28,18 @@ const store = mockStore({
 
 const recordPlugins = {
   object: {
-    formTemplate: (
-      <CompoundInput>
-        <Panel name="idPanel">
-          <TextInput name="objectNumber" />
-          <TextInput name="desc" msgkey="foo" />
-          <TextInput name="color" label="Color" />
-          <TextInput name="bar" />
-        </Panel>
-      </CompoundInput>
-    ),
+    forms: {
+      default: (
+        <CompoundInput>
+          <Panel name="idPanel">
+            <TextInput name="objectNumber" />
+            <TextInput name="desc" msgkey="foo" />
+            <TextInput name="color" label="Color" />
+            <TextInput name="bar" />
+          </Panel>
+        </CompoundInput>
+      ),
+    },
     messageDescriptors: {
       recordNameTitle: {
         id: 'recordNameTitle',

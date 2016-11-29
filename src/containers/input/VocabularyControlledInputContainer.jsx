@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
   const vocabulary = getVocabulary(state, vocabularyName);
 
   return {
-    isLoading: vocabulary ? vocabulary.isReadPending : true,
+    // isLoading: vocabulary ? vocabulary.isReadPending : true,
     items: vocabulary ? vocabulary.items : null,
   };
 };

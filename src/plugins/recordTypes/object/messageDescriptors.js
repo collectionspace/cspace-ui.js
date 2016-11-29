@@ -7,7 +7,7 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   recordNameTitle: {
-    id: 'recordNameTitle',
+    id: 'record.object.nameTitle',
     description: 'The name of the record when used as a title.',
     defaultMessage: 'Object',
   },

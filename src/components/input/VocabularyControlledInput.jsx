@@ -1,11 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { enhancers as inputEnhancers } from 'cspace-input';
-import ControlledInput from './ControlledInput';
+import PrefixFilteringControlledInput from './PrefixFilteringControlledInput';
 import { getDisplayName } from '../../helpers/refNameHelpers';
 
-const { repeatable } = inputEnhancers;
+const propTypes = {
+  ...PrefixFilteringControlledInput.propTypes,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    refName: PropTypes.string,
+    displayName: PropTypes.string,
+  })),
+  onMount: PropTypes.func,
+};
 
-export class BaseVocabularyControlledInput extends Component {
+export default class VocabularyControlledInput extends Component {
   componentDidMount() {
     const {
       onMount,
@@ -32,7 +38,7 @@ export class BaseVocabularyControlledInput extends Component {
     })) : [];
 
     return (
-      <ControlledInput
+      <PrefixFilteringControlledInput
         options={options}
         value={value}
         valueLabel={getDisplayName(value)}
@@ -42,13 +48,4 @@ export class BaseVocabularyControlledInput extends Component {
   }
 }
 
-BaseVocabularyControlledInput.propTypes = {
-  ...ControlledInput.propTypes,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    refName: PropTypes.string,
-    displayName: PropTypes.string,
-  })),
-  onMount: PropTypes.func,
-};
-
-export default repeatable(BaseVocabularyControlledInput);
+VocabularyControlledInput.propTypes = propTypes;

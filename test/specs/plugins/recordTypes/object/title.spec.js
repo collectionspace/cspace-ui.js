@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import configureTitle from '../../../../../src/plugins/record/object/title';
+import configureTitle from '../../../../../src/plugins/recordTypes/object/title';
 
 chai.should();
 

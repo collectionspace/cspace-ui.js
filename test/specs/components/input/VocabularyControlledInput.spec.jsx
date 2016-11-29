@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-addons-test-utils';
-import ControlledInput from '../../../../src/components/input/ControlledInput';
-import { BaseVocabularyControlledInput as VocabularyControlledInput } from '../../../../src/components/input/VocabularyControlledInput';
+import PrefixFilteringControlledInput from '../../../../src/components/input/PrefixFilteringControlledInput';
+import VocabularyControlledInput from '../../../../src/components/input/VocabularyControlledInput';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
@@ -13,14 +13,14 @@ describe('VocabularyControlledInput', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a ControlledInput', function test() {
+  it('should render as a PrefixFilteringControlledInput', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<VocabularyControlledInput items={[]} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(ControlledInput);
+    result.type.should.equal(PrefixFilteringControlledInput);
   });
 
   it('should turn the items into options and pass them to the base component', function test() {

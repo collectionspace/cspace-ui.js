@@ -29,6 +29,7 @@ describe('reducer', function suite() {
       'cspace',
       'login',
       'logout',
+      'partialTermSearch',
       'prefs',
       'user',
       'record',

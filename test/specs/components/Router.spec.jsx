@@ -35,7 +35,9 @@ const store = mockStore({
 
 const recordPlugins = {
   object: {
-    formTemplate: <div />,
+    forms: {
+      default: <div />,
+    },
     messageDescriptors: {
       recordNameTitle: {
         id: 'recordNameTitle',
