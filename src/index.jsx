@@ -23,7 +23,7 @@ import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
 import organizationRecordType from './plugins/recordTypes/organization';
 
-import { initConfig, mergeConfig } from './helpers/configHelpers';
+import { mergeConfig } from './helpers/configHelpers';
 
 const loadPolyfills = (locale, callback) => {
   if (window.Intl) {
