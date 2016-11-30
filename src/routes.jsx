@@ -13,12 +13,15 @@ import LoginPageContainer from './containers/pages/LoginPageContainer';
 import LogoutPageContainer from './containers/pages/LogoutPageContainer';
 import ProtectedPageContainer from './containers/pages/ProtectedPageContainer';
 
+import withClassName from './enhancers/withClassName';
+
 export default (
+  className = '',
   index = '/dashboard',
   onEnterRecord,
   onEnterProtected
 ) => (
-  <Route path="/" component={RootPage}>
+  <Route path="/" component={withClassName(RootPage, className)}>
     <IndexRedirect to={index} />
 
     <Route component={PublicPage}>

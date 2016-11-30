@@ -42,6 +42,7 @@ const pluginContext = {
 
 const defaultConfig = initConfig({
   basename: '',
+  className: '',
   container: 'main',
   cspaceUrl: '',
   index: undefined,
@@ -61,6 +62,7 @@ const defaultConfig = initConfig({
 module.exports = (uiConfig) => {
   const {
     basename,
+    className,
     container,
     cspaceUrl,
     index,
@@ -91,6 +93,7 @@ module.exports = (uiConfig) => {
     store.dispatch(addOptions(optionLists));
 
     const props = {
+      className,
       history,
       index,
       locale,

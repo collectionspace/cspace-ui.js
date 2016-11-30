@@ -7,6 +7,7 @@ import RouterContainer from '../containers/RouterContainer';
 const propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  className: PropTypes.string,
   index: PropTypes.string,
   locale: PropTypes.string,
   messages: PropTypes.object,
@@ -19,6 +20,7 @@ const defaultProps = {
 
 export default function App(props) {
   const {
+    className,
     history,
     index,
     locale,
@@ -32,6 +34,7 @@ export default function App(props) {
       <StoreProvider store={store}>
         <RecordPluginProvider recordPlugins={recordTypes}>
           <RouterContainer
+            className={className}
             history={history}
             index={index}
           />

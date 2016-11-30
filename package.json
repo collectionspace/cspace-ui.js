@@ -44,6 +44,7 @@
     "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=integration"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "cspace-client": ">=0.0.1",
     "cspace-input": ">=0.1.1",
     "history": "^2.1.2",

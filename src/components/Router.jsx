@@ -2,11 +2,26 @@ import React, { Component, PropTypes } from 'react';
 import { Router as ReactRouter } from 'react-router';
 import routes from '../routes';
 
+const propTypes = {
+  createNewRecord: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  readRecord: PropTypes.func.isRequired,
+  redirectLogin: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  index: PropTypes.string,
+  username: PropTypes.string,
+};
+
+const contextTypes = {
+  recordPlugins: PropTypes.object,
+};
+
 export default class Router extends Component {
   constructor(props) {
     super(props);
 
     this.routes = routes(
+      props.className,
       props.index,
       this.onEnterRecord.bind(this),
       this.onEnterProtected.bind(this)
@@ -67,15 +82,5 @@ export default class Router extends Component {
   }
 }
 
-Router.propTypes = {
-  createNewRecord: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  readRecord: PropTypes.func.isRequired,
-  redirectLogin: PropTypes.func.isRequired,
-  index: PropTypes.string,
-  username: PropTypes.string,
-};
-
-Router.contextTypes = {
-  recordPlugins: PropTypes.object,
-};
+Router.propTypes = propTypes;
+Router.contextTypes = contextTypes;
