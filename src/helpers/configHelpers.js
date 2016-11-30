@@ -38,7 +38,7 @@ export const applyPlugins = (targetConfig, plugins, pluginContext) => {
 };
 
 export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
-  const pluginsAppliedConfig = ('plugins' in sourceConfig)
+  const pluginsAppliedConfig = (sourceConfig && ('plugins' in sourceConfig))
     ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
     : targetConfig;
 
