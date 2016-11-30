@@ -40,7 +40,7 @@ const pluginContext = {
   React,
 };
 
-const defaultConfig = initConfig({
+const defaultConfig = mergeConfig({
   basename: '',
   className: '',
   container: 'main',
@@ -49,6 +49,7 @@ const defaultConfig = initConfig({
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
+}, {
   plugins: [
     citationRecordType(),
     conceptRecordType(),
