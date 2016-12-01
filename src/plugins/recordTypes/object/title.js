@@ -1,13 +1,15 @@
-import { getPart } from '../../../helpers/recordDataHelpers';
-
 export default pluginContext => (cspaceDocument) => {
+  const {
+    Immutable,
+  } = pluginContext.lib;
+  
+  const {
+    getPart,
+  } = pluginContext.recordDataHelpers;
+
   if (!cspaceDocument) {
     return '';
   }
-
-  const {
-    Immutable,
-  } = pluginContext;
 
   const common = getPart(cspaceDocument, 'collectionobjects_common');
 

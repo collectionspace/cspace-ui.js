@@ -1,4 +1,4 @@
-import formTemplate from './formTemplate';
+import defaultForm from './forms/default';
 import messageDescriptors from './messageDescriptors';
 import serviceConfig from './serviceConfig';
 import title from './title';
@@ -11,7 +11,7 @@ export default () => pluginContext => ({
       messageDescriptors,
       serviceConfig,
       forms: {
-        default: formTemplate(pluginContext),
+        default: defaultForm(pluginContext),
       },
       title: title(pluginContext),
     },
