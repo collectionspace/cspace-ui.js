@@ -16,6 +16,7 @@ import { addOptions } from './actions/options';
 import reducer from './reducers';
 import App from './components/App';
 
+import sharedOptionLists from './plugins/optionLists/shared';
 import citationRecordType from './plugins/recordTypes/citation';
 import conceptRecordType from './plugins/recordTypes/concept';
 import objectRecordType from './plugins/recordTypes/object';
@@ -51,6 +52,7 @@ const defaultConfig = mergeConfig({
   prettyUrls: false,
 }, {
   plugins: [
+    sharedOptionLists(),
     citationRecordType(),
     conceptRecordType(),
     objectRecordType(),
