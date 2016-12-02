@@ -7,7 +7,6 @@ import thunk from 'redux-thunk';
 import { hashHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
-import Immutable from 'immutable';
 import script from 'scriptjs';
 import warning from 'warning';
 
@@ -15,9 +14,12 @@ import { configureCSpace } from './actions/cspace';
 import { addOptions } from './actions/options';
 import reducer from './reducers';
 import App from './components/App';
+import createPluginContext from './helpers/createPluginContext';
 
+import sharedOptionLists from './plugins/optionLists/shared';
 import citationRecordType from './plugins/recordTypes/citation';
 import conceptRecordType from './plugins/recordTypes/concept';
+import groupRecordType from './plugins/recordTypes/group';
 import objectRecordType from './plugins/recordTypes/object';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
@@ -35,10 +37,7 @@ const loadPolyfills = (locale, callback) => {
   }
 };
 
-const pluginContext = {
-  Immutable,
-  React,
-};
+const pluginContext = createPluginContext();
 
 const defaultConfig = mergeConfig({
   basename: '',
@@ -51,8 +50,10 @@ const defaultConfig = mergeConfig({
   prettyUrls: false,
 }, {
   plugins: [
+    sharedOptionLists(),
     citationRecordType(),
     conceptRecordType(),
+    groupRecordType(),
     objectRecordType(),
     personRecordType(),
     placeRecordType(),

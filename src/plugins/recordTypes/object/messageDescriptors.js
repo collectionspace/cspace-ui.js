@@ -15,862 +15,862 @@ export default defineMessages({
   // Panels
 
   idPanel: {
-    id: 'panel.idPanel.label',
+    id: 'panel.object.id.label',
     defaultMessage: 'Object Identification Information',
   },
   descPanel: {
-    id: 'panel.descPanel.label',
+    id: 'panel.object.desc.label',
     defaultMessage: 'Object Description Information',
   },
   contentPanel: {
-    id: 'panel.contentPanel.label',
+    id: 'panel.object.content.label',
     defaultMessage: 'Content',
   },
   textInscriptPanel: {
-    id: 'panel.textInscriptPanel.label',
+    id: 'panel.object.textInscript.label',
     defaultMessage: 'Textual Inscription',
   },
   nonTextInscriptPanel: {
-    id: 'panel.nonTextInscriptPanel.label',
+    id: 'panel.object.nonTextInscript.label',
     defaultMessage: 'Non-Textual Inscription',
   },
   prodPanel: {
-    id: 'panel.prodPanel.label',
+    id: 'panel.object.prod.label',
     defaultMessage: 'Object Production Information',
   },
   histPanel: {
-    id: 'panel.histPanel.label',
+    id: 'panel.object.hist.label',
     defaultMessage: 'Object History and Association Information',
   },
   assocPanel: {
-    id: 'panel.assocPanel.label',
+    id: 'panel.object.assoc.label',
     defaultMessage: 'Associations',
   },
   ownerPanel: {
-    id: 'panel.ownerPanel.label',
+    id: 'panel.object.owner.label',
     defaultMessage: 'Object Owner\'s Contribution Information',
   },
   viewerPanel: {
-    id: 'panel.viewerPanel.label',
+    id: 'panel.object.viewer.label',
     defaultMessage: 'Object Viewer\'s Contribution Information',
   },
   referencePanel: {
-    id: 'panel.referencePanel.label',
+    id: 'panel.object.reference.label',
     defaultMessage: 'Reference Information',
   },
   collectPanel: {
-    id: 'panel.collectPanel.label',
+    id: 'panel.object.collect.label',
     defaultMessage: 'Object Collection Information',
   },
 
   // Fields
 
   objectNumber: {
-    id: 'field.objectNumber.label',
+    id: 'field.object.objectNumber.label',
     defaultMessage: 'Identification number',
   },
   numberOfObjects: {
-    id: 'field.numberOfObjects.label',
+    id: 'field.object.numberOfObjects.label',
     defaultMessage: 'Number of objects',
   },
   otherNumberList: {
-    id: 'field.otherNumberList.label',
+    id: 'field.object.otherNumberList.label',
     defaultMessage: 'Other number',
   },
   numberValue: {
-    id: 'field.numberValue.label',
+    id: 'field.object.numberValue.label',
     defaultMessage: 'Number',
   },
   numberType: {
-    id: 'field.numberType.label',
+    id: 'field.object.numberType.label',
     defaultMessage: 'Type',
   },
   responsibleDepartments: {
-    id: 'field.responsibleDepartments.label',
+    id: 'field.object.responsibleDepartments.label',
     defaultMessage: 'Responsible department',
   },
   collection: {
-    id: 'field.collection.label',
+    id: 'field.object.collection.label',
     defaultMessage: 'Collection',
   },
   recordStatus: {
-    id: 'field.recordStatus.label',
+    id: 'field.object.recordStatus.label',
     defaultMessage: 'Record status',
   },
   briefDescriptions: {
-    id: 'field.briefDescriptions.label',
+    id: 'field.object.briefDescriptions.label',
     defaultMessage: 'Brief description',
   },
   distinguishingFeatures: {
-    id: 'field.distinguishingFeatures.label',
+    id: 'field.object.distinguishingFeatures.label',
     defaultMessage: 'Distinguishing features',
   },
   comments: {
-    id: 'field.comments.label',
+    id: 'field.object.comments.label',
     defaultMessage: 'Comment',
   },
   computedCurrentLocation: {
-    id: 'field.computedCurrentLocation.label',
+    id: 'field.object.computedCurrentLocation.label',
     defaultMessage: 'Computed current location',
   },
   titleGroupList: {
-    id: 'field.titleGroupList.label',
+    id: 'field.object.titleGroupList.label',
     defaultMessage: 'Title',
   },
   title: {
-    id: 'field.title.label',
+    id: 'field.object.title.label',
     defaultMessage: 'Title',
   },
   titleLanguage: {
-    id: 'field.titleLanguage.label',
+    id: 'field.object.titleLanguage.label',
     defaultMessage: 'Language',
   },
   titleType: {
-    id: 'field.titleType.label',
+    id: 'field.object.titleType.label',
     defaultMessage: 'Type',
   },
   titleTranslationSubGroupList: {
-    id: 'field.titleTranslationSubGroupList.label',
+    id: 'field.object.titleTranslationSubGroupList.label',
     defaultMessage: 'Translation',
   },
   titleTranslation: {
-    id: 'field.titleTranslation.label',
+    id: 'field.object.titleTranslation.label',
     defaultMessage: 'Translation',
   },
   titleTranslationLanguage: {
-    id: 'field.titleTranslationLanguage.label',
+    id: 'field.object.titleTranslationLanguage.label',
     defaultMessage: 'Language',
   },
   objectNameList: {
-    id: 'field.objectNameList.label',
+    id: 'field.object.objectNameList.label',
     defaultMessage: 'Object name',
   },
   objectName: {
-    id: 'field.objectName.label',
+    id: 'field.object.objectName.label',
     defaultMessage: 'Name',
   },
   objectNameCurrency: {
-    id: 'field.objectNameCurrency.label',
+    id: 'field.object.objectNameCurrency.label',
     defaultMessage: 'Currency',
   },
   objectNameLevel: {
-    id: 'field.objectNameLevel.label',
+    id: 'field.object.objectNameLevel.label',
     defaultMessage: 'Level',
   },
   objectNameSystem: {
-    id: 'field.objectNameSystem.label',
+    id: 'field.object.objectNameSystem.label',
     defaultMessage: 'System',
   },
   objectNameType: {
-    id: 'field.objectNameType.label',
+    id: 'field.object.objectNameType.label',
     defaultMessage: 'Type',
   },
   objectNameLanguage: {
-    id: 'field.objectNameLanguage.label',
+    id: 'field.object.objectNameLanguage.label',
     defaultMessage: 'Language',
   },
   objectNameNote: {
-    id: 'field.objectNameNote.label',
+    id: 'field.object.objectNameNote.label',
     defaultMessage: 'Note',
   },
   copyNumber: {
-    id: 'field.copyNumber.label',
+    id: 'field.object.copyNumber.label',
     defaultMessage: 'Copy number',
   },
   objectStatusList: {
-    id: 'field.objectStatusList.label',
+    id: 'field.object.objectStatusList.label',
     defaultMessage: 'Object status',
   },
   sex: {
-    id: 'field.sex.label',
+    id: 'field.object.sex.label',
     defaultMessage: 'Sex',
   },
   phase: {
-    id: 'field.phase.label',
+    id: 'field.object.phase.label',
     defaultMessage: 'Phase',
   },
   forms: {
-    id: 'field.forms.label',
+    id: 'field.object.forms.label',
     defaultMessage: 'Form',
   },
   editionNumber: {
-    id: 'field.editionNumber.label',
+    id: 'field.object.editionNumber.label',
     defaultMessage: 'Edition number',
   },
   ageGroup: {
-    id: 'field.ageGroup.label',
+    id: 'field.object.ageGroup.label',
     defaultMessage: 'Age',
   },
   age: {
-    id: 'field.age.label',
+    id: 'field.object.age.label',
     defaultMessage: 'Age',
   },
   ageQualifier: {
-    id: 'field.ageQualifier.label',
+    id: 'field.object.ageQualifier.label',
     defaultMessage: 'Age qualifier',
   },
   ageUnit: {
-    id: 'field.ageUnit.label',
+    id: 'field.object.ageUnit.label',
     defaultMessage: 'Unit',
   },
   styles: {
-    id: 'field.styles.label',
+    id: 'field.object.styles.label',
     defaultMessage: 'Style',
   },
   colors: {
-    id: 'field.colors.label',
+    id: 'field.object.colors.label',
     defaultMessage: 'Color',
   },
   materialGroup: {
-    id: 'field.materialGroup.label',
+    id: 'field.object.materialGroup.label',
     defaultMessage: 'Material',
   },
   material: {
-    id: 'field.material.label',
+    id: 'field.object.material.label',
     defaultMessage: 'Material',
   },
   materialComponent: {
-    id: 'field.materialComponent.label',
+    id: 'field.object.materialComponent.label',
     defaultMessage: 'Material component',
   },
   materialComponentNote: {
-    id: 'field.materialComponentNote.label',
+    id: 'field.object.materialComponentNote.label',
     defaultMessage: 'Material component note',
   },
   materialName: {
-    id: 'field.materialName.label',
+    id: 'field.object.materialName.label',
     defaultMessage: 'Material name',
   },
   materialSource: {
-    id: 'field.materialSource.label',
+    id: 'field.object.materialSource.label',
     defaultMessage: 'Material source',
   },
   physicalDescription: {
-    id: 'field.physicalDescription.label',
+    id: 'field.object.physicalDescription.label',
     defaultMessage: 'Physical description',
   },
   objectComponentGroup: {
-    id: 'field.objectComponentGroup.label',
+    id: 'field.object.objectComponentGroup.label',
     defaultMessage: 'Object component',
   },
   objectComponentName: {
-    id: 'field.objectComponentName.label',
+    id: 'field.object.objectComponentName.label',
     defaultMessage: 'Name',
   },
   objectComponentInformation: {
-    id: 'field.objectComponentInformation.label',
+    id: 'field.object.objectComponentInformation.label',
     defaultMessage: 'Information',
   },
   technicalAttributeGroup: {
-    id: 'field.technicalAttributeGroup.label',
+    id: 'field.object.technicalAttributeGroup.label',
     defaultMessage: 'Technical attribute',
   },
   technicalAttribute: {
-    id: 'field.technicalAttribute.label',
+    id: 'field.object.technicalAttribute.label',
     defaultMessage: 'Attribute',
   },
   technicalAttributeMeasurement: {
-    id: 'field.technicalAttributeMeasurement.label',
+    id: 'field.object.technicalAttributeMeasurement.label',
     defaultMessage: 'Measurement',
   },
   technicalAttributeMeasurementUnit: {
-    id: 'field.technicalAttributeMeasurementUnit.label',
+    id: 'field.object.technicalAttributeMeasurementUnit.label',
     defaultMessage: 'Unit',
   },
   measuredPartGroupList: {
-    id: 'field.measuredPartGroup.label',
+    id: 'field.object.measuredPartGroup.label',
     defaultMessage: 'Dimensions',
   },
   measuredPart: {
-    id: 'field.measuredPart.label',
+    id: 'field.object.measuredPart.label',
     defaultMessage: 'Part',
   },
   dimensionSummary: {
-    id: 'field.dimensionSummary.label',
+    id: 'field.object.dimensionSummary.label',
     defaultMessage: 'Summary',
   },
   dimensionSubGroup: {
-    id: 'field.dimensionSubGroup.label',
+    id: 'field.object.dimensionSubGroup.label',
     defaultMessage: 'Measurements',
   },
   dimension: {
-    id: 'field.dimension.label',
+    id: 'field.object.dimension.label',
     defaultMessage: 'Dimension',
   },
   measuredBy: {
-    id: 'field.measuredBy.label',
+    id: 'field.object.measuredBy.label',
     defaultMessage: 'Measured by',
   },
   measurementMethod: {
-    id: 'field.measurementMethod.label',
+    id: 'field.object.measurementMethod.label',
     defaultMessage: 'Method',
   },
   value: {
-    id: 'field.value.label',
+    id: 'field.object.value.label',
     defaultMessage: 'Value',
   },
   measurementUnit: {
-    id: 'field.measurementUnit.label',
+    id: 'field.object.measurementUnit.label',
     defaultMessage: 'Unit',
   },
   valueQualifier: {
-    id: 'field.valueQualifier.label',
+    id: 'field.object.valueQualifier.label',
     defaultMessage: 'Qualifier',
   },
   valueDate: {
-    id: 'field.valueDate.label',
+    id: 'field.object.valueDate.label',
     defaultMessage: 'Date',
   },
   contentDescription: {
-    id: 'field.contentDescription.label',
+    id: 'field.object.contentDescription.label',
     defaultMessage: 'Description',
   },
   contentLanguages: {
-    id: 'field.contentLanguages.label',
+    id: 'field.object.contentLanguages.label',
     defaultMessage: 'Language',
   },
   contentActivities: {
-    id: 'field.contentActivities.label',
+    id: 'field.object.contentActivities.label',
     defaultMessage: 'Activity',
   },
   contentConcepts: {
-    id: 'field.contentConcepts.label',
+    id: 'field.object.contentConcepts.label',
     defaultMessage: 'Concept',
   },
   contentConcept: {
-    id: 'field.contentConcept.label',
+    id: 'field.object.contentConcept.label',
     defaultMessage: 'Concept',
   },
   contentDate: {
-    id: 'field.contentDate.label',
+    id: 'field.object.contentDate.label',
     defaultMessage: 'Date',
   },
   contentPositions: {
-    id: 'field.contentPositions.label',
+    id: 'field.object.contentPositions.label',
     defaultMessage: 'Position',
   },
   contentObjectGroup: {
-    id: 'field.contentObjectGroup.label',
+    id: 'field.object.contentObjectGroup.label',
     defaultMessage: 'Object',
   },
   contentObject: {
-    id: 'field.contentObject.label',
+    id: 'field.object.contentObject.label',
     defaultMessage: 'Name',
   },
   contentObjectType: {
-    id: 'field.contentObjectType.label',
+    id: 'field.object.contentObjectType.label',
     defaultMessage: 'Type',
   },
   contentPeoples: {
-    id: 'field.contentPeoples.label',
+    id: 'field.object.contentPeoples.label',
     defaultMessage: 'People',
   },
   contentPersons: {
-    id: 'field.contentPersons.label',
+    id: 'field.object.contentPersons.label',
     defaultMessage: 'Person',
   },
   contentPerson: {
-    id: 'field.contentPerson.label',
+    id: 'field.object.contentPerson.label',
     defaultMessage: 'Person',
   },
   contentPlaces: {
-    id: 'field.contentPlaces.label',
+    id: 'field.object.contentPlaces.label',
     defaultMessage: 'Place',
   },
   contentScripts: {
-    id: 'field.contentScripts.label',
+    id: 'field.object.contentScripts.label',
     defaultMessage: 'Script',
   },
   contentOrganizations: {
-    id: 'field.contentOrganizations.label',
+    id: 'field.object.contentOrganizations.label',
     defaultMessage: 'Organization',
   },
   contentOrganization: {
-    id: 'field.contentOrganization.label',
+    id: 'field.object.contentOrganization.label',
     defaultMessage: 'Organization',
   },
   contentEventNameGroup: {
-    id: 'field.contentEventNameGroup.label',
+    id: 'field.object.contentEventNameGroup.label',
     defaultMessage: 'Event',
   },
   contentEventName: {
-    id: 'field.contentEventName.label',
+    id: 'field.object.contentEventName.label',
     defaultMessage: 'Name',
   },
   contentEventNameType: {
-    id: 'field.contentEventNameType.label',
+    id: 'field.object.contentEventNameType.label',
     defaultMessage: 'Type',
   },
   contentOtherGroup: {
-    id: 'field.contentOtherGroup.label',
+    id: 'field.object.contentOtherGroup.label',
     defaultMessage: 'Other',
   },
   contentOther: {
-    id: 'field.contentOther.label',
+    id: 'field.object.contentOther.label',
     defaultMessage: 'Name',
   },
   contentOtherType: {
-    id: 'field.contentOtherType.label',
+    id: 'field.object.contentOtherType.label',
     defaultMessage: 'Type',
   },
   contentNote: {
-    id: 'field.contentNote.label',
+    id: 'field.object.contentNote.label',
     defaultMessage: 'Note',
   },
   inscriptionContent: {
-    id: 'field.inscriptionContent.label',
+    id: 'field.object.inscriptionContent.label',
     defaultMessage: 'Inscription content',
   },
   inscriptionContentInscriber: {
-    id: 'field.inscriptionContentInscriber.label',
+    id: 'field.object.inscriptionContentInscriber.label',
     defaultMessage: 'Inscriber',
   },
   inscriptionContentLanguage: {
-    id: 'field.inscriptionContentLanguage.label',
+    id: 'field.object.inscriptionContentLanguage.label',
     defaultMessage: 'Language',
   },
   inscriptionContentDateGroup: {
-    id: 'field.inscriptionContentDateGroup.label',
+    id: 'field.object.inscriptionContentDateGroup.label',
     defaultMessage: 'Date',
   },
   inscriptionContentPosition: {
-    id: 'field.inscriptionContentPosition.label',
+    id: 'field.object.inscriptionContentPosition.label',
     defaultMessage: 'Position',
   },
   inscriptionContentScript: {
-    id: 'field.inscriptionContentScript.label',
+    id: 'field.object.inscriptionContentScript.label',
     defaultMessage: 'Script',
   },
   inscriptionContentType: {
-    id: 'field.inscriptionContentType.label',
+    id: 'field.object.inscriptionContentType.label',
     defaultMessage: 'Type',
   },
   inscriptionContentMethod: {
-    id: 'field.inscriptionContentMethod.label',
+    id: 'field.object.inscriptionContentMethod.label',
     defaultMessage: 'Method',
   },
   inscriptionContentInterpretation: {
-    id: 'field.inscriptionContentInterpretation.label',
+    id: 'field.object.inscriptionContentInterpretation.label',
     defaultMessage: 'Interpretation',
   },
   inscriptionContentTranslation: {
-    id: 'field.inscriptionContentTranslation.label',
+    id: 'field.object.inscriptionContentTranslation.label',
     defaultMessage: 'Translation',
   },
   inscriptionContentTransliteration: {
-    id: 'field.inscriptionContentTransliteration.label',
+    id: 'field.object.inscriptionContentTransliteration.label',
     defaultMessage: 'Transliteration',
   },
   inscriptionDescription: {
-    id: 'field.inscriptionDescription.label',
+    id: 'field.object.inscriptionDescription.label',
     defaultMessage: 'Inscription description',
   },
   inscriptionDescriptionInscriber: {
-    id: 'field.inscriptionDescriptionInscriber.label',
+    id: 'field.object.inscriptionDescriptionInscriber.label',
     defaultMessage: 'Inscriber',
   },
   inscriptionDescriptionDateGroup: {
-    id: 'field.inscriptionDescriptionDateGroup.label',
+    id: 'field.object.inscriptionDescriptionDateGroup.label',
     defaultMessage: 'Date',
   },
   inscriptionDescriptionPosition: {
-    id: 'field.inscriptionDescriptionPosition.label',
+    id: 'field.object.inscriptionDescriptionPosition.label',
     defaultMessage: 'Position',
   },
   inscriptionDescriptionType: {
-    id: 'field.inscriptionDescriptionType.label',
+    id: 'field.object.inscriptionDescriptionType.label',
     defaultMessage: 'Type',
   },
   inscriptionDescriptionMethod: {
-    id: 'field.inscriptionDescriptionMethod.label',
+    id: 'field.object.inscriptionDescriptionMethod.label',
     defaultMessage: 'Method',
   },
   inscriptionDescriptionInterpretation: {
-    id: 'field.inscriptionDescriptionInterpretation.label',
+    id: 'field.object.inscriptionDescriptionInterpretation.label',
     defaultMessage: 'Interpretation',
   },
   objectProductionDateGroupList: {
-    id: 'field.objectProductionDateGroupList.label',
+    id: 'field.object.objectProductionDateGroupList.label',
     defaultMessage: 'Production date',
   },
   techniqueGroup: {
-    id: 'field.techniqueGroup.label',
+    id: 'field.object.techniqueGroup.label',
     defaultMessage: 'Production technique',
   },
   technique: {
-    id: 'field.technique.label',
+    id: 'field.object.technique.label',
     defaultMessage: 'Technique',
   },
   techniqueType: {
-    id: 'field.techniqueType.label',
+    id: 'field.object.techniqueType.label',
     defaultMessage: 'Type',
   },
   objectProductionPlaceGroup: {
-    id: 'field.objectProductionPlaceGroup.label',
+    id: 'field.object.objectProductionPlaceGroup.label',
     defaultMessage: 'Production place',
   },
   objectProductionPlace: {
-    id: 'field.objectProductionPlace.label',
+    id: 'field.object.objectProductionPlace.label',
     defaultMessage: 'Place',
   },
   objectProductionPlaceRole: {
-    id: 'field.objectProductionPlaceRole.label',
+    id: 'field.object.objectProductionPlaceRole.label',
     defaultMessage: 'Role',
   },
   objectProductionReasons: {
-    id: 'field.objectProductionReasons.label',
+    id: 'field.object.objectProductionReasons.label',
     defaultMessage: 'Production reason',
   },
   objectProductionPeopleGroup: {
-    id: 'field.objectProductionPeopleGroup.label',
+    id: 'field.object.objectProductionPeopleGroup.label',
     defaultMessage: 'Production people',
   },
   objectProductionPeople: {
-    id: 'field.objectProductionPeople.label',
+    id: 'field.object.objectProductionPeople.label',
     defaultMessage: 'People',
   },
   objectProductionPeopleRole: {
-    id: 'field.objectProductionPeopleRole.label',
+    id: 'field.object.objectProductionPeopleRole.label',
     defaultMessage: 'Role',
   },
   objectProductionPersonGroup: {
-    id: 'field.objectProductionPersonGroup.label',
+    id: 'field.object.objectProductionPersonGroup.label',
     defaultMessage: 'Production person',
   },
   objectProductionPerson: {
-    id: 'field.objectProductionPerson.label',
+    id: 'field.object.objectProductionPerson.label',
     defaultMessage: 'Person',
   },
   objectProductionPersonRole: {
-    id: 'field.objectProductionPersonRole.label',
+    id: 'field.object.objectProductionPersonRole.label',
     defaultMessage: 'Role',
   },
   objectProductionOrganizationGroup: {
-    id: 'field.objectProductionOrganizationGroup.label',
+    id: 'field.object.objectProductionOrganizationGroup.label',
     defaultMessage: 'Production organization',
   },
   objectProductionOrganization: {
-    id: 'field.objectProductionOrganization.label',
+    id: 'field.object.objectProductionOrganization.label',
     defaultMessage: 'Organization',
   },
   objectProductionOrganizationRole: {
-    id: 'field.objectProductionOrganizationRole.label',
+    id: 'field.object.objectProductionOrganizationRole.label',
     defaultMessage: 'Role',
   },
   objectProductionNote: {
-    id: 'field.objectProductionNote.label',
+    id: 'field.object.objectProductionNote.label',
     defaultMessage: 'Production note',
   },
   assocActivityGroup: {
-    id: 'field.assocActivityGroup.label',
+    id: 'field.object.assocActivityGroup.label',
     defaultMessage: 'Associated activity',
   },
   assocActivity: {
-    id: 'field.assocActivity.label',
+    id: 'field.object.assocActivity.label',
     defaultMessage: 'Activity',
   },
   assocActivityType: {
-    id: 'field.assocActivityType.label',
+    id: 'field.object.assocActivityType.label',
     defaultMessage: 'Type',
   },
   assocActivityNote: {
-    id: 'field.assocActivityNote.label',
+    id: 'field.object.assocActivityNote.label',
     defaultMessage: 'Note',
   },
   assocObjectGroup: {
-    id: 'field.assocObjectGroup.label',
+    id: 'field.object.assocObjectGroup.label',
     defaultMessage: 'Associated object',
   },
   assocObject: {
-    id: 'field.assocObject.label',
+    id: 'field.object.assocObject.label',
     defaultMessage: 'Object',
   },
   assocObjectType: {
-    id: 'field.assocObjectType.label',
+    id: 'field.object.assocObjectType.label',
     defaultMessage: 'Type',
   },
   assocObjectNote: {
-    id: 'field.assocObjectNote.label',
+    id: 'field.object.assocObjectNote.label',
     defaultMessage: 'Note',
   },
   assocConceptGroup: {
-    id: 'field.assocConceptGroup.label',
+    id: 'field.object.assocConceptGroup.label',
     defaultMessage: 'Associated concept',
   },
   assocConcept: {
-    id: 'field.assocConcept.label',
+    id: 'field.object.assocConcept.label',
     defaultMessage: 'Concept',
   },
   assocConceptType: {
-    id: 'field.assocConceptType.label',
+    id: 'field.object.assocConceptType.label',
     defaultMessage: 'Type',
   },
   assocConceptNote: {
-    id: 'field.assocConceptNote.label',
+    id: 'field.object.assocConceptNote.label',
     defaultMessage: 'Note',
   },
   assocCulturalContextGroup: {
-    id: 'field.assocCulturalContextGroup.label',
+    id: 'field.object.assocCulturalContextGroup.label',
     defaultMessage: 'Associated cultural affinity',
   },
   assocCulturalContext: {
-    id: 'field.assocCulturalContext.label',
+    id: 'field.object.assocCulturalContext.label',
     defaultMessage: 'Cultural affinity',
   },
   assocCulturalContextType: {
-    id: 'field.assocCulturalContextType.label',
+    id: 'field.object.assocCulturalContextType.label',
     defaultMessage: 'Type',
   },
   assocCulturalContextNote: {
-    id: 'field.assocCulturalContextNote.label',
+    id: 'field.object.assocCulturalContextNote.label',
     defaultMessage: 'Note',
   },
   assocOrganizationGroup: {
-    id: 'field.assocOrganizationGroup.label',
+    id: 'field.object.assocOrganizationGroup.label',
     defaultMessage: 'Associated organization',
   },
   assocOrganization: {
-    id: 'field.assocOrganization.label',
+    id: 'field.object.assocOrganization.label',
     defaultMessage: 'Organization',
   },
   assocOrganizationType: {
-    id: 'field.assocOrganizationType.label',
+    id: 'field.object.assocOrganizationType.label',
     defaultMessage: 'Type',
   },
   assocOrganizationNote: {
-    id: 'field.assocOrganizationNote.label',
+    id: 'field.object.assocOrganizationNote.label',
     defaultMessage: 'Note',
   },
   assocPeopleGroup: {
-    id: 'field.assocPeopleGroup.label',
+    id: 'field.object.assocPeopleGroup.label',
     defaultMessage: 'Associated people',
   },
   assocPeople: {
-    id: 'field.assocPeople.label',
+    id: 'field.object.assocPeople.label',
     defaultMessage: 'People',
   },
   assocPeopleType: {
-    id: 'field.assocPeopleType.label',
+    id: 'field.object.assocPeopleType.label',
     defaultMessage: 'Type',
   },
   assocPeopleNote: {
-    id: 'field.assocPeopleNote.label',
+    id: 'field.object.assocPeopleNote.label',
     defaultMessage: 'Note',
   },
   assocPersonGroup: {
-    id: 'field.assocPersonGroup.label',
+    id: 'field.object.assocPersonGroup.label',
     defaultMessage: 'Associated person',
   },
   assocPerson: {
-    id: 'field.assocPerson.label',
+    id: 'field.object.assocPerson.label',
     defaultMessage: 'Person',
   },
   assocPersonType: {
-    id: 'field.assocPersonType.label',
+    id: 'field.object.assocPersonType.label',
     defaultMessage: 'Type',
   },
   assocPersonNote: {
-    id: 'field.assocPersonNote.label',
+    id: 'field.object.assocPersonNote.label',
     defaultMessage: 'Note',
   },
   assocPlaceGroup: {
-    id: 'field.assocPlaceGroup.label',
+    id: 'field.object.assocPlaceGroup.label',
     defaultMessage: 'Associated place',
   },
   assocPlace: {
-    id: 'field.assocPlace.label',
+    id: 'field.object.assocPlace.label',
     defaultMessage: 'Place',
   },
   assocPlaceType: {
-    id: 'field.assocPlaceType.label',
+    id: 'field.object.assocPlaceType.label',
     defaultMessage: 'Type',
   },
   assocPlaceNote: {
-    id: 'field.assocPlaceNote.label',
+    id: 'field.object.assocPlaceNote.label',
     defaultMessage: 'Note',
   },
   assocEventGroup: {
-    id: 'field.assocEventGroup.label',
+    id: 'field.object.assocEventGroup.label',
     defaultMessage: 'Associated event',
   },
   assocEventName: {
-    id: 'field.assocEventName.label',
+    id: 'field.object.assocEventName.label',
     defaultMessage: 'Event',
   },
   assocEventNameType: {
-    id: 'field.assocEventNameType.label',
+    id: 'field.object.assocEventNameType.label',
     defaultMessage: 'Type',
   },
   assocEventOrganizations: {
-    id: 'field.assocEventOrganizations.label',
+    id: 'field.object.assocEventOrganizations.label',
     defaultMessage: 'Associated event organization',
   },
   assocEventPeoples: {
-    id: 'field.assocEventPeoples.label',
+    id: 'field.object.assocEventPeoples.label',
     defaultMessage: 'Associated event people',
   },
   assocEventPersons: {
-    id: 'field.assocEventPersons.label',
+    id: 'field.object.assocEventPersons.label',
     defaultMessage: 'Associated event person',
   },
   assocEventPlaces: {
-    id: 'field.assocEventPlaces.label',
+    id: 'field.object.assocEventPlaces.label',
     defaultMessage: 'Associated event place',
   },
   assocEventNote: {
-    id: 'field.assocEventNote.label',
+    id: 'field.object.assocEventNote.label',
     defaultMessage: 'Associated event note',
   },
   assocDateGroup: {
-    id: 'field.assocDateGroup.label',
+    id: 'field.object.assocDateGroup.label',
     defaultMessage: 'Associated date',
   },
   assocStructuredDateGroup: {
-    id: 'field.assocStructuredDateGroup.label',
+    id: 'field.object.assocStructuredDateGroup.label',
     defaultMessage: 'Date',
   },
   assocDateType: {
-    id: 'field.assocDateType.label',
+    id: 'field.object.assocDateType.label',
     defaultMessage: 'Type',
   },
   assocDateNote: {
-    id: 'field.assocDateNote.label',
+    id: 'field.object.assocDateNote.label',
     defaultMessage: 'Note',
   },
   objectHistoryNote: {
-    id: 'field.objectHistoryNote.label',
+    id: 'field.object.objectHistoryNote.label',
     defaultMessage: 'Object history note',
   },
   usageGroup: {
-    id: 'field.usageGroup.label',
+    id: 'field.object.usageGroup.label',
     defaultMessage: 'Usage',
   },
   usage: {
-    id: 'field.usage.label',
+    id: 'field.object.usage.label',
     defaultMessage: 'Usage',
   },
   usageNote: {
-    id: 'field.usageNote.label',
+    id: 'field.object.usageNote.label',
     defaultMessage: 'Usage note',
   },
   owners: {
-    id: 'field.owners.label',
+    id: 'field.object.owners.label',
     defaultMessage: 'Owner',
   },
   ownershipDateGroupList: {
-    id: 'field.ownershipDateGroupList.label',
+    id: 'field.object.ownershipDateGroupList.label',
     defaultMessage: 'Ownership date',
   },
   ownershipAccess: {
-    id: 'field.ownershipAccess.label',
+    id: 'field.object.ownershipAccess.label',
     defaultMessage: 'Ownership access',
   },
   ownershipCategory: {
-    id: 'field.ownershipCategory.label',
+    id: 'field.object.ownershipCategory.label',
     defaultMessage: 'Ownership category',
   },
   ownershipPlace: {
-    id: 'field.ownershipPlace.label',
+    id: 'field.object.ownershipPlace.label',
     defaultMessage: 'Ownership place',
   },
   ownershipExchangeGroup: {
-    id: 'field.ownershipExchangeGroup.label',
+    id: 'field.object.ownershipExchangeGroup.label',
     defaultMessage: 'Ownership exchange',
   },
   ownershipExchangeMethod: {
-    id: 'field.ownershipExchangeMethod.label',
+    id: 'field.object.ownershipExchangeMethod.label',
     defaultMessage: 'Method',
   },
   ownershipExchangeNote: {
-    id: 'field.ownershipExchangeNote.label',
+    id: 'field.object.ownershipExchangeNote.label',
     defaultMessage: 'Note',
   },
   ownershipExchangePriceCurrency: {
-    id: 'field.ownershipExchangePriceCurrency.label',
+    id: 'field.object.ownershipExchangePriceCurrency.label',
     defaultMessage: 'Currency',
   },
   ownershipExchangePriceValue: {
-    id: 'field.ownershipExchangePriceValue.label',
+    id: 'field.object.ownershipExchangePriceValue.label',
     defaultMessage: 'Price',
   },
   ownersPersonalExperience: {
-    id: 'field.ownersPersonalExperience.label',
+    id: 'field.object.ownersPersonalExperience.label',
     defaultMessage: 'Owner\'s personal experience',
   },
   ownersPersonalResponse: {
-    id: 'field.ownersPersonalResponse.label',
+    id: 'field.object.ownersPersonalResponse.label',
     defaultMessage: 'Owner\'s personal response',
   },
   ownersReferences: {
-    id: 'field.ownersReferences.label',
+    id: 'field.object.ownersReferences.label',
     defaultMessage: 'Owner\'s reference',
   },
   ownersContributionNote: {
-    id: 'field.ownersContributionNote.label',
+    id: 'field.object.ownersContributionNote.label',
     defaultMessage: 'Owner\'s contribution note',
   },
   viewersRole: {
-    id: 'field.viewersRole.label',
+    id: 'field.object.viewersRole.label',
     defaultMessage: 'Viewer\'s role',
   },
   viewersPersonalExperience: {
-    id: 'field.viewersPersonalExperience.label',
+    id: 'field.object.viewersPersonalExperience.label',
     defaultMessage: 'Viewer\'s personal experience',
   },
   viewersPersonalResponse: {
-    id: 'field.viewersPersonalResponse.label',
+    id: 'field.object.viewersPersonalResponse.label',
     defaultMessage: 'Viewer\'s personal response',
   },
   viewersReferences: {
-    id: 'field.viewersReferences.label',
+    id: 'field.object.viewersReferences.label',
     defaultMessage: 'Viewer\'s reference',
   },
   viewersContributionNote: {
-    id: 'field.viewersContributionNote.label',
+    id: 'field.object.viewersContributionNote.label',
     defaultMessage: 'Viewer\'s contribution note',
   },
   referenceGroup: {
-    id: 'field.referenceGroup.label',
+    id: 'field.object.referenceGroup.label',
     defaultMessage: 'Reference information',
   },
   reference: {
-    id: 'field.reference.label',
+    id: 'field.object.reference.label',
     defaultMessage: 'Reference',
   },
   referenceNote: {
-    id: 'field.referenceNote.label',
+    id: 'field.object.referenceNote.label',
     defaultMessage: 'Reference note',
   },
   fieldCollectionDate: {
-    id: 'field.fieldCollectionDate.label',
+    id: 'field.object.fieldCollectionDate.label',
     defaultMessage: 'Field collection date',
   },
   fieldCollectionMethods: {
-    id: 'field.fieldCollectionMethods.label',
+    id: 'field.object.fieldCollectionMethods.label',
     defaultMessage: 'Field collection method',
   },
   fieldCollectionNote: {
-    id: 'field.fieldCollectionNote.label',
+    id: 'field.object.fieldCollectionNote.label',
     defaultMessage: 'Field collection note',
   },
   fieldCollectionNumber: {
-    id: 'field.fieldCollectionNumber.label',
+    id: 'field.object.fieldCollectionNumber.label',
     defaultMessage: 'Field collection number',
   },
   fieldCollectionPlace: {
-    id: 'field.fieldCollectionPlace.label',
+    id: 'field.object.fieldCollectionPlace.label',
     defaultMessage: 'Field collection place',
   },
   fieldCollectionSources: {
-    id: 'field.fieldCollectionSources.label',
+    id: 'field.object.fieldCollectionSources.label',
     defaultMessage: 'Field collection source',
   },
   fieldCollectors: {
-    id: 'field.fieldCollectors.label',
+    id: 'field.object.fieldCollectors.label',
     defaultMessage: 'Field collection collector',
   },
   fieldColEventNames: {
-    id: 'field.fieldColEventNames.label',
+    id: 'field.object.fieldColEventNames.label',
     defaultMessage: 'Field collection event name',
   },
 });

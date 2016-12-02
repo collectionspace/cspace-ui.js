@@ -35,5 +35,3 @@ cspaceUI({
 ```
 
 See the [configuration](../configuration) documentation for details on the properties that may be supplied in the configuation object.
-
-

@@ -1,38 +1,27 @@
-import {
-  components as inputComponents,
-  enhancers as inputEnhancers,
-} from 'cspace-input';
-
-import BaseAuthorityControlledInput from '../../../containers/input/AuthorityControlledInputContainer';
-import BaseOptionControlledInput from '../../../containers/input/OptionControlledInputContainer';
-import BaseVocabularyControlledInput from '../../../containers/input/VocabularyControlledInputContainer';
-
-import Panel from '../../../containers/layout/PanelContainer';
-import Row from '../../../components/layout/Row';
-
-import { getPartPropertyName } from '../../../helpers/recordDataHelpers';
-
-const {
-  labelable,
-  repeatable,
-} = inputEnhancers;
-
-const AuthorityControlledInput = repeatable(labelable(BaseAuthorityControlledInput));
-const OptionControlledInput = repeatable(labelable(BaseOptionControlledInput));
-const VocabularyControlledInput = repeatable(labelable(BaseVocabularyControlledInput));
-
-const {
-  CompoundInput,
-  DateInput,
-  IDGeneratorInput,
-  StructuredDateInput,
-  TextInput,
-} = inputComponents;
-
 export default (pluginContext) => {
   const {
     React,
-  } = pluginContext;
+  } = pluginContext.lib;
+
+  const {
+    AuthorityControlledInput,
+    CompoundInput,
+    DateInput,
+    IDGeneratorInput,
+    OptionControlledInput,
+    StructuredDateInput,
+    TextInput,
+    VocabularyControlledInput,
+  } = pluginContext.inputComponents;
+
+  const {
+    Panel,
+    Row,
+  } = pluginContext.layoutComponents;
+
+  const {
+    getPartPropertyName,
+  } = pluginContext.recordDataHelpers;
 
   return (
     <CompoundInput defaultChildSubpath={getPartPropertyName('collectionobjects_common')}>

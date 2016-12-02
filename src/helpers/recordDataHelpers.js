@@ -38,8 +38,8 @@ export function deepGet(data, path) {
 
   let value;
 
-  if (key === '0' && !Immutable.List.isList(data)) {
-    // Allow a key of '0' to refer to a single non-list value.
+  if ((key === '0' || key === 0) && !Immutable.List.isList(data)) {
+    // Allow a key of 0 to refer to a single non-list value.
     value = data;
   } else {
     value = data.get(key);

@@ -1,6 +1,6 @@
 # Adding support for a new record type
 
-Support for a new record type may be added by implementing a record type plugin. The built-in record type plugins are located in the src/plugins/record directory. Each subdirectory contains the code implementing a plugin for a record type.
+Support for a new record type may be added by implementing a record type plugin. The built-in record type plugins are located in the src/plugins/recordTypes directory. Each subdirectory contains the code implementing a plugin for a record type.
 
 Start by copying an existing record type plugin, to use it as a template.
 
@@ -12,13 +12,13 @@ Substitute `{name}` with the name of the new record type. By convention, this is
 
 Edit the following files in the new plugin directory:
 
-- **formTemplate.jsx**
+- **forms/default.jsx**
   
-  This file contains the definition of the React component used to view and edit a record of the new type.
+  This file contains the definition of the React component used to view and edit a record of the new type. In the future, additional templates may be defined in other files under the forms directory. This is the default template.
 
 - **messageDescriptors.js**
   
-  This file contains the definitions of translatable messages for the record type, including the labels for fields and panels in the form template.
+  This file contains the definitions of translatable messages for the record type, including the labels for fields and panels in forms.
 
 - **optionLists.js**
   
@@ -43,17 +43,12 @@ Next, add the plugin to the default set of record type plugins that are enabled 
   import fooRecordType from './plugins/recordTypes/foo';
   ```
 
-2. Add the new plugin to the default configuration object, under the `plugins` key. The property name is the name of the record, and the value is the configured plugin (that is, the function exported from the plugin module, executed).
+2. Add the new plugin to the default configuration object, under the `plugins` key. The value added to the `plugins` array should be the configured plugin (that is, the function exported from the plugin module, executed a single time, optionally passing in a configuration object).
 
   ```JavaScript
-  const defaultConfig = initConfig({
-    basename: '',
-    container: 'main',
-    cspaceUrl: '',
-    index: undefined,
-    locale: 'en',
-    messages: undefined,
-    prettyUrls: false,
+  const defaultConfig = mergeConfig({
+    ...
+  }, {
     plugins: [
       ...
       // Add the new plugin
