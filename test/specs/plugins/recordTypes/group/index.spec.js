@@ -1,9 +1,9 @@
-import objectRecordPluginFactory from '../../../../../src/plugins/recordTypes/object';
+import objectRecordPluginFactory from '../../../../../src/plugins/recordTypes/group';
 import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
-describe('object record plugin', function suite() {
+describe('group record plugin', function suite() {
   const config = {};
   const objectRecordPlugin = objectRecordPluginFactory(config);
   const pluginContext = createPluginContext();
@@ -12,14 +12,12 @@ describe('object record plugin', function suite() {
     const pluginConfigContribution = objectRecordPlugin(pluginContext);
 
     const {
-      optionLists,
       recordTypes,
     } = pluginConfigContribution;
 
-    optionLists.should.be.an('object');
-    recordTypes.should.have.property('object');
+    recordTypes.should.have.property('group');
 
-    const objectTypeConfig = recordTypes.object;
+    const objectTypeConfig = recordTypes.group;
 
     objectTypeConfig.should.have.property('messageDescriptors').that.is.an('object');
     objectTypeConfig.should.have.property('serviceConfig').that.is.an('object');

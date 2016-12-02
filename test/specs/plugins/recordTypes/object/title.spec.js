@@ -1,11 +1,12 @@
 import Immutable from 'immutable';
-import configureTitle from '../../../../../src/plugins/recordTypes/object/title';
+import createTitleGetter from '../../../../../src/plugins/recordTypes/object/title';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
-describe('title', function suite() {
-  const pluginContext = { Immutable };
-  const title = configureTitle(pluginContext);
+describe('object record title', function suite() {
+  const pluginContext = createPluginContext();
+  const title = createTitleGetter(pluginContext);
 
   it('should concat the object number and primary title', function test() {
     const cspaceDocument = Immutable.fromJS({

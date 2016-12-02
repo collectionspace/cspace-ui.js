@@ -14,9 +14,14 @@ import Panel from '../containers/layout/PanelContainer';
 import Row from '../components/layout/Row';
 
 import {
+  deepGet,
   getPart,
-  getPartPropertyName
+  getPartPropertyName,
 } from '../helpers/recordDataHelpers';
+
+import {
+  getDisplayName,
+} from '../helpers/refNameHelpers';
 
 const {
   labelable,
@@ -55,7 +60,11 @@ export default () => ({
     Row,
   },
   recordDataHelpers: {
+    deepGet,
     getPart,
     getPartPropertyName,
-  }
+  },
+  refNameHelpers: {
+    getDisplayName,
+  },
 });

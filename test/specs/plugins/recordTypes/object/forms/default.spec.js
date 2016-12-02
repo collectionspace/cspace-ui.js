@@ -1,14 +1,14 @@
-import React from 'react';
 import { components as inputComponents } from 'cspace-input';
-import formTemplate from '../../../../../src/plugins/recordTypes/object/formTemplate';
+import formTemplate from '../../../../../../src/plugins/recordTypes/object/forms/default';
+import createPluginContext from '../../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 const { CompoundInput } = inputComponents;
 
-describe('formTemplate', function suite() {
+describe('object record default form', function suite() {
   it('should be a CompoundInput with defaultChildSubpath prop', function test() {
-    const pluginContext = { React };
+    const pluginContext = createPluginContext();
     const template = formTemplate(pluginContext);
 
     template.type.should.equal(CompoundInput);

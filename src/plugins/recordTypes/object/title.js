@@ -1,9 +1,6 @@
 export default pluginContext => (cspaceDocument) => {
   const {
-    Immutable,
-  } = pluginContext.lib;
-  
-  const {
+    deepGet,
     getPart,
   } = pluginContext.recordDataHelpers;
 
@@ -18,27 +15,7 @@ export default pluginContext => (cspaceDocument) => {
   }
 
   const objectNumber = common.get('objectNumber');
-  const titleGroupList = common.get('titleGroupList');
+  const title = deepGet(common, ['titleGroupList', 'titleGroup', 0, 'title']);
 
-  let title;
-
-  if (titleGroupList) {
-    let titleGroup = titleGroupList.get('titleGroup');
-
-    if (Immutable.List.isList(titleGroup)) {
-      titleGroup = titleGroup.first();
-    }
-
-    title = titleGroup ? titleGroup.get('title') : null;
-  }
-
-  const parts = [];
-
-  [objectNumber, title].forEach((part) => {
-    if (part) {
-      parts.push(part);
-    }
-  });
-
-  return parts.join(' – ');
+  return [objectNumber, title].filter(part => !!part).join(' – ');
 };

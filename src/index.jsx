@@ -19,6 +19,7 @@ import createPluginContext from './helpers/createPluginContext';
 import sharedOptionLists from './plugins/optionLists/shared';
 import citationRecordType from './plugins/recordTypes/citation';
 import conceptRecordType from './plugins/recordTypes/concept';
+import groupRecordType from './plugins/recordTypes/group';
 import objectRecordType from './plugins/recordTypes/object';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
@@ -52,6 +53,7 @@ const defaultConfig = mergeConfig({
     sharedOptionLists(),
     citationRecordType(),
     conceptRecordType(),
+    groupRecordType(),
     objectRecordType(),
     personRecordType(),
     placeRecordType(),
