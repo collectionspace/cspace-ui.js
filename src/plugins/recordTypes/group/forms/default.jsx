@@ -6,7 +6,7 @@ export default (pluginContext) => {
   const {
     AuthorityControlledInput,
     CompoundInput,
-    OptionControlledInput,
+    OptionListControlledInput,
     TextInput,
   } = pluginContext.inputComponents;
 
@@ -29,10 +29,16 @@ export default (pluginContext) => {
         </Row>
         <Row>
           <div>
-            <OptionControlledInput name="responsibleDepartment" optionListName="departments" />
+            <OptionListControlledInput
+              name="responsibleDepartment"
+              optionListName="departments"
+            />
           </div>
           <div>
-            <AuthorityControlledInput name="owner" authority="person/person" />
+            <AuthorityControlledInput
+              name="owner"
+              authority="person/person"
+            />
           </div>
         </Row>
         <TextInput name="scopeNote" multiline />

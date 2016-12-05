@@ -2,14 +2,14 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import { components as inputComponents } from 'cspace-input';
-import { ConnectedOptionControlledInput } from '../../../../src/containers/input/OptionControlledInputContainer';
+import { ConnectedOptionListControlledInput } from '../../../../src/containers/input/OptionListControlledInputContainer';
 
 chai.should();
 
 const { OptionListControlledInput } = inputComponents;
 const mockStore = configureMockStore([]);
 
-describe('OptionControlledInputContainer', function suite() {
+describe('OptionListControlledInputContainer', function suite() {
   it('should set props on OptionListControlledInput', function test() {
     const optionListName = 'units';
 
@@ -40,7 +40,7 @@ describe('OptionControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionControlledInput optionListName={optionListName} />, context);
+      <ConnectedOptionListControlledInput optionListName={optionListName} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

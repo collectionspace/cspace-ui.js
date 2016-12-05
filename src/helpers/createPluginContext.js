@@ -10,7 +10,7 @@ import {
 } from 'cspace-refname';
 
 import AuthorityControlledInputContainer from '../containers/input/AuthorityControlledInputContainer';
-import OptionControlledInputContainer from '../containers/input/OptionControlledInputContainer';
+import OptionListControlledInputContainer from '../containers/input/OptionListControlledInputContainer';
 import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
@@ -31,7 +31,7 @@ const {
 } = inputComponents;
 
 const AuthorityControlledInput = AuthorityControlledInputContainer;
-const OptionControlledInput = OptionControlledInputContainer;
+const OptionListControlledInput = OptionListControlledInputContainer;
 const VocabularyControlledInput = VocabularyControlledInputContainer;
 
 export default () => ({
@@ -44,7 +44,7 @@ export default () => ({
     CompoundInput,
     DateInput,
     IDGeneratorInput,
-    OptionControlledInput,
+    OptionListControlledInput,
     StructuredDateInput,
     TextInput,
     VocabularyControlledInput,
