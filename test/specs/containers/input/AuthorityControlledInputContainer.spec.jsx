@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import thunk from 'redux-thunk';
-import AuthorityControlledInput from '../../../../src/components/input/AuthorityControlledInput';
+import { components as inputComponents } from 'cspace-input';
 import { ConnectedAuthorityControlledInput } from '../../../../src/containers/input/AuthorityControlledInputContainer';
 
 import {
@@ -14,6 +14,7 @@ import {
 
 chai.should();
 
+const { AuthorityControlledInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
 describe('AuthorityControlledInputContainer', function suite() {

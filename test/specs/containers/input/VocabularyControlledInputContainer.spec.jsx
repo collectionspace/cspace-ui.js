@@ -2,7 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import thunk from 'redux-thunk';
-import VocabularyControlledInput from '../../../../src/components/input/VocabularyControlledInput';
+import { components as inputComponents } from 'cspace-input';
 import { ConnectedVocabularyControlledInput } from '../../../../src/containers/input/VocabularyControlledInputContainer';
 
 import {
@@ -11,6 +11,7 @@ import {
 
 chai.should();
 
+const { VocabularyControlledInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
 describe('VocabularyControlledInputContainer', function suite() {
@@ -52,7 +53,7 @@ describe('VocabularyControlledInputContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(VocabularyControlledInput);
-    result.props.should.have.property('items', vocabulary.items);
+    result.props.should.have.property('terms', vocabulary.items);
     // result.props.should.have.property('isLoading', vocabulary.isReadPending);
     result.props.should.have.property('onMount').that.is.a('function');
 

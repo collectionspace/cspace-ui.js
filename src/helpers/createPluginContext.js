@@ -3,12 +3,11 @@ import Immutable from 'immutable';
 
 import {
   components as inputComponents,
-  enhancers as inputEnhancers,
 } from 'cspace-input';
 
-import BaseAuthorityControlledInput from '../containers/input/AuthorityControlledInputContainer';
-import BaseOptionControlledInput from '../containers/input/OptionControlledInputContainer';
-import BaseVocabularyControlledInput from '../containers/input/VocabularyControlledInputContainer';
+import AuthorityControlledInputContainer from '../containers/input/AuthorityControlledInputContainer';
+import OptionControlledInputContainer from '../containers/input/OptionControlledInputContainer';
+import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
 import Row from '../components/layout/Row';
@@ -24,11 +23,6 @@ import {
 } from '../helpers/refNameHelpers';
 
 const {
-  labelable,
-  repeatable,
-} = inputEnhancers;
-
-const {
   CompoundInput,
   DateInput,
   IDGeneratorInput,
@@ -36,9 +30,9 @@ const {
   TextInput,
 } = inputComponents;
 
-const AuthorityControlledInput = repeatable(labelable(BaseAuthorityControlledInput));
-const OptionControlledInput = repeatable(labelable(BaseOptionControlledInput));
-const VocabularyControlledInput = repeatable(labelable(BaseVocabularyControlledInput));
+const AuthorityControlledInput = AuthorityControlledInputContainer;
+const OptionControlledInput = OptionControlledInputContainer;
+const VocabularyControlledInput = VocabularyControlledInputContainer;
 
 export default () => ({
   lib: {
