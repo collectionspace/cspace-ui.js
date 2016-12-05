@@ -17,11 +17,11 @@ describe('group record plugin', function suite() {
 
     recordTypes.should.have.property('group');
 
-    const groupRecordTypeConfig = recordTypes.group;
+    const groupRecordTypes = recordTypes.group;
 
-    groupRecordTypeConfig.should.have.property('messageDescriptors').that.is.an('object');
-    groupRecordTypeConfig.should.have.property('serviceConfig').that.is.an('object');
-    groupRecordTypeConfig.should.have.property('title').that.is.a('function');
-    groupRecordTypeConfig.should.have.property('forms').that.is.an('object');
+    groupRecordTypes.should.have.property('messageDescriptors').that.is.an('object');
+    groupRecordTypes.should.have.property('serviceConfig').that.is.an('object');
+    groupRecordTypes.should.have.property('title').that.is.a('function');
+    groupRecordTypes.should.have.property('forms').that.is.an('object');
   });
 });

@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
-import RecordPluginProvider from '../../../../src/components/record/RecordPluginProvider';
+import RecordTypesProvider from '../../../../src/components/record/RecordTypesProvider';
 import CreatePage from '../../../../src/components/pages/CreatePage';
 
 chai.should();
@@ -21,7 +21,7 @@ describe('CreatePage', function suite() {
   });
 
   it('should render a link for each record plugin', function test() {
-    const recordPlugins = {
+    const recordTypes = {
       object: {
         messageDescriptors: {
           recordNameTitle: {
@@ -52,9 +52,9 @@ describe('CreatePage', function suite() {
       <IntlProvider
         locale="en"
       >
-        <RecordPluginProvider recordPlugins={recordPlugins}>
+        <RecordTypesProvider recordTypes={recordTypes}>
           <CreatePage />
-        </RecordPluginProvider>
+        </RecordTypesProvider>
       </IntlProvider>, this.container);
 
     const links = this.container.querySelectorAll('a');
@@ -62,12 +62,12 @@ describe('CreatePage', function suite() {
     links.should.have.lengthOf(3);
 
     links[0].textContent.should
-      .equal(recordPlugins.object.messageDescriptors.recordNameTitle.defaultMessage);
+      .equal(recordTypes.object.messageDescriptors.recordNameTitle.defaultMessage);
 
     links[1].textContent.should
-      .equal(recordPlugins.group.messageDescriptors.recordNameTitle.defaultMessage);
+      .equal(recordTypes.group.messageDescriptors.recordNameTitle.defaultMessage);
 
     links[2].textContent.should
-      .equal(recordPlugins.intake.messageDescriptors.recordNameTitle.defaultMessage);
+      .equal(recordTypes.intake.messageDescriptors.recordNameTitle.defaultMessage);
   });
 });

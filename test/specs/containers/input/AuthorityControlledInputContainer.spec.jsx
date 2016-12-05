@@ -29,7 +29,7 @@ describe('AuthorityControlledInputContainer', function suite() {
       store,
     };
 
-    const recordPlugins = {
+    const recordTypes = {
       person: {
         serviceConfig: {
           name: 'personauthorities',
@@ -46,7 +46,7 @@ describe('AuthorityControlledInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedAuthorityControlledInput
         authority="person/person"
-        recordPlugins={recordPlugins}
+        recordTypes={recordTypes}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();

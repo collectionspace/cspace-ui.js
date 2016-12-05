@@ -19,11 +19,11 @@ describe('object record plugin', function suite() {
     optionLists.should.be.an('object');
     recordTypes.should.have.property('object');
 
-    const objectRecordTypeConfig = recordTypes.object;
+    const objectRecordTypes = recordTypes.object;
 
-    objectRecordTypeConfig.should.have.property('messageDescriptors').that.is.an('object');
-    objectRecordTypeConfig.should.have.property('serviceConfig').that.is.an('object');
-    objectRecordTypeConfig.should.have.property('title').that.is.a('function');
-    objectRecordTypeConfig.should.have.property('forms').that.is.an('object');
+    objectRecordTypes.should.have.property('messageDescriptors').that.is.an('object');
+    objectRecordTypes.should.have.property('serviceConfig').that.is.an('object');
+    objectRecordTypes.should.have.property('title').that.is.a('function');
+    objectRecordTypes.should.have.property('forms').that.is.an('object');
   });
 });

@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import RecordPluginProvider from '../../../src/components/record/RecordPluginProvider';
+import RecordTypesProvider from '../../../src/components/record/RecordTypesProvider';
 import Router from '../../../src/components/Router';
 
 chai.should();
@@ -33,7 +33,7 @@ const store = mockStore({
   },
 });
 
-const recordPlugins = {
+const recordTypes = {
   object: {
     forms: {
       default: <div />,
@@ -63,14 +63,14 @@ describe('Router', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <Router
               createNewRecord={createNewRecord}
               history={hashHistory}
               readRecord={readRecord}
               redirectLogin={stubbedRedirectLogin}
             />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -89,14 +89,14 @@ describe('Router', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <Router
               createNewRecord={createNewRecord}
               history={hashHistory}
               readRecord={stubbedReadRecord}
               redirectLogin={redirectLogin}
             />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -115,14 +115,14 @@ describe('Router', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <Router
               createNewRecord={stubbedCreateNewRecord}
               history={hashHistory}
               readRecord={readRecord}
               redirectLogin={redirectLogin}
             />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

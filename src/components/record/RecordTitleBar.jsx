@@ -60,12 +60,12 @@ export default class RecordTitleBar extends Component {
     } = this.state;
 
     const {
-      recordPlugins,
+      recordTypes,
     } = this.context;
 
-    const recordPlugin = recordPlugins[recordType];
+    const config = recordTypes[recordType];
 
-    if (!recordPlugin) {
+    if (!config) {
       return null;
     }
 
@@ -81,10 +81,10 @@ export default class RecordTitleBar extends Component {
       >
         <div className={styles.inner}>
           <h1 className={styles.title}>
-            {recordPlugin.title(cspaceDocument)}
+            {config.title(cspaceDocument)}
           </h1>
           <h2 className={styles.recordType}>
-            <FormattedMessage {...recordPlugin.messageDescriptors.recordNameTitle} />
+            <FormattedMessage {...config.messageDescriptors.recordNameTitle} />
           </h2>
         </div>
       </header>
@@ -99,5 +99,5 @@ RecordTitleBar.propTypes = {
 };
 
 RecordTitleBar.contextTypes = {
-  recordPlugins: PropTypes.object,
+  recordTypes: PropTypes.object,
 };

@@ -1,30 +1,30 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 
-import withRecordPlugins from '../../../src/enhancers/withRecordPlugins';
+import withRecordTypes from '../../../src/enhancers/withRecordTypes';
 
 chai.should();
 
-describe('withRecordPlugins', function suite() {
+describe('withRecordTypes', function suite() {
   context('enhanced component', function context() {
-    it('should set recordPlugins prop on the base component with recordPlugins from context', function test() {
-      const recordPlugins = {
+    it('should set recordTypes prop on the base component with recordTypes from context', function test() {
+      const recordTypes = {
         object: {},
       };
 
       const reactContext = {
-        recordPlugins,
+        recordTypes,
       };
 
       const StubComponent = () => null;
-      const EnhancedComponent = withRecordPlugins(StubComponent);
+      const EnhancedComponent = withRecordTypes(StubComponent);
       const shallowRenderer = createRenderer();
 
       shallowRenderer.render(<EnhancedComponent />, reactContext);
 
       const result = shallowRenderer.getRenderOutput();
 
-      result.props.should.have.property('recordPlugins', recordPlugins);
+      result.props.should.have.property('recordTypes', recordTypes);
     });
   });
 });

@@ -3,25 +3,25 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
-import RecordPluginProvider from '../../../../src/components/record/RecordPluginProvider';
+import RecordTypesProvider from '../../../../src/components/record/RecordTypesProvider';
 
 chai.should();
 
-describe('RecordPluginProvider', function suite() {
+describe('RecordTypesProvider', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should provide record plugins in context', function test() {
-    const recordPlugins = {};
+    const recordTypes = {};
 
-    let providedRecordPlugins = null;
+    let providedRecordTypes = null;
 
     class StubComponent extends Component {
       constructor(props, context) {
         super(props, context);
 
-        providedRecordPlugins = context.recordPlugins;
+        providedRecordTypes = context.recordTypes;
       }
 
       render() {
@@ -30,14 +30,14 @@ describe('RecordPluginProvider', function suite() {
     }
 
     StubComponent.contextTypes = {
-      recordPlugins: PropTypes.object,
+      recordTypes: PropTypes.object,
     };
 
     render(
-      <RecordPluginProvider recordPlugins={recordPlugins}>
+      <RecordTypesProvider recordTypes={recordTypes}>
         <StubComponent />
-      </RecordPluginProvider>, this.container);
+      </RecordTypesProvider>, this.container);
 
-    providedRecordPlugins.should.equal(recordPlugins);
+    providedRecordTypes.should.equal(recordTypes);
   });
 });

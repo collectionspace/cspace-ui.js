@@ -10,7 +10,7 @@ import { components as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 import Panel from '../../../../src/containers/layout/PanelContainer';
-import RecordPluginProvider from '../../../../src/components/record/RecordPluginProvider';
+import RecordTypesProvider from '../../../../src/components/record/RecordTypesProvider';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 
 chai.should();
@@ -26,7 +26,7 @@ const store = mockStore({
   prefs: {},
 });
 
-const recordPlugins = {
+const recordTypes = {
   object: {
     forms: {
       default: (
@@ -71,9 +71,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordEditor recordType="object" />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -85,9 +85,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordEditor recordType="object" />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -98,9 +98,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordEditor recordType="object" />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -115,9 +115,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordEditor recordType="object" />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -129,9 +129,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordEditor recordType="object" />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -143,9 +143,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordEditor recordType="object" />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

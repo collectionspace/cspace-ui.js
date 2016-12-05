@@ -13,7 +13,7 @@ const propTypes = {
 };
 
 const contextTypes = {
-  recordPlugins: PropTypes.object,
+  recordTypes: PropTypes.object,
 };
 
 export default class Router extends Component {
@@ -40,13 +40,13 @@ export default class Router extends Component {
     } = nextState.params;
 
     const {
-      recordPlugins,
+      recordTypes,
     } = this.context;
 
-    const recordPlugin = recordPlugins[recordType];
+    const config = recordTypes[recordType];
 
-    if (recordPlugin) {
-      const serviceConfig = recordPlugin.serviceConfig;
+    if (config) {
+      const serviceConfig = config.serviceConfig;
 
       if (csid) {
         readRecord(serviceConfig, csid);

@@ -4,16 +4,16 @@ import { Link } from 'react-router';
 
 export default function CreatePage(props, context) {
   const {
-    recordPlugins,
+    recordTypes,
   } = context;
 
   let items = null;
 
-  if (recordPlugins) {
-    items = Object.keys(recordPlugins).map(recordType =>
+  if (recordTypes) {
+    items = Object.keys(recordTypes).map(recordType =>
       <li key={recordType}>
         <Link to={`record/${recordType}`}>
-          <FormattedMessage {...recordPlugins[recordType].messageDescriptors.recordNameTitle} />
+          <FormattedMessage {...recordTypes[recordType].messageDescriptors.recordNameTitle} />
         </Link>
       </li>
     );
@@ -31,5 +31,5 @@ export default function CreatePage(props, context) {
 }
 
 CreatePage.contextTypes = {
-  recordPlugins: PropTypes.object,
+  recordTypes: PropTypes.object,
 };

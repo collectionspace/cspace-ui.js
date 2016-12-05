@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
-import RecordPluginProvider from '../../../../src/components/record/RecordPluginProvider';
+import RecordTypesProvider from '../../../../src/components/record/RecordTypesProvider';
 import RecordButtonBarContainer from '../../../../src/containers/record/RecordButtonBarContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import RecordTitleBarContainer from '../../../../src/containers/record/RecordTitleBarContainer';
@@ -27,7 +27,7 @@ const params = {
   recordType,
 };
 
-const recordPlugins = {
+const recordTypes = {
   [recordType]: {
     serviceConfig,
     forms: {
@@ -66,9 +66,9 @@ describe('RecordPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordPage params={params} />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -79,9 +79,9 @@ describe('RecordPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordPage params={params} />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -92,9 +92,9 @@ describe('RecordPage', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordPage params={params} />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -110,9 +110,9 @@ describe('RecordPage', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordPage params={params} />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -129,9 +129,9 @@ describe('RecordPage', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordPage params={params} />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -165,9 +165,9 @@ describe('RecordPage', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={noCsidStore}>
-          <RecordPluginProvider recordPlugins={recordPlugins}>
+          <RecordTypesProvider recordTypes={recordTypes}>
             <RecordPage params={noCsidParams} />
-          </RecordPluginProvider>
+          </RecordTypesProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

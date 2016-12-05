@@ -9,10 +9,10 @@ export default function RecordPage(props, context) {
   const recordType = props.params.recordType;
 
   const {
-    recordPlugins,
+    recordTypes,
   } = context;
 
-  const serviceConfig = recordPlugins[recordType].serviceConfig;
+  const serviceConfig = recordTypes[recordType].serviceConfig;
 
   if (csid === null || typeof csid === 'undefined') {
     csid = '';
@@ -35,5 +35,5 @@ RecordPage.propTypes = {
 };
 
 RecordPage.contextTypes = {
-  recordPlugins: PropTypes.object.isRequired,
+  recordTypes: PropTypes.object.isRequired,
 };

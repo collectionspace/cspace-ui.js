@@ -7,7 +7,7 @@ import Immutable from 'immutable';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
-import RecordPluginProvider from '../../../../src/components/record/RecordPluginProvider';
+import RecordTypesProvider from '../../../../src/components/record/RecordTypesProvider';
 import RecordTitleBar from '../../../../src/components/record/RecordTitleBar';
 
 const expect = chai.expect;
@@ -16,7 +16,7 @@ chai.should();
 
 const expectedClassName = 'cspace-ui-RecordTitleBar--common';
 
-const recordPlugins = {
+const recordTypes = {
   object: {
     messageDescriptors: {
       recordNameTitle: {
@@ -41,9 +41,9 @@ describe('RecordTitleBar', function suite() {
   it('should render as a header', function test() {
     render(
       <IntlProvider locale="en">
-        <RecordPluginProvider recordPlugins={recordPlugins}>
+        <RecordTypesProvider recordTypes={recordTypes}>
           <RecordTitleBar data={data} recordType="object" />
-        </RecordPluginProvider>
+        </RecordTypesProvider>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');
@@ -52,9 +52,9 @@ describe('RecordTitleBar', function suite() {
   it('should render with correct class', function test() {
     render(
       <IntlProvider locale="en">
-        <RecordPluginProvider recordPlugins={recordPlugins}>
+        <RecordTypesProvider recordTypes={recordTypes}>
           <RecordTitleBar data={data} recordType="object" />
-        </RecordPluginProvider>
+        </RecordTypesProvider>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
@@ -63,9 +63,9 @@ describe('RecordTitleBar', function suite() {
   it('should render nothing if a plugin is not found for the record type', function test() {
     render(
       <IntlProvider locale="en">
-        <RecordPluginProvider recordPlugins={recordPlugins}>
+        <RecordTypesProvider recordTypes={recordTypes}>
           <RecordTitleBar data={data} recordType="foo" />
-        </RecordPluginProvider>
+        </RecordTypesProvider>
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
@@ -74,9 +74,9 @@ describe('RecordTitleBar', function suite() {
   it('should dock and undock when scrolled', function test() {
     render(
       <IntlProvider locale="en">
-        <RecordPluginProvider recordPlugins={recordPlugins}>
+        <RecordTypesProvider recordTypes={recordTypes}>
           <RecordTitleBar data={data} recordType="object" />
-        </RecordPluginProvider>
+        </RecordTypesProvider>
       </IntlProvider>, this.container);
 
     const container = this.container.firstElementChild.querySelector('div');
@@ -128,9 +128,9 @@ describe('RecordTitleBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordPluginProvider recordPlugins={recordPlugins}>
+        <RecordTypesProvider recordTypes={recordTypes}>
           <RecordTitleBar data={data} recordType="object" />
-        </RecordPluginProvider>
+        </RecordTypesProvider>
       </IntlProvider>, this.container);
 
     ReactDOM.unmountComponentAtNode(this.container);
