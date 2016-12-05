@@ -5,6 +5,10 @@ import {
   components as inputComponents,
 } from 'cspace-input';
 
+import {
+  getDisplayName,
+} from 'cspace-refname';
+
 import AuthorityControlledInputContainer from '../containers/input/AuthorityControlledInputContainer';
 import OptionControlledInputContainer from '../containers/input/OptionControlledInputContainer';
 import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
@@ -17,10 +21,6 @@ import {
   getPart,
   getPartPropertyName,
 } from '../helpers/recordDataHelpers';
-
-import {
-  getDisplayName,
-} from '../helpers/refNameHelpers';
 
 const {
   CompoundInput,
