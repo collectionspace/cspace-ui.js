@@ -26,19 +26,12 @@ const mapStateToProps = (state, ownProps) => {
 
   const options = getOptions(state, optionListName);
 
-  const labeledOptions = options.map((option) => {
-    if (option.messageDescriptor) {
-      return Object.assign({}, option, {
-        label: intl.formatMessage(option.messageDescriptor),
-      });
-    }
-
-    return option;
-  });
-
   return {
+    options,
+    formatOptionLabel: option => (
+      option.messageDescriptor ? intl.formatMessage(option.messageDescriptor) : option.value
+    ),
     formatStatusMessage: count => intl.formatMessage(messages.count, { count }),
-    options: labeledOptions,
   };
 };
 
