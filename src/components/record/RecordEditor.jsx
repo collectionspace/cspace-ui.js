@@ -46,7 +46,7 @@ function renderTemplate(component, messageDescriptors, handlers) {
       }
 
       Object.keys(handlers).forEach((handlerName) => {
-        if (propTypes[handlerName]) {
+        if (propTypes[handlerName] && !component.props[handlerName]) {
           overrideProps[handlerName] = handlers[handlerName];
         }
       });

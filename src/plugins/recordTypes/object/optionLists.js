@@ -74,27 +74,6 @@ export default {
       },
     }),
   },
-  dateQualifiers: {
-    values: [
-      '+/-',
-      '+',
-      '-',
-    ],
-    messageDescriptors: defineMessages({
-      '+/-': {
-        id: 'option.contentObjectTypes.+/-',
-        defaultMessage: '±',
-      },
-      '+': {
-        id: 'option.contentObjectTypes.+',
-        defaultMessage: '+',
-      },
-      '-': {
-        id: 'option.contentObjectTypes.-',
-        defaultMessage: '-',
-      },
-    }),
-  },
   dimensions: {
     values: [
       'area',

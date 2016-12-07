@@ -47,4 +47,109 @@ describe('OptionListControlledInputContainer', function suite() {
     result.type.should.equal(OptionListControlledInput);
     result.props.options.should.deep.equal(options);
   });
+
+  it('should connect formatOptionLabel to intl.formatMessage', function test() {
+    const optionListName = 'units';
+
+    const options = [
+      {
+        value: 'cm',
+        messageDescriptor: {
+          id: 'option.units.cm',
+          defaultMessage: 'centimeters',
+        },
+      },
+    ];
+
+    const store = mockStore({
+      options: {
+        [optionListName]: options,
+      },
+    });
+
+    let formatMessageCalled = false;
+
+    const context = {
+      store,
+      intl: {
+        formatDate: () => null,
+        formatTime: () => null,
+        formatRelative: () => null,
+        formatNumber: () => null,
+        formatPlural: () => null,
+        formatMessage: () => {
+          formatMessageCalled = true;
+        },
+        formatHTMLMessage: () => null,
+        now: () => null,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedOptionListControlledInput
+        intl={context.intl}
+        optionListName={optionListName}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.formatOptionLabel(options[0]);
+
+    formatMessageCalled.should.equal(true);
+  });
+
+
+  it('should connect formatStatusMessage to intl.formatMessage', function test() {
+    const optionListName = 'units';
+
+    const options = [
+      {
+        value: 'cm',
+        messageDescriptor: {
+          id: 'option.units.cm',
+          defaultMessage: 'centimeters',
+        },
+      },
+    ];
+
+    const store = mockStore({
+      options: {
+        [optionListName]: options,
+      },
+    });
+
+    let formatMessageCalled = false;
+
+    const context = {
+      store,
+      intl: {
+        formatDate: () => null,
+        formatTime: () => null,
+        formatRelative: () => null,
+        formatNumber: () => null,
+        formatPlural: () => null,
+        formatMessage: () => {
+          formatMessageCalled = true;
+        },
+        formatHTMLMessage: () => null,
+        now: () => null,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedOptionListControlledInput
+        intl={context.intl}
+        optionListName={optionListName}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.formatStatusMessage();
+
+    formatMessageCalled.should.equal(true);
+  });
 });

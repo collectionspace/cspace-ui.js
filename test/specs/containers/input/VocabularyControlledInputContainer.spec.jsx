@@ -53,9 +53,48 @@ describe('VocabularyControlledInputContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(VocabularyControlledInput);
+    result.props.should.have.property('formatStatusMessage').that.is.a('function');
     result.props.should.have.property('terms', vocabulary.items);
     // result.props.should.have.property('isLoading', vocabulary.isReadPending);
     result.props.should.have.property('onMount').that.is.a('function');
+  });
+
+  it('should connect onMount to readVocabularyItems action creator', function test() {
+    const vocabularyName = 'languages';
+
+    const vocabulary = {
+      isReadPending: true,
+      items: [
+        { refname: 'en', displayName: 'English' },
+      ],
+    };
+
+    const store = mockStore({
+      vocabulary: {
+        [vocabularyName]: vocabulary,
+      },
+    });
+
+    const context = {
+      store,
+      intl: {
+        formatDate: () => null,
+        formatTime: () => null,
+        formatRelative: () => null,
+        formatNumber: () => null,
+        formatPlural: () => null,
+        formatMessage: () => null,
+        formatHTMLMessage: () => null,
+        now: () => null,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedVocabularyControlledInput vocabularyName={vocabularyName} />, context);
+
+    const result = shallowRenderer.getRenderOutput();
 
     // The call to onMount will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the readVocabularyItems action creator gets called, and
@@ -97,5 +136,54 @@ describe('VocabularyControlledInputContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.props.should.not.have.property('onMount');
+  });
+
+  it('should connect formatStatusMessage to intl.formatMessage', function test() {
+    const vocabularyName = 'languages';
+
+    const vocabulary = {
+      isReadPending: true,
+      items: [
+        { refname: 'en', displayName: 'English' },
+      ],
+    };
+
+    const store = mockStore({
+      vocabulary: {
+        [vocabularyName]: vocabulary,
+      },
+    });
+
+    let formatMessageCalled = false;
+
+    const context = {
+      store,
+      intl: {
+        formatDate: () => null,
+        formatTime: () => null,
+        formatRelative: () => null,
+        formatNumber: () => null,
+        formatPlural: () => null,
+        formatMessage: () => {
+          formatMessageCalled = true;
+        },
+        formatHTMLMessage: () => null,
+        now: () => null,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedVocabularyControlledInput
+        intl={context.intl}
+        vocabularyName={vocabularyName}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.formatStatusMessage();
+
+    formatMessageCalled.should.equal(true);
   });
 });

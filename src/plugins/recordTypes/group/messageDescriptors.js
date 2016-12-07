@@ -15,26 +15,26 @@ export default defineMessages({
   // Panels
 
   infoPanel: {
-    id: 'panel.group.info.label',
+    id: 'panel.group.info',
     defaultMessage: 'Group Information',
   },
 
   // Fields
 
   title: {
-    id: 'field.group.title.label',
+    id: 'field.group.title',
     defaultMessage: 'Title',
   },
   responsibleDepartment: {
-    id: 'field.group.responsibleDepartment.label',
+    id: 'field.group.responsibleDepartment',
     defaultMessage: 'Responsible department',
   },
   owner: {
-    id: 'field.group.owner.label',
+    id: 'field.group.owner',
     defaultMessage: 'Group owner',
   },
   scopeNote: {
-    id: 'field.group.scopeNote.label',
+    id: 'field.group.scopeNote',
     defaultMessage: 'Scope note',
   },
 });

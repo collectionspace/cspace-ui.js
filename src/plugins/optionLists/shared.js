@@ -11,6 +11,27 @@ import { defineMessages } from 'react-intl';
  */
 export default () => ({
   optionLists: {
+    dateQualifiers: {
+      values: [
+        '+/-',
+        '+',
+        '-',
+      ],
+      messageDescriptors: defineMessages({
+        '+/-': {
+          id: 'option.dateQualifiers.+/-',
+          defaultMessage: '+/-',
+        },
+        '+': {
+          id: 'option.dateQualifiers.+',
+          defaultMessage: '+',
+        },
+        '-': {
+          id: 'option.dateQualifiers.-',
+          defaultMessage: '-',
+        },
+      }),
+    },
     departments: {
       values: [
         'antiquities',

@@ -11,6 +11,7 @@ import {
 
 import AuthorityControlledInputContainer from '../containers/input/AuthorityControlledInputContainer';
 import OptionListControlledInputContainer from '../containers/input/OptionListControlledInputContainer';
+import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
 import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
@@ -26,12 +27,12 @@ const {
   CompoundInput,
   DateInput,
   IDGeneratorInput,
-  StructuredDateInput,
   TextInput,
 } = inputComponents;
 
 const AuthorityControlledInput = AuthorityControlledInputContainer;
 const OptionListControlledInput = OptionListControlledInputContainer;
+const StructuredDateInput = StructuredDateInputContainer;
 const VocabularyControlledInput = VocabularyControlledInputContainer;
 
 export default () => ({
