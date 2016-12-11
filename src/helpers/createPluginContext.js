@@ -9,6 +9,7 @@ import {
   getDisplayName,
 } from 'cspace-refname';
 
+import IntlizedDateInput from '../components/input/IntlizedDateInput';
 import AuthorityControlledInputContainer from '../containers/input/AuthorityControlledInputContainer';
 import OptionListControlledInputContainer from '../containers/input/OptionListControlledInputContainer';
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
@@ -25,12 +26,12 @@ import {
 
 const {
   CompoundInput,
-  DateInput,
   IDGeneratorInput,
   TextInput,
 } = inputComponents;
 
 const AuthorityControlledInput = AuthorityControlledInputContainer;
+const DateInput = IntlizedDateInput;
 const OptionListControlledInput = OptionListControlledInputContainer;
 const StructuredDateInput = StructuredDateInputContainer;
 const VocabularyControlledInput = VocabularyControlledInputContainer;
