@@ -10,6 +10,10 @@ import {
   RECORD_SAVE_FULFILLED,
 } from '../../../../src/actions/record';
 
+import {
+  CREATE_ID_FULFILLED,
+} from '../../../../src/actions/idGenerator';
+
 import reducer, {
   get,
   getNew,
@@ -480,5 +484,55 @@ describe('record data reducer', function suite() {
     });
 
     get(state, '5678').toJS().should.deep.equal(data);
+  });
+
+  it('should handle CREATE_ID_FULFILLED', function test() {
+    const csid = '1234';
+
+    let state;
+
+    // Non-existent csid
+
+    state = reducer({}, {
+      type: CREATE_ID_FULFILLED,
+      payload: {
+        data: 'd',
+      },
+      meta: {
+        csid,
+        path: ['foo', 'bar', '1'],
+      },
+    });
+
+    state.should.deep.equal({});
+
+    expect(get(state, csid)).to.equal(undefined);
+
+    // Set single value
+
+    const data = {
+      foo: {
+        bar: 'a',
+      },
+    };
+
+    state = reducer({
+      [csid]: Immutable.fromJS(data),
+    }, {
+      type: CREATE_ID_FULFILLED,
+      payload: {
+        data: 'b',
+      },
+      meta: {
+        csid,
+        path: ['foo', 'bar'],
+      },
+    });
+
+    get(state, csid).toJS().should.deep.equal({
+      foo: {
+        bar: 'b',
+      },
+    });
   });
 });

@@ -100,7 +100,6 @@ describe('OptionListControlledInputContainer', function suite() {
     formatMessageCalled.should.equal(true);
   });
 
-
   it('should connect formatStatusMessage to intl.formatMessage', function test() {
     const optionListName = 'units';
 

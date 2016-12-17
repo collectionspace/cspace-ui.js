@@ -58,7 +58,7 @@ describe('record action creator', function suite() {
     const mockStore = configureMockStore([thunk]);
     const serviceName = 'collectionobjects';
     const csid = '1234';
-    const readRecordUrl = `/cspace-services/${serviceName}/${csid}`;
+    const readRecordUrl = new RegExp(`^/cspace-services/${serviceName}/${csid}.*`);
 
     const serviceConfig = {
       name: serviceName,

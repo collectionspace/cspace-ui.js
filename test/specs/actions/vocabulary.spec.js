@@ -19,7 +19,7 @@ describe('vocabulary action creator', function suite() {
   describe('readVocabularyItems', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const vocabularyName = 'languages';
-    const readVocabularyItemsUrl = `/cspace-services/vocabularies/urn:cspace:name(${vocabularyName})/items?pgSz=0`;
+    const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabularyName}\\)/items.*`);
 
     before(() => {
       configureCSpace({});

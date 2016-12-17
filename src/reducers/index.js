@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
+import idGenerator, * as fromIDGenerator from './idGenerator';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
 import options, * as fromOptions from './options';
@@ -12,6 +13,7 @@ import vocabulary, * as fromVocabulary from './vocabulary';
 
 export default combineReducers({
   cspace,
+  idGenerator,
   login,
   logout,
   options,
@@ -86,3 +88,8 @@ export function getVocabulary(state, vocabularyName) {
 export function getPartialTermSearchMatches(state) {
   return fromPartialTermSearch.getMatches(state.partialTermSearch);
 }
+
+export function getIDGenerator(state, idGeneratorName) {
+  return fromIDGenerator.get(state.idGenerator, idGeneratorName);
+}
+
