@@ -59,11 +59,11 @@ export const ConnectedOptionListControlledInput = connect(
   mergeProps
 )(OptionListControlledInput);
 
-const IntlAwareConnectedOptionListControlledInput = injectIntl(ConnectedOptionListControlledInput);
+const IntlizedConnectedOptionListControlledInput = injectIntl(ConnectedOptionListControlledInput);
 
-IntlAwareConnectedOptionListControlledInput.propTypes = {
+IntlizedConnectedOptionListControlledInput.propTypes = {
   ...OptionListControlledInput.propTypes,
   optionListName: PropTypes.string,
 };
 
-export default IntlAwareConnectedOptionListControlledInput;
+export default IntlizedConnectedOptionListControlledInput;

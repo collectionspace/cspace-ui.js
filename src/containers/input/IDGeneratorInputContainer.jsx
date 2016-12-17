@@ -80,8 +80,8 @@ export const ConnectedIDGeneratorInput = connect(
   mergeProps
 )(IDGeneratorInput);
 
-const IntlAwareConnectedIDGeneratorInput = injectIntl(ConnectedIDGeneratorInput);
+const IntlizedConnectedIDGeneratorInput = injectIntl(ConnectedIDGeneratorInput);
 
-IntlAwareConnectedIDGeneratorInput.propTypes = IDGeneratorInput.propTypes;
+IntlizedConnectedIDGeneratorInput.propTypes = IDGeneratorInput.propTypes;
 
-export default IntlAwareConnectedIDGeneratorInput;
+export default IntlizedConnectedIDGeneratorInput;

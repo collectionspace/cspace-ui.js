@@ -78,11 +78,11 @@ export const ConnectedVocabularyControlledInput = connect(
   mergeProps
 )(VocabularyControlledInput);
 
-const IntlAwareConnectedVocabularyControlledInput = injectIntl(ConnectedVocabularyControlledInput);
+const IntlizedConnectedVocabularyControlledInput = injectIntl(ConnectedVocabularyControlledInput);
 
-IntlAwareConnectedVocabularyControlledInput.propTypes = {
+IntlizedConnectedVocabularyControlledInput.propTypes = {
   ...VocabularyControlledInput.propTypes,
   vocabularyName: PropTypes.string.isRequired,
 };
 
-export default IntlAwareConnectedVocabularyControlledInput;
+export default IntlizedConnectedVocabularyControlledInput;

@@ -121,10 +121,8 @@ export const ConnectedStructuredDateInput = connect(
   mergeProps
 )(StructuredDateInput);
 
-const IntlAwareConnectedStructuredDateInput = injectIntl(ConnectedStructuredDateInput);
+const IntlizedConnectedStructuredDateInput = injectIntl(ConnectedStructuredDateInput);
 
-IntlAwareConnectedStructuredDateInput.propTypes = {
-  ...StructuredDateInput.propTypes,
-};
+IntlizedConnectedStructuredDateInput.propTypes = StructuredDateInput.propTypes;
 
-export default IntlAwareConnectedStructuredDateInput;
+export default IntlizedConnectedStructuredDateInput;

@@ -127,13 +127,13 @@ export const ConnectedAuthorityControlledInput = connect(
   mergeProps
 )(AuthorityControlledInput);
 
-const IntlAwareConnectedAuthorityControlledInput =
+const IntlizedConnectedAuthorityControlledInput =
   injectIntl(withRecordTypes(ConnectedAuthorityControlledInput));
 
-IntlAwareConnectedAuthorityControlledInput.propTypes = {
+IntlizedConnectedAuthorityControlledInput.propTypes = {
   ...AuthorityControlledInput.propTypes,
   authority: PropTypes.string.isRequired,
   recordTypes: PropTypes.object,
 };
 
-export default IntlAwareConnectedAuthorityControlledInput;
+export default IntlizedConnectedAuthorityControlledInput;

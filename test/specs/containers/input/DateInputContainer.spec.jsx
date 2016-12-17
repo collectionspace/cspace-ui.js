@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 import { components as inputComponents } from 'cspace-input';
-import { IntlAwareDateInput } from '../../../../src/components/input/IntlizedDateInput';
+import { IntlAwareDateInput } from '../../../../src/containers/input/DateInputContainer';
 
 chai.should();
 
@@ -19,7 +19,7 @@ const intl = {
   now: () => null,
 };
 
-describe('IntlizedDateInput', function suite() {
+describe('DateInputContainer', function suite() {
   it('should set DateInput locale from intl', function test() {
     const shallowRenderer = createRenderer();
 
