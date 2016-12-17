@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import { getOptions } from '../../reducers';
+import { getOptionList } from '../../reducers';
 
 const { OptionListControlledInput } = inputComponents;
 
@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
     optionListName,
   } = ownProps;
 
-  const options = getOptions(state, optionListName);
+  const options = getOptionList(state, optionListName);
 
   return {
     options,

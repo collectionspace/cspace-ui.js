@@ -1,10 +1,10 @@
 import {
-  ADD_OPTIONS,
-} from '../actions/options';
+  ADD_OPTION_LISTS,
+} from '../actions/optionList';
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case ADD_OPTIONS:
+    case ADD_OPTION_LISTS:
       return Object.assign({}, state, action.payload);
     default:
       return state;

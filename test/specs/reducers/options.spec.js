@@ -1,20 +1,20 @@
 import {
-  ADD_OPTIONS,
-} from '../../../src/actions/options';
+  ADD_OPTION_LISTS,
+} from '../../../src/actions/optionList';
 
 import reducer, {
   get,
-} from '../../../src/reducers/options';
+} from '../../../src/reducers/optionList';
 
 chai.should();
 
-describe('options reducer', function suite() {
+describe('optionList reducer', function suite() {
   it('should have an empty initial state', function test() {
     reducer(undefined, {}).should.deep.equal({});
   });
 
-  it('should handle ADD_OPTIONS', function test() {
-    const options = {
+  it('should handle ADD_OPTION_LISTS', function test() {
+    const optionLists = {
       states: [
         { value: 'CA', label: 'California' },
         { value: 'MA', label: 'Massachusetts' },
@@ -28,16 +28,16 @@ describe('options reducer', function suite() {
     };
 
     const state = reducer({}, {
-      type: ADD_OPTIONS,
-      payload: options,
+      type: ADD_OPTION_LISTS,
+      payload: optionLists,
     });
 
-    state.should.deep.equal(options);
+    state.should.deep.equal(optionLists);
 
-    get(state, 'states').should.deep.equal(options.states);
-    get(state, 'sizes').should.deep.equal(options.sizes);
+    get(state, 'states').should.deep.equal(optionLists.states);
+    get(state, 'sizes').should.deep.equal(optionLists.sizes);
 
-    const moreOptions = {
+    const moreOptionLists = {
       countries: [
         { value: 'USA', label: 'United States' },
         { value: 'CAN', label: 'Canada' },
@@ -45,12 +45,12 @@ describe('options reducer', function suite() {
     };
 
     const newState = reducer(state, {
-      type: ADD_OPTIONS,
-      payload: moreOptions,
+      type: ADD_OPTION_LISTS,
+      payload: moreOptionLists,
     });
 
-    get(newState, 'states').should.deep.equal(options.states);
-    get(newState, 'sizes').should.deep.equal(options.sizes);
-    get(newState, 'countries').should.deep.equal(moreOptions.countries);
+    get(newState, 'states').should.deep.equal(optionLists.states);
+    get(newState, 'sizes').should.deep.equal(optionLists.sizes);
+    get(newState, 'countries').should.deep.equal(moreOptionLists.countries);
   });
 });

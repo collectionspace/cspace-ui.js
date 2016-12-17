@@ -14,7 +14,7 @@ import reducer, {
   isRecordReadPending,
   isRecordSavePending,
   isPanelCollapsed,
-  getOptions,
+  getOptionList,
   getVocabulary,
 } from '../../../src/reducers';
 
@@ -30,11 +30,11 @@ describe('reducer', function suite() {
       'idGenerator',
       'login',
       'logout',
+      'optionList',
       'partialTermSearch',
       'prefs',
       'user',
       'record',
-      'options',
       'vocabulary',
     ]);
   });
@@ -199,16 +199,16 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getOptions selector', function selectorSuite() {
-    it('should select from the options key', function test() {
+  describe('getOptionList selector', function selectorSuite() {
+    it('should select from the optionList key', function test() {
       const sizes = [
         { value: 'S', label: 'Small' },
         { value: 'M', label: 'Medium' },
         { value: 'L', label: 'Large' },
       ];
 
-      getOptions({
-        options: {
+      getOptionList({
+        optionList: {
           sizes,
         },
       }, 'sizes').should.deep.equal(sizes);

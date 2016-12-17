@@ -1,7 +1,7 @@
-export const ADD_OPTIONS = 'ADD_OPTIONS';
+export const ADD_OPTION_LISTS = 'ADD_OPTION_LISTS';
 
-export const addOptions = (optionLists) => {
-  const mergedOptions = {};
+export const addOptionLists = (optionLists) => {
+  const mergedOptionLists = {};
 
   Object.keys(optionLists).forEach((optionListName) => {
     const {
@@ -9,7 +9,7 @@ export const addOptions = (optionLists) => {
       messageDescriptors,
     } = optionLists[optionListName];
 
-    mergedOptions[optionListName] = values.map((value) => {
+    mergedOptionLists[optionListName] = values.map((value) => {
       const merged = {
         value,
       };
@@ -23,7 +23,7 @@ export const addOptions = (optionLists) => {
   });
 
   return {
-    type: ADD_OPTIONS,
-    payload: mergedOptions,
+    type: ADD_OPTION_LISTS,
+    payload: mergedOptionLists,
   };
 };

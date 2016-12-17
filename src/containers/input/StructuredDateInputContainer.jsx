@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { readVocabularyItems } from '../../actions/vocabulary';
-import { getOptions, getVocabulary } from '../../reducers';
+import { getOptionList, getVocabulary } from '../../reducers';
 
 const { StructuredDateInput } = inputComponents;
 
@@ -73,7 +73,7 @@ const mapStateToProps = (state, ownProps) => {
   const terms = {};
 
   optionListNames.forEach((optionListName) => {
-    optionLists[optionListName] = getOptions(state, optionListName);
+    optionLists[optionListName] = getOptionList(state, optionListName);
   });
 
   vocabNames.forEach((vocabName) => {

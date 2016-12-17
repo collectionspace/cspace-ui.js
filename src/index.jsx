@@ -12,7 +12,7 @@ import warning from 'warning';
 
 import { configureCSpace } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
-import { addOptions } from './actions/options';
+import { addOptionLists } from './actions/optionList';
 import reducer from './reducers';
 import App from './components/App';
 import createPluginContext from './helpers/createPluginContext';
@@ -98,7 +98,7 @@ module.exports = (uiConfig) => {
       url: cspaceUrl,
     }));
 
-    store.dispatch(addOptions(optionLists));
+    store.dispatch(addOptionLists(optionLists));
     store.dispatch(addIDGenerators(idGenerators));
 
     const props = {

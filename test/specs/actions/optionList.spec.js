@@ -1,14 +1,14 @@
 import {
-  ADD_OPTIONS,
-  addOptions,
-} from '../../../src/actions/options';
+  ADD_OPTION_LISTS,
+  addOptionLists,
+} from '../../../src/actions/optionList';
 
 chai.should();
 
-describe('options action creator', function suite() {
-  describe('addOptions', function actionSuite() {
-    it('should create an ADD_OPTIONS action', function test() {
-      const options = {
+describe('optionList action creator', function suite() {
+  describe('addOptionLists', function actionSuite() {
+    it('should create an ADD_OPTION_LISTS action', function test() {
+      const optionLists = {
         states: {
           values: [
             'CA',
@@ -24,7 +24,7 @@ describe('options action creator', function suite() {
         },
       };
 
-      const mergedOptions = {
+      const mergedOptionLists = {
         states: [
           {
             value: 'CA',
@@ -44,9 +44,9 @@ describe('options action creator', function suite() {
         ],
       };
 
-      addOptions(options).should.deep.equal({
-        type: ADD_OPTIONS,
-        payload: mergedOptions,
+      addOptionLists(optionLists).should.deep.equal({
+        type: ADD_OPTION_LISTS,
+        payload: mergedOptionLists,
       });
     });
   });

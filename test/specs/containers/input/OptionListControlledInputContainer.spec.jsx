@@ -18,7 +18,7 @@ describe('OptionListControlledInputContainer', function suite() {
     ];
 
     const store = mockStore({
-      options: {
+      optionList: {
         [optionListName]: options,
       },
     });
@@ -62,7 +62,7 @@ describe('OptionListControlledInputContainer', function suite() {
     ];
 
     const store = mockStore({
-      options: {
+      optionList: {
         [optionListName]: options,
       },
     });
@@ -114,7 +114,7 @@ describe('OptionListControlledInputContainer', function suite() {
     ];
 
     const store = mockStore({
-      options: {
+      optionList: {
         [optionListName]: options,
       },
     });

@@ -20,7 +20,7 @@ describe('StructuredDateInputContainer', function suite() {
       { value: 'qual1', label: 'Qual 1' },
     ];
 
-    const options = {
+    const optionLists = {
       dateQualifiers,
     };
 
@@ -31,8 +31,8 @@ describe('StructuredDateInputContainer', function suite() {
     };
 
     const store = mockStore({
-      options,
       vocabulary,
+      optionList: optionLists,
     });
 
     const context = {
@@ -47,7 +47,7 @@ describe('StructuredDateInputContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(StructuredDateInput);
-    result.props.optionLists.should.deep.equal(options);
+    result.props.optionLists.should.deep.equal(optionLists);
     result.props.terms.should.deep.equal({
       dateera: [],
       datecertainty: [],
@@ -63,7 +63,7 @@ describe('StructuredDateInputContainer', function suite() {
       { value: 'qual1', label: 'Qual 1' },
     ];
 
-    const options = {
+    const optionLists = {
       dateQualifiers,
     };
 
@@ -74,8 +74,8 @@ describe('StructuredDateInputContainer', function suite() {
     };
 
     const store = mockStore({
-      options,
       vocabulary,
+      optionList: optionLists,
     });
 
     const context = {
@@ -122,7 +122,7 @@ describe('StructuredDateInputContainer', function suite() {
       { value: 'qual1', label: 'Qual 1' },
     ];
 
-    const options = {
+    const optionLists = {
       dateQualifiers,
     };
 
@@ -133,8 +133,8 @@ describe('StructuredDateInputContainer', function suite() {
     };
 
     const store = mockStore({
-      options,
       vocabulary,
+      optionList: optionLists,
     });
 
     const context = {

@@ -4,7 +4,7 @@ import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
-import options, * as fromOptions from './options';
+import optionList, * as fromOptionList from './optionList';
 import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
@@ -16,7 +16,7 @@ export default combineReducers({
   idGenerator,
   login,
   logout,
-  options,
+  optionList,
   partialTermSearch,
   prefs,
   record,
@@ -77,8 +77,8 @@ export function isPanelCollapsed(state, recordType, name) {
   return fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
 }
 
-export function getOptions(state, optionListName) {
-  return fromOptions.get(state.options, optionListName);
+export function getOptionList(state, optionListName) {
+  return fromOptionList.get(state.optionList, optionListName);
 }
 
 export function getVocabulary(state, vocabularyName) {
