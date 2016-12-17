@@ -43,7 +43,13 @@ export const readRecord = (serviceConfig, csid) => (dispatch) => {
 
   const serviceName = serviceConfig.name;
 
-  return getSession().read(`${serviceName}/${csid}`)
+  const config = {
+    params: {
+      wf_deleted: false,
+    },
+  };
+
+  return getSession().read(`${serviceName}/${csid}`, config)
     .then(response => dispatch({
       type: RECORD_READ_FULFILLED,
       payload: response,

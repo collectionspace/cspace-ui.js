@@ -28,7 +28,10 @@ export default (pluginContext) => {
       <Panel name="idPanel" collapsible>
         <Row>
           <div>
-            <IDGeneratorInput name="objectNumber" />
+            <IDGeneratorInput
+              name="objectNumber"
+              idGeneratorName="accession,intake,loanin"
+            />
             <TextInput name="numberOfObjects" />
             <CompoundInput name="otherNumberList">
               <CompoundInput name="otherNumber" tabular repeating>

@@ -15,6 +15,7 @@ export const readVocabularyItems = vocabularyName => (dispatch) => {
   const config = {
     params: {
       pgSz: '0',
+      wf_deleted: false,
     },
   };
 

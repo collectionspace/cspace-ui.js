@@ -11,6 +11,7 @@ import script from 'scriptjs';
 import warning from 'warning';
 
 import { configureCSpace } from './actions/cspace';
+import { addIDGenerators } from './actions/idGenerator';
 import { addOptions } from './actions/options';
 import reducer from './reducers';
 import App from './components/App';
@@ -20,6 +21,8 @@ import sharedOptionLists from './plugins/optionLists/shared';
 import citationRecordType from './plugins/recordTypes/citation';
 import conceptRecordType from './plugins/recordTypes/concept';
 import groupRecordType from './plugins/recordTypes/group';
+import intakeRecordType from './plugins/recordTypes/intake';
+import loaninRecordType from './plugins/recordTypes/loanin';
 import objectRecordType from './plugins/recordTypes/object';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
@@ -54,6 +57,8 @@ const defaultConfig = mergeConfig({
     citationRecordType(),
     conceptRecordType(),
     groupRecordType(),
+    intakeRecordType(),
+    loaninRecordType(),
     objectRecordType(),
     personRecordType(),
     placeRecordType(),
@@ -67,6 +72,7 @@ module.exports = (uiConfig) => {
     className,
     container,
     cspaceUrl,
+    idGenerators,
     index,
     locale,
     messages,
@@ -93,6 +99,7 @@ module.exports = (uiConfig) => {
     }));
 
     store.dispatch(addOptions(optionLists));
+    store.dispatch(addIDGenerators(idGenerators));
 
     const props = {
       className,

@@ -16,6 +16,10 @@ import {
   RECORD_SAVE_FULFILLED,
 } from '../../actions/record';
 
+import {
+  CREATE_ID_FULFILLED,
+} from '../../actions/idGenerator';
+
 const addFieldInstance = (state, action) => {
   const {
     csid,
@@ -154,6 +158,26 @@ const handleRecordSaveFulfilled = (state, action) => {
   });
 };
 
+const handleCreateIDFulfilled = (state, action) => {
+  const {
+    csid,
+    path,
+  } = action.meta;
+
+  const data = state[csid];
+
+  if (!data) {
+    return state;
+  }
+
+  const newValue = action.payload.data;
+  const updatedData = deepSet(data, path, newValue);
+
+  return Object.assign({}, state, {
+    [csid]: updatedData,
+  });
+};
+
 export default (state = {}, action) => {
   switch (action.type) {
     case ADD_FIELD_INSTANCE:
@@ -170,6 +194,8 @@ export default (state = {}, action) => {
       return handleRecordReadFulfilled(state, action);
     case RECORD_SAVE_FULFILLED:
       return handleRecordSaveFulfilled(state, action);
+    case CREATE_ID_FULFILLED:
+      return handleCreateIDFulfilled(state, action);
     default:
       return state;
   }

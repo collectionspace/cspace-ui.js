@@ -27,6 +27,7 @@ describe('reducer', function suite() {
     state.should.have.all.keys([
       'routing',
       'cspace',
+      'idGenerator',
       'login',
       'logout',
       'partialTermSearch',

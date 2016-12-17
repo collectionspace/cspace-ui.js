@@ -72,6 +72,7 @@ export default class RecordEditor extends Component {
     const {
       data,
       recordType,
+      generateID,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -90,6 +91,7 @@ export default class RecordEditor extends Component {
     } = config;
 
     const handlers = {
+      generateID,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -120,6 +122,7 @@ export default class RecordEditor extends Component {
 RecordEditor.propTypes = {
   recordType: PropTypes.string.isRequired,
   data: PropTypes.instanceOf(Immutable.Map),
+  generateID: PropTypes.func,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,

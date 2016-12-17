@@ -8,6 +8,10 @@ import {
 } from '../../actions/record';
 
 import {
+  createID,
+} from '../../actions/idGenerator';
+
+import {
   getRecordData,
 } from '../../reducers';
 
@@ -29,6 +33,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   } = ownProps;
 
   return {
+    generateID: (idGeneratorName, path) => {
+      dispatch(createID(idGeneratorName, csid, path));
+    },
     onAddInstance: (path) => {
       dispatch(addFieldInstance(csid, path));
     },
