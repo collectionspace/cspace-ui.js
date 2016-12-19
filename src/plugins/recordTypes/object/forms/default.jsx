@@ -693,7 +693,7 @@ export default (pluginContext) => {
       <Panel name="collectPanel" collapsible collapsed>
         <Row>
           <div>
-            <StructuredDateInput name="fieldCollectionDate" />
+            <StructuredDateInput name="fieldCollectionDateGroup" />
 
             <CompoundInput name="fieldCollectionMethods">
               <VocabularyControlledInput
