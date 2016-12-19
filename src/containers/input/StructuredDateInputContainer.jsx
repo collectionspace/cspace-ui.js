@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
+import Immutable from 'immutable';
 import { readVocabularyItems } from '../../actions/vocabulary';
 import { getOptionList, getVocabulary } from '../../reducers';
 
@@ -83,6 +84,7 @@ const mapStateToProps = (state, ownProps) => {
   });
 
   return {
+    defaultValue: Immutable.Map(),
     optionLists,
     terms,
     formatFieldLabel: name => intl.formatMessage(messages[name]),
