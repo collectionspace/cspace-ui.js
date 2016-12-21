@@ -6,6 +6,7 @@ import title from './title';
 export default () => pluginContext => ({
   recordTypes: {
     group: {
+      group: 'procedure',
       messageDescriptors,
       serviceConfig,
       forms: {

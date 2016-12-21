@@ -62,16 +62,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
       warning(config, `The authority record type '${authorityName}' is not configured. Check the authority prop of the input with name '${ownProps.name}'.`);
 
-      if (config) {
-        const serviceConfig = config.serviceConfig;
-
-        if (
-          serviceConfig &&
-          serviceConfig.vocabularies &&
-          serviceConfig.vocabularies[vocabularyName]
-        ) {
-          dispatch(addTerm(serviceConfig, vocabularyName, displayName));
-        }
+      if (config &&
+        config.vocabularies &&
+        config.vocabularies[vocabularyName]
+      ) {
+        dispatch(
+          addTerm(
+            authorityName,
+            config.serviceConfig,
+            vocabularyName,
+            config.vocabularies[vocabularyName].serviceConfig,
+            displayName
+          )
+        );
       }
     },
     findMatchingTerms: (partialTerm) => {
@@ -85,16 +88,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         warning(config, `The authority record type '${authorityName}' is not configured. Check the authority prop of the input with name '${ownProps.name}'.`);
 
-        if (config) {
-          const serviceConfig = config.serviceConfig;
-
-          if (
-            serviceConfig &&
-            serviceConfig.vocabularies &&
-            serviceConfig.vocabularies[vocabularyName]
-          ) {
-            dispatch(findMatchingTerms(serviceConfig, vocabularyName, partialTerm));
-          }
+        if (config &&
+          config.vocabularies &&
+          config.vocabularies[vocabularyName]
+        ) {
+          dispatch(
+            findMatchingTerms(
+              authorityName,
+              config.serviceConfig,
+              vocabularyName,
+              config.vocabularies[vocabularyName].serviceConfig,
+              partialTerm
+            )
+          );
         }
       });
     },

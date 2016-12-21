@@ -4,29 +4,9 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     citation: {
+      group: 'authority',
       serviceConfig: {
         name: 'citationauthorities',
-        isAuthority: true,
-        vocabularies: {
-          citation: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.citationauthorities.citation.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'Local Citations',
-              },
-            }),
-          },
-          worldcat: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.citationauthorities.worldcat.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'WorldCat Citations',
-              },
-            }),
-          },
-        },
         quickAddData: values => ({
           document: {
             '@name': 'citations',
@@ -52,6 +32,46 @@ export default () => () => ({
         default: <div />,
       },
       title: () => '',
+      vocabularies: {
+        all: {
+          group: 'all',
+          isCreatable: false,
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.citation.all.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'All vocabularies',
+            },
+          }),
+          serviceConfig: {
+            name: '_ALL_',
+          },
+        },
+        local: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.citation.local.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'Local Citations',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(citation)',
+          },
+        },
+        worldcat: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.citation.worldcat.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'WorldCat Citations',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(worldcat)',
+          },
+        },
+      },
     },
   },
 });

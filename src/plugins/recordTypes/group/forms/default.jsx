@@ -37,7 +37,7 @@ export default (pluginContext) => {
           <div>
             <AuthorityControlledInput
               name="owner"
-              authority="person/person"
+              authority="person/local"
             />
           </div>
         </Row>

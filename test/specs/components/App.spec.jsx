@@ -20,6 +20,8 @@ const plugins = {
   record: {},
 };
 
+const recordTypes = {};
+
 describe('App', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -31,6 +33,7 @@ describe('App', function suite() {
         store={store}
         history={hashHistory}
         plugins={plugins}
+        recordTypes={recordTypes}
       />, this.container);
 
     this.container.querySelector('div.cspace-ui-RootPage--common').should

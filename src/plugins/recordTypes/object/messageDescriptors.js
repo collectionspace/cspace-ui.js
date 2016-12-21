@@ -841,8 +841,8 @@ export default defineMessages({
     id: 'field.object.referenceNote',
     defaultMessage: 'Reference note',
   },
-  fieldCollectionDate: {
-    id: 'field.object.fieldCollectionDate',
+  fieldCollectionDateGroup: {
+    id: 'field.object.fieldCollectionDateGroup',
     defaultMessage: 'Field collection date',
   },
   fieldCollectionMethods: {

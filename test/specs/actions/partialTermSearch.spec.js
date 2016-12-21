@@ -24,19 +24,21 @@ chai.should();
 describe('partialTermSearch action creator', function suite() {
   describe('addTerm', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
+    const authorityName = 'person';
     const authorityServiceName = 'personauthorities';
-    const vocabularyName = 'person';
-    const termAddUrl = `/cspace-services/${authorityServiceName}/urn:cspace:name(${vocabularyName})/items`;
+    const vocabularyName = 'local';
+    const vocabularyServiceName = 'urn:cspace:name(person)';
+    const termAddUrl = `/cspace-services/${authorityServiceName}/${vocabularyServiceName}/items`;
     const termReadUrl = '/some/new/url/csid';
     const displayName = 'abc';
 
-    const serviceConfig = {
+    const authorityServiceConfig = {
       name: 'personauthorities',
-      vocabularies: {
-        person: {},
-        ulan_pa: {},
-      },
       quickAddData: () => ({}),
+    };
+
+    const vocabularyServiceConfig = {
+      name: 'urn:cspace:name(person)',
     };
 
     before(() => {
@@ -66,8 +68,12 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(addTerm(serviceConfig, vocabularyName, displayName))
-        .then(() => {
+      return store.dispatch(addTerm(
+        authorityName,
+        authorityServiceConfig,
+        vocabularyName,
+        vocabularyServiceConfig,
+        displayName)).then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -76,7 +82,7 @@ describe('partialTermSearch action creator', function suite() {
             type: ADD_TERM_STARTED,
             meta: {
               displayName,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             },
           });
@@ -91,7 +97,7 @@ describe('partialTermSearch action creator', function suite() {
             },
             meta: {
               displayName,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             },
           });
@@ -106,8 +112,12 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(addTerm(serviceConfig, vocabularyName, displayName))
-        .then(() => {
+      return store.dispatch(addTerm(
+        authorityName,
+        authorityServiceConfig,
+        vocabularyName,
+        vocabularyServiceConfig,
+        displayName)).then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -116,7 +126,7 @@ describe('partialTermSearch action creator', function suite() {
             type: ADD_TERM_STARTED,
             meta: {
               displayName,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             },
           });
@@ -125,7 +135,7 @@ describe('partialTermSearch action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               displayName,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             });
         });
@@ -134,18 +144,20 @@ describe('partialTermSearch action creator', function suite() {
 
   describe('findMatchingTerms', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
+    const authorityName = 'person';
     const authorityServiceName = 'personauthorities';
     const vocabularyName = 'person';
+    const vocabularyServiceName = 'urn:cspace:name(person)';
     const partialTerm = 'abc';
-    const termSearchUrl = `/cspace-services/${authorityServiceName}/urn:cspace:name(${vocabularyName})/items?pt=${partialTerm}&wf_deleted=false`;
+    const termSearchUrl = `/cspace-services/${authorityServiceName}/${vocabularyServiceName}/items?pt=${partialTerm}&wf_deleted=false`;
 
-    const serviceConfig = {
+    const authorityServiceConfig = {
       name: 'personauthorities',
-      vocabularies: {
-        person: {},
-        ulan_pa: {},
-      },
       quickAddData: () => ({}),
+    };
+
+    const vocabularyServiceConfig = {
+      name: 'urn:cspace:name(person)',
     };
 
     before(() => {
@@ -168,8 +180,13 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(findMatchingTerms(serviceConfig, vocabularyName, partialTerm))
-        .then(() => {
+      return store.dispatch(findMatchingTerms(
+          authorityName,
+          authorityServiceConfig,
+          vocabularyName,
+          vocabularyServiceConfig,
+          partialTerm
+        )).then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -178,7 +195,7 @@ describe('partialTermSearch action creator', function suite() {
             type: PARTIAL_TERM_SEARCH_STARTED,
             meta: {
               partialTerm,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             },
           });
@@ -193,7 +210,7 @@ describe('partialTermSearch action creator', function suite() {
             },
             meta: {
               partialTerm,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             },
           });
@@ -208,8 +225,13 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(findMatchingTerms(serviceConfig, vocabularyName, partialTerm))
-        .then(() => {
+      return store.dispatch(findMatchingTerms(
+          authorityName,
+          authorityServiceConfig,
+          vocabularyName,
+          vocabularyServiceConfig,
+          partialTerm
+        )).then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -218,7 +240,7 @@ describe('partialTermSearch action creator', function suite() {
             type: PARTIAL_TERM_SEARCH_STARTED,
             meta: {
               partialTerm,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             },
           });
@@ -227,7 +249,7 @@ describe('partialTermSearch action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               partialTerm,
-              authorityServiceName,
+              authorityName,
               vocabularyName,
             });
         });
