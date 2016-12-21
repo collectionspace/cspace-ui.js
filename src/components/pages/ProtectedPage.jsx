@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react';
 import Header from '../sections/Header';
 
+const propTypes = {
+  username: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
+
 export default function ProtectedPage(props) {
   const {
     username,
@@ -9,14 +14,12 @@ export default function ProtectedPage(props) {
 
   return (
     <div>
-      <Header username={username} />
-
+      <Header
+        username={username}
+      />
       {children}
     </div>
   );
 }
 
-ProtectedPage.propTypes = {
-  username: PropTypes.string.isRequired,
-  children: PropTypes.node,
-};
+ProtectedPage.propTypes = propTypes;

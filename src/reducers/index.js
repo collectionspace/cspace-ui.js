@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
+import keywordSearch, * as fromKeywordSearch from './keywordSearch';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
 import optionList, * as fromOptionList from './optionList';
@@ -14,6 +15,7 @@ import vocabulary, * as fromVocabulary from './vocabulary';
 export default combineReducers({
   cspace,
   idGenerator,
+  keywordSearch,
   login,
   logout,
   optionList,
@@ -93,3 +95,14 @@ export function getIDGenerator(state, idGeneratorName) {
   return fromIDGenerator.get(state.idGenerator, idGeneratorName);
 }
 
+export function getKeywordSearchKeyword(state) {
+  return fromKeywordSearch.getKeyword(state.keywordSearch);
+}
+
+export function getKeywordSearchRecordType(state) {
+  return fromKeywordSearch.getRecordType(state.keywordSearch);
+}
+
+export function getKeywordSearchVocabulary(state) {
+  return fromKeywordSearch.getVocabulary(state.keywordSearch);
+}

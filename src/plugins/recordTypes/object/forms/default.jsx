@@ -203,10 +203,7 @@ export default (pluginContext) => {
                   <OptionListControlledInput name="dimension" optionListName="dimensions" />
                   <AuthorityControlledInput
                     name="measuredBy"
-                    authority={
-                      'person/person,person/person_shared,organization/organization,' +
-                      'organization/organization_shared'
-                    }
+                    authority="person/local,person/shared,organization/local,organization/shared"
                   />
                   <OptionListControlledInput
                     name="measurementMethod"
@@ -245,7 +242,7 @@ export default (pluginContext) => {
               <CompoundInput name="contentConcepts">
                 <AuthorityControlledInput
                   name="contentConcept"
-                  authority="concept/concept,concept/material_ca,concept/material_ca_shared"
+                  authority="concept/associated,concept/material,concept/material_shared"
                   repeating
                 />
               </CompoundInput>
@@ -279,7 +276,7 @@ export default (pluginContext) => {
               <CompoundInput name="contentPersons">
                 <AuthorityControlledInput
                   name="contentPerson"
-                  authority="person/person,person/person_shared,person/ulan_pa"
+                  authority="person/local,person/shared,person/ulan"
                   repeating
                 />
               </CompoundInput>
@@ -299,10 +296,7 @@ export default (pluginContext) => {
               <CompoundInput name="contentOrganizations">
                 <AuthorityControlledInput
                   name="contentOrganization"
-                  authority={
-                    'organization/organization,organization/organization_shared,' +
-                    'organization/ulan_oa'
-                  }
+                  authority="organization/local,organization/shared,organization/ulan"
                   repeating
                 />
               </CompoundInput>
@@ -336,10 +330,7 @@ export default (pluginContext) => {
                   <div>
                     <AuthorityControlledInput
                       name="inscriptionContentInscriber"
-                      authority={
-                        'person/person,organization/organization,' +
-                        'organization/organization_shared'
-                      }
+                      authority="person/local,organization/local,organization/shared"
                     />
                     <VocabularyControlledInput
                       name="inscriptionContentLanguage"
@@ -383,10 +374,7 @@ export default (pluginContext) => {
                   <div>
                     <AuthorityControlledInput
                       name="inscriptionDescriptionInscriber"
-                      authority={
-                        'person/person,person/person_shared,organization/organization,' +
-                        'organization/organization_shared'
-                      }
+                      authority="person/local,person/shared,organization/local,organization/shared"
                     />
                     <StructuredDateInput name="inscriptionDescriptionDateGroup" />
                   </div>
@@ -449,7 +437,7 @@ export default (pluginContext) => {
               <CompoundInput name="objectProductionPersonGroup" tabular repeating>
                 <AuthorityControlledInput
                   name="objectProductionPerson"
-                  authority="person/person,person/person_shared"
+                  authority="person/local,person/shared"
                 />
                 <TextInput name="objectProductionPersonRole" />
               </CompoundInput>
@@ -459,7 +447,7 @@ export default (pluginContext) => {
               <CompoundInput name="objectProductionOrganizationGroup" tabular repeating>
                 <AuthorityControlledInput
                   name="objectProductionOrganization"
-                  authority="organization/organization,organization/organization_shared"
+                  authority="organization/local,organization/shared"
                 />
                 <TextInput name="objectProductionOrganizationRole" />
               </CompoundInput>
@@ -494,7 +482,7 @@ export default (pluginContext) => {
                 <CompoundInput name="assocConceptGroup" tabular repeating>
                   <AuthorityControlledInput
                     name="assocConcept"
-                    authority="concept/concept"
+                    authority="concept/associated"
                   />
                   <TextInput name="assocConceptType" />
                   <TextInput name="assocConceptNote" />
@@ -513,7 +501,7 @@ export default (pluginContext) => {
                 <CompoundInput name="assocOrganizationGroup" tabular repeating>
                   <AuthorityControlledInput
                     name="assocOrganization"
-                    authority="organization/organization,organization/organization_shared"
+                    authority="organization/local,organization/shared"
                   />
                   <TextInput name="assocOrganizationType" />
                   <TextInput name="assocOrganizationNote" />
@@ -532,7 +520,7 @@ export default (pluginContext) => {
                 <CompoundInput name="assocPersonGroup" tabular repeating>
                   <AuthorityControlledInput
                     name="assocPerson"
-                    authority="person/person,person/person_shared"
+                    authority="person/local,person/shared"
                   />
                   <TextInput name="assocPersonType" />
                   <TextInput name="assocPersonNote" />
@@ -558,7 +546,7 @@ export default (pluginContext) => {
                 <CompoundInput name="assocEventOrganizations">
                   <AuthorityControlledInput
                     name="assocEventOrganization"
-                    authority="organization/organization,organization/organization_shared"
+                    authority="organization/local,organization/shared"
                     repeating
                   />
                 </CompoundInput>
@@ -570,7 +558,7 @@ export default (pluginContext) => {
                 <CompoundInput name="assocEventPersons">
                   <AuthorityControlledInput
                     name="assocEventPerson"
-                    authority="person/person,person/person_shared"
+                    authority="person/local,person/shared"
                     repeating
                   />
                 </CompoundInput>
@@ -607,10 +595,7 @@ export default (pluginContext) => {
             <CompoundInput name="owners">
               <AuthorityControlledInput
                 name="owner"
-                authority={
-                  'person/person,person/person_shared,organization/organization,' +
-                  'organization/organization_shared'
-                }
+                authority="person/local,person/shared,organization/local,organization/shared"
                 repeating
               />
             </CompoundInput>
@@ -683,7 +668,7 @@ export default (pluginContext) => {
           <CompoundInput name="referenceGroup" tabular repeating>
             <AuthorityControlledInput
               name="reference"
-              authority="citation/citation,citation/citation_shared,citation/worldcat"
+              authority="citation/local,citation/shared,citation/worldcat"
             />
             <TextInput name="referenceNote" />
           </CompoundInput>
@@ -710,13 +695,13 @@ export default (pluginContext) => {
           <div>
             <AuthorityControlledInput
               name="fieldCollectionPlace"
-              authority="place/place,place/place_shared,place/tgn_place"
+              authority="place/local,place/shared,place/tgn"
             />
 
             <CompoundInput name="fieldCollectionSources">
               <AuthorityControlledInput
                 name="fieldCollectionSource"
-                authority="person/person,person/person_shared"
+                authority="person/local,person/shared"
                 repeating
               />
             </CompoundInput>
@@ -724,10 +709,7 @@ export default (pluginContext) => {
             <CompoundInput name="fieldCollectors">
               <AuthorityControlledInput
                 name="fieldCollector"
-                authority={
-                  'person/person,person/person_shared,organization/organization' +
-                  'organization/organization_shared'
-                }
+                authority="person/local,person/shared,organization/local,organization/shared"
                 repeating
               />
             </CompoundInput>

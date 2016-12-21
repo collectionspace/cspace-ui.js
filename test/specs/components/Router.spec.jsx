@@ -21,6 +21,7 @@ const mockStore = configureMockStore();
 
 const store = mockStore({
   login: {},
+  keywordSearch: Immutable.Map(),
   user: {
     username: '',
   },

@@ -4,29 +4,9 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     place: {
+      group: 'authority',
       serviceConfig: {
         name: 'placeauthorities',
-        isAuthority: true,
-        vocabularies: {
-          place: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.placeauthorities.place.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'Local Places',
-              },
-            }),
-          },
-          tgn_place: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.placeauthorities.tgn_place.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'Thesaurus of Geographic Names',
-              },
-            }),
-          },
-        },
         quickAddData: values => ({
           document: {
             '@name': 'places',
@@ -52,6 +32,46 @@ export default () => () => ({
         default: <div />,
       },
       title: () => '',
+      vocabularies: {
+        all: {
+          group: 'all',
+          isCreatable: false,
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.place.all.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'All vocabularies',
+            },
+          }),
+          serviceConfig: {
+            name: '_ALL_',
+          },
+        },
+        local: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.place.local.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'Local Places',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(place)',
+          },
+        },
+        tgn: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.place.tgn.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'Thesaurus of Geographic Names',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(tgn_place)',
+          },
+        },
+      },
     },
   },
 });

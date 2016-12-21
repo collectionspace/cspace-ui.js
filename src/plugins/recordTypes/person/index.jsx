@@ -4,29 +4,9 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     person: {
+      group: 'authority',
       serviceConfig: {
         name: 'personauthorities',
-        isAuthority: true,
-        vocabularies: {
-          person: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.personauthorities.person.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'Local Persons',
-              },
-            }),
-          },
-          ulan_pa: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.personauthorities.ulan_pa.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'ULAN Persons',
-              },
-            }),
-          },
-        },
         quickAddData: values => ({
           document: {
             '@name': 'persons',
@@ -52,6 +32,46 @@ export default () => () => ({
         default: <div />,
       },
       title: () => '',
+      vocabularies: {
+        all: {
+          group: 'all',
+          isCreatable: false,
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.person.all.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'All vocabularies',
+            },
+          }),
+          serviceConfig: {
+            name: '_ALL',
+          },
+        },
+        local: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.person.local.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'Local Persons',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(person)',
+          },
+        },
+        ulan: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.person.ulan.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'ULAN Persons',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(ulan_pa)',
+          },
+        },
+      },
     },
   },
 });

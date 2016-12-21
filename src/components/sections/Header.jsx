@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
-import { defineMessages, injectIntl } from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router';
+import KeywordSearchContainer from '../../containers/search/KeywordSearchContainer';
 import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
+import withRecordTypes from '../../enhancers/withRecordTypes';
 import bannerStyles from '../../../styles/cspace-ui/Banner.css';
 import logoStyles from '../../../styles/cspace-ui/Logo.css';
 
@@ -12,11 +14,23 @@ const messages = defineMessages({
     description: 'The name of the application.',
     defaultMessage: 'CollectionSpace',
   },
+  keywordSearchPlaceholder: {
+    id: 'keywordSearch.placeholder',
+    description: 'The placeholder text to display in the keyword search input.',
+    defaultMessage: 'Search keywords...',
+  },
 });
+
+const propTypes = {
+  intl: intlShape,
+  recordTypes: PropTypes.object,
+  username: PropTypes.string.isRequired,
+};
 
 function Header(props) {
   const {
     intl,
+    recordTypes,
     username,
   } = props;
 
@@ -28,6 +42,10 @@ function Header(props) {
         <Link to="/" title={name}>
           <div className={logoStyles.common} />
         </Link>
+        <KeywordSearchContainer
+          intl={intl}
+          recordTypes={recordTypes}
+        />
         <UserMenu username={username} />
       </div>
       <NavBar />
@@ -35,9 +53,6 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
-  intl: PropTypes.object,
-  username: PropTypes.string.isRequired,
-};
+Header.propTypes = propTypes;
 
-export default injectIntl(Header);
+export default injectIntl(withRecordTypes(Header));

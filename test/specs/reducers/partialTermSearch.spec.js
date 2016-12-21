@@ -19,8 +19,8 @@ chai.use(chaiImmutable);
 chai.should();
 
 describe('partialTermSearch reducer', function suite() {
-  const authorityServiceName = 'personauthorities';
-  const vocabularyName = 'person';
+  const authorityName = 'person';
+  const vocabularyName = 'local';
   const displayName = 'abcd';
   const partialTerm = 'zyxw';
 
@@ -33,12 +33,12 @@ describe('partialTermSearch reducer', function suite() {
       type: ADD_TERM_STARTED,
       meta: {
         displayName,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     }).should.equal(Immutable.fromJS({
       [displayName]: {
-        [authorityServiceName]: {
+        [authorityName]: {
           [vocabularyName]: {
             isAddPending: true,
           },
@@ -59,12 +59,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: addTermResponse,
       meta: {
         displayName,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     }).should.equal(Immutable.fromJS({
       [displayName]: {
-        [authorityServiceName]: {
+        [authorityName]: {
           [vocabularyName]: {
             newTerm: newTermData,
           },
@@ -81,12 +81,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: error,
       meta: {
         displayName,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     }).should.equal(Immutable.fromJS({
       [displayName]: {
-        [authorityServiceName]: {
+        [authorityName]: {
           [vocabularyName]: {
             error,
           },
@@ -100,12 +100,12 @@ describe('partialTermSearch reducer', function suite() {
       type: PARTIAL_TERM_SEARCH_STARTED,
       meta: {
         partialTerm,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     }).should.equal(Immutable.fromJS({
       [partialTerm]: {
-        [authorityServiceName]: {
+        [authorityName]: {
           [vocabularyName]: {
             isSearchPending: true,
           },
@@ -136,12 +136,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: searchResponse,
       meta: {
         partialTerm,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     });
 
-    newState.getIn([partialTerm, authorityServiceName, vocabularyName, 'items']).should.deep.equal(items);
+    newState.getIn([partialTerm, authorityName, vocabularyName, 'items']).should.deep.equal(items);
 
     getMatches(newState).should.equal(newState);
   });
@@ -162,12 +162,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: searchResponse,
       meta: {
         partialTerm,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     });
 
-    newState.getIn([partialTerm, authorityServiceName, vocabularyName, 'items']).should
+    newState.getIn([partialTerm, authorityName, vocabularyName, 'items']).should
       .deep.equal([]);
 
     getMatches(newState).should.equal(newState);
@@ -192,12 +192,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: searchResponse,
       meta: {
         partialTerm,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     });
 
-    newState.getIn([partialTerm, authorityServiceName, vocabularyName, 'items']).should
+    newState.getIn([partialTerm, authorityName, vocabularyName, 'items']).should
       .deep.equal([items]);
 
     getMatches(newState).should.equal(newState);
@@ -211,18 +211,18 @@ describe('partialTermSearch reducer', function suite() {
       payload: error,
       meta: {
         partialTerm,
-        authorityServiceName,
+        authorityName,
         vocabularyName,
       },
     });
 
-    newState.getIn([partialTerm, authorityServiceName, vocabularyName, 'error']).should.deep.equal(error);
+    newState.getIn([partialTerm, authorityName, vocabularyName, 'error']).should.deep.equal(error);
   });
 
   it('should handle CLEAR_PARTIAL_TERM_SEARCH_RESULTS', function test() {
     reducer(Immutable.fromJS({
       [partialTerm]: {
-        [authorityServiceName]: {
+        [authorityName]: {
           [vocabularyName]: {
             isSearchPending: true,
           },

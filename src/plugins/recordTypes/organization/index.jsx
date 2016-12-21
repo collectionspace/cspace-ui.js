@@ -4,29 +4,9 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     organization: {
+      group: 'authority',
       serviceConfig: {
         name: 'orgauthorities',
-        isAuthority: true,
-        vocabularies: {
-          organization: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.orgauthorities.organization.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'Local Organizations',
-              },
-            }),
-          },
-          ulan_oa: {
-            messageDescriptors: defineMessages({
-              vocabNameTitle: {
-                id: 'vocab.orgauthorities.ulan_oa.nameTitle',
-                description: 'The name of the vocabulary when used as a title.',
-                defaultMessage: 'ULAN Organizations',
-              },
-            }),
-          },
-        },
         quickAddData: values => ({
           document: {
             '@name': 'organizations',
@@ -52,6 +32,46 @@ export default () => () => ({
         default: <div />,
       },
       title: () => '',
+      vocabularies: {
+        all: {
+          group: 'all',
+          isCreatable: false,
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.organization.all.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'All vocabularies',
+            },
+          }),
+          serviceConfig: {
+            name: '_ALL_',
+          },
+        },
+        local: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.organization.local.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'Local Organizations',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(organization)',
+          },
+        },
+        ulan: {
+          messageDescriptors: defineMessages({
+            vocabNameTitle: {
+              id: 'vocab.organization.ulan.nameTitle',
+              description: 'The name of the vocabulary when used as a title.',
+              defaultMessage: 'ULAN Organizations',
+            },
+          }),
+          serviceConfig: {
+            name: 'urn:cspace:name(ulan_oa)',
+          },
+        },
+      },
     },
   },
 });

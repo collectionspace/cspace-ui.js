@@ -28,6 +28,7 @@ describe('reducer', function suite() {
       'routing',
       'cspace',
       'idGenerator',
+      'keywordSearch',
       'login',
       'logout',
       'optionList',

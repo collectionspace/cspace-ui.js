@@ -33,10 +33,14 @@ describe('AuthorityControlledInputContainer', function suite() {
       person: {
         serviceConfig: {
           name: 'personauthorities',
-          vocabularies: {
-            person: {},
-          },
           quickAddData: () => {},
+        },
+        vocabularies: {
+          local: {
+            serviceConfig: {
+              name: 'urn:cspace:name(person)',
+            },
+          },
         },
       },
     };
@@ -45,7 +49,7 @@ describe('AuthorityControlledInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedAuthorityControlledInput
-        authority="person/person"
+        authority="person/local"
         recordTypes={recordTypes}
       />, context);
 
@@ -77,10 +81,14 @@ describe('AuthorityControlledInputContainer', function suite() {
       person: {
         serviceConfig: {
           name: 'personauthorities',
-          vocabularies: {
-            person: {},
-          },
           quickAddData: () => {},
+        },
+        vocabularies: {
+          local: {
+            serviceConfig: {
+              name: 'urn:cspace:name(person)',
+            },
+          },
         },
       },
     };
@@ -89,7 +97,7 @@ describe('AuthorityControlledInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedAuthorityControlledInput
-        authority="person/person"
+        authority="person/local"
         recordTypes={recordTypes}
       />, context);
 
@@ -100,13 +108,13 @@ describe('AuthorityControlledInputContainer', function suite() {
     // dispatches ADD_TERM_STARTED.
 
     try {
-      result.props.addTerm('person', 'person', 'abcd');
+      result.props.addTerm('person', 'local', 'abcd');
     } catch (error) {
       const action = store.getActions()[0];
 
       action.should.have.property('type', ADD_TERM_STARTED);
-      action.should.have.deep.property('meta.authorityServiceName', 'personauthorities');
-      action.should.have.deep.property('meta.vocabularyName', 'person');
+      action.should.have.deep.property('meta.authorityName', 'person');
+      action.should.have.deep.property('meta.vocabularyName', 'local');
       action.should.have.deep.property('meta.displayName', 'abcd');
     }
 
@@ -120,8 +128,8 @@ describe('AuthorityControlledInputContainer', function suite() {
       const action = store.getActions()[1];
 
       action.should.have.property('type', PARTIAL_TERM_SEARCH_STARTED);
-      action.should.have.deep.property('meta.authorityServiceName', 'personauthorities');
-      action.should.have.deep.property('meta.vocabularyName', 'person');
+      action.should.have.deep.property('meta.authorityName', 'person');
+      action.should.have.deep.property('meta.vocabularyName', 'local');
       action.should.have.deep.property('meta.partialTerm', 'abcd');
     }
 
@@ -160,10 +168,14 @@ describe('AuthorityControlledInputContainer', function suite() {
       person: {
         serviceConfig: {
           name: 'personauthorities',
-          vocabularies: {
-            person: {},
-          },
           quickAddData: () => {},
+        },
+        vocabularies: {
+          local: {
+            serviceConfig: {
+              name: 'urn:cspace:name(person)',
+            },
+          },
         },
       },
     };
@@ -172,7 +184,7 @@ describe('AuthorityControlledInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedAuthorityControlledInput
-        authority="person/person"
+        authority="person/local"
         intl={intl}
         recordTypes={recordTypes}
       />, context);

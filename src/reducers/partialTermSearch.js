@@ -18,7 +18,7 @@ export default (state = Immutable.Map(), action) => {
     case ADD_TERM_STARTED:
       return state.setIn([
         action.meta.displayName,
-        action.meta.authorityServiceName,
+        action.meta.authorityName,
         action.meta.vocabularyName,
       ], Immutable.Map({
         isAddPending: true,
@@ -26,7 +26,7 @@ export default (state = Immutable.Map(), action) => {
     case ADD_TERM_FULFILLED:
       return state.setIn([
         action.meta.displayName,
-        action.meta.authorityServiceName,
+        action.meta.authorityName,
         action.meta.vocabularyName,
       ], Immutable.Map({
         newTerm: Immutable.fromJS(action.payload.data),
@@ -34,7 +34,7 @@ export default (state = Immutable.Map(), action) => {
     case ADD_TERM_REJECTED:
       return state.setIn([
         action.meta.displayName,
-        action.meta.authorityServiceName,
+        action.meta.authorityName,
         action.meta.vocabularyName,
       ], Immutable.Map({
         error: action.payload,
@@ -42,7 +42,7 @@ export default (state = Immutable.Map(), action) => {
     case PARTIAL_TERM_SEARCH_STARTED:
       return state.setIn([
         action.meta.partialTerm,
-        action.meta.authorityServiceName,
+        action.meta.authorityName,
         action.meta.vocabularyName,
       ], Immutable.Map({
         isSearchPending: true,
@@ -62,7 +62,7 @@ export default (state = Immutable.Map(), action) => {
 
       return state.setIn([
         action.meta.partialTerm,
-        action.meta.authorityServiceName,
+        action.meta.authorityName,
         action.meta.vocabularyName,
       ], Immutable.Map({
         items,
@@ -70,7 +70,7 @@ export default (state = Immutable.Map(), action) => {
     case PARTIAL_TERM_SEARCH_REJECTED:
       return state.setIn([
         action.meta.partialTerm,
-        action.meta.authorityServiceName,
+        action.meta.authorityName,
         action.meta.vocabularyName,
       ], Immutable.Map({
         error: action.payload,

@@ -1,12 +1,21 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
+import { Provider as StoreProvider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import Immutable from 'immutable';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
 import Header from '../../../../src/components/sections/Header';
 
 chai.should();
+
+const mockStore = configureMockStore([]);
+
+const store = mockStore({
+  keywordSearch: Immutable.Map(),
+});
 
 describe('Header', function suite() {
   beforeEach(function before() {
@@ -16,7 +25,9 @@ describe('Header', function suite() {
   it('should render as a header', function test() {
     render(
       <IntlProvider locale="en">
-        <Header username="username" />
+        <StoreProvider store={store}>
+          <Header username="username" />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');

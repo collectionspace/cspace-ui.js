@@ -18,6 +18,7 @@ import App from './components/App';
 import createPluginContext from './helpers/createPluginContext';
 
 import sharedOptionLists from './plugins/optionLists/shared';
+import allRecordType from './plugins/recordTypes/all';
 import citationRecordType from './plugins/recordTypes/citation';
 import conceptRecordType from './plugins/recordTypes/concept';
 import groupRecordType from './plugins/recordTypes/group';
@@ -54,6 +55,7 @@ const defaultConfig = mergeConfig({
 }, {
   plugins: [
     sharedOptionLists(),
+    allRecordType(),
     citationRecordType(),
     conceptRecordType(),
     groupRecordType(),
