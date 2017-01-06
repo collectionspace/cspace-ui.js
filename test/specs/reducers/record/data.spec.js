@@ -110,9 +110,11 @@ describe('record data reducer', function suite() {
     state = reducer({}, {
       type: CREATE_NEW_RECORD,
       meta: {
-        serviceConfig: {
-          name: 'groups',
-          parts: {},
+        recordTypeConfig: {
+          serviceConfig: {
+            documentName: 'groups',
+            parts: {},
+          },
         },
       },
     });
@@ -128,9 +130,11 @@ describe('record data reducer', function suite() {
     state = reducer(state, {
       type: CREATE_NEW_RECORD,
       meta: {
-        serviceConfig: {
-          name: 'collectionobjects',
-          parts: {},
+        recordTypeConfig: {
+          serviceConfig: {
+            documentName: 'collectionobjects',
+            parts: {},
+          },
         },
       },
     });

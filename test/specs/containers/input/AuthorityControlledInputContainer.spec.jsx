@@ -29,16 +29,18 @@ describe('AuthorityControlledInputContainer', function suite() {
       store,
     };
 
-    const recordTypes = {
-      person: {
-        serviceConfig: {
-          name: 'personauthorities',
-          quickAddData: () => {},
-        },
-        vocabularies: {
-          local: {
-            serviceConfig: {
-              name: 'urn:cspace:name(person)',
+    const config = {
+      recordTypes: {
+        person: {
+          serviceConfig: {
+            name: 'personauthorities',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                name: 'urn:cspace:name(person)',
+              },
             },
           },
         },
@@ -50,14 +52,14 @@ describe('AuthorityControlledInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedAuthorityControlledInput
         authority="person/local"
-        recordTypes={recordTypes}
+        config={config}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(AuthorityControlledInput);
     result.props.should.have.property('matches', matches);
-    result.props.should.have.property('recordTypes', recordTypes);
+    result.props.should.have.property('recordTypes', config.recordTypes);
     result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
     result.props.should.have.property('formatSearchResultMessage').that.is.a('function');
     result.props.should.have.property('formatVocabName').that.is.a('function');
@@ -77,16 +79,19 @@ describe('AuthorityControlledInputContainer', function suite() {
       store,
     };
 
-    const recordTypes = {
-      person: {
-        serviceConfig: {
-          name: 'personauthorities',
-          quickAddData: () => {},
-        },
-        vocabularies: {
-          local: {
-            serviceConfig: {
-              name: 'urn:cspace:name(person)',
+    const config = {
+      recordTypes: {
+        person: {
+          name: 'person',
+          serviceConfig: {
+            name: 'personauthorities',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                name: 'urn:cspace:name(person)',
+              },
             },
           },
         },
@@ -98,7 +103,7 @@ describe('AuthorityControlledInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedAuthorityControlledInput
         authority="person/local"
-        recordTypes={recordTypes}
+        config={config}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -164,16 +169,18 @@ describe('AuthorityControlledInputContainer', function suite() {
       store,
     };
 
-    const recordTypes = {
-      person: {
-        serviceConfig: {
-          name: 'personauthorities',
-          quickAddData: () => {},
-        },
-        vocabularies: {
-          local: {
-            serviceConfig: {
-              name: 'urn:cspace:name(person)',
+    const config = {
+      recordTypes: {
+        person: {
+          serviceConfig: {
+            name: 'personauthorities',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                name: 'urn:cspace:name(person)',
+              },
             },
           },
         },
@@ -186,7 +193,7 @@ describe('AuthorityControlledInputContainer', function suite() {
       <ConnectedAuthorityControlledInput
         authority="person/local"
         intl={intl}
-        recordTypes={recordTypes}
+        config={config}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();

@@ -4,9 +4,15 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     place: {
-      group: 'authority',
       serviceConfig: {
-        name: 'placeauthorities',
+        serviceName: 'Places',
+        servicePath: 'placeauthorities',
+        serviceType: 'authority',
+        
+        objectName: 'Placeitem',
+        
+        documentName: 'places',
+
         quickAddData: values => ({
           document: {
             '@name': 'places',
@@ -27,6 +33,11 @@ export default () => () => ({
           description: 'The name of the record when used as a title.',
           defaultMessage: 'Place',
         },
+        resultsTitle: {
+          id: 'record.place.resultsTitle',
+          description: 'The name of the record when used as a title describing search results.',
+          defaultMessage: 'Places',
+        },
       }),
       forms: {
         default: <div />,
@@ -34,18 +45,18 @@ export default () => () => ({
       title: () => '',
       vocabularies: {
         all: {
-          group: 'all',
           isCreatable: false,
           messageDescriptors: defineMessages({
             vocabNameTitle: {
               id: 'vocab.place.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All vocabularies',
+              defaultMessage: 'All Vocabularies',
             },
           }),
           serviceConfig: {
-            name: '_ALL_',
+            servicePath: '_ALL_',
           },
+          type: 'all',
         },
         local: {
           messageDescriptors: defineMessages({
@@ -56,7 +67,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(place)',
+            servicePath: 'urn:cspace:name(place)',
           },
         },
         tgn: {
@@ -68,7 +79,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(tgn_place)',
+            servicePath: 'urn:cspace:name(tgn_place)',
           },
         },
       },

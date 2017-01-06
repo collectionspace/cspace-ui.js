@@ -51,3 +51,48 @@ export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
 
 export const initConfig = (config, pluginContext) =>
   mergeConfig({}, config, pluginContext);
+
+/*
+ * Normalize a configuration object. This function mutates the argument configuration.
+ * - Set the name property of each recordTypes entry to its key
+ * - Set the name property of each vocabularies entry to its key
+ */
+export const normalizeConfig = (config) => {
+  const recordTypes = config.recordTypes;
+
+  Object.keys(recordTypes).forEach((recordTypeName) => {
+    const recordType = recordTypes[recordTypeName];
+    const vocabularies = recordType.vocabularies;
+
+    recordType.name = recordTypeName;   
+
+    if (vocabularies) {
+      Object.keys(vocabularies).forEach((vocabularyName) => {
+        vocabularies[vocabularyName].name = vocabularyName;
+      });
+    }
+  });
+
+  return config;
+};
+
+export const getRecordTypeByServiceObjectName = (config, objectName) => {
+  if (!config.recordTypesByServiceObjectName) {
+    const recordTypesByServiceObjectName = {};
+    
+    const {
+      recordTypes,
+    } = config;
+
+    Object.keys(recordTypes).forEach((recordTypeName) => {
+      const recordType = recordTypes[recordTypeName];
+      const serviceObjectName = recordType.serviceConfig.objectName;
+
+      recordTypesByServiceObjectName[serviceObjectName] = recordType;
+    });
+
+    config.recordTypesByServiceObjectName = recordTypesByServiceObjectName;
+  }
+
+  return config.recordTypesByServiceObjectName[objectName];
+};

@@ -11,7 +11,7 @@ import {
   clearMatchedTerms,
 } from '../../actions/partialTermSearch';
 
-import withRecordTypes from '../../enhancers/withRecordTypes';
+import withConfig from '../../enhancers/withConfig';
 import { getPartialTermSearchMatches } from '../../reducers';
 
 const { AuthorityControlledInput } = inputComponents;
@@ -36,45 +36,38 @@ const messages = defineMessages({
 const mapStateToProps = (state, ownProps) => {
   const {
     intl,
-    recordTypes,
+    config,
   } = ownProps;
 
   return {
-    recordTypes,
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
     formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
     formatVocabName: vocab => intl.formatMessage(vocab.messageDescriptors.vocabNameTitle),
     matches: getPartialTermSearchMatches(state),
+    recordTypes: config.recordTypes,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     authority,
-    recordTypes,
+    config,
   } = ownProps;
 
   const authorities = parseAuthoritySpec(authority);
 
   return {
     addTerm: (authorityName, vocabularyName, displayName) => {
-      const config = recordTypes[authorityName];
+      const authorityConfig = config.recordTypes[authorityName];
 
-      warning(config, `The authority record type '${authorityName}' is not configured. Check the authority prop of the input with name '${ownProps.name}'.`);
+      warning(authorityConfig, `The authority record type '${authorityName}' is not configured. Check the authority prop of the input with name '${ownProps.name}'.`);
 
-      if (config &&
-        config.vocabularies &&
-        config.vocabularies[vocabularyName]
+      if (
+        authorityConfig &&
+        authorityConfig.vocabularies &&
+        authorityConfig.vocabularies[vocabularyName]
       ) {
-        dispatch(
-          addTerm(
-            authorityName,
-            config.serviceConfig,
-            vocabularyName,
-            config.vocabularies[vocabularyName].serviceConfig,
-            displayName
-          )
-        );
+        dispatch(addTerm(authorityConfig, vocabularyName, displayName));
       }
     },
     findMatchingTerms: (partialTerm) => {
@@ -84,23 +77,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           vocabularyName,
         } = authoritySpec;
 
-        const config = recordTypes[authorityName];
+        const authorityConfig = config.recordTypes[authorityName];
 
-        warning(config, `The authority record type '${authorityName}' is not configured. Check the authority prop of the input with name '${ownProps.name}'.`);
+        warning(authorityConfig, `The authority record type '${authorityName}' is not configured. Check the authority prop of the input with name '${ownProps.name}'.`);
 
-        if (config &&
-          config.vocabularies &&
-          config.vocabularies[vocabularyName]
+        if (
+          authorityConfig &&
+          authorityConfig.vocabularies &&
+          authorityConfig.vocabularies[vocabularyName]
         ) {
-          dispatch(
-            findMatchingTerms(
-              authorityName,
-              config.serviceConfig,
-              vocabularyName,
-              config.vocabularies[vocabularyName].serviceConfig,
-              partialTerm
-            )
-          );
+          dispatch(findMatchingTerms(authorityConfig, vocabularyName, partialTerm));
         }
       });
     },
@@ -114,7 +100,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
     /* eslint-disable no-unused-vars */
     intl,
-    recordTypes,
+    config,
     /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
@@ -134,12 +120,12 @@ export const ConnectedAuthorityControlledInput = connect(
 )(AuthorityControlledInput);
 
 const IntlizedConnectedAuthorityControlledInput =
-  injectIntl(withRecordTypes(ConnectedAuthorityControlledInput));
+  injectIntl(withConfig(ConnectedAuthorityControlledInput));
 
 IntlizedConnectedAuthorityControlledInput.propTypes = {
   ...AuthorityControlledInput.propTypes,
   authority: PropTypes.string.isRequired,
-  recordTypes: PropTypes.object,
+  config: PropTypes.object,
 };
 
 export default IntlizedConnectedAuthorityControlledInput;

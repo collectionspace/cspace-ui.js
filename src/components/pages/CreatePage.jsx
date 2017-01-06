@@ -4,8 +4,12 @@ import { Link } from 'react-router';
 
 export default function CreatePage(props, context) {
   const {
-    recordTypes,
+    config,
   } = context;
+
+  const {
+    recordTypes,
+  } = config;
 
   let items = null;
 
@@ -31,5 +35,5 @@ export default function CreatePage(props, context) {
 }
 
 CreatePage.contextTypes = {
-  recordTypes: PropTypes.object,
+  config: PropTypes.object,
 };

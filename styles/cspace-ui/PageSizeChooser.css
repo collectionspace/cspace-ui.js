@@ -1,0 +1,12 @@
+.common {
+  text-align: right;
+}
+
+.common > div > div {
+  display: inline-block;
+  width: 54px;
+}
+
+.common input {
+  text-align: right;
+}

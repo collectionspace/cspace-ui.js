@@ -4,9 +4,15 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     person: {
-      group: 'authority',
       serviceConfig: {
-        name: 'personauthorities',
+        serviceName: 'Persons',
+        servicePath: 'personauthorities',
+        serviceType: 'authority',
+        
+        objectName: 'Person',
+
+        documentName: 'persons',
+
         quickAddData: values => ({
           document: {
             '@name': 'persons',
@@ -27,6 +33,11 @@ export default () => () => ({
           description: 'The name of the record when used as a title.',
           defaultMessage: 'Person',
         },
+        resultsTitle: {
+          id: 'record.person.resultsTitle',
+          description: 'The name of the record when used as a title describing search results.',
+          defaultMessage: 'Persons',
+        },
       }),
       forms: {
         default: <div />,
@@ -34,18 +45,18 @@ export default () => () => ({
       title: () => '',
       vocabularies: {
         all: {
-          group: 'all',
           isCreatable: false,
           messageDescriptors: defineMessages({
             vocabNameTitle: {
               id: 'vocab.person.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All vocabularies',
+              defaultMessage: 'All Vocabularies',
             },
           }),
           serviceConfig: {
-            name: '_ALL',
+            servicePath: '_ALL_',
           },
+          type: 'all',
         },
         local: {
           messageDescriptors: defineMessages({
@@ -56,7 +67,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(person)',
+            servicePath: 'urn:cspace:name(person)',
           },
         },
         ulan: {
@@ -68,7 +79,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(ulan_pa)',
+            servicePath: 'urn:cspace:name(ulan_pa)',
           },
         },
       },

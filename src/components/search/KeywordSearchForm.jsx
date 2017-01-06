@@ -6,7 +6,7 @@ const { KeywordSearchInput } = inputComponents;
 
 const messages = defineMessages({
   keywordSearchPlaceholder: {
-    id: 'keywordSearch.placeholder',
+    id: 'keywordSearchForm.placeholder',
     description: 'The placeholder text to display in the keyword search input.',
     defaultMessage: 'Search...',
   },
@@ -14,13 +14,13 @@ const messages = defineMessages({
 
 const propTypes = {
   intl: intlShape,
-  recordTypes: PropTypes.object,
+  config: PropTypes.object,
 };
 
-export default function KeywordSearch(props) {
+export default function KeywordSearchForm(props) {
   const {
     intl,
-    recordTypes,
+    config,
     ...remainingProps
   } = props;
 
@@ -29,10 +29,10 @@ export default function KeywordSearch(props) {
       <KeywordSearchInput
         {...remainingProps}
         placeholder={intl.formatMessage(messages.keywordSearchPlaceholder)}
-        recordTypes={recordTypes}
+        recordTypes={config.recordTypes}
       />
     </fieldset>
   );
 }
 
-KeywordSearch.propTypes = propTypes;
+KeywordSearchForm.propTypes = propTypes;

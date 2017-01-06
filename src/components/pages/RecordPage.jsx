@@ -9,10 +9,10 @@ export default function RecordPage(props, context) {
   const recordType = props.params.recordType;
 
   const {
-    recordTypes,
+    config,
   } = context;
 
-  const serviceConfig = recordTypes[recordType].serviceConfig;
+  const recordTypeConfig = config.recordTypes[recordType];
 
   if (csid === null || typeof csid === 'undefined') {
     csid = '';
@@ -21,7 +21,7 @@ export default function RecordPage(props, context) {
   return (
     <div className={styles.common}>
       <RecordTitleBarContainer csid={csid} recordType={recordType} />
-      <RecordButtonBarContainer csid={csid} recordType={recordType} serviceConfig={serviceConfig} />
+      <RecordButtonBarContainer csid={csid} recordTypeConfig={recordTypeConfig} />
       <RecordEditorContainer csid={csid} recordType={recordType} />
     </div>
   );
@@ -35,5 +35,5 @@ RecordPage.propTypes = {
 };
 
 RecordPage.contextTypes = {
-  recordTypes: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };

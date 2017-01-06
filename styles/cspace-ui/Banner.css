@@ -20,7 +20,7 @@
 
 .common > fieldset {
   flex: 1 0 auto;
-  margin: 0 10px 0 0;
+  margin: 0 32px 0 0;
   border: none;
   padding: 0;
 }

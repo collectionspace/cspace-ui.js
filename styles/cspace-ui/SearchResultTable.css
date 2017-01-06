@@ -1,0 +1,9 @@
+.common > header {
+  display: flex;
+  padding: 0 10px;
+}
+
+.common > header > * {
+  display: block;
+  flex: 1 1;
+}

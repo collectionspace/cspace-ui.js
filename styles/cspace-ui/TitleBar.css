@@ -1,0 +1,42 @@
+.common {
+  background: inherit;
+}
+
+.common > div {
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  background: inherit;
+}
+
+.common > div > h1, .common > div > h2 {
+  margin: 0;
+}
+
+.common > div > h1 {
+  flex: 1 1 auto;
+  padding-right: 10px;
+}
+
+.common > div > h2 {
+  flex: 1 1 auto;
+  text-align: right;
+  color: #739CD2;
+}
+
+.docked {
+  composes: common;
+}
+
+.docked > div {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.docked > div > h1 {
+  padding-right: 20px;
+}

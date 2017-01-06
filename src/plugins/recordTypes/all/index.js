@@ -1,19 +1,26 @@
 import { defineMessages } from 'react-intl';
+import columns from './columns';
 
 export default () => () => ({
   recordTypes: {
     all: {
-      group: 'all',
+      columns,
       isCreatable: false,
       messageDescriptors: defineMessages({
         recordNameTitle: {
           id: 'record.all.nameTitle',
           description: 'The name of the record when used as a title.',
-          defaultMessage: 'All record types',
+          defaultMessage: 'All Record Types',
+        },
+        resultsTitle: {
+          id: 'record.all.resultsTitle',
+          description: 'The name of the record when used as a title describing search results.',
+          defaultMessage: 'All Records',
         },
       }),
       serviceConfig: {
-        name: 'servicegroups/common/items',
+        servicePath: 'servicegroups/common/items',
+        serviceType: 'utility',
       },
     },
   },

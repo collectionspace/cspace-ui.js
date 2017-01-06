@@ -4,9 +4,15 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     concept: {
-      group: 'authority',
       serviceConfig: {
-        name: 'conceptauthorities',
+        serviceName: 'Concepts',
+        servicePath: 'conceptauthorities',
+        serviceType: 'authority',
+
+        objectName: 'Conceptitem',
+
+        documentName: 'concepts',
+
         quickAddData: values => ({
           document: {
             '@name': 'concepts',
@@ -27,6 +33,11 @@ export default () => () => ({
           description: 'The name of the record when used as a title.',
           defaultMessage: 'Concept',
         },
+        resultsTitle: {
+          id: 'record.concept.resultsTitle',
+          description: 'The name of the record when used as a title describing search results.',
+          defaultMessage: 'Concepts',
+        },
       }),
       forms: {
         default: <div />,
@@ -34,18 +45,18 @@ export default () => () => ({
       title: () => '',
       vocabularies: {
         all: {
-          group: 'all',
           isCreatable: false,
           messageDescriptors: defineMessages({
             vocabNameTitle: {
               id: 'vocab.concept.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All vocabularies',
+              defaultMessage: 'All Vocabularies',
             },
           }),
           serviceConfig: {
-            name: '_ALL_',
+            servicePath: '_ALL_',
           },
+          type: 'all',
         },
         associated: {
           messageDescriptors: defineMessages({
@@ -56,7 +67,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(concept)',
+            servicePath: 'urn:cspace:name(concept)',
           },
         },
         activity: {
@@ -68,7 +79,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(activity)',
+            servicePath: 'urn:cspace:name(activity)',
           },
         },
         material: {
@@ -80,7 +91,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(material_ca)',
+            servicePath: 'urn:cspace:name(material_ca)',
           },
         },
       },

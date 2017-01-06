@@ -3,8 +3,8 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
-import KeywordSearch from '../../../../src/components/search/KeywordSearch';
-import { ConnectedKeywordSearch } from '../../../../src/containers/search/KeywordSearchContainer';
+import KeywordSearchForm from '../../../../src/components/search/KeywordSearchForm';
+import { ConnectedKeywordSearchForm } from '../../../../src/containers/search/KeywordSearchFormContainer';
 
 import {
   SET_KEYWORD_SEARCH_KEYWORD,
@@ -16,8 +16,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('KeywordSearchContainer', function suite() {
-  it('should set props on KeywordSearch', function test() {
+describe('KeywordSearchFormContainer', function suite() {
+  it('should set props on KeywordSearchForm', function test() {
     const store = mockStore({
       keywordSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -32,11 +32,11 @@ describe('KeywordSearchContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearch />, context);
+    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(KeywordSearch);
+    result.type.should.equal(KeywordSearchForm);
 
     result.props.keywordValue.should.equal('hello world');
     result.props.recordTypeValue.should.equal('concept');
@@ -63,7 +63,7 @@ describe('KeywordSearchContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearch />, context);
+    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -90,7 +90,7 @@ describe('KeywordSearchContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearch />, context);
+    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -117,7 +117,7 @@ describe('KeywordSearchContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearch />, context);
+    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -152,7 +152,7 @@ describe('KeywordSearchContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearch router={router} />, context);
+    shallowRenderer.render(<ConnectedKeywordSearchForm router={router} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

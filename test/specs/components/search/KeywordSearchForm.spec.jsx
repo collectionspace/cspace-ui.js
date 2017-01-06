@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import createTestContainer from '../../../helpers/createTestContainer';
-import KeywordSearch from '../../../../src/components/search/KeywordSearch';
+import KeywordSearchForm from '../../../../src/components/search/KeywordSearchForm';
 
 chai.should();
 
@@ -16,19 +16,23 @@ const intl = {
   now: () => null,
 };
 
-describe('KeywordSearch', function suite() {
+const config = {
+  recordTypes: {},
+};
+
+describe('KeywordSearchForm', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should render as a fieldset', function test() {
-    render(<KeywordSearch intl={intl} />, this.container);
+    render(<KeywordSearchForm config={config} intl={intl} />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
 
   it('should render a KeywordSearchInput', function test() {
-    render(<KeywordSearch intl={intl} />, this.container);
+    render(<KeywordSearchForm config={config} intl={intl} />, this.container);
 
     this.container.querySelector('.cspace-input-KeywordSearchInput--common').should.not.equal(null);
   });

@@ -36,9 +36,9 @@ describe('record action creator', function suite() {
 
     it('should dispatch CREATE_NEW_RECORD', function test() {
       const store = mockStore({});
-      const serviceConfig = {};
+      const recordTypeConfig = {};
 
-      return store.dispatch(createNewRecord(serviceConfig))
+      return store.dispatch(createNewRecord(recordTypeConfig))
         .then(() => {
           const actions = store.getActions();
 
@@ -47,7 +47,7 @@ describe('record action creator', function suite() {
           actions[0].should.deep.equal({
             type: CREATE_NEW_RECORD,
             meta: {
-              serviceConfig,
+              recordTypeConfig,
             },
           });
         });
@@ -56,12 +56,14 @@ describe('record action creator', function suite() {
 
   describe('readRecord', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
-    const serviceName = 'collectionobjects';
+    const servicePath = 'collectionobjects';
     const csid = '1234';
-    const readRecordUrl = new RegExp(`^/cspace-services/${serviceName}/${csid}.*`);
+    const readRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}.*`);
 
-    const serviceConfig = {
-      name: serviceName,
+    const recordTypeConfig = {
+      serviceConfig: {
+        servicePath,
+      },
     };
 
     before(() => {
@@ -84,7 +86,7 @@ describe('record action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(readRecord(serviceConfig, csid))
+      return store.dispatch(readRecord(recordTypeConfig, csid))
         .then(() => {
           const actions = store.getActions();
 
@@ -94,7 +96,7 @@ describe('record action creator', function suite() {
             type: RECORD_READ_STARTED,
             meta: {
               csid,
-              serviceConfig,
+              recordTypeConfig,
             },
           });
 
@@ -108,7 +110,7 @@ describe('record action creator', function suite() {
             },
             meta: {
               csid,
-              serviceConfig,
+              recordTypeConfig,
             },
           });
         });
@@ -122,7 +124,7 @@ describe('record action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(readRecord(serviceConfig, csid))
+      return store.dispatch(readRecord(recordTypeConfig, csid))
         .then(() => {
           const actions = store.getActions();
 
@@ -132,7 +134,7 @@ describe('record action creator', function suite() {
             type: RECORD_READ_STARTED,
             meta: {
               csid,
-              serviceConfig,
+              recordTypeConfig,
             },
           });
 
@@ -140,7 +142,7 @@ describe('record action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               csid,
-              serviceConfig,
+              recordTypeConfig,
             });
         });
     });
@@ -149,13 +151,16 @@ describe('record action creator', function suite() {
   describe('saveRecord', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const recordType = 'object';
-    const serviceName = 'collectionobjects';
+    const servicePath = 'collectionobjects';
     const csid = '5678';
-    const saveRecordUrl = `/cspace-services/${serviceName}/${csid}`;
-    const saveNewRecordUrl = `/cspace-services/${serviceName}`;
+    const saveRecordUrl = `/cspace-services/${servicePath}/${csid}`;
+    const saveNewRecordUrl = `/cspace-services/${servicePath}`;
 
-    const serviceConfig = {
-      name: serviceName,
+    const recordTypeConfig = {
+      name: recordType,
+      serviceConfig: {
+        servicePath,
+      },
     };
 
     before(() => {
@@ -186,7 +191,7 @@ describe('record action creator', function suite() {
         },
       });
 
-      return store.dispatch(saveRecord(recordType, serviceConfig, csid))
+      return store.dispatch(saveRecord(recordTypeConfig, csid))
         .then(() => {
           const actions = store.getActions();
 
@@ -196,7 +201,7 @@ describe('record action creator', function suite() {
             type: RECORD_SAVE_STARTED,
             meta: {
               csid,
-              serviceConfig,
+              recordTypeConfig,
             },
           });
 
@@ -210,7 +215,7 @@ describe('record action creator', function suite() {
             },
             meta: {
               csid,
-              serviceConfig,
+              recordTypeConfig,
             },
           });
         });
@@ -232,7 +237,7 @@ describe('record action creator', function suite() {
         },
       });
 
-      return store.dispatch(saveRecord(recordType, serviceConfig, csid))
+      return store.dispatch(saveRecord(recordTypeConfig, csid))
         .then(() => {
           const actions = store.getActions();
 
@@ -242,7 +247,7 @@ describe('record action creator', function suite() {
             type: RECORD_SAVE_STARTED,
             meta: {
               csid,
-              serviceConfig,
+              recordTypeConfig,
             },
           });
 
@@ -250,7 +255,7 @@ describe('record action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               csid,
-              serviceConfig,
+              recordTypeConfig,
             });
         });
     });
@@ -285,7 +290,7 @@ describe('record action creator', function suite() {
 
       // Pass an empty csid and a replace function to saveRecord.
 
-      return store.dispatch(saveRecord(recordType, serviceConfig, '', replace))
+      return store.dispatch(saveRecord(recordTypeConfig, '', replace))
         .then(() => {
           const actions = store.getActions();
 
@@ -295,7 +300,7 @@ describe('record action creator', function suite() {
             type: RECORD_SAVE_STARTED,
             meta: {
               csid: '',
-              serviceConfig,
+              recordTypeConfig,
             },
           });
 
@@ -311,7 +316,7 @@ describe('record action creator', function suite() {
             },
             meta: {
               csid: '',
-              serviceConfig,
+              recordTypeConfig,
             },
           });
 

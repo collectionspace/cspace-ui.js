@@ -9,6 +9,7 @@ import optionList, * as fromOptionList from './optionList';
 import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
+import search, * as fromSearch from './search';
 import user, * as fromUser from './user';
 import vocabulary, * as fromVocabulary from './vocabulary';
 
@@ -23,6 +24,7 @@ export default combineReducers({
   prefs,
   record,
   routing,
+  search,
   user,
   vocabulary,
 });
@@ -105,4 +107,16 @@ export function getKeywordSearchRecordType(state) {
 
 export function getKeywordSearchVocabulary(state) {
   return fromKeywordSearch.getVocabulary(state.keywordSearch);
+}
+
+export function isSearchPending(state) {
+  return fromSearch.isPending(state.search);
+}
+
+export function getSearchResult(state) {
+  return fromSearch.getResult(state.search);
+}
+
+export function getSearchError(state) {
+  return fromSearch.getError(state.search);
 }

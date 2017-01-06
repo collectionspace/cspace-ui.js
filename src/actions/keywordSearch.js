@@ -24,17 +24,21 @@ export const setKeywordSearchVocabulary = value => ({
 });
 
 export const initiateSearch = push => (dispatch, getState) => {
-  const kw = getKeywordSearchKeyword(getState());
+  const keyword = getKeywordSearchKeyword(getState());
   const recordType = getKeywordSearchRecordType(getState());
   const vocabulary = getKeywordSearchVocabulary(getState());
 
   const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
   const pathname = `/search/${recordType}${vocabularyPath}`;
 
+  const query = {};
+  
+  if (keyword) {
+    query.kw = keyword;
+  }
+
   push({
     pathname,
-    query: {
-      kw,
-    },
+    query,
   });
 };

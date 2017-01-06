@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
+import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import Header from '../../../../src/components/sections/Header';
 
 chai.should();
@@ -17,6 +18,10 @@ const store = mockStore({
   keywordSearch: Immutable.Map(),
 });
 
+const config = {
+  recordTypes: {},
+};
+
 describe('Header', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -26,7 +31,9 @@ describe('Header', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <Header username="username" />
+          <ConfigProvider config={config}>
+            <Header username="username" />
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

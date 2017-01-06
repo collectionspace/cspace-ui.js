@@ -4,35 +4,35 @@
 const webpack = require('webpack');
 
 const sauceLaunchers = {
-  'chrome-latest-osx': {
+  'chrome-latest-mac': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'latest',
-    platform: 'OS X 10.11',
+    platform: 'macOS 10.12',
   },
-  'chrome-previous-osx': {
+  'chrome-previous-mac': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'latest-1',
-    platform: 'OS X 10.11',
+    platform: 'macOS 10.12',
   },
-  'firefox-latest-osx': {
+  'firefox-latest-mac': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest',
-    platform: 'OS X 10.11',
+    platform: 'macOS 10.12',
   },
-  'firefox-previous-osx': {
+  'firefox-previous-mac': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest-1',
-    platform: 'OS X 10.11',
+    platform: 'macOS 10.12',
   },
-  // 'safari-latest-osx': {
+  // 'safari-latest-mac': {
   //   base: 'SauceLabs',
   //   browserName: 'safari',
   //   version: 'latest',
-  //   platform: 'OS X 10.11',
+  //   platform: 'macOS 10.12',
   // },
   // 'edge-latest-win10': {
   //   base: 'SauceLabs',
@@ -52,17 +52,17 @@ const sauceLaunchers = {
 
 const getTestFiles = (config) => {
   if (config.file) {
-    return config.file.split(',').map(file => `test/${file}`);
+    return config.file.split(',');
   }
 
   const defaultTestDirs = [
-    'specs',
-    'integration',
+    'test/specs',
+    'test/integration',
   ];
 
   const testDirs = config.dir ? config.dir.split(',') : defaultTestDirs;
 
-  return testDirs.map(dir => `test/${dir}/**/*.+(js|jsx)`);
+  return testDirs.map(dir => `${dir}/**/*.+(js|jsx)`);
 };
 
 module.exports = function karma(config) {

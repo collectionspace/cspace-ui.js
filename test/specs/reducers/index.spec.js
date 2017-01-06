@@ -34,6 +34,7 @@ describe('reducer', function suite() {
       'optionList',
       'partialTermSearch',
       'prefs',
+      'search',
       'user',
       'record',
       'vocabulary',

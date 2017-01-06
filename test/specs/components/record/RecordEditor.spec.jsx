@@ -10,7 +10,7 @@ import { components as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 import Panel from '../../../../src/containers/layout/PanelContainer';
-import RecordTypesProvider from '../../../../src/components/record/RecordTypesProvider';
+import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 
 chai.should();
@@ -26,39 +26,41 @@ const store = mockStore({
   prefs: {},
 });
 
-const recordTypes = {
-  object: {
-    forms: {
-      default: (
-        <CompoundInput>
-          <Panel name="idPanel">
-            <TextInput name="objectNumber" />
-            <TextInput name="desc" msgkey="foo" />
-            <TextInput name="color" label="Color" />
-            <TextInput name="bar" />
-          </Panel>
-        </CompoundInput>
-      ),
+const config = {
+  recordTypes: {
+    object: {
+      forms: {
+        default: (
+          <CompoundInput>
+            <Panel name="idPanel">
+              <TextInput name="objectNumber" />
+              <TextInput name="desc" msgkey="foo" />
+              <TextInput name="color" label="Color" />
+              <TextInput name="bar" />
+            </Panel>
+          </CompoundInput>
+        ),
+      },
+      messageDescriptors: {
+        recordNameTitle: {
+          id: 'recordNameTitle',
+          defaultMessage: 'Object',
+        },
+        idPanel: {
+          id: 'panel.idPanel.label',
+          defaultMessage: 'Object Identification Information',
+        },
+        objectNumber: {
+          id: 'field.objectNumber.label',
+          defaultMessage: 'Identification number',
+        },
+        foo: {
+          id: 'field.foo.label',
+          defaultMessage: 'Some label',
+        },
+      },
+      title: () => 'Title',
     },
-    messageDescriptors: {
-      recordNameTitle: {
-        id: 'recordNameTitle',
-        defaultMessage: 'Object',
-      },
-      idPanel: {
-        id: 'panel.idPanel.label',
-        defaultMessage: 'Object Identification Information',
-      },
-      objectNumber: {
-        id: 'field.objectNumber.label',
-        defaultMessage: 'Identification number',
-      },
-      foo: {
-        id: 'field.foo.label',
-        defaultMessage: 'Some label',
-      },
-    },
-    title: () => 'Title',
   },
 };
 
@@ -71,9 +73,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <RecordEditor recordType="object" />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -85,9 +87,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <RecordEditor recordType="object" />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -98,9 +100,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <RecordEditor recordType="object" />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -115,9 +117,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <RecordEditor recordType="object" />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -129,9 +131,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <RecordEditor recordType="object" />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -143,9 +145,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <RecordEditor recordType="object" />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

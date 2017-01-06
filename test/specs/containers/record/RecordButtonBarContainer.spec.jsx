@@ -19,9 +19,11 @@ const mockStore = configureMockStore([thunk]);
 describe('ConnectedRecordButtonBar', function suite() {
   it('should set props on RecordButtonBar', function test() {
     const csid = '1234';
-    const recordType = 'object';
     const router = {};
-    const serviceConfig = {};
+
+    const recordTypeConfig = {
+      name: 'object',
+    };
 
     const store = mockStore({
       record: {
@@ -37,9 +39,8 @@ describe('ConnectedRecordButtonBar', function suite() {
     shallowRenderer.render(
       <ConnectedRecordButtonBar
         csid={csid}
-        recordType={recordType}
         router={router}
-        serviceConfig={serviceConfig}
+        recordTypeConfig={recordTypeConfig}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -59,7 +60,7 @@ describe('ConnectedRecordButtonBar', function suite() {
 
       action.should.have.property('type', RECORD_SAVE_STARTED);
       action.should.have.deep.property('meta.csid', csid);
-      action.should.have.deep.property('meta.serviceConfig', serviceConfig);
+      action.should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
     }
   });
 });
