@@ -32,12 +32,22 @@ const config = {
 
 const data = Immutable.Map();
 
-// Make sure there's enough on the page to scroll, so that docking can be tested.
-document.body.style.paddingBottom = '1200px';
-
 describe('RecordTitleBar', function suite() {
+  before(function first() {
+    // Make sure there's enough on the page to scroll, so that docking can be tested.
+    document.body.style.paddingBottom = '1200px';
+
+    // Clear any previous tests from the page, and restore scroll position to top.
+    document.body.innerHTML = '';
+    window.scrollTo(0, 0);
+  });
+
   beforeEach(function before() {
     this.container = createTestContainer(this);
+  });
+
+  after(function last() {
+    document.body.style.paddingBottom = '0';
   });
 
   it('should render as a header', function test() {

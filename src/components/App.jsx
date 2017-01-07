@@ -9,9 +9,6 @@ const propTypes = {
   history: PropTypes.object.isRequired,
   className: PropTypes.string,
   config: PropTypes.object,
-  index: PropTypes.string,
-  locale: PropTypes.string,
-  messages: PropTypes.object,
 };
 
 const defaultProps = {

@@ -8,9 +8,9 @@ export default () => () => ({
         serviceName: 'Places',
         servicePath: 'placeauthorities',
         serviceType: 'authority',
-        
+
         objectName: 'Placeitem',
-        
+
         documentName: 'places',
 
         quickAddData: values => ({

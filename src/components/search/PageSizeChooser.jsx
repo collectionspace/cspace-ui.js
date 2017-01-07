@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import ComboBoxInputContainer from '../../containers/input/ComboBoxInputContainer';
 import styles from '../../../styles/cspace-ui/PageSizeChooser.css';
@@ -13,14 +12,14 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  pageSize: PropTypes.number,
+  pageSize: PropTypes.number.isRequired,
   onPageSizeChange: PropTypes.func,
 };
 
 export default class PageSizeChooser extends Component {
   constructor(props) {
     super(props);
-    
+
     this.handleCommit = this.handleCommit.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
   }
@@ -32,7 +31,7 @@ export default class PageSizeChooser extends Component {
 
     if (onPageSizeChange) {
       const value = parseInt(label, 10);
-      
+
       if (!isNaN(value) && value > 0) {
         onPageSizeChange(value);
       }
@@ -44,14 +43,16 @@ export default class PageSizeChooser extends Component {
       pageSize,
       onPageSizeChange,
     } = this.props;
-    
+
     if (onPageSizeChange) {
-      if (value !== pageSize) {
-        onPageSizeChange(value); 
+      const newPageSize = parseInt(value, 10);
+
+      if (newPageSize !== pageSize) {
+        onPageSizeChange(newPageSize);
       }
     }
   }
-  
+
   render() {
     const {
       pageSize,

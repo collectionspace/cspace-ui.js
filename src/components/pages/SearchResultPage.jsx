@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import TitleBar from '../sections/TitleBar';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
@@ -7,12 +8,14 @@ import SearchResultTableContainer from '../../containers/search/SearchResultTabl
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 
 const propTypes = {
+  location: locationShape,
+  params: PropTypes.objectOf(PropTypes.string),
   search: PropTypes.func,
 };
 
 const contextTypes = {
   config: PropTypes.object.isRequired,
-  router: PropTypes.object,
+  router: routerShape,
 };
 
 const messages = defineMessages({
@@ -41,7 +44,9 @@ export default class SearchResultPage extends Component {
   }
 
   componentDidMount() {
-    this.normalizeQuery() || this.search();
+    if (!this.normalizeQuery()) {
+      this.search();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -50,14 +55,20 @@ export default class SearchResultPage extends Component {
       this.props.params.vocabulary !== prevProps.params.vocabulary ||
       this.props.location.query !== prevProps.location.query
     ) {
-      this.normalizeQuery() || this.search();
+      if (!this.normalizeQuery()) {
+        this.search();
+      }
     }
   }
 
   normalizeQuery() {
     const {
+      location,
+    } = this.props;
+
+    const {
       query,
-    } = this.props.location;
+    } = location;
 
     const {
       router,
@@ -67,7 +78,7 @@ export default class SearchResultPage extends Component {
       const normalizedQueryParams = {};
 
       const pageSize = parseInt(query.pgSz, 10);
-      
+
       if (isNaN(pageSize) || pageSize < 1) {
         // TODO: Make default page size configurable
         normalizedQueryParams.pgSz = '40';
@@ -76,7 +87,7 @@ export default class SearchResultPage extends Component {
       }
 
       const pageNum = parseInt(query.pgNum, 10);
-      
+
       if (isNaN(pageNum) || pageNum < 1) {
         normalizedQueryParams.pgNum = '1';
       } else if (pageNum.toString() !== query.pgNum) {
@@ -107,12 +118,14 @@ export default class SearchResultPage extends Component {
       router,
     } = this.context;
 
-    router.push({
-      pathname: location.pathname,
-      query: Object.assign({}, location.query, {
-        pgNum: pageNum + 1,
-      }),
-    });
+    if (router) {
+      router.push({
+        pathname: location.pathname,
+        query: Object.assign({}, location.query, {
+          pgNum: (pageNum + 1).toString(),
+        }),
+      });
+    }
   }
 
   handlePageSizeChange(pageSize) {
@@ -124,13 +137,15 @@ export default class SearchResultPage extends Component {
       router,
     } = this.context;
 
-    router.push({
-      pathname: location.pathname,
-      query: Object.assign({}, location.query, {
-        pgNum: '1',
-        pgSz: pageSize
-      }),
-    });
+    if (router) {
+      router.push({
+        pathname: location.pathname,
+        query: Object.assign({}, location.query, {
+          pgNum: '1',
+          pgSz: pageSize.toString(),
+        }),
+      });
+    }
   }
 
   search() {
@@ -153,7 +168,11 @@ export default class SearchResultPage extends Component {
       const recordTypeConfig = config.recordTypes[recordType];
 
       if (recordTypeConfig) {
-        search(recordTypeConfig, vocabulary, location.query);
+        const searchQuery = Object.assign({}, location.query);
+
+        searchQuery.pgNum -= 1;
+
+        search(recordTypeConfig, vocabulary, searchQuery);
       }
     }
   }
@@ -170,8 +189,8 @@ export default class SearchResultPage extends Component {
       const pageNum = parseInt(list.get('pageNum'), 10);
       const pageSize = parseInt(list.get('pageSize'), 10);
 
-      const startNum = pageNum * pageSize + 1;
-      const endNum = Math.min(pageNum * pageSize + pageSize, totalItems);
+      const startNum = (pageNum * pageSize) + 1;
+      const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
 
       let pageSizeChooser = null;
 
@@ -200,6 +219,8 @@ export default class SearchResultPage extends Component {
         </header>
       );
     }
+
+    return null;
   }
 
   renderFooter(searchResult) {
@@ -215,14 +236,16 @@ export default class SearchResultPage extends Component {
           <footer>
             <Pager
               currentPage={pageNum}
-              lastPage={Math.ceil(totalItems/pageSize) - 1}
+              lastPage={Math.ceil(totalItems / pageSize) - 1}
               onPageSelect={this.handlePageSelect}
             />
           </footer>
         );
       }
     }
-  };
+
+    return null;
+  }
 
   render() {
     const {

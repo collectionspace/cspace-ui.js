@@ -92,26 +92,26 @@ export const findMatchingTerms = (authorityRecordTypeConfig, vocabularyName, par
       },
     };
 
-  return getSession().read(`${authorityServicePath}/${vocabularyServicePath}/items`, config)
-    .then(response => dispatch({
-      type: PARTIAL_TERM_SEARCH_FULFILLED,
-      payload: response,
-      meta: {
-        partialTerm,
-        authorityName,
-        vocabularyName,
-      },
-    }))
-    .catch(error => dispatch({
-      type: PARTIAL_TERM_SEARCH_REJECTED,
-      payload: error,
-      meta: {
-        partialTerm,
-        authorityName,
-        vocabularyName,
-      },
-    }));
-};
+    return getSession().read(`${authorityServicePath}/${vocabularyServicePath}/items`, config)
+      .then(response => dispatch({
+        type: PARTIAL_TERM_SEARCH_FULFILLED,
+        payload: response,
+        meta: {
+          partialTerm,
+          authorityName,
+          vocabularyName,
+        },
+      }))
+      .catch(error => dispatch({
+        type: PARTIAL_TERM_SEARCH_REJECTED,
+        payload: error,
+        meta: {
+          partialTerm,
+          authorityName,
+          vocabularyName,
+        },
+      }));
+  };
 
 export const clearMatchedTerms = () => ({
   type: CLEAR_PARTIAL_TERM_SEARCH_RESULTS,

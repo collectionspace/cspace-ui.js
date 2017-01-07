@@ -64,7 +64,7 @@ export const normalizeConfig = (config) => {
     const recordType = recordTypes[recordTypeName];
     const vocabularies = recordType.vocabularies;
 
-    recordType.name = recordTypeName;   
+    recordType.name = recordTypeName;
 
     if (vocabularies) {
       Object.keys(vocabularies).forEach((vocabularyName) => {
@@ -79,7 +79,7 @@ export const normalizeConfig = (config) => {
 export const getRecordTypeByServiceObjectName = (config, objectName) => {
   if (!config.recordTypesByServiceObjectName) {
     const recordTypesByServiceObjectName = {};
-    
+
     const {
       recordTypes,
     } = config;
@@ -91,7 +91,9 @@ export const getRecordTypeByServiceObjectName = (config, objectName) => {
       recordTypesByServiceObjectName[serviceObjectName] = recordType;
     });
 
+    /* eslint-disable no-param-reassign */
     config.recordTypesByServiceObjectName = recordTypesByServiceObjectName;
+    /* eslint-enable no-param-reassign */
   }
 
   return config.recordTypesByServiceObjectName[objectName];

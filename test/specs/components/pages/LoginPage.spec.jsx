@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
 import createTestContainer from '../../../helpers/createTestContainer';
+import mockRouter from '../../../helpers/mockRouter';
 
 import LoginFormContainer from '../../../../src/containers/login/LoginFormContainer';
 import LoginPage from '../../../../src/components/pages/LoginPage';
@@ -18,15 +19,7 @@ const store = mockStore({
   login: {},
 });
 
-const mockRouter = {
-  push: () => null,
-  replace: () => null,
-  go: () => null,
-  goBack: () => null,
-  goForward: () => null,
-  setRouteLeaveHook: () => null,
-  isActive: () => null,
-};
+const router = mockRouter();
 
 describe('LoginPage', function suite() {
   beforeEach(function before() {
@@ -37,7 +30,7 @@ describe('LoginPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LoginPage router={mockRouter} />
+          <LoginPage router={router} />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -55,7 +48,7 @@ describe('LoginPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LoginPage
-            router={mockRouter}
+            router={router}
             onMount={handleMount}
           />
         </StoreProvider>
@@ -69,23 +62,17 @@ describe('LoginPage', function suite() {
 
     let replacementUrl = null;
 
-    const stubReplaceMockRouter = {
-      push: () => null,
+    const stubbedRouter = mockRouter({
       replace: (url) => {
         replacementUrl = url;
       },
-      go: () => null,
-      goBack: () => null,
-      goForward: () => null,
-      setRouteLeaveHook: () => null,
-      isActive: () => null,
-    };
+    });
 
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LoginPage
-            router={stubReplaceMockRouter}
+            router={stubbedRouter}
             continuation={continuationUrl}
           />
         </StoreProvider>

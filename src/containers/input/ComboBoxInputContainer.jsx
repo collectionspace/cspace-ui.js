@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { defineMessages, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { getOptionList } from '../../reducers';
 

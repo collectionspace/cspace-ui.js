@@ -16,10 +16,6 @@ const store = mockStore({
   login: {},
 });
 
-const plugins = {
-  record: {},
-};
-
 const config = {};
 
 describe('App', function suite() {

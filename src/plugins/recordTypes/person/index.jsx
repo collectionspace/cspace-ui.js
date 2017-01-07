@@ -8,7 +8,7 @@ export default () => () => ({
         serviceName: 'Persons',
         servicePath: 'personauthorities',
         serviceType: 'authority',
-        
+
         objectName: 'Person',
 
         documentName: 'persons',

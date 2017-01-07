@@ -3,7 +3,7 @@ import { defineMessages, FormattedMessage, FormattedNumber } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/Pager.css';
 
-const { LineInput, MiniButton } = inputComponents;
+const { MiniButton } = inputComponents;
 
 const messages = defineMessages({
   previousLabel: {
@@ -39,8 +39,8 @@ export default class Pager extends Component {
     this.handlePageButtonClick = this.handlePageButtonClick.bind(this);
     this.handlePrevButtonClick = this.handlePrevButtonClick.bind(this);
   }
-  
-  handleNextButtonClick(event) {
+
+  handleNextButtonClick() {
     const {
       currentPage,
       onPageSelect,
@@ -48,7 +48,7 @@ export default class Pager extends Component {
 
     if (onPageSelect) {
       onPageSelect(currentPage + 1);
-    }  
+    }
   }
 
   handlePageButtonClick(event) {
@@ -64,8 +64,8 @@ export default class Pager extends Component {
       onPageSelect(parseInt(pageNum, 10));
     }
   }
-  
-  handlePrevButtonClick(event) {
+
+  handlePrevButtonClick() {
     const {
       currentPage,
       onPageSelect,
@@ -73,7 +73,7 @@ export default class Pager extends Component {
 
     if (onPageSelect) {
       onPageSelect(currentPage - 1);
-    }  
+    }
   }
 
   renderPages() {
@@ -97,9 +97,8 @@ export default class Pager extends Component {
 
         beforeWindowSize -= offset;
         afterWindowSize += offset;
-      }
-      else if (currentPage + afterWindowSize > lastPage) {
-        const offset = currentPage + afterWindowSize - lastPage;
+      } else if (currentPage + afterWindowSize > lastPage) {
+        const offset = (currentPage + afterWindowSize) - lastPage;
 
         beforeWindowSize += offset;
         afterWindowSize -= offset;
@@ -134,7 +133,7 @@ export default class Pager extends Component {
       }
     }
 
-    for (let pageNum = windowStart; pageNum <= windowEnd; pageNum++) {
+    for (let pageNum = windowStart; pageNum <= windowEnd; pageNum += 1) {
       pages.push({
         pageNum,
         label: <FormattedNumber value={pageNum + 1} />,

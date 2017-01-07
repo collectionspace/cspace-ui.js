@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
+import mockRouter from '../../../helpers/mockRouter';
 import KeywordSearchForm from '../../../../src/components/search/KeywordSearchForm';
 import { ConnectedKeywordSearchForm } from '../../../../src/containers/search/KeywordSearchFormContainer';
 
@@ -144,11 +145,11 @@ describe('KeywordSearchFormContainer', function suite() {
 
     let pushedLocation = null;
 
-    const router = {
+    const router = mockRouter({
       push: (location) => {
         pushedLocation = location;
       },
-    };
+    });
 
     const shallowRenderer = createRenderer();
 

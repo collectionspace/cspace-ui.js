@@ -32,7 +32,7 @@ export const initiateSearch = push => (dispatch, getState) => {
   const pathname = `/search/${recordType}${vocabularyPath}`;
 
   const query = {};
-  
+
   if (keyword) {
     query.kw = keyword;
   }

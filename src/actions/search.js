@@ -8,7 +8,7 @@ export const SEARCH_REJECTED = 'SEARCH_REJECTED';
 
 export const ERR_NO_RECORD_SERVICE = 'ERR_NO_RECORD_SERVICE';
 export const ERR_NO_VOCABULARY_SERVICE = 'ERR_NO_VOCABULARY_SERVICE';
-;
+
 export const search = (recordTypeConfig, vocabularyName, searchQuery) => (dispatch) => {
   const recordTypeServicePath = recordTypeConfig.serviceConfig.servicePath;
 
@@ -49,15 +49,9 @@ export const search = (recordTypeConfig, vocabularyName, searchQuery) => (dispat
     },
   });
 
-  const {
-    pgNum,
-    ...remainingSearchQueryParams,
-  } = searchQuery;
-
   const config = {
     params: {
-      ...remainingSearchQueryParams,
-      pgNum: pgNum - 1,
+      ...searchQuery,
       wf_deleted: false,
     },
   };

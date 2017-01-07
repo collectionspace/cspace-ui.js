@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 export const formatLocalDateTime = (value, { intl }) =>
   intl.formatDate(value, {
     year: 'numeric',
@@ -7,3 +9,5 @@ export const formatLocalDateTime = (value, { intl }) =>
     minute: 'numeric',
     // timeZoneName: 'short',
   });
+
+/* eslint-enable import/prefer-default-export */

@@ -70,6 +70,8 @@ export default class TitleBar extends Component {
         <h2>{subtitle}</h2>
       );
     }
+
+    return null;
   }
 
   render() {

@@ -8,11 +8,11 @@ export default () => () => ({
         serviceName: 'Organizations',
         servicePath: 'orgauthorities',
         serviceType: 'authority',
-        
+
         objectName: 'Organization',
-        
+
         documentName: 'organizations',
-        
+
         quickAddData: values => ({
           document: {
             '@name': 'organizations',

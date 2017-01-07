@@ -2,6 +2,7 @@ import React from 'react';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
+import mockRouter from '../../../helpers/mockRouter';
 import RecordButtonBar from '../../../../src/components/record/RecordButtonBar';
 
 import RecordButtonBarContainer, {
@@ -19,7 +20,7 @@ const mockStore = configureMockStore([thunk]);
 describe('ConnectedRecordButtonBar', function suite() {
   it('should set props on RecordButtonBar', function test() {
     const csid = '1234';
-    const router = {};
+    const router = mockRouter();
 
     const recordTypeConfig = {
       name: 'object',

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
-import { WindowScroller } from 'react-virtualized';
 import { getRecordTypeByServiceObjectName } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 
@@ -37,7 +36,7 @@ export default class SearchResultTable extends Component {
   }
 
   handleRowClick(index) {
-    const{
+    const {
       recordType,
       searchResult,
     } = this.props;
@@ -48,30 +47,27 @@ export default class SearchResultTable extends Component {
 
     if (searchResult && router) {
       const items = searchResult.getIn(['ns2:abstract-common-list', 'list-item']);
+      const item = Immutable.List.isList(items) ? items.get(index) : items;
+      const docType = item.get('docType');
 
-      if (items) {
-        const item = Immutable.List.isList(items) ? items.get(index) : items;
-        const docType = item.get('docType');
+      let recordTypeName;
 
-        let recordTypeName;
+      if (docType) {
+        const recordTypeConfig = getRecordTypeByServiceObjectName(this.context.config, docType);
 
-        if (docType) {
-          const recordTypeConfig = getRecordTypeByServiceObjectName(this.context.config, docType);
-
-          if (recordTypeConfig) {
-            recordTypeName = recordTypeConfig.name;
-          }
+        if (recordTypeConfig) {
+          recordTypeName = recordTypeConfig.name;
         }
+      }
 
-        if (!recordTypeName) {
-          recordTypeName = recordType;
-        }
+      if (!recordTypeName) {
+        recordTypeName = recordType;
+      }
 
-        if (recordTypeName) {
-          const csid = item.get('csid');
+      if (recordTypeName) {
+        const csid = item.get('csid');
 
-          router.push(`/record/${recordTypeName}/${csid}`);
-        }
+        router.push(`/record/${recordTypeName}/${csid}`);
       }
     }
   }
@@ -95,11 +91,7 @@ export default class SearchResultTable extends Component {
       if (totalItems > 0) {
         const recordTypeConfig = config.recordTypes[recordType];
 
-        let items= list.get('list-item');
-
-        if (!items) {
-          items = Immutable.List();
-        }
+        let items = list.get('list-item');
 
         if (!Immutable.List.isList(items)) {
           // If there's only one result, it won't be returned as a list.
@@ -108,17 +100,15 @@ export default class SearchResultTable extends Component {
 
         const columnConfig = get(recordTypeConfig, ['columns', 'search']) || [];
 
-        const columns = columnConfig.map((column) => {
-          return {
-            cellDataGetter: ({ columnData, dataKey, rowData }) =>
-              formatCellData(column, rowData ? rowData.get(dataKey) : null),
-            label: formatColumnLabel(column),
-            dataKey: column.name,
-            width: column.width,
-          };
-        });
+        const columns = columnConfig.map(column => ({
+          cellDataGetter: ({ dataKey, rowData }) =>
+            formatCellData(column, rowData ? rowData.get(dataKey) : null),
+          label: formatColumnLabel(column),
+          dataKey: column.name,
+          width: column.width,
+        }));
 
-        const height = items.size * rowHeight + rowHeight;
+        const height = (items.size * rowHeight) + rowHeight;
 
         return (
           <div style={{ height }}>
@@ -132,6 +122,8 @@ export default class SearchResultTable extends Component {
         );
       }
     }
+
+    return null;
   }
 
   render() {
