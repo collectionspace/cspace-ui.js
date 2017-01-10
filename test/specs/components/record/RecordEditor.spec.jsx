@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -23,7 +24,7 @@ const {
 const expectedClassName = 'cspace-ui-RecordEditor--common';
 const mockStore = configureMockStore();
 const store = mockStore({
-  prefs: {},
+  prefs: Immutable.Map(),
 });
 
 const config = {

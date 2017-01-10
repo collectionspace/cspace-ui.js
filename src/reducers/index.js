@@ -77,8 +77,16 @@ export function isRecordSavePending(state, csid) {
   return fromRecord.isSavePending(state.record, csid);
 }
 
+export function getPrefs(state) {
+  return state.prefs;
+}
+
 export function isPanelCollapsed(state, recordType, name) {
   return fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
+}
+
+export function getSearchPageSize(state) {
+  return fromPrefs.getSearchPageSize(state.prefs);
 }
 
 export function getOptionList(state, optionListName) {
@@ -109,14 +117,14 @@ export function getKeywordSearchVocabulary(state) {
   return fromKeywordSearch.getVocabulary(state.keywordSearch);
 }
 
-export function isSearchPending(state) {
-  return fromSearch.isPending(state.search);
+export function isSearchPending(state, searchDescriptor) {
+  return fromSearch.isPending(state.search, searchDescriptor);
 }
 
-export function getSearchResult(state) {
-  return fromSearch.getResult(state.search);
+export function getSearchResult(state, searchDescriptor) {
+  return fromSearch.getResult(state.search, searchDescriptor);
 }
 
-export function getSearchError(state) {
-  return fromSearch.getError(state.search);
+export function getSearchError(state, searchDescriptor) {
+  return fromSearch.getError(state.search, searchDescriptor);
 }

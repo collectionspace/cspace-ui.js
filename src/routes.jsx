@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
+import { Route, IndexRedirect, withRouter } from 'react-router';
 import defaults from 'lodash/defaults';
 
 import AdminPage from './components/pages/AdminPage';
@@ -31,7 +31,7 @@ export default (routeConfig) => {
   } = defaults({}, routeConfig, defaultRouteConfig);
 
   return (
-    <Route path="/" component={withClassName(RootPage, className)}>
+    <Route path="/" component={withRouter(withClassName(RootPage, className))}>
       <IndexRedirect to={index} />
 
       <Route component={PublicPage}>

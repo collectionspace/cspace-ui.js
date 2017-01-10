@@ -31,6 +31,10 @@
   padding: 0 4px;
 }
 
+.common :global(.cspace-input-MiniButton--common):enabled:hover {
+  cursor: pointer;
+}
+
 .common > ul > li > :global(.cspace-input-MiniButton--common) {
   padding: 0 4px;
 }

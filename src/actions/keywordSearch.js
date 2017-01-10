@@ -1,3 +1,5 @@
+import { isCsid } from '../helpers/csidHelpers';
+
 import {
   getKeywordSearchKeyword,
   getKeywordSearchRecordType,
@@ -25,16 +27,26 @@ export const setKeywordSearchVocabulary = value => ({
 
 export const initiateSearch = push => (dispatch, getState) => {
   const keyword = getKeywordSearchKeyword(getState());
+  const kw = keyword ? keyword.trim() : '';
   const recordType = getKeywordSearchRecordType(getState());
   const vocabulary = getKeywordSearchVocabulary(getState());
 
-  const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
-  const pathname = `/search/${recordType}${vocabularyPath}`;
+  let pathname;
 
   const query = {};
 
-  if (keyword) {
-    query.kw = keyword;
+  if (isCsid(kw)) {
+    // Go straight to the record with the csid.
+
+    pathname = `/record/${recordType}/${kw}`;
+  } else {
+    const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
+
+    pathname = `/search/${recordType}${vocabularyPath}`;
+
+    if (kw) {
+      query.kw = kw;
+    }
   }
 
   push({

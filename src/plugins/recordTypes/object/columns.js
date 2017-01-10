@@ -11,7 +11,8 @@ export default {
           defaultMessage: 'Identification number',
         },
       }),
-      width: 150,
+      sortBy: 'collectionobjects_common:objectNumber',
+      width: 200,
     },
     {
       name: 'title',
@@ -21,7 +22,8 @@ export default {
           defaultMessage: 'Title',
         },
       }),
-      width: 450,
+      sortBy: 'collectionobjects_common:titleGroupList/0/title',
+      width: 400,
     },
     {
       name: 'updatedAt',
@@ -32,6 +34,7 @@ export default {
         },
       }),
       formatValue: formatLocalDateTime,
+      sortBy: 'collectionspace_core:updatedAt',
       width: 200,
     },
   ],

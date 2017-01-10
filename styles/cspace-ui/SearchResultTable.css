@@ -1,6 +1,5 @@
 .common > header {
   display: flex;
-  padding: 0 10px;
 }
 
 .common > header > * {

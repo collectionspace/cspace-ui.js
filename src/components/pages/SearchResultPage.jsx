@@ -1,16 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
+import classNames from 'classnames';
 import TitleBar from '../sections/TitleBar';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
+import headerStyles from '../../../styles/cspace-ui/Header.css';
 
 const propTypes = {
   location: locationShape,
   params: PropTypes.objectOf(PropTypes.string),
+  preferredPageSize: PropTypes.number,
   search: PropTypes.func,
+  setPreferredPageSize: PropTypes.func,
 };
 
 const contextTypes = {
@@ -31,6 +35,10 @@ const messages = defineMessages({
       other {{startNum}–{endNum} of {totalItems} records}
     } found`,
   },
+  searching: {
+    id: 'searchResultPage.searching',
+    defaultMessage: 'Searching...',
+  },
 });
 
 export default class SearchResultPage extends Component {
@@ -41,6 +49,7 @@ export default class SearchResultPage extends Component {
     this.renderHeader = this.renderHeader.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
+    this.handleSortChange = this.handleSortChange.bind(this);
   }
 
   componentDidMount() {
@@ -61,9 +70,32 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  getSearchDescriptor() {
+    const {
+      location,
+      params,
+    } = this.props;
+
+    const {
+      recordType,
+      vocabulary,
+    } = params;
+
+    const searchQuery = Object.assign({}, location.query, {
+      p: location.query.p - 1,
+    });
+
+    return {
+      recordType,
+      vocabulary,
+      searchQuery,
+    };
+  }
+
   normalizeQuery() {
     const {
       location,
+      preferredPageSize,
     } = this.props;
 
     const {
@@ -77,21 +109,27 @@ export default class SearchResultPage extends Component {
     if (router) {
       const normalizedQueryParams = {};
 
-      const pageSize = parseInt(query.pgSz, 10);
+      const pageSize = parseInt(query.size, 10);
 
       if (isNaN(pageSize) || pageSize < 1) {
-        // TODO: Make default page size configurable
-        normalizedQueryParams.pgSz = '40';
-      } else if (pageSize.toString() !== query.pgSz) {
-        normalizedQueryParams.pgSz = pageSize.toString();
+        // FIXME: Make default page size configurable
+        const defaultPageSize = 40;
+        const normalizedPageSize = preferredPageSize || defaultPageSize;
+
+        normalizedQueryParams.size = normalizedPageSize.toString();
+      } else if (pageSize > 2500) {
+        // Services layer max is 2500
+        normalizedQueryParams.size = '2500';
+      } else if (pageSize.toString() !== query.size) {
+        normalizedQueryParams.size = pageSize.toString();
       }
 
-      const pageNum = parseInt(query.pgNum, 10);
+      const pageNum = parseInt(query.p, 10);
 
       if (isNaN(pageNum) || pageNum < 1) {
-        normalizedQueryParams.pgNum = '1';
-      } else if (pageNum.toString() !== query.pgNum) {
-        normalizedQueryParams.pgNum = pageNum.toString();
+        normalizedQueryParams.p = '1';
+      } else if (pageNum.toString() !== query.p) {
+        normalizedQueryParams.p = pageNum.toString();
       }
 
       if (Object.keys(normalizedQueryParams).length > 0) {
@@ -122,13 +160,38 @@ export default class SearchResultPage extends Component {
       router.push({
         pathname: location.pathname,
         query: Object.assign({}, location.query, {
-          pgNum: (pageNum + 1).toString(),
+          p: (pageNum + 1).toString(),
         }),
       });
     }
   }
 
   handlePageSizeChange(pageSize) {
+    const {
+      location,
+      setPreferredPageSize,
+    } = this.props;
+
+    const {
+      router,
+    } = this.context;
+
+    if (setPreferredPageSize) {
+      setPreferredPageSize(pageSize);
+    }
+
+    if (router) {
+      router.push({
+        pathname: location.pathname,
+        query: Object.assign({}, location.query, {
+          p: '1',
+          size: pageSize.toString(),
+        }),
+      });
+    }
+  }
+
+  handleSortChange(sort) {
     const {
       location,
     } = this.props;
@@ -141,8 +204,7 @@ export default class SearchResultPage extends Component {
       router.push({
         pathname: location.pathname,
         query: Object.assign({}, location.query, {
-          pgNum: '1',
-          pgSz: pageSize.toString(),
+          sort,
         }),
       });
     }
@@ -150,39 +212,49 @@ export default class SearchResultPage extends Component {
 
   search() {
     const {
-      location,
       search,
-      params,
     } = this.props;
 
+    const {
+      config,
+    } = this.context;
+
     if (search) {
-      const {
-        config,
-      } = this.context;
-
-      const {
-        recordType,
-        vocabulary,
-      } = params;
-
-      const recordTypeConfig = config.recordTypes[recordType];
-
-      if (recordTypeConfig) {
-        const searchQuery = Object.assign({}, location.query);
-
-        searchQuery.pgNum -= 1;
-
-        search(recordTypeConfig, vocabulary, searchQuery);
-      }
+      search(config, this.getSearchDescriptor());
     }
   }
 
-  renderHeader(searchResult) {
+  renderHeader({ isSearchPending, searchError, searchResult }) {
+    if (searchError) {
+      // FIXME: Make a proper error page
+      const errorMessage = searchError.get('code') || '';
+
+      return (
+        <header className={headerStyles.common}>Error: {errorMessage}</header>
+      );
+    }
+
     const {
       location,
     } = this.props;
 
-    if (searchResult) {
+    let message = null;
+    let pageSizeChooser = null;
+
+    const pageSizeQueryParam = parseInt(location.query.size, 10);
+
+    pageSizeChooser = (
+      <PageSizeChooser
+        pageSize={pageSizeQueryParam}
+        onPageSizeChange={this.handlePageSizeChange}
+      />
+    );
+
+    if (isSearchPending) {
+      message = (
+        <FormattedMessage {...messages.searching} />
+      );
+    } else if (searchResult) {
       const list = searchResult.get('ns2:abstract-common-list');
 
       const totalItems = parseInt(list.get('totalItems'), 10);
@@ -192,38 +264,32 @@ export default class SearchResultPage extends Component {
       const startNum = (pageNum * pageSize) + 1;
       const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
 
-      let pageSizeChooser = null;
-
-      if (totalItems > 0) {
-        const pageSizeQueryParam = parseInt(location.query.pgSz, 10);
-
-        pageSizeChooser = (
-          <PageSizeChooser
-            pageSize={pageSizeQueryParam}
-            onPageSizeChange={this.handlePageSizeChange}
-          />
-        );
-      }
-
-      return (
-        <header>
-          <FormattedMessage
-            {...messages.resultCount}
-            values={{
-              totalItems,
-              startNum,
-              endNum,
-            }}
-          />
-          {pageSizeChooser}
-        </header>
+      message = (
+        <FormattedMessage
+          {...messages.resultCount}
+          values={{
+            totalItems,
+            startNum,
+            endNum,
+          }}
+        />
       );
     }
 
-    return null;
+    const classes = classNames({
+      [headerStyles.common]: true,
+      [headerStyles.pending]: isSearchPending,
+    });
+
+    return (
+      <header className={classes}>
+        {message}
+        {pageSizeChooser}
+      </header>
+    );
   }
 
-  renderFooter(searchResult) {
+  renderFooter({ searchResult }) {
     if (searchResult) {
       const list = searchResult.get('ns2:abstract-common-list');
 
@@ -249,26 +315,22 @@ export default class SearchResultPage extends Component {
 
   render() {
     const {
-      location,
-      params,
-    } = this.props;
-
-    const {
-      recordType,
-    } = params;
-
-    const {
       config,
     } = this.context;
 
-    const recordTypeConfig = config.recordTypes[recordType];
+    const searchDescriptor = this.getSearchDescriptor();
+    const recordTypeConfig = config.recordTypes[searchDescriptor.recordType];
 
     if (!recordTypeConfig) {
-      // TODO: Error page
-      return null;
+      // FIXME: Make a proper error page
+      return (
+        <div className={styles.common}>
+          <TitleBar title="Error: Unknown record type" />
+        </div>
+      );
     }
 
-    const keywords = location.query.kw;
+    const keywords = searchDescriptor.searchQuery.kw;
 
     const keywordParamsTitle = keywords
       ? <FormattedMessage {...messages.keywordParams} values={{ keywords }} />
@@ -286,9 +348,10 @@ export default class SearchResultPage extends Component {
       <div className={styles.common}>
         <TitleBar title={title} />
         <SearchResultTableContainer
-          recordType={recordType}
+          searchDescriptor={searchDescriptor}
           renderHeader={this.renderHeader}
           renderFooter={this.renderFooter}
+          onSortChange={this.handleSortChange}
         />
       </div>
     );

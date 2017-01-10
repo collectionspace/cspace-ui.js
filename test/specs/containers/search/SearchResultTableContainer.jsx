@@ -3,29 +3,33 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 import { ConnectedSearchResultTable } from '../../../../src/containers/search/SearchResultTableContainer';
 
-// import {
-//   SET_KEYWORD_SEARCH_KEYWORD,
-//   SET_KEYWORD_SEARCH_RECORD_TYPE,
-//   SET_KEYWORD_SEARCH_VOCABULARY,
-// } from '../../../../src/actions/keywordSearch';
-
+chai.use(chaiImmutable);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
 describe('SearchResultTableContainer', function suite() {
   it('should set props on SearchResultTable', function test() {
-    const searchResult = Immutable.Map();
-    const searchError = 'Error';
+    const searchDescriptor = {};
+    const searchResult = {};
+
+    const searchError = {
+      code: 'ERROR_CODE',
+    };
 
     const store = mockStore({
       search: Immutable.fromJS({
-        isPending: true,
-        result: searchResult,
-        error: searchError,
+        byKey: {
+          [JSON.stringify(searchDescriptor)]: {
+            isPending: true,
+            result: searchResult,
+            error: searchError,
+          },
+        },
       }),
     });
 
@@ -35,15 +39,16 @@ describe('SearchResultTableContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchResultTable />, context);
+    shallowRenderer.render(
+      <ConnectedSearchResultTable searchDescriptor={searchDescriptor} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(SearchResultTable);
 
     result.props.isSearchPending.should.equal(true);
-    result.props.searchResult.should.equal(searchResult);
-    result.props.searchError.should.equal(searchError);
+    result.props.searchResult.should.equal(Immutable.fromJS(searchResult));
+    result.props.searchError.should.equal(Immutable.fromJS(searchError));
 
     result.props.formatCellData.should.be.a('function');
     result.props.formatColumnLabel.should.be.a('function');

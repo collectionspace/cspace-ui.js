@@ -19,6 +19,18 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
+const searchResult = Immutable.fromJS({
+  'ns2:abstract-common-list': {
+    pageNum: '0',
+    pageSize: '2',
+    totalItems: '39',
+    'list-item': [
+      {},
+      {},
+    ],
+  },
+});
+
 const store = mockStore({
   optionList: {
     searchResultPageSizes: [
@@ -27,7 +39,13 @@ const store = mockStore({
       { value: '40' },
     ],
   },
-  search: Immutable.Map(),
+  search: Immutable.fromJS({
+    byKey: {
+      '{"recordType":"object","vocabulary":"something","searchQuery":{"p":0,"size":"2"}}': {
+        result: searchResult,
+      },
+    },
+  }),
 });
 
 const config = {
@@ -38,6 +56,32 @@ const config = {
           id: 'record.object.resultsTitle',
           defaultMessage: 'Objects',
         },
+      },
+      columns: {
+        search: [
+          {
+            name: 'objectNumber',
+            messages: {
+              label: {
+                id: 'column.object.objectNumber',
+                defaultMessage: 'Identification number',
+              },
+            },
+            sortBy: 'collectionobjects_common:objectNumber',
+            width: 200,
+          },
+          {
+            name: 'title',
+            messages: {
+              label: {
+                id: 'column.object.title',
+                defaultMessage: 'Title',
+              },
+            },
+            sortBy: 'collectionobjects_common:titleGroupList/0/title',
+            width: 400,
+          },
+        ],
       },
     },
   },
@@ -53,19 +97,10 @@ const location = {
   pathname: '/search/object',
   search: '',
   query: {
-    pgNum: '1',
-    pgSz: '2',
+    p: '1',
+    size: '2',
   },
 };
-
-const searchResult = Immutable.fromJS({
-  'ns2:abstract-common-list': {
-    pageNum: '0',
-    pageSize: '2',
-    totalItems: '39',
-    'list-item': [], // This shoud have 2 (pageSize) items, but we don't need them for these tests.
-  },
-});
 
 describe('SearchResultPage', function suite() {
   beforeEach(function before() {
@@ -85,7 +120,7 @@ describe('SearchResultPage', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
-  it('should render nothing if the record type is unknown', function test() {
+  it('should not render a result table if the record type is unknown', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -95,7 +130,7 @@ describe('SearchResultPage', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.children.length.should.equal(0);
+    expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
   });
 
   it('should normalize query parameters', function test() {
@@ -130,27 +165,26 @@ describe('SearchResultPage', function suite() {
       return (pushedLocation ? pushedLocation.query : null);
     };
 
-    testQuery({}).should.deep.equal({ pgNum: '1', pgSz: '40' });
-    testQuery({ pgNum: '0' }).should.deep.equal({ pgNum: '1', pgSz: '40' });
-    testQuery({ pgNum: '-2' }).should.deep.equal({ pgNum: '1', pgSz: '40' });
-    testQuery({ pgNum: 'foo' }).should.deep.equal({ pgNum: '1', pgSz: '40' });
-    testQuery({ pgNum: '4foo' }).should.deep.equal({ pgNum: '4', pgSz: '40' });
-    testQuery({ pgSz: '-3' }).should.deep.equal({ pgNum: '1', pgSz: '40' });
-    testQuery({ pgSz: 'foo' }).should.deep.equal({ pgNum: '1', pgSz: '40' });
-    testQuery({ pgSz: '24foo' }).should.deep.equal({ pgNum: '1', pgSz: '24' });
+    testQuery({}).should.deep.equal({ p: '1', size: '40' });
+    testQuery({ p: '0' }).should.deep.equal({ p: '1', size: '40' });
+    testQuery({ p: '-2' }).should.deep.equal({ p: '1', size: '40' });
+    testQuery({ p: 'foo' }).should.deep.equal({ p: '1', size: '40' });
+    testQuery({ p: '4foo' }).should.deep.equal({ p: '4', size: '40' });
+    testQuery({ size: '-3' }).should.deep.equal({ p: '1', size: '40' });
+    testQuery({ size: 'foo' }).should.deep.equal({ p: '1', size: '40' });
+    testQuery({ size: '24foo' }).should.deep.equal({ p: '1', size: '24' });
+    testQuery({ size: '3000' }).should.deep.equal({ p: '1', size: '2500' });
 
-    expect(testQuery({ pgNum: '1', pgSz: '12' })).to.equal(null);
+    expect(testQuery({ p: '1', size: '12' })).to.equal(null);
   });
 
   it('should call the search prop to perform a search', function test() {
-    let searchedRecordTypeConfig = null;
-    let searchedVocabulary = null;
-    let searchedSearchQuery = null;
+    let searchedConfig = null;
+    let searchedSearchDescriptor = null;
 
-    const search = (recordTypeConfig, vocabulary, searchQuery) => {
-      searchedRecordTypeConfig = recordTypeConfig;
-      searchedVocabulary = vocabulary;
-      searchedSearchQuery = searchQuery;
+    const search = (configArg, searchDescriptorArg) => {
+      searchedConfig = configArg;
+      searchedSearchDescriptor = searchDescriptorArg;
     };
 
     render(
@@ -166,13 +200,52 @@ describe('SearchResultPage', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    searchedRecordTypeConfig.should.equal(config.recordTypes[params.recordType]);
-    searchedVocabulary.should.equal(params.vocabulary);
+    searchedConfig.should.equal(config);
 
-    // expect the page num searched to be 1 less than the page num in the URL
-    searchedSearchQuery.should.deep.equal(
-      Object.assign({}, location.query, { pgNum: location.query.pgNum - 1 })
-    );
+    searchedSearchDescriptor.should.deep.equal({
+      recordType: params.recordType,
+      vocabulary: params.vocabulary,
+
+      // expect the page num searched to be 1 less than the page num in the URL
+      searchQuery: Object.assign({}, location.query, {
+        p: location.query.p - 1,
+      }),
+    });
+  });
+
+  it('should handle table sort changes', function test() {
+    let pushedLocation = null;
+
+    const router = mockRouter({
+      push: (locationArg) => {
+        pushedLocation = locationArg;
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <RouterProvider router={router}>
+              <SearchResultPage
+                location={location}
+                params={params}
+              />
+            </RouterProvider>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const col = this.container.querySelector('.ReactVirtualized__Table__sortableHeaderColumn');
+
+    Simulate.click(col);
+
+    pushedLocation.should.deep.equal({
+      pathname: location.pathname,
+      query: Object.assign({}, location.query, {
+        sort: 'objectNumber',
+      }),
+    });
   });
 
   describe('renderHeader', function method() {
@@ -204,7 +277,7 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderHeader(searchResult)}
+              {searchResultPage.renderHeader({ searchResult })}
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -220,7 +293,7 @@ describe('SearchResultPage', function suite() {
 
       const input = pageSizeChooser.querySelector('input');
 
-      input.value.should.equal(location.query.pgSz);
+      input.value.should.equal(location.query.size);
 
       Simulate.mouseDown(input);
 
@@ -232,6 +305,87 @@ describe('SearchResultPage', function suite() {
       items[2].textContent.should.equal('40');
     });
 
+    it('should render a pending message if the search is pending', function test() {
+      const pageContainer = document.createElement('div');
+
+      document.body.appendChild(pageContainer);
+
+      let searchResultPage;
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <SearchResultPage
+                location={location}
+                params={params}
+                ref={(ref) => { searchResultPage = ref; }}
+              />
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, pageContainer);
+
+      const headerContainer = document.createElement('div');
+
+      document.body.appendChild(headerContainer);
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              {searchResultPage.renderHeader({ isSearchPending: true })}
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, headerContainer);
+
+      headerContainer.querySelector('header').should.not.equal(null);
+
+      headerContainer.querySelector('header > span').textContent.should
+        .equal('Searching...');
+    });
+
+    it('should render an error message if the search has an error', function test() {
+      const searchError = Immutable.Map({
+        code: 'ERROR_CODE',
+      });
+
+      const pageContainer = document.createElement('div');
+
+      document.body.appendChild(pageContainer);
+
+      let searchResultPage;
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <SearchResultPage
+                location={location}
+                params={params}
+                ref={(ref) => { searchResultPage = ref; }}
+              />
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, pageContainer);
+
+      const headerContainer = document.createElement('div');
+
+      document.body.appendChild(headerContainer);
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              {searchResultPage.renderHeader({ searchError })}
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, headerContainer);
+
+      headerContainer.querySelector('header').should.not.equal(null);
+
+      headerContainer.querySelector('header').textContent.should.match(/^Error/);
+    });
+
     it('should connect page size change events to a handler', function test() {
       let pushedLocation = null;
 
@@ -240,6 +394,12 @@ describe('SearchResultPage', function suite() {
           pushedLocation = locationArg;
         },
       });
+
+      let preferredPageSize = null;
+
+      const setPreferredPageSize = (pageSize) => {
+        preferredPageSize = pageSize;
+      };
 
       const pageContainer = document.createElement('div');
 
@@ -256,6 +416,7 @@ describe('SearchResultPage', function suite() {
                   location={location}
                   params={params}
                   ref={(ref) => { searchResultPage = ref; }}
+                  setPreferredPageSize={setPreferredPageSize}
                 />
               </RouterProvider>
             </ConfigProvider>
@@ -270,7 +431,7 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderHeader(searchResult)}
+              {searchResultPage.renderHeader({ searchResult })}
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -290,10 +451,12 @@ describe('SearchResultPage', function suite() {
       pushedLocation.should.deep.equal({
         pathname: location.pathname,
         query: {
-          pgNum: '1',
-          pgSz: '20',
+          p: '1',
+          size: '20',
         },
       });
+
+      preferredPageSize.should.equal(20);
     });
   });
 
@@ -326,7 +489,7 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderFooter(searchResult)}
+              {searchResultPage.renderFooter({ searchResult })}
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, footerContainer);
@@ -383,7 +546,7 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderFooter(searchResult)}
+              {searchResultPage.renderFooter({ searchResult })}
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, footerContainer);
@@ -402,8 +565,8 @@ describe('SearchResultPage', function suite() {
       pushedLocation.should.deep.equal({
         pathname: location.pathname,
         query: {
-          pgNum: '20',
-          pgSz: location.query.pgSz,
+          p: '20',
+          size: location.query.size,
         },
       });
     });

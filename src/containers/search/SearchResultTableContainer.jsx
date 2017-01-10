@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
   const {
     intl,
     config,
+    searchDescriptor,
   } = ownProps;
 
   return {
@@ -20,9 +21,9 @@ const mapStateToProps = (state, ownProps) => {
       (column.formatValue ? column.formatValue(data, { intl, config }) : data),
     formatColumnLabel: column =>
       intl.formatMessage(column.messages.label),
-    isSearchPending: isSearchPending(state),
-    searchResult: getSearchResult(state),
-    searchError: getSearchError(state),
+    isSearchPending: isSearchPending(state, searchDescriptor),
+    searchResult: getSearchResult(state, searchDescriptor),
+    searchError: getSearchError(state, searchDescriptor),
   };
 };
 

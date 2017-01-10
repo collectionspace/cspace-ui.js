@@ -12,9 +12,22 @@ const expect = chai.expect;
 
 chai.should();
 
+const searchDescriptor = {
+  recordType: 'object',
+  searchQuery: {
+    sort: 'title',
+  },
+};
+
+const allSearchDescriptor = {
+  recordType: 'all',
+  searchQuery: {},
+};
+
 const config = {
   recordTypes: {
     object: {
+      name: 'object',
       serviceConfig: {
         objectName: 'CollectionObject',
       },
@@ -27,7 +40,7 @@ const config = {
                 defaultMessage: 'Identification number',
               },
             },
-            width: 150,
+            width: 200,
           },
           {
             name: 'title',
@@ -36,7 +49,8 @@ const config = {
                 defaultMessage: 'Title',
               },
             },
-            width: 450,
+            sortBy: 'collectionobjects_common:titleGroupList/0/title',
+            width: 400,
           },
           {
             name: 'updatedAt',
@@ -108,7 +122,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
       </ConfigProvider>, this.container);
@@ -129,7 +143,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={emptySearchResult}
         />
       </ConfigProvider>, this.container);
@@ -156,7 +170,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={singleSearchResult}
         />
       </ConfigProvider>, this.container);
@@ -164,11 +178,70 @@ describe('SearchResultTable', function suite() {
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(1);
   });
 
+  it('should allow a search result to have no items, even if totalItems is non-zero', function test() {
+    const singleSearchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '40',
+        itemsInPage: '1',
+        totalItems: '4',
+      },
+    });
+
+    render(
+      <ConfigProvider config={config}>
+        <SearchResultTable
+          searchDescriptor={searchDescriptor}
+          searchResult={singleSearchResult}
+        />
+      </ConfigProvider>, this.container);
+
+    this.container.querySelectorAll('.ReactVirtualized__Table__headerRow').length.should.equal(1);
+  });
+
+  it('should render the sorted column header specified in the search descriptor', function test() {
+    render(
+      <ConfigProvider config={config}>
+        <SearchResultTable
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </ConfigProvider>, this.container);
+
+    const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
+
+    cols[1].className.should.match(/ReactVirtualized__Table__sortableHeaderColumn/);
+    cols[1].querySelector('svg.ReactVirtualized__Table__sortableHeaderIcon--ASC').should.not.equal(null);
+  });
+
+  it('should call onSortChange when a sortable column header is clicked', function test() {
+    let changedToSort = null;
+
+    const handleSortChange = (sort) => {
+      changedToSort = sort;
+    };
+
+    render(
+      <ConfigProvider config={config}>
+        <SearchResultTable
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          onSortChange={handleSortChange}
+        />
+      </ConfigProvider>, this.container);
+
+    const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
+
+    Simulate.click(cols[1]);
+
+    changedToSort.should.equal('title desc');
+  });
+
   it('should call renderHeader to render the table header', function test() {
     let renderHeaderSearchResult = null;
 
-    const renderHeader = (searchResultArg) => {
-      renderHeaderSearchResult = searchResultArg;
+    const renderHeader = (args) => {
+      renderHeaderSearchResult = args.searchResult;
 
       return (
         <header>renderHeader called</header>
@@ -178,7 +251,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={searchResult}
           renderHeader={renderHeader}
         />
@@ -192,8 +265,8 @@ describe('SearchResultTable', function suite() {
   it('should call renderFooter to render the table header', function test() {
     let renderFooterSearchResult = null;
 
-    const renderFooter = (searchResultArg) => {
-      renderFooterSearchResult = searchResultArg;
+    const renderFooter = (args) => {
+      renderFooterSearchResult = args.searchResult;
 
       return (
         <footer>renderFooter called</footer>
@@ -203,7 +276,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={searchResult}
           renderFooter={renderFooter}
         />
@@ -232,7 +305,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={searchResult}
           formatCellData={formatCellData}
         />
@@ -267,7 +340,7 @@ describe('SearchResultTable', function suite() {
     render(
       <ConfigProvider config={config}>
         <SearchResultTable
-          recordType="object"
+          searchDescriptor={searchDescriptor}
           searchResult={searchResult}
           formatColumnLabel={formatColumnLabel}
         />
@@ -296,7 +369,7 @@ describe('SearchResultTable', function suite() {
       <ConfigProvider config={config}>
         <RouterProvider router={router}>
           <SearchResultTable
-            recordType="object"
+            searchDescriptor={searchDescriptor}
             searchResult={searchResult}
           />
         </RouterProvider>
@@ -340,7 +413,7 @@ describe('SearchResultTable', function suite() {
       <ConfigProvider config={config}>
         <RouterProvider router={router}>
           <SearchResultTable
-            recordType="object"
+            searchDescriptor={allSearchDescriptor}
             searchResult={allRecordTypesSearchResult}
           />
         </RouterProvider>

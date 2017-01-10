@@ -12,6 +12,7 @@ export default {
           defaultMessage: 'Title',
         },
       }),
+      sortBy: 'groups_common:title',
       width: 200,
     },
     {
@@ -23,6 +24,7 @@ export default {
         },
       }),
       formatValue: value => getDisplayName(value),
+      sortBy: 'groups_common:owner',
       width: 400,
     },
     {
@@ -34,6 +36,7 @@ export default {
         },
       }),
       formatValue: formatLocalDateTime,
+      sortBy: 'collectionspace_core:updatedAt',
       width: 200,
     },
   ],

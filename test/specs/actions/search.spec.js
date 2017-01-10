@@ -11,10 +11,13 @@ import {
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
+  ERR_INVALID_SORT,
   ERR_NO_RECORD_SERVICE,
   ERR_NO_VOCABULARY_SERVICE,
   search,
 } from '../../../src/actions/search';
+
+const expect = chai.expect;
 
 chai.should();
 
@@ -22,19 +25,32 @@ const mockStore = configureMockStore([thunk]);
 
 describe('search action creator', function suite() {
   describe('search', function actionSuite() {
+    const recordType = 'person';
     const servicePath = 'personauthorities';
-    const vocabularyName = 'local';
+    const vocabulary = 'local';
     const vocabularyServicePath = 'urn:cspace:name(person)';
     const searchUrl = new RegExp(`^/cspace-services/${servicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items.*`);
 
-    const recordTypeConfig = {
-      serviceConfig: {
-        servicePath,
-      },
-      vocabularies: {
-        [vocabularyName]: {
+    const config = {
+      recordTypes: {
+        [recordType]: {
           serviceConfig: {
-            servicePath: vocabularyServicePath,
+            servicePath,
+          },
+          vocabularies: {
+            [vocabulary]: {
+              serviceConfig: {
+                servicePath: vocabularyServicePath,
+              },
+            },
+          },
+          columns: {
+            search: [
+              {
+                name: 'updatedAt',
+                sortBy: 'collectionspace_core:updatedAt',
+              },
+            ],
           },
         },
       },
@@ -43,6 +59,12 @@ describe('search action creator', function suite() {
     const searchQuery = {
       kw: 'abcd',
       pgNum: 0,
+    };
+
+    const searchDescriptor = {
+      recordType,
+      vocabulary,
+      searchQuery,
     };
 
     before(() => {
@@ -67,7 +89,7 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      return store.dispatch(search(recordTypeConfig, vocabularyName, searchQuery))
+      return store.dispatch(search(config, searchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -75,11 +97,7 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: {
-              recordTypeConfig,
-              vocabularyName,
-              searchQuery,
-            },
+            meta: searchDescriptor,
           });
 
           actions[1].should.deep.equal({
@@ -90,13 +108,47 @@ describe('search action creator', function suite() {
               headers: undefined,
               data: {},
             },
-            meta: {
-              recordTypeConfig,
-              vocabularyName,
-              searchQuery,
-            },
+            meta: searchDescriptor,
           });
         });
+    });
+
+    it('should dispatch no action when a search with a given descriptor is already pending', function test() {
+      moxios.stubRequest(searchUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        search: Immutable.fromJS({
+          byKey: {
+            [JSON.stringify(searchDescriptor)]: {
+              isPending: true,
+            },
+          },
+        }),
+      });
+
+      expect(store.dispatch(search(config, searchDescriptor))).to.equal(null);
+    });
+
+    it('should dispatch no action when a search with a given descriptor has already completed successfully', function test() {
+      moxios.stubRequest(searchUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        search: Immutable.fromJS({
+          byKey: {
+            [JSON.stringify(searchDescriptor)]: {
+              result: {},
+            },
+          },
+        }),
+      });
+
+      expect(store.dispatch(search(config, searchDescriptor))).to.equal(null);
     });
 
     it('should accept null/undefined vocabulary name', function test() {
@@ -111,7 +163,12 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      return store.dispatch(search(recordTypeConfig, null, searchQuery))
+      const noVocabularySearchDescriptor = {
+        recordType,
+        searchQuery,
+      };
+
+      return store.dispatch(search(config, noVocabularySearchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -119,11 +176,7 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: {
-              recordTypeConfig,
-              vocabularyName: null,
-              searchQuery,
-            },
+            meta: noVocabularySearchDescriptor,
           });
 
           actions[1].should.deep.equal({
@@ -134,13 +187,137 @@ describe('search action creator', function suite() {
               headers: undefined,
               data: {},
             },
-            meta: {
-              recordTypeConfig,
-              vocabularyName: null,
-              searchQuery,
-            },
+            meta: noVocabularySearchDescriptor,
           });
         });
+    });
+
+    it('should generate the sort parameter', function test() {
+      const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core:updatedAt');
+
+      moxios.stubRequest(sortedSearchUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      const sortedSearchDescriptor = {
+        recordType,
+        searchQuery: Object.assign({}, searchQuery, {
+          sort: 'updatedAt',
+        }),
+      };
+
+      return store.dispatch(search(config, sortedSearchDescriptor))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_STARTED,
+            meta: sortedSearchDescriptor,
+          });
+
+          actions[1].should.deep.equal({
+            type: SEARCH_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: sortedSearchDescriptor,
+          });
+        });
+    });
+
+    it('should generate the sort parameter for descending searches', function test() {
+      const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core:updatedAt\\+DESC');
+
+      moxios.stubRequest(sortedSearchUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      const sortedSearchDescriptor = {
+        recordType,
+        searchQuery: Object.assign({}, searchQuery, {
+          sort: 'updatedAt desc',
+        }),
+      };
+
+      return store.dispatch(search(config, sortedSearchDescriptor))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_STARTED,
+            meta: sortedSearchDescriptor,
+          });
+
+          actions[1].should.deep.equal({
+            type: SEARCH_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: sortedSearchDescriptor,
+          });
+        });
+    });
+
+    it('should dispatch SEARCH_REJECTED when an unknown search column is specified', function test() {
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      const sortedSearchDescriptor = {
+        recordType,
+        searchQuery: Object.assign({}, searchQuery, {
+          sort: 'foobar',
+        }),
+      };
+
+      store.dispatch(search(config, sortedSearchDescriptor)).should.deep.equal({
+        type: SEARCH_REJECTED,
+        payload: {
+          code: ERR_INVALID_SORT,
+        },
+        meta: sortedSearchDescriptor,
+      });
+    });
+
+    it('should dispatch SEARCH_REJECTED when an invalid search order is specified', function test() {
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      const sortedSearchDescriptor = {
+        recordType,
+        searchQuery: Object.assign({}, searchQuery, {
+          sort: 'updatedAt foo',
+        }),
+      };
+
+      store.dispatch(search(config, sortedSearchDescriptor)).should.deep.equal({
+        type: SEARCH_REJECTED,
+        payload: {
+          code: ERR_INVALID_SORT,
+        },
+        meta: sortedSearchDescriptor,
+      });
     });
 
     it('should dispatch SEARCH_REJECTED on error', function test() {
@@ -153,7 +330,7 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      return store.dispatch(search(recordTypeConfig, vocabularyName, searchQuery))
+      return store.dispatch(search(config, searchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -161,50 +338,36 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: {
-              recordTypeConfig,
-              vocabularyName,
-              searchQuery,
-            },
+            meta: searchDescriptor,
           });
 
           actions[1].should.have.property('type', SEARCH_REJECTED);
-          actions[1].should.have.property('meta')
-            .that.deep.equals({
-              recordTypeConfig,
-              vocabularyName,
-              searchQuery,
-            });
+          actions[1].should.have.property('meta').that.deep.equals(searchDescriptor);
         });
     });
 
-    it('should dispatch SEARCH_REJECTED if the record type does not have a service path', function test() {
-      const badRecordTypeConfig = {
-        serviceConfig: {},
-      };
+    it('should dispatch SEARCH_REJECTED if the record type is unknown', function test() {
+      const badSearchDescriptor = Object.assign({}, searchDescriptor, {
+        recordType: 'foobar',
+      });
 
       const store = mockStore({
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(badRecordTypeConfig, vocabularyName, searchQuery)).should.deep.equal({
+      store.dispatch(search(config, badSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
-        payload: ERR_NO_RECORD_SERVICE,
-        meta: {
-          vocabularyName,
-          searchQuery,
-          recordTypeConfig: badRecordTypeConfig,
+        payload: {
+          code: ERR_NO_RECORD_SERVICE,
         },
+        meta: badSearchDescriptor,
       });
     });
 
-    it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', function test() {
-      const badRecordTypeConfig = {
-        serviceConfig: {
-          servicePath,
-        },
-        vocabularies: {
-          [vocabularyName]: {
+    it('should dispatch SEARCH_REJECTED if the record type does not have a service path', function test() {
+      const badConfig = {
+        recordTypes: {
+          [recordType]: {
             serviceConfig: {},
           },
         },
@@ -214,14 +377,41 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(badRecordTypeConfig, vocabularyName, searchQuery)).should.deep.equal({
+      store.dispatch(search(badConfig, searchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
-        payload: ERR_NO_VOCABULARY_SERVICE,
-        meta: {
-          vocabularyName,
-          searchQuery,
-          recordTypeConfig: badRecordTypeConfig,
+        payload: {
+          code: ERR_NO_RECORD_SERVICE,
         },
+        meta: searchDescriptor,
+      });
+    });
+
+    it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', function test() {
+      const badConfig = {
+        recordTypes: {
+          [recordType]: {
+            serviceConfig: {
+              servicePath,
+            },
+            vocabularies: {
+              [vocabulary]: {
+                serviceConfig: {},
+              },
+            },
+          },
+        },
+      };
+
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      store.dispatch(search(badConfig, searchDescriptor)).should.deep.equal({
+        type: SEARCH_REJECTED,
+        payload: {
+          code: ERR_NO_VOCABULARY_SERVICE,
+        },
+        meta: searchDescriptor,
       });
     });
   });

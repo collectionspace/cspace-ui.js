@@ -26,7 +26,7 @@ export default {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
       formatValue: value => getDisplayName(value) || value,
-      width: 150,
+      width: 200,
     },
     {
       name: 'docName',
@@ -39,7 +39,7 @@ export default {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
       formatValue: value => getDisplayName(value) || value,
-      width: 350,
+      width: 300,
     },
     {
       name: 'docType',
@@ -62,6 +62,7 @@ export default {
         },
       }),
       formatValue: formatLocalDateTime,
+      sortBy: 'collectionspace_core:updatedAt',
       width: 200,
     },
   ],

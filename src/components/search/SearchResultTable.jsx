@@ -8,10 +8,13 @@ import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 const propTypes = {
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
-  recordType: PropTypes.string,
+  isSearchPending: PropTypes.bool,
+  searchDescriptor: PropTypes.object,
+  searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   renderHeader: PropTypes.func,
   renderFooter: PropTypes.func,
+  onSortChange: PropTypes.func,
 };
 
 const defaultProps = {
@@ -33,15 +36,17 @@ export default class SearchResultTable extends Component {
     super();
 
     this.handleRowClick = this.handleRowClick.bind(this);
+    this.sort = this.sort.bind(this);
   }
 
   handleRowClick(index) {
     const {
-      recordType,
+      searchDescriptor,
       searchResult,
     } = this.props;
 
     const {
+      config,
       router,
     } = this.context;
 
@@ -53,7 +58,7 @@ export default class SearchResultTable extends Component {
       let recordTypeName;
 
       if (docType) {
-        const recordTypeConfig = getRecordTypeByServiceObjectName(this.context.config, docType);
+        const recordTypeConfig = getRecordTypeByServiceObjectName(config, docType);
 
         if (recordTypeConfig) {
           recordTypeName = recordTypeConfig.name;
@@ -61,7 +66,7 @@ export default class SearchResultTable extends Component {
       }
 
       if (!recordTypeName) {
-        recordTypeName = recordType;
+        recordTypeName = searchDescriptor.recordType;
       }
 
       if (recordTypeName) {
@@ -72,11 +77,21 @@ export default class SearchResultTable extends Component {
     }
   }
 
+  sort({ sortBy, sortDirection }) {
+    const {
+      onSortChange,
+    } = this.props;
+
+    if (onSortChange) {
+      onSortChange(sortBy + (sortDirection === Table.SORT_DESC ? ' desc' : ''));
+    }
+  }
+
   renderTable() {
     const {
       formatCellData,
       formatColumnLabel,
-      recordType,
+      searchDescriptor,
       searchResult,
     } = this.props;
 
@@ -85,13 +100,27 @@ export default class SearchResultTable extends Component {
     } = this.context;
 
     if (searchResult) {
+      let sortColumnName = null;
+      let sortDir = null;
+
+      const sortSpec = searchDescriptor.searchQuery.sort;
+
+      if (sortSpec) {
+        [sortColumnName, sortDir] = sortSpec.split(' ');
+      }
+
       const list = searchResult.get('ns2:abstract-common-list');
+      const pageSize = parseInt(list.get('pageSize'), 10);
       const totalItems = parseInt(list.get('totalItems'), 10);
 
       if (totalItems > 0) {
-        const recordTypeConfig = config.recordTypes[recordType];
+        const recordTypeConfig = config.recordTypes[searchDescriptor.recordType];
 
         let items = list.get('list-item');
+
+        if (!items) {
+          items = Immutable.List();
+        }
 
         if (!Immutable.List.isList(items)) {
           // If there's only one result, it won't be returned as a list.
@@ -103,12 +132,19 @@ export default class SearchResultTable extends Component {
         const columns = columnConfig.map(column => ({
           cellDataGetter: ({ dataKey, rowData }) =>
             formatCellData(column, rowData ? rowData.get(dataKey) : null),
+          disableSort: !column.sortBy,
           label: formatColumnLabel(column),
           dataKey: column.name,
           width: column.width,
         }));
 
-        const height = (items.size * rowHeight) + rowHeight;
+        // If there's more than one page, maintain the same table height on all pages for
+        // continuity. This way the last page, if it has fewer items, doesn't get shorter, causing
+        // the paging links to jump up. But if there's only one page, shrink the table to fit the
+        // number of results, so the paging links aren't unnecessarily far down.
+
+        const heightBasis = (totalItems <= pageSize ? items.size : pageSize);
+        const height = (heightBasis * rowHeight) + rowHeight;
 
         return (
           <div style={{ height }}>
@@ -117,6 +153,9 @@ export default class SearchResultTable extends Component {
               rowCount={items.size}
               rowGetter={({ index }) => items.get(index)}
               onRowClick={this.handleRowClick}
+              sort={this.sort}
+              sortBy={sortColumnName}
+              sortDirection={sortDir === 'desc' ? Table.SORT_DESC : Table.SORT_ASC}
             />
           </div>
         );
@@ -128,6 +167,8 @@ export default class SearchResultTable extends Component {
 
   render() {
     const {
+      isSearchPending,
+      searchError,
       searchResult,
       renderHeader,
       renderFooter,
@@ -135,9 +176,9 @@ export default class SearchResultTable extends Component {
 
     return (
       <div className={styles.common}>
-        {renderHeader(searchResult)}
+        {renderHeader({ isSearchPending, searchError, searchResult })}
         {this.renderTable()}
-        {renderFooter(searchResult)}
+        {renderFooter({ isSearchPending, searchError, searchResult })}
       </div>
     );
   }

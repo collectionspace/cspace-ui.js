@@ -1,6 +1,8 @@
 import {
   COLLAPSE_PANEL,
+  SET_SEARCH_PAGE_SIZE,
   collapsePanel,
+  setSearchPageSize,
 } from '../../../src/actions/prefs';
 
 chai.should();
@@ -19,6 +21,17 @@ describe('prefs action creator', function suite() {
           recordType,
           name,
         },
+      });
+    });
+  });
+
+  describe('setSearchPageSize', function actionSuite() {
+    it('should create a SET_SEARCH_PAGE_SIZE action', function test() {
+      const pageSize = 45;
+
+      setSearchPageSize(pageSize).should.deep.equal({
+        type: SET_SEARCH_PAGE_SIZE,
+        payload: pageSize,
       });
     });
   });
