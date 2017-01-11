@@ -130,7 +130,7 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
   const path = `${recordTypeServicePath}${vocabularyItemsPath}`;
 
   return getSession().read(path, requestConfig)
-    // Artificial delay for testing
+    // Insert an artificial delay for testing.
     // .then(response => {
     //   return new Promise((resolve) => {
     //     window.setTimeout(() => {
@@ -138,14 +138,16 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
     //     }, 2000);
     //   });
     // })
-    .then(response => dispatch({
-      type: SEARCH_FULFILLED,
-      payload: response,
-      meta: searchDescriptor,
-    }))
-    .catch(error => dispatch({
-      type: SEARCH_REJECTED,
-      payload: error,
-      meta: searchDescriptor,
-    }));
+    .then(
+      response => dispatch({
+        type: SEARCH_FULFILLED,
+        payload: response,
+        meta: searchDescriptor,
+      }),
+      error => dispatch({
+        type: SEARCH_REJECTED,
+        payload: error,
+        meta: searchDescriptor,
+      })
+    );
 };

@@ -10,7 +10,7 @@ const propTypes = {
   formatColumnLabel: PropTypes.func,
   isSearchPending: PropTypes.bool,
   searchDescriptor: PropTypes.object,
-  searchError: PropTypes.instanceOf(Immutable.Map),
+  searchError: PropTypes.instanceOf(Error),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   renderHeader: PropTypes.func,
   renderFooter: PropTypes.func,

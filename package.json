@@ -47,7 +47,7 @@
     "classnames": "^2.2.5",
     "cspace-client": ">=0.0.1",
     "cspace-input": ">=0.4.1",
-    "cspace-layout": ">=0.1.1",
+    "cspace-layout": ">=0.1.2",
     "cspace-refname": "^0.0.1",
     "history": "^2.1.2",
     "immutable": "^3.8.1",

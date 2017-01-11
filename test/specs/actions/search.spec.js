@@ -320,7 +320,7 @@ describe('search action creator', function suite() {
       });
     });
 
-    it('should dispatch SEARCH_REJECTED on error', function test() {
+    it('should dispatch SEARCH_REJECTED on API error', function test() {
       moxios.stubRequest(searchUrl, {
         status: 400,
         response: {},
@@ -345,6 +345,36 @@ describe('search action creator', function suite() {
           actions[1].should.have.property('meta').that.deep.equals(searchDescriptor);
         });
     });
+
+    // it('should throw on unexpected error', function test() {
+    //   moxios.stubRequest(searchUrl, {
+    //     status: 400,
+    //     response: {},
+    //   });
+    //
+    //   const store = mockStore({
+    //     search: Immutable.Map(),
+    //   });
+    //
+    //   store.subscribe(() => {
+    //     console.log("yo");
+    //   });
+    //
+    //   return store.dispatch(search(config, searchDescriptor))
+    //     .then(() => {
+    //       const actions = store.getActions();
+    //
+    //       actions.should.have.lengthOf(2);
+    //
+    //       actions[0].should.deep.equal({
+    //         type: SEARCH_STARTED,
+    //         meta: searchDescriptor,
+    //       });
+    //
+    //       actions[1].should.have.property('type', SEARCH_REJECTED);
+    //       actions[1].should.have.property('meta').that.deep.equals(searchDescriptor);
+    //     });
+    // });
 
     it('should dispatch SEARCH_REJECTED if the record type is unknown', function test() {
       const badSearchDescriptor = Object.assign({}, searchDescriptor, {

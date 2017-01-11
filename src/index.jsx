@@ -24,6 +24,7 @@ import conceptRecordType from './plugins/recordTypes/concept';
 import groupRecordType from './plugins/recordTypes/group';
 import intakeRecordType from './plugins/recordTypes/intake';
 import loaninRecordType from './plugins/recordTypes/loanin';
+import mediaRecordType from './plugins/recordTypes/media';
 import objectRecordType from './plugins/recordTypes/object';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
@@ -61,6 +62,7 @@ const defaultConfig = mergeConfig({
     groupRecordType(),
     intakeRecordType(),
     loaninRecordType(),
+    mediaRecordType(),
     objectRecordType(),
     personRecordType(),
     placeRecordType(),
