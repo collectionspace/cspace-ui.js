@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
+import Immutable from 'immutable';
 import Panel from '../../../../src/components/layout/Panel';
 
 import RecordTypeAwarePanelContainer, {
@@ -21,13 +22,13 @@ describe('PanelContainer', function suite() {
     const panelName = 'descPanel';
 
     const store = mockStore({
-      prefs: {
+      prefs: Immutable.fromJS({
         panels: {
           [recordType]: {
             [panelName]: true,
           },
         },
-      },
+      }),
     });
 
     const context = { store };
@@ -60,13 +61,13 @@ describe('PanelContainer', function suite() {
     const panelName = 'descPanel';
 
     const store = mockStore({
-      prefs: {
+      prefs: Immutable.fromJS({
         panels: {
           [recordType]: {
             // panelName is not present
           },
         },
-      },
+      }),
     });
 
     const context = { store };

@@ -21,7 +21,7 @@ The function may have different numbers and types of arguments, depending on the
 Some action creators perform asynchronous side-effects, such as making a request to the CollectionSpace REST API. These are implemented as [async action creators](http://redux.js.org/docs/advanced/AsyncActions.html#async-action-creators) that pass through the [Redux Thunk](https://github.com/gaearon/redux-thunk) middleware. An async action creator is recognizable by its double [fat-arrow](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) signature, defining a function that returns a function that takes a dispatch argument:
 
 ```
-export const readRecord = (serviceConfig, csid) => (dispatch) => {
+export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
   ...
 };
 ```

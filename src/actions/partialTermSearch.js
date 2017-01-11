@@ -8,16 +8,20 @@ export const PARTIAL_TERM_SEARCH_FULFILLED = 'PARTIAL_TERM_SEARCH_FULFILLED';
 export const PARTIAL_TERM_SEARCH_REJECTED = 'PARTIAL_TERM_SEARCH_REJECTED';
 export const CLEAR_PARTIAL_TERM_SEARCH_RESULTS = 'CLEAR_PARTIAL_TERM_SEARCH_RESULTS';
 
-export const addTerm = (
-  authorityName, authorityServiceConfig, vocabularyName, vocabularyServiceConfig, displayName
-) => (dispatch) => {
+export const addTerm = (authorityRecordTypeConfig, vocabularyName, displayName) => (dispatch) => {
   const {
-    name: authorityServiceName,
+    vocabularies,
+    name: authorityName,
+    serviceConfig: authorityServiceConfig,
+  } = authorityRecordTypeConfig;
+
+  const {
+    servicePath: authorityServicePath,
   } = authorityServiceConfig;
 
   const {
-    name: vocabularyServiceName,
-  } = vocabularyServiceConfig;
+    servicePath: vocabularyServicePath,
+  } = vocabularies[vocabularyName].serviceConfig;
 
   dispatch({
     type: ADD_TERM_STARTED,
@@ -34,7 +38,7 @@ export const addTerm = (
     }),
   };
 
-  return getSession().create(`${authorityServiceName}/${vocabularyServiceName}/items`, config)
+  return getSession().create(`${authorityServicePath}/${vocabularyServicePath}/items`, config)
     .then(response => getSession().read(response.headers.location))
     .then(response => dispatch({
       type: ADD_TERM_FULFILLED,
@@ -56,53 +60,58 @@ export const addTerm = (
     }));
 };
 
-export const findMatchingTerms = (
-  authorityName, authorityServiceConfig, vocabularyName, vocabularyServiceConfig, partialTerm
-) => (dispatch) => {
-  const {
-    name: authorityServiceName,
-  } = authorityServiceConfig;
+export const findMatchingTerms = (authorityRecordTypeConfig, vocabularyName, partialTerm) =>
+  (dispatch) => {
+    const {
+      vocabularies,
+      name: authorityName,
+      serviceConfig: authorityServiceConfig,
+    } = authorityRecordTypeConfig;
 
-  const {
-    name: vocabularyServiceName,
-  } = vocabularyServiceConfig;
+    const {
+      servicePath: authorityServicePath,
+    } = authorityServiceConfig;
 
-  dispatch({
-    type: PARTIAL_TERM_SEARCH_STARTED,
-    meta: {
-      partialTerm,
-      authorityName,
-      vocabularyName,
-    },
-  });
+    const {
+      servicePath: vocabularyServicePath,
+    } = vocabularies[vocabularyName].serviceConfig;
 
-  const config = {
-    params: {
-      pt: partialTerm,
-      wf_deleted: 'false',
-    },
+    dispatch({
+      type: PARTIAL_TERM_SEARCH_STARTED,
+      meta: {
+        partialTerm,
+        authorityName,
+        vocabularyName,
+      },
+    });
+
+    const config = {
+      params: {
+        pt: partialTerm,
+        wf_deleted: 'false',
+      },
+    };
+
+    return getSession().read(`${authorityServicePath}/${vocabularyServicePath}/items`, config)
+      .then(response => dispatch({
+        type: PARTIAL_TERM_SEARCH_FULFILLED,
+        payload: response,
+        meta: {
+          partialTerm,
+          authorityName,
+          vocabularyName,
+        },
+      }))
+      .catch(error => dispatch({
+        type: PARTIAL_TERM_SEARCH_REJECTED,
+        payload: error,
+        meta: {
+          partialTerm,
+          authorityName,
+          vocabularyName,
+        },
+      }));
   };
-
-  return getSession().read(`${authorityServiceName}/${vocabularyServiceName}/items`, config)
-    .then(response => dispatch({
-      type: PARTIAL_TERM_SEARCH_FULFILLED,
-      payload: response,
-      meta: {
-        partialTerm,
-        authorityName,
-        vocabularyName,
-      },
-    }))
-    .catch(error => dispatch({
-      type: PARTIAL_TERM_SEARCH_REJECTED,
-      payload: error,
-      meta: {
-        partialTerm,
-        authorityName,
-        vocabularyName,
-      },
-    }));
-};
 
 export const clearMatchedTerms = () => ({
   type: CLEAR_PARTIAL_TERM_SEARCH_RESULTS,

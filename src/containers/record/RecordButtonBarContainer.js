@@ -17,14 +17,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     csid,
-    recordType,
+    recordTypeConfig,
     router,
-    serviceConfig,
   } = ownProps;
 
   return {
     onSaveButtonClick: () => {
-      dispatch(saveRecord(recordType, serviceConfig, csid, router.replace));
+      dispatch(saveRecord(recordTypeConfig, csid, router.replace));
     },
   };
 };

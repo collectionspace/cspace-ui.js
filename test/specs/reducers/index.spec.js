@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 
 import reducer, {
   getUserUsername,
@@ -13,11 +14,22 @@ import reducer, {
   getNewRecordData,
   isRecordReadPending,
   isRecordSavePending,
+  getPrefs,
   isPanelCollapsed,
+  getSearchPageSize,
   getOptionList,
   getVocabulary,
+  getPartialTermSearchMatches,
+  getIDGenerator,
+  getKeywordSearchKeyword,
+  getKeywordSearchRecordType,
+  getKeywordSearchVocabulary,
+  isSearchPending,
+  getSearchResult,
+  getSearchError,
 } from '../../../src/reducers';
 
+chai.use(chaiImmutable);
 chai.should();
 
 describe('reducer', function suite() {
@@ -34,6 +46,7 @@ describe('reducer', function suite() {
       'optionList',
       'partialTermSearch',
       'prefs',
+      'search',
       'user',
       'record',
       'vocabulary',
@@ -183,20 +196,45 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('getPrefs selector', function selectorSuite() {
+    it('should return the prefs key', function test() {
+      const prefs = Immutable.fromJS({
+        searchPageSize: 30,
+        panels: {},
+      });
+
+      getPrefs({
+        prefs,
+      }).should.deep.equal(prefs);
+    });
+  });
+
   describe('isPanelCollapsed selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
       const recordType = 'object';
       const name = 'descPanel';
 
       isPanelCollapsed({
-        prefs: {
+        prefs: Immutable.fromJS({
           panels: {
             [recordType]: {
               [name]: true,
             },
           },
-        },
+        }),
       }, recordType, name).should.equal(true);
+    });
+  });
+
+  describe('getSearchPageSize selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const searchPageSize = 35;
+
+      getSearchPageSize({
+        prefs: Immutable.fromJS({
+          searchPageSize,
+        }),
+      }).should.equal(searchPageSize);
     });
   });
 
@@ -232,6 +270,135 @@ describe('reducer', function suite() {
           [vocabularyName]: vocabulary,
         },
       }, vocabularyName).should.deep.equal(vocabulary);
+    });
+  });
+
+  describe('getPartialTermSearchMatches selector', function selectorSuite() {
+    it('should select from the partialTermSearch key', function test() {
+      const partialTermSearch = Immutable.Map();
+
+      getPartialTermSearchMatches({
+        partialTermSearch,
+      }).should.deep.equal(partialTermSearch);
+    });
+  });
+
+  describe('getIDGenerator selector', function selectorSuite() {
+    it('should select from the idGenerator key', function test() {
+      const idGeneratorName = 'lo';
+      const idGenerator = Immutable.Map();
+
+      getIDGenerator({
+        idGenerator: Immutable.Map({
+          [idGeneratorName]: idGenerator,
+        }),
+      }, idGeneratorName).should.deep.equal(idGenerator);
+    });
+  });
+
+  describe('getKeywordSearchKeyword selector', function selectorSuite() {
+    it('should select from the keywordSearch key', function test() {
+      const keyword = 'abc';
+
+      getKeywordSearchKeyword({
+        keywordSearch: Immutable.Map({
+          keyword,
+        }),
+      }).should.deep.equal(keyword);
+    });
+  });
+
+  describe('getKeywordSearchRecordType selector', function selectorSuite() {
+    it('should select from the keywordSearch key', function test() {
+      const recordType = 'person';
+
+      getKeywordSearchRecordType({
+        keywordSearch: Immutable.Map({
+          recordType,
+        }),
+      }).should.deep.equal(recordType);
+    });
+  });
+
+  describe('getKeywordSearchVocabulary selector', function selectorSuite() {
+    it('should select from the keywordSearch key', function test() {
+      const vocabulary = 'local';
+
+      getKeywordSearchVocabulary({
+        keywordSearch: Immutable.Map({
+          vocabulary,
+        }),
+      }).should.deep.equal(vocabulary);
+    });
+  });
+
+  describe('isSearchPending selector', function selectorSuite() {
+    it('should select from the search key', function test() {
+      const searchDescriptor = {
+        recordType: 'object',
+      };
+
+      const key = JSON.stringify(searchDescriptor);
+
+      isSearchPending({
+        search: Immutable.fromJS({
+          byKey: {
+            [key]: {
+              isPending: true,
+            },
+          },
+        }),
+      }, searchDescriptor).should.deep.equal(true);
+    });
+  });
+
+  describe('getSearchResult selector', function selectorSuite() {
+    it('should select from the search key', function test() {
+      const searchDescriptor = {
+        recordType: 'object',
+      };
+
+      const key = JSON.stringify(searchDescriptor);
+
+      const result = {
+        'ns2:abstract-common-list': {
+          totalItems: '33',
+        },
+      };
+
+      getSearchResult({
+        search: Immutable.fromJS({
+          byKey: {
+            [key]: {
+              result,
+            },
+          },
+        }),
+      }, searchDescriptor).should.deep.equal(Immutable.fromJS(result));
+    });
+  });
+
+  describe('getSearchError selector', function selectorSuite() {
+    it('should select from the search key', function test() {
+      const searchDescriptor = {
+        recordType: 'object',
+      };
+
+      const key = JSON.stringify(searchDescriptor);
+
+      const error = {
+        code: 'ERROR_CODE',
+      };
+
+      getSearchError({
+        search: Immutable.fromJS({
+          byKey: {
+            [key]: {
+              error,
+            },
+          },
+        }),
+      }, searchDescriptor).should.deep.equal(Immutable.fromJS(error));
     });
   });
 });

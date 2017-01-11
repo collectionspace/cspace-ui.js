@@ -80,15 +80,15 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     const {
-      recordTypes,
+      config,
     } = this.context;
 
-    const config = recordTypes[recordType];
+    const recordTypeConfig = config.recordTypes[recordType];
 
     const {
       forms,
       messageDescriptors,
-    } = config;
+    } = recordTypeConfig;
 
     const handlers = {
       generateID,
@@ -138,5 +138,5 @@ RecordEditor.childContextTypes = {
 };
 
 RecordEditor.contextTypes = {
-  recordTypes: PropTypes.object,
+  config: PropTypes.object,
 };

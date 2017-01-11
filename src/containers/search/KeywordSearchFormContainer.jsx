@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import KeywordSearch from '../../components/search/KeywordSearch';
+import KeywordSearchForm from '../../components/search/KeywordSearchForm';
 
 import {
   setKeywordSearchKeyword,
@@ -36,9 +36,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-export const ConnectedKeywordSearch = connect(
+export const ConnectedKeywordSearchForm = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(KeywordSearch);
+)(KeywordSearchForm);
 
-export default withRouter(ConnectedKeywordSearch);
+export default withRouter(ConnectedKeywordSearchForm);

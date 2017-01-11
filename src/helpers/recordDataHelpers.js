@@ -94,9 +94,13 @@ export function deepSet(data, path, value) {
 /**
  * Create a skeletal document for a given CollectionSpace service.
  */
-export function createDocument(serviceConfig) {
+export function createDocument(recordTypeConfig) {
+  const {
+    serviceConfig,
+  } = recordTypeConfig;
+
   const cspaceDocument = {
-    '@name': serviceConfig.name,
+    '@name': serviceConfig.documentName,
   };
 
   const parts = serviceConfig.parts;
@@ -113,8 +117,8 @@ export function createDocument(serviceConfig) {
 /**
  * Create a skeletal data record for a given CollectionSpace service.
  */
-export function createRecordData(serviceConfig) {
-  return Immutable.Map().set(DOCUMENT_PROPERTY_NAME, createDocument(serviceConfig));
+export function createRecordData(recordTypeConfig) {
+  return Immutable.Map().set(DOCUMENT_PROPERTY_NAME, createDocument(recordTypeConfig));
 }
 
 /**

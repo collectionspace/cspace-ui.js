@@ -24,12 +24,13 @@ import conceptRecordType from './plugins/recordTypes/concept';
 import groupRecordType from './plugins/recordTypes/group';
 import intakeRecordType from './plugins/recordTypes/intake';
 import loaninRecordType from './plugins/recordTypes/loanin';
+import mediaRecordType from './plugins/recordTypes/media';
 import objectRecordType from './plugins/recordTypes/object';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
 import organizationRecordType from './plugins/recordTypes/organization';
 
-import { mergeConfig } from './helpers/configHelpers';
+import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
 
 const loadPolyfills = (locale, callback) => {
   if (window.Intl) {
@@ -61,6 +62,7 @@ const defaultConfig = mergeConfig({
     groupRecordType(),
     intakeRecordType(),
     loaninRecordType(),
+    mediaRecordType(),
     objectRecordType(),
     personRecordType(),
     placeRecordType(),
@@ -69,19 +71,18 @@ const defaultConfig = mergeConfig({
 }, pluginContext);
 
 module.exports = (uiConfig) => {
+  const config = normalizeConfig(mergeConfig(defaultConfig, uiConfig, pluginContext));
+
   const {
     basename,
     className,
     container,
     cspaceUrl,
     idGenerators,
-    index,
     locale,
-    messages,
     optionLists,
     prettyUrls,
-    recordTypes,
-  } = mergeConfig(defaultConfig, uiConfig, pluginContext);
+  } = config;
 
   const mountNode = document.querySelector(container);
 
@@ -105,11 +106,8 @@ module.exports = (uiConfig) => {
 
     const props = {
       className,
+      config,
       history,
-      index,
-      locale,
-      messages,
-      recordTypes,
       store,
     };
 

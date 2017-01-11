@@ -11,6 +11,13 @@ import { defineMessages } from 'react-intl';
  */
 export default () => ({
   optionLists: {
+    searchResultPageSizes: {
+      values: [
+        '20',
+        '40',
+        '100',
+      ],
+    },
     dateQualifiers: {
       values: [
         '+/-',

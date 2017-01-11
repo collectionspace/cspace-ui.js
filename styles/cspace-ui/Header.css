@@ -1,0 +1,20 @@
+.common {
+  display: flex;
+  padding: 0 10px;
+  margin: 10px 0;
+}
+
+.common > * {
+  display: block;
+  flex: 1 1;
+}
+
+.common :global(.cspace-input-TextInput--normal) {
+  margin-bottom: 0;
+}
+
+.pending {
+  background: url(../../images/spinner.svg) no-repeat;
+  background-position: 8px -2px;
+  padding-left: 34px;
+}

@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
 import createTestContainer from '../../../helpers/createTestContainer';
+import mockRouter from '../../../helpers/mockRouter';
 
 import LogoutIndicator from '../../../../src/components/login/LogoutIndicator';
 import LogoutPage from '../../../../src/components/pages/LogoutPage';
@@ -18,15 +19,7 @@ const store = mockStore({
   logout: {},
 });
 
-const mockRouter = {
-  push: () => null,
-  replace: () => null,
-  go: () => null,
-  goBack: () => null,
-  goForward: () => null,
-  setRouteLeaveHook: () => null,
-  isActive: () => null,
-};
+const router = mockRouter();
 
 describe('LogoutPage', function suite() {
   beforeEach(function before() {
@@ -37,7 +30,7 @@ describe('LogoutPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LogoutPage router={mockRouter} />
+          <LogoutPage router={router} />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -55,7 +48,7 @@ describe('LogoutPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LogoutPage
-            router={mockRouter}
+            router={router}
             onMount={handleMount}
           />
         </StoreProvider>
@@ -67,23 +60,17 @@ describe('LogoutPage', function suite() {
   it('should replace router url with continuation when logout form is submitted', function test() {
     let replacementUrl = null;
 
-    const stubReplaceMockRouter = {
-      push: () => null,
+    const stubbedRouter = mockRouter({
       replace: (url) => {
         replacementUrl = url;
       },
-      go: () => null,
-      goBack: () => null,
-      goForward: () => null,
-      setRouteLeaveHook: () => null,
-      isActive: () => null,
-    };
+    });
 
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LogoutPage
-            router={stubReplaceMockRouter}
+            router={stubbedRouter}
           />
         </StoreProvider>
       </IntlProvider>, this.container);

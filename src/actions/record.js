@@ -19,7 +19,7 @@ export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
 // TODO: Accept csid to clone.
 
 // Force this to be async, to be consistent with reading an existing record.
-export const createNewRecord = serviceConfig => dispatch =>
+export const createNewRecord = recordTypeConfig => dispatch =>
   new Promise((resolve) => {
     window.setTimeout(() => {
       resolve();
@@ -28,20 +28,20 @@ export const createNewRecord = serviceConfig => dispatch =>
   .then(() => dispatch({
     type: CREATE_NEW_RECORD,
     meta: {
-      serviceConfig,
+      recordTypeConfig,
     },
   }));
 
-export const readRecord = (serviceConfig, csid) => (dispatch) => {
+export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
   dispatch({
     type: RECORD_READ_STARTED,
     meta: {
-      serviceConfig,
+      recordTypeConfig,
       csid,
     },
   });
 
-  const serviceName = serviceConfig.name;
+  const servicePath = recordTypeConfig.serviceConfig.servicePath;
 
   const config = {
     params: {
@@ -49,12 +49,12 @@ export const readRecord = (serviceConfig, csid) => (dispatch) => {
     },
   };
 
-  return getSession().read(`${serviceName}/${csid}`, config)
+  return getSession().read(`${servicePath}/${csid}`, config)
     .then(response => dispatch({
       type: RECORD_READ_FULFILLED,
       payload: response,
       meta: {
-        serviceConfig,
+        recordTypeConfig,
         csid,
       },
     }))
@@ -62,22 +62,22 @@ export const readRecord = (serviceConfig, csid) => (dispatch) => {
       type: RECORD_READ_REJECTED,
       payload: error,
       meta: {
-        serviceConfig,
+        recordTypeConfig,
         csid,
       },
     }));
 };
 
-export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatch, getState) => {
+export const saveRecord = (recordTypeConfig, csid, replace) => (dispatch, getState) => {
   dispatch({
     type: RECORD_SAVE_STARTED,
     meta: {
-      serviceConfig,
+      recordTypeConfig,
       csid,
     },
   });
 
-  const serviceName = serviceConfig.name;
+  const servicePath = recordTypeConfig.serviceConfig.servicePath;
   const data = getRecordData(getState(), csid);
 
   const config = {
@@ -85,8 +85,8 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
   };
 
   const save = csid
-    ? getSession().update(`${serviceName}/${csid}`, config)
-    : getSession().create(serviceName, config);
+    ? getSession().update(`${servicePath}/${csid}`, config)
+    : getSession().create(servicePath, config);
 
   return save
     .then((response) => {
@@ -94,7 +94,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
         type: RECORD_SAVE_FULFILLED,
         payload: response,
         meta: {
-          serviceConfig,
+          recordTypeConfig,
           csid,
         },
       });
@@ -105,7 +105,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
         const location = response.headers.location;
         const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
 
-        replace(`/record/${recordType}/${newRecordCsid}`);
+        replace(`/record/${recordTypeConfig.name}/${newRecordCsid}`);
       }
 
       return action;
@@ -114,7 +114,7 @@ export const saveRecord = (recordType, serviceConfig, csid, replace) => (dispatc
       type: RECORD_SAVE_REJECTED,
       payload: error,
       meta: {
-        serviceConfig,
+        recordTypeConfig,
         csid,
       },
     }));

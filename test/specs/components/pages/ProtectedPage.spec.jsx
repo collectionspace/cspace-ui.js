@@ -7,6 +7,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import ProtectedPage from '../../../../src/components/pages/ProtectedPage';
 
 chai.should();
@@ -17,6 +18,8 @@ const store = mockStore({
   keywordSearch: Immutable.Map(),
 });
 
+const config = {};
+
 describe('ProtectedPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -26,7 +29,9 @@ describe('ProtectedPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ProtectedPage username="user@collectionspace.org" />
+          <ConfigProvider config={config}>
+            <ProtectedPage username="user@collectionspace.org" />
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -37,9 +42,11 @@ describe('ProtectedPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ProtectedPage username="user@collectionspace.org">
-            <div id="content">This is some content</div>
-          </ProtectedPage>
+          <ConfigProvider config={config}>
+            <ProtectedPage username="user@collectionspace.org">
+              <div id="content">This is some content</div>
+            </ProtectedPage>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -51,9 +58,11 @@ describe('ProtectedPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ProtectedPage username="user@collectionspace.org">
-            <div id="content">This is some content</div>
-          </ProtectedPage>
+          <ConfigProvider config={config}>
+            <ProtectedPage username="user@collectionspace.org">
+              <div id="content">This is some content</div>
+            </ProtectedPage>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

@@ -11,6 +11,11 @@ export default defineMessages({
     description: 'The name of the record when used as a title.',
     defaultMessage: 'Object',
   },
+  resultsTitle: {
+    id: 'record.object.resultsTitle',
+    description: 'The name of the record when used as a title describing search results.',
+    defaultMessage: 'Objects',
+  },
 
   // Panels
 

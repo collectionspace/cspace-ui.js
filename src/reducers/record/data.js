@@ -44,7 +44,7 @@ const addFieldInstance = (state, action) => {
 
 const createNewRecord = (state, action) => {
   const {
-    serviceConfig,
+    recordTypeConfig,
   } = action.meta;
 
   // TODO: Implement cloning an existing record.
@@ -54,7 +54,7 @@ const createNewRecord = (state, action) => {
   // key ''.
 
   return Object.assign({}, state, {
-    '': createRecordData(serviceConfig),
+    '': createRecordData(recordTypeConfig),
   });
 };
 

@@ -4,6 +4,8 @@ import {
   applyPlugins,
   applyPlugin,
   evaluatePlugin,
+  normalizeConfig,
+  getRecordTypeByServiceObjectName,
 } from '../../../src/helpers/configHelpers';
 
 chai.should();
@@ -204,6 +206,63 @@ describe('configHelpers', function moduleSuite() {
           languages: {},
         },
       });
+    });
+  });
+
+  describe('normalizeConfig', function suite() {
+    it('should set the name properties on record types and vocabularies', function test() {
+      const config = {
+        recordTypes: {
+          object: {},
+          person: {
+            vocabularies: {
+              local: {},
+              ulan: {},
+            },
+          },
+        },
+      };
+
+      normalizeConfig(config).should.deep.equal({
+        recordTypes: {
+          object: {
+            name: 'object',
+          },
+          person: {
+            name: 'person',
+            vocabularies: {
+              local: {
+                name: 'local',
+              },
+              ulan: {
+                name: 'ulan',
+              },
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe('getRecordTypeByServiceObjectName', function suite() {
+    const config = {
+      recordTypes: {
+        object: {
+          messageDescriptors: {
+            recordNameTitle: {
+              id: 'record.object.nameTitle',
+            },
+          },
+          serviceConfig: {
+            objectName: 'CollectionObject',
+          },
+        },
+      },
+    };
+
+    it('should return the record type config with the given service object name', function test() {
+      getRecordTypeByServiceObjectName(config, 'CollectionObject').should
+        .equal(config.recordTypes.object);
     });
   });
 });

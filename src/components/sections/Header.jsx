@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router';
-import KeywordSearchContainer from '../../containers/search/KeywordSearchContainer';
+import KeywordSearchFormContainer from '../../containers/search/KeywordSearchFormContainer';
 import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
-import withRecordTypes from '../../enhancers/withRecordTypes';
+import withConfig from '../../enhancers/withConfig';
 import bannerStyles from '../../../styles/cspace-ui/Banner.css';
 import logoStyles from '../../../styles/cspace-ui/Logo.css';
 
@@ -23,14 +23,14 @@ const messages = defineMessages({
 
 const propTypes = {
   intl: intlShape,
-  recordTypes: PropTypes.object,
+  config: PropTypes.object,
   username: PropTypes.string.isRequired,
 };
 
 function Header(props) {
   const {
     intl,
-    recordTypes,
+    config,
     username,
   } = props;
 
@@ -42,9 +42,9 @@ function Header(props) {
         <Link to="/" title={name}>
           <div className={logoStyles.common} />
         </Link>
-        <KeywordSearchContainer
+        <KeywordSearchFormContainer
           intl={intl}
-          recordTypes={recordTypes}
+          config={config}
         />
         <UserMenu username={username} />
       </div>
@@ -55,4 +55,4 @@ function Header(props) {
 
 Header.propTypes = propTypes;
 
-export default injectIntl(withRecordTypes(Header));
+export default injectIntl(withConfig(Header));

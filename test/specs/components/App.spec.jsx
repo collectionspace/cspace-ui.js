@@ -16,11 +16,7 @@ const store = mockStore({
   login: {},
 });
 
-const plugins = {
-  record: {},
-};
-
-const recordTypes = {};
+const config = {};
 
 describe('App', function suite() {
   beforeEach(function before() {
@@ -32,8 +28,7 @@ describe('App', function suite() {
       <App
         store={store}
         history={hashHistory}
-        plugins={plugins}
-        recordTypes={recordTypes}
+        config={config}
       />, this.container);
 
     this.container.querySelector('div.cspace-ui-RootPage--common').should

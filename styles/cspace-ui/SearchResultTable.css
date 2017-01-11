@@ -1,0 +1,8 @@
+.common > header {
+  display: flex;
+}
+
+.common > header > * {
+  display: block;
+  flex: 1 1;
+}

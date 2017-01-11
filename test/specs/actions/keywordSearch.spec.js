@@ -91,5 +91,26 @@ describe('keyword search action creator', function suite() {
       pushedLocation.pathname.should.equal('/search/loanin');
       pushedLocation.query.should.deep.equal({ kw: 'hello' });
     });
+
+    it('should push a record location onto history when a csid is entered as a keyword', function test() {
+      const csid = '53ae2430-379a-4656-9ff5';
+
+      const store = mockStore({
+        keywordSearch: Immutable.fromJS({
+          keyword: csid,
+          recordType: 'loanin',
+        }),
+      });
+
+      let pushedLocation = null;
+
+      const push = (location) => {
+        pushedLocation = location;
+      };
+
+      store.dispatch(initiateSearch(push));
+
+      pushedLocation.pathname.should.equal(`/record/loanin/${csid}`);
+    });
   });
 });

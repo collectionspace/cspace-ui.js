@@ -25,20 +25,26 @@ describe('partialTermSearch action creator', function suite() {
   describe('addTerm', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const authorityName = 'person';
-    const authorityServiceName = 'personauthorities';
+    const authorityServicePath = 'personauthorities';
     const vocabularyName = 'local';
-    const vocabularyServiceName = 'urn:cspace:name(person)';
-    const termAddUrl = `/cspace-services/${authorityServiceName}/${vocabularyServiceName}/items`;
+    const vocabularyServicePath = 'urn:cspace:name(person)';
+    const termAddUrl = `/cspace-services/${authorityServicePath}/${vocabularyServicePath}/items`;
     const termReadUrl = '/some/new/url/csid';
     const displayName = 'abc';
 
-    const authorityServiceConfig = {
-      name: 'personauthorities',
-      quickAddData: () => ({}),
-    };
-
-    const vocabularyServiceConfig = {
-      name: 'urn:cspace:name(person)',
+    const authorityRecordTypeConfig = {
+      name: authorityName,
+      serviceConfig: {
+        servicePath: authorityServicePath,
+        quickAddData: () => ({}),
+      },
+      vocabularies: {
+        [vocabularyName]: {
+          serviceConfig: {
+            servicePath: vocabularyServicePath,
+          },
+        },
+      },
     };
 
     before(() => {
@@ -68,12 +74,8 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(addTerm(
-        authorityName,
-        authorityServiceConfig,
-        vocabularyName,
-        vocabularyServiceConfig,
-        displayName)).then(() => {
+      return store.dispatch(addTerm(authorityRecordTypeConfig, vocabularyName, displayName))
+        .then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -112,12 +114,8 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(addTerm(
-        authorityName,
-        authorityServiceConfig,
-        vocabularyName,
-        vocabularyServiceConfig,
-        displayName)).then(() => {
+      return store.dispatch(addTerm(authorityRecordTypeConfig, vocabularyName, displayName))
+        .then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -145,19 +143,24 @@ describe('partialTermSearch action creator', function suite() {
   describe('findMatchingTerms', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const authorityName = 'person';
-    const authorityServiceName = 'personauthorities';
+    const authorityServicePath = 'personauthorities';
     const vocabularyName = 'person';
-    const vocabularyServiceName = 'urn:cspace:name(person)';
+    const vocabularyServicePath = 'urn:cspace:name(person)';
     const partialTerm = 'abc';
-    const termSearchUrl = `/cspace-services/${authorityServiceName}/${vocabularyServiceName}/items?pt=${partialTerm}&wf_deleted=false`;
+    const termSearchUrl = `/cspace-services/${authorityServicePath}/${vocabularyServicePath}/items?pt=${partialTerm}&wf_deleted=false`;
 
-    const authorityServiceConfig = {
-      name: 'personauthorities',
-      quickAddData: () => ({}),
-    };
-
-    const vocabularyServiceConfig = {
-      name: 'urn:cspace:name(person)',
+    const authorityRecordTypeConfig = {
+      name: authorityName,
+      serviceConfig: {
+        servicePath: authorityServicePath,
+      },
+      vocabularies: {
+        [vocabularyName]: {
+          serviceConfig: {
+            servicePath: vocabularyServicePath,
+          },
+        },
+      },
     };
 
     before(() => {
@@ -180,13 +183,10 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(findMatchingTerms(
-          authorityName,
-          authorityServiceConfig,
-          vocabularyName,
-          vocabularyServiceConfig,
-          partialTerm
-        )).then(() => {
+      return store.dispatch(
+        findMatchingTerms(authorityRecordTypeConfig, vocabularyName, partialTerm)
+      )
+        .then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);
@@ -225,13 +225,10 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(findMatchingTerms(
-          authorityName,
-          authorityServiceConfig,
-          vocabularyName,
-          vocabularyServiceConfig,
-          partialTerm
-        )).then(() => {
+      return store.dispatch(
+        findMatchingTerms(authorityRecordTypeConfig, vocabularyName, partialTerm)
+      )
+        .then(() => {
           const actions = store.getActions();
 
           actions.should.have.lengthOf(2);

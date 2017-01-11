@@ -13,19 +13,30 @@ const propTypes = {
 };
 
 const contextTypes = {
-  recordTypes: PropTypes.object,
+  config: PropTypes.object,
 };
 
 export default class Router extends Component {
   constructor(props) {
     super(props);
 
-    this.routes = routes(
-      props.className,
-      props.index,
-      this.onEnterRecord.bind(this),
-      this.onEnterProtected.bind(this)
-    );
+    this.routes = routes({
+      className: props.className,
+      index: props.index,
+      onEnterProtected: this.onEnterProtected.bind(this),
+      onEnterRecord: this.onEnterRecord.bind(this),
+    });
+  }
+
+  onEnterProtected(nextState, replace) {
+    const {
+      username,
+      redirectLogin,
+    } = this.props;
+
+    if (!username) {
+      redirectLogin(replace, nextState.location.pathname);
+    }
   }
 
   onEnterRecord(nextState) {
@@ -40,32 +51,19 @@ export default class Router extends Component {
     } = nextState.params;
 
     const {
-      recordTypes,
+      config,
     } = this.context;
 
-    const config = recordTypes[recordType];
+    const recordTypeConfig = config.recordTypes[recordType];
 
-    if (config) {
-      const serviceConfig = config.serviceConfig;
-
+    if (recordTypeConfig) {
       if (csid) {
-        readRecord(serviceConfig, csid);
+        readRecord(recordTypeConfig, csid);
       } else {
-        createNewRecord(serviceConfig);
+        createNewRecord(recordTypeConfig);
       }
     } else {
       // TODO: Unknown record type. Show error page.
-    }
-  }
-
-  onEnterProtected(nextState, replace) {
-    const {
-      username,
-      redirectLogin,
-    } = this.props;
-
-    if (!username) {
-      redirectLogin(replace, nextState.location.pathname);
     }
   }
 

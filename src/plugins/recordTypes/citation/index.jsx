@@ -4,9 +4,15 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     citation: {
-      group: 'authority',
       serviceConfig: {
-        name: 'citationauthorities',
+        serviceName: 'Citations',
+        servicePath: 'citationauthorities',
+        serviceType: 'authority',
+
+        objectName: 'Citation',
+
+        documentName: 'citations',
+
         quickAddData: values => ({
           document: {
             '@name': 'citations',
@@ -27,6 +33,11 @@ export default () => () => ({
           description: 'The name of the record when used as a title.',
           defaultMessage: 'Citation',
         },
+        resultsTitle: {
+          id: 'record.citation.resultsTitle',
+          description: 'The name of the record when used as a title describing search results.',
+          defaultMessage: 'Citations',
+        },
       }),
       forms: {
         default: <div />,
@@ -34,18 +45,18 @@ export default () => () => ({
       title: () => '',
       vocabularies: {
         all: {
-          group: 'all',
           isCreatable: false,
           messageDescriptors: defineMessages({
             vocabNameTitle: {
               id: 'vocab.citation.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All vocabularies',
+              defaultMessage: 'All Vocabularies',
             },
           }),
           serviceConfig: {
-            name: '_ALL_',
+            servicePath: '_ALL_',
           },
+          type: 'all',
         },
         local: {
           messageDescriptors: defineMessages({
@@ -56,7 +67,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(citation)',
+            servicePath: 'urn:cspace:name(citation)',
           },
         },
         worldcat: {
@@ -68,7 +79,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(worldcat)',
+            servicePath: 'urn:cspace:name(worldcat)',
           },
         },
       },

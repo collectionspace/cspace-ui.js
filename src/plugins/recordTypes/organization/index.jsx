@@ -4,9 +4,15 @@ import { defineMessages } from 'react-intl';
 export default () => () => ({
   recordTypes: {
     organization: {
-      group: 'authority',
       serviceConfig: {
-        name: 'orgauthorities',
+        serviceName: 'Organizations',
+        servicePath: 'orgauthorities',
+        serviceType: 'authority',
+
+        objectName: 'Organization',
+
+        documentName: 'organizations',
+
         quickAddData: values => ({
           document: {
             '@name': 'organizations',
@@ -27,6 +33,11 @@ export default () => () => ({
           description: 'The name of the record when used as a title.',
           defaultMessage: 'Organization',
         },
+        resultsTitle: {
+          id: 'record.organization.resultsTitle',
+          description: 'The name of the record when used as a title describing search results.',
+          defaultMessage: 'Organizations',
+        },
       }),
       forms: {
         default: <div />,
@@ -34,18 +45,18 @@ export default () => () => ({
       title: () => '',
       vocabularies: {
         all: {
-          group: 'all',
           isCreatable: false,
           messageDescriptors: defineMessages({
             vocabNameTitle: {
               id: 'vocab.organization.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All vocabularies',
+              defaultMessage: 'All Vocabularies',
             },
           }),
           serviceConfig: {
-            name: '_ALL_',
+            servicePath: '_ALL_',
           },
+          type: 'all',
         },
         local: {
           messageDescriptors: defineMessages({
@@ -56,7 +67,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(organization)',
+            servicePath: 'urn:cspace:name(organization)',
           },
         },
         ulan: {
@@ -68,7 +79,7 @@ export default () => () => ({
             },
           }),
           serviceConfig: {
-            name: 'urn:cspace:name(ulan_oa)',
+            servicePath: 'urn:cspace:name(ulan_oa)',
           },
         },
       },

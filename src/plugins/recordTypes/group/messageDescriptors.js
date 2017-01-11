@@ -11,6 +11,11 @@ export default defineMessages({
     description: 'The name of the record when used as a title.',
     defaultMessage: 'Group',
   },
+  resultsTitle: {
+    id: 'record.group.resultsTitle',
+    description: 'The name of the record when used as a title describing search results.',
+    defaultMessage: 'Groups',
+  },
 
   // Panels
 

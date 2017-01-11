@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import RecordTypesProvider from '../../../src/components/record/RecordTypesProvider';
+import ConfigProvider from '../../../src/components/config/ConfigProvider';
 import Router from '../../../src/components/Router';
 
 chai.should();
@@ -34,18 +34,20 @@ const store = mockStore({
   },
 });
 
-const recordTypes = {
-  object: {
-    forms: {
-      default: <div />,
-    },
-    messageDescriptors: {
-      recordNameTitle: {
-        id: 'recordNameTitle',
-        defaultMessage: 'Object',
+const config = {
+  recordTypes: {
+    object: {
+      forms: {
+        default: <div />,
       },
+      messageDescriptors: {
+        recordNameTitle: {
+          id: 'recordNameTitle',
+          defaultMessage: 'Object',
+        },
+      },
+      title: () => '',
     },
-    title: () => '',
   },
 };
 
@@ -64,14 +66,14 @@ describe('Router', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <Router
               createNewRecord={createNewRecord}
               history={hashHistory}
               readRecord={readRecord}
               redirectLogin={stubbedRedirectLogin}
             />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -90,14 +92,14 @@ describe('Router', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <Router
               createNewRecord={createNewRecord}
               history={hashHistory}
               readRecord={stubbedReadRecord}
               redirectLogin={redirectLogin}
             />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -116,14 +118,14 @@ describe('Router', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordTypesProvider recordTypes={recordTypes}>
+          <ConfigProvider config={config}>
             <Router
               createNewRecord={stubbedCreateNewRecord}
               history={hashHistory}
               readRecord={readRecord}
               redirectLogin={redirectLogin}
             />
-          </RecordTypesProvider>
+          </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 

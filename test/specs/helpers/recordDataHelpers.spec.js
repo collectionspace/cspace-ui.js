@@ -431,24 +431,27 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('createDocument', function suite() {
-    const serviceConfig = {
-      name: 'groups',
-      parts: {
-        groups_common: 'http://collectionspace.org/services/group',
-        groups_extension: 'http://collectionspace.org/services/extension/group',
+    const recordTypeConfig = {
+      serviceConfig: {
+        servicePath: 'groups',
+        documentName: 'groups',
+        parts: {
+          groups_common: 'http://collectionspace.org/services/group',
+          groups_extension: 'http://collectionspace.org/services/extension/group',
+        },
       },
     };
 
     it('should return an Immutable.Map', function test() {
-      Immutable.Map.isMap(createDocument(serviceConfig)).should.be.true;
+      Immutable.Map.isMap(createDocument(recordTypeConfig)).should.be.true;
     });
 
-    it('should set the @name property to the service name', function test() {
-      createDocument(serviceConfig).get('@name').should.equal('groups');
+    it('should set the @name property to the document name', function test() {
+      createDocument(recordTypeConfig).get('@name').should.equal('groups');
     });
 
     it('should create properties for each service part', function test() {
-      const document = createDocument(serviceConfig);
+      const document = createDocument(recordTypeConfig);
 
       document.get('ns2:groups_common').toJS().should.deep.equal({
         '@xmlns:ns2': 'http://collectionspace.org/services/group',
@@ -461,20 +464,22 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('createRecordData', function suite() {
-    const serviceConfig = {
-      name: 'groups',
-      parts: {
-        groups_common: 'http://collectionspace.org/services/group',
-        groups_extension: 'http://collectionspace.org/services/extension/group',
+    const recordTypeConfig = {
+      serviceConfig: {
+        name: 'groups',
+        parts: {
+          groups_common: 'http://collectionspace.org/services/group',
+          groups_extension: 'http://collectionspace.org/services/extension/group',
+        },
       },
     };
 
     it('should return an Immutable.Map', function test() {
-      Immutable.Map.isMap(createRecordData(serviceConfig)).should.be.true;
+      Immutable.Map.isMap(createRecordData(recordTypeConfig)).should.be.true;
     });
 
     it('should have a document property', function test() {
-      createRecordData(serviceConfig).get('document').should.be.an('object');
+      createRecordData(recordTypeConfig).get('document').should.be.an('object');
     });
   });
 
