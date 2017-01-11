@@ -4,6 +4,7 @@ import {
   createRecordData,
   deepGet,
   deepSet,
+  deepDelete,
 } from '../../helpers/recordDataHelpers';
 
 import {
@@ -70,7 +71,7 @@ const deleteFieldValue = (state, action) => {
     return state;
   }
 
-  const updatedData = data.deleteIn(path);
+  const updatedData = deepDelete(data, path);
 
   return Object.assign({}, state, {
     [csid]: updatedData,

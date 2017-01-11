@@ -92,6 +92,23 @@ export function deepSet(data, path, value) {
 }
 
 /**
+ * Deeply delete a value in an Immutable.Map. This is similar to Immutable.Map.deleteIn, but differs
+ * in two ways:
+ *
+ * When a non-existent key is encountered in the middle of a path, this function may create a List
+ * or a Map at that location, depending on the key. If the key is a numeric string, a List is
+ * created. Otherwise, a Map is created. Immutable.Map.deleteIn makes no change when a key in the
+ * path does not exist.
+ *
+ * This function also promotes an existing singular (non-List) item to a List, if any numeric key
+ * is applied to it.
+ */
+export function deepDelete(data, path) {
+  // First call deepSet with undefined value to ensure the path exists. Then call deleteIn.
+  return deepSet(data, path).deleteIn(path);
+}
+
+/**
  * Create a skeletal document for a given CollectionSpace service.
  */
 export function createDocument(recordTypeConfig) {

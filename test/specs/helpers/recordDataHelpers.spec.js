@@ -8,6 +8,7 @@ import {
   createRecordData,
   deepGet,
   deepSet,
+  deepDelete,
   getDocument,
   getPart,
   getPartPropertyName,
@@ -424,6 +425,241 @@ describe('recordDataHelpers', function moduleSuite() {
             {
               number: '456',
             },
+          ],
+        },
+      });
+    });
+  });
+
+  describe('deepDelete', function suite() {
+    it('should throw when path is not an array', function test() {
+      const data = Immutable.fromJS({
+        color: 'red',
+      });
+
+      expect(deepDelete.bind(data, 'color')).to.throw(Error);
+    });
+
+    it('should throw when path is an empty array', function test() {
+      const data = Immutable.fromJS({
+        color: 'red',
+      });
+
+      expect(deepDelete.bind(data, [])).to.throw(Error);
+    });
+
+    it('should delete a child value', function test() {
+      const data = Immutable.fromJS({
+        color: 'red',
+      });
+
+      const updatedData = deepDelete(data, ['color']).toJS();
+
+      updatedData.should.deep.equal({});
+    });
+
+    it('should delete a nested Map value', function test() {
+      const data = Immutable.fromJS({
+        common: {
+          color: 'red',
+        },
+      });
+
+      const updatedData = deepDelete(data, ['common', 'color']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {},
+      });
+    });
+
+    it('should delete a deeply nested Map value', function test() {
+      const data = Immutable.fromJS({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+          },
+        },
+      });
+
+      const updatedData = deepDelete(data, ['common', 'otherNumber', 'number']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          color: 'red',
+          otherNumber: {},
+        },
+      });
+    });
+
+    it('should delete a nested list value', function test() {
+      const data = Immutable.fromJS({
+        comment: [
+          'comment 1',
+          'comment 2',
+        ],
+      });
+
+      const updatedData = deepDelete(data, ['comment', '1']).toJS();
+
+      updatedData.should.deep.equal({
+        comment: [
+          'comment 1',
+        ],
+      });
+    });
+
+    it('should delete a deeply nested list value', function test() {
+      const data = Immutable.fromJS({
+        common: {
+          otherNumber: [
+            {
+              number: '123',
+              type: 'type 1',
+              comment: [
+                'number comment 1',
+                'number comment 2',
+              ],
+            },
+            {
+              number: '456',
+              type: 'type 2',
+            },
+          ],
+        },
+        comment: [
+          'comment 1',
+          'comment 2',
+        ],
+      });
+
+      const updatedData = deepDelete(data,
+        ['common', 'otherNumber', '0', 'comment', '1']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          otherNumber: [
+            {
+              number: '123',
+              type: 'type 1',
+              comment: [
+                'number comment 1',
+              ],
+            },
+            {
+              number: '456',
+              type: 'type 2',
+            },
+          ],
+        },
+        comment: [
+          'comment 1',
+          'comment 2',
+        ],
+      });
+    });
+
+    it('should create missing Maps', function test() {
+      const data = Immutable.fromJS({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+          },
+        },
+      });
+
+      let updatedData;
+
+      updatedData = deepDelete(data, ['common', 'titleGroup', 'title']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+          },
+          titleGroup: {},
+        },
+      });
+
+      updatedData = deepDelete(data,
+        ['common', 'otherNumber', 'nestedGroup', 'nestedField']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+            nestedGroup: {},
+          },
+        },
+      });
+    });
+
+    it('should create missing Lists', function test() {
+      const data = Immutable.fromJS({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+          },
+        },
+      });
+
+      const updatedData = deepDelete(data,
+        ['common', 'titleGroupList', 'titleGroup', '0', 'title']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+          },
+          titleGroupList: {
+            titleGroup: [
+              {},
+            ],
+          },
+        },
+      });
+    });
+
+    it('should promote non-list values to lists when keyed with a numeric key', function test() {
+      const data = Immutable.fromJS({
+        common: {
+          color: 'red',
+          otherNumber: {
+            number: '123',
+          },
+        },
+      });
+
+      let updatedData;
+
+      updatedData = deepDelete(data, ['common', 'color', '1']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          color: [
+            'red',
+          ],
+          otherNumber: {
+            number: '123',
+          },
+        },
+      });
+
+      updatedData = deepDelete(data, ['common', 'otherNumber', '1', 'number']).toJS();
+
+      updatedData.should.deep.equal({
+        common: {
+          color: 'red',
+          otherNumber: [
+            {
+              number: '123',
+            },
+            {},
           ],
         },
       });
