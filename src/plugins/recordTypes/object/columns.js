@@ -23,7 +23,7 @@ export default {
         },
       }),
       sortBy: 'collectionobjects_common:titleGroupList/0/title',
-      width: 400,
+      width: 450,
     },
     {
       name: 'updatedAt',
@@ -35,7 +35,7 @@ export default {
       }),
       formatValue: formatLocalDateTime,
       sortBy: 'collectionspace_core:updatedAt',
-      width: 200,
+      width: 150,
     },
   ],
 };

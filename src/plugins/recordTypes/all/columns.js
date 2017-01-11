@@ -51,7 +51,7 @@ export default {
       }),
       formatValue: (value, { intl, config }) =>
         formatServiceObjectName(value, intl, config),
-      width: 100,
+      width: 150,
     },
     {
       name: 'updatedAt',
@@ -63,7 +63,7 @@ export default {
       }),
       formatValue: formatLocalDateTime,
       sortBy: 'collectionspace_core:updatedAt',
-      width: 200,
+      width: 150,
     },
   ],
 };

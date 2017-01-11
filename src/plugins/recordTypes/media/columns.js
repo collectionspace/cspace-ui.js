@@ -13,7 +13,7 @@ export default {
         },
       }),
       formatValue: thumbnailImage,
-      width: 60,
+      width: 70,
     },
     {
       name: 'identificationNumber',
@@ -35,7 +35,7 @@ export default {
         },
       }),
       sortBy: 'media_common:title',
-      width: 340,
+      width: 380,
     },
     {
       name: 'updatedAt',
@@ -47,7 +47,7 @@ export default {
       }),
       formatValue: formatLocalDateTime,
       sortBy: 'collectionspace_core:updatedAt',
-      width: 200,
+      width: 150,
     },
   ],
 };

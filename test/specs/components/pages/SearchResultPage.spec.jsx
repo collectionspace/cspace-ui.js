@@ -135,11 +135,11 @@ describe('SearchResultPage', function suite() {
 
   it('should normalize query parameters', function test() {
     const testQuery = (query) => {
-      let pushedLocation = null;
+      let replacedLocation = null;
 
       const router = mockRouter({
-        push: (locationArg) => {
-          pushedLocation = locationArg;
+        replace: (locationArg) => {
+          replacedLocation = locationArg;
         },
       });
 
@@ -162,16 +162,16 @@ describe('SearchResultPage', function suite() {
           </StoreProvider>
         </IntlProvider>, this.container);
 
-      return (pushedLocation ? pushedLocation.query : null);
+      return (replacedLocation ? replacedLocation.query : null);
     };
 
-    testQuery({}).should.deep.equal({ p: '1', size: '40' });
-    testQuery({ p: '0' }).should.deep.equal({ p: '1', size: '40' });
-    testQuery({ p: '-2' }).should.deep.equal({ p: '1', size: '40' });
-    testQuery({ p: 'foo' }).should.deep.equal({ p: '1', size: '40' });
-    testQuery({ p: '4foo' }).should.deep.equal({ p: '4', size: '40' });
-    testQuery({ size: '-3' }).should.deep.equal({ p: '1', size: '40' });
-    testQuery({ size: 'foo' }).should.deep.equal({ p: '1', size: '40' });
+    testQuery({}).should.deep.equal({ p: '1', size: '20' });
+    testQuery({ p: '0' }).should.deep.equal({ p: '1', size: '20' });
+    testQuery({ p: '-2' }).should.deep.equal({ p: '1', size: '20' });
+    testQuery({ p: 'foo' }).should.deep.equal({ p: '1', size: '20' });
+    testQuery({ p: '4foo' }).should.deep.equal({ p: '4', size: '20' });
+    testQuery({ size: '-3' }).should.deep.equal({ p: '1', size: '20' });
+    testQuery({ size: 'foo' }).should.deep.equal({ p: '1', size: '20' });
     testQuery({ size: '24foo' }).should.deep.equal({ p: '1', size: '24' });
     testQuery({ size: '3000' }).should.deep.equal({ p: '1', size: '2500' });
 

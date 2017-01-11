@@ -13,7 +13,7 @@ export default {
         },
       }),
       sortBy: 'groups_common:title',
-      width: 200,
+      width: 250,
     },
     {
       name: 'owner',
@@ -37,7 +37,7 @@ export default {
       }),
       formatValue: formatLocalDateTime,
       sortBy: 'collectionspace_core:updatedAt',
-      width: 200,
+      width: 150,
     },
   ],
 };

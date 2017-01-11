@@ -113,7 +113,7 @@ export default class SearchResultPage extends Component {
 
       if (isNaN(pageSize) || pageSize < 1) {
         // FIXME: Make default page size configurable
-        const defaultPageSize = 40;
+        const defaultPageSize = 20;
         const normalizedPageSize = preferredPageSize || defaultPageSize;
 
         normalizedQueryParams.size = normalizedPageSize.toString();
@@ -135,7 +135,7 @@ export default class SearchResultPage extends Component {
       if (Object.keys(normalizedQueryParams).length > 0) {
         const newQuery = Object.assign({}, query, normalizedQueryParams);
 
-        router.push({
+        router.replace({
           pathname: location.pathname,
           query: newQuery,
         });
