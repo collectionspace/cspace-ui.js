@@ -61,10 +61,39 @@ function renderTemplate(component, messageDescriptors, handlers) {
       child => renderTemplate(child, messageDescriptors, handlers)));
 }
 
+const propTypes = {
+  recordType: PropTypes.string.isRequired,
+  csid: PropTypes.string,
+  data: PropTypes.instanceOf(Immutable.Map),
+  onAddInstance: PropTypes.func,
+  onCommit: PropTypes.func,
+  onMoveInstance: PropTypes.func,
+  onRemoveInstance: PropTypes.func,
+};
+
+const defaultProps = {
+  data: Immutable.Map(),
+};
+
+const childContextTypes = {
+  recordType: PropTypes.string,
+  csid: PropTypes.string,
+};
+
+const contextTypes = {
+  config: PropTypes.object,
+};
+
 export default class RecordEditor extends Component {
   getChildContext() {
+    const {
+      csid,
+      recordType,
+    } = this.props;
+
     return {
-      recordType: this.props.recordType,
+      csid,
+      recordType,
     };
   }
 
@@ -72,7 +101,6 @@ export default class RecordEditor extends Component {
     const {
       data,
       recordType,
-      generateID,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -91,7 +119,6 @@ export default class RecordEditor extends Component {
     } = recordTypeConfig;
 
     const handlers = {
-      generateID,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -119,24 +146,7 @@ export default class RecordEditor extends Component {
   }
 }
 
-RecordEditor.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  data: PropTypes.instanceOf(Immutable.Map),
-  generateID: PropTypes.func,
-  onAddInstance: PropTypes.func,
-  onCommit: PropTypes.func,
-  onMoveInstance: PropTypes.func,
-  onRemoveInstance: PropTypes.func,
-};
-
-RecordEditor.defaultProps = {
-  data: Immutable.Map(),
-};
-
-RecordEditor.childContextTypes = {
-  recordType: PropTypes.string,
-};
-
-RecordEditor.contextTypes = {
-  config: PropTypes.object,
-};
+RecordEditor.propTypes = propTypes;
+RecordEditor.defaultProps = defaultProps;
+RecordEditor.childContextTypes = childContextTypes;
+RecordEditor.contextTypes = contextTypes;

@@ -1,7 +1,13 @@
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import { readIDGenerator } from '../../actions/idGenerator';
+import withCsid from '../../enhancers/withCsid';
+
+import {
+  createID,
+  readIDGenerator,
+} from '../../actions/idGenerator';
+
 import { getIDGenerator } from '../../reducers';
 
 const { IDGeneratorInput } = inputComponents;
@@ -50,17 +56,27 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onOpen: (patterns) => {
-    patterns.forEach((pattern) => {
-      dispatch(readIDGenerator(pattern.name));
-    });
-  },
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const {
+    csid,
+  } = ownProps;
+
+  return {
+    generateID: (idGeneratorName, path) => {
+      dispatch(createID(idGeneratorName, csid, path));
+    },
+    onOpen: (patterns) => {
+      patterns.forEach((pattern) => {
+        dispatch(readIDGenerator(pattern.name));
+      });
+    },
+  };
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
     /* eslint-disable no-unused-vars */
+    csid,
     idGeneratorName,
     intl,
     /* eslint-enable no-unused-vars */
@@ -80,7 +96,7 @@ export const ConnectedIDGeneratorInput = connect(
   mergeProps
 )(IDGeneratorInput);
 
-const IntlizedConnectedIDGeneratorInput = injectIntl(ConnectedIDGeneratorInput);
+const IntlizedConnectedIDGeneratorInput = injectIntl(withCsid(ConnectedIDGeneratorInput));
 
 IntlizedConnectedIDGeneratorInput.propTypes = IDGeneratorInput.propTypes;
 

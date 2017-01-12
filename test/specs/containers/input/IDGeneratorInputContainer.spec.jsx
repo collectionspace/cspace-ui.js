@@ -7,6 +7,7 @@ import { components as inputComponents } from 'cspace-input';
 import { ConnectedIDGeneratorInput } from '../../../../src/containers/input/IDGeneratorInputContainer';
 
 import {
+  CREATE_ID_STARTED,
   READ_ID_GENERATOR_STARTED,
 } from '../../../../src/actions/idGenerator';
 
@@ -54,6 +55,10 @@ describe('IDGeneratorInputContainer', function suite() {
     formatHTMLMessage: () => null,
     now: () => null,
   };
+
+  afterEach(() => {
+    store.clearActions();
+  });
 
   it('should set pattern on IDGeneratorInput', function test() {
     const shallowRenderer = createRenderer();
@@ -183,6 +188,38 @@ describe('IDGeneratorInputContainer', function suite() {
 
       action.should.have.property('type', READ_ID_GENERATOR_STARTED);
       action.should.have.deep.property('meta.idGeneratorName', 'accession');
+    }
+  });
+
+  it('should connect generateID to createID action creator', function test() {
+    const csid = '1234';
+    const idGeneratorName = 'accession';
+    const path = ['identificationNumber'];
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedIDGeneratorInput
+        csid={csid}
+        idGeneratorName={idGeneratorName}
+        intl={intl}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    // The call to generateID will fail because we haven't stubbed out everything it needs,
+    // but there's enough to verify that the createID action creator gets called, and
+    // dispatches CREATE_ID_STARTED.
+
+    try {
+      result.props.generateID(idGeneratorName, path);
+    } catch (error) {
+      const action = store.getActions()[0];
+
+      action.should.have.property('type', CREATE_ID_STARTED);
+      action.should.have.deep.property('meta.idGeneratorName', idGeneratorName);
+      action.should.have.deep.property('meta.csid', csid);
+      action.should.have.deep.property('meta.path').that.deep.equals(path);
     }
   });
 });
