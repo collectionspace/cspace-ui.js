@@ -19,6 +19,12 @@ import VocabularyControlledInputContainer from '../containers/input/VocabularyCo
 import Panel from '../containers/layout/PanelContainer';
 import Row from '../components/layout/Row';
 
+import Field from '../components/record/Field';
+
+import {
+  fieldDescriptorKeys,
+} from '../helpers/configHelpers';
+
 import {
   deepGet,
   getPart,
@@ -55,6 +61,12 @@ export default () => ({
   layoutComponents: {
     Panel,
     Row,
+  },
+  recordComponents: {
+    Field,
+  },
+  configHelpers: {
+    fieldDescriptorKeys,
   },
   recordDataHelpers: {
     deepGet,

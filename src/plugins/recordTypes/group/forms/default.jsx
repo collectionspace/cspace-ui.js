@@ -4,45 +4,26 @@ export default (pluginContext) => {
   } = pluginContext.lib;
 
   const {
-    AuthorityControlledInput,
-    CompoundInput,
-    OptionListControlledInput,
-    TextInput,
-  } = pluginContext.inputComponents;
-
-  const {
     Panel,
     Row,
   } = pluginContext.layoutComponents;
 
   const {
-    getPartPropertyName,
-  } = pluginContext.recordDataHelpers;
+    Field,
+  } = pluginContext.recordComponents;
 
   return (
-    <CompoundInput defaultChildSubpath={getPartPropertyName('groups_common')}>
+    <Field name="document">
       <Panel name="infoPanel" collapsible>
+        <Field name="title" />
+
         <Row>
-          <div>
-            <TextInput name="title" />
-          </div>
+          <Field name="responsibleDepartment" />
+          <Field name="owner" />
         </Row>
-        <Row>
-          <div>
-            <OptionListControlledInput
-              name="responsibleDepartment"
-              optionListName="departments"
-            />
-          </div>
-          <div>
-            <AuthorityControlledInput
-              name="owner"
-              authority="person/local"
-            />
-          </div>
-        </Row>
-        <TextInput name="scopeNote" multiline />
+
+        <Field name="scopeNote" />
       </Panel>
-    </CompoundInput>
+    </Field>
   );
 };
