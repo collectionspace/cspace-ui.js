@@ -24,7 +24,7 @@ export default () => ({
         '+',
         '-',
       ],
-      messageDescriptors: defineMessages({
+      messages: defineMessages({
         '+/-': {
           id: 'option.dateQualifiers.+/-',
           defaultMessage: '+/-',
@@ -52,7 +52,7 @@ export default () => ({
         'photographs',
         'prints-drawings',
       ],
-      messageDescriptors: defineMessages({
+      messages: defineMessages({
         antiquities: {
           id: 'option.departments.antiquities',
           defaultMessage: 'Antiquities',

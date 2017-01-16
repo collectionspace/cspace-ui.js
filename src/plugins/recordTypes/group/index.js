@@ -1,7 +1,7 @@
 import columns from './columns';
 import defaultForm from './forms/default';
 import fields from './fields';
-import messageDescriptors from './messageDescriptors';
+import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
@@ -9,7 +9,7 @@ export default () => pluginContext => ({
   recordTypes: {
     group: {
       columns,
-      messageDescriptors,
+      messages,
       serviceConfig,
       fields: fields(pluginContext),
       forms: {

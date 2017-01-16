@@ -152,7 +152,7 @@ describe('StructuredDateInputContainer', function suite() {
 
     formatMessageCalledCount.should.equal(1);
 
-    result.props.formatOptionLabel({ messageDescriptor: {} });
+    result.props.formatOptionLabel({ message: {} });
 
     formatMessageCalledCount.should.equal(2);
   });

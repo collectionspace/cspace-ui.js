@@ -42,7 +42,7 @@ const config = {
           </CompoundInput>
         ),
       },
-      messageDescriptors: {
+      messages: {
         recordNameTitle: {
           id: 'recordNameTitle',
           defaultMessage: 'Object',

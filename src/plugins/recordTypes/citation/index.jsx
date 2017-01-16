@@ -27,7 +27,7 @@ export default () => () => ({
           },
         }),
       },
-      messageDescriptors: defineMessages({
+      messages: defineMessages({
         recordNameTitle: {
           id: 'record.citation.nameTitle',
           description: 'The name of the record when used as a title.',
@@ -46,7 +46,7 @@ export default () => () => ({
       vocabularies: {
         all: {
           isCreatable: false,
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.citation.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
@@ -59,7 +59,7 @@ export default () => () => ({
           type: 'all',
         },
         local: {
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.citation.local.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
@@ -71,7 +71,7 @@ export default () => () => ({
           },
         },
         worldcat: {
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.citation.worldcat.nameTitle',
               description: 'The name of the vocabulary when used as a title.',

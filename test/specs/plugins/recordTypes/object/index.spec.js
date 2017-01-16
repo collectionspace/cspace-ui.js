@@ -21,7 +21,7 @@ describe('object record plugin', function suite() {
 
     const objectRecordTypes = recordTypes.object;
 
-    objectRecordTypes.should.have.property('messageDescriptors').that.is.an('object');
+    objectRecordTypes.should.have.property('messages').that.is.an('object');
     objectRecordTypes.should.have.property('serviceConfig').that.is.an('object');
     objectRecordTypes.should.have.property('title').that.is.a('function');
     objectRecordTypes.should.have.property('forms').that.is.an('object');

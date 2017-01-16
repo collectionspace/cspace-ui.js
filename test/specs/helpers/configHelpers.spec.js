@@ -248,7 +248,7 @@ describe('configHelpers', function moduleSuite() {
     const config = {
       recordTypes: {
         object: {
-          messageDescriptors: {
+          messages: {
             recordNameTitle: {
               id: 'record.object.nameTitle',
             },

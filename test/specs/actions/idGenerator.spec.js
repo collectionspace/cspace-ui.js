@@ -30,7 +30,7 @@ describe('ID generator action creator', function suite() {
       const idGenerators = {
         accession: {
           csid: '9dd92952-c384-44dc-a736-95e435c1759c',
-          messageDescriptors: {
+          messages: {
             type: {
               id: 'idGenerator.accession.type',
               defaultMessage: 'Accession',

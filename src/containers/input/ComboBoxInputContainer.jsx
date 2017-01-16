@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     options,
     formatOptionLabel: option => (
-      option.messageDescriptor ? intl.formatMessage(option.messageDescriptor) : option.value
+      option.message ? intl.formatMessage(option.message) : option.value
     ),
   };
 };

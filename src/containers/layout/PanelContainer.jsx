@@ -7,15 +7,15 @@ import withRecordType from '../../enhancers/withRecordType';
 import { collapsePanel } from '../../actions/prefs';
 import { isPanelCollapsed } from '../../reducers';
 
-const getHeader = (key, messageDescriptors) => {
-  const messageDescriptor = messageDescriptors[key];
+const getHeader = (key, messages) => {
+  const message = messages[key];
 
-  if (!messageDescriptor) {
+  if (!message) {
     return null;
   }
 
   return (
-    <h3><FormattedMessage {...messageDescriptor} /></h3>
+    <h3><FormattedMessage {...message} /></h3>
   );
 };
 
@@ -34,10 +34,10 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   const {
-    messageDescriptors,
+    messages,
   } = config.recordTypes[recordType];
 
-  const header = getHeader(msgkey || name, messageDescriptors);
+  const header = getHeader(msgkey || name, messages);
 
   return {
     collapsed,

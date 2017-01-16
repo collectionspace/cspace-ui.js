@@ -43,7 +43,7 @@ const mapStateToProps = (state, ownProps) => {
     if (idGenerator) {
       patterns.push({
         name: idGeneratorName,
-        type: intl.formatMessage(idGenerator.getIn(['messageDescriptors', 'type']).toJS()),
+        type: intl.formatMessage(idGenerator.getIn(['messages', 'type']).toJS()),
         sample: idGenerator.get('sample'),
       });
     }

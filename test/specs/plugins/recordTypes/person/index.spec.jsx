@@ -19,7 +19,7 @@ describe('person record plugin', function suite() {
 
     const personRecordType = recordTypes.person;
 
-    personRecordType.should.have.property('messageDescriptors').that.is.an('object');
+    personRecordType.should.have.property('messages').that.is.an('object');
     personRecordType.should.have.property('serviceConfig').that.is.an('object');
     personRecordType.should.have.property('title').that.is.a('function');
     personRecordType.should.have.property('forms').that.is.an('object');

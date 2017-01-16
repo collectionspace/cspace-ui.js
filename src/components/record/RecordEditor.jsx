@@ -7,27 +7,27 @@ import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const { Label } = inputComponents;
 
-function getLabel(component, messageDescriptors) {
+function getLabel(component, messages) {
   const {
     msgkey,
     name,
   } = component.props;
 
   const key = msgkey || name;
-  const messageDescriptor = messageDescriptors[key];
+  const message = messages[key];
 
-  if (!messageDescriptor) {
+  if (!message) {
     return null;
   }
 
   return (
     <Label>
-      <FormattedMessage {...messageDescriptor} />
+      <FormattedMessage {...message} />
     </Label>
   );
 }
 
-function renderTemplate(component, messageDescriptors, handlers) {
+function renderTemplate(component, messages, handlers) {
   const overrideProps = {};
   const type = component.type;
 
@@ -37,7 +37,7 @@ function renderTemplate(component, messageDescriptors, handlers) {
     if (propTypes) {
       if (propTypes.name) {
         if (propTypes.label && !component.props.label) {
-          overrideProps.label = getLabel(component, messageDescriptors);
+          overrideProps.label = getLabel(component, messages);
         }
       }
 
@@ -54,7 +54,7 @@ function renderTemplate(component, messageDescriptors, handlers) {
     overrideProps,
     React.Children.map(
       component.props.children,
-      child => renderTemplate(child, messageDescriptors, handlers)));
+      child => renderTemplate(child, messages, handlers)));
 }
 
 const propTypes = {
@@ -111,7 +111,7 @@ export default class RecordEditor extends Component {
 
     const {
       forms,
-      messageDescriptors,
+      messages,
     } = recordTypeConfig;
 
     const handlers = {
@@ -128,7 +128,7 @@ export default class RecordEditor extends Component {
       value: data.get(DOCUMENT_PROPERTY_NAME),
       children: React.Children.map(
         formTemplate.props.children,
-        child => renderTemplate(child, messageDescriptors, handlers)),
+        child => renderTemplate(child, messages, handlers)),
     });
 
     return (

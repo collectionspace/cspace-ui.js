@@ -22,7 +22,7 @@ describe('ID generator reducer', function suite() {
     const idGenerators = {
       accession: {
         csid: '9dd92952-c384-44dc-a736-95e435c1759c',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.accession.type',
             defaultMessage: 'Accession',
@@ -31,7 +31,7 @@ describe('ID generator reducer', function suite() {
       },
       loanin: {
         csid: 'ed87e7c6-0678-4f42-9d33-f671835586ef',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.loanin.type',
             defaultMessage: 'Loan In',
@@ -53,7 +53,7 @@ describe('ID generator reducer', function suite() {
     const moreIdGenerators = {
       intake: {
         csid: '8088cfa5-c743-4824-bb4d-fb11b12847f7',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.intake.type',
             defaultMessage: 'Intake',
@@ -76,7 +76,7 @@ describe('ID generator reducer', function suite() {
     const initialState = Immutable.fromJS({
       accession: {
         csid: '9dd92952-c384-44dc-a736-95e435c1759c',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.accession.type',
             defaultMessage: 'Accession',
@@ -85,7 +85,7 @@ describe('ID generator reducer', function suite() {
       },
       loanin: {
         csid: 'ed87e7c6-0678-4f42-9d33-f671835586ef',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.loanin.type',
             defaultMessage: 'Loan In',

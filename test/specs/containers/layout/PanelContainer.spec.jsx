@@ -25,7 +25,7 @@ describe('PanelContainer', function suite() {
   const config = {
     recordTypes: {
       [recordType]: {
-        messageDescriptors: {
+        messages: {
           [panelName]: {
             id: 'panel.header',
             defaultMessage: 'Description Information',

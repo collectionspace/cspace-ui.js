@@ -34,7 +34,7 @@ const config = {
       forms: {
         default: <div />,
       },
-      messageDescriptors: {
+      messages: {
         recordNameTitle: {
           id: 'recordNameTitle',
           defaultMessage: recordType,

@@ -21,7 +21,7 @@ describe('IDGeneratorInputContainer', function suite() {
     idGenerator: Immutable.fromJS({
       accession: {
         csid: '9dd92952-c384-44dc-a736-95e435c1759c',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.accession.type',
             defaultMessage: 'Accession',
@@ -31,7 +31,7 @@ describe('IDGeneratorInputContainer', function suite() {
       },
       loanin: {
         csid: 'ed87e7c6-0678-4f42-9d33-f671835586ef',
-        messageDescriptors: {
+        messages: {
           type: {
             id: 'idGenerator.loanin.type',
             defaultMessage: 'Loan In',

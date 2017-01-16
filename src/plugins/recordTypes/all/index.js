@@ -6,7 +6,7 @@ export default () => () => ({
     all: {
       columns,
       isCreatable: false,
-      messageDescriptors: defineMessages({
+      messages: defineMessages({
         recordNameTitle: {
           id: 'record.all.nameTitle',
           description: 'The name of the record when used as a title.',

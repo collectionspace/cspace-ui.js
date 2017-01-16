@@ -7,7 +7,7 @@ const formatServiceObjectName = (value, intl, config) => {
   const recordType = getRecordTypeByServiceObjectName(config, value);
 
   if (recordType) {
-    return intl.formatMessage(recordType.messageDescriptors.recordNameTitle);
+    return intl.formatMessage(recordType.messages.recordNameTitle);
   }
 
   return `[ ${value.toLowerCase()} ]`;

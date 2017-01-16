@@ -13,7 +13,7 @@ describe('CreatePage', function suite() {
   const config = {
     recordTypes: {
       object: {
-        messageDescriptors: {
+        messages: {
           recordNameTitle: {
             id: 'recordNameTitle',
             defaultMessage: 'object',
@@ -21,7 +21,7 @@ describe('CreatePage', function suite() {
         },
       },
       group: {
-        messageDescriptors: {
+        messages: {
           recordNameTitle: {
             id: 'recordNameTitle',
             defaultMessage: 'group',
@@ -29,7 +29,7 @@ describe('CreatePage', function suite() {
         },
       },
       intake: {
-        messageDescriptors: {
+        messages: {
           recordNameTitle: {
             id: 'recordNameTitle',
             defaultMessage: 'intake',
@@ -71,12 +71,12 @@ describe('CreatePage', function suite() {
     links.should.have.lengthOf(3);
 
     links[0].textContent.should
-      .equal(config.recordTypes.object.messageDescriptors.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.object.messages.recordNameTitle.defaultMessage);
 
     links[1].textContent.should
-      .equal(config.recordTypes.group.messageDescriptors.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.group.messages.recordNameTitle.defaultMessage);
 
     links[2].textContent.should
-      .equal(config.recordTypes.intake.messageDescriptors.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.intake.messages.recordNameTitle.defaultMessage);
   });
 });

@@ -46,7 +46,7 @@ describe('ComboBoxInputContainer', function suite() {
     const options = [
       {
         value: 'cm',
-        messageDescriptor: {
+        message: {
           id: 'option.units.cm',
           defaultMessage: 'centimeters',
         },
