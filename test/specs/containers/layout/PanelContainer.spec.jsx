@@ -2,7 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
-import Panel from '../../../../src/components/layout/Panel';
+import { Panel } from 'cspace-layout';
 
 import {
   ConnectedPanel,

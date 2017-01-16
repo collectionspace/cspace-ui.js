@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import Panel from '../../components/layout/Panel';
+import { Panel } from 'cspace-layout';
 import withConfig from '../../enhancers/withConfig';
 import withRecordType from '../../enhancers/withRecordType';
 import { collapsePanel } from '../../actions/prefs';

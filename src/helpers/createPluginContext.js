@@ -1,13 +1,9 @@
 import React from 'react';
 import Immutable from 'immutable';
 
-import {
-  components as inputComponents,
-} from 'cspace-input';
-
-import {
-  getDisplayName,
-} from 'cspace-refname';
+import { components as inputComponents } from 'cspace-input';
+import { Row } from 'cspace-layout';
+import { getDisplayName } from 'cspace-refname';
 
 import DateInputContainer from '../containers/input/DateInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
@@ -17,8 +13,6 @@ import StructuredDateInputContainer from '../containers/input/StructuredDateInpu
 import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
-import Row from '../components/layout/Row';
-
 import Field from '../components/record/Field';
 
 import {
