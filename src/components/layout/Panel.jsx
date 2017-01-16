@@ -1,6 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import styles from '../../../styles/cspace-ui/Panel.css';
 
+const propTypes = {
+  children: PropTypes.node,
+  collapsible: React.PropTypes.bool,
+  collapsed: React.PropTypes.bool,
+  header: PropTypes.node,
+  name: PropTypes.string,
+  onToggleCollapsed: PropTypes.func,
+};
+
+const defaultProps = {
+  collapsible: false,
+  collapsed: false,
+};
+
 export default class Panel extends Component {
   constructor(props) {
     super(props);
@@ -77,16 +91,5 @@ export default class Panel extends Component {
   }
 }
 
-Panel.propTypes = {
-  children: PropTypes.node,
-  collapsible: React.PropTypes.bool,
-  collapsed: React.PropTypes.bool,
-  header: PropTypes.node,
-  name: PropTypes.string,
-  onToggleCollapsed: PropTypes.func,
-};
-
-Panel.defaultProps = {
-  collapsible: false,
-  collapsed: false,
-};
+Panel.propTypes = propTypes;
+Panel.defaultProps = defaultProps;

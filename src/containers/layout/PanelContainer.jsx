@@ -1,11 +1,28 @@
+import React from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import Panel from '../../components/layout/Panel';
+import withConfig from '../../enhancers/withConfig';
 import withRecordType from '../../enhancers/withRecordType';
 import { collapsePanel } from '../../actions/prefs';
 import { isPanelCollapsed } from '../../reducers';
 
+const getHeader = (key, messageDescriptors) => {
+  const messageDescriptor = messageDescriptors[key];
+
+  if (!messageDescriptor) {
+    return null;
+  }
+
+  return (
+    <h3><FormattedMessage {...messageDescriptor} /></h3>
+  );
+};
+
 const mapStateToProps = (state, ownProps) => {
   const {
+    config,
+    msgkey,
     name,
     recordType,
   } = ownProps;
@@ -16,8 +33,15 @@ const mapStateToProps = (state, ownProps) => {
     collapsed = ownProps.collapsed;
   }
 
+  const {
+    messageDescriptors,
+  } = config.recordTypes[recordType];
+
+  const header = getHeader(msgkey || name, messageDescriptors);
+
   return {
     collapsed,
+    header,
   };
 };
 
@@ -33,15 +57,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export const PanelContainer = connect(
+export const ConnectedPanel = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Panel);
 
-PanelContainer.propTypes = Panel.propTypes;
+const EnhancedConnectedPanel = withRecordType(withConfig(ConnectedPanel));
 
-const RecordTypeAwarePanelContainer = withRecordType(PanelContainer);
+EnhancedConnectedPanel.propTypes = Panel.propTypes;
 
-RecordTypeAwarePanelContainer.propTypes = PanelContainer.propTypes;
-
-export default RecordTypeAwarePanelContainer;
+export default EnhancedConnectedPanel;

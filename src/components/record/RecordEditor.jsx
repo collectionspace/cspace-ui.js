@@ -7,7 +7,7 @@ import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const { Label } = inputComponents;
 
-function getMessage(Wrapper, component, messageDescriptors) {
+function getLabel(component, messageDescriptors) {
   const {
     msgkey,
     name,
@@ -21,9 +21,9 @@ function getMessage(Wrapper, component, messageDescriptors) {
   }
 
   return (
-    <Wrapper>
+    <Label>
       <FormattedMessage {...messageDescriptor} />
-    </Wrapper>
+    </Label>
   );
 }
 
@@ -37,11 +37,7 @@ function renderTemplate(component, messageDescriptors, handlers) {
     if (propTypes) {
       if (propTypes.name) {
         if (propTypes.label && !component.props.label) {
-          overrideProps.label = getMessage(Label, component, messageDescriptors);
-        }
-
-        if (propTypes.header && !component.props.header) {
-          overrideProps.header = getMessage('h3', component, messageDescriptors);
+          overrideProps.label = getLabel(component, messageDescriptors);
         }
       }
 
