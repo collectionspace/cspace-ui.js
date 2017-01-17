@@ -676,6 +676,7 @@ export default (pluginContext) => {
               type: AuthorityControlledInput,
               props: {
                 authority: 'person/local,person/shared,person/ulan',
+                repeating: true,
               },
             },
           },
@@ -716,6 +717,7 @@ export default (pluginContext) => {
               type: AuthorityControlledInput,
               props: {
                 authority: 'organization/local,organization/shared,organization/ulan',
+                repeating: true,
               },
             },
           },

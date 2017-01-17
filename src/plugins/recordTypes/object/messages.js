@@ -212,7 +212,7 @@ export default defineMessages({
   },
   ageQualifier: {
     id: 'field.object.ageQualifier',
-    defaultMessage: 'Age qualifier',
+    defaultMessage: 'Qualifier',
   },
   ageUnit: {
     id: 'field.object.ageUnit',
@@ -342,12 +342,8 @@ export default defineMessages({
     id: 'field.object.contentConcepts',
     defaultMessage: 'Concept',
   },
-  contentConcept: {
-    id: 'field.object.contentConcept',
-    defaultMessage: 'Concept',
-  },
-  contentDate: {
-    id: 'field.object.contentDate',
+  contentDateGroup: {
+    id: 'field.object.contentDateGroup',
     defaultMessage: 'Date',
   },
   contentPositions: {
@@ -374,10 +370,6 @@ export default defineMessages({
     id: 'field.object.contentPersons',
     defaultMessage: 'Person',
   },
-  contentPerson: {
-    id: 'field.object.contentPerson',
-    defaultMessage: 'Person',
-  },
   contentPlaces: {
     id: 'field.object.contentPlaces',
     defaultMessage: 'Place',
@@ -388,10 +380,6 @@ export default defineMessages({
   },
   contentOrganizations: {
     id: 'field.object.contentOrganizations',
-    defaultMessage: 'Organization',
-  },
-  contentOrganization: {
-    id: 'field.object.contentOrganization',
     defaultMessage: 'Organization',
   },
   contentEventNameGroup: {

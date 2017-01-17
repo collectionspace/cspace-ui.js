@@ -4,10 +4,7 @@ export default (pluginContext) => {
   } = pluginContext.lib;
 
   const {
-    CompoundInput,
-  } = pluginContext.inputComponents;
-
-  const {
+    JoinedInputRow,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -109,13 +106,11 @@ export default (pluginContext) => {
           <div>
             <Field name="editionNumber" />
 
-            {/* TODO: Don't use CompoundInput here. Use a layout component. */}
-
-            <CompoundInput tabular msgkey="ageGroup">
-              <Field name="age" />
+            <JoinedInputRow msgkey="ageGroup">
               <Field name="ageQualifier" />
+              <Field name="age" />
               <Field name="ageUnit" />
-            </CompoundInput>
+            </JoinedInputRow>
 
             <Field name="styles">
               <Field name="style" />
@@ -434,32 +429,28 @@ export default (pluginContext) => {
             </div>
 
             <div>
-              <Panel>
-                {/* TODO: Do not use CompoundInput here */}
+              <JoinedInputRow msgkey="assocEventGroup">
+                <Field name="assocEventName" />
+                <Field name="assocEventNameType" />
+              </JoinedInputRow>
 
-                <CompoundInput tabular msgkey="assocEventGroup">
-                  <Field name="assocEventName" />
-                  <Field name="assocEventNameType" />
-                </CompoundInput>
+              <Field name="assocEventOrganizations">
+                <Field name="assocEventOrganization" />
+              </Field>
 
-                <Field name="assocEventOrganizations">
-                  <Field name="assocEventOrganization" />
-                </Field>
+              <Field name="assocEventPeoples">
+                <Field name="assocEventPeople" />
+              </Field>
 
-                <Field name="assocEventPeoples">
-                  <Field name="assocEventPeople" />
-                </Field>
+              <Field name="assocEventPersons">
+                <Field name="assocEventPerson" />
+              </Field>
 
-                <Field name="assocEventPersons">
-                  <Field name="assocEventPerson" />
-                </Field>
+              <Field name="assocEventPlaces">
+                <Field name="assocEventPlace" />
+              </Field>
 
-                <Field name="assocEventPlaces">
-                  <Field name="assocEventPlace" />
-                </Field>
-
-                <Field name="assocEventNote" />
-              </Panel>
+              <Field name="assocEventNote" />
 
               <Field name="assocDateGroupList">
                 <Field name="assocDateGroup">
@@ -502,14 +493,12 @@ export default (pluginContext) => {
           </div>
         </Row>
 
-        {/* TODO: Do not use CompoundInput here */}
-
-        <CompoundInput tabular msgkey="ownershipExchangeGroup">
+        <JoinedInputRow msgkey="ownershipExchangeGroup">
           <Field name="ownershipExchangeMethod" />
           <Field name="ownershipExchangeNote" />
           <Field name="ownershipExchangePriceCurrency" />
           <Field name="ownershipExchangePriceValue" />
-        </CompoundInput>
+        </JoinedInputRow>
       </Panel>
 
       <Panel name="ownerPanel" collapsible collapsed>
