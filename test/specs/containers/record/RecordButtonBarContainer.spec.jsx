@@ -5,7 +5,7 @@ import { createRenderer } from 'react-addons-test-utils';
 import mockRouter from '../../../helpers/mockRouter';
 import RecordButtonBar from '../../../../src/components/record/RecordButtonBar';
 
-import RecordButtonBarContainer, {
+import {
   ConnectedRecordButtonBar,
 } from '../../../../src/containers/record/RecordButtonBarContainer';
 
@@ -17,7 +17,7 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('ConnectedRecordButtonBar', function suite() {
+describe('RecordButtonBarContainer', function suite() {
   it('should set props on RecordButtonBar', function test() {
     const csid = '1234';
     const router = mockRouter();
@@ -66,15 +66,3 @@ describe('ConnectedRecordButtonBar', function suite() {
   });
 });
 
-describe('RecordButtonBarContainer', function suite() {
-  it('should set props on ConnectedRecordButtonBar', function test() {
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(<RecordButtonBarContainer />);
-
-    const result = shallowRenderer.getRenderOutput();
-
-    result.type.should.equal(ConnectedRecordButtonBar);
-    result.props.should.have.property('router');
-  });
-});

@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { hashHistory, useRouterHistory } from 'react-router';
-import { createHistory } from 'history';
+import { createHistory, useBeforeUnload } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import script from 'scriptjs';
 import warning from 'warning';
@@ -13,6 +13,7 @@ import warning from 'warning';
 import { configureCSpace } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
 import { addOptionLists } from './actions/optionList';
+import { loadPrefs, savePrefs } from './actions/prefs';
 import reducer from './reducers';
 import App from './components/App';
 import createPluginContext from './helpers/createPluginContext';
@@ -94,13 +95,22 @@ module.exports = (uiConfig) => {
       `The container element for the CollectionSpace UI found using the selector '${container}' is the document body. This may cause problems, and is not supported.`);
 
     const store = createStore(reducer, applyMiddleware(thunk));
-    const baseHistory = prettyUrls ? useRouterHistory(createHistory)({ basename }) : hashHistory;
+
+    const baseHistory = prettyUrls
+      ? useRouterHistory(useBeforeUnload(createHistory))({ basename })
+      : hashHistory;
+
+    baseHistory.listenBeforeUnload(() => {
+      store.dispatch(savePrefs());
+    });
+
     const history = syncHistoryWithStore(baseHistory, store);
 
     store.dispatch(configureCSpace({
       url: cspaceUrl,
     }));
 
+    store.dispatch(loadPrefs());
     store.dispatch(addOptionLists(optionLists));
     store.dispatch(addIDGenerators(idGenerators));
 
