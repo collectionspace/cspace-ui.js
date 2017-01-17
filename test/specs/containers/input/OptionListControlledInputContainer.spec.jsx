@@ -54,7 +54,7 @@ describe('OptionListControlledInputContainer', function suite() {
     const options = [
       {
         value: 'cm',
-        messageDescriptor: {
+        message: {
           id: 'option.units.cm',
           defaultMessage: 'centimeters',
         },
@@ -106,7 +106,7 @@ describe('OptionListControlledInputContainer', function suite() {
     const options = [
       {
         value: 'cm',
-        messageDescriptor: {
+        message: {
           id: 'option.units.cm',
           defaultMessage: 'centimeters',
         },

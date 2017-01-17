@@ -51,7 +51,7 @@ const store = mockStore({
 const config = {
   recordTypes: {
     object: {
-      messageDescriptors: {
+      messages: {
         resultsTitle: {
           id: 'record.object.resultsTitle',
           defaultMessage: 'Objects',

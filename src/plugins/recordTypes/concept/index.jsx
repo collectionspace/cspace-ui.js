@@ -27,7 +27,7 @@ export default () => () => ({
           },
         }),
       },
-      messageDescriptors: defineMessages({
+      messages: defineMessages({
         recordNameTitle: {
           id: 'record.concept.nameTitle',
           description: 'The name of the record when used as a title.',
@@ -46,7 +46,7 @@ export default () => () => ({
       vocabularies: {
         all: {
           isCreatable: false,
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.concept.all.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
@@ -59,7 +59,7 @@ export default () => () => ({
           type: 'all',
         },
         associated: {
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.concept.associated.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
@@ -71,7 +71,7 @@ export default () => () => ({
           },
         },
         activity: {
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.concept.activity.nameTitle',
               description: 'The name of the vocabulary when used as a title.',
@@ -83,7 +83,7 @@ export default () => () => ({
           },
         },
         material: {
-          messageDescriptors: defineMessages({
+          messages: defineMessages({
             vocabNameTitle: {
               id: 'vocab.concept.material.nameTitle',
               description: 'The name of the vocabulary when used as a title.',

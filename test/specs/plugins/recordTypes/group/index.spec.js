@@ -19,7 +19,7 @@ describe('group record plugin', function suite() {
 
     const groupRecordTypes = recordTypes.group;
 
-    groupRecordTypes.should.have.property('messageDescriptors').that.is.an('object');
+    groupRecordTypes.should.have.property('messages').that.is.an('object');
     groupRecordTypes.should.have.property('serviceConfig').that.is.an('object');
     groupRecordTypes.should.have.property('title').that.is.a('function');
     groupRecordTypes.should.have.property('forms').that.is.an('object');

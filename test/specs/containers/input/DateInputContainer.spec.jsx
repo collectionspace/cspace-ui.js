@@ -13,7 +13,7 @@ const intl = {
   formatRelative: () => null,
   formatNumber: () => null,
   formatPlural: () => null,
-  formatMessage: messageDescriptor => `formatted ${messageDescriptor.id}`,
+  formatMessage: message => `formatted ${message.id}`,
   formatHTMLMessage: () => null,
   locale: 'locale',
   now: () => null,

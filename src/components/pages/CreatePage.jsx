@@ -17,7 +17,7 @@ export default function CreatePage(props, context) {
     items = Object.keys(recordTypes).map(recordType =>
       <li key={recordType}>
         <Link to={`record/${recordType}`}>
-          <FormattedMessage {...recordTypes[recordType].messageDescriptors.recordNameTitle} />
+          <FormattedMessage {...recordTypes[recordType].messages.recordNameTitle} />
         </Link>
       </li>
     );

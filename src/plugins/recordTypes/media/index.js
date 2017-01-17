@@ -1,6 +1,6 @@
 import columns from './columns';
 import defaultForm from './forms/default';
-import messageDescriptors from './messageDescriptors';
+import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
@@ -8,7 +8,7 @@ export default () => pluginContext => ({
   recordTypes: {
     media: {
       columns,
-      messageDescriptors,
+      messages,
       serviceConfig,
       forms: {
         default: defaultForm(pluginContext),

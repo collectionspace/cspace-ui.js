@@ -19,7 +19,7 @@ describe('place record plugin', function suite() {
 
     const placeRecordType = recordTypes.place;
 
-    placeRecordType.should.have.property('messageDescriptors').that.is.an('object');
+    placeRecordType.should.have.property('messages').that.is.an('object');
     placeRecordType.should.have.property('serviceConfig').that.is.an('object');
     placeRecordType.should.have.property('title').that.is.a('function');
     placeRecordType.should.have.property('forms').that.is.an('object');

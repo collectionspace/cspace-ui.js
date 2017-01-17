@@ -19,7 +19,7 @@ describe('concept record plugin', function suite() {
 
     const conceptRecordType = recordTypes.concept;
 
-    conceptRecordType.should.have.property('messageDescriptors').that.is.an('object');
+    conceptRecordType.should.have.property('messages').that.is.an('object');
     conceptRecordType.should.have.property('serviceConfig').that.is.an('object');
     conceptRecordType.should.have.property('title').that.is.a('function');
     conceptRecordType.should.have.property('forms').that.is.an('object');

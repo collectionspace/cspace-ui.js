@@ -13,7 +13,7 @@ export default {
       'weeks',
       'years',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       days: {
         id: 'option.ageUnits.days',
         defaultMessage: 'days',
@@ -39,7 +39,7 @@ export default {
       'study-collection',
       'teaching-collection',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       'library-collection': {
         id: 'option.collections.library-collection',
         defaultMessage: 'library collection',
@@ -63,7 +63,7 @@ export default {
       'furniture',
       'food',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       furniture: {
         id: 'option.contentObjectTypes.furniture',
         defaultMessage: 'furniture',
@@ -90,7 +90,7 @@ export default {
       'weight',
       'width',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       area: {
         id: 'option.dimensions.area',
         defaultMessage: 'area',
@@ -152,7 +152,7 @@ export default {
       'thin-section',
       'wet',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       dry: {
         id: 'option.forms.dry',
         defaultMessage: 'dry',
@@ -180,7 +180,7 @@ export default {
       'label',
       'maker\'s-mark',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       brand: {
         id: 'option.inscriptionTypes.brand',
         defaultMessage: 'brand',
@@ -218,7 +218,7 @@ export default {
       'plate-size',
       'unframed',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       base: {
         id: 'option.measuredParts.base',
         defaultMessage: 'base',
@@ -276,7 +276,7 @@ export default {
       'spring_scale',
       'hydraulic_or_pneumatic_scale',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       microscopy_reticule: {
         id: 'option.measurementMethods.microscopy_reticule',
         defaultMessage: 'microscopy (reticule)',
@@ -375,7 +375,7 @@ export default {
       'square-feet',
       'stories',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       carats: {
         id: 'option.measurementUnits.carats',
         defaultMessage: 'carats',
@@ -435,7 +435,7 @@ export default {
       'current',
       'archaic',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       current: {
         id: 'option.nameCurrencies.current',
         defaultMessage: 'current',
@@ -451,7 +451,7 @@ export default {
       'group',
       'subgroup',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       group: {
         id: 'option.nameLevels.group',
         defaultMessage: 'group',
@@ -467,7 +467,7 @@ export default {
       'art-and-architecture-thesaurus',
       'nomenclature',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       'art-and-architecture-thesaurus': {
         id: 'option.nameSystems.art-and-architecture-thesaurus',
         defaultMessage: 'Art & Architecture Thesaurus',
@@ -486,7 +486,7 @@ export default {
       'taxonomic',
       'typological',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       classified: {
         id: 'option.nameTypes.classified',
         defaultMessage: 'classified',
@@ -517,7 +517,7 @@ export default {
       'serial',
       'unknown',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       lender: {
         id: 'option.numberTypes.lender',
         defaultMessage: 'lender',
@@ -547,7 +547,7 @@ export default {
       'handle',
       'sleeve',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       blade: {
         id: 'option.objectComponentNames.blade',
         defaultMessage: 'blade',
@@ -575,7 +575,7 @@ export default {
       'paratype',
       'type',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       copy: {
         id: 'option.objectStatuses.copy',
         defaultMessage: 'copy',
@@ -608,7 +608,7 @@ export default {
       'open',
       'restricted',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       limited: {
         id: 'option.ownershipAccessLevels.limited',
         defaultMessage: 'limited',
@@ -629,7 +629,7 @@ export default {
       'public',
       'private',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       company: {
         id: 'option.ownershipCategories.company',
         defaultMessage: 'company',
@@ -653,7 +653,7 @@ export default {
       'transfer',
       'treasure',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       bequest: {
         id: 'option.ownershipExchangeMethods.bequest',
         defaultMessage: 'bequest',
@@ -688,7 +688,7 @@ export default {
       'nymph',
       'pupa',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       adult: {
         id: 'option.phases.adult',
         defaultMessage: 'adult',
@@ -726,7 +726,7 @@ export default {
       'top',
       'verso',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       back: {
         id: 'option.positions.back',
         defaultMessage: 'back',
@@ -784,7 +784,7 @@ export default {
       'new',
       'temporary',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       approved: {
         id: 'option.recordStatuses.approved',
         defaultMessage: 'approved',
@@ -813,7 +813,7 @@ export default {
       'spencerian-method',
       'square-capitals',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       'carolingian-miniscule': {
         id: 'option.scripts.carolingian-miniscule',
         defaultMessage: 'Carolingian minuscule',
@@ -849,7 +849,7 @@ export default {
       'male',
       'female',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       male: {
         id: 'option.sexes.male',
         defaultMessage: 'male',
@@ -865,7 +865,7 @@ export default {
       'magnetic-tape-type',
       'record-speed',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       'magnetic-tape-type': {
         id: 'option.technicalAttributes.magnetic-tape-type',
         defaultMessage: 'magnetic tape type',
@@ -881,7 +881,7 @@ export default {
       'metal',
       '78',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       metal: {
         id: 'option.technicalAttributeMeasurements.metal',
         defaultMessage: 'metal',
@@ -896,7 +896,7 @@ export default {
     values: [
       'rpm',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       rpm: {
         id: 'option.technicalAttributeMeasurementUnits.rpm',
         defaultMessage: 'rpm',
@@ -912,7 +912,7 @@ export default {
       'series',
       'trade',
     ],
-    messageDescriptors: defineMessages({
+    messages: defineMessages({
       'assigned-by-artist': {
         id: 'option.titleTypes.assigned-by-artist',
         defaultMessage: 'assigned by artist',

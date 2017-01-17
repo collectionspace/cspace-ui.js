@@ -16,7 +16,7 @@ describe('optionList action creator', function suite() {
             'MA',
             'NY',
           ],
-          messageDescriptors: {
+          messages: {
             CA: { defaultMessage: 'California' },
             MA: { defaultMessage: 'Massachusetts' },
             NY: { defaultMessage: 'New York' },
@@ -28,18 +28,18 @@ describe('optionList action creator', function suite() {
         states: [
           {
             value: 'CA',
-            messageDescriptor: { defaultMessage: 'California' },
+            message: { defaultMessage: 'California' },
           },
           {
             value: 'CT',
           },
           {
             value: 'MA',
-            messageDescriptor: { defaultMessage: 'Massachusetts' },
+            message: { defaultMessage: 'Massachusetts' },
           },
           {
             value: 'NY',
-            messageDescriptor: { defaultMessage: 'New York' },
+            message: { defaultMessage: 'New York' },
           },
         ],
       };

@@ -7,27 +7,27 @@ import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const { Label } = inputComponents;
 
-function getMessage(Wrapper, component, messageDescriptors) {
+function getLabel(component, messages) {
   const {
     msgkey,
     name,
   } = component.props;
 
   const key = msgkey || name;
-  const messageDescriptor = messageDescriptors[key];
+  const message = messages[key];
 
-  if (!messageDescriptor) {
+  if (!message) {
     return null;
   }
 
   return (
-    <Wrapper>
-      <FormattedMessage {...messageDescriptor} />
-    </Wrapper>
+    <Label>
+      <FormattedMessage {...message} />
+    </Label>
   );
 }
 
-function renderTemplate(component, messageDescriptors, handlers) {
+function renderTemplate(component, messages, handlers) {
   const overrideProps = {};
   const type = component.type;
 
@@ -37,11 +37,7 @@ function renderTemplate(component, messageDescriptors, handlers) {
     if (propTypes) {
       if (propTypes.name) {
         if (propTypes.label && !component.props.label) {
-          overrideProps.label = getMessage(Label, component, messageDescriptors);
-        }
-
-        if (propTypes.header && !component.props.header) {
-          overrideProps.header = getMessage('h3', component, messageDescriptors);
+          overrideProps.label = getLabel(component, messages);
         }
       }
 
@@ -58,13 +54,42 @@ function renderTemplate(component, messageDescriptors, handlers) {
     overrideProps,
     React.Children.map(
       component.props.children,
-      child => renderTemplate(child, messageDescriptors, handlers)));
+      child => renderTemplate(child, messages, handlers)));
 }
+
+const propTypes = {
+  recordType: PropTypes.string.isRequired,
+  csid: PropTypes.string,
+  data: PropTypes.instanceOf(Immutable.Map),
+  onAddInstance: PropTypes.func,
+  onCommit: PropTypes.func,
+  onMoveInstance: PropTypes.func,
+  onRemoveInstance: PropTypes.func,
+};
+
+const defaultProps = {
+  data: Immutable.Map(),
+};
+
+const childContextTypes = {
+  recordType: PropTypes.string,
+  csid: PropTypes.string,
+};
+
+const contextTypes = {
+  config: PropTypes.object,
+};
 
 export default class RecordEditor extends Component {
   getChildContext() {
+    const {
+      csid,
+      recordType,
+    } = this.props;
+
     return {
-      recordType: this.props.recordType,
+      csid,
+      recordType,
     };
   }
 
@@ -72,7 +97,6 @@ export default class RecordEditor extends Component {
     const {
       data,
       recordType,
-      generateID,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -87,11 +111,10 @@ export default class RecordEditor extends Component {
 
     const {
       forms,
-      messageDescriptors,
+      messages,
     } = recordTypeConfig;
 
     const handlers = {
-      generateID,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -105,7 +128,7 @@ export default class RecordEditor extends Component {
       value: data.get(DOCUMENT_PROPERTY_NAME),
       children: React.Children.map(
         formTemplate.props.children,
-        child => renderTemplate(child, messageDescriptors, handlers)),
+        child => renderTemplate(child, messages, handlers)),
     });
 
     return (
@@ -119,24 +142,7 @@ export default class RecordEditor extends Component {
   }
 }
 
-RecordEditor.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  data: PropTypes.instanceOf(Immutable.Map),
-  generateID: PropTypes.func,
-  onAddInstance: PropTypes.func,
-  onCommit: PropTypes.func,
-  onMoveInstance: PropTypes.func,
-  onRemoveInstance: PropTypes.func,
-};
-
-RecordEditor.defaultProps = {
-  data: Immutable.Map(),
-};
-
-RecordEditor.childContextTypes = {
-  recordType: PropTypes.string,
-};
-
-RecordEditor.contextTypes = {
-  config: PropTypes.object,
-};
+RecordEditor.propTypes = propTypes;
+RecordEditor.defaultProps = defaultProps;
+RecordEditor.childContextTypes = childContextTypes;
+RecordEditor.contextTypes = contextTypes;

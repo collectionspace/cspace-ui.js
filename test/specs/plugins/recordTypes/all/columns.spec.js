@@ -33,7 +33,7 @@ describe('all record columns', function suite() {
     const config = {
       recordTypes: {
         object: {
-          messageDescriptors: {
+          messages: {
             recordNameTitle: {
               id: 'record.object.nameTitle',
             },
@@ -46,7 +46,7 @@ describe('all record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: messageDescriptor => `formatted ${messageDescriptor.id}`,
+      formatMessage: message => `formatted ${message.id}`,
     };
 
     docTypeColumn.formatValue('CollectionObject', { intl, config }).should
@@ -61,7 +61,7 @@ describe('all record columns', function suite() {
     const config = {
       recordTypes: {
         object: {
-          messageDescriptors: {
+          messages: {
             recordNameTitle: {
               id: 'record.object.nameTitle',
             },
@@ -74,7 +74,7 @@ describe('all record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: messageDescriptor => `formatted ${messageDescriptor.id}`,
+      formatMessage: message => `formatted ${message.id}`,
     };
 
     docTypeColumn.formatValue('Group', { intl, config }).should

@@ -19,7 +19,7 @@ describe('organization record plugin', function suite() {
 
     const organizationRecordType = recordTypes.organization;
 
-    organizationRecordType.should.have.property('messageDescriptors').that.is.an('object');
+    organizationRecordType.should.have.property('messages').that.is.an('object');
     organizationRecordType.should.have.property('serviceConfig').that.is.an('object');
     organizationRecordType.should.have.property('title').that.is.a('function');
     organizationRecordType.should.have.property('forms').that.is.an('object');

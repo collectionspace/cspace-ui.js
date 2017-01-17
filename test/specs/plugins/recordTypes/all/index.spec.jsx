@@ -19,7 +19,7 @@ describe('all record plugin', function suite() {
 
     const allRecordType = recordTypes.all;
 
-    allRecordType.should.have.property('messageDescriptors').that.is.an('object');
+    allRecordType.should.have.property('messages').that.is.an('object');
     allRecordType.should.have.property('serviceConfig').that.is.an('object');
   });
 });

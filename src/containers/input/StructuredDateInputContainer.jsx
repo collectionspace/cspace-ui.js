@@ -89,7 +89,7 @@ const mapStateToProps = (state, ownProps) => {
     terms,
     formatFieldLabel: name => intl.formatMessage(messages[name]),
     formatOptionLabel: option => (
-      option.messageDescriptor ? intl.formatMessage(option.messageDescriptor) : option.value
+      option.message ? intl.formatMessage(option.message) : option.value
     ),
   };
 };

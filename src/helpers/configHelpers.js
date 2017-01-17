@@ -1,5 +1,9 @@
-import merge from 'lodash/merge';
+import deepAssign from 'deep-assign';
 import warning from 'warning';
+
+export const fieldDescriptorKeys = {
+  ui: Symbol.for('fieldSpec.ui'),
+};
 
 export const evaluatePlugin = (plugin, pluginContext) => {
   const pluginType = typeof plugin;
@@ -42,7 +46,7 @@ export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
     ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
     : targetConfig;
 
-  const mergedConfig = merge({}, pluginsAppliedConfig, sourceConfig);
+  const mergedConfig = deepAssign({}, pluginsAppliedConfig, sourceConfig);
 
   delete mergedConfig.plugins;
 

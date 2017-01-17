@@ -4,456 +4,357 @@ export default (pluginContext) => {
   } = pluginContext.lib;
 
   const {
-    AuthorityControlledInput,
-    CompoundInput,
-    DateInput,
-    IDGeneratorInput,
-    OptionListControlledInput,
-    StructuredDateInput,
-    TextInput,
-    VocabularyControlledInput,
-  } = pluginContext.inputComponents;
-
-  const {
+    JoinedInputRow,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
 
   const {
-    getPartPropertyName,
-  } = pluginContext.recordDataHelpers;
+    Field,
+  } = pluginContext.recordComponents;
 
   return (
-    <CompoundInput defaultChildSubpath={getPartPropertyName('collectionobjects_common')}>
+    <Field name="document">
       <Panel name="idPanel" collapsible>
         <Row>
           <div>
-            <IDGeneratorInput
-              name="objectNumber"
-              idGeneratorName="accession,intake,loanin"
-            />
-            <TextInput name="numberOfObjects" />
-            <CompoundInput name="otherNumberList">
-              <CompoundInput name="otherNumber" tabular repeating>
-                <TextInput name="numberValue" />
-                <OptionListControlledInput name="numberType" optionListName="numberTypes" />
-              </CompoundInput>
-            </CompoundInput>
-            <CompoundInput name="responsibleDepartments">
-              <OptionListControlledInput
-                name="responsibleDepartment"
-                optionListName="departments"
-                repeating
-              />
-            </CompoundInput>
-            <OptionListControlledInput name="collection" optionListName="collections" />
-            <OptionListControlledInput name="recordStatus" optionListName="recordStatuses" />
+            <Field name="objectNumber" />
+            <Field name="numberOfObjects" />
+
+            <Field name="otherNumberList">
+              <Field name="otherNumber">
+                <Field name="numberValue" />
+                <Field name="numberType" />
+              </Field>
+            </Field>
+
+            <Field name="responsibleDepartments">
+              <Field name="responsibleDepartment" />
+            </Field>
+
+            <Field name="collection" />
+            <Field name="recordStatus" />
           </div>
           <div>
-            <CompoundInput name="briefDescriptions">
-              <TextInput name="briefDescription" multiline repeating />
-            </CompoundInput>
-            <TextInput name="distinguishingFeatures" multiline />
-            <CompoundInput name="comments">
-              <TextInput name="comment" multiline repeating />
-            </CompoundInput>
+            <Field name="briefDescriptions">
+              <Field name="briefDescription" />
+            </Field>
+
+            <Field name="distinguishingFeatures" />
+
+            <Field name="comments">
+              <Field name="comment" />
+            </Field>
           </div>
         </Row>
 
-        <TextInput name="computedCurrentLocation" />
+        <Field name="computedCurrentLocation" />
 
-        <CompoundInput name="titleGroupList">
-          <CompoundInput name="titleGroup" repeating>
+        <Field name="titleGroupList">
+          <Field name="titleGroup">
             <Panel>
               <Row>
                 <div>
-                  <TextInput name="title" />
-                  <VocabularyControlledInput name="titleLanguage" vocabularyName="languages" />
+                  <Field name="title" />
+                  <Field name="titleLanguage" />
                 </div>
                 <div>
-                  <OptionListControlledInput name="titleType" optionListName="titleTypes" />
-                  <CompoundInput name="titleTranslationSubGroupList">
-                    <CompoundInput name="titleTranslationSubGroup" tabular repeating>
-                      <TextInput name="titleTranslation" />
-                      <VocabularyControlledInput
-                        name="titleTranslationLanguage"
-                        vocabularyName="languages"
-                      />
-                    </CompoundInput>
-                  </CompoundInput>
+                  <Field name="titleType" />
+
+                  <Field name="titleTranslationSubGroupList">
+                    <Field name="titleTranslationSubGroup">
+                      <Field name="titleTranslation" />
+                      <Field name="titleTranslationLanguage" />
+                    </Field>
+                  </Field>
                 </div>
               </Row>
             </Panel>
-          </CompoundInput>
-        </CompoundInput>
+          </Field>
+        </Field>
 
-        <CompoundInput name="objectNameList">
-          <CompoundInput name="objectNameGroup" tabular repeating>
-            <TextInput name="objectName" />
-            <OptionListControlledInput name="objectNameCurrency" optionListName="nameCurrencies" />
-            <OptionListControlledInput name="objectNameLevel" optionListName="nameLevels" />
-            <OptionListControlledInput name="objectNameSystem" optionListName="nameSystems" />
-            <OptionListControlledInput name="objectNameType" optionListName="nameTypes" />
-            <VocabularyControlledInput name="objectNameLanguage" vocabularyName="languages" />
-            <TextInput name="objectNameNote" />
-          </CompoundInput>
-        </CompoundInput>
+        <Field name="objectNameList">
+          <Field name="objectNameGroup">
+            <Field name="objectName" />
+            <Field name="objectNameCurrency" />
+            <Field name="objectNameLevel" />
+            <Field name="objectNameSystem" />
+            <Field name="objectNameType" />
+            <Field name="objectNameLanguage" />
+            <Field name="objectNameNote" />
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="descPanel" collapsible>
         <Row>
           <div>
-            <TextInput name="copyNumber" />
+            <Field name="copyNumber" />
 
-            <CompoundInput name="objectStatusList">
-              <OptionListControlledInput
-                name="objectStatus"
-                optionListName="objectStatuses"
-                repeating
-              />
-            </CompoundInput>
+            <Field name="objectStatusList">
+              <Field name="objectStatus" />
+            </Field>
 
-            <OptionListControlledInput name="sex" optionListName="sexes" />
-            <OptionListControlledInput name="phase" optionListName="phases" />
+            <Field name="sex" />
+            <Field name="phase" />
 
-            <CompoundInput name="forms">
-              <OptionListControlledInput name="form" optionListName="forms" repeating />
-            </CompoundInput>
+            <Field name="forms">
+              <Field name="form" />
+            </Field>
           </div>
 
           <div>
-            <TextInput name="editionNumber" />
+            <Field name="editionNumber" />
 
-            <CompoundInput tabular msgkey="ageGroup">
-              <TextInput name="age" />
-              <VocabularyControlledInput name="ageQualifier" vocabularyName="agequalifier" />
-              <OptionListControlledInput name="ageUnit" optionListName="ageUnits" />
-            </CompoundInput>
+            <JoinedInputRow msgkey="ageGroup">
+              <Field name="ageQualifier" />
+              <Field name="age" />
+              <Field name="ageUnit" />
+            </JoinedInputRow>
 
-            <CompoundInput name="styles">
-              <TextInput name="style" repeating />
-            </CompoundInput>
+            <Field name="styles">
+              <Field name="style" />
+            </Field>
 
-            <CompoundInput name="colors">
-              <TextInput name="color" repeating />
-            </CompoundInput>
+            <Field name="colors">
+              <Field name="color" />
+            </Field>
           </div>
         </Row>
 
-        <CompoundInput name="materialGroupList">
-          <CompoundInput name="materialGroup" tabular repeating>
-            <TextInput name="material" />
-            <TextInput name="materialComponent" />
-            <TextInput name="materialComponentNote" />
-            <TextInput name="materialName" />
-            <TextInput name="materialSource" />
-          </CompoundInput>
-        </CompoundInput>
+        <Field name="materialGroupList">
+          <Field name="materialGroup">
+            <Field name="material" />
+            <Field name="materialComponent" />
+            <Field name="materialComponentNote" />
+            <Field name="materialName" />
+            <Field name="materialSource" />
+          </Field>
+        </Field>
 
-        <TextInput name="physicalDescription" multiline />
+        <Field name="physicalDescription" />
 
         <Row>
           <div>
-            <CompoundInput name="objectComponentGroupList">
-              <CompoundInput name="objectComponentGroup" tabular repeating>
-                <OptionListControlledInput
-                  name="objectComponentName"
-                  optionListName="objectComponentNames"
-                />
-                <TextInput name="objectComponentInformation" />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="objectComponentGroupList">
+              <Field name="objectComponentGroup">
+                <Field name="objectComponentName" />
+                <Field name="objectComponentInformation" />
+              </Field>
+            </Field>
           </div>
 
           <div>
-            <CompoundInput name="technicalAttributeGroupList">
-              <CompoundInput name="technicalAttributeGroup" tabular repeating>
-                <OptionListControlledInput
-                  name="technicalAttribute"
-                  optionListName="technicalAttributes"
-                />
-                <OptionListControlledInput
-                  name="technicalAttributeMeasurement"
-                  optionListName="technicalAttributeMeasurements"
-                />
-                <OptionListControlledInput
-                  name="technicalAttributeMeasurementUnit"
-                  optionListName="technicalAttributeMeasurementUnits"
-                />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="technicalAttributeGroupList">
+              <Field name="technicalAttributeGroup">
+                <Field name="technicalAttribute" />
+                <Field name="technicalAttributeMeasurement" />
+                <Field name="technicalAttributeMeasurementUnit" />
+              </Field>
+            </Field>
           </div>
         </Row>
 
-        <CompoundInput name="measuredPartGroupList">
-          <CompoundInput name="measuredPartGroup" repeating>
+        {/* TODO: Break out measuredPartGroupList */}
+
+        <Field name="measuredPartGroupList">
+          <Field name="measuredPartGroup">
             <Panel>
               <Row>
-                <div>
-                  <OptionListControlledInput name="measuredPart" optionListName="measuredParts" />
-                </div>
-
-                <div>
-                  <TextInput name="dimensionSummary" />
-                </div>
+                <Field name="measuredPart" />
+                <Field name="dimensionSummary" />
               </Row>
 
-              <CompoundInput name="dimensionSubGroupList">
-                <CompoundInput name="dimensionSubGroup" tabular repeating>
-                  <OptionListControlledInput name="dimension" optionListName="dimensions" />
-                  <AuthorityControlledInput
-                    name="measuredBy"
-                    authority="person/local,person/shared,organization/local,organization/shared"
-                  />
-                  <OptionListControlledInput
-                    name="measurementMethod"
-                    optionListName="measurementMethods"
-                  />
-                  <TextInput name="value" />
-                  <OptionListControlledInput
-                    name="measurementUnit"
-                    optionListName="measurementUnits"
-                  />
-                  <TextInput name="valueQualifier" />
-                  <DateInput name="valueDate" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="dimensionSubGroupList">
+                <Field name="dimensionSubGroup">
+                  <Field name="dimension" />
+                  <Field name="measuredBy" />
+                  <Field name="measurementMethod" />
+                  <Field name="value" />
+                  <Field name="measurementUnit" />
+                  <Field name="valueQualifier" />
+                  <Field name="valueDate" />
+                </Field>
+              </Field>
             </Panel>
-          </CompoundInput>
-        </CompoundInput>
+          </Field>
+        </Field>
 
         <Panel name="contentPanel" collapsible collapsed>
-          <TextInput name="contentDescription" multiline />
+          <Field name="contentDescription" />
 
           <Row>
             <div>
-              <CompoundInput name="contentLanguages">
-                <VocabularyControlledInput
-                  name="contentLanguage"
-                  vocabularyName="languages"
-                  repeating
-                />
-              </CompoundInput>
+              <Field name="contentLanguages">
+                <Field name="contentLanguage" />
+              </Field>
 
-              <CompoundInput name="contentActivities">
-                <TextInput name="contentActivity" repeating />
-              </CompoundInput>
+              <Field name="contentActivities">
+                <Field name="contentActivity" />
+              </Field>
 
-              <CompoundInput name="contentConcepts">
-                <AuthorityControlledInput
-                  name="contentConcept"
-                  authority="concept/associated,concept/material,concept/material_shared"
-                  repeating
-                />
-              </CompoundInput>
+              <Field name="contentConcepts">
+                <Field name="contentConcept" />
+              </Field>
 
-              <StructuredDateInput name="contentDate" />
+              <Field name="contentDateGroup" />
 
-              <CompoundInput name="contentPositions">
-                <OptionListControlledInput
-                  name="contentPosition"
-                  optionListName="positions"
-                  repeating
-                />
-              </CompoundInput>
+              <Field name="contentPositions">
+                <Field name="contentPosition" />
+              </Field>
 
-              <CompoundInput name="contentObjectGroupList">
-                <CompoundInput name="contentObjectGroup" tabular repeating>
-                  <TextInput name="contentObject" />
-                  <OptionListControlledInput
-                    name="contentObjectType"
-                    optionListName="contentObjectTypes"
-                  />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="contentObjectGroupList">
+                <Field name="contentObjectGroup">
+                  <Field name="contentObject" />
+                  <Field name="contentObjectType" />
+                </Field>
+              </Field>
             </div>
 
             <div>
-              <CompoundInput name="contentPeoples">
-                <TextInput name="contentPeople" repeating />
-              </CompoundInput>
+              <Field name="contentPeoples">
+                <Field name="contentPeople" />
+              </Field>
 
-              <CompoundInput name="contentPersons">
-                <AuthorityControlledInput
-                  name="contentPerson"
-                  authority="person/local,person/shared,person/ulan"
-                  repeating
-                />
-              </CompoundInput>
+              <Field name="contentPersons">
+                <Field name="contentPerson" />
+              </Field>
 
-              <CompoundInput name="contentPlaces">
-                <TextInput name="contentPlace" repeating />
-              </CompoundInput>
+              <Field name="contentPlaces">
+                <Field name="contentPlace" />
+              </Field>
 
-              <CompoundInput name="contentScripts">
-                <OptionListControlledInput
-                  name="contentScript"
-                  optionListName="scripts"
-                  repeating
-                />
-              </CompoundInput>
+              <Field name="contentScripts">
+                <Field name="contentScript" />
+              </Field>
 
-              <CompoundInput name="contentOrganizations">
-                <AuthorityControlledInput
-                  name="contentOrganization"
-                  authority="organization/local,organization/shared,organization/ulan"
-                  repeating
-                />
-              </CompoundInput>
+              <Field name="contentOrganizations">
+                <Field name="contentOrganization" />
+              </Field>
 
-              <CompoundInput name="contentEventNameGroupList">
-                <CompoundInput name="contentEventNameGroup" tabular repeating>
-                  <TextInput name="contentEventName" />
-                  <TextInput name="contentEventNameType" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="contentEventNameGroupList">
+                <Field name="contentEventNameGroup">
+                  <Field name="contentEventName" />
+                  <Field name="contentEventNameType" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="contentOtherGroupList">
-                <CompoundInput name="contentOtherGroup" tabular repeating>
-                  <TextInput name="contentOther" />
-                  <TextInput name="contentOtherType" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="contentOtherGroupList">
+                <Field name="contentOtherGroup">
+                  <Field name="contentOther" />
+                  <Field name="contentOtherType" />
+                </Field>
+              </Field>
             </div>
           </Row>
 
-          <TextInput name="contentNote" multiline />
+          <Field name="contentNote" />
         </Panel>
 
         <Panel name="textInscriptPanel" collapsible collapsed>
-          <CompoundInput name="textualInscriptionGroupList">
-            <CompoundInput name="textualInscriptionGroup" repeating>
+          <Field name="textualInscriptionGroupList">
+            <Field name="textualInscriptionGroup">
               <Panel>
-                <TextInput name="inscriptionContent" multiline />
+                <Field name="inscriptionContent" />
 
                 <Row>
                   <div>
-                    <AuthorityControlledInput
-                      name="inscriptionContentInscriber"
-                      authority="person/local,organization/local,organization/shared"
-                    />
-                    <VocabularyControlledInput
-                      name="inscriptionContentLanguage"
-                      vocabularyName="languages"
-                    />
-                    <StructuredDateInput name="inscriptionContentDateGroup" />
+                    <Field name="inscriptionContentInscriber" />
+                    <Field name="inscriptionContentLanguage" />
+                    <Field name="inscriptionContentDateGroup" />
                   </div>
 
                   <div>
-                    <OptionListControlledInput
-                      name="inscriptionContentPosition"
-                      optionListName="positions"
-                    />
-                    <OptionListControlledInput
-                      name="inscriptionContentScript"
-                      optionListName="scripts"
-                    />
-                    <OptionListControlledInput
-                      name="inscriptionContentType"
-                      optionListName="inscriptionTypes"
-                    />
-                    <TextInput name="inscriptionContentMethod" />
+                    <Field name="inscriptionContentPosition" />
+                    <Field name="inscriptionContentScript" />
+                    <Field name="inscriptionContentType" />
+                    <Field name="inscriptionContentMethod" />
                   </div>
                 </Row>
 
-                <TextInput name="inscriptionContentInterpretation" multiline />
-                <TextInput name="inscriptionContentTranslation" />
-                <TextInput name="inscriptionContentTransliteration" />
+                <Field name="inscriptionContentInterpretation" />
+                <Field name="inscriptionContentTranslation" />
+                <Field name="inscriptionContentTransliteration" />
               </Panel>
-            </CompoundInput>
-          </CompoundInput>
+            </Field>
+          </Field>
         </Panel>
 
         <Panel name="nonTextInscriptPanel" collapsible collapsed>
-          <CompoundInput name="nonTextualInscriptionGroupList">
-            <CompoundInput name="nonTextualInscriptionGroup" repeating>
+          <Field name="nonTextualInscriptionGroupList">
+            <Field name="nonTextualInscriptionGroup">
               <Panel>
-                <TextInput name="inscriptionDescription" multiline />
+                <Field name="inscriptionDescription" />
 
                 <Row>
                   <div>
-                    <AuthorityControlledInput
-                      name="inscriptionDescriptionInscriber"
-                      authority="person/local,person/shared,organization/local,organization/shared"
-                    />
-                    <StructuredDateInput name="inscriptionDescriptionDateGroup" />
+                    <Field name="inscriptionDescriptionInscriber" />
+                    <Field name="inscriptionDescriptionDateGroup" />
                   </div>
 
                   <div>
-                    <OptionListControlledInput
-                      name="inscriptionDescriptionPosition"
-                      optionListName="positions"
-                    />
-                    <OptionListControlledInput
-                      name="inscriptionDescriptionType"
-                      optionListName="inscriptionTypes"
-                    />
-                    <TextInput name="inscriptionDescriptionMethod" />
+                    <Field name="inscriptionDescriptionPosition" />
+                    <Field name="inscriptionDescriptionType" />
+                    <Field name="inscriptionDescriptionMethod" />
                   </div>
                 </Row>
 
-                <TextInput name="inscriptionDescriptionInterpretation" multiline />
+                <Field name="inscriptionDescriptionInterpretation" />
               </Panel>
-            </CompoundInput>
-          </CompoundInput>
+            </Field>
+          </Field>
         </Panel>
       </Panel>
 
       <Panel name="prodPanel" collapsible collapsed>
         <Row>
           <div>
-            <CompoundInput name="objectProductionDateGroupList">
-              <StructuredDateInput name="objectProductionDateGroup" repeating />
-            </CompoundInput>
+            <Field name="objectProductionDateGroupList">
+              <Field name="objectProductionDateGroup" />
+            </Field>
 
-            <CompoundInput name="techniqueGroupList">
-              <CompoundInput name="techniqueGroup" tabular repeating>
-                <TextInput name="technique" />
-                <TextInput name="techniqueType" />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="techniqueGroupList">
+              <Field name="techniqueGroup">
+                <Field name="technique" />
+                <Field name="techniqueType" />
+              </Field>
+            </Field>
 
-            <CompoundInput name="objectProductionPlaceGroupList">
-              <CompoundInput name="objectProductionPlaceGroup" tabular repeating>
-                <TextInput name="objectProductionPlace" />
-                <TextInput name="objectProductionPlaceRole" />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="objectProductionPlaceGroupList">
+              <Field name="objectProductionPlaceGroup" >
+                <Field name="objectProductionPlace" />
+                <Field name="objectProductionPlaceRole" />
+              </Field>
+            </Field>
 
-            <CompoundInput name="objectProductionReasons">
-              <TextInput name="objectProductionReason" multiline repeating />
-            </CompoundInput>
+            <Field name="objectProductionReasons">
+              <Field name="objectProductionReason" />
+            </Field>
           </div>
 
           <div>
-            <CompoundInput name="objectProductionPeopleGroupList">
-              <CompoundInput name="objectProductionPeopleGroup" tabular repeating>
-                <TextInput name="objectProductionPeople" />
-                <TextInput name="objectProductionPeopleRole" />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="objectProductionPeopleGroupList">
+              <Field name="objectProductionPeopleGroup">
+                <Field name="objectProductionPeople" />
+                <Field name="objectProductionPeopleRole" />
+              </Field>
+            </Field>
 
-            <CompoundInput name="objectProductionPersonGroupList">
-              <CompoundInput name="objectProductionPersonGroup" tabular repeating>
-                <AuthorityControlledInput
-                  name="objectProductionPerson"
-                  authority="person/local,person/shared"
-                />
-                <TextInput name="objectProductionPersonRole" />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="objectProductionPersonGroupList">
+              <Field name="objectProductionPersonGroup">
+                <Field name="objectProductionPerson" />
+                <Field name="objectProductionPersonRole" />
+              </Field>
+            </Field>
 
-            <CompoundInput name="objectProductionOrganizationGroupList">
-              <CompoundInput name="objectProductionOrganizationGroup" tabular repeating>
-                <AuthorityControlledInput
-                  name="objectProductionOrganization"
-                  authority="organization/local,organization/shared"
-                />
-                <TextInput name="objectProductionOrganizationRole" />
-              </CompoundInput>
-            </CompoundInput>
+            <Field name="objectProductionOrganizationGroupList">
+              <Field name="objectProductionOrganizationGroup">
+                <Field name="objectProductionOrganization" />
+                <Field name="objectProductionOrganizationRole" />
+              </Field>
+            </Field>
 
-            <TextInput name="objectProductionNote" multiline />
+            <Field name="objectProductionNote" />
           </div>
         </Row>
       </Panel>
@@ -462,264 +363,206 @@ export default (pluginContext) => {
         <Panel name="assocPanel" collapsible collapsed>
           <Row>
             <div>
-              <CompoundInput name="assocActivityGroupList">
-                <CompoundInput name="assocActivityGroup" tabular repeating>
-                  <TextInput name="assocActivity" />
-                  <TextInput name="assocActivityType" />
-                  <TextInput name="assocActivityNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocActivityGroupList">
+                <Field name="assocActivityGroup">
+                  <Field name="assocActivity" />
+                  <Field name="assocActivityType" />
+                  <Field name="assocActivityNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocObjectGroupList">
-                <CompoundInput name="assocObjectGroup" tabular repeating>
-                  <TextInput name="assocObject" />
-                  <TextInput name="assocObjectType" />
-                  <TextInput name="assocObjectNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocObjectGroupList">
+                <Field name="assocObjectGroup">
+                  <Field name="assocObject" />
+                  <Field name="assocObjectType" />
+                  <Field name="assocObjectNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocConceptGroupList">
-                <CompoundInput name="assocConceptGroup" tabular repeating>
-                  <AuthorityControlledInput
-                    name="assocConcept"
-                    authority="concept/associated"
-                  />
-                  <TextInput name="assocConceptType" />
-                  <TextInput name="assocConceptNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocConceptGroupList">
+                <Field name="assocConceptGroup">
+                  <Field name="assocConcept" />
+                  <Field name="assocConceptType" />
+                  <Field name="assocConceptNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocCulturalContextGroupList">
-                <CompoundInput name="assocCulturalContextGroup" tabular repeating>
-                  <TextInput name="assocCulturalContext" />
-                  <TextInput name="assocCulturalContextType" />
-                  <TextInput name="assocCulturalContextNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocCulturalContextGroupList">
+                <Field name="assocCulturalContextGroup">
+                  <Field name="assocCulturalContext" />
+                  <Field name="assocCulturalContextType" />
+                  <Field name="assocCulturalContextNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocOrganizationGroupList">
-                <CompoundInput name="assocOrganizationGroup" tabular repeating>
-                  <AuthorityControlledInput
-                    name="assocOrganization"
-                    authority="organization/local,organization/shared"
-                  />
-                  <TextInput name="assocOrganizationType" />
-                  <TextInput name="assocOrganizationNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocOrganizationGroupList">
+                <Field name="assocOrganizationGroup">
+                  <Field name="assocOrganization" />
+                  <Field name="assocOrganizationType" />
+                  <Field name="assocOrganizationNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocPeopleGroupList">
-                <CompoundInput name="assocPeopleGroup" tabular repeating>
-                  <TextInput name="assocPeople" />
-                  <TextInput name="assocPeopleType" />
-                  <TextInput name="assocPeopleNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocPeopleGroupList">
+                <Field name="assocPeopleGroup">
+                  <Field name="assocPeople" />
+                  <Field name="assocPeopleType" />
+                  <Field name="assocPeopleNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocPersonGroupList">
-                <CompoundInput name="assocPersonGroup" tabular repeating>
-                  <AuthorityControlledInput
-                    name="assocPerson"
-                    authority="person/local,person/shared"
-                  />
-                  <TextInput name="assocPersonType" />
-                  <TextInput name="assocPersonNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocPersonGroupList">
+                <Field name="assocPersonGroup">
+                  <Field name="assocPerson" />
+                  <Field name="assocPersonType" />
+                  <Field name="assocPersonNote" />
+                </Field>
+              </Field>
 
-              <CompoundInput name="assocPlaceGroupList">
-                <CompoundInput name="assocPlaceGroup" tabular repeating>
-                  <TextInput name="assocPlace" />
-                  <TextInput name="assocPlaceType" />
-                  <TextInput name="assocPlaceNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocPlaceGroupList">
+                <Field name="assocPlaceGroup">
+                  <Field name="assocPlace" />
+                  <Field name="assocPlaceType" />
+                  <Field name="assocPlaceNote" />
+                </Field>
+              </Field>
             </div>
 
             <div>
-              <Panel>
-                <CompoundInput tabular msgkey="assocEventGroup">
-                  <TextInput name="assocEventName" />
-                  <TextInput name="assocEventNameType" />
-                </CompoundInput>
+              <JoinedInputRow msgkey="assocEventGroup">
+                <Field name="assocEventName" />
+                <Field name="assocEventNameType" />
+              </JoinedInputRow>
 
-                <CompoundInput name="assocEventOrganizations">
-                  <AuthorityControlledInput
-                    name="assocEventOrganization"
-                    authority="organization/local,organization/shared"
-                    repeating
-                  />
-                </CompoundInput>
+              <Field name="assocEventOrganizations">
+                <Field name="assocEventOrganization" />
+              </Field>
 
-                <CompoundInput name="assocEventPeoples">
-                  <TextInput name="assocEventPeople" repeating />
-                </CompoundInput>
+              <Field name="assocEventPeoples">
+                <Field name="assocEventPeople" />
+              </Field>
 
-                <CompoundInput name="assocEventPersons">
-                  <AuthorityControlledInput
-                    name="assocEventPerson"
-                    authority="person/local,person/shared"
-                    repeating
-                  />
-                </CompoundInput>
+              <Field name="assocEventPersons">
+                <Field name="assocEventPerson" />
+              </Field>
 
-                <CompoundInput name="assocEventPlaces">
-                  <TextInput name="assocEventPlace" repeating />
-                </CompoundInput>
+              <Field name="assocEventPlaces">
+                <Field name="assocEventPlace" />
+              </Field>
 
-                <TextInput name="assocEventNote" />
-              </Panel>
+              <Field name="assocEventNote" />
 
-              <CompoundInput name="assocDateGroupList">
-                <CompoundInput name="assocDateGroup" tabular repeating>
-                  <StructuredDateInput name="assocStructuredDateGroup" />
-                  <TextInput name="assocDateType" />
-                  <TextInput name="assocDateNote" />
-                </CompoundInput>
-              </CompoundInput>
+              <Field name="assocDateGroupList">
+                <Field name="assocDateGroup">
+                  <Field name="assocStructuredDateGroup" />
+                  <Field name="assocDateType" />
+                  <Field name="assocDateNote" />
+                </Field>
+              </Field>
             </div>
           </Row>
         </Panel>
 
-        <TextInput name="objectHistoryNote" multiline />
+        <Field name="objectHistoryNote" />
 
-        <CompoundInput name="usageGroupList">
-          <CompoundInput name="usageGroup" tabular repeating>
-            <TextInput name="usage" />
-            <TextInput name="usageNote" />
-          </CompoundInput>
-        </CompoundInput>
+        <Field name="usageGroupList">
+          <Field name="usageGroup">
+            <Field name="usage" />
+            <Field name="usageNote" />
+          </Field>
+        </Field>
 
         <Row>
           <div>
-            <CompoundInput name="owners">
-              <AuthorityControlledInput
-                name="owner"
-                authority="person/local,person/shared,organization/local,organization/shared"
-                repeating
-              />
-            </CompoundInput>
+            <Field name="owners">
+              <Field name="owner" />
+            </Field>
 
-            <CompoundInput name="ownershipDateGroupList">
-              <StructuredDateInput name="ownershipDateGroup" repeating />
-            </CompoundInput>
+            <Field name="ownershipDateGroupList">
+              <Field name="ownershipDateGroup" />
+            </Field>
           </div>
 
           <div>
             <Row>
-              <div>
-                <OptionListControlledInput
-                  name="ownershipAccess"
-                  optionListName="ownershipAccessLevels"
-                />
-              </div>
-
-              <div>
-                <OptionListControlledInput
-                  name="ownershipCategory"
-                  optionListName="ownershipCategories"
-                />
-              </div>
+              <Field name="ownershipAccess" />
+              <Field name="ownershipCategory" />
             </Row>
 
-            <TextInput name="ownershipPlace" />
+            <Field name="ownershipPlace" />
           </div>
         </Row>
 
-        <CompoundInput tabular msgkey="ownershipExchangeGroup">
-          <OptionListControlledInput
-            name="ownershipExchangeMethod"
-            optionListName="ownershipExchangeMethods"
-          />
-          <TextInput name="ownershipExchangeNote" />
-          <VocabularyControlledInput
-            name="ownershipExchangePriceCurrency"
-            vocabularyName="currency"
-          />
-          <TextInput name="ownershipExchangePriceValue" />
-        </CompoundInput>
+        <JoinedInputRow msgkey="ownershipExchangeGroup">
+          <Field name="ownershipExchangeMethod" />
+          <Field name="ownershipExchangeNote" />
+          <Field name="ownershipExchangePriceCurrency" />
+          <Field name="ownershipExchangePriceValue" />
+        </JoinedInputRow>
       </Panel>
 
       <Panel name="ownerPanel" collapsible collapsed>
-        <TextInput name="ownersPersonalExperience" multiline />
-        <TextInput name="ownersPersonalResponse" multiline />
+        <Field name="ownersPersonalExperience" />
+        <Field name="ownersPersonalResponse" />
 
-        <CompoundInput name="ownersReferences">
-          <TextInput name="ownersReference" repeating />
-        </CompoundInput>
+        <Field name="ownersReferences">
+          <Field name="ownersReference" />
+        </Field>
 
-        <TextInput name="ownersContributionNote" multiline />
+        <Field name="ownersContributionNote" />
       </Panel>
 
       <Panel name="viewerPanel" collapsible collapsed>
-        <TextInput name="viewersRole" />
-        <TextInput name="viewersPersonalExperience" multiline />
-        <TextInput name="viewersPersonalResponse" multiline />
+        <Field name="viewersRole" />
+        <Field name="viewersPersonalExperience" />
+        <Field name="viewersPersonalResponse" />
 
-        <CompoundInput name="viewersReferences">
-          <TextInput name="viewersReference" repeating />
-        </CompoundInput>
+        <Field name="viewersReferences">
+          <Field name="viewersReference" />
+        </Field>
 
-        <TextInput name="viewersContributionNote" multiline />
+        <Field name="viewersContributionNote" />
       </Panel>
 
       <Panel name="referencePanel" collapsible collapsed>
-        <CompoundInput name="referenceGroupList">
-          <CompoundInput name="referenceGroup" tabular repeating>
-            <AuthorityControlledInput
-              name="reference"
-              authority="citation/local,citation/shared,citation/worldcat"
-            />
-            <TextInput name="referenceNote" />
-          </CompoundInput>
-        </CompoundInput>
+        <Field name="referenceGroupList">
+          <Field name="referenceGroup">
+            <Field name="reference" />
+            <Field name="referenceNote" />
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="collectPanel" collapsible collapsed>
         <Row>
           <div>
-            <StructuredDateInput name="fieldCollectionDateGroup" />
+            <Field name="fieldCollectionDateGroup" />
 
-            <CompoundInput name="fieldCollectionMethods">
-              <VocabularyControlledInput
-                name="fieldCollectionMethod"
-                vocabularyName="collectionmethod"
-                repeating
-              />
-            </CompoundInput>
+            <Field name="fieldCollectionMethods">
+              <Field name="fieldCollectionMethod" />
+            </Field>
 
-            <TextInput name="fieldCollectionNote" multiline />
-            <TextInput name="fieldCollectionNumber" />
+            <Field name="fieldCollectionNote" />
+            <Field name="fieldCollectionNumber" />
           </div>
 
           <div>
-            <AuthorityControlledInput
-              name="fieldCollectionPlace"
-              authority="place/local,place/shared,place/tgn"
-            />
+            <Field name="fieldCollectionPlace" />
 
-            <CompoundInput name="fieldCollectionSources">
-              <AuthorityControlledInput
-                name="fieldCollectionSource"
-                authority="person/local,person/shared"
-                repeating
-              />
-            </CompoundInput>
+            <Field name="fieldCollectionSources">
+              <Field name="fieldCollectionSource" />
+            </Field>
 
-            <CompoundInput name="fieldCollectors">
-              <AuthorityControlledInput
-                name="fieldCollector"
-                authority="person/local,person/shared,organization/local,organization/shared"
-                repeating
-              />
-            </CompoundInput>
+            <Field name="fieldCollectors">
+              <Field name="fieldCollector" />
+            </Field>
 
-            <CompoundInput name="fieldColEventNames">
-              <TextInput name="fieldColEventName" repeating />
-            </CompoundInput>
+            <Field name="fieldColEventNames">
+              <Field name="fieldColEventName" />
+            </Field>
           </div>
         </Row>
       </Panel>
-    </CompoundInput>
+    </Field>
   );
 };

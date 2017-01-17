@@ -19,7 +19,7 @@ const expectedClassName = 'cspace-ui-TitleBar--common';
 const config = {
   recordTypes: {
     object: {
-      messageDescriptors: {
+      messages: {
         recordNameTitle: {
           id: 'recordNameTitle',
           defaultMessage: 'Object',

@@ -1,7 +1,8 @@
 import columns from './columns';
 import defaultForm from './forms/default';
+import fields from './fields';
 import idGenerators from './idGenerators';
-import messageDescriptors from './messageDescriptors';
+import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
 import optionLists from './optionLists';
@@ -12,9 +13,10 @@ export default () => pluginContext => ({
   recordTypes: {
     object: {
       columns,
-      messageDescriptors,
+      messages,
       serviceConfig,
       defaultForSearch: true, // Is this the default in search dropdowns?
+      fields: fields(pluginContext),
       forms: {
         default: defaultForm(pluginContext),
       },

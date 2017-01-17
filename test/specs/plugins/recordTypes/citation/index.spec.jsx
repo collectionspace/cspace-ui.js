@@ -19,7 +19,7 @@ describe('citation record plugin', function suite() {
 
     const citationRecordType = recordTypes.citation;
 
-    citationRecordType.should.have.property('messageDescriptors').that.is.an('object');
+    citationRecordType.should.have.property('messages').that.is.an('object');
     citationRecordType.should.have.property('serviceConfig').that.is.an('object');
     citationRecordType.should.have.property('title').that.is.a('function');
     citationRecordType.should.have.property('forms').that.is.an('object');

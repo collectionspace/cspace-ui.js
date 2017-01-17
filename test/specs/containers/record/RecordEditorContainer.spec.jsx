@@ -13,10 +13,6 @@ import {
   SET_FIELD_VALUE,
 } from '../../../../src/actions/record';
 
-import {
-  CREATE_ID_STARTED,
-} from '../../../../src/actions/idGenerator';
-
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -37,7 +33,7 @@ describe('RecordEditorContainer', function suite() {
       idGenerator: Immutable.fromJS({
         accession: {
           csid: '9dd92952-c384-44dc-a736-95e435c1759c',
-          messageDescriptors: {
+          messages: {
             type: {
               id: 'idGenerator.accession.type',
               defaultMessage: 'Accession',
@@ -65,7 +61,6 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('onCommit').that.is.a('function');
     result.props.should.have.property('onMoveInstance').that.is.a('function');
     result.props.should.have.property('onRemoveInstance').that.is.a('function');
-    result.props.should.have.property('generateID').that.is.a('function');
 
     let action;
 
@@ -102,20 +97,5 @@ describe('RecordEditorContainer', function suite() {
     action.should.have.property('type', DELETE_FIELD_VALUE);
     action.should.have.deep.property('meta.csid', csid);
     action.should.have.deep.property('meta.path', path);
-
-    // The call to generateID will fail because we haven't stubbed out everything it needs,
-    // but there's enough to verify that the createID action creator gets called, and
-    // dispatches CREATE_ID_STARTED.
-
-    try {
-      result.props.generateID('accession', path);
-    } catch (error) {
-      action = store.getActions()[4];
-
-      action.should.have.property('type', CREATE_ID_STARTED);
-      action.should.have.deep.property('meta.idGeneratorName', 'accession');
-      action.should.have.deep.property('meta.csid', csid);
-      action.should.have.deep.property('meta.path', path);
-    }
   });
 });

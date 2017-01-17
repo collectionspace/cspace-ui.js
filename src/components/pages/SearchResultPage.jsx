@@ -338,7 +338,7 @@ export default class SearchResultPage extends Component {
 
     const title = (
       <span>
-        <FormattedMessage {...recordTypeConfig.messageDescriptors.resultsTitle} />
+        <FormattedMessage {...recordTypeConfig.messages.resultsTitle} />
         {keywords ? ': ' : null}
         {keywordParamsTitle}
       </span>

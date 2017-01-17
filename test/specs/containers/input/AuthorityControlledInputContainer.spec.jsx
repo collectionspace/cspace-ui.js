@@ -206,7 +206,7 @@ describe('AuthorityControlledInputContainer', function suite() {
 
     formatMessageCalledCount.should.equal(2);
 
-    result.props.formatVocabName({ messageDescriptors: {} });
+    result.props.formatVocabName({ messages: {} });
 
     formatMessageCalledCount.should.equal(3);
   });
