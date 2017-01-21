@@ -1,0 +1,7 @@
+.common {
+  display: flex;
+}
+
+.common > * {
+  flex:  1 1 auto;
+}

@@ -7,7 +7,7 @@ export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
 export const SET_SEARCH_PAGE_SIZE = 'SET_SEARCH_PAGE_SIZE';
 
-const storageKey = 'cspace-ui.prefs';
+export const storageKey = 'cspace-ui.prefs';
 
 export const collapsePanel = (recordType, name, collapsed) => ({
   type: COLLAPSE_PANEL,

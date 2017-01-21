@@ -29,6 +29,8 @@ import reducer, {
   getSearchError,
 } from '../../../src/reducers';
 
+import { searchKey } from '../../../src/reducers/search';
+
 chai.use(chaiImmutable);
 chai.should();
 
@@ -218,7 +220,9 @@ describe('reducer', function suite() {
         prefs: Immutable.fromJS({
           panels: {
             [recordType]: {
-              [name]: true,
+              [name]: {
+                collapsed: true,
+              },
             },
           },
         }),
@@ -338,17 +342,20 @@ describe('reducer', function suite() {
         recordType: 'object',
       };
 
-      const key = JSON.stringify(searchDescriptor);
+      const searchName = 'testSearch';
+      const key = searchKey(searchDescriptor);
 
       isSearchPending({
         search: Immutable.fromJS({
-          byKey: {
-            [key]: {
-              isPending: true,
+          [searchName]: {
+            byKey: {
+              [key]: {
+                isPending: true,
+              },
             },
           },
         }),
-      }, searchDescriptor).should.deep.equal(true);
+      }, searchName, searchDescriptor).should.deep.equal(true);
     });
   });
 
@@ -358,7 +365,8 @@ describe('reducer', function suite() {
         recordType: 'object',
       };
 
-      const key = JSON.stringify(searchDescriptor);
+      const searchName = 'testSearch';
+      const key = searchKey(searchDescriptor);
 
       const result = {
         'ns2:abstract-common-list': {
@@ -368,13 +376,15 @@ describe('reducer', function suite() {
 
       getSearchResult({
         search: Immutable.fromJS({
-          byKey: {
-            [key]: {
-              result,
+          [searchName]: {
+            byKey: {
+              [key]: {
+                result,
+              },
             },
           },
         }),
-      }, searchDescriptor).should.deep.equal(Immutable.fromJS(result));
+      }, searchName, searchDescriptor).should.deep.equal(Immutable.fromJS(result));
     });
   });
 
@@ -384,7 +394,8 @@ describe('reducer', function suite() {
         recordType: 'object',
       };
 
-      const key = JSON.stringify(searchDescriptor);
+      const searchName = 'testSearch';
+      const key = searchKey(searchDescriptor);
 
       const error = {
         code: 'ERROR_CODE',
@@ -392,13 +403,15 @@ describe('reducer', function suite() {
 
       getSearchError({
         search: Immutable.fromJS({
-          byKey: {
-            [key]: {
-              error,
+          [searchName]: {
+            byKey: {
+              [key]: {
+                error,
+              },
             },
           },
         }),
-      }, searchDescriptor).should.deep.equal(Immutable.fromJS(error));
+      }, searchName, searchDescriptor).should.deep.equal(Immutable.fromJS(error));
     });
   });
 });

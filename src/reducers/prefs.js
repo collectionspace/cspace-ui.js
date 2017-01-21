@@ -11,7 +11,9 @@ export default (state = Immutable.Map(), action) => {
     case PREFS_LOADED:
       return (action.payload || state);
     case COLLAPSE_PANEL:
-      return state.setIn(['panels', action.meta.recordType, action.meta.name], action.payload);
+      return state.setIn(
+        ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload
+      );
     case SET_SEARCH_PAGE_SIZE:
       return state.set('searchPageSize', action.payload);
     default:
@@ -20,7 +22,7 @@ export default (state = Immutable.Map(), action) => {
 };
 
 export const isPanelCollapsed = (state, recordType, name) =>
-  state.getIn(['panels', recordType, name]);
+  state.getIn(['panels', recordType, name, 'collapsed']);
 
 export const getSearchPageSize = state =>
   state.get('searchPageSize');

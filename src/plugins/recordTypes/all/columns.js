@@ -58,7 +58,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.all.updatedAt',
-          defaultMessage: 'Last modified',
+          defaultMessage: 'Updated',
         },
       }),
       formatValue: formatLocalDateTime,

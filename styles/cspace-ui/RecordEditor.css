@@ -1,6 +1,6 @@
 .common {
+  margin: 0;
   padding: 0;
-  background: white;
 }
 
 :global(.cspace-layout-Panel--common) + :global(.cspace-input-Label--common) {

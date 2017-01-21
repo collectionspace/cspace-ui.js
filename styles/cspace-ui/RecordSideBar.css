@@ -1,0 +1,24 @@
+.common {
+  width: 30%;
+  padding-top: 51px;
+  padding-left: 1px;
+}
+
+.common > :global(.cspace-layout-Panel--common) {
+  margin: 0;
+  background-color: rgba(156, 185, 211, .2);
+}
+
+/*
+.common :global(.cspace-layout-Panel--common) > header > button {
+  color: #739CD2;
+}
+*/
+
+.common > :global(.cspace-layout-Panel--common) > div {
+  padding: 0;
+}
+
+.common :global(.cspace-layout-Table--common) {
+  font-size: 12px;
+}

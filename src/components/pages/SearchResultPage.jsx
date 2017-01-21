@@ -1,13 +1,37 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
-import classNames from 'classnames';
 import TitleBar from '../sections/TitleBar';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import headerStyles from '../../../styles/cspace-ui/Header.css';
+
+const messages = defineMessages({
+  keywordParam: {
+    id: 'searchResultPage.keywordParam',
+    defaultMessage: 'containing "{keyword}"',
+  },
+  relatedParam: {
+    id: 'searchResultPage.relatedParam',
+    defaultMessage: 'related to {name}',
+  },
+  resultCount: {
+    id: 'searchResultPage.resultCount',
+    defaultMessage: `{totalItems, plural,
+      =0 {No records}
+      one {1 record}
+      other {{startNum}–{endNum} of {totalItems} records}
+    } found`,
+  },
+  searching: {
+    id: 'searchResultPage.searching',
+    defaultMessage: 'Finding records...',
+  },
+});
+
+export const searchName = 'searchResultPage';
 
 const propTypes = {
   location: locationShape,
@@ -21,25 +45,6 @@ const contextTypes = {
   config: PropTypes.object.isRequired,
   router: routerShape,
 };
-
-const messages = defineMessages({
-  keywordParams: {
-    id: 'searchResultPage.keywordParams',
-    defaultMessage: '"{keywords}"',
-  },
-  resultCount: {
-    id: 'searchResultPage.resultCount',
-    defaultMessage: `{totalItems, plural,
-      =0 {No records}
-      one {1 record}
-      other {{startNum}–{endNum} of {totalItems} records}
-    } found`,
-  },
-  searching: {
-    id: 'searchResultPage.searching',
-    defaultMessage: 'Searching...',
-  },
-});
 
 export default class SearchResultPage extends Component {
   constructor() {
@@ -82,7 +87,8 @@ export default class SearchResultPage extends Component {
     } = params;
 
     const searchQuery = Object.assign({}, location.query, {
-      p: location.query.p - 1,
+      p: parseInt(location.query.p, 10) - 1,
+      size: parseInt(location.query.size, 10),
     });
 
     return {
@@ -220,11 +226,11 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     if (search) {
-      search(config, this.getSearchDescriptor());
+      search(config, searchName, this.getSearchDescriptor());
     }
   }
 
-  renderHeader({ isSearchPending, searchError, searchResult }) {
+  renderHeader({ searchError, searchResult }) {
     if (searchError) {
       // FIXME: Make a proper error page
       const errorMessage = searchError.get('code') || '';
@@ -250,39 +256,36 @@ export default class SearchResultPage extends Component {
       />
     );
 
-    if (isSearchPending) {
-      message = (
-        <FormattedMessage {...messages.searching} />
-      );
-    } else if (searchResult) {
+    if (searchResult) {
       const list = searchResult.get('ns2:abstract-common-list');
-
       const totalItems = parseInt(list.get('totalItems'), 10);
-      const pageNum = parseInt(list.get('pageNum'), 10);
-      const pageSize = parseInt(list.get('pageSize'), 10);
 
-      const startNum = (pageNum * pageSize) + 1;
-      const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
+      if (isNaN(totalItems)) {
+        message = (
+          <FormattedMessage {...messages.searching} />
+        );
+      } else {
+        const pageNum = parseInt(list.get('pageNum'), 10);
+        const pageSize = parseInt(list.get('pageSize'), 10);
 
-      message = (
-        <FormattedMessage
-          {...messages.resultCount}
-          values={{
-            totalItems,
-            startNum,
-            endNum,
-          }}
-        />
-      );
+        const startNum = (pageNum * pageSize) + 1;
+        const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
+
+        message = (
+          <FormattedMessage
+            {...messages.resultCount}
+            values={{
+              totalItems,
+              startNum,
+              endNum,
+            }}
+          />
+        );
+      }
     }
 
-    const classes = classNames({
-      [headerStyles.common]: true,
-      [headerStyles.pending]: isSearchPending,
-    });
-
     return (
-      <header className={classes}>
+      <header className={headerStyles.common}>
         {message}
         {pageSizeChooser}
       </header>
@@ -296,18 +299,17 @@ export default class SearchResultPage extends Component {
       const totalItems = parseInt(list.get('totalItems'), 10);
       const pageNum = parseInt(list.get('pageNum'), 10);
       const pageSize = parseInt(list.get('pageSize'), 10);
+      const lastPage = Math.max(0, isNaN(totalItems) ? 0 : Math.ceil(totalItems / pageSize) - 1);
 
-      if (totalItems > 0) {
-        return (
-          <footer>
-            <Pager
-              currentPage={pageNum}
-              lastPage={Math.ceil(totalItems / pageSize) - 1}
-              onPageSelect={this.handlePageSelect}
-            />
-          </footer>
-        );
-      }
+      return (
+        <footer>
+          <Pager
+            currentPage={pageNum}
+            lastPage={lastPage}
+            onPageSelect={this.handlePageSelect}
+          />
+        </footer>
+      );
     }
 
     return null;
@@ -330,17 +332,24 @@ export default class SearchResultPage extends Component {
       );
     }
 
-    const keywords = searchDescriptor.searchQuery.kw;
+    const {
+      kw,
+      rel,
+    } = searchDescriptor.searchQuery;
 
-    const keywordParamsTitle = keywords
-      ? <FormattedMessage {...messages.keywordParams} values={{ keywords }} />
+    const keywordParamTitle = kw
+      ? <FormattedMessage {...messages.keywordParam} values={{ keyword: kw }} />
+      : null;
+
+    const relatedParamTitle = rel
+      ? <FormattedMessage {...messages.relatedParam} values={{ name: rel }} />
       : null;
 
     const title = (
       <span>
         <FormattedMessage {...recordTypeConfig.messages.resultsTitle} />
-        {keywords ? ': ' : null}
-        {keywordParamsTitle}
+        {' '}{keywordParamTitle}
+        {' '}{relatedParamTitle}
       </span>
     );
 
@@ -348,6 +357,7 @@ export default class SearchResultPage extends Component {
       <div className={styles.common}>
         <TitleBar title={title} />
         <SearchResultTableContainer
+          searchName={searchName}
           searchDescriptor={searchDescriptor}
           renderHeader={this.renderHeader}
           renderFooter={this.renderFooter}

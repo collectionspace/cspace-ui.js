@@ -2,11 +2,12 @@
   display: flex;
   font-size: 12px;
   background: rgb(240, 240, 240);
-  border: 1px solid rgb(220, 220, 220);
   box-sizing: border-box;
   height: 22px;
   line-height: 22px;
   justify-content: center;
+  border: solid rgb(220, 220, 220);
+  border-width: 1px 0;
 }
 
 .common > ul {

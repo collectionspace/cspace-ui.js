@@ -36,7 +36,9 @@ describe('prefs reducer', function suite() {
     state.should.deep.equal(Immutable.fromJS({
       panels: {
         object: {
-          descPanel: collapsed,
+          descPanel: {
+            collapsed,
+          },
         },
       },
     }));

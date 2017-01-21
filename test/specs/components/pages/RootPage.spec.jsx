@@ -12,12 +12,6 @@ describe('RootPage', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
-    render(<RootPage />, this.container);
-
-    this.container.firstElementChild.nodeName.should.equal('DIV');
-  });
-
   it('should render the content', function test() {
     render(
       <RootPage>

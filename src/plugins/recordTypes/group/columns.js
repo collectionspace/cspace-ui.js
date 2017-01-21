@@ -32,7 +32,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.group.updatedAt',
-          defaultMessage: 'Last modified',
+          defaultMessage: 'Updated',
         },
       }),
       formatValue: formatLocalDateTime,

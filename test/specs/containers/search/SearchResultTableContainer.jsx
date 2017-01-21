@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 import { ConnectedSearchResultTable } from '../../../../src/containers/search/SearchResultTableContainer';
+import { searchKey } from '../../../../src/reducers/search';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -13,21 +14,24 @@ chai.should();
 const mockStore = configureMockStore([thunk]);
 
 describe('SearchResultTableContainer', function suite() {
+  const searchName = 'testSearch';
+  const searchDescriptor = {};
+  const searchResult = {};
+
+  const searchError = {
+    code: 'ERROR_CODE',
+  };
+
   it('should set props on SearchResultTable', function test() {
-    const searchDescriptor = {};
-    const searchResult = {};
-
-    const searchError = {
-      code: 'ERROR_CODE',
-    };
-
     const store = mockStore({
       search: Immutable.fromJS({
-        byKey: {
-          [JSON.stringify(searchDescriptor)]: {
-            isPending: true,
-            result: searchResult,
-            error: searchError,
+        [searchName]: {
+          byKey: {
+            [searchKey(searchDescriptor)]: {
+              isPending: true,
+              result: searchResult,
+              error: searchError,
+            },
           },
         },
       }),
@@ -40,7 +44,10 @@ describe('SearchResultTableContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedSearchResultTable searchDescriptor={searchDescriptor} />, context);
+      <ConnectedSearchResultTable
+        searchName={searchName}
+        searchDescriptor={searchDescriptor}
+      />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -69,7 +76,12 @@ describe('SearchResultTableContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchResultTable intl={intl} />, context);
+    shallowRenderer.render(
+      <ConnectedSearchResultTable
+        intl={intl}
+        searchName={searchName}
+        searchDescriptor={searchDescriptor}
+      />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -96,7 +108,13 @@ describe('SearchResultTableContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchResultTable intl={intl} config={config} />, context);
+    shallowRenderer.render(
+      <ConnectedSearchResultTable
+        intl={intl}
+        config={config}
+        searchName={searchName}
+        searchDescriptor={searchDescriptor}
+      />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -125,7 +143,11 @@ describe('SearchResultTableContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchResultTable />, context);
+    shallowRenderer.render(
+      <ConnectedSearchResultTable
+        searchName={searchName}
+        searchDescriptor={searchDescriptor}
+      />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

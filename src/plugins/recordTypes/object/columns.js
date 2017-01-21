@@ -7,7 +7,7 @@ export default {
       name: 'objectNumber',
       messages: defineMessages({
         label: {
-          id: 'column.object.objectNumber',
+          id: 'column.object.search.objectNumber',
           defaultMessage: 'Identification number',
         },
       }),
@@ -18,7 +18,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.object.title',
+          id: 'column.object.search.title',
           defaultMessage: 'Title',
         },
       }),
@@ -29,8 +29,43 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.object.updatedAt',
-          defaultMessage: 'Last modified',
+          id: 'column.object.search.updatedAt',
+          defaultMessage: 'Updated',
+        },
+      }),
+      formatValue: formatLocalDateTime,
+      sortBy: 'collectionspace_core:updatedAt',
+      width: 150,
+    },
+  ],
+  related: [
+    {
+      name: 'objectNumber',
+      messages: defineMessages({
+        label: {
+          id: 'column.object.related.objectNumber',
+          defaultMessage: 'ID',
+        },
+      }),
+      sortBy: 'collectionobjects_common:objectNumber',
+      width: 200,
+    },
+    {
+      name: 'title',
+      messages: defineMessages({
+        label: {
+          id: 'column.object.related.title',
+          defaultMessage: 'Title',
+        },
+      }),
+      width: 450,
+    },
+    {
+      name: 'updatedAt',
+      messages: defineMessages({
+        label: {
+          id: 'column.object.related.updatedAt',
+          defaultMessage: 'Updated',
         },
       }),
       formatValue: formatLocalDateTime,

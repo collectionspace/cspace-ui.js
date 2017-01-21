@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
+import Footer from '../sections/Footer';
 import styles from '../../../styles/cspace-ui/RootPage.css';
 
 export default function RootPage(props) {
@@ -13,6 +14,7 @@ export default function RootPage(props) {
   return (
     <div className={classes}>
       {children}
+      <Footer />
     </div>
   );
 }

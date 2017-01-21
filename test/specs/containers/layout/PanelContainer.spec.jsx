@@ -44,7 +44,9 @@ describe('PanelContainer', function suite() {
       prefs: Immutable.fromJS({
         panels: {
           [recordType]: {
-            [panelName]: true,
+            [panelName]: {
+              collapsed: true,
+            },
           },
         },
       }),

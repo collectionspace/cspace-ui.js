@@ -2,6 +2,8 @@ import get from 'lodash/get';
 import { isSearchPending, getSearchResult } from '../reducers';
 import getSession from './cspace';
 
+export const SET_MOST_RECENT_SEARCH = 'SET_MOST_RECENT_SEARCH';
+export const CREATE_EMPTY_SEARCH_RESULT = 'CREATE_EMPTY_SEARCH_RESULT';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FULFILLED = 'SEARCH_FULFILLED';
 export const SEARCH_REJECTED = 'SEARCH_REJECTED';
@@ -9,6 +11,7 @@ export const SEARCH_REJECTED = 'SEARCH_REJECTED';
 export const ERR_NO_RECORD_SERVICE = 'ERR_NO_RECORD_SERVICE';
 export const ERR_NO_VOCABULARY_SERVICE = 'ERR_NO_VOCABULARY_SERVICE';
 export const ERR_INVALID_SORT = 'ERR_INVALID_SORT';
+export const ERR_API = 'ERR_API';
 
 const findColumnByName = (columns, columnName) => {
   if (!columns) return null;
@@ -42,7 +45,7 @@ const getSortParam = (config, searchDescriptor) => {
   return null;
 };
 
-export const search = (config, searchDescriptor) => (dispatch, getState) => {
+export const search = (config, searchName, searchDescriptor) => (dispatch, getState) => {
   const {
     recordType,
     vocabulary,
@@ -50,17 +53,26 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
   } = searchDescriptor;
 
   if (
-    isSearchPending(getState(), searchDescriptor) ||
-    getSearchResult(getState(), searchDescriptor)
+    isSearchPending(getState(), searchName, searchDescriptor) ||
+    getSearchResult(getState(), searchName, searchDescriptor)
   ) {
-    // This search is pending, or already completed without error. Do nothing.
+    // There's already a result for this search. Just set this search to be the most recent.
 
-    return null;
+    return dispatch({
+      type: SET_MOST_RECENT_SEARCH,
+      meta: {
+        searchName,
+        searchDescriptor,
+      },
+    });
   }
 
   dispatch({
     type: SEARCH_STARTED,
-    meta: searchDescriptor,
+    meta: {
+      searchName,
+      searchDescriptor,
+    },
   });
 
   const recordTypeConfig = config.recordTypes[recordType];
@@ -71,7 +83,10 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
       payload: {
         code: ERR_NO_RECORD_SERVICE,
       },
-      meta: searchDescriptor,
+      meta: {
+        searchName,
+        searchDescriptor,
+      },
     });
   }
 
@@ -83,7 +98,10 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
       payload: {
         code: ERR_NO_RECORD_SERVICE,
       },
-      meta: searchDescriptor,
+      meta: {
+        searchName,
+        searchDescriptor,
+      },
     });
   }
 
@@ -97,7 +115,23 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
       payload: {
         code: ERR_NO_VOCABULARY_SERVICE,
       },
-      meta: searchDescriptor,
+      meta: {
+        searchName,
+        searchDescriptor,
+      },
+    });
+  }
+
+  if (searchQuery.rel === '') {
+    // A related record search for an empty csid. This happens when a new record is being created.
+    // Just create an empty result.
+
+    return dispatch({
+      type: CREATE_EMPTY_SEARCH_RESULT,
+      meta: {
+        searchName,
+        searchDescriptor,
+      },
     });
   }
 
@@ -106,6 +140,7 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
       kw: searchQuery.kw,
       pgNum: searchQuery.p,
       pgSz: searchQuery.size,
+      rtSbj: searchQuery.rel,
       wf_deleted: false,
     },
   };
@@ -119,7 +154,10 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
         payload: {
           code: ERR_INVALID_SORT,
         },
-        meta: searchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
       });
     }
 
@@ -135,19 +173,28 @@ export const search = (config, searchDescriptor) => (dispatch, getState) => {
     //   return new Promise((resolve) => {
     //     window.setTimeout(() => {
     //       resolve(response);
-    //     }, 2000);
+    //     }, 1000);
     //   });
     // })
     .then(
       response => dispatch({
         type: SEARCH_FULFILLED,
         payload: response,
-        meta: searchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
       }),
       error => dispatch({
         type: SEARCH_REJECTED,
-        payload: error,
-        meta: searchDescriptor,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
       })
     );
 };
