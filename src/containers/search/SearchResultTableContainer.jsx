@@ -13,13 +13,20 @@ const mapStateToProps = (state, ownProps) => {
   const {
     intl,
     config,
+    recordType,
     searchName,
     searchDescriptor,
   } = ownProps;
 
+  const formatterContext = {
+    intl,
+    config,
+    recordType,
+  };
+
   return {
     formatCellData: (column, data) =>
-      (column.formatValue ? column.formatValue(data, { intl, config }) : data),
+      (column.formatValue ? column.formatValue(data, formatterContext) : data),
     formatColumnLabel: column =>
       intl.formatMessage(column.messages.label),
     isSearchPending: isSearchPending(state, searchName, searchDescriptor),

@@ -52,6 +52,7 @@ export default class RelatedProcedurePanel extends Component {
   render() {
     const {
       config,
+      csid,
       recordType,
     } = this.props;
 
@@ -63,7 +64,8 @@ export default class RelatedProcedurePanel extends Component {
       <SearchPanelContainer
         collapsed
         config={config}
-        searchName="relatedProcedurePanel"
+        csid={csid}
+        name="relatedProcedurePanel"
         searchDescriptor={searchDescriptor}
         recordType={recordType}
         title={<FormattedMessage {...messages.title} />}

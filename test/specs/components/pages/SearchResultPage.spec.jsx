@@ -33,16 +33,24 @@ const searchResult = Immutable.fromJS({
 });
 
 const config = {
+  listTypes: {
+    common: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+  },
   recordTypes: {
     object: {
       messages: {
-        resultsTitle: {
-          id: 'record.object.resultsTitle',
-          defaultMessage: 'Objects',
+        record: {
+          resultsTitle: {
+            id: 'record.object.resultsTitle',
+            defaultMessage: 'Objects',
+          },
         },
       },
       columns: {
-        search: [
+        default: [
           {
             name: 'objectNumber',
             messages: {
@@ -69,6 +77,7 @@ const config = {
       },
     },
   },
+  subresources: {},
 };
 
 const params = {
@@ -97,7 +106,7 @@ const searchDescriptor = {
 
 const store = mockStore({
   optionList: {
-    searchResultPageSizes: [
+    searchResultPagePageSizes: [
       { value: '10' },
       { value: '20' },
       { value: '40' },
@@ -138,6 +147,22 @@ describe('SearchResultPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchResultPage location={location} params={{ recordType: 'foo' }} />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
+  });
+
+  it('should not render a result table if the subresource is unknown', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={{ recordType: 'object', subresource: 'foo' }}
+            />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -190,7 +215,7 @@ describe('SearchResultPage', function suite() {
     expect(testQuery({ p: '1', size: '12' })).to.equal(null);
   });
 
-  it('should call the search prop to perform a search', function test() {
+  it('should call search to perform a search', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;

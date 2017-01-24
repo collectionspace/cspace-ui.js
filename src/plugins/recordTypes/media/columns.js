@@ -3,7 +3,7 @@ import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 import { thumbnailImage } from '../../../helpers/blobHelpers';
 
 export default {
-  search: [
+  default: [
     {
       name: 'blobCsid',
       messages: defineMessages({

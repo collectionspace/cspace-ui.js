@@ -22,6 +22,11 @@ chai.should();
 describe('search reducer', function suite() {
   const searchName = 'testSearch';
 
+  const listTypeConfig = {
+    listNodeName: 'ns2:abstract-common-list',
+    itemNodeName: 'list-item',
+  };
+
   it('should have immutable initial state', function test() {
     reducer(undefined, {}).should.equal(Immutable.Map());
   });
@@ -40,6 +45,7 @@ describe('search reducer', function suite() {
     const state = reducer(undefined, {
       type: SEARCH_STARTED,
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },
@@ -92,6 +98,7 @@ describe('search reducer', function suite() {
     const state = reducer(initialState, {
       type: SEARCH_STARTED,
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },
@@ -137,6 +144,7 @@ describe('search reducer', function suite() {
     const state = reducer(initialState, {
       type: SEARCH_STARTED,
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },
@@ -185,6 +193,7 @@ describe('search reducer', function suite() {
     const state = reducer(initialState, {
       type: SEARCH_STARTED,
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },
@@ -455,6 +464,7 @@ describe('search reducer', function suite() {
     const state = reducer(initialState, {
       type: CREATE_EMPTY_SEARCH_RESULT,
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },

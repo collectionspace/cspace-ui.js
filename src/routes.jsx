@@ -16,6 +16,7 @@ import LogoutPageContainer from './containers/pages/LogoutPageContainer';
 import ProtectedPageContainer from './containers/pages/ProtectedPageContainer';
 
 import withClassName from './enhancers/withClassName';
+import withListType from './enhancers/withListType';
 
 const defaultRouteConfig = {
   className: '',
@@ -43,7 +44,11 @@ export default (routeConfig) => {
         <Route path="dashboard" component={DashboardPage} />
         <Route path="create" component={CreatePage} />
         <Route path="search" component={SearchPage} />
+
+        <Route path="search/:recordType/:vocabulary/:csid/:subresource" component={withListType(SearchResultPageContainer, 'authRef')} />
+        <Route path="search/:recordType/:csid/:subresource" component={withListType(SearchResultPageContainer, 'authRef')} />
         <Route path="search/:recordType(/:vocabulary)" component={SearchResultPageContainer} />
+
         <Route
           path="record/:recordType(/:csid)"
           component={RecordPage}

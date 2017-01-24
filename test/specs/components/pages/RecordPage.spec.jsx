@@ -29,6 +29,9 @@ const params = {
 };
 
 const config = {
+  listTypes: {
+    authRef: {},
+  },
   recordTypes: {
     [recordType]: {
       serviceConfig,
@@ -36,9 +39,11 @@ const config = {
         default: <div />,
       },
       messages: {
-        recordNameTitle: {
-          id: 'recordNameTitle',
-          defaultMessage: recordType,
+        record: {
+          recordNameTitle: {
+            id: `record.${recordType}.nameTitle`,
+            defaultMessage: recordType,
+          },
         },
       },
       title: () => '',

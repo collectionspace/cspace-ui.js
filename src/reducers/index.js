@@ -89,6 +89,10 @@ export function getSearchPageSize(state) {
   return fromPrefs.getSearchPageSize(state.prefs);
 }
 
+export function getSearchPanelPageSize(state, recordType, name) {
+  return fromPrefs.getSearchPanelPageSize(state.prefs, recordType, name);
+}
+
 export function getOptionList(state, optionListName) {
   return fromOptionList.get(state.optionList, optionListName);
 }

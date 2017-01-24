@@ -4,11 +4,11 @@ chai.should();
 
 describe('authority record columns', function suite() {
   it('should have correct shape', function test() {
-    columns.should.have.property('search').that.is.an('array');
+    columns.should.have.property('default').that.is.an('array');
   });
 
   it('should have docType column that is formatted as a record type name from a service object name', function test() {
-    const docTypeColumn = columns.search.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.find(column => column.name === 'docType');
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -16,8 +16,10 @@ describe('authority record columns', function suite() {
       recordTypes: {
         object: {
           messages: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            record: {
+              recordNameTitle: {
+                id: 'record.object.nameTitle',
+              },
             },
           },
           serviceConfig: {
@@ -36,7 +38,7 @@ describe('authority record columns', function suite() {
   });
 
   it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
-    const docTypeColumn = columns.search.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.find(column => column.name === 'docType');
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -44,8 +46,10 @@ describe('authority record columns', function suite() {
       recordTypes: {
         object: {
           messages: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            record: {
+              recordNameTitle: {
+                id: 'record.object.nameTitle',
+              },
             },
           },
           serviceConfig: {

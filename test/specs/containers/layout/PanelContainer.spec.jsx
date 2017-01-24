@@ -26,13 +26,15 @@ describe('PanelContainer', function suite() {
     recordTypes: {
       [recordType]: {
         messages: {
-          [panelName]: {
-            id: 'panel.header',
-            defaultMessage: 'Description Information',
-          },
-          foo: {
-            id: 'panel.foo',
-            defaultMessage: 'Foo message',
+          panel: {
+            [panelName]: {
+              id: 'panel.header',
+              defaultMessage: 'Description Information',
+            },
+            foo: {
+              id: 'panel.foo',
+              defaultMessage: 'Foo message',
+            },
           },
         },
       },

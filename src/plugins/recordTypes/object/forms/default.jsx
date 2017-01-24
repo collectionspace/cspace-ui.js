@@ -194,7 +194,7 @@ export default (pluginContext) => {
               </Field>
 
               <Field name="contentConcepts">
-                <Field name="contentConcept" />
+                <Field name="contentConcept" label="" />
               </Field>
 
               <Field name="contentDateGroup" />
@@ -217,7 +217,7 @@ export default (pluginContext) => {
               </Field>
 
               <Field name="contentPersons">
-                <Field name="contentPerson" />
+                <Field name="contentPerson" label="" />
               </Field>
 
               <Field name="contentPlaces">
@@ -229,7 +229,7 @@ export default (pluginContext) => {
               </Field>
 
               <Field name="contentOrganizations">
-                <Field name="contentOrganization" />
+                <Field name="contentOrganization" label="" />
               </Field>
 
               <Field name="contentEventNameGroupList">
@@ -435,7 +435,7 @@ export default (pluginContext) => {
               </JoinedInputRow>
 
               <Field name="assocEventOrganizations">
-                <Field name="assocEventOrganization" />
+                <Field name="assocEventOrganization" label="" />
               </Field>
 
               <Field name="assocEventPeoples">
@@ -443,7 +443,7 @@ export default (pluginContext) => {
               </Field>
 
               <Field name="assocEventPersons">
-                <Field name="assocEventPerson" />
+                <Field name="assocEventPerson" label="" />
               </Field>
 
               <Field name="assocEventPlaces">
@@ -475,7 +475,7 @@ export default (pluginContext) => {
         <Row>
           <div>
             <Field name="owners">
-              <Field name="owner" />
+              <Field name="owner" label="" />
             </Field>
 
             <Field name="ownershipDateGroupList">
@@ -550,11 +550,11 @@ export default (pluginContext) => {
             <Field name="fieldCollectionPlace" />
 
             <Field name="fieldCollectionSources">
-              <Field name="fieldCollectionSource" />
+              <Field name="fieldCollectionSource" label="" />
             </Field>
 
             <Field name="fieldCollectors">
-              <Field name="fieldCollector" />
+              <Field name="fieldCollector" label="" />
             </Field>
 
             <Field name="fieldColEventNames">

@@ -9,11 +9,13 @@ import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
   SET_SEARCH_PAGE_SIZE,
+  SET_SEARCH_PANEL_PAGE_SIZE,
   storageKey,
   collapsePanel,
   loadPrefs,
   savePrefs,
   setSearchPageSize,
+  setSearchPanelPageSize,
 } from '../../../src/actions/prefs';
 
 chai.use(chaiImmutable);
@@ -50,6 +52,23 @@ describe('prefs action creator', function suite() {
     });
   });
 
+  describe('setSearchPanelPageSize', function actionSuite() {
+    it('should create a SET_SEARCH_PANEL_PAGE_SIZE action', function test() {
+      const recordType = 'object';
+      const name = 'termsUsed';
+      const pageSize = 21;
+
+      setSearchPanelPageSize(recordType, name, pageSize).should.deep.equal({
+        type: SET_SEARCH_PANEL_PAGE_SIZE,
+        payload: pageSize,
+        meta: {
+          recordType,
+          name,
+        },
+      });
+    });
+  });
+
   describe('loadPrefs', function actionSuite() {
     it('should create a PREFS_LOADED action', function test() {
       const prefs = {
@@ -69,6 +88,15 @@ describe('prefs action creator', function suite() {
 
     it('should return null prefs if serialized prefs are not valid JSON', function test() {
       window.localStorage.setItem(storageKey, 'not json!');
+
+      loadPrefs().should.deep.equal({
+        type: PREFS_LOADED,
+        payload: null,
+      });
+    });
+
+    it('should return null prefs if no serialized prefs exist in local storage', function test() {
+      window.localStorage.removeItem(storageKey);
 
       loadPrefs().should.deep.equal({
         type: PREFS_LOADED,

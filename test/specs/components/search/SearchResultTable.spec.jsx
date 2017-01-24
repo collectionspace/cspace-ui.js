@@ -26,6 +26,12 @@ const allSearchDescriptor = {
 };
 
 const config = {
+  listTypes: {
+    common: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+  },
   recordTypes: {
     object: {
       name: 'object',
@@ -33,7 +39,7 @@ const config = {
         objectName: 'CollectionObject',
       },
       columns: {
-        search: [
+        default: [
           {
             name: 'objectNumber',
             messages: {
@@ -338,7 +344,7 @@ describe('SearchResultTable', function suite() {
       </ConfigProvider>, this.container);
 
     Object.keys(formatCellDataCalls).length.should
-      .equal(config.recordTypes.object.columns.search.length);
+      .equal(config.recordTypes.object.columns.default.length);
 
     Object.keys(formatCellDataCalls).forEach((colName) => {
       formatCellDataCalls[colName].length.should
@@ -373,12 +379,12 @@ describe('SearchResultTable', function suite() {
       </ConfigProvider>, this.container);
 
     Object.keys(formatColumnLabelCalls).length.should
-      .equal(config.recordTypes.object.columns.search.length);
+      .equal(config.recordTypes.object.columns.default.length);
 
     const headers = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
     for (let i = 0; i < headers.length; i += 1) {
-      headers[i].textContent.should.equal(`*${config.recordTypes.object.columns.search[i].name}`);
+      headers[i].textContent.should.equal(`*${config.recordTypes.object.columns.default[i].name}`);
     }
   });
 

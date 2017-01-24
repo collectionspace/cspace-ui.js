@@ -5,6 +5,8 @@ import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { Simulate } from 'react-addons-test-utils';
 import { Provider as StoreProvider } from 'react-redux';
+import mockRouter from '../../../helpers/mockRouter';
+import RouterProvider from '../../../helpers/RouterProvider';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { searchKey } from '../../../../src/reducers/search';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
@@ -15,6 +17,12 @@ chai.should();
 const mockStore = configureMockStore();
 
 const config = {
+  listTypes: {
+    common: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+  },
   recordTypes: {
     object: {
       name: 'object',
@@ -22,7 +30,7 @@ const config = {
         objectName: 'CollectionObject',
       },
       columns: {
-        search: [
+        default: [
           {
             name: 'objectNumber',
             messages: {
@@ -71,6 +79,7 @@ const searchDescriptor = {
 };
 
 const store = mockStore({
+  optionList: {},
   prefs: Immutable.Map(),
   search: Immutable.fromJS({
     [searchName]: {
@@ -128,7 +137,10 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel searchDescriptor={searchDescriptor} />
+            <SearchPanel
+              config={config}
+              searchDescriptor={searchDescriptor}
+            />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -140,11 +152,17 @@ describe('SearchPanel', function suite() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
+    let searchedColumnSetName = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg
+    ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
+      searchedColumnSetName = columnSetNameArg;
     };
 
     render(
@@ -153,7 +171,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              searchName={searchName}
+              name={searchName}
               searchDescriptor={searchDescriptor}
               search={search}
             />
@@ -164,17 +182,25 @@ describe('SearchPanel', function suite() {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(searchDescriptor);
+    searchedListType.should.equal('common');
+    searchedColumnSetName.should.equal('default');
   });
 
   it('should call search when a new search descriptor is supplied', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
+    let searchedColumnSetName = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg
+    ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
+      searchedColumnSetName = columnSetNameArg;
     };
 
     render(
@@ -183,7 +209,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              searchName={searchName}
+              name={searchName}
               searchDescriptor={searchDescriptor}
             />
           </ConfigProvider>
@@ -204,7 +230,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              searchName={searchName}
+              name={searchName}
               searchDescriptor={newSearchDescriptor}
               search={search}
             />
@@ -215,6 +241,8 @@ describe('SearchPanel', function suite() {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(newSearchDescriptor);
+    searchedListType.should.equal('common');
+    searchedColumnSetName.should.equal('default');
   });
 
   it('should render a header, footer, and search result table', function test() {
@@ -223,8 +251,9 @@ describe('SearchPanel', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchPanel
+              config={config}
               recordType="object"
-              searchName={searchName}
+              name={searchName}
               searchDescriptor={searchDescriptor}
               title="SearchPanel title"
             />
@@ -232,7 +261,7 @@ describe('SearchPanel', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('header').textContent.should.equal('SearchPanel title');
+    this.container.querySelector('header > button').textContent.should.equal('SearchPanel title');
     this.container.querySelectorAll('.ReactVirtualized__Table__row').length.should.equal(5);
     this.container.querySelector('footer > .cspace-ui-Pager--common').should.not.equal(null);
   });
@@ -250,8 +279,9 @@ describe('SearchPanel', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchPanel
+              config={config}
               recordType="object"
-              searchName={searchName}
+              name={searchName}
               searchDescriptor={searchDescriptor}
               onSearchDescriptorChange={handleSearchDescriptorChange}
             />
@@ -274,6 +304,86 @@ describe('SearchPanel', function suite() {
     });
   });
 
+  it('should call onSearchDescriptorChange when the page size changes', function test() {
+    let changedToSearchDescriptor = null;
+
+    const handleSearchDescriptorChange = (searchDescriptorArg) => {
+      changedToSearchDescriptor = searchDescriptorArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPanel
+              config={config}
+              recordType="object"
+              name={searchName}
+              searchDescriptor={searchDescriptor}
+              onSearchDescriptorChange={handleSearchDescriptorChange}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const pageSizeInput = this.container.querySelector('.cspace-ui-PageSizeChooser--common input');
+    const newPageSize = 17;
+
+    pageSizeInput.value = newPageSize;
+
+    Simulate.change(pageSizeInput);
+    Simulate.keyDown(pageSizeInput, { key: 'Enter' });
+
+    changedToSearchDescriptor.should.deep.equal({
+      recordType: 'object',
+      searchQuery: {
+        p: 0,
+        size: newPageSize,
+      },
+    });
+  });
+
+  it('should call setPreferredPageSize when the page size changes', function test() {
+    const recordType = 'object';
+
+    let preferredPageSizeRecordType = null;
+    let preferredPageSizeName = null;
+    let preferredPageSize = null;
+
+    const setPreferredPageSize = (recordTypeArg, nameArg, pageSizeArg) => {
+      preferredPageSizeRecordType = recordTypeArg;
+      preferredPageSizeName = nameArg;
+      preferredPageSize = pageSizeArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPanel
+              config={config}
+              recordType={recordType}
+              name={searchName}
+              searchDescriptor={searchDescriptor}
+              setPreferredPageSize={setPreferredPageSize}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const pageSizeInput = this.container.querySelector('.cspace-ui-PageSizeChooser--common input');
+    const newPageSize = 32;
+
+    pageSizeInput.value = newPageSize;
+
+    Simulate.change(pageSizeInput);
+    Simulate.keyDown(pageSizeInput, { key: 'Enter' });
+
+    preferredPageSizeRecordType.should.equal(recordType);
+    preferredPageSizeName.should.equal(searchName);
+    preferredPageSize.should.equal(newPageSize);
+  });
+
   it('should call onSearchDescriptorChange when a column is sorted', function test() {
     let changedToSearchDescriptor = null;
 
@@ -286,8 +396,9 @@ describe('SearchPanel', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchPanel
+              config={config}
               recordType="object"
-              searchName={searchName}
+              name={searchName}
               searchDescriptor={searchDescriptor}
               onSearchDescriptorChange={handleSearchDescriptorChange}
             />
@@ -305,6 +416,47 @@ describe('SearchPanel', function suite() {
         p: 0,
         size: 5,
         sort: 'title',
+      },
+    });
+  });
+
+  it('should push a search location to history when the search button is clicked', function test() {
+    const recordType = 'object';
+
+    let pushedLocation = null;
+
+    const router = mockRouter({
+      push: (locationArg) => {
+        pushedLocation = locationArg;
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <RouterProvider router={router}>
+              <SearchPanel
+                config={config}
+                csid="1234"
+                recordType={recordType}
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+              />
+            </RouterProvider>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const searchButton = this.container.querySelector('button[name="search"]');
+
+    Simulate.click(searchButton);
+
+    pushedLocation.should.deep.equal({
+      pathname: `/search/${recordType}`,
+      query: {
+        p: '1',
+        size: undefined,
       },
     });
   });

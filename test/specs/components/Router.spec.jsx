@@ -38,15 +38,20 @@ const store = mockStore({
 });
 
 const config = {
+  listTypes: {
+    authRef: {},
+  },
   recordTypes: {
     object: {
       forms: {
         default: <div />,
       },
       messages: {
-        recordNameTitle: {
-          id: 'recordNameTitle',
-          defaultMessage: 'Object',
+        record: {
+          recordNameTitle: {
+            id: 'recordNameTitle',
+            defaultMessage: 'Object',
+          },
         },
       },
       title: () => '',

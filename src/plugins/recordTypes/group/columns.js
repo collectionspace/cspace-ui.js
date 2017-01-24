@@ -3,7 +3,7 @@ import { getDisplayName } from 'cspace-refname';
 import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 
 export default {
-  search: [
+  default: [
     {
       name: 'title',
       messages: defineMessages({

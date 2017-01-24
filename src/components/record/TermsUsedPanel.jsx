@@ -4,7 +4,7 @@ import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 
 const messages = defineMessages({
   title: {
-    id: 'authRefPanel.title',
+    id: 'termsUsedPanel.title',
     defaultMessage: 'Terms Used',
   },
 });
@@ -12,7 +12,7 @@ const messages = defineMessages({
 const getSearchDescriptor = (recordType, csid) => ({
   recordType,
   csid,
-  path: 'authorityrefs',
+  subresource: 'terms',
   searchQuery: {
     p: 0,
     size: 5,
@@ -25,21 +25,31 @@ const propTypes = {
   recordType: PropTypes.string,
 };
 
-export default class AuthRefPanel extends Component {
+export default class TermsUsedPanel extends Component {
   constructor(props) {
     super(props);
 
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
     this.state = {
-      searchDescriptor: getSearchDescriptor(this.props.csid),
+      searchDescriptor: getSearchDescriptor(this.props.recordType, this.props.csid),
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.csid !== this.props.csid) {
+    const {
+      csid,
+      recordType,
+    } = this.props;
+
+    const {
+      csid: nextCsid,
+      recordType: nextRecordType,
+    } = nextProps;
+
+    if (nextCsid !== csid || nextRecordType !== recordType) {
       this.setState({
-        searchDescriptor: getSearchDescriptor(nextProps.csid),
+        searchDescriptor: getSearchDescriptor(nextProps.recordType, nextProps.csid),
       });
     }
   }
@@ -53,6 +63,7 @@ export default class AuthRefPanel extends Component {
   render() {
     const {
       config,
+      csid,
       recordType,
     } = this.props;
 
@@ -63,9 +74,11 @@ export default class AuthRefPanel extends Component {
     return (
       <SearchPanelContainer
         collapsed
-        columnSetName="related"
+        columnSetName="narrow"
         config={config}
-        name="authRefPanel"
+        csid={csid}
+        listType="authRef"
+        name="termsUsedPanel"
         searchDescriptor={searchDescriptor}
         recordType={recordType}
         title={<FormattedMessage {...messages.title} />}
@@ -75,4 +88,4 @@ export default class AuthRefPanel extends Component {
   }
 }
 
-AuthRefPanel.propTypes = propTypes;
+TermsUsedPanel.propTypes = propTypes;

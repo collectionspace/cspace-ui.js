@@ -19,6 +19,7 @@ import App from './components/App';
 import createPluginContext from './helpers/createPluginContext';
 
 import sharedOptionLists from './plugins/optionLists/shared';
+import defaultListTypes from './plugins/listTypes/default';
 import allRecordType from './plugins/recordTypes/all';
 import authorityRecordType from './plugins/recordTypes/authority';
 import citationRecordType from './plugins/recordTypes/citation';
@@ -32,6 +33,7 @@ import organizationRecordType from './plugins/recordTypes/organization';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
 import procedureRecordType from './plugins/recordTypes/procedure';
+import termsSubresource from './plugins/subresources/terms';
 
 import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
 
@@ -59,6 +61,7 @@ const defaultConfig = mergeConfig({
 }, {
   plugins: [
     sharedOptionLists(),
+    defaultListTypes(),
     allRecordType(),
     authorityRecordType(),
     citationRecordType(),
@@ -72,6 +75,7 @@ const defaultConfig = mergeConfig({
     placeRecordType(),
     organizationRecordType(),
     procedureRecordType(),
+    termsSubresource(),
   ],
 }, pluginContext);
 

@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 
 export default {
-  search: [
+  default: [
     {
       name: 'objectNumber',
       messages: defineMessages({
@@ -38,7 +38,7 @@ export default {
       width: 150,
     },
   ],
-  related: [
+  narrow: [
     {
       name: 'objectNumber',
       messages: defineMessages({

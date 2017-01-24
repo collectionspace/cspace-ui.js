@@ -3,9 +3,13 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
+import { baseComponents as inputComponents } from 'cspace-input';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import Pager from './Pager';
+import styles from '../../../styles/cspace-ui/SearchPanel.css';
+
+const { MiniButton } = inputComponents;
 
 const messages = defineMessages({
   titleWithCount: {
@@ -18,13 +22,25 @@ const propTypes = {
   collapsed: PropTypes.bool,
   columnSetName: PropTypes.string,
   config: PropTypes.object,
+  csid: PropTypes.string,
+  name: PropTypes.string,
   recordType: PropTypes.string,
-  searchName: PropTypes.string,
   searchDescriptor: PropTypes.object,
   searchResult: PropTypes.instanceOf(Immutable.Map),
+  listType: PropTypes.string,
   title: PropTypes.node,
   search: PropTypes.func,
+  setPreferredPageSize: PropTypes.func,
   onSearchDescriptorChange: PropTypes.func,
+};
+
+const defaultProps = {
+  columnSetName: 'default',
+  listType: 'common',
+};
+
+const contextTypes = {
+  router: PropTypes.object,
 };
 
 export default class SearchPanel extends Component {
@@ -32,9 +48,11 @@ export default class SearchPanel extends Component {
     super();
 
     this.renderFooter = this.renderFooter.bind(this);
-    this.handlePageSelect = this.handlePageSelect.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
+    this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+    this.renderButtons = this.renderButtons.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +73,7 @@ export default class SearchPanel extends Component {
     }
   }
 
-  handlePageSelect(pageNum) {
+  handlePageChange(pageNum) {
     const {
       onSearchDescriptorChange,
       searchDescriptor,
@@ -72,9 +90,16 @@ export default class SearchPanel extends Component {
 
   handlePageSizeChange(pageSize) {
     const {
-      onSearchDescriptorChange,
+      name,
+      recordType,
       searchDescriptor,
+      setPreferredPageSize,
+      onSearchDescriptorChange,
     } = this.props;
+
+    if (setPreferredPageSize) {
+      setPreferredPageSize(recordType, name, pageSize);
+    }
 
     if (onSearchDescriptorChange) {
       onSearchDescriptorChange(merge({}, searchDescriptor, {
@@ -101,27 +126,86 @@ export default class SearchPanel extends Component {
     }
   }
 
+  handleSearchButtonClick() {
+    const {
+      router,
+    } = this.context;
+
+    if (router) {
+      // Convert the search descriptor to a location.
+
+      const {
+        recordType,
+        vocabulary,
+        csid,
+        subresource,
+        searchQuery,
+      } = this.props.searchDescriptor;
+
+      const pathParts = ['/search', recordType, vocabulary, csid, subresource];
+      const pathname = pathParts.filter(part => !!part).join('/');
+
+      const query = Object.assign({}, searchQuery, {
+        // Always go to the first page, since the page size may differ on the search result page.
+        p: '1',
+        // Remove the size, so that the default/preferred setting for the search result page will
+        // take effect.
+        size: undefined,
+      });
+
+      router.push({
+        pathname,
+        query,
+      });
+    }
+  }
+
   search() {
     const {
+      columnSetName,
       config,
+      listType,
+      name,
       search,
       searchDescriptor,
-      searchName,
     } = this.props;
 
     if (search) {
-      search(config, searchName, searchDescriptor);
+      search(config, name, searchDescriptor, listType, columnSetName);
     }
+  }
+
+  renderButtons() {
+    const {
+      csid,
+    } = this.props;
+
+    return [
+      // <MiniButton key="add">+</MiniButton>,
+      <MiniButton
+        className="material-icons"
+        disabled={!csid}
+        key="search"
+        name="search"
+        onClick={this.handleSearchButtonClick}
+      >
+        search
+      </MiniButton>,
+    ];
   }
 
   renderHeader() {
     const {
+      config,
+      listType,
       searchResult,
       title,
     } = this.props;
 
+    const listTypeConfig = config.listTypes[listType];
+
     const totalItems = searchResult
-      ? searchResult.getIn(['ns2:abstract-common-list', 'totalItems'])
+      ? searchResult.getIn([listTypeConfig.listNodeName, 'totalItems'])
       : null;
 
     const headerContent = (typeof totalItems !== 'undefined' && totalItems !== null)
@@ -134,8 +218,14 @@ export default class SearchPanel extends Component {
   }
 
   renderFooter({ searchResult }) {
+    const {
+      config,
+      listType,
+    } = this.props;
+
     if (searchResult) {
-      const list = searchResult.get('ns2:abstract-common-list');
+      const listTypeConfig = config.listTypes[listType];
+      const list = searchResult.get(listTypeConfig.listNodeName);
 
       const totalItems = parseInt(list.get('totalItems'), 10);
       const pageSize = parseInt(list.get('pageSize'), 10);
@@ -147,8 +237,11 @@ export default class SearchPanel extends Component {
           <Pager
             currentPage={pageNum}
             lastPage={lastPage}
-            windowSize={1}
-            onPageSelect={this.handlePageSelect}
+            pageSize={pageSize}
+            pageSizeOptionListName="searchPanelPageSizes"
+            windowSize={3}
+            onPageChange={this.handlePageChange}
+            onPageSizeChange={this.handlePageSizeChange}
           />
         </footer>
       );
@@ -162,23 +255,28 @@ export default class SearchPanel extends Component {
       collapsed,
       columnSetName,
       config,
+      listType,
+      name,
       recordType,
       searchDescriptor,
-      searchName,
     } = this.props;
 
     return (
       <Panel
+        buttons={this.renderButtons()}
+        className={styles.common}
         collapsible
         collapsed={collapsed}
         config={config}
         header={this.renderHeader()}
-        name={searchName}
+        name={name}
         recordType={recordType}
       >
         <SearchResultTableContainer
           columnSetName={columnSetName}
-          searchName={searchName}
+          listType={listType}
+          recordType={recordType}
+          searchName={name}
           searchDescriptor={searchDescriptor}
           renderFooter={this.renderFooter}
           onSortChange={this.handleSortChange}
@@ -189,3 +287,5 @@ export default class SearchPanel extends Component {
 }
 
 SearchPanel.propTypes = propTypes;
+SearchPanel.defaultProps = defaultProps;
+SearchPanel.contextTypes = contextTypes;

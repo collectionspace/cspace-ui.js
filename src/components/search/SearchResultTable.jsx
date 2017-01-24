@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
-import { getRecordTypeByServiceObjectName } from '../../helpers/configHelpers';
+import { getRecordTypeConfigByServiceObjectName } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 
@@ -34,6 +34,7 @@ const propTypes = {
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
   isSearchPending: PropTypes.bool,
+  listType: PropTypes.string,
   searchDescriptor: PropTypes.object,
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
@@ -43,9 +44,10 @@ const propTypes = {
 };
 
 const defaultProps = {
-  columnSetName: 'search',
+  columnSetName: 'default',
   formatCellData: (column, data) => data,
   formatColumnLabel: column => column.messages.label.defaultMessage,
+  listType: 'common',
   renderHeader: () => null,
   renderFooter: () => null,
 };
@@ -66,6 +68,7 @@ export default class SearchResultTable extends Component {
 
   handleRowClick(index) {
     const {
+      listType,
       searchDescriptor,
       searchResult,
     } = this.props;
@@ -76,14 +79,17 @@ export default class SearchResultTable extends Component {
     } = this.context;
 
     if (searchResult && router) {
-      const items = searchResult.getIn(['ns2:abstract-common-list', 'list-item']);
+      const listTypeConfig = config.listTypes[listType];
+      const { listNodeName, itemNodeName } = listTypeConfig;
+
+      const items = searchResult.getIn([listNodeName, itemNodeName]);
       const item = Immutable.List.isList(items) ? items.get(index) : items;
       const docType = item.get('docType');
 
       let recordTypeName;
 
       if (docType) {
-        const recordTypeConfig = getRecordTypeByServiceObjectName(config, docType);
+        const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, docType);
 
         if (recordTypeConfig) {
           recordTypeName = recordTypeConfig.name;
@@ -127,6 +133,7 @@ export default class SearchResultTable extends Component {
       columnSetName,
       formatCellData,
       formatColumnLabel,
+      listType,
       searchDescriptor,
       searchResult,
     } = this.props;
@@ -136,23 +143,30 @@ export default class SearchResultTable extends Component {
     } = this.context;
 
     if (searchResult) {
+      const {
+        recordType,
+        subresource,
+        searchQuery,
+      } = searchDescriptor;
+
+      const listTypeConfig = config.listTypes[listType];
+      const { listNodeName, itemNodeName } = listTypeConfig;
+
       let sortColumnName = null;
       let sortDir = null;
 
-      const sortSpec = searchDescriptor.searchQuery.sort;
+      const sortSpec = searchQuery.sort;
 
       if (sortSpec) {
         [sortColumnName, sortDir] = sortSpec.split(' ');
       }
 
-      const list = searchResult.get('ns2:abstract-common-list');
+      const list = searchResult.get(listNodeName);
       const pageSize = parseInt(list.get('pageSize'), 10);
       const totalItems = parseInt(list.get('totalItems'), 10);
       const itemsInPage = parseInt(list.get('itemsInPage'), 10);
 
-      const recordTypeConfig = config.recordTypes[searchDescriptor.recordType];
-
-      let items = list.get('list-item');
+      let items = list.get(itemNodeName);
 
       if (!items) {
         items = Immutable.List();
@@ -163,14 +177,18 @@ export default class SearchResultTable extends Component {
         items = Immutable.List.of(items);
       }
 
-      const columnConfig = get(recordTypeConfig, ['columns', columnSetName]) || [];
+      const columnConfigurer = subresource
+        ? config.subresources[subresource]
+        : config.recordTypes[recordType];
+
+      const columnConfig = get(columnConfigurer, ['columns', columnSetName]) || [];
 
       const columns = columnConfig.map(column => ({
         cellDataGetter: ({ dataKey, rowData }) =>
           formatCellData(column, rowData ? rowData.get(dataKey) : null),
         disableSort: !isSortable(column, searchDescriptor),
         label: formatColumnLabel(column),
-        dataKey: column.name,
+        dataKey: column.dataKey || column.name,
         width: column.width,
       }));
 

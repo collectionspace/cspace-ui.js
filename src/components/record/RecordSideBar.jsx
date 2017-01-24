@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import RelatedObjectPanel from './RelatedObjectPanel';
 import RelatedProcedurePanel from './RelatedProcedurePanel';
+import TermsUsedPanel from './TermsUsedPanel';
 import styles from '../../../styles/cspace-ui/RecordSideBar.css';
 
 const propTypes = {
@@ -18,6 +19,11 @@ export default function RecordSideBar(props) {
 
   return (
     <div className={styles.common}>
+      <TermsUsedPanel
+        csid={csid}
+        config={config}
+        recordType={recordType}
+      />
       <RelatedObjectPanel
         csid={csid}
         config={config}

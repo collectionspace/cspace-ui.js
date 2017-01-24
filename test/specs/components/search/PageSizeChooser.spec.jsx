@@ -15,7 +15,7 @@ const mockStore = configureMockStore();
 
 const store = mockStore({
   optionList: {
-    searchResultPageSizes: [
+    searchResultPagePageSizes: [
       { value: '10' },
       { value: '20' },
       { value: '40' },

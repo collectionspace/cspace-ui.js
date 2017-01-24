@@ -35,7 +35,7 @@ export default function RecordTitleBar(props, context) {
   const cspaceDocument = data ? data.get(DOCUMENT_PROPERTY_NAME) : undefined;
 
   const title = recordTypeConfig.title(cspaceDocument);
-  const subtitle = <FormattedMessage {...recordTypeConfig.messages.recordNameTitle} />;
+  const subtitle = <FormattedMessage {...recordTypeConfig.messages.record.recordNameTitle} />;
 
   return (
     <TitleBar

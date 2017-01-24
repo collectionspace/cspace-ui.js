@@ -33,9 +33,18 @@ describe('search action creator', function suite() {
     const servicePath = 'personauthorities';
     const vocabulary = 'local';
     const vocabularyServicePath = 'urn:cspace:name(person)';
+    const termsServicePath = 'authorityrefs';
     const searchUrl = new RegExp(`^/cspace-services/${servicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items.*`);
 
+    const listTypes = {
+      common: {
+        listNodeName: 'ns2:abstract-common-list',
+        itemNodeName: 'list-item',
+      },
+    };
+
     const config = {
+      listTypes,
       recordTypes: {
         [recordType]: {
           serviceConfig: {
@@ -49,7 +58,7 @@ describe('search action creator', function suite() {
             },
           },
           columns: {
-            search: [
+            default: [
               {
                 name: 'updatedAt',
                 sortBy: 'collectionspace_core:updatedAt',
@@ -58,11 +67,18 @@ describe('search action creator', function suite() {
           },
         },
       },
+      subresources: {
+        terms: {
+          serviceConfig: {
+            servicePath: termsServicePath,
+          },
+        },
+      },
     };
 
     const searchQuery = {
       kw: 'abcd',
-      pgNum: 0,
+      p: 0,
     };
 
     const searchName = 'testSearch';
@@ -104,6 +120,7 @@ describe('search action creator', function suite() {
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor,
             },
@@ -217,6 +234,7 @@ describe('search action creator', function suite() {
       actions[0].should.deep.equal({
         type: SEARCH_STARTED,
         meta: {
+          listTypeConfig: listTypes.common,
           searchName,
           searchDescriptor: relSearchDescriptor,
         },
@@ -225,6 +243,7 @@ describe('search action creator', function suite() {
       actions[1].should.deep.equal({
         type: CREATE_EMPTY_SEARCH_RESULT,
         meta: {
+          listTypeConfig: listTypes.common,
           searchName,
           searchDescriptor: relSearchDescriptor,
         },
@@ -257,6 +276,7 @@ describe('search action creator', function suite() {
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: noVocabularySearchDescriptor,
             },
@@ -273,6 +293,64 @@ describe('search action creator', function suite() {
             meta: {
               searchName,
               searchDescriptor: noVocabularySearchDescriptor,
+            },
+          });
+        });
+    });
+
+    it('should accept searches for subresources', function test() {
+      const csid = '1234';
+      const subresource = 'terms';
+      const subresourceSearchUrl = new RegExp(`^/cspace-services/${servicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}/${termsServicePath}.*`);
+
+      moxios.stubRequest(subresourceSearchUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      const subresourceSearchQuery = {
+        p: 0,
+        size: 10,
+      };
+
+      const subresourceSearchDescriptor = {
+        recordType,
+        vocabulary,
+        csid,
+        subresource,
+        searchQuery: subresourceSearchQuery,
+      };
+
+      return store.dispatch(search(config, searchName, subresourceSearchDescriptor))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_STARTED,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor: subresourceSearchDescriptor,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: SEARCH_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: {
+              searchName,
+              searchDescriptor: subresourceSearchDescriptor,
             },
           });
         });
@@ -306,6 +384,7 @@ describe('search action creator', function suite() {
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: sortedSearchDescriptor,
             },
@@ -355,6 +434,7 @@ describe('search action creator', function suite() {
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: sortedSearchDescriptor,
             },
@@ -443,6 +523,7 @@ describe('search action creator', function suite() {
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor,
             },
@@ -479,6 +560,7 @@ describe('search action creator', function suite() {
 
     it('should dispatch SEARCH_REJECTED if the record type does not have a service path', function test() {
       const badConfig = {
+        listTypes,
         recordTypes: {
           [recordType]: {
             serviceConfig: {},
@@ -504,6 +586,7 @@ describe('search action creator', function suite() {
 
     it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', function test() {
       const badConfig = {
+        listTypes,
         recordTypes: {
           [recordType]: {
             serviceConfig: {

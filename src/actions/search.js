@@ -27,7 +27,7 @@ const findColumnByName = (columns, columnName) => {
   return null;
 };
 
-const getSortParam = (config, searchDescriptor) => {
+const getSortParam = (config, searchDescriptor, columnSetName) => {
   const sortSpec = searchDescriptor.searchQuery.sort;
   const [sortColumnName, sortDir] = sortSpec.split(' ');
 
@@ -35,7 +35,7 @@ const getSortParam = (config, searchDescriptor) => {
     return null;
   }
 
-  const columns = get(config, ['recordTypes', searchDescriptor.recordType, 'columns', 'search']);
+  const columns = get(config, ['recordTypes', searchDescriptor.recordType, 'columns', columnSetName]);
   const column = findColumnByName(columns, sortColumnName);
 
   if (column && column.sortBy) {
@@ -45,114 +45,49 @@ const getSortParam = (config, searchDescriptor) => {
   return null;
 };
 
-export const search = (config, searchName, searchDescriptor) => (dispatch, getState) => {
-  const {
-    recordType,
-    vocabulary,
-    searchQuery,
-  } = searchDescriptor;
+export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default') =>
+  (dispatch, getState) => {
+    const {
+      recordType,
+      vocabulary,
+      csid,
+      subresource,
+      searchQuery,
+    } = searchDescriptor;
 
-  if (
-    isSearchPending(getState(), searchName, searchDescriptor) ||
-    getSearchResult(getState(), searchName, searchDescriptor)
-  ) {
-    // There's already a result for this search. Just set this search to be the most recent.
+    if (
+      isSearchPending(getState(), searchName, searchDescriptor) ||
+      getSearchResult(getState(), searchName, searchDescriptor)
+    ) {
+      // There's already a result for this search. Just set this search to be the most recent.
 
-    return dispatch({
-      type: SET_MOST_RECENT_SEARCH,
+      return dispatch({
+        type: SET_MOST_RECENT_SEARCH,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
+      });
+    }
+
+    const listTypeConfig = config.listTypes[listType];
+
+    dispatch({
+      type: SEARCH_STARTED,
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },
     });
-  }
 
-  dispatch({
-    type: SEARCH_STARTED,
-    meta: {
-      searchName,
-      searchDescriptor,
-    },
-  });
+    const recordTypeConfig = config.recordTypes[recordType];
 
-  const recordTypeConfig = config.recordTypes[recordType];
-
-  if (!recordTypeConfig) {
-    return dispatch({
-      type: SEARCH_REJECTED,
-      payload: {
-        code: ERR_NO_RECORD_SERVICE,
-      },
-      meta: {
-        searchName,
-        searchDescriptor,
-      },
-    });
-  }
-
-  const recordTypeServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
-
-  if (!recordTypeServicePath) {
-    return dispatch({
-      type: SEARCH_REJECTED,
-      payload: {
-        code: ERR_NO_RECORD_SERVICE,
-      },
-      meta: {
-        searchName,
-        searchDescriptor,
-      },
-    });
-  }
-
-  const vocabularyServicePath = vocabulary
-    ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
-    : null;
-
-  if (vocabulary && !vocabularyServicePath) {
-    return dispatch({
-      type: SEARCH_REJECTED,
-      payload: {
-        code: ERR_NO_VOCABULARY_SERVICE,
-      },
-      meta: {
-        searchName,
-        searchDescriptor,
-      },
-    });
-  }
-
-  if (searchQuery.rel === '') {
-    // A related record search for an empty csid. This happens when a new record is being created.
-    // Just create an empty result.
-
-    return dispatch({
-      type: CREATE_EMPTY_SEARCH_RESULT,
-      meta: {
-        searchName,
-        searchDescriptor,
-      },
-    });
-  }
-
-  const requestConfig = {
-    params: {
-      kw: searchQuery.kw,
-      pgNum: searchQuery.p,
-      pgSz: searchQuery.size,
-      rtSbj: searchQuery.rel,
-      wf_deleted: false,
-    },
-  };
-
-  if (searchQuery.sort) {
-    const sortParam = getSortParam(config, searchDescriptor);
-
-    if (!sortParam) {
+    if (!recordTypeConfig) {
       return dispatch({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_INVALID_SORT,
+          code: ERR_NO_RECORD_SERVICE,
         },
         meta: {
           searchName,
@@ -161,40 +96,135 @@ export const search = (config, searchName, searchDescriptor) => (dispatch, getSt
       });
     }
 
-    requestConfig.params.sortBy = sortParam;
-  }
+    const recordTypeServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
 
-  const vocabularyItemsPath = vocabularyServicePath ? `/${vocabularyServicePath}/items` : '';
-  const path = `${recordTypeServicePath}${vocabularyItemsPath}`;
-
-  return getSession().read(path, requestConfig)
-    // Insert an artificial delay for testing.
-    // .then(response => {
-    //   return new Promise((resolve) => {
-    //     window.setTimeout(() => {
-    //       resolve(response);
-    //     }, 1000);
-    //   });
-    // })
-    .then(
-      response => dispatch({
-        type: SEARCH_FULFILLED,
-        payload: response,
-        meta: {
-          searchName,
-          searchDescriptor,
-        },
-      }),
-      error => dispatch({
+    if (!recordTypeServicePath) {
+      return dispatch({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_API,
-          error,
+          code: ERR_NO_RECORD_SERVICE,
         },
         meta: {
           searchName,
           searchDescriptor,
         },
-      })
-    );
-};
+      });
+    }
+
+    const vocabularyServicePath = vocabulary
+      ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
+      : null;
+
+    if (vocabulary && !vocabularyServicePath) {
+      return dispatch({
+        type: SEARCH_REJECTED,
+        payload: {
+          code: ERR_NO_VOCABULARY_SERVICE,
+        },
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
+      });
+    }
+
+    // Check for conditions where we just want to create an empty result.
+    // These happen when a new record is being created.
+
+    if (
+      // A related record search for an empty csid.
+      (searchQuery.rel === '') ||
+
+      // A subresource query without a csid.
+      (typeof subresource !== 'undefined' && !searchDescriptor.csid)
+    ) {
+      return dispatch({
+        type: CREATE_EMPTY_SEARCH_RESULT,
+        meta: {
+          listTypeConfig,
+          searchName,
+          searchDescriptor,
+        },
+      });
+    }
+
+    const requestConfig = {
+      params: {
+        kw: searchQuery.kw,
+        pgNum: searchQuery.p,
+        pgSz: searchQuery.size,
+        rtSbj: searchQuery.rel,
+        wf_deleted: false,
+      },
+    };
+
+    if (searchQuery.sort) {
+      const sortParam = getSortParam(config, searchDescriptor, columnSetName);
+
+      if (!sortParam) {
+        return dispatch({
+          type: SEARCH_REJECTED,
+          payload: {
+            code: ERR_INVALID_SORT,
+          },
+          meta: {
+            searchName,
+            searchDescriptor,
+          },
+        });
+      }
+
+      requestConfig.params.sortBy = sortParam;
+    }
+
+    const pathParts = [recordTypeServicePath];
+
+    if (vocabularyServicePath) {
+      pathParts.push(vocabularyServicePath);
+      pathParts.push('items');
+    }
+
+    if (csid) {
+      pathParts.push(csid);
+    }
+
+    if (subresource) {
+      const subresourceConfig = config.subresources[subresource];
+      const subresourceServicePath = subresourceConfig.serviceConfig.servicePath;
+
+      pathParts.push(subresourceServicePath);
+    }
+
+    const path = pathParts.join('/');
+
+    return getSession().read(path, requestConfig)
+      // Insert an artificial delay for testing.
+      // .then(response => {
+      //   return new Promise((resolve) => {
+      //     window.setTimeout(() => {
+      //       resolve(response);
+      //     }, 1000);
+      //   });
+      // })
+      .then(
+        response => dispatch({
+          type: SEARCH_FULFILLED,
+          payload: response,
+          meta: {
+            searchName,
+            searchDescriptor,
+          },
+        }),
+        error => dispatch({
+          type: SEARCH_REJECTED,
+          payload: {
+            code: ERR_API,
+            error,
+          },
+          meta: {
+            searchName,
+            searchDescriptor,
+          },
+        })
+      );
+  };

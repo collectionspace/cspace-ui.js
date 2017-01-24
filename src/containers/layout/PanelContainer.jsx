@@ -8,7 +8,7 @@ import { collapsePanel } from '../../actions/prefs';
 import { isPanelCollapsed } from '../../reducers';
 
 const getHeader = (key, messages) => {
-  const message = messages[key];
+  const message = messages.panel[key];
 
   if (!message) {
     return null;

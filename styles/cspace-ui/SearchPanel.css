@@ -1,0 +1,3 @@
+.common :global(.cspace-ui-PageSizeChooser--common) > div > div {
+  width: 40px;
+}

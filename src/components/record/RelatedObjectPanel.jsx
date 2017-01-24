@@ -52,6 +52,7 @@ export default class RelatedObjectPanel extends Component {
   render() {
     const {
       config,
+      csid,
       recordType,
     } = this.props;
 
@@ -62,9 +63,10 @@ export default class RelatedObjectPanel extends Component {
     return (
       <SearchPanelContainer
         collapsed
-        columnSetName="related"
+        columnSetName="narrow"
         config={config}
-        searchName="relatedObjectPanel"
+        csid={csid}
+        name="relatedObjectPanel"
         searchDescriptor={searchDescriptor}
         recordType={recordType}
         title={<FormattedMessage {...messages.title} />}

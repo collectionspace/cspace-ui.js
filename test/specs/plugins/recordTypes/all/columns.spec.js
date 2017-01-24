@@ -4,11 +4,11 @@ chai.should();
 
 describe('all record columns', function suite() {
   it('should have correct shape', function test() {
-    columns.should.have.property('search').that.is.an('array');
+    columns.should.have.property('default').that.is.an('array');
   });
 
   it('should have docNumber column that is formatted as a refname display name', function test() {
-    const docNumberColumn = columns.search.find(column => column.name === 'docNumber');
+    const docNumberColumn = columns.default.find(column => column.name === 'docNumber');
 
     docNumberColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -17,7 +17,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have docName column that is formatted as a refname display name', function test() {
-    const docNameColumn = columns.search.find(column => column.name === 'docName');
+    const docNameColumn = columns.default.find(column => column.name === 'docName');
 
     docNameColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -26,7 +26,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have docType column that is formatted as a record type name from a service object name', function test() {
-    const docTypeColumn = columns.search.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.find(column => column.name === 'docType');
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -34,8 +34,10 @@ describe('all record columns', function suite() {
       recordTypes: {
         object: {
           messages: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            record: {
+              recordNameTitle: {
+                id: 'record.object.nameTitle',
+              },
             },
           },
           serviceConfig: {
@@ -54,7 +56,7 @@ describe('all record columns', function suite() {
   });
 
   it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
-    const docTypeColumn = columns.search.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.find(column => column.name === 'docType');
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 

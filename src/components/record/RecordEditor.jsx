@@ -14,9 +14,9 @@ function getLabel(component, messages) {
   } = component.props;
 
   const key = msgkey || name;
-  const message = messages[key];
+  const message = messages.field[key];
 
-  if (!message) {
+  if (!message || message.hidden) {
     return null;
   }
 
@@ -36,7 +36,7 @@ function renderTemplate(component, messages, handlers) {
 
     if (propTypes) {
       if (propTypes.name) {
-        if (propTypes.label && !component.props.label) {
+        if (propTypes.label && typeof component.props.label === 'undefined') {
           overrideProps.label = getLabel(component, messages);
         }
       }

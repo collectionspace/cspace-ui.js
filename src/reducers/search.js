@@ -43,9 +43,12 @@ const handleSetMostRecentSearch = (state, action) => {
 
 const handleSearchStarted = (state, action) => {
   const {
+    listTypeConfig,
     searchName,
     searchDescriptor,
   } = action.meta;
+
+  const { listNodeName } = listTypeConfig;
 
   const namedSearch = state.get(searchName) || Immutable.Map();
 
@@ -74,18 +77,18 @@ const handleSearchStarted = (state, action) => {
       // and pager blinking out.
 
       totalItems = mostRecentSearchState.getIn([
-        'result', 'ns2:abstract-common-list', 'totalItems',
+        'result', listNodeName, 'totalItems',
       ]);
     } else if (sortChanged && changeCount === 1) {
       // Only the sort changed from the last search. As above, seed these results with the total
       // items count. Also seed the itemsInPage count, since this is not expected to change.
 
       totalItems = mostRecentSearchState.getIn([
-        'result', 'ns2:abstract-common-list', 'totalItems',
+        'result', listNodeName, 'totalItems',
       ]);
 
       itemsInPage = mostRecentSearchState.getIn([
-        'result', 'ns2:abstract-common-list', 'itemsInPage',
+        'result', listNodeName, 'itemsInPage',
       ]);
 
       // Clear out stored search states.
@@ -111,7 +114,7 @@ const handleSearchStarted = (state, action) => {
   const pageSize = (typeof size === 'number') ? size.toString() : size;
 
   result = Immutable.fromJS({
-    'ns2:abstract-common-list': {
+    [listNodeName]: {
       itemsInPage,
       totalItems,
       pageNum,
@@ -153,6 +156,7 @@ const setSearchResult = (state, searchName, searchDescriptor, result) => {
 
 const handleCreateEmptySearchResult = (state, action) => {
   const {
+    listTypeConfig,
     searchName,
     searchDescriptor,
   } = action.meta;
@@ -163,7 +167,7 @@ const handleCreateEmptySearchResult = (state, action) => {
   const pageSize = (typeof size === 'number') ? size.toString() : size;
 
   const result = Immutable.fromJS({
-    'ns2:abstract-common-list': {
+    [listTypeConfig.listNodeName]: {
       itemsInPage: '0',
       totalItems: '0',
       pageNum,
