@@ -32,7 +32,7 @@ export const createNewRecord = recordTypeConfig => dispatch =>
     },
   }));
 
-export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
+export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatch) => {
   dispatch({
     type: RECORD_READ_STARTED,
     meta: {
@@ -41,7 +41,22 @@ export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
     },
   });
 
-  const servicePath = recordTypeConfig.serviceConfig.servicePath;
+  const recordTypeServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+  const vocabularyServicePath = vocabularyConfig
+    ? vocabularyConfig.serviceConfig.servicePath
+    : null;
+
+  const pathParts = [recordTypeServicePath];
+
+  if (vocabularyServicePath) {
+    pathParts.push(vocabularyServicePath);
+    pathParts.push('items');
+  }
+
+  pathParts.push(csid);
+
+  const path = pathParts.join('/');
 
   const config = {
     params: {
@@ -49,7 +64,7 @@ export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
     },
   };
 
-  return getSession().read(`${servicePath}/${csid}`, config)
+  return getSession().read(path, config)
     .then(response => dispatch({
       type: RECORD_READ_FULFILLED,
       payload: response,

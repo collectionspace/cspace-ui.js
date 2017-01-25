@@ -109,6 +109,10 @@ export default class RecordEditor extends Component {
 
     const recordTypeConfig = config.recordTypes[recordType];
 
+    if (!recordTypeConfig) {
+      return null;
+    }
+
     const {
       forms,
       messages,

@@ -20,16 +20,12 @@ const searchDescriptor = {
   },
 };
 
-const allSearchDescriptor = {
-  recordType: 'all',
-  searchQuery: {},
-};
-
 const config = {
   listTypes: {
     common: {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
+      getItemLocation: item => `itemLocation: ${item.get('csid')}`,
     },
   },
   recordTypes: {
@@ -388,7 +384,7 @@ describe('SearchResultTable', function suite() {
     }
   });
 
-  it('should navigate to the record when a row is clicked', function test() {
+  it('should navigate to the item location when a row is clicked', function test() {
     let pushedLocation = null;
 
     const router = mockRouter({
@@ -413,50 +409,6 @@ describe('SearchResultTable', function suite() {
 
     const csid = searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3', 'csid']);
 
-    pushedLocation.should.equal(`/record/object/${csid}`);
-  });
-
-  it('should determine the record type of a result in an all record types search', function test() {
-    const allRecordTypesSearchResult = Immutable.fromJS({
-      'ns2:abstract-common-list': {
-        pageNum: '0',
-        pageSize: '40',
-        itemsInPage: '1',
-        totalItems: '1',
-        'list-item': {
-          csid: 'ea399d7a-7ea3-4670-930b',
-          updatedAt: '2017-01-06T02:28:53.269Z',
-          docName: null,
-          docNumber: '4',
-          docType: 'CollectionObject',
-        },
-      },
-    });
-
-    let pushedLocation = null;
-
-    const router = mockRouter({
-      push: (location) => {
-        pushedLocation = location;
-      },
-    });
-
-    render(
-      <ConfigProvider config={config}>
-        <RouterProvider router={router}>
-          <SearchResultTable
-            searchDescriptor={allSearchDescriptor}
-            searchResult={allRecordTypesSearchResult}
-          />
-        </RouterProvider>
-      </ConfigProvider>, this.container);
-
-    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
-
-    Simulate.click(rows[0]);
-
-    const csid = allRecordTypesSearchResult.getIn(['ns2:abstract-common-list', 'list-item', 'csid']);
-
-    pushedLocation.should.equal(`/record/object/${csid}`);
+    pushedLocation.should.equal(`itemLocation: ${csid}`);
   });
 });

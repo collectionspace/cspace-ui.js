@@ -16,7 +16,6 @@ chai.should();
 
 const readRecord = () => null;
 const createNewRecord = () => null;
-const redirectLogin = () => null;
 
 const mockStore = configureMockStore([thunk]);
 
@@ -54,6 +53,9 @@ const config = {
           },
         },
       },
+      serviceConfig: {
+        serviceType: 'object',
+      },
       title: () => '',
     },
   },
@@ -67,7 +69,7 @@ describe('Router', function suite() {
   it('should call redirectLogin when entering a protected page if there is no username', function test() {
     let redirectLoginCalled = false;
 
-    const stubbedRedirectLogin = () => {
+    const redirectLogin = () => {
       redirectLoginCalled = true;
     };
 
@@ -79,7 +81,7 @@ describe('Router', function suite() {
               createNewRecord={createNewRecord}
               history={hashHistory}
               readRecord={readRecord}
-              redirectLogin={stubbedRedirectLogin}
+              redirectLogin={redirectLogin}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -88,57 +90,5 @@ describe('Router', function suite() {
     hashHistory.push('/dashboard');
 
     redirectLoginCalled.should.equal(true);
-  });
-
-  it('should call readRecord when entering a record page with a csid', function test() {
-    let readRecordCalled = false;
-
-    const stubbedReadRecord = () => {
-      readRecordCalled = true;
-    };
-
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <Router
-              createNewRecord={createNewRecord}
-              history={hashHistory}
-              readRecord={stubbedReadRecord}
-              redirectLogin={redirectLogin}
-            />
-          </ConfigProvider>
-        </StoreProvider>
-      </IntlProvider>, this.container);
-
-    hashHistory.push('/record/object/1234');
-
-    readRecordCalled.should.equal(true);
-  });
-
-  it('should call createNewRecord when entering a record page without a csid', function test() {
-    let createNewRecordCalled = false;
-
-    const stubbedCreateNewRecord = () => {
-      createNewRecordCalled = true;
-    };
-
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <Router
-              createNewRecord={stubbedCreateNewRecord}
-              history={hashHistory}
-              readRecord={readRecord}
-              redirectLogin={redirectLogin}
-            />
-          </ConfigProvider>
-        </StoreProvider>
-      </IntlProvider>, this.container);
-
-    hashHistory.push('/record/object');
-
-    createNewRecordCalled.should.equal(true);
   });
 });

@@ -1,11 +1,6 @@
 import { connect } from 'react-redux';
 
 import {
-  createNewRecord,
-  readRecord,
-} from '../actions/record';
-
-import {
   redirectLogin,
 } from '../actions/login';
 
@@ -20,8 +15,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  createNewRecord,
-  readRecord,
   redirectLogin,
 };
 

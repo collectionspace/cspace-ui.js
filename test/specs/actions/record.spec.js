@@ -55,96 +55,170 @@ describe('record action creator', function suite() {
   });
 
   describe('readRecord', function actionSuite() {
-    const mockStore = configureMockStore([thunk]);
-    const servicePath = 'collectionobjects';
-    const csid = '1234';
-    const readRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}.*`);
+    context('for an object/procedure', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const servicePath = 'collectionobjects';
+      const csid = '1234';
+      const readRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}.*`);
 
-    const recordTypeConfig = {
-      serviceConfig: {
-        servicePath,
-      },
-    };
+      const recordTypeConfig = {
+        serviceConfig: {
+          servicePath,
+        },
+      };
 
-    before(() => {
-      configureCSpace({});
-    });
+      const vocabularyConfig = null;
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
-    afterEach(() => {
-      moxios.uninstall();
-    });
-
-    it('should dispatch RECORD_READ_FULFILLED on success', function test() {
-      moxios.stubRequest(readRecordUrl, {
-        status: 200,
-        response: {},
+      before(() => {
+        configureCSpace({});
       });
 
-      const store = mockStore({});
+      beforeEach(() => {
+        moxios.install();
+      });
 
-      return store.dispatch(readRecord(recordTypeConfig, csid))
-        .then(() => {
-          const actions = store.getActions();
+      afterEach(() => {
+        moxios.uninstall();
+      });
 
-          actions.should.have.lengthOf(2);
-
-          actions[0].should.deep.equal({
-            type: RECORD_READ_STARTED,
-            meta: {
-              csid,
-              recordTypeConfig,
-            },
-          });
-
-          actions[1].should.deep.equal({
-            type: RECORD_READ_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              csid,
-              recordTypeConfig,
-            },
-          });
+      it('should dispatch RECORD_READ_FULFILLED on success', function test() {
+        moxios.stubRequest(readRecordUrl, {
+          status: 200,
+          response: {},
         });
-    });
 
-    it('should dispatch RECORD_READ_REJECTED on error', function test() {
-      moxios.stubRequest(readRecordUrl, {
-        status: 400,
-        response: {},
-      });
+        const store = mockStore({});
 
-      const store = mockStore({});
+        return store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const actions = store.getActions();
 
-      return store.dispatch(readRecord(recordTypeConfig, csid))
-        .then(() => {
-          const actions = store.getActions();
+            actions.should.have.lengthOf(2);
 
-          actions.should.have.lengthOf(2);
-
-          actions[0].should.deep.equal({
-            type: RECORD_READ_STARTED,
-            meta: {
-              csid,
-              recordTypeConfig,
-            },
-          });
-
-          actions[1].should.have.property('type', RECORD_READ_REJECTED);
-          actions[1].should.have.property('meta')
-            .that.deep.equals({
-              csid,
-              recordTypeConfig,
+            actions[0].should.deep.equal({
+              type: RECORD_READ_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
             });
+
+            actions[1].should.deep.equal({
+              type: RECORD_READ_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+          });
+      });
+
+      it('should dispatch RECORD_READ_REJECTED on error', function test() {
+        moxios.stubRequest(readRecordUrl, {
+          status: 400,
+          response: {},
         });
+
+        const store = mockStore({});
+
+        return store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(2);
+
+            actions[0].should.deep.equal({
+              type: RECORD_READ_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+
+            actions[1].should.have.property('type', RECORD_READ_REJECTED);
+            actions[1].should.have.property('meta')
+              .that.deep.equals({
+                csid,
+                recordTypeConfig,
+              });
+          });
+      });
+    });
+
+    context('for an authority', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordServicePath = 'personauthorities';
+      const vocabularyServicePath = 'urn:cspace:name(person)';
+      const csid = '1234';
+      const readRecordUrl = new RegExp(`^/cspace-services/${recordServicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}.*`);
+
+      const recordTypeConfig = {
+        serviceConfig: {
+          servicePath: recordServicePath,
+        },
+      };
+
+      const vocabularyConfig = {
+        serviceConfig: {
+          servicePath: vocabularyServicePath,
+        },
+      };
+
+      before(() => {
+        configureCSpace({});
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should dispatch RECORD_READ_FULFILLED on success', function test() {
+        moxios.stubRequest(readRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({});
+
+        return store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(2);
+
+            actions[0].should.deep.equal({
+              type: RECORD_READ_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+
+            actions[1].should.deep.equal({
+              type: RECORD_READ_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+          });
+      });
     });
   });
 

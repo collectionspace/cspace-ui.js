@@ -28,8 +28,6 @@ describe('RouterContainer', function suite() {
 
     result.type.should.equal(Router);
     result.props.should.have.property('username', username);
-    result.props.should.have.property('createNewRecord').that.is.a('function');
-    result.props.should.have.property('readRecord').that.is.a('function');
     result.props.should.have.property('redirectLogin').that.is.a('function');
   });
 });
