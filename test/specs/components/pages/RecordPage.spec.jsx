@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { findRenderedComponentWithType } from 'react-addons-test-utils';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
+import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 
@@ -16,7 +17,7 @@ import RecordPage from '../../../../src/components/pages/RecordPage';
 
 chai.should();
 
-const mockStore = configureMockStore([]);
+const mockStore = configureMockStore([thunk]);
 const expectedClassName = 'cspace-ui-RecordPage--common';
 const csid = '1234';
 const recordType = 'object';
@@ -28,6 +29,9 @@ const params = {
 };
 
 const config = {
+  listTypes: {
+    authRef: {},
+  },
   recordTypes: {
     [recordType]: {
       serviceConfig,
@@ -35,9 +39,11 @@ const config = {
         default: <div />,
       },
       messages: {
-        recordNameTitle: {
-          id: 'recordNameTitle',
-          defaultMessage: recordType,
+        record: {
+          recordNameTitle: {
+            id: `record.${recordType}.nameTitle`,
+            defaultMessage: recordType,
+          },
         },
       },
       title: () => '',
@@ -57,6 +63,8 @@ const store = mockStore({
       [csid]: false,
     },
   },
+  search: Immutable.Map(),
+  prefs: Immutable.Map(),
 });
 
 describe('RecordPage', function suite() {
@@ -150,6 +158,7 @@ describe('RecordPage', function suite() {
     };
 
     const noCsidStore = mockStore({
+      prefs: Immutable.Map(),
       record: {
         data: {
           '': Immutable.Map(),
@@ -161,6 +170,7 @@ describe('RecordPage', function suite() {
           '': false,
         },
       },
+      search: Immutable.Map(),
     });
 
     const resultTree = render(

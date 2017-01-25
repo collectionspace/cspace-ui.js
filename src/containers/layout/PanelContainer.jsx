@@ -8,7 +8,7 @@ import { collapsePanel } from '../../actions/prefs';
 import { isPanelCollapsed } from '../../reducers';
 
 const getHeader = (key, messages) => {
-  const message = messages[key];
+  const message = messages.panel[key];
 
   if (!message) {
     return null;
@@ -27,17 +27,23 @@ const mapStateToProps = (state, ownProps) => {
     recordType,
   } = ownProps;
 
+  let {
+    header,
+  } = ownProps;
+
   let collapsed = isPanelCollapsed(state, recordType, name);
 
   if (typeof collapsed === 'undefined') {
     collapsed = ownProps.collapsed;
   }
 
-  const {
-    messages,
-  } = config.recordTypes[recordType];
+  if (!header) {
+    const {
+      messages,
+    } = config.recordTypes[recordType];
 
-  const header = getHeader(msgkey || name, messages);
+    header = getHeader(msgkey || name, messages);
+  }
 
   return {
     collapsed,

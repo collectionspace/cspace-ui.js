@@ -3,7 +3,7 @@ import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 import { thumbnailImage } from '../../../helpers/blobHelpers';
 
 export default {
-  search: [
+  default: [
     {
       name: 'blobCsid',
       messages: defineMessages({
@@ -42,7 +42,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.group.updatedAt',
-          defaultMessage: 'Last modified',
+          defaultMessage: 'Updated',
         },
       }),
       formatValue: formatLocalDateTime,

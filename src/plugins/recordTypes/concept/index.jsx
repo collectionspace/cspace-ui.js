@@ -27,18 +27,20 @@ export default () => () => ({
           },
         }),
       },
-      messages: defineMessages({
-        recordNameTitle: {
-          id: 'record.concept.nameTitle',
-          description: 'The name of the record when used as a title.',
-          defaultMessage: 'Concept',
-        },
-        resultsTitle: {
-          id: 'record.concept.resultsTitle',
-          description: 'The name of the record when used as a title describing search results.',
-          defaultMessage: 'Concepts',
-        },
-      }),
+      messages: {
+        record: defineMessages({
+          recordNameTitle: {
+            id: 'record.concept.nameTitle',
+            description: 'The name of the record when used as a title.',
+            defaultMessage: 'Concept',
+          },
+          resultsTitle: {
+            id: 'record.concept.resultsTitle',
+            description: 'The name of the record when used as a title describing search results.',
+            defaultMessage: 'Concepts',
+          },
+        }),
+      },
       forms: {
         default: <div />,
       },

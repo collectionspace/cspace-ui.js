@@ -8,6 +8,8 @@ import {
 } from '../../../src/actions/cspace';
 
 import {
+  CREATE_EMPTY_SEARCH_RESULT,
+  SET_MOST_RECENT_SEARCH,
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
@@ -17,7 +19,9 @@ import {
   search,
 } from '../../../src/actions/search';
 
-const expect = chai.expect;
+import {
+  searchKey,
+} from '../../../src/reducers/search';
 
 chai.should();
 
@@ -29,9 +33,18 @@ describe('search action creator', function suite() {
     const servicePath = 'personauthorities';
     const vocabulary = 'local';
     const vocabularyServicePath = 'urn:cspace:name(person)';
+    const termsServicePath = 'authorityrefs';
     const searchUrl = new RegExp(`^/cspace-services/${servicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items.*`);
 
+    const listTypes = {
+      common: {
+        listNodeName: 'ns2:abstract-common-list',
+        itemNodeName: 'list-item',
+      },
+    };
+
     const config = {
+      listTypes,
       recordTypes: {
         [recordType]: {
           serviceConfig: {
@@ -45,7 +58,7 @@ describe('search action creator', function suite() {
             },
           },
           columns: {
-            search: [
+            default: [
               {
                 name: 'updatedAt',
                 sortBy: 'collectionspace_core:updatedAt',
@@ -54,12 +67,21 @@ describe('search action creator', function suite() {
           },
         },
       },
+      subresources: {
+        terms: {
+          serviceConfig: {
+            servicePath: termsServicePath,
+          },
+        },
+      },
     };
 
     const searchQuery = {
       kw: 'abcd',
-      pgNum: 0,
+      p: 0,
     };
+
+    const searchName = 'testSearch';
 
     const searchDescriptor = {
       recordType,
@@ -89,7 +111,7 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      return store.dispatch(search(config, searchDescriptor))
+      return store.dispatch(search(config, searchName, searchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -97,7 +119,11 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: searchDescriptor,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor,
+            },
           });
 
           actions[1].should.deep.equal({
@@ -108,12 +134,15 @@ describe('search action creator', function suite() {
               headers: undefined,
               data: {},
             },
-            meta: searchDescriptor,
+            meta: {
+              searchName,
+              searchDescriptor,
+            },
           });
         });
     });
 
-    it('should dispatch no action when a search with a given descriptor is already pending', function test() {
+    it('should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor is already pending', function test() {
       moxios.stubRequest(searchUrl, {
         status: 200,
         response: {},
@@ -121,18 +150,32 @@ describe('search action creator', function suite() {
 
       const store = mockStore({
         search: Immutable.fromJS({
-          byKey: {
-            [JSON.stringify(searchDescriptor)]: {
-              isPending: true,
+          [searchName]: {
+            byKey: {
+              [searchKey(searchDescriptor)]: {
+                isPending: true,
+              },
             },
           },
         }),
       });
 
-      expect(store.dispatch(search(config, searchDescriptor))).to.equal(null);
+      store.dispatch(search(config, searchName, searchDescriptor));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
+        type: SET_MOST_RECENT_SEARCH,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
+      });
     });
 
-    it('should dispatch no action when a search with a given descriptor has already completed successfully', function test() {
+    it('should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor already has a result', function test() {
       moxios.stubRequest(searchUrl, {
         status: 200,
         response: {},
@@ -140,15 +183,71 @@ describe('search action creator', function suite() {
 
       const store = mockStore({
         search: Immutable.fromJS({
-          byKey: {
-            [JSON.stringify(searchDescriptor)]: {
-              result: {},
+          [searchName]: {
+            byKey: {
+              [searchKey(searchDescriptor)]: {
+                result: {},
+              },
             },
           },
         }),
       });
 
-      expect(store.dispatch(search(config, searchDescriptor))).to.equal(null);
+      store.dispatch(search(config, searchName, searchDescriptor));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
+        type: SET_MOST_RECENT_SEARCH,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
+      });
+    });
+
+    it('should dispatch CREATE_EMPTY_SEARCH_RESULT on a related record query with empty csid', function test() {
+      const relSearchDescriptor = {
+        recordType,
+        vocabulary,
+        searchQuery: {
+          rel: '',
+        },
+      };
+
+      const store = mockStore({
+        search: Immutable.fromJS({
+          [searchName]: {
+            byKey: {},
+          },
+        }),
+      });
+
+      store.dispatch(search(config, searchName, relSearchDescriptor));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(2);
+
+      actions[0].should.deep.equal({
+        type: SEARCH_STARTED,
+        meta: {
+          listTypeConfig: listTypes.common,
+          searchName,
+          searchDescriptor: relSearchDescriptor,
+        },
+      });
+
+      actions[1].should.deep.equal({
+        type: CREATE_EMPTY_SEARCH_RESULT,
+        meta: {
+          listTypeConfig: listTypes.common,
+          searchName,
+          searchDescriptor: relSearchDescriptor,
+        },
+      });
     });
 
     it('should accept null/undefined vocabulary name', function test() {
@@ -168,7 +267,7 @@ describe('search action creator', function suite() {
         searchQuery,
       };
 
-      return store.dispatch(search(config, noVocabularySearchDescriptor))
+      return store.dispatch(search(config, searchName, noVocabularySearchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -176,7 +275,11 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: noVocabularySearchDescriptor,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor: noVocabularySearchDescriptor,
+            },
           });
 
           actions[1].should.deep.equal({
@@ -187,7 +290,68 @@ describe('search action creator', function suite() {
               headers: undefined,
               data: {},
             },
-            meta: noVocabularySearchDescriptor,
+            meta: {
+              searchName,
+              searchDescriptor: noVocabularySearchDescriptor,
+            },
+          });
+        });
+    });
+
+    it('should accept searches for subresources', function test() {
+      const csid = '1234';
+      const subresource = 'terms';
+      const subresourceSearchUrl = new RegExp(`^/cspace-services/${servicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}/${termsServicePath}.*`);
+
+      moxios.stubRequest(subresourceSearchUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        search: Immutable.Map(),
+      });
+
+      const subresourceSearchQuery = {
+        p: 0,
+        size: 10,
+      };
+
+      const subresourceSearchDescriptor = {
+        recordType,
+        vocabulary,
+        csid,
+        subresource,
+        searchQuery: subresourceSearchQuery,
+      };
+
+      return store.dispatch(search(config, searchName, subresourceSearchDescriptor))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_STARTED,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor: subresourceSearchDescriptor,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: SEARCH_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: {
+              searchName,
+              searchDescriptor: subresourceSearchDescriptor,
+            },
           });
         });
     });
@@ -211,7 +375,7 @@ describe('search action creator', function suite() {
         }),
       };
 
-      return store.dispatch(search(config, sortedSearchDescriptor))
+      return store.dispatch(search(config, searchName, sortedSearchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -219,7 +383,11 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: sortedSearchDescriptor,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor: sortedSearchDescriptor,
+            },
           });
 
           actions[1].should.deep.equal({
@@ -230,7 +398,10 @@ describe('search action creator', function suite() {
               headers: undefined,
               data: {},
             },
-            meta: sortedSearchDescriptor,
+            meta: {
+              searchName,
+              searchDescriptor: sortedSearchDescriptor,
+            },
           });
         });
     });
@@ -254,7 +425,7 @@ describe('search action creator', function suite() {
         }),
       };
 
-      return store.dispatch(search(config, sortedSearchDescriptor))
+      return store.dispatch(search(config, searchName, sortedSearchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -262,7 +433,11 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: sortedSearchDescriptor,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor: sortedSearchDescriptor,
+            },
           });
 
           actions[1].should.deep.equal({
@@ -273,7 +448,10 @@ describe('search action creator', function suite() {
               headers: undefined,
               data: {},
             },
-            meta: sortedSearchDescriptor,
+            meta: {
+              searchName,
+              searchDescriptor: sortedSearchDescriptor,
+            },
           });
         });
     });
@@ -290,12 +468,15 @@ describe('search action creator', function suite() {
         }),
       };
 
-      store.dispatch(search(config, sortedSearchDescriptor)).should.deep.equal({
+      store.dispatch(search(config, searchName, sortedSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_INVALID_SORT,
         },
-        meta: sortedSearchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor: sortedSearchDescriptor,
+        },
       });
     });
 
@@ -311,12 +492,15 @@ describe('search action creator', function suite() {
         }),
       };
 
-      store.dispatch(search(config, sortedSearchDescriptor)).should.deep.equal({
+      store.dispatch(search(config, searchName, sortedSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_INVALID_SORT,
         },
-        meta: sortedSearchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor: sortedSearchDescriptor,
+        },
       });
     });
 
@@ -330,7 +514,7 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      return store.dispatch(search(config, searchDescriptor))
+      return store.dispatch(search(config, searchName, searchDescriptor))
         .then(() => {
           const actions = store.getActions();
 
@@ -338,43 +522,20 @@ describe('search action creator', function suite() {
 
           actions[0].should.deep.equal({
             type: SEARCH_STARTED,
-            meta: searchDescriptor,
+            meta: {
+              listTypeConfig: listTypes.common,
+              searchName,
+              searchDescriptor,
+            },
           });
 
           actions[1].should.have.property('type', SEARCH_REJECTED);
-          actions[1].should.have.property('meta').that.deep.equals(searchDescriptor);
+          actions[1].should.have.property('meta').that.deep.equals({
+            searchName,
+            searchDescriptor,
+          });
         });
     });
-
-    // it('should throw on unexpected error', function test() {
-    //   moxios.stubRequest(searchUrl, {
-    //     status: 400,
-    //     response: {},
-    //   });
-    //
-    //   const store = mockStore({
-    //     search: Immutable.Map(),
-    //   });
-    //
-    //   store.subscribe(() => {
-    //     console.log("yo");
-    //   });
-    //
-    //   return store.dispatch(search(config, searchDescriptor))
-    //     .then(() => {
-    //       const actions = store.getActions();
-    //
-    //       actions.should.have.lengthOf(2);
-    //
-    //       actions[0].should.deep.equal({
-    //         type: SEARCH_STARTED,
-    //         meta: searchDescriptor,
-    //       });
-    //
-    //       actions[1].should.have.property('type', SEARCH_REJECTED);
-    //       actions[1].should.have.property('meta').that.deep.equals(searchDescriptor);
-    //     });
-    // });
 
     it('should dispatch SEARCH_REJECTED if the record type is unknown', function test() {
       const badSearchDescriptor = Object.assign({}, searchDescriptor, {
@@ -385,17 +546,21 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(config, badSearchDescriptor)).should.deep.equal({
+      store.dispatch(search(config, searchName, badSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_NO_RECORD_SERVICE,
         },
-        meta: badSearchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor: badSearchDescriptor,
+        },
       });
     });
 
     it('should dispatch SEARCH_REJECTED if the record type does not have a service path', function test() {
       const badConfig = {
+        listTypes,
         recordTypes: {
           [recordType]: {
             serviceConfig: {},
@@ -407,17 +572,21 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(badConfig, searchDescriptor)).should.deep.equal({
+      store.dispatch(search(badConfig, searchName, searchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_NO_RECORD_SERVICE,
         },
-        meta: searchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
       });
     });
 
     it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', function test() {
       const badConfig = {
+        listTypes,
         recordTypes: {
           [recordType]: {
             serviceConfig: {
@@ -436,12 +605,15 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(badConfig, searchDescriptor)).should.deep.equal({
+      store.dispatch(search(badConfig, searchName, searchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_NO_VOCABULARY_SERVICE,
         },
-        meta: searchDescriptor,
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
       });
     });
   });

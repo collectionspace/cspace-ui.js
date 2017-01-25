@@ -1,20 +1,20 @@
 import { defineMessages } from 'react-intl';
 import { getDisplayName } from 'cspace-refname';
-import { getRecordTypeByServiceObjectName } from '../../../helpers/configHelpers';
+import { getRecordTypeConfigByServiceObjectName } from '../../../helpers/configHelpers';
 import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 
-const formatServiceObjectName = (value, intl, config) => {
-  const recordType = getRecordTypeByServiceObjectName(config, value);
+const formatServiceObjectName = (value, { intl, config }) => {
+  const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, value);
 
-  if (recordType) {
-    return intl.formatMessage(recordType.messages.recordNameTitle);
+  if (recordTypeConfig) {
+    return intl.formatMessage(recordTypeConfig.messages.record.recordNameTitle);
   }
 
   return `[ ${value.toLowerCase()} ]`;
 };
 
 export default {
-  search: [
+  default: [
     {
       name: 'docNumber',
       messages: defineMessages({
@@ -49,8 +49,8 @@ export default {
           defaultMessage: 'Type',
         },
       }),
-      formatValue: (value, { intl, config }) =>
-        formatServiceObjectName(value, intl, config),
+      formatValue: (value, formatterContext) =>
+        formatServiceObjectName(value, formatterContext),
       width: 150,
     },
     {
@@ -58,7 +58,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.all.updatedAt',
-          defaultMessage: 'Last modified',
+          defaultMessage: 'Updated',
         },
       }),
       formatValue: formatLocalDateTime,

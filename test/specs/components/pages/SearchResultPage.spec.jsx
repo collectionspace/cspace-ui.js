@@ -11,7 +11,8 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
 import RouterProvider from '../../../helpers/RouterProvider';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
+import SearchResultPage, { searchName } from '../../../../src/components/pages/SearchResultPage';
+import { searchKey } from '../../../../src/reducers/search';
 
 const expect = chai.expect;
 
@@ -31,34 +32,25 @@ const searchResult = Immutable.fromJS({
   },
 });
 
-const store = mockStore({
-  optionList: {
-    searchResultPageSizes: [
-      { value: '10' },
-      { value: '20' },
-      { value: '40' },
-    ],
-  },
-  search: Immutable.fromJS({
-    byKey: {
-      '{"recordType":"object","vocabulary":"something","searchQuery":{"p":0,"size":"2"}}': {
-        result: searchResult,
-      },
-    },
-  }),
-});
-
 const config = {
+  listTypes: {
+    common: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+  },
   recordTypes: {
     object: {
       messages: {
-        resultsTitle: {
-          id: 'record.object.resultsTitle',
-          defaultMessage: 'Objects',
+        record: {
+          resultsTitle: {
+            id: 'record.object.resultsTitle',
+            defaultMessage: 'Objects',
+          },
         },
       },
       columns: {
-        search: [
+        default: [
           {
             name: 'objectNumber',
             messages: {
@@ -85,6 +77,7 @@ const config = {
       },
     },
   },
+  subresources: {},
 };
 
 const params = {
@@ -101,6 +94,34 @@ const location = {
     size: '2',
   },
 };
+
+const searchDescriptor = {
+  recordType: params.recordType,
+  vocabulary: params.vocabulary,
+  searchQuery: {
+    p: parseInt(location.query.p, 10) - 1,
+    size: parseInt(location.query.size, 10),
+  },
+};
+
+const store = mockStore({
+  optionList: {
+    searchResultPagePageSizes: [
+      { value: '10' },
+      { value: '20' },
+      { value: '40' },
+    ],
+  },
+  search: Immutable.fromJS({
+    [searchName]: {
+      byKey: {
+        [searchKey(searchDescriptor)]: {
+          result: searchResult,
+        },
+      },
+    },
+  }),
+});
 
 describe('SearchResultPage', function suite() {
   beforeEach(function before() {
@@ -126,6 +147,22 @@ describe('SearchResultPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchResultPage location={location} params={{ recordType: 'foo' }} />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
+  });
+
+  it('should not render a result table if the subresource is unknown', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={{ recordType: 'object', subresource: 'foo' }}
+            />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -178,12 +215,14 @@ describe('SearchResultPage', function suite() {
     expect(testQuery({ p: '1', size: '12' })).to.equal(null);
   });
 
-  it('should call the search prop to perform a search', function test() {
+  it('should call search to perform a search', function test() {
     let searchedConfig = null;
+    let searchedSearchName = null;
     let searchedSearchDescriptor = null;
 
-    const search = (configArg, searchDescriptorArg) => {
+    const search = (configArg, searchNameArg, searchDescriptorArg) => {
       searchedConfig = configArg;
+      searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
     };
 
@@ -201,6 +240,7 @@ describe('SearchResultPage', function suite() {
       </IntlProvider>, this.container);
 
     searchedConfig.should.equal(config);
+    searchedSearchName.should.equal(searchName);
 
     searchedSearchDescriptor.should.deep.equal({
       recordType: params.recordType,
@@ -208,7 +248,8 @@ describe('SearchResultPage', function suite() {
 
       // expect the page num searched to be 1 less than the page num in the URL
       searchQuery: Object.assign({}, location.query, {
-        p: location.query.p - 1,
+        p: parseInt(location.query.p, 10) - 1,
+        size: parseInt(location.query.size, 10),
       }),
     });
   });
@@ -305,7 +346,7 @@ describe('SearchResultPage', function suite() {
       items[2].textContent.should.equal('40');
     });
 
-    it('should render a pending message if the search is pending', function test() {
+    it('should render a pending message if the search result does not have a total items count', function test() {
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -329,11 +370,15 @@ describe('SearchResultPage', function suite() {
 
       document.body.appendChild(headerContainer);
 
+      const noTotalItemsSearchResult = Immutable.fromJS({
+        'ns2:abstract-common-list': {},
+      });
+
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderHeader({ isSearchPending: true })}
+              { searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult }) }
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -341,7 +386,7 @@ describe('SearchResultPage', function suite() {
       headerContainer.querySelector('header').should.not.equal(null);
 
       headerContainer.querySelector('header > span').textContent.should
-        .equal('Searching...');
+        .equal('Finding records...');
     });
 
     it('should render an error message if the search has an error', function test() {

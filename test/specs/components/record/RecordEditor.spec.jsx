@@ -43,21 +43,27 @@ const config = {
         ),
       },
       messages: {
-        recordNameTitle: {
-          id: 'recordNameTitle',
-          defaultMessage: 'Object',
+        record: {
+          recordNameTitle: {
+            id: 'recordNameTitle',
+            defaultMessage: 'Object',
+          },
         },
-        idPanel: {
-          id: 'panel.idPanel.label',
-          defaultMessage: 'Object Identification Information',
+        panel: {
+          idPanel: {
+            id: 'panel.idPanel.label',
+            defaultMessage: 'Object Identification Information',
+          },
         },
-        objectNumber: {
-          id: 'field.objectNumber.label',
-          defaultMessage: 'Identification number',
-        },
-        foo: {
-          id: 'field.foo.label',
-          defaultMessage: 'Some label',
+        field: {
+          objectNumber: {
+            id: 'field.objectNumber.label',
+            defaultMessage: 'Identification number',
+          },
+          foo: {
+            id: 'field.foo.label',
+            defaultMessage: 'Some label',
+          },
         },
       },
       title: () => 'Title',

@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-addons-test-utils';
 import Immutable from 'immutable';
+import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
 import RouterProvider from '../../../helpers/RouterProvider';
@@ -25,6 +26,12 @@ const allSearchDescriptor = {
 };
 
 const config = {
+  listTypes: {
+    common: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+  },
   recordTypes: {
     object: {
       name: 'object',
@@ -32,7 +39,7 @@ const config = {
         objectName: 'CollectionObject',
       },
       columns: {
-        search: [
+        default: [
           {
             name: 'objectNumber',
             messages: {
@@ -149,6 +156,31 @@ describe('SearchResultTable', function suite() {
       </ConfigProvider>, this.container);
 
     expect(this.container.querySelector('.cspace-layout-Table--normal')).to.equal(null);
+  });
+
+  it('should render a loading indicator when the search is pending and the search result has unknown total items count', function test() {
+    const emptySearchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '40',
+        itemsInPage: null,
+        totalItems: null,
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <SearchResultTable
+            isSearchPending
+            searchDescriptor={searchDescriptor}
+            searchResult={emptySearchResult}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-SearchResultEmpty--common').textContent.should
+      .equal('⋯');
   });
 
   it('should properly render a single (non-list) search result', function test() {
@@ -312,7 +344,7 @@ describe('SearchResultTable', function suite() {
       </ConfigProvider>, this.container);
 
     Object.keys(formatCellDataCalls).length.should
-      .equal(config.recordTypes.object.columns.search.length);
+      .equal(config.recordTypes.object.columns.default.length);
 
     Object.keys(formatCellDataCalls).forEach((colName) => {
       formatCellDataCalls[colName].length.should
@@ -347,12 +379,12 @@ describe('SearchResultTable', function suite() {
       </ConfigProvider>, this.container);
 
     Object.keys(formatColumnLabelCalls).length.should
-      .equal(config.recordTypes.object.columns.search.length);
+      .equal(config.recordTypes.object.columns.default.length);
 
     const headers = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
     for (let i = 0; i < headers.length; i += 1) {
-      headers[i].textContent.should.equal(`*${config.recordTypes.object.columns.search[i].name}`);
+      headers[i].textContent.should.equal(`*${config.recordTypes.object.columns.default[i].name}`);
     }
   });
 
@@ -384,7 +416,7 @@ describe('SearchResultTable', function suite() {
     pushedLocation.should.equal(`/record/object/${csid}`);
   });
 
-  it('should propertly determine the record type of a result in an all record types search', function test() {
+  it('should determine the record type of a result in an all record types search', function test() {
     const allRecordTypesSearchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',

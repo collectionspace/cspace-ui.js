@@ -20,9 +20,11 @@ const config = {
   recordTypes: {
     object: {
       messages: {
-        recordNameTitle: {
-          id: 'recordNameTitle',
-          defaultMessage: 'Object',
+        record: {
+          recordNameTitle: {
+            id: 'recordNameTitle',
+            defaultMessage: 'Object',
+          },
         },
       },
       title: () => 'Title',

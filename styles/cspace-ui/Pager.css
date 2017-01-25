@@ -1,15 +1,27 @@
 .common {
-  display: flex;
   font-size: 12px;
   background: rgb(240, 240, 240);
-  border: 1px solid rgb(220, 220, 220);
   box-sizing: border-box;
   height: 22px;
-  line-height: 22px;
-  justify-content: center;
+  line-height: 20px;
+  border: solid rgb(220, 220, 220);
+  border-width: 1px 0;
+  display: flex;
 }
 
-.common > ul {
+.common > :global(.cspace-ui-PageSizeChooser--common) {
+  margin: 0 10px;
+}
+
+.common > :global(.cspace-ui-PageSizeChooser--common) :global(.cspace-input-Input--common) {
+  font-size: 12px;
+}
+
+.common > nav {
+  display: flex;
+}
+
+.common > nav > ul {
   display: flex;
   list-style: none;
   margin: 0;
@@ -17,7 +29,7 @@
   justify-content: center;
 }
 
-.common > ul > li > a {
+.common > nav > ul > li > a {
   display: block;
   box-sizing: border-box;
   min-width: 22px;
@@ -25,20 +37,20 @@
   padding: 0 4px;
 }
 
-.common :global(.cspace-input-MiniButton--common) {
+.common > nav :global(.cspace-input-MiniButton--common) {
   width: auto;
   min-width: 22px;
   padding: 0 4px;
 }
 
-.common :global(.cspace-input-MiniButton--common):enabled:hover {
+.common > nav :global(.cspace-input-MiniButton--common):enabled:hover {
   cursor: pointer;
 }
 
-.common > ul > li > :global(.cspace-input-MiniButton--common) {
+.common > nav > ul > li > :global(.cspace-input-MiniButton--common) {
   padding: 0 4px;
 }
 
-.common > :global(.cspace-input-MiniButton--common) {
+.common > nav > :global(.cspace-input-MiniButton--common) {
   padding: 0 10px;
 }

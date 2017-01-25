@@ -1,3 +1,7 @@
 .common {
   background-color: white;
 }
+
+.common > :global(.cspace-ui-SearchResultTable--common) {
+  margin-bottom: 10px;
+}

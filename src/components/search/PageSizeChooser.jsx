@@ -13,7 +13,13 @@ const messages = defineMessages({
 
 const propTypes = {
   pageSize: PropTypes.number.isRequired,
+  embedded: PropTypes.bool,
+  pageSizeOptionListName: PropTypes.string,
   onPageSizeChange: PropTypes.func,
+};
+
+const defaultProps = {
+  pageSizeOptionListName: 'searchResultPagePageSizes',
 };
 
 export default class PageSizeChooser extends Component {
@@ -55,12 +61,15 @@ export default class PageSizeChooser extends Component {
 
   render() {
     const {
+      embedded,
       pageSize,
+      pageSizeOptionListName,
     } = this.props;
 
     const chooser = (
       <ComboBoxInputContainer
-        optionListName="searchResultPageSizes"
+        embedded={embedded}
+        optionListName={pageSizeOptionListName}
         value={pageSize.toString()}
         onAddOption={this.handleAddOption}
         onCommit={this.handleCommit}
@@ -80,3 +89,4 @@ export default class PageSizeChooser extends Component {
 }
 
 PageSizeChooser.propTypes = propTypes;
+PageSizeChooser.defaultProps = defaultProps;

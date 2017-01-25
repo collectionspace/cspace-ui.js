@@ -19,7 +19,9 @@ import App from './components/App';
 import createPluginContext from './helpers/createPluginContext';
 
 import sharedOptionLists from './plugins/optionLists/shared';
+import defaultListTypes from './plugins/listTypes/default';
 import allRecordType from './plugins/recordTypes/all';
+import authorityRecordType from './plugins/recordTypes/authority';
 import citationRecordType from './plugins/recordTypes/citation';
 import conceptRecordType from './plugins/recordTypes/concept';
 import groupRecordType from './plugins/recordTypes/group';
@@ -27,9 +29,11 @@ import intakeRecordType from './plugins/recordTypes/intake';
 import loaninRecordType from './plugins/recordTypes/loanin';
 import mediaRecordType from './plugins/recordTypes/media';
 import objectRecordType from './plugins/recordTypes/object';
+import organizationRecordType from './plugins/recordTypes/organization';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
-import organizationRecordType from './plugins/recordTypes/organization';
+import procedureRecordType from './plugins/recordTypes/procedure';
+import termsSubresource from './plugins/subresources/terms';
 
 import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
 
@@ -57,7 +61,9 @@ const defaultConfig = mergeConfig({
 }, {
   plugins: [
     sharedOptionLists(),
+    defaultListTypes(),
     allRecordType(),
+    authorityRecordType(),
     citationRecordType(),
     conceptRecordType(),
     groupRecordType(),
@@ -68,6 +74,8 @@ const defaultConfig = mergeConfig({
     personRecordType(),
     placeRecordType(),
     organizationRecordType(),
+    procedureRecordType(),
+    termsSubresource(),
   ],
 }, pluginContext);
 

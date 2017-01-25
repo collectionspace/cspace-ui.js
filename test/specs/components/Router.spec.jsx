@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { hashHistory } from 'react-router';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
+import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 
@@ -17,14 +18,12 @@ const readRecord = () => null;
 const createNewRecord = () => null;
 const redirectLogin = () => null;
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const store = mockStore({
   login: {},
   keywordSearch: Immutable.Map(),
-  user: {
-    username: '',
-  },
+  prefs: Immutable.Map(),
   record: {
     data: {
       1234: Immutable.Map(),
@@ -32,18 +31,27 @@ const store = mockStore({
     readsPending: {},
     savesPending: {},
   },
+  search: Immutable.Map(),
+  user: {
+    username: '',
+  },
 });
 
 const config = {
+  listTypes: {
+    authRef: {},
+  },
   recordTypes: {
     object: {
       forms: {
         default: <div />,
       },
       messages: {
-        recordNameTitle: {
-          id: 'recordNameTitle',
-          defaultMessage: 'Object',
+        record: {
+          recordNameTitle: {
+            id: 'recordNameTitle',
+            defaultMessage: 'Object',
+          },
         },
       },
       title: () => '',

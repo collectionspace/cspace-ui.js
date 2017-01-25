@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage, FormattedNumber } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
+import PageSizeChooser from './PageSizeChooser';
 import styles from '../../../styles/cspace-ui/Pager.css';
 
 const { MiniButton } = inputComponents;
@@ -23,8 +24,11 @@ const messages = defineMessages({
 const propTypes = {
   currentPage: PropTypes.number.isRequired,
   lastPage: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  pageSizeOptionListName: PropTypes.string,
   windowSize: PropTypes.number,
-  onPageSelect: PropTypes.func,
+  onPageChange: PropTypes.func,
+  onPageSizeChange: PropTypes.func,
 };
 
 const defaultProps = {
@@ -43,36 +47,36 @@ export default class Pager extends Component {
   handleNextButtonClick() {
     const {
       currentPage,
-      onPageSelect,
+      onPageChange,
     } = this.props;
 
-    if (onPageSelect) {
-      onPageSelect(currentPage + 1);
+    if (onPageChange) {
+      onPageChange(currentPage + 1);
     }
   }
 
   handlePageButtonClick(event) {
     const {
-      onPageSelect,
+      onPageChange,
     } = this.props;
 
-    if (onPageSelect) {
+    if (onPageChange) {
       const {
         pagenum: pageNum,
       } = event.currentTarget.dataset;
 
-      onPageSelect(parseInt(pageNum, 10));
+      onPageChange(parseInt(pageNum, 10));
     }
   }
 
   handlePrevButtonClick() {
     const {
       currentPage,
-      onPageSelect,
+      onPageChange,
     } = this.props;
 
-    if (onPageSelect) {
-      onPageSelect(currentPage - 1);
+    if (onPageChange) {
+      onPageChange(currentPage - 1);
     }
   }
 
@@ -186,24 +190,35 @@ export default class Pager extends Component {
     const {
       currentPage,
       lastPage,
+      pageSize,
+      pageSizeOptionListName,
+      onPageSizeChange,
     } = this.props;
 
     return (
-      <nav className={styles.common}>
-        <MiniButton
-          disabled={currentPage === 0}
-          onClick={this.handlePrevButtonClick}
-        >
-          <FormattedMessage {...messages.previousLabel} />
-        </MiniButton>
-        {this.renderPages()}
-        <MiniButton
-          disabled={currentPage === lastPage}
-          onClick={this.handleNextButtonClick}
-        >
-          <FormattedMessage {...messages.nextLabel} />
-        </MiniButton>
-      </nav>
+      <div className={styles.common}>
+        <PageSizeChooser
+          embedded
+          pageSize={pageSize}
+          pageSizeOptionListName={pageSizeOptionListName}
+          onPageSizeChange={onPageSizeChange}
+        />
+        <nav>
+          <MiniButton
+            disabled={currentPage === 0}
+            onClick={this.handlePrevButtonClick}
+          >
+            <FormattedMessage {...messages.previousLabel} />
+          </MiniButton>
+          {this.renderPages()}
+          <MiniButton
+            disabled={currentPage === lastPage}
+            onClick={this.handleNextButtonClick}
+          >
+            <FormattedMessage {...messages.nextLabel} />
+          </MiniButton>
+        </nav>
+      </div>
     );
   }
 }

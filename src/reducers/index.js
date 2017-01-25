@@ -89,6 +89,10 @@ export function getSearchPageSize(state) {
   return fromPrefs.getSearchPageSize(state.prefs);
 }
 
+export function getSearchPanelPageSize(state, recordType, name) {
+  return fromPrefs.getSearchPanelPageSize(state.prefs, recordType, name);
+}
+
 export function getOptionList(state, optionListName) {
   return fromOptionList.get(state.optionList, optionListName);
 }
@@ -117,14 +121,14 @@ export function getKeywordSearchVocabulary(state) {
   return fromKeywordSearch.getVocabulary(state.keywordSearch);
 }
 
-export function isSearchPending(state, searchDescriptor) {
-  return fromSearch.isPending(state.search, searchDescriptor);
+export function isSearchPending(state, searchName, searchDescriptor) {
+  return fromSearch.isPending(state.search, searchName, searchDescriptor);
 }
 
-export function getSearchResult(state, searchDescriptor) {
-  return fromSearch.getResult(state.search, searchDescriptor);
+export function getSearchResult(state, searchName, searchDescriptor) {
+  return fromSearch.getResult(state.search, searchName, searchDescriptor);
 }
 
-export function getSearchError(state, searchDescriptor) {
-  return fromSearch.getError(state.search, searchDescriptor);
+export function getSearchError(state, searchName, searchDescriptor) {
+  return fromSearch.getError(state.search, searchName, searchDescriptor);
 }

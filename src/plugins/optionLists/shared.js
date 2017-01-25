@@ -11,11 +11,18 @@ import { defineMessages } from 'react-intl';
  */
 export default () => ({
   optionLists: {
-    searchResultPageSizes: {
+    searchResultPagePageSizes: {
       values: [
         '20',
         '40',
         '100',
+      ],
+    },
+    searchPanelPageSizes: {
+      values: [
+        '5',
+        '10',
+        '20',
       ],
     },
     dateQualifiers: {

@@ -14,25 +14,31 @@ describe('CreatePage', function suite() {
     recordTypes: {
       object: {
         messages: {
-          recordNameTitle: {
-            id: 'recordNameTitle',
-            defaultMessage: 'object',
+          record: {
+            recordNameTitle: {
+              id: 'record.object.nameTitle',
+              defaultMessage: 'object',
+            },
           },
         },
       },
       group: {
         messages: {
-          recordNameTitle: {
-            id: 'recordNameTitle',
-            defaultMessage: 'group',
+          record: {
+            recordNameTitle: {
+              id: 'record.group.nameTitle',
+              defaultMessage: 'group',
+            },
           },
         },
       },
       intake: {
         messages: {
-          recordNameTitle: {
-            id: 'recordNameTitle',
-            defaultMessage: 'intake',
+          record: {
+            recordNameTitle: {
+              id: 'record.intake.nameTitle',
+              defaultMessage: 'intake',
+            },
           },
         },
       },
@@ -71,12 +77,12 @@ describe('CreatePage', function suite() {
     links.should.have.lengthOf(3);
 
     links[0].textContent.should
-      .equal(config.recordTypes.object.messages.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.object.messages.record.recordNameTitle.defaultMessage);
 
     links[1].textContent.should
-      .equal(config.recordTypes.group.messages.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.group.messages.record.recordNameTitle.defaultMessage);
 
     links[2].textContent.should
-      .equal(config.recordTypes.intake.messages.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.intake.messages.record.recordNameTitle.defaultMessage);
   });
 });

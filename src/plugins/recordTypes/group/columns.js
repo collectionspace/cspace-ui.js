@@ -3,7 +3,7 @@ import { getDisplayName } from 'cspace-refname';
 import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 
 export default {
-  search: [
+  default: [
     {
       name: 'title',
       messages: defineMessages({
@@ -32,7 +32,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.group.updatedAt',
-          defaultMessage: 'Last modified',
+          defaultMessage: 'Updated',
         },
       }),
       formatValue: formatLocalDateTime,

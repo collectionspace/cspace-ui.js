@@ -1,14 +1,28 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
+import configureMockStore from 'redux-mock-store';
 import { Simulate } from 'react-addons-test-utils';
+import { Provider as StoreProvider } from 'react-redux';
 import createTestContainer from '../../../helpers/createTestContainer';
 import Pager from '../../../../src/components/search/Pager';
 
 chai.should();
 
+const mockStore = configureMockStore();
+
+const store = mockStore({
+  optionList: {
+    searchResultPagePageSizes: [
+      { value: '10' },
+      { value: '20' },
+      { value: '40' },
+    ],
+  },
+});
+
 const getPages = (container) => {
-  const items = container.querySelectorAll('li');
+  const items = container.querySelectorAll('nav li');
   const pages = [];
 
   for (let i = 0; i < items.length; i += 1) {
@@ -23,19 +37,23 @@ describe('Pager', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a nav', function test() {
+  it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={0} lastPage={9} />
+        <StoreProvider store={store}>
+          <Pager currentPage={0} lastPage={9} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('NAV');
+    this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
   it('should show a window of pages around the current page', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={10} lastPage={19} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={10} lastPage={19} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -43,7 +61,9 @@ describe('Pager', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={10} lastPage={19} windowSize={3} />
+        <StoreProvider store={store}>
+          <Pager currentPage={10} lastPage={19} windowSize={3} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -53,7 +73,9 @@ describe('Pager', function suite() {
   it('should offset the window when it overflows the beginning or end of the page range', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={0} lastPage={19} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={0} lastPage={19} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -61,7 +83,9 @@ describe('Pager', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={3} lastPage={19} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={3} lastPage={19} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -69,7 +93,9 @@ describe('Pager', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={19} lastPage={19} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={19} lastPage={19} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -77,7 +103,9 @@ describe('Pager', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={16} lastPage={19} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={16} lastPage={19} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -87,7 +115,9 @@ describe('Pager', function suite() {
   it('should always show the first and last pages', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={10} lastPage={47} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={10} lastPage={47} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -97,7 +127,9 @@ describe('Pager', function suite() {
   it('should show an ellipsis between the first page and the beginning of the window', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={33} lastPage={99} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={33} lastPage={99} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -107,7 +139,9 @@ describe('Pager', function suite() {
   it('should show an ellipsis between the last page and the end of the window', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={8} lastPage={24} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={8} lastPage={24} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -117,7 +151,9 @@ describe('Pager', function suite() {
   it('should show the page number instead of an ellipsis when the gap between the first page and the beginning of the window is only one page', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={4} lastPage={24} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={4} lastPage={24} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -127,23 +163,33 @@ describe('Pager', function suite() {
   it('should show the page number instead of an ellipsis when the gap between the last page and the end of the window is only one page', function test() {
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={20} lastPage={24} windowSize={5} />
+        <StoreProvider store={store}>
+          <Pager currentPage={20} lastPage={24} windowSize={5} pageSize={10} />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
       .deep.equal(['1', '...', '19', '20', '21', '22', '23', '24', '25']);
   });
 
-  it('should call onPageSelect when a page button is clicked', function test() {
-    let selectedPageNum = null;
+  it('should call onPageChange when a page button is clicked', function test() {
+    let changeToPageNum = null;
 
-    const handlePageSelect = (pageNum) => {
-      selectedPageNum = pageNum;
+    const handlePageChange = (pageNum) => {
+      changeToPageNum = pageNum;
     };
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={10} lastPage={19} windowSize={5} onPageSelect={handlePageSelect} />
+        <StoreProvider store={store}>
+          <Pager
+            currentPage={10}
+            lastPage={19}
+            windowSize={5}
+            pageSize={10}
+            onPageChange={handlePageChange}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -154,19 +200,27 @@ describe('Pager', function suite() {
 
     Simulate.click(button);
 
-    selectedPageNum.should.equal(12);
+    changeToPageNum.should.equal(12);
   });
 
-  it('should call onPageSelect when the previous page button is clicked', function test() {
-    let selectedPageNum = null;
+  it('should call onPageChange when the previous page button is clicked', function test() {
+    let changeToPageNum = null;
 
-    const handlePageSelect = (pageNum) => {
-      selectedPageNum = pageNum;
+    const handlePageChange = (pageNum) => {
+      changeToPageNum = pageNum;
     };
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={10} lastPage={19} windowSize={5} onPageSelect={handlePageSelect} />
+        <StoreProvider store={store}>
+          <Pager
+            currentPage={10}
+            lastPage={19}
+            windowSize={5}
+            pageSize={10}
+            onPageChange={handlePageChange}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -176,19 +230,27 @@ describe('Pager', function suite() {
 
     Simulate.click(buttons[0]);
 
-    selectedPageNum.should.equal(9);
+    changeToPageNum.should.equal(9);
   });
 
-  it('should call onPageSelect when the next page button is clicked', function test() {
-    let selectedPageNum = null;
+  it('should call onPageChange when the next page button is clicked', function test() {
+    let changeToPageNum = null;
 
-    const handlePageSelect = (pageNum) => {
-      selectedPageNum = pageNum;
+    const handlePageChange = (pageNum) => {
+      changeToPageNum = pageNum;
     };
 
     render(
       <IntlProvider locale="en">
-        <Pager currentPage={10} lastPage={19} windowSize={5} onPageSelect={handlePageSelect} />
+        <StoreProvider store={store}>
+          <Pager
+            currentPage={10}
+            lastPage={19}
+            windowSize={5}
+            pageSize={10}
+            onPageChange={handlePageChange}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     getPages(this.container).should
@@ -198,6 +260,6 @@ describe('Pager', function suite() {
 
     Simulate.click(buttons[1]);
 
-    selectedPageNum.should.equal(11);
+    changeToPageNum.should.equal(11);
   });
 });

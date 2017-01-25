@@ -5,7 +5,9 @@ import {
   applyPlugin,
   evaluatePlugin,
   normalizeConfig,
-  getRecordTypeByServiceObjectName,
+  getRecordTypeConfigByServiceObjectName,
+  getRecordTypeConfigByServicePath,
+  getVocabularyConfigByShortID,
 } from '../../../src/helpers/configHelpers';
 
 chai.should();
@@ -244,7 +246,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('getRecordTypeByServiceObjectName', function suite() {
+  describe('getRecordTypeConfigByServiceObjectName', function suite() {
     const config = {
       recordTypes: {
         object: {
@@ -261,8 +263,52 @@ describe('configHelpers', function moduleSuite() {
     };
 
     it('should return the record type config with the given service object name', function test() {
-      getRecordTypeByServiceObjectName(config, 'CollectionObject').should
+      getRecordTypeConfigByServiceObjectName(config, 'CollectionObject').should
         .equal(config.recordTypes.object);
+    });
+  });
+
+  describe('getRecordTypeConfigByServicePath', function suite() {
+    const config = {
+      recordTypes: {
+        object: {
+          messages: {
+            recordNameTitle: {
+              id: 'record.object.nameTitle',
+            },
+          },
+          serviceConfig: {
+            servicePath: 'collectionobjects',
+          },
+        },
+      },
+    };
+
+    it('should return the record type config with the given service path', function test() {
+      getRecordTypeConfigByServicePath(config, 'collectionobjects').should
+        .equal(config.recordTypes.object);
+    });
+  });
+
+  describe('getVocabularyConfigByShortID', function suite() {
+    const recordTypeConfig = {
+      vocabularies: {
+        local: {
+          messages: {
+            vocabNameTitle: {
+              id: 'vocab.person.local.nameTitle',
+            },
+          },
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person)',
+          },
+        },
+      },
+    };
+
+    it('should return the vocabulary type config with the given short id', function test() {
+      getVocabularyConfigByShortID(recordTypeConfig, 'person').should
+        .equal(recordTypeConfig.vocabularies.local);
     });
   });
 });
