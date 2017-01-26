@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 
 const messages = defineMessages({
@@ -9,7 +11,7 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = (recordType, csid) => ({
+const getSearchDescriptor = (recordType, csid, updatedTimestamp) => ({
   recordType,
   csid,
   subresource: 'terms',
@@ -17,11 +19,13 @@ const getSearchDescriptor = (recordType, csid) => ({
     p: 0,
     size: 5,
   },
+  seqID: updatedTimestamp,
 });
 
 const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
+  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
 };
 
@@ -31,25 +35,41 @@ export default class TermsUsedPanel extends Component {
 
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
+    const {
+      csid,
+      recordData,
+      recordType,
+    } = this.props;
+
     this.state = {
-      searchDescriptor: getSearchDescriptor(this.props.recordType, this.props.csid),
+      searchDescriptor: getSearchDescriptor(recordType, csid, getUpdatedTimestamp(recordData)),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const {
       csid,
+      recordData,
       recordType,
     } = this.props;
 
+    const updatedTimestamp = getUpdatedTimestamp(recordData);
+
     const {
       csid: nextCsid,
+      recordData: nextRecordData,
       recordType: nextRecordType,
     } = nextProps;
 
-    if (nextCsid !== csid || nextRecordType !== recordType) {
+    const nextUpdatedTimestamp = getUpdatedTimestamp(nextRecordData);
+
+    if (
+      nextCsid !== csid ||
+      nextRecordType !== recordType ||
+      nextUpdatedTimestamp !== updatedTimestamp
+    ) {
       this.setState({
-        searchDescriptor: getSearchDescriptor(nextProps.recordType, nextProps.csid),
+        searchDescriptor: getSearchDescriptor(nextRecordType, nextCsid, nextUpdatedTimestamp),
       });
     }
   }
@@ -70,6 +90,12 @@ export default class TermsUsedPanel extends Component {
     const {
       searchDescriptor,
     } = this.state;
+
+    if (!searchDescriptor.seqID) {
+      // Don't render until after the record has loaded.
+
+      return null;
+    }
 
     return (
       <SearchPanelContainer

@@ -196,3 +196,19 @@ export function prepareForSending(data) {
 
   return data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
 }
+
+export function getUpdatedTimestamp(data) {
+  if (data) {
+    const document = getDocument(data);
+
+    if (document) {
+      const corePart = getPart(document, 'collectionspace_core');
+
+      if (corePart) {
+        return corePart.get('updatedAt');
+      }
+    }
+  }
+
+  return undefined;
+}

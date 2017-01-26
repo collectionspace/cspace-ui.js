@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 
 const messages = defineMessages({
@@ -9,18 +11,20 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = relatedCsid => ({
+const getSearchDescriptor = (relatedCsid, updatedTimestamp) => ({
   recordType: 'procedure',
   searchQuery: {
     rel: relatedCsid,
     p: 0,
     size: 5,
   },
+  seqID: updatedTimestamp,
 });
 
 const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
+  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
 };
 
@@ -30,15 +34,34 @@ export default class RelatedProcedurePanel extends Component {
 
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
+    const {
+      csid,
+      recordData,
+    } = this.props;
+
     this.state = {
-      searchDescriptor: getSearchDescriptor(this.props.csid),
+      searchDescriptor: getSearchDescriptor(csid, getUpdatedTimestamp(recordData)),
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.csid !== this.props.csid) {
+    const {
+      csid,
+      recordData,
+    } = this.props;
+
+    const updatedTimestamp = getUpdatedTimestamp(recordData);
+
+    const {
+      csid: nextCsid,
+      recordData: nextRecordData,
+    } = nextProps;
+
+    const nextUpdatedTimestamp = getUpdatedTimestamp(nextRecordData);
+
+    if (nextCsid !== csid || nextUpdatedTimestamp !== updatedTimestamp) {
       this.setState({
-        searchDescriptor: getSearchDescriptor(nextProps.csid),
+        searchDescriptor: getSearchDescriptor(nextCsid, nextUpdatedTimestamp),
       });
     }
   }
@@ -59,6 +82,12 @@ export default class RelatedProcedurePanel extends Component {
     const {
       searchDescriptor,
     } = this.state;
+
+    if (!searchDescriptor.seqID) {
+      // Don't render until after the record has loaded.
+
+      return null;
+    }
 
     return (
       <SearchPanelContainer

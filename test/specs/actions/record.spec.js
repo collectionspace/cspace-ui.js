@@ -228,6 +228,7 @@ describe('record action creator', function suite() {
     const servicePath = 'collectionobjects';
     const csid = '5678';
     const saveRecordUrl = `/cspace-services/${servicePath}/${csid}`;
+    const readRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}.*`);
     const saveNewRecordUrl = `/cspace-services/${servicePath}`;
 
     const recordTypeConfig = {
@@ -251,6 +252,11 @@ describe('record action creator', function suite() {
 
     it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
       moxios.stubRequest(saveRecordUrl, {
+        status: 200,
+        response: {},
+      });
+
+      moxios.stubRequest(readRecordUrl, {
         status: 200,
         response: {},
       });

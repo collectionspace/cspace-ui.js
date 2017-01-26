@@ -1,9 +1,18 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
+import Immutable from 'immutable';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RelatedProcedurePanel from '../../../../src/components/record/RelatedProcedurePanel';
 
 chai.should();
+
+const recordData = Immutable.fromJS({
+  document: {
+    'ns2:collectionspace_core': {
+      updatedAt: '2017-01-26T08:08:47.026Z',
+    },
+  },
+});
 
 describe('RelatedProcedurePanel', function suite() {
   it('should render a search panel', function test() {
@@ -15,6 +24,7 @@ describe('RelatedProcedurePanel', function suite() {
     shallowRenderer.render(
       <RelatedProcedurePanel
         config={config}
+        recordData={recordData}
         recordType={recordType}
       />);
 
@@ -35,11 +45,12 @@ describe('RelatedProcedurePanel', function suite() {
     shallowRenderer.render(
       <RelatedProcedurePanel
         config={config}
+        recordData={recordData}
         recordType={recordType}
       />);
 
     const result = shallowRenderer.getRenderOutput();
-    const newSearchDescriptor = { foo: 'bar' };
+    const newSearchDescriptor = { foo: 'bar', seqID: 'seq1234' };
 
     result.props.onSearchDescriptorChange(newSearchDescriptor);
 
@@ -59,6 +70,7 @@ describe('RelatedProcedurePanel', function suite() {
       <RelatedProcedurePanel
         config={config}
         csid={csid}
+        recordData={recordData}
         recordType={recordType}
       />);
 
@@ -72,6 +84,7 @@ describe('RelatedProcedurePanel', function suite() {
       <RelatedProcedurePanel
         config={config}
         csid={newCsid}
+        recordData={recordData}
         recordType={recordType}
       />);
 
