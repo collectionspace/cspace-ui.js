@@ -64,6 +64,7 @@ describe('search reducer', function suite() {
                 totalItems: null,
                 pageNum: '0',
                 pageSize: '3',
+                'list-item': null,
               },
             },
           },
@@ -202,6 +203,64 @@ describe('search reducer', function suite() {
     state.getIn([searchName, 'mostRecentKey']).should.equal(key);
     state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'itemsInPage']).should.equal('10');
     state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'totalItems']).should.equal('22');
+  });
+
+  it('should seed the search result on SEARCH_STARTED when the new search is only a seq id change', function test() {
+    const searchDescriptor = {
+      recordType: 'object',
+      searchQuery: {
+        p: '0',
+        size: '10',
+      },
+      seqID: '2',
+    };
+
+    const key = searchKey(searchDescriptor);
+
+    const items = Immutable.fromJS([{
+      uri: '/collectionobjects/1234',
+    }]);
+
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: 'somekey',
+        byKey: {
+          somekey: {
+            descriptor: {
+              recordType: 'object',
+              searchQuery: {
+                p: '0',
+                size: '10',
+              },
+              seqID: '1',
+            },
+            result: {
+              'ns2:abstract-common-list': {
+                itemsInPage: '10',
+                totalItems: '22',
+                'list-item': items,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: SEARCH_STARTED,
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    });
+
+    state.getIn([searchName, 'mostRecentKey']).should.equal(key);
+    state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'itemsInPage']).should.equal('10');
+    state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'totalItems']).should.equal('22');
+
+    state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'list-item']).should
+      .equal(items);
   });
 
   it('should handle SET_MOST_RECENT_SEARCH', function test() {

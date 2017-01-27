@@ -48,7 +48,7 @@ const handleSearchStarted = (state, action) => {
     searchDescriptor,
   } = action.meta;
 
-  const { listNodeName } = listTypeConfig;
+  const { listNodeName, itemNodeName } = listTypeConfig;
 
   const namedSearch = state.get(searchName) || Immutable.Map();
 
@@ -59,6 +59,7 @@ const handleSearchStarted = (state, action) => {
   let result = null;
   let itemsInPage = null;
   let totalItems = null;
+  let items = null;
 
   if (mostRecentKey) {
     const mostRecentSearchState = namedSearch.getIn(['byKey', mostRecentKey]);
@@ -69,6 +70,7 @@ const handleSearchStarted = (state, action) => {
 
     const pageChanged = 'searchQuery.p' in changes;
     const sortChanged = 'searchQuery.sort' in changes;
+    const seqIDChanged = 'seqID' in changes;
 
     if (pageChanged && changeCount === 1) {
       // Only the page number changed from the last search. Seed these results with the total items
@@ -79,27 +81,42 @@ const handleSearchStarted = (state, action) => {
       totalItems = mostRecentSearchState.getIn([
         'result', listNodeName, 'totalItems',
       ]);
-    } else if (sortChanged && changeCount === 1) {
-      // Only the sort changed from the last search. As above, seed these results with the total
-      // items count. Also seed the itemsInPage count, since this is not expected to change.
-
-      totalItems = mostRecentSearchState.getIn([
-        'result', listNodeName, 'totalItems',
-      ]);
-
-      itemsInPage = mostRecentSearchState.getIn([
-        'result', listNodeName, 'itemsInPage',
-      ]);
-
-      // Clear out stored search states.
-
-      updatedNamedSearch = namedSearch.set('byKey', Immutable.Map());
     } else {
       // Something other than the page number changed from the last search. Clear out stored
       // search states. (If only the page number changed, keep the previous states around as a
       // cache so that flipping between pages will be fast.)
 
       updatedNamedSearch = namedSearch.set('byKey', Immutable.Map());
+
+      if (sortChanged && changeCount === 1) {
+        // Only the sort changed from the last search. As above, seed these results with the total
+        // items count. Also seed the itemsInPage count, since this is not expected to change.
+
+        totalItems = mostRecentSearchState.getIn([
+          'result', listNodeName, 'totalItems',
+        ]);
+
+        itemsInPage = mostRecentSearchState.getIn([
+          'result', listNodeName, 'itemsInPage',
+        ]);
+      } else if (seqIDChanged && changeCount === 1) {
+        // Only the seq id changed from the last search. This means that the search parameters
+        // themselves haven't changed, but the search is being triggered because the data may have
+        // changed. Seed the result with the previous total items, items in page, and items. This
+        // makes for the smoothest possible transition to the new result set.
+
+        totalItems = mostRecentSearchState.getIn([
+          'result', listNodeName, 'totalItems',
+        ]);
+
+        itemsInPage = mostRecentSearchState.getIn([
+          'result', listNodeName, 'itemsInPage',
+        ]);
+
+        items = mostRecentSearchState.getIn([
+          'result', listNodeName, itemNodeName,
+        ]);
+      }
     }
   }
 
@@ -119,6 +136,7 @@ const handleSearchStarted = (state, action) => {
       totalItems,
       pageNum,
       pageSize,
+      [itemNodeName]: items,
     },
   });
 

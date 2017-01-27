@@ -199,13 +199,11 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
 
     return getSession().read(path, requestConfig)
       // Insert an artificial delay for testing.
-      // .then(response => {
-      //   return new Promise((resolve) => {
-      //     window.setTimeout(() => {
-      //       resolve(response);
-      //     }, 1000);
-      //   });
-      // })
+      // .then(response => new Promise((resolve) => {
+      //   window.setTimeout(() => {
+      //     resolve(response);
+      //   }, 1000);
+      // }))
       .then(
         response => dispatch({
           type: SEARCH_FULFILLED,
