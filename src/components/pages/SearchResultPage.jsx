@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import TitleBar from '../sections/TitleBar';
+import CsidLink from '../navigation/CsidLink';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
@@ -9,13 +10,13 @@ import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import headerStyles from '../../../styles/cspace-ui/Header.css';
 
 const messages = defineMessages({
-  keywordParam: {
-    id: 'searchResultPage.keywordParam',
+  keywordQuery: {
+    id: 'searchResultPage.keywordQuery',
     defaultMessage: 'containing "{keyword}"',
   },
-  relatedParam: {
-    id: 'searchResultPage.relatedParam',
-    defaultMessage: 'related to {name}',
+  relatedQuery: {
+    id: 'searchResultPage.relatedQuery',
+    defaultMessage: 'related to {record}',
   },
   resultCount: {
     id: 'searchResultPage.resultCount',
@@ -236,8 +237,10 @@ export default class SearchResultPage extends Component {
       config,
     } = this.context;
 
+    const searchDescriptor = this.getSearchDescriptor();
+
     if (search) {
-      search(config, searchName, this.getSearchDescriptor(), listType);
+      search(config, searchName, searchDescriptor, listType);
     }
   }
 
@@ -398,23 +401,47 @@ export default class SearchResultPage extends Component {
       rel,
     } = searchDescriptor.searchQuery;
 
-    const keywordParamTitle = kw
-      ? <FormattedMessage {...messages.keywordParam} values={{ keyword: kw }} />
+    const keywordQueryTitle = kw
+      ? <FormattedMessage {...messages.keywordQuery} values={{ keyword: kw }} />
       : null;
 
-    const relatedParamTitle = rel
-      ? <FormattedMessage {...messages.relatedParam} values={{ name: rel }} />
-      : null;
+    let relatedQueryTitle = null;
 
-    const message = subresourceConfig
-      ? <FormattedMessage {...subresourceConfig.messages.resultsTitle} values={{ record: csid }} />
-      : <FormattedMessage {...recordTypeConfig.messages.record.resultsTitle} />;
+    if (rel) {
+      const recordLink = <CsidLink config={config} searchName={`${searchName}.rel`} csid={rel} />;
+
+      relatedQueryTitle = (
+        <FormattedMessage
+          {...messages.relatedQuery}
+          values={{ record: recordLink }}
+        />
+      );
+    }
+
+    let resultsTitle;
+
+    if (subresourceConfig) {
+      const recordLink = <CsidLink config={config} searchName={`${searchName}.csid`} csid={csid} />;
+
+      resultsTitle = (
+        <FormattedMessage
+          {...subresourceConfig.messages.resultsTitle}
+          values={{ record: recordLink }}
+        />
+      );
+    } else {
+      resultsTitle = (
+        <FormattedMessage
+          {...recordTypeConfig.messages.record.resultsTitle}
+        />
+      );
+    }
 
     const title = (
       <span>
-        {message}
-        {' '}{keywordParamTitle}
-        {' '}{relatedParamTitle}
+        {resultsTitle}
+        {' '}{keywordQueryTitle}
+        {' '}{relatedQueryTitle}
       </span>
     );
 

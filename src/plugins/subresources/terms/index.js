@@ -9,7 +9,7 @@ export default () => ({
         resultsTitle: {
           id: 'subresource.terms.resultsTitle',
           description: 'The name of the subresource when used as a title describing search results.',
-          defaultMessage: 'Authority terms used by {record}',
+          defaultMessage: 'Authority Terms Used by {record}',
         },
       }),
       serviceConfig: {

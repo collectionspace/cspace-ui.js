@@ -7,6 +7,8 @@ import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import merge from 'lodash/merge';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
 import RouterProvider from '../../../helpers/RouterProvider';
@@ -18,7 +20,7 @@ const expect = chai.expect;
 
 chai.should();
 
-const mockStore = configureMockStore([]);
+const mockStore = configureMockStore([thunk]);
 
 const searchResult = Immutable.fromJS({
   'ns2:abstract-common-list': {
@@ -77,7 +79,16 @@ const config = {
       },
     },
   },
-  subresources: {},
+  subresources: {
+    terms: {
+      messages: {
+        resultsTitle: {
+          id: 'subresource.terms.resultsTitle',
+          defaultMessage: 'Authority Terms Used by {record}',
+        },
+      },
+    },
+  },
 };
 
 const params = {
@@ -287,6 +298,44 @@ describe('SearchResultPage', function suite() {
         sort: 'objectNumber',
       }),
     });
+  });
+
+  it('should render a related query title', function test() {
+    const relLocation = merge({}, location, {
+      query: {
+        rel: '1234',
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={relLocation}
+              params={params}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/related to/);
+  });
+
+  it('should render a subresource title', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={{ recordType: 'object', csid: '1234', subresource: 'terms' }}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/Authority Terms Used by/);
   });
 
   describe('renderHeader', function method() {
