@@ -68,8 +68,20 @@ export default class TermsUsedPanel extends Component {
       nextRecordType !== recordType ||
       nextUpdatedTimestamp !== updatedTimestamp
     ) {
+      let newSearchDescriptor;
+
+      if (nextCsid === csid && nextRecordType === recordType) {
+        // Only the updated timestamp changed, so just update the seq id of the search.
+
+        newSearchDescriptor = Object.assign({}, this.state.searchDescriptor, {
+          seqID: nextUpdatedTimestamp,
+        });
+      } else {
+        newSearchDescriptor = getSearchDescriptor(nextRecordType, nextCsid, nextUpdatedTimestamp);
+      }
+
       this.setState({
-        searchDescriptor: getSearchDescriptor(nextRecordType, nextCsid, nextUpdatedTimestamp),
+        searchDescriptor: newSearchDescriptor,
       });
     }
   }
