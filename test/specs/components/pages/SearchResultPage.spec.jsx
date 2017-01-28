@@ -45,8 +45,8 @@ const config = {
     object: {
       messages: {
         record: {
-          resultsTitle: {
-            id: 'record.object.resultsTitle',
+          collectionName: {
+            id: 'record.object.collectionName',
             defaultMessage: 'Objects',
           },
         },
@@ -78,12 +78,24 @@ const config = {
         ],
       },
     },
+    person: {
+      vocabularies: {
+        local: {
+          messages: {
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
+              defaultMessage: 'Local Persons',
+            },
+          },
+        },
+      },
+    },
   },
   subresources: {
     terms: {
       messages: {
-        resultsTitle: {
-          id: 'subresource.terms.resultsTitle',
+        collectionName: {
+          id: 'subresource.terms.collectionName',
           defaultMessage: 'Authority Terms Used by {record}',
         },
       },
@@ -93,7 +105,7 @@ const config = {
 
 const params = {
   recordType: 'object',
-  vocabulary: 'something',
+  // vocabulary: 'something',
 };
 
 const location = {
@@ -108,7 +120,7 @@ const location = {
 
 const searchDescriptor = {
   recordType: params.recordType,
-  vocabulary: params.vocabulary,
+  // vocabulary: params.vocabulary,
   searchQuery: {
     p: parseInt(location.query.p, 10) - 1,
     size: parseInt(location.query.size, 10),
@@ -158,6 +170,19 @@ describe('SearchResultPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchResultPage location={location} params={{ recordType: 'foo' }} />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
+  });
+
+  it('should not render a result table if the vocabulary is unknown', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage location={location} params={{ recordType: 'person', vocabulary: 'foo' }} />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -255,7 +280,7 @@ describe('SearchResultPage', function suite() {
 
     searchedSearchDescriptor.should.deep.equal({
       recordType: params.recordType,
-      vocabulary: params.vocabulary,
+      // vocabulary: params.vocabulary,
 
       // expect the page num searched to be 1 less than the page num in the URL
       searchQuery: Object.assign({}, location.query, {
@@ -320,6 +345,22 @@ describe('SearchResultPage', function suite() {
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/related to/);
+  });
+
+  it('should render a vocabulary title', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={{ recordType: 'person', vocabulary: 'local' }}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/Local Persons/);
   });
 
   it('should render a subresource title', function test() {

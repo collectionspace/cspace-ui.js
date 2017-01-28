@@ -7,6 +7,12 @@ chai.should();
 
 const config = {
   recordTypes: {
+    group: {
+      name: 'group',
+      serviceConfig: {
+        objectName: 'Group',
+      },
+    },
     object: {
       name: 'object',
       serviceConfig: {
@@ -16,7 +22,9 @@ const config = {
     person: {
       name: 'person',
       serviceConfig: {
+        objectName: 'Person',
         servicePath: 'personauthorities',
+        serviceType: 'authority',
       },
       vocabularies: {
         local: {
@@ -43,6 +51,14 @@ describe('default list types', function suite() {
           docType: 'CollectionObject',
           csid: '1234',
         }), { config }).should.equal('/record/object/1234');
+      });
+
+      it('should include the vocabulary path', function test() {
+        commonList.getItemLocation(Immutable.fromJS({
+          docType: 'Person',
+          csid: '1234',
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(TestPerson1485582296109)\'Test Person\'',
+        }), { config }).should.equal('/record/person/local/1234');
       });
 
       it('should fall back to the record type from the search descriptor if there is no docType', function test() {
@@ -74,6 +90,12 @@ describe('default list types', function suite() {
         authRefList.getItemLocation(Immutable.fromJS({
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
         }), { config }).should.equal('/record/person/local/urn:cspace:name(JaneDoe1484001439799)');
+      });
+
+      it('should return null for an unknown record type', function test() {
+        expect(authRefList.getItemLocation(Immutable.fromJS({
+          refName: 'urn:cspace:core.collectionspace.org:foobar:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
+        }), { config })).to.equal(null);
       });
     });
   });

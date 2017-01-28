@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 import { getDisplayName } from 'cspace-refname';
-import { formatLocalDateTime } from '../../../helpers/dateHelpers';
+import { formatTimestamp } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -8,7 +8,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.group.title',
+          id: 'column.group.default.title',
           defaultMessage: 'Title',
         },
       }),
@@ -19,7 +19,7 @@ export default {
       name: 'owner',
       messages: defineMessages({
         label: {
-          id: 'column.group.owner',
+          id: 'column.group.default.owner',
           defaultMessage: 'Owner',
         },
       }),
@@ -31,11 +31,11 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.group.updatedAt',
+          id: 'column.group.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
-      formatValue: formatLocalDateTime,
+      formatValue: formatTimestamp,
       sortBy: 'collectionspace_core:updatedAt',
       width: 150,
     },

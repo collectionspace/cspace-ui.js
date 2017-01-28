@@ -15,8 +15,8 @@ describe('CreatePage', function suite() {
       object: {
         messages: {
           record: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            name: {
+              id: 'record.object.name',
               defaultMessage: 'object',
             },
           },
@@ -25,8 +25,8 @@ describe('CreatePage', function suite() {
       group: {
         messages: {
           record: {
-            recordNameTitle: {
-              id: 'record.group.nameTitle',
+            name: {
+              id: 'record.group.name',
               defaultMessage: 'group',
             },
           },
@@ -35,8 +35,8 @@ describe('CreatePage', function suite() {
       intake: {
         messages: {
           record: {
-            recordNameTitle: {
-              id: 'record.intake.nameTitle',
+            name: {
+              id: 'record.intake.name',
               defaultMessage: 'intake',
             },
           },
@@ -77,12 +77,12 @@ describe('CreatePage', function suite() {
     links.should.have.lengthOf(3);
 
     links[0].textContent.should
-      .equal(config.recordTypes.object.messages.record.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.object.messages.record.name.defaultMessage);
 
     links[1].textContent.should
-      .equal(config.recordTypes.group.messages.record.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.group.messages.record.name.defaultMessage);
 
     links[2].textContent.should
-      .equal(config.recordTypes.intake.messages.record.recordNameTitle.defaultMessage);
+      .equal(config.recordTypes.intake.messages.record.name.defaultMessage);
   });
 });

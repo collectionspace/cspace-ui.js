@@ -7,19 +7,19 @@ import { defineMessages } from 'react-intl';
 
 export default {
   record: defineMessages({
-    recordNameTitle: {
-      id: 'record.group.nameTitle',
-      description: 'The name of the record when used as a title.',
+    name: {
+      id: 'record.group.name',
+      description: 'The name of the record type.',
       defaultMessage: 'Group',
     },
-    resultsTitle: {
-      id: 'record.group.resultsTitle',
-      description: 'The name of the record when used as a title describing search results.',
+    collectionName: {
+      id: 'record.group.collectionName',
+      description: 'The name of a collection of records of the type.',
       defaultMessage: 'Groups',
     },
   }),
   panel: defineMessages({
-    infoPanel: {
+    info: {
       id: 'panel.group.info',
       defaultMessage: 'Group Information',
     },

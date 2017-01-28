@@ -1,17 +1,10 @@
 import { defineMessages } from 'react-intl';
 import { getDisplayName } from 'cspace-refname';
-import { getRecordTypeConfigByServiceObjectName } from '../../../helpers/configHelpers';
-import { formatLocalDateTime } from '../../../helpers/dateHelpers';
 
-const formatServiceObjectName = (value, { intl, config }) => {
-  const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, value);
-
-  if (recordTypeConfig) {
-    return intl.formatMessage(recordTypeConfig.messages.record.recordNameTitle);
-  }
-
-  return `[ ${value.toLowerCase()} ]`;
-};
+import {
+  formatTimestamp,
+  formatServiceObjectName,
+} from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -19,7 +12,7 @@ export default {
       name: 'docNumber',
       messages: defineMessages({
         label: {
-          id: 'column.all.docNumber',
+          id: 'column.all.default.docNumber',
           defaultMessage: 'Record',
         },
       }),
@@ -32,7 +25,7 @@ export default {
       name: 'docName',
       messages: defineMessages({
         label: {
-          id: 'column.all.docName',
+          id: 'column.all.default.docName',
           defaultMessage: 'Summary',
         },
       }),
@@ -45,7 +38,7 @@ export default {
       name: 'docType',
       messages: defineMessages({
         label: {
-          id: 'column.all.docType',
+          id: 'column.all.default.docType',
           defaultMessage: 'Type',
         },
       }),
@@ -57,11 +50,11 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.all.updatedAt',
+          id: 'column.all.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
-      formatValue: formatLocalDateTime,
+      formatValue: formatTimestamp,
       sortBy: 'collectionspace_core:updatedAt',
       width: 150,
     },

@@ -47,9 +47,13 @@ const config = {
       },
       messages: {
         record: {
-          recordNameTitle: {
-            id: 'recordNameTitle',
+          name: {
+            id: 'name',
             defaultMessage: 'Object',
+          },
+          collectionName: {
+            id: 'collectionName',
+            defaultMessage: 'Objects',
           },
         },
       },

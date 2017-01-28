@@ -11,8 +11,9 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = (recordType, csid, updatedTimestamp) => ({
+const getSearchDescriptor = (recordType, vocabulary, csid, updatedTimestamp) => ({
   recordType,
+  vocabulary,
   csid,
   subresource: 'terms',
   searchQuery: {
@@ -27,6 +28,7 @@ const propTypes = {
   csid: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
+  vocabulary: PropTypes.string,
 };
 
 export default class TermsUsedPanel extends Component {
@@ -39,10 +41,14 @@ export default class TermsUsedPanel extends Component {
       csid,
       recordData,
       recordType,
+      vocabulary,
     } = this.props;
 
+    const searchDescriptor =
+      getSearchDescriptor(recordType, vocabulary, csid, getUpdatedTimestamp(recordData));
+
     this.state = {
-      searchDescriptor: getSearchDescriptor(recordType, csid, getUpdatedTimestamp(recordData)),
+      searchDescriptor,
     };
   }
 
@@ -51,6 +57,7 @@ export default class TermsUsedPanel extends Component {
       csid,
       recordData,
       recordType,
+      vocabulary,
     } = this.props;
 
     const updatedTimestamp = getUpdatedTimestamp(recordData);
@@ -59,6 +66,7 @@ export default class TermsUsedPanel extends Component {
       csid: nextCsid,
       recordData: nextRecordData,
       recordType: nextRecordType,
+      vocabulary: nextVocabulary,
     } = nextProps;
 
     const nextUpdatedTimestamp = getUpdatedTimestamp(nextRecordData);
@@ -66,18 +74,24 @@ export default class TermsUsedPanel extends Component {
     if (
       nextCsid !== csid ||
       nextRecordType !== recordType ||
+      nextVocabulary !== vocabulary ||
       nextUpdatedTimestamp !== updatedTimestamp
     ) {
       let newSearchDescriptor;
 
-      if (nextCsid === csid && nextRecordType === recordType) {
+      if (
+        nextCsid === csid &&
+        nextRecordType === recordType &&
+        nextVocabulary === vocabulary
+      ) {
         // Only the updated timestamp changed, so just update the seq id of the search.
 
         newSearchDescriptor = Object.assign({}, this.state.searchDescriptor, {
           seqID: nextUpdatedTimestamp,
         });
       } else {
-        newSearchDescriptor = getSearchDescriptor(nextRecordType, nextCsid, nextUpdatedTimestamp);
+        newSearchDescriptor =
+          getSearchDescriptor(nextRecordType, nextVocabulary, nextCsid, nextUpdatedTimestamp);
       }
 
       this.setState({
@@ -97,6 +111,7 @@ export default class TermsUsedPanel extends Component {
       config,
       csid,
       recordType,
+      vocabulary,
     } = this.props;
 
     const {
@@ -119,6 +134,7 @@ export default class TermsUsedPanel extends Component {
         name="termsUsedPanel"
         searchDescriptor={searchDescriptor}
         recordType={recordType}
+        vocabulary={vocabulary}
         title={<FormattedMessage {...messages.title} />}
         onSearchDescriptorChange={this.handleSearchDescriptorChange}
       />

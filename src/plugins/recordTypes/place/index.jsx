@@ -29,14 +29,14 @@ export default () => () => ({
       },
       messages: {
         record: defineMessages({
-          recordNameTitle: {
-            id: 'record.place.nameTitle',
-            description: 'The name of the record when used as a title.',
+          name: {
+            id: 'record.place.name',
+            description: 'The name of the record type.',
             defaultMessage: 'Place',
           },
-          resultsTitle: {
-            id: 'record.place.resultsTitle',
-            description: 'The name of the record when used as a title describing search results.',
+          collectionName: {
+            id: 'record.place.collectionName',
+            description: 'The name of a collection of records of the type.',
             defaultMessage: 'Places',
           },
         }),
@@ -49,10 +49,15 @@ export default () => () => ({
         all: {
           isCreatable: false,
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.place.all.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All Vocabularies',
+            name: {
+              id: 'vocab.place.all.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'All',
+            },
+            collectionName: {
+              id: 'vocab.place.all.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
+              defaultMessage: 'All Places',
             },
           }),
           serviceConfig: {
@@ -62,9 +67,14 @@ export default () => () => ({
         },
         local: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.place.local.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.place.local.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Local',
+            },
+            collectionName: {
+              id: 'vocab.place.local.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Local Places',
             },
           }),
@@ -74,10 +84,15 @@ export default () => () => ({
         },
         tgn: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.place.tgn.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'Thesaurus of Geographic Names',
+            name: {
+              id: 'vocab.place.tgn.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'TGN',
+            },
+            collectionName: {
+              id: 'vocab.place.tgn.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
+              defaultMessage: 'TGN Places',
             },
           }),
           serviceConfig: {

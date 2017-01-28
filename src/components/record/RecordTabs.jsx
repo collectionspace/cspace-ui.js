@@ -7,6 +7,7 @@ const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   recordType: PropTypes.string,
+  vocabulary: PropTypes.string,
 };
 
 export default function RecordTabs(props) {
@@ -14,13 +15,22 @@ export default function RecordTabs(props) {
     config,
     csid,
     recordType,
+    vocabulary,
   } = props;
 
   const recordTypeConfig = config.recordTypes[recordType];
 
+  const vocabularyConfig = vocabulary
+    ? recordTypeConfig.vocabularies[vocabulary]
+    : undefined;
+
   return (
     <div className={styles.common}>
-      <RecordButtonBarContainer csid={csid} recordTypeConfig={recordTypeConfig} />
+      <RecordButtonBarContainer
+        csid={csid}
+        recordTypeConfig={recordTypeConfig}
+        vocabularyConfig={vocabularyConfig}
+      />
       <RecordEditorContainer csid={csid} recordType={recordType} />
     </div>
   );

@@ -24,7 +24,7 @@ describe('prefs reducer', function suite() {
 
   it('should handle COLLAPSE_PANEL', function test() {
     const recordType = 'object';
-    const panelName = 'descPanel';
+    const panelName = 'desc';
     const collapsed = true;
 
     const state = reducer(undefined, {
@@ -39,7 +39,7 @@ describe('prefs reducer', function suite() {
     state.should.deep.equal(Immutable.fromJS({
       panels: {
         object: {
-          descPanel: {
+          desc: {
             collapsed,
           },
         },
@@ -66,7 +66,7 @@ describe('prefs reducer', function suite() {
 
   it('should handle SET_SEARCH_PANEL_PAGE_SIZE', function test() {
     const recordType = 'object';
-    const panelName = 'descPanel';
+    const panelName = 'desc';
     const pageSize = 35;
 
     const state = reducer(undefined, {
@@ -81,7 +81,7 @@ describe('prefs reducer', function suite() {
     state.should.deep.equal(Immutable.fromJS({
       panels: {
         object: {
-          descPanel: {
+          desc: {
             pageSize,
           },
         },
@@ -95,7 +95,7 @@ describe('prefs reducer', function suite() {
     const prefs = Immutable.fromJS({
       panels: {
         object: {
-          descPanel: {
+          desc: {
             collapesed: true,
           },
         },

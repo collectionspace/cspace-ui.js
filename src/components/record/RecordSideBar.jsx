@@ -8,6 +8,7 @@ const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   recordType: PropTypes.string,
+  vocabulary: PropTypes.string,
 };
 
 export default function RecordSideBar(props) {
@@ -15,6 +16,7 @@ export default function RecordSideBar(props) {
     config,
     csid,
     recordType,
+    vocabulary,
   } = props;
 
   return (
@@ -23,6 +25,7 @@ export default function RecordSideBar(props) {
         csid={csid}
         config={config}
         recordType={recordType}
+        vocabulary={vocabulary}
       />
       <RelatedObjectPanelContainer
         csid={csid}

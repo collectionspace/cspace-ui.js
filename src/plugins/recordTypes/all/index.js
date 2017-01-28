@@ -8,14 +8,14 @@ export default () => () => ({
       isCreatable: false,
       messages: {
         record: defineMessages({
-          recordNameTitle: {
-            id: 'record.all.nameTitle',
-            description: 'The name of the record when used as a title.',
+          name: {
+            id: 'record.all.name',
+            description: 'The name of the record type.',
             defaultMessage: 'All Records',
           },
-          resultsTitle: {
-            id: 'record.all.resultsTitle',
-            description: 'The name of the record when used as a title describing search results.',
+          collectionName: {
+            id: 'record.all.collectionName',
+            description: 'The name of a collection of records of the type.',
             defaultMessage: 'All Records',
           },
         }),

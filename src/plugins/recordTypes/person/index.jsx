@@ -1,58 +1,35 @@
-import React from 'react';
 import { defineMessages } from 'react-intl';
+import columns from './columns';
+import defaultForm from './forms/default';
+import fields from './fields';
+import messages from './messages';
+import serviceConfig from './serviceConfig';
+import title from './title';
 
-export default () => () => ({
+export default () => pluginContext => ({
   recordTypes: {
     person: {
-      serviceConfig: {
-        serviceName: 'Persons',
-        servicePath: 'personauthorities',
-        serviceType: 'authority',
-
-        objectName: 'Person',
-
-        documentName: 'persons',
-
-        quickAddData: values => ({
-          document: {
-            '@name': 'persons',
-            'ns2:persons_common': {
-              '@xmlns:ns2': 'http://collectionspace.org/services/person',
-              personTermGroupList: {
-                personTermGroup: {
-                  termDisplayName: values.displayName,
-                },
-              },
-            },
-          },
-        }),
-      },
-      messages: {
-        record: defineMessages({
-          recordNameTitle: {
-            id: 'record.person.nameTitle',
-            description: 'The name of the record when used as a title.',
-            defaultMessage: 'Person',
-          },
-          resultsTitle: {
-            id: 'record.person.resultsTitle',
-            description: 'The name of the record when used as a title describing search results.',
-            defaultMessage: 'Persons',
-          },
-        }),
-      },
+      columns,
+      messages,
+      serviceConfig,
+      fields: fields(pluginContext),
       forms: {
-        default: <div />,
+        default: defaultForm(pluginContext),
       },
-      title: () => '',
+      title: title(pluginContext),
       vocabularies: {
         all: {
           isCreatable: false,
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.person.all.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All Vocabularies',
+            name: {
+              id: 'vocab.person.all.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'All',
+            },
+            collectionName: {
+              id: 'vocab.person.all.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
+              defaultMessage: 'All Persons',
             },
           }),
           serviceConfig: {
@@ -62,9 +39,14 @@ export default () => () => ({
         },
         local: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.person.local.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.person.local.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Local',
+            },
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Local Persons',
             },
           }),
@@ -74,9 +56,14 @@ export default () => () => ({
         },
         ulan: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.person.ulan.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.person.ulan.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'ULAN',
+            },
+            collectionName: {
+              id: 'vocab.person.ulan.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'ULAN Persons',
             },
           }),

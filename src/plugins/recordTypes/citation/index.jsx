@@ -29,14 +29,14 @@ export default () => () => ({
       },
       messages: {
         record: defineMessages({
-          recordNameTitle: {
-            id: 'record.citation.nameTitle',
-            description: 'The name of the record when used as a title.',
+          name: {
+            id: 'record.citation.name',
+            description: 'The name of the record type.',
             defaultMessage: 'Citation',
           },
-          resultsTitle: {
-            id: 'record.citation.resultsTitle',
-            description: 'The name of the record when used as a title describing search results.',
+          collectionName: {
+            id: 'record.citation.collectionName',
+            description: 'The name of a collection of records of the type.',
             defaultMessage: 'Citations',
           },
         }),
@@ -49,10 +49,15 @@ export default () => () => ({
         all: {
           isCreatable: false,
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.citation.all.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All Vocabularies',
+            name: {
+              id: 'vocab.citation.all.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'All',
+            },
+            collectionName: {
+              id: 'vocab.citation.all.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
+              defaultMessage: 'All Citations',
             },
           }),
           serviceConfig: {
@@ -62,9 +67,14 @@ export default () => () => ({
         },
         local: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.citation.local.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.citation.local.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Local',
+            },
+            collectionName: {
+              id: 'vocab.citation.local.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Local Citations',
             },
           }),
@@ -74,9 +84,14 @@ export default () => () => ({
         },
         worldcat: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.citation.worldcat.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.citation.worldcat.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'WorldCat',
+            },
+            collectionName: {
+              id: 'vocab.citation.worldcat.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'WorldCat Citations',
             },
           }),

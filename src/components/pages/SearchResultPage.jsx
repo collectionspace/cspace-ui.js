@@ -366,6 +366,7 @@ export default class SearchResultPage extends Component {
 
     const {
       recordType,
+      vocabulary,
       csid,
       subresource,
     } = searchDescriptor;
@@ -379,6 +380,21 @@ export default class SearchResultPage extends Component {
           <TitleBar title="Error: Unknown record type" />
         </div>
       );
+    }
+
+    let vocabularyConfig;
+
+    if (vocabulary) {
+      vocabularyConfig = recordTypeConfig.vocabularies[vocabulary];
+
+      if (!vocabularyConfig) {
+        // FIXME: Make a proper error page
+        return (
+          <div className={styles.common}>
+            <TitleBar title="Error: Unknown vocabulary" />
+          </div>
+        );
+      }
     }
 
     let subresourceConfig;
@@ -418,28 +434,34 @@ export default class SearchResultPage extends Component {
       );
     }
 
-    let resultsTitle;
+    let collectionName;
 
     if (subresourceConfig) {
       const recordLink = <CsidLink config={config} searchName={`${searchName}.csid`} csid={csid} />;
 
-      resultsTitle = (
+      collectionName = (
         <FormattedMessage
-          {...subresourceConfig.messages.resultsTitle}
+          {...subresourceConfig.messages.collectionName}
           values={{ record: recordLink }}
         />
       );
-    } else {
-      resultsTitle = (
+    } else if (vocabularyConfig) {
+      collectionName = (
         <FormattedMessage
-          {...recordTypeConfig.messages.record.resultsTitle}
+          {...vocabularyConfig.messages.collectionName}
+        />
+      );
+    } else {
+      collectionName = (
+        <FormattedMessage
+          {...recordTypeConfig.messages.record.collectionName}
         />
       );
     }
 
     const title = (
       <span>
-        {resultsTitle}
+        {collectionName}
         {' '}{keywordQueryTitle}
         {' '}{relatedQueryTitle}
       </span>

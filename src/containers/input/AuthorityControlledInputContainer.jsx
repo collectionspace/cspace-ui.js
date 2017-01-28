@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
     formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
-    formatVocabName: vocab => intl.formatMessage(vocab.messages.vocabNameTitle),
+    formatVocabName: vocab => intl.formatMessage(vocab.messages.name),
     matches: getPartialTermSearchMatches(state),
     recordTypes: config.recordTypes,
   };

@@ -18,25 +18,36 @@ export default () => ({
 
       getItemLocation: (item, { config, searchDescriptor }) => {
         const docType = item.get('docType');
+        const refName = item.get('refName');
+        const csid = item.get('csid');
 
-        let recordTypeName;
+        let recordTypeConfig;
 
         if (docType) {
-          const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, docType);
+          // This is a search on multiple record types, which will contain the record type of each
+          // item in the result.
 
-          if (recordTypeConfig) {
-            recordTypeName = recordTypeConfig.name;
+          recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, docType);
+        } else {
+          // This is a search on a single record type, so the record type of all items is in the
+          // search descriptor.
+
+          recordTypeConfig = config.recordTypes[searchDescriptor.recordType];
+        }
+
+        if (recordTypeConfig) {
+          if (recordTypeConfig.serviceConfig.serviceType === 'authority') {
+            const vocabularyShortID = getVocabularyShortID(refName);
+
+            const vocabularyConfig =
+              getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
+
+            if (vocabularyConfig) {
+              return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/${csid}`;
+            }
+          } else {
+            return `/record/${recordTypeConfig.name}/${csid}`;
           }
-        }
-
-        if (!recordTypeName) {
-          recordTypeName = searchDescriptor.recordType;
-        }
-
-        if (recordTypeName) {
-          const csid = item.get('csid');
-
-          return `/record/${recordTypeName}/${csid}`;
         }
 
         return null;
@@ -47,31 +58,26 @@ export default () => ({
       itemNodeName: 'authority-ref-item',
 
       getItemLocation: (item, { config }) => {
-        let location = null;
-
         const refName = item.get('refName');
+        const servicePath = getServicePath(refName);
+        const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
 
-        if (refName) {
-          const servicePath = getServicePath(refName);
-          const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
+        if (recordTypeConfig) {
+          const vocabularyShortID = getVocabularyShortID(refName);
 
-          if (recordTypeConfig) {
-            const vocabularyShortID = getVocabularyShortID(refName);
+          const vocabularyConfig =
+            getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
 
-            const vocabularyConfig =
-              getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
+          if (vocabularyConfig) {
+            const itemShortID = getItemShortID(refName);
 
-            if (vocabularyConfig) {
-              const itemShortID = getItemShortID(refName);
-
-              if (itemShortID) {
-                location = `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/urn:cspace:name(${itemShortID})`;
-              }
+            if (itemShortID) {
+              return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/urn:cspace:name(${itemShortID})`;
             }
           }
         }
 
-        return location;
+        return null;
       },
     },
   },

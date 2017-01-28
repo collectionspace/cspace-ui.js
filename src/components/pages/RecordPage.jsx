@@ -122,7 +122,7 @@ export default class RecordPage extends Component {
 
     const {
       recordType,
-      // vocabulary,
+      vocabulary,
       csid,
     } = this.getParams();
 
@@ -133,8 +133,18 @@ export default class RecordPage extends Component {
         <RecordTitleBarContainer csid={normalizedCsid} recordType={recordType} />
 
         <div className={recordBodyStyles.common}>
-          <RecordTabs csid={normalizedCsid} recordType={recordType} config={config} />
-          <RecordSideBar csid={normalizedCsid} recordType={recordType} config={config} />
+          <RecordTabs
+            csid={normalizedCsid}
+            recordType={recordType}
+            vocabulary={vocabulary}
+            config={config}
+          />
+          <RecordSideBar
+            csid={normalizedCsid}
+            recordType={recordType}
+            vocabulary={vocabulary}
+            config={config}
+          />
         </div>
       </div>
     );

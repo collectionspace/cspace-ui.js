@@ -5,7 +5,7 @@ export default (pluginContext) => {
 
   const {
     Panel,
-    Row,
+    // Row,
   } = pluginContext.layoutComponents;
 
   const {
@@ -15,14 +15,14 @@ export default (pluginContext) => {
   return (
     <Field name="document">
       <Panel name="info" collapsible>
-        <Field name="title" />
-
-        <Row>
-          <Field name="responsibleDepartment" />
-          <Field name="owner" />
-        </Row>
-
-        <Field name="scopeNote" />
+        <Field name="personTermGroupList">
+          <Field name="personTermGroup">
+            <Panel>
+              <Field name="termDisplayName" />
+              <Field name="termSource" />
+            </Panel>
+          </Field>
+        </Field>
       </Panel>
     </Field>
   );

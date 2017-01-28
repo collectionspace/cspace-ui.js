@@ -1,40 +1,51 @@
 import { defineMessages } from 'react-intl';
+
 import {
-  formatTimestamp,
   formatRefNameAsVocabularyName,
-  formatServiceObjectName,
+  formatTimestamp,
 } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
     {
-      name: 'docName',
+      name: 'termDisplayName',
       messages: defineMessages({
         label: {
-          id: 'column.authority.default.docName',
-          defaultMessage: 'Item',
+          id: 'column.person.default.termDisplayName',
+          defaultMessage: 'Display name',
         },
       }),
-      width: 200,
+      sortBy: 'persons_common:personTermGroupList/0/termDisplayName',
+      width: 250,
     },
     {
-      name: 'docType',
+      name: 'surName',
       messages: defineMessages({
         label: {
-          id: 'column.authority.default.docType',
-          defaultMessage: 'Type',
+          id: 'column.person.default.surName',
+          defaultMessage: 'Surname',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatServiceObjectName(value, formatterContext),
-      width: 150,
+      sortBy: 'persons_common:personTermGroupList/0/surName',
+      width: 125,
+    },
+    {
+      name: 'foreName',
+      messages: defineMessages({
+        label: {
+          id: 'column.person.default.foreName',
+          defaultMessage: 'Forename',
+        },
+      }),
+      sortBy: 'persons_common:personTermGroupList/0/foreName',
+      width: 125,
     },
     {
       name: 'vocabulary',
       dataKey: 'refName',
       messages: defineMessages({
         label: {
-          id: 'column.authority.default.vocabulary',
+          id: 'column.person.default.vocabulary',
           defaultMessage: 'Vocabulary',
         },
       }),
@@ -46,7 +57,7 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.authority.default.updatedAt',
+          id: 'column.object.search.updatedAt',
           defaultMessage: 'Updated',
         },
       }),

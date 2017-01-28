@@ -40,8 +40,8 @@ const config = {
       },
       messages: {
         record: {
-          recordNameTitle: {
-            id: `record.${objectRecordType}.nameTitle`,
+          name: {
+            id: `record.${objectRecordType}.name`,
             defaultMessage: objectRecordType,
           },
         },
@@ -57,8 +57,8 @@ const config = {
       },
       messages: {
         record: {
-          recordNameTitle: {
-            id: `record.${authorityRecordType}.nameTitle`,
+          name: {
+            id: `record.${authorityRecordType}.name`,
             defaultMessage: authorityRecordType,
           },
         },

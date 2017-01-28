@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import { formatLocalDateTime } from '../../../helpers/dateHelpers';
+import { formatTimestamp } from '../../../helpers/formatHelpers';
 import { thumbnailImage } from '../../../helpers/blobHelpers';
 
 export default {
@@ -8,7 +8,7 @@ export default {
       name: 'blobCsid',
       messages: defineMessages({
         label: {
-          id: 'column.media.blobCsid',
+          id: 'column.media.default.blobCsid',
           defaultMessage: 'Thumbnail',
         },
       }),
@@ -19,7 +19,7 @@ export default {
       name: 'identificationNumber',
       messages: defineMessages({
         label: {
-          id: 'column.media.identificationNumber',
+          id: 'column.media.default.identificationNumber',
           defaultMessage: 'Identification number',
         },
       }),
@@ -30,7 +30,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.media.title',
+          id: 'column.media.default.title',
           defaultMessage: 'Title',
         },
       }),
@@ -41,11 +41,11 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.group.updatedAt',
+          id: 'column.media.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
-      formatValue: formatLocalDateTime,
+      formatValue: formatTimestamp,
       sortBy: 'collectionspace_core:updatedAt',
       width: 150,
     },
