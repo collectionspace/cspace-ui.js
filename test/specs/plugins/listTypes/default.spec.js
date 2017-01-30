@@ -17,6 +17,7 @@ const config = {
       name: 'object',
       serviceConfig: {
         objectName: 'CollectionObject',
+        servicePath: 'collectionobjects',
       },
     },
     person: {
@@ -94,6 +95,34 @@ describe('default list types', function suite() {
 
       it('should return null for an unknown record type', function test() {
         expect(authRefList.getItemLocation(Immutable.fromJS({
+          refName: 'urn:cspace:core.collectionspace.org:foobar:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
+        }), { config })).to.equal(null);
+      });
+    });
+  });
+
+
+  describe('ref doc list', function typeSuite() {
+    const refDocList = listTypes.refDoc;
+
+    describe('getItemLocation', function funcSuite() {
+      it('should compute the location from the refName and docId', function test() {
+        refDocList.getItemLocation(Immutable.fromJS({
+          docId: 'ea399d7a-7ea3-4670-930b',
+          refName: 'urn:cspace:core.collectionspace.org:collectionobjects:id(ea399d7a-7ea3-4670-930b)\'4\'',
+        }), { config }).should.equal('/record/object/ea399d7a-7ea3-4670-930b');
+      });
+
+      it('should compute the location for authority items', function test() {
+        refDocList.getItemLocation(Immutable.fromJS({
+          docId: 'ca85dc9c-cd81-4934-9b37',
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
+        }), { config }).should.equal('/record/person/local/ca85dc9c-cd81-4934-9b37');
+      });
+
+      it('should return null for an unknown record type', function test() {
+        expect(refDocList.getItemLocation(Immutable.fromJS({
+          docId: 'ca85dc9c-cd81-4934-9b37',
           refName: 'urn:cspace:core.collectionspace.org:foobar:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
         }), { config })).to.equal(null);
       });

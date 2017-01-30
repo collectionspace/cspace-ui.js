@@ -170,7 +170,7 @@ export default class SearchResultTable extends Component {
 
       const columns = columnConfig.map(column => ({
         cellDataGetter: ({ dataKey, rowData }) =>
-          formatCellData(column, rowData ? rowData.get(dataKey) : null),
+          formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
         disableSort: !isSortable(column, searchDescriptor),
         label: formatColumnLabel(column),
         dataKey: column.dataKey || column.name,

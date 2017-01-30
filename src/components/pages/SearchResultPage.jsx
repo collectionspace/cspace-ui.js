@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
+import get from 'lodash/get';
 import TitleBar from '../sections/TitleBar';
 import CsidLink from '../navigation/CsidLink';
 import PageSizeChooser from '../search/PageSizeChooser';
@@ -18,33 +19,16 @@ const messages = defineMessages({
     id: 'searchResultPage.relatedQuery',
     defaultMessage: 'related to {record}',
   },
-  resultCount: {
-    id: 'searchResultPage.resultCount',
-    defaultMessage: `{totalItems, plural,
-      =0 {No records}
-      one {1 record}
-      other {{startNum}–{endNum} of {totalItems} records}
-    } found`,
-  },
-  searching: {
-    id: 'searchResultPage.searching',
-    defaultMessage: 'Finding records...',
-  },
 });
 
 export const searchName = 'searchResultPage';
 
 const propTypes = {
-  listType: PropTypes.string,
   location: locationShape,
   params: PropTypes.objectOf(PropTypes.string),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
-};
-
-const defaultProps = {
-  listType: 'common',
 };
 
 const contextTypes = {
@@ -107,6 +91,22 @@ export default class SearchResultPage extends Component {
     });
 
     return searchDescriptor;
+  }
+
+  getListType(searchDescriptor) {
+    if (searchDescriptor) {
+      const { subresource } = searchDescriptor;
+
+      if (subresource) {
+        const {
+          config,
+        } = this.context;
+
+        return get(config, ['subresources', subresource, 'listType']);
+      }
+    }
+
+    return 'common';
   }
 
   normalizeQuery() {
@@ -229,7 +229,6 @@ export default class SearchResultPage extends Component {
 
   search() {
     const {
-      listType,
       search,
     } = this.props;
 
@@ -238,6 +237,7 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
+    const listType = this.getListType(searchDescriptor);
 
     if (search) {
       search(config, searchName, searchDescriptor, listType);
@@ -272,13 +272,11 @@ export default class SearchResultPage extends Component {
 
     if (searchResult) {
       const {
-        listType,
-      } = this.props;
-
-      const {
         config,
       } = this.context;
 
+      const searchDescriptor = this.getSearchDescriptor();
+      const listType = this.getListType(searchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 
@@ -287,7 +285,7 @@ export default class SearchResultPage extends Component {
 
       if (isNaN(totalItems)) {
         message = (
-          <FormattedMessage {...messages.searching} />
+          <FormattedMessage {...listTypeConfig.messages.searching} />
         );
       } else {
         const pageNum = parseInt(list.get('pageNum'), 10);
@@ -298,7 +296,7 @@ export default class SearchResultPage extends Component {
 
         message = (
           <FormattedMessage
-            {...messages.resultCount}
+            {...listTypeConfig.messages.resultCount}
             values={{
               totalItems,
               startNum,
@@ -320,13 +318,11 @@ export default class SearchResultPage extends Component {
   renderFooter({ searchResult }) {
     if (searchResult) {
       const {
-        listType,
-      } = this.props;
-
-      const {
         config,
       } = this.context;
 
+      const searchDescriptor = this.getSearchDescriptor();
+      const listType = this.getListType(searchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 
@@ -355,14 +351,11 @@ export default class SearchResultPage extends Component {
 
   render() {
     const {
-      listType,
-    } = this.props;
-
-    const {
       config,
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
+    const listType = this.getListType(searchDescriptor);
 
     const {
       recordType,
@@ -485,5 +478,4 @@ export default class SearchResultPage extends Component {
 }
 
 SearchResultPage.propTypes = propTypes;
-SearchResultPage.defaultProps = defaultProps;
 SearchResultPage.contextTypes = contextTypes;

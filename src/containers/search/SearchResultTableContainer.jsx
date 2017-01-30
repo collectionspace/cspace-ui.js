@@ -18,15 +18,21 @@ const mapStateToProps = (state, ownProps) => {
     searchDescriptor,
   } = ownProps;
 
-  const formatterContext = {
-    intl,
-    config,
-    recordType,
-  };
-
   return {
-    formatCellData: (column, data) =>
-      (column.formatValue ? column.formatValue(data, formatterContext) : data),
+    formatCellData: (column, data, rowData) => {
+      if (column.formatValue) {
+        const formatterContext = {
+          intl,
+          config,
+          recordType,
+          rowData,
+        };
+
+        return column.formatValue(data, formatterContext);
+      }
+
+      return data;
+    },
     formatColumnLabel: column =>
       intl.formatMessage(column.messages.label),
     isSearchPending: isSearchPending(state, searchName, searchDescriptor),

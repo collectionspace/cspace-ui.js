@@ -55,7 +55,7 @@ export const formatRefNameAsVocabularyName = (refName, { intl, config }) => {
   return `[ ${recordServicePath.toLowerCase()} ]`;
 };
 
-export const formatSourceField = (sourceField, { intl, config, recordType }) => {
+export const formatRecordTypeSourceField = (recordType, sourceField, { intl, config }) => {
   // FIXME: This should use a full name message, distinct from the label used in the record editor,
   // because the record editor label may not have enough context. This requires refactoring of
   // messages and reworking how record editor fields are labeled.
@@ -72,4 +72,20 @@ export const formatSourceField = (sourceField, { intl, config, recordType }) => 
   }
 
   return `[ ${fieldName} ]`;
+};
+
+export const formatSourceField = (sourceField, formatterContext) =>
+  formatRecordTypeSourceField(formatterContext.recordType, sourceField, formatterContext);
+
+export const formatForeignSourceField = (sourceField, formatterContext) => {
+  const {
+    config,
+    rowData,
+  } = formatterContext;
+
+  const serviceObjectName = rowData.get('docType');
+  const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, serviceObjectName);
+  const recordType = recordTypeConfig ? recordTypeConfig.name : null;
+
+  return formatRecordTypeSourceField(recordType, sourceField, formatterContext);
 };

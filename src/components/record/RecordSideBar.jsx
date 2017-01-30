@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import RelatedObjectPanelContainer from '../../containers/record/RelatedObjectPanelContainer';
 import RelatedProcedurePanelContainer from '../../containers/record/RelatedProcedurePanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
+import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSideBar.css';
 
 const propTypes = {
@@ -36,6 +37,12 @@ export default function RecordSideBar(props) {
         csid={csid}
         config={config}
         recordType={recordType}
+      />
+      <UsedByPanelContainer
+        csid={csid}
+        config={config}
+        recordType={recordType}
+        vocabulary={vocabulary}
       />
     </div>
   );
