@@ -20,6 +20,50 @@ export default function RecordSideBar(props) {
     vocabulary,
   } = props;
 
+  // TODO: Make sidebar components configurable based on service type/record type.
+
+  const recordTypeConfig = config.recordTypes[recordType];
+
+  if (!recordTypeConfig) {
+    return null;
+  }
+
+  const serviceType = recordTypeConfig.serviceConfig.serviceType;
+  const isAuthority = serviceType === 'authority';
+
+  let relatedObjects = null;
+  let relatedProcedures = null;
+  let usedBy = null;
+
+  if (!isAuthority) {
+    relatedObjects = (
+      <RelatedObjectPanelContainer
+        csid={csid}
+        config={config}
+        recordType={recordType}
+      />
+    );
+
+    relatedProcedures = (
+      <RelatedProcedurePanelContainer
+        csid={csid}
+        config={config}
+        recordType={recordType}
+      />
+      );
+  }
+
+  if (isAuthority) {
+    usedBy = (
+      <UsedByPanelContainer
+        csid={csid}
+        config={config}
+        recordType={recordType}
+        vocabulary={vocabulary}
+      />
+    );
+  }
+
   return (
     <div className={styles.common}>
       <TermsUsedPanelContainer
@@ -28,22 +72,9 @@ export default function RecordSideBar(props) {
         recordType={recordType}
         vocabulary={vocabulary}
       />
-      <RelatedObjectPanelContainer
-        csid={csid}
-        config={config}
-        recordType={recordType}
-      />
-      <RelatedProcedurePanelContainer
-        csid={csid}
-        config={config}
-        recordType={recordType}
-      />
-      <UsedByPanelContainer
-        csid={csid}
-        config={config}
-        recordType={recordType}
-        vocabulary={vocabulary}
-      />
+      {relatedObjects}
+      {relatedProcedures}
+      {usedBy}
     </div>
   );
 }
