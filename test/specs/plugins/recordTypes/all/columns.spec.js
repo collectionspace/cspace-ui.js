@@ -35,8 +35,8 @@ describe('all record columns', function suite() {
         object: {
           messages: {
             record: {
-              recordNameTitle: {
-                id: 'record.object.nameTitle',
+              name: {
+                id: 'record.object.name',
               },
             },
           },
@@ -52,7 +52,7 @@ describe('all record columns', function suite() {
     };
 
     docTypeColumn.formatValue('CollectionObject', { intl, config }).should
-      .equal('formatted record.object.nameTitle');
+      .equal('formatted record.object.name');
   });
 
   it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
@@ -64,8 +64,8 @@ describe('all record columns', function suite() {
       recordTypes: {
         object: {
           messages: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            name: {
+              id: 'record.object.name',
             },
           },
           serviceConfig: {

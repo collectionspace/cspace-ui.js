@@ -3,7 +3,6 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
-import { getRecordTypeConfigByServiceObjectName } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 
@@ -84,26 +83,12 @@ export default class SearchResultTable extends Component {
 
       const items = searchResult.getIn([listNodeName, itemNodeName]);
       const item = Immutable.List.isList(items) ? items.get(index) : items;
-      const docType = item.get('docType');
 
-      let recordTypeName;
+      const itemContext = { config, searchDescriptor };
+      const itemLocation = listTypeConfig.getItemLocation(item, itemContext);
 
-      if (docType) {
-        const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, docType);
-
-        if (recordTypeConfig) {
-          recordTypeName = recordTypeConfig.name;
-        }
-      }
-
-      if (!recordTypeName) {
-        recordTypeName = searchDescriptor.recordType;
-      }
-
-      if (recordTypeName) {
-        const csid = item.get('csid');
-
-        router.push(`/record/${recordTypeName}/${csid}`);
+      if (itemLocation) {
+        router.push(itemLocation);
       }
     }
   }
@@ -185,7 +170,7 @@ export default class SearchResultTable extends Component {
 
       const columns = columnConfig.map(column => ({
         cellDataGetter: ({ dataKey, rowData }) =>
-          formatCellData(column, rowData ? rowData.get(dataKey) : null),
+          formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
         disableSort: !isSortable(column, searchDescriptor),
         label: formatColumnLabel(column),
         dataKey: column.dataKey || column.name,

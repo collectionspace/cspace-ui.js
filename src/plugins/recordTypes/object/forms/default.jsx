@@ -15,7 +15,7 @@ export default (pluginContext) => {
 
   return (
     <Field name="document">
-      <Panel name="idPanel" collapsible>
+      <Panel name="id" collapsible>
         <Row>
           <div>
             <Field name="objectNumber" />
@@ -86,7 +86,7 @@ export default (pluginContext) => {
         </Field>
       </Panel>
 
-      <Panel name="descPanel" collapsible>
+      <Panel name="desc" collapsible>
         <Row>
           <div>
             <Field name="copyNumber" />
@@ -180,7 +180,7 @@ export default (pluginContext) => {
           </Field>
         </Field>
 
-        <Panel name="contentPanel" collapsible collapsed>
+        <Panel name="content" collapsible collapsed>
           <Field name="contentDescription" />
 
           <Row>
@@ -251,7 +251,7 @@ export default (pluginContext) => {
           <Field name="contentNote" />
         </Panel>
 
-        <Panel name="textInscriptPanel" collapsible collapsed>
+        <Panel name="textInscript" collapsible collapsed>
           <Field name="textualInscriptionGroupList">
             <Field name="textualInscriptionGroup">
               <Panel>
@@ -280,7 +280,7 @@ export default (pluginContext) => {
           </Field>
         </Panel>
 
-        <Panel name="nonTextInscriptPanel" collapsible collapsed>
+        <Panel name="nonTextInscript" collapsible collapsed>
           <Field name="nonTextualInscriptionGroupList">
             <Field name="nonTextualInscriptionGroup">
               <Panel>
@@ -306,7 +306,7 @@ export default (pluginContext) => {
         </Panel>
       </Panel>
 
-      <Panel name="prodPanel" collapsible collapsed>
+      <Panel name="prod" collapsible collapsed>
         <Row>
           <div>
             <Field name="objectProductionDateGroupList">
@@ -359,8 +359,8 @@ export default (pluginContext) => {
         </Row>
       </Panel>
 
-      <Panel name="histPanel" collapsible collapsed>
-        <Panel name="assocPanel" collapsible collapsed>
+      <Panel name="hist" collapsible collapsed>
+        <Panel name="assoc" collapsible collapsed>
           <Row>
             <div>
               <Field name="assocActivityGroupList">
@@ -501,7 +501,7 @@ export default (pluginContext) => {
         </JoinedInputRow>
       </Panel>
 
-      <Panel name="ownerPanel" collapsible collapsed>
+      <Panel name="owner" collapsible collapsed>
         <Field name="ownersPersonalExperience" />
         <Field name="ownersPersonalResponse" />
 
@@ -512,7 +512,7 @@ export default (pluginContext) => {
         <Field name="ownersContributionNote" />
       </Panel>
 
-      <Panel name="viewerPanel" collapsible collapsed>
+      <Panel name="viewer" collapsible collapsed>
         <Field name="viewersRole" />
         <Field name="viewersPersonalExperience" />
         <Field name="viewersPersonalResponse" />
@@ -524,7 +524,7 @@ export default (pluginContext) => {
         <Field name="viewersContributionNote" />
       </Panel>
 
-      <Panel name="referencePanel" collapsible collapsed>
+      <Panel name="reference" collapsible collapsed>
         <Field name="referenceGroupList">
           <Field name="referenceGroup">
             <Field name="reference" />
@@ -533,7 +533,7 @@ export default (pluginContext) => {
         </Field>
       </Panel>
 
-      <Panel name="collectPanel" collapsible collapsed>
+      <Panel name="collect" collapsible collapsed>
         <Row>
           <div>
             <Field name="fieldCollectionDateGroup" />

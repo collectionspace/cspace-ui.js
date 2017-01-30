@@ -21,8 +21,8 @@ const config = {
     object: {
       messages: {
         record: {
-          recordNameTitle: {
-            id: 'recordNameTitle',
+          name: {
+            id: 'name',
             defaultMessage: 'Object',
           },
         },

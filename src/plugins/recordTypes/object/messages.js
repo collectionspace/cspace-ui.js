@@ -7,63 +7,63 @@ import { defineMessages } from 'react-intl';
 
 export default {
   record: defineMessages({
-    recordNameTitle: {
-      id: 'record.object.nameTitle',
-      description: 'The name of the record when used as a title.',
+    name: {
+      id: 'record.object.name',
+      description: 'The name of the record type.',
       defaultMessage: 'Object',
     },
-    resultsTitle: {
-      id: 'record.object.resultsTitle',
-      description: 'The name of the record when used as a title describing search results.',
+    collectionName: {
+      id: 'record.object.collectionName',
+      description: 'The name of a collection of records of the type.',
       defaultMessage: 'Objects',
     },
   }),
   panel: defineMessages({
-    idPanel: {
+    id: {
       id: 'panel.object.id',
       defaultMessage: 'Object Identification Information',
     },
-    descPanel: {
+    desc: {
       id: 'panel.object.desc',
       defaultMessage: 'Object Description Information',
     },
-    contentPanel: {
+    content: {
       id: 'panel.object.content',
       defaultMessage: 'Content',
     },
-    textInscriptPanel: {
+    textInscript: {
       id: 'panel.object.textInscript',
       defaultMessage: 'Textual Inscription',
     },
-    nonTextInscriptPanel: {
+    nonTextInscript: {
       id: 'panel.object.nonTextInscript',
       defaultMessage: 'Non-Textual Inscription',
     },
-    prodPanel: {
+    prod: {
       id: 'panel.object.prod',
       defaultMessage: 'Object Production Information',
     },
-    histPanel: {
+    hist: {
       id: 'panel.object.hist',
       defaultMessage: 'Object History and Association Information',
     },
-    assocPanel: {
+    assoc: {
       id: 'panel.object.assoc',
       defaultMessage: 'Associations',
     },
-    ownerPanel: {
+    owner: {
       id: 'panel.object.owner',
       defaultMessage: 'Object Owner\'s Contribution Information',
     },
-    viewerPanel: {
+    viewer: {
       id: 'panel.object.viewer',
       defaultMessage: 'Object Viewer\'s Contribution Information',
     },
-    referencePanel: {
+    reference: {
       id: 'panel.object.reference',
       defaultMessage: 'Reference Information',
     },
-    collectPanel: {
+    collect: {
       id: 'panel.object.collect',
       defaultMessage: 'Object Collection Information',
     },

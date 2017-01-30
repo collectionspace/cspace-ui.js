@@ -8,8 +8,8 @@ describe('terms subresource columns', function suite() {
       person: {
         messages: {
           record: {
-            recordNameTitle: {
-              id: 'record.person.nameTitle',
+            name: {
+              id: 'record.person.name',
             },
           },
         },
@@ -19,8 +19,8 @@ describe('terms subresource columns', function suite() {
         vocabularies: {
           local: {
             messages: {
-              vocabNameTitle: {
-                id: 'vocab.person.local.nameTitle',
+              name: {
+                id: 'vocab.person.local.name',
               },
             },
             serviceConfig: {
@@ -62,7 +62,7 @@ describe('terms subresource columns', function suite() {
       const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       typeColumn.formatValue(refName, { intl, config }).should
-        .equal('formatted record.person.nameTitle');
+        .equal('formatted record.person.name');
     });
 
     it('should format the type column with a fallback if no record type is found with the service path', function test() {
@@ -81,7 +81,7 @@ describe('terms subresource columns', function suite() {
       const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       vocabularyColumn.formatValue(refName, { intl, config }).should
-        .equal('formatted vocab.person.local.nameTitle');
+        .equal('formatted vocab.person.local.name');
     });
 
     it('should format the vocabulary column with a fallback if no record type is found with the service path', function test() {
@@ -129,7 +129,7 @@ describe('terms subresource columns', function suite() {
       const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       typeColumn.formatValue(refName, { intl, config }).should
-        .equal('formatted record.person.nameTitle');
+        .equal('formatted record.person.name');
     });
 
     it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
@@ -140,7 +140,7 @@ describe('terms subresource columns', function suite() {
       const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       vocabularyColumn.formatValue(refName, { intl, config }).should
-        .equal('formatted vocab.person.local.nameTitle');
+        .equal('formatted vocab.person.local.name');
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {

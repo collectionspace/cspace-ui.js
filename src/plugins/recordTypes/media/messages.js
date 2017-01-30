@@ -7,14 +7,14 @@ import { defineMessages } from 'react-intl';
 
 export default {
   record: defineMessages({
-    recordNameTitle: {
-      id: 'record.media.nameTitle',
-      description: 'The name of the record when used as a title.',
+    name: {
+      id: 'record.media.name',
+      description: 'The name of the record type.',
       defaultMessage: 'Media Handling',
     },
-    resultsTitle: {
-      id: 'record.media.resultsTitle',
-      description: 'The name of the record when used as a title describing search results.',
+    collectionName: {
+      id: 'record.media.collectionName',
+      description: 'The name of a collection of records of the type.',
       defaultMessage: 'Media Handling',
     },
   }),

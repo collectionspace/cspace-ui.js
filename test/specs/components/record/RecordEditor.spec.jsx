@@ -33,7 +33,7 @@ const config = {
       forms: {
         default: (
           <CompoundInput>
-            <Panel name="idPanel">
+            <Panel name="id">
               <TextInput name="objectNumber" />
               <TextInput name="desc" msgkey="foo" />
               <TextInput name="color" label="Color" />
@@ -44,14 +44,14 @@ const config = {
       },
       messages: {
         record: {
-          recordNameTitle: {
-            id: 'recordNameTitle',
+          name: {
+            id: 'name',
             defaultMessage: 'Object',
           },
         },
         panel: {
-          idPanel: {
-            id: 'panel.idPanel.label',
+          id: {
+            id: 'panel.id.label',
             defaultMessage: 'Object Identification Information',
           },
         },

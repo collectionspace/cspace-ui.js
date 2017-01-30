@@ -27,7 +27,7 @@ describe('prefs action creator', function suite() {
   describe('collapsePanel', function actionSuite() {
     it('should create a COLLAPSE_PANEL action', function test() {
       const recordType = 'object';
-      const name = 'descPanel';
+      const name = 'desc';
       const collapsed = true;
 
       collapsePanel(recordType, name, collapsed).should.deep.equal({

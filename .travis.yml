@@ -15,3 +15,6 @@ cache:
   - node_modules
 addons:
   firefox: "latest"
+# Get a sudo-enabled vm for more ram (7.5 GB vs. 4 GB). Firefox tests run on travis seem to
+# require more than 4.
+sudo: required

@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
+import get from 'lodash/get';
 import TitleBar from '../sections/TitleBar';
+import CsidLink from '../navigation/CsidLink';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
@@ -9,41 +11,24 @@ import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import headerStyles from '../../../styles/cspace-ui/Header.css';
 
 const messages = defineMessages({
-  keywordParam: {
-    id: 'searchResultPage.keywordParam',
+  keywordQuery: {
+    id: 'searchResultPage.keywordQuery',
     defaultMessage: 'containing "{keyword}"',
   },
-  relatedParam: {
-    id: 'searchResultPage.relatedParam',
-    defaultMessage: 'related to {name}',
-  },
-  resultCount: {
-    id: 'searchResultPage.resultCount',
-    defaultMessage: `{totalItems, plural,
-      =0 {No records}
-      one {1 record}
-      other {{startNum}–{endNum} of {totalItems} records}
-    } found`,
-  },
-  searching: {
-    id: 'searchResultPage.searching',
-    defaultMessage: 'Finding records...',
+  relatedQuery: {
+    id: 'searchResultPage.relatedQuery',
+    defaultMessage: 'related to {record}',
   },
 });
 
 export const searchName = 'searchResultPage';
 
 const propTypes = {
-  listType: PropTypes.string,
   location: locationShape,
   params: PropTypes.objectOf(PropTypes.string),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
-};
-
-const defaultProps = {
-  listType: 'common',
 };
 
 const contextTypes = {
@@ -106,6 +91,22 @@ export default class SearchResultPage extends Component {
     });
 
     return searchDescriptor;
+  }
+
+  getListType(searchDescriptor) {
+    if (searchDescriptor) {
+      const { subresource } = searchDescriptor;
+
+      if (subresource) {
+        const {
+          config,
+        } = this.context;
+
+        return get(config, ['subresources', subresource, 'listType']);
+      }
+    }
+
+    return 'common';
   }
 
   normalizeQuery() {
@@ -228,7 +229,6 @@ export default class SearchResultPage extends Component {
 
   search() {
     const {
-      listType,
       search,
     } = this.props;
 
@@ -236,8 +236,11 @@ export default class SearchResultPage extends Component {
       config,
     } = this.context;
 
+    const searchDescriptor = this.getSearchDescriptor();
+    const listType = this.getListType(searchDescriptor);
+
     if (search) {
-      search(config, searchName, this.getSearchDescriptor(), listType);
+      search(config, searchName, searchDescriptor, listType);
     }
   }
 
@@ -269,13 +272,11 @@ export default class SearchResultPage extends Component {
 
     if (searchResult) {
       const {
-        listType,
-      } = this.props;
-
-      const {
         config,
       } = this.context;
 
+      const searchDescriptor = this.getSearchDescriptor();
+      const listType = this.getListType(searchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 
@@ -284,7 +285,7 @@ export default class SearchResultPage extends Component {
 
       if (isNaN(totalItems)) {
         message = (
-          <FormattedMessage {...messages.searching} />
+          <FormattedMessage {...listTypeConfig.messages.searching} />
         );
       } else {
         const pageNum = parseInt(list.get('pageNum'), 10);
@@ -295,7 +296,7 @@ export default class SearchResultPage extends Component {
 
         message = (
           <FormattedMessage
-            {...messages.resultCount}
+            {...listTypeConfig.messages.resultCount}
             values={{
               totalItems,
               startNum,
@@ -317,13 +318,11 @@ export default class SearchResultPage extends Component {
   renderFooter({ searchResult }) {
     if (searchResult) {
       const {
-        listType,
-      } = this.props;
-
-      const {
         config,
       } = this.context;
 
+      const searchDescriptor = this.getSearchDescriptor();
+      const listType = this.getListType(searchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 
@@ -352,17 +351,15 @@ export default class SearchResultPage extends Component {
 
   render() {
     const {
-      listType,
-    } = this.props;
-
-    const {
       config,
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
+    const listType = this.getListType(searchDescriptor);
 
     const {
       recordType,
+      vocabulary,
       csid,
       subresource,
     } = searchDescriptor;
@@ -376,6 +373,21 @@ export default class SearchResultPage extends Component {
           <TitleBar title="Error: Unknown record type" />
         </div>
       );
+    }
+
+    let vocabularyConfig;
+
+    if (vocabulary) {
+      vocabularyConfig = recordTypeConfig.vocabularies[vocabulary];
+
+      if (!vocabularyConfig) {
+        // FIXME: Make a proper error page
+        return (
+          <div className={styles.common}>
+            <TitleBar title="Error: Unknown vocabulary" />
+          </div>
+        );
+      }
     }
 
     let subresourceConfig;
@@ -398,23 +410,53 @@ export default class SearchResultPage extends Component {
       rel,
     } = searchDescriptor.searchQuery;
 
-    const keywordParamTitle = kw
-      ? <FormattedMessage {...messages.keywordParam} values={{ keyword: kw }} />
+    const keywordQueryTitle = kw
+      ? <FormattedMessage {...messages.keywordQuery} values={{ keyword: kw }} />
       : null;
 
-    const relatedParamTitle = rel
-      ? <FormattedMessage {...messages.relatedParam} values={{ name: rel }} />
-      : null;
+    let relatedQueryTitle = null;
 
-    const message = subresourceConfig
-      ? <FormattedMessage {...subresourceConfig.messages.resultsTitle} values={{ record: csid }} />
-      : <FormattedMessage {...recordTypeConfig.messages.record.resultsTitle} />;
+    if (rel) {
+      const recordLink = <CsidLink config={config} searchName={`${searchName}.rel`} csid={rel} />;
+
+      relatedQueryTitle = (
+        <FormattedMessage
+          {...messages.relatedQuery}
+          values={{ record: recordLink }}
+        />
+      );
+    }
+
+    let collectionName;
+
+    if (subresourceConfig) {
+      const recordLink = <CsidLink config={config} searchName={`${searchName}.csid`} csid={csid} />;
+
+      collectionName = (
+        <FormattedMessage
+          {...subresourceConfig.messages.collectionName}
+          values={{ record: recordLink }}
+        />
+      );
+    } else if (vocabularyConfig) {
+      collectionName = (
+        <FormattedMessage
+          {...vocabularyConfig.messages.collectionName}
+        />
+      );
+    } else {
+      collectionName = (
+        <FormattedMessage
+          {...recordTypeConfig.messages.record.collectionName}
+        />
+      );
+    }
 
     const title = (
       <span>
-        {message}
-        {' '}{keywordParamTitle}
-        {' '}{relatedParamTitle}
+        {collectionName}
+        {' '}{keywordQueryTitle}
+        {' '}{relatedQueryTitle}
       </span>
     );
 
@@ -436,5 +478,4 @@ export default class SearchResultPage extends Component {
 }
 
 SearchResultPage.propTypes = propTypes;
-SearchResultPage.defaultProps = defaultProps;
 SearchResultPage.contextTypes = contextTypes;

@@ -29,14 +29,14 @@ export default () => () => ({
       },
       messages: {
         record: defineMessages({
-          recordNameTitle: {
-            id: 'record.organization.nameTitle',
-            description: 'The name of the record when used as a title.',
+          name: {
+            id: 'record.organization.name',
+            description: 'The name of the record type.',
             defaultMessage: 'Organization',
           },
-          resultsTitle: {
-            id: 'record.organization.resultsTitle',
-            description: 'The name of the record when used as a title describing search results.',
+          collectionName: {
+            id: 'record.organization.collectionName',
+            description: 'The name of a collection of records of the type.',
             defaultMessage: 'Organizations',
           },
         }),
@@ -49,10 +49,15 @@ export default () => () => ({
         all: {
           isCreatable: false,
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.organization.all.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All Vocabularies',
+            name: {
+              id: 'vocab.organization.all.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'All',
+            },
+            collectionName: {
+              id: 'vocab.organization.all.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
+              defaultMessage: 'All Organizations',
             },
           }),
           serviceConfig: {
@@ -62,9 +67,14 @@ export default () => () => ({
         },
         local: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.organization.local.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.organization.local.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Local',
+            },
+            collectionName: {
+              id: 'vocab.organization.local.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Local Organizations',
             },
           }),
@@ -74,9 +84,14 @@ export default () => () => ({
         },
         ulan: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.organization.ulan.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.organization.ulan.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'ULAN',
+            },
+            collectionName: {
+              id: 'vocab.organization.ulan.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'ULAN Organizations',
             },
           }),

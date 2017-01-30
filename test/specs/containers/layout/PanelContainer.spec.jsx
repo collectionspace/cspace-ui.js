@@ -20,7 +20,7 @@ const mockStore = configureMockStore([]);
 
 describe('PanelContainer', function suite() {
   const recordType = 'object';
-  const panelName = 'descPanel';
+  const panelName = 'desc';
 
   const config = {
     recordTypes: {

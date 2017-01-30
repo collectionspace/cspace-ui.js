@@ -29,14 +29,14 @@ export default () => () => ({
       },
       messages: {
         record: defineMessages({
-          recordNameTitle: {
-            id: 'record.concept.nameTitle',
-            description: 'The name of the record when used as a title.',
+          name: {
+            id: 'record.concept.name',
+            description: 'The name of the record type.',
             defaultMessage: 'Concept',
           },
-          resultsTitle: {
-            id: 'record.concept.resultsTitle',
-            description: 'The name of the record when used as a title describing search results.',
+          collectionName: {
+            id: 'record.concept.collectionName',
+            description: 'The name of a collection of records of the type.',
             defaultMessage: 'Concepts',
           },
         }),
@@ -49,10 +49,15 @@ export default () => () => ({
         all: {
           isCreatable: false,
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.concept.all.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
-              defaultMessage: 'All Vocabularies',
+            name: {
+              id: 'vocab.concept.all.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'All',
+            },
+            collectionName: {
+              id: 'vocab.concept.all.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
+              defaultMessage: 'All Concepts',
             },
           }),
           serviceConfig: {
@@ -62,9 +67,14 @@ export default () => () => ({
         },
         associated: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.concept.associated.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.concept.associated.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Associated',
+            },
+            collectionName: {
+              id: 'vocab.concept.associated.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Associated Concepts',
             },
           }),
@@ -74,9 +84,14 @@ export default () => () => ({
         },
         activity: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.concept.activity.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.concept.activity.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Activity',
+            },
+            collectionName: {
+              id: 'vocab.concept.activity.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Activity Concepts',
             },
           }),
@@ -86,9 +101,14 @@ export default () => () => ({
         },
         material: {
           messages: defineMessages({
-            vocabNameTitle: {
-              id: 'vocab.concept.material.nameTitle',
-              description: 'The name of the vocabulary when used as a title.',
+            name: {
+              id: 'vocab.concept.material.name',
+              description: 'The name of the vocabulary.',
+              defaultMessage: 'Material',
+            },
+            collectionName: {
+              id: 'vocab.concept.material.collectionName',
+              description: 'The name of a collection of records from the vocabulary.',
               defaultMessage: 'Material Concepts',
             },
           }),

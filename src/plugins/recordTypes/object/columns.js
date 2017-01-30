@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import { formatLocalDateTime } from '../../../helpers/dateHelpers';
+import { formatTimestamp } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -7,7 +7,7 @@ export default {
       name: 'objectNumber',
       messages: defineMessages({
         label: {
-          id: 'column.object.search.objectNumber',
+          id: 'column.object.default.objectNumber',
           defaultMessage: 'Identification number',
         },
       }),
@@ -18,7 +18,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.object.search.title',
+          id: 'column.object.default.title',
           defaultMessage: 'Title',
         },
       }),
@@ -29,11 +29,11 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.object.search.updatedAt',
+          id: 'column.object.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
-      formatValue: formatLocalDateTime,
+      formatValue: formatTimestamp,
       sortBy: 'collectionspace_core:updatedAt',
       width: 150,
     },
@@ -43,7 +43,7 @@ export default {
       name: 'objectNumber',
       messages: defineMessages({
         label: {
-          id: 'column.object.related.objectNumber',
+          id: 'column.object.narrow.objectNumber',
           defaultMessage: 'ID',
         },
       }),
@@ -54,7 +54,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.object.related.title',
+          id: 'column.object.narrow.title',
           defaultMessage: 'Title',
         },
       }),
@@ -64,11 +64,11 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.object.related.updatedAt',
+          id: 'column.object.narrow.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
-      formatValue: formatLocalDateTime,
+      formatValue: formatTimestamp,
       sortBy: 'collectionspace_core:updatedAt',
       width: 150,
     },

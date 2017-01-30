@@ -1,16 +1,9 @@
 import { defineMessages } from 'react-intl';
-import { getRecordTypeConfigByServiceObjectName } from '../../../helpers/configHelpers';
-import { formatLocalDateTime } from '../../../helpers/dateHelpers';
-
-const formatServiceObjectName = (value, { intl, config }) => {
-  const recordType = getRecordTypeConfigByServiceObjectName(config, value);
-
-  if (recordType) {
-    return intl.formatMessage(recordType.messages.record.recordNameTitle);
-  }
-
-  return `[ ${value.toLowerCase()} ]`;
-};
+import {
+  formatTimestamp,
+  formatRefNameAsVocabularyName,
+  formatServiceObjectName,
+} from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -18,8 +11,8 @@ export default {
       name: 'docName',
       messages: defineMessages({
         label: {
-          id: 'column.procedure.docName',
-          defaultMessage: 'Term',
+          id: 'column.authority.default.docName',
+          defaultMessage: 'Item',
         },
       }),
       width: 200,
@@ -28,7 +21,7 @@ export default {
       name: 'docType',
       messages: defineMessages({
         label: {
-          id: 'column.procedure.docType',
+          id: 'column.authority.default.docType',
           defaultMessage: 'Type',
         },
       }),
@@ -37,14 +30,27 @@ export default {
       width: 150,
     },
     {
+      name: 'vocabulary',
+      dataKey: 'refName',
+      messages: defineMessages({
+        label: {
+          id: 'column.authority.default.vocabulary',
+          defaultMessage: 'Vocabulary',
+        },
+      }),
+      formatValue: (value, formatterContext) =>
+        formatRefNameAsVocabularyName(value, formatterContext),
+      width: 150,
+    },
+    {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.procedure.updatedAt',
+          id: 'column.authority.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
-      formatValue: formatLocalDateTime,
+      formatValue: formatTimestamp,
       sortBy: 'collectionspace_core:updatedAt',
       width: 150,
     },

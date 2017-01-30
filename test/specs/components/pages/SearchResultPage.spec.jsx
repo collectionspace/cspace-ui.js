@@ -7,6 +7,8 @@ import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import merge from 'lodash/merge';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
 import RouterProvider from '../../../helpers/RouterProvider';
@@ -18,7 +20,7 @@ const expect = chai.expect;
 
 chai.should();
 
-const mockStore = configureMockStore([]);
+const mockStore = configureMockStore([thunk]);
 
 const searchResult = Immutable.fromJS({
   'ns2:abstract-common-list': {
@@ -37,14 +39,28 @@ const config = {
     common: {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
+      messages: {
+        resultCount: {
+          id: 'list.common.resultCount',
+          defaultMessage: `{totalItems, plural,
+            =0 {No records}
+            one {1 record}
+            other {{startNum}–{endNum} of {totalItems} records}
+          } found`,
+        },
+        searching: {
+          id: 'list.common.searching',
+          defaultMessage: 'Finding records...',
+        },
+      },
     },
   },
   recordTypes: {
     object: {
       messages: {
         record: {
-          resultsTitle: {
-            id: 'record.object.resultsTitle',
+          collectionName: {
+            id: 'record.object.collectionName',
             defaultMessage: 'Objects',
           },
         },
@@ -76,13 +92,34 @@ const config = {
         ],
       },
     },
+    person: {
+      vocabularies: {
+        local: {
+          messages: {
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
+              defaultMessage: 'Local Persons',
+            },
+          },
+        },
+      },
+    },
   },
-  subresources: {},
+  subresources: {
+    terms: {
+      messages: {
+        collectionName: {
+          id: 'subresource.terms.collectionName',
+          defaultMessage: 'Authority Terms Used by {record}',
+        },
+      },
+    },
+  },
 };
 
 const params = {
   recordType: 'object',
-  vocabulary: 'something',
+  // vocabulary: 'something',
 };
 
 const location = {
@@ -97,7 +134,7 @@ const location = {
 
 const searchDescriptor = {
   recordType: params.recordType,
-  vocabulary: params.vocabulary,
+  // vocabulary: params.vocabulary,
   searchQuery: {
     p: parseInt(location.query.p, 10) - 1,
     size: parseInt(location.query.size, 10),
@@ -147,6 +184,19 @@ describe('SearchResultPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchResultPage location={location} params={{ recordType: 'foo' }} />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
+  });
+
+  it('should not render a result table if the vocabulary is unknown', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage location={location} params={{ recordType: 'person', vocabulary: 'foo' }} />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -244,7 +294,7 @@ describe('SearchResultPage', function suite() {
 
     searchedSearchDescriptor.should.deep.equal({
       recordType: params.recordType,
-      vocabulary: params.vocabulary,
+      // vocabulary: params.vocabulary,
 
       // expect the page num searched to be 1 less than the page num in the URL
       searchQuery: Object.assign({}, location.query, {
@@ -287,6 +337,60 @@ describe('SearchResultPage', function suite() {
         sort: 'objectNumber',
       }),
     });
+  });
+
+  it('should render a related query title', function test() {
+    const relLocation = merge({}, location, {
+      query: {
+        rel: '1234',
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={relLocation}
+              params={params}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/related to/);
+  });
+
+  it('should render a vocabulary title', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={{ recordType: 'person', vocabulary: 'local' }}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/Local Persons/);
+  });
+
+  it('should render a subresource title', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={{ recordType: 'object', csid: '1234', subresource: 'terms' }}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/Authority Terms Used by/);
   });
 
   describe('renderHeader', function method() {

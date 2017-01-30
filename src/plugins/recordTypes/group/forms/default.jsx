@@ -14,7 +14,7 @@ export default (pluginContext) => {
 
   return (
     <Field name="document">
-      <Panel name="infoPanel" collapsible>
+      <Panel name="info" collapsible>
         <Field name="title" />
 
         <Row>

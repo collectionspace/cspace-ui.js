@@ -214,7 +214,7 @@ describe('reducer', function suite() {
   describe('isPanelCollapsed selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
       const recordType = 'object';
-      const name = 'descPanel';
+      const name = 'desc';
 
       isPanelCollapsed({
         prefs: Immutable.fromJS({

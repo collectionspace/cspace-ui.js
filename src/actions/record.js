@@ -32,7 +32,34 @@ export const createNewRecord = recordTypeConfig => dispatch =>
     },
   }));
 
-export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
+const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
+  const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+  const vocabularyServicePath = vocabularyConfig
+    ? vocabularyConfig.serviceConfig.servicePath
+    : null;
+
+  const pathParts = [recordServicePath];
+
+  if (vocabularyServicePath) {
+    pathParts.push(vocabularyServicePath);
+    pathParts.push('items');
+  }
+
+  pathParts.push(csid);
+
+  const path = pathParts.join('/');
+
+  const config = {
+    params: {
+      wf_deleted: false,
+    },
+  };
+
+  return getSession().read(path, config);
+};
+
+export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatch) => {
   dispatch({
     type: RECORD_READ_STARTED,
     meta: {
@@ -41,15 +68,7 @@ export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
     },
   });
 
-  const servicePath = recordTypeConfig.serviceConfig.servicePath;
-
-  const config = {
-    params: {
-      wf_deleted: false,
-    },
-  };
-
-  return getSession().read(`${servicePath}/${csid}`, config)
+  return doRead(recordTypeConfig, vocabularyConfig, csid)
     .then(response => dispatch({
       type: RECORD_READ_FULFILLED,
       payload: response,
@@ -68,57 +87,94 @@ export const readRecord = (recordTypeConfig, csid) => (dispatch) => {
     }));
 };
 
-export const saveRecord = (recordTypeConfig, csid, replace) => (dispatch, getState) => {
-  dispatch({
-    type: RECORD_SAVE_STARTED,
-    meta: {
-      recordTypeConfig,
-      csid,
-    },
-  });
 
-  const servicePath = recordTypeConfig.serviceConfig.servicePath;
-  const data = getRecordData(getState(), csid);
-
-  const config = {
-    data: prepareForSending(data).toJS(),
-  };
-
-  const save = csid
-    ? getSession().update(`${servicePath}/${csid}`, config)
-    : getSession().create(servicePath, config);
-
-  return save
-    .then((response) => {
-      const action = dispatch({
-        type: RECORD_SAVE_FULFILLED,
-        payload: response,
-        meta: {
-          recordTypeConfig,
-          csid,
-        },
-      });
-
-      if (response.status === 201 && response.headers.location) {
-        // Redirect to the new record.
-
-        const location = response.headers.location;
-        const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
-
-        replace(`/record/${recordTypeConfig.name}/${newRecordCsid}`);
-      }
-
-      return action;
-    })
-    .catch(error => dispatch({
-      type: RECORD_SAVE_REJECTED,
-      payload: error,
+export const saveRecord = (recordTypeConfig, vocabularyConfig, csid, replace) =>
+  (dispatch, getState) => {
+    dispatch({
+      type: RECORD_SAVE_STARTED,
       meta: {
         recordTypeConfig,
         csid,
       },
-    }));
-};
+    });
+
+    const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+    const vocabularyServicePath = vocabularyConfig
+      ? vocabularyConfig.serviceConfig.servicePath
+      : null;
+
+    const pathParts = [recordServicePath];
+
+    if (vocabularyServicePath) {
+      pathParts.push(vocabularyServicePath);
+      pathParts.push('items');
+    }
+
+    if (csid) {
+      pathParts.push(csid);
+    }
+
+    const path = pathParts.join('/');
+
+    const data = getRecordData(getState(), csid);
+
+    const config = {
+      data: prepareForSending(data).toJS(),
+    };
+
+    let savePromise;
+
+    if (csid) {
+      savePromise = getSession().update(path, config)
+        // Need to read the record after update, because the update response doesn't include
+        // collectionspace_core.
+        .then(() => doRead(recordTypeConfig, vocabularyConfig, csid))
+        .then(response => dispatch({
+          type: RECORD_SAVE_FULFILLED,
+          payload: response,
+          meta: {
+            recordTypeConfig,
+            csid,
+          },
+        }));
+    } else {
+      savePromise = getSession().create(path, config)
+        .then((response) => {
+          if (response.status === 201 && response.headers.location) {
+            // Redirect to the new record.
+
+            const location = response.headers.location;
+            const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
+
+            const vocabularyPath = vocabularyConfig
+              ? `${vocabularyConfig.name}/`
+              : '';
+
+            replace(`/record/${recordTypeConfig.name}/${vocabularyPath}${newRecordCsid}`);
+          }
+
+          return dispatch({
+            type: RECORD_SAVE_FULFILLED,
+            payload: response,
+            meta: {
+              recordTypeConfig,
+              csid,
+            },
+          });
+        });
+    }
+
+    return savePromise
+      .catch(error => dispatch({
+        type: RECORD_SAVE_REJECTED,
+        payload: error,
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      }));
+  };
 
 export const addFieldInstance = (csid, path) => ({
   type: ADD_FIELD_INSTANCE,

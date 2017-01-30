@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 
 const messages = defineMessages({
@@ -9,20 +11,24 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = (recordType, csid) => ({
+const getSearchDescriptor = (recordType, vocabulary, csid, updatedTimestamp) => ({
   recordType,
+  vocabulary,
   csid,
   subresource: 'terms',
   searchQuery: {
     p: 0,
     size: 5,
   },
+  seqID: updatedTimestamp,
 });
 
 const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
+  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
+  vocabulary: PropTypes.string,
 };
 
 export default class TermsUsedPanel extends Component {
@@ -31,25 +37,65 @@ export default class TermsUsedPanel extends Component {
 
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
+    const {
+      csid,
+      recordData,
+      recordType,
+      vocabulary,
+    } = this.props;
+
+    const searchDescriptor =
+      getSearchDescriptor(recordType, vocabulary, csid, getUpdatedTimestamp(recordData));
+
     this.state = {
-      searchDescriptor: getSearchDescriptor(this.props.recordType, this.props.csid),
+      searchDescriptor,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const {
       csid,
+      recordData,
       recordType,
+      vocabulary,
     } = this.props;
+
+    const updatedTimestamp = getUpdatedTimestamp(recordData);
 
     const {
       csid: nextCsid,
+      recordData: nextRecordData,
       recordType: nextRecordType,
+      vocabulary: nextVocabulary,
     } = nextProps;
 
-    if (nextCsid !== csid || nextRecordType !== recordType) {
+    const nextUpdatedTimestamp = getUpdatedTimestamp(nextRecordData);
+
+    if (
+      nextCsid !== csid ||
+      nextRecordType !== recordType ||
+      nextVocabulary !== vocabulary ||
+      nextUpdatedTimestamp !== updatedTimestamp
+    ) {
+      let newSearchDescriptor;
+
+      if (
+        nextCsid === csid &&
+        nextRecordType === recordType &&
+        nextVocabulary === vocabulary
+      ) {
+        // Only the updated timestamp changed, so just update the seq id of the search.
+
+        newSearchDescriptor = Object.assign({}, this.state.searchDescriptor, {
+          seqID: nextUpdatedTimestamp,
+        });
+      } else {
+        newSearchDescriptor =
+          getSearchDescriptor(nextRecordType, nextVocabulary, nextCsid, nextUpdatedTimestamp);
+      }
+
       this.setState({
-        searchDescriptor: getSearchDescriptor(nextProps.recordType, nextProps.csid),
+        searchDescriptor: newSearchDescriptor,
       });
     }
   }
@@ -65,11 +111,18 @@ export default class TermsUsedPanel extends Component {
       config,
       csid,
       recordType,
+      vocabulary,
     } = this.props;
 
     const {
       searchDescriptor,
     } = this.state;
+
+    if (!searchDescriptor.seqID) {
+      // Don't render until after the record has loaded.
+
+      return null;
+    }
 
     return (
       <SearchPanelContainer
@@ -81,6 +134,7 @@ export default class TermsUsedPanel extends Component {
         name="termsUsedPanel"
         searchDescriptor={searchDescriptor}
         recordType={recordType}
+        vocabulary={vocabulary}
         title={<FormattedMessage {...messages.title} />}
         onSearchDescriptorChange={this.handleSearchDescriptorChange}
       />

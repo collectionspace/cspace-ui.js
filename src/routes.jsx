@@ -6,7 +6,7 @@ import AdminPage from './components/pages/AdminPage';
 import CreatePage from './components/pages/CreatePage';
 import DashboardPage from './components/pages/DashboardPage';
 import PublicPage from './components/pages/PublicPage';
-import RecordPage from './components/pages/RecordPage';
+import RecordPageContainer from './containers/pages/RecordPageContainer';
 import RootPage from './components/pages/RootPage';
 import SearchPage from './components/pages/SearchPage';
 import SearchResultPageContainer from './containers/pages/SearchResultPageContainer';
@@ -16,7 +16,6 @@ import LogoutPageContainer from './containers/pages/LogoutPageContainer';
 import ProtectedPageContainer from './containers/pages/ProtectedPageContainer';
 
 import withClassName from './enhancers/withClassName';
-import withListType from './enhancers/withListType';
 
 const defaultRouteConfig = {
   className: '',
@@ -27,7 +26,6 @@ export default (routeConfig) => {
   const {
     className,
     index,
-    onEnterRecord,
     onEnterProtected,
   } = defaults({}, routeConfig, defaultRouteConfig);
 
@@ -45,15 +43,24 @@ export default (routeConfig) => {
         <Route path="create" component={CreatePage} />
         <Route path="search" component={SearchPage} />
 
-        <Route path="search/:recordType/:vocabulary/:csid/:subresource" component={withListType(SearchResultPageContainer, 'authRef')} />
-        <Route path="search/:recordType/:csid/:subresource" component={withListType(SearchResultPageContainer, 'authRef')} />
-        <Route path="search/:recordType(/:vocabulary)" component={SearchResultPageContainer} />
+        <Route
+          path="search/:recordType/:vocabulary/:csid/:subresource"
+          component={SearchResultPageContainer}
+        />
 
         <Route
-          path="record/:recordType(/:csid)"
-          component={RecordPage}
-          onEnter={onEnterRecord}
+          path="search/:recordType/:csid/:subresource"
+          component={SearchResultPageContainer}
         />
+
+        <Route
+          path="search/:recordType(/:vocabulary)"
+          component={SearchResultPageContainer}
+        />
+
+        <Route path="record/:recordType/:path1/:path2" component={RecordPageContainer} />
+        <Route path="record/:recordType(/:path1)" component={RecordPageContainer} />
+
         <Route path="admin" component={AdminPage} />
       </Route>
     </Route>

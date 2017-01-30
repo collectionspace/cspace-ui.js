@@ -251,8 +251,8 @@ describe('configHelpers', function moduleSuite() {
       recordTypes: {
         object: {
           messages: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            name: {
+              id: 'record.object.name',
             },
           },
           serviceConfig: {
@@ -273,8 +273,8 @@ describe('configHelpers', function moduleSuite() {
       recordTypes: {
         object: {
           messages: {
-            recordNameTitle: {
-              id: 'record.object.nameTitle',
+            name: {
+              id: 'record.object.name',
             },
           },
           serviceConfig: {
@@ -295,8 +295,8 @@ describe('configHelpers', function moduleSuite() {
       vocabularies: {
         local: {
           messages: {
-            vocabNameTitle: {
-              id: 'vocab.person.local.nameTitle',
+            name: {
+              id: 'vocab.person.local.name',
             },
           },
           serviceConfig: {
