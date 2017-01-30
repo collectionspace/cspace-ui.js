@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 
-import BlobImage from '../../../../src/components/image/BlobImage';
+import BlobImage from '../../../../src/components/media/BlobImage';
 
 chai.should();
 

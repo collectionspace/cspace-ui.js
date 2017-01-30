@@ -1,4 +1,4 @@
-import BlobImage from '../../../src/components/image/BlobImage';
+import BlobImage from '../../../src/components/media/BlobImage';
 
 import {
   derivativeImage,

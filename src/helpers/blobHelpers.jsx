@@ -1,5 +1,5 @@
 import React from 'react';
-import BlobImage from '../components/image/BlobImage';
+import BlobImage from '../components/media/BlobImage';
 
 export const derivativeImage = (blobCsid, derivative) =>
   (blobCsid ? <BlobImage csid={blobCsid} derivative={derivative} /> : null);
