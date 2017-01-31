@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import RelatedMediaPanelContainer from '../../containers/record/RelatedMediaPanelContainer';
 import RelatedObjectPanelContainer from '../../containers/record/RelatedObjectPanelContainer';
 import RelatedProcedurePanelContainer from '../../containers/record/RelatedProcedurePanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
@@ -50,7 +51,7 @@ export default function RecordSideBar(props) {
         config={config}
         recordType={recordType}
       />
-      );
+    );
   }
 
   if (isAuthority) {
@@ -66,6 +67,11 @@ export default function RecordSideBar(props) {
 
   return (
     <div className={styles.common}>
+      <RelatedMediaPanelContainer
+        csid={csid}
+        config={config}
+        recordType={recordType}
+      />
       <TermsUsedPanelContainer
         csid={csid}
         config={config}
