@@ -1,0 +1,66 @@
+.normal :global(.image-gallery-image) {
+  padding: 10px 30px;
+  text-align: center;
+}
+
+.normal :global(.image-gallery-slide) img {
+  max-height: 250px;
+  max-width: 100%;
+  width: auto;
+  cursor: pointer;
+}
+
+.normal :global(.image-gallery-thumbnails) {
+  padding: 0;
+  border: solid rgb(220, 220, 220);
+  border-width: 1px 0;
+  background: rgb(240, 240, 240);
+  overflow: visible;
+}
+
+.normal :global(.image-gallery-thumbnails) :global(.image-gallery-thumbnails-container) {
+  cursor: default;
+}
+
+.normal :global(.image-gallery-thumbnail) {
+  border: none;
+  transition: none;
+  width: auto;
+}
+
+.normal :global(.image-gallery-thumbnail.active) {
+  border: none;
+  outline: 1px solid black;
+}
+
+.normal :global(.image-gallery-thumbnail) img {
+  max-width: 100%;
+  max-height: 44px;
+  width: auto;
+}
+
+.normal :global(.cspace-input-MiniButton--common),
+.normal :global(.cspace-input-MiniButton--common):hover,
+.normal :global(.cspace-input-MiniButton--common):focus,
+.normal :global(.cspace-input-MiniButton--common):focus:hover {
+  position: absolute;
+  top: calc(50% - 11px);
+  z-index: 4;
+}
+
+.normal :global(.cspace-input-MiniButton--common) {
+  outline: 1px solid rgb(220, 220, 220);
+}
+
+.normal :global(.cspace-input-MiniButton--common)[name=mediaViewerPrev] {
+  left: 0;
+}
+.normal :global(.cspace-input-MiniButton--common)[name=mediaViewerNext] {
+  right: 0;
+}
+
+.empty {
+  height: 180px;
+  background: white url(../../images/cs_stacked.svg) no-repeat center center;
+  background-size: 180px auto;
+}

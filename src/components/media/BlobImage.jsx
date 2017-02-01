@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { getDerivativeUrl } from '../../helpers/blobHelpers';
 
 const propTypes = {
   csid: PropTypes.string.isRequired,
@@ -23,8 +24,7 @@ export default function BlobImage(props, context) {
     config,
   } = context;
 
-  const servicesUrl = config.cspaceUrl || '';
-  const url = `${servicesUrl}/cspace-services/blobs/${csid}/derivatives/${derivative}/content`;
+  const url = getDerivativeUrl(config, csid, derivative);
 
   return (
     // TODO: Is there any alt text that would be helpful? Leaving it off for now.

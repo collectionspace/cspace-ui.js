@@ -1,14 +1,56 @@
-import BlobImage from '../../../src/components/image/BlobImage';
+import BlobImage from '../../../src/components/media/BlobImage';
 
 import {
+  DERIVATIVE_THUMBNAIL,
+  DERIVATIVE_SMALL,
+  DERIVATIVE_MEDIUM,
+  DERIVATIVE_ORIGINAL_JPEG,
+  DERIVATIVE_ORIGINAL,
+  getDerivativeUrl,
   derivativeImage,
   thumbnailImage,
   smallImage,
   mediumImage,
   originalJpegImage,
+  originalImage,
 } from '../../../src/helpers/blobHelpers';
 
+const expect = chai.expect;
+
+chai.should();
+
 describe('blobHelpers', function moduleSuite() {
+  describe('getDerivativeUrl', function suite() {
+    const cspaceUrl = 'http://cspace';
+
+    const config = {
+      cspaceUrl,
+    };
+
+    const csid = '1234';
+
+    it('should return the url of a derivative', function test() {
+      const derivative = 'SomeDerivativeName';
+
+      getDerivativeUrl(config, csid, derivative).should
+        .equal(`${cspaceUrl}/cspace-services/blobs/${csid}/derivatives/${derivative}/content`);
+    });
+
+    it('should return the url of the original image', function test() {
+      const derivative = DERIVATIVE_ORIGINAL;
+
+      getDerivativeUrl(config, csid, derivative).should
+        .equal(`${cspaceUrl}/cspace-services/blobs/${csid}/content`);
+    });
+
+    it('should return a relative url if there is no services url', function test() {
+      const derivative = 'SomeDerivativeName';
+
+      getDerivativeUrl({}, csid, derivative).should
+        .equal(`/cspace-services/blobs/${csid}/derivatives/${derivative}/content`);
+    });
+  });
+
   describe('derivativeImage', function suite() {
     it('should return a BlobImage with the given csid and derivative', function test() {
       const csid = '1234';
@@ -20,6 +62,15 @@ describe('blobHelpers', function moduleSuite() {
       component.props.csid.should.equal(csid);
       component.props.derivative.should.equal(derivative);
     });
+
+    it('should return null if no csid is supplied', function test() {
+      const csid = null;
+      const derivative = 'SomeDerivativeName';
+
+      const component = derivativeImage(csid, derivative);
+
+      expect(component).to.equal(null);
+    });
   });
 
   describe('thumbnailImage', function suite() {
@@ -30,7 +81,7 @@ describe('blobHelpers', function moduleSuite() {
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
-      component.props.derivative.should.equal('Thumbnail');
+      component.props.derivative.should.equal(DERIVATIVE_THUMBNAIL);
     });
   });
 
@@ -42,7 +93,7 @@ describe('blobHelpers', function moduleSuite() {
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
-      component.props.derivative.should.equal('Small');
+      component.props.derivative.should.equal(DERIVATIVE_SMALL);
     });
   });
 
@@ -54,7 +105,7 @@ describe('blobHelpers', function moduleSuite() {
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
-      component.props.derivative.should.equal('Medium');
+      component.props.derivative.should.equal(DERIVATIVE_MEDIUM);
     });
   });
 
@@ -66,7 +117,19 @@ describe('blobHelpers', function moduleSuite() {
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
-      component.props.derivative.should.equal('OriginalJpeg');
+      component.props.derivative.should.equal(DERIVATIVE_ORIGINAL_JPEG);
+    });
+  });
+
+  describe('originalImage', function suite() {
+    it('should return a BlobImage with the given csid and the original derivative', function test() {
+      const csid = '1234';
+
+      const component = originalImage(csid);
+
+      component.type.should.equal(BlobImage);
+      component.props.csid.should.equal(csid);
+      component.props.derivative.should.equal(DERIVATIVE_ORIGINAL);
     });
   });
 });

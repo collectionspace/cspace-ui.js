@@ -45,6 +45,7 @@ describe('SearchResultTableContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
       />, context);
@@ -78,6 +79,7 @@ describe('SearchResultTableContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        config={{}}
         intl={intl}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
@@ -145,6 +147,7 @@ describe('SearchResultTableContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
       />, context);
