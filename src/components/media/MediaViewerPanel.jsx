@@ -73,6 +73,7 @@ export default class MediaViewerPanel extends Component {
     const {
       config,
       listType,
+      ownBlobCsid,
       searchResult,
       title,
     } = this.props;
@@ -83,9 +84,21 @@ export default class MediaViewerPanel extends Component {
       ? searchResult.getIn([listTypeConfig.listNodeName, 'totalItems'])
       : null;
 
-    const headerContent = (typeof totalItems !== 'undefined' && totalItems !== null)
-      ? <FormattedMessage {...messages.titleWithCount} values={{ title, totalItems }} />
-      : title;
+    let headerContent;
+
+    if (typeof totalItems !== 'undefined' && totalItems !== null) {
+      let count = parseInt(totalItems, 10);
+
+      if (ownBlobCsid) {
+        count += 1;
+      }
+
+      headerContent = (
+        <FormattedMessage {...messages.titleWithCount} values={{ title, totalItems: count }} />
+      );
+    } else {
+      headerContent = title;
+    }
 
     return (
       <h3>{headerContent}</h3>
