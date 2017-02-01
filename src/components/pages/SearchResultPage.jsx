@@ -464,6 +464,7 @@ export default class SearchResultPage extends Component {
       <div className={styles.common}>
         <TitleBar title={title} />
         <SearchResultTableContainer
+          config={config}
           listType={listType}
           searchName={searchName}
           searchDescriptor={searchDescriptor}

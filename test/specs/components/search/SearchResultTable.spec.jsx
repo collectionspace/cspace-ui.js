@@ -6,7 +6,6 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
 import RouterProvider from '../../../helpers/RouterProvider';
-import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 
 const expect = chai.expect;
@@ -113,22 +112,18 @@ describe('SearchResultTable', function suite() {
   });
 
   it('should render as a div', function test() {
-    render(
-      <ConfigProvider config={config}>
-        <SearchResultTable />
-      </ConfigProvider>, this.container);
+    render(<SearchResultTable config={config} />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
   it('should render the search result', function test() {
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />, this.container);
 
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(5);
   });
@@ -144,12 +139,11 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={emptySearchResult}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={emptySearchResult}
+      />, this.container);
 
     expect(this.container.querySelector('.cspace-layout-Table--normal')).to.equal(null);
   });
@@ -166,13 +160,12 @@ describe('SearchResultTable', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchResultTable
-            isSearchPending
-            searchDescriptor={searchDescriptor}
-            searchResult={emptySearchResult}
-          />
-        </ConfigProvider>
+        <SearchResultTable
+          config={config}
+          isSearchPending
+          searchDescriptor={searchDescriptor}
+          searchResult={emptySearchResult}
+        />
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-ui-SearchResultEmpty--common').textContent.should
@@ -196,12 +189,11 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={singleSearchResult}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={singleSearchResult}
+      />, this.container);
 
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(1);
   });
@@ -217,24 +209,22 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={singleSearchResult}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={singleSearchResult}
+      />, this.container);
 
     this.container.querySelectorAll('.ReactVirtualized__Table__headerRow').length.should.equal(1);
   });
 
   it('should render the sorted column header specified in the search descriptor', function test() {
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />, this.container);
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -250,13 +240,12 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          onSortChange={handleSortChange}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        onSortChange={handleSortChange}
+      />, this.container);
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -277,13 +266,12 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          renderHeader={renderHeader}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        renderHeader={renderHeader}
+      />, this.container);
 
     renderHeaderSearchResult.should.equal(searchResult);
 
@@ -302,13 +290,12 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          renderFooter={renderFooter}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        renderFooter={renderFooter}
+      />, this.container);
 
     renderFooterSearchResult.should.equal(searchResult);
 
@@ -331,13 +318,12 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          formatCellData={formatCellData}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        formatCellData={formatCellData}
+      />, this.container);
 
     Object.keys(formatCellDataCalls).length.should
       .equal(config.recordTypes.object.columns.default.length);
@@ -366,13 +352,12 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <ConfigProvider config={config}>
-        <SearchResultTable
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          formatColumnLabel={formatColumnLabel}
-        />
-      </ConfigProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        formatColumnLabel={formatColumnLabel}
+      />, this.container);
 
     Object.keys(formatColumnLabelCalls).length.should
       .equal(config.recordTypes.object.columns.default.length);
@@ -394,14 +379,13 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <ConfigProvider config={config}>
-        <RouterProvider router={router}>
-          <SearchResultTable
-            searchDescriptor={searchDescriptor}
-            searchResult={searchResult}
-          />
-        </RouterProvider>
-      </ConfigProvider>, this.container);
+      <RouterProvider router={router}>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </RouterProvider>, this.container);
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 

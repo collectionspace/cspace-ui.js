@@ -30,6 +30,7 @@ const isSortable = (column, searchDescriptor) => {
 
 const propTypes = {
   columnSetName: PropTypes.string,
+  config: PropTypes.object.isRequired,
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
   isSearchPending: PropTypes.bool,
@@ -52,7 +53,6 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
   router: PropTypes.object,
 };
 
@@ -67,13 +67,13 @@ export default class SearchResultTable extends Component {
 
   handleRowClick(index) {
     const {
+      config,
       listType,
       searchDescriptor,
       searchResult,
     } = this.props;
 
     const {
-      config,
       router,
     } = this.context;
 
@@ -116,16 +116,13 @@ export default class SearchResultTable extends Component {
   renderTable() {
     const {
       columnSetName,
+      config,
       formatCellData,
       formatColumnLabel,
       listType,
       searchDescriptor,
       searchResult,
     } = this.props;
-
-    const {
-      config,
-    } = this.context;
 
     if (searchResult) {
       const {

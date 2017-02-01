@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import SearchResultTable from '../../components/search/SearchResultTable';
-import withConfig from '../../enhancers/withConfig';
 
 import {
   isSearchPending,
@@ -45,4 +44,4 @@ export const ConnectedSearchResultTable = connect(
   mapStateToProps,
 )(SearchResultTable);
 
-export default injectIntl(withConfig(ConnectedSearchResultTable));
+export default injectIntl(ConnectedSearchResultTable);

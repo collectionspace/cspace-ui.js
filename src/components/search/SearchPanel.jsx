@@ -274,6 +274,7 @@ export default class SearchPanel extends Component {
       >
         <SearchResultTableContainer
           columnSetName={columnSetName}
+          config={config}
           listType={listType}
           recordType={recordType}
           searchName={name}
