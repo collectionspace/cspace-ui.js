@@ -6,6 +6,8 @@ import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
 import withConfig from '../../enhancers/withConfig';
 import bannerStyles from '../../../styles/cspace-ui/Banner.css';
+import bannerMainStyles from '../../../styles/cspace-ui/BannerMain.css';
+import bannerRightStyles from '../../../styles/cspace-ui/BannerRight.css';
 import logoStyles from '../../../styles/cspace-ui/Logo.css';
 
 const messages = defineMessages({
@@ -39,14 +41,18 @@ function Header(props) {
   return (
     <header>
       <div className={bannerStyles.common}>
-        <Link to="/" title={name}>
-          <div className={logoStyles.common} />
-        </Link>
-        <KeywordSearchFormContainer
-          intl={intl}
-          config={config}
-        />
-        <UserMenu username={username} />
+        <div className={bannerMainStyles.common}>
+          <Link to="/" title={name}>
+            <div className={logoStyles.common} />
+          </Link>
+          <KeywordSearchFormContainer
+            intl={intl}
+            config={config}
+          />
+        </div>
+        <div className={bannerRightStyles.common}>
+          <UserMenu username={username} />
+        </div>
       </div>
       <NavBar />
     </header>
