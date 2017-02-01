@@ -16,7 +16,7 @@ const getSearchDescriptor = (relatedCsid, updatedTimestamp) => ({
   searchQuery: {
     rel: relatedCsid,
     p: 0,
-    size: 2500,
+    size: 5,
   },
   seqID: updatedTimestamp,
 });
