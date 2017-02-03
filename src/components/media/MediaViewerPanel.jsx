@@ -86,7 +86,7 @@ export default class MediaViewerPanel extends Component {
 
     let headerContent;
 
-    if (typeof totalItems !== 'undefined' && totalItems !== null) {
+    if (typeof totalItems !== 'undefined' && totalItems !== null && totalItems !== '0') {
       let count = parseInt(totalItems, 10);
 
       if (ownBlobCsid) {
