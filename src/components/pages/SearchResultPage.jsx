@@ -1,16 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
+import ErrorPage from './ErrorPage';
 import TitleBar from '../sections/TitleBar';
 import CsidLink from '../navigation/CsidLink';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
+import { validateRecordType } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
-import headerStyles from '../../../styles/cspace-ui/Header.css';
+import headerStyles from '../../../styles/cspace-ui/SearchResultTableHeader.css';
+import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import searchResultSidebarStyles from '../../../styles/cspace-ui/SearchResultSidebar.css';
 
 const messages = defineMessages({
+  error: {
+    id: 'searchResultPage.error',
+    defaultMessage: 'Error: {message}',
+  },
   keywordQuery: {
     id: 'searchResultPage.keywordQuery',
     defaultMessage: 'containing "{keyword}"',
@@ -18,6 +27,10 @@ const messages = defineMessages({
   relatedQuery: {
     id: 'searchResultPage.relatedQuery',
     defaultMessage: 'related to {record}',
+  },
+  editSearch: {
+    id: 'searchResultPage.editSearch',
+    defaultMessage: 'Revise search criteria',
   },
 });
 
@@ -29,6 +42,7 @@ const propTypes = {
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
+  setAdvancedSearchKeyword: PropTypes.func,
 };
 
 const contextTypes = {
@@ -42,6 +56,7 @@ export default class SearchResultPage extends Component {
 
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
+    this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
@@ -164,6 +179,24 @@ export default class SearchResultPage extends Component {
     return false;
   }
 
+  handleEditSearchLinkClick() {
+    // Transfer this search descriptor's search criteria to advanced search.
+
+    const {
+      setAdvancedSearchKeyword,
+    } = this.props;
+
+    if (setAdvancedSearchKeyword) {
+      const searchDescriptor = this.getSearchDescriptor();
+
+      const {
+        kw,
+      } = searchDescriptor.searchQuery;
+
+      setAdvancedSearchKeyword(kw);
+    }
+  }
+
   handlePageChange(pageNum) {
     const {
       location,
@@ -244,13 +277,34 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  renderEditLink() {
+    const searchDescriptor = this.getSearchDescriptor();
+
+    const {
+      recordType,
+      vocabulary,
+    } = searchDescriptor;
+
+    const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
+    const path = `/search/${recordType}${vocabularyPath}`;
+
+    return (
+      <Link to={path} onClick={this.handleEditSearchLinkClick}>
+        <FormattedMessage {...messages.editSearch} />
+      </Link>
+    );
+  }
+
   renderHeader({ searchError, searchResult }) {
     if (searchError) {
       // FIXME: Make a proper error page
-      const errorMessage = searchError.get('code') || '';
+      const message = searchError.get('code') || '';
 
       return (
-        <header className={headerStyles.common}>Error: {errorMessage}</header>
+        <header className={headerStyles.error}>
+          <FormattedMessage {...messages.error} values={{ message }} />
+          <p>{this.renderEditLink()}</p>
+        </header>
       );
     }
 
@@ -307,9 +361,17 @@ export default class SearchResultPage extends Component {
       }
     }
 
-    return (
-      <header className={headerStyles.common}>
+    const content = (
+      <div>
         {message}
+        {message ? ' | ' : ''}
+        {this.renderEditLink()}
+      </div>
+    );
+
+    return (
+      <header className={headerStyles.normal}>
+        {content}
         {pageSizeChooser}
       </header>
     );
@@ -364,46 +426,17 @@ export default class SearchResultPage extends Component {
       subresource,
     } = searchDescriptor;
 
-    const recordTypeConfig = config.recordTypes[recordType];
+    const validation = validateRecordType(config, recordType, vocabulary, subresource);
 
-    if (!recordTypeConfig) {
-      // FIXME: Make a proper error page
+    if (validation.error) {
       return (
-        <div className={styles.common}>
-          <TitleBar title="Error: Unknown record type" />
-        </div>
+        <ErrorPage error={validation.error} />
       );
     }
 
-    let vocabularyConfig;
-
-    if (vocabulary) {
-      vocabularyConfig = recordTypeConfig.vocabularies[vocabulary];
-
-      if (!vocabularyConfig) {
-        // FIXME: Make a proper error page
-        return (
-          <div className={styles.common}>
-            <TitleBar title="Error: Unknown vocabulary" />
-          </div>
-        );
-      }
-    }
-
-    let subresourceConfig;
-
-    if (subresource) {
-      subresourceConfig = config.subresources[subresource];
-
-      if (!subresourceConfig) {
-        // FIXME: Make a proper error page
-        return (
-          <div className={styles.common}>
-            <TitleBar title="Error: Unknown subresource" />
-          </div>
-        );
-      }
-    }
+    const recordTypeConfig = config.recordTypes[recordType];
+    const vocabularyConfig = vocabulary ? recordTypeConfig.vocabularies[vocabulary] : undefined;
+    const subresourceConfig = subresource ? config.subresources[subresource] : undefined;
 
     const {
       kw,
@@ -463,16 +496,19 @@ export default class SearchResultPage extends Component {
     return (
       <div className={styles.common}>
         <TitleBar title={title} />
-        <SearchResultTableContainer
-          config={config}
-          listType={listType}
-          searchName={searchName}
-          searchDescriptor={searchDescriptor}
-          recordType={recordType}
-          renderHeader={this.renderHeader}
-          renderFooter={this.renderFooter}
-          onSortChange={this.handleSortChange}
-        />
+        <div className={pageBodyStyles.common}>
+          <SearchResultTableContainer
+            config={config}
+            listType={listType}
+            searchName={searchName}
+            searchDescriptor={searchDescriptor}
+            recordType={recordType}
+            renderHeader={this.renderHeader}
+            renderFooter={this.renderFooter}
+            onSortChange={this.handleSortChange}
+          />
+          <div className={searchResultSidebarStyles.common} />
+        </div>
       </div>
     );
   }

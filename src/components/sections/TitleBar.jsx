@@ -6,6 +6,7 @@ import styles from '../../../styles/cspace-ui/TitleBar.css';
 const propTypes = {
   title: PropTypes.node,
   subtitle: PropTypes.node,
+  nav: PropTypes.node,
 };
 
 export default class TitleBar extends Component {
@@ -50,6 +51,20 @@ export default class TitleBar extends Component {
     }
   }
 
+  renderNav() {
+    const {
+      nav,
+    } = this.props;
+
+    if (nav) {
+      return (
+        <nav>{nav}</nav>
+      );
+    }
+
+    return null;
+  }
+
   renderTitle() {
     const {
       title,
@@ -89,8 +104,11 @@ export default class TitleBar extends Component {
         style={inlineStyle}
       >
         <div className={styles.inner}>
-          {this.renderTitle()}
-          {this.renderSubtitle()}
+          {this.renderNav()}
+          <div>
+            {this.renderTitle()}
+            {this.renderSubtitle()}
+          </div>
         </div>
       </header>
     );

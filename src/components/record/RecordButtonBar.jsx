@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import CloneButton from './CloneButton';
 import SaveButton from './SaveButton';
 import RevertButton from './RevertButton';
-import styles from '../../../styles/cspace-ui/RecordButtonBar.css';
+import styles from '../../../styles/cspace-ui/ButtonBar.css';
 
 const propTypes = {
   csid: PropTypes.string,

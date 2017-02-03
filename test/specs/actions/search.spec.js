@@ -13,11 +13,14 @@ import {
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
-  ERR_INVALID_SORT,
-  ERR_NO_RECORD_SERVICE,
-  ERR_NO_VOCABULARY_SERVICE,
   search,
 } from '../../../src/actions/search';
+
+import {
+  ERR_INVALID_SORT,
+  ERR_UNKNOWN_RECORD_TYPE,
+  ERR_UNKNOWN_VOCABULARY,
+} from '../../../src/constants/errorCodes';
 
 import {
   searchKey,
@@ -549,7 +552,7 @@ describe('search action creator', function suite() {
       store.dispatch(search(config, searchName, badSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_NO_RECORD_SERVICE,
+          code: ERR_UNKNOWN_RECORD_TYPE,
         },
         meta: {
           searchName,
@@ -575,7 +578,7 @@ describe('search action creator', function suite() {
       store.dispatch(search(badConfig, searchName, searchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_NO_RECORD_SERVICE,
+          code: ERR_UNKNOWN_RECORD_TYPE,
         },
         meta: {
           searchName,
@@ -608,7 +611,7 @@ describe('search action creator', function suite() {
       store.dispatch(search(badConfig, searchName, searchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_NO_VOCABULARY_SERVICE,
+          code: ERR_UNKNOWN_VOCABULARY,
         },
         meta: {
           searchName,

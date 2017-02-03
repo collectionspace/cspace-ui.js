@@ -5,20 +5,27 @@
 .common > div {
   padding: 10px;
   box-sizing: border-box;
-  display: flex;
   background: inherit;
 }
 
-.common > div > h1, .common > div > h2 {
+.common > div > nav {
+  height: 22px;
+}
+
+.common > div > div {
+  display: flex;
+}
+
+.common > div > div > h1, .common > div > div > h2 {
   margin: 0;
 }
 
-.common > div > h1 {
+.common > div > div > h1 {
   flex: 1 1 auto;
   padding-right: 10px;
 }
 
-.common > div > h2 {
+.common > div > div > h2 {
   flex: 1 1 auto;
   text-align: right;
   color: #739CD2;

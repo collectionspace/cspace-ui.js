@@ -3,6 +3,8 @@ import Immutable from 'immutable';
 import {
   PREFS_LOADED,
   COLLAPSE_PANEL,
+  SET_ADVANCED_SEARCH_RECORD_TYPE,
+  SET_ADVANCED_SEARCH_VOCABULARY,
   SET_KEYWORD_SEARCH_RECORD_TYPE,
   SET_KEYWORD_SEARCH_VOCABULARY,
   SET_SEARCH_PAGE_SIZE,
@@ -17,14 +19,20 @@ export default (state = Immutable.Map(), action) => {
       return state.setIn(
         ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload
       );
-    case SET_KEYWORD_SEARCH_RECORD_TYPE:
-      return (
-        state
-          .setIn(['keywordSearch', 'recordType'], action.payload)
-          .deleteIn(['keywordSearch', 'vocabulary'])
+    case SET_ADVANCED_SEARCH_RECORD_TYPE:
+      return state.setIn(['advancedSearch', 'recordType'], action.payload);
+    case SET_ADVANCED_SEARCH_VOCABULARY:
+      return state.setIn(
+        ['advancedSearch', 'vocabulary', state.getIn(['advancedSearch', 'recordType'])],
+        action.payload
       );
+    case SET_KEYWORD_SEARCH_RECORD_TYPE:
+      return state.setIn(['keywordSearch', 'recordType'], action.payload);
     case SET_KEYWORD_SEARCH_VOCABULARY:
-      return state.setIn(['keywordSearch', 'vocabulary'], action.payload);
+      return state.setIn(
+        ['keywordSearch', 'vocabulary', state.getIn(['keywordSearch', 'recordType'])],
+        action.payload
+      );
     case SET_SEARCH_PAGE_SIZE:
       return state.set('searchPageSize', action.payload);
     case SET_SEARCH_PANEL_PAGE_SIZE:
@@ -36,11 +44,17 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
+export const getAdvancedSearchRecordType = state =>
+  state.getIn(['advancedSearch', 'recordType']);
+
+export const getAdvancedSearchVocabulary = (state, recordType) =>
+  state.getIn(['advancedSearch', 'vocabulary', recordType]);
+
 export const getKeywordSearchRecordType = state =>
   state.getIn(['keywordSearch', 'recordType']);
 
-export const getKeywordSearchVocabulary = state =>
-  state.getIn(['keywordSearch', 'vocabulary']);
+export const getKeywordSearchVocabulary = (state, recordType) =>
+  state.getIn(['keywordSearch', 'vocabulary', recordType]);
 
 export const getSearchPageSize = state =>
   state.get('searchPageSize');

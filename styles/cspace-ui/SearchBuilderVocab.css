@@ -1,0 +1,8 @@
+.common {
+  display: flex;
+  align-items: baseline;
+}
+
+.common > label {
+  margin: 0 .5em;
+}

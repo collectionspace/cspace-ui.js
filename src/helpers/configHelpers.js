@@ -1,6 +1,14 @@
 import Immutable from 'immutable';
 import deepAssign from 'deep-assign';
+import get from 'lodash/get';
 import warning from 'warning';
+
+import {
+  ERR_MISSING_VOCABULARY,
+  ERR_UNKNOWN_RECORD_TYPE,
+  ERR_UNKNOWN_VOCABULARY,
+  ERR_UNKNOWN_SUBRESOURCE,
+} from '../constants/errorCodes';
 
 const onlyDigitsPattern = /^\d+$/;
 const isNotNumeric = string => !onlyDigitsPattern.test(string);
@@ -204,4 +212,102 @@ export const isCloneable = (fieldDescriptor) => {
   }
 
   return true;
+};
+
+export const isAuthority = recordTypeConfig =>
+  get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
+
+export const validateRecordType = (config, recordType, vocabulary, subresource) => {
+  const recordTypeConfig = get(config, ['recordTypes', recordType]);
+
+  if (!recordTypeConfig) {
+    return {
+      error: {
+        recordType,
+        code: ERR_UNKNOWN_RECORD_TYPE,
+      },
+    };
+  }
+
+  if (isAuthority(recordTypeConfig)) {
+    if (!vocabulary) {
+      return {
+        error: {
+          recordType,
+          code: ERR_MISSING_VOCABULARY,
+        },
+      };
+    }
+
+    const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
+
+    if (!vocabularyConfig) {
+      return {
+        error: {
+          recordType,
+          vocabulary,
+          code: ERR_UNKNOWN_VOCABULARY,
+        },
+      };
+    }
+  } else if (vocabulary) {
+    return {
+      error: {
+        recordType,
+        vocabulary,
+        code: ERR_UNKNOWN_VOCABULARY,
+      },
+    };
+  }
+
+  if (subresource) {
+    const subresourceConfig = get(config, ['subresources', subresource]);
+
+    if (!subresourceConfig) {
+      return {
+        error: {
+          subresource,
+          code: ERR_UNKNOWN_SUBRESOURCE,
+        },
+      };
+    }
+  }
+
+  return {};
+};
+
+export const getDefaultSearchRecordType = (config) => {
+  const { recordTypes } = config;
+  const names = Object.keys(recordTypes);
+
+  let defaultSearchRecordType;
+
+  for (let i = 0; i < names.length; i += 1) {
+    const name = names[i];
+
+    if (recordTypes[name].defaultForSearch) {
+      defaultSearchRecordType = name;
+      break;
+    }
+  }
+
+  return (defaultSearchRecordType || names[0]);
+};
+
+export const getDefaultSearchVocabulary = (recordTypeConfig) => {
+  const { vocabularies } = recordTypeConfig;
+  const names = Object.keys(vocabularies);
+
+  let defaultSearchVocabulary;
+
+  for (let i = 0; i < names.length; i += 1) {
+    const name = names[i];
+
+    if (vocabularies[name].defaultForSearch) {
+      defaultSearchVocabulary = name;
+      break;
+    }
+  }
+
+  return (defaultSearchVocabulary || names[0]);
 };

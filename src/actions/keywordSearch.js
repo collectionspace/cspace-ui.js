@@ -17,19 +17,18 @@ export const initiateSearch = push => (dispatch, getState) => {
   const keyword = getKeywordSearchKeyword(getState());
   const kw = keyword ? keyword.trim() : '';
   const recordType = getKeywordSearchRecordType(getState());
-  const vocabulary = getKeywordSearchVocabulary(getState());
+  const vocabulary = getKeywordSearchVocabulary(getState(), recordType);
 
   let pathname;
 
+  const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
   const query = {};
 
   if (isCsid(kw)) {
     // Go straight to the record with the csid.
 
-    pathname = `/record/${recordType}/${kw}`;
+    pathname = `/record/${recordType}${vocabularyPath}/${kw}`;
   } else {
-    const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
-
     pathname = `/list/${recordType}${vocabularyPath}`;
 
     if (kw) {

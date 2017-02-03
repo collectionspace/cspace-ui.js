@@ -2,16 +2,18 @@ import get from 'lodash/get';
 import { isSearchPending, getSearchResult } from '../reducers';
 import getSession from './cspace';
 
+import {
+  ERR_UNKNOWN_RECORD_TYPE,
+  ERR_UNKNOWN_VOCABULARY,
+  ERR_INVALID_SORT,
+  ERR_API,
+} from '../constants/errorCodes';
+
 export const SET_MOST_RECENT_SEARCH = 'SET_MOST_RECENT_SEARCH';
 export const CREATE_EMPTY_SEARCH_RESULT = 'CREATE_EMPTY_SEARCH_RESULT';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FULFILLED = 'SEARCH_FULFILLED';
 export const SEARCH_REJECTED = 'SEARCH_REJECTED';
-
-export const ERR_NO_RECORD_SERVICE = 'ERR_NO_RECORD_SERVICE';
-export const ERR_NO_VOCABULARY_SERVICE = 'ERR_NO_VOCABULARY_SERVICE';
-export const ERR_INVALID_SORT = 'ERR_INVALID_SORT';
-export const ERR_API = 'ERR_API';
 
 const findColumnByName = (columns, columnName) => {
   if (!columns) return null;
@@ -87,7 +89,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       return dispatch({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_NO_RECORD_SERVICE,
+          code: ERR_UNKNOWN_RECORD_TYPE,
         },
         meta: {
           searchName,
@@ -102,7 +104,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       return dispatch({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_NO_RECORD_SERVICE,
+          code: ERR_UNKNOWN_RECORD_TYPE,
         },
         meta: {
           searchName,
@@ -119,7 +121,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       return dispatch({
         type: SEARCH_REJECTED,
         payload: {
-          code: ERR_NO_VOCABULARY_SERVICE,
+          code: ERR_UNKNOWN_VOCABULARY,
         },
         meta: {
           searchName,
