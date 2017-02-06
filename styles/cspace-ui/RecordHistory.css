@@ -1,0 +1,14 @@
+.common {
+  font-size: 12px;
+  text-align: right;
+}
+
+.common ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.common ul > li {
+  white-space: nowrap;
+}

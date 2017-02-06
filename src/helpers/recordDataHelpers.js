@@ -197,7 +197,7 @@ export function prepareForSending(data) {
   return data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
 }
 
-export function getUpdatedTimestamp(data) {
+export function getCoreFieldValue(data, fieldName) {
   if (data) {
     const document = getDocument(data);
 
@@ -205,10 +205,26 @@ export function getUpdatedTimestamp(data) {
       const corePart = getPart(document, 'collectionspace_core');
 
       if (corePart) {
-        return corePart.get('updatedAt');
+        return corePart.get(fieldName);
       }
     }
   }
 
   return undefined;
+}
+
+export function getUpdatedTimestamp(data) {
+  return getCoreFieldValue(data, 'updatedAt');
+}
+
+export function getUpdatedUser(data) {
+  return getCoreFieldValue(data, 'updatedBy');
+}
+
+export function getCreatedTimestamp(data) {
+  return getCoreFieldValue(data, 'createdAt');
+}
+
+export function getCreatedUser(data) {
+  return getCoreFieldValue(data, 'createdBy');
 }

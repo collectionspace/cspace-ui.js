@@ -21,10 +21,15 @@ const {
   TextInput,
 } = inputComponents;
 
-const expectedClassName = 'cspace-ui-RecordEditor--common';
 const mockStore = configureMockStore();
+
 const store = mockStore({
   prefs: Immutable.Map(),
+  record: {
+    data: {},
+    readsPending: {},
+    savesPending: {},
+  },
 });
 
 const config = {
@@ -70,6 +75,8 @@ const config = {
     },
   },
 };
+
+const expectedClassName = 'cspace-ui-RecordEditor--common';
 
 describe('RecordEditor', function suite() {
   beforeEach(function before() {

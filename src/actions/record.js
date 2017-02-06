@@ -87,7 +87,6 @@ export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatc
     }));
 };
 
-
 export const saveRecord = (recordTypeConfig, vocabularyConfig, csid, replace) =>
   (dispatch, getState) => {
     dispatch({

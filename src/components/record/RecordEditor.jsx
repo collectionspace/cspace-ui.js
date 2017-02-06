@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
+import RecordButtonBarContainer from '../../containers/record/RecordButtonBarContainer';
+import RecordHistory from '../../components/record/RecordHistory';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
@@ -59,6 +61,7 @@ function renderTemplate(component, messages, handlers) {
 
 const propTypes = {
   recordType: PropTypes.string.isRequired,
+  vocabulary: PropTypes.string,
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   onAddInstance: PropTypes.func,
@@ -95,8 +98,10 @@ export default class RecordEditor extends Component {
 
   render() {
     const {
+      csid,
       data,
       recordType,
+      vocabulary,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -112,6 +117,10 @@ export default class RecordEditor extends Component {
     if (!recordTypeConfig) {
       return null;
     }
+
+    const vocabularyConfig = vocabulary
+      ? recordTypeConfig.vocabularies[vocabulary]
+      : undefined;
 
     const {
       forms,
@@ -140,6 +149,14 @@ export default class RecordEditor extends Component {
         autoComplete="off"
         className={styles.common}
       >
+        <header>
+          <RecordButtonBarContainer
+            csid={csid}
+            recordTypeConfig={recordTypeConfig}
+            vocabularyConfig={vocabularyConfig}
+          />
+          <RecordHistory recordData={data} />
+        </header>
         {formContent}
       </form>
     );
