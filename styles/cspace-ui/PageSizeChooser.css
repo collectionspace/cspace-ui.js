@@ -7,6 +7,7 @@
   width: 60px;
 }
 
-.common input {
+.common :global(.cspace-input-TextInput--common) {
+  display: inline-block;
   text-align: right;
 }
