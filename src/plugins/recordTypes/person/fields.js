@@ -17,7 +17,7 @@ export default (pluginContext) => {
   return {
     document: {
       [config]: {
-        ui: {
+        view: {
           type: CompoundInput,
           props: {
             defaultChildSubpath: 'ns2:persons_common',
@@ -27,13 +27,13 @@ export default (pluginContext) => {
       'ns2:persons_common': {
         personTermGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           personTermGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   repeating: true,
@@ -42,14 +42,14 @@ export default (pluginContext) => {
             },
             termDisplayName: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             termSource: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'citation/local,citation/shared,citation/worldcat',

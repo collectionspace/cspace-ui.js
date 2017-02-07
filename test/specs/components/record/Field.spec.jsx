@@ -22,7 +22,7 @@ const config = {
       fields: {
         color: {
           [configKey]: {
-            ui: {
+            view: {
               type: TestInput,
               props: {
                 foo: 'fooValue',

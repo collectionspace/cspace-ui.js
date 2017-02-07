@@ -17,7 +17,7 @@ export default (pluginContext) => {
   return {
     document: {
       [config]: {
-        ui: {
+        view: {
           type: CompoundInput,
           props: {
             defaultChildSubpath: 'ns2:collectionobjects_common',
@@ -27,7 +27,7 @@ export default (pluginContext) => {
       'ns2:collectionobjects_common': {
         objectNumber: {
           [config]: {
-            ui: {
+            view: {
               type: IDGeneratorInput,
               props: {
                 idGeneratorName: 'accession,intake,loanin',
@@ -37,20 +37,20 @@ export default (pluginContext) => {
         },
         numberOfObjects: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         otherNumberList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           otherNumber: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -60,7 +60,7 @@ export default (pluginContext) => {
             },
             numberType: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'numberTypes',
@@ -70,7 +70,7 @@ export default (pluginContext) => {
             },
             numberValue: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -79,13 +79,13 @@ export default (pluginContext) => {
         },
         responsibleDepartments: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           responsibleDepartment: {
             [config]: {
-              ui: {
+              view: {
                 type: OptionListControlledInput,
                 props: {
                   optionListName: 'departments',
@@ -97,7 +97,7 @@ export default (pluginContext) => {
         },
         collection: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'collections',
@@ -108,7 +108,7 @@ export default (pluginContext) => {
         recordStatus: {
           [config]: {
             defaultValue: 'new',
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'recordStatuses',
@@ -118,13 +118,13 @@ export default (pluginContext) => {
         },
         briefDescriptions: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           briefDescription: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   multiline: true,
@@ -136,7 +136,7 @@ export default (pluginContext) => {
         },
         distinguishingFeatures: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -146,13 +146,13 @@ export default (pluginContext) => {
         },
         comments: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           comment: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   multiline: true,
@@ -164,20 +164,20 @@ export default (pluginContext) => {
         },
         computedCurrentLocation: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         titleGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           titleGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   repeating: true,
@@ -186,7 +186,7 @@ export default (pluginContext) => {
             },
             title: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -194,7 +194,7 @@ export default (pluginContext) => {
             titleLanguage: {
               [config]: {
                 defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
-                ui: {
+                view: {
                   type: VocabularyControlledInput,
                   props: {
                     vocabularyName: 'languages',
@@ -204,13 +204,13 @@ export default (pluginContext) => {
             },
             titleTranslationSubGroupList: {
               [config]: {
-                ui: {
+                view: {
                   type: CompoundInput,
                 },
               },
               titleTranslationSubGroup: {
                 [config]: {
-                  ui: {
+                  view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
@@ -220,7 +220,7 @@ export default (pluginContext) => {
                 },
                 titleTranslation: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: TextInput,
                     },
                   },
@@ -228,7 +228,7 @@ export default (pluginContext) => {
                 titleTranslationLanguage: {
                   [config]: {
                     defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
-                    ui: {
+                    view: {
                       type: VocabularyControlledInput,
                       props: {
                         vocabularyName: 'languages',
@@ -240,7 +240,7 @@ export default (pluginContext) => {
             },
             titleType: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'titleTypes',
@@ -252,13 +252,13 @@ export default (pluginContext) => {
         },
         objectNameList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectNameGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -268,14 +268,14 @@ export default (pluginContext) => {
             },
             objectName: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             objectNameCurrency: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'nameCurrencies',
@@ -285,7 +285,7 @@ export default (pluginContext) => {
             },
             objectNameLevel: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'nameLevels',
@@ -295,7 +295,7 @@ export default (pluginContext) => {
             },
             objectNameSystem: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'nameSystems',
@@ -305,7 +305,7 @@ export default (pluginContext) => {
             },
             objectNameType: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'nameTypes',
@@ -316,7 +316,7 @@ export default (pluginContext) => {
             objectNameLanguage: {
               [config]: {
                 defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
-                ui: {
+                view: {
                   type: VocabularyControlledInput,
                   props: {
                     vocabularyName: 'languages',
@@ -326,7 +326,7 @@ export default (pluginContext) => {
             },
             objectNameNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -335,20 +335,20 @@ export default (pluginContext) => {
         },
         copyNumber: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         objectStatusList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectStatus: {
             [config]: {
-              ui: {
+              view: {
                 type: OptionListControlledInput,
                 props: {
                   optionListName: 'objectStatuses',
@@ -360,7 +360,7 @@ export default (pluginContext) => {
         },
         sex: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'sexes',
@@ -370,7 +370,7 @@ export default (pluginContext) => {
         },
         phase: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'phases',
@@ -380,13 +380,13 @@ export default (pluginContext) => {
         },
         forms: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           form: {
             [config]: {
-              ui: {
+              view: {
                 type: OptionListControlledInput,
                 props: {
                   optionListName: 'forms',
@@ -398,21 +398,21 @@ export default (pluginContext) => {
         },
         editionNumber: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         age: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         ageQualifier: {
           [config]: {
-            ui: {
+            view: {
               type: VocabularyControlledInput,
               props: {
                 vocabularyName: 'agequalifier',
@@ -422,7 +422,7 @@ export default (pluginContext) => {
         },
         ageUnit: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'ageUnits',
@@ -432,13 +432,13 @@ export default (pluginContext) => {
         },
         styles: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           style: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -449,13 +449,13 @@ export default (pluginContext) => {
         },
         colors: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           color: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -466,13 +466,13 @@ export default (pluginContext) => {
         },
         materialGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           materialGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -482,35 +482,35 @@ export default (pluginContext) => {
             },
             material: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             materialComponent: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             materialComponentNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             materialName: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             materialSource: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -519,7 +519,7 @@ export default (pluginContext) => {
         },
         physicalDescription: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -529,13 +529,13 @@ export default (pluginContext) => {
         },
         objectComponentGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectComponentGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -545,7 +545,7 @@ export default (pluginContext) => {
             },
             objectComponentName: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'objectComponentNames',
@@ -555,7 +555,7 @@ export default (pluginContext) => {
             },
             objectComponentInformation: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -564,13 +564,13 @@ export default (pluginContext) => {
         },
         technicalAttributeGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           technicalAttributeGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -580,7 +580,7 @@ export default (pluginContext) => {
             },
             technicalAttribute: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'technicalAttributes',
@@ -590,7 +590,7 @@ export default (pluginContext) => {
             },
             technicalAttributeMeasurement: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'technicalAttributeMeasurements',
@@ -600,7 +600,7 @@ export default (pluginContext) => {
             },
             technicalAttributeMeasurementUnit: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'technicalAttributeMeasurementUnits',
@@ -612,13 +612,13 @@ export default (pluginContext) => {
         },
         measuredPartGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           measuredPartGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   repeating: true,
@@ -627,7 +627,7 @@ export default (pluginContext) => {
             },
             measuredPart: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'measuredParts',
@@ -637,20 +637,20 @@ export default (pluginContext) => {
             },
             dimensionSummary: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             dimensionSubGroupList: {
               [config]: {
-                ui: {
+                view: {
                   type: CompoundInput,
                 },
               },
               dimensionSubGroup: {
                 [config]: {
-                  ui: {
+                  view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
@@ -660,7 +660,7 @@ export default (pluginContext) => {
                 },
                 dimension: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: OptionListControlledInput,
                       props: {
                         optionListName: 'dimensions',
@@ -670,7 +670,7 @@ export default (pluginContext) => {
                 },
                 measuredBy: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: AuthorityControlledInput,
                       props: {
                         authority: 'person/local,person/shared,organization/local,organization/shared',
@@ -680,7 +680,7 @@ export default (pluginContext) => {
                 },
                 measurementMethod: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: OptionListControlledInput,
                       props: {
                         optionListName: 'measurementMethods',
@@ -690,14 +690,14 @@ export default (pluginContext) => {
                 },
                 value: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: TextInput,
                     },
                   },
                 },
                 measurementUnit: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: OptionListControlledInput,
                       props: {
                         optionListName: 'measurementUnits',
@@ -707,14 +707,14 @@ export default (pluginContext) => {
                 },
                 valueQualifier: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: TextInput,
                     },
                   },
                 },
                 valueDate: {
                   [config]: {
-                    ui: {
+                    view: {
                       type: DateInput,
                     },
                   },
@@ -725,7 +725,7 @@ export default (pluginContext) => {
         },
         contentDescription: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -735,14 +735,14 @@ export default (pluginContext) => {
         },
         contentLanguages: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentLanguage: {
             [config]: {
               defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
-              ui: {
+              view: {
                 type: VocabularyControlledInput,
                 props: {
                   vocabularyName: 'languages',
@@ -754,13 +754,13 @@ export default (pluginContext) => {
         },
         contentActivities: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentActivity: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -771,13 +771,13 @@ export default (pluginContext) => {
         },
         contentConcepts: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentConcept: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'concept/associated,concept/material,concept/material_shared',
@@ -789,20 +789,20 @@ export default (pluginContext) => {
         },
         contentDateGroup: {
           [config]: {
-            ui: {
+            view: {
               type: StructuredDateInput,
             },
           },
         },
         contentPositions: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentPosition: {
             [config]: {
-              ui: {
+              view: {
                 type: OptionListControlledInput,
                 props: {
                   optionListName: 'positions',
@@ -814,13 +814,13 @@ export default (pluginContext) => {
         },
         contentObjectGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentObjectGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -830,14 +830,14 @@ export default (pluginContext) => {
             },
             contentObject: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             contentObjectType: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'contentObjectTypes',
@@ -849,13 +849,13 @@ export default (pluginContext) => {
         },
         contentPeoples: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentPeople: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -866,13 +866,13 @@ export default (pluginContext) => {
         },
         contentPersons: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentPerson: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'person/local,person/shared,person/ulan',
@@ -884,13 +884,13 @@ export default (pluginContext) => {
         },
         contentPlaces: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentPlace: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -901,13 +901,13 @@ export default (pluginContext) => {
         },
         contentScripts: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentScript: {
             [config]: {
-              ui: {
+              view: {
                 type: OptionListControlledInput,
                 props: {
                   optionListName: 'scripts',
@@ -919,13 +919,13 @@ export default (pluginContext) => {
         },
         contentOrganizations: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentOrganization: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'organization/local,organization/shared,organization/ulan',
@@ -937,13 +937,13 @@ export default (pluginContext) => {
         },
         contentEventNameGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentEventNameGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -953,14 +953,14 @@ export default (pluginContext) => {
             },
             contentEventName: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             contentEventNameType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -969,13 +969,13 @@ export default (pluginContext) => {
         },
         contentOtherGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           contentOtherGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -985,14 +985,14 @@ export default (pluginContext) => {
             },
             contentOther: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             contentOtherType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1001,7 +1001,7 @@ export default (pluginContext) => {
         },
         contentNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -1011,13 +1011,13 @@ export default (pluginContext) => {
         },
         textualInscriptionGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           textualInscriptionGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   repeating: true,
@@ -1026,7 +1026,7 @@ export default (pluginContext) => {
             },
             inscriptionContent: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                   props: {
                     multiline: true,
@@ -1036,7 +1036,7 @@ export default (pluginContext) => {
             },
             inscriptionContentInscriber: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'person/local,organization/local,organization/shared',
@@ -1047,7 +1047,7 @@ export default (pluginContext) => {
             inscriptionContentLanguage: {
               [config]: {
                 defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
-                ui: {
+                view: {
                   type: VocabularyControlledInput,
                   props: {
                     vocabularyName: 'languages',
@@ -1057,14 +1057,14 @@ export default (pluginContext) => {
             },
             inscriptionContentDateGroup: {
               [config]: {
-                ui: {
+                view: {
                   type: StructuredDateInput,
                 },
               },
             },
             inscriptionContentPosition: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'positions',
@@ -1074,7 +1074,7 @@ export default (pluginContext) => {
             },
             inscriptionContentScript: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'scripts',
@@ -1084,7 +1084,7 @@ export default (pluginContext) => {
             },
             inscriptionContentType: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'inscriptionTypes',
@@ -1094,14 +1094,14 @@ export default (pluginContext) => {
             },
             inscriptionContentMethod: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             inscriptionContentInterpretation: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                   props: {
                     multiline: true,
@@ -1111,14 +1111,14 @@ export default (pluginContext) => {
             },
             inscriptionContentTranslation: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             inscriptionContentTransliteration: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1127,13 +1127,13 @@ export default (pluginContext) => {
         },
         nonTextualInscriptionGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           nonTextualInscriptionGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   repeating: true,
@@ -1142,7 +1142,7 @@ export default (pluginContext) => {
             },
             inscriptionDescription: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                   props: {
                     multiline: true,
@@ -1152,7 +1152,7 @@ export default (pluginContext) => {
             },
             inscriptionDescriptionInscriber: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'person/local,person/shared,organization/local,organization/shared',
@@ -1162,14 +1162,14 @@ export default (pluginContext) => {
             },
             inscriptionDescriptionDateGroup: {
               [config]: {
-                ui: {
+                view: {
                   type: StructuredDateInput,
                 },
               },
             },
             inscriptionDescriptionPosition: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'positions',
@@ -1179,7 +1179,7 @@ export default (pluginContext) => {
             },
             inscriptionDescriptionType: {
               [config]: {
-                ui: {
+                view: {
                   type: OptionListControlledInput,
                   props: {
                     optionListName: 'inscriptionTypes',
@@ -1189,14 +1189,14 @@ export default (pluginContext) => {
             },
             inscriptionDescriptionMethod: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             inscriptionDescriptionInterpretation: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                   props: {
                     multiline: true,
@@ -1208,13 +1208,13 @@ export default (pluginContext) => {
         },
         objectProductionDateGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectProductionDateGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: StructuredDateInput,
                 props: {
                   repeating: true,
@@ -1225,13 +1225,13 @@ export default (pluginContext) => {
         },
         techniqueGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           techniqueGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1241,14 +1241,14 @@ export default (pluginContext) => {
             },
             technique: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             techniqueType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1257,13 +1257,13 @@ export default (pluginContext) => {
         },
         objectProductionPlaceGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectProductionPlaceGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1273,14 +1273,14 @@ export default (pluginContext) => {
             },
             objectProductionPlace: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             objectProductionPlaceRole: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1289,13 +1289,13 @@ export default (pluginContext) => {
         },
         objectProductionReasons: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectProductionReason: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   multiline: true,
@@ -1307,13 +1307,13 @@ export default (pluginContext) => {
         },
         objectProductionPeopleGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectProductionPeopleGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1323,14 +1323,14 @@ export default (pluginContext) => {
             },
             objectProductionPeople: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             objectProductionPeopleRole: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1339,13 +1339,13 @@ export default (pluginContext) => {
         },
         objectProductionPersonGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectProductionPersonGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1355,7 +1355,7 @@ export default (pluginContext) => {
             },
             objectProductionPerson: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'person/local,person/shared',
@@ -1365,7 +1365,7 @@ export default (pluginContext) => {
             },
             objectProductionPersonRole: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1374,13 +1374,13 @@ export default (pluginContext) => {
         },
         objectProductionOrganizationGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           objectProductionOrganizationGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1390,7 +1390,7 @@ export default (pluginContext) => {
             },
             objectProductionOrganization: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'organization/local,organization/shared',
@@ -1400,7 +1400,7 @@ export default (pluginContext) => {
             },
             objectProductionOrganizationRole: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1409,7 +1409,7 @@ export default (pluginContext) => {
         },
         objectProductionNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -1419,13 +1419,13 @@ export default (pluginContext) => {
         },
         assocActivityGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocActivityGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1435,21 +1435,21 @@ export default (pluginContext) => {
             },
             assocActivity: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocActivityType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocActivityNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1458,13 +1458,13 @@ export default (pluginContext) => {
         },
         assocObjectGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocObjectGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1474,21 +1474,21 @@ export default (pluginContext) => {
             },
             assocObject: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocObjectType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocObjectNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1497,13 +1497,13 @@ export default (pluginContext) => {
         },
         assocConceptGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocConceptGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1513,7 +1513,7 @@ export default (pluginContext) => {
             },
             assocConcept: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'concept/associated',
@@ -1523,14 +1523,14 @@ export default (pluginContext) => {
             },
             assocConceptType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocConceptNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1539,13 +1539,13 @@ export default (pluginContext) => {
         },
         assocCulturalContextGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocCulturalContextGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1555,21 +1555,21 @@ export default (pluginContext) => {
             },
             assocCulturalContext: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocCulturalContextType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocCulturalContextNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1578,13 +1578,13 @@ export default (pluginContext) => {
         },
         assocOrganizationGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocOrganizationGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1594,7 +1594,7 @@ export default (pluginContext) => {
             },
             assocOrganization: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'organization/local,organization/shared',
@@ -1604,14 +1604,14 @@ export default (pluginContext) => {
             },
             assocOrganizationType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocOrganizationNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1620,13 +1620,13 @@ export default (pluginContext) => {
         },
         assocPeopleGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocPeopleGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1636,21 +1636,21 @@ export default (pluginContext) => {
             },
             assocPeople: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocPeopleType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocPeopleNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1659,13 +1659,13 @@ export default (pluginContext) => {
         },
         assocPersonGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocPersonGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1675,7 +1675,7 @@ export default (pluginContext) => {
             },
             assocPerson: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'person/local,person/shared',
@@ -1685,14 +1685,14 @@ export default (pluginContext) => {
             },
             assocPersonType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocPersonNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1701,13 +1701,13 @@ export default (pluginContext) => {
         },
         assocPlaceGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocPlaceGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1717,21 +1717,21 @@ export default (pluginContext) => {
             },
             assocPlace: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocPlaceType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocPlaceNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1740,27 +1740,27 @@ export default (pluginContext) => {
         },
         assocEventName: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         assocEventNameType: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         assocEventOrganizations: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocEventOrganization: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'organization/local,organization/shared',
@@ -1772,13 +1772,13 @@ export default (pluginContext) => {
         },
         assocEventPeoples: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocEventPeople: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -1789,13 +1789,13 @@ export default (pluginContext) => {
         },
         assocEventPersons: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocEventPerson: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'person/local,person/shared',
@@ -1807,13 +1807,13 @@ export default (pluginContext) => {
         },
         assocEventPlaces: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocEventPlace: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -1824,20 +1824,20 @@ export default (pluginContext) => {
         },
         assocEventNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         assocDateGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           assocDateGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1847,21 +1847,21 @@ export default (pluginContext) => {
             },
             assocStructuredDateGroup: {
               [config]: {
-                ui: {
+                view: {
                   type: StructuredDateInput,
                 },
               },
             },
             assocDateType: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             assocDateNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1870,7 +1870,7 @@ export default (pluginContext) => {
         },
         objectHistoryNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -1880,13 +1880,13 @@ export default (pluginContext) => {
         },
         usageGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           usageGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -1896,14 +1896,14 @@ export default (pluginContext) => {
             },
             usage: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
             },
             usageNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -1912,13 +1912,13 @@ export default (pluginContext) => {
         },
         owners: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           owner: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'person/local,person/shared,organization/local,organization/shared',
@@ -1930,13 +1930,13 @@ export default (pluginContext) => {
         },
         ownershipDateGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           ownershipDateGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: StructuredDateInput,
                 props: {
                   repeating: true,
@@ -1947,7 +1947,7 @@ export default (pluginContext) => {
         },
         ownershipAccess: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'ownershipAccessLevels',
@@ -1957,7 +1957,7 @@ export default (pluginContext) => {
         },
         ownershipCategory: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'ownershipCategories',
@@ -1967,14 +1967,14 @@ export default (pluginContext) => {
         },
         ownershipPlace: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         ownershipExchangeMethod: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'ownershipExchangeMethods',
@@ -1984,7 +1984,7 @@ export default (pluginContext) => {
         },
         ownershipExchangeNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
@@ -1992,7 +1992,7 @@ export default (pluginContext) => {
         ownershipExchangePriceCurrency: {
           [config]: {
             defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(currency):item:name(USD)\'US Dollar\'',
-            ui: {
+            view: {
               type: VocabularyControlledInput,
               props: {
                 vocabularyName: 'currency',
@@ -2002,14 +2002,14 @@ export default (pluginContext) => {
         },
         ownershipExchangePriceValue: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         ownersPersonalExperience: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2019,7 +2019,7 @@ export default (pluginContext) => {
         },
         ownersPersonalResponse: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2029,13 +2029,13 @@ export default (pluginContext) => {
         },
         ownersReferences: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           ownersReference: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -2046,7 +2046,7 @@ export default (pluginContext) => {
         },
         ownersContributionNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2056,14 +2056,14 @@ export default (pluginContext) => {
         },
         viewersRole: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         viewersPersonalExperience: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2073,7 +2073,7 @@ export default (pluginContext) => {
         },
         viewersPersonalResponse: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2083,13 +2083,13 @@ export default (pluginContext) => {
         },
         viewersReferences: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           viewersReference: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,
@@ -2100,7 +2100,7 @@ export default (pluginContext) => {
         },
         viewersContributionNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2110,13 +2110,13 @@ export default (pluginContext) => {
         },
         referenceGroupList: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           referenceGroup: {
             [config]: {
-              ui: {
+              view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
@@ -2126,7 +2126,7 @@ export default (pluginContext) => {
             },
             reference: {
               [config]: {
-                ui: {
+                view: {
                   type: AuthorityControlledInput,
                   props: {
                     authority: 'citation/local,citation/shared,citation/worldcat',
@@ -2136,7 +2136,7 @@ export default (pluginContext) => {
             },
             referenceNote: {
               [config]: {
-                ui: {
+                view: {
                   type: TextInput,
                 },
               },
@@ -2145,20 +2145,20 @@ export default (pluginContext) => {
         },
         fieldCollectionDateGroup: {
           [config]: {
-            ui: {
+            view: {
               type: StructuredDateInput,
             },
           },
         },
         fieldCollectionMethods: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           fieldCollectionMethod: {
             [config]: {
-              ui: {
+              view: {
                 type: VocabularyControlledInput,
                 props: {
                   vocabularyName: 'collectionmethod',
@@ -2170,7 +2170,7 @@ export default (pluginContext) => {
         },
         fieldCollectionNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
@@ -2180,14 +2180,14 @@ export default (pluginContext) => {
         },
         fieldCollectionNumber: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         fieldCollectionPlace: {
           [config]: {
-            ui: {
+            view: {
               type: AuthorityControlledInput,
               props: {
                 authority: 'place/local,place/shared,place/tgn',
@@ -2197,13 +2197,13 @@ export default (pluginContext) => {
         },
         fieldCollectionSources: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           fieldCollectionSource: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'person/local,person/shared',
@@ -2215,13 +2215,13 @@ export default (pluginContext) => {
         },
         fieldCollectors: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           fieldCollector: {
             [config]: {
-              ui: {
+              view: {
                 type: AuthorityControlledInput,
                 props: {
                   authority: 'person/local,person/shared,organization/local,organization/shared',
@@ -2233,13 +2233,13 @@ export default (pluginContext) => {
         },
         fieldColEventNames: {
           [config]: {
-            ui: {
+            view: {
               type: CompoundInput,
             },
           },
           fieldColEventName: {
             [config]: {
-              ui: {
+              view: {
                 type: TextInput,
                 props: {
                   repeating: true,

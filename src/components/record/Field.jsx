@@ -68,10 +68,9 @@ export default function Field(props, context) {
     return null;
   }
 
-  const uiConfig = field[configKey].ui;
-  const BaseComponent = uiConfig.type;
-
-  const configuredProps = uiConfig.props;
+  const viewConfig = field[configKey].view;
+  const BaseComponent = viewConfig.type;
+  const configuredProps = viewConfig.props;
   const providedProps = {};
 
   const basePropTypes = BaseComponent.propTypes;

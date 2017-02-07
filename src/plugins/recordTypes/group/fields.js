@@ -13,7 +13,7 @@ export default (pluginContext) => {
   return {
     document: {
       [config]: {
-        ui: {
+        view: {
           type: CompoundInput,
           props: {
             defaultChildSubpath: 'ns2:groups_common',
@@ -23,14 +23,14 @@ export default (pluginContext) => {
       'ns2:groups_common': {
         title: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
             },
           },
         },
         responsibleDepartment: {
           [config]: {
-            ui: {
+            view: {
               type: OptionListControlledInput,
               props: {
                 optionListName: 'departments',
@@ -40,7 +40,7 @@ export default (pluginContext) => {
         },
         owner: {
           [config]: {
-            ui: {
+            view: {
               type: AuthorityControlledInput,
               props: {
                 authority: 'person/local',
@@ -50,7 +50,7 @@ export default (pluginContext) => {
         },
         scopeNote: {
           [config]: {
-            ui: {
+            view: {
               type: TextInput,
               props: {
                 multiline: true,
