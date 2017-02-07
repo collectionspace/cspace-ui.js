@@ -7,44 +7,54 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    ui,
+    config,
   } = pluginContext.configHelpers.fieldDescriptorKeys;
 
   return {
     document: {
-      [ui]: {
-        type: CompoundInput,
-        props: {
-          defaultChildSubpath: 'ns2:groups_common',
+      [config]: {
+        ui: {
+          type: CompoundInput,
+          props: {
+            defaultChildSubpath: 'ns2:groups_common',
+          },
         },
       },
       'ns2:groups_common': {
         title: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            ui: {
+              type: TextInput,
+            },
           },
         },
         responsibleDepartment: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'departments',
+          [config]: {
+            ui: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'departments',
+              },
             },
           },
         },
         owner: {
-          [ui]: {
-            type: AuthorityControlledInput,
-            props: {
-              authority: 'person/local',
+          [config]: {
+            ui: {
+              type: AuthorityControlledInput,
+              props: {
+                authority: 'person/local',
+              },
             },
           },
         },
         scopeNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            ui: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },

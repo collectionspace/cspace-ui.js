@@ -2,7 +2,7 @@ import deepAssign from 'deep-assign';
 import warning from 'warning';
 
 export const fieldDescriptorKeys = {
-  ui: Symbol.for('fieldSpec.ui'),
+  config: Symbol.for('fieldDescriptorKeys.config'),
 };
 
 export const evaluatePlugin = (plugin, pluginContext) => {

@@ -11,39 +11,49 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    ui,
+    config,
   } = pluginContext.configHelpers.fieldDescriptorKeys;
 
   return {
     document: {
-      [ui]: {
-        type: CompoundInput,
-        props: {
-          defaultChildSubpath: 'ns2:persons_common',
+      [config]: {
+        ui: {
+          type: CompoundInput,
+          props: {
+            defaultChildSubpath: 'ns2:persons_common',
+          },
         },
       },
       'ns2:persons_common': {
         personTermGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            ui: {
+              type: CompoundInput,
+            },
           },
           personTermGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                repeating: true,
+            [config]: {
+              ui: {
+                type: CompoundInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
             termDisplayName: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                ui: {
+                  type: TextInput,
+                },
               },
             },
             termSource: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'citation/local,citation/shared,citation/worldcat',
+              [config]: {
+                ui: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'citation/local,citation/shared,citation/worldcat',
+                  },
                 },
               },
             },

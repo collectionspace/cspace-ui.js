@@ -14,17 +14,19 @@ TestInput.propTypes = {
   bar: PropTypes.string,
 };
 
-const { ui } = fieldDescriptorKeys;
+const { config: configKey } = fieldDescriptorKeys;
 
 const config = {
   recordTypes: {
     object: {
       fields: {
         color: {
-          [ui]: {
-            type: TestInput,
-            props: {
-              foo: 'fooValue',
+          [configKey]: {
+            ui: {
+              type: TestInput,
+              props: {
+                foo: 'fooValue',
+              },
             },
           },
         },

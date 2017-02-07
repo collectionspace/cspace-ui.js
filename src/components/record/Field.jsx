@@ -11,7 +11,7 @@ import {
 } from '../../helpers/configHelpers';
 
 const { pathHelpers } = inputHelpers;
-const { ui: uiKey } = fieldDescriptorKeys;
+const { config: configKey } = fieldDescriptorKeys;
 
 const onlyDigitsPattern = /^\d+$/;
 
@@ -68,10 +68,10 @@ export default function Field(props, context) {
     return null;
   }
 
-  const ui = field[uiKey];
-  const BaseComponent = ui.type;
+  const uiConfig = field[configKey].ui;
+  const BaseComponent = uiConfig.type;
 
-  const configuredProps = ui.props;
+  const configuredProps = uiConfig.props;
   const providedProps = {};
 
   const basePropTypes = BaseComponent.propTypes;
