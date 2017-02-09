@@ -175,11 +175,12 @@ export const saveRecord = (recordTypeConfig, vocabularyConfig, csid, replace) =>
       }));
   };
 
-export const addFieldInstance = (csid, path) => ({
+export const addFieldInstance = (recordTypeConfig, csid, path) => ({
   type: ADD_FIELD_INSTANCE,
   meta: {
     csid,
     path,
+    recordTypeConfig,
   },
 });
 

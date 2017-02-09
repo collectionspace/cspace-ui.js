@@ -7,10 +7,6 @@ export default {
 
   documentName: 'persons',
 
-  parts: {
-    persons_common: 'http://collectionspace.org/services/person',
-  },
-
   quickAddData: values => ({
     document: {
       '@name': 'persons',

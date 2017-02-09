@@ -46,6 +46,9 @@ describe('record data reducer', function suite() {
       meta: {
         csid,
         path: ['foo', 'bar'],
+        recordTypeConfig: {
+          fields: {},
+        },
       },
     });
 
@@ -68,6 +71,13 @@ describe('record data reducer', function suite() {
       meta: {
         csid,
         path: ['foo', 'bar'],
+        recordTypeConfig: {
+          fields: {
+            foo: {
+              bar: {},
+            },
+          },
+        },
       },
     });
 
@@ -92,6 +102,13 @@ describe('record data reducer', function suite() {
       meta: {
         csid,
         path: ['foo', 'bar'],
+        recordTypeConfig: {
+          fields: {
+            foo: {
+              bar: {},
+            },
+          },
+        },
       },
     });
 
@@ -113,7 +130,9 @@ describe('record data reducer', function suite() {
         recordTypeConfig: {
           serviceConfig: {
             documentName: 'groups',
-            parts: {},
+          },
+          fields: {
+            document: {},
           },
         },
       },
@@ -133,7 +152,9 @@ describe('record data reducer', function suite() {
         recordTypeConfig: {
           serviceConfig: {
             documentName: 'collectionobjects',
-            parts: {},
+          },
+          fields: {
+            document: {},
           },
         },
       },

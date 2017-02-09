@@ -504,12 +504,14 @@ describe('record action creator', function suite() {
     it('should create an ADD_FIELD_INSTANCE action', function test() {
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
+      const recordTypeConfig = {};
 
-      addFieldInstance(csid, path).should.deep.equal({
+      addFieldInstance(recordTypeConfig, csid, path).should.deep.equal({
         type: ADD_FIELD_INSTANCE,
         meta: {
           csid,
           path,
+          recordTypeConfig,
         },
       });
     });

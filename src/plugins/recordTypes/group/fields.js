@@ -7,8 +7,8 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    config,
-  } = pluginContext.configHelpers.fieldDescriptorKeys;
+    configKey: config,
+  } = pluginContext.configHelpers;
 
   return {
     document: {
@@ -21,6 +21,11 @@ export default (pluginContext) => {
         },
       },
       'ns2:groups_common': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/group',
+          },
+        },
         title: {
           [config]: {
             view: {

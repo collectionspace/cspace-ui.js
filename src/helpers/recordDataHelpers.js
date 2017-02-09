@@ -1,5 +1,10 @@
 import Immutable from 'immutable';
 
+import {
+  configKey,
+  getDefaults,
+} from './configHelpers';
+
 const numericPattern = /^[0-9]$/;
 
 export const NS_PREFIX = 'ns2';
@@ -109,33 +114,84 @@ export function deepDelete(data, path) {
 }
 
 /**
- * Create a skeletal document for a given CollectionSpace service.
+ * Create a blank data record for a given CollectionSpace record type.
  */
-export function createDocument(recordTypeConfig) {
+export function createBlankRecord(recordTypeConfig) {
   const {
+    fields,
     serviceConfig,
   } = recordTypeConfig;
 
-  const cspaceDocument = {
+  const documentKey = (Object.keys(fields))[0];
+  const documentDescriptor = fields[documentKey];
+  const partKeys = Object.keys(documentDescriptor);
+
+  const document = {
     '@name': serviceConfig.documentName,
   };
 
-  const parts = serviceConfig.parts;
+  partKeys.forEach((partKey) => {
+    const partDescriptor = documentDescriptor[partKey];
 
-  Object.keys(parts).forEach((part) => {
-    cspaceDocument[getPartPropertyName(part)] = {
-      [getPartNSPropertyName()]: parts[part],
+    document[partKey] = {
+      [getPartNSPropertyName()]: partDescriptor[configKey].service.ns,
     };
   });
 
-  return Immutable.fromJS(cspaceDocument);
+  return Immutable.fromJS({
+    [documentKey]: document,
+  });
 }
+
+/**
+ * Set a default value into record data. When declared on a repeating field, a default value will
+ * be set on all instances of that field existing in the record data. If a repeating field has no
+ * instances, a single instance will be created.
+ */
+export function spreadDefaultValue(value, fieldDescriptorPath, data) {
+  if (!fieldDescriptorPath || fieldDescriptorPath.length === 0) {
+    return (typeof data === 'undefined' ? value : data);
+  }
+
+  let map;
+
+  if (typeof data === 'undefined') {
+    map = Immutable.Map();
+  } else if (Immutable.Map.isMap(data)) {
+    map = data;
+  } else {
+    return data;
+  }
+
+  const [key, ...rest] = fieldDescriptorPath;
+  const child = map.get(key);
+
+  if (Immutable.List.isList(child)) {
+    return (
+      child.reduce((updatedData, instance, index) =>
+        updatedData.setIn([key, index], spreadDefaultValue(value, rest, instance)), map)
+    );
+  }
+
+  return map.set(key, spreadDefaultValue(value, rest, child));
+}
+
+/**
+ * Set default values in record data.
+ */
+export const applyDefaults = (fieldDescriptor, data) =>
+  getDefaults(fieldDescriptor).reduce((updatedData, defaultDescriptor) =>
+    spreadDefaultValue(defaultDescriptor.value, defaultDescriptor.path, updatedData), data);
 
 /**
  * Create a skeletal data record for a given CollectionSpace service.
  */
 export function createRecordData(recordTypeConfig) {
-  return Immutable.Map().set(DOCUMENT_PROPERTY_NAME, createDocument(recordTypeConfig));
+  const {
+    fields,
+  } = recordTypeConfig;
+
+  return applyDefaults(fields, createBlankRecord(recordTypeConfig));
 }
 
 /**

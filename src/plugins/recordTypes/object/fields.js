@@ -11,8 +11,8 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    config,
-  } = pluginContext.configHelpers.fieldDescriptorKeys;
+    configKey: config,
+  } = pluginContext.configHelpers;
 
   return {
     document: {
@@ -25,6 +25,11 @@ export default (pluginContext) => {
         },
       },
       'ns2:collectionobjects_common': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/collectionobject',
+          },
+        },
         objectNumber: {
           [config]: {
             view: {
@@ -107,7 +112,9 @@ export default (pluginContext) => {
         },
         recordStatus: {
           [config]: {
-            defaultValue: 'new',
+            model: {
+              defaultValue: 'new',
+            },
             view: {
               type: OptionListControlledInput,
               props: {
@@ -193,7 +200,6 @@ export default (pluginContext) => {
             },
             titleLanguage: {
               [config]: {
-                defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
                 view: {
                   type: VocabularyControlledInput,
                   props: {
@@ -227,7 +233,6 @@ export default (pluginContext) => {
                 },
                 titleTranslationLanguage: {
                   [config]: {
-                    defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
                     view: {
                       type: VocabularyControlledInput,
                       props: {
@@ -315,7 +320,6 @@ export default (pluginContext) => {
             },
             objectNameLanguage: {
               [config]: {
-                defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
                 view: {
                   type: VocabularyControlledInput,
                   props: {
@@ -741,7 +745,6 @@ export default (pluginContext) => {
           },
           contentLanguage: {
             [config]: {
-              defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
               view: {
                 type: VocabularyControlledInput,
                 props: {
@@ -1046,7 +1049,6 @@ export default (pluginContext) => {
             },
             inscriptionContentLanguage: {
               [config]: {
-                defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
                 view: {
                   type: VocabularyControlledInput,
                   props: {
@@ -1991,7 +1993,6 @@ export default (pluginContext) => {
         },
         ownershipExchangePriceCurrency: {
           [config]: {
-            defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(currency):item:name(USD)\'US Dollar\'',
             view: {
               type: VocabularyControlledInput,
               props: {

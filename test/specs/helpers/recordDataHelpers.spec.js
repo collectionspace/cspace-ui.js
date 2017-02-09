@@ -1,19 +1,27 @@
 /* eslint-disable no-unused-expressions */
 
 import Immutable from 'immutable';
+import { configKey } from '../../../src/helpers/configHelpers';
 
 import {
+  applyDefaults,
   attributePropertiesToTop,
-  createDocument,
+  createBlankRecord,
   createRecordData,
   deepGet,
   deepSet,
   deepDelete,
+  getCoreFieldValue,
   getDocument,
   getPart,
   getPartPropertyName,
   getPartNSPropertyName,
+  getCreatedTimestamp,
+  getCreatedUser,
+  getUpdatedTimestamp,
+  getUpdatedUser,
   prepareForSending,
+  spreadDefaultValue,
 } from '../../../src/helpers/recordDataHelpers';
 
 const expect = chai.expect;
@@ -666,34 +674,47 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('createDocument', function suite() {
+  describe('createBlankRecord', function suite() {
     const recordTypeConfig = {
       serviceConfig: {
-        servicePath: 'groups',
         documentName: 'groups',
-        parts: {
-          groups_common: 'http://collectionspace.org/services/group',
-          groups_extension: 'http://collectionspace.org/services/extension/group',
+      },
+      fields: {
+        document: {
+          'ns2:groups_common': {
+            [configKey]: {
+              service: {
+                ns: 'http://collectionspace.org/services/group',
+              },
+            },
+          },
+          'ns2:groups_extension': {
+            [configKey]: {
+              service: {
+                ns: 'http://collectionspace.org/services/extension/group',
+              },
+            },
+          },
         },
       },
     };
 
     it('should return an Immutable.Map', function test() {
-      Immutable.Map.isMap(createDocument(recordTypeConfig)).should.be.true;
+      Immutable.Map.isMap(createBlankRecord(recordTypeConfig)).should.be.true;
     });
 
     it('should set the @name property to the document name', function test() {
-      createDocument(recordTypeConfig).get('@name').should.equal('groups');
+      createBlankRecord(recordTypeConfig).get('document').get('@name').should.equal('groups');
     });
 
     it('should create properties for each service part', function test() {
-      const document = createDocument(recordTypeConfig);
+      const document = createBlankRecord(recordTypeConfig);
 
-      document.get('ns2:groups_common').toJS().should.deep.equal({
+      document.get('document').get('ns2:groups_common').toJS().should.deep.equal({
         '@xmlns:ns2': 'http://collectionspace.org/services/group',
       });
 
-      document.get('ns2:groups_extension').toJS().should.deep.equal({
+      document.get('document').get('ns2:groups_extension').toJS().should.deep.equal({
         '@xmlns:ns2': 'http://collectionspace.org/services/extension/group',
       });
     });
@@ -702,10 +723,24 @@ describe('recordDataHelpers', function moduleSuite() {
   describe('createRecordData', function suite() {
     const recordTypeConfig = {
       serviceConfig: {
-        name: 'groups',
-        parts: {
-          groups_common: 'http://collectionspace.org/services/group',
-          groups_extension: 'http://collectionspace.org/services/extension/group',
+        documentName: 'groups',
+      },
+      fields: {
+        document: {
+          'ns2:groups_common': {
+            [configKey]: {
+              service: {
+                ns: 'http://collectionspace.org/services/group',
+              },
+            },
+          },
+          'ns2:groups_extension': {
+            [configKey]: {
+              service: {
+                ns: 'http://collectionspace.org/services/extension/group',
+              },
+            },
+          },
         },
       },
     };
@@ -777,6 +812,500 @@ describe('recordDataHelpers', function moduleSuite() {
     it('should sort attribute and namespace declaration properties to the top of each part', function test() {
       prepareForSending(recordData).get('document').get('ns2:groups_common').keySeq()
         .toArray().should.deep.equal(['@attr1', '@xmlns:ns2', 'name', 'date']);
+    });
+  });
+
+  describe('spreadDefaultValue', function suite() {
+    it('should set the value if the path does not exist', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {},
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'new',
+        [
+          'document',
+          'common',
+          'recordStatus',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            recordStatus: 'new',
+          },
+        },
+      });
+    });
+
+    it('should set the value if the current value is undefined', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {
+            recordStatus: undefined,
+          },
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'new',
+        [
+          'document',
+          'common',
+          'recordStatus',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            recordStatus: 'new',
+          },
+        },
+      });
+    });
+
+    it('should not set the value if the current value is not undefined', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {
+            recordStatus: 'in progress',
+          },
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'new',
+        [
+          'document',
+          'common',
+          'recordStatus',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            recordStatus: 'in progress',
+          },
+        },
+      });
+    });
+
+    it('should return the data unchanged if it is an unexpected type', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: '1234',
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'new',
+        [
+          'document',
+          'common',
+          'recordStatus',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: '1234',
+        },
+      });
+    });
+
+    it('should set the value in all existing undefined instances of a repeating field', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {
+            comments: {
+              comment: [
+                undefined,
+                'hello',
+                undefined,
+              ],
+            },
+          },
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'defaultval',
+        [
+          'document',
+          'common',
+          'comments',
+          'comment',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            comments: {
+              comment: [
+                'defaultval',
+                'hello',
+                'defaultval',
+              ],
+            },
+          },
+        },
+      });
+    });
+
+    it('should set the value in all existing instances of a field in a repeating group', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {
+            number: '123',
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'The Title',
+                },
+                {
+                  title: 'Another Title',
+                },
+              ],
+            },
+          },
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'defaultval',
+        [
+          'document',
+          'common',
+          'titleGroupList',
+          'titleGroup',
+          'titleLanguage',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            number: '123',
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'The Title',
+                  titleLanguage: 'defaultval',
+                },
+                {
+                  title: 'Another Title',
+                  titleLanguage: 'defaultval',
+                },
+              ],
+            },
+          },
+        },
+      });
+    });
+
+    it('should set the value in all existing instances of a field in a nested repeating group', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {
+            number: '123',
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'The Title',
+                  titleLanguage: 'English',
+                  titleTranslationSubgroupList: {
+                    titleTranslationSubgroup: [
+                      {
+                        titleTranslation: 'Le titre',
+                      },
+                      {
+                        titleTranslation: 'El título',
+                      },
+                    ],
+                  },
+                },
+                {
+                  title: 'Another Title',
+                  titleLanguage: 'English',
+                  titleTranslationSubgroupList: {
+                    titleTranslationSubgroup: [
+                      {
+                        titleTranslation: 'Un autre titre',
+                        titleTranslationLanguage: 'French',
+                      },
+                      {
+                        titleTranslation: 'Otre título',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'defaultval',
+        [
+          'document',
+          'common',
+          'titleGroupList',
+          'titleGroup',
+          'titleTranslationSubgroupList',
+          'titleTranslationSubgroup',
+          'titleTranslationLanguage',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            number: '123',
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'The Title',
+                  titleLanguage: 'English',
+                  titleTranslationSubgroupList: {
+                    titleTranslationSubgroup: [
+                      {
+                        titleTranslation: 'Le titre',
+                        titleTranslationLanguage: 'defaultval',
+                      },
+                      {
+                        titleTranslation: 'El título',
+                        titleTranslationLanguage: 'defaultval',
+                      },
+                    ],
+                  },
+                },
+                {
+                  title: 'Another Title',
+                  titleLanguage: 'English',
+                  titleTranslationSubgroupList: {
+                    titleTranslationSubgroup: [
+                      {
+                        titleTranslation: 'Un autre titre',
+                        titleTranslationLanguage: 'French',
+                      },
+                      {
+                        titleTranslation: 'Otre título',
+                        titleTranslationLanguage: 'defaultval',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
+    });
+
+    it('should set the value in undefined instances of a repeating group', function test() {
+      const recordData = Immutable.fromJS({
+        document: {
+          common: {
+            number: '123',
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'The Title',
+                  titleLanguage: 'English',
+                  titleTranslationSubgroupList: {
+                    titleTranslationSubgroup: [
+                      {
+                        titleTranslation: 'Le titre',
+                        titleTranslationLanguage: 'French',
+                      },
+                      undefined,
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
+
+      const updatedData = spreadDefaultValue(
+        'defaultval',
+        [
+          'document',
+          'common',
+          'titleGroupList',
+          'titleGroup',
+          'titleTranslationSubgroupList',
+          'titleTranslationSubgroup',
+          'titleTranslationLanguage',
+        ],
+        recordData
+      );
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            number: '123',
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'The Title',
+                  titleLanguage: 'English',
+                  titleTranslationSubgroupList: {
+                    titleTranslationSubgroup: [
+                      {
+                        titleTranslation: 'Le titre',
+                        titleTranslationLanguage: 'French',
+                      },
+                      {
+                        titleTranslationLanguage: 'defaultval',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe('applyDefaults', function suite() {
+    it('should set all default values from config into the data', function test() {
+      const fieldDescriptor = {
+        document: {
+          common: {
+            recordStatus: {
+              [configKey]: {
+                model: {
+                  defaultValue: 'new',
+                },
+              },
+            },
+            titleGroupList: {
+              titleGroup: {
+                titleLanguage: {
+                  [configKey]: {
+                    model: {
+                      defaultValue: 'English',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const recordData = Immutable.Map();
+
+      const updatedData = applyDefaults(fieldDescriptor, recordData);
+
+      updatedData.toJS().should.deep.equal({
+        document: {
+          common: {
+            recordStatus: 'new',
+            titleGroupList: {
+              titleGroup: {
+                titleLanguage: 'English',
+              },
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe('getCreatedTimestamp', function suite() {
+    it('should return the created timestamp', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            createdAt: '1234',
+          },
+        },
+      });
+
+      getCreatedTimestamp(data).should.equal('1234');
+    });
+  });
+
+  describe('getCreatedUser', function suite() {
+    it('should return the created timestamp', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            createdBy: 'user',
+          },
+        },
+      });
+
+      getCreatedUser(data).should.equal('user');
+    });
+  });
+
+  describe('getUpdatedTimestamp', function suite() {
+    it('should return the updated timestamp', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            updatedAt: '1234',
+          },
+        },
+      });
+
+      getUpdatedTimestamp(data).should.equal('1234');
+    });
+  });
+
+  describe('getUpdatedUser', function suite() {
+    it('should return the updated timestamp', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            updatedBy: 'user',
+          },
+        },
+      });
+
+      getUpdatedUser(data).should.equal('user');
+    });
+  });
+
+  describe('getCoreFieldValue', function suite() {
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          foo: 'bar',
+        },
+      },
+    });
+
+    it('should return the specified field from the core part', function test() {
+      getCoreFieldValue(data, 'foo').should.equal('bar');
+    });
+
+    it('should return undefined if the field does not exist', function test() {
+      expect(getCoreFieldValue(data, 'baz')).to.equal(undefined);
+    });
+
+    it('should return undefined if the data does not exist', function test() {
+      expect(getCoreFieldValue(null, 'foo')).to.equal(undefined);
     });
   });
 });

@@ -11,7 +11,6 @@ import { components as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 import Panel from '../../../../src/containers/layout/PanelContainer';
-import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 
 chai.should();
@@ -87,9 +86,7 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RecordEditor recordType="object" />
-          </ConfigProvider>
+          <RecordEditor config={config} recordType="object" />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -101,9 +98,7 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RecordEditor recordType="object" />
-          </ConfigProvider>
+          <RecordEditor config={config} recordType="object" />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -114,9 +109,7 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RecordEditor recordType="object" />
-          </ConfigProvider>
+          <RecordEditor config={config} recordType="object" />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -131,9 +124,7 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RecordEditor recordType="object" />
-          </ConfigProvider>
+          <RecordEditor config={config} recordType="object" />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -145,9 +136,7 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RecordEditor recordType="object" />
-          </ConfigProvider>
+          <RecordEditor config={config} recordType="object" />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -159,9 +148,7 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RecordEditor recordType="object" />
-          </ConfigProvider>
+          <RecordEditor config={config} recordType="object" />
         </StoreProvider>
       </IntlProvider>, this.container);
 

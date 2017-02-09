@@ -7,15 +7,11 @@ import {
 } from 'cspace-input';
 
 import {
-  fieldDescriptorKeys,
+  configKey,
+  dataPathToFieldDescriptorPath,
 } from '../../helpers/configHelpers';
 
 const { pathHelpers } = inputHelpers;
-const { config: configKey } = fieldDescriptorKeys;
-
-const onlyDigitsPattern = /^\d+$/;
-
-const isNotNumeric = string => !onlyDigitsPattern.test(string);
 
 const propTypes = {
   // Code in this component doesn't use these props, but the propTypes need to exist, because
@@ -51,7 +47,7 @@ export default function Field(props, context) {
   // Filter out numeric parts of the path, since they indicate repeating instances that won't be
   // present in the field descriptor.
 
-  const path = pathHelpers.getPath(props).filter(isNotNumeric);
+  const path = dataPathToFieldDescriptorPath(pathHelpers.getPath(props));
   const fields = get(config, ['recordTypes', recordType, 'fields']);
 
   warning(fields, `No field descriptor found for the record type ${recordType}. The field with path ${path} will not be rendered.`);

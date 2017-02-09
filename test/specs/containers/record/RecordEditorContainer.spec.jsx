@@ -23,6 +23,13 @@ describe('RecordEditorContainer', function suite() {
     const recordType = 'object';
     const data = Immutable.Map();
     const path = ['comments', 'comment'];
+    const recordTypeConfig = {};
+
+    const config = {
+      recordTypes: {
+        [recordType]: recordTypeConfig,
+      },
+    };
 
     const store = mockStore({
       record: {
@@ -49,6 +56,7 @@ describe('RecordEditorContainer', function suite() {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        config={config}
         csid={csid}
         recordType={recordType}
       />, context);
@@ -71,6 +79,7 @@ describe('RecordEditorContainer', function suite() {
     action.should.have.property('type', ADD_FIELD_INSTANCE);
     action.should.have.deep.property('meta.csid', csid);
     action.should.have.deep.property('meta.path', path);
+    action.should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
 
     result.props.onCommit(path, 'value');
 

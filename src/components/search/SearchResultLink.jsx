@@ -95,7 +95,7 @@ export default class SearchResultLink extends Component {
     let items = list.get(itemNodeName);
 
     if (!Immutable.List.isList(items)) {
-      items = Immutable.List([items]);
+      items = Immutable.List.of(items);
     }
 
     return items.find(itemFilter);

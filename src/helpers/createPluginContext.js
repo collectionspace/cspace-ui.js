@@ -17,7 +17,7 @@ import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
 
 import {
-  fieldDescriptorKeys,
+  configKey,
 } from '../helpers/configHelpers';
 
 import {
@@ -62,7 +62,7 @@ export default () => ({
     Field,
   },
   configHelpers: {
-    fieldDescriptorKeys,
+    configKey,
   },
   recordDataHelpers: {
     deepGet,

@@ -1,11 +1,17 @@
 import Immutable from 'immutable';
+import arrayGet from 'lodash/get';
 
 import {
+  applyDefaults,
   createRecordData,
   deepGet,
   deepSet,
   deepDelete,
 } from '../../helpers/recordDataHelpers';
+
+import {
+  dataPathToFieldDescriptorPath,
+} from '../../helpers/configHelpers';
 
 import {
   ADD_FIELD_INSTANCE,
@@ -25,6 +31,7 @@ const addFieldInstance = (state, action) => {
   const {
     csid,
     path,
+    recordTypeConfig,
   } = action.meta;
 
   const data = state[csid];
@@ -36,7 +43,10 @@ const addFieldInstance = (state, action) => {
   const value = deepGet(data, path);
   const list = Immutable.List.isList(value) ? value : Immutable.List.of(value);
 
-  const updatedData = deepSet(data, path, list.push(undefined));
+  const fieldDescriptor = arrayGet(recordTypeConfig.fields, dataPathToFieldDescriptorPath(path));
+  const defaultData = applyDefaults(fieldDescriptor);
+
+  const updatedData = deepSet(data, path, list.push(defaultData));
 
   return Object.assign({}, state, {
     [csid]: updatedData,
