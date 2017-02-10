@@ -33,6 +33,9 @@ import {
 
 const newRecordCsid = '';
 
+const getCurrentData = (state, csid) => state.getIn([csid, 'data']);
+const setCurrentData = (state, csid, data) => state.setIn([csid, 'data'], data);
+
 const addFieldInstance = (state, action) => {
   const {
     csid,
@@ -40,7 +43,7 @@ const addFieldInstance = (state, action) => {
     recordTypeConfig,
   } = action.meta;
 
-  const data = state.getIn([csid, 'data']);
+  const data = getCurrentData(state, csid);
 
   if (!data) {
     return state;
@@ -54,7 +57,7 @@ const addFieldInstance = (state, action) => {
 
   const updatedData = deepSet(data, path, list.push(defaultData));
 
-  return state.setIn([csid, 'data'], updatedData);
+  return setCurrentData(state, csid, updatedData);
 };
 
 const createNewRecord = (state, action) => {
@@ -68,7 +71,7 @@ const createNewRecord = (state, action) => {
   // edited at any time. The new record's data is stored alongside existing record data, at
   // key ''.
 
-  return state.setIn([newRecordCsid, 'data'], createRecordData(recordTypeConfig));
+  return setCurrentData(state, newRecordCsid, createRecordData(recordTypeConfig));
 };
 
 const deleteFieldValue = (state, action) => {
@@ -77,7 +80,7 @@ const deleteFieldValue = (state, action) => {
     path,
   } = action.meta;
 
-  const data = state.getIn([csid, 'data']);
+  const data = getCurrentData(state, csid);
 
   if (!data) {
     return state;
@@ -85,7 +88,7 @@ const deleteFieldValue = (state, action) => {
 
   const updatedData = deepDelete(data, path);
 
-  return state.setIn([csid, 'data'], updatedData);
+  return setCurrentData(state, csid, updatedData);
 };
 
 const moveFieldValue = (state, action) => {
@@ -95,7 +98,7 @@ const moveFieldValue = (state, action) => {
     newPosition,
   } = action.meta;
 
-  const data = state.getIn([csid, 'data']);
+  const data = getCurrentData(state, csid);
 
   if (!data) {
     return state;
@@ -117,7 +120,7 @@ const moveFieldValue = (state, action) => {
 
   const updatedData = deepSet(data, listPath, list);
 
-  return state.setIn([csid, 'data'], updatedData);
+  return setCurrentData(state, csid, updatedData);
 };
 
 const setFieldValue = (state, action) => {
@@ -126,7 +129,7 @@ const setFieldValue = (state, action) => {
     path,
   } = action.meta;
 
-  const data = state.getIn([csid, 'data']);
+  const data = getCurrentData(state, csid);
 
   if (!data) {
     return state;
@@ -135,7 +138,7 @@ const setFieldValue = (state, action) => {
   const newValue = action.payload;
   const updatedData = deepSet(data, path, newValue);
 
-  return state.setIn([csid, 'data'], updatedData);
+  return setCurrentData(state, csid, updatedData);
 };
 
 const handleRecordSaveFulfilled = (state, action) => {
@@ -156,7 +159,7 @@ const handleRecordSaveFulfilled = (state, action) => {
     return updatedState.set(createdRecordCsid, updatedState.get(newRecordCsid));
   }
 
-  return updatedState.setIn([csid, 'data'], Immutable.fromJS(response.data));
+  return setCurrentData(updatedState, csid, Immutable.fromJS(response.data));
 };
 
 const handleCreateIDFulfilled = (state, action) => {
@@ -165,7 +168,7 @@ const handleCreateIDFulfilled = (state, action) => {
     path,
   } = action.meta;
 
-  const data = state.getIn([csid, 'data']);
+  const data = getCurrentData(state, csid);
 
   if (!data) {
     return state;
@@ -174,7 +177,7 @@ const handleCreateIDFulfilled = (state, action) => {
   const newValue = action.payload.data;
   const updatedData = deepSet(data, path, newValue);
 
-  return state.setIn([csid, 'data'], updatedData);
+  return setCurrentData(state, csid, updatedData);
 };
 
 export default (state = Immutable.Map(), action) => {
@@ -193,8 +196,7 @@ export default (state = Immutable.Map(), action) => {
       return state.setIn([action.meta.csid, 'isReadPending'], true);
     case RECORD_READ_FULFILLED:
       return (
-        state
-          .setIn([action.meta.csid, 'data'], Immutable.fromJS(action.payload.data))
+        setCurrentData(state, action.meta.csid, Immutable.fromJS(action.payload.data))
           .deleteIn([action.meta.csid, 'isReadPending'])
       );
     case RECORD_READ_REJECTED:
@@ -220,7 +222,7 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getData = (state, csid) => state.getIn([csid, 'data']);
+export const getData = (state, csid) => getCurrentData(state, csid);
 
 export const getNewData = state => getData(state, newRecordCsid);
 
