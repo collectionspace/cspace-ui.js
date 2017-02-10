@@ -1,4 +1,5 @@
 import React from 'react';
+import Immutable from 'immutable';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
@@ -27,11 +28,11 @@ describe('RecordButtonBarContainer', function suite() {
     };
 
     const store = mockStore({
-      record: {
-        savesPending: {
-          [csid]: true,
+      record: Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
         },
-      },
+      }),
     });
 
     const context = { store };

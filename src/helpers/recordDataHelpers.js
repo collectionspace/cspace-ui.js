@@ -10,17 +10,14 @@ const numericPattern = /^[0-9]$/;
 export const NS_PREFIX = 'ns2';
 export const DOCUMENT_PROPERTY_NAME = 'document';
 
-export function getPartPropertyName(partName) {
-  return `${NS_PREFIX}:${partName}`;
-}
+export const getPartPropertyName = partName =>
+  `${NS_PREFIX}:${partName}`;
 
-export function getPart(cspaceDocument, partName) {
-  return cspaceDocument.get(getPartPropertyName(partName));
-}
+export const getPart = (cspaceDocument, partName) =>
+  cspaceDocument.get(getPartPropertyName(partName));
 
-export function getPartNSPropertyName() {
-  return `@xmlns:${NS_PREFIX}`;
-}
+export const getPartNSPropertyName = () =>
+  `@xmlns:${NS_PREFIX}`;
 
 /**
  * Deeply get a value in an Immutable.Map. This is similar to Immutable.Map.getIn, but differs in
@@ -30,7 +27,7 @@ export function getPartNSPropertyName() {
  * the data item itself is returned. This accommodates data in which a list containing a single
  * item may be represented by that one item.
  */
-export function deepGet(data, path) {
+export const deepGet = (data, path) => {
   if (!Array.isArray(path) || path.length === 0) {
     throw new Error('path must be a non-empty array');
   }
@@ -55,7 +52,7 @@ export function deepGet(data, path) {
   }
 
   return deepGet(value, rest);
-}
+};
 
 /**
  * Deeply set a value in an Immutable.Map. This is similar to Immutable.Map.setIn, but differs in
@@ -68,7 +65,7 @@ export function deepGet(data, path) {
  * This function also promotes an existing singular (non-List) item to a List, if any numeric key
  * is applied to it.
  */
-export function deepSet(data, path, value) {
+export const deepSet = (data, path, value) => {
   if (!Array.isArray(path) || path.length === 0) {
     throw new Error('path must be a non-empty array');
   }
@@ -94,7 +91,7 @@ export function deepSet(data, path, value) {
   const resolvedValue = (rest.length === 0) ? value : deepSet(normalizedData.get(key), rest, value);
 
   return normalizedData.set(key, resolvedValue);
-}
+};
 
 /**
  * Deeply delete a value in an Immutable.Map. This is similar to Immutable.Map.deleteIn, but differs
@@ -108,15 +105,14 @@ export function deepSet(data, path, value) {
  * This function also promotes an existing singular (non-List) item to a List, if any numeric key
  * is applied to it.
  */
-export function deepDelete(data, path) {
+export const deepDelete = (data, path) =>
   // First call deepSet with undefined value to ensure the path exists. Then call deleteIn.
-  return deepSet(data, path).deleteIn(path);
-}
+  deepSet(data, path).deleteIn(path);
 
 /**
  * Create a blank data record for a given CollectionSpace record type.
  */
-export function createBlankRecord(recordTypeConfig) {
+export const createBlankRecord = (recordTypeConfig) => {
   const {
     fields,
     serviceConfig,
@@ -141,14 +137,14 @@ export function createBlankRecord(recordTypeConfig) {
   return Immutable.fromJS({
     [documentKey]: document,
   });
-}
+};
 
 /**
  * Set a default value into record data. When declared on a repeating field, a default value will
  * be set on all instances of that field existing in the record data. If a repeating field has no
  * instances, a single instance will be created.
  */
-export function spreadDefaultValue(value, fieldDescriptorPath, data) {
+export const spreadDefaultValue = (value, fieldDescriptorPath, data) => {
   if (!fieldDescriptorPath || fieldDescriptorPath.length === 0) {
     return (typeof data === 'undefined' ? value : data);
   }
@@ -174,7 +170,7 @@ export function spreadDefaultValue(value, fieldDescriptorPath, data) {
   }
 
   return map.set(key, spreadDefaultValue(value, rest, child));
-}
+};
 
 /**
  * Set default values in record data.
@@ -186,26 +182,20 @@ export const applyDefaults = (fieldDescriptor, data) =>
 /**
  * Create a skeletal data record for a given CollectionSpace service.
  */
-export function createRecordData(recordTypeConfig) {
-  const {
-    fields,
-  } = recordTypeConfig;
-
-  return applyDefaults(fields, createBlankRecord(recordTypeConfig));
-}
+export const createRecordData = recordTypeConfig =>
+  applyDefaults(recordTypeConfig.fields, createBlankRecord(recordTypeConfig));
 
 /**
  * Get the document from the data record.
  */
-export function getDocument(data) {
-  return data.get(DOCUMENT_PROPERTY_NAME);
-}
+export const getDocument = data =>
+  data.get(DOCUMENT_PROPERTY_NAME);
 
 /**
  * Comparator function to sort properties that represent XML attributes and namespace declarations
  * (those that start with '@') to the top.
  */
-export function attributePropertiesToTop(propertyNameA, propertyNameB) {
+export const attributePropertiesToTop = (propertyNameA, propertyNameB) => {
   const firstCharA = propertyNameA.charAt(0);
   const firstCharB = propertyNameB.charAt(0);
 
@@ -222,7 +212,7 @@ export function attributePropertiesToTop(propertyNameA, propertyNameB) {
   }
 
   return 0;
-}
+};
 
 /**
  * Prepare record data for POST or PUT to the CollectionSpace REST API. Document parts that may
@@ -231,7 +221,7 @@ export function attributePropertiesToTop(propertyNameA, propertyNameB) {
  * XML attributes and namespace declarations, are moved to the top. This is required by the REST
  * API in order to properly translate the payload to XML.
  */
-export function prepareForSending(data) {
+export const prepareForSending = (data) => {
   // Filter out the core schema and account information parts.
 
   let cspaceDocument = data.get(DOCUMENT_PROPERTY_NAME)
@@ -251,9 +241,9 @@ export function prepareForSending(data) {
   }
 
   return data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
-}
+};
 
-export function getCoreFieldValue(data, fieldName) {
+export const getCoreFieldValue = (data, fieldName) => {
   if (data) {
     const document = getDocument(data);
 
@@ -267,20 +257,16 @@ export function getCoreFieldValue(data, fieldName) {
   }
 
   return undefined;
-}
+};
 
-export function getUpdatedTimestamp(data) {
-  return getCoreFieldValue(data, 'updatedAt');
-}
+export const getUpdatedTimestamp = data =>
+  getCoreFieldValue(data, 'updatedAt');
 
-export function getUpdatedUser(data) {
-  return getCoreFieldValue(data, 'updatedBy');
-}
+export const getUpdatedUser = data =>
+  getCoreFieldValue(data, 'updatedBy');
 
-export function getCreatedTimestamp(data) {
-  return getCoreFieldValue(data, 'createdAt');
-}
+export const getCreatedTimestamp = data =>
+  getCoreFieldValue(data, 'createdAt');
 
-export function getCreatedUser(data) {
-  return getCoreFieldValue(data, 'createdBy');
-}
+export const getCreatedUser = data =>
+  getCoreFieldValue(data, 'createdBy');

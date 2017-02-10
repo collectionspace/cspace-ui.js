@@ -24,11 +24,7 @@ const mockStore = configureMockStore();
 
 const store = mockStore({
   prefs: Immutable.Map(),
-  record: {
-    data: {},
-    readsPending: {},
-    savesPending: {},
-  },
+  record: Immutable.Map(),
 });
 
 const config = {

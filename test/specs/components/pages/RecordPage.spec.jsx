@@ -72,17 +72,11 @@ const config = {
 };
 
 const store = mockStore({
-  record: {
-    data: {
-      [csid]: Immutable.Map(),
+  record: Immutable.fromJS({
+    [csid]: {
+      data: {},
     },
-    readsPending: {
-      [csid]: false,
-    },
-    savesPending: {
-      [csid]: false,
-    },
-  },
+  }),
   search: Immutable.Map(),
   prefs: Immutable.Map(),
 });
@@ -305,17 +299,11 @@ describe('RecordPage', function suite() {
 
       const noCsidStore = mockStore({
         prefs: Immutable.Map(),
-        record: {
-          data: {
-            '': Immutable.Map(),
+        record: Immutable.fromJS({
+          '': {
+            data: {},
           },
-          readsPending: {
-            '': false,
-          },
-          savesPending: {
-            '': false,
-          },
-        },
+        }),
         search: Immutable.Map(),
       });
 

@@ -7,11 +7,11 @@ import {
   deepGet,
   deepSet,
   deepDelete,
-} from '../../helpers/recordDataHelpers';
+} from '../helpers/recordDataHelpers';
 
 import {
   dataPathToFieldDescriptorPath,
-} from '../../helpers/configHelpers';
+} from '../helpers/configHelpers';
 
 import {
   ADD_FIELD_INSTANCE,
@@ -19,13 +19,19 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
+  RECORD_READ_REJECTED,
+  RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
-} from '../../actions/record';
+  RECORD_SAVE_REJECTED,
+} from '../actions/record';
 
 import {
   CREATE_ID_FULFILLED,
-} from '../../actions/idGenerator';
+} from '../actions/idGenerator';
+
+const newRecordCsid = '';
 
 const addFieldInstance = (state, action) => {
   const {
@@ -34,7 +40,7 @@ const addFieldInstance = (state, action) => {
     recordTypeConfig,
   } = action.meta;
 
-  const data = state[csid];
+  const data = state.getIn([csid, 'data']);
 
   if (!data) {
     return state;
@@ -43,14 +49,12 @@ const addFieldInstance = (state, action) => {
   const value = deepGet(data, path);
   const list = Immutable.List.isList(value) ? value : Immutable.List.of(value);
 
-  const fieldDescriptor = arrayGet(recordTypeConfig.fields, dataPathToFieldDescriptorPath(path));
+  const fieldDescriptor = arrayGet(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
   const defaultData = applyDefaults(fieldDescriptor);
 
   const updatedData = deepSet(data, path, list.push(defaultData));
 
-  return Object.assign({}, state, {
-    [csid]: updatedData,
-  });
+  return state.setIn([csid, 'data'], updatedData);
 };
 
 const createNewRecord = (state, action) => {
@@ -64,9 +68,7 @@ const createNewRecord = (state, action) => {
   // edited at any time. The new record's data is stored alongside existing record data, at
   // key ''.
 
-  return Object.assign({}, state, {
-    '': createRecordData(recordTypeConfig),
-  });
+  return state.setIn([newRecordCsid, 'data'], createRecordData(recordTypeConfig));
 };
 
 const deleteFieldValue = (state, action) => {
@@ -75,7 +77,7 @@ const deleteFieldValue = (state, action) => {
     path,
   } = action.meta;
 
-  const data = state[csid];
+  const data = state.getIn([csid, 'data']);
 
   if (!data) {
     return state;
@@ -83,9 +85,7 @@ const deleteFieldValue = (state, action) => {
 
   const updatedData = deepDelete(data, path);
 
-  return Object.assign({}, state, {
-    [csid]: updatedData,
-  });
+  return state.setIn([csid, 'data'], updatedData);
 };
 
 const moveFieldValue = (state, action) => {
@@ -95,7 +95,7 @@ const moveFieldValue = (state, action) => {
     newPosition,
   } = action.meta;
 
-  const data = state[csid];
+  const data = state.getIn([csid, 'data']);
 
   if (!data) {
     return state;
@@ -117,9 +117,7 @@ const moveFieldValue = (state, action) => {
 
   const updatedData = deepSet(data, listPath, list);
 
-  return Object.assign({}, state, {
-    [csid]: updatedData,
-  });
+  return state.setIn([csid, 'data'], updatedData);
 };
 
 const setFieldValue = (state, action) => {
@@ -128,7 +126,7 @@ const setFieldValue = (state, action) => {
     path,
   } = action.meta;
 
-  const data = state[csid];
+  const data = state.getIn([csid, 'data']);
 
   if (!data) {
     return state;
@@ -137,36 +135,28 @@ const setFieldValue = (state, action) => {
   const newValue = action.payload;
   const updatedData = deepSet(data, path, newValue);
 
-  return Object.assign({}, state, {
-    [csid]: updatedData,
-  });
+  return state.setIn([csid, 'data'], updatedData);
 };
-
-const handleRecordReadFulfilled = (state, action) => Object.assign({}, state, {
-  [action.meta.csid]: Immutable.fromJS(action.payload.data),
-});
 
 const handleRecordSaveFulfilled = (state, action) => {
   const response = action.payload;
   const csid = action.meta.csid;
 
+  const updatedState = state.deleteIn([csid, 'isSavePending']);
+
   if (response.status === 201 && response.headers.location) {
     // A new record was created. There won't be any data in the response. Copy the data in the
-    // slot for the empty csid to the data slot for the new record. This prevents the form data
-    // from blinking out when the browser is directed to the new csid, as it would otherwise find
-    // no data until the read call to the REST API completed.
+    // slot for the new record csid to the data slot for the new record. This prevents the form
+    // data from blinking out when the browser is directed to the new csid, as it would otherwise
+    // find no data until the read call to the REST API completed.
 
     const location = response.headers.location;
-    const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
+    const createdRecordCsid = location.substring(location.lastIndexOf('/') + 1);
 
-    return Object.assign({}, state, {
-      [newRecordCsid]: state[''],
-    });
+    return updatedState.set(createdRecordCsid, updatedState.get(newRecordCsid));
   }
 
-  return Object.assign({}, state, {
-    [csid]: Immutable.fromJS(response.data),
-  });
+  return updatedState.setIn([csid, 'data'], Immutable.fromJS(response.data));
 };
 
 const handleCreateIDFulfilled = (state, action) => {
@@ -175,7 +165,7 @@ const handleCreateIDFulfilled = (state, action) => {
     path,
   } = action.meta;
 
-  const data = state[csid];
+  const data = state.getIn([csid, 'data']);
 
   if (!data) {
     return state;
@@ -184,12 +174,10 @@ const handleCreateIDFulfilled = (state, action) => {
   const newValue = action.payload.data;
   const updatedData = deepSet(data, path, newValue);
 
-  return Object.assign({}, state, {
-    [csid]: updatedData,
-  });
+  return state.setIn([csid, 'data'], updatedData);
 };
 
-export default (state = {}, action) => {
+export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case ADD_FIELD_INSTANCE:
       return addFieldInstance(state, action);
@@ -201,10 +189,30 @@ export default (state = {}, action) => {
       return moveFieldValue(state, action);
     case SET_FIELD_VALUE:
       return setFieldValue(state, action);
+    case RECORD_READ_STARTED:
+      return state.setIn([action.meta.csid, 'isReadPending'], true);
     case RECORD_READ_FULFILLED:
-      return handleRecordReadFulfilled(state, action);
+      return (
+        state
+          .setIn([action.meta.csid, 'data'], Immutable.fromJS(action.payload.data))
+          .deleteIn([action.meta.csid, 'isReadPending'])
+      );
+    case RECORD_READ_REJECTED:
+      return (
+        state
+          .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
+          .deleteIn([action.meta.csid, 'isReadPending'])
+      );
+    case RECORD_SAVE_STARTED:
+      return state.setIn([action.meta.csid, 'isSavePending'], true);
     case RECORD_SAVE_FULFILLED:
       return handleRecordSaveFulfilled(state, action);
+    case RECORD_SAVE_REJECTED:
+      return (
+        state
+          .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
+          .deleteIn([action.meta.csid, 'isSavePending'])
+      );
     case CREATE_ID_FULFILLED:
       return handleCreateIDFulfilled(state, action);
     default:
@@ -212,6 +220,10 @@ export default (state = {}, action) => {
   }
 };
 
-export const get = (state, csid) => state[csid];
+export const getData = (state, csid) => state.getIn([csid, 'data']);
 
-export const getNew = state => get(state, '');
+export const getNewData = state => getData(state, newRecordCsid);
+
+export const isReadPending = (state, csid) => state.getIn([csid, 'isReadPending']);
+
+export const isSavePending = (state, csid) => state.getIn([csid, 'isSavePending']);

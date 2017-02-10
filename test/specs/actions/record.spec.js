@@ -263,13 +263,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              [csid]: Immutable.fromJS({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         return store.dispatch(saveRecord(recordTypeConfig, undefined, csid))
@@ -309,13 +309,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              [csid]: Immutable.fromJS({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         return store.dispatch(saveRecord(recordTypeConfig, undefined, csid))
@@ -354,13 +354,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              '': Immutable.fromJS({
+          record: Immutable.fromJS({
+            '': {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         let replaceArg = null;
@@ -459,13 +459,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              [csid]: Immutable.fromJS({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         return store.dispatch(saveRecord(recordTypeConfig, vocabularyConfig, csid))

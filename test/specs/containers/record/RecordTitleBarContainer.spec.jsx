@@ -15,14 +15,12 @@ describe('RecordTitleBarContainer', function suite() {
     const data = Immutable.Map();
 
     const store = mockStore({
-      record: {
-        data: {
-          [csid]: data,
+      record: Immutable.fromJS({
+        [csid]: {
+          data,
+          isReadPending: true,
         },
-        readsPending: {
-          [csid]: true,
-        },
-      },
+      }),
     });
 
     const context = { store };

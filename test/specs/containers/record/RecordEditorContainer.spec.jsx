@@ -32,11 +32,11 @@ describe('RecordEditorContainer', function suite() {
     };
 
     const store = mockStore({
-      record: {
-        data: {
-          [csid]: data,
+      record: Immutable.fromJS({
+        [csid]: {
+          data,
         },
-      },
+      }),
       idGenerator: Immutable.fromJS({
         accession: {
           csid: '9dd92952-c384-44dc-a736-95e435c1759c',

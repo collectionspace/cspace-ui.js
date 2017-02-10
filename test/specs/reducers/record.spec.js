@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 
 import {
   ADD_FIELD_INSTANCE,
@@ -6,31 +7,38 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
+  RECORD_READ_REJECTED,
+  RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
-} from '../../../../src/actions/record';
+  RECORD_SAVE_REJECTED,
+} from '../../../src/actions/record';
 
 import {
   CREATE_ID_FULFILLED,
-} from '../../../../src/actions/idGenerator';
+} from '../../../src/actions/idGenerator';
 
 import reducer, {
-  get,
-  getNew,
-} from '../../../../src/reducers/record/data';
+  getData,
+  getNewData,
+  isReadPending,
+  isSavePending,
+} from '../../../src/reducers/record';
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
-describe('record data reducer', function suite() {
-  it('should have empty initial state', function test() {
+describe('record reducer', function suite() {
+  it('should have empty immutable initial state', function test() {
     const state = reducer(undefined, {});
 
-    state.should.deep.equal({});
+    state.should.equal(Immutable.Map());
 
-    expect(get(state, '1234')).to.equal(undefined);
-    expect(getNew(state)).to.equal(undefined);
+    expect(getData(state, '1234')).to.equal(undefined);
+    expect(getNewData(state)).to.equal(undefined);
   });
 
   it('should handle ADD_FIELD_INSTANCE', function test() {
@@ -41,7 +49,7 @@ describe('record data reducer', function suite() {
 
     // Non-existent csid
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: ADD_FIELD_INSTANCE,
       meta: {
         csid,
@@ -52,9 +60,9 @@ describe('record data reducer', function suite() {
       },
     });
 
-    state.should.deep.equal({});
+    state.should.equal(Immutable.Map());
 
-    expect(get(state, csid)).to.equal(undefined);
+    expect(getData(state, csid)).to.equal(undefined);
 
     // Single value
 
@@ -64,9 +72,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: ADD_FIELD_INSTANCE,
       meta: {
         csid,
@@ -81,11 +91,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: ['a', undefined],
       },
-    });
+    }));
 
     // Array value
 
@@ -95,9 +105,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: ADD_FIELD_INSTANCE,
       meta: {
         csid,
@@ -112,11 +124,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: ['a', 'b', undefined],
       },
-    });
+    }));
   });
 
   it('should handle CREATE_NEW_RECORD', function test() {
@@ -124,7 +136,7 @@ describe('record data reducer', function suite() {
 
     // No existing new record data
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: CREATE_NEW_RECORD,
       meta: {
         recordTypeConfig: {
@@ -138,11 +150,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    getNew(state).toJS().should.deep.equal({
+    getNewData(state).should.equal(Immutable.fromJS({
       document: {
         '@name': 'groups',
       },
-    });
+    }));
 
     // Existing new record data
 
@@ -160,11 +172,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    getNew(state).toJS().should.deep.equal({
+    getNewData(state).should.equal(Immutable.fromJS({
       document: {
         '@name': 'collectionobjects',
       },
-    });
+    }));
   });
 
   it('should handle DELETE_FIELD_VALUE', function test() {
@@ -175,7 +187,7 @@ describe('record data reducer', function suite() {
 
     // Non-existent csid
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: DELETE_FIELD_VALUE,
       meta: {
         csid,
@@ -183,9 +195,9 @@ describe('record data reducer', function suite() {
       },
     });
 
-    state.should.deep.equal({});
+    state.should.equal(Immutable.Map());
 
-    expect(get(state, csid)).to.equal(undefined);
+    expect(getData(state, csid)).to.equal(undefined);
 
     // Single value
 
@@ -195,9 +207,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: DELETE_FIELD_VALUE,
       meta: {
         csid,
@@ -205,9 +219,9 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {},
-    });
+    }));
 
     // Array value
 
@@ -217,9 +231,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: DELETE_FIELD_VALUE,
       meta: {
         csid,
@@ -227,11 +243,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: ['b'],
       },
-    });
+    }));
   });
 
   it('should handle MOVE_FIELD_VALUE', function test() {
@@ -242,7 +258,7 @@ describe('record data reducer', function suite() {
 
     // Non-existent csid
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: MOVE_FIELD_VALUE,
       meta: {
         csid,
@@ -251,9 +267,9 @@ describe('record data reducer', function suite() {
       },
     });
 
-    state.should.deep.equal({});
+    state.should.equal(Immutable.Map());
 
-    expect(get(state, csid)).to.equal(undefined);
+    expect(getData(state, csid)).to.equal(undefined);
 
     // Single value
 
@@ -263,9 +279,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: MOVE_FIELD_VALUE,
       meta: {
         csid,
@@ -274,11 +292,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: 'a',
       },
-    });
+    }));
 
     // Array value
 
@@ -288,9 +306,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: MOVE_FIELD_VALUE,
       meta: {
         csid,
@@ -299,11 +319,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: ['b', 'a', 'c'],
       },
-    });
+    }));
 
     // String newPosition
 
@@ -313,9 +333,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: MOVE_FIELD_VALUE,
       meta: {
         csid,
@@ -324,11 +346,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: ['b', 'a', 'c'],
       },
-    });
+    }));
   });
 
   it('should handle SET_FIELD_VALUE', function test() {
@@ -339,7 +361,7 @@ describe('record data reducer', function suite() {
 
     // Non-existent csid
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: SET_FIELD_VALUE,
       payload: 'd',
       meta: {
@@ -348,9 +370,9 @@ describe('record data reducer', function suite() {
       },
     });
 
-    state.should.deep.equal({});
+    state.should.equal(Immutable.Map());
 
-    expect(get(state, csid)).to.equal(undefined);
+    expect(getData(state, csid)).to.equal(undefined);
 
     // Set single value
 
@@ -360,9 +382,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: SET_FIELD_VALUE,
       payload: 'b',
       meta: {
@@ -371,11 +395,11 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: 'b',
       },
-    });
+    }));
 
     // Promote single value to array
 
@@ -385,9 +409,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: SET_FIELD_VALUE,
       payload: 'b',
       meta: {
@@ -396,11 +422,30 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: ['a', 'b'],
       },
+    }));
+  });
+
+  it('should handle RECORD_READ_STARTED', function test() {
+    const csid = '1234';
+
+    const state = reducer(undefined, {
+      type: RECORD_READ_STARTED,
+      meta: {
+        csid,
+      },
     });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        isReadPending: true,
+      },
+    }));
+
+    isReadPending(state, csid).should.equal(true);
   });
 
   it('should handle RECORD_READ_FULFILLED', function test() {
@@ -416,7 +461,7 @@ describe('record data reducer', function suite() {
 
     // No existing record data
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: RECORD_READ_FULFILLED,
       payload: {
         data,
@@ -426,15 +471,18 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal(data);
+    getData(state, csid).should.equal(Immutable.fromJS(data));
 
     // Existing record data
 
-    state = reducer({
+    state = reducer(Immutable.fromJS({
       [csid]: {
-        foo: 1,
+        data: {
+          foo: 1,
+        },
+        isReadPending: true,
       },
-    }, {
+    }), {
       type: RECORD_READ_FULFILLED,
       payload: {
         data,
@@ -444,7 +492,56 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal(data);
+    getData(state, csid).should.equal(Immutable.fromJS(data));
+
+    expect(isReadPending(state, csid)).to.equal(undefined);
+  });
+
+  it('should handle RECORD_READ_REJECTED', function test() {
+    const csid = '1234';
+
+    const state = reducer(Immutable.fromJS({
+      [csid]: {
+        isReadPending: true,
+      },
+    }), {
+      type: RECORD_READ_REJECTED,
+      payload: {
+        code: 'ERR_CODE',
+      },
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        error: {
+          code: 'ERR_CODE',
+        },
+      },
+    }));
+
+    expect(isReadPending(state, csid)).to.equal(undefined);
+  });
+
+  it('should handle RECORD_SAVE_STARTED', function test() {
+    const csid = '1234';
+
+    const state = reducer(undefined, {
+      type: RECORD_SAVE_STARTED,
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        isSavePending: true,
+      },
+    }));
+
+    isSavePending(state, csid).should.equal(true);
   });
 
   it('should handle RECORD_SAVE_FULFILLED', function test() {
@@ -460,7 +557,7 @@ describe('record data reducer', function suite() {
 
     // No existing record data
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: RECORD_SAVE_FULFILLED,
       payload: {
         data,
@@ -470,15 +567,18 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal(data);
+    getData(state, csid).should.equal(Immutable.fromJS(data));
 
     // Existing record data
 
-    state = reducer({
+    state = reducer(Immutable.fromJS({
       [csid]: {
-        foo: 1,
+        data: {
+          foo: 1,
+        },
+        isSavePending: true,
       },
-    }, {
+    }), {
       type: RECORD_SAVE_FULFILLED,
       payload: {
         data,
@@ -488,13 +588,16 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal(data);
+    getData(state, csid).should.equal(Immutable.fromJS(data));
+    expect(isSavePending(state, csid)).to.equal(undefined);
 
     // New record
 
-    state = reducer({
-      '': Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      '': {
+        data,
+      },
+    }), {
       type: RECORD_SAVE_FULFILLED,
       payload: {
         data,
@@ -508,7 +611,35 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, '5678').toJS().should.deep.equal(data);
+    getData(state, '5678').should.equal(Immutable.fromJS(data));
+  });
+
+  it('should handle RECORD_SAVE_REJECTED', function test() {
+    const csid = '1234';
+
+    const state = reducer(Immutable.fromJS({
+      [csid]: {
+        isSavePending: true,
+      },
+    }), {
+      type: RECORD_SAVE_REJECTED,
+      payload: {
+        code: 'ERR_CODE',
+      },
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        error: {
+          code: 'ERR_CODE',
+        },
+      },
+    }));
+
+    expect(isSavePending(state, csid)).to.equal(undefined);
   });
 
   it('should handle CREATE_ID_FULFILLED', function test() {
@@ -518,7 +649,7 @@ describe('record data reducer', function suite() {
 
     // Non-existent csid
 
-    state = reducer({}, {
+    state = reducer(undefined, {
       type: CREATE_ID_FULFILLED,
       payload: {
         data: 'd',
@@ -529,9 +660,9 @@ describe('record data reducer', function suite() {
       },
     });
 
-    state.should.deep.equal({});
+    state.should.equal(Immutable.Map());
 
-    expect(get(state, csid)).to.equal(undefined);
+    expect(getData(state, csid)).to.equal(undefined);
 
     // Set single value
 
@@ -541,9 +672,11 @@ describe('record data reducer', function suite() {
       },
     };
 
-    state = reducer({
-      [csid]: Immutable.fromJS(data),
-    }, {
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data,
+      },
+    }), {
       type: CREATE_ID_FULFILLED,
       payload: {
         data: 'b',
@@ -554,10 +687,10 @@ describe('record data reducer', function suite() {
       },
     });
 
-    get(state, csid).toJS().should.deep.equal({
+    getData(state, csid).should.equal(Immutable.fromJS({
       foo: {
         bar: 'b',
       },
-    });
+    }));
   });
 });
