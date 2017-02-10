@@ -74,7 +74,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: ADD_FIELD_INSTANCE,
@@ -107,7 +109,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: ADD_FIELD_INSTANCE,
@@ -209,7 +213,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: DELETE_FIELD_VALUE,
@@ -233,7 +239,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: DELETE_FIELD_VALUE,
@@ -281,7 +289,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: MOVE_FIELD_VALUE,
@@ -308,7 +318,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: MOVE_FIELD_VALUE,
@@ -335,7 +347,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: MOVE_FIELD_VALUE,
@@ -384,7 +398,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: SET_FIELD_VALUE,
@@ -411,7 +427,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: SET_FIELD_VALUE,
@@ -478,7 +496,9 @@ describe('record reducer', function suite() {
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
-          foo: 1,
+          current: {
+            foo: 1,
+          },
         },
         isReadPending: true,
       },
@@ -574,7 +594,9 @@ describe('record reducer', function suite() {
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
-          foo: 1,
+          current: {
+            foo: 1,
+          },
         },
         isSavePending: true,
       },
@@ -595,7 +617,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       '': {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: RECORD_SAVE_FULFILLED,
@@ -674,7 +698,9 @@ describe('record reducer', function suite() {
 
     state = reducer(Immutable.fromJS({
       [csid]: {
-        data,
+        data: {
+          current: data,
+        },
       },
     }), {
       type: CREATE_ID_FULFILLED,

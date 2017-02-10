@@ -266,7 +266,9 @@ describe('record action creator', function suite() {
           record: Immutable.fromJS({
             [csid]: {
               data: {
-                document: {},
+                current: {
+                  document: {},
+                },
               },
             },
           }),
@@ -312,7 +314,9 @@ describe('record action creator', function suite() {
           record: Immutable.fromJS({
             [csid]: {
               data: {
-                document: {},
+                current: {
+                  document: {},
+                },
               },
             },
           }),
@@ -357,7 +361,9 @@ describe('record action creator', function suite() {
           record: Immutable.fromJS({
             '': {
               data: {
-                document: {},
+                current: {
+                  document: {},
+                },
               },
             },
           }),
@@ -462,7 +468,9 @@ describe('record action creator', function suite() {
           record: Immutable.fromJS({
             [csid]: {
               data: {
-                document: {},
+                current: {
+                  document: {},
+                },
               },
             },
           }),

@@ -149,7 +149,9 @@ describe('reducer', function suite() {
       getRecordData({
         record: Immutable.fromJS({
           [csid]: {
-            data,
+            data: {
+              current: data,
+            },
           },
         }),
       }, csid).should.equal(data);
@@ -163,7 +165,9 @@ describe('reducer', function suite() {
       getNewRecordData({
         record: Immutable.fromJS({
           '': {
-            data,
+            data: {
+              current: data,
+            },
           },
         }),
       }).should.equal(data);

@@ -33,8 +33,8 @@ import {
 
 const newRecordCsid = '';
 
-const getCurrentData = (state, csid) => state.getIn([csid, 'data']);
-const setCurrentData = (state, csid, data) => state.setIn([csid, 'data'], data);
+const getCurrentData = (state, csid) => state.getIn([csid, 'data', 'current']);
+const setCurrentData = (state, csid, data) => state.setIn([csid, 'data', 'current'], data);
 
 const addFieldInstance = (state, action) => {
   const {
