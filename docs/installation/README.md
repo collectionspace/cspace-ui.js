@@ -7,13 +7,13 @@ The CollectionSpace UI is installed by creating an HTML page and publishing it t
 <head>
   <meta charset="UTF-8">
   <title>CollectionSpace</title>
-  <script src="http://unpkg.com/cspace-ui@0.0.8/dist/cspaceUI.min.js"></script>
-  <script>
-    cspaceUI();
-  </script>
 </head>
 <body>
   <main></main>
+  <script src="http://unpkg.com/cspace-ui@0.2.1/dist/cspaceUI.min.js"></script>
+  <script>
+    cspaceUI();
+  </script>
 </body>
 </html>
 ```
