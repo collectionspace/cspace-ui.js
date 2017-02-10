@@ -7,44 +7,59 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    ui,
-  } = pluginContext.configHelpers.fieldDescriptorKeys;
+    configKey: config,
+  } = pluginContext.configHelpers;
 
   return {
     document: {
-      [ui]: {
-        type: CompoundInput,
-        props: {
-          defaultChildSubpath: 'ns2:groups_common',
+      [config]: {
+        view: {
+          type: CompoundInput,
+          props: {
+            defaultChildSubpath: 'ns2:groups_common',
+          },
         },
       },
       'ns2:groups_common': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/group',
+          },
+        },
         title: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         responsibleDepartment: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'departments',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'departments',
+              },
             },
           },
         },
         owner: {
-          [ui]: {
-            type: AuthorityControlledInput,
-            props: {
-              authority: 'person/local',
+          [config]: {
+            view: {
+              type: AuthorityControlledInput,
+              props: {
+                authority: 'person/local',
+              },
             },
           },
         },
         scopeNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },

@@ -1,9 +1,14 @@
+import Immutable from 'immutable';
 import deepAssign from 'deep-assign';
 import warning from 'warning';
 
-export const fieldDescriptorKeys = {
-  ui: Symbol.for('fieldSpec.ui'),
-};
+const onlyDigitsPattern = /^\d+$/;
+const isNotNumeric = string => !onlyDigitsPattern.test(string);
+
+export const configKey = Symbol.for('configHelpers.configKey');
+
+export const dataPathToFieldDescriptorPath = dataPath =>
+  dataPath.filter(isNotNumeric);
 
 export const evaluatePlugin = (plugin, pluginContext) => {
   const pluginType = typeof plugin;
@@ -146,4 +151,51 @@ export const getVocabularyConfigByShortID = (recordTypeConfig, shortID) => {
   }
 
   return recordTypeConfig.vocabulariesByShortID[shortID];
+};
+
+export const getDefaultValue = (fieldDescriptor) => {
+  const config = fieldDescriptor[configKey];
+
+  if (config) {
+    const { model } = config;
+
+    if (model) {
+      const { defaultValue } = model;
+
+      if (typeof defaultValue === 'object' && !Immutable.Map.isMap(defaultValue)) {
+        // If an object is supplied as a default value, convert it to an immutable map.
+
+        return Immutable.fromJS(defaultValue);
+      }
+
+      return defaultValue;
+    }
+  }
+
+  return undefined;
+};
+
+export const getDefaults = (fieldDescriptor, currentPath = []) => {
+  let results = [];
+
+  const defaultValue = getDefaultValue(fieldDescriptor);
+
+  if (typeof defaultValue !== 'undefined') {
+    results = results.concat({
+      path: currentPath,
+      value: defaultValue,
+    });
+  }
+
+  const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+
+  childKeys.forEach((childKey) => {
+    const childPath = currentPath.concat(childKey);
+    const childfieldDescriptor = fieldDescriptor[childKey];
+    const childResults = getDefaults(childfieldDescriptor, childPath);
+
+    results = results.concat(childResults);
+  });
+
+  return results;
 };

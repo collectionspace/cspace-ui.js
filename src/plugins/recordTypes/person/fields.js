@@ -11,39 +11,54 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    ui,
-  } = pluginContext.configHelpers.fieldDescriptorKeys;
+    configKey: config,
+  } = pluginContext.configHelpers;
 
   return {
     document: {
-      [ui]: {
-        type: CompoundInput,
-        props: {
-          defaultChildSubpath: 'ns2:persons_common',
+      [config]: {
+        view: {
+          type: CompoundInput,
+          props: {
+            defaultChildSubpath: 'ns2:persons_common',
+          },
         },
       },
       'ns2:persons_common': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/person',
+          },
+        },
         personTermGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           personTermGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
             termDisplayName: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             termSource: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'citation/local,citation/shared,citation/worldcat',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'citation/local,citation/shared,citation/worldcat',
+                  },
                 },
               },
             },

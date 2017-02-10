@@ -1,4 +1,10 @@
+import Immutable from 'immutable';
+
 import {
+  configKey,
+  dataPathToFieldDescriptorPath,
+  getDefaults,
+  getDefaultValue,
   initConfig,
   mergeConfig,
   applyPlugins,
@@ -309,6 +315,91 @@ describe('configHelpers', function moduleSuite() {
     it('should return the vocabulary type config with the given short id', function test() {
       getVocabularyConfigByShortID(recordTypeConfig, 'person').should
         .equal(recordTypeConfig.vocabularies.local);
+    });
+  });
+
+  describe('getDefaults', function suite() {
+    const fieldDescriptor = {
+      document: {
+        common: {
+          recordStatus: {
+            [configKey]: {
+              model: {
+                defaultValue: 'new',
+              },
+            },
+          },
+          titleGroupList: {
+            titleGroup: {
+              titleLanguage: {
+                [configKey]: {
+                  model: {
+                    defaultValue: 'English',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should return the paths and default values of fields that have defaults', function test() {
+      getDefaults(fieldDescriptor).should.deep.equal([
+        {
+          path: ['document', 'common', 'recordStatus'],
+          value: 'new',
+        },
+        {
+          path: ['document', 'common', 'titleGroupList', 'titleGroup', 'titleLanguage'],
+          value: 'English',
+        },
+      ]);
+    });
+  });
+
+  describe('getDefaultValue', function suite() {
+    it('should return the default value from a field descriptor', function test() {
+      const fieldDescriptor = {
+        [configKey]: {
+          model: {
+            defaultValue: 'new',
+          },
+        },
+      };
+
+      getDefaultValue(fieldDescriptor).should.equal('new');
+    });
+
+    it('should convert an object to an immutable map', function test() {
+      const fieldDescriptor = {
+        [configKey]: {
+          model: {
+            defaultValue: {
+              foo: {
+                bar: 'baz',
+              },
+            },
+          },
+        },
+      };
+
+      const defaultValue = getDefaultValue(fieldDescriptor);
+
+      Immutable.Map.isMap(defaultValue).should.equal(true);
+
+      defaultValue.toJS().should.deep.equal({
+        foo: {
+          bar: 'baz',
+        },
+      });
+    });
+  });
+
+  describe('dataPathToFieldDescriptorPath', function suite() {
+    it('should remove numeric path components from the data path', function test() {
+      dataPathToFieldDescriptorPath(['document', 'common', 'groupList', 'group', '1', 'foo', '2', 'bar']).should
+        .deep.equal(['document', 'common', 'groupList', 'group', 'foo', 'bar']);
     });
   });
 });

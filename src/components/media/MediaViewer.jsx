@@ -118,7 +118,7 @@ export default class MediaViewer extends Component {
 
         if (items) {
           if (!Immutable.List.isList(items)) {
-            items = Immutable.List([items]);
+            items = Immutable.List.of(items);
           }
 
           items.forEach((item) => {

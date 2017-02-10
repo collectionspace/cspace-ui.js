@@ -6,8 +6,4 @@ export default {
   objectName: 'Group',
 
   documentName: 'groups',
-
-  parts: {
-    groups_common: 'http://collectionspace.org/services/group',
-  },
 };

@@ -11,548 +11,716 @@ export default (pluginContext) => {
   } = pluginContext.inputComponents;
 
   const {
-    ui,
-  } = pluginContext.configHelpers.fieldDescriptorKeys;
+    configKey: config,
+  } = pluginContext.configHelpers;
 
   return {
     document: {
-      [ui]: {
-        type: CompoundInput,
-        props: {
-          defaultChildSubpath: 'ns2:collectionobjects_common',
+      [config]: {
+        view: {
+          type: CompoundInput,
+          props: {
+            defaultChildSubpath: 'ns2:collectionobjects_common',
+          },
         },
       },
       'ns2:collectionobjects_common': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/collectionobject',
+          },
+        },
         objectNumber: {
-          [ui]: {
-            type: IDGeneratorInput,
-            props: {
-              idGeneratorName: 'accession,intake,loanin',
+          [config]: {
+            view: {
+              type: IDGeneratorInput,
+              props: {
+                idGeneratorName: 'accession,intake,loanin',
+              },
             },
           },
         },
         numberOfObjects: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         otherNumberList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           otherNumber: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             numberType: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'numberTypes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'numberTypes',
+                  },
                 },
               },
             },
             numberValue: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         responsibleDepartments: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           responsibleDepartment: {
-            [ui]: {
-              type: OptionListControlledInput,
-              props: {
-                optionListName: 'departments',
-                repeating: true,
+            [config]: {
+              view: {
+                type: OptionListControlledInput,
+                props: {
+                  optionListName: 'departments',
+                  repeating: true,
+                },
               },
             },
           },
         },
         collection: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'collections',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'collections',
+              },
             },
           },
         },
         recordStatus: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'recordStatuses',
+          [config]: {
+            model: {
+              defaultValue: 'new',
+            },
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'recordStatuses',
+              },
             },
           },
         },
         briefDescriptions: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           briefDescription: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                multiline: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  multiline: true,
+                  repeating: true,
+                },
               },
             },
           },
         },
         distinguishingFeatures: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         comments: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           comment: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                multiline: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  multiline: true,
+                  repeating: true,
+                },
               },
             },
           },
         },
         computedCurrentLocation: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         titleGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           titleGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
             title: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             titleLanguage: {
-              [ui]: {
-                type: VocabularyControlledInput,
-                props: {
-                  vocabularyName: 'languages',
+              [config]: {
+                view: {
+                  type: VocabularyControlledInput,
+                  props: {
+                    vocabularyName: 'languages',
+                  },
                 },
               },
             },
             titleTranslationSubGroupList: {
-              [ui]: {
-                type: CompoundInput,
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
               },
               titleTranslationSubGroup: {
-                [ui]: {
-                  type: CompoundInput,
-                  props: {
-                    tabular: true,
-                    repeating: true,
+                [config]: {
+                  view: {
+                    type: CompoundInput,
+                    props: {
+                      tabular: true,
+                      repeating: true,
+                    },
                   },
                 },
                 titleTranslation: {
-                  [ui]: {
-                    type: TextInput,
+                  [config]: {
+                    view: {
+                      type: TextInput,
+                    },
                   },
                 },
                 titleTranslationLanguage: {
-                  [ui]: {
-                    type: VocabularyControlledInput,
-                    props: {
-                      vocabularyName: 'languages',
+                  [config]: {
+                    view: {
+                      type: VocabularyControlledInput,
+                      props: {
+                        vocabularyName: 'languages',
+                      },
                     },
                   },
                 },
               },
             },
             titleType: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'titleTypes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'titleTypes',
+                  },
                 },
               },
             },
           },
         },
         objectNameList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectNameGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             objectName: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             objectNameCurrency: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'nameCurrencies',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'nameCurrencies',
+                  },
                 },
               },
             },
             objectNameLevel: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'nameLevels',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'nameLevels',
+                  },
                 },
               },
             },
             objectNameSystem: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'nameSystems',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'nameSystems',
+                  },
                 },
               },
             },
             objectNameType: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'nameTypes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'nameTypes',
+                  },
                 },
               },
             },
             objectNameLanguage: {
-              [ui]: {
-                type: VocabularyControlledInput,
-                props: {
-                  vocabularyName: 'languages',
+              [config]: {
+                view: {
+                  type: VocabularyControlledInput,
+                  props: {
+                    vocabularyName: 'languages',
+                  },
                 },
               },
             },
             objectNameNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         copyNumber: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         objectStatusList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectStatus: {
-            [ui]: {
-              type: OptionListControlledInput,
-              props: {
-                optionListName: 'objectStatuses',
-                repeating: true,
+            [config]: {
+              view: {
+                type: OptionListControlledInput,
+                props: {
+                  optionListName: 'objectStatuses',
+                  repeating: true,
+                },
               },
             },
           },
         },
         sex: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'sexes',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'sexes',
+              },
             },
           },
         },
         phase: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'phases',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'phases',
+              },
             },
           },
         },
         forms: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           form: {
-            [ui]: {
-              type: OptionListControlledInput,
-              props: {
-                optionListName: 'forms',
-                repeating: true,
+            [config]: {
+              view: {
+                type: OptionListControlledInput,
+                props: {
+                  optionListName: 'forms',
+                  repeating: true,
+                },
               },
             },
           },
         },
         editionNumber: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         age: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         ageQualifier: {
-          [ui]: {
-            type: VocabularyControlledInput,
-            props: {
-              vocabularyName: 'agequalifier',
+          [config]: {
+            view: {
+              type: VocabularyControlledInput,
+              props: {
+                vocabularyName: 'agequalifier',
+              },
             },
           },
         },
         ageUnit: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'ageUnits',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'ageUnits',
+              },
             },
           },
         },
         styles: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           style: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         colors: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           color: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         materialGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           materialGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             material: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             materialComponent: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             materialComponentNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             materialName: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             materialSource: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         physicalDescription: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         objectComponentGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectComponentGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             objectComponentName: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'objectComponentNames',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'objectComponentNames',
+                  },
                 },
               },
             },
             objectComponentInformation: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         technicalAttributeGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           technicalAttributeGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             technicalAttribute: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'technicalAttributes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'technicalAttributes',
+                  },
                 },
               },
             },
             technicalAttributeMeasurement: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'technicalAttributeMeasurements',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'technicalAttributeMeasurements',
+                  },
                 },
               },
             },
             technicalAttributeMeasurementUnit: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'technicalAttributeMeasurementUnits',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'technicalAttributeMeasurementUnits',
+                  },
                 },
               },
             },
           },
         },
         measuredPartGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           measuredPartGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
             measuredPart: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'measuredParts',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'measuredParts',
+                  },
                 },
               },
             },
             dimensionSummary: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             dimensionSubGroupList: {
-              [ui]: {
-                type: CompoundInput,
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
               },
               dimensionSubGroup: {
-                [ui]: {
-                  type: CompoundInput,
-                  props: {
-                    tabular: true,
-                    repeating: true,
+                [config]: {
+                  view: {
+                    type: CompoundInput,
+                    props: {
+                      tabular: true,
+                      repeating: true,
+                    },
                   },
                 },
                 dimension: {
-                  [ui]: {
-                    type: OptionListControlledInput,
-                    props: {
-                      optionListName: 'dimensions',
+                  [config]: {
+                    view: {
+                      type: OptionListControlledInput,
+                      props: {
+                        optionListName: 'dimensions',
+                      },
                     },
                   },
                 },
                 measuredBy: {
-                  [ui]: {
-                    type: AuthorityControlledInput,
-                    props: {
-                      authority: 'person/local,person/shared,organization/local,organization/shared',
+                  [config]: {
+                    view: {
+                      type: AuthorityControlledInput,
+                      props: {
+                        authority: 'person/local,person/shared,organization/local,organization/shared',
+                      },
                     },
                   },
                 },
                 measurementMethod: {
-                  [ui]: {
-                    type: OptionListControlledInput,
-                    props: {
-                      optionListName: 'measurementMethods',
+                  [config]: {
+                    view: {
+                      type: OptionListControlledInput,
+                      props: {
+                        optionListName: 'measurementMethods',
+                      },
                     },
                   },
                 },
                 value: {
-                  [ui]: {
-                    type: TextInput,
+                  [config]: {
+                    view: {
+                      type: TextInput,
+                    },
                   },
                 },
                 measurementUnit: {
-                  [ui]: {
-                    type: OptionListControlledInput,
-                    props: {
-                      optionListName: 'measurementUnits',
+                  [config]: {
+                    view: {
+                      type: OptionListControlledInput,
+                      props: {
+                        optionListName: 'measurementUnits',
+                      },
                     },
                   },
                 },
                 valueQualifier: {
-                  [ui]: {
-                    type: TextInput,
+                  [config]: {
+                    view: {
+                      type: TextInput,
+                    },
                   },
                 },
                 valueDate: {
-                  [ui]: {
-                    type: DateInput,
+                  [config]: {
+                    view: {
+                      type: DateInput,
+                    },
                   },
                 },
               },
@@ -560,1165 +728,1523 @@ export default (pluginContext) => {
           },
         },
         contentDescription: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         contentLanguages: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentLanguage: {
-            [ui]: {
-              type: VocabularyControlledInput,
-              props: {
-                vocabularyName: 'languages',
-                repeating: true,
+            [config]: {
+              view: {
+                type: VocabularyControlledInput,
+                props: {
+                  vocabularyName: 'languages',
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentActivities: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentActivity: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentConcepts: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentConcept: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'concept/associated,concept/material,concept/material_shared',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'concept/associated,concept/material,concept/material_shared',
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentDateGroup: {
-          [ui]: {
-            type: StructuredDateInput,
+          [config]: {
+            view: {
+              type: StructuredDateInput,
+            },
           },
         },
         contentPositions: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentPosition: {
-            [ui]: {
-              type: OptionListControlledInput,
-              props: {
-                optionListName: 'positions',
-                repeating: true,
+            [config]: {
+              view: {
+                type: OptionListControlledInput,
+                props: {
+                  optionListName: 'positions',
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentObjectGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentObjectGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             contentObject: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             contentObjectType: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'contentObjectTypes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'contentObjectTypes',
+                  },
                 },
               },
             },
           },
         },
         contentPeoples: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentPeople: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentPersons: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentPerson: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'person/local,person/shared,person/ulan',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'person/local,person/shared,person/ulan',
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentPlaces: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentPlace: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentScripts: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentScript: {
-            [ui]: {
-              type: OptionListControlledInput,
-              props: {
-                optionListName: 'scripts',
-                repeating: true,
+            [config]: {
+              view: {
+                type: OptionListControlledInput,
+                props: {
+                  optionListName: 'scripts',
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentOrganizations: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentOrganization: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'organization/local,organization/shared,organization/ulan',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'organization/local,organization/shared,organization/ulan',
+                  repeating: true,
+                },
               },
             },
           },
         },
         contentEventNameGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentEventNameGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             contentEventName: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             contentEventNameType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         contentOtherGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           contentOtherGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             contentOther: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             contentOtherType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         contentNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         textualInscriptionGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           textualInscriptionGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
             inscriptionContent: {
-              [ui]: {
-                type: TextInput,
-                props: {
-                  multiline: true,
+              [config]: {
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
                 },
               },
             },
             inscriptionContentInscriber: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'person/local,organization/local,organization/shared',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'person/local,organization/local,organization/shared',
+                  },
                 },
               },
             },
             inscriptionContentLanguage: {
-              [ui]: {
-                type: VocabularyControlledInput,
-                props: {
-                  vocabularyName: 'languages',
+              [config]: {
+                view: {
+                  type: VocabularyControlledInput,
+                  props: {
+                    vocabularyName: 'languages',
+                  },
                 },
               },
             },
             inscriptionContentDateGroup: {
-              [ui]: {
-                type: StructuredDateInput,
+              [config]: {
+                view: {
+                  type: StructuredDateInput,
+                },
               },
             },
             inscriptionContentPosition: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'positions',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'positions',
+                  },
                 },
               },
             },
             inscriptionContentScript: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'scripts',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'scripts',
+                  },
                 },
               },
             },
             inscriptionContentType: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'inscriptionTypes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'inscriptionTypes',
+                  },
                 },
               },
             },
             inscriptionContentMethod: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             inscriptionContentInterpretation: {
-              [ui]: {
-                type: TextInput,
-                props: {
-                  multiline: true,
+              [config]: {
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
                 },
               },
             },
             inscriptionContentTranslation: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             inscriptionContentTransliteration: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         nonTextualInscriptionGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           nonTextualInscriptionGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
             inscriptionDescription: {
-              [ui]: {
-                type: TextInput,
-                props: {
-                  multiline: true,
+              [config]: {
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
                 },
               },
             },
             inscriptionDescriptionInscriber: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'person/local,person/shared,organization/local,organization/shared',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'person/local,person/shared,organization/local,organization/shared',
+                  },
                 },
               },
             },
             inscriptionDescriptionDateGroup: {
-              [ui]: {
-                type: StructuredDateInput,
+              [config]: {
+                view: {
+                  type: StructuredDateInput,
+                },
               },
             },
             inscriptionDescriptionPosition: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'positions',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'positions',
+                  },
                 },
               },
             },
             inscriptionDescriptionType: {
-              [ui]: {
-                type: OptionListControlledInput,
-                props: {
-                  optionListName: 'inscriptionTypes',
+              [config]: {
+                view: {
+                  type: OptionListControlledInput,
+                  props: {
+                    optionListName: 'inscriptionTypes',
+                  },
                 },
               },
             },
             inscriptionDescriptionMethod: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             inscriptionDescriptionInterpretation: {
-              [ui]: {
-                type: TextInput,
-                props: {
-                  multiline: true,
+              [config]: {
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
                 },
               },
             },
           },
         },
         objectProductionDateGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectProductionDateGroup: {
-            [ui]: {
-              type: StructuredDateInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: StructuredDateInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         techniqueGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           techniqueGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             technique: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             techniqueType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         objectProductionPlaceGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectProductionPlaceGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             objectProductionPlace: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             objectProductionPlaceRole: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         objectProductionReasons: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectProductionReason: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                multiline: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  multiline: true,
+                  repeating: true,
+                },
               },
             },
           },
         },
         objectProductionPeopleGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectProductionPeopleGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             objectProductionPeople: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             objectProductionPeopleRole: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         objectProductionPersonGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectProductionPersonGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             objectProductionPerson: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'person/local,person/shared',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'person/local,person/shared',
+                  },
                 },
               },
             },
             objectProductionPersonRole: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         objectProductionOrganizationGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           objectProductionOrganizationGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             objectProductionOrganization: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'organization/local,organization/shared',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'organization/local,organization/shared',
+                  },
                 },
               },
             },
             objectProductionOrganizationRole: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         objectProductionNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         assocActivityGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocActivityGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocActivity: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocActivityType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocActivityNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocObjectGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocObjectGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocObject: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocObjectType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocObjectNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocConceptGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocConceptGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocConcept: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'concept/associated',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'concept/associated',
+                  },
                 },
               },
             },
             assocConceptType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocConceptNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocCulturalContextGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocCulturalContextGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocCulturalContext: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocCulturalContextType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocCulturalContextNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocOrganizationGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocOrganizationGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocOrganization: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'organization/local,organization/shared',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'organization/local,organization/shared',
+                  },
                 },
               },
             },
             assocOrganizationType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocOrganizationNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocPeopleGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocPeopleGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocPeople: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocPeopleType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocPeopleNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocPersonGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocPersonGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocPerson: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'person/local,person/shared',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'person/local,person/shared',
+                  },
                 },
               },
             },
             assocPersonType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocPersonNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocPlaceGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocPlaceGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocPlace: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocPlaceType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocPlaceNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         assocEventName: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         assocEventNameType: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         assocEventOrganizations: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocEventOrganization: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'organization/local,organization/shared',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'organization/local,organization/shared',
+                  repeating: true,
+                },
               },
             },
           },
         },
         assocEventPeoples: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocEventPeople: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         assocEventPersons: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocEventPerson: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'person/local,person/shared',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'person/local,person/shared',
+                  repeating: true,
+                },
               },
             },
           },
         },
         assocEventPlaces: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocEventPlace: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         assocEventNote: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         assocDateGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           assocDateGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             assocStructuredDateGroup: {
-              [ui]: {
-                type: StructuredDateInput,
+              [config]: {
+                view: {
+                  type: StructuredDateInput,
+                },
               },
             },
             assocDateType: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             assocDateNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         objectHistoryNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         usageGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           usageGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             usage: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
             usageNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         owners: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           owner: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'person/local,person/shared,organization/local,organization/shared',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'person/local,person/shared,organization/local,organization/shared',
+                  repeating: true,
+                },
               },
             },
           },
         },
         ownershipDateGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           ownershipDateGroup: {
-            [ui]: {
-              type: StructuredDateInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: StructuredDateInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         ownershipAccess: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'ownershipAccessLevels',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'ownershipAccessLevels',
+              },
             },
           },
         },
         ownershipCategory: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'ownershipCategories',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'ownershipCategories',
+              },
             },
           },
         },
         ownershipPlace: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         ownershipExchangeMethod: {
-          [ui]: {
-            type: OptionListControlledInput,
-            props: {
-              optionListName: 'ownershipExchangeMethods',
+          [config]: {
+            view: {
+              type: OptionListControlledInput,
+              props: {
+                optionListName: 'ownershipExchangeMethods',
+              },
             },
           },
         },
         ownershipExchangeNote: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         ownershipExchangePriceCurrency: {
-          [ui]: {
-            type: VocabularyControlledInput,
-            props: {
-              vocabularyName: 'currency',
+          [config]: {
+            view: {
+              type: VocabularyControlledInput,
+              props: {
+                vocabularyName: 'currency',
+              },
             },
           },
         },
         ownershipExchangePriceValue: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         ownersPersonalExperience: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         ownersPersonalResponse: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         ownersReferences: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           ownersReference: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         ownersContributionNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         viewersRole: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         viewersPersonalExperience: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         viewersPersonalResponse: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         viewersReferences: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           viewersReference: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },
         },
         viewersContributionNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         referenceGroupList: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           referenceGroup: {
-            [ui]: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-                repeating: true,
+            [config]: {
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                  repeating: true,
+                },
               },
             },
             reference: {
-              [ui]: {
-                type: AuthorityControlledInput,
-                props: {
-                  authority: 'citation/local,citation/shared,citation/worldcat',
+              [config]: {
+                view: {
+                  type: AuthorityControlledInput,
+                  props: {
+                    authority: 'citation/local,citation/shared,citation/worldcat',
+                  },
                 },
               },
             },
             referenceNote: {
-              [ui]: {
-                type: TextInput,
+              [config]: {
+                view: {
+                  type: TextInput,
+                },
               },
             },
           },
         },
         fieldCollectionDateGroup: {
-          [ui]: {
-            type: StructuredDateInput,
+          [config]: {
+            view: {
+              type: StructuredDateInput,
+            },
           },
         },
         fieldCollectionMethods: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           fieldCollectionMethod: {
-            [ui]: {
-              type: VocabularyControlledInput,
-              props: {
-                vocabularyName: 'collectionmethod',
-                repeating: true,
+            [config]: {
+              view: {
+                type: VocabularyControlledInput,
+                props: {
+                  vocabularyName: 'collectionmethod',
+                  repeating: true,
+                },
               },
             },
           },
         },
         fieldCollectionNote: {
-          [ui]: {
-            type: TextInput,
-            props: {
-              multiline: true,
+          [config]: {
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
         fieldCollectionNumber: {
-          [ui]: {
-            type: TextInput,
+          [config]: {
+            view: {
+              type: TextInput,
+            },
           },
         },
         fieldCollectionPlace: {
-          [ui]: {
-            type: AuthorityControlledInput,
-            props: {
-              authority: 'place/local,place/shared,place/tgn',
+          [config]: {
+            view: {
+              type: AuthorityControlledInput,
+              props: {
+                authority: 'place/local,place/shared,place/tgn',
+              },
             },
           },
         },
         fieldCollectionSources: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           fieldCollectionSource: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'person/local,person/shared',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'person/local,person/shared',
+                  repeating: true,
+                },
               },
             },
           },
         },
         fieldCollectors: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           fieldCollector: {
-            [ui]: {
-              type: AuthorityControlledInput,
-              props: {
-                authority: 'person/local,person/shared,organization/local,organization/shared',
-                repeating: true,
+            [config]: {
+              view: {
+                type: AuthorityControlledInput,
+                props: {
+                  authority: 'person/local,person/shared,organization/local,organization/shared',
+                  repeating: true,
+                },
               },
             },
           },
         },
         fieldColEventNames: {
-          [ui]: {
-            type: CompoundInput,
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
           },
           fieldColEventName: {
-            [ui]: {
-              type: TextInput,
-              props: {
-                repeating: true,
+            [config]: {
+              view: {
+                type: TextInput,
+                props: {
+                  repeating: true,
+                },
               },
             },
           },

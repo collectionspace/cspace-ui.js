@@ -6,8 +6,4 @@ export default {
   objectName: 'CollectionObject',
 
   documentName: 'collectionobjects',
-
-  parts: {
-    collectionobjects_common: 'http://collectionspace.org/services/collectionobject',
-  },
 };

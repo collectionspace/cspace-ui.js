@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import { fieldDescriptorKeys } from '../../../../src/helpers/configHelpers';
+import { configKey } from '../../../../src/helpers/configHelpers';
 import Field from '../../../../src/components/record/Field';
 
 const expect = chai.expect;
@@ -14,17 +14,17 @@ TestInput.propTypes = {
   bar: PropTypes.string,
 };
 
-const { ui } = fieldDescriptorKeys;
-
 const config = {
   recordTypes: {
     object: {
       fields: {
         color: {
-          [ui]: {
-            type: TestInput,
-            props: {
-              foo: 'fooValue',
+          [configKey]: {
+            view: {
+              type: TestInput,
+              props: {
+                foo: 'fooValue',
+              },
             },
           },
         },

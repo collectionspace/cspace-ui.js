@@ -40,8 +40,11 @@ describe('RecordHistory', function suite() {
 
     const items = popover.querySelectorAll('li');
 
-    items[0].textContent.should.equal('Updated Jan 26, 2017 at 12:08 AM by updater@collectionspace.org');
-    items[1].textContent.should.equal('Created Jan 23, 2017 at 10:12 PM by creator@collectionspace.org');
+    items[0].textContent.should
+      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+
+    items[1].textContent.should
+      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
   });
 
   it('should render a span when only created information is supplied', function test() {
@@ -61,7 +64,8 @@ describe('RecordHistory', function suite() {
 
     const span = this.container.firstElementChild;
 
-    span.textContent.should.equal('Created Jan 23, 2017 at 10:12 PM by creator@collectionspace.org');
+    span.textContent.should
+      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
   });
 
 
@@ -82,7 +86,8 @@ describe('RecordHistory', function suite() {
 
     const span = this.container.firstElementChild;
 
-    span.textContent.should.equal('Updated Jan 26, 2017 at 12:08 AM by updater@collectionspace.org');
+    span.textContent.should
+      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
   });
 
   it('should omit \'by...\' when no user is supplied', function test() {
@@ -101,6 +106,6 @@ describe('RecordHistory', function suite() {
 
     const span = this.container.firstElementChild;
 
-    span.textContent.should.equal('Created Jan 23, 2017 at 10:12 PM');
+    span.textContent.should.match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM)$/);
   });
 });

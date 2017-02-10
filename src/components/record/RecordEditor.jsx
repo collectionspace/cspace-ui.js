@@ -60,6 +60,7 @@ function renderTemplate(component, messages, handlers) {
 }
 
 const propTypes = {
+  config: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -75,22 +76,21 @@ const defaultProps = {
 };
 
 const childContextTypes = {
+  config: PropTypes.object,
   recordType: PropTypes.string,
   csid: PropTypes.string,
-};
-
-const contextTypes = {
-  config: PropTypes.object,
 };
 
 export default class RecordEditor extends Component {
   getChildContext() {
     const {
+      config,
       csid,
       recordType,
     } = this.props;
 
     return {
+      config,
       csid,
       recordType,
     };
@@ -98,6 +98,7 @@ export default class RecordEditor extends Component {
 
   render() {
     const {
+      config,
       csid,
       data,
       recordType,
@@ -107,10 +108,6 @@ export default class RecordEditor extends Component {
       onMoveInstance,
       onRemoveInstance,
     } = this.props;
-
-    const {
-      config,
-    } = this.context;
 
     const recordTypeConfig = config.recordTypes[recordType];
 
@@ -166,4 +163,3 @@ export default class RecordEditor extends Component {
 RecordEditor.propTypes = propTypes;
 RecordEditor.defaultProps = defaultProps;
 RecordEditor.childContextTypes = childContextTypes;
-RecordEditor.contextTypes = contextTypes;

@@ -6,8 +6,4 @@ export default {
   objectName: 'Media',
 
   documentName: 'media',
-
-  parts: {
-    media_common: 'http://collectionspace.org/services/media',
-  },
 };

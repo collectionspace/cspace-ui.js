@@ -144,14 +144,14 @@ describe('reducer', function suite() {
   describe('getRecordData selector', function selectorSuite() {
     it('should select from the record key', function test() {
       const csid = '1234';
-      const data = {};
+      const data = Immutable.Map();
 
       getRecordData({
-        record: {
-          data: {
-            [csid]: data,
+        record: Immutable.fromJS({
+          [csid]: {
+            data,
           },
-        },
+        }),
       }, csid).should.equal(data);
     });
   });
@@ -161,11 +161,11 @@ describe('reducer', function suite() {
       const data = Immutable.Map();
 
       getNewRecordData({
-        record: {
-          data: {
-            '': data,
+        record: Immutable.fromJS({
+          '': {
+            data,
           },
-        },
+        }),
       }).should.equal(data);
     });
   });
@@ -175,11 +175,11 @@ describe('reducer', function suite() {
       const csid = '1234';
 
       isRecordReadPending({
-        record: {
-          readsPending: {
-            [csid]: true,
+        record: Immutable.fromJS({
+          [csid]: {
+            isReadPending: true,
           },
-        },
+        }),
       }, csid).should.equal(true);
     });
   });
@@ -189,11 +189,11 @@ describe('reducer', function suite() {
       const csid = '1234';
 
       isRecordSavePending({
-        record: {
-          savesPending: {
-            [csid]: true,
+        record: Immutable.fromJS({
+          [csid]: {
+            isSavePending: true,
           },
-        },
+        }),
       }, csid).should.equal(true);
     });
   });

@@ -263,13 +263,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              [csid]: Immutable.fromJS({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         return store.dispatch(saveRecord(recordTypeConfig, undefined, csid))
@@ -309,13 +309,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              [csid]: Immutable.fromJS({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         return store.dispatch(saveRecord(recordTypeConfig, undefined, csid))
@@ -354,13 +354,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              '': Immutable.fromJS({
+          record: Immutable.fromJS({
+            '': {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         let replaceArg = null;
@@ -459,13 +459,13 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
-          record: {
-            data: {
-              [csid]: Immutable.fromJS({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
                 document: {},
-              }),
+              },
             },
-          },
+          }),
         });
 
         return store.dispatch(saveRecord(recordTypeConfig, vocabularyConfig, csid))
@@ -504,12 +504,14 @@ describe('record action creator', function suite() {
     it('should create an ADD_FIELD_INSTANCE action', function test() {
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
+      const recordTypeConfig = {};
 
-      addFieldInstance(csid, path).should.deep.equal({
+      addFieldInstance(recordTypeConfig, csid, path).should.deep.equal({
         type: ADD_FIELD_INSTANCE,
         meta: {
           csid,
           path,
+          recordTypeConfig,
         },
       });
     });
