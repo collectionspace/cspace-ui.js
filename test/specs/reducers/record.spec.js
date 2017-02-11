@@ -22,6 +22,7 @@ import {
 import reducer, {
   getData,
   getNewData,
+  isModified,
   isReadPending,
   isSavePending,
 } from '../../../src/reducers/record';
@@ -63,18 +64,20 @@ describe('record reducer', function suite() {
     state.should.equal(Immutable.Map());
 
     expect(getData(state, csid)).to.equal(undefined);
+    isModified(state, csid).should.equal(false);
 
     // Single value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: 'a',
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -99,17 +102,20 @@ describe('record reducer', function suite() {
       },
     }));
 
+    isModified(state, csid).should.equal(true);
+
     // Array value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: ['a', 'b'],
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -133,6 +139,8 @@ describe('record reducer', function suite() {
         bar: ['a', 'b', undefined],
       },
     }));
+
+    isModified(state, csid).should.equal(true);
   });
 
   it('should handle CREATE_NEW_RECORD', function test() {
@@ -202,18 +210,20 @@ describe('record reducer', function suite() {
     state.should.equal(Immutable.Map());
 
     expect(getData(state, csid)).to.equal(undefined);
+    isModified(state, csid).should.equal(false);
 
     // Single value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: 'a',
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -229,17 +239,20 @@ describe('record reducer', function suite() {
       foo: {},
     }));
 
+    isModified(state, csid).should.equal(true);
+
     // Array value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: ['a', 'b'],
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -256,6 +269,8 @@ describe('record reducer', function suite() {
         bar: ['b'],
       },
     }));
+
+    isModified(state, csid).should.equal(true);
   });
 
   it('should handle MOVE_FIELD_VALUE', function test() {
@@ -278,18 +293,20 @@ describe('record reducer', function suite() {
     state.should.equal(Immutable.Map());
 
     expect(getData(state, csid)).to.equal(undefined);
+    isModified(state, csid).should.equal(false);
 
     // Single value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: 'a',
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -308,17 +325,20 @@ describe('record reducer', function suite() {
       },
     }));
 
+    isModified(state, csid).should.equal(false);
+
     // Array value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: ['a', 'b', 'c'],
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -337,17 +357,20 @@ describe('record reducer', function suite() {
       },
     }));
 
+    isModified(state, csid).should.equal(true);
+
     // String newPosition
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: ['a', 'b', 'c'],
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -365,6 +388,8 @@ describe('record reducer', function suite() {
         bar: ['b', 'a', 'c'],
       },
     }));
+
+    isModified(state, csid).should.equal(true);
   });
 
   it('should handle SET_FIELD_VALUE', function test() {
@@ -387,18 +412,20 @@ describe('record reducer', function suite() {
     state.should.equal(Immutable.Map());
 
     expect(getData(state, csid)).to.equal(undefined);
+    isModified(state, csid).should.equal(false);
 
     // Set single value
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: 'a',
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -417,17 +444,20 @@ describe('record reducer', function suite() {
       },
     }));
 
+    isModified(state, csid).should.equal(true);
+
     // Promote single value to array
 
-    data = {
+    data = Immutable.fromJS({
       foo: {
         bar: 'a',
       },
-    };
+    });
 
     state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
+          baseline: data,
           current: data,
         },
       },
@@ -445,6 +475,8 @@ describe('record reducer', function suite() {
         bar: ['a', 'b'],
       },
     }));
+
+    isModified(state, csid).should.equal(true);
   });
 
   it('should handle RECORD_READ_STARTED', function test() {
@@ -490,6 +522,7 @@ describe('record reducer', function suite() {
     });
 
     getData(state, csid).should.equal(Immutable.fromJS(data));
+    isModified(state, csid).should.equal(false);
 
     // Existing record data
 
@@ -513,7 +546,7 @@ describe('record reducer', function suite() {
     });
 
     getData(state, csid).should.equal(Immutable.fromJS(data));
-
+    isModified(state, csid).should.equal(false);
     expect(isReadPending(state, csid)).to.equal(undefined);
   });
 
@@ -588,6 +621,7 @@ describe('record reducer', function suite() {
     });
 
     getData(state, csid).should.equal(Immutable.fromJS(data));
+    isModified(state, csid).should.equal(false);
 
     // Existing record data
 
@@ -612,6 +646,7 @@ describe('record reducer', function suite() {
 
     getData(state, csid).should.equal(Immutable.fromJS(data));
     expect(isSavePending(state, csid)).to.equal(undefined);
+    isModified(state, csid).should.equal(false);
 
     // New record
 
@@ -636,6 +671,7 @@ describe('record reducer', function suite() {
     });
 
     getData(state, '5678').should.equal(Immutable.fromJS(data));
+    isModified(state, csid).should.equal(false);
   });
 
   it('should handle RECORD_SAVE_REJECTED', function test() {
@@ -687,6 +723,7 @@ describe('record reducer', function suite() {
     state.should.equal(Immutable.Map());
 
     expect(getData(state, csid)).to.equal(undefined);
+    isModified(state, csid).should.equal(false);
 
     // Set single value
 
@@ -718,5 +755,7 @@ describe('record reducer', function suite() {
         bar: 'b',
       },
     }));
+
+    isModified(state, csid).should.equal(true);
   });
 });

@@ -36,6 +36,9 @@ const newRecordCsid = '';
 const getCurrentData = (state, csid) => state.getIn([csid, 'data', 'current']);
 const setCurrentData = (state, csid, data) => state.setIn([csid, 'data', 'current'], data);
 
+const getBaselineData = (state, csid) => state.getIn([csid, 'data', 'baseline']);
+const setBaselineData = (state, csid, data) => state.setIn([csid, 'data', 'baseline'], data);
+
 const addFieldInstance = (state, action) => {
   const {
     csid,
@@ -141,11 +144,23 @@ const setFieldValue = (state, action) => {
   return setCurrentData(state, csid, updatedData);
 };
 
+const handleRecordReadFulfilled = (state, action) => {
+  const data = Immutable.fromJS(action.payload.data);
+  const csid = action.meta.csid;
+
+  let updatedState = state.deleteIn([csid, 'isReadPending']);
+
+  updatedState = setBaselineData(updatedState, csid, data);
+  updatedState = setCurrentData(updatedState, csid, data);
+
+  return updatedState;
+};
+
 const handleRecordSaveFulfilled = (state, action) => {
   const response = action.payload;
   const csid = action.meta.csid;
 
-  const updatedState = state.deleteIn([csid, 'isSavePending']);
+  let updatedState = state.deleteIn([csid, 'isSavePending']);
 
   if (response.status === 201 && response.headers.location) {
     // A new record was created. There won't be any data in the response. Copy the data in the
@@ -159,7 +174,12 @@ const handleRecordSaveFulfilled = (state, action) => {
     return updatedState.set(createdRecordCsid, updatedState.get(newRecordCsid));
   }
 
-  return setCurrentData(updatedState, csid, Immutable.fromJS(response.data));
+  const data = Immutable.fromJS(response.data);
+
+  updatedState = setBaselineData(updatedState, csid, data);
+  updatedState = setCurrentData(updatedState, csid, data);
+
+  return updatedState;
 };
 
 const handleCreateIDFulfilled = (state, action) => {
@@ -195,10 +215,7 @@ export default (state = Immutable.Map(), action) => {
     case RECORD_READ_STARTED:
       return state.setIn([action.meta.csid, 'isReadPending'], true);
     case RECORD_READ_FULFILLED:
-      return (
-        setCurrentData(state, action.meta.csid, Immutable.fromJS(action.payload.data))
-          .deleteIn([action.meta.csid, 'isReadPending'])
-      );
+      return handleRecordReadFulfilled(state, action);
     case RECORD_READ_REJECTED:
       return (
         state
@@ -229,3 +246,9 @@ export const getNewData = state => getData(state, newRecordCsid);
 export const isReadPending = (state, csid) => state.getIn([csid, 'isReadPending']);
 
 export const isSavePending = (state, csid) => state.getIn([csid, 'isSavePending']);
+
+export const isModified = (state, csid) =>
+  // Do a reference equality test between the current and baseline data. This will not detect if
+  // a change is made, then another change is made that undoes the first. But it's more efficient
+  // than a deep value equality test.
+  getCurrentData(state, csid) !== getBaselineData(state, csid);

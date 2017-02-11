@@ -12,10 +12,12 @@ import reducer, {
   getLogoutResponse,
   getRecordData,
   getNewRecordData,
+  isRecordModified,
   isRecordReadPending,
   isRecordSavePending,
   getPrefs,
   isPanelCollapsed,
+  getSearchPanelPageSize,
   getSearchPageSize,
   getOptionList,
   getVocabulary,
@@ -174,6 +176,23 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('isRecordModified selector', function selectorSuite() {
+    it('should select from the record key', function test() {
+      const csid = '1234';
+
+      isRecordModified({
+        record: Immutable.fromJS({
+          [csid]: {
+            data: {
+              baseline: Immutable.Map({ foo: 'bar' }),
+              current: Immutable.Map({ foo: 'baz' }),
+            },
+          },
+        }),
+      }, csid).should.equal(true);
+    });
+  });
+
   describe('isRecordReadPending selector', function selectorSuite() {
     it('should select from the record key', function test() {
       const csid = '1234';
@@ -231,6 +250,26 @@ describe('reducer', function suite() {
           },
         }),
       }, recordType, name).should.equal(true);
+    });
+  });
+
+  describe('getSearchPanelPageSize selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const recordType = 'object';
+      const name = 'desc';
+      const searchPanelPageSize = 7;
+
+      getSearchPanelPageSize({
+        prefs: Immutable.fromJS({
+          panels: {
+            [recordType]: {
+              [name]: {
+                pageSize: searchPanelPageSize,
+              },
+            },
+          },
+        }),
+      }, recordType, name).should.equal(searchPanelPageSize);
     });
   });
 
