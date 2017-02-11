@@ -37,7 +37,7 @@ describe('RecordEditorContainer', function suite() {
           data: {
             baseline: Immutable.Map({ foo: 'bar' }),
             current: data,
-          }
+          },
         },
       }),
       idGenerator: Immutable.fromJS({

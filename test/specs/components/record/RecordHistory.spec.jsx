@@ -14,7 +14,7 @@ describe('RecordHistory', function suite() {
   });
 
   it('should render a popover when both updated and created information is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           updatedAt: '2017-01-26T08:08:47.026Z',
@@ -27,7 +27,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
@@ -48,7 +48,7 @@ describe('RecordHistory', function suite() {
   });
 
   it('should render a span when only created information is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           createdAt: '2017-01-24T06:12:33.411Z',
@@ -59,7 +59,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const span = this.container.firstElementChild;
@@ -70,7 +70,7 @@ describe('RecordHistory', function suite() {
 
 
   it('should render a span when only updated information is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           updatedAt: '2017-01-26T08:08:47.026Z',
@@ -81,7 +81,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const span = this.container.firstElementChild;
@@ -91,7 +91,7 @@ describe('RecordHistory', function suite() {
   });
 
   it('should omit \'by...\' when no user is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           createdAt: '2017-01-24T06:12:33.411Z',
@@ -101,7 +101,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const span = this.container.firstElementChild;

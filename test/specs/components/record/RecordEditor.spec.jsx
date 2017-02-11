@@ -13,6 +13,8 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 
+const expect = chai.expect;
+
 chai.should();
 
 const {
