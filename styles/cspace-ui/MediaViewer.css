@@ -16,6 +16,7 @@
   border-width: 1px 0;
   background: rgb(240, 240, 240);
   overflow: visible;
+  min-height: 10px;
 }
 
 .normal :global(.image-gallery-thumbnails) :global(.image-gallery-thumbnails-container) {
@@ -44,7 +45,7 @@
 .normal :global(.cspace-input-MiniButton--common):focus,
 .normal :global(.cspace-input-MiniButton--common):focus:hover {
   position: absolute;
-  top: calc(50% - 11px);
+  top: calc(50% - 10px);
   z-index: 4;
 }
 
