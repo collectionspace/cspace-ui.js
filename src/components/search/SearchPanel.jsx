@@ -14,7 +14,7 @@ const { MiniButton } = inputComponents;
 const messages = defineMessages({
   titleWithCount: {
     id: 'searchPanel.titleWithCount',
-    defaultMessage: '{title}: {totalItems}',
+    defaultMessage: '{title}: {totalItems, number}',
   },
 });
 

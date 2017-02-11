@@ -8,7 +8,7 @@ import MediaViewerContainer from '../../containers/media/MediaViewerContainer';
 const messages = defineMessages({
   titleWithCount: {
     id: 'mediaViewerPanel.titleWithCount',
-    defaultMessage: '{title}: {totalItems}',
+    defaultMessage: '{title}: {totalItems, number}',
   },
 });
 
@@ -86,7 +86,7 @@ export default class MediaViewerPanel extends Component {
 
     let headerContent;
 
-    if (typeof totalItems !== 'undefined' && totalItems !== null && totalItems !== '0') {
+    if (typeof totalItems !== 'undefined' && totalItems !== null) {
       let count = parseInt(totalItems, 10);
 
       if (ownBlobCsid) {
