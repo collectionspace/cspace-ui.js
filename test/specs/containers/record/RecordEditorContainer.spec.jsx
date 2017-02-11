@@ -34,7 +34,10 @@ describe('RecordEditorContainer', function suite() {
     const store = mockStore({
       record: Immutable.fromJS({
         [csid]: {
-          data,
+          data: {
+            baseline: Immutable.Map({ foo: 'bar' }),
+            current: data,
+          }
         },
       }),
       idGenerator: Immutable.fromJS({
@@ -65,6 +68,7 @@ describe('RecordEditorContainer', function suite() {
 
     result.type.should.equal(RecordEditor);
     result.props.should.have.property('data', data);
+    result.props.should.have.property('isModified', true);
     result.props.should.have.property('onAddInstance').that.is.a('function');
     result.props.should.have.property('onCommit').that.is.a('function');
     result.props.should.have.property('onMoveInstance').that.is.a('function');

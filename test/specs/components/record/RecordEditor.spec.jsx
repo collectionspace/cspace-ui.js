@@ -101,6 +101,17 @@ describe('RecordEditor', function suite() {
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
+  it('should render nothing for an unknown record type', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordEditor config={config} recordType="foo" />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
+  });
+
   it('should apply labels to the form template by using the name prop as a key into the message descriptor map', function test() {
     render(
       <IntlProvider locale="en">
