@@ -168,6 +168,8 @@ describe('record reducer', function suite() {
       },
     }));
 
+    isModified(state, '').should.equal(false);
+
     // Existing new record data
 
     state = reducer(state, {
@@ -189,6 +191,8 @@ describe('record reducer', function suite() {
         '@name': 'collectionobjects',
       },
     }));
+
+    isModified(state, '').should.equal(false);
   });
 
   it('should handle DELETE_FIELD_VALUE', function test() {

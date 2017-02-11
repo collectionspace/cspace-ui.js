@@ -74,7 +74,14 @@ const createNewRecord = (state, action) => {
   // edited at any time. The new record's data is stored alongside existing record data, at
   // key ''.
 
-  return setCurrentData(state, newRecordCsid, createRecordData(recordTypeConfig));
+  const data = createRecordData(recordTypeConfig);
+
+  let updatedState = state;
+
+  updatedState = setBaselineData(updatedState, newRecordCsid, data);
+  updatedState = setCurrentData(updatedState, newRecordCsid, data);
+
+  return updatedState;
 };
 
 const deleteFieldValue = (state, action) => {
