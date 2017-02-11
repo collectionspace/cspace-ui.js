@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/RecordButtonBar.css';
+import saveButtonStyles from '../../../styles/cspace-ui/SaveButton.css';
 
 const { Button } = inputComponents;
 
@@ -13,8 +14,15 @@ const messages = defineMessages({
   },
 });
 
+const propTypes = {
+  isModified: PropTypes.bool,
+  isSavePending: PropTypes.bool,
+  onSaveButtonClick: PropTypes.func,
+};
+
 export default function RecordButtonBar(props) {
   const {
+    isModified,
     isSavePending,
     onSaveButtonClick,
   } = props;
@@ -22,7 +30,9 @@ export default function RecordButtonBar(props) {
   return (
     <div className={styles.common}>
       <Button
+        className={isModified ? saveButtonStyles.normal : saveButtonStyles.done}
         disabled={isSavePending}
+        icon
         name="save"
         onClick={onSaveButtonClick}
       >
@@ -33,7 +43,4 @@ export default function RecordButtonBar(props) {
   );
 }
 
-RecordButtonBar.propTypes = {
-  isSavePending: PropTypes.bool,
-  onSaveButtonClick: PropTypes.func,
-};
+RecordButtonBar.propTypes = propTypes;

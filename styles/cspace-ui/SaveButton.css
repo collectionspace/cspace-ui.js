@@ -1,0 +1,7 @@
+.normal {
+  background-image: url(../../images/save.svg);
+}
+
+.done {
+  background-image: url(../../images/saveDone.svg);
+}
