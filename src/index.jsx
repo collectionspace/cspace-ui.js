@@ -4,8 +4,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { hashHistory, useRouterHistory } from 'react-router';
-import { createHistory, useBeforeUnload } from 'history';
+import { useRouterHistory } from 'react-router';
+import { createHistory, createHashHistory, useBeforeUnload } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import script from 'scriptjs';
 import warning from 'warning';
@@ -108,7 +108,7 @@ module.exports = (uiConfig) => {
 
     const baseHistory = prettyUrls
       ? useRouterHistory(useBeforeUnload(createHistory))({ basename })
-      : hashHistory;
+      : useRouterHistory(useBeforeUnload(createHashHistory))();
 
     baseHistory.listenBeforeUnload(() => {
       store.dispatch(savePrefs());
