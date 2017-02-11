@@ -60,17 +60,6 @@ describe('RecordButtonBar', function suite() {
       .match(/cspace-ui-SaveButton--done/);
   });
 
-  it('should render a saving notification when isSavePending is true', function test() {
-    render(
-      <IntlProvider
-        locale="en"
-      >
-        <RecordButtonBar isSavePending />
-      </IntlProvider>, this.container);
-
-    this.container.firstElementChild.querySelectorAll('span')[1].textContent.should.match(/\w/);
-  });
-
   it('should disable the save button when isSavePending is true', function test() {
     render(
       <IntlProvider

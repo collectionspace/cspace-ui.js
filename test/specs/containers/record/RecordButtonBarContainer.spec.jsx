@@ -48,7 +48,6 @@ describe('RecordButtonBarContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(RecordButtonBar);
-    result.props.should.have.property('isSavePending', true);
     result.props.should.have.property('onSaveButtonClick').that.is.a('function');
 
     // The call to onSaveButtonClick will fail because we haven't stubbed out everything it needs,

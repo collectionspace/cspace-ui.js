@@ -27,10 +27,20 @@ export default function RecordButtonBar(props) {
     onSaveButtonClick,
   } = props;
 
+  let className;
+
+  if (isSavePending) {
+    className = saveButtonStyles.pending;
+  } else if (isModified) {
+    className = saveButtonStyles.normal;
+  } else {
+    className = saveButtonStyles.done;
+  }
+
   return (
     <div className={styles.common}>
       <Button
-        className={isModified ? saveButtonStyles.normal : saveButtonStyles.done}
+        className={className}
         disabled={isSavePending}
         icon
         name="save"
@@ -38,7 +48,6 @@ export default function RecordButtonBar(props) {
       >
         <FormattedMessage {...messages.save} />
       </Button>
-      <span>{props.isSavePending ? '  Saving...' : ''}</span>
     </div>
   );
 }
