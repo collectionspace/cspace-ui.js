@@ -38,15 +38,26 @@ describe('RecordButtonBar', function suite() {
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
-  it('should render a saving notification when isSavePending is true', function test() {
+  it('should vary the save button class depending on isModified prop', function test() {
     render(
       <IntlProvider
         locale="en"
       >
-        <RecordButtonBar isSavePending />
+        <RecordButtonBar isModified />
       </IntlProvider>, this.container);
 
-    this.container.firstElementChild.querySelectorAll('span')[1].textContent.should.match(/\w/);
+    this.container.firstElementChild.querySelector('button[name="save"]').className.should
+      .match(/cspace-ui-SaveButton--normal/);
+
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <RecordButtonBar isModified={false} />
+      </IntlProvider>, this.container);
+
+    this.container.firstElementChild.querySelector('button[name="save"]').className.should
+      .match(/cspace-ui-SaveButton--done/);
   });
 
   it('should disable the save button when isSavePending is true', function test() {

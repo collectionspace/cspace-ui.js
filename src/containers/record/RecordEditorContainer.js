@@ -9,6 +9,8 @@ import {
 
 import {
   getRecordData,
+  isRecordModified,
+  isRecordSavePending,
 } from '../../reducers';
 
 import RecordEditor from '../../components/record/RecordEditor';
@@ -20,6 +22,8 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     data: getRecordData(state, csid),
+    isModified: isRecordModified(state, csid),
+    isSavePending: isRecordSavePending(state, csid),
   };
 };
 

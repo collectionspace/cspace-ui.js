@@ -77,6 +77,10 @@ export function isRecordSavePending(state, csid) {
   return fromRecord.isSavePending(state.record, csid);
 }
 
+export function isRecordModified(state, csid) {
+  return fromRecord.isModified(state.record, csid);
+}
+
 export function getPrefs(state) {
   return state.prefs;
 }

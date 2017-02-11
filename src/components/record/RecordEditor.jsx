@@ -65,6 +65,8 @@ const propTypes = {
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  isModified: PropTypes.bool,
+  isSavePending: PropTypes.bool,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
@@ -101,6 +103,8 @@ export default class RecordEditor extends Component {
       config,
       csid,
       data,
+      isModified,
+      isSavePending,
       recordType,
       vocabulary,
       onAddInstance,
@@ -149,10 +153,16 @@ export default class RecordEditor extends Component {
         <header>
           <RecordButtonBarContainer
             csid={csid}
+            isModified={isModified}
+            isSavePending={isSavePending}
             recordTypeConfig={recordTypeConfig}
             vocabularyConfig={vocabularyConfig}
           />
-          <RecordHistory recordData={data} />
+          <RecordHistory
+            data={data}
+            isModified={isModified}
+            isSavePending={isSavePending}
+          />
         </header>
         {formContent}
       </form>

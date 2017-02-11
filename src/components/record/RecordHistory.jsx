@@ -35,6 +35,14 @@ const messages = defineMessages({
       dateTime {Created {date} at {time}}
     }`,
   },
+  editing: {
+    id: 'recordHistory.editing',
+    defaultMessage: 'Editing',
+  },
+  saving: {
+    id: 'recordHistory.saving',
+    defaultMessage: 'Saving',
+  },
 });
 
 const formatDate = timestamp => (
@@ -56,16 +64,20 @@ const formatUserId = userId => (
 );
 
 const propTypes = {
-  recordData: PropTypes.instanceOf(Immutable.Map),
+  data: PropTypes.instanceOf(Immutable.Map),
+  isModified: PropTypes.bool,
+  isSavePending: PropTypes.bool,
 };
 
 export default function RecordHistory(props) {
   const {
-    recordData,
+    data,
+    isModified,
+    isSavePending,
   } = props;
 
-  const updatedTimestamp = getUpdatedTimestamp(recordData);
-  const updatedUserId = getUpdatedUser(recordData);
+  const updatedTimestamp = getUpdatedTimestamp(data);
+  const updatedUserId = getUpdatedUser(data);
 
   let updated = null;
 
@@ -73,6 +85,7 @@ export default function RecordHistory(props) {
     updated = (
       <FormattedMessage
         {...messages.updated}
+        key="updated"
         values={{
           date: formatDate(updatedTimestamp),
           time: formatTime(updatedTimestamp),
@@ -83,8 +96,8 @@ export default function RecordHistory(props) {
     );
   }
 
-  const createdTimestamp = getCreatedTimestamp(recordData);
-  const createdUserId = getCreatedUser(recordData);
+  const createdTimestamp = getCreatedTimestamp(data);
+  const createdUserId = getCreatedUser(data);
 
   let created = null;
 
@@ -92,6 +105,7 @@ export default function RecordHistory(props) {
     created = (
       <FormattedMessage
         {...messages.created}
+        key="created"
         values={{
           date: formatDate(createdTimestamp),
           time: formatTime(createdTimestamp),
@@ -102,21 +116,31 @@ export default function RecordHistory(props) {
     );
   }
 
+  let currentState;
+
+  if (isSavePending) {
+    currentState = (
+      <FormattedMessage {...messages.saving} key="current" />
+    );
+  } else if (isModified) {
+    currentState = (
+      <FormattedMessage {...messages.editing} key="current" />
+    );
+  }
+
+  const items = [currentState, updated, created].filter(item => !!item);
   let history;
 
-  if (updated && created) {
+  if (items.length > 1) {
     history = (
-      <Popover header={updated} align="right">
+      <Popover header={items[0]} align="right">
         <ul>
-          <li>{updated}</li>
-          <li>{created}</li>
+          {items.map(item => <li key={item.key}>{item}</li>)}
         </ul>
       </Popover>
     );
-  } else if (updated) {
-    history = updated;
-  } else if (created) {
-    history = created;
+  } else if (items.length > 0) {
+    history = items[0];
   }
 
   return (

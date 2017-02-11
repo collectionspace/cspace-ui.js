@@ -13,8 +13,8 @@ describe('RecordHistory', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a popover when both updated and created information is supplied', function test() {
-    const recordData = Immutable.fromJS({
+  it('should render a popover when both updated and created information are supplied', function test() {
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           updatedAt: '2017-01-26T08:08:47.026Z',
@@ -27,7 +27,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
@@ -48,7 +48,7 @@ describe('RecordHistory', function suite() {
   });
 
   it('should render a span when only created information is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           createdAt: '2017-01-24T06:12:33.411Z',
@@ -59,7 +59,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const span = this.container.firstElementChild;
@@ -70,7 +70,7 @@ describe('RecordHistory', function suite() {
 
 
   it('should render a span when only updated information is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           updatedAt: '2017-01-26T08:08:47.026Z',
@@ -81,7 +81,7 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const span = this.container.firstElementChild;
@@ -91,7 +91,7 @@ describe('RecordHistory', function suite() {
   });
 
   it('should omit \'by...\' when no user is supplied', function test() {
-    const recordData = Immutable.fromJS({
+    const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
           createdAt: '2017-01-24T06:12:33.411Z',
@@ -101,11 +101,83 @@ describe('RecordHistory', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <RecordHistory recordData={recordData} />
+        <RecordHistory data={data} />
       </IntlProvider>, this.container);
 
     const span = this.container.firstElementChild;
 
     span.textContent.should.match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM)$/);
+  });
+
+  it('should include a save pending message when isSavePending is true', function test() {
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          updatedAt: '2017-01-26T08:08:47.026Z',
+          updatedBy: 'updater@collectionspace.org',
+          createdAt: '2017-01-24T06:12:33.411Z',
+          createdBy: 'creator@collectionspace.org',
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <RecordHistory data={data} isSavePending />
+      </IntlProvider>, this.container);
+
+    const popover = this.container.querySelector('.cspace-layout-Popover--common');
+
+    popover.should.not.equal(null);
+
+    const header = popover.querySelector('button');
+
+    Simulate.click(header);
+
+    const items = popover.querySelectorAll('li');
+
+    items[0].textContent.should.equal('Saving');
+
+    items[1].textContent.should
+      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+
+    items[2].textContent.should
+      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
+  });
+
+  it('should include a record modified message when isModified is true', function test() {
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          updatedAt: '2017-01-26T08:08:47.026Z',
+          updatedBy: 'updater@collectionspace.org',
+          createdAt: '2017-01-24T06:12:33.411Z',
+          createdBy: 'creator@collectionspace.org',
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <RecordHistory data={data} isModified />
+      </IntlProvider>, this.container);
+
+    const popover = this.container.querySelector('.cspace-layout-Popover--common');
+
+    popover.should.not.equal(null);
+
+    const header = popover.querySelector('button');
+
+    Simulate.click(header);
+
+    const items = popover.querySelectorAll('li');
+
+    items[0].textContent.should.equal('Editing');
+
+    items[1].textContent.should
+      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+
+    items[2].textContent.should
+      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
   });
 });

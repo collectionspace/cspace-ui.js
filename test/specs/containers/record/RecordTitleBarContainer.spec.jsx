@@ -17,7 +17,9 @@ describe('RecordTitleBarContainer', function suite() {
     const store = mockStore({
       record: Immutable.fromJS({
         [csid]: {
-          data,
+          data: {
+            current: data,
+          },
           isReadPending: true,
         },
       }),

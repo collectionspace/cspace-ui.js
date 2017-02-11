@@ -1,0 +1,11 @@
+.normal {
+  background-image: url(../../images/save.svg);
+}
+
+.pending {
+  background-image: url(../../images/savePending.svg);
+}
+
+.done {
+  background-image: url(../../images/saveDone.svg);
+}
