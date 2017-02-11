@@ -56,16 +56,16 @@ const formatUserId = userId => (
 );
 
 const propTypes = {
-  recordData: PropTypes.instanceOf(Immutable.Map),
+  data: PropTypes.instanceOf(Immutable.Map),
 };
 
 export default function RecordHistory(props) {
   const {
-    recordData,
+    data,
   } = props;
 
-  const updatedTimestamp = getUpdatedTimestamp(recordData);
-  const updatedUserId = getUpdatedUser(recordData);
+  const updatedTimestamp = getUpdatedTimestamp(data);
+  const updatedUserId = getUpdatedUser(data);
 
   let updated = null;
 
@@ -83,8 +83,8 @@ export default function RecordHistory(props) {
     );
   }
 
-  const createdTimestamp = getCreatedTimestamp(recordData);
-  const createdUserId = getCreatedUser(recordData);
+  const createdTimestamp = getCreatedTimestamp(data);
+  const createdUserId = getCreatedUser(data);
 
   let created = null;
 
