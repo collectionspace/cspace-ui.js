@@ -12,6 +12,7 @@ import {
 
 import {
   RECORD_SAVE_STARTED,
+  REVERT_RECORD,
 } from '../../../../src/actions/record';
 
 chai.should();
@@ -48,21 +49,33 @@ describe('RecordButtonBarContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(RecordButtonBar);
-    result.props.should.have.property('onSaveButtonClick').that.is.a('function');
+    result.props.should.have.property('save').that.is.a('function');
+    result.props.should.have.property('revert').that.is.a('function');
 
-    // The call to onSaveButtonClick will fail because we haven't stubbed out everything it needs,
+    let action;
+
+    // The call to save will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the saveRecord action creator gets called, and
     // dispatches RECORD_SAVE_STARTED.
 
     try {
-      result.props.onSaveButtonClick();
+      result.props.save();
     } catch (error) {
-      const action = store.getActions()[0];
+      action = store.getActions()[0];
 
       action.should.have.property('type', RECORD_SAVE_STARTED);
       action.should.have.deep.property('meta.csid', csid);
       action.should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
     }
+
+    store.clearActions();
+
+    result.props.revert();
+
+    action = store.getActions()[0];
+
+    action.should.have.property('type', REVERT_RECORD);
+    action.should.have.deep.property('meta.csid', csid);
   });
 });
 

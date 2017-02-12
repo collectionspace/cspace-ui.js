@@ -13,6 +13,7 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
+  REVERT_RECORD,
 } from '../../../src/actions/record';
 
 import {
@@ -704,6 +705,45 @@ describe('record reducer', function suite() {
     }));
 
     expect(isSavePending(state, csid)).to.equal(undefined);
+  });
+
+  it('should handle REVERT_RECORD', function test() {
+    const csid = '1234';
+
+    const data = Immutable.fromJS({
+      foo: {
+        bar: 'a',
+      },
+    });
+
+    const state = reducer(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: {
+            foo: {
+              bar: 'b',
+            },
+          },
+        },
+      },
+    }), {
+      type: REVERT_RECORD,
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: data,
+        },
+      },
+    }));
+
+    isModified(state, csid).should.equal(false);
   });
 
   it('should handle CREATE_ID_FULFILLED', function test() {

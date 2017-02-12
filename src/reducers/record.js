@@ -25,6 +25,7 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
+  REVERT_RECORD,
 } from '../actions/record';
 
 import {
@@ -239,6 +240,8 @@ export default (state = Immutable.Map(), action) => {
           .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
           .deleteIn([action.meta.csid, 'isSavePending'])
       );
+    case REVERT_RECORD:
+      return setCurrentData(state, action.meta.csid, getBaselineData(state, action.meta.csid));
     case CREATE_ID_FULFILLED:
       return handleCreateIDFulfilled(state, action);
     default:

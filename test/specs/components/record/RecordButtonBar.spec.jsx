@@ -72,7 +72,7 @@ describe('RecordButtonBar', function suite() {
       .equal(true);
   });
 
-  it('should call onSaveButtonClick when the save button is clicked', function test() {
+  it('should call save when the save button is clicked', function test() {
     let handlerCalled = false;
 
     const handleClick = () => {
@@ -83,7 +83,7 @@ describe('RecordButtonBar', function suite() {
       <IntlProvider
         locale="en"
       >
-        <RecordButtonBar onSaveButtonClick={handleClick} />
+        <RecordButtonBar save={handleClick} />
       </IntlProvider>, this.container);
 
     const saveButton = this.container.firstElementChild.querySelector('button[name="save"]');

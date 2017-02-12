@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import RecordButtonBar from '../../components/record/RecordButtonBar';
-import { saveRecord } from '../../actions/record';
+import { revertRecord, saveRecord } from '../../actions/record';
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
@@ -12,7 +12,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   } = ownProps;
 
   return {
-    onSaveButtonClick: () => {
+    revert: () => {
+      dispatch(revertRecord(csid));
+    },
+    save: () => {
       dispatch(saveRecord(recordTypeConfig, vocabularyConfig, csid, router.replace));
     },
   };

@@ -1,53 +1,29 @@
 import React, { PropTypes } from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
-import { components as inputComponents } from 'cspace-input';
+import SaveButton from './SaveButton';
+import RevertButton from './RevertButton';
 import styles from '../../../styles/cspace-ui/RecordButtonBar.css';
-import saveButtonStyles from '../../../styles/cspace-ui/SaveButton.css';
-
-const { Button } = inputComponents;
-
-const messages = defineMessages({
-  save: {
-    id: 'recordButtonBar.save',
-    description: 'Label of the save button.',
-    defaultMessage: 'Save',
-  },
-});
 
 const propTypes = {
+  csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  onSaveButtonClick: PropTypes.func,
+  revert: PropTypes.func,
+  save: PropTypes.func,
 };
 
 export default function RecordButtonBar(props) {
   const {
+    csid,
     isModified,
     isSavePending,
-    onSaveButtonClick,
+    revert,
+    save,
   } = props;
-
-  let className;
-
-  if (isSavePending) {
-    className = saveButtonStyles.pending;
-  } else if (isModified) {
-    className = saveButtonStyles.normal;
-  } else {
-    className = saveButtonStyles.done;
-  }
 
   return (
     <div className={styles.common}>
-      <Button
-        className={className}
-        disabled={isSavePending}
-        icon
-        name="save"
-        onClick={onSaveButtonClick}
-      >
-        <FormattedMessage {...messages.save} />
-      </Button>
+      <SaveButton isModified={isModified} isSavePending={isSavePending} save={save} />
+      <RevertButton csid={csid} isModified={isModified} revert={revert} />
     </div>
   );
 }

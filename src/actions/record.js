@@ -15,6 +15,7 @@ export const ADD_FIELD_INSTANCE = 'ADD_FIELD_INSTANCE';
 export const DELETE_FIELD_VALUE = 'DELETE_FIELD_VALUE';
 export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
+export const REVERT_RECORD = 'REVERT_RECORD';
 
 // TODO: Accept csid to clone.
 
@@ -207,5 +208,12 @@ export const setFieldValue = (csid, path, value) => ({
   meta: {
     csid,
     path,
+  },
+});
+
+export const revertRecord = csid => ({
+  type: REVERT_RECORD,
+  meta: {
+    csid,
   },
 });

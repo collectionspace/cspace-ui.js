@@ -15,6 +15,7 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
+  REVERT_RECORD,
   ADD_FIELD_INSTANCE,
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
@@ -22,6 +23,7 @@ import {
   createNewRecord,
   readRecord,
   saveRecord,
+  revertRecord,
   addFieldInstance,
   deleteFieldValue,
   moveFieldValue,
@@ -504,6 +506,19 @@ describe('record action creator', function suite() {
               },
             });
           });
+      });
+    });
+  });
+
+  describe('revertRecord', function actionSuite() {
+    it('should create a REVERT_RECORD action', function test() {
+      const csid = '1234';
+
+      revertRecord(csid).should.deep.equal({
+        type: REVERT_RECORD,
+        meta: {
+          csid,
+        },
       });
     });
   });
