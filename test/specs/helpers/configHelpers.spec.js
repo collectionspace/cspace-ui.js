@@ -14,6 +14,7 @@ import {
   getRecordTypeConfigByServiceObjectName,
   getRecordTypeConfigByServicePath,
   getVocabularyConfigByShortID,
+  isCloneable,
 } from '../../../src/helpers/configHelpers';
 
 chai.should();
@@ -400,6 +401,34 @@ describe('configHelpers', function moduleSuite() {
     it('should remove numeric path components from the data path', function test() {
       dataPathToFieldDescriptorPath(['document', 'common', 'groupList', 'group', '1', 'foo', '2', 'bar']).should
         .deep.equal(['document', 'common', 'groupList', 'group', 'foo', 'bar']);
+    });
+  });
+
+  describe('isCloneable', function suite() {
+    it('should return the cloneable configuration setting', function test() {
+      isCloneable({
+        [configKey]: {
+          model: {
+            cloneable: false,
+          },
+        },
+      }).should.equal(false);
+
+      isCloneable({
+        [configKey]: {
+          model: {
+            cloneable: true,
+          },
+        },
+      }).should.equal(true);
+    });
+
+    it('should default to true', function test() {
+      isCloneable({
+        [configKey]: {
+          model: {},
+        },
+      }).should.equal(true);
     });
   });
 });

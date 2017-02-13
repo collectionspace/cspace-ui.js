@@ -22,7 +22,14 @@ const mockStore = configureMockStore([thunk]);
 describe('RecordButtonBarContainer', function suite() {
   it('should set props on RecordButtonBar', function test() {
     const csid = '1234';
-    const router = mockRouter();
+
+    let pushedLocation = null;
+
+    const router = mockRouter({
+      push: (locationArg) => {
+        pushedLocation = locationArg;
+      },
+    });
 
     const recordTypeConfig = {
       name: 'object',
@@ -51,6 +58,7 @@ describe('RecordButtonBarContainer', function suite() {
     result.type.should.equal(RecordButtonBar);
     result.props.should.have.property('save').that.is.a('function');
     result.props.should.have.property('revert').that.is.a('function');
+    result.props.should.have.property('clone').that.is.a('function');
 
     let action;
 
@@ -76,6 +84,13 @@ describe('RecordButtonBarContainer', function suite() {
 
     action.should.have.property('type', REVERT_RECORD);
     action.should.have.deep.property('meta.csid', csid);
+
+    store.clearActions();
+
+    result.props.clone();
+
+    pushedLocation.pathname.should.equal(`/record/${recordTypeConfig.name}`);
+    pushedLocation.query.clone.should.equal(csid);
   });
 });
 

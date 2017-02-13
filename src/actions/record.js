@@ -17,22 +17,6 @@ export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
 export const REVERT_RECORD = 'REVERT_RECORD';
 
-// TODO: Accept csid to clone.
-
-// Force this to be async, to be consistent with reading an existing record.
-export const createNewRecord = recordTypeConfig => dispatch =>
-  new Promise((resolve) => {
-    window.setTimeout(() => {
-      resolve();
-    }, 0);
-  })
-  .then(() => dispatch({
-    type: CREATE_NEW_RECORD,
-    meta: {
-      recordTypeConfig,
-    },
-  }));
-
 const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
 
@@ -87,6 +71,42 @@ export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatc
       },
     }));
 };
+
+export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =>
+  (dispatch, getState) => {
+    let readClone;
+
+    if (cloneCsid) {
+      const data = getRecordData(getState(), cloneCsid);
+
+      if (!data) {
+        // We don't have data for the record to be cloned. Read it first.
+
+        readClone = dispatch(readRecord(recordTypeConfig, vocabularyConfig, cloneCsid));
+      }
+    }
+
+    if (!readClone) {
+      // There's nothing to clone, or we already have the record data to be cloned. Perform an
+      // async noop, so this function will be consistently async.
+
+      readClone = new Promise((resolve) => {
+        window.setTimeout(() => {
+          resolve();
+        }, 0);
+      });
+    }
+
+    return (
+      readClone.then(() => dispatch({
+        type: CREATE_NEW_RECORD,
+        meta: {
+          recordTypeConfig,
+          cloneCsid,
+        },
+      }))
+    );
+  };
 
 export const saveRecord = (recordTypeConfig, vocabularyConfig, csid, replace) =>
   (dispatch, getState) => {

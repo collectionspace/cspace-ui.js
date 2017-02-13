@@ -3,6 +3,7 @@ import arrayGet from 'lodash/get';
 
 import {
   applyDefaults,
+  cloneRecordData,
   createRecordData,
   deepGet,
   deepSet,
@@ -67,15 +68,22 @@ const addFieldInstance = (state, action) => {
 const createNewRecord = (state, action) => {
   const {
     recordTypeConfig,
+    cloneCsid,
   } = action.meta;
-
-  // TODO: Implement cloning an existing record.
 
   // This code assumes that only one new record of any type may be in the process of being
   // edited at any time. The new record's data is stored alongside existing record data, at
   // key ''.
 
-  const data = createRecordData(recordTypeConfig);
+  let data;
+
+  if (cloneCsid) {
+    data = cloneRecordData(recordTypeConfig, getCurrentData(state, cloneCsid));
+  }
+
+  if (!data) {
+    data = createRecordData(recordTypeConfig);
+  }
 
   let updatedState = state;
 
@@ -179,7 +187,13 @@ const handleRecordSaveFulfilled = (state, action) => {
     const location = response.headers.location;
     const createdRecordCsid = location.substring(location.lastIndexOf('/') + 1);
 
-    return updatedState.set(createdRecordCsid, updatedState.get(newRecordCsid));
+    updatedState = updatedState.set(createdRecordCsid, updatedState.get(newRecordCsid));
+
+    updatedState = setBaselineData(
+      updatedState, createdRecordCsid, getCurrentData(updatedState, createdRecordCsid)
+    );
+
+    return updatedState;
   }
 
   const data = Immutable.fromJS(response.data);

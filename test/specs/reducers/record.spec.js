@@ -194,6 +194,30 @@ describe('record reducer', function suite() {
     }));
 
     isModified(state, '').should.equal(false);
+
+    // Clone
+
+    const cloneData = Immutable.fromJS({
+      foo: {
+        bar: 'baz',
+      },
+    });
+
+    state = reducer(Immutable.fromJS({
+      1234: {
+        data: {
+          current: cloneData,
+        },
+      },
+    }), {
+      type: CREATE_NEW_RECORD,
+      meta: {
+        recordTypeConfig: {},
+        cloneCsid: '1234',
+      },
+    });
+
+    getNewData(state).should.equal(cloneData);
   });
 
   it('should handle DELETE_FIELD_VALUE', function test() {

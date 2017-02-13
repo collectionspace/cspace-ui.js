@@ -199,3 +199,17 @@ export const getDefaults = (fieldDescriptor, currentPath = []) => {
 
   return results;
 };
+
+export const isCloneable = (fieldDescriptor) => {
+  const config = fieldDescriptor[configKey];
+
+  if (config) {
+    const { model } = config;
+
+    if (model && 'cloneable' in model) {
+      return model.cloneable;
+    }
+  }
+
+  return true;
+};

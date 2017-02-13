@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { locationShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
@@ -8,6 +9,7 @@ import styles from '../../../styles/cspace-ui/RecordPage.css';
 import recordBodyStyles from '../../../styles/cspace-ui/RecordBody.css';
 
 const propTypes = {
+  location: locationShape,
   params: PropTypes.shape({
     recordType: PropTypes.string.isRequired,
     path1: PropTypes.string,
@@ -76,6 +78,7 @@ export default class RecordPage extends Component {
 
   initRecord() {
     const {
+      location,
       createNewRecord,
       readRecord,
     } = this.props;
@@ -111,7 +114,7 @@ export default class RecordPage extends Component {
         readRecord(recordTypeConfig, vocabularyConfig, csid);
       }
     } else if (createNewRecord) {
-      createNewRecord(recordTypeConfig);
+      createNewRecord(recordTypeConfig, vocabularyConfig, location.query.clone);
     }
   }
 

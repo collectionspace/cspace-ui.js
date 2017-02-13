@@ -32,6 +32,9 @@ export default (pluginContext) => {
         },
         objectNumber: {
           [config]: {
+            model: {
+              cloneable: false,
+            },
             view: {
               type: IDGeneratorInput,
               props: {
@@ -171,6 +174,9 @@ export default (pluginContext) => {
         },
         computedCurrentLocation: {
           [config]: {
+            model: {
+              cloneable: false,
+            },
             view: {
               type: TextInput,
             },

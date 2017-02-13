@@ -3,6 +3,8 @@ import Immutable from 'immutable';
 import {
   configKey,
   getDefaults,
+  getDefaultValue,
+  isCloneable,
 } from './configHelpers';
 
 const numericPattern = /^[0-9]$/;
@@ -184,6 +186,58 @@ export const applyDefaults = (fieldDescriptor, data) =>
  */
 export const createRecordData = recordTypeConfig =>
   applyDefaults(recordTypeConfig.fields, createBlankRecord(recordTypeConfig));
+
+/**
+ * Clear uncloneable fields from record data. Existing (not undefined) values in fields that are
+ * not cloneable are set to the default value if one exists, or undefined otherwise.
+ */
+export const clearUncloneable = (fieldDescriptor, data) => {
+  if (!fieldDescriptor) {
+    return data;
+  }
+
+  if (typeof data !== 'undefined' && !isCloneable(fieldDescriptor)) {
+    // If the field has been configured as not cloneable and there is an existing value, replace
+    // the existing value with the default value if there is one, or undefined otherwise. The old
+    // UI did not set uncloneable fields to the default value, but I think this was an oversight.
+
+    return getDefaultValue(fieldDescriptor);
+  }
+
+  if (Immutable.Map.isMap(data)) {
+    return data.reduce((updatedData, child, name) =>
+      updatedData.set(name, clearUncloneable(fieldDescriptor[name], child)), data);
+  }
+
+  if (Immutable.List.isList(data)) {
+    return data.reduce((updatedData, child, index) =>
+      updatedData.set(index, clearUncloneable(fieldDescriptor, child)), data);
+  }
+
+  return data;
+};
+
+/**
+ * Create a new record as a clone of a given record.
+ */
+export const cloneRecordData = (recordTypeConfig, data) => {
+  if (!data) {
+    return data;
+  }
+
+  let clone = data;
+
+  // Delete parts that should not exist in new records.
+
+  clone = clone.deleteIn(['document', `${NS_PREFIX}:collectionspace_core`]);
+  clone = clone.deleteIn(['document', `${NS_PREFIX}:account_permission`]);
+
+  // Reset fields that are configured as not cloneable.
+
+  clone = clearUncloneable(recordTypeConfig.fields, clone);
+
+  return clone;
+};
 
 /**
  * Get the document from the data record.

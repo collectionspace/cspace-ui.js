@@ -121,6 +121,13 @@ describe('RecordPage', function suite() {
   });
 
   context('for an object/procedure record', function contextSuite() {
+    const location = {
+      action: '',
+      pathname: '',
+      search: '',
+      query: {},
+    };
+
     const params = {
       recordType: objectRecordType,
       path1: csid,
@@ -230,7 +237,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={noCsidParams} createNewRecord={createNewRecord} />
+              <RecordPage
+                location={location}
+                params={noCsidParams}
+                createNewRecord={createNewRecord}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -325,6 +336,13 @@ describe('RecordPage', function suite() {
   });
 
   context('for an authority record', function contextSuite() {
+    const location = {
+      action: '',
+      pathname: '',
+      search: '',
+      query: {},
+    };
+
     const params = {
       recordType: authorityRecordType,
       path1: vocabulary,
@@ -399,7 +417,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={noCsidParams} createNewRecord={createNewRecord} />
+              <RecordPage
+                location={location}
+                params={noCsidParams}
+                createNewRecord={createNewRecord}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);

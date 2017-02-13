@@ -6,6 +6,8 @@ import { configKey } from '../../../src/helpers/configHelpers';
 import {
   applyDefaults,
   attributePropertiesToTop,
+  clearUncloneable,
+  cloneRecordData,
   createBlankRecord,
   createRecordData,
   deepGet,
@@ -1228,6 +1230,237 @@ describe('recordDataHelpers', function moduleSuite() {
           },
         },
       });
+    });
+  });
+
+  describe('clearUncloneable', function suite() {
+    const recordTypeConfig = {
+      document: {
+        'ns2:collectionobjects_common': {
+          objectNumber: {
+            [configKey]: {
+              model: {
+                cloneable: false,
+              },
+            },
+          },
+          recordStatus: {},
+          foo: {
+            [configKey]: {
+              model: {
+                cloneable: false,
+                defaultValue: 'the default',
+              },
+            },
+          },
+          notes: {
+            note: {
+              [configKey]: {
+                model: {
+                  cloneable: false,
+                },
+              },
+            },
+          },
+          titleGroupList: {
+            titleGroup: {
+              title: {
+                [configKey]: {
+                  model: {
+                    cloneable: false,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should set uncloneable fields with no default to undefined', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            objectNumber: 'something',
+          },
+        },
+      });
+
+      clearUncloneable(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:collectionobjects_common': {
+            objectNumber: undefined,
+          },
+        },
+      });
+    });
+
+    it('should set uncloneable fields with a default to the default', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            foo: 'something',
+          },
+        },
+      });
+
+      clearUncloneable(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:collectionobjects_common': {
+            foo: 'the default',
+          },
+        },
+      });
+    });
+
+    it('should do nothing to fields that are cloneable', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            recordStatus: 'something',
+          },
+        },
+      });
+
+      clearUncloneable(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:collectionobjects_common': {
+            recordStatus: 'something',
+          },
+        },
+      });
+    });
+
+    it('should clear all instances of a repeating field', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            notes: {
+              note: [
+                'value 1',
+                'value 2',
+                'value 3',
+              ],
+            },
+          },
+        },
+      });
+
+      clearUncloneable(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:collectionobjects_common': {
+            notes: {
+              note: undefined,
+            },
+          },
+        },
+      });
+    });
+
+    it('should clear all instances of a field in a repeating group', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: 'Title 1',
+                },
+                {
+                  title: 'Title 2',
+                },
+                {
+                  title: 'Title 3',
+                },
+              ],
+            },
+          },
+        },
+      });
+
+      clearUncloneable(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:collectionobjects_common': {
+            titleGroupList: {
+              titleGroup: [
+                {
+                  title: undefined,
+                },
+                {
+                  title: undefined,
+                },
+                {
+                  title: undefined,
+                },
+              ],
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe('cloneRecordData', function suite() {
+    const recordTypeConfig = {
+      fields: {
+        document: {
+          'ns2:groups_common': {
+            title: {
+              [configKey]: {
+                model: {
+                  cloneable: false,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should omit the collectionspace_core and account_permission parts', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {},
+          'ns2:account_permission': {},
+          'ns2:groups_common': {
+            owner: 'Owner',
+          },
+        },
+      });
+
+      cloneRecordData(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:groups_common': {
+            owner: 'Owner',
+          },
+        },
+      });
+    });
+
+    it('should clear uncloneable fields', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {},
+          'ns2:account_permission': {},
+          'ns2:groups_common': {
+            owner: 'Owner',
+            title: 'Title',
+          },
+        },
+      });
+
+      cloneRecordData(recordTypeConfig, data).toJS().should.deep.equal({
+        document: {
+          'ns2:groups_common': {
+            owner: 'Owner',
+            title: undefined,
+          },
+        },
+      });
+    });
+
+    it('should return undefined for undefined data', function test() {
+      expect(cloneRecordData(recordTypeConfig, undefined)).to.equal(undefined);
     });
   });
 

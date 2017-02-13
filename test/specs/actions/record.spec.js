@@ -36,11 +36,25 @@ describe('record action creator', function suite() {
   describe('createNewRecord', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
 
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
     it('should dispatch CREATE_NEW_RECORD', function test() {
       const store = mockStore({});
       const recordTypeConfig = {};
+      const vocabularyConfig = {};
+      const cloneCsid = undefined;
 
-      return store.dispatch(createNewRecord(recordTypeConfig))
+      return store.dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid))
         .then(() => {
           const actions = store.getActions();
 
@@ -50,6 +64,67 @@ describe('record action creator', function suite() {
             type: CREATE_NEW_RECORD,
             meta: {
               recordTypeConfig,
+              cloneCsid,
+            },
+          });
+        });
+    });
+
+    it('should read the record to be cloned', function test() {
+      const servicePath = 'collectionobjects';
+
+      const recordTypeConfig = {
+        serviceConfig: {
+          servicePath,
+        },
+      };
+
+      const vocabularyConfig = null;
+      const cloneCsid = '1234';
+      const readRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${cloneCsid}.*`);
+
+      moxios.stubRequest(readRecordUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        record: Immutable.fromJS({}),
+      });
+
+      return store.dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RECORD_READ_STARTED,
+            meta: {
+              csid: cloneCsid,
+              recordTypeConfig,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RECORD_READ_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: {
+              csid: cloneCsid,
+              recordTypeConfig,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: CREATE_NEW_RECORD,
+            meta: {
+              recordTypeConfig,
+              cloneCsid,
             },
           });
         });

@@ -12,6 +12,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   } = ownProps;
 
   return {
+    clone: () => {
+      const vocabPath = vocabularyConfig
+        ? `/${vocabularyConfig.name}`
+        : '';
+
+      router.push({
+        pathname: `/record/${recordTypeConfig.name}${vocabPath}`,
+        query: {
+          clone: csid,
+        },
+      });
+    },
     revert: () => {
       dispatch(revertRecord(csid));
     },
