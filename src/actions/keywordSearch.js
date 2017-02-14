@@ -42,7 +42,7 @@ export const initiateSearch = push => (dispatch, getState) => {
   } else {
     const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
 
-    pathname = `/search/${recordType}${vocabularyPath}`;
+    pathname = `/list/${recordType}${vocabularyPath}`;
 
     if (kw) {
       query.kw = kw;

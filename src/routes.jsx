@@ -44,17 +44,17 @@ export default (routeConfig) => {
         <Route path="search" component={SearchPage} />
 
         <Route
-          path="search/:recordType/:vocabulary/:csid/:subresource"
+          path="list/:recordType/:vocabulary/:csid/:subresource"
           component={SearchResultPageContainer}
         />
 
         <Route
-          path="search/:recordType/:csid/:subresource"
+          path="list/:recordType/:csid/:subresource"
           component={SearchResultPageContainer}
         />
 
         <Route
-          path="search/:recordType(/:vocabulary)"
+          path="list/:recordType(/:vocabulary)"
           component={SearchResultPageContainer}
         />
 

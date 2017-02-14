@@ -51,7 +51,7 @@ describe('keyword search action creator', function suite() {
   });
 
   describe('initiateSearch', function actionSuite() {
-    it('should push a search location onto history for authority records', function test() {
+    it('should push a search result location onto history for authority records', function test() {
       const store = mockStore({
         keywordSearch: Immutable.fromJS({
           keyword: 'hello',
@@ -68,11 +68,11 @@ describe('keyword search action creator', function suite() {
 
       store.dispatch(initiateSearch(push));
 
-      pushedLocation.pathname.should.equal('/search/person/ulan');
+      pushedLocation.pathname.should.equal('/list/person/ulan');
       pushedLocation.query.should.deep.equal({ kw: 'hello' });
     });
 
-    it('should push a search location onto history for procedure records', function test() {
+    it('should push a search result location onto history for procedure records', function test() {
       const store = mockStore({
         keywordSearch: Immutable.fromJS({
           keyword: 'hello',
@@ -88,7 +88,7 @@ describe('keyword search action creator', function suite() {
 
       store.dispatch(initiateSearch(push));
 
-      pushedLocation.pathname.should.equal('/search/loanin');
+      pushedLocation.pathname.should.equal('/list/loanin');
       pushedLocation.query.should.deep.equal({ kw: 'hello' });
     });
 

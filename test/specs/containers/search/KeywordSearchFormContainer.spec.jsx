@@ -160,7 +160,7 @@ describe('KeywordSearchFormContainer', function suite() {
     result.props.onSearch();
 
     pushedLocation.should.deep.equal({
-      pathname: '/search/concept/material',
+      pathname: '/list/concept/material',
       query: {
         kw: 'hello world',
       },

@@ -143,7 +143,7 @@ export default class SearchPanel extends Component {
         searchQuery,
       } = this.props.searchDescriptor;
 
-      const pathParts = ['/search', recordType, vocabulary, csid, subresource];
+      const pathParts = ['/list', recordType, vocabulary, csid, subresource];
       const pathname = pathParts.filter(part => !!part).join('/');
 
       const query = Object.assign({}, searchQuery, {

@@ -420,7 +420,7 @@ describe('SearchPanel', function suite() {
     });
   });
 
-  it('should push a search location to history when the search button is clicked', function test() {
+  it('should push a search result location to history when the search button is clicked', function test() {
     const recordType = 'object';
 
     let pushedLocation = null;
@@ -453,7 +453,7 @@ describe('SearchPanel', function suite() {
     Simulate.click(searchButton);
 
     pushedLocation.should.deep.equal({
-      pathname: `/search/${recordType}`,
+      pathname: `/list/${recordType}`,
       query: {
         p: '1',
         size: undefined,
