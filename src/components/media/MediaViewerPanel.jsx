@@ -14,6 +14,7 @@ const messages = defineMessages({
 
 const propTypes = {
   collapsed: PropTypes.bool,
+  color: PropTypes.string,
   columnSetName: PropTypes.string,
   config: PropTypes.object,
   name: PropTypes.string,
@@ -108,6 +109,7 @@ export default class MediaViewerPanel extends Component {
   render() {
     const {
       collapsed,
+      color,
       columnSetName,
       config,
       listType,
@@ -121,6 +123,7 @@ export default class MediaViewerPanel extends Component {
       <Panel
         collapsible
         collapsed={collapsed}
+        color={color}
         config={config}
         header={this.renderHeader()}
         name={name}

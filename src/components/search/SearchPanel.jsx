@@ -20,6 +20,7 @@ const messages = defineMessages({
 
 const propTypes = {
   collapsed: PropTypes.bool,
+  color: PropTypes.string,
   columnSetName: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
@@ -253,6 +254,7 @@ export default class SearchPanel extends Component {
   render() {
     const {
       collapsed,
+      color,
       columnSetName,
       config,
       listType,
@@ -267,6 +269,7 @@ export default class SearchPanel extends Component {
         className={styles.common}
         collapsible
         collapsed={collapsed}
+        color={color}
         config={config}
         header={this.renderHeader()}
         name={name}

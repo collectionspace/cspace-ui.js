@@ -24,6 +24,7 @@ const getSearchDescriptor = (recordType, vocabulary, csid, updatedTimestamp) => 
 });
 
 const propTypes = {
+  color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
@@ -108,6 +109,7 @@ export default class TermsUsedPanel extends Component {
 
   render() {
     const {
+      color,
       config,
       csid,
       recordType,
@@ -127,6 +129,7 @@ export default class TermsUsedPanel extends Component {
     return (
       <SearchPanelContainer
         collapsed
+        color={color}
         columnSetName="narrow"
         config={config}
         csid={csid}

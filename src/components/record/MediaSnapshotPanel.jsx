@@ -25,6 +25,7 @@ const getSearchDescriptor = (relatedCsid, updatedTimestamp) => ({
 });
 
 const propTypes = {
+  color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
@@ -33,6 +34,7 @@ const propTypes = {
 
 export default function MediaSnapshotPanel(props) {
   const {
+    color,
     config,
     csid,
     recordData,
@@ -58,6 +60,7 @@ export default function MediaSnapshotPanel(props) {
 
   return (
     <MediaViewerPanelContainer
+      color={color}
       columnSetName="narrow"
       config={config}
       csid={csid}

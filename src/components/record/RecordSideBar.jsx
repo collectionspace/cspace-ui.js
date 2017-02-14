@@ -39,6 +39,7 @@ export default function RecordSideBar(props) {
   if (!isAuthority) {
     relatedObjects = (
       <RelatedObjectPanelContainer
+        color="blue"
         csid={csid}
         config={config}
         recordType={recordType}
@@ -47,6 +48,7 @@ export default function RecordSideBar(props) {
 
     relatedProcedures = (
       <RelatedProcedurePanelContainer
+        color="blue"
         csid={csid}
         config={config}
         recordType={recordType}
@@ -57,6 +59,7 @@ export default function RecordSideBar(props) {
   if (isAuthority) {
     usedBy = (
       <UsedByPanelContainer
+        color="blue"
         csid={csid}
         config={config}
         recordType={recordType}
@@ -68,11 +71,13 @@ export default function RecordSideBar(props) {
   return (
     <div className={styles.common}>
       <MediaSnapshotPanelContainer
+        color="blue"
         csid={csid}
         config={config}
         recordType={recordType}
       />
       <TermsUsedPanelContainer
+        color="blue"
         csid={csid}
         config={config}
         recordType={recordType}
