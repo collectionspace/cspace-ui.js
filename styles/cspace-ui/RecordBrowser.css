@@ -1,4 +1,6 @@
 .common {
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
   width: 70%;
   z-index: 1;
