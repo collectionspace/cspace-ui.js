@@ -32,9 +32,7 @@ export default (pluginContext) => {
         },
         objectNumber: {
           [config]: {
-            model: {
-              cloneable: false,
-            },
+            cloneable: false,
             view: {
               type: IDGeneratorInput,
               props: {
@@ -115,9 +113,7 @@ export default (pluginContext) => {
         },
         recordStatus: {
           [config]: {
-            model: {
-              defaultValue: 'new',
-            },
+            defaultValue: 'new',
             view: {
               type: OptionListControlledInput,
               props: {
@@ -174,9 +170,7 @@ export default (pluginContext) => {
         },
         computedCurrentLocation: {
           [config]: {
-            model: {
-              cloneable: false,
-            },
+            cloneable: false,
             view: {
               type: TextInput,
             },

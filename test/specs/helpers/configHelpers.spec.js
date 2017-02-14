@@ -325,18 +325,14 @@ describe('configHelpers', function moduleSuite() {
         common: {
           recordStatus: {
             [configKey]: {
-              model: {
-                defaultValue: 'new',
-              },
+              defaultValue: 'new',
             },
           },
           titleGroupList: {
             titleGroup: {
               titleLanguage: {
                 [configKey]: {
-                  model: {
-                    defaultValue: 'English',
-                  },
+                  defaultValue: 'English',
                 },
               },
             },
@@ -363,9 +359,7 @@ describe('configHelpers', function moduleSuite() {
     it('should return the default value from a field descriptor', function test() {
       const fieldDescriptor = {
         [configKey]: {
-          model: {
-            defaultValue: 'new',
-          },
+          defaultValue: 'new',
         },
       };
 
@@ -375,11 +369,9 @@ describe('configHelpers', function moduleSuite() {
     it('should convert an object to an immutable map', function test() {
       const fieldDescriptor = {
         [configKey]: {
-          model: {
-            defaultValue: {
-              foo: {
-                bar: 'baz',
-              },
+          defaultValue: {
+            foo: {
+              bar: 'baz',
             },
           },
         },
@@ -408,26 +400,20 @@ describe('configHelpers', function moduleSuite() {
     it('should return the cloneable configuration setting', function test() {
       isCloneable({
         [configKey]: {
-          model: {
-            cloneable: false,
-          },
+          cloneable: false,
         },
       }).should.equal(false);
 
       isCloneable({
         [configKey]: {
-          model: {
-            cloneable: true,
-          },
+          cloneable: true,
         },
       }).should.equal(true);
     });
 
     it('should default to true', function test() {
       isCloneable({
-        [configKey]: {
-          model: {},
-        },
+        [configKey]: {},
       }).should.equal(true);
     });
   });

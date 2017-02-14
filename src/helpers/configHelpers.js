@@ -157,19 +157,15 @@ export const getDefaultValue = (fieldDescriptor) => {
   const config = fieldDescriptor[configKey];
 
   if (config) {
-    const { model } = config;
+    const { defaultValue } = config;
 
-    if (model) {
-      const { defaultValue } = model;
+    if (typeof defaultValue === 'object' && !Immutable.Map.isMap(defaultValue)) {
+      // If an object is supplied as a default value, convert it to an immutable map.
 
-      if (typeof defaultValue === 'object' && !Immutable.Map.isMap(defaultValue)) {
-        // If an object is supplied as a default value, convert it to an immutable map.
-
-        return Immutable.fromJS(defaultValue);
-      }
-
-      return defaultValue;
+      return Immutable.fromJS(defaultValue);
     }
+
+    return defaultValue;
   }
 
   return undefined;
@@ -203,12 +199,8 @@ export const getDefaults = (fieldDescriptor, currentPath = []) => {
 export const isCloneable = (fieldDescriptor) => {
   const config = fieldDescriptor[configKey];
 
-  if (config) {
-    const { model } = config;
-
-    if (model && 'cloneable' in model) {
-      return model.cloneable;
-    }
+  if (config && 'cloneable' in config) {
+    return config.cloneable;
   }
 
   return true;

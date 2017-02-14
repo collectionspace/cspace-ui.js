@@ -1194,18 +1194,14 @@ describe('recordDataHelpers', function moduleSuite() {
           common: {
             recordStatus: {
               [configKey]: {
-                model: {
-                  defaultValue: 'new',
-                },
+                defaultValue: 'new',
               },
             },
             titleGroupList: {
               titleGroup: {
                 titleLanguage: {
                   [configKey]: {
-                    model: {
-                      defaultValue: 'English',
-                    },
+                    defaultValue: 'English',
                   },
                 },
               },
@@ -1239,26 +1235,20 @@ describe('recordDataHelpers', function moduleSuite() {
         'ns2:collectionobjects_common': {
           objectNumber: {
             [configKey]: {
-              model: {
-                cloneable: false,
-              },
+              cloneable: false,
             },
           },
           recordStatus: {},
           foo: {
             [configKey]: {
-              model: {
-                cloneable: false,
-                defaultValue: 'the default',
-              },
+              cloneable: false,
+              defaultValue: 'the default',
             },
           },
           notes: {
             note: {
               [configKey]: {
-                model: {
-                  cloneable: false,
-                },
+                cloneable: false,
               },
             },
           },
@@ -1266,9 +1256,7 @@ describe('recordDataHelpers', function moduleSuite() {
             titleGroup: {
               title: {
                 [configKey]: {
-                  model: {
-                    cloneable: false,
-                  },
+                  cloneable: false,
                 },
               },
             },
@@ -1407,9 +1395,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'ns2:groups_common': {
             title: {
               [configKey]: {
-                model: {
-                  cloneable: false,
-                },
+                cloneable: false,
               },
             },
           },
