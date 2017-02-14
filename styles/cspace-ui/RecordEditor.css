@@ -1,6 +1,7 @@
 .common {
   margin: 0;
-  padding: 0;
+  padding: 0 10px 0 0;
+  background: white;
 }
 
 .common > header {

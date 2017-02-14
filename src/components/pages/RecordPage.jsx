@@ -3,7 +3,7 @@ import { locationShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
-import RecordTabs from '../record/RecordTabs';
+import RecordBrowser from '../record/RecordBrowser';
 import RecordSideBar from '../record/RecordSideBar';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 import recordBodyStyles from '../../../styles/cspace-ui/RecordBody.css';
@@ -136,7 +136,7 @@ export default class RecordPage extends Component {
         <RecordTitleBarContainer csid={normalizedCsid} recordType={recordType} />
 
         <div className={recordBodyStyles.common}>
-          <RecordTabs
+          <RecordBrowser
             csid={normalizedCsid}
             recordType={recordType}
             vocabulary={vocabulary}

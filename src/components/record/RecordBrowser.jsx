@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
+import RecordBrowserNavBar from './RecordBrowserNavBar';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
-import styles from '../../../styles/cspace-ui/RecordTabs.css';
+import styles from '../../../styles/cspace-ui/RecordBrowser.css';
 
 const propTypes = {
   config: PropTypes.object,
@@ -9,7 +10,7 @@ const propTypes = {
   vocabulary: PropTypes.string,
 };
 
-export default function RecordTabs(props) {
+export default function RecordBrowser(props) {
   const {
     config,
     csid,
@@ -19,6 +20,7 @@ export default function RecordTabs(props) {
 
   return (
     <div className={styles.common}>
+      <RecordBrowserNavBar csid={csid} />
       <RecordEditorContainer
         config={config}
         csid={csid}
@@ -29,4 +31,4 @@ export default function RecordTabs(props) {
   );
 }
 
-RecordTabs.propTypes = propTypes;
+RecordBrowser.propTypes = propTypes;
