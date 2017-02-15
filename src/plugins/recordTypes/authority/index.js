@@ -5,7 +5,6 @@ export default () => () => ({
   recordTypes: {
     authority: {
       columns,
-      isCreatable: false,
       messages: {
         record: defineMessages({
           name: {

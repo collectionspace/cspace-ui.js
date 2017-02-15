@@ -5,7 +5,6 @@ export default () => () => ({
   recordTypes: {
     procedure: {
       columns,
-      isCreatable: false,
       messages: {
         record: defineMessages({
           name: {

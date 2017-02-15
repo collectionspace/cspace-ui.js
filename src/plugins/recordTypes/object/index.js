@@ -3,24 +3,24 @@ import columns from './columns';
 
 export default () => () => ({
   recordTypes: {
-    all: {
+    object: {
       columns,
       messages: {
         record: defineMessages({
           name: {
-            id: 'record.all.name',
+            id: 'record.object.name',
             description: 'The name of the record type.',
-            defaultMessage: 'All Records',
+            defaultMessage: 'Objects',
           },
           collectionName: {
-            id: 'record.all.collectionName',
+            id: 'record.object.collectionName',
             description: 'The name of a collection of records of the type.',
-            defaultMessage: 'All Records',
+            defaultMessage: 'Objects',
           },
         }),
       },
       serviceConfig: {
-        servicePath: 'servicegroups/common/items',
+        servicePath: 'servicegroups/object/items',
         serviceType: 'utility',
       },
     },
