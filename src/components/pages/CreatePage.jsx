@@ -14,13 +14,15 @@ export default function CreatePage(props, context) {
   let items = null;
 
   if (recordTypes) {
-    items = Object.keys(recordTypes).map(recordType =>
-      <li key={recordType}>
-        <Link to={`record/${recordType}`}>
-          <FormattedMessage {...recordTypes[recordType].messages.record.name} />
-        </Link>
-      </li>
-    );
+    items = Object.keys(recordTypes)
+      .filter(recordType => recordTypes[recordType].serviceConfig.serviceType !== 'utility')
+      .map(recordType =>
+        <li key={recordType}>
+          <Link to={`record/${recordType}`}>
+            <FormattedMessage {...recordTypes[recordType].messages.record.name} />
+          </Link>
+        </li>
+      );
   }
 
   return (
