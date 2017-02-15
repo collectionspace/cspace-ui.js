@@ -118,11 +118,11 @@ export function getKeywordSearchKeyword(state) {
 }
 
 export function getKeywordSearchRecordType(state) {
-  return fromKeywordSearch.getRecordType(state.keywordSearch);
+  return fromPrefs.getKeywordSearchRecordType(state.prefs);
 }
 
 export function getKeywordSearchVocabulary(state) {
-  return fromKeywordSearch.getVocabulary(state.keywordSearch);
+  return fromPrefs.getKeywordSearchVocabulary(state.prefs);
 }
 
 export function isSearchPending(state, searchName, searchDescriptor) {

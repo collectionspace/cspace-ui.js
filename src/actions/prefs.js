@@ -5,6 +5,8 @@ import { getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
+export const SET_KEYWORD_SEARCH_RECORD_TYPE = 'SET_KEYWORD_SEARCH_RECORD_TYPE';
+export const SET_KEYWORD_SEARCH_VOCABULARY = 'SET_KEYWORD_SEARCH_VOCABULARY';
 export const SET_SEARCH_PAGE_SIZE = 'SET_SEARCH_PAGE_SIZE';
 export const SET_SEARCH_PANEL_PAGE_SIZE = 'SET_SEARCH_PANEL_PAGE_SIZE';
 
@@ -17,6 +19,16 @@ export const collapsePanel = (recordType, name, collapsed) => ({
     recordType,
     name,
   },
+});
+
+export const setKeywordSearchRecordType = value => ({
+  type: SET_KEYWORD_SEARCH_RECORD_TYPE,
+  payload: value,
+});
+
+export const setKeywordSearchVocabulary = value => ({
+  type: SET_KEYWORD_SEARCH_VOCABULARY,
+  payload: value,
 });
 
 export const setSearchPageSize = pageSize => ({

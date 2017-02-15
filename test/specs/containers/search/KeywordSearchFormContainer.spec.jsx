@@ -9,9 +9,12 @@ import { ConnectedKeywordSearchForm } from '../../../../src/containers/search/Ke
 
 import {
   SET_KEYWORD_SEARCH_KEYWORD,
+} from '../../../../src/actions/keywordSearch';
+
+import {
   SET_KEYWORD_SEARCH_RECORD_TYPE,
   SET_KEYWORD_SEARCH_VOCABULARY,
-} from '../../../../src/actions/keywordSearch';
+} from '../../../../src/actions/prefs';
 
 chai.should();
 
@@ -22,8 +25,12 @@ describe('KeywordSearchFormContainer', function suite() {
     const store = mockStore({
       keywordSearch: Immutable.fromJS({
         keyword: 'hello world',
-        recordType: 'concept',
-        vocabulary: 'material',
+      }),
+      prefs: Immutable.fromJS({
+        keywordSearch: {
+          recordType: 'concept',
+          vocabulary: 'material',
+        },
       }),
     });
 
@@ -53,8 +60,12 @@ describe('KeywordSearchFormContainer', function suite() {
     const store = mockStore({
       keywordSearch: Immutable.fromJS({
         keyword: 'hello world',
-        recordType: 'concept',
-        vocabulary: 'material',
+      }),
+      prefs: Immutable.fromJS({
+        keywordSearch: {
+          recordType: 'concept',
+          vocabulary: 'material',
+        },
       }),
     });
 
@@ -80,8 +91,12 @@ describe('KeywordSearchFormContainer', function suite() {
     const store = mockStore({
       keywordSearch: Immutable.fromJS({
         keyword: 'hello world',
-        recordType: 'concept',
-        vocabulary: 'material',
+      }),
+      prefs: Immutable.fromJS({
+        keywordSearch: {
+          recordType: 'concept',
+          vocabulary: 'material',
+        },
       }),
     });
 
@@ -107,8 +122,12 @@ describe('KeywordSearchFormContainer', function suite() {
     const store = mockStore({
       keywordSearch: Immutable.fromJS({
         keyword: 'hello world',
-        recordType: 'concept',
-        vocabulary: 'material',
+      }),
+      prefs: Immutable.fromJS({
+        keywordSearch: {
+          recordType: 'concept',
+          vocabulary: 'material',
+        },
       }),
     });
 
@@ -134,8 +153,12 @@ describe('KeywordSearchFormContainer', function suite() {
     const store = mockStore({
       keywordSearch: Immutable.fromJS({
         keyword: 'hello world',
-        recordType: 'concept',
-        vocabulary: 'material',
+      }),
+      prefs: Immutable.fromJS({
+        keywordSearch: {
+          recordType: 'concept',
+          vocabulary: 'material',
+        },
       }),
     });
 

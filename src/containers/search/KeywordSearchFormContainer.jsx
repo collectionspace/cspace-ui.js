@@ -4,10 +4,13 @@ import KeywordSearchForm from '../../components/search/KeywordSearchForm';
 
 import {
   setKeywordSearchKeyword,
-  setKeywordSearchRecordType,
-  setKeywordSearchVocabulary,
   initiateSearch,
 } from '../../actions/keywordSearch';
+
+import {
+  setKeywordSearchRecordType,
+  setKeywordSearchVocabulary,
+} from '../../actions/prefs';
 
 import {
   getKeywordSearchKeyword,

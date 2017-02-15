@@ -16,6 +16,7 @@ const mockStore = configureMockStore([]);
 
 const store = mockStore({
   keywordSearch: Immutable.Map(),
+  prefs: Immutable.Map(),
 });
 
 const config = {};

@@ -4,11 +4,7 @@ import Immutable from 'immutable';
 
 import {
   SET_KEYWORD_SEARCH_KEYWORD,
-  SET_KEYWORD_SEARCH_RECORD_TYPE,
-  SET_KEYWORD_SEARCH_VOCABULARY,
   setKeywordSearchKeyword,
-  setKeywordSearchRecordType,
-  setKeywordSearchVocabulary,
   initiateSearch,
 } from '../../../src/actions/keywordSearch';
 
@@ -28,35 +24,17 @@ describe('keyword search action creator', function suite() {
     });
   });
 
-  describe('setKeywordSearchRecordType', function actionSuite() {
-    it('should create a SET_KEYWORD_SEARCH_RECORD_TYPE action', function test() {
-      const value = 'loanin';
-
-      setKeywordSearchRecordType(value).should.deep.equal({
-        type: SET_KEYWORD_SEARCH_RECORD_TYPE,
-        payload: value,
-      });
-    });
-  });
-
-  describe('setKeywordSearchVocabulary', function actionSuite() {
-    it('should create a SET_KEYWORD_SEARCH_VOCABULARY action', function test() {
-      const value = 'ulan';
-
-      setKeywordSearchVocabulary(value).should.deep.equal({
-        type: SET_KEYWORD_SEARCH_VOCABULARY,
-        payload: value,
-      });
-    });
-  });
-
   describe('initiateSearch', function actionSuite() {
     it('should push a search result location onto history for authority records', function test() {
       const store = mockStore({
         keywordSearch: Immutable.fromJS({
           keyword: 'hello',
-          recordType: 'person',
-          vocabulary: 'ulan',
+        }),
+        prefs: Immutable.fromJS({
+          keywordSearch: {
+            recordType: 'person',
+            vocabulary: 'ulan',
+          },
         }),
       });
 
@@ -76,7 +54,11 @@ describe('keyword search action creator', function suite() {
       const store = mockStore({
         keywordSearch: Immutable.fromJS({
           keyword: 'hello',
-          recordType: 'loanin',
+        }),
+        prefs: Immutable.fromJS({
+          keywordSearch: {
+            recordType: 'loanin',
+          },
         }),
       });
 
@@ -98,7 +80,11 @@ describe('keyword search action creator', function suite() {
       const store = mockStore({
         keywordSearch: Immutable.fromJS({
           keyword: csid,
-          recordType: 'loanin',
+        }),
+        prefs: Immutable.fromJS({
+          keywordSearch: {
+            recordType: 'loanin',
+          },
         }),
       });
 

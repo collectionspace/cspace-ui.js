@@ -356,24 +356,28 @@ describe('reducer', function suite() {
   });
 
   describe('getKeywordSearchRecordType selector', function selectorSuite() {
-    it('should select from the keywordSearch key', function test() {
+    it('should select from the prefs key', function test() {
       const recordType = 'person';
 
       getKeywordSearchRecordType({
-        keywordSearch: Immutable.Map({
-          recordType,
+        prefs: Immutable.fromJS({
+          keywordSearch: {
+            recordType,
+          },
         }),
       }).should.deep.equal(recordType);
     });
   });
 
   describe('getKeywordSearchVocabulary selector', function selectorSuite() {
-    it('should select from the keywordSearch key', function test() {
+    it('should select from the prefs key', function test() {
       const vocabulary = 'local';
 
       getKeywordSearchVocabulary({
-        keywordSearch: Immutable.Map({
-          vocabulary,
+        prefs: Immutable.fromJS({
+          keywordSearch: {
+            vocabulary,
+          },
         }),
       }).should.deep.equal(vocabulary);
     });
