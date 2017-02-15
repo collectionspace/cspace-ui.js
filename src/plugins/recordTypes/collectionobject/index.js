@@ -11,7 +11,7 @@ export default () => pluginContext => ({
   idGenerators,
   optionLists,
   recordTypes: {
-    object: {
+    collectionobject: {
       columns,
       messages,
       serviceConfig,

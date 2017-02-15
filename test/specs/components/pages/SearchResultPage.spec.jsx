@@ -124,7 +124,7 @@ const params = {
 
 const location = {
   action: '',
-  pathname: '/search/object',
+  pathname: '/search/collectionobject',
   search: '',
   query: {
     p: '1',

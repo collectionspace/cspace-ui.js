@@ -21,7 +21,7 @@ describe('SearchResultPageContainer', function suite() {
 
   const location = {
     action: '',
-    pathname: '/search/object',
+    pathname: '/search/collectionobject',
     search: '',
   };
 

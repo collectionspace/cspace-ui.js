@@ -13,8 +13,8 @@ const config = {
         objectName: 'Group',
       },
     },
-    object: {
-      name: 'object',
+    collectionobject: {
+      name: 'collectionobject',
       serviceConfig: {
         objectName: 'CollectionObject',
         servicePath: 'collectionobjects',
@@ -51,7 +51,7 @@ describe('default list types', function suite() {
         commonList.getItemLocation(Immutable.fromJS({
           docType: 'CollectionObject',
           csid: '1234',
-        }), { config }).should.equal('/record/object/1234');
+        }), { config }).should.equal('/record/collectionobject/1234');
       });
 
       it('should include the vocabulary path', function test() {
@@ -110,7 +110,7 @@ describe('default list types', function suite() {
         refDocList.getItemLocation(Immutable.fromJS({
           docId: 'ea399d7a-7ea3-4670-930b',
           refName: 'urn:cspace:core.collectionspace.org:collectionobjects:id(ea399d7a-7ea3-4670-930b)\'4\'',
-        }), { config }).should.equal('/record/object/ea399d7a-7ea3-4670-930b');
+        }), { config }).should.equal('/record/collectionobject/ea399d7a-7ea3-4670-930b');
       });
 
       it('should compute the location for authority items', function test() {

@@ -1,8 +1,8 @@
-import messages from '../../../../../src/plugins/recordTypes/object/messages';
+import messages from '../../../../../src/plugins/recordTypes/collectionobject/messages';
 
 chai.should();
 
-describe('object record messages', function suite() {
+describe('collectionobject record messages', function suite() {
   it('should contain properties with id and defaultMessage properties', function test() {
     messages.should.be.an('object');
 

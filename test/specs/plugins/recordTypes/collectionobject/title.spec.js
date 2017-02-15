@@ -1,10 +1,10 @@
 import Immutable from 'immutable';
-import createTitleGetter from '../../../../../src/plugins/recordTypes/object/title';
+import createTitleGetter from '../../../../../src/plugins/recordTypes/collectionobject/title';
 import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
-describe('object record title', function suite() {
+describe('collectionobject record title', function suite() {
   const pluginContext = createPluginContext();
   const title = createTitleGetter(pluginContext);
 

@@ -7,7 +7,7 @@ export default {
       name: 'objectNumber',
       messages: defineMessages({
         label: {
-          id: 'column.object.default.objectNumber',
+          id: 'column.collectionobject.default.objectNumber',
           defaultMessage: 'Identification number',
         },
       }),
@@ -18,7 +18,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.object.default.title',
+          id: 'column.collectionobject.default.title',
           defaultMessage: 'Title',
         },
       }),
@@ -29,7 +29,7 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.object.default.updatedAt',
+          id: 'column.collectionobject.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
@@ -43,7 +43,7 @@ export default {
       name: 'objectNumber',
       messages: defineMessages({
         label: {
-          id: 'column.object.narrow.objectNumber',
+          id: 'column.collectionobject.narrow.objectNumber',
           defaultMessage: 'ID',
         },
       }),
@@ -54,7 +54,7 @@ export default {
       name: 'title',
       messages: defineMessages({
         label: {
-          id: 'column.object.narrow.title',
+          id: 'column.collectionobject.narrow.title',
           defaultMessage: 'Title',
         },
       }),
@@ -64,7 +64,7 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.object.narrow.updatedAt',
+          id: 'column.collectionobject.narrow.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
