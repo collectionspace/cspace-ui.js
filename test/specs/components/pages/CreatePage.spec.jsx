@@ -21,6 +21,9 @@ describe('CreatePage', function suite() {
             },
           },
         },
+        serviceConfig: {
+          serviceType: 'object',
+        }
       },
       group: {
         messages: {
@@ -31,6 +34,9 @@ describe('CreatePage', function suite() {
             },
           },
         },
+        serviceConfig: {
+          serviceType: 'procedure',
+        }
       },
       intake: {
         messages: {
@@ -41,6 +47,9 @@ describe('CreatePage', function suite() {
             },
           },
         },
+        serviceConfig: {
+          serviceType: 'procedure',
+        }
       },
     },
   };
