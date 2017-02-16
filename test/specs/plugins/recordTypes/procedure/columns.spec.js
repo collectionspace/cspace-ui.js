@@ -32,11 +32,11 @@ describe('procedure record columns', function suite() {
 
     const config = {
       recordTypes: {
-        object: {
+        collectionobject: {
           messages: {
             record: {
               name: {
-                id: 'record.object.name',
+                id: 'record.collectionobject.name',
               },
             },
           },
@@ -52,7 +52,7 @@ describe('procedure record columns', function suite() {
     };
 
     docTypeColumn.formatValue('CollectionObject', { intl, config }).should
-      .equal('formatted record.object.name');
+      .equal('formatted record.collectionobject.name');
   });
 
   it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
@@ -62,11 +62,11 @@ describe('procedure record columns', function suite() {
 
     const config = {
       recordTypes: {
-        object: {
+        collectionobject: {
           messages: {
             record: {
               name: {
-                id: 'record.object.name',
+                id: 'record.collectionobject.name',
               },
             },
           },
