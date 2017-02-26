@@ -11,13 +11,37 @@ const intl = {
   formatRelative: () => null,
   formatNumber: () => null,
   formatPlural: () => null,
-  formatMessage: () => null,
+  formatMessage: message => `formatted ${message.id}`,
   formatHTMLMessage: () => null,
   now: () => null,
 };
 
 const config = {
-  recordTypes: {},
+  recordTypes: {
+    person: {
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.person.collectionName',
+            defaultMessage: 'Persons',
+          },
+        },
+      },
+      serviceConfig: {
+        serviceType: 'authority',
+      },
+      vocabularies: {
+        local: {
+          messages: {
+            name: {
+              id: 'vocab.person.local.name',
+              defaultMessage: 'Local',
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 describe('KeywordSearchForm', function suite() {
@@ -35,5 +59,19 @@ describe('KeywordSearchForm', function suite() {
     render(<KeywordSearchForm config={config} intl={intl} />, this.container);
 
     this.container.querySelector('.cspace-input-KeywordSearchInput--common').should.not.equal(null);
+  });
+
+  it('should use intl to format the record type and vocabulary names', function test() {
+    render(
+      <KeywordSearchForm
+        config={config}
+        intl={intl}
+        recordTypeValue="person"
+      />, this.container);
+
+    const [recordTypeInput, vocabularyInput] = this.container.querySelectorAll('input');
+
+    recordTypeInput.value.should.equal('formatted record.person.collectionName');
+    vocabularyInput.value.should.equal('formatted vocab.person.local.name');
   });
 });

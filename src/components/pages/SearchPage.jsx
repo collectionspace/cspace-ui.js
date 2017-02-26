@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import ErrorPage from './ErrorPage';
-import SearchBuilder from '../search/SearchBuilder';
+import BaseSearchBuilder from '../search/SearchBuilder';
 import TitleBar from '../sections/TitleBar';
 
 import {
@@ -16,6 +16,8 @@ import {
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
+const SearchBuilder = injectIntl(BaseSearchBuilder);
+
 const messages = defineMessages({
   title: {
     id: 'searchPage.title',
@@ -24,7 +26,6 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  intl: intlShape,
   keywordValue: PropTypes.string,
   location: locationShape,
   params: PropTypes.objectOf(PropTypes.string),
@@ -193,7 +194,6 @@ export default class SearchPage extends Component {
 
   render() {
     const {
-      intl,
       keywordValue,
       onKeywordCommit,
       onSearch,
@@ -226,7 +226,6 @@ export default class SearchPage extends Component {
         <div className={pageBodyStyles.common}>
           <SearchBuilder
             config={config}
-            intl={intl}
             keywordValue={keywordValue}
             recordTypeValue={recordType}
             vocabularyValue={vocabulary}

@@ -25,10 +25,10 @@ export default function KeywordSearchForm(props) {
   } = props;
 
   const formatRecordTypeLabel = (name, recordTypeConfig) =>
-    intl.formatMessage(recordTypeConfig.messages.record.collectionName) || name;
+    intl.formatMessage(recordTypeConfig.messages.record.collectionName);
 
   const formatVocabularyLabel = (name, vocabularyConfig) =>
-    intl.formatMessage(vocabularyConfig.messages.name) || name;
+    intl.formatMessage(vocabularyConfig.messages.name);
 
   return (
     <fieldset>

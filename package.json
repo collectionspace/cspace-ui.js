@@ -35,11 +35,11 @@
     "doc": "documentation readme src/*.js -s \"API\"",
     "lint": "eslint --ext .jsx,.js *.js src test examples",
     "prepublish": "npm run clean && npm run build",
-    "start": "cross-env NODE_ENV=test node --max_old_space_size=3072 node_modules/.bin/karma start",
+    "start": "cross-env NODE_ENV=test node --max_old_space_size=3328 node_modules/.bin/karma start",
     "test": "npm run test-browser",
     "test-specs": "npm run test-browser-specs",
     "test-integration": "npm run test-browser-integration",
-    "test-browser": "cross-env NODE_ENV=test node --max_old_space_size=3072 node_modules/.bin/karma start --singleRun=true",
+    "test-browser": "cross-env NODE_ENV=test node --max_old_space_size=3328 node_modules/.bin/karma start --singleRun=true",
     "test-browser-specs": "cross-env NODE_ENV=test karma start --singleRun=true --dir=test/specs",
     "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=test/integration"
   },

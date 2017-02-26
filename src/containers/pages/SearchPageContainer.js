@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router';
 import SearchPage from '../../components/pages/SearchPage';
 
@@ -49,4 +48,4 @@ export const ConnectedSearchPage = connect(
   mapDispatchToProps,
 )(SearchPage);
 
-export default injectIntl(withRouter(ConnectedSearchPage));
+export default withRouter(ConnectedSearchPage);
