@@ -8,7 +8,7 @@ const messages = defineMessages({
   keywordSearchPlaceholder: {
     id: 'keywordSearchForm.placeholder',
     description: 'The placeholder text to display in the keyword search input.',
-    defaultMessage: 'Search...',
+    defaultMessage: 'Search keywords',
   },
 });
 
@@ -24,10 +24,18 @@ export default function KeywordSearchForm(props) {
     ...remainingProps
   } = props;
 
+  const formatRecordTypeLabel = (name, recordTypeConfig) =>
+    intl.formatMessage(recordTypeConfig.messages.record.collectionName);
+
+  const formatVocabularyLabel = (name, vocabularyConfig) =>
+    intl.formatMessage(vocabularyConfig.messages.name);
+
   return (
     <fieldset>
       <KeywordSearchInput
         {...remainingProps}
+        formatRecordTypeLabel={formatRecordTypeLabel}
+        formatVocabularyLabel={formatVocabularyLabel}
         placeholder={intl.formatMessage(messages.keywordSearchPlaceholder)}
         recordTypes={config.recordTypes}
       />

@@ -89,8 +89,10 @@ export default class TitleBar extends Component {
         style={inlineStyle}
       >
         <div className={styles.inner}>
-          {this.renderTitle()}
-          {this.renderSubtitle()}
+          <div>
+            {this.renderTitle()}
+            {this.renderSubtitle()}
+          </div>
         </div>
       </header>
     );

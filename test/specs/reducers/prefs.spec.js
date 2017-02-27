@@ -4,6 +4,8 @@ import chaiImmutable from 'chai-immutable';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
+  SET_ADVANCED_SEARCH_RECORD_TYPE,
+  SET_ADVANCED_SEARCH_VOCABULARY,
   SET_KEYWORD_SEARCH_RECORD_TYPE,
   SET_KEYWORD_SEARCH_VOCABULARY,
   SET_SEARCH_PAGE_SIZE,
@@ -11,6 +13,8 @@ import {
 } from '../../../src/actions/prefs';
 
 import reducer, {
+  getAdvancedSearchRecordType,
+  getAdvancedSearchVocabulary,
   getKeywordSearchRecordType,
   getKeywordSearchVocabulary,
   getSearchPageSize,
@@ -53,6 +57,48 @@ describe('prefs reducer', function suite() {
     isPanelCollapsed(state, recordType, panelName).should.equal(collapsed);
   });
 
+  it('should handle SET_ADVANCED_SEARCH_RECORD_TYPE', function test() {
+    const recordType = 'loanin';
+
+    const state = reducer(Immutable.Map(), {
+      type: SET_ADVANCED_SEARCH_RECORD_TYPE,
+      payload: recordType,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      advancedSearch: {
+        recordType,
+      },
+    }));
+
+    getAdvancedSearchRecordType(state).should.equal(recordType);
+  });
+
+  it('should handle SET_ADVANCED_SEARCH_VOCABULARY', function test() {
+    const recordType = 'person';
+    const vocabulary = 'ulan';
+
+    const state = reducer(Immutable.fromJS({
+      advancedSearch: {
+        recordType,
+      },
+    }), {
+      type: SET_ADVANCED_SEARCH_VOCABULARY,
+      payload: vocabulary,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      advancedSearch: {
+        recordType,
+        vocabulary: {
+          [recordType]: vocabulary,
+        },
+      },
+    }));
+
+    getAdvancedSearchVocabulary(state, recordType).should.equal(vocabulary);
+  });
+
   it('should handle SET_KEYWORD_SEARCH_RECORD_TYPE', function test() {
     const recordType = 'loanin';
 
@@ -70,43 +116,29 @@ describe('prefs reducer', function suite() {
     getKeywordSearchRecordType(state).should.equal(recordType);
   });
 
-  it('should delete vocabulary on SET_KEYWORD_SEARCH_RECORD_TYPE', function test() {
-    const recordType = 'loanin';
+  it('should handle SET_KEYWORD_SEARCH_VOCABULARY', function test() {
+    const recordType = 'person';
+    const vocabulary = 'ulan';
 
     const state = reducer(Immutable.fromJS({
       keywordSearch: {
-        recordType: 'person',
-        vocabulary: 'local',
-      },
-    }), {
-      type: SET_KEYWORD_SEARCH_RECORD_TYPE,
-      payload: recordType,
-    });
-
-    state.should.deep.equal(Immutable.fromJS({
-      keywordSearch: {
         recordType,
       },
-    }));
-
-    getKeywordSearchRecordType(state).should.equal(recordType);
-  });
-
-  it('should handle SET_KEYWORD_SEARCH_VOCABULARY', function test() {
-    const vocabulary = 'ulan';
-
-    const state = reducer(Immutable.Map(), {
+    }), {
       type: SET_KEYWORD_SEARCH_VOCABULARY,
       payload: vocabulary,
     });
 
     state.should.deep.equal(Immutable.fromJS({
       keywordSearch: {
-        vocabulary,
+        recordType,
+        vocabulary: {
+          [recordType]: vocabulary,
+        },
       },
     }));
 
-    getKeywordSearchVocabulary(state).should.equal(vocabulary);
+    getKeywordSearchVocabulary(state, recordType).should.equal(vocabulary);
   });
 
   it('should handle SET_SEARCH_PAGE_SIZE', function test() {

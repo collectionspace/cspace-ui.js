@@ -18,11 +18,15 @@ import {
   getKeywordSearchVocabulary,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
-  keywordValue: getKeywordSearchKeyword(state),
-  recordTypeValue: getKeywordSearchRecordType(state),
-  vocabularyValue: getKeywordSearchVocabulary(state),
-});
+const mapStateToProps = (state) => {
+  const recordType = getKeywordSearchRecordType(state);
+
+  return {
+    keywordValue: getKeywordSearchKeyword(state),
+    recordTypeValue: recordType,
+    vocabularyValue: getKeywordSearchVocabulary(state, recordType),
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onKeywordCommit: (value) => {

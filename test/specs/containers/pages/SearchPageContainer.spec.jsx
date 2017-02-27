@@ -4,67 +4,66 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
 import mockRouter from '../../../helpers/mockRouter';
-import KeywordSearchForm from '../../../../src/components/search/KeywordSearchForm';
-import { ConnectedKeywordSearchForm } from '../../../../src/containers/search/KeywordSearchFormContainer';
+import SearchPage from '../../../../src/components/pages/SearchPage';
+import { ConnectedSearchPage } from '../../../../src/containers/pages/SearchPageContainer';
 
 import {
-  SET_KEYWORD_SEARCH_KEYWORD,
-} from '../../../../src/actions/keywordSearch';
+  SET_ADVANCED_SEARCH_KEYWORD,
+} from '../../../../src/actions/advancedSearch';
 
 import {
-  SET_KEYWORD_SEARCH_RECORD_TYPE,
-  SET_KEYWORD_SEARCH_VOCABULARY,
+  SET_ADVANCED_SEARCH_RECORD_TYPE,
+  SET_ADVANCED_SEARCH_VOCABULARY,
 } from '../../../../src/actions/prefs';
 
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('KeywordSearchFormContainer', function suite() {
-  it('should set props on KeywordSearchForm', function test() {
+describe('SearchPageContainer', function suite() {
+  it('should set props on SearchPage', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
-        keyword: 'hello world',
+      advancedSearch: Immutable.Map({
+        keyword: 'foo',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
-          recordType: 'concept',
+        advancedSearch: {
+          recordType: 'person',
           vocabulary: {
-            concept: 'material',
+            person: 'local',
           },
         },
       }),
     });
 
+    const shallowRenderer = createRenderer();
+
     const context = {
       store,
     };
 
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(
+      <ConnectedSearchPage />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(KeywordSearchForm);
-
-    result.props.keywordValue.should.equal('hello world');
-    result.props.recordTypeValue.should.equal('concept');
-    result.props.vocabularyValue.should.equal('material');
-
-    result.props.onKeywordCommit.should.be.a('function');
-    result.props.onRecordTypeCommit.should.be.a('function');
-    result.props.onVocabularyCommit.should.be.a('function');
-    result.props.onSearch.should.be.a('function');
+    result.type.should.equal(SearchPage);
+    result.props.should.have.property('keywordValue', 'foo');
+    result.props.should.have.property('preferredRecordType', 'person');
+    result.props.should.have.property('preferredVocabulary', 'local');
+    result.props.should.have.property('onKeywordCommit').that.is.a('function');
+    result.props.should.have.property('onRecordTypeCommit').that.is.a('function');
+    result.props.should.have.property('onVocabularyCommit').that.is.a('function');
+    result.props.should.have.property('onSearch').that.is.a('function');
   });
 
-  it('should connect onKeywordCommit to setKeywordSearchKeyword action creator', function test() {
+  it('should connect onKeywordCommit to setAdvancedSearchKeyword action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      advancedSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        advancedSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -79,7 +78,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedSearchPage />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -87,17 +86,17 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_KEYWORD_SEARCH_KEYWORD);
+    action.should.have.property('type', SET_ADVANCED_SEARCH_KEYWORD);
     action.should.have.deep.property('payload', 'new keyword');
   });
 
-  it('should connect onRecordTypeCommit to setKeywordSearchRecordType action creator', function test() {
+  it('should connect onRecordTypeCommit to setAdvancedSearchRecordType action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      advancedSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        advancedSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -112,7 +111,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedSearchPage />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -120,17 +119,17 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_KEYWORD_SEARCH_RECORD_TYPE);
+    action.should.have.property('type', SET_ADVANCED_SEARCH_RECORD_TYPE);
     action.should.have.deep.property('payload', 'person');
   });
 
-  it('should connect onVocabularyCommit to setKeywordSearchVocabulary action creator', function test() {
+  it('should connect onVocabularyCommit to setAdvancedSearchVocabulary action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      advancedSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        advancedSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -145,7 +144,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedSearchPage />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -153,17 +152,17 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_KEYWORD_SEARCH_VOCABULARY);
+    action.should.have.property('type', SET_ADVANCED_SEARCH_VOCABULARY);
     action.should.have.deep.property('payload', 'ulan');
   });
 
   it('should connect onSearch to initiateSearch action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      advancedSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        advancedSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -186,7 +185,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm router={router} />, context);
+    shallowRenderer.render(<ConnectedSearchPage router={router} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

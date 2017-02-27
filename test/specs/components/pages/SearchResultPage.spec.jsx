@@ -93,6 +93,9 @@ const config = {
       },
     },
     person: {
+      serviceConfig: {
+        serviceType: 'authority',
+      },
       vocabularies: {
         local: {
           messages: {
@@ -429,8 +432,11 @@ describe('SearchResultPage', function suite() {
 
       headerContainer.querySelector('header').should.not.equal(null);
 
-      headerContainer.querySelector('header > span').textContent.should
+      headerContainer.querySelector('header > div > span').textContent.should
         .equal('1–2 of 39 records found');
+
+      headerContainer.querySelector('header > div > a').textContent.should
+        .equal('Revise search criteria');
 
       const pageSizeChooser = headerContainer.querySelector('.cspace-ui-PageSizeChooser--common');
 
@@ -489,7 +495,7 @@ describe('SearchResultPage', function suite() {
 
       headerContainer.querySelector('header').should.not.equal(null);
 
-      headerContainer.querySelector('header > span').textContent.should
+      headerContainer.querySelector('header > div > span').textContent.should
         .equal('Finding records...');
     });
 
@@ -606,6 +612,64 @@ describe('SearchResultPage', function suite() {
       });
 
       preferredPageSize.should.equal(20);
+    });
+
+    it('should call setAdvancedSearchKeyword when the edit link is clicked', function test() {
+      let transferredKeyword = null;
+
+      const setAdvancedSearchKeyword = (keywordArg) => {
+        transferredKeyword = keywordArg;
+      };
+
+      const keywordLocation = Object.assign({}, location, {
+        query: {
+          kw: 'foo',
+        },
+      });
+
+      const router = mockRouter();
+      const pageContainer = document.createElement('div');
+
+      document.body.appendChild(pageContainer);
+
+      let searchResultPage;
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <SearchResultPage
+                location={keywordLocation}
+                params={params}
+                ref={(ref) => { searchResultPage = ref; }}
+                setAdvancedSearchKeyword={setAdvancedSearchKeyword}
+              />
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, pageContainer);
+
+      const headerContainer = document.createElement('div');
+
+      document.body.appendChild(headerContainer);
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <RouterProvider router={router}>
+                {searchResultPage.renderHeader({ searchResult })}
+              </RouterProvider>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, headerContainer);
+
+      const editLink = headerContainer.querySelector('header > div > a');
+
+      editLink.should.not.equal(null);
+
+      Simulate.click(editLink);
+
+      transferredKeyword.should.equal('foo');
     });
   });
 

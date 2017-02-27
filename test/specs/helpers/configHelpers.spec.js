@@ -15,7 +15,17 @@ import {
   getRecordTypeConfigByServicePath,
   getVocabularyConfigByShortID,
   isCloneable,
+  getDefaultSearchRecordType,
+  getDefaultSearchVocabulary,
+  validateRecordType,
 } from '../../../src/helpers/configHelpers';
+
+import {
+  ERR_MISSING_VOCABULARY,
+  ERR_UNKNOWN_RECORD_TYPE,
+  ERR_UNKNOWN_VOCABULARY,
+  ERR_UNKNOWN_SUBRESOURCE,
+} from '../../../src/constants/errorCodes';
 
 chai.should();
 
@@ -415,6 +425,134 @@ describe('configHelpers', function moduleSuite() {
       isCloneable({
         [configKey]: {},
       }).should.equal(true);
+    });
+  });
+
+  describe('validateRecordType', function suite() {
+    const config = {
+      recordTypes: {
+        collectionobject: {},
+        group: {},
+        person: {
+          serviceConfig: {
+            serviceType: 'authority',
+          },
+        },
+      },
+      subresources: {
+        terms: {},
+      },
+    };
+
+    it('should return ERR_UNKNOWN_RECORD_TYPE error if the record type is unknown', function test() {
+      validateRecordType(config, 'foo').should.deep.equal({
+        error: {
+          recordType: 'foo',
+          code: ERR_UNKNOWN_RECORD_TYPE,
+        },
+      });
+    });
+
+    it('should return ERR_MISSING_VOCABULARY error if an authority record type is passed with no vocabulary', function test() {
+      validateRecordType(config, 'person').should.deep.equal({
+        error: {
+          recordType: 'person',
+          code: ERR_MISSING_VOCABULARY,
+        },
+      });
+    });
+
+    it('should return ERR_UNKNOWN_VOCABULARY error if an unknown vocabulary is passed', function test() {
+      validateRecordType(config, 'person', 'foo').should.deep.equal({
+        error: {
+          recordType: 'person',
+          vocabulary: 'foo',
+          code: ERR_UNKNOWN_VOCABULARY,
+        },
+      });
+    });
+
+    it('should return ERR_UNKNOWN_VOCABULARY error if a vocabulary is passed with a non-authority record type', function test() {
+      validateRecordType(config, 'group', 'foo').should.deep.equal({
+        error: {
+          recordType: 'group',
+          vocabulary: 'foo',
+          code: ERR_UNKNOWN_VOCABULARY,
+        },
+      });
+    });
+
+    it('should return ERR_UNKNOWN_SUBRESOURCE error if an unknown subresource is passed', function test() {
+      validateRecordType(config, 'group', undefined, 'foo').should.deep.equal({
+        error: {
+          subresource: 'foo',
+          code: ERR_UNKNOWN_SUBRESOURCE,
+        },
+      });
+    });
+
+    it('should return object with no error property if valid arguments are passed', function test() {
+      validateRecordType(config, 'group')
+        .should.be.an('object')
+        .and.should.not.have.property('error');
+    });
+  });
+
+  describe('getDefaultSearchRecordType', function suite() {
+    it('should return the record type with defaultForSearch set to true', function test() {
+      const config = {
+        recordTypes: {
+          collectionobject: {},
+          group: {},
+          loanin: {
+            defaultForSearch: true,
+          },
+        },
+      };
+
+      getDefaultSearchRecordType(config).should.equal('loanin');
+    });
+
+    it('should return the first record type if none have defaultForSearch set to true', function test() {
+      const config = {
+        recordTypes: {
+          collectionobject: {},
+          group: {},
+          loanin: {},
+        },
+      };
+
+      getDefaultSearchRecordType(config).should.equal('collectionobject');
+    });
+  });
+
+  describe('getDefaultSearchVocabulary', function suite() {
+    it('should return the vocabulary with defaultForSearch set to true', function test() {
+      const config = {
+        vocabularies: {
+          all: {},
+          local: {
+            defaultForSearch: true,
+          },
+          shared: {},
+          other: {},
+        },
+      };
+
+      getDefaultSearchVocabulary(config).should.equal('local');
+    });
+
+    it('should return the first record type if none have defaultForSearch set to true', function test() {
+      const config = {
+        vocabularies: {
+          all: {},
+          local: {},
+          shared: {},
+          other: {},
+        },
+      };
+
+      getDefaultSearchVocabulary(config).should.equal('all');
     });
   });
 });

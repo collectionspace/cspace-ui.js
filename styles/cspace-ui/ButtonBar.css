@@ -1,0 +1,16 @@
+.common {
+  background: white;
+}
+
+.common > button + button {
+  margin-left: 4px;
+}
+
+header > .common {
+  padding: 10px 10px 0 10px;
+}
+
+footer > .common {
+  text-align: right;
+  padding: 0 10px 10px 10px;
+}

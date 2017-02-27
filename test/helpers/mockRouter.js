@@ -1,5 +1,6 @@
 export default function mockRouter(properties) {
   const router = {
+    createHref: () => null,
     push: () => null,
     replace: () => null,
     go: () => null,

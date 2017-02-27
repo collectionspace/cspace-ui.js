@@ -41,6 +41,7 @@ describe('reducer', function suite() {
     const state = reducer(undefined, {});
 
     state.should.have.all.keys([
+      'advancedSearch',
       'routing',
       'cspace',
       'idGenerator',
@@ -371,15 +372,18 @@ describe('reducer', function suite() {
 
   describe('getKeywordSearchVocabulary selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
+      const recordType = 'person';
       const vocabulary = 'local';
 
       getKeywordSearchVocabulary({
         prefs: Immutable.fromJS({
           keywordSearch: {
-            vocabulary,
+            vocabulary: {
+              [recordType]: vocabulary,
+            },
           },
         }),
-      }).should.deep.equal(vocabulary);
+      }, recordType).should.deep.equal(vocabulary);
     });
   });
 

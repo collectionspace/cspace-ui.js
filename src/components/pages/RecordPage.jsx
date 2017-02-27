@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { locationShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
+import ErrorPage from './ErrorPage';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
 import RecordBrowser from '../record/RecordBrowser';
 import RecordSideBar from '../record/RecordSideBar';
+import { validateRecordType } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
-import recordBodyStyles from '../../../styles/cspace-ui/RecordBody.css';
+import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
 const propTypes = {
   location: locationShape,
@@ -129,13 +131,21 @@ export default class RecordPage extends Component {
       csid,
     } = this.getParams();
 
+    const validation = validateRecordType(config, recordType, vocabulary);
+
+    if (validation.error) {
+      return (
+        <ErrorPage error={validation.error} />
+      );
+    }
+
     const normalizedCsid = csid || '';
 
     return (
       <div className={styles.common}>
         <RecordTitleBarContainer csid={normalizedCsid} recordType={recordType} />
 
-        <div className={recordBodyStyles.common}>
+        <div className={pageBodyStyles.common}>
           <RecordBrowser
             csid={normalizedCsid}
             recordType={recordType}

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
+import advancedSearch, * as fromAdvancedSearch from './advancedSearch';
 import keywordSearch, * as fromKeywordSearch from './keywordSearch';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
@@ -16,6 +17,7 @@ import vocabulary, * as fromVocabulary from './vocabulary';
 export default combineReducers({
   cspace,
   idGenerator,
+  advancedSearch,
   keywordSearch,
   login,
   logout,
@@ -113,6 +115,18 @@ export function getIDGenerator(state, idGeneratorName) {
   return fromIDGenerator.get(state.idGenerator, idGeneratorName);
 }
 
+export function getAdvancedSearchKeyword(state) {
+  return fromAdvancedSearch.getKeyword(state.advancedSearch);
+}
+
+export function getAdvancedSearchRecordType(state) {
+  return fromPrefs.getAdvancedSearchRecordType(state.prefs);
+}
+
+export function getAdvancedSearchVocabulary(state, recordType) {
+  return fromPrefs.getAdvancedSearchVocabulary(state.prefs, recordType);
+}
+
 export function getKeywordSearchKeyword(state) {
   return fromKeywordSearch.getKeyword(state.keywordSearch);
 }
@@ -121,8 +135,8 @@ export function getKeywordSearchRecordType(state) {
   return fromPrefs.getKeywordSearchRecordType(state.prefs);
 }
 
-export function getKeywordSearchVocabulary(state) {
-  return fromPrefs.getKeywordSearchVocabulary(state.prefs);
+export function getKeywordSearchVocabulary(state, recordType) {
+  return fromPrefs.getKeywordSearchVocabulary(state.prefs, recordType);
 }
 
 export function isSearchPending(state, searchName, searchDescriptor) {

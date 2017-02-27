@@ -9,7 +9,7 @@ import RecordButtonBar from '../../../../src/components/record/RecordButtonBar';
 
 chai.should();
 
-const expectedClassName = 'cspace-ui-RecordButtonBar--common';
+const expectedClassName = 'cspace-ui-ButtonBar--common';
 
 describe('RecordButtonBar', function suite() {
   beforeEach(function before() {

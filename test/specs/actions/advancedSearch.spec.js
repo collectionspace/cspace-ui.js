@@ -3,22 +3,22 @@ import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 
 import {
-  SET_KEYWORD_SEARCH_KEYWORD,
-  setKeywordSearchKeyword,
+  SET_ADVANCED_SEARCH_KEYWORD,
+  setAdvancedSearchKeyword,
   initiateSearch,
-} from '../../../src/actions/keywordSearch';
+} from '../../../src/actions/advancedSearch';
 
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('keyword search action creator', function suite() {
-  describe('setKeywordSearchKeyword', function actionSuite() {
-    it('should create a SET_KEYWORD_SEARCH_KEYWORD action', function test() {
+describe('advanced search action creator', function suite() {
+  describe('setAdvancedSearchKeyword', function actionSuite() {
+    it('should create a SET_ADVANCED_SEARCH_KEYWORD action', function test() {
       const value = 'search keywords';
 
-      setKeywordSearchKeyword(value).should.deep.equal({
-        type: SET_KEYWORD_SEARCH_KEYWORD,
+      setAdvancedSearchKeyword(value).should.deep.equal({
+        type: SET_ADVANCED_SEARCH_KEYWORD,
         payload: value,
       });
     });
@@ -27,11 +27,11 @@ describe('keyword search action creator', function suite() {
   describe('initiateSearch', function actionSuite() {
     it('should push a search result location onto history for authority records', function test() {
       const store = mockStore({
-        keywordSearch: Immutable.fromJS({
+        advancedSearch: Immutable.fromJS({
           keyword: 'hello',
         }),
         prefs: Immutable.fromJS({
-          keywordSearch: {
+          advancedSearch: {
             recordType: 'person',
             vocabulary: {
               person: 'ulan',
@@ -54,11 +54,9 @@ describe('keyword search action creator', function suite() {
 
     it('should push a search result location onto history for procedure records', function test() {
       const store = mockStore({
-        keywordSearch: Immutable.fromJS({
-          keyword: 'hello',
-        }),
+        advancedSearch: Immutable.Map(),
         prefs: Immutable.fromJS({
-          keywordSearch: {
+          advancedSearch: {
             recordType: 'loanin',
           },
         }),
@@ -73,32 +71,6 @@ describe('keyword search action creator', function suite() {
       store.dispatch(initiateSearch(push));
 
       pushedLocation.pathname.should.equal('/list/loanin');
-      pushedLocation.query.should.deep.equal({ kw: 'hello' });
-    });
-
-    it('should push a record location onto history when a csid is entered as a keyword', function test() {
-      const csid = '53ae2430-379a-4656-9ff5';
-
-      const store = mockStore({
-        keywordSearch: Immutable.fromJS({
-          keyword: csid,
-        }),
-        prefs: Immutable.fromJS({
-          keywordSearch: {
-            recordType: 'loanin',
-          },
-        }),
-      });
-
-      let pushedLocation = null;
-
-      const push = (location) => {
-        pushedLocation = location;
-      };
-
-      store.dispatch(initiateSearch(push));
-
-      pushedLocation.pathname.should.equal(`/record/loanin/${csid}`);
     });
   });
 });
