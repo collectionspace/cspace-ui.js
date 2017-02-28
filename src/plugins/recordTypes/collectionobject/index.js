@@ -1,3 +1,4 @@
+import advancedSearch from './advancedSearch';
 import columns from './columns';
 import defaultForm from './forms/default';
 import fields from './fields';
@@ -12,6 +13,7 @@ export default () => pluginContext => ({
   optionLists,
   recordTypes: {
     collectionobject: {
+      advancedSearch,
       columns,
       messages,
       serviceConfig,

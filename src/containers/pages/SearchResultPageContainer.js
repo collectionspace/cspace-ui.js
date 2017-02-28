@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SearchResultPage from '../../components/pages/SearchResultPage';
-import { setAdvancedSearchKeyword } from '../../actions/advancedSearch';
+import { setSearchPageKeyword } from '../../actions/searchPage';
 import { search } from '../../actions/search';
 import { setSearchPageSize } from '../../actions/prefs';
 
@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   search,
-  setAdvancedSearchKeyword,
+  setSearchPageKeyword,
   setPreferredPageSize: setSearchPageSize,
 };
 

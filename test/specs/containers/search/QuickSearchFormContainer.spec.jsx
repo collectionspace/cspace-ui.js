@@ -4,30 +4,30 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
 import mockRouter from '../../../helpers/mockRouter';
-import KeywordSearchForm from '../../../../src/components/search/KeywordSearchForm';
-import { ConnectedKeywordSearchForm } from '../../../../src/containers/search/KeywordSearchFormContainer';
+import QuickSearchForm from '../../../../src/components/search/QuickSearchForm';
+import { ConnectedQuickSearchForm } from '../../../../src/containers/search/QuickSearchFormContainer';
 
 import {
-  SET_KEYWORD_SEARCH_KEYWORD,
-} from '../../../../src/actions/keywordSearch';
+  SET_QUICK_SEARCH_KEYWORD,
+} from '../../../../src/actions/quickSearch';
 
 import {
-  SET_KEYWORD_SEARCH_RECORD_TYPE,
-  SET_KEYWORD_SEARCH_VOCABULARY,
+  SET_QUICK_SEARCH_RECORD_TYPE,
+  SET_QUICK_SEARCH_VOCABULARY,
 } from '../../../../src/actions/prefs';
 
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('KeywordSearchFormContainer', function suite() {
-  it('should set props on KeywordSearchForm', function test() {
+describe('QuickSearchFormContainer', function suite() {
+  it('should set props on QuickSearchForm', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      quickSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        quickSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -42,11 +42,11 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(KeywordSearchForm);
+    result.type.should.equal(QuickSearchForm);
 
     result.props.keywordValue.should.equal('hello world');
     result.props.recordTypeValue.should.equal('concept');
@@ -58,13 +58,13 @@ describe('KeywordSearchFormContainer', function suite() {
     result.props.onSearch.should.be.a('function');
   });
 
-  it('should connect onKeywordCommit to setKeywordSearchKeyword action creator', function test() {
+  it('should connect onKeywordCommit to setQuickSearchKeyword action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      quickSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        quickSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -79,7 +79,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -87,17 +87,17 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_KEYWORD_SEARCH_KEYWORD);
+    action.should.have.property('type', SET_QUICK_SEARCH_KEYWORD);
     action.should.have.deep.property('payload', 'new keyword');
   });
 
-  it('should connect onRecordTypeCommit to setKeywordSearchRecordType action creator', function test() {
+  it('should connect onRecordTypeCommit to setQuickSearchRecordType action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      quickSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        quickSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -112,7 +112,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -120,17 +120,17 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_KEYWORD_SEARCH_RECORD_TYPE);
+    action.should.have.property('type', SET_QUICK_SEARCH_RECORD_TYPE);
     action.should.have.deep.property('payload', 'person');
   });
 
-  it('should connect onVocabularyCommit to setKeywordSearchVocabulary action creator', function test() {
+  it('should connect onVocabularyCommit to setQuickSearchVocabulary action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      quickSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        quickSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -145,7 +145,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm />, context);
+    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -153,17 +153,17 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_KEYWORD_SEARCH_VOCABULARY);
+    action.should.have.property('type', SET_QUICK_SEARCH_VOCABULARY);
     action.should.have.deep.property('payload', 'ulan');
   });
 
   it('should connect onSearch to initiateSearch action creator', function test() {
     const store = mockStore({
-      keywordSearch: Immutable.fromJS({
+      quickSearch: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        keywordSearch: {
+        quickSearch: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -186,7 +186,7 @@ describe('KeywordSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedKeywordSearchForm router={router} />, context);
+    shallowRenderer.render(<ConnectedQuickSearchForm router={router} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

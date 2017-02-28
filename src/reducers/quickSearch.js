@@ -1,12 +1,12 @@
 import Immutable from 'immutable';
 
 import {
-  SET_KEYWORD_SEARCH_KEYWORD,
-} from '../actions/keywordSearch';
+  SET_QUICK_SEARCH_KEYWORD,
+} from '../actions/quickSearch';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
-    case SET_KEYWORD_SEARCH_KEYWORD:
+    case SET_QUICK_SEARCH_KEYWORD:
       return state.set('keyword', action.payload);
     default:
       return state;

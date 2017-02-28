@@ -8,12 +8,13 @@ import SearchPage from '../../../../src/components/pages/SearchPage';
 import { ConnectedSearchPage } from '../../../../src/containers/pages/SearchPageContainer';
 
 import {
-  SET_ADVANCED_SEARCH_KEYWORD,
-} from '../../../../src/actions/advancedSearch';
+  SET_SEARCH_PAGE_ADVANCED,
+  SET_SEARCH_PAGE_KEYWORD,
+} from '../../../../src/actions/searchPage';
 
 import {
-  SET_ADVANCED_SEARCH_RECORD_TYPE,
-  SET_ADVANCED_SEARCH_VOCABULARY,
+  SET_SEARCH_PAGE_RECORD_TYPE,
+  SET_SEARCH_PAGE_VOCABULARY,
 } from '../../../../src/actions/prefs';
 
 chai.should();
@@ -23,11 +24,11 @@ const mockStore = configureMockStore([thunk]);
 describe('SearchPageContainer', function suite() {
   it('should set props on SearchPage', function test() {
     const store = mockStore({
-      advancedSearch: Immutable.Map({
+      searchPage: Immutable.Map({
         keyword: 'foo',
       }),
       prefs: Immutable.fromJS({
-        advancedSearch: {
+        searchPage: {
           recordType: 'person',
           vocabulary: {
             person: 'local',
@@ -49,21 +50,60 @@ describe('SearchPageContainer', function suite() {
 
     result.type.should.equal(SearchPage);
     result.props.should.have.property('keywordValue', 'foo');
-    result.props.should.have.property('preferredRecordType', 'person');
-    result.props.should.have.property('preferredVocabulary', 'local');
+    result.props.should.have.property('recordTypeValue', 'person');
+    result.props.should.have.property('vocabularyValue', 'local');
+    result.props.should.have.property('onAdvancedSearchConditionCommit').that.is.a('function');
     result.props.should.have.property('onKeywordCommit').that.is.a('function');
     result.props.should.have.property('onRecordTypeCommit').that.is.a('function');
     result.props.should.have.property('onVocabularyCommit').that.is.a('function');
     result.props.should.have.property('onSearch').that.is.a('function');
   });
 
-  it('should connect onKeywordCommit to setAdvancedSearchKeyword action creator', function test() {
+  it('should connect onAdvancedSearchConditionCommit to setSearchPageAdvanced action creator', function test() {
     const store = mockStore({
-      advancedSearch: Immutable.fromJS({
+      searchPage: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        advancedSearch: {
+        searchPage: {
+          recordType: 'concept',
+          vocabulary: {
+            concept: 'material',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<ConnectedSearchPage />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    const condition = Immutable.fromJS({
+      op: 'and',
+      value: [],
+    });
+
+    result.props.onAdvancedSearchConditionCommit(condition);
+
+    const action = store.getActions()[0];
+
+    action.should.have.property('type', SET_SEARCH_PAGE_ADVANCED);
+    action.should.have.deep.property('payload', condition);
+  });
+
+  it('should connect onKeywordCommit to setSearchPageKeyword action creator', function test() {
+    const store = mockStore({
+      searchPage: Immutable.fromJS({
+        keyword: 'hello world',
+      }),
+      prefs: Immutable.fromJS({
+        searchPage: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -86,17 +126,17 @@ describe('SearchPageContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_ADVANCED_SEARCH_KEYWORD);
+    action.should.have.property('type', SET_SEARCH_PAGE_KEYWORD);
     action.should.have.deep.property('payload', 'new keyword');
   });
 
-  it('should connect onRecordTypeCommit to setAdvancedSearchRecordType action creator', function test() {
+  it('should connect onRecordTypeCommit to setSearchPageRecordType action creator', function test() {
     const store = mockStore({
-      advancedSearch: Immutable.fromJS({
+      searchPage: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        advancedSearch: {
+        searchPage: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -119,17 +159,17 @@ describe('SearchPageContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_ADVANCED_SEARCH_RECORD_TYPE);
+    action.should.have.property('type', SET_SEARCH_PAGE_RECORD_TYPE);
     action.should.have.deep.property('payload', 'person');
   });
 
-  it('should connect onVocabularyCommit to setAdvancedSearchVocabulary action creator', function test() {
+  it('should connect onVocabularyCommit to setSearchPageVocabulary action creator', function test() {
     const store = mockStore({
-      advancedSearch: Immutable.fromJS({
+      searchPage: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        advancedSearch: {
+        searchPage: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
@@ -152,17 +192,17 @@ describe('SearchPageContainer', function suite() {
 
     const action = store.getActions()[0];
 
-    action.should.have.property('type', SET_ADVANCED_SEARCH_VOCABULARY);
+    action.should.have.property('type', SET_SEARCH_PAGE_VOCABULARY);
     action.should.have.deep.property('payload', 'ulan');
   });
 
   it('should connect onSearch to initiateSearch action creator', function test() {
     const store = mockStore({
-      advancedSearch: Immutable.fromJS({
+      searchPage: Immutable.fromJS({
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        advancedSearch: {
+        searchPage: {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',

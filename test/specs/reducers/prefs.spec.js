@@ -4,19 +4,19 @@ import chaiImmutable from 'chai-immutable';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
-  SET_ADVANCED_SEARCH_RECORD_TYPE,
-  SET_ADVANCED_SEARCH_VOCABULARY,
-  SET_KEYWORD_SEARCH_RECORD_TYPE,
-  SET_KEYWORD_SEARCH_VOCABULARY,
+  SET_SEARCH_PAGE_RECORD_TYPE,
+  SET_SEARCH_PAGE_VOCABULARY,
+  SET_QUICK_SEARCH_RECORD_TYPE,
+  SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PAGE_SIZE,
   SET_SEARCH_PANEL_PAGE_SIZE,
 } from '../../../src/actions/prefs';
 
 import reducer, {
-  getAdvancedSearchRecordType,
-  getAdvancedSearchVocabulary,
-  getKeywordSearchRecordType,
-  getKeywordSearchVocabulary,
+  getSearchPageRecordType,
+  getSearchPageVocabulary,
+  getQuickSearchRecordType,
+  getQuickSearchVocabulary,
   getSearchPageSize,
   getSearchPanelPageSize,
   isPanelCollapsed,
@@ -57,38 +57,38 @@ describe('prefs reducer', function suite() {
     isPanelCollapsed(state, recordType, panelName).should.equal(collapsed);
   });
 
-  it('should handle SET_ADVANCED_SEARCH_RECORD_TYPE', function test() {
+  it('should handle SET_SEARCH_PAGE_RECORD_TYPE', function test() {
     const recordType = 'loanin';
 
     const state = reducer(Immutable.Map(), {
-      type: SET_ADVANCED_SEARCH_RECORD_TYPE,
+      type: SET_SEARCH_PAGE_RECORD_TYPE,
       payload: recordType,
     });
 
     state.should.deep.equal(Immutable.fromJS({
-      advancedSearch: {
+      searchPage: {
         recordType,
       },
     }));
 
-    getAdvancedSearchRecordType(state).should.equal(recordType);
+    getSearchPageRecordType(state).should.equal(recordType);
   });
 
-  it('should handle SET_ADVANCED_SEARCH_VOCABULARY', function test() {
+  it('should handle SET_SEARCH_PAGE_VOCABULARY', function test() {
     const recordType = 'person';
     const vocabulary = 'ulan';
 
     const state = reducer(Immutable.fromJS({
-      advancedSearch: {
+      searchPage: {
         recordType,
       },
     }), {
-      type: SET_ADVANCED_SEARCH_VOCABULARY,
+      type: SET_SEARCH_PAGE_VOCABULARY,
       payload: vocabulary,
     });
 
     state.should.deep.equal(Immutable.fromJS({
-      advancedSearch: {
+      searchPage: {
         recordType,
         vocabulary: {
           [recordType]: vocabulary,
@@ -96,41 +96,41 @@ describe('prefs reducer', function suite() {
       },
     }));
 
-    getAdvancedSearchVocabulary(state, recordType).should.equal(vocabulary);
+    getSearchPageVocabulary(state, recordType).should.equal(vocabulary);
   });
 
-  it('should handle SET_KEYWORD_SEARCH_RECORD_TYPE', function test() {
+  it('should handle SET_QUICK_SEARCH_RECORD_TYPE', function test() {
     const recordType = 'loanin';
 
     const state = reducer(Immutable.Map(), {
-      type: SET_KEYWORD_SEARCH_RECORD_TYPE,
+      type: SET_QUICK_SEARCH_RECORD_TYPE,
       payload: recordType,
     });
 
     state.should.deep.equal(Immutable.fromJS({
-      keywordSearch: {
+      quickSearch: {
         recordType,
       },
     }));
 
-    getKeywordSearchRecordType(state).should.equal(recordType);
+    getQuickSearchRecordType(state).should.equal(recordType);
   });
 
-  it('should handle SET_KEYWORD_SEARCH_VOCABULARY', function test() {
+  it('should handle SET_QUICK_SEARCH_VOCABULARY', function test() {
     const recordType = 'person';
     const vocabulary = 'ulan';
 
     const state = reducer(Immutable.fromJS({
-      keywordSearch: {
+      quickSearch: {
         recordType,
       },
     }), {
-      type: SET_KEYWORD_SEARCH_VOCABULARY,
+      type: SET_QUICK_SEARCH_VOCABULARY,
       payload: vocabulary,
     });
 
     state.should.deep.equal(Immutable.fromJS({
-      keywordSearch: {
+      quickSearch: {
         recordType,
         vocabulary: {
           [recordType]: vocabulary,
@@ -138,7 +138,7 @@ describe('prefs reducer', function suite() {
       },
     }));
 
-    getKeywordSearchVocabulary(state, recordType).should.equal(vocabulary);
+    getQuickSearchVocabulary(state, recordType).should.equal(vocabulary);
   });
 
   it('should handle SET_SEARCH_PAGE_SIZE', function test() {

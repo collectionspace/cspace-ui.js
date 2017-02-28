@@ -3,40 +3,46 @@ import { withRouter } from 'react-router';
 import SearchPage from '../../components/pages/SearchPage';
 
 import {
-  setAdvancedSearchKeyword,
+  setSearchPageAdvanced,
+  setSearchPageKeyword,
   initiateSearch,
-} from '../../actions/advancedSearch';
+} from '../../actions/searchPage';
 
 import {
-  setAdvancedSearchRecordType,
-  setAdvancedSearchVocabulary,
+  setSearchPageRecordType,
+  setSearchPageVocabulary,
 } from '../../actions/prefs';
 
 import {
-  getAdvancedSearchKeyword,
-  getAdvancedSearchRecordType,
-  getAdvancedSearchVocabulary,
+  getSearchPageAdvanced,
+  getSearchPageKeyword,
+  getSearchPageRecordType,
+  getSearchPageVocabulary,
 } from '../../reducers';
 
 const mapStateToProps = (state) => {
-  const recordType = getAdvancedSearchRecordType(state);
+  const recordType = getSearchPageRecordType(state);
 
   return {
-    keywordValue: getAdvancedSearchKeyword(state),
-    preferredRecordType: recordType,
-    preferredVocabulary: getAdvancedSearchVocabulary(state, recordType),
+    keywordValue: getSearchPageKeyword(state),
+    recordTypeValue: recordType,
+    vocabularyValue: getSearchPageVocabulary(state, recordType),
+    advancedSearchCondition: getSearchPageAdvanced(state),
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onAdvancedSearchConditionCommit: (value) => {
+    dispatch(setSearchPageAdvanced(value));
+  },
   onKeywordCommit: (value) => {
-    dispatch(setAdvancedSearchKeyword(value));
+    dispatch(setSearchPageKeyword(value));
   },
   onRecordTypeCommit: (value) => {
-    dispatch(setAdvancedSearchRecordType(value));
+    dispatch(setSearchPageRecordType(value));
   },
   onVocabularyCommit: (value) => {
-    dispatch(setAdvancedSearchVocabulary(value));
+    dispatch(setSearchPageVocabulary(value));
   },
   onSearch: () => {
     dispatch(initiateSearch(ownProps.router.push));

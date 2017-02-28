@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
-import advancedSearch, * as fromAdvancedSearch from './advancedSearch';
-import keywordSearch, * as fromKeywordSearch from './keywordSearch';
+import searchPage, * as fromSearchPage from './searchPage';
+import quickSearch, * as fromQuickSearch from './quickSearch';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
 import optionList, * as fromOptionList from './optionList';
@@ -17,8 +17,8 @@ import vocabulary, * as fromVocabulary from './vocabulary';
 export default combineReducers({
   cspace,
   idGenerator,
-  advancedSearch,
-  keywordSearch,
+  searchPage,
+  quickSearch,
   login,
   logout,
   optionList,
@@ -115,28 +115,32 @@ export function getIDGenerator(state, idGeneratorName) {
   return fromIDGenerator.get(state.idGenerator, idGeneratorName);
 }
 
-export function getAdvancedSearchKeyword(state) {
-  return fromAdvancedSearch.getKeyword(state.advancedSearch);
+export function getSearchPageAdvanced(state) {
+  return fromSearchPage.getAdvanced(state.searchPage);
 }
 
-export function getAdvancedSearchRecordType(state) {
-  return fromPrefs.getAdvancedSearchRecordType(state.prefs);
+export function getSearchPageKeyword(state) {
+  return fromSearchPage.getKeyword(state.searchPage);
 }
 
-export function getAdvancedSearchVocabulary(state, recordType) {
-  return fromPrefs.getAdvancedSearchVocabulary(state.prefs, recordType);
+export function getSearchPageRecordType(state) {
+  return fromPrefs.getSearchPageRecordType(state.prefs);
 }
 
-export function getKeywordSearchKeyword(state) {
-  return fromKeywordSearch.getKeyword(state.keywordSearch);
+export function getSearchPageVocabulary(state, recordType) {
+  return fromPrefs.getSearchPageVocabulary(state.prefs, recordType);
 }
 
-export function getKeywordSearchRecordType(state) {
-  return fromPrefs.getKeywordSearchRecordType(state.prefs);
+export function getQuickSearchKeyword(state) {
+  return fromQuickSearch.getKeyword(state.quickSearch);
 }
 
-export function getKeywordSearchVocabulary(state, recordType) {
-  return fromPrefs.getKeywordSearchVocabulary(state.prefs, recordType);
+export function getQuickSearchRecordType(state) {
+  return fromPrefs.getQuickSearchRecordType(state.prefs);
+}
+
+export function getQuickSearchVocabulary(state, recordType) {
+  return fromPrefs.getQuickSearchVocabulary(state.prefs, recordType);
 }
 
 export function isSearchPending(state, searchName, searchDescriptor) {

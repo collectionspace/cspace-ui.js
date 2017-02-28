@@ -1,13 +1,22 @@
 import React from 'react';
 import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
+import { Provider as StoreProvider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import SearchBuilder from '../../../../src/components/search/SearchBuilder';
+import SearchForm from '../../../../src/components/search/SearchForm';
 
 const expect = chai.expect;
 
 chai.should();
+
+const mockStore = configureMockStore();
+
+const store = mockStore({
+  prefs: Immutable.Map(),
+});
 
 const config = {
   recordTypes: {
@@ -82,7 +91,7 @@ const intl = {
   now: () => null,
 };
 
-describe('SearchBuilder', function suite() {
+describe('SearchForm', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -90,12 +99,14 @@ describe('SearchBuilder', function suite() {
   it('should render as a form', function test() {
     render(
       <IntlProvider locale="en">
-        <SearchBuilder
-          config={config}
-          intl={intl}
-          recordTypeValue="person"
-          vocabularyValue="local"
-        />
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="person"
+            vocabularyValue="local"
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('FORM');
@@ -104,14 +115,16 @@ describe('SearchBuilder', function suite() {
   it('should not render a vocabulary input for non-authority record types', function test() {
     render(
       <IntlProvider locale="en">
-        <SearchBuilder
-          config={config}
-          intl={intl}
-          recordTypeValue="group"
-        />
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
-    expect(this.container.querySelector('.cspace-ui-SearchBuilderVocab--common')).to.equal(null);
+    expect(this.container.querySelector('.cspace-ui-SearchFormVocab--common')).to.equal(null);
   });
 
   it('should call onKeywordCommit when a keyword is committed', function test() {
@@ -123,12 +136,14 @@ describe('SearchBuilder', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchBuilder
-          config={config}
-          intl={intl}
-          recordTypeValue="group"
-          onKeywordCommit={handleKeywordCommit}
-        />
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            onKeywordCommit={handleKeywordCommit}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     const input = this.container.querySelector('section > div > input');
@@ -150,15 +165,17 @@ describe('SearchBuilder', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchBuilder
-          config={config}
-          intl={intl}
-          recordTypeValue="group"
-          onRecordTypeCommit={handleRecordTypeCommit}
-        />
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            onRecordTypeCommit={handleRecordTypeCommit}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('.cspace-ui-SearchBuilderRecordType--common input');
+    const input = this.container.querySelector('.cspace-ui-SearchFormRecordType--common input');
 
     input.value = 'collectionobject';
 
@@ -177,16 +194,18 @@ describe('SearchBuilder', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchBuilder
-          config={config}
-          intl={intl}
-          recordTypeValue="person"
-          vocabularyValue="local"
-          onVocabularyCommit={handleVocabularyCommit}
-        />
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="person"
+            vocabularyValue="local"
+            onVocabularyCommit={handleVocabularyCommit}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('.cspace-ui-SearchBuilderVocab--common input');
+    const input = this.container.querySelector('.cspace-ui-SearchFormVocab--common input');
 
     input.value = 'ulan';
 
@@ -205,12 +224,14 @@ describe('SearchBuilder', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchBuilder
-          config={config}
-          intl={intl}
-          recordTypeValue="group"
-          onSearch={handleSearch}
-        />
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            onSearch={handleSearch}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');

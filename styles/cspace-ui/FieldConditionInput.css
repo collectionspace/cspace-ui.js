@@ -1,0 +1,17 @@
+.common {
+  display: flex;
+}
+
+.common > div {
+  width: 120px;
+}
+
+.common > div:last-child {
+  width: 400px;
+}
+
+.common :global(.cspace-input-TextInput--common),
+.common :global(.cspace-input-DropdownInput--common) {
+  display: inline-block;
+  width: 160px;
+}

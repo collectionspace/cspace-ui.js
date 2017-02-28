@@ -21,7 +21,7 @@ const mockStore = configureMockStore([thunk]);
 
 const store = mockStore({
   login: {},
-  keywordSearch: Immutable.Map(),
+  quickSearch: Immutable.Map(),
   prefs: Immutable.Map(),
   record: {
     data: {

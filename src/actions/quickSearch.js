@@ -1,23 +1,23 @@
 import { isCsid } from '../helpers/csidHelpers';
 
 import {
-  getKeywordSearchKeyword,
-  getKeywordSearchRecordType,
-  getKeywordSearchVocabulary,
+  getQuickSearchKeyword,
+  getQuickSearchRecordType,
+  getQuickSearchVocabulary,
 } from '../reducers';
 
-export const SET_KEYWORD_SEARCH_KEYWORD = 'SET_KEYWORD_SEARCH_KEYWORD';
+export const SET_QUICK_SEARCH_KEYWORD = 'SET_QUICK_SEARCH_KEYWORD';
 
-export const setKeywordSearchKeyword = value => ({
-  type: SET_KEYWORD_SEARCH_KEYWORD,
+export const setQuickSearchKeyword = value => ({
+  type: SET_QUICK_SEARCH_KEYWORD,
   payload: value,
 });
 
 export const initiateSearch = push => (dispatch, getState) => {
-  const keyword = getKeywordSearchKeyword(getState());
+  const keyword = getQuickSearchKeyword(getState());
   const kw = keyword ? keyword.trim() : '';
-  const recordType = getKeywordSearchRecordType(getState());
-  const vocabulary = getKeywordSearchVocabulary(getState(), recordType);
+  const recordType = getQuickSearchRecordType(getState());
+  const vocabulary = getQuickSearchVocabulary(getState(), recordType);
 
   let pathname;
 

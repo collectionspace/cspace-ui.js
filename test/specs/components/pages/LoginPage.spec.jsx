@@ -13,7 +13,7 @@ import LoginPage from '../../../../src/components/pages/LoginPage';
 
 chai.should();
 
-const mockStore = configureMockStore([]);
+const mockStore = configureMockStore();
 
 const store = mockStore({
   login: {},
