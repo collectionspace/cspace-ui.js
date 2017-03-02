@@ -614,10 +614,10 @@ describe('SearchResultPage', function suite() {
       preferredPageSize.should.equal(20);
     });
 
-    it('should call setAdvancedSearchKeyword when the edit link is clicked', function test() {
+    it('should call setSearchPageKeyword when the edit link is clicked', function test() {
       let transferredKeyword = null;
 
-      const setAdvancedSearchKeyword = (keywordArg) => {
+      const setSearchPageKeyword = (keywordArg) => {
         transferredKeyword = keywordArg;
       };
 
@@ -642,7 +642,7 @@ describe('SearchResultPage', function suite() {
                 location={keywordLocation}
                 params={params}
                 ref={(ref) => { searchResultPage = ref; }}
-                setAdvancedSearchKeyword={setAdvancedSearchKeyword}
+                setSearchPageKeyword={setSearchPageKeyword}
               />
             </ConfigProvider>
           </StoreProvider>

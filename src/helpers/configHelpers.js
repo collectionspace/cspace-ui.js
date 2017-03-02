@@ -36,7 +36,8 @@ export const evaluatePlugin = (plugin, pluginContext) => {
 export const applyPlugin = (targetConfig, plugin, pluginContext) => {
   const pluginConfigContribution = evaluatePlugin(plugin, pluginContext);
 
-  /* eslint-disable no-use-before-define */ // Gotta do this mutual recursion
+  /* Gotta do this mutual recursion */
+  /* eslint-disable no-use-before-define */
   return mergeConfig(targetConfig, pluginConfigContribution, pluginContext);
   /* eslint-enable no-use-before-define */
 };

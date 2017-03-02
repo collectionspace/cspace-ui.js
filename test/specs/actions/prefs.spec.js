@@ -8,16 +8,16 @@ import thunk from 'redux-thunk';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
-  SET_KEYWORD_SEARCH_RECORD_TYPE,
-  SET_KEYWORD_SEARCH_VOCABULARY,
+  SET_QUICK_SEARCH_RECORD_TYPE,
+  SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PAGE_SIZE,
   SET_SEARCH_PANEL_PAGE_SIZE,
   storageKey,
   collapsePanel,
   loadPrefs,
   savePrefs,
-  setKeywordSearchRecordType,
-  setKeywordSearchVocabulary,
+  setQuickSearchRecordType,
+  setQuickSearchVocabulary,
   setSearchPageSize,
   setSearchPanelPageSize,
 } from '../../../src/actions/prefs';
@@ -45,23 +45,23 @@ describe('prefs action creator', function suite() {
     });
   });
 
-  describe('setKeywordSearchRecordType', function actionSuite() {
-    it('should create a SET_KEYWORD_SEARCH_RECORD_TYPE action', function test() {
+  describe('setQuickSearchRecordType', function actionSuite() {
+    it('should create a SET_QUICK_SEARCH_RECORD_TYPE action', function test() {
       const value = 'loanin';
 
-      setKeywordSearchRecordType(value).should.deep.equal({
-        type: SET_KEYWORD_SEARCH_RECORD_TYPE,
+      setQuickSearchRecordType(value).should.deep.equal({
+        type: SET_QUICK_SEARCH_RECORD_TYPE,
         payload: value,
       });
     });
   });
 
-  describe('setKeywordSearchVocabulary', function actionSuite() {
-    it('should create a SET_KEYWORD_SEARCH_VOCABULARY action', function test() {
+  describe('setQuickSearchVocabulary', function actionSuite() {
+    it('should create a SET_QUICK_SEARCH_VOCABULARY action', function test() {
       const value = 'ulan';
 
-      setKeywordSearchVocabulary(value).should.deep.equal({
-        type: SET_KEYWORD_SEARCH_VOCABULARY,
+      setQuickSearchVocabulary(value).should.deep.equal({
+        type: SET_QUICK_SEARCH_VOCABULARY,
         payload: value,
       });
     });

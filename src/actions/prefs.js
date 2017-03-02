@@ -5,10 +5,10 @@ import { getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
-export const SET_ADVANCED_SEARCH_RECORD_TYPE = 'SET_ADVANCED_SEARCH_RECORD_TYPE';
-export const SET_ADVANCED_SEARCH_VOCABULARY = 'SET_ADVANCED_SEARCH_VOCABULARY';
-export const SET_KEYWORD_SEARCH_RECORD_TYPE = 'SET_KEYWORD_SEARCH_RECORD_TYPE';
-export const SET_KEYWORD_SEARCH_VOCABULARY = 'SET_KEYWORD_SEARCH_VOCABULARY';
+export const SET_SEARCH_PAGE_RECORD_TYPE = 'SET_SEARCH_PAGE_RECORD_TYPE';
+export const SET_SEARCH_PAGE_VOCABULARY = 'SET_SEARCH_PAGE_VOCABULARY';
+export const SET_QUICK_SEARCH_RECORD_TYPE = 'SET_QUICK_SEARCH_RECORD_TYPE';
+export const SET_QUICK_SEARCH_VOCABULARY = 'SET_QUICK_SEARCH_VOCABULARY';
 export const SET_SEARCH_PAGE_SIZE = 'SET_SEARCH_PAGE_SIZE';
 export const SET_SEARCH_PANEL_PAGE_SIZE = 'SET_SEARCH_PANEL_PAGE_SIZE';
 
@@ -23,23 +23,23 @@ export const collapsePanel = (recordType, name, collapsed) => ({
   },
 });
 
-export const setAdvancedSearchRecordType = value => ({
-  type: SET_ADVANCED_SEARCH_RECORD_TYPE,
+export const setSearchPageRecordType = value => ({
+  type: SET_SEARCH_PAGE_RECORD_TYPE,
   payload: value,
 });
 
-export const setAdvancedSearchVocabulary = value => ({
-  type: SET_ADVANCED_SEARCH_VOCABULARY,
+export const setSearchPageVocabulary = value => ({
+  type: SET_SEARCH_PAGE_VOCABULARY,
   payload: value,
 });
 
-export const setKeywordSearchRecordType = value => ({
-  type: SET_KEYWORD_SEARCH_RECORD_TYPE,
+export const setQuickSearchRecordType = value => ({
+  type: SET_QUICK_SEARCH_RECORD_TYPE,
   payload: value,
 });
 
-export const setKeywordSearchVocabulary = value => ({
-  type: SET_KEYWORD_SEARCH_VOCABULARY,
+export const setQuickSearchVocabulary = value => ({
+  type: SET_QUICK_SEARCH_VOCABULARY,
   payload: value,
 });
 

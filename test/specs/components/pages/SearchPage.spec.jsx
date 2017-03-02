@@ -2,12 +2,23 @@ import React from 'react';
 import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
+import { Provider as StoreProvider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import Immutable from 'immutable';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import mockRouter from '../../../helpers/mockRouter';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPage from '../../../../src/components/pages/SearchPage';
 
 chai.should();
+
+const mockStore = configureMockStore();
+
+const store = mockStore({
+  prefs: Immutable.fromJS({
+    panels: {},
+  }),
+});
 
 const config = {
   recordTypes: {
@@ -83,9 +94,11 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage params={params} />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage params={params} />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -98,15 +111,17 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage params={params} />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage params={params} />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-ui-ErrorPage--common').should.not.equal(null);
   });
 
-  it('should replace history with the preferred record type if none is supplied', function test() {
+  it('should replace history with the recordTypeValue prop if no record type is supplied in params', function test() {
     let replacementLocation = null;
 
     const stubbedRouter = mockRouter({
@@ -126,14 +141,16 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            preferredRecordType="group"
-            router={stubbedRouter}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              recordTypeValue="group"
+              router={stubbedRouter}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     replacementLocation.should.deep.equal({
@@ -141,7 +158,7 @@ describe('SearchPage', function suite() {
     });
   });
 
-  it('should replace history with the preferred record type if none is supplied via updated props', function test() {
+  it('should replace history with the recordTypeValue prop if no record type is supplied in updated params', function test() {
     let replacementLocation = null;
 
     const stubbedRouter = mockRouter({
@@ -151,7 +168,7 @@ describe('SearchPage', function suite() {
     });
 
     const location = {
-      pathname: '/search',
+      pathname: '/search/collectionobject',
       action: '',
       search: '',
       query: {},
@@ -163,28 +180,32 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            preferredRecordType="group"
-            router={stubbedRouter}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              recordTypeValue="group"
+              router={stubbedRouter}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     const newParams = {};
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={newParams}
-            preferredRecordType="group"
-            router={stubbedRouter}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={newParams}
+              recordTypeValue="group"
+              router={stubbedRouter}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     replacementLocation.should.deep.equal({
@@ -192,7 +213,7 @@ describe('SearchPage', function suite() {
     });
   });
 
-  it('should replace history with the preferred vocabulary if none is supplied', function test() {
+  it('should replace history with the vocabularyValue prop if no vocabulary is supplied in params', function test() {
     let replacementLocation = null;
 
     const stubbedRouter = mockRouter({
@@ -212,15 +233,17 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            preferredRecordType="person"
-            preferredVocabulary="ulan"
-            router={stubbedRouter}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              recordTypeValue="person"
+              vocabularyValue="ulan"
+              router={stubbedRouter}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     replacementLocation.should.deep.equal({
@@ -250,13 +273,15 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            router={stubbedRouter}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              router={stubbedRouter}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     const input = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input');
@@ -293,14 +318,16 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            router={stubbedRouter}
-            onRecordTypeCommit={handleRecordTypeCommit}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              router={stubbedRouter}
+              onRecordTypeCommit={handleRecordTypeCommit}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     const input = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input');
@@ -309,6 +336,57 @@ describe('SearchPage', function suite() {
 
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
+
+    committedRecordType.should.equal('group');
+  });
+
+  it('should call onRecordTypeCommit when a new record type is selected via params', function test() {
+    let committedRecordType = null;
+
+    const handleRecordTypeCommit = (recordTypeArg) => {
+      committedRecordType = recordTypeArg;
+    };
+
+    const location = {
+      pathname: '/search',
+      action: '',
+      search: '',
+      query: {},
+    };
+
+    const params = {};
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              onRecordTypeCommit={handleRecordTypeCommit}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const newLocation = Object.assign({}, location, { pathname: '/search/group' });
+
+    const newParams = {
+      recordType: 'group',
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={newLocation}
+              params={newParams}
+              onRecordTypeCommit={handleRecordTypeCommit}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
 
     committedRecordType.should.equal('group');
   });
@@ -336,16 +414,18 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            router={stubbedRouter}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              router={stubbedRouter}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('.cspace-ui-SearchBuilderVocab--common input');
+    const input = this.container.querySelector('.cspace-ui-SearchFormVocab--common input');
 
     input.value = 'ULAN';
 
@@ -380,22 +460,78 @@ describe('SearchPage', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <SearchPage
-            location={location}
-            params={params}
-            router={stubbedRouter}
-            onVocabularyCommit={handleVocabularyCommit}
-          />
-        </ConfigProvider>
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              router={stubbedRouter}
+              onVocabularyCommit={handleVocabularyCommit}
+            />
+          </ConfigProvider>
+        </StoreProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('.cspace-ui-SearchBuilderVocab--common input');
+    const input = this.container.querySelector('.cspace-ui-SearchFormVocab--common input');
 
     input.value = 'ULAN';
 
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
+
+    committedVocabulary.should.equal('ulan');
+  });
+
+  it('should call onVocabularyCommit when a new vocabulary is selected via params', function test() {
+    let committedVocabulary = null;
+
+    const handleVocabularyCommit = (vocabularyArg) => {
+      committedVocabulary = vocabularyArg;
+    };
+
+    const location = {
+      pathname: '/search/person',
+      action: '',
+      search: '',
+      query: {},
+    };
+
+    const params = {
+      recordType: 'person',
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={location}
+              params={params}
+              onVocabularyCommit={handleVocabularyCommit}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const newLocation = Object.assign({}, location, { pathname: '/search/person/ulan' });
+
+    const newParams = {
+      recordType: 'person',
+      vocabulary: 'ulan',
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              location={newLocation}
+              params={newParams}
+              onVocabularyCommit={handleVocabularyCommit}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
 
     committedVocabulary.should.equal('ulan');
   });

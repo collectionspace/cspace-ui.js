@@ -3,7 +3,7 @@ import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import ErrorPage from './ErrorPage';
-import BaseSearchBuilder from '../search/SearchBuilder';
+import BaseSearchForm from '../search/SearchForm';
 import TitleBar from '../sections/TitleBar';
 
 import {
@@ -16,7 +16,7 @@ import {
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
-const SearchBuilder = injectIntl(BaseSearchBuilder);
+const SearchForm = injectIntl(BaseSearchForm);
 
 const messages = defineMessages({
   title: {
@@ -26,12 +26,14 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  recordTypeValue: PropTypes.string,
+  vocabularyValue: PropTypes.string,
   keywordValue: PropTypes.string,
+  advancedSearchCondition: PropTypes.object,
   location: locationShape,
   params: PropTypes.objectOf(PropTypes.string),
-  preferredRecordType: PropTypes.string,
-  preferredVocabulary: PropTypes.string,
   router: routerShape,
+  onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
@@ -51,8 +53,22 @@ export default class SearchPage extends Component {
   }
 
   componentDidMount() {
-    if (!this.normalizePath()) {
-      // If the record type and/or vocab were changed via URL, commit the new value.
+    this.normalizePath();
+  }
+
+  componentDidUpdate(prevProps) {
+    let historyChanged = false;
+
+    if (
+      this.props.params.recordType !== prevProps.params.recordType ||
+      this.props.params.vocabulary !== prevProps.params.vocabulary
+    ) {
+      historyChanged = this.normalizePath();
+    }
+
+    if (!historyChanged) {
+      // If the record type and/or vocab were changed via URL or by the selection of a default,
+      // commit the new values.
 
       const searchDescriptor = this.getSearchDescriptor();
 
@@ -62,13 +78,13 @@ export default class SearchPage extends Component {
       } = searchDescriptor;
 
       const {
-        preferredRecordType,
-        preferredVocabulary,
+        recordTypeValue,
+        vocabularyValue,
         onRecordTypeCommit,
         onVocabularyCommit,
       } = this.props;
 
-      if (recordType !== preferredRecordType || vocabulary !== preferredVocabulary) {
+      if (recordType !== recordTypeValue || vocabulary !== vocabularyValue) {
         if (onRecordTypeCommit) {
           onRecordTypeCommit(recordType);
         }
@@ -82,15 +98,6 @@ export default class SearchPage extends Component {
           }
         }
       }
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.params.recordType !== prevProps.params.recordType ||
-      this.props.params.vocabulary !== prevProps.params.vocabulary
-    ) {
-      this.normalizePath();
     }
   }
 
@@ -114,8 +121,8 @@ export default class SearchPage extends Component {
 
   normalizePath() {
     const {
-      preferredRecordType,
-      preferredVocabulary,
+      recordTypeValue,
+      vocabularyValue,
       location,
       params,
       router,
@@ -132,13 +139,13 @@ export default class SearchPage extends Component {
       } = params;
 
       if (!recordType) {
-        recordType = preferredRecordType || getDefaultSearchRecordType(config);
+        recordType = recordTypeValue || getDefaultSearchRecordType(config);
       }
 
       const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
       if (isAuthority(recordTypeConfig) && !vocabulary) {
-        vocabulary = preferredVocabulary || getDefaultSearchVocabulary(recordTypeConfig);
+        vocabulary = vocabularyValue || getDefaultSearchVocabulary(recordTypeConfig);
       }
 
       const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
@@ -194,7 +201,9 @@ export default class SearchPage extends Component {
 
   render() {
     const {
+      advancedSearchCondition,
       keywordValue,
+      onAdvancedSearchConditionCommit,
       onKeywordCommit,
       onSearch,
     } = this.props;
@@ -224,11 +233,13 @@ export default class SearchPage extends Component {
       <div className={styles.common}>
         <TitleBar title={title} />
         <div className={pageBodyStyles.common}>
-          <SearchBuilder
+          <SearchForm
+            advancedSearchCondition={advancedSearchCondition}
             config={config}
             keywordValue={keywordValue}
             recordTypeValue={recordType}
             vocabularyValue={vocabulary}
+            onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
             onVocabularyCommit={this.handleVocabularyCommit}

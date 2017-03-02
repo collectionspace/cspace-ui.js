@@ -42,7 +42,7 @@ const propTypes = {
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
-  setAdvancedSearchKeyword: PropTypes.func,
+  setSearchPageKeyword: PropTypes.func,
 };
 
 const contextTypes = {
@@ -183,17 +183,17 @@ export default class SearchResultPage extends Component {
     // Transfer this search descriptor's search criteria to advanced search.
 
     const {
-      setAdvancedSearchKeyword,
+      setSearchPageKeyword,
     } = this.props;
 
-    if (setAdvancedSearchKeyword) {
+    if (setSearchPageKeyword) {
       const searchDescriptor = this.getSearchDescriptor();
 
       const {
         kw,
       } = searchDescriptor.searchQuery;
 
-      setAdvancedSearchKeyword(kw);
+      setSearchPageKeyword(kw);
     }
   }
 

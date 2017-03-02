@@ -13,7 +13,11 @@ import {
 
 const { pathHelpers } = inputHelpers;
 
+const defaultViewConfigKey = 'view';
+
 const propTypes = {
+  viewType: PropTypes.string,
+
   // Code in this component doesn't use these props, but the propTypes need to exist, because
   // users of this component may check for them to determine if those props should be passed.
   // We want to receive all the props that our base components may need, and then we'll handle
@@ -44,6 +48,10 @@ export default function Field(props, context) {
     recordType,
   } = context;
 
+  const {
+    viewType,
+  } = props;
+
   // Filter out numeric parts of the path, since they indicate repeating instances that won't be
   // present in the field descriptor.
 
@@ -64,7 +72,9 @@ export default function Field(props, context) {
     return null;
   }
 
-  const viewConfig = field[configKey].view;
+  const fieldConfig = field[configKey];
+  const viewConfigKey = (viewType === 'search') ? 'searchView' : defaultViewConfigKey;
+  const viewConfig = fieldConfig[viewConfigKey] || fieldConfig[defaultViewConfigKey];
   const BaseComponent = viewConfig.type;
   const configuredProps = viewConfig.props;
   const providedProps = {};

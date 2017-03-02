@@ -3,10 +3,10 @@ import Immutable from 'immutable';
 import {
   PREFS_LOADED,
   COLLAPSE_PANEL,
-  SET_ADVANCED_SEARCH_RECORD_TYPE,
-  SET_ADVANCED_SEARCH_VOCABULARY,
-  SET_KEYWORD_SEARCH_RECORD_TYPE,
-  SET_KEYWORD_SEARCH_VOCABULARY,
+  SET_SEARCH_PAGE_RECORD_TYPE,
+  SET_SEARCH_PAGE_VOCABULARY,
+  SET_QUICK_SEARCH_RECORD_TYPE,
+  SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PAGE_SIZE,
   SET_SEARCH_PANEL_PAGE_SIZE,
 } from '../actions/prefs';
@@ -19,18 +19,18 @@ export default (state = Immutable.Map(), action) => {
       return state.setIn(
         ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload
       );
-    case SET_ADVANCED_SEARCH_RECORD_TYPE:
-      return state.setIn(['advancedSearch', 'recordType'], action.payload);
-    case SET_ADVANCED_SEARCH_VOCABULARY:
+    case SET_SEARCH_PAGE_RECORD_TYPE:
+      return state.setIn(['searchPage', 'recordType'], action.payload);
+    case SET_SEARCH_PAGE_VOCABULARY:
       return state.setIn(
-        ['advancedSearch', 'vocabulary', state.getIn(['advancedSearch', 'recordType'])],
+        ['searchPage', 'vocabulary', state.getIn(['searchPage', 'recordType'])],
         action.payload
       );
-    case SET_KEYWORD_SEARCH_RECORD_TYPE:
-      return state.setIn(['keywordSearch', 'recordType'], action.payload);
-    case SET_KEYWORD_SEARCH_VOCABULARY:
+    case SET_QUICK_SEARCH_RECORD_TYPE:
+      return state.setIn(['quickSearch', 'recordType'], action.payload);
+    case SET_QUICK_SEARCH_VOCABULARY:
       return state.setIn(
-        ['keywordSearch', 'vocabulary', state.getIn(['keywordSearch', 'recordType'])],
+        ['quickSearch', 'vocabulary', state.getIn(['quickSearch', 'recordType'])],
         action.payload
       );
     case SET_SEARCH_PAGE_SIZE:
@@ -44,17 +44,17 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getAdvancedSearchRecordType = state =>
-  state.getIn(['advancedSearch', 'recordType']);
+export const getSearchPageRecordType = state =>
+  state.getIn(['searchPage', 'recordType']);
 
-export const getAdvancedSearchVocabulary = (state, recordType) =>
-  state.getIn(['advancedSearch', 'vocabulary', recordType]);
+export const getSearchPageVocabulary = (state, recordType) =>
+  state.getIn(['searchPage', 'vocabulary', recordType]);
 
-export const getKeywordSearchRecordType = state =>
-  state.getIn(['keywordSearch', 'recordType']);
+export const getQuickSearchRecordType = state =>
+  state.getIn(['quickSearch', 'recordType']);
 
-export const getKeywordSearchVocabulary = (state, recordType) =>
-  state.getIn(['keywordSearch', 'vocabulary', recordType]);
+export const getQuickSearchVocabulary = (state, recordType) =>
+  state.getIn(['quickSearch', 'vocabulary', recordType]);
 
 export const getSearchPageSize = state =>
   state.get('searchPageSize');

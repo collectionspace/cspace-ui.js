@@ -15,7 +15,7 @@ chai.should();
 const mockStore = configureMockStore([]);
 
 const store = mockStore({
-  keywordSearch: Immutable.Map(),
+  quickSearch: Immutable.Map(),
   prefs: Immutable.Map(),
 });
 

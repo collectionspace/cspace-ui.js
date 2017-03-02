@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { defineMessages, intlShape } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { Panel } from 'cspace-layout';
 import SearchButtonBar from './SearchButtonBar';
-import styles from '../../../styles/cspace-ui/SearchBuilder.css';
-import recordTypeStyles from '../../../styles/cspace-ui/SearchBuilderRecordType.css';
-import vocabStyles from '../../../styles/cspace-ui/SearchBuilderVocab.css';
+import AdvancedSearchBuilder from './AdvancedSearchBuilder';
+import { ConnectedPanel } from '../../containers/layout/PanelContainer';
+import styles from '../../../styles/cspace-ui/SearchForm.css';
+import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
+import vocabStyles from '../../../styles/cspace-ui/SearchFormVocab.css';
 
 const {
   Label,
@@ -16,16 +18,20 @@ const {
 
 const messages = defineMessages({
   recordType: {
-    id: 'searchBuilder.recordType',
+    id: 'searchForm.recordType',
     defaultMessage: 'Find',
   },
   vocabulary: {
-    id: 'searchBuilder.vocabulary',
+    id: 'searchForm.vocabulary',
     defaultMessage: 'in vocabulary',
   },
   keyword: {
-    id: 'searchBuilder.keyword',
+    id: 'searchForm.keyword',
     defaultMessage: 'Keywords',
+  },
+  fullTextSearch: {
+    id: 'searchForm.fullTextSearch',
+    defaultMessage: 'Full Text Search',
   },
 });
 
@@ -35,13 +41,15 @@ const propTypes = {
   keywordValue: PropTypes.string,
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
+  advancedSearchCondition: PropTypes.object,
+  onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
   onSearch: PropTypes.func,
 };
 
-export default class SearchBuilder extends Component {
+export default class SearchForm extends Component {
   constructor() {
     super();
 
@@ -147,14 +155,20 @@ export default class SearchBuilder extends Component {
 
   render() {
     const {
+      advancedSearchCondition,
       config,
       intl,
       keywordValue,
       recordTypeValue,
+      onAdvancedSearchConditionCommit,
     } = this.props;
 
+    const fullTextPanelHeader = (
+      <h3><FormattedMessage {...messages.fullTextSearch} /></h3>
+    );
+
     return (
-      <form className={styles.common} onSubmit={this.handleFormSubmit}>
+      <form autoComplete="off" className={styles.common} onSubmit={this.handleFormSubmit}>
         <header>
           <SearchButtonBar />
         </header>
@@ -169,16 +183,24 @@ export default class SearchBuilder extends Component {
             />
             {this.renderVocabularyInput()}
           </div>
-          <LineInput
-            label={intl.formatMessage(messages.keyword)}
-            value={keywordValue}
-            onCommit={this.handleKeywordInputCommit}
+          <ConnectedPanel
+            collapsible
+            header={fullTextPanelHeader}
+            name="fullTextSearch"
+            recordType={recordTypeValue}
+          >
+            <LineInput
+              label={intl.formatMessage(messages.keyword)}
+              value={keywordValue}
+              onCommit={this.handleKeywordInputCommit}
+            />
+          </ConnectedPanel>
+          <AdvancedSearchBuilder
+            condition={advancedSearchCondition}
+            config={config}
+            recordType={recordTypeValue}
+            onConditionCommit={onAdvancedSearchConditionCommit}
           />
-          {/*
-          <CompoundInput label="Advanced Search">
-            <CompoundInput repeating />
-          </CompoundInput>
-          */}
         </Panel>
         <footer>
           <SearchButtonBar />
@@ -188,7 +210,7 @@ export default class SearchBuilder extends Component {
   }
 }
 
-SearchBuilder.propTypes = propTypes;
+SearchForm.propTypes = propTypes;
 
 // as=( (persons_common:personTermGroupList/*/termStatus ILIKE "provisional")
 // OR (persons_common:personTermGroupList/*/termDisplayName ILIKE "Connie") )

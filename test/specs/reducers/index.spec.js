@@ -23,9 +23,9 @@ import reducer, {
   getVocabulary,
   getPartialTermSearchMatches,
   getIDGenerator,
-  getKeywordSearchKeyword,
-  getKeywordSearchRecordType,
-  getKeywordSearchVocabulary,
+  getQuickSearchKeyword,
+  getQuickSearchRecordType,
+  getQuickSearchVocabulary,
   isSearchPending,
   getSearchResult,
   getSearchError,
@@ -41,11 +41,11 @@ describe('reducer', function suite() {
     const state = reducer(undefined, {});
 
     state.should.have.all.keys([
-      'advancedSearch',
+      'searchPage',
       'routing',
       'cspace',
       'idGenerator',
-      'keywordSearch',
+      'quickSearch',
       'login',
       'logout',
       'optionList',
@@ -344,25 +344,25 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getKeywordSearchKeyword selector', function selectorSuite() {
-    it('should select from the keywordSearch key', function test() {
+  describe('getQuickSearchKeyword selector', function selectorSuite() {
+    it('should select from the quickSearch key', function test() {
       const keyword = 'abc';
 
-      getKeywordSearchKeyword({
-        keywordSearch: Immutable.Map({
+      getQuickSearchKeyword({
+        quickSearch: Immutable.Map({
           keyword,
         }),
       }).should.deep.equal(keyword);
     });
   });
 
-  describe('getKeywordSearchRecordType selector', function selectorSuite() {
+  describe('getQuickSearchRecordType selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
       const recordType = 'person';
 
-      getKeywordSearchRecordType({
+      getQuickSearchRecordType({
         prefs: Immutable.fromJS({
-          keywordSearch: {
+          quickSearch: {
             recordType,
           },
         }),
@@ -370,14 +370,14 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getKeywordSearchVocabulary selector', function selectorSuite() {
+  describe('getQuickSearchVocabulary selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
       const recordType = 'person';
       const vocabulary = 'local';
 
-      getKeywordSearchVocabulary({
+      getQuickSearchVocabulary({
         prefs: Immutable.fromJS({
-          keywordSearch: {
+          quickSearch: {
             vocabulary: {
               [recordType]: vocabulary,
             },

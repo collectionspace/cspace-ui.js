@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router';
-import KeywordSearchFormContainer from '../../containers/search/KeywordSearchFormContainer';
+import QuickSearchFormContainer from '../../containers/search/QuickSearchFormContainer';
 import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
 import withConfig from '../../enhancers/withConfig';
@@ -16,10 +16,10 @@ const messages = defineMessages({
     description: 'The name of the application.',
     defaultMessage: 'CollectionSpace',
   },
-  keywordSearchPlaceholder: {
-    id: 'keywordSearch.placeholder',
-    description: 'The placeholder text to display in the keyword search input.',
-    defaultMessage: 'Search keywords...',
+  quickSearchPlaceholder: {
+    id: 'quickSearch.placeholder',
+    description: 'The placeholder text to display in the quick search input.',
+    defaultMessage: 'Search',
   },
 });
 
@@ -45,7 +45,7 @@ function Header(props) {
           <Link to="/" title={name}>
             <div className={logoStyles.common} />
           </Link>
-          <KeywordSearchFormContainer
+          <QuickSearchFormContainer
             intl={intl}
             config={config}
           />

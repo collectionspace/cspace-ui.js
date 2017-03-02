@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import createTestContainer from '../../../helpers/createTestContainer';
-import KeywordSearchForm from '../../../../src/components/search/KeywordSearchForm';
+import QuickSearchForm from '../../../../src/components/search/QuickSearchForm';
 
 chai.should();
 
@@ -44,26 +44,26 @@ const config = {
   },
 };
 
-describe('KeywordSearchForm', function suite() {
+describe('QuickSearchForm', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should render as a fieldset', function test() {
-    render(<KeywordSearchForm config={config} intl={intl} />, this.container);
+    render(<QuickSearchForm config={config} intl={intl} />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
 
-  it('should render a KeywordSearchInput', function test() {
-    render(<KeywordSearchForm config={config} intl={intl} />, this.container);
+  it('should render a QuickSearchInput', function test() {
+    render(<QuickSearchForm config={config} intl={intl} />, this.container);
 
-    this.container.querySelector('.cspace-input-KeywordSearchInput--common').should.not.equal(null);
+    this.container.querySelector('.cspace-input-QuickSearchInput--common').should.not.equal(null);
   });
 
   it('should use intl to format the record type and vocabulary names', function test() {
     render(
-      <KeywordSearchForm
+      <QuickSearchForm
         config={config}
         intl={intl}
         recordTypeValue="person"

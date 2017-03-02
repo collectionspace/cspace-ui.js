@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import get from 'lodash/get';
 
 import {
   configKey,
@@ -130,10 +131,13 @@ export const createBlankRecord = (recordTypeConfig) => {
 
   partKeys.forEach((partKey) => {
     const partDescriptor = documentDescriptor[partKey];
+    const nsUri = get(partDescriptor, [configKey, 'service', 'ns']);
 
-    document[partKey] = {
-      [getPartNSPropertyName()]: partDescriptor[configKey].service.ns,
-    };
+    if (nsUri) {
+      document[partKey] = {
+        [getPartNSPropertyName()]: nsUri,
+      };
+    }
   });
 
   return Immutable.fromJS({

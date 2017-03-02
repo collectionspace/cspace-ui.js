@@ -24,6 +24,36 @@ export default (pluginContext) => {
           },
         },
       },
+      'ns2:collectionspace_core': {
+        createdAt: {
+          [config]: {
+            view: {
+              type: DateInput,
+            },
+          },
+        },
+        createdBy: {
+          [config]: {
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        updatedAt: {
+          [config]: {
+            view: {
+              type: DateInput,
+            },
+          },
+        },
+        updatedBy: {
+          [config]: {
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+      },
       'ns2:collectionobjects_common': {
         [config]: {
           service: {
@@ -33,6 +63,9 @@ export default (pluginContext) => {
         objectNumber: {
           [config]: {
             cloneable: false,
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: IDGeneratorInput,
               props: {

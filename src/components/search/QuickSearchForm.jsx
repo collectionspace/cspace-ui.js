@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import { defineMessages, intlShape } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 
-const { KeywordSearchInput } = inputComponents;
+const { QuickSearchInput } = inputComponents;
 
 const messages = defineMessages({
-  keywordSearchPlaceholder: {
-    id: 'keywordSearchForm.placeholder',
-    description: 'The placeholder text to display in the keyword search input.',
-    defaultMessage: 'Search keywords',
+  quickSearchPlaceholder: {
+    id: 'quickSearchForm.placeholder',
+    description: 'The placeholder text to display in the quick search input.',
+    defaultMessage: 'Search',
   },
 });
 
@@ -17,7 +17,7 @@ const propTypes = {
   config: PropTypes.object,
 };
 
-export default function KeywordSearchForm(props) {
+export default function QuickSearchForm(props) {
   const {
     intl,
     config,
@@ -32,15 +32,15 @@ export default function KeywordSearchForm(props) {
 
   return (
     <fieldset>
-      <KeywordSearchInput
+      <QuickSearchInput
         {...remainingProps}
         formatRecordTypeLabel={formatRecordTypeLabel}
         formatVocabularyLabel={formatVocabularyLabel}
-        placeholder={intl.formatMessage(messages.keywordSearchPlaceholder)}
+        placeholder={intl.formatMessage(messages.quickSearchPlaceholder)}
         recordTypes={config.recordTypes}
       />
     </fieldset>
   );
 }
 
-KeywordSearchForm.propTypes = propTypes;
+QuickSearchForm.propTypes = propTypes;
