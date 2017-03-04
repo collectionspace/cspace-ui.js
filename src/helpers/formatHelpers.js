@@ -1,6 +1,7 @@
 import { getServicePath, getVocabularyShortID } from 'cspace-refname';
 
 import {
+  getFieldConfigInPart,
   getRecordTypeConfigByServiceObjectName,
   getRecordTypeConfigByServicePath,
   getVocabularyConfigByShortID,
@@ -56,22 +57,22 @@ export const formatRefNameAsVocabularyName = (refName, { intl, config }) => {
 };
 
 export const formatRecordTypeSourceField = (recordType, sourceField, { intl, config }) => {
-  // FIXME: This should use a full name message, distinct from the label used in the record editor,
-  // because the record editor label may not have enough context. This requires refactoring of
-  // messages and reworking how record editor fields are labeled.
-
-  // FIXME: This should take the part name into account, since a field name is unique only within a
-  // part. This requires refactoring of messages.
-
-  const fieldName = sourceField.split(':')[1]; // partName:fieldName
   const recordTypeConfig = config.recordTypes[recordType];
-  const message = recordTypeConfig.messages.field[fieldName];
+  const [partName, fieldName] = sourceField.split(':');
 
-  if (message) {
-    return intl.formatMessage(message);
+  const fieldConfig = getFieldConfigInPart(recordTypeConfig, partName, fieldName);
+
+  let message;
+
+  if (fieldConfig) {
+    const messages = fieldConfig.messages;
+
+    if (messages) {
+      message = messages.fullName || messages.name;
+    }
   }
 
-  return `[ ${fieldName} ]`;
+  return (message ? intl.formatMessage(message) : `[ ${fieldName} ]`);
 };
 
 export const formatSourceField = (sourceField, formatterContext) =>

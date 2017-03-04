@@ -24,22 +24,4 @@ export default {
       defaultMessage: 'Group Information',
     },
   }),
-  field: defineMessages({
-    title: {
-      id: 'field.group.title',
-      defaultMessage: 'Title',
-    },
-    responsibleDepartment: {
-      id: 'field.group.responsibleDepartment',
-      defaultMessage: 'Responsible department',
-    },
-    owner: {
-      id: 'field.group.owner',
-      defaultMessage: 'Group owner',
-    },
-    scopeNote: {
-      id: 'field.group.scopeNote',
-      defaultMessage: 'Scope note',
-    },
-  }),
 };

@@ -18,6 +18,7 @@ export default function SearchField(props) {
 
   return (
     <Field
+      label={undefined}
       parentPath={parentPath}
       name={name}
       value={value}

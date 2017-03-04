@@ -4,13 +4,13 @@ export default (pluginContext) => {
   } = pluginContext.lib;
 
   const {
-    JoinedInputRow,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
 
   const {
     Field,
+    InputTable,
   } = pluginContext.recordComponents;
 
   return (
@@ -106,11 +106,11 @@ export default (pluginContext) => {
           <div>
             <Field name="editionNumber" />
 
-            <JoinedInputRow msgkey="ageGroup">
+            <InputTable name="age">
               <Field name="ageQualifier" />
               <Field name="age" />
               <Field name="ageUnit" />
-            </JoinedInputRow>
+            </InputTable>
 
             <Field name="styles">
               <Field name="style" />
@@ -429,10 +429,10 @@ export default (pluginContext) => {
             </div>
 
             <div>
-              <JoinedInputRow msgkey="assocEventGroup">
+              <InputTable name="assocEvent">
                 <Field name="assocEventName" />
                 <Field name="assocEventNameType" />
-              </JoinedInputRow>
+              </InputTable>
 
               <Field name="assocEventOrganizations">
                 <Field name="assocEventOrganization" label="" />
@@ -493,12 +493,12 @@ export default (pluginContext) => {
           </div>
         </Row>
 
-        <JoinedInputRow msgkey="ownershipExchangeGroup">
+        <InputTable name="ownershipExchange">
           <Field name="ownershipExchangeMethod" />
           <Field name="ownershipExchangeNote" />
           <Field name="ownershipExchangePriceCurrency" />
           <Field name="ownershipExchangePriceValue" />
-        </JoinedInputRow>
+        </InputTable>
       </Panel>
 
       <Panel name="owner" collapsible collapsed>

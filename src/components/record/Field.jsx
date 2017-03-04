@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import warning from 'warning';
 
 import {
+    components as inputComponents,
     helpers as inputHelpers,
 } from 'cspace-input';
 
@@ -12,8 +14,23 @@ import {
 } from '../../helpers/configHelpers';
 
 const { pathHelpers } = inputHelpers;
+const { Label } = inputComponents;
 
 const defaultViewConfigKey = 'view';
+
+const renderLabel = (fieldConfig, props) => {
+  const message = get(fieldConfig, ['messages', 'name']);
+
+  if (message) {
+    return (
+      <Label {...props}>
+        <FormattedMessage {...message} />
+      </Label>
+    );
+  }
+
+  return null;
+};
 
 const propTypes = {
   viewType: PropTypes.string,
@@ -87,8 +104,24 @@ export default function Field(props, context) {
     }
   });
 
+  const computedProps = {};
+
+  if ('label' in basePropTypes) {
+    computedProps.label = renderLabel(fieldConfig);
+  }
+
+  if ('renderChildInputLabel' in basePropTypes) {
+    computedProps.renderChildInputLabel = (childInput) => {
+      const childName = childInput.props.name;
+      const childFieldConfig = get(field, [childName, configKey]);
+
+      return renderLabel(childFieldConfig, { key: childName });
+    };
+  }
+
   return (
     <BaseComponent
+      {...computedProps}
       {...configuredProps}
       {...providedProps}
     />

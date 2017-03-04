@@ -12,9 +12,9 @@ import OptionListControlledInputContainer from '../containers/input/OptionListCo
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
 import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
 
-import JoinedInputRow from '../components/layout/JoinedInputRow';
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
+import InputTable from '../components/record/InputTable';
 
 import {
   configKey,
@@ -54,12 +54,12 @@ export default () => ({
     VocabularyControlledInput,
   },
   layoutComponents: {
-    JoinedInputRow,
     Panel,
     Row,
   },
   recordComponents: {
     Field,
+    InputTable,
   },
   configHelpers: {
     configKey,

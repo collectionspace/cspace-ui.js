@@ -1,33 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import { FormattedMessage } from 'react-intl';
-import { components as inputComponents } from 'cspace-input';
 import RecordButtonBarContainer from '../../containers/record/RecordButtonBarContainer';
 import RecordHistory from '../../components/record/RecordHistory';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
-
-const { Label } = inputComponents;
-
-function getLabel(component, messages) {
-  const {
-    msgkey,
-    name,
-  } = component.props;
-
-  const key = msgkey || name;
-  const message = messages.field[key];
-
-  if (!message || message.hidden) {
-    return null;
-  }
-
-  return (
-    <Label>
-      <FormattedMessage {...message} />
-    </Label>
-  );
-}
 
 function renderTemplate(component, messages, handlers) {
   const overrideProps = {};
@@ -37,12 +13,6 @@ function renderTemplate(component, messages, handlers) {
     const propTypes = type.propTypes;
 
     if (propTypes) {
-      if (propTypes.name) {
-        if (propTypes.label && typeof component.props.label === 'undefined') {
-          overrideProps.label = getLabel(component, messages);
-        }
-      }
-
       Object.keys(handlers).forEach((handlerName) => {
         if (propTypes[handlerName] && !component.props[handlerName]) {
           overrideProps[handlerName] = handlers[handlerName];

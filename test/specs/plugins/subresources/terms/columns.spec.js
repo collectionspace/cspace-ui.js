@@ -1,4 +1,5 @@
 import columns from '../../../../../src/plugins/subresources/terms/columns';
+import { configKey } from '../../../../../src/helpers/configHelpers';
 
 chai.should();
 
@@ -29,11 +30,25 @@ describe('terms subresource columns', function suite() {
           },
         },
       },
-      object: {
-        messages: {
-          field: {
-            objectProductionPerson: {
-              id: 'field.object.objectProductionPerson',
+      collectionobject: {
+        name: 'collectionobject',
+        fields: {
+          document: {
+            'ns2:collectionobjects_common': {
+              objectProductionPersonGroupList: {
+                objectProductionPersonGroup: {
+                  objectProductionPerson: {
+                    [configKey]: {
+                      messages: {
+                        fullName: {
+                          id: 'field.collectionobjects_common.objectProductionPerson.fullName',
+                          defaultMessage: 'Production person',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -107,8 +122,8 @@ describe('terms subresource columns', function suite() {
 
       const sourceField = 'collectionobjects_common:objectProductionPerson';
 
-      sourceFieldColumn.formatValue(sourceField, { intl, config, recordType: 'object' }).should
-        .equal('formatted field.object.objectProductionPerson');
+      sourceFieldColumn.formatValue(sourceField, { intl, config, recordType: 'collectionobject' }).should
+        .equal('formatted field.collectionobjects_common.objectProductionPerson.fullName');
     });
   });
 
@@ -150,8 +165,8 @@ describe('terms subresource columns', function suite() {
 
       const sourceField = 'collectionobjects_common:objectProductionPerson';
 
-      sourceFieldColumn.formatValue(sourceField, { intl, config, recordType: 'object' }).should
-        .equal('formatted field.object.objectProductionPerson');
+      sourceFieldColumn.formatValue(sourceField, { intl, config, recordType: 'collectionobject' }).should
+        .equal('formatted field.collectionobjects_common.objectProductionPerson.fullName');
     });
   });
 });

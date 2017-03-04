@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 export default (pluginContext) => {
   const {
     AuthorityControlledInput,
@@ -28,6 +30,12 @@ export default (pluginContext) => {
         },
         title: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.groups_common.title.name',
+                defaultMessage: 'Title',
+              },
+            }),
             view: {
               type: TextInput,
             },
@@ -35,6 +43,12 @@ export default (pluginContext) => {
         },
         responsibleDepartment: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.groups_common.responsibleDepartment.name',
+                defaultMessage: 'Responsible department',
+              },
+            }),
             view: {
               type: OptionListControlledInput,
               props: {
@@ -45,6 +59,12 @@ export default (pluginContext) => {
         },
         owner: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.groups_common.owner.name',
+                defaultMessage: 'Group owner',
+              },
+            }),
             view: {
               type: AuthorityControlledInput,
               props: {
@@ -55,6 +75,12 @@ export default (pluginContext) => {
         },
         scopeNote: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.groups_common.scopeNote.name',
+                defaultMessage: 'Scope note',
+              },
+            }),
             view: {
               type: TextInput,
               props: {
