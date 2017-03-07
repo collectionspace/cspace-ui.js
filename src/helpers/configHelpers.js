@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import deepAssign from 'deep-assign';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import warning from 'warning';
 
 import {
@@ -9,6 +10,10 @@ import {
   ERR_UNKNOWN_VOCABULARY,
   ERR_UNKNOWN_SUBRESOURCE,
 } from '../constants/errorCodes';
+
+import {
+  NS_PREFIX,
+} from './recordDataHelpers';
 
 const onlyDigitsPattern = /^\d+$/;
 const isNotNumeric = string => !onlyDigitsPattern.test(string);
@@ -311,4 +316,57 @@ export const getDefaultSearchVocabulary = (recordTypeConfig) => {
   }
 
   return (defaultSearchVocabulary || names[0]);
+};
+
+export const findField = (parentFieldDescriptor, fieldName) => {
+  const keys = Object.keys(parentFieldDescriptor);
+
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    const value = parentFieldDescriptor[key];
+
+    if (key === fieldName) {
+      return value;
+    }
+
+    if (key !== configKey) {
+      const fieldDescriptor = findField(value, fieldName);
+
+      if (fieldDescriptor) {
+        return fieldDescriptor;
+      }
+    }
+  }
+
+  return null;
+};
+
+export const getFieldConfigInPart = (recordTypeConfig, partName, fieldName) => {
+  const partDescriptor = get(recordTypeConfig, ['fields', 'document', `${NS_PREFIX}:${partName}`]);
+
+  if (!partDescriptor) {
+    return null;
+  }
+
+  // 1. Look for the field as a direct child of the part.
+
+  let fieldDescriptor = partDescriptor[fieldName];
+
+  // 2. Check for a memoized result.
+
+  if (!fieldDescriptor) {
+    fieldDescriptor = get(recordTypeConfig, ['fieldsByPart', partName, fieldName]);
+  }
+
+  // 3. Search for a nested field.
+
+  if (typeof fieldDescriptor === 'undefined') {
+    fieldDescriptor = findField(partDescriptor, fieldName);
+
+    // Memoize the result.
+
+    set(recordTypeConfig, ['fieldsByPart', partName, fieldName], fieldDescriptor);
+  }
+
+  return (fieldDescriptor ? fieldDescriptor[configKey] : null);
 };

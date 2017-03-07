@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 export default (pluginContext) => {
   const {
     AuthorityControlledInput,
@@ -32,6 +34,12 @@ export default (pluginContext) => {
         },
         personTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.persons_common.personTermGroupList.name',
+                defaultMessage: 'Terms',
+              },
+            }),
             view: {
               type: CompoundInput,
             },
@@ -47,6 +55,12 @@ export default (pluginContext) => {
             },
             termDisplayName: {
               [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.persons_common.termDisplayName.name',
+                    defaultMessage: 'Display name',
+                  },
+                }),
                 view: {
                   type: TextInput,
                 },
@@ -54,6 +68,12 @@ export default (pluginContext) => {
             },
             termSource: {
               [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.persons_common.termSource.name',
+                    defaultMessage: 'Source',
+                  },
+                }),
                 view: {
                   type: AuthorityControlledInput,
                   props: {

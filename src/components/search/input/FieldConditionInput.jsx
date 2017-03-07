@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import SearchField from './SearchField';
 import RangeSearchField from './RangeSearchField';
+import { configKey } from '../../../helpers/configHelpers';
 
 import {
   OP_EQ,
@@ -52,6 +54,11 @@ const propTypes = {
   onCommit: PropTypes.func,
 };
 
+const contextTypes = {
+  config: PropTypes.object,
+  recordType: PropTypes.string,
+};
+
 export default class FieldConditionInput extends Component {
   constructor() {
     super();
@@ -75,19 +82,30 @@ export default class FieldConditionInput extends Component {
       condition,
     } = this.props;
 
+    const {
+      config,
+      recordType,
+    } = this.context;
+
     const operation = condition.get('op');
-    const path = condition.get('path');
+    const pathSpec = condition.get('path');
     const value = condition.get('value');
 
-    const pathArray = path.split('/');
-    const name = pathArray[pathArray.length - 1];
-    const parentPath = ['document', ...pathArray.slice(0, pathArray.length - 1)];
+    const path = ['document', ...pathSpec.split('/')];
+    const name = path[path.length - 1];
+    const parentPath = path.slice(0, path.length - 1);
+
+    const messages = get(config, ['recordTypes', recordType, 'fields', ...path, configKey, 'messages']);
+
+    const label = messages
+      ? <FormattedMessage {...(messages.fullName || messages.name)} />
+      : name;
 
     const SearchFieldComponent = (operation === OP_RANGE) ? RangeSearchField : SearchField;
 
     return (
       <div className={styles.common}>
-        <div>{name}</div>
+        <div>{label}</div>
         <FormattedMessage {...operationMessages[operation]} tagName="div" />
         <div>
           <SearchFieldComponent
@@ -103,3 +121,4 @@ export default class FieldConditionInput extends Component {
 }
 
 FieldConditionInput.propTypes = propTypes;
+FieldConditionInput.contextTypes = contextTypes;

@@ -19,18 +19,4 @@ export default {
       defaultMessage: 'Person Information',
     },
   }),
-  field: defineMessages({
-    personTermGroupList: {
-      id: 'field.person.personTermGroupList',
-      defaultMessage: 'Terms',
-    },
-    termDisplayName: {
-      id: 'field.person.termDisplayName',
-      defaultMessage: 'Display name',
-    },
-    termSource: {
-      id: 'field.person.termSource',
-      defaultMessage: 'Source',
-    },
-  }),
 };

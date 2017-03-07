@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import columns from '../../../../../src/plugins/subresources/refs/columns';
+import { configKey } from '../../../../../src/helpers/configHelpers';
 
 chai.should();
 
@@ -30,17 +31,32 @@ describe('refs subresource columns', function suite() {
           },
         },
       },
-      object: {
-        name: 'object',
+      collectionobject: {
+        name: 'collectionobject',
         messages: {
           record: {
             name: {
-              id: 'record.object.name',
+              id: 'record.collectionobject.name',
             },
           },
-          field: {
-            objectProductionPerson: {
-              id: 'field.object.objectProductionPerson',
+        },
+        fields: {
+          document: {
+            'ns2:collectionobjects_common': {
+              objectProductionPersonGroupList: {
+                objectProductionPersonGroup: {
+                  objectProductionPerson: {
+                    [configKey]: {
+                      messages: {
+                        fullName: {
+                          id: 'field.collectionobjects_common.objectProductionPerson.fullName',
+                          defaultMessage: 'Production person',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -86,7 +102,7 @@ describe('refs subresource columns', function suite() {
       docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
       docTypeColumn.formatValue('CollectionObject', { intl, config }).should
-        .equal('formatted record.object.name');
+        .equal('formatted record.collectionobject.name');
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
@@ -101,7 +117,7 @@ describe('refs subresource columns', function suite() {
       });
 
       sourceFieldColumn.formatValue(sourceField, { intl, config, rowData }).should
-        .equal('formatted field.object.objectProductionPerson');
+        .equal('formatted field.collectionobjects_common.objectProductionPerson.fullName');
     });
 
     it('should format the sourceField column with a fallback if no field is found with the id', function test() {
@@ -142,7 +158,7 @@ describe('refs subresource columns', function suite() {
       docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
       docTypeColumn.formatValue('CollectionObject', { intl, config }).should
-        .equal('formatted record.object.name');
+        .equal('formatted record.collectionobject.name');
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
@@ -157,7 +173,7 @@ describe('refs subresource columns', function suite() {
       });
 
       sourceFieldColumn.formatValue(sourceField, { intl, config, rowData }).should
-        .equal('formatted field.object.objectProductionPerson');
+        .equal('formatted field.collectionobjects_common.objectProductionPerson.fullName');
     });
 
     it('should format the sourceField column with a fallback if no field is found with the id', function test() {
