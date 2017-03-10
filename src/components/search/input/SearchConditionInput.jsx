@@ -1,15 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { injectIntl } from 'react-intl';
+import React, { PropTypes } from 'react';
 import Immutable from 'immutable';
-import BaseBooleanConditionInput from './BooleanConditionInput';
+import BooleanConditionInput from './BooleanConditionInput';
 import FieldConditionInput from './FieldConditionInput';
 
 import {
   OP_AND,
   OP_OR,
 } from '../../../constants/searchOperators';
-
-const BooleanConditionInput = injectIntl(BaseBooleanConditionInput);
 
 const conditionInputComponentForOperator = operator => (
   (operator === OP_AND || operator === OP_OR) ? BooleanConditionInput : FieldConditionInput
@@ -21,29 +18,23 @@ const propTypes = {
   onCommit: PropTypes.func,
 };
 
-export default class SearchConditionInput extends Component {
-  render() {
-    const {
-      condition,
-      fields,
-      onCommit,
-    } = this.props;
+export default function SearchConditionInput(props) {
+  const {
+    condition,
+    fields,
+    onCommit,
+  } = props;
 
-    const operator = condition.get('op');
-    const ConditionInput = conditionInputComponentForOperator(operator);
+  const operator = condition.get('op');
+  const ConditionInput = conditionInputComponentForOperator(operator);
 
-    if (!ConditionInput) {
-      return null;
-    }
-
-    return (
-      <ConditionInput
-        condition={condition}
-        fields={fields}
-        onCommit={onCommit}
-      />
-    );
-  }
+  return (
+    <ConditionInput
+      condition={condition}
+      fields={fields}
+      onCommit={onCommit}
+    />
+  );
 }
 
 SearchConditionInput.propTypes = propTypes;

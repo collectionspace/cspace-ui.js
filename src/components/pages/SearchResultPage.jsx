@@ -3,6 +3,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
+import Immutable from 'immutable';
 import ErrorPage from './ErrorPage';
 import TitleBar from '../sections/TitleBar';
 import CsidLink from '../navigation/CsidLink';
@@ -30,7 +31,7 @@ const messages = defineMessages({
   },
   editSearch: {
     id: 'searchResultPage.editSearch',
-    defaultMessage: 'Revise search criteria',
+    defaultMessage: 'Revise search',
   },
 });
 
@@ -42,6 +43,7 @@ const propTypes = {
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
+  setSearchPageAdvanced: PropTypes.func,
   setSearchPageKeyword: PropTypes.func,
 };
 
@@ -83,6 +85,15 @@ export default class SearchResultPage extends Component {
   }
 
   getSearchDescriptor() {
+    // FIXME: Make the search descriptor consistently an Immutable. Currently only the advanced
+    // search condition is an Immutable. The whole search descriptor gets converted to an Immutable
+    // when stored in the Redux store, but components expect it to be an object (except for the
+    // advanced search condition, which is always Immutable). This is confusing.
+
+    // FIXME: Refactor this into a wrapper component that calculates the search descriptor from
+    // location and params, and passes it into a child. This will eliminate the multiple calls to
+    // this method from the various render methods in this class.
+
     const {
       location,
       params,
@@ -92,6 +103,12 @@ export default class SearchResultPage extends Component {
       p: parseInt(location.query.p, 10) - 1,
       size: parseInt(location.query.size, 10),
     });
+
+    const advancedSearchCondition = location.query.as;
+
+    if (advancedSearchCondition) {
+      searchQuery.as = Immutable.fromJS(JSON.parse(advancedSearchCondition));
+    }
 
     const searchDescriptor = {
       searchQuery,
@@ -183,17 +200,29 @@ export default class SearchResultPage extends Component {
     // Transfer this search descriptor's search criteria to advanced search.
 
     const {
+      setSearchPageAdvanced,
       setSearchPageKeyword,
     } = this.props;
 
-    if (setSearchPageKeyword) {
+    if (setSearchPageKeyword || setSearchPageAdvanced) {
       const searchDescriptor = this.getSearchDescriptor();
+      const { searchQuery } = searchDescriptor;
 
-      const {
-        kw,
-      } = searchDescriptor.searchQuery;
+      if (setSearchPageKeyword) {
+        const {
+          kw,
+        } = searchQuery;
 
-      setSearchPageKeyword(kw);
+        setSearchPageKeyword(kw);
+      }
+
+      if (setSearchPageAdvanced) {
+        const {
+          as: advancedSearchCondition,
+        } = searchQuery;
+
+        setSearchPageAdvanced(advancedSearchCondition);
+      }
     }
   }
 

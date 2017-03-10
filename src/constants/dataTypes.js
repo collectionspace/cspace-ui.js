@@ -1,0 +1,9 @@
+export const DATA_TYPE_MAP = 'DATA_TYPE_MAP';
+export const DATA_TYPE_LIST = 'DATA_TYPE_LIST';
+
+export const DATA_TYPE_STRING = 'DATA_TYPE_STRING';
+export const DATA_TYPE_INT = 'DATA_TYPE_INT';
+export const DATA_TYPE_FLOAT = 'DATA_TYPE_FLOAT';
+export const DATA_TYPE_BOOL = 'DATA_TYPE_BOOL';
+export const DATA_TYPE_DATE = 'DATA_TYPE_DATE';
+export const DATA_TYPE_DATETIME = 'DATA_TYPE_DATETIME';

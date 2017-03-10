@@ -211,14 +211,3 @@ export default class SearchForm extends Component {
 }
 
 SearchForm.propTypes = propTypes;
-
-// as=( (persons_common:personTermGroupList/*/termStatus ILIKE "provisional")
-// OR (persons_common:personTermGroupList/*/termDisplayName ILIKE "Connie") )
-
-// persons_common:personTermGroupList/*1/termStatus = "provisional" AND
-// persons_common:personTermGroupList/*1/termDisplayName = "Coco Collector"
-
-
-// as=( (persons_common:personTermGroupList/*/termStatus ILIKE "provisional")
-// OR (persons_common:personTermGroupList/*/termDisplayName ILIKE "Connie") )
-

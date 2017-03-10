@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Field from '../../record/Field';
+import Field from '../record/Field';
 
 const propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
@@ -21,9 +21,12 @@ export default function SearchField(props) {
       label={undefined}
       parentPath={parentPath}
       name={name}
+      repeating={false}
       value={value}
       viewType="search"
       onCommit={onCommit}
+      // Do not show quick add on autocomplete inputs.
+      showQuickAdd={false}
     />
   );
 }

@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import {
   getSearchPageAdvanced,
   getSearchPageKeyword,
@@ -20,7 +22,7 @@ export const setSearchPageAdvanced = condition => ({
   payload: condition,
 });
 
-export const initiateSearch = push => (dispatch, getState) => {
+export const initiateSearch = (config, push) => (dispatch, getState) => {
   const state = getState();
 
   const recordType = getSearchPageRecordType(state);
@@ -38,7 +40,8 @@ export const initiateSearch = push => (dispatch, getState) => {
     query.kw = kw;
   }
 
-  const condition = normalizeCondition(advancedSearchCondition);
+  const fields = get(config, ['recordTypes', recordType, 'fields']);
+  const condition = normalizeCondition(fields, advancedSearchCondition);
 
   if (condition) {
     query.as = JSON.stringify(condition.toJS());

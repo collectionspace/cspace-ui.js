@@ -8,7 +8,7 @@ export const DERIVATIVE_ORIGINAL_JPEG = 'OriginalJpeg';
 export const DERIVATIVE_ORIGINAL = '';
 
 export const getDerivativeUrl = (config, csid, derivative) => {
-  const servicesUrl = config.cspaceUrl || '';
+  const servicesUrl = config.serverUrl || '';
   const derivativePath = derivative ? `/derivatives/${derivative}` : '';
 
   return `${servicesUrl}/cspace-services/blobs/${csid}${derivativePath}/content`;

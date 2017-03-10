@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import SearchField from './SearchField';
-import RangeSearchField from './RangeSearchField';
+import SearchField from '../SearchField';
+import RangeSearchField from '../RangeSearchField';
 import { configKey } from '../../../helpers/configHelpers';
 
 import {
@@ -106,7 +106,9 @@ export default class FieldConditionInput extends Component {
     return (
       <div className={styles.common}>
         <div>{label}</div>
+        {' '}
         <FormattedMessage {...operationMessages[operation]} tagName="div" />
+        {' '}
         <div>
           <SearchFieldComponent
             parentPath={parentPath}

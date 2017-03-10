@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import SearchPage from '../../components/pages/SearchPage';
+import withConfig from '../../enhancers/withConfig';
 
 import {
   setSearchPageAdvanced,
@@ -45,7 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(setSearchPageVocabulary(value));
   },
   onSearch: () => {
-    dispatch(initiateSearch(ownProps.router.push));
+    dispatch(initiateSearch(ownProps.config, ownProps.router.push));
   },
 });
 
@@ -54,4 +55,4 @@ export const ConnectedSearchPage = connect(
   mapDispatchToProps,
 )(SearchPage);
 
-export default withRouter(ConnectedSearchPage);
+export default withRouter(withConfig(ConnectedSearchPage));

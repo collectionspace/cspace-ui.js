@@ -55,11 +55,12 @@ const defaultConfig = mergeConfig({
   basename: '',
   className: '',
   container: 'main',
-  cspaceUrl: '',
   index: undefined,
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
+  serverUrl: '',
+  serverTimeZone: 'UTC',
 }, {
   plugins: [
     sharedOptionLists(),
@@ -90,11 +91,11 @@ module.exports = (uiConfig) => {
     basename,
     className,
     container,
-    cspaceUrl,
     idGenerators,
     locale,
     optionLists,
     prettyUrls,
+    serverUrl,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -119,7 +120,7 @@ module.exports = (uiConfig) => {
     const history = syncHistoryWithStore(baseHistory, store);
 
     store.dispatch(configureCSpace({
-      url: cspaceUrl,
+      url: serverUrl,
     }));
 
     store.dispatch(loadPrefs());

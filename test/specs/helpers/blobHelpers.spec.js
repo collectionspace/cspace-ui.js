@@ -21,10 +21,10 @@ chai.should();
 
 describe('blobHelpers', function moduleSuite() {
   describe('getDerivativeUrl', function suite() {
-    const cspaceUrl = 'http://cspace';
+    const serverUrl = 'http://cspace';
 
     const config = {
-      cspaceUrl,
+      serverUrl,
     };
 
     const csid = '1234';
@@ -33,14 +33,14 @@ describe('blobHelpers', function moduleSuite() {
       const derivative = 'SomeDerivativeName';
 
       getDerivativeUrl(config, csid, derivative).should
-        .equal(`${cspaceUrl}/cspace-services/blobs/${csid}/derivatives/${derivative}/content`);
+        .equal(`${serverUrl}/cspace-services/blobs/${csid}/derivatives/${derivative}/content`);
     });
 
     it('should return the url of the original image', function test() {
       const derivative = DERIVATIVE_ORIGINAL;
 
       getDerivativeUrl(config, csid, derivative).should
-        .equal(`${cspaceUrl}/cspace-services/blobs/${csid}/content`);
+        .equal(`${serverUrl}/cspace-services/blobs/${csid}/content`);
     });
 
     it('should return a relative url if there is no services url', function test() {

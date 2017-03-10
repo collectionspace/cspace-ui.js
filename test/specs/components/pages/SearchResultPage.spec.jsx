@@ -6,6 +6,7 @@ import { Simulate } from 'react-addons-test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import merge from 'lodash/merge';
@@ -18,6 +19,7 @@ import { searchKey } from '../../../../src/reducers/search';
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -436,7 +438,7 @@ describe('SearchResultPage', function suite() {
         .equal('1–2 of 39 records found');
 
       headerContainer.querySelector('header > div > a').textContent.should
-        .equal('Revise search criteria');
+        .equal('Revise search');
 
       const pageSizeChooser = headerContainer.querySelector('.cspace-ui-PageSizeChooser--common');
 
@@ -670,6 +672,68 @@ describe('SearchResultPage', function suite() {
       Simulate.click(editLink);
 
       transferredKeyword.should.equal('foo');
+    });
+
+    it('should call setSearchPageAdvanced when the edit link is clicked', function test() {
+      let transferredCondition = null;
+
+      const setSearchPageAdvanced = (conditionArg) => {
+        transferredCondition = conditionArg;
+      };
+
+      const advancedLocation = Object.assign({}, location, {
+        query: {
+          as: '{"op": "eq", "path": "ns2:path/foo", "value": "bar"}',
+        },
+      });
+
+      const router = mockRouter();
+      const pageContainer = document.createElement('div');
+
+      document.body.appendChild(pageContainer);
+
+      let searchResultPage;
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <SearchResultPage
+                location={advancedLocation}
+                params={params}
+                ref={(ref) => { searchResultPage = ref; }}
+                setSearchPageAdvanced={setSearchPageAdvanced}
+              />
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, pageContainer);
+
+      const headerContainer = document.createElement('div');
+
+      document.body.appendChild(headerContainer);
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <RouterProvider router={router}>
+                {searchResultPage.renderHeader({ searchResult })}
+              </RouterProvider>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, headerContainer);
+
+      const editLink = headerContainer.querySelector('header > div > a');
+
+      editLink.should.not.equal(null);
+
+      Simulate.click(editLink);
+
+      transferredCondition.should.equal(Immutable.fromJS({
+        op: 'eq',
+        path: 'ns2:path/foo',
+        value: 'bar',
+      }));
     });
   });
 
