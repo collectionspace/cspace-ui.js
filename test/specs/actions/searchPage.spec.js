@@ -57,13 +57,15 @@ describe('search page action creator', function suite() {
         }),
       });
 
+      const config = {};
+
       let pushedLocation = null;
 
       const push = (location) => {
         pushedLocation = location;
       };
 
-      store.dispatch(initiateSearch(push));
+      store.dispatch(initiateSearch(config, push));
 
       pushedLocation.pathname.should.equal('/list/person/ulan');
       pushedLocation.query.should.deep.equal({ kw: 'hello' });
@@ -87,13 +89,15 @@ describe('search page action creator', function suite() {
         }),
       });
 
+      const config = {};
+
       let pushedLocation = null;
 
       const push = (location) => {
         pushedLocation = location;
       };
 
-      store.dispatch(initiateSearch(push));
+      store.dispatch(initiateSearch(config, push));
 
       pushedLocation.pathname.should.equal('/list/loanin');
 

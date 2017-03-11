@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { baseComponents as inputComponents } from 'cspace-input';
 import SearchConditionInput from './SearchConditionInput';
@@ -51,7 +51,7 @@ const propTypes = {
   onCommit: PropTypes.func,
 };
 
-export default class BooleanConditionInput extends Component {
+class BooleanConditionInput extends Component {
   constructor() {
     super();
 
@@ -136,3 +136,5 @@ export default class BooleanConditionInput extends Component {
 }
 
 BooleanConditionInput.propTypes = propTypes;
+
+export default injectIntl(BooleanConditionInput);

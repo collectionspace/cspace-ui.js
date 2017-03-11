@@ -1,11 +1,14 @@
+import Immutable from 'immutable';
+
 /**
  * Converts an object into an array of name/value pairs (two-element arrays), sorted by name.
  */
 export const asPairs = (object) => {
+  const obj = Immutable.Map.isMap(object) ? object.toJS() : object;
   const array = [];
 
-  Object.keys(object).sort().forEach((key) => {
-    const value = object[key];
+  Object.keys(obj).sort().forEach((key) => {
+    const value = obj[key];
 
     array.push([key, (typeof value === 'object' ? asPairs(value) : value)]);
   });
@@ -18,15 +21,15 @@ export const asPairs = (object) => {
  * where each value is keyed by its flattened path from the source object. Paths are flattened by
  * joining individual keys with a period.
  */
-export const flatten = (object, parentPath) => {
+export const flatten = (object, maxDepth, parentPath, currentDepth = 1) => {
   const flattened = {};
 
   Object.keys(object).forEach((key) => {
     const path = parentPath ? `${parentPath}.${key}` : key;
     const value = object[key];
 
-    if (typeof value === 'object') {
-      Object.assign(flattened, flatten(value, path));
+    if (typeof value === 'object' && (typeof maxDepth === 'undefined' || currentDepth < maxDepth)) {
+      Object.assign(flattened, flatten(value, maxDepth, path, currentDepth + 1));
     } else {
       flattened[path] = value;
     }
@@ -39,9 +42,9 @@ export const flatten = (object, parentPath) => {
  * Compares two objects, returning the keys that have different values. The return value is an
  * object whose keys are the differing keys.
  */
-export const diff = (object1, object2) => {
-  const flat1 = flatten(object1);
-  const flat2 = flatten(object2);
+export const diff = (object1, object2, maxDepth) => {
+  const flat1 = flatten(object1, maxDepth);
+  const flat2 = flatten(object2, maxDepth);
 
   const diffKeys = {};
 

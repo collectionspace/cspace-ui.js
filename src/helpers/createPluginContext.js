@@ -16,6 +16,8 @@ import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
 import InputTable from '../components/record/InputTable';
 
+import * as dataTypes from '../constants/dataTypes';
+
 import {
   configKey,
 } from '../helpers/configHelpers';
@@ -39,6 +41,7 @@ const StructuredDateInput = StructuredDateInputContainer;
 const VocabularyControlledInput = VocabularyControlledInputContainer;
 
 export default () => ({
+  dataTypes,
   lib: {
     Immutable,
     React,

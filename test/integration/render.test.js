@@ -33,7 +33,7 @@ describe('ui', function suite() {
   it('renders successfully', function test() {
     cspaceUI({
       basename: getBasePath(),
-      cspaceUrl: 'http://nightly.collectionspace.org:8180',
+      serverUrl: 'http://nightly.collectionspace.org:8180',
       prettyUrls: true,
       messages: {
         'about.title': 'CollectionSpace is running in Karma',

@@ -1,10 +1,10 @@
 import { getServicePath, getVocabularyShortID } from 'cspace-refname';
 
 import {
-  getFieldConfigInPart,
   getRecordTypeConfigByServiceObjectName,
   getRecordTypeConfigByServicePath,
   getVocabularyConfigByShortID,
+  findFieldConfigInPart,
 } from './configHelpers';
 
 export const formatTimestamp = (timestamp, { intl }) =>
@@ -60,7 +60,7 @@ export const formatRecordTypeSourceField = (recordType, sourceField, { intl, con
   const recordTypeConfig = config.recordTypes[recordType];
   const [partName, fieldName] = sourceField.split(':');
 
-  const fieldConfig = getFieldConfigInPart(recordTypeConfig, partName, fieldName);
+  const fieldConfig = findFieldConfigInPart(recordTypeConfig, partName, fieldName);
 
   let message;
 

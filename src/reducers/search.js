@@ -65,7 +65,7 @@ const handleSearchStarted = (state, action) => {
     const mostRecentSearchState = namedSearch.getIn(['byKey', mostRecentKey]);
     const mostRecentSearchDescriptor = mostRecentSearchState.get('descriptor');
 
-    const changes = diff(searchDescriptor, mostRecentSearchDescriptor.toJS());
+    const changes = diff(searchDescriptor, mostRecentSearchDescriptor.toJS(), 2);
     const changeCount = Object.keys(changes).length;
 
     const pageChanged = 'searchQuery.p' in changes;

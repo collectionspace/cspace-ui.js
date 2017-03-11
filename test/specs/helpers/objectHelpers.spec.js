@@ -5,25 +5,41 @@ import {
 
 describe('objectHelpers', function moduleSuite() {
   describe('flatten', function suite() {
+    const obj = {
+      key1: {
+        key2: 'foo',
+      },
+      key3: 123,
+      key4: {
+        key5: 'bar',
+        key6: {
+          key7: 'baz',
+          key8: 'hello',
+        },
+      },
+    };
+
     it('should flatten deeply nested objects', function test() {
-      flatten({
-        key1: {
-          key2: 'foo',
-        },
-        key3: 123,
-        key4: {
-          key5: 'bar',
-          key6: {
-            key7: 'baz',
-            key8: 'hello',
-          },
-        },
-      }).should.deep.equal({
+      flatten(obj).should.deep.equal({
         'key1.key2': 'foo',
         key3: 123,
         'key4.key5': 'bar',
         'key4.key6.key7': 'baz',
         'key4.key6.key8': 'hello',
+      });
+    });
+
+    it('should flatten to the given maximum depth', function test() {
+      flatten(obj, 1).should.deep.equal(obj);
+
+      flatten(obj, 2).should.deep.equal({
+        'key1.key2': 'foo',
+        key3: 123,
+        'key4.key5': 'bar',
+        'key4.key6': {
+          key7: 'baz',
+          key8: 'hello',
+        },
       });
     });
   });
@@ -140,6 +156,40 @@ describe('objectHelpers', function moduleSuite() {
       diff({
       }, {
       }).should.deep.equal({
+      });
+    });
+
+    it('should compare to the given maximum depth', function test() {
+      const obj1 = {
+        key1: {
+          key2: 'foo',
+        },
+        key3: 123,
+        key4: {
+          key5: 'bar',
+          key6: {
+            key7: 'baz',
+            key8: 'hello',
+          },
+        },
+      };
+
+      const obj2 = {
+        key1: {
+          key2: 'foo',
+        },
+        key3: 123,
+        key4: {
+          key5: 'bar',
+          key6: {
+            key7: 'something',
+            key8: 'else',
+          },
+        },
+      };
+
+      diff(obj1, obj2, 2).should.deep.equal({
+        'key4.key6': true,
       });
     });
   });

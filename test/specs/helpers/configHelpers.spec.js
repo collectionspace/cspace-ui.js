@@ -63,14 +63,14 @@ describe('configHelpers', function moduleSuite() {
       let config;
 
       config = applyPlugin({}, {
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CollectionSpace',
         },
       });
 
       config.should.deep.equal({
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CollectionSpace',
         },
@@ -84,7 +84,7 @@ describe('configHelpers', function moduleSuite() {
       });
 
       config.should.deep.equal({
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CSpace',
           greeting: 'Hello',
@@ -107,7 +107,7 @@ describe('configHelpers', function moduleSuite() {
     it('should apply each plugin to the target config in order', function test() {
       applyPlugins({}, [
         {
-          cspaceUrl: 'a',
+          serverUrl: 'a',
           messages: {
             title: '1',
           },
@@ -116,14 +116,14 @@ describe('configHelpers', function moduleSuite() {
           },
         },
         {
-          cspaceUrl: 'b',
+          serverUrl: 'b',
           messages: {
             title: '2',
             greeting: '$',
           },
         },
         {
-          cspaceUrl: 'c',
+          serverUrl: 'c',
           messages: {
             greeting: '*',
           },
@@ -132,7 +132,7 @@ describe('configHelpers', function moduleSuite() {
           },
         },
       ]).should.deep.equal({
-        cspaceUrl: 'c',
+        serverUrl: 'c',
         messages: {
           title: '2',
           greeting: '*',
@@ -150,30 +150,30 @@ describe('configHelpers', function moduleSuite() {
   describe('mergeConfig', function suite() {
     it('should not retain the plugins config option after merge', function test() {
       mergeConfig({
-        cspaceUrl: 'a',
+        serverUrl: 'a',
       }, {
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         plugins: [],
       }).should.deep.equal({
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
       });
     });
 
     it('should apply plugins from the source config, then merge in the source config', function test() {
       mergeConfig({}, {
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CSpace',
         },
         plugins: [
           {
-            cspaceUrl: 'a',
+            serverUrl: 'a',
             options: {
               languages: {},
             },
           },
           {
-            cspaceUrl: 'b',
+            serverUrl: 'b',
             messages: {
               title: 'c',
               greeting: 'Hello',
@@ -181,7 +181,7 @@ describe('configHelpers', function moduleSuite() {
           },
         ],
       }).should.deep.equal({
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CSpace',
           greeting: 'Hello',
@@ -196,19 +196,19 @@ describe('configHelpers', function moduleSuite() {
   describe('initConfig', function suite() {
     it('should apply the plugins', function test() {
       initConfig({
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CSpace',
         },
         plugins: [
           {
-            cspaceUrl: 'a',
+            serverUrl: 'a',
             options: {
               languages: {},
             },
           },
           {
-            cspaceUrl: 'b',
+            serverUrl: 'b',
             messages: {
               title: 'c',
               greeting: 'Hello',
@@ -216,7 +216,7 @@ describe('configHelpers', function moduleSuite() {
           },
         ],
       }).should.deep.equal({
-        cspaceUrl: 'http://collectionspace.org',
+        serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CSpace',
           greeting: 'Hello',

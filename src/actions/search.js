@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import { isSearchPending, getSearchResult } from '../reducers';
 import getSession from './cspace';
+import { advancedSearchConditionToNXQL } from '../helpers/searchHelpers';
 
 import {
   ERR_UNKNOWN_RECORD_TYPE,
@@ -135,9 +136,11 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
 
     if (
       // A related record search for an empty csid.
+
       (searchQuery.rel === '') ||
 
       // A subresource query without a csid.
+
       (typeof subresource !== 'undefined' && !searchDescriptor.csid)
     ) {
       return dispatch({
@@ -152,6 +155,9 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
 
     const requestConfig = {
       params: {
+        as: advancedSearchConditionToNXQL(
+          recordTypeConfig.fields, searchQuery.as, config.serverTimeZone
+        ),
         kw: searchQuery.kw,
         pgNum: searchQuery.p,
         pgSz: searchQuery.size,

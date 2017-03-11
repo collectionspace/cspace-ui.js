@@ -341,7 +341,7 @@ export const findField = (parentFieldDescriptor, fieldName) => {
   return null;
 };
 
-export const getFieldConfigInPart = (recordTypeConfig, partName, fieldName) => {
+export const findFieldConfigInPart = (recordTypeConfig, partName, fieldName) => {
   const partDescriptor = get(recordTypeConfig, ['fields', 'document', `${NS_PREFIX}:${partName}`]);
 
   if (!partDescriptor) {

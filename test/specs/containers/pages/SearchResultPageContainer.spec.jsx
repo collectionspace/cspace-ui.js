@@ -42,5 +42,7 @@ describe('SearchResultPageContainer', function suite() {
     result.props.should.have.property('preferredPageSize', 10);
     result.props.should.have.property('search').that.is.a('function');
     result.props.should.have.property('setPreferredPageSize').that.is.a('function');
+    result.props.should.have.property('setSearchPageAdvanced').that.is.a('function');
+    result.props.should.have.property('setSearchPageKeyword').that.is.a('function');
   });
 });

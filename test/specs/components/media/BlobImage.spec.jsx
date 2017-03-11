@@ -32,9 +32,9 @@ describe('BlobImage', function suite() {
     result.props.src.should.equal('/cspace-services/blobs/1234/derivatives/Small/content');
   });
 
-  it('should insert the cspaceUrl from config into the img src url, if present', function test() {
+  it('should insert the serverUrl from config into the img src url, if present', function test() {
     const config = {
-      cspaceUrl: 'http://collectionspace.org',
+      serverUrl: 'http://collectionspace.org',
     };
 
     const context = { config };
