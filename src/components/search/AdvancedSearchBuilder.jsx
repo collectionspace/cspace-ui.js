@@ -22,6 +22,8 @@ const messages = defineMessages({
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
   config: PropTypes.object,
+  inline: PropTypes.bool,
+  readOnly: PropTypes.bool,
   recordType: PropTypes.string,
   onConditionCommit: PropTypes.func,
 };
@@ -75,7 +77,6 @@ export default class AdvancedSearchBuilder extends Component {
       const defaultCondition = Immutable.fromJS(get(config, ['recordTypes', recordType, 'advancedSearch']));
 
       if (defaultCondition && condition) {
-        console.log(condition.toJS());
         if (
           condition.get('op') !== defaultCondition.get('op') ||
           !Immutable.List.isList(condition.get('value')) ||
@@ -130,6 +131,8 @@ export default class AdvancedSearchBuilder extends Component {
     const {
       condition,
       config,
+      inline,
+      readOnly,
       recordType,
       onConditionCommit,
     } = this.props;
@@ -139,6 +142,20 @@ export default class AdvancedSearchBuilder extends Component {
     }
 
     const fieldDescriptor = get(config, ['recordTypes', recordType, 'fields']);
+
+    const searchConditionInput = (
+      <SearchConditionInput
+        condition={condition}
+        fields={fieldDescriptor}
+        inline={inline}
+        readOnly={readOnly}
+        onCommit={onConditionCommit}
+      />
+    );
+
+    if (inline) {
+      return searchConditionInput;
+    }
 
     const panelHeader = (
       <h3><FormattedMessage {...messages.title} /></h3>
@@ -151,11 +168,7 @@ export default class AdvancedSearchBuilder extends Component {
         name="advancedSearch"
         recordType={recordType}
       >
-        <SearchConditionInput
-          condition={condition}
-          fields={fieldDescriptor}
-          onCommit={onConditionCommit}
-        />
+        {searchConditionInput}
       </ConnectedPanel>
     );
   }

@@ -16,7 +16,7 @@
   display: flex;
 }
 
-.common > div > div > h1, .common > div > div > h2 {
+.common > div > div > h1, .common > div > div > aside > h2 {
   margin: 0;
 }
 
@@ -25,10 +25,14 @@
   padding-right: 10px;
 }
 
-.common > div > div > h2 {
+.common > div > div > aside > h2 {
   flex: 1 1 auto;
   text-align: right;
   color: #739CD2;
+}
+
+.common > div > div:last-child {
+  margin-top: 4px;
 }
 
 .docked {
@@ -46,4 +50,8 @@
 
 .docked > div > h1 {
   padding-right: 20px;
+}
+
+.docked > div > div:last-child {
+  padding-right: 10px;
 }

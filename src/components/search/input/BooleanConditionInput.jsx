@@ -39,7 +39,7 @@ const messages = {
   opSelector: defineMessages({
     label: {
       id: 'booleanConditionInput.opSelector.label',
-      defaultMessage: '{opSelector}of the following conditions must be satisfied:',
+      defaultMessage: '{opSelectorInput} of the following conditions must be satisfied:',
     },
   }),
 };
@@ -47,7 +47,9 @@ const messages = {
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
   fields: PropTypes.object,
+  inline: PropTypes.bool,
   intl: intlShape,
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -84,7 +86,9 @@ class BooleanConditionInput extends Component {
     const {
       condition,
       fields,
+      inline,
       intl,
+      readOnly,
     } = this.props;
 
     const handleChildConditionCommit = index => (childCondition) => {
@@ -106,27 +110,43 @@ class BooleanConditionInput extends Component {
             condition={childCondition}
             fields={fields}
             index={index}
+            inline={inline}
+            readOnly={readOnly}
             onCommit={handleChildConditionCommit(index)}
           />
         </li>
       );
     });
 
-    const opSelector = (
-      <DropdownMenuInput
-        name="booleanSearchOp"
-        options={[
-          { value: OP_OR, label: intl.formatMessage(messages[OP_OR].opSelectorLabel) },
-          { value: OP_AND, label: intl.formatMessage(messages[OP_AND].opSelectorLabel) },
-        ]}
-        value={operator}
-        onCommit={this.handleOpSelectorCommit}
-      />
-    );
+    let opSelector;
+
+    if (!readOnly) {
+      const opSelectorInput = (
+        <DropdownMenuInput
+          name="booleanSearchOp"
+          options={[
+            { value: OP_OR, label: intl.formatMessage(messages[OP_OR].opSelectorLabel) },
+            { value: OP_AND, label: intl.formatMessage(messages[OP_AND].opSelectorLabel) },
+          ]}
+          value={operator}
+          onCommit={this.handleOpSelectorCommit}
+        />
+      );
+
+      opSelector = (
+        <FormattedMessage
+          {...messages.opSelector.label}
+          tagName="div"
+          values={{ opSelectorInput }}
+        />
+      );
+    }
+
+    const className = inline ? styles.inline : styles.normal;
 
     return (
-      <div className={styles.common}>
-        <FormattedMessage {...messages.opSelector.label} tagName="div" values={{ opSelector }} />
+      <div className={className}>
+        {opSelector}
         <ul>
           {inputs}
         </ul>
