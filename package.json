@@ -35,13 +35,8 @@
     "doc": "documentation readme src/*.js -s \"API\"",
     "lint": "eslint --ext .jsx,.js *.js src test examples",
     "prepublish": "npm run clean && npm run build",
-    "start": "cross-env NODE_ENV=test node --max_old_space_size=4300 node_modules/.bin/karma start",
-    "test": "npm run test-browser",
-    "test-specs": "npm run test-browser-specs",
-    "test-integration": "npm run test-browser-integration",
-    "test-browser": "cross-env NODE_ENV=test node --max_old_space_size=4300 node_modules/.bin/karma start --singleRun=true",
-    "test-browser-specs": "cross-env NODE_ENV=test karma start --singleRun=true --dir=test/specs",
-    "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=test/integration"
+    "start": "cross-env NODE_ENV=test karma start",
+    "test": "cross-env NODE_ENV=test karma start --singleRun=true"
   },
   "dependencies": {
     "classnames": "^2.2.5",

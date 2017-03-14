@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { hashHistory } from 'react-router';
+import { createMemoryHistory } from 'react-router';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -77,21 +77,21 @@ describe('Router', function suite() {
       redirectLoginCalled = true;
     };
 
+    const history = createMemoryHistory('/dashboard');
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router
               createNewRecord={createNewRecord}
-              history={hashHistory}
+              history={history}
               readRecord={readRecord}
               redirectLogin={redirectLogin}
             />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
-
-    hashHistory.push('/dashboard');
 
     redirectLoginCalled.should.equal(true);
   });
