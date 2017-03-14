@@ -1,3 +1,22 @@
 .common {
   border-top: 1px solid rgb(220, 220, 220);
+  font-size: 12px;
+  padding: 32px 10px;
+}
+
+.common > ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin: 0;
+  padding: 0;
+}
+
+.common > ul > li {
+  flex: 0 1 auto;
+}
+
+.common > ul > li + li {
+  margin-left: 20px;
 }
