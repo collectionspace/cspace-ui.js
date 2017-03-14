@@ -57,6 +57,19 @@ export default class SearchResultPage extends Component {
 
   componentDidMount() {
     if (!this.normalizeQuery()) {
+      const {
+        location,
+        setPreferredPageSize,
+      } = this.props;
+
+      if (setPreferredPageSize) {
+        const {
+          query,
+        } = location;
+
+        setPreferredPageSize(parseInt(query.size, 10));
+      }
+
       this.search();
     }
   }
@@ -70,6 +83,19 @@ export default class SearchResultPage extends Component {
       this.props.location.query !== prevProps.location.query
     ) {
       if (!this.normalizeQuery()) {
+        const {
+          location,
+          setPreferredPageSize,
+        } = this.props;
+
+        if (setPreferredPageSize) {
+          const {
+            query,
+          } = location;
+
+          setPreferredPageSize(parseInt(query.size, 10));
+        }
+
         this.search();
       }
     }

@@ -270,6 +270,52 @@ describe('SearchResultPage', function suite() {
     expect(testQuery({ p: '1', size: '12' })).to.equal(null);
   });
 
+  it('should call setPreferredPageSize with the normalized page size', function test() {
+    let preferredPageSize = null;
+
+    const setPreferredPageSize = (pageSizeArg) => {
+      preferredPageSize = pageSizeArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={location}
+              params={params}
+              setPreferredPageSize={setPreferredPageSize}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    preferredPageSize.should.equal(2);
+
+    preferredPageSize = null;
+
+    const newLocation = merge({}, location, {
+      query: {
+        size: '34',
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchResultPage
+              location={newLocation}
+              params={params}
+              setPreferredPageSize={setPreferredPageSize}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    preferredPageSize.should.equal(34);
+  });
+
   it('should call search to perform a search', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
