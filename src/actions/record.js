@@ -147,9 +147,6 @@ export const saveRecord = (recordTypeConfig, vocabularyConfig, csid, replace) =>
 
     if (csid) {
       savePromise = getSession().update(path, config)
-        // Need to read the record after update, because the update response doesn't include
-        // collectionspace_core.
-        .then(() => doRead(recordTypeConfig, vocabularyConfig, csid))
         .then(response => dispatch({
           type: RECORD_SAVE_FULFILLED,
           payload: response,
