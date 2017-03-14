@@ -14,6 +14,7 @@ const propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.List),
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -56,6 +57,7 @@ export default class RangeSearchField extends Component {
       parentPath,
       name,
       value,
+      readOnly,
     } = this.props;
 
     const startField = (
@@ -63,6 +65,7 @@ export default class RangeSearchField extends Component {
         parentPath={parentPath}
         name={name}
         value={value.get(0)}
+        readOnly={readOnly}
         onCommit={this.handleStartFieldCommit}
       />
     );
@@ -72,6 +75,7 @@ export default class RangeSearchField extends Component {
         parentPath={parentPath}
         name={name}
         value={value.get(1)}
+        readOnly={readOnly}
         onCommit={this.handleEndFieldCommit}
       />
     );

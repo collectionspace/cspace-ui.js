@@ -55,14 +55,7 @@ const getTestFiles = (config) => {
     return config.file.split(',');
   }
 
-  const defaultTestDirs = [
-    'test/specs',
-    'test/integration',
-  ];
-
-  const testDirs = config.dir ? config.dir.split(',') : defaultTestDirs;
-
-  return testDirs.map(dir => `${dir}/**/*.+(js|jsx)`);
+  return ['test/index.js'];
 };
 
 module.exports = function karma(config) {

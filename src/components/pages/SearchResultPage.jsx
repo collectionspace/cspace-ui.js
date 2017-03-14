@@ -5,8 +5,7 @@ import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import ErrorPage from './ErrorPage';
-import TitleBar from '../sections/TitleBar';
-import CsidLink from '../navigation/CsidLink';
+import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
@@ -20,14 +19,6 @@ const messages = defineMessages({
   error: {
     id: 'searchResultPage.error',
     defaultMessage: 'Error: {message}',
-  },
-  keywordQuery: {
-    id: 'searchResultPage.keywordQuery',
-    defaultMessage: 'containing "{keyword}"',
-  },
-  relatedQuery: {
-    id: 'searchResultPage.relatedQuery',
-    defaultMessage: 'related to {record}',
   },
   editSearch: {
     id: 'searchResultPage.editSearch',
@@ -451,7 +442,6 @@ export default class SearchResultPage extends Component {
     const {
       recordType,
       vocabulary,
-      csid,
       subresource,
     } = searchDescriptor;
 
@@ -463,68 +453,13 @@ export default class SearchResultPage extends Component {
       );
     }
 
-    const recordTypeConfig = config.recordTypes[recordType];
-    const vocabularyConfig = vocabulary ? recordTypeConfig.vocabularies[vocabulary] : undefined;
-    const subresourceConfig = subresource ? config.subresources[subresource] : undefined;
-
-    const {
-      kw,
-      rel,
-    } = searchDescriptor.searchQuery;
-
-    const keywordQueryTitle = kw
-      ? <FormattedMessage {...messages.keywordQuery} values={{ keyword: kw }} />
-      : null;
-
-    let relatedQueryTitle = null;
-
-    if (rel) {
-      const recordLink = <CsidLink config={config} searchName={`${searchName}.rel`} csid={rel} />;
-
-      relatedQueryTitle = (
-        <FormattedMessage
-          {...messages.relatedQuery}
-          values={{ record: recordLink }}
-        />
-      );
-    }
-
-    let collectionName;
-
-    if (subresourceConfig) {
-      const recordLink = <CsidLink config={config} searchName={`${searchName}.csid`} csid={csid} />;
-
-      collectionName = (
-        <FormattedMessage
-          {...subresourceConfig.messages.collectionName}
-          values={{ record: recordLink }}
-        />
-      );
-    } else if (vocabularyConfig) {
-      collectionName = (
-        <FormattedMessage
-          {...vocabularyConfig.messages.collectionName}
-        />
-      );
-    } else {
-      collectionName = (
-        <FormattedMessage
-          {...recordTypeConfig.messages.record.collectionName}
-        />
-      );
-    }
-
-    const title = (
-      <span>
-        {collectionName}
-        {' '}{keywordQueryTitle}
-        {' '}{relatedQueryTitle}
-      </span>
-    );
-
     return (
       <div className={styles.common}>
-        <TitleBar title={title} />
+        <SearchResultTitleBar
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchName={searchName}
+        />
         <div className={pageBodyStyles.common}>
           <SearchResultTableContainer
             config={config}

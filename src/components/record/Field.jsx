@@ -47,6 +47,7 @@ const propTypes = {
   parentPath: PropTypes.array,
   subpath: PropTypes.string,
   label: PropTypes.node,
+  readOnly: PropTypes.bool,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,

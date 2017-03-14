@@ -18,39 +18,73 @@ import {
 
 import styles from '../../../../styles/cspace-ui/FieldConditionInput.css';
 
-const operationMessages = defineMessages({
-  [OP_EQ]: {
-    id: 'fieldConditionInput.op.eq',
-    defaultMessage: 'is',
-  },
-  [OP_GT]: {
-    id: 'fieldConditionInput.op.gt',
-    defaultMessage: 'is greater than',
-  },
-  [OP_GTE]: {
-    id: 'fieldConditionInput.op.gte',
-    defaultMessage: 'is greater than or equal to',
-  },
-  [OP_LT]: {
-    id: 'fieldConditionInput.op.lt',
-    defaultMessage: 'is less than',
-  },
-  [OP_LTE]: {
-    id: 'fieldConditionInput.op.lte',
-    defaultMessage: 'is less than or equal to',
-  },
-  [OP_MATCH]: {
-    id: 'fieldConditionInput.op.match',
-    defaultMessage: 'matches',
-  },
-  [OP_RANGE]: {
-    id: 'fieldConditionInput.op.range',
-    defaultMessage: 'is between',
-  },
-});
+const operatorMessages = {
+  full: defineMessages({
+    [OP_EQ]: {
+      id: 'fieldConditionInput.op.eq',
+      defaultMessage: 'is',
+    },
+    [OP_GT]: {
+      id: 'fieldConditionInput.op.gt',
+      defaultMessage: 'is greater than',
+    },
+    [OP_GTE]: {
+      id: 'fieldConditionInput.op.gte',
+      defaultMessage: 'is greater than or equal to',
+    },
+    [OP_LT]: {
+      id: 'fieldConditionInput.op.lt',
+      defaultMessage: 'is less than',
+    },
+    [OP_LTE]: {
+      id: 'fieldConditionInput.op.lte',
+      defaultMessage: 'is less than or equal to',
+    },
+    [OP_MATCH]: {
+      id: 'fieldConditionInput.op.match',
+      defaultMessage: 'matches',
+    },
+    [OP_RANGE]: {
+      id: 'fieldConditionInput.op.range',
+      defaultMessage: 'is between',
+    },
+  }),
+  compact: defineMessages({
+    [OP_EQ]: {
+      id: 'fieldConditionInput.op.eq.compact',
+      defaultMessage: '=',
+    },
+    [OP_GT]: {
+      id: 'fieldConditionInput.op.gt.compact',
+      defaultMessage: '>',
+    },
+    [OP_GTE]: {
+      id: 'fieldConditionInput.op.gte.compact',
+      defaultMessage: '≥',
+    },
+    [OP_LT]: {
+      id: 'fieldConditionInput.op.lt.compact',
+      defaultMessage: '<',
+    },
+    [OP_LTE]: {
+      id: 'fieldConditionInput.op.lte.compact',
+      defaultMessage: '≤',
+    },
+    [OP_MATCH]: {
+      id: 'fieldConditionInput.op.match.compact',
+      defaultMessage: 'matches',
+    },
+    [OP_RANGE]: {
+      id: 'fieldConditionInput.op.range.compact',
+      defaultMessage: 'between',
+    },
+  }),
+};
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
+  inline: PropTypes.bool,
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -80,6 +114,8 @@ export default class FieldConditionInput extends Component {
   render() {
     const {
       condition,
+      inline,
+      readOnly,
     } = this.props;
 
     const {
@@ -87,7 +123,7 @@ export default class FieldConditionInput extends Component {
       recordType,
     } = this.context;
 
-    const operation = condition.get('op');
+    const operator = condition.get('op');
     const pathSpec = condition.get('path');
     const value = condition.get('value');
 
@@ -101,18 +137,21 @@ export default class FieldConditionInput extends Component {
       ? <FormattedMessage {...(messages.fullName || messages.name)} />
       : name;
 
-    const SearchFieldComponent = (operation === OP_RANGE) ? RangeSearchField : SearchField;
+    const SearchFieldComponent = (operator === OP_RANGE) ? RangeSearchField : SearchField;
+    const className = inline ? styles.inline : styles.normal;
+    const opMessages = inline ? operatorMessages.compact : operatorMessages.full;
 
     return (
-      <div className={styles.common}>
+      <div className={className}>
         <div>{label}</div>
         {' '}
-        <FormattedMessage {...operationMessages[operation]} tagName="div" />
+        <FormattedMessage {...opMessages[operator]} tagName="div" />
         {' '}
         <div>
           <SearchFieldComponent
             parentPath={parentPath}
             name={name}
+            readOnly={readOnly}
             value={value}
             onCommit={this.handleValueCommit}
           />

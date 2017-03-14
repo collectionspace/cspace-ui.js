@@ -6,6 +6,7 @@ import styles from '../../../styles/cspace-ui/TitleBar.css';
 const propTypes = {
   title: PropTypes.node,
   subtitle: PropTypes.node,
+  aside: PropTypes.node,
 };
 
 export default class TitleBar extends Component {
@@ -60,6 +61,19 @@ export default class TitleBar extends Component {
     );
   }
 
+  renderAside() {
+    const {
+      aside,
+    } = this.props;
+
+    if (aside !== null && typeof aside !== 'undefined') {
+      return (
+        <aside><h2>{aside}</h2></aside>
+      );
+    }
+
+    return null;
+  }
   renderSubtitle() {
     const {
       subtitle,
@@ -67,7 +81,7 @@ export default class TitleBar extends Component {
 
     if (subtitle !== null && typeof subtitle !== 'undefined') {
       return (
-        <h2>{subtitle}</h2>
+        <div>{subtitle}</div>
       );
     }
 
@@ -91,8 +105,9 @@ export default class TitleBar extends Component {
         <div className={styles.inner}>
           <div>
             {this.renderTitle()}
-            {this.renderSubtitle()}
+            {this.renderAside()}
           </div>
+          {this.renderSubtitle()}
         </div>
       </header>
     );

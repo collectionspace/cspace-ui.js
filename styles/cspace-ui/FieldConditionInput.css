@@ -1,22 +1,44 @@
 .common {
+  font-size: 14px;
+}
+
+.normal {
+  composes: common;
   display: flex;
   align-items: baseline;
 }
 
-.common > div:first-child {
+.normal > div:first-child {
   width: 220px;
 }
 
-.common > div {
+.normal > div {
   width: 80px;
 }
 
-.common > div:last-child {
+.normal > div:last-child {
   width: 440px;
 }
 
-.common :global(.cspace-input-TextInput--common),
-.common :global(.cspace-input-DropdownInput--common) {
+.normal :global(.cspace-input-TextInput--common),
+.normal :global(.cspace-input-DropdownInput--common) {
   display: inline-block;
   width: 200px;
+}
+
+.inline {
+  composes: common;
+  display: inline;
+  border: 1px solid rgb(220, 220, 220);
+  padding: 0 4px;
+  background: white;
+  white-space: nowrap;
+}
+
+.inline div {
+  display: inline;
+}
+
+.inline :global(.cspace-input-Input--common) {
+  width: auto;
 }

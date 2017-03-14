@@ -1,23 +1,48 @@
+.common {
+  font-size: 14px;
+}
+
 .common > ul {
   list-style: none;
-  display: block;
   margin: 0;
   padding: 0;
-}
-
-.common > ul > li {
-  display: flex;
-  align-items: baseline;
-}
-
-.common > ul > li > *:first-child {
-  width: 50px;
-  margin-right: 4px;
-  text-align: center;
 }
 
 .common > div :global(.cspace-input-DropdownMenuInput--common) {
   display: inline-block;
   width: 50px;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > ul > li {
+  display: flex;
+  align-items: baseline;
+}
+
+.normal > ul > li > *:first-child {
+  width: 50px;
   margin-right: 4px;
+  text-align: center;
+}
+
+.inline {
+  composes: common;
+}
+
+.inline > div,
+.inline > ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inline > ul > li {
+  display: inline;
+  line-height: 24px;
+}
+
+.inline > ul > li:not(:first-child) > span {
+  margin: 0 4px;
 }

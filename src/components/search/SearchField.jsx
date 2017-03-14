@@ -5,6 +5,7 @@ const propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
   value: PropTypes.string,
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -13,6 +14,7 @@ export default function SearchField(props) {
     parentPath,
     name,
     value,
+    readOnly,
     onCommit,
   } = props;
 
@@ -21,6 +23,7 @@ export default function SearchField(props) {
       label={undefined}
       parentPath={parentPath}
       name={name}
+      readOnly={readOnly}
       repeating={false}
       value={value}
       viewType="search"

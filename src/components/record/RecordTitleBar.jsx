@@ -35,12 +35,12 @@ export default function RecordTitleBar(props, context) {
   const cspaceDocument = data ? data.get(DOCUMENT_PROPERTY_NAME) : undefined;
 
   const title = recordTypeConfig.title(cspaceDocument);
-  const subtitle = <FormattedMessage {...recordTypeConfig.messages.record.name} />;
+  const aside = <FormattedMessage {...recordTypeConfig.messages.record.name} />;
 
   return (
     <TitleBar
       title={title}
-      subtitle={subtitle}
+      aside={aside}
     />
   );
 }

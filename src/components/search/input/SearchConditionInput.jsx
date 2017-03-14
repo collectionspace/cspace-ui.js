@@ -15,6 +15,8 @@ const conditionInputComponentForOperator = operator => (
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
   fields: PropTypes.object,
+  inline: PropTypes.bool,
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -22,6 +24,8 @@ export default function SearchConditionInput(props) {
   const {
     condition,
     fields,
+    inline,
+    readOnly,
     onCommit,
   } = props;
 
@@ -32,6 +36,8 @@ export default function SearchConditionInput(props) {
     <ConditionInput
       condition={condition}
       fields={fields}
+      inline={inline}
+      readOnly={readOnly}
       onCommit={onCommit}
     />
   );
