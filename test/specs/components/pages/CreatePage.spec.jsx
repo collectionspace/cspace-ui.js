@@ -73,9 +73,7 @@ describe('CreatePage', function suite() {
 
   it('should render a link for each record plugin', function test() {
     render(
-      <IntlProvider
-        locale="en"
-      >
+      <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <CreatePage />
         </ConfigProvider>

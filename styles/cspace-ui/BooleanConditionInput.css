@@ -10,6 +10,10 @@
 
 .common > div :global(.cspace-input-DropdownMenuInput--common) {
   display: inline-block;
+}
+
+.common > div :global(.cspace-input-DropdownMenuInput--common) > :global(.cspace-input-TextInput--common) {
+  display: inline;
   width: 50px;
 }
 
