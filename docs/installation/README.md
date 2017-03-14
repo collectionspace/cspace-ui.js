@@ -27,7 +27,7 @@ The `cspaceUI` function accepts a configuration object as an argument. For examp
 ```JavaScript
 cspaceUI({
   basename: '/mymuseum',
-  cspaceUrl: 'http://nightly.collectionspace.org:8180',
+  serverUrl: 'http://nightly.collectionspace.org:8180',
   prettyUrls: false,
   messages: {
     'about.title': 'Welcome to CollectionSpace',
