@@ -1,6 +1,5 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import { asKeywords } from '../../../../src/helpers/csidHelpers';
 import SearchResultLinkContainer from '../../../../src/containers/search/SearchResultLinkContainer';
 import CsidLink from '../../../../src/components/navigation/CsidLink';
 
@@ -21,6 +20,6 @@ describe('CsidLink', function suite() {
     result.type.should.equal(SearchResultLinkContainer);
     result.props.should.have.property('config', config);
     result.props.should.have.property('searchName', searchName);
-    result.props.should.have.deep.property('searchDescriptor.searchQuery.kw', asKeywords(csid));
+    result.props.should.have.deep.property('searchDescriptor.searchQuery.csid', csid);
   });
 });

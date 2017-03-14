@@ -158,6 +158,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
         as: advancedSearchConditionToNXQL(
           recordTypeConfig.fields, searchQuery.as, config.serverTimeZone
         ),
+        csid: searchQuery.csid,
         kw: searchQuery.kw,
         pgNum: searchQuery.p,
         pgSz: searchQuery.size,

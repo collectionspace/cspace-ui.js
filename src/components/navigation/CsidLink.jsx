@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { asKeywords } from '../../helpers/csidHelpers';
 import SearchResultLinkContainer from '../../containers/search/SearchResultLinkContainer';
 
 const propTypes = {
@@ -18,9 +17,9 @@ export default function CsidLink(props) {
   const searchDescriptor = {
     recordType: 'all',
     searchQuery: {
+      csid,
       p: 0,
       size: 0,
-      kw: asKeywords(csid),
     },
   };
 
