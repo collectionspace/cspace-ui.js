@@ -302,7 +302,11 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: TextInput,
+              type: AuthorityControlledInput,
+              props: {
+                authority: 'location/local,location/offsite,organization/local,organization/shared',
+                readOnly: true,
+              },
             },
           },
         },
