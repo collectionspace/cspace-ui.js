@@ -87,14 +87,16 @@ describe('default list types', function suite() {
     const authRefList = listTypes.authRef;
 
     describe('getItemLocation', function funcSuite() {
-      it('should compute the location from the refName', function test() {
+      it('should compute the location from the refName and csid', function test() {
         authRefList.getItemLocation(Immutable.fromJS({
+          csid: '1234',
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
-        }), { config }).should.equal('/record/person/local/urn:cspace:name(JaneDoe1484001439799)');
+        }), { config }).should.equal('/record/person/local/1234');
       });
 
       it('should return null for an unknown record type', function test() {
         expect(authRefList.getItemLocation(Immutable.fromJS({
+          csid: '1234',
           refName: 'urn:cspace:core.collectionspace.org:foobar:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
         }), { config })).to.equal(null);
       });

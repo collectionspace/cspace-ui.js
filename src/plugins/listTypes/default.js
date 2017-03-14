@@ -3,7 +3,6 @@ import { defineMessages } from 'react-intl';
 import {
   getServicePath,
   getVocabularyShortID,
-  getItemShortID,
 } from 'cspace-refname';
 
 import {
@@ -99,10 +98,10 @@ export default () => ({
             getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
 
           if (vocabularyConfig) {
-            const itemShortID = getItemShortID(refName);
+            const csid = item.get('csid');
 
-            if (itemShortID) {
-              return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/urn:cspace:name(${itemShortID})`;
+            if (csid) {
+              return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/${csid}`;
             }
           }
         }
