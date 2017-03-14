@@ -17,7 +17,7 @@ const recordData = Immutable.fromJS({
 describe('RelatedObjectPanel', function suite() {
   it('should render a search panel', function test() {
     const config = {};
-    const recordType = 'object';
+    const recordType = 'collectionobject';
 
     const shallowRenderer = createRenderer();
 
@@ -38,7 +38,7 @@ describe('RelatedObjectPanel', function suite() {
 
   it('should rerender with the new search descriptor when it is changed by the search panel', function test() {
     const config = {};
-    const recordType = 'object';
+    const recordType = 'collectionobject';
 
     const shallowRenderer = createRenderer();
 
@@ -61,7 +61,7 @@ describe('RelatedObjectPanel', function suite() {
 
   it('should rerender with a new search descriptor when a new csid is supplied via props', function test() {
     const config = {};
-    const recordType = 'object';
+    const recordType = 'collectionobject';
     const csid = '1234';
 
     const shallowRenderer = createRenderer();

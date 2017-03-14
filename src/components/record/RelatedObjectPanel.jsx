@@ -12,7 +12,7 @@ const messages = defineMessages({
 });
 
 const getSearchDescriptor = (relatedCsid, updatedTimestamp) => ({
-  recordType: 'object',
+  recordType: 'collectionobject',
   searchQuery: {
     rel: relatedCsid,
     p: 0,
