@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Header from '../sections/Header';
+import Footer from '../sections/Footer';
 
 const propTypes = {
   username: PropTypes.string.isRequired,
@@ -18,6 +19,7 @@ export default function ProtectedPage(props) {
         username={username}
       />
       {children}
+      <Footer />
     </div>
   );
 }

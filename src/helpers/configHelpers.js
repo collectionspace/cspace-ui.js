@@ -9,11 +9,17 @@ import {
   ERR_UNKNOWN_RECORD_TYPE,
   ERR_UNKNOWN_VOCABULARY,
   ERR_UNKNOWN_SUBRESOURCE,
+  ERR_INVALID_CSID,
+  ERR_INVALID_RELATED_TYPE,
 } from '../constants/errorCodes';
 
 import {
   NS_PREFIX,
 } from './recordDataHelpers';
+
+import {
+  isCsid,
+} from './csidHelpers';
 
 const onlyDigitsPattern = /^\d+$/;
 const isNotNumeric = string => !onlyDigitsPattern.test(string);
@@ -223,7 +229,15 @@ export const isCloneable = (fieldDescriptor) => {
 export const isAuthority = recordTypeConfig =>
   get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
 
-export const validateRecordType = (config, recordType, vocabulary, subresource) => {
+export const validateLocation = (config, location) => {
+  const {
+    recordType,
+    vocabulary,
+    csid,
+    subresource,
+    relatedRecordType,
+  } = location;
+
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
   if (!recordTypeConfig) {
@@ -266,6 +280,15 @@ export const validateRecordType = (config, recordType, vocabulary, subresource) 
     };
   }
 
+  if (csid && !isCsid(csid)) {
+    return {
+      error: {
+        csid,
+        code: ERR_INVALID_CSID,
+      },
+    };
+  }
+
   if (subresource) {
     const subresourceConfig = get(config, ['subresources', subresource]);
 
@@ -274,6 +297,24 @@ export const validateRecordType = (config, recordType, vocabulary, subresource) 
         error: {
           subresource,
           code: ERR_UNKNOWN_SUBRESOURCE,
+        },
+      };
+    }
+  }
+
+  if (relatedRecordType) {
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+    const relatedServiceType = get(config, ['recordTypes', relatedRecordType, 'serviceConfig', 'serviceType']);
+
+    if (
+      (serviceType !== 'procedure' && serviceType !== 'object') ||
+      (relatedServiceType !== 'procedure' && relatedServiceType !== 'object')
+    ) {
+      return {
+        error: {
+          recordType,
+          relatedRecordType,
+          code: ERR_INVALID_RELATED_TYPE,
         },
       };
     }

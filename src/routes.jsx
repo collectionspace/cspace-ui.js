@@ -68,7 +68,9 @@ export default (routeConfig) => {
 
         <Route path="record/:recordType" component={RecordPageContainer}>
           <Route path=":path1">
-            <Route path=":path2" />
+            <Route path=":path2">
+              <Route path=":path3" />
+            </Route>
           </Route>
         </Route>
 

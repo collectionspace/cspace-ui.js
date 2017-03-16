@@ -1,7 +1,13 @@
 .common {
+  display: flex;
   border-top: 1px solid rgb(220, 220, 220);
+  padding: 10px 0;
   font-size: 12px;
-  padding: 32px 10px;
+  justify-content: space-between;
+}
+
+.common, .common > ul > li > a {
+  color: rgb(160, 160, 160);
 }
 
 .common > ul {

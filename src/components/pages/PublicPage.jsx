@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import Footer from '../sections/Footer';
+import styles from '../../../styles/cspace-ui/PublicPage.css';
 
 export default function PublicPage(props) {
   const {
@@ -6,8 +8,9 @@ export default function PublicPage(props) {
   } = props;
 
   return (
-    <div>
+    <div className={styles.common}>
       {children}
+      <Footer />
     </div>
   );
 }

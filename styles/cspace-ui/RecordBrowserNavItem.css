@@ -1,0 +1,103 @@
+.common {
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  color: #739CD2;
+}
+
+.common > button {
+  height: 31px;
+  box-sizing: border-box;
+  border: none;
+  padding-left: 10px;
+  color: inherit;
+  background: none;
+  font-family: 'Open Sans', Arial, sans-serif;;
+  font-size: 14px;
+}
+
+.common > button:focus {
+  outline: 1px dotted black;
+  outline-offset: -1px;
+}
+
+.common > button:nth-of-type(1) {
+  padding-right: 22px;
+}
+
+.common > button:nth-of-type(2) {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  background-image: url(../../images/closeTab.svg);
+  background-repeat: no-repeat;
+  background-size: 12px;
+  background-position: center;
+}
+
+.common > button:only-child {
+  padding-right: 10px;
+}
+
+.common + .common {
+  margin-left: 2px;
+}
+
+.normal {
+  composes: common;  
+}
+
+.normal {
+  background-color: rgba(156, 185, 211, .2);
+}
+
+.active {
+  composes: common;
+}
+
+.active {
+  background-color: white;
+}
+
+.selector {
+  composes: common;
+  padding-left: 4px;
+  background-color: inherit;
+  overflow: visible;
+  width: 90px;
+}
+
+.selector :global(.cspace-input-DropdownMenuInput--common) > input {
+  background-image: none;
+}
+
+.selector :global(.cspace-input-TextInput--common) {
+  display: inline-block;
+  margin: 0;
+  border: none;
+  background-color: inherit;
+  color: inherit;
+}
+
+.selector :global(.cspace-input-TextInput--common):focus {
+  outline: 1px dotted black;
+}
+
+.selector :global(.cspace-input-DropdownInput--open) > input {
+  outline: none;
+}
+
+.selector :global(.cspace-input-TextInput--common)::placeholder {
+  color: inherit;
+  opacity: 1;
+}
+
+.selector :global(.cspace-input-TextInput--common)::-webkit-input-placeholder {
+  color: inherit;
+}
+
+.selector :global(.cspace-input-TextInput--common):-ms-input-placeholder {
+  color: inherit;
+}

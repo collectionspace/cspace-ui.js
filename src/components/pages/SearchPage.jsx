@@ -10,7 +10,7 @@ import {
   getDefaultSearchRecordType,
   getDefaultSearchVocabulary,
   isAuthority,
-  validateRecordType,
+  validateLocation,
 } from '../../helpers/configHelpers';
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
@@ -219,7 +219,7 @@ export default class SearchPage extends Component {
       vocabulary,
     } = searchDescriptor;
 
-    const validation = validateRecordType(config, recordType, vocabulary);
+    const validation = validateLocation(config, { recordType, vocabulary });
 
     if (validation.error) {
       return (

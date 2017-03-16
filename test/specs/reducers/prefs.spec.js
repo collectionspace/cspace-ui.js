@@ -4,6 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
+  SET_RECORD_BROWSER_NAV_BAR_ITEMS,
   SET_SEARCH_PAGE_RECORD_TYPE,
   SET_SEARCH_PAGE_VOCABULARY,
   SET_QUICK_SEARCH_RECORD_TYPE,
@@ -13,6 +14,7 @@ import {
 } from '../../../src/actions/prefs';
 
 import reducer, {
+  getRecordBrowserNavBarItems,
   getSearchPageRecordType,
   getSearchPageVocabulary,
   getQuickSearchRecordType,
@@ -31,7 +33,7 @@ describe('prefs reducer', function suite() {
   });
 
   it('should handle COLLAPSE_PANEL', function test() {
-    const recordType = 'object';
+    const recordType = 'collectionobject';
     const panelName = 'desc';
     const collapsed = true;
 
@@ -46,7 +48,7 @@ describe('prefs reducer', function suite() {
 
     state.should.deep.equal(Immutable.fromJS({
       panels: {
-        object: {
+        collectionobject: {
           desc: {
             collapsed,
           },
@@ -55,6 +57,27 @@ describe('prefs reducer', function suite() {
     }));
 
     isPanelCollapsed(state, recordType, panelName).should.equal(collapsed);
+  });
+
+  it('should handle SET_RECORD_BROWSER_NAV_BAR_ITEMS', function test() {
+    const recordType = 'collectionobject';
+    const navBarItems = Immutable.List(['group', 'media']);
+
+    const state = reducer(undefined, {
+      type: SET_RECORD_BROWSER_NAV_BAR_ITEMS,
+      payload: navBarItems,
+      meta: {
+        recordType,
+      },
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      recordBrowserNavBarItems: {
+        collectionobject: navBarItems,
+      },
+    }));
+
+    getRecordBrowserNavBarItems(state, recordType).should.equal(navBarItems);
   });
 
   it('should handle SET_SEARCH_PAGE_RECORD_TYPE', function test() {
@@ -157,7 +180,7 @@ describe('prefs reducer', function suite() {
   });
 
   it('should handle SET_SEARCH_PANEL_PAGE_SIZE', function test() {
-    const recordType = 'object';
+    const recordType = 'collectionobject';
     const panelName = 'desc';
     const pageSize = 35;
 
@@ -172,7 +195,7 @@ describe('prefs reducer', function suite() {
 
     state.should.deep.equal(Immutable.fromJS({
       panels: {
-        object: {
+        collectionobject: {
           desc: {
             pageSize,
           },
@@ -186,9 +209,9 @@ describe('prefs reducer', function suite() {
   it('should handle PREFS_LOADED', function test() {
     const prefs = Immutable.fromJS({
       panels: {
-        object: {
+        collectionobject: {
           desc: {
-            collapesed: true,
+            collapsed: true,
           },
         },
       },

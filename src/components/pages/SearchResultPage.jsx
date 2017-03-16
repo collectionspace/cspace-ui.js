@@ -9,7 +9,7 @@ import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
-import { validateRecordType } from '../../helpers/configHelpers';
+import { validateLocation } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import headerStyles from '../../../styles/cspace-ui/SearchResultTableHeader.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
@@ -468,10 +468,11 @@ export default class SearchResultPage extends Component {
     const {
       recordType,
       vocabulary,
+      csid,
       subresource,
     } = searchDescriptor;
 
-    const validation = validateRecordType(config, recordType, vocabulary, subresource);
+    const validation = validateLocation(config, { recordType, vocabulary, csid, subresource });
 
     if (validation.error) {
       return (

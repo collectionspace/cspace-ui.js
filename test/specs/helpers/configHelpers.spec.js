@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import {
   configKey,
   dataPathToFieldDescriptorPath,
+  findFieldConfigInPart,
   getDefaults,
   getDefaultValue,
   initConfig,
@@ -17,15 +18,19 @@ import {
   isCloneable,
   getDefaultSearchRecordType,
   getDefaultSearchVocabulary,
-  validateRecordType,
+  validateLocation,
 } from '../../../src/helpers/configHelpers';
 
 import {
+  ERR_INVALID_CSID,
+  ERR_INVALID_RELATED_TYPE,
   ERR_MISSING_VOCABULARY,
   ERR_UNKNOWN_RECORD_TYPE,
   ERR_UNKNOWN_VOCABULARY,
   ERR_UNKNOWN_SUBRESOURCE,
 } from '../../../src/constants/errorCodes';
+
+const expect = chai.expect;
 
 chai.should();
 
@@ -428,7 +433,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('validateRecordType', function suite() {
+  describe('validateLocation', function suite() {
     const config = {
       recordTypes: {
         collectionobject: {},
@@ -436,6 +441,9 @@ describe('configHelpers', function moduleSuite() {
         person: {
           serviceConfig: {
             serviceType: 'authority',
+          },
+          vocabularies: {
+            local: {},
           },
         },
       },
@@ -445,7 +453,7 @@ describe('configHelpers', function moduleSuite() {
     };
 
     it('should return ERR_UNKNOWN_RECORD_TYPE error if the record type is unknown', function test() {
-      validateRecordType(config, 'foo').should.deep.equal({
+      validateLocation(config, { recordType: 'foo' }).should.deep.equal({
         error: {
           recordType: 'foo',
           code: ERR_UNKNOWN_RECORD_TYPE,
@@ -454,7 +462,7 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should return ERR_MISSING_VOCABULARY error if an authority record type is passed with no vocabulary', function test() {
-      validateRecordType(config, 'person').should.deep.equal({
+      validateLocation(config, { recordType: 'person' }).should.deep.equal({
         error: {
           recordType: 'person',
           code: ERR_MISSING_VOCABULARY,
@@ -463,7 +471,7 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should return ERR_UNKNOWN_VOCABULARY error if an unknown vocabulary is passed', function test() {
-      validateRecordType(config, 'person', 'foo').should.deep.equal({
+      validateLocation(config, { recordType: 'person', vocabulary: 'foo' }).should.deep.equal({
         error: {
           recordType: 'person',
           vocabulary: 'foo',
@@ -473,7 +481,7 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should return ERR_UNKNOWN_VOCABULARY error if a vocabulary is passed with a non-authority record type', function test() {
-      validateRecordType(config, 'group', 'foo').should.deep.equal({
+      validateLocation(config, { recordType: 'group', vocabulary: 'foo' }).should.deep.equal({
         error: {
           recordType: 'group',
           vocabulary: 'foo',
@@ -483,7 +491,7 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should return ERR_UNKNOWN_SUBRESOURCE error if an unknown subresource is passed', function test() {
-      validateRecordType(config, 'group', undefined, 'foo').should.deep.equal({
+      validateLocation(config, { recordType: 'group', subresource: 'foo' }).should.deep.equal({
         error: {
           subresource: 'foo',
           code: ERR_UNKNOWN_SUBRESOURCE,
@@ -491,8 +499,37 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
+    it('should return ERR_INVALID_CSID error if an invalid csid is passed', function test() {
+      validateLocation(config, { recordType: 'group', csid: 'foo' }).should.deep.equal({
+        error: {
+          csid: 'foo',
+          code: ERR_INVALID_CSID,
+        },
+      });
+    });
+
+    it('should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed that is not a procedure or object', function test() {
+      validateLocation(config, { recordType: 'group', relatedRecordType: 'person' }).should.deep.equal({
+        error: {
+          recordType: 'group',
+          relatedRecordType: 'person',
+          code: ERR_INVALID_RELATED_TYPE,
+        },
+      });
+    });
+
+    it('should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed and the recordType is not a procedure or object', function test() {
+      validateLocation(config, { recordType: 'person', vocabulary: 'local', relatedRecordType: 'group' }).should.deep.equal({
+        error: {
+          recordType: 'person',
+          relatedRecordType: 'group',
+          code: ERR_INVALID_RELATED_TYPE,
+        },
+      });
+    });
+
     it('should return object with no error property if valid arguments are passed', function test() {
-      validateRecordType(config, 'group')
+      validateLocation(config, { recordType: 'group' })
         .should.be.an('object')
         .and.should.not.have.property('error');
     });
@@ -553,6 +590,52 @@ describe('configHelpers', function moduleSuite() {
       };
 
       getDefaultSearchVocabulary(config).should.equal('all');
+    });
+  });
+
+  describe('findFieldConfigInPart', function suite() {
+    const updatedAtConfig = {};
+    const titleConfig = {};
+
+    const recordTypeConfig = {
+      fields: {
+        document: {
+          'ns2:collectionspace_core': {
+            updatedAt: {
+              [configKey]: updatedAtConfig,
+            },
+          },
+          'ns2:collectionobjects_common': {
+            titleGroupList: {
+              titleGroup: {
+                title: {
+                  [configKey]: titleConfig,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should find the field config given a part name and field name', function test() {
+      findFieldConfigInPart(recordTypeConfig, 'collectionspace_core', 'updatedAt').should
+        .equal(updatedAtConfig);
+    });
+
+    it('should find nested fields', function test() {
+      findFieldConfigInPart(recordTypeConfig, 'collectionobjects_common', 'title').should
+        .equal(titleConfig);
+    });
+
+    it('should return null if an unknown part name is supplied', function test() {
+      expect(findFieldConfigInPart(recordTypeConfig, 'foo', 'title')).to
+        .equal(null);
+    });
+
+    it('should return null if an unknown field name is supplied', function test() {
+      expect(findFieldConfigInPart(recordTypeConfig, 'collectionobjects_common', 'foo')).to
+        .equal(null);
     });
   });
 });
