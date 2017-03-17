@@ -435,7 +435,7 @@ describe('SearchResultPage', function suite() {
           <ConfigProvider config={config}>
             <SearchResultPage
               location={location}
-              params={{ recordType: 'object', csid: '1234', subresource: 'terms' }}
+              params={{ recordType: 'object', csid: 'b09295cf-ff56-4018-be16', subresource: 'terms' }}
             />
           </ConfigProvider>
         </StoreProvider>

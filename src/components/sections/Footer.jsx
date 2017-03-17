@@ -5,7 +5,7 @@ import styles from '../../../styles/cspace-ui/Footer.css';
 const messages = defineMessages({
   copyright: {
     id: 'footer.copyright',
-    defaultMessage: '© {startYear}-{endYear} CollectionSpace',
+    defaultMessage: 'Copyright © {startYear}-{endYear} CollectionSpace',
   },
   release: {
     id: 'footer.release',
@@ -38,14 +38,11 @@ export default function Footer() {
         </li>
         <li>
           <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.0">
-            <FormattedMessage
-              {...messages.release}
-              values={{
-                version: '5.0',
-              }}
-            />
+            <FormattedMessage {...messages.release} values={{ version: '5.0' }} />
           </a>
         </li>
+      </ul>
+      <ul>
         <li>
           <a href="http://www.collectionspace.org">
             <FormattedMessage {...messages.about} />

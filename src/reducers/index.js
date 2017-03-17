@@ -91,6 +91,10 @@ export function isPanelCollapsed(state, recordType, name) {
   return fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
 }
 
+export function getRecordBrowserNavBarItems(state, recordType) {
+  return fromPrefs.getRecordBrowserNavBarItems(state.prefs, recordType);
+}
+
 export function getSearchPageSize(state) {
   return fromPrefs.getSearchPageSize(state.prefs);
 }

@@ -5,6 +5,7 @@ import { getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
+export const SET_RECORD_BROWSER_NAV_BAR_ITEMS = 'SET_RECORD_BROWSER_NAV_BAR_ITEMS';
 export const SET_SEARCH_PAGE_RECORD_TYPE = 'SET_SEARCH_PAGE_RECORD_TYPE';
 export const SET_SEARCH_PAGE_VOCABULARY = 'SET_SEARCH_PAGE_VOCABULARY';
 export const SET_QUICK_SEARCH_RECORD_TYPE = 'SET_QUICK_SEARCH_RECORD_TYPE';
@@ -20,6 +21,14 @@ export const collapsePanel = (recordType, name, collapsed) => ({
   meta: {
     recordType,
     name,
+  },
+});
+
+export const setRecordBrowserNavBarItems = (recordType, navBarItems) => ({
+  type: SET_RECORD_BROWSER_NAV_BAR_ITEMS,
+  payload: navBarItems,
+  meta: {
+    recordType,
   },
 });
 

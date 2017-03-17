@@ -57,7 +57,7 @@ export default class LogoutIndicator extends Component {
     return (
       <div>
         <h2><br /></h2>
-        <div><FormattedMessage {...messages.success} /></div>
+        <p><FormattedMessage {...messages.success} /></p>
       </div>
     );
   }

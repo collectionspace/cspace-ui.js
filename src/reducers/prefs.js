@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import {
   PREFS_LOADED,
   COLLAPSE_PANEL,
+  SET_RECORD_BROWSER_NAV_BAR_ITEMS,
   SET_SEARCH_PAGE_RECORD_TYPE,
   SET_SEARCH_PAGE_VOCABULARY,
   SET_QUICK_SEARCH_RECORD_TYPE,
@@ -18,6 +19,10 @@ export default (state = Immutable.Map(), action) => {
     case COLLAPSE_PANEL:
       return state.setIn(
         ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload
+      );
+    case SET_RECORD_BROWSER_NAV_BAR_ITEMS:
+      return state.setIn(
+        ['recordBrowserNavBarItems', action.meta.recordType], action.payload
       );
     case SET_SEARCH_PAGE_RECORD_TYPE:
       return state.setIn(['searchPage', 'recordType'], action.payload);
@@ -64,3 +69,6 @@ export const getSearchPanelPageSize = (state, recordType, name) =>
 
 export const isPanelCollapsed = (state, recordType, name) =>
   state.getIn(['panels', recordType, name, 'collapsed']);
+
+export const getRecordBrowserNavBarItems = (state, recordType) =>
+  state.getIn(['recordBrowserNavBarItems', recordType]);

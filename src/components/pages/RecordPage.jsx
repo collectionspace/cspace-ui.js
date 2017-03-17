@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { locationShape } from 'react-router/lib/PropTypes';
+import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import ErrorPage from './ErrorPage';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
 import RecordBrowser from '../record/RecordBrowser';
 import RecordSideBar from '../record/RecordSideBar';
-import { validateRecordType } from '../../helpers/configHelpers';
+import { validateLocation } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
@@ -16,9 +16,11 @@ const propTypes = {
     recordType: PropTypes.string.isRequired,
     path1: PropTypes.string,
     path2: PropTypes.string,
+    path3: PropTypes.string,
   }).isRequired,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
+  router: routerShape,
 };
 
 const contextTypes = {
@@ -26,6 +28,12 @@ const contextTypes = {
 };
 
 export default class RecordPage extends Component {
+  constructor() {
+    super();
+
+    this.handleShowRelated = this.handleShowRelated.bind(this);
+  }
+
   componentDidMount() {
     this.initRecord();
   }
@@ -49,6 +57,7 @@ export default class RecordPage extends Component {
       recordType,
       path1,
       path2,
+      path3,
     } = this.props.params;
 
     const {
@@ -57,17 +66,20 @@ export default class RecordPage extends Component {
 
     let vocabulary;
     let csid;
+    let relatedRecordType;
 
-    const recordTypeConfig = config.recordTypes[recordType];
+    const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
     if (recordTypeConfig) {
-      const serviceType = recordTypeConfig.serviceConfig.serviceType;
+      const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
       if (serviceType === 'authority') {
         vocabulary = path1;
         csid = path2;
+        relatedRecordType = path3;
       } else {
         csid = path1;
+        relatedRecordType = path2;
       }
     }
 
@@ -75,6 +87,7 @@ export default class RecordPage extends Component {
       recordType,
       vocabulary,
       csid,
+      relatedRecordType,
     };
   }
 
@@ -120,6 +133,25 @@ export default class RecordPage extends Component {
     }
   }
 
+  handleShowRelated(relatedRecordType) {
+    const {
+      recordType,
+      vocabulary,
+      csid,
+    } = this.getParams();
+
+    const {
+      router,
+    } = this.props;
+
+    const path =
+      [recordType, vocabulary, csid, relatedRecordType]
+        .filter(part => !!part)
+        .join('/');
+
+    router.replace(`/record/${path}`);
+  }
+
   render() {
     const {
       config,
@@ -129,9 +161,12 @@ export default class RecordPage extends Component {
       recordType,
       vocabulary,
       csid,
+      relatedRecordType,
     } = this.getParams();
 
-    const validation = validateRecordType(config, recordType, vocabulary);
+    const validation = validateLocation(config, {
+      recordType, vocabulary, csid, relatedRecordType,
+    });
 
     if (validation.error) {
       return (
@@ -149,8 +184,10 @@ export default class RecordPage extends Component {
           <RecordBrowser
             csid={normalizedCsid}
             recordType={recordType}
+            relatedRecordType={relatedRecordType}
             vocabulary={vocabulary}
             config={config}
+            onShowRelated={this.handleShowRelated}
           />
           <RecordSideBar
             csid={normalizedCsid}

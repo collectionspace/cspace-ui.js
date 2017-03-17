@@ -1,6 +1,6 @@
 .common {
   width: 30%;
-  padding: 24px 0 10px 1px;
+  padding: 31px 0 10px 1px;
 }
 
 .common > :global(.cspace-layout-Panel--common) {

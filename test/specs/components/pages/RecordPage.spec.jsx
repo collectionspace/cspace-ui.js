@@ -1,14 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { findRenderedComponentWithType } from 'react-addons-test-utils';
+import { findRenderedComponentWithType, Simulate } from 'react-addons-test-utils';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
-
 import createTestContainer from '../../../helpers/createTestContainer';
-
+import mockRouter from '../../../helpers/mockRouter';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordButtonBarContainer from '../../../../src/containers/record/RecordButtonBarContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
@@ -21,8 +20,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 const expectedClassName = 'cspace-ui-RecordPage--common';
-const csid = '1234';
-const objectRecordType = 'object';
+const csid = 'b09295cf-ff56-4018-be16';
+const objectRecordType = 'collectionobject';
 const authorityRecordType = 'personauthorities';
 const vocabulary = 'local';
 
@@ -47,6 +46,23 @@ const config = {
         },
       },
       title: () => '',
+    },
+    group: {
+      serviceConfig: {
+        serviceType: 'procedure',
+      },
+      messages: {
+        record: {
+          name: {
+            id: 'record.group.name',
+            defaultMessage: 'Group',
+          },
+          collectionName: {
+            id: 'record.group.collectionName',
+            defaultMessage: 'Groups',
+          },
+        },
+      },
     },
     [authorityRecordType]: {
       serviceConfig: {
@@ -78,7 +94,13 @@ const store = mockStore({
     },
   }),
   search: Immutable.Map(),
-  prefs: Immutable.Map(),
+  prefs: Immutable.fromJS({
+    recordBrowserNavBarItems: {
+      [objectRecordType]: [
+        'group',
+      ],
+    },
+  }),
 });
 
 describe('RecordPage', function suite() {
@@ -201,7 +223,7 @@ describe('RecordPage', function suite() {
           </StoreProvider>
         </IntlProvider>, this.container);
 
-      const newCsid = '6789';
+      const newCsid = '1d075e7f-82b4-4ca9-9ab6';
 
       const newParams = {
         recordType: objectRecordType,
@@ -332,6 +354,32 @@ describe('RecordPage', function suite() {
       component.props.should.include({
         csid: '',
       });
+    });
+
+    it('should replace history with a related record URL when a related record tab is clicked', function test() {
+      let replacedLocation = null;
+
+      const router = mockRouter({
+        replace: (locationArg) => {
+          replacedLocation = locationArg;
+        },
+      });
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <RecordPage params={params} router={router} />
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, this.container);
+
+      const navItems = this.container.querySelectorAll('.cspace-ui-RecordBrowserNavItem--common');
+      const tabButton = navItems[1].querySelector('button');
+
+      Simulate.click(tabButton);
+
+      replacedLocation.should.equal(`/record/${objectRecordType}/${csid}/group`);
     });
   });
 
