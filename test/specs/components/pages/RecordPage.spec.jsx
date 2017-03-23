@@ -8,9 +8,9 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
+import { configureCSpace } from '../../../../src/actions/cspace';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import RecordButtonBarContainer from '../../../../src/containers/record/RecordButtonBarContainer';
-import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
+import RecordBrowser from '../../../../src/components/record/RecordBrowser';
 import RecordTitleBarContainer from '../../../../src/containers/record/RecordTitleBarContainer';
 import RecordPage from '../../../../src/components/pages/RecordPage';
 
@@ -32,6 +32,7 @@ const config = {
   recordTypes: {
     [objectRecordType]: {
       serviceConfig: {
+        servicePath: 'collectionobjects',
         serviceType: 'object',
       },
       forms: {
@@ -43,12 +44,17 @@ const config = {
             id: `record.${objectRecordType}.name`,
             defaultMessage: objectRecordType,
           },
+          collectionName: {
+            id: `record.${objectRecordType}.collectionName`,
+            defaultMessage: `${objectRecordType} collection`,
+          },
         },
       },
       title: () => '',
     },
     group: {
       serviceConfig: {
+        servicePath: 'groups',
         serviceType: 'procedure',
       },
       messages: {
@@ -66,6 +72,7 @@ const config = {
     },
     [authorityRecordType]: {
       serviceConfig: {
+        servicePath: 'authorities',
         serviceType: 'authority',
       },
       forms: {
@@ -81,7 +88,11 @@ const config = {
       },
       title: () => '',
       vocabularies: {
-        local: {},
+        local: {
+          serviceConfig: {
+            servicePath: 'local',
+          },
+        },
       },
     },
   },
@@ -104,11 +115,22 @@ const store = mockStore({
 });
 
 describe('RecordPage', function suite() {
+  before(() => {
+    configureCSpace({});
+  });
+
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should render as a div', function test() {
+    const location = {
+      action: '',
+      pathname: `/record/${objectRecordType}`,
+      search: '',
+      query: {},
+    };
+
     const params = {
       recordType: objectRecordType,
     };
@@ -117,7 +139,10 @@ describe('RecordPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <RecordPage params={params} />
+            <RecordPage
+              location={location}
+              params={params}
+            />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -126,6 +151,13 @@ describe('RecordPage', function suite() {
   });
 
   it('should render with correct class', function test() {
+    const location = {
+      action: '',
+      pathname: `/record/${objectRecordType}`,
+      search: '',
+      query: {},
+    };
+
     const params = {
       recordType: objectRecordType,
     };
@@ -134,7 +166,10 @@ describe('RecordPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <RecordPage params={params} />
+            <RecordPage
+              location={location}
+              params={params}
+            />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -145,7 +180,7 @@ describe('RecordPage', function suite() {
   context('for an object/procedure record', function contextSuite() {
     const location = {
       action: '',
-      pathname: '',
+      pathname: `/record/${objectRecordType}/${csid}`,
       search: '',
       query: {},
     };
@@ -170,7 +205,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={params} readRecord={readRecord} />
+              <RecordPage
+                location={location}
+                params={params}
+                readRecord={readRecord}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -195,7 +234,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={badRecordTypeParams} readRecord={readRecord} />
+              <RecordPage
+                location={location}
+                params={badRecordTypeParams}
+                readRecord={readRecord}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -218,12 +261,19 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={params} />
+              <RecordPage
+                location={location}
+                params={params}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
 
       const newCsid = '1d075e7f-82b4-4ca9-9ab6';
+
+      const newLocation = Object.assign({}, location, {
+        pathname: `/record/${objectRecordType}/${newCsid}`,
+      });
 
       const newParams = {
         recordType: objectRecordType,
@@ -234,7 +284,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={newParams} readRecord={readRecord} />
+              <RecordPage
+                location={newLocation}
+                params={newParams}
+                readRecord={readRecord}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -244,39 +298,15 @@ describe('RecordPage', function suite() {
       readCsid.should.equal(newCsid);
     });
 
-    it('should call createNewRecord when mounted if no csid is provided', function test() {
-      let createRecordTypeConfig = null;
-
-      const createNewRecord = (recordTypeConfigArg) => {
-        createRecordTypeConfig = recordTypeConfigArg;
-      };
-
-      const noCsidParams = {
-        recordType: objectRecordType,
-      };
-
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <RecordPage
-                location={location}
-                params={noCsidParams}
-                createNewRecord={createNewRecord}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container);
-
-      createRecordTypeConfig.should.equal(config.recordTypes[objectRecordType]);
-    });
-
     it('should render a RecordTitleBarContainer with correct csid and recordType', function test() {
       const resultTree = render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={params} />
+              <RecordPage
+                location={location}
+                params={params}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -289,35 +319,20 @@ describe('RecordPage', function suite() {
       });
     });
 
-    it('should render a RecordButtonBarContainer with correct csid and recordTypeConfig', function test() {
+    it('should render a RecordBrowser with correct csid and recordType', function test() {
       const resultTree = render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={params} />
+              <RecordPage
+                location={location}
+                params={params}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
 
-      const component = findRenderedComponentWithType(resultTree, RecordButtonBarContainer);
-
-      component.props.should.include({
-        csid,
-        recordTypeConfig: config.recordTypes[objectRecordType],
-      });
-    });
-
-    it('should render a RecordEditorContainer with correct csid and recordType', function test() {
-      const resultTree = render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <RecordPage params={params} />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container);
-
-      const component = findRenderedComponentWithType(resultTree, RecordEditorContainer);
+      const component = findRenderedComponentWithType(resultTree, RecordBrowser);
 
       component.props.should.include({
         csid,
@@ -326,6 +341,10 @@ describe('RecordPage', function suite() {
     });
 
     it('should use empty csid if csid is null', function test() {
+      const noCsidLocation = Object.assign({}, location, {
+        path: `/record/${objectRecordType}`,
+      });
+
       const noCsidParams = {
         recordType: objectRecordType,
       };
@@ -344,12 +363,15 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={noCsidStore}>
             <ConfigProvider config={config}>
-              <RecordPage params={noCsidParams} />
+              <RecordPage
+                location={noCsidLocation}
+                params={noCsidParams}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
 
-      const component = findRenderedComponentWithType(resultTree, RecordEditorContainer);
+      const component = findRenderedComponentWithType(resultTree, RecordBrowser);
 
       component.props.should.include({
         csid: '',
@@ -369,7 +391,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={params} router={router} />
+              <RecordPage
+                location={location}
+                params={params}
+                router={router}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -386,7 +412,7 @@ describe('RecordPage', function suite() {
   context('for an authority record', function contextSuite() {
     const location = {
       action: '',
-      pathname: '',
+      pathname: `/record/${authorityRecordType}/${vocabulary}/${csid}`,
       search: '',
       query: {},
     };
@@ -412,7 +438,11 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={params} readRecord={readRecord} />
+              <RecordPage
+                location={location}
+                params={params}
+                readRecord={readRecord}
+              />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -441,40 +471,16 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage params={badVocabularyParams} readRecord={readRecord} />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container);
-
-      readRecordCalled.should.equal(false);
-    });
-
-    it('should call createNewRecord when mounted if no csid is provided', function test() {
-      let createRecordTypeConfig = null;
-
-      const createNewRecord = (recordTypeConfigArg) => {
-        createRecordTypeConfig = recordTypeConfigArg;
-      };
-
-      const noCsidParams = {
-        recordType: authorityRecordType,
-        path1: vocabulary,
-      };
-
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={noCsidParams}
-                createNewRecord={createNewRecord}
+                params={badVocabularyParams}
+                readRecord={readRecord}
               />
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
 
-      createRecordTypeConfig.should.equal(config.recordTypes[authorityRecordType]);
+      readRecordCalled.should.equal(false);
     });
   });
 });

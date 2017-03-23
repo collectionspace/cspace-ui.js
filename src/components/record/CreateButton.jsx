@@ -1,37 +1,32 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/RevertButton.css';
+import styles from '../../../styles/cspace-ui/CreateButton.css';
 
 const { Button } = inputComponents;
 
 const messages = defineMessages({
   label: {
-    id: 'revertButton.label',
-    description: 'Label of the revert button.',
-    defaultMessage: 'Revert',
+    id: 'createButton.label',
+    description: 'Label of the create button.',
+    defaultMessage: 'Create New',
   },
 });
 
 const propTypes = {
-  isModified: PropTypes.bool,
-  isSavePending: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
-export default function RevertButton(props) {
+export default function CreateButton(props) {
   const {
-    isModified,
-    isSavePending,
     onClick,
   } = props;
 
   return (
     <Button
       className={styles.common}
-      disabled={!isModified || isSavePending}
       icon
-      name="revert"
+      name="create"
       onClick={onClick}
     >
       <FormattedMessage {...messages.label} />
@@ -39,4 +34,4 @@ export default function RevertButton(props) {
   );
 }
 
-RevertButton.propTypes = propTypes;
+CreateButton.propTypes = propTypes;

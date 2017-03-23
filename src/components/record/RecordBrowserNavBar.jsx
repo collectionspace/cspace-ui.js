@@ -36,9 +36,10 @@ const filterRecordTypes = (recordTypes, relatedRecordBrowsers) => {
 
   Object.keys(recordTypes).forEach((recordTypeName) => {
     const recordType = recordTypes[recordTypeName];
+    const serviceType = get(recordType, ['serviceConfig', 'serviceType']);
 
     if (
-      get(recordType, ['serviceConfig', 'serviceType']) === 'procedure' &&
+      (serviceType === 'procedure' || serviceType === 'object') &&
       !existingBrowsers.includes(recordTypeName)
     ) {
       filtered[recordTypeName] = recordType;

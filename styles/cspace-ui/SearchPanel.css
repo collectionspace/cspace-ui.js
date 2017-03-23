@@ -1,3 +1,7 @@
+.common > div {
+  padding: 0;
+}
+
 .common :global(.cspace-ui-PageSizeChooser--common) > div > div {
   width: 40px;
 }

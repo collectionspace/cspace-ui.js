@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { isSearchPending, getSearchResult } from '../reducers';
+import { getSearchResult, isSearchPending } from '../reducers';
 import getSession from './cspace';
 import { advancedSearchConditionToNXQL } from '../helpers/searchHelpers';
 
@@ -235,3 +235,4 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
         })
       );
   };
+

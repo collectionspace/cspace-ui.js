@@ -11,11 +11,9 @@
 }
 
 .normal :global(.image-gallery-thumbnails) {
-  padding: 0;
   border: solid rgb(220, 220, 220);
   border-width: 1px 0;
   background: rgb(240, 240, 240);
-  overflow: visible;
   min-height: 10px;
 }
 
@@ -32,6 +30,7 @@
 .normal :global(.image-gallery-thumbnail.active) {
   border: none;
   outline: 1px solid black;
+  outline-offset: -1px;
 }
 
 .normal :global(.image-gallery-thumbnail) img {

@@ -236,6 +236,7 @@ export const validateLocation = (config, location) => {
     csid,
     subresource,
     relatedRecordType,
+    relatedCsid,
   } = location;
 
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
@@ -318,6 +319,15 @@ export const validateLocation = (config, location) => {
         },
       };
     }
+  }
+
+  if (relatedCsid && !isCsid(relatedCsid)) {
+    return {
+      error: {
+        csid: relatedCsid,
+        code: ERR_INVALID_CSID,
+      },
+    };
   }
 
   return {};

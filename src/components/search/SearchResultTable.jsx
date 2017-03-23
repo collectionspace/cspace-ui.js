@@ -40,6 +40,7 @@ const propTypes = {
   searchResult: PropTypes.instanceOf(Immutable.Map),
   renderHeader: PropTypes.func,
   renderFooter: PropTypes.func,
+  onItemClick: PropTypes.func,
   onSortChange: PropTypes.func,
 };
 
@@ -71,24 +72,33 @@ export default class SearchResultTable extends Component {
       listType,
       searchDescriptor,
       searchResult,
+      onItemClick,
     } = this.props;
 
     const {
       router,
     } = this.context;
 
-    if (searchResult && router) {
+    if (searchResult && (router || onItemClick)) {
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
       const items = searchResult.getIn([listNodeName, itemNodeName]);
       const item = Immutable.List.isList(items) ? items.get(index) : items;
 
-      const itemContext = { config, searchDescriptor };
-      const itemLocation = listTypeConfig.getItemLocation(item, itemContext);
+      let performDefault = true;
 
-      if (itemLocation) {
-        router.push(itemLocation);
+      if (onItemClick) {
+        performDefault = onItemClick(item);
+      }
+
+      if (performDefault) {
+        const itemContext = { config, searchDescriptor };
+        const itemLocation = listTypeConfig.getItemLocation(item, itemContext);
+
+        if (itemLocation) {
+          router.push(itemLocation);
+        }
       }
     }
   }

@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import ErrorPage from './ErrorPage';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
 import RecordBrowser from '../record/RecordBrowser';
@@ -18,7 +17,6 @@ const propTypes = {
     path2: PropTypes.string,
     path3: PropTypes.string,
   }).isRequired,
-  createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
   router: routerShape,
 };
@@ -39,26 +37,29 @@ export default class RecordPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      params,
-    } = this.props;
+    const params = this.getParams(this.props);
+    const prevParams = this.getParams(prevProps);
 
     const {
-      params: prevParams,
-    } = prevProps;
+      csid,
+    } = params;
 
-    if (!isEqual(params, prevParams)) {
+    const {
+      csid: prevCsid,
+    } = prevParams;
+
+    if (csid !== prevCsid) {
       this.initRecord();
     }
   }
 
-  getParams() {
+  getParams(props) {
     const {
       recordType,
       path1,
       path2,
       path3,
-    } = this.props.params;
+    } = props.params;
 
     const {
       config,
@@ -67,6 +68,7 @@ export default class RecordPage extends Component {
     let vocabulary;
     let csid;
     let relatedRecordType;
+    let relatedCsid;
 
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
@@ -80,6 +82,7 @@ export default class RecordPage extends Component {
       } else {
         csid = path1;
         relatedRecordType = path2;
+        relatedCsid = path3;
       }
     }
 
@@ -88,13 +91,12 @@ export default class RecordPage extends Component {
       vocabulary,
       csid,
       relatedRecordType,
+      relatedCsid,
     };
   }
 
   initRecord() {
     const {
-      location,
-      createNewRecord,
       readRecord,
     } = this.props;
 
@@ -106,46 +108,34 @@ export default class RecordPage extends Component {
       recordType,
       vocabulary,
       csid,
-    } = this.getParams();
+    } = this.getParams(this.props);
 
-    const recordTypeConfig = config.recordTypes[recordType];
+    const normalizedCsid = (csid === 'new') ? '' : csid;
 
-    if (!recordTypeConfig) {
-      return;
-    }
+    if (normalizedCsid && readRecord) {
+      const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-    let vocabularyConfig;
+      const vocabularyConfig = vocabulary
+        ? get(recordTypeConfig, ['vocabularies', vocabulary])
+        : undefined;
 
-    if (vocabulary) {
-      vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
-
-      if (!vocabularyConfig) {
-        return;
-      }
-    }
-
-    if (csid) {
-      if (readRecord) {
-        readRecord(recordTypeConfig, vocabularyConfig, csid);
-      }
-    } else if (createNewRecord) {
-      createNewRecord(recordTypeConfig, vocabularyConfig, location.query.clone);
+      readRecord(recordTypeConfig, vocabularyConfig, normalizedCsid);
     }
   }
 
-  handleShowRelated(relatedRecordType) {
+  handleShowRelated(relatedRecordType, relatedCsid) {
     const {
       recordType,
       vocabulary,
       csid,
-    } = this.getParams();
+    } = this.getParams(this.props);
 
     const {
       router,
     } = this.props;
 
     const path =
-      [recordType, vocabulary, csid, relatedRecordType]
+      [recordType, vocabulary, csid, relatedRecordType, relatedCsid]
         .filter(part => !!part)
         .join('/');
 
@@ -153,6 +143,10 @@ export default class RecordPage extends Component {
   }
 
   render() {
+    const {
+      location,
+    } = this.props;
+
     const {
       config,
     } = this.context;
@@ -162,10 +156,19 @@ export default class RecordPage extends Component {
       vocabulary,
       csid,
       relatedRecordType,
-    } = this.getParams();
+      relatedCsid,
+    } = this.getParams(this.props);
+
+    const cloneCsid = location.query.clone;
+    const normalizedCsid = (csid === 'new') ? '' : (csid || '');
+    const normalizedRelatedCsid = (relatedCsid === 'new') ? '' : relatedCsid;
 
     const validation = validateLocation(config, {
-      recordType, vocabulary, csid, relatedRecordType,
+      recordType,
+      vocabulary,
+      relatedRecordType,
+      csid: normalizedCsid,
+      relatedCsid: normalizedRelatedCsid,
     });
 
     if (validation.error) {
@@ -174,16 +177,16 @@ export default class RecordPage extends Component {
       );
     }
 
-    const normalizedCsid = csid || '';
-
     return (
       <div className={styles.common}>
         <RecordTitleBarContainer csid={normalizedCsid} recordType={recordType} />
 
         <div className={pageBodyStyles.common}>
           <RecordBrowser
+            cloneCsid={cloneCsid}
             csid={normalizedCsid}
             recordType={recordType}
+            relatedCsid={normalizedRelatedCsid}
             relatedRecordType={relatedRecordType}
             vocabulary={vocabulary}
             config={config}

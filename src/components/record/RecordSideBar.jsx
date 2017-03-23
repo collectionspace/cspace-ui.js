@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPanelContainer';
-import RelatedObjectPanelContainer from '../../containers/record/RelatedObjectPanelContainer';
-import RelatedProcedurePanelContainer from '../../containers/record/RelatedProcedurePanelContainer';
+import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSideBar.css';
@@ -38,20 +37,25 @@ export default function RecordSideBar(props) {
 
   if (!isAuthority) {
     relatedObjects = (
-      <RelatedObjectPanelContainer
+      <RelatedRecordPanelContainer
         color="blue"
+        columnSetName="narrow"
         csid={csid}
         config={config}
+        name="relatedObjectPanel"
         recordType={recordType}
+        relatedRecordType="collectionobject"
       />
     );
 
     relatedProcedures = (
-      <RelatedProcedurePanelContainer
+      <RelatedRecordPanelContainer
         color="blue"
         csid={csid}
         config={config}
+        name="relatedProcedurePanel"
         recordType={recordType}
+        relatedRecordType="procedure"
       />
     );
   }

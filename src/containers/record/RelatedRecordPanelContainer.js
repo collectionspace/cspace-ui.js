@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import MediaSnapshotPanel from '../../components/record/MediaSnapshotPanel';
+import RelatedRecordPanel from '../../components/record/RelatedRecordPanel';
 
 import {
   getRecordData,
@@ -19,4 +19,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-)(MediaSnapshotPanel);
+)(RelatedRecordPanel);

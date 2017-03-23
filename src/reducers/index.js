@@ -10,6 +10,7 @@ import optionList, * as fromOptionList from './optionList';
 import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
+import relation, * as fromRelation from './relation';
 import search, * as fromSearch from './search';
 import user, * as fromUser from './user';
 import vocabulary, * as fromVocabulary from './vocabulary';
@@ -25,6 +26,7 @@ export default combineReducers({
   partialTermSearch,
   prefs,
   record,
+  relation,
   routing,
   search,
   user,
@@ -61,6 +63,10 @@ export function isLogoutPending(state) {
 
 export function getLogoutResponse(state) {
   return fromLogout.getResponse(state.logout);
+}
+
+export function getRecordRelationUpdatedTimestamp(state, csid) {
+  return fromRecord.getRelationUpdatedTimestamp(state.record, csid);
 }
 
 export function getRecordData(state, csid) {
@@ -151,10 +157,18 @@ export function isSearchPending(state, searchName, searchDescriptor) {
   return fromSearch.isPending(state.search, searchName, searchDescriptor);
 }
 
+export function getMostRecentSearchDescriptor(state, searchName) {
+  return fromSearch.getMostRecentDescriptor(state.search, searchName);
+}
+
 export function getSearchResult(state, searchName, searchDescriptor) {
   return fromSearch.getResult(state.search, searchName, searchDescriptor);
 }
 
 export function getSearchError(state, searchName, searchDescriptor) {
   return fromSearch.getError(state.search, searchName, searchDescriptor);
+}
+
+export function getRelationFindResult(state, descriptor) {
+  return fromRelation.getFindResult(state.relation, descriptor);
 }

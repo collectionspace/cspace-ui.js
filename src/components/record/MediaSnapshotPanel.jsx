@@ -13,22 +13,33 @@ const messages = defineMessages({
 
 // TODO: Make sort param configurable.
 
-const getSearchDescriptor = (relatedCsid, updatedTimestamp) => ({
-  recordType: 'media',
-  searchQuery: {
-    rel: relatedCsid,
-    p: 0,
-    size: 2500,
-    sort: 'title',
-  },
-  seqID: updatedTimestamp,
-});
+const getSearchDescriptor = (props) => {
+  const {
+    csid,
+    recordRelationUpdatedTimestamp,
+  } = props;
+
+  return {
+    recordType: 'media',
+    searchQuery: {
+      rel: csid,
+      p: 0,
+      size: 2500,
+      sort: 'title',
+    },
+    seqID: recordRelationUpdatedTimestamp,
+  };
+};
 
 const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
+  // This use isn't detected by eslint.
+  /* eslint-disable react/no-unused-prop-types */
+  recordRelationUpdatedTimestamp: PropTypes.string,
+  /* eslint-enable react/no-unused-prop-types */
   recordType: PropTypes.string,
 };
 
@@ -41,9 +52,9 @@ export default function MediaSnapshotPanel(props) {
     recordType,
   } = props;
 
-  const searchDescriptor = getSearchDescriptor(csid, getUpdatedTimestamp(recordData));
+  const searchDescriptor = getSearchDescriptor(props);
 
-  if (!searchDescriptor.seqID) {
+  if (!getUpdatedTimestamp(recordData)) {
     // Don't render until after the record has loaded.
 
     return null;

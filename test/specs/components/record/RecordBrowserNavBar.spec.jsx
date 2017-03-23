@@ -16,6 +16,14 @@ const config = {
       serviceConfig: {
         serviceType: 'object',
       },
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.collectionobject.collectionName',
+            defaultMessage: 'Objects',
+          },
+        },
+      },
     },
     group: {
       serviceConfig: {
@@ -360,7 +368,7 @@ describe('RecordBrowserNavBar', function suite() {
     Simulate.click(menuItems[0]);
 
     setItemsRecordType.should.equal('collectionobject');
-    setItemsItems.should.equal(Immutable.List(['group']));
+    setItemsItems.should.equal(Immutable.List(['collectionobject']));
   });
 
   it('should call onSelect when a selection is made in the related record selector', function test() {
@@ -390,6 +398,6 @@ describe('RecordBrowserNavBar', function suite() {
 
     Simulate.click(menuItems[0]);
 
-    selectedRecordType.should.equal('group');
+    selectedRecordType.should.equal('collectionobject');
   });
 });

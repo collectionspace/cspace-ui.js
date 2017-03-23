@@ -1,8 +1,12 @@
 /* global window */
 
 import getSession from './cspace';
-import { getRecordData } from '../reducers';
+import { getRecordData, isRecordReadPending } from '../reducers';
 import { prepareForSending } from '../helpers/recordDataHelpers';
+
+import {
+  ERR_API,
+} from '../constants/errorCodes';
 
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
 export const RECORD_READ_STARTED = 'RECORD_READ_STARTED';
@@ -44,7 +48,16 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   return getSession().read(path, config);
 };
 
-export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatch) => {
+export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatch, getState) => {
+  if (
+    isRecordReadPending(getState(), csid) ||
+    getRecordData(getState(), csid)
+  ) {
+    // We already have data for this record, or a request is already pending. Do nothing.
+
+    return null;
+  }
+
   dispatch({
     type: RECORD_READ_STARTED,
     meta: {
@@ -64,7 +77,10 @@ export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatc
     }))
     .catch(error => dispatch({
       type: RECORD_READ_REJECTED,
-      payload: error,
+      payload: {
+        code: ERR_API,
+        error,
+      },
       meta: {
         recordTypeConfig,
         csid,
@@ -108,90 +124,110 @@ export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =
     );
   };
 
-export const saveRecord = (recordTypeConfig, vocabularyConfig, csid, replace) =>
-  (dispatch, getState) => {
-    dispatch({
-      type: RECORD_SAVE_STARTED,
-      meta: {
-        recordTypeConfig,
-        csid,
-      },
-    });
+export const saveRecord =
+  (recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated) =>
+    (dispatch, getState) => {
+      dispatch({
+        type: RECORD_SAVE_STARTED,
+        meta: {
+          recordTypeConfig,
+          csid,
+          relatedSubjectCsid,
+        },
+      });
 
-    const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+      const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
 
-    const vocabularyServicePath = vocabularyConfig
-      ? vocabularyConfig.serviceConfig.servicePath
-      : null;
+      const vocabularyServicePath = vocabularyConfig
+        ? vocabularyConfig.serviceConfig.servicePath
+        : null;
 
-    const pathParts = [recordServicePath];
+      const pathParts = [recordServicePath];
 
-    if (vocabularyServicePath) {
-      pathParts.push(vocabularyServicePath);
-      pathParts.push('items');
-    }
+      if (vocabularyServicePath) {
+        pathParts.push(vocabularyServicePath);
+        pathParts.push('items');
+      }
 
-    if (csid) {
-      pathParts.push(csid);
-    }
+      if (csid) {
+        pathParts.push(csid);
+      }
 
-    const path = pathParts.join('/');
+      const path = pathParts.join('/');
 
-    const data = getRecordData(getState(), csid);
+      const data = getRecordData(getState(), csid);
 
-    const config = {
-      data: prepareForSending(data).toJS(),
-    };
+      const config = {
+        data: prepareForSending(data).toJS(),
+      };
 
-    let savePromise;
-
-    if (csid) {
-      savePromise = getSession().update(path, config)
-        .then(response => dispatch({
-          type: RECORD_SAVE_FULFILLED,
-          payload: response,
-          meta: {
-            recordTypeConfig,
-            csid,
-          },
-        }));
-    } else {
-      savePromise = getSession().create(path, config)
-        .then((response) => {
-          if (response.status === 201 && response.headers.location) {
-            // Redirect to the new record.
-
-            const location = response.headers.location;
-            const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
-
-            const vocabularyPath = vocabularyConfig
-              ? `${vocabularyConfig.name}/`
-              : '';
-
-            replace(`/record/${recordTypeConfig.name}/${vocabularyPath}${newRecordCsid}`);
-          }
-
-          return dispatch({
+      if (csid) {
+        return getSession().update(path, config)
+          .then(response => dispatch({
             type: RECORD_SAVE_FULFILLED,
             payload: response,
             meta: {
               recordTypeConfig,
               csid,
+              relatedSubjectCsid,
             },
-          });
-        });
-    }
+          }))
+          .catch(error => dispatch({
+            type: RECORD_SAVE_REJECTED,
+            payload: {
+              code: ERR_API,
+              error,
+            },
+            meta: {
+              recordTypeConfig,
+              csid,
+              relatedSubjectCsid,
+            },
+          }));
+      }
 
-    return savePromise
-      .catch(error => dispatch({
-        type: RECORD_SAVE_REJECTED,
-        payload: error,
-        meta: {
-          recordTypeConfig,
-          csid,
-        },
-      }));
-  };
+      return getSession().create(path, config)
+        .then((response) => {
+          if (response.status === 201 && response.headers.location) {
+            const location = response.headers.location;
+            const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
+
+            return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
+              .then((readResponse) => {
+                dispatch({
+                  type: RECORD_SAVE_FULFILLED,
+                  payload: readResponse,
+                  meta: {
+                    recordTypeConfig,
+                    csid: newRecordCsid,
+                    relatedSubjectCsid,
+                  },
+                });
+
+                if (onRecordCreated) {
+                  onRecordCreated(newRecordCsid);
+                }
+              });
+          }
+
+          const error = new Error('Expected response with status 201 and a location header');
+          error.response = response;
+
+          throw error;
+        })
+        .catch(error => dispatch({
+          type: RECORD_SAVE_REJECTED,
+          payload: {
+            code: ERR_API,
+            error,
+          },
+          meta: {
+            recordTypeConfig,
+            csid,
+            relatedSubjectCsid,
+          },
+        }));
+    };
 
 export const addFieldInstance = (recordTypeConfig, csid, path) => ({
   type: ADD_FIELD_INSTANCE,

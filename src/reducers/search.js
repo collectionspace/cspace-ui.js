@@ -246,14 +246,15 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export function isPending(state, searchName, searchDescriptor) {
-  return state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
-}
+export const isPending = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
 
-export function getResult(state, searchName, searchDescriptor) {
-  return state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'result']);
-}
+export const getMostRecentDescriptor = (state, searchName) =>
+  state.getIn([searchName, 'byKey', state.getIn([searchName, 'mostRecentKey']), 'descriptor']);
 
-export function getError(state, searchName, searchDescriptor) {
-  return state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'error']);
-}
+
+export const getResult = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'result']);
+
+export const getError = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'error']);

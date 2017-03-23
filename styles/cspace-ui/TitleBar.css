@@ -31,10 +31,6 @@
   color: #739CD2;
 }
 
-.common > div > div:last-child {
-  margin-top: 4px;
-}
-
 .docked {
   composes: common;
 }
@@ -48,10 +44,10 @@
   z-index: 100;
 }
 
-.docked > div > h1 {
+.docked > div > div > h1 {
   padding-right: 20px;
 }
 
-.docked > div > div:last-child {
-  padding-right: 10px;
+.docked > div > :global(.cspace-ui-Subtitle--common) {
+  padding-right: 20px;
 }

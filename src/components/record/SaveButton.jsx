@@ -16,14 +16,14 @@ const messages = defineMessages({
 const propTypes = {
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  save: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default function SaveButton(props) {
   const {
     isModified,
     isSavePending,
-    save,
+    onClick,
   } = props;
 
   let className;
@@ -42,7 +42,7 @@ export default function SaveButton(props) {
       disabled={isSavePending}
       icon
       name="save"
-      onClick={save}
+      onClick={onClick}
     >
       <FormattedMessage {...messages.label} />
     </Button>

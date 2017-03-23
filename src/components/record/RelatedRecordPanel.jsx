@@ -1,48 +1,53 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import isEqual from 'lodash/isEqual';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 
 const messages = defineMessages({
   title: {
-    id: 'termsUsedPanel.title',
-    defaultMessage: 'Terms Used',
+    id: 'relatedRecordPanel.title',
+    defaultMessage: 'Related {collectionName}',
   },
 });
 
 const getSearchDescriptor = (props) => {
   const {
-    recordType,
-    vocabulary,
     csid,
-    recordData,
+    recordRelationUpdatedTimestamp,
+    relatedRecordType,
   } = props;
 
   return {
-    recordType,
-    vocabulary,
-    csid,
-    subresource: 'terms',
+    recordType: relatedRecordType,
     searchQuery: {
+      rel: csid,
       p: 0,
       size: 5,
     },
-    seqID: getUpdatedTimestamp(recordData),
+    seqID: recordRelationUpdatedTimestamp,
   };
 };
 
 const propTypes = {
   color: PropTypes.string,
+  columnSetName: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  name: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
+  // This use isn't detected by eslint.
+  /* eslint-disable react/no-unused-prop-types */
+  recordRelationUpdatedTimestamp: PropTypes.string,
+  /* eslint-enable react/no-unused-prop-types */
   recordType: PropTypes.string,
-  vocabulary: PropTypes.string,
+  relatedRecordType: PropTypes.string,
+  onItemClick: PropTypes.func,
 };
 
-export default class TermsUsedPanel extends Component {
+export default class RelatedRecordPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -59,12 +64,11 @@ export default class TermsUsedPanel extends Component {
 
     if (!isEqual(searchDescriptor, nextSearchDescriptor)) {
       if (
-        searchDescriptor.csid === nextSearchDescriptor.csid &&
         searchDescriptor.recordType === nextSearchDescriptor.recordType &&
-        searchDescriptor.vocabulary === nextSearchDescriptor.vocabulary
+        searchDescriptor.searchQuery.rel === nextSearchDescriptor.searchQuery.rel
       ) {
-        // The record type, vocabulary, and csid didn't change, so carry over the page number, size,
-        // and sort from the current search descriptor.
+        // The record type and related csid didn't change, so carry over the page number, size, and
+        // sort from the current search descriptor.
 
         const {
           p,
@@ -89,14 +93,30 @@ export default class TermsUsedPanel extends Component {
     });
   }
 
+  renderTitle() {
+    const {
+      config,
+      relatedRecordType,
+    } = this.props;
+
+    const collectionNameMessage =
+      get(config, ['recordTypes', relatedRecordType, 'messages', 'record', 'collectionName']);
+
+    const collectionName = <FormattedMessage {...collectionNameMessage} />;
+
+    return <FormattedMessage {...messages.title} values={{ collectionName }} />;
+  }
+
   render() {
     const {
       color,
+      columnSetName,
       config,
       csid,
-      recordType,
-      vocabulary,
+      name,
       recordData,
+      recordType,
+      onItemClick,
     } = this.props;
 
     const {
@@ -113,19 +133,18 @@ export default class TermsUsedPanel extends Component {
       <SearchPanelContainer
         collapsed
         color={color}
-        columnSetName="narrow"
+        columnSetName={columnSetName}
         config={config}
         csid={csid}
-        listType="authRef"
-        name="termsUsedPanel"
+        name={name}
         searchDescriptor={searchDescriptor}
         recordType={recordType}
-        vocabulary={vocabulary}
-        title={<FormattedMessage {...messages.title} />}
+        title={this.renderTitle()}
+        onItemClick={onItemClick}
         onSearchDescriptorChange={this.handleSearchDescriptorChange}
       />
     );
   }
 }
 
-TermsUsedPanel.propTypes = propTypes;
+RelatedRecordPanel.propTypes = propTypes;
