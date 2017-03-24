@@ -7,9 +7,9 @@ import {
 } from '../constants/errorCodes';
 
 export const CLEAR_RELATION_STATE = 'CLEAR_RELATION_STATE';
-export const RELATION_FIND_STARTED = 'RELATION_SEARCH_STARTED';
-export const RELATION_FIND_FULFILLED = 'RELATION_SEARCH_FULFILLED';
-export const RELATION_FIND_REJECTED = 'RELATION_SEARCH_REJECTED';
+export const RELATION_FIND_STARTED = 'RELATION_FIND_STARTED';
+export const RELATION_FIND_FULFILLED = 'RELATION_FIND_FULFILLED';
+export const RELATION_FIND_REJECTED = 'RELATION_FIND_REJECTED';
 export const RELATION_SAVE_STARTED = 'RELATION_SAVE_STARTED';
 export const RELATION_SAVE_FULFILLED = 'RELATION_SAVE_FULFILLED';
 export const RELATION_SAVE_REJECTED = 'RELATION_SAVE_REJECTED';
@@ -146,7 +146,10 @@ export const create = descriptor => (dispatch) => {
     }))
     .catch(error => dispatch({
       type: RELATION_SAVE_REJECTED,
-      payload: error,
+      payload: {
+        code: ERR_API,
+        error,
+      },
       meta: descriptor,
     }));
 };

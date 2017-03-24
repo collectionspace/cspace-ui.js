@@ -42,7 +42,7 @@ class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.push({
+    router.replace({
       pathname: `/record/${path}/new`,
       query: {
         clone: relatedRecordCsid,

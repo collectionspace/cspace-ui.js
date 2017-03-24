@@ -594,7 +594,7 @@ describe('reducer', function suite() {
       const predicate = 'affects';
 
       const result = Immutable.fromJS({
-        'ns3:relations-common-list': {
+        'ns2:relations-common-list': {
           itemsInPage: '1',
           totalItems: '1',
         },

@@ -1,7 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
+
+const messages = defineMessages({
+  notFound: {
+    id: 'relationEditor.notFound',
+    defaultMessage: 'Not Found',
+  },
+  noRelation: {
+    id: 'relationEditor.noRelation',
+    defaultMessage: 'There is no related record with CSID "{csid}" and type "{recordType}".',
+  },
+});
 
 const propTypes = {
   cloneCsid: PropTypes.string,
@@ -123,13 +135,22 @@ export default class RelationEditor extends Component {
         return null;
       }
 
-      const count = parseInt(findResult.getIn(['ns3:relations-common-list', 'totalItems']), 10);
+      const count = parseInt(findResult.getIn(['ns2:relations-common-list', 'totalItems']), 10);
 
       if (isNaN(count) || count < 1) {
         // There is no relation.
-        // TODO: Show proper error page.
 
-        return <div>Relation not found</div>;
+        return (
+          <div>
+            <h1><FormattedMessage {...messages.notFound} /></h1>
+            <p>
+              <FormattedMessage
+                {...messages.noRelation}
+                values={{ csid: object.csid, recordType: object.recordType }}
+              />
+            </p>
+          </div>
+        );
       }
     }
 

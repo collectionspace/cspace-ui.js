@@ -31,7 +31,7 @@ const handleRelationSaveFulfilled = (state, action) => {
   return state.setIn(
     ['find', subject.csid, object.csid, predicate, 'result'],
     Immutable.fromJS({
-      'ns3:relations-common-list': {
+      'ns2:relations-common-list': {
         itemsInPage: '1',
         totalItems: '1',
       },
