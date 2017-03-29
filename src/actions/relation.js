@@ -13,6 +13,7 @@ export const RELATION_FIND_REJECTED = 'RELATION_FIND_REJECTED';
 export const RELATION_SAVE_STARTED = 'RELATION_SAVE_STARTED';
 export const RELATION_SAVE_FULFILLED = 'RELATION_SAVE_FULFILLED';
 export const RELATION_SAVE_REJECTED = 'RELATION_SAVE_REJECTED';
+export const SUBJECT_RELATIONS_UPDATED = 'SUBJECT_RELATIONS_UPDATED';
 
 export const clearState = () => ({
   type: CLEAR_RELATION_STATE,
@@ -112,16 +113,14 @@ export const find = (config, descriptor) => (dispatch, getState) => {
     );
 };
 
-export const create = descriptor => (dispatch) => {
-  const {
-    subject,
-    object,
-    predicate,
-  } = descriptor;
-
+const doCreate = (subject, object, predicate) => (dispatch) => {
   dispatch({
     type: RELATION_SAVE_STARTED,
-    meta: descriptor,
+    meta: {
+      subject,
+      object,
+      predicate,
+    },
   });
 
   const config = {
@@ -142,25 +141,62 @@ export const create = descriptor => (dispatch) => {
     .then(response => dispatch({
       type: RELATION_SAVE_FULFILLED,
       payload: response,
-      meta: descriptor,
-    }))
-    .catch(error => dispatch({
-      type: RELATION_SAVE_REJECTED,
-      payload: {
-        code: ERR_API,
-        error,
+      meta: {
+        subject,
+        object,
+        predicate,
       },
-      meta: descriptor,
+    }))
+    .catch((error) => {
+      dispatch({
+        type: RELATION_SAVE_REJECTED,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          subject,
+          object,
+          predicate,
+        },
+      });
+
+      return Promise.reject(error);
+    });
+};
+
+export const batchCreate = (subject, objects, predicate) => dispatch =>
+  Promise.all(objects.map(object => dispatch(doCreate(subject, object, predicate))))
+    .then(() => dispatch({
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
     }));
-};
 
-export const createBidirectional = descriptor => (dispatch) => {
-  const {
-    subject,
-    object,
-    predicate,
-  } = descriptor;
+export const batchCreateBidirectional = (subject, objects, predicate) => dispatch =>
+  Promise.all(objects.map(
+    object =>
+      dispatch(doCreate(subject, object, predicate))
+        .then(() => dispatch(doCreate(object, subject, predicate)))
+  ))
+    .then(() => dispatch({
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    }))
+    .catch(() => {});
 
-  return dispatch(create({ subject, object, predicate }))
-    .then(() => dispatch(create({ subject: object, object: subject, predicate })));
-};
+export const create = (subject, object, predicate) => dispatch =>
+  dispatch(doCreate(subject, object, predicate))
+    .then(() => dispatch({
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    }))
+    .catch(() => {});
+
+export const createBidirectional = (subject, object, predicate) => dispatch =>
+  dispatch(doCreate(subject, object, predicate))
+    .then(() => dispatch(doCreate(object, subject, predicate)))
+    .then(() => dispatch({
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    }))
+    .catch(() => {});

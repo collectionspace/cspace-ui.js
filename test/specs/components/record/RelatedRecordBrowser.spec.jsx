@@ -63,6 +63,7 @@ const store = mockStore({
     },
   }),
   search: Immutable.Map(),
+  searchToRelate: Immutable.Map(),
 });
 
 const config = {

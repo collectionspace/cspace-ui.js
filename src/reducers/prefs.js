@@ -8,8 +8,9 @@ import {
   SET_SEARCH_PAGE_VOCABULARY,
   SET_QUICK_SEARCH_RECORD_TYPE,
   SET_QUICK_SEARCH_VOCABULARY,
-  SET_SEARCH_PAGE_SIZE,
   SET_SEARCH_PANEL_PAGE_SIZE,
+  SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_TO_RELATE_PAGE_SIZE,
 } from '../actions/prefs';
 
 export default (state = Immutable.Map(), action) => {
@@ -38,12 +39,14 @@ export default (state = Immutable.Map(), action) => {
         ['quickSearch', 'vocabulary', state.getIn(['quickSearch', 'recordType'])],
         action.payload
       );
-    case SET_SEARCH_PAGE_SIZE:
-      return state.set('searchPageSize', action.payload);
     case SET_SEARCH_PANEL_PAGE_SIZE:
       return state.setIn(
         ['panels', action.meta.recordType, action.meta.name, 'pageSize'], action.payload
       );
+    case SET_SEARCH_RESULT_PAGE_PAGE_SIZE:
+      return state.set('searchResultPagePageSize', action.payload);
+    case SET_SEARCH_TO_RELATE_PAGE_SIZE:
+      return state.set('searchToRelatePageSize', action.payload);
     default:
       return state;
   }
@@ -61,11 +64,14 @@ export const getQuickSearchRecordType = state =>
 export const getQuickSearchVocabulary = (state, recordType) =>
   state.getIn(['quickSearch', 'vocabulary', recordType]);
 
-export const getSearchPageSize = state =>
-  state.get('searchPageSize');
-
 export const getSearchPanelPageSize = (state, recordType, name) =>
   state.getIn(['panels', recordType, name, 'pageSize']);
+
+export const getSearchResultPagePageSize = state =>
+  state.get('searchResultPagePageSize');
+
+export const getSearchToRelatePageSize = state =>
+  state.get('searchToRelatePageSize');
 
 export const isPanelCollapsed = (state, recordType, name) =>
   state.getIn(['panels', recordType, name, 'collapsed']);

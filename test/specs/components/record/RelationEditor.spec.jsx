@@ -139,10 +139,10 @@ describe('RelationEditor', function suite() {
     let createObject = null;
     let createPredicate = null;
 
-    const createRelation = (descriptor) => {
-      createSubject = descriptor.subject;
-      createObject = descriptor.object;
-      createPredicate = descriptor.predicate;
+    const createRelation = (subjectArg, objectArg, predicateArg) => {
+      createSubject = subjectArg;
+      createObject = objectArg;
+      createPredicate = predicateArg;
 
       return Promise.resolve();
     };

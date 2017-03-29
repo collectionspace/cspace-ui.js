@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => {
     preferredPageSize !== providedSearchDescriptor.searchQuery.size &&
     !providedSearchDescriptor.searchQuery.p
   ) {
-    // A preferred page size exists. Override the provded page size.
+    // A preferred page size exists. Override the provided page size.
 
     searchDescriptor = merge({}, providedSearchDescriptor, {
       searchQuery: {

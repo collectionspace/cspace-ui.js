@@ -27,6 +27,8 @@ const messages = defineMessages({
 });
 
 export const searchName = 'searchResultPage';
+// FIXME: Make default page size configurable
+const defaultPageSize = 20;
 
 const propTypes = {
   location: locationShape,
@@ -178,8 +180,6 @@ export default class SearchResultPage extends Component {
       const pageSize = parseInt(query.size, 10);
 
       if (isNaN(pageSize) || pageSize < 1) {
-        // FIXME: Make default page size configurable
-        const defaultPageSize = 20;
         const normalizedPageSize = preferredPageSize || defaultPageSize;
 
         normalizedQueryParams.size = normalizedPageSize.toString();
@@ -354,21 +354,8 @@ export default class SearchResultPage extends Component {
       );
     }
 
-    const {
-      location,
-    } = this.props;
-
+    let pageSize = null;
     let message = null;
-    let pageSizeChooser = null;
-
-    const pageSizeQueryParam = parseInt(location.query.size, 10);
-
-    pageSizeChooser = (
-      <PageSizeChooser
-        pageSize={pageSizeQueryParam}
-        onPageSizeChange={this.handlePageSizeChange}
-      />
-    );
 
     if (searchResult) {
       const {
@@ -389,7 +376,8 @@ export default class SearchResultPage extends Component {
         );
       } else {
         const pageNum = parseInt(list.get('pageNum'), 10);
-        const pageSize = parseInt(list.get('pageSize'), 10);
+
+        pageSize = parseInt(list.get('pageSize'), 10);
 
         const startNum = (pageNum * pageSize) + 1;
         const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
@@ -407,12 +395,25 @@ export default class SearchResultPage extends Component {
       }
     }
 
+    if (pageSize === null) {
+      const searchDescriptor = this.getSearchDescriptor();
+
+      pageSize = searchDescriptor.searchQuery.size;
+    }
+
     const content = (
       <div>
         {message}
         {message ? ' | ' : ''}
         {this.renderEditLink()}
       </div>
+    );
+
+    const pageSizeChooser = (
+      <PageSizeChooser
+        pageSize={pageSize}
+        onPageSizeChange={this.handlePageSizeChange}
+      />
     );
 
     return (

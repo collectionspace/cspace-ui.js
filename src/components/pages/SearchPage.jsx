@@ -239,6 +239,7 @@ export default class SearchPage extends Component {
             keywordValue={keywordValue}
             recordTypeValue={recordType}
             vocabularyValue={vocabulary}
+            showButtons
             onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}

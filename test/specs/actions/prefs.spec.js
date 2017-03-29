@@ -10,16 +10,24 @@ import {
   PREFS_LOADED,
   SET_QUICK_SEARCH_RECORD_TYPE,
   SET_QUICK_SEARCH_VOCABULARY,
-  SET_SEARCH_PAGE_SIZE,
+  SET_RECORD_BROWSER_NAV_BAR_ITEMS,
+  SET_SEARCH_PAGE_RECORD_TYPE,
+  SET_SEARCH_PAGE_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
+  SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_TO_RELATE_PAGE_SIZE,
   storageKey,
   collapsePanel,
   loadPrefs,
   savePrefs,
   setQuickSearchRecordType,
   setQuickSearchVocabulary,
-  setSearchPageSize,
+  setRecordBrowserNavBarItems,
+  setSearchPageRecordType,
+  setSearchPageVocabulary,
   setSearchPanelPageSize,
+  setSearchResultPagePageSize,
+  setSearchToRelatePageSize,
 } from '../../../src/actions/prefs';
 
 chai.use(chaiImmutable);
@@ -30,7 +38,7 @@ const mockStore = configureMockStore([thunk]);
 describe('prefs action creator', function suite() {
   describe('collapsePanel', function actionSuite() {
     it('should create a COLLAPSE_PANEL action', function test() {
-      const recordType = 'object';
+      const recordType = 'collectionobject';
       const name = 'desc';
       const collapsed = true;
 
@@ -67,12 +75,60 @@ describe('prefs action creator', function suite() {
     });
   });
 
-  describe('setSearchPageSize', function actionSuite() {
-    it('should create a SET_SEARCH_PAGE_SIZE action', function test() {
+  describe('setRecordBrowserNavBarItems', function actionSuite() {
+    it('should create a SET_RECORD_BROWSER_NAV_BAR_ITEMS action', function test() {
+      const recordType = 'collectionobject';
+      const navBarItems = ['group', 'media'];
+
+      setRecordBrowserNavBarItems(recordType, navBarItems).should.deep.equal({
+        type: SET_RECORD_BROWSER_NAV_BAR_ITEMS,
+        payload: navBarItems,
+        meta: {
+          recordType,
+        },
+      });
+    });
+  });
+
+  describe('setSearchPageRecordType', function actionSuite() {
+    it('should create a SET_SEARCH_PAGE_RECORD_TYPE action', function test() {
+      const value = 'loanin';
+
+      setSearchPageRecordType(value).should.deep.equal({
+        type: SET_SEARCH_PAGE_RECORD_TYPE,
+        payload: value,
+      });
+    });
+  });
+
+  describe('setSearchPageVocabulary', function actionSuite() {
+    it('should create a SET_SEARCH_PAGE_VOCABULARY action', function test() {
+      const value = 'ulan';
+
+      setSearchPageVocabulary(value).should.deep.equal({
+        type: SET_SEARCH_PAGE_VOCABULARY,
+        payload: value,
+      });
+    });
+  });
+
+  describe('setSearchResultPagePageSize', function actionSuite() {
+    it('should create a SET_SEARCH_RESULT_PAGE_PAGE_SIZE action', function test() {
       const pageSize = 45;
 
-      setSearchPageSize(pageSize).should.deep.equal({
-        type: SET_SEARCH_PAGE_SIZE,
+      setSearchResultPagePageSize(pageSize).should.deep.equal({
+        type: SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+        payload: pageSize,
+      });
+    });
+  });
+
+  describe('setSearchToRelatePagePageSize', function actionSuite() {
+    it('should create a SET_SEARCH_TO_RELATE_PAGE_SIZE action', function test() {
+      const pageSize = 23;
+
+      setSearchToRelatePageSize(pageSize).should.deep.equal({
+        type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
         payload: pageSize,
       });
     });
@@ -80,7 +136,7 @@ describe('prefs action creator', function suite() {
 
   describe('setSearchPanelPageSize', function actionSuite() {
     it('should create a SET_SEARCH_PANEL_PAGE_SIZE action', function test() {
-      const recordType = 'object';
+      const recordType = 'collectionobject';
       const name = 'termsUsed';
       const pageSize = 21;
 

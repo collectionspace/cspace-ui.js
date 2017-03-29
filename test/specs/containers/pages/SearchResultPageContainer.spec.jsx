@@ -12,7 +12,7 @@ const mockStore = configureMockStore([]);
 describe('SearchResultPageContainer', function suite() {
   const store = mockStore({
     prefs: Immutable.fromJS({
-      searchPageSize: 10,
+      searchResultPagePageSize: 10,
     }),
   });
 

@@ -96,7 +96,7 @@ describe('RelationEditorContainer', function suite() {
     // and dispatches RELATION_SAVE_STARTED.
 
     try {
-      result.props.createRelation({ subject, object, predicate });
+      result.props.createRelation(subject, object, predicate);
     } catch (error) {
       const action = store.getActions()[0];
 

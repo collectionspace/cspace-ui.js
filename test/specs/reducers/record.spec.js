@@ -17,7 +17,7 @@ import {
 } from '../../../src/actions/record';
 
 import {
-  RELATION_SAVE_FULFILLED,
+  SUBJECT_RELATIONS_UPDATED,
 } from '../../../src/actions/relation';
 
 import {
@@ -777,7 +777,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(false);
   });
 
-  it('should handle RELATION_SAVE_FULFILLED', function test() {
+  it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
     const csid = '1234';
 
     let state;
@@ -785,11 +785,9 @@ describe('record reducer', function suite() {
     // No existing state for the csid
 
     state = reducer(undefined, {
-      type: RELATION_SAVE_FULFILLED,
+      type: SUBJECT_RELATIONS_UPDATED,
       meta: {
-        subject: {
-          csid,
-        },
+        csid,
       },
     });
 
@@ -800,11 +798,9 @@ describe('record reducer', function suite() {
     state = reducer(Immutable.fromJS({
       [csid]: {},
     }), {
-      type: RELATION_SAVE_FULFILLED,
+      type: SUBJECT_RELATIONS_UPDATED,
       meta: {
-        subject: {
-          csid,
-        },
+        csid,
       },
     });
 

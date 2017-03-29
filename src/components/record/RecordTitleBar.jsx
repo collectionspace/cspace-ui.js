@@ -3,11 +3,9 @@ import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import TitleBar from '../sections/TitleBar';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
-// import styles from '../../../styles/cspace-ui/RecordTitleBar.css';
 
 const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
-  // isReadPending: PropTypes.bool,
   recordType: PropTypes.string,
 };
 
@@ -18,7 +16,6 @@ const contextTypes = {
 export default function RecordTitleBar(props, context) {
   const {
     data,
-    // isReadPending,
     recordType,
   } = props;
 

@@ -10,8 +10,9 @@ export const SET_SEARCH_PAGE_RECORD_TYPE = 'SET_SEARCH_PAGE_RECORD_TYPE';
 export const SET_SEARCH_PAGE_VOCABULARY = 'SET_SEARCH_PAGE_VOCABULARY';
 export const SET_QUICK_SEARCH_RECORD_TYPE = 'SET_QUICK_SEARCH_RECORD_TYPE';
 export const SET_QUICK_SEARCH_VOCABULARY = 'SET_QUICK_SEARCH_VOCABULARY';
-export const SET_SEARCH_PAGE_SIZE = 'SET_SEARCH_PAGE_SIZE';
 export const SET_SEARCH_PANEL_PAGE_SIZE = 'SET_SEARCH_PANEL_PAGE_SIZE';
+export const SET_SEARCH_RESULT_PAGE_PAGE_SIZE = 'SET_SEARCH_RESULT_PAGE_PAGE_SIZE';
+export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
 
 export const storageKey = 'cspace-ui.prefs';
 
@@ -52,11 +53,6 @@ export const setQuickSearchVocabulary = value => ({
   payload: value,
 });
 
-export const setSearchPageSize = pageSize => ({
-  type: SET_SEARCH_PAGE_SIZE,
-  payload: pageSize,
-});
-
 export const setSearchPanelPageSize = (recordType, name, pageSize) => ({
   type: SET_SEARCH_PANEL_PAGE_SIZE,
   payload: pageSize,
@@ -64,6 +60,16 @@ export const setSearchPanelPageSize = (recordType, name, pageSize) => ({
     recordType,
     name,
   },
+});
+
+export const setSearchResultPagePageSize = pageSize => ({
+  type: SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  payload: pageSize,
+});
+
+export const setSearchToRelatePageSize = pageSize => ({
+  type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  payload: pageSize,
 });
 
 export const loadPrefs = () => {

@@ -9,6 +9,7 @@ import { createHistory, createHashHistory, useBeforeUnload } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 import script from 'scriptjs';
 import warning from 'warning';
+import { Modal } from 'cspace-layout';
 
 import { configureCSpace } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
@@ -133,6 +134,8 @@ module.exports = (uiConfig) => {
       history,
       store,
     };
+
+    Modal.setAppElement(mountNode);
 
     loadPolyfills(locale, () => {
       render(<App {...props} />, mountNode);

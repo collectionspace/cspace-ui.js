@@ -10,6 +10,7 @@ import optionList, * as fromOptionList from './optionList';
 import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
+import searchToRelate, * as fromSearchToRelate from './searchToRelate';
 import relation, * as fromRelation from './relation';
 import search, * as fromSearch from './search';
 import user, * as fromUser from './user';
@@ -26,6 +27,7 @@ export default combineReducers({
   partialTermSearch,
   prefs,
   record,
+  searchToRelate,
   relation,
   routing,
   search,
@@ -33,142 +35,106 @@ export default combineReducers({
   vocabulary,
 });
 
-export function getUserUsername(state) {
-  return fromUser.getUsername(state.user);
-}
+export const getUserUsername = state => fromUser.getUsername(state.user);
 
-export function getLoginContinuation(state) {
-  return fromLogin.getContinuation(state.login);
-}
+export const getLoginContinuation = state => fromLogin.getContinuation(state.login);
 
-export function getLoginUsername(state) {
-  return fromLogin.getUsername(state.login);
-}
+export const getLoginUsername = state => fromLogin.getUsername(state.login);
 
-export function isLoginPending(state) {
-  return fromLogin.isPending(state.login);
-}
+export const isLoginPending = state => fromLogin.isPending(state.login);
 
-export function getLoginResponse(state) {
-  return fromLogin.getResponse(state.login);
-}
+export const getLoginResponse = state => fromLogin.getResponse(state.login);
 
-export function getLoginError(state) {
-  return fromLogin.getError(state.login);
-}
+export const getLoginError = state => fromLogin.getError(state.login);
 
-export function isLogoutPending(state) {
-  return fromLogout.isPending(state.logout);
-}
+export const isLogoutPending = state => fromLogout.isPending(state.logout);
 
-export function getLogoutResponse(state) {
-  return fromLogout.getResponse(state.logout);
-}
+export const getLogoutResponse = state => fromLogout.getResponse(state.logout);
 
-export function getRecordRelationUpdatedTimestamp(state, csid) {
-  return fromRecord.getRelationUpdatedTimestamp(state.record, csid);
-}
+export const getRecordRelationUpdatedTimestamp = (state, csid) =>
+  fromRecord.getRelationUpdatedTimestamp(state.record, csid);
 
-export function getRecordData(state, csid) {
-  return fromRecord.getData(state.record, csid);
-}
+export const getRecordData = (state, csid) => fromRecord.getData(state.record, csid);
 
-export function getNewRecordData(state) {
-  return fromRecord.getNewData(state.record);
-}
+export const getNewRecordData = state => fromRecord.getNewData(state.record);
 
-export function isRecordReadPending(state, csid) {
-  return fromRecord.isReadPending(state.record, csid);
-}
+export const isRecordReadPending = (state, csid) => fromRecord.isReadPending(state.record, csid);
 
-export function isRecordSavePending(state, csid) {
-  return fromRecord.isSavePending(state.record, csid);
-}
+export const isRecordSavePending = (state, csid) => fromRecord.isSavePending(state.record, csid);
 
-export function isRecordModified(state, csid) {
-  return fromRecord.isModified(state.record, csid);
-}
+export const isRecordModified = (state, csid) => fromRecord.isModified(state.record, csid);
 
-export function getPrefs(state) {
-  return state.prefs;
-}
+export const getPrefs = state => state.prefs;
 
-export function isPanelCollapsed(state, recordType, name) {
-  return fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
-}
+export const isPanelCollapsed = (state, recordType, name) =>
+  fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
 
-export function getRecordBrowserNavBarItems(state, recordType) {
-  return fromPrefs.getRecordBrowserNavBarItems(state.prefs, recordType);
-}
+export const getRecordBrowserNavBarItems = (state, recordType) =>
+  fromPrefs.getRecordBrowserNavBarItems(state.prefs, recordType);
 
-export function getSearchPageSize(state) {
-  return fromPrefs.getSearchPageSize(state.prefs);
-}
+export const getSearchPanelPageSize = (state, recordType, name) =>
+  fromPrefs.getSearchPanelPageSize(state.prefs, recordType, name);
 
-export function getSearchPanelPageSize(state, recordType, name) {
-  return fromPrefs.getSearchPanelPageSize(state.prefs, recordType, name);
-}
+export const getSearchResultPagePageSize = state =>
+  fromPrefs.getSearchResultPagePageSize(state.prefs);
 
-export function getOptionList(state, optionListName) {
-  return fromOptionList.get(state.optionList, optionListName);
-}
+export const getSearchToRelatePageSize = state =>
+  fromPrefs.getSearchToRelatePageSize(state.prefs);
 
-export function getVocabulary(state, vocabularyName) {
-  return fromVocabulary.get(state.vocabulary, vocabularyName);
-}
+export const getOptionList = (state, optionListName) =>
+  fromOptionList.get(state.optionList, optionListName);
 
-export function getPartialTermSearchMatches(state) {
-  return fromPartialTermSearch.getMatches(state.partialTermSearch);
-}
+export const getVocabulary = (state, vocabularyName) =>
+  fromVocabulary.get(state.vocabulary, vocabularyName);
 
-export function getIDGenerator(state, idGeneratorName) {
-  return fromIDGenerator.get(state.idGenerator, idGeneratorName);
-}
+export const getPartialTermSearchMatches = state =>
+  fromPartialTermSearch.getMatches(state.partialTermSearch);
 
-export function getSearchPageAdvanced(state) {
-  return fromSearchPage.getAdvanced(state.searchPage);
-}
+export const getIDGenerator = (state, idGeneratorName) =>
+  fromIDGenerator.get(state.idGenerator, idGeneratorName);
 
-export function getSearchPageKeyword(state) {
-  return fromSearchPage.getKeyword(state.searchPage);
-}
+export const getSearchPageAdvanced = state => fromSearchPage.getAdvanced(state.searchPage);
 
-export function getSearchPageRecordType(state) {
-  return fromPrefs.getSearchPageRecordType(state.prefs);
-}
+export const getSearchPageKeyword = state => fromSearchPage.getKeyword(state.searchPage);
 
-export function getSearchPageVocabulary(state, recordType) {
-  return fromPrefs.getSearchPageVocabulary(state.prefs, recordType);
-}
+export const getSearchPageRecordType = state => fromPrefs.getSearchPageRecordType(state.prefs);
 
-export function getQuickSearchKeyword(state) {
-  return fromQuickSearch.getKeyword(state.quickSearch);
-}
+export const getSearchPageVocabulary = (state, recordType) =>
+  fromPrefs.getSearchPageVocabulary(state.prefs, recordType);
 
-export function getQuickSearchRecordType(state) {
-  return fromPrefs.getQuickSearchRecordType(state.prefs);
-}
+export const getQuickSearchKeyword = state => fromQuickSearch.getKeyword(state.quickSearch);
 
-export function getQuickSearchVocabulary(state, recordType) {
-  return fromPrefs.getQuickSearchVocabulary(state.prefs, recordType);
-}
+export const getQuickSearchRecordType = state => fromPrefs.getQuickSearchRecordType(state.prefs);
 
-export function isSearchPending(state, searchName, searchDescriptor) {
-  return fromSearch.isPending(state.search, searchName, searchDescriptor);
-}
+export const getQuickSearchVocabulary = (state, recordType) =>
+  fromPrefs.getQuickSearchVocabulary(state.prefs, recordType);
 
-export function getMostRecentSearchDescriptor(state, searchName) {
-  return fromSearch.getMostRecentDescriptor(state.search, searchName);
-}
+export const isSearchPending = (state, searchName, searchDescriptor) =>
+  fromSearch.isPending(state.search, searchName, searchDescriptor);
 
-export function getSearchResult(state, searchName, searchDescriptor) {
-  return fromSearch.getResult(state.search, searchName, searchDescriptor);
-}
+export const getMostRecentSearchDescriptor = (state, searchName) =>
+  fromSearch.getMostRecentDescriptor(state.search, searchName);
 
-export function getSearchError(state, searchName, searchDescriptor) {
-  return fromSearch.getError(state.search, searchName, searchDescriptor);
-}
+export const getSearchResult = (state, searchName, searchDescriptor) =>
+  fromSearch.getResult(state.search, searchName, searchDescriptor);
 
-export function getRelationFindResult(state, descriptor) {
-  return fromRelation.getFindResult(state.relation, descriptor);
-}
+export const getSearchError = (state, searchName, searchDescriptor) =>
+  fromSearch.getError(state.search, searchName, searchDescriptor);
+
+export const getSearchSelectedItems = (state, searchName) =>
+  fromSearch.getSelectedItems(state.search, searchName);
+
+export const getRelationFindResult = (state, descriptor) =>
+  fromRelation.getFindResult(state.relation, descriptor);
+
+export const getSearchToRelateAdvanced = state =>
+  fromSearchToRelate.getAdvanced(state.searchToRelate);
+
+export const getSearchToRelateKeyword = state =>
+  fromSearchToRelate.getKeyword(state.searchToRelate);
+
+export const getSearchToRelateRecordType = state =>
+  fromSearchToRelate.getRecordType(state.searchToRelate);
+
+export const getSearchToRelateVocabulary = (state, recordType) =>
+  fromSearchToRelate.getVocabulary(state.searchToRelate, recordType);

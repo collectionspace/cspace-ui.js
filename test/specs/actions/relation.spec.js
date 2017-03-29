@@ -15,6 +15,7 @@ import {
   RELATION_SAVE_STARTED,
   RELATION_SAVE_FULFILLED,
   RELATION_SAVE_REJECTED,
+  SUBJECT_RELATIONS_UPDATED,
   clearState,
   find,
   create,
@@ -212,11 +213,11 @@ describe('relation action creator', function suite() {
         },
       });
 
-      return store.dispatch(create({ subject, object, predicate }))
+      return store.dispatch(create(subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.deep.equal({
             type: RELATION_SAVE_STARTED,
@@ -243,6 +244,11 @@ describe('relation action creator', function suite() {
               predicate,
             },
           });
+
+          actions[2].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
         });
     });
 
@@ -256,7 +262,7 @@ describe('relation action creator', function suite() {
         data: {},
       });
 
-      return store.dispatch(create({ subject, object, predicate }))
+      return store.dispatch(create(subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
@@ -307,11 +313,11 @@ describe('relation action creator', function suite() {
         },
       });
 
-      return store.dispatch(createBidirectional({ subject, object, predicate }))
+      return store.dispatch(createBidirectional(subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(4);
+          actions.should.have.lengthOf(5);
 
           actions[0].should.deep.equal({
             type: RELATION_SAVE_STARTED,
@@ -363,6 +369,11 @@ describe('relation action creator', function suite() {
               object: subject,
               predicate,
             },
+          });
+
+          actions[4].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
           });
         });
     });

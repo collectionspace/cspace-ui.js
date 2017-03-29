@@ -322,3 +322,4 @@ export const advancedSearchConditionToNXQL = (fieldDescriptor, condition, server
 
   return null;
 };
+

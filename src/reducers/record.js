@@ -31,7 +31,7 @@ import {
 } from '../actions/record';
 
 import {
-  RELATION_SAVE_FULFILLED,
+  SUBJECT_RELATIONS_UPDATED,
 } from '../actions/relation';
 
 import {
@@ -201,17 +201,18 @@ const handleRecordSaveFulfilled = (state, action) => {
   return updatedState;
 };
 
-const handleRelationSaveFulfilled = (state, action) => {
+const handleSubjectRelationsUpdated = (state, action) => {
   // Currently relations are only ever created (not updated), and we don't bother to retrieve
   // the relation record after creation. Technically we should retrieve the new relation
   // record and use its updatedAt value here, but that's an extra request. For now just use the
   // current local time, at least until there's some additional reason to retrieve the full
   // relation record.
 
-  const subjectCsid = action.meta.subject.csid;
+  const subjectCsid = action.meta.csid;
+  const newUpdatedTime = (new Date()).toISOString();
 
   if (state.has(subjectCsid)) {
-    return state.setIn([subjectCsid, 'relationUpdatedTime'], (new Date()).toISOString());
+    return state.setIn([subjectCsid, 'relationUpdatedTime'], newUpdatedTime);
   }
 
   return state;
@@ -269,8 +270,8 @@ export default (state = Immutable.Map(), action) => {
       );
     case REVERT_RECORD:
       return setCurrentData(state, action.meta.csid, getBaselineData(state, action.meta.csid));
-    case RELATION_SAVE_FULFILLED:
-      return handleRelationSaveFulfilled(state, action);
+    case SUBJECT_RELATIONS_UPDATED:
+      return handleSubjectRelationsUpdated(state, action);
     case CREATE_ID_FULFILLED:
       return handleCreateIDFulfilled(state, action);
     default:

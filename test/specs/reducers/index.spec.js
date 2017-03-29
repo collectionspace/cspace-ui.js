@@ -22,7 +22,7 @@ import reducer, {
   getSearchPageRecordType,
   getSearchPageVocabulary,
   getSearchPanelPageSize,
-  getSearchPageSize,
+  getSearchResultPagePageSize,
   getOptionList,
   getVocabulary,
   getPartialTermSearchMatches,
@@ -61,6 +61,7 @@ describe('reducer', function suite() {
       'prefs',
       'relation',
       'search',
+      'searchToRelate',
       'user',
       'record',
       'vocabulary',
@@ -344,15 +345,15 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPageSize selector', function selectorSuite() {
+  describe('getSearchResultPagePageSize selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
-      const searchPageSize = 35;
+      const searchResultPagePageSize = 35;
 
-      getSearchPageSize({
+      getSearchResultPagePageSize({
         prefs: Immutable.fromJS({
-          searchPageSize,
+          searchResultPagePageSize,
         }),
-      }).should.equal(searchPageSize);
+      }).should.equal(searchResultPagePageSize);
     });
   });
 
