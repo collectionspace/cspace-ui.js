@@ -42,7 +42,6 @@ const propTypes = {
   renderCheckbox: PropTypes.func,
   renderHeader: PropTypes.func,
   renderFooter: PropTypes.func,
-  onItemCheckboxChange: PropTypes.func,
   onItemClick: PropTypes.func,
   onSortChange: PropTypes.func,
 };
@@ -64,29 +63,9 @@ export default class SearchResultTable extends Component {
   constructor() {
     super();
 
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.renderNoItems = this.renderNoItems.bind(this);
     this.sort = this.sort.bind(this);
-  }
-
-  handleCheckboxChange(index, checked) {
-    const {
-      config,
-      listType,
-      searchResult,
-      onItemCheckboxChange,
-    } = this.props;
-
-    if (searchResult && onItemCheckboxChange) {
-      const listTypeConfig = config.listTypes[listType];
-      const { listNodeName, itemNodeName } = listTypeConfig;
-
-      const items = searchResult.getIn([listNodeName, itemNodeName]);
-      const item = Immutable.List.isList(items) ? items.get(index) : items;
-
-      onItemCheckboxChange(index, item, checked);
-    }
   }
 
   handleRowClick(index) {
@@ -242,7 +221,6 @@ export default class SearchResultTable extends Component {
             rowCount={items.size}
             rowGetter={({ index }) => items.get(index)}
             showCheckboxColumn={showCheckboxColumn}
-            onCheckboxChange={this.handleCheckboxChange}
             onRowClick={this.handleRowClick}
             renderCheckbox={renderCheckbox}
             sort={this.sort}

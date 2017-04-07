@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SearchToRelateModal, { searchName } from '../../components/record/SearchToRelateModal';
+import SearchToRelateModal, { searchName } from '../../components/search/SearchToRelateModal';
 
 import {
   setSearchToRelatePageSize,

@@ -4,11 +4,11 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import { Modal } from 'cspace-layout';
-import SearchForm from '../search/SearchForm';
-import PageSizeChooser from '../search/PageSizeChooser';
-import Pager from '../search/Pager';
-import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
+import SearchForm from './SearchForm';
+import PageSizeChooser from './PageSizeChooser';
+import Pager from './Pager';
 import SearchToRelateTitleBar from './SearchToRelateTitleBar';
+import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import { normalizeCondition } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/SearchToRelateModal.css';
 import searchResultTableHeaderStyles from '../../../styles/cspace-ui/SearchResultTableHeader.css';
@@ -75,6 +75,7 @@ const propTypes = {
   onRelationsCreated: PropTypes.func,
   clearSearchResults: PropTypes.func,
   createRelations: PropTypes.func,
+  parentSelector: PropTypes.func,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
 };
@@ -614,6 +615,7 @@ class SearchToRelateModal extends Component {
       isOpen,
       recordTypeValue,
       selectedItems,
+      parentSelector,
     } = this.props;
 
     const {
@@ -666,6 +668,7 @@ class SearchToRelateModal extends Component {
         cancelButtonDisabled={cancelButtonDisabled}
         acceptButtonLabel={intl.formatMessage(acceptButtonMessage)}
         acceptButtonDisabled={acceptButtonDisabled}
+        parentSelector={parentSelector}
         onAcceptButtonClick={this.handleAcceptButtonClick}
         onCancelButtonClick={this.handleCancelButtonClick}
         onCloseButtonClick={this.handleCloseButtonClick}

@@ -20,6 +20,8 @@ import {
   find,
   create,
   createBidirectional,
+  batchCreate,
+  batchCreateBidirectional,
 } from '../../../src/actions/relation';
 
 const expect = chai.expect;
@@ -372,6 +374,292 @@ describe('relation action creator', function suite() {
           });
 
           actions[4].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
+        });
+    });
+  });
+
+  describe('batchCreate', function actionSuite() {
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_SAVE_FULFILLED once for each object', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(createUrl, {
+        status: 201,
+        headers: {
+          location: 'some/new/url',
+        },
+      });
+
+      const objects = [
+        {
+          csid: '1111',
+          recordType: 'group',
+        },
+        {
+          csid: '2222',
+          recordType: 'group',
+        },
+        {
+          csid: '3333',
+          recordType: 'group',
+        },
+      ];
+
+      return store.dispatch(batchCreate(subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(7);
+
+          actions[0].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[0],
+              predicate,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[2],
+              predicate,
+            },
+          });
+
+          actions[3].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject,
+              object: objects[0],
+              predicate,
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject,
+              object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[5].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject,
+              object: objects[2],
+              predicate,
+            },
+          });
+
+          actions[6].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
+        });
+    });
+  });
+
+  describe('batchCreateBidirectional', function actionSuite() {
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_SAVE_FULFILLED twice for each object', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(createUrl, {
+        status: 201,
+        headers: {
+          location: 'some/new/url',
+        },
+      });
+
+      const objects = [
+        {
+          csid: '1111',
+          recordType: 'group',
+        },
+        {
+          csid: '2222',
+          recordType: 'group',
+        },
+      ];
+
+      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(9);
+
+          actions[0].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[0],
+              predicate,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject,
+              object: objects[0],
+              predicate,
+            },
+          });
+
+          actions[3].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject,
+              object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject: objects[0],
+              object: subject,
+              predicate,
+            },
+          });
+
+          actions[5].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject: objects[1],
+              object: subject,
+              predicate,
+            },
+          });
+
+          actions[6].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject: objects[0],
+              object: subject,
+              predicate,
+            },
+          });
+
+          actions[7].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject: objects[1],
+              object: subject,
+              predicate,
+            },
+          });
+
+          actions[8].should.deep.equal({
             type: SUBJECT_RELATIONS_UPDATED,
             meta: subject,
           });

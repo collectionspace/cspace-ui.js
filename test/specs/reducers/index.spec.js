@@ -419,6 +419,7 @@ describe('reducer', function suite() {
     it('should select from the searchPage key', function test() {
       const advancedSearchCondition = {
         op: 'eq',
+        path: 'path',
         value: 'value',
       };
 

@@ -11,6 +11,7 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_TO_RELATE_PAGE_SIZE,
 } from '../../../src/actions/prefs';
 
 import reducer, {
@@ -21,6 +22,7 @@ import reducer, {
   getQuickSearchVocabulary,
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
+  getSearchToRelatePageSize,
   isPanelCollapsed,
 } from '../../../src/reducers/prefs';
 
@@ -204,6 +206,21 @@ describe('prefs reducer', function suite() {
     }));
 
     getSearchPanelPageSize(state, recordType, panelName).should.equal(pageSize);
+  });
+
+  it('should handle SET_SEARCH_TO_RELATE_PAGE_SIZE', function test() {
+    const pageSize = 19;
+
+    const state = reducer(undefined, {
+      type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
+      payload: pageSize,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      searchToRelatePageSize: pageSize,
+    }));
+
+    getSearchToRelatePageSize(state).should.equal(pageSize);
   });
 
   it('should handle PREFS_LOADED', function test() {

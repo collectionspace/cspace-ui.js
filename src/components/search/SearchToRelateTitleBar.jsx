@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
-import AdvancedSearchBuilder from '../search/AdvancedSearchBuilder';
+import AdvancedSearchBuilder from './AdvancedSearchBuilder';
 import styles from '../../../styles/cspace-ui/SearchToRelateTitleBar.css';
 import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';
 
@@ -57,9 +57,9 @@ export default function SearchToRelateTitleBar(props) {
     }
 
     return (
-      <div className={styles.common}>
+      <header className={styles.common}>
         <h1><FormattedMessage {...messages.title} values={{ collectionName, query: '' }} /></h1>
-      </div>
+      </header>
     );
   }
 
@@ -109,12 +109,12 @@ export default function SearchToRelateTitleBar(props) {
   }
 
   return (
-    <div className={styles.common}>
+    <header className={styles.common}>
       <h1>
         <FormattedMessage {...messages.title} values={{ collectionName, query: queryTitle }} />
       </h1>
       <div className={subtitleStyles.common}>{advancedTitle}</div>
-    </div>
+    </header>
   );
 }
 

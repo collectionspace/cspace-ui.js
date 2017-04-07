@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
 import { routerShape } from 'react-router/lib/PropTypes';
-import SearchToRelateModalContainer from '../../containers/record/SearchToRelateModalContainer';
 import RelatedRecordButtonBar from './RelatedRecordButtonBar';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RelationEditorContainer from '../../containers/record/RelationEditorContainer';
+import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import styles from '../../../styles/cspace-ui/RelatedRecordBrowser.css';
 
 const propTypes = {

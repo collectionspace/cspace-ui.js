@@ -248,9 +248,9 @@ const handleSetSearchResultItemSelected = (state, action) => {
   const { listNodeName, itemNodeName } = listTypeConfig;
 
   const namedSearch = state.get(searchName);
-  const key = searchKey(searchDescriptor);
 
   if (namedSearch) {
+    const key = searchKey(searchDescriptor);
     const path = ['byKey', key, 'result', listNodeName, itemNodeName, index];
     const item = deepGet(namedSearch, path);
     const csid = item.get('csid');

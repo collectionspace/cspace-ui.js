@@ -1,4 +1,4 @@
-/* global window */
+/* global window, document */
 
 import React from 'react';
 import { render } from 'react-dom';
@@ -15,6 +15,9 @@ import { configureCSpace } from '../../../../src/actions/cspace';
 import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
 import RelatedRecordBrowser from '../../../../src/components/record/RelatedRecordBrowser';
+import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
+
+const expect = chai.expect;
 
 chai.should();
 
@@ -63,7 +66,9 @@ const store = mockStore({
     },
   }),
   search: Immutable.Map(),
-  searchToRelate: Immutable.Map(),
+  searchToRelate: Immutable.fromJS({
+    recordType: 'group',
+  }),
 });
 
 const config = {
@@ -161,7 +166,7 @@ describe('RelatedRecordBrowser', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    const button = this.container.querySelector('button[name=clone]');
+    const button = this.container.querySelector('button[name="clone"]');
 
     Simulate.click(button);
 
@@ -195,7 +200,7 @@ describe('RelatedRecordBrowser', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    const button = this.container.querySelector('button[name=create]');
+    const button = this.container.querySelector('button[name="create"]');
 
     Simulate.click(button);
 
@@ -278,7 +283,7 @@ describe('RelatedRecordBrowser', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    const saveButton = this.container.querySelector('button[name=save]');
+    const saveButton = this.container.querySelector('button[name="save"]');
 
     Simulate.click(saveButton);
 
@@ -289,5 +294,123 @@ describe('RelatedRecordBrowser', function suite() {
         resolve();
       }, 10);
     });
+  });
+
+  it('should show the search to relate modal when the relate button is clicked', function test() {
+    const renderTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const button = this.container.querySelector('button[name="relate"]');
+
+    Simulate.click(button);
+
+    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+
+    modalComponent.props.onCloseButtonClick();
+  });
+
+  it('should close the search to relate modal when the close button is clicked', function test() {
+    const renderTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const button = this.container.querySelector('button[name="relate"]');
+
+    Simulate.click(button);
+
+    let modalNode;
+
+    modalNode = document.querySelector('.ReactModal__Content--after-open');
+
+    modalNode.should.not.equal(null);
+
+    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+
+    modalComponent.props.onCloseButtonClick();
+
+    modalNode = document.querySelector('.ReactModal__Content--after-open');
+
+    expect(modalNode).to.equal(null);
+  });
+
+  it('should close the search to relate modal when the cancel button is clicked', function test() {
+    const renderTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const button = this.container.querySelector('button[name="relate"]');
+
+    Simulate.click(button);
+
+    let modalNode;
+
+    modalNode = document.querySelector('.ReactModal__Content--after-open');
+
+    modalNode.should.not.equal(null);
+
+    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+
+    modalComponent.props.onCancelButtonClick();
+
+    modalNode = document.querySelector('.ReactModal__Content--after-open');
+
+    expect(modalNode).to.equal(null);
+  });
+
+  it('should close the search to relate modal when relations have been created', function test() {
+    const renderTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const button = this.container.querySelector('button[name="relate"]');
+
+    Simulate.click(button);
+
+    let modalNode;
+
+    modalNode = document.querySelector('.ReactModal__Content--after-open');
+
+    modalNode.should.not.equal(null);
+
+    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+
+    modalComponent.props.onRelationsCreated();
+
+    modalNode = document.querySelector('.ReactModal__Content--after-open');
+
+    expect(modalNode).to.equal(null);
   });
 });
