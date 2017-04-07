@@ -8,12 +8,16 @@ import {
 } from '../../../src/actions/cspace';
 
 import {
+  CLEAR_SEARCH_RESULTS,
   CREATE_EMPTY_SEARCH_RESULT,
   SET_MOST_RECENT_SEARCH,
+  SET_RESULT_ITEM_SELECTED,
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
+  clearSearchResults,
   search,
+  setResultItemSelected,
 } from '../../../src/actions/search';
 
 import {
@@ -617,6 +621,57 @@ describe('search action creator', function suite() {
           searchName,
           searchDescriptor,
         },
+      });
+    });
+  });
+
+  describe('setResultItemSelected', function actionSuite() {
+    const listTypes = {
+      common: {
+        listNodeName: 'ns2:abstract-common-list',
+        itemNodeName: 'list-item',
+      },
+    };
+
+    const config = {
+      listTypes,
+    };
+
+    it('should dispatch SET_RESULT_ITEM_SELECTED', function test() {
+      const searchName = 'searchName';
+
+      const searchDescriptor = {
+        recordType: 'collectionobjects',
+        searchQuery: {
+          kw: 'foo',
+        },
+      };
+
+      const index = 3;
+      const checked = true;
+      const listType = 'common';
+
+      setResultItemSelected(config, searchName, searchDescriptor, listType, index, checked).should
+        .deep.equal({
+          type: SET_RESULT_ITEM_SELECTED,
+          payload: checked,
+          meta: {
+            listTypeConfig: listTypes[listType],
+            searchName,
+            searchDescriptor,
+            index,
+          },
+        });
+    });
+  });
+
+  describe('clearSearchResults', function actionSuite() {
+    it('should dispatch CLEAR_SEARCH_RESULTS', function test() {
+      const searchName = 'searchName';
+
+      clearSearchResults(searchName).should.deep.equal({
+        type: CLEAR_SEARCH_RESULTS,
+        payload: searchName,
       });
     });
   });

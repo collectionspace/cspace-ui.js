@@ -2,11 +2,13 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  CLEAR_SEARCH_RESULTS,
   CREATE_EMPTY_SEARCH_RESULT,
   SET_MOST_RECENT_SEARCH,
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
+  SET_RESULT_ITEM_SELECTED,
 } from '../../../src/actions/search';
 
 import reducer, {
@@ -14,6 +16,8 @@ import reducer, {
   getResult,
   isPending,
   searchKey,
+  getSelectedItems,
+  getMostRecentDescriptor,
 } from '../../../src/reducers/search';
 
 chai.use(chaiImmutable);
@@ -73,6 +77,7 @@ describe('search reducer', function suite() {
     }));
 
     isPending(state, searchName, searchDescriptor).should.equal(true);
+    getMostRecentDescriptor(state, searchName).should.equal(Immutable.fromJS(searchDescriptor));
   });
 
   it('should clear all search states on SEARCH_STARTED when the new search is not only a page change', function test() {
@@ -487,6 +492,19 @@ describe('search reducer', function suite() {
     state.should.equal(initialState);
   });
 
+  it('should handle CLEAR_SEARCH_RESULTS', function test() {
+    const initialState = Immutable.fromJS({
+      [searchName]: {},
+    });
+
+    const state = reducer(initialState, {
+      type: CLEAR_SEARCH_RESULTS,
+      payload: searchName,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({}));
+  });
+
   it('should handle CREATE_EMPTY_SEARCH_RESULT', function test() {
     const searchDescriptor = {
       recordType: 'object',
@@ -548,5 +566,121 @@ describe('search reducer', function suite() {
       .deep.equal(Immutable.fromJS(emptyResultData));
 
     (typeof getError(state, searchName, searchDescriptor)).should.equal('undefined');
+  });
+
+  it('should handle SET_RESULT_ITEM_SELECTED', function test() {
+    const searchDescriptor = {
+      recordType: 'collectionobject',
+      searchQuery: {},
+    };
+
+    const key = searchKey(searchDescriptor);
+
+    const items = [
+      {
+        csid: '1111',
+      },
+      {
+        csid: '2222',
+      },
+      {
+        csid: '3333',
+      },
+    ];
+
+    const result = {
+      'ns2:abstract-common-list': {
+        itemsInPage: '3',
+        totalItems: '3',
+        pageNum: '0',
+        pageSize: '3',
+        'list-item': items,
+      },
+    };
+
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+      },
+    });
+
+    const index = 1;
+
+    let state;
+
+    state = reducer(initialState, {
+      type: SET_RESULT_ITEM_SELECTED,
+      payload: true,
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+        index,
+      },
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+        selected: {
+          2222: items[1],
+        },
+      },
+    }));
+
+    getSelectedItems(state, searchName).should.deep.equal(Immutable.fromJS({
+      2222: items[1],
+    }));
+
+    state = reducer(state, {
+      type: SET_RESULT_ITEM_SELECTED,
+      payload: false,
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+        index,
+      },
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+        selected: {},
+      },
+    }));
+
+    getSelectedItems(state, searchName).should.deep.equal(Immutable.fromJS({}));
+
+    state = reducer(initialState, {
+      type: SET_RESULT_ITEM_SELECTED,
+      payload: true,
+      meta: {
+        listTypeConfig,
+        searchDescriptor,
+        index,
+        searchName: 'non-existent search name',
+      },
+    });
+
+    state.should.deep.equal(initialState);
   });
 });

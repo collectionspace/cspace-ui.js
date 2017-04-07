@@ -4,21 +4,26 @@
 body {
   margin: 0;
   padding: 10px;
-}
 
-.common a {
-  color: #4D4D4D;
-}
-
-.common {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
   color: #4D4D4D;
 }
 
-.common h1, .common h2 {
+body :global(.material-icons) {
+  font-size: 12px;
+}
+
+a {
+  color: #4D4D4D;
+}
+
+h1, h2 {
   font-size: 24px;
   font-weight: 400;
   margin: 10px 0;
+}
+
+.common {
 }

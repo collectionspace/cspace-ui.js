@@ -30,6 +30,8 @@ import {
   setFieldValue,
 } from '../../../src/actions/record';
 
+const expect = chai.expect;
+
 chai.should();
 
 describe('record action creator', function suite() {
@@ -164,7 +166,9 @@ describe('record action creator', function suite() {
           response: {},
         });
 
-        const store = mockStore({});
+        const store = mockStore({
+          record: Immutable.Map(),
+        });
 
         return store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))
           .then(() => {
@@ -202,7 +206,9 @@ describe('record action creator', function suite() {
           response: {},
         });
 
-        const store = mockStore({});
+        const store = mockStore({
+          record: Immutable.Map(),
+        });
 
         return store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))
           .then(() => {
@@ -225,6 +231,32 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
               });
           });
+      });
+
+      it('should return null if a read is already pending for the given csid', function test() {
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              isReadPending: true,
+            },
+          }),
+        });
+
+        expect(store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))).to.equal(null);
+      });
+
+      it('should return null if data is already available for the given csid', function test() {
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {},
+              },
+            },
+          }),
+        });
+
+        expect(store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))).to.equal(null);
       });
     });
 
@@ -265,7 +297,9 @@ describe('record action creator', function suite() {
           response: {},
         });
 
-        const store = mockStore({});
+        const store = mockStore({
+          record: Immutable.Map(),
+        });
 
         return store.dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid))
           .then(() => {
@@ -362,6 +396,7 @@ describe('record action creator', function suite() {
               meta: {
                 csid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
 
@@ -376,12 +411,13 @@ describe('record action creator', function suite() {
               meta: {
                 csid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
           });
       });
 
-      it('should dispatch RECORD_SAVE_REJECTED on error', function test() {
+      it('should dispatch RECORD_SAVE_REJECTED on an update error', function test() {
         moxios.stubRequest(saveRecordUrl, {
           status: 400,
           response: {},
@@ -410,6 +446,7 @@ describe('record action creator', function suite() {
               meta: {
                 csid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
 
@@ -418,20 +455,15 @@ describe('record action creator', function suite() {
               .that.deep.equals({
                 csid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               });
           });
       });
 
-      it('should replace the URL when a new record is saved', function test() {
-        const createdCsid = '6789';
-
-        // Mock a response for a newly created record.
-
+      it('should dispatch RECORD_SAVE_REJECTED on a create error', function test() {
         moxios.stubRequest(saveNewRecordUrl, {
-          status: 201,
-          headers: {
-            location: `some/new/url/${createdCsid}`,
-          },
+          status: 400,
+          response: {},
         });
 
         const store = mockStore({
@@ -446,15 +478,7 @@ describe('record action creator', function suite() {
           }),
         });
 
-        let replaceArg = null;
-
-        const replace = (arg) => {
-          replaceArg = arg;
-        };
-
-        // Pass an empty csid and a replace function to saveRecord.
-
-        return store.dispatch(saveRecord(recordTypeConfig, undefined, '', replace))
+        return store.dispatch(saveRecord(recordTypeConfig, undefined, ''))
           .then(() => {
             const actions = store.getActions();
 
@@ -465,28 +489,131 @@ describe('record action creator', function suite() {
               meta: {
                 csid: '',
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[1].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[1].should.have.property('meta')
+              .that.deep.equals({
+                csid: '',
+                recordTypeConfig,
+                relatedSubjectCsid: undefined,
+              });
+          });
+      });
+
+      it('should dispatch RECORD_SAVE_REJECTED if a create request does not return a 201 with a location', function test() {
+        moxios.stubRequest(saveNewRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            '': {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(saveRecord(recordTypeConfig, undefined, ''))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(2);
+
+            actions[0].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: '',
+                recordTypeConfig,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[1].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[1].should.have.property('meta')
+              .that.deep.equals({
+                csid: '',
+                recordTypeConfig,
+                relatedSubjectCsid: undefined,
+              });
+          });
+      });
+
+      it('should call the passed callback when a new record is saved', function test() {
+        const createdCsid = '6789';
+
+        let reportedCreatedCsid = null;
+
+        const handleRecordCreated = (createdCsidArg) => {
+          reportedCreatedCsid = createdCsidArg;
+        };
+
+        // Mock a response for a newly created record.
+
+        moxios.stubRequest(saveNewRecordUrl, {
+          status: 201,
+          headers: {
+            location: `some/new/url/${createdCsid}`,
+          },
+        });
+
+        moxios.stubRequest(`${saveNewRecordUrl}/${createdCsid}?wf_deleted=false`, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            '': {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        // Pass an empty csid and a replace function to saveRecord.
+
+        return store.dispatch(saveRecord(recordTypeConfig, undefined, '', undefined, handleRecordCreated))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(2);
+
+            actions[0].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: '',
+                recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
 
             actions[1].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
-                status: 201,
+                status: 200,
                 statusText: undefined,
-                headers: {
-                  location: 'some/new/url/6789',
-                },
-                data: undefined,
+                headers: undefined,
+                data: {},
               },
               meta: {
-                csid: '',
+                csid: createdCsid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
 
-            // The replace function should be called.
-
-            replaceArg.should.equal(`/record/${recordType}/${createdCsid}`);
+            reportedCreatedCsid.should.equal(createdCsid);
           });
       });
     });
@@ -564,6 +691,7 @@ describe('record action creator', function suite() {
               meta: {
                 csid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
 
@@ -578,6 +706,7 @@ describe('record action creator', function suite() {
               meta: {
                 csid,
                 recordTypeConfig,
+                relatedSubjectCsid: undefined,
               },
             });
           });

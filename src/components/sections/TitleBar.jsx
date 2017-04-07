@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import styles from '../../../styles/cspace-ui/TitleBar.css';
+import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';
 
 const propTypes = {
   title: PropTypes.node,
@@ -74,6 +75,7 @@ export default class TitleBar extends Component {
 
     return null;
   }
+
   renderSubtitle() {
     const {
       subtitle,
@@ -81,7 +83,7 @@ export default class TitleBar extends Component {
 
     if (subtitle !== null && typeof subtitle !== 'undefined') {
       return (
-        <div>{subtitle}</div>
+        <div className={subtitleStyles.common}>{subtitle}</div>
       );
     }
 

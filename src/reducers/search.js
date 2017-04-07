@@ -2,11 +2,17 @@ import Immutable from 'immutable';
 import { asPairs, diff } from '../helpers/objectHelpers';
 
 import {
+  deepGet,
+} from '../helpers/recordDataHelpers';
+
+import {
+  CLEAR_SEARCH_RESULTS,
   SET_MOST_RECENT_SEARCH,
   CREATE_EMPTY_SEARCH_RESULT,
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
+  SET_RESULT_ITEM_SELECTED,
 } from '../actions/search';
 
 /**
@@ -229,8 +235,40 @@ const handleSearchRejected = (state, action) => {
   return state;
 };
 
+const handleSetSearchResultItemSelected = (state, action) => {
+  const selected = action.payload;
+
+  const {
+    listTypeConfig,
+    searchName,
+    searchDescriptor,
+    index,
+  } = action.meta;
+
+  const { listNodeName, itemNodeName } = listTypeConfig;
+
+  const namedSearch = state.get(searchName);
+
+  if (namedSearch) {
+    const key = searchKey(searchDescriptor);
+    const path = ['byKey', key, 'result', listNodeName, itemNodeName, index];
+    const item = deepGet(namedSearch, path);
+    const csid = item.get('csid');
+
+    const updatedNamedSearch = selected
+      ? namedSearch.setIn(['selected', csid], item)
+      : namedSearch.deleteIn(['selected', csid]);
+
+    return state.set(searchName, updatedNamedSearch);
+  }
+
+  return state;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
+    case CLEAR_SEARCH_RESULTS:
+      return state.delete(action.payload);
     case SET_MOST_RECENT_SEARCH:
       return handleSetMostRecentSearch(state, action);
     case CREATE_EMPTY_SEARCH_RESULT:
@@ -241,19 +279,24 @@ export default (state = Immutable.Map(), action) => {
       return handleSearchFulfilled(state, action);
     case SEARCH_REJECTED:
       return handleSearchRejected(state, action);
+    case SET_RESULT_ITEM_SELECTED:
+      return handleSetSearchResultItemSelected(state, action);
     default:
       return state;
   }
 };
 
-export function isPending(state, searchName, searchDescriptor) {
-  return state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
-}
+export const isPending = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
 
-export function getResult(state, searchName, searchDescriptor) {
-  return state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'result']);
-}
+export const getMostRecentDescriptor = (state, searchName) =>
+  state.getIn([searchName, 'byKey', state.getIn([searchName, 'mostRecentKey']), 'descriptor']);
 
-export function getError(state, searchName, searchDescriptor) {
-  return state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'error']);
-}
+export const getResult = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'result']);
+
+export const getError = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'error']);
+
+export const getSelectedItems = (state, searchName) =>
+  state.getIn([searchName, 'selected']);

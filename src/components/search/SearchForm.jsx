@@ -42,6 +42,8 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.object,
+  recordTypeInputReadOnly: PropTypes.bool,
+  showButtons: PropTypes.bool,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -160,6 +162,8 @@ export default class SearchForm extends Component {
       intl,
       keywordValue,
       recordTypeValue,
+      recordTypeInputReadOnly,
+      showButtons,
       onAdvancedSearchConditionCommit,
     } = this.props;
 
@@ -167,11 +171,23 @@ export default class SearchForm extends Component {
       <h3><FormattedMessage {...messages.fullTextSearch} /></h3>
     );
 
+    // If showButtons is false, render the button bar anyway, but with height 0, so that the submit
+    // button will exist on the page, invisibly. This allows pressing enter on fields to submit the
+    // form.
+
+    const headerStyle = showButtons
+      ? null
+      : { height: '0', overflow: 'hidden', margin: '0' };
+
+    const header = <header style={headerStyle}><SearchButtonBar /></header>;
+
+    const footer = showButtons
+      ? <footer><SearchButtonBar /></footer>
+      : null;
+
     return (
       <form autoComplete="off" className={styles.common} onSubmit={this.handleFormSubmit}>
-        <header>
-          <SearchButtonBar />
-        </header>
+        {header}
         <Panel>
           <div className={recordTypeStyles.common}>
             <RecordTypeInput
@@ -180,6 +196,7 @@ export default class SearchForm extends Component {
               value={recordTypeValue}
               formatRecordTypeLabel={this.formatRecordTypeLabel}
               onCommit={this.handleRecordTypeDropdownCommit}
+              readOnly={recordTypeInputReadOnly}
             />
             {this.renderVocabularyInput()}
           </div>
@@ -202,9 +219,7 @@ export default class SearchForm extends Component {
             onConditionCommit={onAdvancedSearchConditionCommit}
           />
         </Panel>
-        <footer>
-          <SearchButtonBar />
-        </footer>
+        {footer}
       </form>
     );
   }

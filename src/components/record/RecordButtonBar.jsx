@@ -8,9 +8,9 @@ const propTypes = {
   csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  clone: PropTypes.func,
-  revert: PropTypes.func,
-  save: PropTypes.func,
+  onCloneButtonClick: PropTypes.func,
+  onRevertButtonClick: PropTypes.func,
+  onSaveButtonClick: PropTypes.func,
 };
 
 export default function RecordButtonBar(props) {
@@ -18,9 +18,9 @@ export default function RecordButtonBar(props) {
     csid,
     isModified,
     isSavePending,
-    clone,
-    revert,
-    save,
+    onCloneButtonClick,
+    onRevertButtonClick,
+    onSaveButtonClick,
   } = props;
 
   return (
@@ -28,19 +28,18 @@ export default function RecordButtonBar(props) {
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}
-        save={save}
+        onClick={onSaveButtonClick}
       />
       <CloneButton
         csid={csid}
         isModified={isModified}
         isSavePending={isSavePending}
-        clone={clone}
+        onClick={onCloneButtonClick}
       />
       <RevertButton
-        csid={csid}
         isModified={isModified}
         isSavePending={isSavePending}
-        revert={revert}
+        onClick={onRevertButtonClick}
       />
     </div>
   );

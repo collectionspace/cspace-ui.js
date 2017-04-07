@@ -1,10 +1,15 @@
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 import {
+  createNewRecord,
+  readRecord,
   addFieldInstance,
   moveFieldValue,
   setFieldValue,
   deleteFieldValue,
+  revertRecord,
+  saveRecord,
 } from '../../actions/record';
 
 import {
@@ -31,13 +36,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     config,
     csid,
+    relatedSubjectCsid,
     recordType,
+    vocabulary,
   } = ownProps;
 
-  return {
-    onAddInstance: (path) => {
-      const recordTypeConfig = config.recordTypes[recordType];
+  const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
+  const vocabularyConfig = vocabulary
+    ? get(recordTypeConfig, ['vocabularies', vocabulary])
+    : undefined;
+
+  return {
+    createNewRecord: (cloneCsid) => {
+      dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid));
+    },
+    readRecord: () => {
+      dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid));
+    },
+    onAddInstance: (path) => {
       dispatch(addFieldInstance(recordTypeConfig, csid, path));
     },
     onCommit: (path, value) => {
@@ -48,6 +65,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onRemoveInstance: (path) => {
       dispatch(deleteFieldValue(csid, path));
+    },
+    revert: () => {
+      dispatch(revertRecord(csid));
+    },
+    save: (onRecordCreated) => {
+      dispatch(
+        saveRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated)
+      );
     },
   };
 };

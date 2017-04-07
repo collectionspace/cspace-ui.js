@@ -66,11 +66,13 @@ export default class PageSizeChooser extends Component {
       pageSizeOptionListName,
     } = this.props;
 
+    const value = isNaN(pageSize) ? '' : pageSize.toString();
+
     const chooser = (
       <ComboBoxInputContainer
         embedded={embedded}
         optionListName={pageSizeOptionListName}
-        value={pageSize.toString()}
+        value={value}
         onAddOption={this.handleAddOption}
         onCommit={this.handleCommit}
       />

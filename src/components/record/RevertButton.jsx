@@ -14,23 +14,17 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  revert: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default function RevertButton(props) {
   const {
-    csid,
     isModified,
     isSavePending,
-    revert,
+    onClick,
   } = props;
-
-  if (!csid) {
-    return null;
-  }
 
   return (
     <Button
@@ -38,7 +32,7 @@ export default function RevertButton(props) {
       disabled={!isModified || isSavePending}
       icon
       name="revert"
-      onClick={revert}
+      onClick={onClick}
     >
       <FormattedMessage {...messages.label} />
     </Button>

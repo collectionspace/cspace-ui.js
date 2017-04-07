@@ -16,7 +16,9 @@ const store = mockStore({
   login: {},
 });
 
-const config = {};
+const config = {
+  locale: 'en',
+};
 
 describe('App', function suite() {
   beforeEach(function before() {

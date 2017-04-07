@@ -10,6 +10,7 @@ import reducer, {
   getLoginError,
   isLogoutPending,
   getLogoutResponse,
+  getRecordRelationUpdatedTimestamp,
   getRecordData,
   getNewRecordData,
   isRecordModified,
@@ -17,8 +18,11 @@ import reducer, {
   isRecordSavePending,
   getPrefs,
   isPanelCollapsed,
+  getRecordBrowserNavBarItems,
+  getSearchPageRecordType,
+  getSearchPageVocabulary,
   getSearchPanelPageSize,
-  getSearchPageSize,
+  getSearchResultPagePageSize,
   getOptionList,
   getVocabulary,
   getPartialTermSearchMatches,
@@ -26,9 +30,13 @@ import reducer, {
   getQuickSearchKeyword,
   getQuickSearchRecordType,
   getQuickSearchVocabulary,
+  getSearchPageAdvanced,
+  getSearchPageKeyword,
   isSearchPending,
+  getMostRecentSearchDescriptor,
   getSearchResult,
   getSearchError,
+  getRelationFindResult,
 } from '../../../src/reducers';
 
 import { searchKey } from '../../../src/reducers/search';
@@ -51,7 +59,9 @@ describe('reducer', function suite() {
       'optionList',
       'partialTermSearch',
       'prefs',
+      'relation',
       'search',
+      'searchToRelate',
       'user',
       'record',
       'vocabulary',
@@ -141,6 +151,21 @@ describe('reducer', function suite() {
           response,
         },
       }).should.equal(response);
+    });
+  });
+
+  describe('getRecordRelationUpdatedTimestamp selector', function selectorSuite() {
+    it('should select from the record key', function test() {
+      const csid = '1234';
+      const relationUpdatedTime = '2017-03-23T13:23:11.000';
+
+      getRecordRelationUpdatedTimestamp({
+        record: Immutable.fromJS({
+          [csid]: {
+            relationUpdatedTime,
+          },
+        }),
+      }, csid).should.equal(relationUpdatedTime);
     });
   });
 
@@ -254,6 +279,21 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('getRecordBrowserNavBarItems selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const recordType = 'object';
+      const items = ['group', 'object'];
+
+      getRecordBrowserNavBarItems({
+        prefs: Immutable.fromJS({
+          recordBrowserNavBarItems: {
+            [recordType]: items,
+          },
+        }),
+      }, recordType).should.equal(Immutable.List(items));
+    });
+  });
+
   describe('getSearchPanelPageSize selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
       const recordType = 'object';
@@ -274,15 +314,46 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPageSize selector', function selectorSuite() {
+  describe('getSearchPageRecordType selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
-      const searchPageSize = 35;
+      const recordType = 'person';
 
-      getSearchPageSize({
+      getSearchPageRecordType({
         prefs: Immutable.fromJS({
-          searchPageSize,
+          searchPage: {
+            recordType,
+          },
         }),
-      }).should.equal(searchPageSize);
+      }).should.equal(recordType);
+    });
+  });
+
+  describe('getSearchPageVocabulary selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const recordType = 'person';
+      const vocabulary = 'local';
+
+      getSearchPageVocabulary({
+        prefs: Immutable.fromJS({
+          searchPage: {
+            vocabulary: {
+              [recordType]: vocabulary,
+            },
+          },
+        }),
+      }, recordType).should.equal(vocabulary);
+    });
+  });
+
+  describe('getSearchResultPagePageSize selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const searchResultPagePageSize = 35;
+
+      getSearchResultPagePageSize({
+        prefs: Immutable.fromJS({
+          searchResultPagePageSize,
+        }),
+      }).should.equal(searchResultPagePageSize);
     });
   });
 
@@ -341,6 +412,34 @@ describe('reducer', function suite() {
           [idGeneratorName]: idGenerator,
         }),
       }, idGeneratorName).should.deep.equal(idGenerator);
+    });
+  });
+
+  describe('getSearchPageAdvanced selector', function selectorSuite() {
+    it('should select from the searchPage key', function test() {
+      const advancedSearchCondition = {
+        op: 'eq',
+        path: 'path',
+        value: 'value',
+      };
+
+      getSearchPageAdvanced({
+        searchPage: Immutable.fromJS({
+          advanced: advancedSearchCondition,
+        }),
+      }).should.equal(Immutable.fromJS(advancedSearchCondition));
+    });
+  });
+
+  describe('getSearchPageKeyword selector', function selectorSuite() {
+    it('should select from the searchPage key', function test() {
+      const keyword = 'abc';
+
+      getSearchPageKeyword({
+        searchPage: Immutable.Map({
+          keyword,
+        }),
+      }).should.equal(keyword);
     });
   });
 
@@ -410,6 +509,30 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('getMostRecentSearchDescriptor selector', function selectorSuite() {
+    it('should select from the search key', function test() {
+      const searchDescriptor = {
+        recordType: 'object',
+      };
+
+      const searchName = 'testSearch';
+      const key = searchKey(searchDescriptor);
+
+      getMostRecentSearchDescriptor({
+        search: Immutable.fromJS({
+          [searchName]: {
+            mostRecentKey: key,
+            byKey: {
+              [key]: {
+                descriptor: searchDescriptor,
+              },
+            },
+          },
+        }),
+      }, searchName).should.equal(Immutable.fromJS(searchDescriptor));
+    });
+  });
+
   describe('getSearchResult selector', function selectorSuite() {
     it('should select from the search key', function test() {
       const searchDescriptor = {
@@ -463,6 +586,45 @@ describe('reducer', function suite() {
           },
         }),
       }, searchName, searchDescriptor).should.deep.equal(Immutable.fromJS(error));
+    });
+  });
+
+  describe('getRelationFindResult selector', function selectorSuite() {
+    it('should select from the relation key', function test() {
+      const subjectCsid = '1234';
+      const objectCsid = '5678';
+      const predicate = 'affects';
+
+      const result = Immutable.fromJS({
+        'ns2:relations-common-list': {
+          itemsInPage: '1',
+          totalItems: '1',
+        },
+      });
+
+      const descriptor = {
+        predicate,
+        subject: {
+          csid: subjectCsid,
+        },
+        object: {
+          csid: objectCsid,
+        },
+      };
+
+      getRelationFindResult({
+        relation: Immutable.fromJS({
+          find: {
+            [subjectCsid]: {
+              [objectCsid]: {
+                [predicate]: {
+                  result,
+                },
+              },
+            },
+          },
+        }),
+      }, descriptor).should.equal(result);
     });
   });
 });

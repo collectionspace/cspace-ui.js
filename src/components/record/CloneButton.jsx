@@ -17,7 +17,7 @@ const propTypes = {
   csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  clone: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default function CloneButton(props) {
@@ -25,7 +25,7 @@ export default function CloneButton(props) {
     csid,
     isModified,
     isSavePending,
-    clone,
+    onClick,
   } = props;
 
   if (!csid) {
@@ -38,7 +38,7 @@ export default function CloneButton(props) {
       disabled={isModified || isSavePending}
       icon
       name="clone"
-      onClick={clone}
+      onClick={onClick}
     >
       <FormattedMessage {...messages.label} />
     </Button>

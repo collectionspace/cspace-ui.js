@@ -17,12 +17,17 @@ import {
 } from '../../../src/actions/record';
 
 import {
+  SUBJECT_RELATIONS_UPDATED,
+} from '../../../src/actions/relation';
+
+import {
   CREATE_ID_FULFILLED,
 } from '../../../src/actions/idGenerator';
 
 import reducer, {
   getData,
   getNewData,
+  getRelationUpdatedTimestamp,
   isModified,
   isReadPending,
   isSavePending,
@@ -628,10 +633,14 @@ describe('record reducer', function suite() {
 
   it('should handle RECORD_SAVE_FULFILLED', function test() {
     const csid = '1234';
+    const updatedAt = '2017-03-23-08:34:21.000Z';
 
     const data = {
       document: {
         '@name': 'groups',
+        'ns2:collectionspace_core': {
+          updatedAt,
+        },
       },
     };
 
@@ -675,32 +684,30 @@ describe('record reducer', function suite() {
 
     getData(state, csid).should.equal(Immutable.fromJS(data));
     expect(isSavePending(state, csid)).to.equal(undefined);
+    expect(isSavePending(state, '')).to.equal(undefined);
     isModified(state, csid).should.equal(false);
 
-    // New record
+    // With related subject csid
+
+    const relatedSubjectCsid = '5678';
 
     state = reducer(Immutable.fromJS({
-      '': {
-        data: {
-          current: data,
-        },
+      [csid]: {
+        data: {},
+        isSavePending: true,
       },
     }), {
       type: RECORD_SAVE_FULFILLED,
       payload: {
         data,
-        status: 201,
-        headers: {
-          location: '/groups/5678',
-        },
       },
       meta: {
-        csid: '',
+        csid,
+        relatedSubjectCsid,
       },
     });
 
-    getData(state, '5678').should.equal(Immutable.fromJS(data));
-    isModified(state, csid).should.equal(false);
+    getRelationUpdatedTimestamp(state, relatedSubjectCsid).should.equal(updatedAt);
   });
 
   it('should handle RECORD_SAVE_REJECTED', function test() {
@@ -768,6 +775,36 @@ describe('record reducer', function suite() {
     }));
 
     isModified(state, csid).should.equal(false);
+  });
+
+  it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
+    const csid = '1234';
+
+    let state;
+
+    // No existing state for the csid
+
+    state = reducer(undefined, {
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: {
+        csid,
+      },
+    });
+
+    expect(getRelationUpdatedTimestamp(state, csid)).to.equal(undefined);
+
+    // Existing state
+
+    state = reducer(Immutable.fromJS({
+      [csid]: {},
+    }), {
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: {
+        csid,
+      },
+    });
+
+    expect(Date.parse(getRelationUpdatedTimestamp(state, csid))).to.be.closeTo(Date.now(), 10);
   });
 
   it('should handle CREATE_ID_FULFILLED', function test() {

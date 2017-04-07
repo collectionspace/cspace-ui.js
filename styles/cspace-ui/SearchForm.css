@@ -3,3 +3,8 @@
   box-sizing: border-box;
   margin: 0;
 }
+
+.common > header,
+.common > footer {
+  margin: 10px 0;
+}

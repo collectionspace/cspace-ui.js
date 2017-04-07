@@ -395,4 +395,78 @@ describe('SearchResultTable', function suite() {
 
     pushedLocation.should.equal(`itemLocation: ${csid}`);
   });
+
+  it('should call onItemClick a row is clicked', function test() {
+    let pushedLocation = null;
+
+    const router = mockRouter({
+      push: (location) => {
+        pushedLocation = location;
+      },
+    });
+
+    let clickedItem = null;
+
+    const handleItemClick = (itemArg) => {
+      clickedItem = itemArg;
+
+      return true;
+    };
+
+    render(
+      <RouterProvider router={router}>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          onItemClick={handleItemClick}
+        />
+      </RouterProvider>, this.container);
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    Simulate.click(rows[3]);
+
+    clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
+
+    const csid = searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3', 'csid']);
+
+    pushedLocation.should.equal(`itemLocation: ${csid}`);
+  });
+
+  it('should not navigate to the item location if onItemClick returns false', function test() {
+    let pushedLocation = null;
+
+    const router = mockRouter({
+      push: (location) => {
+        pushedLocation = location;
+      },
+    });
+
+    let clickedItem = null;
+
+    const handleItemClick = (itemArg) => {
+      clickedItem = itemArg;
+
+      return false;
+    };
+
+    render(
+      <RouterProvider router={router}>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          onItemClick={handleItemClick}
+        />
+      </RouterProvider>, this.container);
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    Simulate.click(rows[3]);
+
+    clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
+
+    expect(pushedLocation).to.equal(null);
+  });
 });

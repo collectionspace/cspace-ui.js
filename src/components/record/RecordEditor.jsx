@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import RecordButtonBarContainer from '../../containers/record/RecordButtonBarContainer';
-import RecordHistory from '../../components/record/RecordHistory';
+import RecordButtonBar from './RecordButtonBar';
+import RecordHistory from './RecordHistory';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
@@ -34,13 +34,20 @@ const propTypes = {
   recordType: PropTypes.string.isRequired,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
+  cloneCsid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  createNewRecord: PropTypes.func,
+  readRecord: PropTypes.func,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
+  onRecordCreated: PropTypes.func,
+  save: PropTypes.func,
+  revert: PropTypes.func,
+  clone: PropTypes.func,
 };
 
 const defaultProps = {
@@ -54,6 +61,14 @@ const childContextTypes = {
 };
 
 export default class RecordEditor extends Component {
+  constructor() {
+    super();
+
+    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
+    this.handleRevertButtonClick = this.handleRevertButtonClick.bind(this);
+    this.handleCloneButtonClick = this.handleCloneButtonClick.bind(this);
+  }
+
   getChildContext() {
     const {
       config,
@@ -68,6 +83,84 @@ export default class RecordEditor extends Component {
     };
   }
 
+  componentDidMount() {
+    this.initRecord();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      recordType,
+      vocabulary,
+      csid,
+      cloneCsid,
+    } = this.props;
+
+    const {
+      recordType: prevRecordType,
+      vocabulary: prevVocabulary,
+      csid: prevCsid,
+      cloneCsid: prevCloneCsid,
+    } = prevProps;
+
+    if (
+      recordType !== prevRecordType ||
+      vocabulary !== prevVocabulary ||
+      csid !== prevCsid ||
+      cloneCsid !== prevCloneCsid
+    ) {
+      this.initRecord();
+    }
+  }
+
+  initRecord() {
+    const {
+      csid,
+      cloneCsid,
+      createNewRecord,
+      readRecord,
+    } = this.props;
+
+    if (csid) {
+      if (readRecord) {
+        readRecord();
+      }
+    } else if (createNewRecord) {
+      createNewRecord(cloneCsid);
+    }
+  }
+
+  handleCloneButtonClick() {
+    const {
+      clone,
+      csid,
+    } = this.props;
+
+    if (clone) {
+      clone(csid);
+    }
+  }
+
+  handleRevertButtonClick() {
+    const {
+      revert,
+    } = this.props;
+
+    if (revert) {
+      revert();
+    }
+  }
+
+  handleSaveButtonClick() {
+    const {
+      save,
+      onRecordCreated,
+    } = this.props;
+
+    if (save) {
+      save(onRecordCreated);
+    }
+  }
+
   render() {
     const {
       config,
@@ -76,7 +169,6 @@ export default class RecordEditor extends Component {
       isModified,
       isSavePending,
       recordType,
-      vocabulary,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -88,10 +180,6 @@ export default class RecordEditor extends Component {
     if (!recordTypeConfig) {
       return null;
     }
-
-    const vocabularyConfig = vocabulary
-      ? recordTypeConfig.vocabularies[vocabulary]
-      : undefined;
 
     const {
       forms,
@@ -121,12 +209,13 @@ export default class RecordEditor extends Component {
         className={styles.common}
       >
         <header>
-          <RecordButtonBarContainer
+          <RecordButtonBar
             csid={csid}
             isModified={isModified}
             isSavePending={isSavePending}
-            recordTypeConfig={recordTypeConfig}
-            vocabularyConfig={vocabularyConfig}
+            onSaveButtonClick={this.handleSaveButtonClick}
+            onRevertButtonClick={this.handleRevertButtonClick}
+            onCloneButtonClick={this.handleCloneButtonClick}
           />
           <RecordHistory
             data={data}
@@ -135,6 +224,16 @@ export default class RecordEditor extends Component {
           />
         </header>
         {formContent}
+        <footer>
+          <RecordButtonBar
+            csid={csid}
+            isModified={isModified}
+            isSavePending={isSavePending}
+            onSaveButtonClick={this.handleSaveButtonClick}
+            onRevertButtonClick={this.handleRevertButtonClick}
+            onCloneButtonClick={this.handleCloneButtonClick}
+          />
+        </footer>
       </form>
     );
   }
@@ -143,3 +242,4 @@ export default class RecordEditor extends Component {
 RecordEditor.propTypes = propTypes;
 RecordEditor.defaultProps = defaultProps;
 RecordEditor.childContextTypes = childContextTypes;
+

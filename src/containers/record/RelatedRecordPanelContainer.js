@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import RelatedObjectPanel from '../../components/record/RelatedObjectPanel';
+import RelatedRecordPanel from '../../components/record/RelatedRecordPanel';
 
 import {
   getRecordData,
+  getRecordRelationUpdatedTimestamp,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -12,9 +13,10 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     recordData: getRecordData(state, csid),
+    recordRelationUpdatedTimestamp: getRecordRelationUpdatedTimestamp(state, csid),
   };
 };
 
 export default connect(
   mapStateToProps,
-)(RelatedObjectPanel);
+)(RelatedRecordPanel);

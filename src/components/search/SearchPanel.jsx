@@ -32,6 +32,7 @@ const propTypes = {
   title: PropTypes.node,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
+  onItemClick: PropTypes.func,
   onSearchDescriptorChange: PropTypes.func,
 };
 
@@ -261,6 +262,7 @@ export default class SearchPanel extends Component {
       name,
       recordType,
       searchDescriptor,
+      onItemClick,
     } = this.props;
 
     return (
@@ -283,6 +285,7 @@ export default class SearchPanel extends Component {
           searchName={name}
           searchDescriptor={searchDescriptor}
           renderFooter={this.renderFooter}
+          onItemClick={onItemClick}
           onSortChange={this.handleSortChange}
         />
       </Panel>

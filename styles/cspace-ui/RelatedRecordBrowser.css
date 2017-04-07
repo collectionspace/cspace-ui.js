@@ -1,4 +1,21 @@
 .common {
+  flex: 1;
   background: white;
-  min-height: 300px;
+  padding: 0 10px 0 0;
+}
+
+.common > header {
+  margin: 10px 0;
+}
+
+.common > div {
+  padding: 0 10px;
+}
+
+.common > div > p {
+  margin: 10px 0;
+}
+
+.common > :global(.cspace-ui-RecordEditor--common) {
+  padding-right: 0;
 }

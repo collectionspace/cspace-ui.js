@@ -436,8 +436,16 @@ describe('configHelpers', function moduleSuite() {
   describe('validateLocation', function suite() {
     const config = {
       recordTypes: {
-        collectionobject: {},
-        group: {},
+        collectionobject: {
+          serviceConfig: {
+            serviceType: 'object',
+          },
+        },
+        group: {
+          serviceConfig: {
+            serviceType: 'procedure',
+          },
+        },
         person: {
           serviceConfig: {
             serviceType: 'authority',
@@ -524,6 +532,17 @@ describe('configHelpers', function moduleSuite() {
           recordType: 'person',
           relatedRecordType: 'group',
           code: ERR_INVALID_RELATED_TYPE,
+        },
+      });
+    });
+
+    it('should return ERR_INVALID_CSID error if an invalid related csid is passed', function test() {
+      validateLocation(config,
+        { recordType: 'collectionobject', csid: '2ee54531-3f31-4633-8f2c', relatedRecordType: 'group', relatedCsid: 'foo' }
+      ).should.deep.equal({
+        error: {
+          csid: 'foo',
+          code: ERR_INVALID_CSID,
         },
       });
     });

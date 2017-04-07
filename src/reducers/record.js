@@ -8,6 +8,7 @@ import {
   deepGet,
   deepSet,
   deepDelete,
+  getUpdatedTimestamp,
 } from '../helpers/recordDataHelpers';
 
 import {
@@ -28,6 +29,10 @@ import {
   RECORD_SAVE_REJECTED,
   REVERT_RECORD,
 } from '../actions/record';
+
+import {
+  SUBJECT_RELATIONS_UPDATED,
+} from '../actions/relation';
 
 import {
   CREATE_ID_FULFILLED,
@@ -173,35 +178,44 @@ const handleRecordReadFulfilled = (state, action) => {
 };
 
 const handleRecordSaveFulfilled = (state, action) => {
-  const response = action.payload;
-  const csid = action.meta.csid;
+  const data = Immutable.fromJS(action.payload.data);
 
-  let updatedState = state.deleteIn([csid, 'isSavePending']);
+  const {
+    csid,
+    relatedSubjectCsid,
+  } = action.meta;
 
-  if (response.status === 201 && response.headers.location) {
-    // A new record was created. There won't be any data in the response. Copy the data in the
-    // slot for the new record csid to the data slot for the new record. This prevents the form
-    // data from blinking out when the browser is directed to the new csid, as it would otherwise
-    // find no data until the read call to the REST API completed.
-
-    const location = response.headers.location;
-    const createdRecordCsid = location.substring(location.lastIndexOf('/') + 1);
-
-    updatedState = updatedState.set(createdRecordCsid, updatedState.get(newRecordCsid));
-
-    updatedState = setBaselineData(
-      updatedState, createdRecordCsid, getCurrentData(updatedState, createdRecordCsid)
-    );
-
-    return updatedState;
-  }
-
-  const data = Immutable.fromJS(response.data);
+  let updatedState =
+    state.deleteIn([csid, 'isSavePending']).deleteIn([newRecordCsid, 'isSavePending']);
 
   updatedState = setBaselineData(updatedState, csid, data);
   updatedState = setCurrentData(updatedState, csid, data);
 
+  if (relatedSubjectCsid) {
+    updatedState = updatedState.setIn(
+      [relatedSubjectCsid, 'relationUpdatedTime'],
+      getUpdatedTimestamp(data)
+    );
+  }
+
   return updatedState;
+};
+
+const handleSubjectRelationsUpdated = (state, action) => {
+  // Currently relations are only ever created (not updated), and we don't bother to retrieve
+  // the relation record after creation. Technically we should retrieve the new relation
+  // record and use its updatedAt value here, but that's an extra request. For now just use the
+  // current local time, at least until there's some additional reason to retrieve the full
+  // relation record.
+
+  const subjectCsid = action.meta.csid;
+  const newUpdatedTime = (new Date()).toISOString();
+
+  if (state.has(subjectCsid)) {
+    return state.setIn([subjectCsid, 'relationUpdatedTime'], newUpdatedTime);
+  }
+
+  return state;
 };
 
 const handleCreateIDFulfilled = (state, action) => {
@@ -256,6 +270,8 @@ export default (state = Immutable.Map(), action) => {
       );
     case REVERT_RECORD:
       return setCurrentData(state, action.meta.csid, getBaselineData(state, action.meta.csid));
+    case SUBJECT_RELATIONS_UPDATED:
+      return handleSubjectRelationsUpdated(state, action);
     case CREATE_ID_FULFILLED:
       return handleCreateIDFulfilled(state, action);
     default:
@@ -264,6 +280,8 @@ export default (state = Immutable.Map(), action) => {
 };
 
 export const getData = (state, csid) => getCurrentData(state, csid);
+
+export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);
 
 export const getNewData = state => getData(state, newRecordCsid);
 
