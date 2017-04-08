@@ -135,7 +135,10 @@ export default class RelationEditor extends Component {
         return null;
       }
 
-      const count = parseInt(findResult.getIn(['ns2:relations-common-list', 'totalItems']), 10);
+      // FIXME: Services should return a consistent (or no) namespace prefix.
+
+      const list = findResult.get('ns2:relations-common-list') || findResult.get('ns3:relations-common-list');
+      const count = parseInt(list.get('totalItems'), 10);
 
       if (isNaN(count) || count < 1) {
         // There is no relation.
