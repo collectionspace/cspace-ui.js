@@ -8,14 +8,10 @@
   margin: 10px 0;
 }
 
-.common > div {
-  padding: 0 10px;
-}
-
 .common > div > p {
   margin: 10px 0;
 }
 
-.common > :global(.cspace-ui-RecordEditor--common) {
+.common > div > :global(.cspace-ui-RecordEditor--common) {
   padding-right: 0;
 }

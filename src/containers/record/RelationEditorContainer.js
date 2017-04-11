@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 import {
   clearState,
   createBidirectional,
+  unrelateBidirectional,
   find,
 } from '../../actions/relation';
 
-import { getRelationFindResult } from '../../reducers';
+import {
+  getRecordData,
+  getRelationFindResult,
+} from '../../reducers';
 
 import RelationEditor from '../../components/record/RelationEditor';
 
@@ -18,13 +22,15 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
-    findResult: getRelationFindResult(state, { subject, object, predicate }),
+    objectData: getRecordData(state, object.csid),
+    findResult: getRelationFindResult(state, subject, object, predicate),
   };
 };
 
 const mapDispatchToProps = {
   createRelation: createBidirectional,
   findRelation: find,
+  unrelate: unrelateBidirectional,
   onUnmount: clearState,
 };
 

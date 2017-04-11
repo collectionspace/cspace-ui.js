@@ -7,6 +7,10 @@
   margin-left: 4px;
 }
 
+.common > a + button {
+  margin-left: 12px;
+}
+
 footer > .common {
   text-align: right;
 }

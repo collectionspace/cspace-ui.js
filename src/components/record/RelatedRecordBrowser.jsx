@@ -30,6 +30,7 @@ class RelatedRecordBrowser extends Component {
     this.handleRelatedRecordClick = this.handleRelatedRecordClick.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
+    this.handleRelationEditorClose = this.handleRelationEditorClose.bind(this);
     this.handleRelationsCreated = this.handleRelationsCreated.bind(this);
 
     this.state = {
@@ -94,6 +95,25 @@ class RelatedRecordBrowser extends Component {
 
   handleModalCloseButtonClick() {
     this.closeModal();
+  }
+
+  handleRelationEditorClose() {
+    const {
+      recordType,
+      vocabulary,
+      csid,
+      relatedRecordType,
+      router,
+    } = this.props;
+
+    const path =
+      [recordType, vocabulary, csid, relatedRecordType]
+        .filter(part => !!part)
+        .join('/');
+
+    router.replace({
+      pathname: `/record/${path}`,
+    });
   }
 
   handleRelationsCreated() {
@@ -165,6 +185,7 @@ class RelatedRecordBrowser extends Component {
           }}
           predicate="affects"
           cloneRecord={this.cloneRelatedRecord}
+          onClose={this.handleRelationEditorClose}
           onRecordCreated={this.handleRelatedRecordCreated}
         />
       );
