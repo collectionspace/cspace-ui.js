@@ -10,7 +10,7 @@ const messages = defineMessages({
   open: {
     id: 'relationButtonBar.open',
     description: 'Label of the open related record link.',
-    defaultMessage: 'Go to record',
+    defaultMessage: 'Open',
   },
 });
 

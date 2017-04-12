@@ -146,7 +146,7 @@ export const deleteRelation = csid => (dispatch) => {
     });
 };
 
-export const unrelate = (config, subject, object, predicate) => (dispatch, getState) => {
+const doUnrelate = (config, subject, object, predicate) => (dispatch, getState) => {
   if (!subject.csid || !object.csid) {
     throw new Error('subject csid and object csid must be supplied');
   }
@@ -176,16 +176,46 @@ export const unrelate = (config, subject, object, predicate) => (dispatch, getSt
       }
 
       return Promise.all(items.map(item => dispatch(deleteRelation(item.get('csid')))));
-    })
+    });
+};
+
+export const unrelate = (config, subject, object, predicate) => dispatch =>
+  dispatch(doUnrelate(config, subject, object, predicate))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: subject,
-    }));
-};
+    }))
+    .catch(() => {});
 
 export const unrelateBidirectional = (config, subject, object, predicate) => dispatch =>
   dispatch(unrelate(config, subject, object, predicate))
     .then(() => dispatch(unrelate(config, object, subject, predicate)))
+    .catch(() => {});
+
+export const batchUnrelate = (config, subject, objects, predicate) => dispatch =>
+  Promise.all(objects.map(object => dispatch(doUnrelate(config, subject, object, predicate))))
+    .then(() => dispatch({
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    }))
+    .catch(() => {});
+
+export const batchUnrelateBidirectional = (config, subject, objects, predicate) => dispatch =>
+  // For the passed subject, we only want to dispatch SUBJECT_RELATIONS_UPDATED once at the end, so
+  // doUnrelate is used. The passed objects should be unique; for the reverse relations (where the
+  // object becomes the subject), SUBJECT_RELATIONS_UPDATED may be dispatched immediately, so
+  // unrelate is used.
+
+  Promise.all(
+    objects.map(
+      object =>
+        dispatch(doUnrelate(config, subject, object, predicate))
+          .then(() => dispatch(unrelate(config, object, subject, predicate)))
+  ))
+    .then(() => dispatch({
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    }))
     .catch(() => {});
 
 const doCreate = (subject, object, predicate) => (dispatch) => {
@@ -245,7 +275,8 @@ export const batchCreate = (subject, objects, predicate) => dispatch =>
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: subject,
-    }));
+    }))
+    .catch(() => {});
 
 export const batchCreateBidirectional = (subject, objects, predicate) => dispatch =>
   Promise.all(objects.map(

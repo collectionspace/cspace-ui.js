@@ -56,6 +56,7 @@ const propTypes = {
   onClose: PropTypes.func,
   onRecordCreated: PropTypes.func,
   onUnmount: PropTypes.func,
+  onUnrelated: PropTypes.func,
 };
 
 export default class RelationEditor extends Component {
@@ -77,18 +78,21 @@ export default class RelationEditor extends Component {
       subject,
       object,
       predicate,
+      findResult,
     } = this.props;
 
     const {
       subject: prevSubject,
       object: prevObject,
       predicate: prevPredicate,
+      findResult: prevFindResult,
     } = prevProps;
 
     if (
       !isEqual(subject, prevSubject) ||
       !isEqual(object, prevObject) ||
-      predicate !== prevPredicate
+      predicate !== prevPredicate ||
+      (!findResult && prevFindResult)
     ) {
       this.initRelation();
     }
@@ -135,10 +139,16 @@ export default class RelationEditor extends Component {
       object,
       predicate,
       unrelate,
+      onUnrelated,
     } = this.props;
 
     if (unrelate) {
-      unrelate(config, subject, object, predicate);
+      unrelate(config, subject, object, predicate)
+        .then(() => {
+          if (onUnrelated) {
+            onUnrelated(subject, object, predicate);
+          }
+        });
     }
   }
 

@@ -20,10 +20,12 @@ const propTypes = {
 export default function UnrelateButton(props) {
   const {
     onClick,
+    ...remainingProps
   } = props;
 
   return (
     <Button
+      {...remainingProps}
       className={styles.common}
       icon
       name="unrelate"

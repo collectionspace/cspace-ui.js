@@ -30,6 +30,9 @@ const propTypes = {
   searchResult: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
   title: PropTypes.node,
+  showCheckboxColumn: PropTypes.bool,
+  renderCheckbox: PropTypes.func,
+  renderTableHeader: PropTypes.func,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
   onItemClick: PropTypes.func,
@@ -59,6 +62,15 @@ export default class SearchPanel extends Component {
 
   componentDidMount() {
     this.search();
+
+    const {
+      searchDescriptor,
+      onSearchDescriptorChange,
+    } = this.props;
+
+    if (onSearchDescriptorChange) {
+      onSearchDescriptorChange(searchDescriptor);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -68,10 +80,15 @@ export default class SearchPanel extends Component {
 
     const {
       searchDescriptor,
+      onSearchDescriptorChange,
     } = this.props;
 
     if (!isEqual(prevSearchDescriptor, searchDescriptor)) {
       this.search();
+
+      if (onSearchDescriptorChange) {
+        onSearchDescriptorChange(searchDescriptor);
+      }
     }
   }
 
@@ -262,6 +279,9 @@ export default class SearchPanel extends Component {
       name,
       recordType,
       searchDescriptor,
+      showCheckboxColumn,
+      renderCheckbox,
+      renderTableHeader,
       onItemClick,
     } = this.props;
 
@@ -284,6 +304,9 @@ export default class SearchPanel extends Component {
           recordType={recordType}
           searchName={name}
           searchDescriptor={searchDescriptor}
+          showCheckboxColumn={showCheckboxColumn}
+          renderCheckbox={renderCheckbox}
+          renderHeader={renderTableHeader}
           renderFooter={this.renderFooter}
           onItemClick={onItemClick}
           onSortChange={this.handleSortChange}

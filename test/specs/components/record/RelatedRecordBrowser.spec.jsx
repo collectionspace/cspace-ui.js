@@ -88,12 +88,17 @@ const config = {
       },
       messages: {
         record: {
+          name: {
+            id: 'record.group.name',
+            defaultMessage: 'Group',
+          },
           collectionName: {
             id: 'record.group.collectionName',
             defaultMessage: 'Groups',
           },
         },
       },
+      title: () => 'Title',
     },
   },
 };

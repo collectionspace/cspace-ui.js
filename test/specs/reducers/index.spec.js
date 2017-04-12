@@ -595,22 +595,20 @@ describe('reducer', function suite() {
       const objectCsid = '5678';
       const predicate = 'affects';
 
+      const subject = {
+        csid: subjectCsid,
+      };
+
+      const object = {
+        csid: objectCsid,
+      };
+
       const result = Immutable.fromJS({
         'ns2:relations-common-list': {
           itemsInPage: '1',
           totalItems: '1',
         },
       });
-
-      const descriptor = {
-        predicate,
-        subject: {
-          csid: subjectCsid,
-        },
-        object: {
-          csid: objectCsid,
-        },
-      };
 
       getRelationFindResult({
         relation: Immutable.fromJS({
@@ -624,7 +622,7 @@ describe('reducer', function suite() {
             },
           },
         }),
-      }, descriptor).should.equal(result);
+      }, subject, object, predicate).should.equal(result);
     });
   });
 });

@@ -47,6 +47,7 @@ describe('RelationEditorContainer', function suite() {
         },
       },
     }),
+    record: Immutable.Map(),
   });
 
   const context = {
@@ -129,7 +130,7 @@ describe('RelationEditorContainer', function suite() {
     // dispatches RELATION_FIND_STARTED.
 
     try {
-      result.props.findRelation(config, { subject, object: newObject, predicate });
+      result.props.findRelation(config, subject, newObject, predicate);
     } catch (error) {
       const action = store.getActions()[0];
 

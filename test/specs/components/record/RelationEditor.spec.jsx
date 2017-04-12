@@ -3,6 +3,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-addons-test-utils';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
@@ -13,7 +14,19 @@ const expect = chai.expect;
 chai.should();
 
 const config = {
-
+  recordTypes: {
+    group: {
+      messages: {
+        record: {
+          name: {
+            id: 'record.group.name',
+            defaultMessage: 'Group',
+          },
+        },
+      },
+      title: () => 'Title',
+    },
+  },
 };
 
 describe('RelationEditor', function suite() {
@@ -49,12 +62,13 @@ describe('RelationEditor', function suite() {
       />);
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
 
-    result.type.should.equal(RecordEditorContainer);
+    recordEditorContainer.should.not.equal(null);
 
-    result.props.csid.should.equal(object.csid);
-    result.props.recordType.should.equal(object.recordType);
-    result.props.relatedSubjectCsid.should.equal(subject.csid);
+    recordEditorContainer.props.csid.should.equal(object.csid);
+    recordEditorContainer.props.recordType.should.equal(object.recordType);
+    recordEditorContainer.props.relatedSubjectCsid.should.equal(subject.csid);
   });
 
   it('should render nothing if there is no relation find result', function test() {
@@ -167,8 +181,9 @@ describe('RelationEditor', function suite() {
       />);
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
 
-    result.props.onRecordCreated(newRecordCsid);
+    recordEditorContainer.props.onRecordCreated(newRecordCsid);
 
     createSubject.should.equal(subject);
     createObject.should.deep.equal({ csid: newRecordCsid });
@@ -201,11 +216,11 @@ describe('RelationEditor', function suite() {
     let findObject = null;
     let findPredicate = null;
 
-    const findRelation = (configArg, descriptor) => {
+    const findRelation = (configArg, subjectArg, objectArg, predicateArg) => {
       findConfig = configArg;
-      findSubject = descriptor.subject;
-      findObject = descriptor.object;
-      findPredicate = descriptor.predicate;
+      findSubject = subjectArg;
+      findObject = objectArg;
+      findPredicate = predicateArg;
     };
 
     render(
@@ -241,11 +256,11 @@ describe('RelationEditor', function suite() {
     let findObject = null;
     let findPredicate = null;
 
-    const findRelation = (configArg, descriptor) => {
+    const findRelation = (configArg, subjectArg, objectArg, predicateArg) => {
       findConfig = configArg;
-      findSubject = descriptor.subject;
-      findObject = descriptor.object;
-      findPredicate = descriptor.predicate;
+      findSubject = subjectArg;
+      findObject = objectArg;
+      findPredicate = predicateArg;
     };
 
     render(

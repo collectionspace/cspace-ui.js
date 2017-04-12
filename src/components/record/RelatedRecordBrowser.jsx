@@ -16,6 +16,7 @@ const propTypes = {
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
   router: routerShape,
+  deselectItem: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
@@ -28,14 +29,24 @@ class RelatedRecordBrowser extends Component {
     this.handleRelateButtonClick = this.handleRelateButtonClick.bind(this);
     this.handleRelatedRecordCreated = this.handleRelatedRecordCreated.bind(this);
     this.handleRelatedRecordClick = this.handleRelatedRecordClick.bind(this);
+    this.handleRelatedRecordPanelUnrelated = this.handleRelatedRecordPanelUnrelated.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
     this.handleRelationEditorClose = this.handleRelationEditorClose.bind(this);
+    this.handleRelationEditorUnrelated = this.handleRelationEditorUnrelated.bind(this);
     this.handleRelationsCreated = this.handleRelationsCreated.bind(this);
 
     this.state = {
       isSearchToRelateModalOpen: false,
     };
+  }
+
+  getRelatedRecordPanelName() {
+    const {
+      relatedRecordType,
+    } = this.props;
+
+    return `relatedRecordBrowser-${relatedRecordType}`;
   }
 
   cloneRelatedRecord(relatedRecordCsid) {
@@ -116,6 +127,19 @@ class RelatedRecordBrowser extends Component {
     });
   }
 
+  handleRelationEditorUnrelated(subject, object) {
+    const {
+      deselectItem,
+    } = this.props;
+
+    // If a record is unrelated in the editor, deselect it in the store, since it will no longer
+    // appear in the related records list.
+
+    if (deselectItem) {
+      deselectItem(this.getRelatedRecordPanelName(), object.csid);
+    }
+  }
+
   handleRelationsCreated() {
     this.closeModal();
   }
@@ -154,6 +178,38 @@ class RelatedRecordBrowser extends Component {
     router.replace(`/record/${path}`);
   }
 
+  handleRelatedRecordPanelUnrelated(objects) {
+    const {
+      relatedCsid,
+    } = this.props;
+
+    let isRelatedCsidUnrelated = false;
+
+    for (let i = 0; i < objects.length; i += 1) {
+      if (objects[i].csid === relatedCsid) {
+        isRelatedCsidUnrelated = true;
+        break;
+      }
+    }
+
+    if (isRelatedCsidUnrelated) {
+      const {
+        recordType,
+        vocabulary,
+        csid,
+        relatedRecordType,
+        router,
+      } = this.props;
+
+      const path =
+        [recordType, vocabulary, csid, relatedRecordType]
+          .filter(part => !!part)
+          .join('/');
+
+      router.replace(`/record/${path}`);
+    }
+  }
+
   render() {
     const {
       cloneCsid,
@@ -187,9 +243,14 @@ class RelatedRecordBrowser extends Component {
           cloneRecord={this.cloneRelatedRecord}
           onClose={this.handleRelationEditorClose}
           onRecordCreated={this.handleRelatedRecordCreated}
+          onUnrelated={this.handleRelationEditorUnrelated}
         />
       );
     }
+
+    // TODO: Vary the name of the RelatedRecordPanelContainer depending on the object record type?
+    // This would allow selected items to be remembered when switching back and forth between
+    // secondary tabs, instead of being cleared.
 
     return (
       <div className={styles.common}>
@@ -202,10 +263,12 @@ class RelatedRecordBrowser extends Component {
         <RelatedRecordPanelContainer
           csid={csid}
           config={config}
-          name="relatedRecordBrowser"
+          name={this.getRelatedRecordPanelName()}
           recordType={recordType}
           relatedRecordType={relatedRecordType}
+          showCheckboxColumn
           onItemClick={this.handleRelatedRecordClick}
+          onUnrelated={this.handleRelatedRecordPanelUnrelated}
         />
         {relationEditor}
         <SearchToRelateModalContainer

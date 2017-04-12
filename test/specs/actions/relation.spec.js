@@ -95,7 +95,7 @@ describe('relation action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(find(config, { subject, object, predicate }))
+      return store.dispatch(find(config, subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
@@ -137,7 +137,7 @@ describe('relation action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(find(config, { subject, object, predicate }))
+      return store.dispatch(find(config, subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
@@ -177,7 +177,7 @@ describe('relation action creator', function suite() {
         }),
       });
 
-      expect(store.dispatch(find(config, { subject, object, predicate }))).to.equal(null);
+      expect(store.dispatch(find(config, subject, object, predicate))).to.equal(null);
     });
 
     it('should throw if object csid or subject csid are not supplied', function test() {

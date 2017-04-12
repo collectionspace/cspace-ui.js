@@ -4,7 +4,6 @@ import chaiImmutable from 'chai-immutable';
 import {
   CLEAR_RELATION_STATE,
   RELATION_FIND_FULFILLED,
-  RELATION_SAVE_FULFILLED,
 } from '../../../src/actions/relation';
 
 import reducer, {
@@ -48,7 +47,7 @@ describe('relation reducer', function suite() {
 
     state.should.equal(Immutable.Map());
 
-    expect(getFindResult(state, { subject, object, predicate })).to.equal(undefined);
+    expect(getFindResult(state, subject, object, predicate)).to.equal(undefined);
   });
 
   it('should handle RELATION_FIND_FULFILLED', function test() {
@@ -92,50 +91,7 @@ describe('relation reducer', function suite() {
       },
     }));
 
-    expect(getFindResult(state, { subject, object, predicate })).to
+    expect(getFindResult(state, subject, object, predicate)).to
       .equal(Immutable.fromJS(data));
-  });
-
-  it('should handle RELATION_SAVE_FULFILLED', function test() {
-    const subject = {
-      csid: '1234',
-    };
-
-    const object = {
-      csid: '5678',
-    };
-
-    const predicate = 'affects';
-
-    const state = reducer(undefined, {
-      type: RELATION_SAVE_FULFILLED,
-      meta: {
-        subject,
-        object,
-        predicate,
-      },
-    });
-
-    const seededFindResult = {
-      'ns2:relations-common-list': {
-        itemsInPage: '1',
-        totalItems: '1',
-      },
-    };
-
-    state.should.equal(Immutable.fromJS({
-      find: {
-        [subject.csid]: {
-          [object.csid]: {
-            [predicate]: {
-              result: seededFindResult,
-            },
-          },
-        },
-      },
-    }));
-
-    expect(getFindResult(state, { subject, object, predicate })).to
-      .equal(Immutable.fromJS(seededFindResult));
   });
 });

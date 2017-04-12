@@ -1,0 +1,5 @@
+.common {
+  display: flex;
+  align-items: baseline;
+  padding: 4px 0 4px 10px;
+}

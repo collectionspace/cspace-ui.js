@@ -671,7 +671,9 @@ describe('search action creator', function suite() {
 
       clearSearchResults(searchName).should.deep.equal({
         type: CLEAR_SEARCH_RESULTS,
-        payload: searchName,
+        meta: {
+          searchName,
+        },
       });
     });
   });
