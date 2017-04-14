@@ -4,6 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   CLEAR_RELATION_STATE,
   RELATION_FIND_FULFILLED,
+  SUBJECT_RELATIONS_UPDATED,
 } from '../../../src/actions/relation';
 
 import reducer, {
@@ -91,7 +92,28 @@ describe('relation reducer', function suite() {
       },
     }));
 
-    expect(getFindResult(state, subject, object, predicate)).to
+    getFindResult(state, subject, object, predicate).should
       .equal(Immutable.fromJS(data));
+  });
+
+  it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
+    const subject = {
+      csid: '1234',
+    };
+
+    const initialState = Immutable.fromJS({
+      find: {
+        [subject.csid]: {},
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      find: {},
+    }));
   });
 });

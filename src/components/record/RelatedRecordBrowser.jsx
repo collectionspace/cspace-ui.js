@@ -122,9 +122,7 @@ class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.replace({
-      pathname: `/record/${path}`,
-    });
+    router.replace(`/record/${path}`);
   }
 
   handleRelationEditorUnrelated(subject, object) {

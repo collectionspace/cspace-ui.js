@@ -148,7 +148,7 @@ describe('SearchPanel', function suite() {
     this.container.firstElementChild.nodeName.should.equal('SECTION');
   });
 
-  it('should call search when mounted', function test() {
+  it('should call search and onSearchDescriptorChange when mounted', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
@@ -165,6 +165,12 @@ describe('SearchPanel', function suite() {
       searchedColumnSetName = columnSetNameArg;
     };
 
+    let changedToSearchDescriptor = null;
+
+    const handleSearchDescriptorChange = (searchDescriptorArg) => {
+      changedToSearchDescriptor = searchDescriptorArg;
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -174,6 +180,7 @@ describe('SearchPanel', function suite() {
               name={searchName}
               searchDescriptor={searchDescriptor}
               search={search}
+              onSearchDescriptorChange={handleSearchDescriptorChange}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -184,9 +191,11 @@ describe('SearchPanel', function suite() {
     searchedSearchDescriptor.should.equal(searchDescriptor);
     searchedListType.should.equal('common');
     searchedColumnSetName.should.equal('default');
+
+    changedToSearchDescriptor.should.equal(searchDescriptor);
   });
 
-  it('should call search when a new search descriptor is supplied', function test() {
+  it('should call search and onSearchDescriptorChange when a new search descriptor is supplied', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
@@ -201,6 +210,12 @@ describe('SearchPanel', function suite() {
       searchedSearchDescriptor = searchDescriptorArg;
       searchedListType = listTypeArg;
       searchedColumnSetName = columnSetNameArg;
+    };
+
+    let changedToSearchDescriptor = null;
+
+    const handleSearchDescriptorChange = (searchDescriptorArg) => {
+      changedToSearchDescriptor = searchDescriptorArg;
     };
 
     render(
@@ -233,6 +248,7 @@ describe('SearchPanel', function suite() {
               name={searchName}
               searchDescriptor={newSearchDescriptor}
               search={search}
+              onSearchDescriptorChange={handleSearchDescriptorChange}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -243,6 +259,8 @@ describe('SearchPanel', function suite() {
     searchedSearchDescriptor.should.equal(newSearchDescriptor);
     searchedListType.should.equal('common');
     searchedColumnSetName.should.equal('default');
+
+    changedToSearchDescriptor.should.equal(newSearchDescriptor);
   });
 
   it('should render a header, footer, and search result table', function test() {

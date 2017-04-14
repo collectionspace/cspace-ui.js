@@ -152,7 +152,7 @@ export default class RelatedRecordPanel extends Component {
 
       const objects = selectedItems.valueSeq().map(item => ({
         csid: item.get('csid'),
-        type: relatedRecordType, // TODO: Check the item's docType first
+        recordType: relatedRecordType, // TODO: Check the item's docType first
       })).toJS();
 
       unrelateRecords(config, subject, objects, 'affects')
@@ -261,7 +261,6 @@ export default class RelatedRecordPanel extends Component {
 
     return (
       <SearchPanelContainer
-        collapsed
         color={color}
         columnSetName={columnSetName}
         config={config}

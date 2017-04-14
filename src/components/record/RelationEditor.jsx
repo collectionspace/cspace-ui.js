@@ -196,10 +196,6 @@ export default class RelationEditor extends Component {
 
     const recordTypeConfig = config.recordTypes[object.recordType];
 
-    if (!recordTypeConfig) {
-      return null;
-    }
-
     const cspaceDocument = objectData ? objectData.get(DOCUMENT_PROPERTY_NAME) : undefined;
     const recordTitle = recordTypeConfig.title(cspaceDocument);
     const hasRecordTitle = recordTitle ? 'yes' : 'no';

@@ -9,6 +9,8 @@ import {
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
   SET_RESULT_ITEM_SELECTED,
+  CLEAR_SELECTED,
+  DESELECT_ITEM,
 } from '../../../src/actions/search';
 
 import reducer, {
@@ -19,6 +21,8 @@ import reducer, {
   getSelectedItems,
   getMostRecentDescriptor,
 } from '../../../src/reducers/search';
+
+const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -684,5 +688,62 @@ describe('search reducer', function suite() {
     });
 
     state.should.deep.equal(initialState);
+  });
+
+  it('should handle CLEAR_SELECTED', function test() {
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        selected: {
+          1111: {},
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: CLEAR_SELECTED,
+      meta: {
+        searchName,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {},
+    }));
+
+    expect(getSelectedItems(state, searchName)).to.equal(undefined);
+  });
+
+  it('should handle DESELECT_ITEM', function test() {
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        selected: {
+          1111: {},
+          2222: {},
+          3333: {},
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: DESELECT_ITEM,
+      meta: {
+        searchName,
+        csid: '2222',
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        selected: {
+          1111: {},
+          3333: {},
+        },
+      },
+    }));
+
+    expect(getSelectedItems(state, searchName)).to.equal(Immutable.fromJS({
+      1111: {},
+      3333: {},
+    }));
   });
 });
