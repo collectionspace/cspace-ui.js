@@ -5,38 +5,30 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import { Modal } from 'cspace-layout';
 import SearchForm from './SearchForm';
-import PageSizeChooser from './PageSizeChooser';
 import Pager from './Pager';
+import BackButton from '../record/BackButton';
+import CancelButton from '../record/CancelButton';
+import RelateButton from '../record/RelateButton';
+import SearchButton from './SearchButton';
+import SearchResultSummary from './SearchResultSummary';
 import SearchToRelateTitleBar from './SearchToRelateTitleBar';
+import SelectBar from './SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import { normalizeCondition } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/SearchToRelateModal.css';
-import searchResultTableHeaderStyles from '../../../styles/cspace-ui/SearchResultTableHeader.css';
 
 const messages = defineMessages({
+  editSearch: {
+    id: 'searchToRelateModal.editSearch',
+    defaultMessage: 'Revise search',
+  },
   label: {
     id: 'searchToRelateModal.label',
     defaultMessage: 'Search to Relate',
   },
-  cancel: {
-    id: 'searchToRelateModal.cancel',
-    defaultMessage: 'Cancel',
-  },
   relate: {
     id: 'searchToRelateModal.relate',
     defaultMessage: 'Relate selected',
-  },
-  search: {
-    id: 'searchToRelateModal.search',
-    defaultMessage: 'Search',
-  },
-  error: {
-    id: 'searchToRelateModal.error',
-    defaultMessage: 'Error: {message}',
-  },
-  editSearch: {
-    id: 'searchToRelateModal.editSearch',
-    defaultMessage: 'Revise search',
   },
   relating: {
     id: 'searchToRelateModal.relating',
@@ -94,6 +86,8 @@ class SearchToRelateModal extends Component {
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.renderCheckbox = this.renderCheckbox.bind(this);
+    this.renderEditSearchLink = this.renderEditSearchLink.bind(this);
+    this.renderModalButtonBar = this.renderModalButtonBar.bind(this);
     this.renderSearchResultTableHeader = this.renderSearchResultTableHeader.bind(this);
     this.renderSearchResultTableFooter = this.renderSearchResultTableFooter.bind(this);
 
@@ -464,7 +458,7 @@ class SearchToRelateModal extends Component {
     );
   }
 
-  renderEditLink() {
+  renderEditSearchLink() {
     return (
       <button onClick={this.handleEditSearchLinkClick}>
         <FormattedMessage {...messages.editSearch} />
@@ -473,82 +467,27 @@ class SearchToRelateModal extends Component {
   }
 
   renderSearchResultTableHeader({ searchError, searchResult }) {
-    if (searchError) {
-      // FIXME: Make a proper error page
-      const message = searchError.get('code') || '';
+    const {
+      config,
+      selectedItems,
+    } = this.props;
 
-      return (
-        <header className={searchResultTableHeaderStyles.error}>
-          <FormattedMessage {...messages.error} values={{ message }} />
-          <p>{this.renderEditLink()}</p>
-        </header>
-      );
-    }
-
-    let message = null;
-    let pageSize = null;
-
-    if (searchResult) {
-      const {
-        config,
-      } = this.props;
-
-      const listTypeConfig = config.listTypes[listType];
-      const { listNodeName } = listTypeConfig;
-
-      const list = searchResult.get(listNodeName);
-      const totalItems = parseInt(list.get('totalItems'), 10);
-
-      if (isNaN(totalItems)) {
-        message = (
-          <FormattedMessage {...listTypeConfig.messages.searching} />
-        );
-      } else {
-        const pageNum = parseInt(list.get('pageNum'), 10);
-
-        pageSize = parseInt(list.get('pageSize'), 10);
-
-        const startNum = (pageNum * pageSize) + 1;
-        const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
-
-        message = (
-          <FormattedMessage
-            {...listTypeConfig.messages.resultCount}
-            values={{
-              totalItems,
-              startNum,
-              endNum,
-            }}
-          />
-        );
-      }
-    }
-
-    if (pageSize === null) {
-      const searchDescriptor = this.getSearchDescriptor();
-
-      pageSize = searchDescriptor.searchQuery.size;
-    }
-
-    const content = (
-      <div>
-        {message}
-        {message ? ' | ' : ''}
-        {this.renderEditLink()}
-      </div>
-    );
-
-    const pageSizeChooser = (
-      <PageSizeChooser
-        pageSize={pageSize}
-        onPageSizeChange={this.handlePageSizeChange}
-      />
-    );
+    const selectedCount = selectedItems ? selectedItems.size : 0;
 
     return (
-      <header className={searchResultTableHeaderStyles.normal}>
-        {content}
-        {pageSizeChooser}
+      <header>
+        <SearchResultSummary
+          config={config}
+          listType={listType}
+          searchDescriptor={this.getSearchDescriptor()}
+          searchError={searchError}
+          searchResult={searchResult}
+          renderEditLink={this.renderEditSearchLink}
+          onPageSizeChange={this.handlePageSizeChange}
+        />
+        <SelectBar
+          selectedCount={selectedCount}
+        />
       </header>
     );
   }
@@ -608,13 +547,67 @@ class SearchToRelateModal extends Component {
     );
   }
 
+  renderModalButtonBar() {
+    const {
+      selectedItems,
+    } = this.props;
+
+    const {
+      isRelating,
+      isSearchInitiated,
+    } = this.state;
+
+    const cancelButton = (
+      <CancelButton
+        disabled={isRelating}
+        onClick={this.handleCancelButtonClick}
+      />
+    );
+
+    let acceptButton;
+    let backButton;
+
+    if (isSearchInitiated) {
+      acceptButton = (
+        <RelateButton
+          disabled={isRelating || !selectedItems || selectedItems.size < 1}
+          label={<FormattedMessage {...messages.relate} />}
+          onClick={this.handleAcceptButtonClick}
+        />
+      );
+
+      backButton = (
+        <BackButton
+          disabled={isRelating}
+          label={<FormattedMessage {...messages.editSearch} />}
+          onClick={this.handleEditSearchLinkClick}
+        />
+      );
+    } else {
+      acceptButton = (
+        <SearchButton
+          disabled={isRelating}
+          type="button"
+          onClick={this.handleAcceptButtonClick}
+        />
+      );
+    }
+
+    return (
+      <div>
+        {cancelButton}
+        {backButton}
+        {acceptButton}
+      </div>
+    );
+  }
+
   render() {
     const {
       config,
       intl,
       isOpen,
       recordTypeValue,
-      selectedItems,
       parentSelector,
     } = this.props;
 
@@ -632,17 +625,6 @@ class SearchToRelateModal extends Component {
     } else {
       content = this.renderSearchForm();
     }
-
-    const acceptButtonMessage = isSearchInitiated
-      ? messages.relate
-      : messages.search;
-
-    const acceptButtonDisabled = (
-      isRelating ||
-      (isSearchInitiated && (!selectedItems || selectedItems.size < 1))
-    );
-
-    const cancelButtonDisabled = isRelating;
 
     const searchDescriptor = this.getSearchDescriptor();
 
@@ -664,13 +646,8 @@ class SearchToRelateModal extends Component {
         showCloseButton={!isRelating}
         closeButtonClassName="material-icons"
         closeButtonLabel="close"
-        cancelButtonLabel={intl.formatMessage(messages.cancel)}
-        cancelButtonDisabled={cancelButtonDisabled}
-        acceptButtonLabel={intl.formatMessage(acceptButtonMessage)}
-        acceptButtonDisabled={acceptButtonDisabled}
         parentSelector={parentSelector}
-        onAcceptButtonClick={this.handleAcceptButtonClick}
-        onCancelButtonClick={this.handleCancelButtonClick}
+        renderButtonBar={this.renderModalButtonBar}
         onCloseButtonClick={this.handleCloseButtonClick}
       >
         {content}

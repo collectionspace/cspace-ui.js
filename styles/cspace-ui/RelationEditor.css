@@ -1,0 +1,23 @@
+.common > header {
+  display: flex;
+  align-items: baseline;
+}
+
+.common > header > h3 {
+  margin: 0;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.common > header > * {
+  flex: 1 1 auto;
+}
+
+.common > header > :global(.cspace-ui-ButtonBar--common) {
+  text-align: right;
+  white-space: nowrap;
+}

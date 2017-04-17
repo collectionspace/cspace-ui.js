@@ -9,6 +9,8 @@ import {
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
   SET_RESULT_ITEM_SELECTED,
+  CLEAR_SELECTED,
+  DESELECT_ITEM,
 } from '../../../src/actions/search';
 
 import reducer, {
@@ -19,6 +21,8 @@ import reducer, {
   getSelectedItems,
   getMostRecentDescriptor,
 } from '../../../src/reducers/search';
+
+const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -37,7 +41,7 @@ describe('search reducer', function suite() {
 
   it('should handle SEARCH_STARTED', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: 0,
         size: 3,
@@ -94,7 +98,7 @@ describe('search reducer', function suite() {
         byKey: {
           somekey: {
             descriptor: {
-              recordType: 'object',
+              recordType: 'collectionobject',
             },
           },
         },
@@ -116,7 +120,7 @@ describe('search reducer', function suite() {
 
   it('should seed the search result on SEARCH_STARTED when the new search is only a page change', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: '2',
         size: '10',
@@ -131,7 +135,7 @@ describe('search reducer', function suite() {
         byKey: {
           somekey: {
             descriptor: {
-              recordType: 'object',
+              recordType: 'collectionobject',
               searchQuery: {
                 p: '1',
                 size: '10',
@@ -162,7 +166,7 @@ describe('search reducer', function suite() {
 
   it('should seed the search result on SEARCH_STARTED when the new search is only a sort change', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: '0',
         size: '10',
@@ -178,7 +182,7 @@ describe('search reducer', function suite() {
         byKey: {
           somekey: {
             descriptor: {
-              recordType: 'object',
+              recordType: 'collectionobject',
               searchQuery: {
                 p: '0',
                 size: '10',
@@ -212,7 +216,7 @@ describe('search reducer', function suite() {
 
   it('should seed the search result on SEARCH_STARTED when the new search is only a seq id change', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: '0',
         size: '10',
@@ -232,7 +236,7 @@ describe('search reducer', function suite() {
         byKey: {
           somekey: {
             descriptor: {
-              recordType: 'object',
+              recordType: 'collectionobject',
               searchQuery: {
                 p: '0',
                 size: '10',
@@ -270,7 +274,7 @@ describe('search reducer', function suite() {
 
   it('should handle SET_MOST_RECENT_SEARCH', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {},
     };
 
@@ -300,7 +304,7 @@ describe('search reducer', function suite() {
 
   it('should not change state on SET_MOST_RECENT_SEARCH if the specified key does not exist', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {},
     };
 
@@ -324,7 +328,7 @@ describe('search reducer', function suite() {
 
   it('should handle SEARCH_FULFILLED', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {},
     };
 
@@ -381,7 +385,7 @@ describe('search reducer', function suite() {
 
   it('should not change state on SEARCH_FULFILLED for an unknown search descriptor', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {},
     };
 
@@ -411,7 +415,7 @@ describe('search reducer', function suite() {
 
   it('should handle SEARCH_REJECTED', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {},
     };
 
@@ -463,7 +467,7 @@ describe('search reducer', function suite() {
 
   it('should not change state on SEARCH_REJECTED for an unknown search descriptor', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {},
     };
 
@@ -499,7 +503,9 @@ describe('search reducer', function suite() {
 
     const state = reducer(initialState, {
       type: CLEAR_SEARCH_RESULTS,
-      payload: searchName,
+      meta: {
+        searchName,
+      },
     });
 
     state.should.deep.equal(Immutable.fromJS({}));
@@ -507,7 +513,7 @@ describe('search reducer', function suite() {
 
   it('should handle CREATE_EMPTY_SEARCH_RESULT', function test() {
     const searchDescriptor = {
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: 2,
         size: 12,
@@ -682,5 +688,62 @@ describe('search reducer', function suite() {
     });
 
     state.should.deep.equal(initialState);
+  });
+
+  it('should handle CLEAR_SELECTED', function test() {
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        selected: {
+          1111: {},
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: CLEAR_SELECTED,
+      meta: {
+        searchName,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {},
+    }));
+
+    expect(getSelectedItems(state, searchName)).to.equal(undefined);
+  });
+
+  it('should handle DESELECT_ITEM', function test() {
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        selected: {
+          1111: {},
+          2222: {},
+          3333: {},
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: DESELECT_ITEM,
+      meta: {
+        searchName,
+        csid: '2222',
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        selected: {
+          1111: {},
+          3333: {},
+        },
+      },
+    }));
+
+    expect(getSelectedItems(state, searchName)).to.equal(Immutable.fromJS({
+      1111: {},
+      3333: {},
+    }));
   });
 });

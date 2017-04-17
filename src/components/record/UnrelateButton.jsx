@@ -1,44 +1,39 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/SearchButton.css';
+import styles from '../../../styles/cspace-ui/UnrelateButton.css';
 
 const { Button } = inputComponents;
 
 const messages = defineMessages({
   label: {
-    id: 'searchButton.label',
-    description: 'Label of the search button.',
-    defaultMessage: 'Search',
+    id: 'unrelateButton.label',
+    description: 'Label of the unrelate button.',
+    defaultMessage: 'Unrelate',
   },
 });
 
 const propTypes = {
-  type: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
-const defaultProps = {
-  type: 'submit',
-};
-
-export default function SearchButton(props) {
+export default function UnrelateButton(props) {
   const {
-    type,
+    onClick,
     ...remainingProps
   } = props;
 
   return (
     <Button
+      {...remainingProps}
       className={styles.common}
       icon
-      name="search"
-      type={type}
-      {...remainingProps}
+      name="unrelate"
+      onClick={onClick}
     >
       <FormattedMessage {...messages.label} />
     </Button>
   );
 }
 
-SearchButton.propTypes = propTypes;
-SearchButton.defaultProps = defaultProps;
+UnrelateButton.propTypes = propTypes;

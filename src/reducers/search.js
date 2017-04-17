@@ -6,6 +6,7 @@ import {
 } from '../helpers/recordDataHelpers';
 
 import {
+  CLEAR_SELECTED,
   CLEAR_SEARCH_RESULTS,
   SET_MOST_RECENT_SEARCH,
   CREATE_EMPTY_SEARCH_RESULT,
@@ -13,6 +14,7 @@ import {
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
   SET_RESULT_ITEM_SELECTED,
+  DESELECT_ITEM,
 } from '../actions/search';
 
 /**
@@ -92,7 +94,7 @@ const handleSearchStarted = (state, action) => {
       // search states. (If only the page number changed, keep the previous states around as a
       // cache so that flipping between pages will be fast.)
 
-      updatedNamedSearch = namedSearch.set('byKey', Immutable.Map());
+      updatedNamedSearch = updatedNamedSearch.set('byKey', Immutable.Map());
 
       if (sortChanged && changeCount === 1) {
         // Only the sort changed from the last search. As above, seed these results with the total
@@ -122,6 +124,17 @@ const handleSearchStarted = (state, action) => {
         items = mostRecentSearchState.getIn([
           'result', listNodeName, itemNodeName,
         ]);
+      }
+
+      delete changes['searchQuery.p'];
+      delete changes['searchQuery.size'];
+      delete changes['searchQuery.sort'];
+      delete changes.seqID;
+
+      if (Object.keys(changes).length > 0) {
+        // Something other than page num, page size, sort, or seq id changed. Clear selected items.
+
+        updatedNamedSearch = updatedNamedSearch.delete('selected');
       }
     }
   }
@@ -253,6 +266,7 @@ const handleSetSearchResultItemSelected = (state, action) => {
     const key = searchKey(searchDescriptor);
     const path = ['byKey', key, 'result', listNodeName, itemNodeName, index];
     const item = deepGet(namedSearch, path);
+
     const csid = item.get('csid');
 
     const updatedNamedSearch = selected
@@ -267,8 +281,10 @@ const handleSetSearchResultItemSelected = (state, action) => {
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
+    case CLEAR_SELECTED:
+      return state.deleteIn([action.meta.searchName, 'selected']);
     case CLEAR_SEARCH_RESULTS:
-      return state.delete(action.payload);
+      return state.delete(action.meta.searchName);
     case SET_MOST_RECENT_SEARCH:
       return handleSetMostRecentSearch(state, action);
     case CREATE_EMPTY_SEARCH_RESULT:
@@ -281,6 +297,8 @@ export default (state = Immutable.Map(), action) => {
       return handleSearchRejected(state, action);
     case SET_RESULT_ITEM_SELECTED:
       return handleSetSearchResultItemSelected(state, action);
+    case DESELECT_ITEM:
+      return state.deleteIn([action.meta.searchName, 'selected', action.meta.csid]);
     default:
       return state;
   }

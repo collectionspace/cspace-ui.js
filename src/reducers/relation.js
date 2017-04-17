@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import {
   CLEAR_RELATION_STATE,
   RELATION_FIND_FULFILLED,
-  RELATION_SAVE_FULFILLED,
+  SUBJECT_RELATIONS_UPDATED,
 } from '../actions/relation';
 
 const handleRelationFindFulfilled = (state, action) => {
@@ -19,24 +19,10 @@ const handleRelationFindFulfilled = (state, action) => {
   );
 };
 
-const handleRelationSaveFulfilled = (state, action) => {
-  const {
-    subject,
-    object,
-    predicate,
-  } = action.meta;
+const handleSubjectRelationsUpdated = (state, action) => {
+  const subjectCsid = action.meta.csid;
 
-  // Seed find results to prevent an unnecessary find request.
-
-  return state.setIn(
-    ['find', subject.csid, object.csid, predicate, 'result'],
-    Immutable.fromJS({
-      'ns2:relations-common-list': {
-        itemsInPage: '1',
-        totalItems: '1',
-      },
-    })
-  );
+  return state.deleteIn(['find', subjectCsid]);
 };
 
 export default (state = Immutable.Map(), action) => {
@@ -45,12 +31,12 @@ export default (state = Immutable.Map(), action) => {
       return state.clear();
     case RELATION_FIND_FULFILLED:
       return handleRelationFindFulfilled(state, action);
-    case RELATION_SAVE_FULFILLED:
-      return handleRelationSaveFulfilled(state, action);
+    case SUBJECT_RELATIONS_UPDATED:
+      return handleSubjectRelationsUpdated(state, action);
     default:
       return state;
   }
 };
 
-export const getFindResult = (state, { subject, object, predicate }) =>
+export const getFindResult = (state, subject, object, predicate) =>
   state.getIn(['find', subject.csid, object.csid, predicate, 'result']);

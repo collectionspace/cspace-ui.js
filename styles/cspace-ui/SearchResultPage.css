@@ -5,4 +5,5 @@
 .common > div > :global(.cspace-ui-SearchResultTable--common) {
   padding: 0 10px 10px 0;
   width: 70%;
+  background: white;
 }

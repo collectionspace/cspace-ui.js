@@ -10,18 +10,3 @@
 .common :global(.cspace-ui-SearchResultTable--common) {
   padding-bottom: 10px;
 }
-
-.common :global(.cspace-ui-SearchResultTableHeader--common) button {
-  border: none;
-  padding: 0;
-  font: inherit;
-  text-decoration: underline;
-  cursor: pointer;
-  color: inherit;
-  background: none;
-}
-
-.common :global(.cspace-ui-SearchResultTableHeader--common) button::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}

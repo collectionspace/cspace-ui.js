@@ -9,6 +9,9 @@ import {
 
 import {
   CLEAR_RELATION_STATE,
+  RELATION_DELETE_STARTED,
+  RELATION_DELETE_FULFILLED,
+  RELATION_DELETE_REJECTED,
   RELATION_FIND_STARTED,
   RELATION_FIND_FULFILLED,
   RELATION_FIND_REJECTED,
@@ -22,6 +25,11 @@ import {
   createBidirectional,
   batchCreate,
   batchCreateBidirectional,
+  deleteRelation,
+  unrelate,
+  unrelateBidirectional,
+  batchUnrelate,
+  batchUnrelateBidirectional,
 } from '../../../src/actions/relation';
 
 const expect = chai.expect;
@@ -95,7 +103,7 @@ describe('relation action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(find(config, { subject, object, predicate }))
+      return store.dispatch(find(config, subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
@@ -137,7 +145,7 @@ describe('relation action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(find(config, { subject, object, predicate }))
+      return store.dispatch(find(config, subject, object, predicate))
         .then(() => {
           const actions = store.getActions();
 
@@ -177,7 +185,7 @@ describe('relation action creator', function suite() {
         }),
       });
 
-      expect(store.dispatch(find(config, { subject, object, predicate }))).to.equal(null);
+      expect(store.dispatch(find(config, subject, object, predicate))).to.equal(null);
     });
 
     it('should throw if object csid or subject csid are not supplied', function test() {
@@ -185,7 +193,7 @@ describe('relation action creator', function suite() {
         relation: Immutable.Map(),
       });
 
-      expect(store.dispatch.bind(store, find(config, { subject, object: {}, predicate })))
+      expect(store.dispatch.bind(store, find(config, subject, {}, predicate)))
         .to.throw(Error, /subject csid and object csid must be supplied/);
     });
   });
@@ -660,6 +668,669 @@ describe('relation action creator', function suite() {
           });
 
           actions[8].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
+        });
+    });
+  });
+
+  describe('deleteRelation', function actionSuite() {
+    const relationCsid = 'aaaa';
+    const deleteUrl = `/cspace-services/relations/${relationCsid}`;
+
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_DELETE_FULFILLED on success', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(deleteUrl, {
+        status: 200,
+      });
+
+      return store.dispatch(deleteRelation(relationCsid))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsid,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: relationCsid,
+            },
+          });
+        });
+    });
+
+    it('should dispatch RELATION_DELETE_REJECTED on error', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(deleteUrl, {
+        status: 400,
+      });
+
+      return store.dispatch(deleteRelation(relationCsid))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsid,
+            },
+          });
+
+          actions[1].should.have.property('type', RELATION_DELETE_REJECTED);
+          actions[1].should.have.property('meta')
+            .that.deep.equals({
+              csid: relationCsid,
+            });
+        })
+        .catch(() => {});
+    });
+
+    it('should throw if no csid is supplied', function test() {
+      const store = mockStore();
+
+      expect(store.dispatch.bind(store, deleteRelation()))
+        .to.throw(Error, /csid must be supplied/);
+    });
+  });
+
+  describe('unrelate', function actionSuite() {
+    const relationCsid = 'aaaa';
+    const deleteUrl = `/cspace-services/relations/${relationCsid}`;
+
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_DELETE_FULFILLED on success', function test() {
+      const store = mockStore({
+        relation: Immutable.fromJS({
+          find: {
+            [subject.csid]: {
+              [object.csid]: {
+                [predicate]: {
+                  result: {
+                    'ns2:relations-common-list': {
+                      'relation-list-item': {
+                        csid: relationCsid,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }),
+      });
+
+      moxios.stubRequest(deleteUrl, {
+        status: 200,
+      });
+
+      return store.dispatch(unrelate(config, subject, object, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsid,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: relationCsid,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
+        });
+    });
+
+    it('should dispatch RELATION_DELETE_REJECTED on error', function test() {
+      const store = mockStore({
+        relation: Immutable.fromJS({
+          find: {
+            [subject.csid]: {
+              [object.csid]: {
+                [predicate]: {
+                  result: {
+                    'ns2:relations-common-list': {
+                      'relation-list-item': {
+                        csid: relationCsid,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }),
+      });
+
+      moxios.stubRequest(deleteUrl, {
+        status: 400,
+      });
+
+      return store.dispatch(unrelate(config, subject, object, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsid,
+            },
+          });
+
+          actions[1].should.have.property('type', RELATION_DELETE_REJECTED);
+          actions[1].should.have.property('meta')
+            .that.deep.equals({
+              csid: relationCsid,
+            });
+        });
+    });
+
+    it('should find the relation if it is not already in the store', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(findUrl, {
+        status: 200,
+        response: {},
+      });
+
+      return store.dispatch(unrelate(config, subject, object, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: RELATION_FIND_STARTED,
+            meta: {
+              subject,
+              object,
+              predicate,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_FIND_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: {
+              subject,
+              object,
+              predicate,
+            },
+          });
+        });
+    });
+
+    it('should throw if object csid or subject csid are not supplied', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      expect(store.dispatch.bind(store, unrelate(config, subject, {}, predicate)))
+        .to.throw(Error, /subject csid and object csid must be supplied/);
+    });
+  });
+
+  describe('unrelateBidirectional', function actionSuite() {
+    const forwardRelationCsid = 'aaaa';
+    const backwardRelationCsid = 'bbbb';
+
+    const forwardDeleteUrl = `/cspace-services/relations/${forwardRelationCsid}`;
+    const backwardDeleteUrl = `/cspace-services/relations/${backwardRelationCsid}`;
+
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_DELETE_FULFILLED twice, once for each direction', function test() {
+      const store = mockStore({
+        relation: Immutable.fromJS({
+          find: {
+            [subject.csid]: {
+              [object.csid]: {
+                [predicate]: {
+                  result: {
+                    'ns2:relations-common-list': {
+                      'relation-list-item': {
+                        csid: forwardRelationCsid,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            [object.csid]: {
+              [subject.csid]: {
+                [predicate]: {
+                  result: {
+                    'ns2:relations-common-list': {
+                      'relation-list-item': {
+                        csid: backwardRelationCsid,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }),
+      });
+
+      moxios.stubRequest(forwardDeleteUrl, {
+        status: 200,
+      });
+
+      moxios.stubRequest(backwardDeleteUrl, {
+        status: 200,
+      });
+
+      return store.dispatch(unrelateBidirectional(config, subject, object, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(6);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: forwardRelationCsid,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: forwardRelationCsid,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
+
+          actions[3].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: backwardRelationCsid,
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: backwardRelationCsid,
+            },
+          });
+
+          actions[5].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: object,
+          });
+        });
+    });
+  });
+
+  describe('batchUnrelate', function actionSuite() {
+    const objects = [
+      {
+        csid: '1000',
+        recordType: 'group',
+      },
+      {
+        csid: '2000',
+        recordType: 'group',
+      },
+    ];
+
+    const relationCsids = [
+      'aaaa',
+      'bbbb',
+    ];
+
+    const deleteUrls = relationCsids.map(csid => `/cspace-services/relations/${csid}`);
+
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_DELETE_FULFILLED once for each object', function test() {
+      const relationState = objects.reduce((map, obj, index) =>
+        map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+          'ns2:relations-common-list': {
+            'relation-list-item': {
+              csid: relationCsids[index],
+            },
+          },
+        })), Immutable.Map());
+
+      const store = mockStore({
+        relation: relationState,
+      });
+
+      deleteUrls.forEach((url) => {
+        moxios.stubRequest(url, {
+          status: 200,
+        });
+      });
+
+      return store.dispatch(batchUnrelate(config, subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(5);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsids[0],
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsids[1],
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: relationCsids[0],
+            },
+          });
+
+          actions[3].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: relationCsids[1],
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: subject,
+          });
+        });
+    });
+  });
+
+  describe('batchUnrelateBidirectional', function actionSuite() {
+    const objects = [
+      {
+        csid: '1000',
+        recordType: 'group',
+      },
+      {
+        csid: '2000',
+        recordType: 'group',
+      },
+    ];
+
+    const forwardRelationCsids = [
+      'aaaa0',
+      'bbbb0',
+    ];
+
+    const backwardRelationCsids = [
+      'aaaa1',
+      'bbbb1',
+    ];
+
+    const forwardDeleteUrls =
+      forwardRelationCsids.map(csid => `/cspace-services/relations/${csid}`);
+
+    const backwardDeleteUrls =
+      backwardRelationCsids.map(csid => `/cspace-services/relations/${csid}`);
+
+    before(() => {
+      configureCSpace({});
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch RELATION_DELETE_FULFILLED once for each object', function test() {
+      const relationState = objects.reduce((map, obj, index) =>
+        map
+          .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+            'ns2:relations-common-list': {
+              'relation-list-item': {
+                csid: forwardRelationCsids[index],
+              },
+            },
+          }))
+          .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
+            'ns2:relations-common-list': {
+              'relation-list-item': {
+                csid: backwardRelationCsids[index],
+              },
+            },
+          })), Immutable.Map());
+
+      const store = mockStore({
+        relation: relationState,
+      });
+
+      forwardDeleteUrls.forEach((url) => {
+        moxios.stubRequest(url, {
+          status: 200,
+        });
+      });
+
+      backwardDeleteUrls.forEach((url) => {
+        moxios.stubRequest(url, {
+          status: 200,
+        });
+      });
+
+      return store.dispatch(batchUnrelateBidirectional(config, subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(11);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: forwardRelationCsids[0],
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: forwardRelationCsids[1],
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: forwardRelationCsids[0],
+            },
+          });
+
+          actions[3].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: forwardRelationCsids[1],
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: backwardRelationCsids[0],
+            },
+          });
+
+          actions[5].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: backwardRelationCsids[1],
+            },
+          });
+
+          actions[6].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: backwardRelationCsids[0],
+            },
+          });
+
+          actions[7].should.deep.equal({
+            type: RELATION_DELETE_FULFILLED,
+            payload: {
+              status: 200,
+              headers: undefined,
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              csid: backwardRelationCsids[1],
+            },
+          });
+
+          actions[8].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: objects[0],
+          });
+
+          actions[9].should.deep.equal({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: objects[1],
+          });
+
+          actions[10].should.deep.equal({
             type: SUBJECT_RELATIONS_UPDATED,
             meta: subject,
           });

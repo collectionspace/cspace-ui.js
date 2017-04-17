@@ -1,43 +1,44 @@
 import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/RelateButton.css';
+import styles from '../../../styles/cspace-ui/BackButton.css';
 
 const { Button } = inputComponents;
 
 const messages = defineMessages({
   label: {
-    id: 'relateButton.label',
-    description: 'Label of the relate button.',
-    defaultMessage: 'Relate existing…',
+    id: 'backButton.label',
+    description: 'Label of the back button.',
+    defaultMessage: 'Back',
   },
 });
 
 const propTypes = {
   label: PropTypes.node,
+  onClick: PropTypes.func,
 };
 
 const defaultProps = {
   label: <FormattedMessage {...messages.label} />,
 };
 
-export default function RelateButton(props) {
+export default function BackButton(props) {
   const {
     label,
-    ...remainingProps
+    onClick,
   } = props;
 
   return (
     <Button
       className={styles.common}
       icon
-      name="relate"
-      {...remainingProps}
+      name="back"
+      onClick={onClick}
     >
       {label}
     </Button>
   );
 }
 
-RelateButton.propTypes = propTypes;
-RelateButton.defaultProps = defaultProps;
+BackButton.propTypes = propTypes;
+BackButton.defaultProps = defaultProps;

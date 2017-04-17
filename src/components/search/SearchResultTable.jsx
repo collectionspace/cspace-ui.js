@@ -42,6 +42,7 @@ const propTypes = {
   renderCheckbox: PropTypes.func,
   renderHeader: PropTypes.func,
   renderFooter: PropTypes.func,
+  renderSelectBar: PropTypes.func,
   onItemClick: PropTypes.func,
   onSortChange: PropTypes.func,
 };
@@ -53,6 +54,7 @@ const defaultProps = {
   listType: 'common',
   renderHeader: () => null,
   renderFooter: () => null,
+  renderSelectBar: () => null,
 };
 
 const contextTypes = {
@@ -241,12 +243,14 @@ export default class SearchResultTable extends Component {
       searchError,
       searchResult,
       renderHeader,
+      renderSelectBar,
       renderFooter,
     } = this.props;
 
     return (
       <div className={styles.common}>
         {renderHeader({ isSearchPending, searchError, searchResult })}
+        {renderSelectBar()}
         {this.renderTable()}
         {renderFooter({ isSearchPending, searchError, searchResult })}
       </div>

@@ -58,11 +58,11 @@ const config = {
     },
   },
   recordTypes: {
-    object: {
+    collectionobject: {
       messages: {
         record: {
           collectionName: {
-            id: 'record.object.collectionName',
+            id: 'record.collectionobject.collectionName',
             defaultMessage: 'Objects',
           },
         },
@@ -73,7 +73,7 @@ const config = {
             name: 'objectNumber',
             messages: {
               label: {
-                id: 'column.object.objectNumber',
+                id: 'column.collectionobject.objectNumber',
                 defaultMessage: 'Identification number',
               },
             },
@@ -84,7 +84,7 @@ const config = {
             name: 'title',
             messages: {
               label: {
-                id: 'column.object.title',
+                id: 'column.collectionobject.title',
                 defaultMessage: 'Title',
               },
             },
@@ -123,7 +123,7 @@ const config = {
 };
 
 const params = {
-  recordType: 'object',
+  recordType: 'collectionobject',
   // vocabulary: 'something',
 };
 
@@ -216,7 +216,7 @@ describe('SearchResultPage', function suite() {
           <ConfigProvider config={config}>
             <SearchResultPage
               location={location}
-              params={{ recordType: 'object', subresource: 'foo' }}
+              params={{ recordType: 'collectionobject', subresource: 'foo' }}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -435,7 +435,7 @@ describe('SearchResultPage', function suite() {
           <ConfigProvider config={config}>
             <SearchResultPage
               location={location}
-              params={{ recordType: 'object', csid: 'b09295cf-ff56-4018-be16', subresource: 'terms' }}
+              params={{ recordType: 'collectionobject', csid: 'b09295cf-ff56-4018-be16', subresource: 'terms' }}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -480,10 +480,10 @@ describe('SearchResultPage', function suite() {
 
       headerContainer.querySelector('header').should.not.equal(null);
 
-      headerContainer.querySelector('header > div > span').textContent.should
+      headerContainer.querySelector('header > div > div > span').textContent.should
         .equal('1–2 of 39 records found');
 
-      headerContainer.querySelector('header > div > a').textContent.should
+      headerContainer.querySelector('header > div > div > a').textContent.should
         .equal('Revise search');
 
       const pageSizeChooser = headerContainer.querySelector('.cspace-ui-PageSizeChooser--common');
@@ -543,7 +543,7 @@ describe('SearchResultPage', function suite() {
 
       headerContainer.querySelector('header').should.not.equal(null);
 
-      headerContainer.querySelector('header > div > span').textContent.should
+      headerContainer.querySelector('header > div > div > span').textContent.should
         .equal('Finding records...');
     });
 
@@ -711,7 +711,7 @@ describe('SearchResultPage', function suite() {
           </StoreProvider>
         </IntlProvider>, headerContainer);
 
-      const editLink = headerContainer.querySelector('header > div > a');
+      const editLink = headerContainer.querySelector('header > div > div > a');
 
       editLink.should.not.equal(null);
 
@@ -769,7 +769,7 @@ describe('SearchResultPage', function suite() {
           </StoreProvider>
         </IntlProvider>, headerContainer);
 
-      const editLink = headerContainer.querySelector('header > div > a');
+      const editLink = headerContainer.querySelector('header > div > div > a');
 
       editLink.should.not.equal(null);
 

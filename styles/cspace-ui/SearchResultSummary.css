@@ -3,6 +3,21 @@
   margin: 0;
 }
 
+.common button {
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  color: inherit;
+  background: none;
+}
+
+.common button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
 .normal {
   composes: common;
   display: flex;
@@ -19,10 +34,4 @@
 
 .error {
   composes: common;
-}
-
-.pending {
-  background: url(../../images/spinner.svg) no-repeat;
-  background-position: 8px -2px;
-  padding-left: 34px;
 }

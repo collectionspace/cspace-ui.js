@@ -1,10 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
+import RelationButtonBar from './RelationButtonBar';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
+import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
+import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
 const messages = defineMessages({
+  editTitle: {
+    id: 'relationEditor.editTitle',
+    defaultMessage: `{hasRecordTitle, select,
+      yes   {Related {recordTypeName}: {recordTitle}}
+      other {Related {recordTypeName}}
+    }`,
+  },
+  newTitle: {
+    id: 'relationEditor.newTitle',
+    defaultMessage: `{hasRecordTitle, select,
+      yes   {New Related {recordTypeName}: {recordTitle}}
+      other {New Related {recordTypeName}}
+    }`,
+  },
   notFound: {
     id: 'relationEditor.notFound',
     defaultMessage: 'Not Found',
@@ -28,19 +46,26 @@ const propTypes = {
     recordType: PropTypes.string,
   }),
   /* eslint-enable react/no-unused-prop-types */
+  objectData: PropTypes.instanceOf(Immutable.Map),
   predicate: PropTypes.string,
   findResult: PropTypes.instanceOf(Immutable.Map),
   cloneRecord: PropTypes.func,
   createRelation: PropTypes.func,
   findRelation: PropTypes.func,
+  unrelate: PropTypes.func,
+  onClose: PropTypes.func,
   onRecordCreated: PropTypes.func,
   onUnmount: PropTypes.func,
+  onUnrelated: PropTypes.func,
 };
 
 export default class RelationEditor extends Component {
   constructor() {
     super();
 
+    this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this);
+    this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
+    this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
   }
 
@@ -53,18 +78,21 @@ export default class RelationEditor extends Component {
       subject,
       object,
       predicate,
+      findResult,
     } = this.props;
 
     const {
       subject: prevSubject,
       object: prevObject,
       predicate: prevPredicate,
+      findResult: prevFindResult,
     } = prevProps;
 
     if (
       !isEqual(subject, prevSubject) ||
       !isEqual(object, prevObject) ||
-      predicate !== prevPredicate
+      predicate !== prevPredicate ||
+      (!findResult && prevFindResult)
     ) {
       this.initRelation();
     }
@@ -80,6 +108,16 @@ export default class RelationEditor extends Component {
     }
   }
 
+  close() {
+    const {
+      onClose,
+    } = this.props;
+
+    if (onClose) {
+      onClose();
+    }
+  }
+
   initRelation() {
     const {
       config,
@@ -90,12 +128,41 @@ export default class RelationEditor extends Component {
     } = this.props;
 
     if (findRelation && object.csid) {
-      findRelation(config, {
-        subject,
-        object,
-        predicate,
-      });
+      findRelation(config, subject, object, predicate);
     }
+  }
+
+  unrelate() {
+    const {
+      config,
+      subject,
+      object,
+      predicate,
+      unrelate,
+      onUnrelated,
+    } = this.props;
+
+    if (unrelate) {
+      unrelate(config, subject, object, predicate)
+        .then(() => {
+          if (onUnrelated) {
+            onUnrelated(subject, object, predicate);
+          }
+        });
+    }
+  }
+
+  handleCancelButtonClick() {
+    this.close();
+  }
+
+  handleCloseButtonClick() {
+    this.close();
+  }
+
+  handleUnrelateButtonClick() {
+    this.unrelate();
+    this.close();
   }
 
   handleRecordCreated(newRecordCsid) {
@@ -118,6 +185,48 @@ export default class RelationEditor extends Component {
           }
         });
     }
+  }
+
+  renderHeader() {
+    const {
+      config,
+      object,
+      objectData,
+    } = this.props;
+
+    const recordTypeConfig = config.recordTypes[object.recordType];
+
+    const cspaceDocument = objectData ? objectData.get(DOCUMENT_PROPERTY_NAME) : undefined;
+    const recordTitle = recordTypeConfig.title(cspaceDocument);
+    const hasRecordTitle = recordTitle ? 'yes' : 'no';
+
+    const recordTypeName = (
+      <FormattedMessage
+        {...get(recordTypeConfig, ['messages', 'record', 'name'])}
+      />
+    );
+
+    const values = {
+      recordTypeName,
+      hasRecordTitle,
+      recordTitle,
+    };
+
+    const title = object.csid
+      ? <FormattedMessage {...messages.editTitle} values={values} />
+      : <FormattedMessage {...messages.newTitle} values={values} />;
+
+    return (
+      <header>
+        <h3>{title}</h3>
+        <RelationButtonBar
+          object={object}
+          onCancelButtonClick={this.handleCancelButtonClick}
+          onCloseButtonClick={this.handleCloseButtonClick}
+          onUnrelateButtonClick={this.handleUnrelateButtonClick}
+        />
+      </header>
+    );
   }
 
   render() {
@@ -158,15 +267,18 @@ export default class RelationEditor extends Component {
     }
 
     return (
-      <RecordEditorContainer
-        cloneCsid={cloneCsid}
-        config={config}
-        csid={object.csid}
-        recordType={object.recordType}
-        relatedSubjectCsid={subject.csid}
-        clone={cloneRecord}
-        onRecordCreated={this.handleRecordCreated}
-      />
+      <div className={styles.common}>
+        {this.renderHeader()}
+        <RecordEditorContainer
+          cloneCsid={cloneCsid}
+          config={config}
+          csid={object.csid}
+          recordType={object.recordType}
+          relatedSubjectCsid={subject.csid}
+          clone={cloneRecord}
+          onRecordCreated={this.handleRecordCreated}
+        />
+      </div>
     );
   }
 }

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { routerShape } from 'react-router/lib/PropTypes';
 import RecordBrowserNavBarContainer from '../../containers/record/RecordBrowserNavBarContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
-import RelatedRecordBrowser from './RelatedRecordBrowser';
+import RelatedRecordBrowserContainer from '../../containers/record/RelatedRecordBrowserContainer';
 import styles from '../../../styles/cspace-ui/RecordBrowser.css';
 
 const propTypes = {
@@ -78,7 +78,7 @@ class RecordBrowser extends Component {
 
     if (relatedRecordType) {
       content = (
-        <RelatedRecordBrowser
+        <RelatedRecordBrowserContainer
           cloneCsid={cloneCsid}
           config={config}
           recordType={recordType}

@@ -4,7 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   CLEAR_RELATION_STATE,
   RELATION_FIND_FULFILLED,
-  RELATION_SAVE_FULFILLED,
+  SUBJECT_RELATIONS_UPDATED,
 } from '../../../src/actions/relation';
 
 import reducer, {
@@ -48,7 +48,7 @@ describe('relation reducer', function suite() {
 
     state.should.equal(Immutable.Map());
 
-    expect(getFindResult(state, { subject, object, predicate })).to.equal(undefined);
+    expect(getFindResult(state, subject, object, predicate)).to.equal(undefined);
   });
 
   it('should handle RELATION_FIND_FULFILLED', function test() {
@@ -92,50 +92,28 @@ describe('relation reducer', function suite() {
       },
     }));
 
-    expect(getFindResult(state, { subject, object, predicate })).to
+    getFindResult(state, subject, object, predicate).should
       .equal(Immutable.fromJS(data));
   });
 
-  it('should handle RELATION_SAVE_FULFILLED', function test() {
+  it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
     const subject = {
       csid: '1234',
     };
 
-    const object = {
-      csid: '5678',
-    };
-
-    const predicate = 'affects';
-
-    const state = reducer(undefined, {
-      type: RELATION_SAVE_FULFILLED,
-      meta: {
-        subject,
-        object,
-        predicate,
+    const initialState = Immutable.fromJS({
+      find: {
+        [subject.csid]: {},
       },
     });
 
-    const seededFindResult = {
-      'ns2:relations-common-list': {
-        itemsInPage: '1',
-        totalItems: '1',
-      },
-    };
+    const state = reducer(initialState, {
+      type: SUBJECT_RELATIONS_UPDATED,
+      meta: subject,
+    });
 
     state.should.equal(Immutable.fromJS({
-      find: {
-        [subject.csid]: {
-          [object.csid]: {
-            [predicate]: {
-              result: seededFindResult,
-            },
-          },
-        },
-      },
+      find: {},
     }));
-
-    expect(getFindResult(state, { subject, object, predicate })).to
-      .equal(Immutable.fromJS(seededFindResult));
   });
 });

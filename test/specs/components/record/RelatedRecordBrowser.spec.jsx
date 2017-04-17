@@ -16,6 +16,7 @@ import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
 import RelatedRecordBrowser from '../../../../src/components/record/RelatedRecordBrowser';
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
+import RelatedRecordPanelContainer from '../../../../src/containers/record/RelatedRecordPanelContainer';
 
 const expect = chai.expect;
 
@@ -88,12 +89,17 @@ const config = {
       },
       messages: {
         record: {
+          name: {
+            id: 'record.group.name',
+            defaultMessage: 'Group',
+          },
           collectionName: {
             id: 'record.group.collectionName',
             defaultMessage: 'Groups',
           },
         },
       },
+      title: () => 'Title',
     },
   },
 };
@@ -297,7 +303,7 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should show the search to relate modal when the relate button is clicked', function test() {
-    const renderTree = render(
+    const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <RelatedRecordBrowser
@@ -313,13 +319,15 @@ describe('RelatedRecordBrowser', function suite() {
 
     Simulate.click(button);
 
-    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
+
+    modalComponent.should.not.equal(null);
 
     modalComponent.props.onCloseButtonClick();
   });
 
   it('should close the search to relate modal when the close button is clicked', function test() {
-    const renderTree = render(
+    const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <RelatedRecordBrowser
@@ -341,7 +349,7 @@ describe('RelatedRecordBrowser', function suite() {
 
     modalNode.should.not.equal(null);
 
-    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
 
     modalComponent.props.onCloseButtonClick();
 
@@ -351,7 +359,7 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should close the search to relate modal when the cancel button is clicked', function test() {
-    const renderTree = render(
+    const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <RelatedRecordBrowser
@@ -373,7 +381,7 @@ describe('RelatedRecordBrowser', function suite() {
 
     modalNode.should.not.equal(null);
 
-    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
 
     modalComponent.props.onCancelButtonClick();
 
@@ -383,7 +391,7 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should close the search to relate modal when relations have been created', function test() {
-    const renderTree = render(
+    const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <RelatedRecordBrowser
@@ -405,12 +413,108 @@ describe('RelatedRecordBrowser', function suite() {
 
     modalNode.should.not.equal(null);
 
-    const modalComponent = findRenderedComponentWithType(renderTree, SearchToRelateModal);
+    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
 
     modalComponent.props.onRelationsCreated();
 
     modalNode = document.querySelector('.ReactModal__Content--after-open');
 
     expect(modalNode).to.equal(null);
+  });
+
+  it('should replace history when the related record is unrelated in the related record panel', function test() {
+    let replacedLocation = null;
+
+    const router = mockRouter({
+      replace: (locationArg) => {
+        replacedLocation = locationArg;
+      },
+    });
+
+    const resultTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            relatedCsid={relatedCsid}
+            router={router}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const panel = findRenderedComponentWithType(resultTree, RelatedRecordPanelContainer);
+
+    panel.props.onUnrelated([
+      { csid: '1111' },
+      { csid: '1112' },
+      { csid: relatedCsid },
+      { csid: '1113' },
+    ]);
+
+    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}`);
+  });
+
+  it('should call deselect when a record is unrelated in the relation editor', function test() {
+    let deselectedName = null;
+    let deselectedCsid = null;
+
+    const deselectItem = (nameArg, csidArg) => {
+      deselectedName = nameArg;
+      deselectedCsid = csidArg;
+    };
+
+    const resultTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            relatedCsid={relatedCsid}
+            deselectItem={deselectItem}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const relationEditor = findRenderedComponentWithType(resultTree, RelationEditor);
+
+    relationEditor.props.onUnrelated({ csid }, { csid: relatedCsid });
+
+    deselectedName.should.equal(`relatedRecordBrowser-${relatedRecordType}`);
+    deselectedCsid.should.equal(relatedCsid);
+  });
+
+  it('should replace history when the relation editor is closed', function test() {
+    let replacedLocation = null;
+
+    const router = mockRouter({
+      replace: (locationArg) => {
+        replacedLocation = locationArg;
+      },
+    });
+
+    const resultTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            relatedCsid={relatedCsid}
+            router={router}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const relationEditor = findRenderedComponentWithType(resultTree, RelationEditor);
+
+    relationEditor.props.onClose();
+
+    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}`);
   });
 });

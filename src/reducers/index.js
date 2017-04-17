@@ -124,8 +124,8 @@ export const getSearchError = (state, searchName, searchDescriptor) =>
 export const getSearchSelectedItems = (state, searchName) =>
   fromSearch.getSelectedItems(state.search, searchName);
 
-export const getRelationFindResult = (state, descriptor) =>
-  fromRelation.getFindResult(state.relation, descriptor);
+export const getRelationFindResult = (state, subject, object, predicate) =>
+  fromRelation.getFindResult(state.relation, subject, object, predicate);
 
 export const getSearchToRelateAdvanced = state =>
   fromSearchToRelate.getAdvanced(state.searchToRelate);

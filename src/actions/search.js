@@ -10,6 +10,7 @@ import {
   ERR_API,
 } from '../constants/errorCodes';
 
+export const CLEAR_SELECTED = 'CLEAR_SELECTED';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 export const SET_MOST_RECENT_SEARCH = 'SET_MOST_RECENT_SEARCH';
 export const CREATE_EMPTY_SEARCH_RESULT = 'CREATE_EMPTY_SEARCH_RESULT';
@@ -17,6 +18,7 @@ export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FULFILLED = 'SEARCH_FULFILLED';
 export const SEARCH_REJECTED = 'SEARCH_REJECTED';
 export const SET_RESULT_ITEM_SELECTED = 'SET_RESULT_ITEM_SELECTED';
+export const DESELECT_ITEM = 'DESELECT_ITEM';
 
 const findColumnByName = (columns, columnName) => {
   if (!columns) return null;
@@ -50,9 +52,18 @@ const getSortParam = (config, searchDescriptor, columnSetName) => {
   return null;
 };
 
+export const clearSelected = searchName => ({
+  type: CLEAR_SELECTED,
+  meta: {
+    searchName,
+  },
+});
+
 export const clearSearchResults = searchName => ({
   type: CLEAR_SEARCH_RESULTS,
-  payload: searchName,
+  meta: {
+    searchName,
+  },
 });
 
 export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default') =>
@@ -245,12 +256,12 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
   };
 
 export const setResultItemSelected =
-  (config, searchName, searchDescriptor, listType = 'common', index, checked) => {
+  (config, searchName, searchDescriptor, listType = 'common', index, isSelected) => {
     const listTypeConfig = config.listTypes[listType];
 
     return {
       type: SET_RESULT_ITEM_SELECTED,
-      payload: checked,
+      payload: isSelected,
       meta: {
         listTypeConfig,
         searchName,
@@ -259,3 +270,11 @@ export const setResultItemSelected =
       },
     };
   };
+
+export const deselectItem = (searchName, csid) => ({
+  type: DESELECT_ITEM,
+  meta: {
+    searchName,
+    csid,
+  },
+});

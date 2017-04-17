@@ -3,17 +3,31 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-addons-test-utils';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import RelationEditor from '../../../../src/components/record/RelationEditor';
+import RelationButtonBar from '../../../../src/components/record/RelationButtonBar';
 
 const expect = chai.expect;
 
 chai.should();
 
 const config = {
-
+  recordTypes: {
+    group: {
+      messages: {
+        record: {
+          name: {
+            id: 'record.group.name',
+            defaultMessage: 'Group',
+          },
+        },
+      },
+      title: () => 'Title',
+    },
+  },
 };
 
 describe('RelationEditor', function suite() {
@@ -49,12 +63,13 @@ describe('RelationEditor', function suite() {
       />);
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
 
-    result.type.should.equal(RecordEditorContainer);
+    recordEditorContainer.should.not.equal(null);
 
-    result.props.csid.should.equal(object.csid);
-    result.props.recordType.should.equal(object.recordType);
-    result.props.relatedSubjectCsid.should.equal(subject.csid);
+    recordEditorContainer.props.csid.should.equal(object.csid);
+    recordEditorContainer.props.recordType.should.equal(object.recordType);
+    recordEditorContainer.props.relatedSubjectCsid.should.equal(subject.csid);
   });
 
   it('should render nothing if there is no relation find result', function test() {
@@ -167,8 +182,9 @@ describe('RelationEditor', function suite() {
       />);
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
 
-    result.props.onRecordCreated(newRecordCsid);
+    recordEditorContainer.props.onRecordCreated(newRecordCsid);
 
     createSubject.should.equal(subject);
     createObject.should.deep.equal({ csid: newRecordCsid });
@@ -201,11 +217,11 @@ describe('RelationEditor', function suite() {
     let findObject = null;
     let findPredicate = null;
 
-    const findRelation = (configArg, descriptor) => {
+    const findRelation = (configArg, subjectArg, objectArg, predicateArg) => {
       findConfig = configArg;
-      findSubject = descriptor.subject;
-      findObject = descriptor.object;
-      findPredicate = descriptor.predicate;
+      findSubject = subjectArg;
+      findObject = objectArg;
+      findPredicate = predicateArg;
     };
 
     render(
@@ -241,11 +257,11 @@ describe('RelationEditor', function suite() {
     let findObject = null;
     let findPredicate = null;
 
-    const findRelation = (configArg, descriptor) => {
+    const findRelation = (configArg, subjectArg, objectArg, predicateArg) => {
       findConfig = configArg;
-      findSubject = descriptor.subject;
-      findObject = descriptor.object;
-      findPredicate = descriptor.predicate;
+      findSubject = subjectArg;
+      findObject = objectArg;
+      findPredicate = predicateArg;
     };
 
     render(
@@ -345,5 +361,175 @@ describe('RelationEditor', function suite() {
       <div />, this.container);
 
     handlerCalled.should.equal(true);
+  });
+
+  it('should call onClose when the cancel button is clicked in the button bar', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const findResult = Immutable.fromJS({
+      'ns2:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let handlerCalled = false;
+
+    const handleClose = () => {
+      handlerCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        findResult={findResult}
+        onClose={handleClose}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const buttonBar = findWithType(result, RelationButtonBar);
+
+    buttonBar.props.onCancelButtonClick();
+
+    handlerCalled.should.equal(true);
+  });
+
+  it('should call onClose when the close button is clicked in the button bar', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const findResult = Immutable.fromJS({
+      'ns2:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let handlerCalled = false;
+
+    const handleClose = () => {
+      handlerCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        findResult={findResult}
+        onClose={handleClose}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const buttonBar = findWithType(result, RelationButtonBar);
+
+    buttonBar.props.onCloseButtonClick();
+
+    handlerCalled.should.equal(true);
+  });
+
+  it('should call onClose and unrelate followed by onUnrelated when the unrelate button is clicked in the button bar', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const predicate = 'affects';
+
+    const findResult = Immutable.fromJS({
+      'ns2:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let handleCloseCalled = false;
+
+    const handleClose = () => {
+      handleCloseCalled = true;
+    };
+
+    let unrelateConfig = null;
+    let unrelateSubject = null;
+    let unrelateObject = null;
+    let unrelatePredicate = null;
+
+    const unrelate = (configArg, subjectArg, objectArg, predicateArg) => {
+      unrelateConfig = configArg;
+      unrelateSubject = subjectArg;
+      unrelateObject = objectArg;
+      unrelatePredicate = predicateArg;
+
+      return Promise.resolve();
+    };
+
+    let handleUnrelatedSubject = null;
+    let handleUnrelatedObject = null;
+    let handleUnrelatedPredicate = null;
+
+    const handleUnrelated = (subjectArg, objectArg, predicateArg) => {
+      handleUnrelatedSubject = subjectArg;
+      handleUnrelatedObject = objectArg;
+      handleUnrelatedPredicate = predicateArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        predicate={predicate}
+        findResult={findResult}
+        onClose={handleClose}
+        unrelate={unrelate}
+        onUnrelated={handleUnrelated}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const buttonBar = findWithType(result, RelationButtonBar);
+
+    buttonBar.props.onUnrelateButtonClick();
+
+    handleCloseCalled.should.equal(true);
+
+    unrelateConfig.should.equal(config);
+    unrelateSubject.should.equal(subject);
+    unrelateObject.should.equal(object);
+    unrelatePredicate.should.equal(predicate);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handleUnrelatedSubject.should.equal(subject);
+        handleUnrelatedObject.should.equal(object);
+        handleUnrelatedPredicate.should.equal(predicate);
+
+        resolve();
+      }, 0);
+    });
   });
 });
