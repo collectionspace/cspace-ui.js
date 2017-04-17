@@ -1,30 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
-import { Link } from 'react-router';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import ErrorPage from './ErrorPage';
 import SearchResultTitleBar from '../search/SearchResultTitleBar';
-import PageSizeChooser from '../search/PageSizeChooser';
 import Pager from '../search/Pager';
+import SearchResultSummary from '../search/SearchResultSummary';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import { validateLocation } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
-import headerStyles from '../../../styles/cspace-ui/SearchResultTableHeader.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import searchResultSidebarStyles from '../../../styles/cspace-ui/SearchResultSidebar.css';
-
-const messages = defineMessages({
-  error: {
-    id: 'searchResultPage.error',
-    defaultMessage: 'Error: {message}',
-  },
-  editSearch: {
-    id: 'searchResultPage.editSearch',
-    defaultMessage: 'Revise search',
-  },
-});
 
 export const searchName = 'searchResultPage';
 // FIXME: Make default page size configurable
@@ -323,103 +309,25 @@ export default class SearchResultPage extends Component {
     }
   }
 
-  renderEditLink() {
-    const searchDescriptor = this.getSearchDescriptor();
-
-    const {
-      recordType,
-      vocabulary,
-    } = searchDescriptor;
-
-    const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
-    const path = `/search/${recordType}${vocabularyPath}`;
-
-    return (
-      <Link to={path} onClick={this.handleEditSearchLinkClick}>
-        <FormattedMessage {...messages.editSearch} />
-      </Link>
-    );
-  }
-
   renderHeader({ searchError, searchResult }) {
-    if (searchError) {
-      // FIXME: Make a proper error page
-      const message = searchError.get('code') || '';
+    const {
+      config,
+    } = this.context;
 
-      return (
-        <header className={headerStyles.error}>
-          <FormattedMessage {...messages.error} values={{ message }} />
-          <p>{this.renderEditLink()}</p>
-        </header>
-      );
-    }
-
-    let pageSize = null;
-    let message = null;
-
-    if (searchResult) {
-      const {
-        config,
-      } = this.context;
-
-      const searchDescriptor = this.getSearchDescriptor();
-      const listType = this.getListType(searchDescriptor);
-      const listTypeConfig = config.listTypes[listType];
-      const { listNodeName } = listTypeConfig;
-
-      const list = searchResult.get(listNodeName);
-      const totalItems = parseInt(list.get('totalItems'), 10);
-
-      if (isNaN(totalItems)) {
-        message = (
-          <FormattedMessage {...listTypeConfig.messages.searching} />
-        );
-      } else {
-        const pageNum = parseInt(list.get('pageNum'), 10);
-
-        pageSize = parseInt(list.get('pageSize'), 10);
-
-        const startNum = (pageNum * pageSize) + 1;
-        const endNum = Math.min((pageNum * pageSize) + pageSize, totalItems);
-
-        message = (
-          <FormattedMessage
-            {...listTypeConfig.messages.resultCount}
-            values={{
-              totalItems,
-              startNum,
-              endNum,
-            }}
-          />
-        );
-      }
-    }
-
-    if (pageSize === null) {
-      const searchDescriptor = this.getSearchDescriptor();
-
-      pageSize = searchDescriptor.searchQuery.size;
-    }
-
-    const content = (
-      <div>
-        {message}
-        {message ? ' | ' : ''}
-        {this.renderEditLink()}
-      </div>
-    );
-
-    const pageSizeChooser = (
-      <PageSizeChooser
-        pageSize={pageSize}
-        onPageSizeChange={this.handlePageSizeChange}
-      />
-    );
+    const searchDescriptor = this.getSearchDescriptor();
+    const listType = this.getListType(searchDescriptor);
 
     return (
-      <header className={headerStyles.normal}>
-        {content}
-        {pageSizeChooser}
+      <header>
+        <SearchResultSummary
+          config={config}
+          listType={listType}
+          searchDescriptor={searchDescriptor}
+          searchError={searchError}
+          searchResult={searchResult}
+          onEditSearchLinkClick={this.handleEditSearchLinkClick}
+          onPageSizeChange={this.handlePageSizeChange}
+        />
       </header>
     );
   }

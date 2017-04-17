@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/SearchButton.css';
@@ -13,15 +13,32 @@ const messages = defineMessages({
   },
 });
 
-export default function SearchButton() {
+const propTypes = {
+  type: PropTypes.string,
+};
+
+const defaultProps = {
+  type: 'submit',
+};
+
+export default function SearchButton(props) {
+  const {
+    type,
+    ...remainingProps
+  } = props;
+
   return (
     <Button
-      className={styles.normal}
+      className={styles.common}
       icon
       name="search"
-      type="submit"
+      type={type}
+      {...remainingProps}
     >
       <FormattedMessage {...messages.label} />
     </Button>
   );
 }
+
+SearchButton.propTypes = propTypes;
+SearchButton.defaultProps = defaultProps;

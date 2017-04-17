@@ -35,13 +35,15 @@ export default function RelationButtonBar(props) {
     onUnrelateButtonClick,
   } = props;
 
-  const cancelButton = object ? null : <CancelButton onClick={onCancelButtonClick} />;
-  const closeButton = object ? <CloseButton onClick={onCloseButtonClick} /> : null;
-  const unrelateButton = object ? <UnrelateButton onClick={onUnrelateButtonClick} /> : null;
+  const objectCsid = object ? object.csid : undefined;
+
+  const cancelButton = objectCsid ? null : <CancelButton onClick={onCancelButtonClick} />;
+  const closeButton = objectCsid ? <CloseButton onClick={onCloseButtonClick} /> : null;
+  const unrelateButton = objectCsid ? <UnrelateButton onClick={onUnrelateButtonClick} /> : null;
 
   let openLink;
 
-  if (object) {
+  if (objectCsid) {
     openLink = (
       <Link to={`/record/${object.recordType}/${object.csid}`}>
         <FormattedMessage {...messages.open} />

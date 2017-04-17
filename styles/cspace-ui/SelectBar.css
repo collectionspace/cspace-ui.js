@@ -1,5 +1,7 @@
 .common {
   display: flex;
   align-items: baseline;
-  padding: 4px 0 4px 10px;
+  border-top: 1px solid rgb(220, 220, 220);
+  padding: 4px 10px;
+  background: rgb(240, 240, 240);
 }
