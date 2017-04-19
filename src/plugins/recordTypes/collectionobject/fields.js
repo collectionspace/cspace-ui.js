@@ -33,6 +33,7 @@ export default (pluginContext) => {
           },
         },
       },
+      // TODO: Define core fields in one place.
       'ns2:collectionspace_core': {
         createdAt: {
           [config]: {
@@ -54,7 +55,7 @@ export default (pluginContext) => {
             dataType: DATA_TYPE_DATETIME,
             messages: defineMessages({
               name: {
-                id: 'field.collectionobjects_common.updatedAt.name',
+                id: 'field.collectionspace_core.updatedAt.name',
                 defaultMessage: 'Last updated time',
               },
             }),
@@ -65,6 +66,12 @@ export default (pluginContext) => {
         },
         updatedBy: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionspace_core.updatedBy.name',
+                defaultMessage: 'Last updated by',
+              },
+            }),
             view: {
               type: TextInput,
             },

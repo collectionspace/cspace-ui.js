@@ -40,6 +40,11 @@ export default function SearchToRelateTitleBar(props) {
     } = props;
 
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
+
+    if (!recordTypeConfig) {
+      return null;
+    }
+
     const vocabularyConfig = vocabulary ? get(recordTypeConfig, ['vocabularies', vocabulary]) : undefined;
 
     if (vocabularyConfig) {

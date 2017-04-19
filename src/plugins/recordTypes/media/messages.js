@@ -18,4 +18,10 @@ export default {
       defaultMessage: 'Media Handling',
     },
   }),
+  panel: defineMessages({
+    mediaInfo: {
+      id: 'panel.media.mediaInfo',
+      defaultMessage: 'Media Handling Information',
+    },
+  }),
 };

@@ -3,12 +3,12 @@
   padding: 31px 0 10px 1px;
 }
 
-.common > :global(.cspace-layout-Panel--common) {
+.common :global(.cspace-layout-Panel--common) {
   margin: 0;
   background-color: rgba(156, 185, 211, .2);
 }
 
-.common > :global(.cspace-layout-Panel--common) > div {
+.common :global(.cspace-layout-Panel--common) > div {
   padding: 0;
 }
 

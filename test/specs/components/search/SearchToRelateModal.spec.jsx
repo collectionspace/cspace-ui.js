@@ -1,12 +1,17 @@
 /* global document */
 
 import React from 'react';
+import { createRenderer } from 'react-addons-test-utils';
+import { findWithType } from 'react-shallow-testutils';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
-import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
+import SearchToRelateModal, { BaseSearchToRelateModal, searchName } from '../../../../src/components/search/SearchToRelateModal';
+import RelateButton from '../../../../src/components/record/RelateButton';
+import SearchButton from '../../../../src/components/search/SearchButton';
+import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 chai.should();
@@ -35,6 +40,17 @@ const config = {
       },
     },
   },
+};
+
+const intl = {
+  formatDate: () => null,
+  formatTime: () => null,
+  formatRelative: () => null,
+  formatNumber: () => null,
+  formatPlural: () => null,
+  formatMessage: () => null,
+  formatHTMLMessage: () => null,
+  now: () => null,
 };
 
 describe('SearchToRelateModal', function suite() {
@@ -78,46 +94,133 @@ describe('SearchToRelateModal', function suite() {
     unmountComponentAtNode(this.container);
   });
 
-  // FIXME: Simulate click on buttons in the Modal doesn't seem to work.
+  it('should call search and render a search result table when the search button is clicked', function test() {
+    const recordTypeValue = 'collectionobject';
+    const subjectCsid = '1234';
 
-  // it('should render a search result table once a search has been initiated', function test() {
-  //   Modal.setAppElement(document.body);
-  //
-  //   const search = () => {};
-  //
-  //   let parentNode;
-  //
-  //   const setParent = (ref) => {
-  //     parentNode = ref;
-  //   };
-  //
-  //   const getParent = () => parentNode;
-  //
-  //   render(
-  //     <IntlProvider locale="en">
-  //       <StoreProvider store={store}>
-  //         <div>
-  //           <div ref={setParent} />
-  //           <SearchToRelateModal
-  //             config={config}
-  //             isOpen
-  //             isSearchInitiated
-  //             recordTypeValue="collectionobject"
-  //             search={search}
-  //             parentSelector={getParent}
-  //           />
-  //         </div>
-  //       </StoreProvider>
-  //     </IntlProvider>, this.container);
-  //
-  //   const modal = document.querySelector('.ReactModal__Content--after-open');
-  //
-  //   const button = modal.querySelector('button[name="accept"]');
-  //
-  //   console.log(button);
-  //
-  //   Simulate.click(button);
-  //
-  //   unmountComponentAtNode(this.container);
-  // });
+    let searchedConfig = null;
+    let searchedSearchName = null;
+    let searchedSearchDescriptor = null;
+
+    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+      searchedConfig = configArg;
+      searchedSearchName = searchNameArg;
+      searchedSearchDescriptor = searchDescriptorArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <BaseSearchToRelateModal
+        config={config}
+        intl={intl}
+        isOpen
+        isSearchInitiated
+        recordTypeValue={recordTypeValue}
+        subjectCsid={subjectCsid}
+        search={search}
+      />
+    );
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const buttonBar = result.props.renderButtonBar();
+    const searchButton = findWithType(buttonBar, SearchButton);
+
+    searchButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    findWithType(result, SearchResultTableContainer).should.not.equal(null);
+
+    searchedConfig.should.equal(config);
+    searchedSearchName.should.equal(searchName);
+
+    searchedSearchDescriptor.should.deep.equal({
+      recordType: recordTypeValue,
+      vocabulary: undefined,
+      searchQuery: {
+        mkRtSbj: subjectCsid,
+        p: 0,
+        size: 20,
+      },
+    });
+  });
+
+  it('should call createRelations and render a relating message when the relate button is clicked', function test() {
+    const recordTypeValue = 'collectionobject';
+    const subjectRecordType = 'group';
+    const subjectCsid = '1234';
+
+    const selectedItems = Immutable.fromJS({
+      1111: { csid: '1111', recordType: recordTypeValue },
+      2222: { csid: '2222', recordType: recordTypeValue },
+    });
+
+    const search = () => {};
+
+    let createdSubject = null;
+    let createdObjects = null;
+    let createdPredicate = null;
+
+    const createRelations = (subjectArg, objectsArg, predicateArg) => {
+      createdSubject = subjectArg;
+      createdObjects = objectsArg;
+      createdPredicate = predicateArg;
+
+      return Promise.resolve();
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <BaseSearchToRelateModal
+        config={config}
+        intl={intl}
+        isOpen
+        isSearchInitiated
+        recordTypeValue={recordTypeValue}
+        subjectCsid={subjectCsid}
+        subjectRecordType={subjectRecordType}
+        selectedItems={selectedItems}
+        search={search}
+        createRelations={createRelations}
+      />
+    );
+
+    let result;
+    let buttonBar;
+
+    result = shallowRenderer.getRenderOutput();
+    buttonBar = result.props.renderButtonBar();
+
+    const searchButton = findWithType(buttonBar, SearchButton);
+
+    searchButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    buttonBar = result.props.renderButtonBar();
+
+    const relateButton = findWithType(buttonBar, RelateButton);
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    findWithType(result, 'p').should.not.equal(null);
+
+    createdSubject.should.deep.equal({
+      csid: subjectCsid,
+      type: subjectRecordType,
+    });
+
+    createdObjects.should.deep.equal([
+      { csid: '1111', type: recordTypeValue },
+      { csid: '2222', type: recordTypeValue },
+    ]);
+
+    createdPredicate.should.equal('affects');
+  });
 });

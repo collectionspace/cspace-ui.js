@@ -4,6 +4,7 @@ export default (pluginContext) => {
   const {
     AuthorityControlledInput,
     CompoundInput,
+    DateInput,
     OptionListControlledInput,
     TextInput,
   } = pluginContext.inputComponents;
@@ -12,6 +13,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATETIME,
+  } = pluginContext.dataTypes;
+
   return {
     document: {
       [config]: {
@@ -19,6 +24,51 @@ export default (pluginContext) => {
           type: CompoundInput,
           props: {
             defaultChildSubpath: 'ns2:groups_common',
+          },
+        },
+      },
+      // TODO: Define core fields in one place.
+      'ns2:collectionspace_core': {
+        createdAt: {
+          [config]: {
+            dataType: DATA_TYPE_DATETIME,
+            view: {
+              type: DateInput,
+            },
+          },
+        },
+        createdBy: {
+          [config]: {
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        updatedAt: {
+          [config]: {
+            dataType: DATA_TYPE_DATETIME,
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionspace_core.updatedAt.name',
+                defaultMessage: 'Last updated time',
+              },
+            }),
+            view: {
+              type: DateInput,
+            },
+          },
+        },
+        updatedBy: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionspace_core.updatedBy.name',
+                defaultMessage: 'Last updated by',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
       },

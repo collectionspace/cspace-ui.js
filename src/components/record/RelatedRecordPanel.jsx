@@ -54,6 +54,7 @@ const propTypes = {
   relatedRecordType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   showCheckboxColumn: PropTypes.bool,
+  showAddButton: PropTypes.bool,
   clearSelected: PropTypes.func,
   unrelateRecords: PropTypes.func,
   onItemClick: PropTypes.func,
@@ -244,6 +245,7 @@ export default class RelatedRecordPanel extends Component {
       recordData,
       recordType,
       showCheckboxColumn,
+      showAddButton,
       onItemClick,
     } = this.props;
 
@@ -269,6 +271,7 @@ export default class RelatedRecordPanel extends Component {
         searchDescriptor={searchDescriptor}
         recordType={recordType}
         title={this.renderTitle()}
+        showAddButton={showAddButton}
         showCheckboxColumn={showCheckboxColumn}
         renderCheckbox={renderCheckbox}
         renderTableHeader={this.renderTableHeader}

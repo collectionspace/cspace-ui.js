@@ -7,6 +7,8 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SearchToRelateTitleBar from '../../../../src/components/search/SearchToRelateTitleBar';
 import { configKey } from '../../../../src/helpers/configHelpers';
 
+const expect = chai.expect;
+
 chai.should();
 
 const TestInput = props => (
@@ -85,6 +87,18 @@ describe('SearchToRelateTitleBar', function suite() {
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');
+  });
+
+  it('should render nothing for an unknown record type', function test() {
+    render(
+      <IntlProvider locale="en">
+        <SearchToRelateTitleBar
+          config={config}
+          recordType="foo"
+        />
+      </IntlProvider>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
   });
 
   it('should render the vocabulary name if a vocabulary is supplied', function test() {
