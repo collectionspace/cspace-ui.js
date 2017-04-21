@@ -10,6 +10,7 @@ import optionList, * as fromOptionList from './optionList';
 import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
+import recordBrowser, * as fromRecordBrowser from './recordBrowser';
 import searchToRelate, * as fromSearchToRelate from './searchToRelate';
 import relation, * as fromRelation from './relation';
 import search, * as fromSearch from './search';
@@ -27,6 +28,7 @@ export default combineReducers({
   partialTermSearch,
   prefs,
   record,
+  recordBrowser,
   searchToRelate,
   relation,
   routing,
@@ -63,6 +65,9 @@ export const isRecordReadPending = (state, csid) => fromRecord.isReadPending(sta
 export const isRecordSavePending = (state, csid) => fromRecord.isSavePending(state.record, csid);
 
 export const isRecordModified = (state, csid) => fromRecord.isModified(state.record, csid);
+
+export const getRelatedRecordBrowserRelatedCsid = (state, recordType) =>
+  fromRecordBrowser.getRelatedRecordBrowserRelatedCsid(state.recordBrowser, recordType);
 
 export const getPrefs = state => state.prefs;
 

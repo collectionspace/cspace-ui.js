@@ -59,11 +59,12 @@ describe('reducer', function suite() {
       'optionList',
       'partialTermSearch',
       'prefs',
+      'record',
+      'recordBrowser',
       'relation',
       'search',
       'searchToRelate',
       'user',
-      'record',
       'vocabulary',
     ]);
   });

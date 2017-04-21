@@ -1,7 +1,7 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { Simulate } from 'react-addons-test-utils';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
@@ -43,6 +43,7 @@ const store = mockStore({
     },
   }),
   prefs: Immutable.Map(),
+  recordBrowser: Immutable.Map(),
   search: Immutable.Map(),
   searchToRelate: Immutable.Map(),
 });
@@ -207,5 +208,62 @@ describe('RecordBrowser', function suite() {
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-ui-RelatedRecordBrowser--common').should.not.equal(null);
+  });
+
+  it('should call clearPreferredRelatedCsid when unmounted', function test() {
+    let clearCalled = false;
+
+    const clearPreferredRelatedCsid = () => {
+      clearCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordBrowser
+            config={config}
+            recordType="collectionobject"
+            clearPreferredRelatedCsid={clearPreferredRelatedCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    unmountComponentAtNode(this.container);
+
+    clearCalled.should.equal(true);
+  });
+
+  it('should call clearPreferredRelatedCsid when a new csid is supplied via props', function test() {
+    let clearCalled = false;
+
+    const clearPreferredRelatedCsid = () => {
+      clearCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordBrowser
+            config={config}
+            csid="1111"
+            recordType="collectionobject"
+            clearPreferredRelatedCsid={clearPreferredRelatedCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordBrowser
+            config={config}
+            csid="2222"
+            recordType="collectionobject"
+            clearPreferredRelatedCsid={clearPreferredRelatedCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    clearCalled.should.equal(true);
   });
 });

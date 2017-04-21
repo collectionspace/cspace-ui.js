@@ -13,10 +13,12 @@ const propTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
+  preferredRelatedCsid: PropTypes.string,
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
   router: routerShape,
   deselectItem: PropTypes.func,
+  setPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
@@ -41,12 +43,61 @@ class RelatedRecordBrowser extends Component {
     };
   }
 
+  componentDidMount() {
+    this.normalizeRelatedCsid();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      relatedCsid,
+      relatedRecordType,
+    } = this.props;
+
+    const {
+      relatedRecordType: prevRelatedRecordType,
+      relatedCsid: prevRelatedCsid,
+    } = prevProps;
+
+    if (relatedCsid !== prevRelatedCsid || relatedRecordType !== prevRelatedRecordType) {
+      this.normalizeRelatedCsid();
+    }
+  }
+
   getRelatedRecordPanelName() {
     const {
       relatedRecordType,
     } = this.props;
 
     return `relatedRecordBrowser-${relatedRecordType}`;
+  }
+
+  normalizeRelatedCsid() {
+    const {
+      preferredRelatedCsid,
+      relatedCsid,
+      relatedRecordType,
+      setPreferredRelatedCsid,
+    } = this.props;
+
+    if (typeof relatedCsid !== 'undefined') {
+      if (setPreferredRelatedCsid && (preferredRelatedCsid !== relatedCsid)) {
+        setPreferredRelatedCsid(relatedRecordType, relatedCsid);
+      }
+    } else if (preferredRelatedCsid) {
+      const {
+        recordType,
+        vocabulary,
+        csid,
+        router,
+      } = this.props;
+
+      const path =
+        [recordType, vocabulary, csid, relatedRecordType, preferredRelatedCsid]
+          .filter(part => !!part)
+          .join('/');
+
+      router.replace(`/record/${path}`);
+    }
   }
 
   cloneRelatedRecord(relatedRecordCsid) {
@@ -115,7 +166,12 @@ class RelatedRecordBrowser extends Component {
       csid,
       relatedRecordType,
       router,
+      setPreferredRelatedCsid,
     } = this.props;
+
+    if (setPreferredRelatedCsid) {
+      setPreferredRelatedCsid(relatedRecordType, undefined);
+    }
 
     const path =
       [recordType, vocabulary, csid, relatedRecordType]
@@ -191,20 +247,7 @@ class RelatedRecordBrowser extends Component {
     }
 
     if (isRelatedCsidUnrelated) {
-      const {
-        recordType,
-        vocabulary,
-        csid,
-        relatedRecordType,
-        router,
-      } = this.props;
-
-      const path =
-        [recordType, vocabulary, csid, relatedRecordType]
-          .filter(part => !!part)
-          .join('/');
-
-      router.replace(`/record/${path}`);
+      this.handleRelationEditorClose();
     }
   }
 

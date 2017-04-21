@@ -3,7 +3,7 @@ import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import ErrorPage from './ErrorPage';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
-import RecordBrowser from '../record/RecordBrowser';
+import RecordBrowserContainer from '../../containers/record/RecordBrowserContainer';
 import RecordSideBar from '../record/RecordSideBar';
 import { validateLocation } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
@@ -182,7 +182,7 @@ export default class RecordPage extends Component {
         <RecordTitleBarContainer csid={normalizedCsid} recordType={recordType} />
 
         <div className={pageBodyStyles.common}>
-          <RecordBrowser
+          <RecordBrowserContainer
             cloneCsid={cloneCsid}
             csid={normalizedCsid}
             recordType={recordType}

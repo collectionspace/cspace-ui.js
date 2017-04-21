@@ -161,8 +161,8 @@ export default class RelationEditor extends Component {
   }
 
   handleUnrelateButtonClick() {
-    this.unrelate();
     this.close();
+    this.unrelate();
   }
 
   handleRecordCreated(newRecordCsid) {

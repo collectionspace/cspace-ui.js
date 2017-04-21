@@ -15,6 +15,7 @@ const propTypes = {
   relatedRecordType: PropTypes.string,
   router: routerShape,
   vocabulary: PropTypes.string,
+  clearPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
@@ -24,6 +25,34 @@ class RecordBrowser extends Component {
 
     this.cloneRecord = this.cloneRecord.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      csid,
+    } = this.props;
+
+    const {
+      csid: prevCsid,
+    } = prevProps;
+
+    if (csid !== prevCsid) {
+      this.clearPreferredRelatedCsid();
+    }
+  }
+
+  componentWillUnmount() {
+    this.clearPreferredRelatedCsid();
+  }
+
+  clearPreferredRelatedCsid() {
+    const {
+      clearPreferredRelatedCsid,
+    } = this.props;
+
+    if (clearPreferredRelatedCsid) {
+      clearPreferredRelatedCsid();
+    }
   }
 
   cloneRecord() {
