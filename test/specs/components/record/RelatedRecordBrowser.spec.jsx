@@ -149,6 +149,32 @@ describe('RelatedRecordBrowser', function suite() {
     component.should.not.equal(null);
   });
 
+  it('should replace history when a related csid is not provided but a preferred related csid is provided', function test() {
+    let replacedLocation = null;
+
+    const router = mockRouter({
+      replace: (locationArg) => {
+        replacedLocation = locationArg;
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            preferredRelatedCsid={relatedCsid}
+            router={router}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}/${relatedCsid}`);
+  });
+
   it('should replace history when the clone button is clicked', function test() {
     let replacedLocation = null;
 
@@ -516,5 +542,82 @@ describe('RelatedRecordBrowser', function suite() {
     relationEditor.props.onClose();
 
     replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}`);
+  });
+
+  it('should call setPreferredRelatedCsid when the related csid is changed via props', function test() {
+    const newRelatedCsid = 'aaaa';
+
+    let setRecordType = null;
+    let setCsid = '';
+
+    const setPreferredRelatedCsid = (recordTypeArg, csidArg) => {
+      setRecordType = recordTypeArg;
+      setCsid = csidArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            relatedCsid={relatedCsid}
+            setPreferredRelatedCsid={setPreferredRelatedCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            relatedCsid={newRelatedCsid}
+            setPreferredRelatedCsid={setPreferredRelatedCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    setRecordType.should.equal(relatedRecordType);
+    setCsid.should.equal(newRelatedCsid);
+  });
+
+  it('should call setPreferredRelatedCsid when the relation editor is closed', function test() {
+    const router = mockRouter();
+
+    let setRecordType = null;
+    let setCsid = '';
+
+    const setPreferredRelatedCsid = (recordTypeArg, csidArg) => {
+      setRecordType = recordTypeArg;
+      setCsid = csidArg;
+    };
+
+    const resultTree = render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RelatedRecordBrowser
+            config={config}
+            recordType={recordType}
+            csid={csid}
+            relatedRecordType={relatedRecordType}
+            relatedCsid={relatedCsid}
+            router={router}
+            setPreferredRelatedCsid={setPreferredRelatedCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const relationEditor = findRenderedComponentWithType(resultTree, RelationEditor);
+
+    relationEditor.props.onClose();
+
+    setRecordType.should.equal(relatedRecordType);
+    expect(setCsid).to.equal(undefined);
   });
 });
