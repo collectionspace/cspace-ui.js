@@ -43,6 +43,8 @@ const propTypes = {
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.object,
   recordTypeInputReadOnly: PropTypes.bool,
+  recordTypeInputRootType: PropTypes.string,
+  recordTypeInputServiceTypes: PropTypes.arrayOf(PropTypes.string),
   showButtons: PropTypes.bool,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
@@ -163,6 +165,8 @@ export default class SearchForm extends Component {
       keywordValue,
       recordTypeValue,
       recordTypeInputReadOnly,
+      recordTypeInputRootType,
+      recordTypeInputServiceTypes,
       showButtons,
       onAdvancedSearchConditionCommit,
     } = this.props;
@@ -193,6 +197,8 @@ export default class SearchForm extends Component {
             <RecordTypeInput
               label={intl.formatMessage(messages.recordType)}
               recordTypes={config.recordTypes}
+              rootType={recordTypeInputRootType}
+              serviceTypes={recordTypeInputServiceTypes}
               value={recordTypeValue}
               formatRecordTypeLabel={this.formatRecordTypeLabel}
               onCommit={this.handleRecordTypeDropdownCommit}

@@ -1,3 +1,4 @@
+import advancedSearch from './advancedSearch';
 import columns from './columns';
 import defaultForm from './forms/default';
 import fields from './fields';
@@ -8,6 +9,7 @@ import title from './title';
 export default () => pluginContext => ({
   recordTypes: {
     group: {
+      advancedSearch,
       columns,
       messages,
       serviceConfig,

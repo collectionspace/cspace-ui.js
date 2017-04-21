@@ -1,6 +1,10 @@
+import { defineMessages } from 'react-intl';
+
 export default (pluginContext) => {
   const {
     CompoundInput,
+    IDGeneratorInput,
+    TextInput,
   } = pluginContext.inputComponents;
 
   const {
@@ -21,6 +25,26 @@ export default (pluginContext) => {
         [config]: {
           service: {
             ns: 'http://collectionspace.org/services/media',
+          },
+        },
+        identificationNumber: {
+          [config]: {
+            cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.media_common.identificationNumber.name',
+                defaultMessage: 'Identification number',
+              },
+            }),
+            searchView: {
+              type: TextInput,
+            },
+            view: {
+              type: IDGeneratorInput,
+              props: {
+                idGeneratorName: 'media',
+              },
+            },
           },
         },
       },

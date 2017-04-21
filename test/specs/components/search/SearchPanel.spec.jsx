@@ -1,16 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createRenderer, Simulate } from 'react-addons-test-utils';
+import { findWithType } from 'react-shallow-testutils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
-import { Simulate } from 'react-addons-test-utils';
 import { Provider as StoreProvider } from 'react-redux';
-import mockRouter from '../../../helpers/mockRouter';
-import RouterProvider from '../../../helpers/RouterProvider';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { searchKey } from '../../../../src/reducers/search';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SearchPanel from '../../../../src/components/search/SearchPanel';
+import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
+import { ConnectedPanel as PanelContainer } from '../../../../src/containers/layout/PanelContainer';
 
 chai.should();
 
@@ -24,8 +25,8 @@ const config = {
     },
   },
   recordTypes: {
-    object: {
-      name: 'object',
+    collectionobject: {
+      name: 'collectionobject',
       serviceConfig: {
         objectName: 'CollectionObject',
       },
@@ -35,7 +36,7 @@ const config = {
             name: 'objectNumber',
             messages: {
               label: {
-                id: 'column.object.search.objectNumber',
+                id: 'column.collectionobject.search.objectNumber',
                 defaultMessage: 'Identification number',
               },
             },
@@ -45,7 +46,7 @@ const config = {
             name: 'title',
             messages: {
               label: {
-                id: 'column.object.search.title',
+                id: 'column.collectionobject.search.title',
                 defaultMessage: 'Title',
               },
             },
@@ -56,7 +57,7 @@ const config = {
             name: 'updatedAt',
             messages: {
               label: {
-                id: 'column.object.search.updatedAt',
+                id: 'column.collectionobject.search.updatedAt',
                 defaultMessage: 'Last modified',
               },
             },
@@ -71,7 +72,7 @@ const config = {
 const searchName = 'testSearch';
 
 const searchDescriptor = {
-  recordType: 'object',
+  recordType: 'collectionobject',
   searchQuery: {
     p: 0,
     size: 5,
@@ -125,6 +126,7 @@ const store = mockStore({
       },
     },
   }),
+  searchToRelate: Immutable.Map(),
 });
 
 describe('SearchPanel', function suite() {
@@ -132,7 +134,7 @@ describe('SearchPanel', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a section', function test() {
+  it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -145,7 +147,7 @@ describe('SearchPanel', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('SECTION');
+    this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
   it('should call search and onSearchDescriptorChange when mounted', function test() {
@@ -270,7 +272,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              recordType="object"
+              recordType="collectionobject"
               name={searchName}
               searchDescriptor={searchDescriptor}
               title="SearchPanel title"
@@ -298,7 +300,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              recordType="object"
+              recordType="collectionobject"
               name={searchName}
               searchDescriptor={searchDescriptor}
               onSearchDescriptorChange={handleSearchDescriptorChange}
@@ -314,7 +316,7 @@ describe('SearchPanel', function suite() {
     Simulate.click(nextPageButton);
 
     changedToSearchDescriptor.should.deep.equal({
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: 1,
         size: 5,
@@ -335,7 +337,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              recordType="object"
+              recordType="collectionobject"
               name={searchName}
               searchDescriptor={searchDescriptor}
               onSearchDescriptorChange={handleSearchDescriptorChange}
@@ -353,7 +355,7 @@ describe('SearchPanel', function suite() {
     Simulate.keyDown(pageSizeInput, { key: 'Enter' });
 
     changedToSearchDescriptor.should.deep.equal({
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: 0,
         size: newPageSize,
@@ -362,7 +364,7 @@ describe('SearchPanel', function suite() {
   });
 
   it('should call setPreferredPageSize when the page size changes', function test() {
-    const recordType = 'object';
+    const recordType = 'collectionobject';
 
     let preferredPageSizeRecordType = null;
     let preferredPageSizeName = null;
@@ -415,7 +417,7 @@ describe('SearchPanel', function suite() {
           <ConfigProvider config={config}>
             <SearchPanel
               config={config}
-              recordType="object"
+              recordType="collectionobject"
               name={searchName}
               searchDescriptor={searchDescriptor}
               onSearchDescriptorChange={handleSearchDescriptorChange}
@@ -429,7 +431,7 @@ describe('SearchPanel', function suite() {
     Simulate.click(titleHeader);
 
     changedToSearchDescriptor.should.deep.equal({
-      recordType: 'object',
+      recordType: 'collectionobject',
       searchQuery: {
         p: 0,
         size: 5,
@@ -438,44 +440,174 @@ describe('SearchPanel', function suite() {
     });
   });
 
-  it('should push a search result location to history when the search button is clicked', function test() {
-    const recordType = 'object';
+  it('should render a search link', function test() {
+    const recordType = 'collectionobject';
 
-    let pushedLocation = null;
+    const shallowRenderer = createRenderer();
 
-    const router = mockRouter({
-      push: (locationArg) => {
-        pushedLocation = locationArg;
-      },
-    });
+    shallowRenderer.render(
+      <SearchPanel
+        config={config}
+        csid="1234"
+        recordType={recordType}
+        name={searchName}
+        searchDescriptor={searchDescriptor}
+      />
+    );
 
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <RouterProvider router={router}>
-              <SearchPanel
-                config={config}
-                csid="1234"
-                recordType={recordType}
-                name={searchName}
-                searchDescriptor={searchDescriptor}
-              />
-            </RouterProvider>
-          </ConfigProvider>
-        </StoreProvider>
-      </IntlProvider>, this.container);
+    const result = shallowRenderer.getRenderOutput();
+    const panel = findWithType(result, PanelContainer);
+    const addButton = panel.props.buttons[0];
 
-    const searchButton = this.container.querySelector('button[name="search"]');
-
-    Simulate.click(searchButton);
-
-    pushedLocation.should.deep.equal({
-      pathname: `/list/${recordType}`,
+    addButton.props.to.should.deep.equal({
+      pathname: '/list/collectionobject',
       query: {
         p: '1',
         size: undefined,
       },
     });
+  });
+
+  it('should render an add button when showAddButton is true', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPanel
+              config={config}
+              searchDescriptor={searchDescriptor}
+              showAddButton
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('button[name="add"]').should.not.equal(null);
+  });
+
+  it('should open the search to relate modal when the add button is clicked', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchPanel
+        config={config}
+        searchDescriptor={searchDescriptor}
+        showAddButton
+      />
+    );
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const panel = findWithType(result, PanelContainer);
+    const addButton = panel.props.buttons[1];
+
+    addButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    const searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(true);
+  });
+
+  it('should close the search to relate modal after relations have been created', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchPanel
+        config={config}
+        searchDescriptor={searchDescriptor}
+        showAddButton
+      />
+    );
+
+    let result;
+    let searchToRelateModal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const panel = findWithType(result, PanelContainer);
+    const addButton = panel.props.buttons[1];
+
+    addButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(true);
+    searchToRelateModal.props.onRelationsCreated();
+
+    result = shallowRenderer.getRenderOutput();
+    searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(false);
+  });
+
+  it('should close the search to relate modal when its close button is clicked', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchPanel
+        config={config}
+        searchDescriptor={searchDescriptor}
+        showAddButton
+      />
+    );
+
+    let result;
+    let searchToRelateModal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const panel = findWithType(result, PanelContainer);
+    const addButton = panel.props.buttons[1];
+
+    addButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(true);
+    searchToRelateModal.props.onCloseButtonClick();
+
+    result = shallowRenderer.getRenderOutput();
+    searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(false);
+  });
+
+  it('should close the search to relate modal when its cancel button is clicked', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchPanel
+        config={config}
+        searchDescriptor={searchDescriptor}
+        showAddButton
+      />
+    );
+
+    let result;
+    let searchToRelateModal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const panel = findWithType(result, PanelContainer);
+    const addButton = panel.props.buttons[1];
+
+    addButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(true);
+    searchToRelateModal.props.onCancelButtonClick();
+
+    result = shallowRenderer.getRenderOutput();
+    searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.isOpen.should.equal(false);
   });
 });

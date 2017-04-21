@@ -72,7 +72,11 @@ const propTypes = {
   setPreferredPageSize: PropTypes.func,
 };
 
-class SearchToRelateModal extends Component {
+const defaultProps = {
+  selectedItems: Immutable.Map(),
+};
+
+export class BaseSearchToRelateModal extends Component {
   constructor() {
     super();
 
@@ -98,20 +102,6 @@ class SearchToRelateModal extends Component {
     };
   }
 
-  componentDidMount() {
-    const {
-      defaultRecordTypeValue,
-      onRecordTypeCommit,
-    } = this.props;
-
-    if (onRecordTypeCommit) {
-      onRecordTypeCommit(defaultRecordTypeValue);
-
-      // TODO: If search to relate is ever used on authorities, need to set the default vocabulary
-      // if this is an authority record type, and vocabularyValue is not provided.
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     const {
       isOpen,
@@ -124,37 +114,53 @@ class SearchToRelateModal extends Component {
     if (isOpen && !nextIsOpen) {
       // Closing.
 
-      const {
-        clearSearchResults,
-      } = this.props;
-
-      if (clearSearchResults) {
-        clearSearchResults(searchName);
-      }
-
       this.setState({
         isRelating: false,
         isSearchInitiated: false,
         pageNum: 0,
+        sort: null,
       });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      defaultRecordTypeValue,
-      onRecordTypeCommit,
+      isOpen,
     } = this.props;
 
     const {
-      defaultRecordTypeValue: prevDefaultRecordTypeValue,
+      isOpen: prevIsOpen,
     } = prevProps;
 
-    if (onRecordTypeCommit && defaultRecordTypeValue !== prevDefaultRecordTypeValue) {
-      onRecordTypeCommit(defaultRecordTypeValue);
+    if (prevIsOpen && !isOpen) {
+      // Closed.
 
-      // TODO: If search to relate is ever used on authorities, need to set the default vocabulary
-      // if this is an authority record type, and vocabularyValue is not provided.
+      const {
+        clearSearchResults,
+        onRecordTypeCommit,
+      } = this.props;
+
+      if (clearSearchResults) {
+        clearSearchResults(searchName);
+      }
+
+      if (onRecordTypeCommit) {
+        onRecordTypeCommit('');
+      }
+    } else if (!prevIsOpen && isOpen) {
+      // Opened.
+
+      const {
+        defaultRecordTypeValue,
+        onRecordTypeCommit,
+      } = this.props;
+
+      if (onRecordTypeCommit) {
+        onRecordTypeCommit(defaultRecordTypeValue);
+
+        // TODO: If search to relate is ever used on authorities, need to set the default vocabulary
+        // if this is an authority record type, and vocabularyValue is not provided.
+      }
     }
 
     const {
@@ -253,29 +259,31 @@ class SearchToRelateModal extends Component {
       onRelationsCreated,
     } = this.props;
 
-    const searchDescriptor = this.getSearchDescriptor();
+    if (createRelations) {
+      const searchDescriptor = this.getSearchDescriptor();
 
-    this.setState({
-      isRelating: true,
-      isSearchInitiated: false,
-    });
-
-    const subject = {
-      csid: subjectCsid,
-      type: subjectRecordType,
-    };
-
-    const objects = selectedItems.valueSeq().map(item => ({
-      csid: item.get('csid'),
-      type: searchDescriptor.recordType, // TODO: Check the item's docType first
-    })).toJS();
-
-    createRelations(subject, objects, 'affects')
-      .then(() => {
-        if (onRelationsCreated) {
-          onRelationsCreated();
-        }
+      this.setState({
+        isRelating: true,
+        isSearchInitiated: false,
       });
+
+      const subject = {
+        csid: subjectCsid,
+        type: subjectRecordType,
+      };
+
+      const objects = selectedItems.valueSeq().map(item => ({
+        csid: item.get('csid'),
+        type: searchDescriptor.recordType, // TODO: Check the item's docType first
+      })).toJS();
+
+      createRelations(subject, objects, 'affects')
+        .then(() => {
+          if (onRelationsCreated) {
+            onRelationsCreated();
+          }
+        });
+    }
   }
 
   search() {
@@ -429,6 +437,7 @@ class SearchToRelateModal extends Component {
   renderSearchForm() {
     const {
       config,
+      defaultRecordTypeValue,
       intl,
       keywordValue,
       recordTypeValue,
@@ -440,6 +449,28 @@ class SearchToRelateModal extends Component {
       onVocabularyCommit,
     } = this.props;
 
+    const defaultServiceType =
+      get(config, ['recordTypes', defaultRecordTypeValue, 'serviceConfig', 'serviceType']);
+
+    let recordTypeInputReadOnly = true;
+    let recordTypeInputRootType;
+    let recordTypeInputServiceTypes;
+
+    if (defaultServiceType === 'utility') {
+      // The default record type is object, authority, procedure, or another service type.
+      // Allow the record type to be changed.
+
+      recordTypeInputReadOnly = false;
+
+      // Don't show the All Records option.
+
+      recordTypeInputRootType = '';
+
+      // Only show record types where the serviceType is the default record type.
+
+      recordTypeInputServiceTypes = [defaultRecordTypeValue];
+    }
+
     return (
       <SearchForm
         config={config}
@@ -448,7 +479,9 @@ class SearchToRelateModal extends Component {
         vocabularyValue={vocabularyValue}
         keywordValue={keywordValue}
         advancedSearchCondition={advancedSearchCondition}
-        recordTypeInputReadOnly
+        recordTypeInputReadOnly={recordTypeInputReadOnly}
+        recordTypeInputRootType={recordTypeInputRootType}
+        recordTypeInputServiceTypes={recordTypeInputServiceTypes}
         onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
         onKeywordCommit={onKeywordCommit}
         onRecordTypeCommit={onRecordTypeCommit}
@@ -656,6 +689,7 @@ class SearchToRelateModal extends Component {
   }
 }
 
-SearchToRelateModal.propTypes = propTypes;
+BaseSearchToRelateModal.propTypes = propTypes;
+BaseSearchToRelateModal.defaultProps = defaultProps;
 
-export default injectIntl(SearchToRelateModal);
+export default injectIntl(BaseSearchToRelateModal);

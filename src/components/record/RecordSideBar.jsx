@@ -45,6 +45,7 @@ export default function RecordSideBar(props) {
         name="relatedObjectPanel"
         recordType={recordType}
         relatedRecordType="collectionobject"
+        showAddButton
       />
     );
 
@@ -56,6 +57,7 @@ export default function RecordSideBar(props) {
         name="relatedProcedurePanel"
         recordType={recordType}
         relatedRecordType="procedure"
+        showAddButton
       />
     );
   }

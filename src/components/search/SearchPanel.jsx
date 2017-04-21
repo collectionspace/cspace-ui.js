@@ -1,17 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 import Immutable from 'immutable';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
 import { baseComponents as inputComponents } from 'cspace-input';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
+import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import Pager from './Pager';
 import styles from '../../../styles/cspace-ui/SearchPanel.css';
 
 const { MiniButton } = inputComponents;
 
 const messages = defineMessages({
+  search: {
+    id: 'searchPanel.search',
+    description: 'Label of the search link in the search panel header.',
+    defaultMessage: 'Search',
+  },
   titleWithCount: {
     id: 'searchPanel.titleWithCount',
     defaultMessage: '{title}: {totalItems, number}',
@@ -30,6 +37,7 @@ const propTypes = {
   searchResult: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
   title: PropTypes.node,
+  showAddButton: PropTypes.bool,
   showCheckboxColumn: PropTypes.bool,
   renderCheckbox: PropTypes.func,
   renderTableHeader: PropTypes.func,
@@ -55,9 +63,16 @@ export default class SearchPanel extends Component {
     this.renderFooter = this.renderFooter.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-    this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
+    this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
+    this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
+    this.handleRelationsCreated = this.handleRelationsCreated.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.renderButtons = this.renderButtons.bind(this);
+
+    this.state = {
+      isSearchToRelateModalOpen: false,
+    };
   }
 
   componentDidMount() {
@@ -90,6 +105,52 @@ export default class SearchPanel extends Component {
         onSearchDescriptorChange(searchDescriptor);
       }
     }
+  }
+
+  getSearchLocation() {
+    const {
+      recordType,
+      vocabulary,
+      csid,
+      subresource,
+      searchQuery,
+    } = this.props.searchDescriptor;
+
+    const pathParts = ['/list', recordType, vocabulary, csid, subresource];
+    const pathname = pathParts.filter(part => !!part).join('/');
+
+    const query = Object.assign({}, searchQuery, {
+      // Always go to the first page, since the page size may differ on the search result page.
+      p: '1',
+      // Remove the size, so that the default/preferred setting for the search result page will
+      // take effect.
+      size: undefined,
+    });
+
+    return {
+      pathname,
+      query,
+    };
+  }
+
+  closeModal() {
+    this.setState({
+      isSearchToRelateModalOpen: false,
+    });
+  }
+
+  handleAddButtonClick() {
+    this.setState({
+      isSearchToRelateModalOpen: true,
+    });
+  }
+
+  handleModalCancelButtonClick() {
+    this.closeModal();
+  }
+
+  handleModalCloseButtonClick() {
+    this.closeModal();
   }
 
   handlePageChange(pageNum) {
@@ -130,6 +191,10 @@ export default class SearchPanel extends Component {
     }
   }
 
+  handleRelationsCreated() {
+    this.closeModal();
+  }
+
   handleSortChange(sort) {
     const {
       onSearchDescriptorChange,
@@ -142,40 +207,6 @@ export default class SearchPanel extends Component {
           sort,
         },
       }));
-    }
-  }
-
-  handleSearchButtonClick() {
-    const {
-      router,
-    } = this.context;
-
-    if (router) {
-      // Convert the search descriptor to a location.
-
-      const {
-        recordType,
-        vocabulary,
-        csid,
-        subresource,
-        searchQuery,
-      } = this.props.searchDescriptor;
-
-      const pathParts = ['/list', recordType, vocabulary, csid, subresource];
-      const pathname = pathParts.filter(part => !!part).join('/');
-
-      const query = Object.assign({}, searchQuery, {
-        // Always go to the first page, since the page size may differ on the search result page.
-        p: '1',
-        // Remove the size, so that the default/preferred setting for the search result page will
-        // take effect.
-        size: undefined,
-      });
-
-      router.push({
-        pathname,
-        query,
-      });
     }
   }
 
@@ -196,21 +227,31 @@ export default class SearchPanel extends Component {
 
   renderButtons() {
     const {
-      csid,
+      showAddButton,
     } = this.props;
 
-    return [
-      // <MiniButton key="add">+</MiniButton>,
-      <MiniButton
-        className="material-icons"
-        disabled={!csid}
+    const buttons = [
+      <Link
+        to={this.getSearchLocation()}
         key="search"
-        name="search"
-        onClick={this.handleSearchButtonClick}
       >
-        search
-      </MiniButton>,
+        <FormattedMessage {...messages.search} />
+      </Link>,
     ];
+
+    if (showAddButton) {
+      buttons.push(
+        <MiniButton
+          key="add"
+          name="add"
+          onClick={this.handleAddButtonClick}
+        >
+          +
+        </MiniButton>
+      );
+    }
+
+    return buttons;
   }
 
   renderHeader() {
@@ -279,39 +320,64 @@ export default class SearchPanel extends Component {
       name,
       recordType,
       searchDescriptor,
+      showAddButton,
       showCheckboxColumn,
       renderCheckbox,
       renderTableHeader,
       onItemClick,
     } = this.props;
 
-    return (
-      <Panel
-        buttons={this.renderButtons()}
-        className={styles.common}
-        collapsible
-        collapsed={collapsed}
-        color={color}
-        config={config}
-        header={this.renderHeader()}
-        name={name}
-        recordType={recordType}
-      >
-        <SearchResultTableContainer
-          columnSetName={columnSetName}
+    const {
+      isSearchToRelateModalOpen,
+    } = this.state;
+
+    let searchToRelateModal;
+
+    if (showAddButton) {
+      searchToRelateModal = (
+        <SearchToRelateModalContainer
+          subjectCsid={searchDescriptor.searchQuery.rel}
+          subjectRecordType={recordType}
           config={config}
-          listType={listType}
-          recordType={recordType}
-          searchName={name}
-          searchDescriptor={searchDescriptor}
-          showCheckboxColumn={showCheckboxColumn}
-          renderCheckbox={renderCheckbox}
-          renderHeader={renderTableHeader}
-          renderFooter={this.renderFooter}
-          onItemClick={onItemClick}
-          onSortChange={this.handleSortChange}
+          isOpen={isSearchToRelateModalOpen}
+          defaultRecordTypeValue={searchDescriptor.recordType}
+          onCancelButtonClick={this.handleModalCancelButtonClick}
+          onCloseButtonClick={this.handleModalCloseButtonClick}
+          onRelationsCreated={this.handleRelationsCreated}
         />
-      </Panel>
+      );
+    }
+
+    return (
+      <div>
+        <Panel
+          buttons={this.renderButtons()}
+          className={styles.common}
+          collapsible
+          collapsed={collapsed}
+          color={color}
+          config={config}
+          header={this.renderHeader()}
+          name={name}
+          recordType={recordType}
+        >
+          <SearchResultTableContainer
+            columnSetName={columnSetName}
+            config={config}
+            listType={listType}
+            recordType={recordType}
+            searchName={name}
+            searchDescriptor={searchDescriptor}
+            showCheckboxColumn={showCheckboxColumn}
+            renderCheckbox={renderCheckbox}
+            renderHeader={renderTableHeader}
+            renderFooter={this.renderFooter}
+            onItemClick={onItemClick}
+            onSortChange={this.handleSortChange}
+          />
+        </Panel>
+        {searchToRelateModal}
+      </div>
     );
   }
 }
