@@ -4,8 +4,7 @@
 }
 
 .common > header > h3 {
-  margin: 0;
-  padding-left: 10px;
+  margin: 0 10px 0 0;
   font-size: 14px;
   font-weight: 600;
   text-overflow: ellipsis;

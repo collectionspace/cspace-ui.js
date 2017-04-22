@@ -5,3 +5,7 @@
   padding: 4px 10px;
   background: rgb(240, 240, 240);
 }
+
+.common > :global(.cspace-ui-ButtonBar--common) {
+  margin-left: 10px;
+}

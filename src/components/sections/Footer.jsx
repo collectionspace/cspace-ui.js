@@ -36,13 +36,13 @@ export default function Footer() {
             }}
           />
         </li>
+      </ul>
+      <ul>
         <li>
           <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.0">
             <FormattedMessage {...messages.release} values={{ version: '5.0' }} />
           </a>
         </li>
-      </ul>
-      <ul>
         <li>
           <a href="http://www.collectionspace.org">
             <FormattedMessage {...messages.about} />
