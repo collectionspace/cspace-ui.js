@@ -8,7 +8,7 @@ import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';
 const messages = defineMessages({
   title: {
     id: 'searchToRelateTitleBar.title',
-    defaultMessage: 'Search to Relate: {collectionName} {query}',
+    defaultMessage: 'Relate {collectionName} {query}',
   },
   keyword: {
     id: 'searchToRelateTitleBar.keyword',

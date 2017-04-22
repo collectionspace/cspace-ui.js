@@ -24,7 +24,7 @@ const messages = defineMessages({
   },
   label: {
     id: 'searchToRelateModal.label',
-    defaultMessage: 'Search to Relate',
+    defaultMessage: 'Relate',
   },
   relate: {
     id: 'searchToRelateModal.relate',
