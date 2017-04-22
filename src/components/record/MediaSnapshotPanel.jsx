@@ -71,6 +71,7 @@ export default function MediaSnapshotPanel(props) {
 
   return (
     <MediaViewerPanelContainer
+      collapsed
       color={color}
       columnSetName="narrow"
       config={config}

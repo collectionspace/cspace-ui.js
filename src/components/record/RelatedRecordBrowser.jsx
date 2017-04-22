@@ -302,6 +302,7 @@ class RelatedRecordBrowser extends Component {
           />
         </header>
         <RelatedRecordPanelContainer
+          collapsed={false}
           csid={csid}
           config={config}
           name={this.getRelatedRecordPanelName()}

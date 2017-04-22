@@ -40,6 +40,7 @@ const stopPropagation = (event) => {
 };
 
 const propTypes = {
+  collapsed: PropTypes.bool,
   color: PropTypes.string,
   columnSetName: PropTypes.string,
   config: PropTypes.object,
@@ -60,6 +61,10 @@ const propTypes = {
   onItemClick: PropTypes.func,
   onItemSelectChange: PropTypes.func,
   onUnrelated: PropTypes.func,
+};
+
+const defaultProps = {
+  collapsed: true,
 };
 
 export default class RelatedRecordPanel extends Component {
@@ -237,6 +242,7 @@ export default class RelatedRecordPanel extends Component {
 
   render() {
     const {
+      collapsed,
       color,
       columnSetName,
       config,
@@ -263,6 +269,7 @@ export default class RelatedRecordPanel extends Component {
 
     return (
       <SearchPanelContainer
+        collapsed={collapsed}
         color={color}
         columnSetName={columnSetName}
         config={config}
@@ -283,3 +290,4 @@ export default class RelatedRecordPanel extends Component {
 }
 
 RelatedRecordPanel.propTypes = propTypes;
+RelatedRecordPanel.defaultProps = defaultProps;
