@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
 import { baseComponents as inputComponents } from 'cspace-input';
@@ -334,13 +335,24 @@ export default class SearchPanel extends Component {
     let searchToRelateModal;
 
     if (showAddButton) {
+      const defaultRecordTypeValue = searchDescriptor.recordType;
+
+      const defaultServiceType =
+        get(config, ['recordTypes', defaultRecordTypeValue, 'serviceConfig', 'serviceType']);
+
+      let allowedServiceTypes;
+
+      if (defaultServiceType === 'utility') {
+        allowedServiceTypes = [defaultRecordTypeValue];
+      }
+
       searchToRelateModal = (
         <SearchToRelateModalContainer
-          subjectCsid={searchDescriptor.searchQuery.rel}
-          subjectRecordType={recordType}
+          allowedServiceTypes={allowedServiceTypes}
+          subjects={[{ csid: searchDescriptor.searchQuery.rel, recordType }]}
           config={config}
           isOpen={isSearchToRelateModalOpen}
-          defaultRecordTypeValue={searchDescriptor.recordType}
+          defaultRecordTypeValue={defaultRecordTypeValue}
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
           onRelationsCreated={this.handleRelationsCreated}

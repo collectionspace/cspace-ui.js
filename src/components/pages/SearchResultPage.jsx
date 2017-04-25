@@ -1,13 +1,22 @@
 import React, { Component, PropTypes } from 'react';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import ErrorPage from './ErrorPage';
+import RelateButton from '../record/RelateButton';
 import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import Pager from '../search/Pager';
 import SearchResultSummary from '../search/SearchResultSummary';
+import SelectBar from '../search/SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
-import { validateLocation } from '../../helpers/configHelpers';
+import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
+
+import {
+  getRecordTypeNameByServiceObjectName,
+  validateLocation,
+} from '../../helpers/configHelpers';
+
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import searchResultSidebarStyles from '../../../styles/cspace-ui/SearchResultSidebar.css';
@@ -16,14 +25,28 @@ export const searchName = 'searchResultPage';
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
 
+const stopPropagation = (event) => {
+  event.stopPropagation();
+};
+
+const messages = defineMessages({
+  relate: {
+    id: 'searchResultPage.relate',
+    description: 'Label of the relate button on the search result page.',
+    defaultMessage: 'Relate…',
+  },
+});
+
 const propTypes = {
   location: locationShape,
   params: PropTypes.objectOf(PropTypes.string),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
+  selectedItems: PropTypes.instanceOf(Immutable.Map),
   setPreferredPageSize: PropTypes.func,
   setSearchPageAdvanced: PropTypes.func,
   setSearchPageKeyword: PropTypes.func,
+  onItemSelectChange: PropTypes.func,
 };
 
 const contextTypes = {
@@ -35,12 +58,23 @@ export default class SearchResultPage extends Component {
   constructor() {
     super();
 
-    this.renderFooter = this.renderFooter.bind(this);
-    this.renderHeader = this.renderHeader.bind(this);
+    this.getSearchToRelateSubjects = this.getSearchToRelateSubjects.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
+    this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
+    this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
+    this.handleRelateButtonClick = this.handleRelateButtonClick.bind(this);
+    this.handleRelationsCreated = this.handleRelationsCreated.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+    this.renderCheckbox = this.renderCheckbox.bind(this);
+    this.renderFooter = this.renderFooter.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
+
+    this.state = {
+      isSearchToRelateModalOpen: false,
+    };
   }
 
   componentDidMount() {
@@ -89,6 +123,22 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  getListType(searchDescriptor) {
+    if (searchDescriptor) {
+      const { subresource } = searchDescriptor;
+
+      if (subresource) {
+        const {
+          config,
+        } = this.context;
+
+        return get(config, ['subresources', subresource, 'listType']);
+      }
+    }
+
+    return 'common';
+  }
+
   getSearchDescriptor() {
     // FIXME: Make the search descriptor consistently an Immutable. Currently only the advanced
     // search condition is an Immutable. The whole search descriptor gets converted to an Immutable
@@ -130,20 +180,57 @@ export default class SearchResultPage extends Component {
     return searchDescriptor;
   }
 
-  getListType(searchDescriptor) {
-    if (searchDescriptor) {
-      const { subresource } = searchDescriptor;
+  getSearchToRelateSubjects() {
+    const {
+      selectedItems,
+    } = this.props;
 
-      if (subresource) {
-        const {
-          config,
-        } = this.context;
+    const {
+      config,
+    } = this.context;
 
-        return get(config, ['subresources', subresource, 'listType']);
-      }
+    if (!selectedItems) {
+      return null;
     }
 
-    return 'common';
+    const searchDescriptor = this.getSearchDescriptor();
+
+    const {
+      recordType,
+    } = searchDescriptor;
+
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+    const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
+
+    return selectedItems.valueSeq().map(item => ({
+      csid: item.get('csid'),
+      recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
+    })).toJS();
+  }
+
+  isResultRelatable(searchDescriptor) {
+    const {
+      config,
+    } = this.context;
+
+    const {
+      recordType,
+    } = searchDescriptor;
+
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
+    return (
+      serviceType === 'procedure' ||
+      serviceType === 'object' ||
+      recordType === 'procedure' ||
+      recordType === 'object'
+    );
+  }
+
+  closeModal() {
+    this.setState({
+      isSearchToRelateModalOpen: false,
+    });
   }
 
   normalizeQuery() {
@@ -199,6 +286,27 @@ export default class SearchResultPage extends Component {
     return false;
   }
 
+  handleCheckboxChange(event) {
+    const checkbox = event.target;
+    const index = parseInt(checkbox.name, 10);
+    const checked = checkbox.checked;
+
+    const {
+      onItemSelectChange,
+    } = this.props;
+
+    const {
+      config,
+    } = this.context;
+
+    if (onItemSelectChange) {
+      const searchDescriptor = this.getSearchDescriptor();
+      const listType = this.getListType(searchDescriptor);
+
+      onItemSelectChange(config, searchName, searchDescriptor, listType, index, checked);
+    }
+  }
+
   handleEditSearchLinkClick() {
     // Transfer this search descriptor's search criteria to advanced search.
 
@@ -227,6 +335,14 @@ export default class SearchResultPage extends Component {
         setSearchPageAdvanced(advancedSearchCondition);
       }
     }
+  }
+
+  handleModalCancelButtonClick() {
+    this.closeModal();
+  }
+
+  handleModalCloseButtonClick() {
+    this.closeModal();
   }
 
   handlePageChange(pageNum) {
@@ -273,6 +389,16 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  handleRelateButtonClick() {
+    this.setState({
+      isSearchToRelateModalOpen: true,
+    });
+  }
+
+  handleRelationsCreated() {
+    this.closeModal();
+  }
+
   handleSortChange(sort) {
     const {
       location,
@@ -309,13 +435,61 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  renderCheckbox({ rowData, rowIndex }) {
+    const {
+      selectedItems,
+    } = this.props;
+
+    const itemCsid = rowData.get('csid');
+    const selected = selectedItems ? selectedItems.has(itemCsid) : false;
+
+    return (
+      <input
+        checked={selected}
+        name={rowIndex}
+        type="checkbox"
+        onChange={this.handleCheckboxChange}
+
+        // Prevent clicking on the checkbox from selecting the record.
+        onClick={stopPropagation}
+      />
+    );
+  }
+
   renderHeader({ searchError, searchResult }) {
+    const {
+      selectedItems,
+    } = this.props;
+
     const {
       config,
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
     const listType = this.getListType(searchDescriptor);
+
+    let selectBar;
+
+    if (this.isResultRelatable(searchDescriptor)) {
+      const selectedCount = selectedItems ? selectedItems.size : 0;
+
+      const relateButton = (
+        <RelateButton
+          disabled={selectedCount < 1}
+          key="relate"
+          label={<FormattedMessage {...messages.relate} />}
+          name="relate"
+          onClick={this.handleRelateButtonClick}
+        />
+      );
+
+      selectBar = (
+        <SelectBar
+          selectedCount={selectedCount}
+          buttons={[relateButton]}
+        />
+      );
+    }
 
     return (
       <header>
@@ -328,6 +502,7 @@ export default class SearchResultPage extends Component {
           onEditSearchLinkClick={this.handleEditSearchLinkClick}
           onPageSizeChange={this.handlePageSizeChange}
         />
+        {selectBar}
       </header>
     );
   }
@@ -371,6 +546,10 @@ export default class SearchResultPage extends Component {
       config,
     } = this.context;
 
+    const {
+      isSearchToRelateModalOpen,
+    } = this.state;
+
     const searchDescriptor = this.getSearchDescriptor();
     const listType = this.getListType(searchDescriptor);
 
@@ -389,6 +568,25 @@ export default class SearchResultPage extends Component {
       );
     }
 
+    const isResultRelatable = this.isResultRelatable(searchDescriptor);
+
+    let searchToRelateModal;
+
+    if (isResultRelatable) {
+      searchToRelateModal = (
+        <SearchToRelateModalContainer
+          allowedServiceTypes={['object', 'procedure']}
+          subjects={this.getSearchToRelateSubjects}
+          config={config}
+          isOpen={isSearchToRelateModalOpen}
+          defaultRecordTypeValue="collectionobject"
+          onCancelButtonClick={this.handleModalCancelButtonClick}
+          onCloseButtonClick={this.handleModalCloseButtonClick}
+          onRelationsCreated={this.handleRelationsCreated}
+        />
+      );
+    }
+
     return (
       <div className={styles.common}>
         <SearchResultTitleBar
@@ -403,12 +601,15 @@ export default class SearchResultPage extends Component {
             searchName={searchName}
             searchDescriptor={searchDescriptor}
             recordType={recordType}
+            showCheckboxColumn={isResultRelatable}
+            renderCheckbox={this.renderCheckbox}
             renderHeader={this.renderHeader}
             renderFooter={this.renderFooter}
             onSortChange={this.handleSortChange}
           />
           <div className={searchResultSidebarStyles.common} />
         </div>
+        {searchToRelateModal}
       </div>
     );
   }

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { createRenderer, Simulate } from 'react-addons-test-utils';
+import { findWithType } from 'react-shallow-testutils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
@@ -14,7 +15,10 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
 import RouterProvider from '../../../helpers/RouterProvider';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
+import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultPage, { searchName } from '../../../../src/components/pages/SearchResultPage';
+import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
+import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import { searchKey } from '../../../../src/reducers/search';
 
 const expect = chai.expect;
@@ -93,6 +97,9 @@ const config = {
           },
         ],
       },
+      serviceConfig: {
+        serviceType: 'object',
+      },
     },
     person: {
       serviceConfig: {
@@ -154,6 +161,7 @@ const store = mockStore({
       { value: '40' },
     ],
   },
+  prefs: Immutable.Map(),
   search: Immutable.fromJS({
     [searchName]: {
       byKey: {
@@ -163,6 +171,7 @@ const store = mockStore({
       },
     },
   }),
+  searchToRelate: Immutable.Map(),
 });
 
 describe('SearchResultPage', function suite() {
@@ -893,5 +902,285 @@ describe('SearchResultPage', function suite() {
         },
       });
     });
+  });
+
+  it('should render a search to relate modal if the search record type is object an object or procedure', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    findWithType(result, SearchToRelateModalContainer).should.not.equal(null);
+  });
+
+  it('should generate search to relate subjects from selected items', function test() {
+    const selectedItems = Immutable.fromJS({
+      1111: {
+        csid: '1111',
+      },
+      2222: {
+        csid: '2222',
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+        selectedItems={selectedItems}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    const subjects = modal.props.subjects();
+
+    subjects.should.deep.equal([
+      { csid: '1111', recordType: 'collectionobject' },
+      { csid: '2222', recordType: 'collectionobject' },
+    ]);
+  });
+
+  it('should return null subjects if selected items is undefined', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    const subjects = modal.props.subjects();
+
+    expect(subjects).to.equal(null);
+  });
+
+  it('should close the search to relate modal when relations have been created', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+      />, context);
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, SearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onRelationsCreated();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(false);
+  });
+
+  it('should close the search to relate modal when the close button is clicked', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+      />, context);
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, SearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onCloseButtonClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(false);
+  });
+
+  it('should close the search to relate modal when the cancel button is clicked', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+      />, context);
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, SearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onCancelButtonClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(false);
+  });
+
+  it('should call onItemSelectChange when a checkbox value is changed', function test() {
+    let changedConfig = null;
+    let changedSearchName = null;
+    let changedSearchDescriptor = null;
+    let changedListType = null;
+    let changedIndex = null;
+    let changedChecked = null;
+
+    const handleItemSelectChange =
+      (configArg, searchNameArg, searchDescriptorArg, listTypeArg, indexArg, checkedArg) => {
+        changedConfig = configArg;
+        changedSearchName = searchNameArg;
+        changedSearchDescriptor = searchDescriptorArg;
+        changedListType = listTypeArg;
+        changedIndex = indexArg;
+        changedChecked = checkedArg;
+      };
+
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+        onItemSelectChange={handleItemSelectChange}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    const rowIndex = 1;
+    const checked = true;
+
+    const table = findWithType(result, SearchResultTableContainer);
+    const checkbox = table.props.renderCheckbox({ rowData: Immutable.Map(), rowIndex });
+
+    checkbox.props.onChange({
+      target: {
+        checked,
+        name: rowIndex.toString(),
+      },
+    });
+
+    changedConfig.should.equal(config);
+    changedSearchName.should.equal(searchName);
+    changedSearchDescriptor.should.deep.equal(searchDescriptor);
+    changedListType.should.equal('common');
+    changedIndex.should.equal(1);
+    changedChecked.should.equal(checked);
+  });
+
+  it('should call onItemSelectChange when a checkbox value is changed', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        params={params}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const table = findWithType(result, SearchResultTableContainer);
+    const checkbox = table.props.renderCheckbox({ rowData: Immutable.Map(), rowIndex: 1 });
+
+    let clickPropagated = false;
+
+    const handleClick = () => {
+      clickPropagated = true;
+    };
+
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
+    render(<div onClick={handleClick}>{checkbox}</div>, this.container);
+    /* eslint-enable jsx-a11y/no-static-element-interactions */
+
+    const checkboxNode = this.container.querySelector('input');
+
+    Simulate.click(checkboxNode);
+
+    clickPropagated.should.equal(false);
   });
 });

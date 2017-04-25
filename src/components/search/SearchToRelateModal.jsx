@@ -44,7 +44,10 @@ const defaultPageSize = 20;
 
 const handleItemClick = () => false;
 
+const isSingleSubject = subjects => (Array.isArray(subjects) && subjects.length === 1);
+
 const propTypes = {
+  allowedServiceTypes: PropTypes.arrayOf(PropTypes.string),
   config: PropTypes.object,
   intl: intlShape,
   isOpen: PropTypes.bool,
@@ -55,8 +58,17 @@ const propTypes = {
   advancedSearchCondition: PropTypes.object,
   preferredPageSize: PropTypes.number,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
-  subjectCsid: PropTypes.string,
-  subjectRecordType: PropTypes.string,
+  subjects: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        /* eslint-disable react/no-unused-prop-types */
+        csid: PropTypes.string,
+        recordType: PropTypes.string,
+        /* eslint-enable react/no-unused-prop-types */
+      })
+    ),
+    PropTypes.func,
+  ]),
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -210,7 +222,7 @@ export class BaseSearchToRelateModal extends Component {
       keywordValue: keyword,
       advancedSearchCondition,
       preferredPageSize,
-      subjectCsid,
+      subjects,
     } = this.props;
 
     const {
@@ -221,10 +233,13 @@ export class BaseSearchToRelateModal extends Component {
     const pageSize = preferredPageSize || defaultPageSize;
 
     const searchQuery = {
-      mkRtSbj: subjectCsid,
       p: pageNum,
       size: pageSize,
     };
+
+    if (isSingleSubject(subjects)) {
+      searchQuery.mkRtSbj = subjects[0].csid;
+    }
 
     if (sort) {
       searchQuery.sort = sort;
@@ -253,36 +268,39 @@ export class BaseSearchToRelateModal extends Component {
   relate() {
     const {
       selectedItems,
-      subjectCsid,
-      subjectRecordType,
       createRelations,
       onRelationsCreated,
     } = this.props;
 
     if (createRelations) {
-      const searchDescriptor = this.getSearchDescriptor();
+      let {
+        subjects,
+      } = this.props;
 
-      this.setState({
-        isRelating: true,
-        isSearchInitiated: false,
-      });
+      if (typeof subjects === 'function') {
+        subjects = subjects();
+      }
 
-      const subject = {
-        csid: subjectCsid,
-        type: subjectRecordType,
-      };
+      if (subjects && subjects.length > 0) {
+        const searchDescriptor = this.getSearchDescriptor();
 
-      const objects = selectedItems.valueSeq().map(item => ({
-        csid: item.get('csid'),
-        type: searchDescriptor.recordType, // TODO: Check the item's docType first
-      })).toJS();
-
-      createRelations(subject, objects, 'affects')
-        .then(() => {
-          if (onRelationsCreated) {
-            onRelationsCreated();
-          }
+        this.setState({
+          isRelating: true,
+          isSearchInitiated: false,
         });
+
+        const objects = selectedItems.valueSeq().map(item => ({
+          csid: item.get('csid'),
+          recordType: searchDescriptor.recordType,
+        })).toJS();
+
+        Promise.all(subjects.map(subject => createRelations(subject, objects, 'affects')))
+          .then(() => {
+            if (onRelationsCreated) {
+              onRelationsCreated();
+            }
+          });
+      }
     }
   }
 
@@ -408,7 +426,7 @@ export class BaseSearchToRelateModal extends Component {
 
   renderCheckbox({ rowData, rowIndex }) {
     const {
-      subjectCsid,
+      subjects,
       selectedItems,
     } = this.props;
 
@@ -418,7 +436,7 @@ export class BaseSearchToRelateModal extends Component {
 
     const itemCsid = rowData.get('csid');
 
-    if (itemCsid === subjectCsid) {
+    if (isSingleSubject(subjects) && itemCsid === subjects[0].csid) {
       return null;
     }
 
@@ -436,8 +454,8 @@ export class BaseSearchToRelateModal extends Component {
 
   renderSearchForm() {
     const {
+      allowedServiceTypes,
       config,
-      defaultRecordTypeValue,
       intl,
       keywordValue,
       recordTypeValue,
@@ -449,15 +467,10 @@ export class BaseSearchToRelateModal extends Component {
       onVocabularyCommit,
     } = this.props;
 
-    const defaultServiceType =
-      get(config, ['recordTypes', defaultRecordTypeValue, 'serviceConfig', 'serviceType']);
-
     let recordTypeInputReadOnly = true;
     let recordTypeInputRootType;
-    let recordTypeInputServiceTypes;
 
-    if (defaultServiceType === 'utility') {
-      // The default record type is object, authority, procedure, or another service type.
+    if (allowedServiceTypes) {
       // Allow the record type to be changed.
 
       recordTypeInputReadOnly = false;
@@ -465,10 +478,6 @@ export class BaseSearchToRelateModal extends Component {
       // Don't show the All Records option.
 
       recordTypeInputRootType = '';
-
-      // Only show record types where the serviceType is the default record type.
-
-      recordTypeInputServiceTypes = [defaultRecordTypeValue];
     }
 
     return (
@@ -481,7 +490,7 @@ export class BaseSearchToRelateModal extends Component {
         advancedSearchCondition={advancedSearchCondition}
         recordTypeInputReadOnly={recordTypeInputReadOnly}
         recordTypeInputRootType={recordTypeInputRootType}
-        recordTypeInputServiceTypes={recordTypeInputServiceTypes}
+        recordTypeInputServiceTypes={allowedServiceTypes}
         onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
         onKeywordCommit={onKeywordCommit}
         onRecordTypeCommit={onRecordTypeCommit}

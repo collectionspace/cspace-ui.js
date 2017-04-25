@@ -14,6 +14,7 @@ import {
   normalizeConfig,
   getRecordTypeConfigByServiceObjectName,
   getRecordTypeConfigByServicePath,
+  getRecordTypeNameByServiceObjectName,
   getVocabularyConfigByShortID,
   isCloneable,
   getDefaultSearchRecordType,
@@ -133,7 +134,7 @@ describe('configHelpers', function moduleSuite() {
             greeting: '*',
           },
           recordTypes: {
-            object: {},
+            collectionobject: {},
           },
         },
       ]).should.deep.equal({
@@ -143,7 +144,7 @@ describe('configHelpers', function moduleSuite() {
           greeting: '*',
         },
         recordTypes: {
-          object: {},
+          collectionobject: {},
         },
         options: {
           languages: {},
@@ -237,7 +238,7 @@ describe('configHelpers', function moduleSuite() {
     it('should set the name properties on record types and vocabularies', function test() {
       const config = {
         recordTypes: {
-          object: {},
+          collectionobject: {},
           person: {
             vocabularies: {
               local: {},
@@ -249,8 +250,8 @@ describe('configHelpers', function moduleSuite() {
 
       normalizeConfig(config).should.deep.equal({
         recordTypes: {
-          object: {
-            name: 'object',
+          collectionobject: {
+            name: 'collectionobject',
           },
           person: {
             name: 'person',
@@ -271,10 +272,10 @@ describe('configHelpers', function moduleSuite() {
   describe('getRecordTypeConfigByServiceObjectName', function suite() {
     const config = {
       recordTypes: {
-        object: {
+        collectionobject: {
           messages: {
             name: {
-              id: 'record.object.name',
+              id: 'record.collectionobject.name',
             },
           },
           serviceConfig: {
@@ -286,17 +287,50 @@ describe('configHelpers', function moduleSuite() {
 
     it('should return the record type config with the given service object name', function test() {
       getRecordTypeConfigByServiceObjectName(config, 'CollectionObject').should
-        .equal(config.recordTypes.object);
+        .equal(config.recordTypes.collectionobject);
+    });
+
+    it('should return undefined if the service object name is undefined', function test() {
+      expect(getRecordTypeConfigByServiceObjectName(config)).to
+        .equal(undefined);
+    });
+  });
+
+  describe('getRecordTypeNameByServiceObjectName', function suite() {
+    const config = {
+      recordTypes: {
+        collectionobject: {
+          messages: {
+            name: {
+              id: 'record.collectionobject.name',
+            },
+          },
+          name: 'collectionobject',
+          serviceConfig: {
+            objectName: 'CollectionObject',
+          },
+        },
+      },
+    };
+
+    it('should return the record type config with the given service object name', function test() {
+      getRecordTypeNameByServiceObjectName(config, 'CollectionObject').should
+        .equal(config.recordTypes.collectionobject.name);
+    });
+
+    it('should return undefined if the service object name is undefined', function test() {
+      expect(getRecordTypeNameByServiceObjectName(config)).to
+        .equal(undefined);
     });
   });
 
   describe('getRecordTypeConfigByServicePath', function suite() {
     const config = {
       recordTypes: {
-        object: {
+        collectionobject: {
           messages: {
             name: {
-              id: 'record.object.name',
+              id: 'record.collectionobject.name',
             },
           },
           serviceConfig: {
@@ -308,7 +342,7 @@ describe('configHelpers', function moduleSuite() {
 
     it('should return the record type config with the given service path', function test() {
       getRecordTypeConfigByServicePath(config, 'collectionobjects').should
-        .equal(config.recordTypes.object);
+        .equal(config.recordTypes.collectionobject);
     });
   });
 

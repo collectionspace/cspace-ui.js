@@ -59,6 +59,11 @@ describe('SearchToRelateModal', function suite() {
   });
 
   it('should render a modal', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -66,6 +71,7 @@ describe('SearchToRelateModal', function suite() {
             config={config}
             isOpen
             recordTypeValue="collectionobject"
+            subjects={[subject]}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -76,6 +82,11 @@ describe('SearchToRelateModal', function suite() {
   });
 
   it('should render a search form', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -83,6 +94,7 @@ describe('SearchToRelateModal', function suite() {
             config={config}
             isOpen
             recordTypeValue="collectionobject"
+            subjects={[subject]}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -96,7 +108,11 @@ describe('SearchToRelateModal', function suite() {
 
   it('should call search and render a search result table when the search button is clicked', function test() {
     const recordTypeValue = 'collectionobject';
-    const subjectCsid = '1234';
+
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
 
     let searchedConfig = null;
     let searchedSearchName = null;
@@ -117,7 +133,7 @@ describe('SearchToRelateModal', function suite() {
         isOpen
         isSearchInitiated
         recordTypeValue={recordTypeValue}
-        subjectCsid={subjectCsid}
+        subjects={[subject]}
         search={search}
       />
     );
@@ -142,7 +158,7 @@ describe('SearchToRelateModal', function suite() {
       recordType: recordTypeValue,
       vocabulary: undefined,
       searchQuery: {
-        mkRtSbj: subjectCsid,
+        mkRtSbj: subject.csid,
         p: 0,
         size: 20,
       },
@@ -151,8 +167,11 @@ describe('SearchToRelateModal', function suite() {
 
   it('should call createRelations and render a relating message when the relate button is clicked', function test() {
     const recordTypeValue = 'collectionobject';
-    const subjectRecordType = 'group';
-    const subjectCsid = '1234';
+
+    const subject = {
+      csid: '1234',
+      recordType: 'group',
+    };
 
     const selectedItems = Immutable.fromJS({
       1111: { csid: '1111', recordType: recordTypeValue },
@@ -182,8 +201,7 @@ describe('SearchToRelateModal', function suite() {
         isOpen
         isSearchInitiated
         recordTypeValue={recordTypeValue}
-        subjectCsid={subjectCsid}
-        subjectRecordType={subjectRecordType}
+        subjects={[subject]}
         selectedItems={selectedItems}
         search={search}
         createRelations={createRelations}
@@ -211,14 +229,11 @@ describe('SearchToRelateModal', function suite() {
 
     findWithType(result, 'p').should.not.equal(null);
 
-    createdSubject.should.deep.equal({
-      csid: subjectCsid,
-      type: subjectRecordType,
-    });
+    createdSubject.should.deep.equal(subject);
 
     createdObjects.should.deep.equal([
-      { csid: '1111', type: recordTypeValue },
-      { csid: '2222', type: recordTypeValue },
+      { csid: '1111', recordType: recordTypeValue },
+      { csid: '2222', recordType: recordTypeValue },
     ]);
 
     createdPredicate.should.equal('affects');
