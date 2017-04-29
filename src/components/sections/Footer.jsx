@@ -5,7 +5,7 @@ import styles from '../../../styles/cspace-ui/Footer.css';
 const messages = defineMessages({
   copyright: {
     id: 'footer.copyright',
-    defaultMessage: 'Copyright © {startYear}-{endYear} CollectionSpace',
+    defaultMessage: 'Copyright © {startYear}–{endYear} CollectionSpace',
   },
   release: {
     id: 'footer.release',

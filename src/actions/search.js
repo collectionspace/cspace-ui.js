@@ -17,8 +17,9 @@ export const CREATE_EMPTY_SEARCH_RESULT = 'CREATE_EMPTY_SEARCH_RESULT';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FULFILLED = 'SEARCH_FULFILLED';
 export const SEARCH_REJECTED = 'SEARCH_REJECTED';
+export const SET_ALL_RESULT_ITEMS_SELECTED = 'SET_ALL_RESULT_ITEMS_SELECTED';
 export const SET_RESULT_ITEM_SELECTED = 'SET_RESULT_ITEM_SELECTED';
-export const DESELECT_ITEM = 'DESELECT_ITEM';
+export const DESELECT_RESULT_ITEM = 'DESELECT_RESULT_ITEM';
 
 const findColumnByName = (columns, columnName) => {
   if (!columns) return null;
@@ -271,8 +272,24 @@ export const setResultItemSelected =
     };
   };
 
-export const deselectItem = (searchName, csid) => ({
-  type: DESELECT_ITEM,
+export const setAllResultItemsSelected =
+  (config, searchName, searchDescriptor, listType = 'common', isSelected, filter) => {
+    const listTypeConfig = config.listTypes[listType];
+
+    return {
+      type: SET_ALL_RESULT_ITEMS_SELECTED,
+      payload: isSelected,
+      meta: {
+        filter,
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    };
+  };
+
+export const deselectResultItem = (searchName, csid) => ({
+  type: DESELECT_RESULT_ITEM,
   meta: {
     searchName,
     csid,

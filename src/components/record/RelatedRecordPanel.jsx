@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
+import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import SelectBar from '../search/SelectBar';
@@ -57,6 +58,7 @@ const propTypes = {
   showCheckboxColumn: PropTypes.bool,
   showAddButton: PropTypes.bool,
   clearSelected: PropTypes.func,
+  setAllItemsSelected: PropTypes.func,
   unrelateRecords: PropTypes.func,
   onItemClick: PropTypes.func,
   onItemSelectChange: PropTypes.func,
@@ -71,7 +73,7 @@ export default class RelatedRecordPanel extends Component {
   constructor(props) {
     super(props);
 
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
     this.renderCheckbox = this.renderCheckbox.bind(this);
@@ -111,10 +113,9 @@ export default class RelatedRecordPanel extends Component {
     }
   }
 
-  handleCheckboxChange(event) {
-    const checkbox = event.target;
-    const index = parseInt(checkbox.name, 10);
-    const checked = checkbox.checked;
+  handleCheckboxCommit(path, value) {
+    const index = parseInt(path[0], 10);
+    const checked = value;
 
     const {
       config,
@@ -183,11 +184,10 @@ export default class RelatedRecordPanel extends Component {
     const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
     return (
-      <input
-        checked={selected}
-        name={rowIndex}
-        type="checkbox"
-        onChange={this.handleCheckboxChange}
+      <CheckboxInput
+        name={`${rowIndex}`}
+        value={selected}
+        onCommit={this.handleCheckboxCommit}
 
         // Prevent clicking on the checkbox from selecting the record.
         onClick={stopPropagation}
@@ -195,13 +195,20 @@ export default class RelatedRecordPanel extends Component {
     );
   }
 
-  renderTableHeader() {
+  renderTableHeader({ searchError, searchResult }) {
     const {
+      config,
+      name,
       selectedItems,
       showCheckboxColumn,
+      setAllItemsSelected,
     } = this.props;
 
-    if (!showCheckboxColumn) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    if (searchError || !showCheckboxColumn) {
       return null;
     }
 
@@ -219,8 +226,14 @@ export default class RelatedRecordPanel extends Component {
     return (
       <header>
         <SelectBar
-          selectedCount={selectedCount}
           buttons={[unrelateButton]}
+          config={config}
+          listType={listType}
+          searchDescriptor={searchDescriptor}
+          searchName={name}
+          searchResult={searchResult}
+          selectedItems={selectedItems}
+          setAllItemsSelected={setAllItemsSelected}
         />
       </header>
     );

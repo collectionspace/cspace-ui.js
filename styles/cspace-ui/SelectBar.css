@@ -6,6 +6,11 @@
   background: rgb(240, 240, 240);
 }
 
+.common > :global(.cspace-input-CheckboxInput--common) {
+  align-self: center;
+  margin-right: 10px;
+}
+
 .common > :global(.cspace-ui-ButtonBar--common) {
   margin-left: 10px;
 }

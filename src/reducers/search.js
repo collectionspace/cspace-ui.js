@@ -13,8 +13,9 @@ import {
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
+  SET_ALL_RESULT_ITEMS_SELECTED,
   SET_RESULT_ITEM_SELECTED,
-  DESELECT_ITEM,
+  DESELECT_RESULT_ITEM,
 } from '../actions/search';
 
 /**
@@ -248,8 +249,56 @@ const handleSearchRejected = (state, action) => {
   return state;
 };
 
-const handleSetSearchResultItemSelected = (state, action) => {
-  const selected = action.payload;
+const handleSetAllResultItemsSelected = (state, action) => {
+  const isSelected = action.payload;
+
+  const {
+    filter,
+    listTypeConfig,
+    searchName,
+    searchDescriptor,
+  } = action.meta;
+
+  const { listNodeName, itemNodeName } = listTypeConfig;
+
+  const namedSearch = state.get(searchName);
+
+  if (namedSearch) {
+    const key = searchKey(searchDescriptor);
+    const path = ['byKey', key, 'result', listNodeName, itemNodeName];
+
+    let items = namedSearch.getIn(path);
+
+    if (!Immutable.List.isList(items)) {
+      items = Immutable.List.of(items);
+    }
+
+    if (filter) {
+      items = items.filter(filter);
+    }
+
+    const selectedItems = namedSearch.get('selected') || Immutable.Map();
+
+    let updatedSelectedItems;
+
+    if (isSelected) {
+      updatedSelectedItems = selectedItems.withMutations(
+        map => items.reduce((updatedMap, item) => updatedMap.set(item.get('csid'), item), map)
+      );
+    } else {
+      updatedSelectedItems = selectedItems.withMutations(
+        map => items.reduce((updatedMap, item) => updatedMap.delete(item.get('csid')), map)
+      );
+    }
+
+    return state.set(searchName, namedSearch.set('selected', updatedSelectedItems));
+  }
+
+  return state;
+};
+
+const handleSetResultItemSelected = (state, action) => {
+  const isSelected = action.payload;
 
   const {
     listTypeConfig,
@@ -269,7 +318,7 @@ const handleSetSearchResultItemSelected = (state, action) => {
 
     const csid = item.get('csid');
 
-    const updatedNamedSearch = selected
+    const updatedNamedSearch = isSelected
       ? namedSearch.setIn(['selected', csid], item)
       : namedSearch.deleteIn(['selected', csid]);
 
@@ -295,9 +344,11 @@ export default (state = Immutable.Map(), action) => {
       return handleSearchFulfilled(state, action);
     case SEARCH_REJECTED:
       return handleSearchRejected(state, action);
+    case SET_ALL_RESULT_ITEMS_SELECTED:
+      return handleSetAllResultItemsSelected(state, action);
     case SET_RESULT_ITEM_SELECTED:
-      return handleSetSearchResultItemSelected(state, action);
-    case DESELECT_ITEM:
+      return handleSetResultItemSelected(state, action);
+    case DESELECT_RESULT_ITEM:
       return state.deleteIn([action.meta.searchName, 'selected', action.meta.csid]);
     default:
       return state;

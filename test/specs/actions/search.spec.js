@@ -15,9 +15,11 @@ import {
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
+  SET_ALL_RESULT_ITEMS_SELECTED,
   clearSearchResults,
   search,
   setResultItemSelected,
+  setAllResultItemsSelected,
 } from '../../../src/actions/search';
 
 import {
@@ -673,6 +675,45 @@ describe('search action creator', function suite() {
         type: CLEAR_SEARCH_RESULTS,
         meta: {
           searchName,
+        },
+      });
+    });
+  });
+
+  describe('setAllResultItemsSelected', function actionSuite() {
+    it('should dispatch SET_ALL_RESULT_ITEMS_SELECTED', function test() {
+      const listType = 'common';
+
+      const listTypeConfig = {
+        listNodeName: 'ns2:abstract-common-list',
+        itemNodeName: 'list-item',
+      };
+
+      const config = {
+        listTypes: {
+          [listType]: listTypeConfig,
+        },
+      };
+
+      const searchName = 'searchName';
+
+      const searchDescriptor = {
+        recordType: 'group',
+      };
+
+      const isSelected = true;
+      const filter = () => true;
+
+      setAllResultItemsSelected(
+        config, searchName, searchDescriptor, listType, isSelected, filter
+      ).should.deep.equal({
+        type: SET_ALL_RESULT_ITEMS_SELECTED,
+        payload: isSelected,
+        meta: {
+          filter,
+          listTypeConfig,
+          searchName,
+          searchDescriptor,
         },
       });
     });

@@ -66,6 +66,11 @@ const config = {
         ],
       },
     },
+    procedure: {
+      serviceConfig: {
+        serviceType: 'utility',
+      },
+    },
   },
 };
 
@@ -609,5 +614,41 @@ describe('SearchPanel', function suite() {
     searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
 
     searchToRelateModal.props.isOpen.should.equal(false);
+  });
+
+  it('should set allowedServiceTypes on the search to relate modal when the searched record type is a utility type', function test() {
+    const utilitySearchDescriptor = {
+      recordType: 'procedure',
+      searchQuery: {
+        p: 0,
+        size: 5,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchPanel
+        config={config}
+        searchDescriptor={utilitySearchDescriptor}
+        showAddButton
+      />
+    );
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const panel = findWithType(result, PanelContainer);
+    const addButton = panel.props.buttons[1];
+
+    addButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    const searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
+
+    searchToRelateModal.props.allowedServiceTypes.should
+      .deep.equal([utilitySearchDescriptor.recordType]);
   });
 });

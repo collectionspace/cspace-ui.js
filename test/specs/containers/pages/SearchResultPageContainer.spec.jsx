@@ -14,6 +14,7 @@ describe('SearchResultPageContainer', function suite() {
     prefs: Immutable.fromJS({
       searchResultPagePageSize: 10,
     }),
+    search: Immutable.Map(),
   });
 
   const config = {};

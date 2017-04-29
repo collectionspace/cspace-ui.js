@@ -106,6 +106,10 @@ export const normalizeConfig = (config) => {
 };
 
 export const getRecordTypeConfigByServiceObjectName = (config, objectName) => {
+  if (!objectName) {
+    return undefined;
+  }
+
   if (!config.recordTypesByServiceObjectName) {
     const recordTypesByServiceObjectName = {};
     const { recordTypes } = config;
@@ -122,6 +126,12 @@ export const getRecordTypeConfigByServiceObjectName = (config, objectName) => {
   }
 
   return config.recordTypesByServiceObjectName[objectName];
+};
+
+export const getRecordTypeNameByServiceObjectName = (config, objectName) => {
+  const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, objectName);
+
+  return (recordTypeConfig ? recordTypeConfig.name : undefined);
 };
 
 export const getRecordTypeConfigByServicePath = (config, servicePath) => {

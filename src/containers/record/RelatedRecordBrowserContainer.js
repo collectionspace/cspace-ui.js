@@ -6,7 +6,7 @@ import {
 } from '../../actions/recordBrowser';
 
 import {
-  deselectItem,
+  deselectResultItem,
 } from '../../actions/search';
 
 import {
@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-  deselectItem,
+  deselectItem: deselectResultItem,
   setPreferredRelatedCsid: setRelatedRecordBrowserRelatedCsid,
 };
 

@@ -314,8 +314,7 @@ class RelatedRecordBrowser extends Component {
         />
         {relationEditor}
         <SearchToRelateModalContainer
-          subjectCsid={csid}
-          subjectRecordType={recordType}
+          subjects={[{ csid, recordType }]}
           config={config}
           isOpen={isSearchToRelateModalOpen}
           defaultRecordTypeValue={relatedRecordType}

@@ -10,7 +10,8 @@ import {
   SEARCH_REJECTED,
   SET_RESULT_ITEM_SELECTED,
   CLEAR_SELECTED,
-  DESELECT_ITEM,
+  DESELECT_RESULT_ITEM,
+  SET_ALL_RESULT_ITEMS_SELECTED,
 } from '../../../src/actions/search';
 
 import reducer, {
@@ -713,7 +714,7 @@ describe('search reducer', function suite() {
     expect(getSelectedItems(state, searchName)).to.equal(undefined);
   });
 
-  it('should handle DESELECT_ITEM', function test() {
+  it('should handle DESELECT_RESULT_ITEM', function test() {
     const initialState = Immutable.fromJS({
       [searchName]: {
         selected: {
@@ -725,7 +726,7 @@ describe('search reducer', function suite() {
     });
 
     const state = reducer(initialState, {
-      type: DESELECT_ITEM,
+      type: DESELECT_RESULT_ITEM,
       meta: {
         searchName,
         csid: '2222',
@@ -745,5 +746,203 @@ describe('search reducer', function suite() {
       1111: {},
       3333: {},
     }));
+  });
+
+  it('should handle SET_ALL_RESULT_ITEMS_SELECTED', function test() {
+    const searchDescriptor = {
+      recordType: 'collectionobject',
+      searchQuery: {},
+    };
+
+    const key = searchKey(searchDescriptor);
+
+    const items = [
+      {
+        csid: '1111',
+      },
+      {
+        csid: '2222',
+      },
+      {
+        csid: '3333',
+      },
+    ];
+
+    const result = {
+      'ns2:abstract-common-list': {
+        itemsInPage: '3',
+        totalItems: '3',
+        pageNum: '0',
+        pageSize: '3',
+        'list-item': items,
+      },
+    };
+
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+      },
+    });
+
+    let state;
+
+    state = reducer(initialState, {
+      type: SET_ALL_RESULT_ITEMS_SELECTED,
+      payload: true,
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    });
+
+    // Select all results.
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+        selected: {
+          1111: items[0],
+          2222: items[1],
+          3333: items[2],
+        },
+      },
+    }));
+
+    // Deselect all results.
+
+    state = state.setIn([searchName, 'selected', '4444'], Immutable.Map());
+
+    state = reducer(state, {
+      type: SET_ALL_RESULT_ITEMS_SELECTED,
+      payload: false,
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+        selected: {
+          4444: {},
+        },
+      },
+    }));
+
+    // Select with filter.
+
+    state = reducer(state, {
+      type: SET_ALL_RESULT_ITEMS_SELECTED,
+      payload: true,
+      meta: {
+        filter: item => item.get('csid') === '1111' || item.get('csid') === '3333',
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result,
+            descriptor: searchDescriptor,
+          },
+        },
+        selected: {
+          1111: items[0],
+          3333: items[2],
+          4444: {},
+        },
+      },
+    }));
+
+    // A single item (non-list) result set.
+
+    const singleItemResult = {
+      'ns2:abstract-common-list': {
+        itemsInPage: '1',
+        totalItems: '1',
+        pageNum: '0',
+        pageSize: '3',
+        'list-item': {
+          csid: '1111',
+        },
+      },
+    };
+
+    const singleItemInitialState = Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result: singleItemResult,
+            descriptor: searchDescriptor,
+          },
+        },
+      },
+    });
+
+    state = reducer(singleItemInitialState, {
+      type: SET_ALL_RESULT_ITEMS_SELECTED,
+      payload: true,
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            result: singleItemResult,
+            descriptor: searchDescriptor,
+          },
+        },
+        selected: {
+          1111: items[0],
+        },
+      },
+    }));
+
+    // Non-existent search name.
+
+    state = reducer(initialState, {
+      type: SET_ALL_RESULT_ITEMS_SELECTED,
+      payload: true,
+      meta: {
+        listTypeConfig,
+        searchName: 'foo',
+        searchDescriptor,
+      },
+    });
+
+    state.should.equal(initialState);
   });
 });

@@ -1,15 +1,22 @@
 import { connect } from 'react-redux';
-import SearchResultPage from '../../components/pages/SearchResultPage';
+import SearchResultPage, { searchName } from '../../components/pages/SearchResultPage';
 import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
-import { search } from '../../actions/search';
 import { setSearchResultPagePageSize } from '../../actions/prefs';
 
 import {
+  search,
+  setResultItemSelected,
+  setAllResultItemsSelected,
+} from '../../actions/search';
+
+import {
   getSearchResultPagePageSize,
+  getSearchSelectedItems,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
   preferredPageSize: getSearchResultPagePageSize(state),
+  selectedItems: getSearchSelectedItems(state, searchName),
 });
 
 const mapDispatchToProps = {
@@ -17,6 +24,8 @@ const mapDispatchToProps = {
   setSearchPageAdvanced,
   setSearchPageKeyword,
   setPreferredPageSize: setSearchResultPagePageSize,
+  setAllItemsSelected: setAllResultItemsSelected,
+  onItemSelectChange: setResultItemSelected,
 };
 
 export default connect(

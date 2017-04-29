@@ -7,6 +7,7 @@ import {
 
 import {
   clearSelected,
+  setAllResultItemsSelected,
   setResultItemSelected,
 } from '../../actions/search';
 
@@ -32,6 +33,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
   clearSelected,
   onItemSelectChange: setResultItemSelected,
+  setAllItemsSelected: setAllResultItemsSelected,
   unrelateRecords: batchUnrelateBidirectional,
 };
 
