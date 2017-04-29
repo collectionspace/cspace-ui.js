@@ -243,11 +243,12 @@ export default class SearchPanel extends Component {
     if (showAddButton) {
       buttons.push(
         <MiniButton
+          autoWidth
           key="add"
           name="add"
           onClick={this.handleAddButtonClick}
         >
-          +
+          Add…
         </MiniButton>
       );
     }

@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import { Modal } from 'cspace-layout';
+import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import SearchForm from './SearchForm';
 import Pager from './Pager';
 import BackButton from '../record/BackButton';
@@ -81,6 +82,7 @@ const propTypes = {
   createRelations: PropTypes.func,
   parentSelector: PropTypes.func,
   search: PropTypes.func,
+  setAllItemsSelected: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
 };
 
@@ -92,9 +94,10 @@ export class BaseSearchToRelateModal extends Component {
   constructor() {
     super();
 
+    this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
     this.handleAcceptButtonClick = this.handleAcceptButtonClick.bind(this);
     this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
     this.handleFormSearch = this.handleFormSearch.bind(this);
@@ -371,10 +374,9 @@ export class BaseSearchToRelateModal extends Component {
     this.search();
   }
 
-  handleCheckboxChange(event) {
-    const checkbox = event.target;
-    const index = parseInt(checkbox.name, 10);
-    const checked = checkbox.checked;
+  handleCheckboxCommit(path, value) {
+    const index = parseInt(path[0], 10);
+    const checked = value;
 
     const {
       config,
@@ -424,32 +426,41 @@ export class BaseSearchToRelateModal extends Component {
     });
   }
 
-  renderCheckbox({ rowData, rowIndex }) {
+  shouldShowCheckbox(item) {
+    if (item.get('related') === 'true') {
+      return false;
+    }
+
     const {
       subjects,
-      selectedItems,
     } = this.props;
 
-    if (rowData.get('related') === 'true') {
-      return null;
+    if (isSingleSubject(subjects) && item.get('csid') === subjects[0].csid) {
+      return false;
     }
 
-    const itemCsid = rowData.get('csid');
+    return true;
+  }
 
-    if (isSingleSubject(subjects) && itemCsid === subjects[0].csid) {
-      return null;
+  renderCheckbox({ rowData, rowIndex }) {
+    if (this.shouldShowCheckbox(rowData)) {
+      const {
+        selectedItems,
+      } = this.props;
+
+      const itemCsid = rowData.get('csid');
+      const selected = selectedItems ? selectedItems.has(itemCsid) : false;
+
+      return (
+        <CheckboxInput
+          name={`${rowIndex}`}
+          value={selected}
+          onCommit={this.handleCheckboxCommit}
+        />
+      );
     }
 
-    const selected = selectedItems ? selectedItems.has(itemCsid) : false;
-
-    return (
-      <input
-        checked={selected}
-        name={rowIndex}
-        type="checkbox"
-        onChange={this.handleCheckboxChange}
-      />
-    );
+    return null;
   }
 
   renderSearchForm() {
@@ -512,23 +523,35 @@ export class BaseSearchToRelateModal extends Component {
     const {
       config,
       selectedItems,
+      setAllItemsSelected,
     } = this.props;
 
-    const selectedCount = selectedItems ? selectedItems.size : 0;
+    if (searchError) {
+      return null;
+    }
+
+    const searchDescriptor = this.getSearchDescriptor();
 
     return (
       <header>
         <SearchResultSummary
           config={config}
           listType={listType}
-          searchDescriptor={this.getSearchDescriptor()}
+          searchDescriptor={searchDescriptor}
           searchError={searchError}
           searchResult={searchResult}
           renderEditLink={this.renderEditSearchLink}
           onPageSizeChange={this.handlePageSizeChange}
         />
         <SelectBar
-          selectedCount={selectedCount}
+          config={config}
+          listType={listType}
+          searchDescriptor={searchDescriptor}
+          searchName={searchName}
+          searchResult={searchResult}
+          selectedItems={selectedItems}
+          setAllItemsSelected={setAllItemsSelected}
+          showCheckboxFilter={this.shouldShowCheckbox}
         />
       </header>
     );

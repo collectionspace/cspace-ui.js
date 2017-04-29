@@ -1094,7 +1094,7 @@ describe('SearchResultPage', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should call onItemSelectChange when a checkbox value is changed', function test() {
+  it('should call onItemSelectChange when a checkbox value is committed', function test() {
     let changedConfig = null;
     let changedSearchName = null;
     let changedSearchDescriptor = null;
@@ -1134,12 +1134,7 @@ describe('SearchResultPage', function suite() {
     const table = findWithType(result, SearchResultTableContainer);
     const checkbox = table.props.renderCheckbox({ rowData: Immutable.Map(), rowIndex });
 
-    checkbox.props.onChange({
-      target: {
-        checked,
-        name: rowIndex.toString(),
-      },
-    });
+    checkbox.props.onCommit([rowIndex.toString()], checked);
 
     changedConfig.should.equal(config);
     changedSearchName.should.equal(searchName);
@@ -1149,7 +1144,7 @@ describe('SearchResultPage', function suite() {
     changedChecked.should.equal(checked);
   });
 
-  it('should call onItemSelectChange when a checkbox value is changed', function test() {
+  it('should stop propagation of clicks on checkboxes', function test() {
     const shallowRenderer = createRenderer();
 
     const context = {

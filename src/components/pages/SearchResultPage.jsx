@@ -3,6 +3,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import Immutable from 'immutable';
+import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import ErrorPage from './ErrorPage';
 import RelateButton from '../record/RelateButton';
 import SearchResultTitleBar from '../search/SearchResultTitleBar';
@@ -46,6 +47,7 @@ const propTypes = {
   setPreferredPageSize: PropTypes.func,
   setSearchPageAdvanced: PropTypes.func,
   setSearchPageKeyword: PropTypes.func,
+  setAllItemsSelected: PropTypes.func,
   onItemSelectChange: PropTypes.func,
 };
 
@@ -59,7 +61,7 @@ export default class SearchResultPage extends Component {
     super();
 
     this.getSearchToRelateSubjects = this.getSearchToRelateSubjects.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
@@ -286,10 +288,9 @@ export default class SearchResultPage extends Component {
     return false;
   }
 
-  handleCheckboxChange(event) {
-    const checkbox = event.target;
-    const index = parseInt(checkbox.name, 10);
-    const checked = checkbox.checked;
+  handleCheckboxCommit(path, value) {
+    const index = parseInt(path[0], 10);
+    const selected = value;
 
     const {
       onItemSelectChange,
@@ -303,7 +304,7 @@ export default class SearchResultPage extends Component {
       const searchDescriptor = this.getSearchDescriptor();
       const listType = this.getListType(searchDescriptor);
 
-      onItemSelectChange(config, searchName, searchDescriptor, listType, index, checked);
+      onItemSelectChange(config, searchName, searchDescriptor, listType, index, selected);
     }
   }
 
@@ -444,11 +445,10 @@ export default class SearchResultPage extends Component {
     const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
     return (
-      <input
-        checked={selected}
-        name={rowIndex}
-        type="checkbox"
-        onChange={this.handleCheckboxChange}
+      <CheckboxInput
+        name={`${rowIndex}`}
+        value={selected}
+        onCommit={this.handleCheckboxCommit}
 
         // Prevent clicking on the checkbox from selecting the record.
         onClick={stopPropagation}
@@ -459,6 +459,7 @@ export default class SearchResultPage extends Component {
   renderHeader({ searchError, searchResult }) {
     const {
       selectedItems,
+      setAllItemsSelected,
     } = this.props;
 
     const {
@@ -470,7 +471,7 @@ export default class SearchResultPage extends Component {
 
     let selectBar;
 
-    if (this.isResultRelatable(searchDescriptor)) {
+    if (!searchError && this.isResultRelatable(searchDescriptor)) {
       const selectedCount = selectedItems ? selectedItems.size : 0;
 
       const relateButton = (
@@ -485,8 +486,14 @@ export default class SearchResultPage extends Component {
 
       selectBar = (
         <SelectBar
-          selectedCount={selectedCount}
           buttons={[relateButton]}
+          config={config}
+          listType={listType}
+          searchDescriptor={searchDescriptor}
+          searchName={searchName}
+          searchResult={searchResult}
+          selectedItems={selectedItems}
+          setAllItemsSelected={setAllItemsSelected}
         />
       );
     }

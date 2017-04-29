@@ -19,6 +19,7 @@ import {
 import {
   clearSearchResults,
   search,
+  setAllResultItemsSelected,
   setResultItemSelected,
 } from '../../actions/search';
 
@@ -53,6 +54,7 @@ const mapDispatchToProps = {
   onVocabularyCommit: setSearchToRelateVocabulary,
   onItemSelectChange: setResultItemSelected,
   createRelations: batchCreateBidirectional,
+  setAllItemsSelected: setAllResultItemsSelected,
   setPreferredPageSize: setSearchToRelatePageSize,
 };
 

@@ -6,6 +6,7 @@ import { setSearchResultPagePageSize } from '../../actions/prefs';
 import {
   search,
   setResultItemSelected,
+  setAllResultItemsSelected,
 } from '../../actions/search';
 
 import {
@@ -23,6 +24,7 @@ const mapDispatchToProps = {
   setSearchPageAdvanced,
   setSearchPageKeyword,
   setPreferredPageSize: setSearchResultPagePageSize,
+  setAllItemsSelected: setAllResultItemsSelected,
   onItemSelectChange: setResultItemSelected,
 };
 

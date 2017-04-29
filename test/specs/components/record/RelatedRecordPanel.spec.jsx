@@ -24,7 +24,12 @@ const recordData = Immutable.fromJS({
 });
 
 const config = {
-  listTypes: {},
+  listTypes: {
+    common: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+  },
   recordTypes: {
     group: {
       messages: {
@@ -98,7 +103,7 @@ describe('RelatedRecordPanel', function suite() {
       />);
 
     const searchPanel = shallowRenderer.getRenderOutput();
-    const header = searchPanel.props.renderTableHeader();
+    const header = searchPanel.props.renderTableHeader({});
 
     findWithType(header, SelectBar).should.not.equal(null);
   });
@@ -121,7 +126,7 @@ describe('RelatedRecordPanel', function suite() {
       />);
 
     const searchPanel = shallowRenderer.getRenderOutput();
-    const header = searchPanel.props.renderTableHeader();
+    const header = searchPanel.props.renderTableHeader({});
 
     findAllWithType(header, SelectBar).length.should.equal(0);
   });
@@ -279,12 +284,12 @@ describe('RelatedRecordPanel', function suite() {
     searchPanel.props.renderCheckbox({
       rowData: Immutable.Map({ csid: '1111' }),
       rowIndex: 0,
-    }).props.checked.should.equal(true);
+    }).props.value.should.equal(true);
 
     searchPanel.props.renderCheckbox({
       rowData: Immutable.Map({ csid: '5678' }),
       rowIndex: 0,
-    }).props.checked.should.equal(false);
+    }).props.value.should.equal(false);
   });
 
   it('should call onItemSelectChange when a checkbox value is changed', function test() {
@@ -333,7 +338,7 @@ describe('RelatedRecordPanel', function suite() {
 
     render(checkbox, this.container);
 
-    const checkboxNode = this.container.firstElementChild;
+    const checkboxNode = this.container.querySelector('input');
 
     checkboxNode.checked = true;
 
@@ -428,6 +433,20 @@ describe('RelatedRecordPanel', function suite() {
       handleUnrelatedObjects = objectsArg;
     };
 
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '5',
+        itemsInPage: '1',
+        totalItems: '1',
+        'list-item': [
+          {
+            csid: 'b0945c52-36f7-4c51-a72a',
+          },
+        ],
+      },
+    });
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -446,7 +465,7 @@ describe('RelatedRecordPanel', function suite() {
       />);
 
     const searchPanel = shallowRenderer.getRenderOutput();
-    const header = searchPanel.props.renderTableHeader();
+    const header = searchPanel.props.renderTableHeader({ searchResult });
 
     const selectBarRenderer = createRenderer();
     const selectBar = selectBarRenderer.render(findWithType(header, SelectBar));
