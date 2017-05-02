@@ -14,6 +14,7 @@ import VocabularyControlledInputContainer from '../containers/input/VocabularyCo
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
+import HierarchyInput from '../components/record/HierarchyInput';
 import InputTable from '../components/record/InputTable';
 
 import * as dataTypes from '../constants/dataTypes';
@@ -50,6 +51,7 @@ export default () => ({
     AuthorityControlledInput,
     CompoundInput,
     DateInput,
+    HierarchyInput,
     IDGeneratorInput,
     OptionListControlledInput,
     StructuredDateInput,

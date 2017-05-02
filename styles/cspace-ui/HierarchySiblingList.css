@@ -1,0 +1,19 @@
+.common > header {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.common > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.common > ul > li {
+  display: inline;
+}
+
+.common :global(.cspace-input-Input--common) {
+  display: inline;
+  margin-bottom: 0;
+}

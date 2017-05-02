@@ -29,8 +29,8 @@ export const clearState = () => ({
  * few (typically zero or one) results, and retrieves them all without paginating.
  */
 export const find = (config, subject, object, predicate) => (dispatch, getState) => {
-  if (!subject.csid || !object.csid) {
-    throw new Error('subject csid and object csid must be supplied');
+  if (!(subject.csid || object.csid)) {
+    throw new Error('subject csid or object csid must be supplied');
   }
 
   if (getRelationFindResult(getState(), subject, object, predicate)) {
@@ -147,7 +147,7 @@ export const deleteRelation = csid => (dispatch) => {
 };
 
 const doUnrelate = (config, subject, object, predicate) => (dispatch, getState) => {
-  if (!subject.csid || !object.csid) {
+  if (!(subject.csid && object.csid)) {
     throw new Error('subject csid and object csid must be supplied');
   }
 

@@ -19,6 +19,7 @@ import {
 
 import {
   isCsid,
+  isUrnCsid,
 } from './csidHelpers';
 
 const onlyDigitsPattern = /^\d+$/;
@@ -291,7 +292,7 @@ export const validateLocation = (config, location) => {
     };
   }
 
-  if (csid && !isCsid(csid)) {
+  if (csid && !isCsid(csid) && !isUrnCsid(csid)) {
     return {
       error: {
         csid,

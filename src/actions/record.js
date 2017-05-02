@@ -41,6 +41,7 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
 
   const config = {
     params: {
+      showRelations: true,
       wf_deleted: false,
     },
   };

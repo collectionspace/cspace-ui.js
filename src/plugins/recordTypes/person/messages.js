@@ -18,5 +18,9 @@ export default {
       id: 'panel.person.info',
       defaultMessage: 'Person Information',
     },
+    hierarchy: {
+      id: 'panel.person.hierarchy',
+      defaultMessage: 'Hierarchy',
+    },
   }),
 };
