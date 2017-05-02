@@ -32,7 +32,17 @@ const defaultProps = {
     const {
       recordType,
       vocabulary,
+      subresource,
+      searchQuery,
     } = searchDescriptor;
+
+    if (subresource || searchQuery.rel) {
+      // Services layer does not allow combining related record searches or subresource
+      // (terms/refs) searches with keywords or advanced search conditions, so don't render an edit
+      // search link.
+
+      return null;
+    }
 
     const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
     const path = `/search/${recordType}${vocabularyPath}`;
@@ -108,11 +118,13 @@ export default function SearchResultSummary(props) {
     pageSize = searchDescriptor.searchQuery.size;
   }
 
+  const editLink = renderEditLink(searchDescriptor, onEditSearchLinkClick);
+
   const content = (
     <div>
       {message}
-      {message ? ' | ' : ''}
-      {renderEditLink(searchDescriptor, onEditSearchLinkClick)}
+      {(message && editLink) ? ' | ' : ''}
+      {editLink}
     </div>
   );
 

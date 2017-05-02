@@ -217,15 +217,18 @@ export default class SearchResultPage extends Component {
 
     const {
       recordType,
+      subresource,
     } = searchDescriptor;
 
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
 
     return (
-      serviceType === 'procedure' ||
-      serviceType === 'object' ||
-      recordType === 'procedure' ||
-      recordType === 'object'
+      subresource !== 'terms' && (
+        serviceType === 'procedure' ||
+        serviceType === 'object' ||
+        recordType === 'procedure' ||
+        recordType === 'object'
+      )
     );
   }
 
