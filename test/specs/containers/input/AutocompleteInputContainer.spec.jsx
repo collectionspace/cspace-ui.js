@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
-import { ConnectedAuthorityControlledInput } from '../../../../src/containers/input/AuthorityControlledInputContainer';
+import { ConnectedAutocompleteInput } from '../../../../src/containers/input/AutocompleteInputContainer';
 
 import {
   ADD_TERM_STARTED,
@@ -14,11 +14,11 @@ import {
 
 chai.should();
 
-const { AuthorityControlledInput } = inputComponents;
+const { AutocompleteInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
-describe('AuthorityControlledInputContainer', function suite() {
-  it('should set props on AuthorityControlledInput', function test() {
+describe('AutocompleteInputContainer', function suite() {
+  it('should set props on AutocompleteInput', function test() {
     const matches = Immutable.Map({});
 
     const store = mockStore({
@@ -50,14 +50,14 @@ describe('AuthorityControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedAuthorityControlledInput
-        authority="person/local"
+      <ConnectedAutocompleteInput
+        source="person/local"
         config={config}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(AuthorityControlledInput);
+    result.type.should.equal(AutocompleteInput);
     result.props.should.have.property('matches', matches);
     result.props.should.have.property('recordTypes', config.recordTypes);
     result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
@@ -101,8 +101,8 @@ describe('AuthorityControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedAuthorityControlledInput
-        authority="person/local"
+      <ConnectedAutocompleteInput
+        source="person/local"
         config={config}
       />, context);
 
@@ -190,8 +190,8 @@ describe('AuthorityControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedAuthorityControlledInput
-        authority="person/local"
+      <ConnectedAutocompleteInput
+        source="person/local"
         intl={intl}
         config={config}
       />, context);

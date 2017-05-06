@@ -3,7 +3,7 @@ import { createRenderer } from 'react-addons-test-utils';
 import { findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import AuthorityControlledInputContainer from '../../../../src/containers/input/AuthorityControlledInputContainer';
+import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
 import { BaseAuthorityHierarchyEditor as AuthorityHierarchyEditor } from '../../../../src/components/record/AuthorityHierarchyEditor';
 
 chai.use(chaiImmutable);
@@ -50,7 +50,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     inputs.should.have.lengthOf(2);
 
@@ -73,7 +73,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     inputs.should.have.lengthOf(2);
 
@@ -106,7 +106,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     const newValue = 'newValue';
     const newCsid = '1111';
@@ -142,7 +142,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     const newValue = 'newValue';
 
@@ -171,7 +171,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     inputs[1].props.onAddInstance();
 
@@ -197,7 +197,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     inputs[1].props.onRemoveInstance(['1']);
 

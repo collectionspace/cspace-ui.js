@@ -2,9 +2,10 @@ import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
   const {
-    AuthorityControlledInput,
+    AutocompleteInput,
     CompoundInput,
     DateInput,
+    HierarchyInput,
     IDGeneratorInput,
     OptionListControlledInput,
     StructuredDateInput,
@@ -74,6 +75,36 @@ export default (pluginContext) => {
             }),
             view: {
               type: TextInput,
+            },
+          },
+        },
+      },
+      'ns2:relations-common-list': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/relation',
+          },
+        },
+        'relation-list-item': {
+          [config]: {
+            view: {
+              type: HierarchyInput,
+              props: {
+                messages: defineMessages({
+                  parent: {
+                    id: 'hierarchyInput.person.parent',
+                    defaultMessage: 'Broader object',
+                  },
+                  children: {
+                    id: 'hierarchyInput.person.children',
+                    defaultMessage: 'Object components',
+                  },
+                  siblings: {
+                    id: 'hierarchyInput.person.siblings',
+                    defaultMessage: 'Adjacent components',
+                  },
+                }),
+              },
             },
           },
         },
@@ -309,9 +340,9 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: AuthorityControlledInput,
+              type: AutocompleteInput,
               props: {
-                authority: 'location/local,location/offsite,organization/local,organization/shared',
+                source: 'location/local,location/offsite,organization/local,organization/shared',
                 readOnly: true,
               },
             },
@@ -1143,9 +1174,9 @@ export default (pluginContext) => {
                       },
                     }),
                     view: {
-                      type: AuthorityControlledInput,
+                      type: AutocompleteInput,
                       props: {
-                        authority: 'person/local,person/shared,organization/local,organization/shared',
+                        source: 'person/local,person/shared,organization/local,organization/shared',
                       },
                     },
                   },
@@ -1313,9 +1344,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'concept/associated,concept/material,concept/material_shared',
+                  source: 'concept/associated,concept/material,concept/material_shared',
                   repeating: true,
                 },
               },
@@ -1460,9 +1491,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'person/local,person/shared,person/ulan',
+                  source: 'person/local,person/shared,person/ulan',
                   repeating: true,
                 },
               },
@@ -1541,9 +1572,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'organization/local,organization/shared,organization/ulan',
+                  source: 'organization/local,organization/shared,organization/ulan',
                   repeating: true,
                 },
               },
@@ -1710,9 +1741,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'person/local,organization/local,organization/shared',
+                    source: 'person/local,organization/local,organization/shared',
                   },
                 },
               },
@@ -1896,9 +1927,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'person/local,person/shared,organization/local,organization/shared',
+                    source: 'person/local,person/shared,organization/local,organization/shared',
                   },
                 },
               },
@@ -2241,9 +2272,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'person/local,person/shared',
+                    source: 'person/local,person/shared',
                   },
                 },
               },
@@ -2299,9 +2330,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'organization/local,organization/shared',
+                    source: 'organization/local,organization/shared',
                   },
                 },
               },
@@ -2498,9 +2529,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'concept/associated',
+                    source: 'concept/associated',
                   },
                 },
               },
@@ -2631,9 +2662,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'organization/local,organization/shared',
+                    source: 'organization/local,organization/shared',
                   },
                 },
               },
@@ -2764,9 +2795,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'person/local,person/shared',
+                    source: 'person/local,person/shared',
                   },
                 },
               },
@@ -2909,9 +2940,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'organization/local,organization/shared',
+                  source: 'organization/local,organization/shared',
                   repeating: true,
                 },
               },
@@ -2962,9 +2993,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'person/local,person/shared',
+                  source: 'person/local,person/shared',
                   repeating: true,
                 },
               },
@@ -3157,9 +3188,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'person/local,person/shared,organization/local,organization/shared',
+                  source: 'person/local,person/shared,organization/local,organization/shared',
                   repeating: true,
                 },
               },
@@ -3473,9 +3504,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'citation/local,citation/shared,citation/worldcat',
+                    source: 'citation/local,citation/shared,citation/worldcat',
                   },
                 },
               },
@@ -3570,9 +3601,9 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: AuthorityControlledInput,
+              type: AutocompleteInput,
               props: {
-                authority: 'place/local,place/shared,place/tgn',
+                source: 'place/local,place/shared,place/tgn',
               },
             },
           },
@@ -3598,9 +3629,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'person/local,person/shared',
+                  source: 'person/local,person/shared',
                   repeating: true,
                 },
               },
@@ -3628,9 +3659,9 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: AuthorityControlledInput,
+                type: AutocompleteInput,
                 props: {
-                  authority: 'person/local,person/shared,organization/local,organization/shared',
+                  source: 'person/local,person/shared,organization/local,organization/shared',
                   repeating: true,
                 },
               },

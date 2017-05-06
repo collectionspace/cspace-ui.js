@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import AuthorityControlledInputContainer from '../../containers/input/AuthorityControlledInputContainer';
+import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
 import styles from '../../../styles/cspace-ui/HierarchySiblingList.css';
 
 
@@ -86,8 +86,8 @@ export default class HierarchySiblingList extends Component {
 
           return (
             <li key={subject.get('csid')}>
-              <AuthorityControlledInputContainer
-                authority=""
+              <AutocompleteInputContainer
+                source=""
                 value={subject.get('refName')}
                 readOnly
               />{index < lastIndex ? ', ' : ''}

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
-import AuthorityControlledInputContainer from '../../containers/input/AuthorityControlledInputContainer';
+import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
 
 const {
   CompoundInput,
@@ -91,7 +91,7 @@ export class BaseAuthorityHierarchyEditor extends Component {
       value,
     } = this.props;
 
-    const authority = [recordType, vocabulary].join('/');
+    const source = [recordType, vocabulary].join('/');
     const parentRefName = value.getIn(['parent', 'refName']);
 
     const childRefNames =
@@ -99,9 +99,9 @@ export class BaseAuthorityHierarchyEditor extends Component {
 
     return (
       <div>
-        <AuthorityControlledInputContainer
-          authority={authority}
+        <AutocompleteInputContainer
           label={intl.formatMessage(messages.parent)}
+          source={source}
           value={parentRefName}
           onCommit={this.handleParentCommit}
           matchFilter={this.filterMatch}
@@ -110,11 +110,11 @@ export class BaseAuthorityHierarchyEditor extends Component {
           label={intl.formatMessage(messages.children)}
           value={{ childRefNames }}
         >
-          <AuthorityControlledInputContainer
-            authority={authority}
+          <AutocompleteInputContainer
             name="childRefNames"
             repeating
             reorderable={false}
+            source={source}
             matchFilter={this.filterMatch}
             onCommit={this.handleChildCommit}
             onAddInstance={this.handleAddChild}

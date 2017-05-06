@@ -4,7 +4,7 @@ import { createRenderer } from 'react-addons-test-utils';
 import Immutable from 'immutable';
 import { findAllWithType } from 'react-shallow-testutils';
 import createTestContainer from '../../../helpers/createTestContainer';
-import AuthorityControlledInputContainer from '../../../../src/containers/input/AuthorityControlledInputContainer';
+import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
 import HierarchySiblingList from '../../../../src/components/record/HierarchySiblingList';
 
 chai.should();
@@ -151,7 +151,7 @@ describe('HierarchySiblingList', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     inputs.should.have.lengthOf(3);
 
@@ -186,7 +186,7 @@ describe('HierarchySiblingList', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AuthorityControlledInputContainer);
+    const inputs = findAllWithType(result, AutocompleteInputContainer);
 
     inputs.should.have.lengthOf(1);
 

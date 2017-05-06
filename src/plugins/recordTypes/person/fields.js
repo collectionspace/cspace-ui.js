@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
   const {
-    AuthorityControlledInput,
+    AutocompleteInput,
     CompoundInput,
     // DateInput,
     HierarchyInput,
@@ -106,9 +106,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'citation/local,citation/shared,citation/worldcat',
+                    source: 'citation/local,citation/shared,citation/worldcat',
                   },
                 },
               },
