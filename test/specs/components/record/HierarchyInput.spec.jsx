@@ -3,7 +3,7 @@ import { createRenderer } from 'react-addons-test-utils';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import AuthorityHierarchyEditor from '../../../../src/components/record/AuthorityHierarchyEditor';
+import UntypedHierarchyEditor from '../../../../src/components/record/UntypedHierarchyEditor';
 import HierarchySiblingListContainer from '../../../../src/containers/record/HierarchySiblingListContainer';
 import HierarchyInput from '../../../../src/components/record/HierarchyInput';
 
@@ -35,7 +35,7 @@ describe('HierarchyInput', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    findWithType(result, AuthorityHierarchyEditor).should.not.equal(null);
+    findWithType(result, UntypedHierarchyEditor).should.not.equal(null);
   });
 
   it('should render a hierarchy sibling list', function test() {
@@ -61,13 +61,13 @@ describe('HierarchyInput', function suite() {
         },
         object: {
           csid: 'abcd',
-          refName: 'urn:cspace:parent',
+          refName: 'urn:cspace:id(parent)',
         },
       },
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:child1',
+          refName: 'urn:cspace:id(child1)',
         },
         object: {
           csid: context.csid,
@@ -76,7 +76,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:child2',
+          refName: 'urn:cspace:id(child2)',
         },
         object: {
           csid: context.csid,
@@ -85,7 +85,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:child3',
+          refName: 'urn:cspace:id(child3)',
         },
         object: {
           csid: context.csid,
@@ -102,14 +102,14 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:parent', type: undefined },
+      parent: { csid: 'abcd', refName: 'urn:cspace:id(parent)', type: undefined },
       children: [
-        { refName: 'urn:cspace:child1', type: undefined },
-        { refName: 'urn:cspace:child2', type: undefined },
-        { refName: 'urn:cspace:child3', type: undefined },
+        { refName: 'urn:cspace:id(child1)', type: undefined },
+        { refName: 'urn:cspace:id(child2)', type: undefined },
+        { refName: 'urn:cspace:id(child3)', type: undefined },
       ],
     }));
   });
@@ -122,7 +122,7 @@ describe('HierarchyInput', function suite() {
       },
       object: {
         csid: 'abcd',
-        refName: 'urn:cspace:parent',
+        refName: 'urn:cspace:id(parent)',
       },
     });
 
@@ -135,10 +135,10 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:parent', type: undefined },
+      parent: { csid: 'abcd', refName: 'urn:cspace:id(parent)', type: undefined },
       children: [
         { refName: undefined, type: undefined },
       ],
@@ -153,7 +153,7 @@ describe('HierarchyInput', function suite() {
       },
       object: {
         csid: 'abcd',
-        refName: 'urn:cspace:parent',
+        refName: 'urn:cspace:id(parent)',
       },
     };
 
@@ -166,7 +166,7 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: {},
@@ -185,13 +185,13 @@ describe('HierarchyInput', function suite() {
         },
         object: {
           csid: 'abcd',
-          refName: 'urn:cspace:parent',
+          refName: 'urn:cspace:id(parent)',
         },
       },
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:child1',
+          refName: 'urn:cspace:id(child1)',
         },
         object: {
           csid: context.csid,
@@ -211,12 +211,12 @@ describe('HierarchyInput', function suite() {
     let hierarchyEditor;
 
     result = shallowRenderer.getRenderOutput();
-    hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:parent', type: undefined },
+      parent: { csid: 'abcd', refName: 'urn:cspace:id(parent)', type: undefined },
       children: [
-        { refName: 'urn:cspace:child1', type: undefined },
+        { refName: 'urn:cspace:id(child1)', type: undefined },
       ],
     }));
 
@@ -224,7 +224,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:newChild1',
+          refName: 'urn:cspace:id(newChild1)',
         },
         object: {
           csid: context.csid,
@@ -233,7 +233,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:newChild2',
+          refName: 'urn:cspace:id(newChild2)',
         },
         object: {
           csid: context.csid,
@@ -248,24 +248,23 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     result = shallowRenderer.getRenderOutput();
-    hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: {},
       children: [
-        { refName: 'urn:cspace:newChild1', type: undefined },
-        { refName: 'urn:cspace:newChild2', type: undefined },
+        { refName: 'urn:cspace:id(newChild1)', type: undefined },
+        { refName: 'urn:cspace:id(newChild2)', type: undefined },
       ],
     }));
   });
 
-  it('should sort children by meta-number (display name), with nulls at the end', function test() {
+  it('should sort children by display name, with nulls at the end', function test() {
     const relations = Immutable.fromJS([
       {
         predicate: 'hasBroader',
         subject: {
-          number: 'Wilma',
-          refName: 'urn:cspace:child1',
+          refName: 'urn:cspace:id(child1)\'Wilma\'',
         },
         object: {
           csid: context.csid,
@@ -274,8 +273,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          number: 'Barney',
-          refName: 'urn:cspace:child2',
+          refName: 'urn:cspace:id(child2)\'Barney\'',
         },
         object: {
           csid: context.csid,
@@ -284,7 +282,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:child3',
+          refName: 'urn:cspace:id(child3)',
         },
         object: {
           csid: context.csid,
@@ -293,8 +291,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          number: 'Fred',
-          refName: 'urn:cspace:child4',
+          refName: 'urn:cspace:id(child4)\'Fred\'',
         },
         object: {
           csid: context.csid,
@@ -303,8 +300,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          number: 'Betty',
-          refName: 'urn:cspace:child5',
+          refName: 'urn:cspace:id(child5)\'Betty\'',
         },
         object: {
           csid: context.csid,
@@ -313,7 +309,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          refName: 'urn:cspace:child6',
+          refName: 'urn:cspace:id(child6)',
         },
         object: {
           csid: context.csid,
@@ -331,17 +327,17 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: {},
       children: [
-        { refName: 'urn:cspace:child2', type: undefined },
-        { refName: 'urn:cspace:child5', type: undefined },
-        { refName: 'urn:cspace:child4', type: undefined },
-        { refName: 'urn:cspace:child1', type: undefined },
-        { refName: 'urn:cspace:child3', type: undefined },
-        { refName: 'urn:cspace:child6', type: undefined },
+        { refName: 'urn:cspace:id(child2)\'Barney\'', type: undefined },
+        { refName: 'urn:cspace:id(child5)\'Betty\'', type: undefined },
+        { refName: 'urn:cspace:id(child4)\'Fred\'', type: undefined },
+        { refName: 'urn:cspace:id(child1)\'Wilma\'', type: undefined },
+        { refName: 'urn:cspace:id(child3)', type: undefined },
+        { refName: 'urn:cspace:id(child6)', type: undefined },
       ],
     }));
   });
@@ -358,11 +354,13 @@ describe('HierarchyInput', function suite() {
     const hierarchy = Immutable.fromJS({
       parent: {
         csid: 'abcd',
-        refName: 'urn:cspace:parent',
+        refName: 'urn:cspace:id(parent)',
+        type: 'set',
       },
       children: [
         {
-          refName: 'urn:cspace:child',
+          refName: 'urn:cspace:id(child)',
+          type: 'recto',
         },
       ],
     });
@@ -377,7 +375,7 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.onCommit([], hierarchy);
 
@@ -386,6 +384,7 @@ describe('HierarchyInput', function suite() {
     committedValue.should.equal(Immutable.fromJS([
       {
         predicate: 'hasBroader',
+        relationshipMetaType: 'recto',
         subject: {
           refName: hierarchy.getIn(['children', 0, 'refName']),
         },
@@ -395,6 +394,7 @@ describe('HierarchyInput', function suite() {
       },
       {
         predicate: 'hasBroader',
+        relationshipMetaType: 'set',
         subject: {
           csid: context.csid,
         },
@@ -418,8 +418,9 @@ describe('HierarchyInput', function suite() {
     const relations = Immutable.fromJS([
       {
         predicate: 'hasBroader',
+        relationshipMetaType: undefined,
         subject: {
-          refName: 'urn:cspace:child1',
+          refName: 'urn:cspace:id(child1)',
         },
         object: {
           csid: context.csid,
@@ -427,8 +428,9 @@ describe('HierarchyInput', function suite() {
       },
       {
         predicate: 'hasBroader',
+        relationshipMetaType: undefined,
         subject: {
-          refName: 'urn:cspace:child2',
+          refName: 'urn:cspace:id(child2)',
         },
         object: {
           csid: context.csid,
@@ -436,8 +438,9 @@ describe('HierarchyInput', function suite() {
       },
       {
         predicate: 'hasBroader',
+        relationshipMetaType: undefined,
         subject: {
-          refName: 'urn:cspace:child3',
+          refName: 'urn:cspace:id(child3)',
         },
         object: {
           csid: context.csid,
@@ -445,12 +448,13 @@ describe('HierarchyInput', function suite() {
       },
       {
         predicate: 'hasBroader',
+        relationshipMetaType: undefined,
         subject: {
           csid: context.csid,
         },
         object: {
           csid: 'abcd',
-          refName: 'urn:cspace:parent',
+          refName: 'urn:cspace:id(parent)',
         },
       },
     ]);
@@ -466,7 +470,7 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     const removedIndex = 1;
 
@@ -488,8 +492,9 @@ describe('HierarchyInput', function suite() {
     const relations = Immutable.fromJS([
       {
         predicate: 'hasBroader',
+        relationshipMetaType: undefined,
         subject: {
-          refName: 'urn:cspace:child1',
+          refName: 'urn:cspace:id(child1)',
         },
         object: {
           csid: context.csid,
@@ -497,11 +502,23 @@ describe('HierarchyInput', function suite() {
       },
       {
         predicate: 'hasBroader',
+        relationshipMetaType: undefined,
         subject: {
-          refName: 'urn:cspace:child2',
+          refName: 'urn:cspace:id(child2)',
         },
         object: {
           csid: context.csid,
+        },
+      },
+      {
+        predicate: 'hasBroader',
+        relationshipMetaType: undefined,
+        subject: {
+          csid: context.csid,
+        },
+        object: {
+          csid: 'abcd',
+          refName: 'urn:cspace:id(parent)',
         },
       },
     ]);
@@ -517,16 +534,21 @@ describe('HierarchyInput', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const hierarchyEditor = findWithType(result, AuthorityHierarchyEditor);
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.onAddChild();
 
     committedPath.should.deep.equal([name]);
 
-    committedValue.should.equal(relations.push(Immutable.fromJS({
-      predicate: '',
-      subject: {},
-      object: {},
+    committedValue.should.equal(relations.insert(2, Immutable.fromJS({
+      predicate: 'hasBroader',
+      relationshipMetaType: undefined,
+      subject: {
+        refName: undefined,
+      },
+      object: {
+        csid: context.csid,
+      },
     })));
   });
 });

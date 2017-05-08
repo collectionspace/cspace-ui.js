@@ -90,18 +90,32 @@ export default (pluginContext) => {
             view: {
               type: HierarchyInput,
               props: {
+                parentTypeOptionListName: 'objectParentTypes',
+                childTypeOptionListName: 'objectChildTypes',
                 messages: defineMessages({
                   parent: {
-                    id: 'hierarchyInput.person.parent',
+                    id: 'hierarchyInput.collectionobject.parent',
                     defaultMessage: 'Broader object',
                   },
+                  parentType: {
+                    id: 'hierarchyInput.collectionobject.parentType',
+                    defaultMessage: 'Type',
+                  },
                   children: {
-                    id: 'hierarchyInput.person.children',
-                    defaultMessage: 'Object components',
+                    id: 'hierarchyInput.collectionobject.children',
+                    defaultMessage: 'Component objects',
+                  },
+                  child: {
+                    id: 'hierarchyInput.collectionobject.child',
+                    defaultMessage: 'Object',
+                  },
+                  childType: {
+                    id: 'hierarchyInput.collectionobject.childType',
+                    defaultMessage: 'Type',
                   },
                   siblings: {
-                    id: 'hierarchyInput.person.siblings',
-                    defaultMessage: 'Adjacent components',
+                    id: 'hierarchyInput.collectionobject.siblings',
+                    defaultMessage: 'Adjacent objects',
                   },
                 }),
               },

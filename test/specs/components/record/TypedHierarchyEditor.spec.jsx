@@ -3,8 +3,14 @@ import { createRenderer } from 'react-addons-test-utils';
 import { findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { components as inputComponents } from 'cspace-input';
 import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
-import { BaseAuthorityHierarchyEditor as AuthorityHierarchyEditor } from '../../../../src/components/record/AuthorityHierarchyEditor';
+import OptionListControlledInputContainer from '../../../../src/containers/input/OptionListControlledInputContainer';
+import { BaseTypedHierarchyEditor as TypedHierarchyEditor } from '../../../../src/components/record/TypedHierarchyEditor';
+
+const {
+  CompoundInput,
+} = inputComponents;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -26,6 +32,7 @@ const messages = {
 const hierarchy = Immutable.fromJS({
   parent: {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Parent)\'Parent\'',
+    type: 'set',
   },
   children: [
     {
@@ -37,12 +44,12 @@ const hierarchy = Immutable.fromJS({
   ],
 });
 
-describe('AuthorityHierarchyEditor', function suite() {
-  it('should render an input for the parent and a repeating input for the children', function test() {
+describe('TypedHierarchyEditor', function suite() {
+  it('should render inputs for the parent and nested repeating inputs for the children', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthorityHierarchyEditor
+      <TypedHierarchyEditor
         intl={intl}
         messages={messages}
         value={hierarchy}
@@ -50,12 +57,24 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const refNameInputs = findAllWithType(result, AutocompleteInputContainer);
 
-    inputs.should.have.lengthOf(2);
+    refNameInputs.should.have.lengthOf(2);
 
-    inputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'refName']));
-    inputs[1].props.repeating.should.equal(true);
+    refNameInputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'refName']));
+
+    const typeInputs = findAllWithType(result, OptionListControlledInputContainer);
+
+    typeInputs.should.have.lengthOf(2);
+
+    typeInputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'type']));
+
+    const compoundInputs = findAllWithType(result, CompoundInput);
+
+    compoundInputs.should.have.lengthOf(2);
+
+    compoundInputs[0].props.value.should.equal(hierarchy.get('children'));
+    compoundInputs[1].props.repeating.should.equal(true);
   });
 
   it('should filter the current record out of term matches', function test() {
@@ -64,7 +83,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthorityHierarchyEditor
+      <TypedHierarchyEditor
         csid={csid}
         intl={intl}
         messages={messages}
@@ -85,7 +104,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     matchFilter({ csid: '1234' }).should.equal(true);
   });
 
-  it('should call onCommit when a parent value is committed', function test() {
+  it('should call onCommit when a parent ref name value is committed', function test() {
     let committedPath = null;
     let committedValue = null;
 
@@ -97,7 +116,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthorityHierarchyEditor
+      <TypedHierarchyEditor
         intl={intl}
         messages={messages}
         value={hierarchy}
@@ -115,13 +134,12 @@ describe('AuthorityHierarchyEditor', function suite() {
 
     committedPath.should.deep.equal(['parent']);
 
-    committedValue.should.equal(Immutable.fromJS({
-      csid: newCsid,
-      refName: newValue,
-    }));
+    committedValue.should.equal(
+      hierarchy.get('parent').set('csid', newCsid).set('refName', newValue)
+    );
   });
 
-  it('should call onCommit when a child value is committed', function test() {
+  it('should call onCommit when a parent type value is committed', function test() {
     let committedPath = null;
     let committedValue = null;
 
@@ -133,7 +151,39 @@ describe('AuthorityHierarchyEditor', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthorityHierarchyEditor
+      <TypedHierarchyEditor
+        intl={intl}
+        messages={messages}
+        value={hierarchy}
+        onCommit={handleCommit}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const inputs = findAllWithType(result, OptionListControlledInputContainer);
+
+    const newValue = 'newValue';
+
+    inputs[0].props.onCommit(undefined, newValue);
+
+    committedPath.should.deep.equal(['parent', 'type']);
+
+    committedValue.should.equal(newValue);
+  });
+
+  it('should call onCommit when a child ref name value is committed', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <TypedHierarchyEditor
         intl={intl}
         messages={messages}
         value={hierarchy}
@@ -152,7 +202,39 @@ describe('AuthorityHierarchyEditor', function suite() {
     committedValue.should.equal(newValue);
   });
 
-  it('should call onAddChild when a child value is committed', function test() {
+  it('should call onCommit when a child type value is committed', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <TypedHierarchyEditor
+        intl={intl}
+        messages={messages}
+        value={hierarchy}
+        onCommit={handleCommit}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const inputs = findAllWithType(result, OptionListControlledInputContainer);
+
+    const newValue = 'newValue';
+
+    inputs[1].props.onCommit(['1'], newValue);
+
+    committedPath.should.deep.equal(['children', '1', 'type']);
+
+    committedValue.should.equal(newValue);
+  });
+
+  it('should call onAddChild when a child value is added', function test() {
     let handlerCalled = null;
 
     const handleAddChild = () => {
@@ -162,7 +244,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthorityHierarchyEditor
+      <TypedHierarchyEditor
         intl={intl}
         messages={messages}
         value={hierarchy}
@@ -171,9 +253,9 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const compoundInputs = findAllWithType(result, CompoundInput);
 
-    inputs[1].props.onAddInstance();
+    compoundInputs[1].props.onAddInstance();
 
     handlerCalled.should.equal(true);
   });
@@ -188,7 +270,7 @@ describe('AuthorityHierarchyEditor', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthorityHierarchyEditor
+      <TypedHierarchyEditor
         intl={intl}
         messages={messages}
         value={hierarchy}
@@ -197,9 +279,9 @@ describe('AuthorityHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const compoundInputs = findAllWithType(result, CompoundInput);
 
-    inputs[1].props.onRemoveInstance(['1']);
+    compoundInputs[1].props.onRemoveInstance(['1']);
 
     removedPosition.should.equal(1);
   });

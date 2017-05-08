@@ -60,9 +60,10 @@ describe('AutocompleteInputContainer', function suite() {
     result.type.should.equal(AutocompleteInput);
     result.props.should.have.property('matches', matches);
     result.props.should.have.property('recordTypes', config.recordTypes);
+    result.props.should.have.property('formatAddPrompt').that.is.a('function');
     result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
     result.props.should.have.property('formatSearchResultMessage').that.is.a('function');
-    result.props.should.have.property('formatVocabName').that.is.a('function');
+    result.props.should.have.property('formatSourceName').that.is.a('function');
     result.props.should.have.property('addTerm').that.is.a('function');
     result.props.should.have.property('findMatchingTerms').that.is.a('function');
     result.props.should.have.property('onClose').that.is.a('function');
@@ -118,8 +119,8 @@ describe('AutocompleteInputContainer', function suite() {
       const action = store.getActions()[0];
 
       action.should.have.property('type', ADD_TERM_STARTED);
-      action.should.have.deep.property('meta.authorityName', 'person');
-      action.should.have.deep.property('meta.vocabularyName', 'local');
+      action.should.have.deep.property('meta.recordType', 'person');
+      action.should.have.deep.property('meta.vocabulary', 'local');
       action.should.have.deep.property('meta.displayName', 'abcd');
     }
 
@@ -133,8 +134,8 @@ describe('AutocompleteInputContainer', function suite() {
       const action = store.getActions()[1];
 
       action.should.have.property('type', PARTIAL_TERM_SEARCH_STARTED);
-      action.should.have.deep.property('meta.authorityName', 'person');
-      action.should.have.deep.property('meta.vocabularyName', 'local');
+      action.should.have.deep.property('meta.recordType', 'person');
+      action.should.have.deep.property('meta.vocabulary', 'local');
       action.should.have.deep.property('meta.partialTerm', 'abcd');
     }
 
@@ -143,7 +144,7 @@ describe('AutocompleteInputContainer', function suite() {
     store.getActions()[2].should.have.property('type', CLEAR_PARTIAL_TERM_SEARCH_RESULTS);
   });
 
-  it('should connect formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatVocabName to intl.formatMessage', function test() {
+  it('should connect formatAddPrompt, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', function test() {
     const matches = Immutable.Map({});
 
     let formatMessageCalledCount = 0;
@@ -198,16 +199,20 @@ describe('AutocompleteInputContainer', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.formatMoreCharsRequiredMessage();
+    result.props.formatAddPrompt();
 
     formatMessageCalledCount.should.equal(1);
 
-    result.props.formatSearchResultMessage(1);
+    result.props.formatMoreCharsRequiredMessage();
 
     formatMessageCalledCount.should.equal(2);
 
-    result.props.formatVocabName({ messages: {} });
+    result.props.formatSearchResultMessage(1);
 
     formatMessageCalledCount.should.equal(3);
+
+    result.props.formatSourceName({ messages: {} });
+
+    formatMessageCalledCount.should.equal(4);
   });
 });

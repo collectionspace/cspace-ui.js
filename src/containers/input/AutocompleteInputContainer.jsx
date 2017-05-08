@@ -1,6 +1,10 @@
+// TODO: Break out non-state related props into a separate component. This component should just
+// connect to redux state.
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
+import get from 'lodash/get';
 import { components as inputComponents } from 'cspace-input';
 import warning from 'warning';
 import parseResourceID from '../../helpers/parseResourceID';
@@ -31,6 +35,11 @@ const messages = defineMessages({
     description: 'Message displayed in the autocomplete input dropdown when more characters must be typed in order to begin matching.',
     defaultMessage: 'Continue typing to find matching terms',
   },
+  addPrompt: {
+    id: 'autocompleteInputContainer.addPrompt',
+    description: 'Message displayed in the autocomplete input dropdown to prompt a user to add a new term.',
+    defaultMessage: 'Add {displayName} to',
+  },
 });
 
 const mapStateToProps = (state, ownProps) => {
@@ -40,9 +49,14 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
+    formatAddPrompt: displayName => intl.formatMessage(messages.addPrompt, { displayName }),
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
     formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
-    formatVocabName: vocab => intl.formatMessage(vocab.messages.collectionName),
+    formatSourceName: (recordTypeConfig, vocabulary) => intl.formatMessage(
+      vocabulary
+        ? get(recordTypeConfig, ['vocabularies', vocabulary, 'messages', 'collectionName'])
+        : get(recordTypeConfig, ['messages', 'record', 'collectionName'])
+    ),
     matches: getPartialTermSearchMatches(state),
     recordTypes: config.recordTypes,
   };
@@ -58,15 +72,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     addTerm: (recordType, vocabulary, displayName) => {
-      const recordTypeConfig = config.recordTypes[recordType];
+      const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
       warning(recordTypeConfig, `The record type '${recordType}' is not configured. Check the source prop of the input with name '${ownProps.name}'.`);
 
-      if (
-        recordTypeConfig &&
-        recordTypeConfig.vocabularies &&
-        recordTypeConfig.vocabularies[vocabulary]
-      ) {
+      if (recordTypeConfig) {
         dispatch(addTerm(recordTypeConfig, vocabulary, displayName));
       }
     },
@@ -81,11 +91,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         warning(recordTypeConfig, `The record type '${recordType}' is not configured. Check the source prop of the input with name '${ownProps.name}'.`);
 
-        if (
-          recordTypeConfig &&
-          recordTypeConfig.vocabularies &&
-          recordTypeConfig.vocabularies[vocabulary]
-        ) {
+        if (recordTypeConfig) {
           dispatch(findMatchingTerms(recordTypeConfig, vocabulary, partialTerm));
         }
       });

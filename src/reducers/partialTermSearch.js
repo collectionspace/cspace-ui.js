@@ -18,32 +18,32 @@ export default (state = Immutable.Map(), action) => {
     case ADD_TERM_STARTED:
       return state.setIn([
         action.meta.displayName,
-        action.meta.authorityName,
-        action.meta.vocabularyName,
+        action.meta.recordType,
+        action.meta.vocabulary,
       ], Immutable.Map({
         isAddPending: true,
       }));
     case ADD_TERM_FULFILLED:
       return state.setIn([
         action.meta.displayName,
-        action.meta.authorityName,
-        action.meta.vocabularyName,
+        action.meta.recordType,
+        action.meta.vocabulary,
       ], Immutable.Map({
         newTerm: Immutable.fromJS(action.payload.data),
       }));
     case ADD_TERM_REJECTED:
       return state.setIn([
         action.meta.displayName,
-        action.meta.authorityName,
-        action.meta.vocabularyName,
+        action.meta.recordType,
+        action.meta.vocabulary,
       ], Immutable.Map({
         error: action.payload,
       }));
     case PARTIAL_TERM_SEARCH_STARTED:
       return state.setIn([
         action.meta.partialTerm,
-        action.meta.authorityName,
-        action.meta.vocabularyName,
+        action.meta.recordType,
+        action.meta.vocabulary,
       ], Immutable.Map({
         isSearchPending: true,
       }));
@@ -62,16 +62,16 @@ export default (state = Immutable.Map(), action) => {
 
       return state.setIn([
         action.meta.partialTerm,
-        action.meta.authorityName,
-        action.meta.vocabularyName,
+        action.meta.recordType,
+        action.meta.vocabulary,
       ], Immutable.Map({
         items,
       }));
     case PARTIAL_TERM_SEARCH_REJECTED:
       return state.setIn([
         action.meta.partialTerm,
-        action.meta.authorityName,
-        action.meta.vocabularyName,
+        action.meta.recordType,
+        action.meta.vocabulary,
       ], Immutable.Map({
         error: action.payload,
       }));

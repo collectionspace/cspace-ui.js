@@ -939,4 +939,76 @@ export default {
       },
     }),
   },
+  objectParentTypes: {
+    values: [
+      'set',
+      'derivative',
+      'separable-part',
+      'non-separable-part',
+      'recto',
+      'verso',
+    ],
+    messages: defineMessages({
+      set: {
+        id: 'option.objectParentTypes.set',
+        defaultMessage: 'set',
+      },
+      derivative: {
+        id: 'option.objectParentTypes.derivative',
+        defaultMessage: 'work (derivative)',
+      },
+      'separable-part': {
+        id: 'option.objectParentTypes.separable-part',
+        defaultMessage: 'work (separable part)',
+      },
+      'non-separable-part': {
+        id: 'option.objectParentTypes.non-separable-part',
+        defaultMessage: 'work (non-separable part)',
+      },
+      recto: {
+        id: 'option.objectParentTypes.recto',
+        defaultMessage: 'work (recto)',
+      },
+      verso: {
+        id: 'option.objectParentTypes.verso',
+        defaultMessage: 'work (verso)',
+      },
+    }),
+  },
+  objectChildTypes: {
+    values: [
+      'set',
+      'derivative',
+      'separable-part',
+      'non-separable-part',
+      'recto',
+      'verso',
+    ],
+    messages: defineMessages({
+      set: {
+        id: 'option.objectChildTypes.set',
+        defaultMessage: 'item in set',
+      },
+      derivative: {
+        id: 'option.objectChildTypes.derivative',
+        defaultMessage: 'derivative',
+      },
+      'separable-part': {
+        id: 'option.objectChildTypes.separable-part',
+        defaultMessage: 'separable part',
+      },
+      'non-separable-part': {
+        id: 'option.objectChildTypes.non-separable-part',
+        defaultMessage: 'non-separable part',
+      },
+      recto: {
+        id: 'option.objectChildTypes.recto',
+        defaultMessage: 'recto',
+      },
+      verso: {
+        id: 'option.objectChildTypes.verso',
+        defaultMessage: 'verso',
+      },
+    }),
+  },
 };

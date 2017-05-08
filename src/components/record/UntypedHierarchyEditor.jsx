@@ -20,7 +20,7 @@ const propTypes = {
   onRemoveChild: PropTypes.func,
 };
 
-export class BaseAuthorityHierarchyEditor extends Component {
+export class BaseUntypedHierarchyEditor extends Component {
   constructor() {
     super();
 
@@ -126,6 +126,6 @@ export class BaseAuthorityHierarchyEditor extends Component {
   }
 }
 
-BaseAuthorityHierarchyEditor.propTypes = propTypes;
+BaseUntypedHierarchyEditor.propTypes = propTypes;
 
-export default injectIntl(BaseAuthorityHierarchyEditor);
+export default injectIntl(BaseUntypedHierarchyEditor);

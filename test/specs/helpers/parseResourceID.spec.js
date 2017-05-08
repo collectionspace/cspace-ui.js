@@ -12,4 +12,10 @@ describe('parseResourceID', function suite() {
       vocabulary: 'org',
     }]);
   });
+
+  it('should return an empty array for a falsy input', function test() {
+    parseResourceID(undefined).should.deep.equal([]);
+    parseResourceID(null).should.deep.equal([]);
+    parseResourceID('').should.deep.equal([]);
+  });
 });

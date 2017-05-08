@@ -800,6 +800,30 @@ describe('recordDataHelpers', function moduleSuite() {
           '@xmlns:ns2': 'http://collectionspace.org',
         },
         'ns2:account_permission': {},
+        'ns2:relations-common-list': {
+          'relation-list-item': [
+            {
+              predicate: 'hasBroader',
+              relationshipMetaType: undefined,
+              subject: {
+                refName: undefined,
+              },
+              object: {
+                csid: '1111',
+              },
+            },
+            {
+              predicate: 'hasBroader',
+              relationshipMetaType: undefined,
+              subject: {
+                csid: '1111',
+              },
+              object: {
+                refName: undefined,
+              },
+            },
+          ],
+        },
       },
     });
 
@@ -814,6 +838,12 @@ describe('recordDataHelpers', function moduleSuite() {
     it('should sort attribute and namespace declaration properties to the top of each part', function test() {
       prepareForSending(recordData).get('document').get('ns2:groups_common').keySeq()
         .toArray().should.deep.equal(['@attr1', '@xmlns:ns2', 'name', 'date']);
+    });
+
+    it('should filter out incomplete relation items', function test() {
+      prepareForSending(recordData)
+        .getIn(['document', 'ns2:relations-common-list', 'relation-list-item']).size.should
+          .equal(0);
     });
   });
 

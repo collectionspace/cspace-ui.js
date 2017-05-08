@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
+import get from 'lodash/get';
+import { getDisplayName } from 'cspace-refname';
 import { helpers as inputHelpers } from 'cspace-input';
 import { Row } from 'cspace-layout';
 import HierarchySiblingListContainer from '../../containers/record/HierarchySiblingListContainer';
-import AuthorityHierarchyEditor from './AuthorityHierarchyEditor';
+import UntypedHierarchyEditor from './UntypedHierarchyEditor';
+import TypedHierarchyEditor from './TypedHierarchyEditor';
 
 const {
   getPath,
@@ -40,6 +43,8 @@ const propTypes = {
     PropTypes.array,
     PropTypes.object,
   ]),
+  parentTypeOptionListName: PropTypes.string,
+  childTypeOptionListName: PropTypes.string,
   onCommit: PropTypes.func,
 };
 
@@ -90,57 +95,32 @@ export default class HierarchyInput extends Component {
 
     const children = hierarchy.get('children');
 
-    let relationItems = children.map((child) => {
-      const childRefName = child.get('refName');
-
-      if (childRefName) {
-        return Immutable.fromJS({
-          predicate: 'hasBroader',
-          // relationshipMetaType: '',
-          subject: {
-            refName: child.get('refName'),
-          },
-          object: {
-            csid,
-          },
-        });
-      }
-
-      // If there is no refname entered for this child, create a relation item with empty subject
-      // and object. The services layer will accept this item, and not do anything with it. This
-      // is done rather than omitting the relation item altogether, so that the blank item will
-      // continue to be rendered in the UI -- it may be the case that a new child instance was just
-      // added, and hasn't been fully filled in yet.
-
-      return Immutable.fromJS({
-        predicate: '',
-        // relationshipMetaType: '',
-        subject: {},
-        object: {},
-      });
-    });
+    const childRelationItems = children.map(child => Immutable.fromJS({
+      predicate: 'hasBroader',
+      relationshipMetaType: child.get('type'),
+      subject: {
+        refName: child.get('refName'),
+      },
+      object: {
+        csid,
+      },
+    }));
 
     const parent = hierarchy.get('parent');
-    const parentCsid = parent.get('csid');
-    const parentRefName = parent.get('refName');
 
-    if (parentRefName) {
-      const parentRelationItem = Immutable.fromJS({
-        predicate: 'hasBroader',
-        // relationshipMetaType: '',
-        subject: {
-          csid,
-        },
-        object: {
-          csid: parentCsid,
-          refName: parentRefName,
-        },
-      });
+    const parentRelationItem = Immutable.fromJS({
+      predicate: 'hasBroader',
+      relationshipMetaType: parent.get('type'),
+      subject: {
+        csid,
+      },
+      object: {
+        csid: parent.get('csid'),
+        refName: parent.get('refName'),
+      },
+    });
 
-      relationItems = relationItems.push(parentRelationItem);
-    }
-
-    return relationItems;
+    return childRelationItems.push(parentRelationItem);
   }
 
   initHierarchy(value) {
@@ -201,22 +181,20 @@ export default class HierarchyInput extends Component {
   }
 
   findChildren(relations) {
-    // TODO: Resort children alphabetically on save.
-
     return this.findNarrowerRelations(relations)
       .sort((relationA, relationB) => {
-        const numberA = relationA.getIn(['subject', 'number']);
-        const numberB = relationB.getIn(['subject', 'number']);
+        const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName']));
+        const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName']));
 
-        if (numberA && numberB) {
-          return numberA.localeCompare(numberB);
+        if (displayNameA && displayNameB) {
+          return displayNameA.localeCompare(displayNameB);
         }
 
-        if (!numberA && !numberB) {
+        if (!displayNameA && !displayNameB) {
           return 0;
         }
 
-        if (numberA) {
+        if (displayNameA) {
           return -1;
         }
 
@@ -295,6 +273,8 @@ export default class HierarchyInput extends Component {
   render() {
     const {
       messages,
+      parentTypeOptionListName,
+      childTypeOptionListName,
     } = this.props;
 
     const {
@@ -308,11 +288,19 @@ export default class HierarchyInput extends Component {
       hierarchy,
     } = this.state;
 
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
+    const HierarchyEditor = (serviceType === 'object')
+      ? TypedHierarchyEditor
+      : UntypedHierarchyEditor;
+
     return (
       <Row>
-        <AuthorityHierarchyEditor
+        <HierarchyEditor
           csid={csid}
           messages={messages}
+          parentTypeOptionListName={parentTypeOptionListName}
+          childTypeOptionListName={childTypeOptionListName}
           recordType={recordType}
           vocabulary={vocabulary}
           value={hierarchy}
