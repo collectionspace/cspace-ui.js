@@ -52,6 +52,7 @@
     "moment-timezone": "^0.5.11",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-helmet": "^5.0.3",
     "react-image-gallery": "^0.7.12",
     "react-intl": "^2.1.5",
     "react-modal": "^1.7.3",

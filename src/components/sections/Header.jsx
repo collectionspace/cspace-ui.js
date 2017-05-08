@@ -11,15 +11,10 @@ import bannerRightStyles from '../../../styles/cspace-ui/BannerRight.css';
 import logoStyles from '../../../styles/cspace-ui/Logo.css';
 
 const messages = defineMessages({
-  name: {
-    id: 'app.name',
-    description: 'The name of the application.',
+  logoTitle: {
+    id: 'header.logoTitle',
+    description: 'The title (advisory text) of the logo.',
     defaultMessage: 'CollectionSpace',
-  },
-  quickSearchPlaceholder: {
-    id: 'quickSearch.placeholder',
-    description: 'The placeholder text to display in the quick search input.',
-    defaultMessage: 'Search',
   },
 });
 
@@ -36,13 +31,13 @@ function Header(props) {
     username,
   } = props;
 
-  const name = intl.formatMessage(messages.name);
+  const logoTitle = intl.formatMessage(messages.logoTitle);
 
   return (
     <header>
       <div className={bannerStyles.common}>
         <div className={bannerMainStyles.common}>
-          <Link to="/" title={name}>
+          <Link to="/" title={logoTitle}>
             <div className={logoStyles.common} />
           </Link>
           <QuickSearchFormContainer

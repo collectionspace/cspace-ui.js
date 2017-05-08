@@ -1,23 +1,52 @@
 import React, { PropTypes } from 'react';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/RootPage.css';
+import favicon from '../../../images/favicon.png';
 
-export default function RootPage(props) {
+const messages = defineMessages({
+  title: {
+    id: 'rootPage.title',
+    description: 'The title of the application, displayed in the browser tab.',
+    defaultMessage: 'CollectionSpace',
+  },
+});
+
+const propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  intl: intlShape,
+};
+
+function RootPage(props) {
   const {
     children,
     className,
+    intl,
   } = props;
 
   const classes = classNames(styles.common, className);
 
   return (
     <div className={classes}>
+      <Helmet>
+        {/* TODO: Allow nested routes to push title parts that get prepended to the root title. */}
+
+        <title>{intl.formatMessage(messages.title)}</title>
+
+        {/*
+          * TODO: Generate a full set of icons to support a range of platforms (e.g. using
+          * http://realfavicongenerator.net/)
+          */}
+
+        <link rel="shortcut icon" href={favicon} />
+      </Helmet>
       {children}
     </div>
   );
 }
 
-RootPage.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
+RootPage.propTypes = propTypes;
+
+export default injectIntl(RootPage);
