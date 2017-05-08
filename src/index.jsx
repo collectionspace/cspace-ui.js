@@ -82,7 +82,6 @@ module.exports = (uiConfig) => {
     className,
     container,
     idGenerators,
-    locale,
     optionLists,
     prettyUrls,
     serverUrl,
