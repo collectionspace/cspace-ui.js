@@ -7,7 +7,6 @@ import thunk from 'redux-thunk';
 import { useRouterHistory } from 'react-router';
 import { createHistory, createHashHistory, useBeforeUnload } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
-import script from 'scriptjs';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
 
@@ -39,16 +38,6 @@ import refsSubresource from './plugins/subresources/refs';
 import termsSubresource from './plugins/subresources/terms';
 
 import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
-
-const loadPolyfills = (locale, callback) => {
-  if (window.Intl) {
-    window.setTimeout(callback, 0);
-  } else {
-    const url = `https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.${locale}`;
-
-    script(url, callback);
-  }
-};
 
 const pluginContext = createPluginContext();
 
@@ -137,8 +126,6 @@ module.exports = (uiConfig) => {
 
     Modal.setAppElement(mountNode);
 
-    loadPolyfills(locale, () => {
-      render(<App {...props} />, mountNode);
-    });
+    render(<App {...props} />, mountNode);
   }
 };

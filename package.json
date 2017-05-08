@@ -62,7 +62,6 @@
     "react-virtualized": "^8.9.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "scriptjs": "^2.5.8",
     "warning": "^3.0.0"
   },
   "devDependencies": {
