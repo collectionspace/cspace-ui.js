@@ -67,6 +67,10 @@ export default {
       id: 'panel.collectionobject.collect',
       defaultMessage: 'Object Collection Information',
     },
+    hierarchy: {
+      id: 'panel.collectionobject.hierarchy',
+      defaultMessage: 'Hierarchy',
+    },
   }),
   inputTable: defineMessages({
     age: {

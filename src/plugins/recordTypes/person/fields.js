@@ -2,9 +2,10 @@ import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
   const {
-    AuthorityControlledInput,
+    AutocompleteInput,
     CompoundInput,
     // DateInput,
+    HierarchyInput,
     // IDGeneratorInput,
     // OptionListControlledInput,
     // StructuredDateInput,
@@ -23,6 +24,36 @@ export default (pluginContext) => {
           type: CompoundInput,
           props: {
             defaultChildSubpath: 'ns2:persons_common',
+          },
+        },
+      },
+      'ns2:relations-common-list': {
+        [config]: {
+          service: {
+            ns: 'http://collectionspace.org/services/relation',
+          },
+        },
+        'relation-list-item': {
+          [config]: {
+            view: {
+              type: HierarchyInput,
+              props: {
+                messages: defineMessages({
+                  parent: {
+                    id: 'hierarchyInput.person.parent',
+                    defaultMessage: 'Broader person',
+                  },
+                  children: {
+                    id: 'hierarchyInput.person.children',
+                    defaultMessage: 'Narrower persons',
+                  },
+                  siblings: {
+                    id: 'hierarchyInput.person.siblings',
+                    defaultMessage: 'Adjacent persons',
+                  },
+                }),
+              },
+            },
           },
         },
       },
@@ -75,9 +106,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AuthorityControlledInput,
+                  type: AutocompleteInput,
                   props: {
-                    authority: 'citation/local,citation/shared,citation/worldcat',
+                    source: 'citation/local,citation/shared,citation/worldcat',
                   },
                 },
               },

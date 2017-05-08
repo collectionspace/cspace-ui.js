@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import getSession from './cspace';
 
 export const ADD_TERM_STARTED = 'ADD_TERM_STARTED';
@@ -8,45 +9,43 @@ export const PARTIAL_TERM_SEARCH_FULFILLED = 'PARTIAL_TERM_SEARCH_FULFILLED';
 export const PARTIAL_TERM_SEARCH_REJECTED = 'PARTIAL_TERM_SEARCH_REJECTED';
 export const CLEAR_PARTIAL_TERM_SEARCH_RESULTS = 'CLEAR_PARTIAL_TERM_SEARCH_RESULTS';
 
-export const addTerm = (authorityRecordTypeConfig, vocabularyName, displayName) => (dispatch) => {
-  const {
-    vocabularies,
-    name: authorityName,
-    serviceConfig: authorityServiceConfig,
-  } = authorityRecordTypeConfig;
+export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch) => {
+  const recordType = get(recordTypeConfig, 'name');
+  const serviceConfig = get(recordTypeConfig, 'serviceConfig');
+  const servicePath = get(serviceConfig, 'servicePath');
 
-  const {
-    servicePath: authorityServicePath,
-  } = authorityServiceConfig;
-
-  const {
-    servicePath: vocabularyServicePath,
-  } = vocabularies[vocabularyName].serviceConfig;
+  const vocabularyServicePath = vocabulary
+    ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
+    : undefined;
 
   dispatch({
     type: ADD_TERM_STARTED,
     meta: {
       displayName,
-      authorityName,
-      vocabularyName,
+      recordType,
+      vocabulary,
     },
   });
 
   const config = {
-    data: authorityServiceConfig.quickAddData({
+    data: serviceConfig.quickAddData({
       displayName,
     }),
   };
 
-  return getSession().create(`${authorityServicePath}/${vocabularyServicePath}/items`, config)
+  const itemPath = vocabularyServicePath
+    ? `/${vocabularyServicePath}/items`
+    : '';
+
+  return getSession().create(`${servicePath}${itemPath}`, config)
     .then(response => getSession().read(response.headers.location))
     .then(response => dispatch({
       type: ADD_TERM_FULFILLED,
       payload: response,
       meta: {
         displayName,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     }))
     .catch(error => dispatch({
@@ -54,64 +53,60 @@ export const addTerm = (authorityRecordTypeConfig, vocabularyName, displayName) 
       payload: error,
       meta: {
         displayName,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     }));
 };
 
-export const findMatchingTerms = (authorityRecordTypeConfig, vocabularyName, partialTerm) =>
-  (dispatch) => {
-    const {
-      vocabularies,
-      name: authorityName,
-      serviceConfig: authorityServiceConfig,
-    } = authorityRecordTypeConfig;
+export const findMatchingTerms = (recordTypeConfig, vocabulary, partialTerm) => (dispatch) => {
+  const recordType = get(recordTypeConfig, 'name');
+  const servicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
 
-    const {
-      servicePath: authorityServicePath,
-    } = authorityServiceConfig;
+  const vocabularyServicePath = vocabulary
+    ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
+    : undefined;
 
-    const {
-      servicePath: vocabularyServicePath,
-    } = vocabularies[vocabularyName].serviceConfig;
+  dispatch({
+    type: PARTIAL_TERM_SEARCH_STARTED,
+    meta: {
+      partialTerm,
+      recordType,
+      vocabulary,
+    },
+  });
 
-    dispatch({
-      type: PARTIAL_TERM_SEARCH_STARTED,
+  const config = {
+    params: {
+      pt: partialTerm,
+      wf_deleted: 'false',
+    },
+  };
+
+  const itemPath = vocabularyServicePath
+    ? `/${vocabularyServicePath}/items`
+    : '';
+
+  return getSession().read(`${servicePath}${itemPath}`, config)
+    .then(response => dispatch({
+      type: PARTIAL_TERM_SEARCH_FULFILLED,
+      payload: response,
       meta: {
         partialTerm,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
-    });
-
-    const config = {
-      params: {
-        pt: partialTerm,
-        wf_deleted: 'false',
+    }))
+    .catch(error => dispatch({
+      type: PARTIAL_TERM_SEARCH_REJECTED,
+      payload: error,
+      meta: {
+        partialTerm,
+        recordType,
+        vocabulary,
       },
-    };
-
-    return getSession().read(`${authorityServicePath}/${vocabularyServicePath}/items`, config)
-      .then(response => dispatch({
-        type: PARTIAL_TERM_SEARCH_FULFILLED,
-        payload: response,
-        meta: {
-          partialTerm,
-          authorityName,
-          vocabularyName,
-        },
-      }))
-      .catch(error => dispatch({
-        type: PARTIAL_TERM_SEARCH_REJECTED,
-        payload: error,
-        meta: {
-          partialTerm,
-          authorityName,
-          vocabularyName,
-        },
-      }));
-  };
+    }));
+};
 
 export const clearMatchedTerms = () => ({
   type: CLEAR_PARTIAL_TERM_SEARCH_RESULTS,

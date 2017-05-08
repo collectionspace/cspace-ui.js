@@ -298,6 +298,26 @@ export const prepareForSending = (data) => {
     }
   }
 
+  // Filter out hierarchy relations that don't have both a subject and an object, since the REST
+  // API will error. These will occur when hierarchy autocomplete fields are emptied, or new
+  // child instances are created but not filled in.
+
+  // TODO: Move this to a computation in the HierarchyInput, when a computed field infrastructure
+  // exists.
+
+  const relations = cspaceDocument.getIn(['ns2:relations-common-list', 'relation-list-item']);
+
+  if (relations && Immutable.List.isList(relations)) {
+    const filteredRelations = relations.filter(relation => (
+      (relation.getIn(['object', 'refName']) || relation.getIn(['object', 'csid'])) &&
+      (relation.getIn(['subject', 'refName']) || relation.getIn(['subject', 'csid']))
+    ));
+
+    cspaceDocument = cspaceDocument.setIn(
+      ['ns2:relations-common-list', 'relation-list-item'], filteredRelations
+    );
+  }
+
   return data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
 };
 

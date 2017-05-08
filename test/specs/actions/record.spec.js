@@ -564,7 +564,7 @@ describe('record action creator', function suite() {
           },
         });
 
-        moxios.stubRequest(`${saveNewRecordUrl}/${createdCsid}?wf_deleted=false`, {
+        moxios.stubRequest(`${saveNewRecordUrl}/${createdCsid}?showRelations=true&wf_deleted=false`, {
           status: 200,
           response: {},
         });

@@ -188,13 +188,13 @@ describe('relation action creator', function suite() {
       expect(store.dispatch(find(config, subject, object, predicate))).to.equal(null);
     });
 
-    it('should throw if object csid or subject csid are not supplied', function test() {
+    it('should throw if neither object csid nor subject csid are supplied', function test() {
       const store = mockStore({
         relation: Immutable.Map(),
       });
 
-      expect(store.dispatch.bind(store, find(config, subject, {}, predicate)))
-        .to.throw(Error, /subject csid and object csid must be supplied/);
+      expect(store.dispatch.bind(store, find(config, {}, {}, predicate)))
+        .to.throw(Error, /subject csid or object csid must be supplied/);
     });
   });
 
@@ -925,7 +925,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should throw if object csid or subject csid are not supplied', function test() {
+    it('should throw if object csid and subject csid are not both supplied', function test() {
       const store = mockStore({
         relation: Immutable.Map(),
       });

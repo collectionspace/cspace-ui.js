@@ -57,6 +57,7 @@ const defaultProps = {
 const childContextTypes = {
   config: PropTypes.object,
   recordType: PropTypes.string,
+  vocabulary: PropTypes.string,
   csid: PropTypes.string,
 };
 
@@ -74,12 +75,14 @@ export default class RecordEditor extends Component {
       config,
       csid,
       recordType,
+      vocabulary,
     } = this.props;
 
     return {
       config,
       csid,
       recordType,
+      vocabulary,
     };
   }
 

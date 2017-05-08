@@ -19,8 +19,8 @@ chai.use(chaiImmutable);
 chai.should();
 
 describe('partialTermSearch reducer', function suite() {
-  const authorityName = 'person';
-  const vocabularyName = 'local';
+  const recordType = 'person';
+  const vocabulary = 'local';
   const displayName = 'abcd';
   const partialTerm = 'zyxw';
 
@@ -33,13 +33,13 @@ describe('partialTermSearch reducer', function suite() {
       type: ADD_TERM_STARTED,
       meta: {
         displayName,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     }).should.equal(Immutable.fromJS({
       [displayName]: {
-        [authorityName]: {
-          [vocabularyName]: {
+        [recordType]: {
+          [vocabulary]: {
             isAddPending: true,
           },
         },
@@ -59,13 +59,13 @@ describe('partialTermSearch reducer', function suite() {
       payload: addTermResponse,
       meta: {
         displayName,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     }).should.equal(Immutable.fromJS({
       [displayName]: {
-        [authorityName]: {
-          [vocabularyName]: {
+        [recordType]: {
+          [vocabulary]: {
             newTerm: newTermData,
           },
         },
@@ -81,13 +81,13 @@ describe('partialTermSearch reducer', function suite() {
       payload: error,
       meta: {
         displayName,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     }).should.equal(Immutable.fromJS({
       [displayName]: {
-        [authorityName]: {
-          [vocabularyName]: {
+        [recordType]: {
+          [vocabulary]: {
             error,
           },
         },
@@ -100,13 +100,13 @@ describe('partialTermSearch reducer', function suite() {
       type: PARTIAL_TERM_SEARCH_STARTED,
       meta: {
         partialTerm,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     }).should.equal(Immutable.fromJS({
       [partialTerm]: {
-        [authorityName]: {
-          [vocabularyName]: {
+        [recordType]: {
+          [vocabulary]: {
             isSearchPending: true,
           },
         },
@@ -136,12 +136,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: searchResponse,
       meta: {
         partialTerm,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     });
 
-    newState.getIn([partialTerm, authorityName, vocabularyName, 'items']).should.deep.equal(items);
+    newState.getIn([partialTerm, recordType, vocabulary, 'items']).should.deep.equal(items);
 
     getMatches(newState).should.equal(newState);
   });
@@ -162,12 +162,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: searchResponse,
       meta: {
         partialTerm,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     });
 
-    newState.getIn([partialTerm, authorityName, vocabularyName, 'items']).should
+    newState.getIn([partialTerm, recordType, vocabulary, 'items']).should
       .deep.equal([]);
 
     getMatches(newState).should.equal(newState);
@@ -192,12 +192,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: searchResponse,
       meta: {
         partialTerm,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     });
 
-    newState.getIn([partialTerm, authorityName, vocabularyName, 'items']).should
+    newState.getIn([partialTerm, recordType, vocabulary, 'items']).should
       .deep.equal([items]);
 
     getMatches(newState).should.equal(newState);
@@ -211,19 +211,19 @@ describe('partialTermSearch reducer', function suite() {
       payload: error,
       meta: {
         partialTerm,
-        authorityName,
-        vocabularyName,
+        recordType,
+        vocabulary,
       },
     });
 
-    newState.getIn([partialTerm, authorityName, vocabularyName, 'error']).should.deep.equal(error);
+    newState.getIn([partialTerm, recordType, vocabulary, 'error']).should.deep.equal(error);
   });
 
   it('should handle CLEAR_PARTIAL_TERM_SEARCH_RESULTS', function test() {
     reducer(Immutable.fromJS({
       [partialTerm]: {
-        [authorityName]: {
-          [vocabularyName]: {
+        [recordType]: {
+          [vocabulary]: {
             isSearchPending: true,
           },
         },

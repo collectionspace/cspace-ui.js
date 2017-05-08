@@ -24,6 +24,9 @@ export default (pluginContext) => {
           </Field>
         </Field>
       </Panel>
+      <Panel name="hierarchy" collapsible>
+        <Field name="relation-list-item" subpath="ns2:relations-common-list" />
+      </Panel>
     </Field>
   );
 };

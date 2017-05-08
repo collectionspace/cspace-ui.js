@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
-import { ConnectedAuthorityControlledInput } from '../../../../src/containers/input/AuthorityControlledInputContainer';
+import { ConnectedAutocompleteInput } from '../../../../src/containers/input/AutocompleteInputContainer';
 
 import {
   ADD_TERM_STARTED,
@@ -14,11 +14,11 @@ import {
 
 chai.should();
 
-const { AuthorityControlledInput } = inputComponents;
+const { AutocompleteInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
-describe('AuthorityControlledInputContainer', function suite() {
-  it('should set props on AuthorityControlledInput', function test() {
+describe('AutocompleteInputContainer', function suite() {
+  it('should set props on AutocompleteInput', function test() {
     const matches = Immutable.Map({});
 
     const store = mockStore({
@@ -50,19 +50,20 @@ describe('AuthorityControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedAuthorityControlledInput
-        authority="person/local"
+      <ConnectedAutocompleteInput
+        source="person/local"
         config={config}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(AuthorityControlledInput);
+    result.type.should.equal(AutocompleteInput);
     result.props.should.have.property('matches', matches);
     result.props.should.have.property('recordTypes', config.recordTypes);
+    result.props.should.have.property('formatAddPrompt').that.is.a('function');
     result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
     result.props.should.have.property('formatSearchResultMessage').that.is.a('function');
-    result.props.should.have.property('formatVocabName').that.is.a('function');
+    result.props.should.have.property('formatSourceName').that.is.a('function');
     result.props.should.have.property('addTerm').that.is.a('function');
     result.props.should.have.property('findMatchingTerms').that.is.a('function');
     result.props.should.have.property('onClose').that.is.a('function');
@@ -101,8 +102,8 @@ describe('AuthorityControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedAuthorityControlledInput
-        authority="person/local"
+      <ConnectedAutocompleteInput
+        source="person/local"
         config={config}
       />, context);
 
@@ -118,8 +119,8 @@ describe('AuthorityControlledInputContainer', function suite() {
       const action = store.getActions()[0];
 
       action.should.have.property('type', ADD_TERM_STARTED);
-      action.should.have.deep.property('meta.authorityName', 'person');
-      action.should.have.deep.property('meta.vocabularyName', 'local');
+      action.should.have.deep.property('meta.recordType', 'person');
+      action.should.have.deep.property('meta.vocabulary', 'local');
       action.should.have.deep.property('meta.displayName', 'abcd');
     }
 
@@ -133,8 +134,8 @@ describe('AuthorityControlledInputContainer', function suite() {
       const action = store.getActions()[1];
 
       action.should.have.property('type', PARTIAL_TERM_SEARCH_STARTED);
-      action.should.have.deep.property('meta.authorityName', 'person');
-      action.should.have.deep.property('meta.vocabularyName', 'local');
+      action.should.have.deep.property('meta.recordType', 'person');
+      action.should.have.deep.property('meta.vocabulary', 'local');
       action.should.have.deep.property('meta.partialTerm', 'abcd');
     }
 
@@ -143,7 +144,7 @@ describe('AuthorityControlledInputContainer', function suite() {
     store.getActions()[2].should.have.property('type', CLEAR_PARTIAL_TERM_SEARCH_RESULTS);
   });
 
-  it('should connect formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatVocabName to intl.formatMessage', function test() {
+  it('should connect formatAddPrompt, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', function test() {
     const matches = Immutable.Map({});
 
     let formatMessageCalledCount = 0;
@@ -190,24 +191,28 @@ describe('AuthorityControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedAuthorityControlledInput
-        authority="person/local"
+      <ConnectedAutocompleteInput
+        source="person/local"
         intl={intl}
         config={config}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.formatMoreCharsRequiredMessage();
+    result.props.formatAddPrompt();
 
     formatMessageCalledCount.should.equal(1);
 
-    result.props.formatSearchResultMessage(1);
+    result.props.formatMoreCharsRequiredMessage();
 
     formatMessageCalledCount.should.equal(2);
 
-    result.props.formatVocabName({ messages: {} });
+    result.props.formatSearchResultMessage(1);
 
     formatMessageCalledCount.should.equal(3);
+
+    result.props.formatSourceName({ messages: {} });
+
+    formatMessageCalledCount.should.equal(4);
   });
 });

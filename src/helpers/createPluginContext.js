@@ -7,13 +7,14 @@ import { getDisplayName } from 'cspace-refname';
 
 import DateInputContainer from '../containers/input/DateInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
-import AuthorityControlledInputContainer from '../containers/input/AuthorityControlledInputContainer';
+import AutocompleteInputContainer from '../containers/input/AutocompleteInputContainer';
 import OptionListControlledInputContainer from '../containers/input/OptionListControlledInputContainer';
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
 import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
+import HierarchyInput from '../components/record/HierarchyInput';
 import InputTable from '../components/record/InputTable';
 
 import * as dataTypes from '../constants/dataTypes';
@@ -33,7 +34,7 @@ const {
   TextInput,
 } = inputComponents;
 
-const AuthorityControlledInput = AuthorityControlledInputContainer;
+const AutocompleteInput = AutocompleteInputContainer;
 const IDGeneratorInput = IDGeneratorInputContainer;
 const DateInput = DateInputContainer;
 const OptionListControlledInput = OptionListControlledInputContainer;
@@ -47,9 +48,10 @@ export default () => ({
     React,
   },
   inputComponents: {
-    AuthorityControlledInput,
+    AutocompleteInput,
     CompoundInput,
     DateInput,
+    HierarchyInput,
     IDGeneratorInput,
     OptionListControlledInput,
     StructuredDateInput,

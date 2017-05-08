@@ -24,22 +24,22 @@ chai.should();
 describe('partialTermSearch action creator', function suite() {
   describe('addTerm', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
-    const authorityName = 'person';
-    const authorityServicePath = 'personauthorities';
-    const vocabularyName = 'local';
+    const recordType = 'person';
+    const servicePath = 'personauthorities';
+    const vocabulary = 'local';
     const vocabularyServicePath = 'urn:cspace:name(person)';
-    const termAddUrl = `/cspace-services/${authorityServicePath}/${vocabularyServicePath}/items`;
+    const termAddUrl = `/cspace-services/${servicePath}/${vocabularyServicePath}/items`;
     const termReadUrl = '/some/new/url/csid';
     const displayName = 'abc';
 
-    const authorityRecordTypeConfig = {
-      name: authorityName,
+    const recordTypeConfig = {
+      name: recordType,
       serviceConfig: {
-        servicePath: authorityServicePath,
+        servicePath,
         quickAddData: () => ({}),
       },
       vocabularies: {
-        [vocabularyName]: {
+        [vocabulary]: {
           serviceConfig: {
             servicePath: vocabularyServicePath,
           },
@@ -74,7 +74,7 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(addTerm(authorityRecordTypeConfig, vocabularyName, displayName))
+      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName))
         .then(() => {
           const actions = store.getActions();
 
@@ -84,8 +84,8 @@ describe('partialTermSearch action creator', function suite() {
             type: ADD_TERM_STARTED,
             meta: {
               displayName,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             },
           });
 
@@ -99,8 +99,8 @@ describe('partialTermSearch action creator', function suite() {
             },
             meta: {
               displayName,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             },
           });
         });
@@ -114,7 +114,7 @@ describe('partialTermSearch action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(addTerm(authorityRecordTypeConfig, vocabularyName, displayName))
+      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName))
         .then(() => {
           const actions = store.getActions();
 
@@ -124,8 +124,8 @@ describe('partialTermSearch action creator', function suite() {
             type: ADD_TERM_STARTED,
             meta: {
               displayName,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             },
           });
 
@@ -133,8 +133,8 @@ describe('partialTermSearch action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               displayName,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             });
         });
     });
@@ -142,20 +142,20 @@ describe('partialTermSearch action creator', function suite() {
 
   describe('findMatchingTerms', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
-    const authorityName = 'person';
-    const authorityServicePath = 'personauthorities';
-    const vocabularyName = 'person';
+    const recordType = 'person';
+    const servicePath = 'personauthorities';
+    const vocabulary = 'person';
     const vocabularyServicePath = 'urn:cspace:name(person)';
     const partialTerm = 'abc';
-    const termSearchUrl = `/cspace-services/${authorityServicePath}/${vocabularyServicePath}/items?pt=${partialTerm}&wf_deleted=false`;
+    const termSearchUrl = `/cspace-services/${servicePath}/${vocabularyServicePath}/items?pt=${partialTerm}&wf_deleted=false`;
 
-    const authorityRecordTypeConfig = {
-      name: authorityName,
+    const recordTypeConfig = {
+      name: recordType,
       serviceConfig: {
-        servicePath: authorityServicePath,
+        servicePath,
       },
       vocabularies: {
-        [vocabularyName]: {
+        [vocabulary]: {
           serviceConfig: {
             servicePath: vocabularyServicePath,
           },
@@ -184,7 +184,7 @@ describe('partialTermSearch action creator', function suite() {
       const store = mockStore({});
 
       return store.dispatch(
-        findMatchingTerms(authorityRecordTypeConfig, vocabularyName, partialTerm)
+        findMatchingTerms(recordTypeConfig, vocabulary, partialTerm)
       )
         .then(() => {
           const actions = store.getActions();
@@ -195,8 +195,8 @@ describe('partialTermSearch action creator', function suite() {
             type: PARTIAL_TERM_SEARCH_STARTED,
             meta: {
               partialTerm,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             },
           });
 
@@ -210,8 +210,8 @@ describe('partialTermSearch action creator', function suite() {
             },
             meta: {
               partialTerm,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             },
           });
         });
@@ -226,7 +226,7 @@ describe('partialTermSearch action creator', function suite() {
       const store = mockStore({});
 
       return store.dispatch(
-        findMatchingTerms(authorityRecordTypeConfig, vocabularyName, partialTerm)
+        findMatchingTerms(recordTypeConfig, vocabulary, partialTerm)
       )
         .then(() => {
           const actions = store.getActions();
@@ -237,8 +237,8 @@ describe('partialTermSearch action creator', function suite() {
             type: PARTIAL_TERM_SEARCH_STARTED,
             meta: {
               partialTerm,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             },
           });
 
@@ -246,8 +246,8 @@ describe('partialTermSearch action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               partialTerm,
-              authorityName,
-              vocabularyName,
+              recordType,
+              vocabulary,
             });
         });
     });
