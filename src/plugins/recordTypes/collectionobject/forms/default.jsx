@@ -564,7 +564,7 @@ export default (pluginContext) => {
         </Row>
       </Panel>
 
-      <Panel name="hierarchy" collapsible>
+      <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>
     </Field>
