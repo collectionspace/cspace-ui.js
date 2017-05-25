@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
+import Immutable from 'immutable';
 import LoginPage from '../../../../src/components/pages/LoginPage';
 import LoginPageContainer from '../../../../src/containers/pages/LoginPageContainer';
 
@@ -13,9 +14,9 @@ describe('LoginPageContainer', function suite() {
     const continuation = '/some/page';
 
     const store = mockStore({
-      login: {
+      login: Immutable.Map({
         continuation,
-      },
+      }),
     });
 
     const context = { store };

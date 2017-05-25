@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
+import Immutable from 'immutable';
 import LoginForm from '../../../../src/components/login/LoginForm';
 import LoginFormContainer from '../../../../src/containers/login/LoginFormContainer';
 
@@ -13,12 +14,12 @@ describe('LoginFormContainer', function suite() {
     const username = 'user@collectionspace.org';
 
     const store = mockStore({
-      login: {
+      login: Immutable.Map({
         username,
         isPending: true,
         response: null,
         error: null,
-      },
+      }),
     });
 
     const context = { store };

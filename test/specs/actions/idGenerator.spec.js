@@ -57,12 +57,14 @@ describe('ID generator action creator', function suite() {
           csid: idGeneratorCsid,
         },
       }),
+      login: Immutable.Map(),
     });
 
-    const readIDGeneratorUrl = new RegExp(`^/cspace-services/idgenerators/${idGeneratorCsid}.*`);
+    const readIDGeneratorUrl = new RegExp(`/cspace-services/idgenerators/${idGeneratorCsid}.*`);
 
     before(() => {
-      configureCSpace({});
+      store.dispatch(configureCSpace());
+      store.clearActions();
     });
 
     beforeEach(() => {
@@ -151,6 +153,7 @@ describe('ID generator action creator', function suite() {
           csid: idGeneratorCsid,
         },
       }),
+      login: Immutable.Map(),
     });
 
     const createIDUrl = `/cspace-services/idgenerators/${idGeneratorCsid}/ids`;
@@ -158,7 +161,8 @@ describe('ID generator action creator', function suite() {
     const path = ['collectionobjects_common', 'objectNumber'];
 
     before(() => {
-      configureCSpace({});
+      store.dispatch(configureCSpace());
+      store.clearActions();
     });
 
     beforeEach(() => {

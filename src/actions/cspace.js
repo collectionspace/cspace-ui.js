@@ -1,4 +1,5 @@
 import cspaceClient from 'cspace-client';
+import { loadPrefs } from './prefs';
 
 export const CSPACE_CONFIGURED = 'CSPACE_CONFIGURED';
 
@@ -21,10 +22,11 @@ export const createSession = (username, password) => {
   };
 };
 
-export const configureCSpace = (config) => {
+export const configureCSpace = config => (dispatch) => {
   client = cspaceClient(config);
 
-  return createSession();
+  dispatch(createSession());
+  dispatch(loadPrefs());
 };
 
 export default () => session;

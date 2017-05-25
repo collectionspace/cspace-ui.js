@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import Immutable from 'immutable';
 
 import {
   configureCSpace,
@@ -16,6 +17,10 @@ import {
   logout,
 } from '../../../src/actions/logout';
 
+import {
+  PREFS_LOADED,
+} from '../../../src/actions/prefs';
+
 chai.should();
 
 describe('logout action creator', function suite() {
@@ -24,6 +29,10 @@ describe('logout action creator', function suite() {
     const tokenUrl = '/cspace-services/oauth/token';
     const username = 'user@collectionspace.org';
     const password = 'pw';
+
+    const store = mockStore({
+      login: Immutable.Map(),
+    });
 
     const tokenGrantPayload = {
       access_token: 'abcd',
@@ -34,7 +43,8 @@ describe('logout action creator', function suite() {
     };
 
     before(() => {
-      configureCSpace({});
+      store.dispatch(configureCSpace());
+      store.clearActions();
     });
 
     beforeEach(() => {
@@ -42,6 +52,7 @@ describe('logout action creator', function suite() {
     });
 
     afterEach(() => {
+      store.clearActions();
       moxios.uninstall();
     });
 
@@ -50,8 +61,6 @@ describe('logout action creator', function suite() {
         status: 200,
         response: tokenGrantPayload,
       });
-
-      const store = mockStore({});
 
       return store.dispatch(login(username, password))
         .then(() => {
@@ -62,7 +71,7 @@ describe('logout action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.deep.equal({
             type: LOGOUT_STARTED,
@@ -71,6 +80,11 @@ describe('logout action creator', function suite() {
           actions[1].should.deep.equal({
             type: LOGOUT_FULFILLED,
             payload: {},
+          });
+
+          actions[2].should.deep.equal({
+            type: PREFS_LOADED,
+            payload: null,
           });
         });
     });

@@ -82,9 +82,9 @@ describe('reducer', function suite() {
   describe('getLoginContinuation selector', function selectorSuite() {
     it('should select from the login key', function test() {
       getLoginContinuation({
-        login: {
+        login: Immutable.Map({
           continuation: '/some/path',
-        },
+        }),
       }).should.equal('/some/path');
     });
   });
@@ -92,9 +92,9 @@ describe('reducer', function suite() {
   describe('getLoginUsername selector', function selectorSuite() {
     it('should select from the login key', function test() {
       getLoginUsername({
-        login: {
+        login: Immutable.Map({
           username: 'admin@collectionspace.org',
-        },
+        }),
       }).should.equal('admin@collectionspace.org');
     });
   });
@@ -102,9 +102,9 @@ describe('reducer', function suite() {
   describe('isLoginPending selector', function selectorSuite() {
     it('should select from the login key', function test() {
       isLoginPending({
-        login: {
+        login: Immutable.Map({
           isPending: true,
-        },
+        }),
       }).should.equal(true);
     });
   });
@@ -114,9 +114,9 @@ describe('reducer', function suite() {
       const response = {};
 
       getLoginResponse({
-        login: {
+        login: Immutable.Map({
           response,
-        },
+        }),
       }).should.equal(response);
     });
   });
@@ -126,9 +126,9 @@ describe('reducer', function suite() {
       const error = {};
 
       getLoginError({
-        login: {
+        login: Immutable.Map({
           error,
-        },
+        }),
       }).should.equal(error);
     });
   });

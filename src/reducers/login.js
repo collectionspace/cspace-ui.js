@@ -1,3 +1,9 @@
+import Immutable from 'immutable';
+
+import {
+  CSPACE_CONFIGURED,
+} from '../actions/cspace';
+
 import {
   RESET_LOGIN,
   LOGIN_REDIRECTED,
@@ -6,61 +12,40 @@ import {
   LOGIN_REJECTED,
 } from '../actions/login';
 
-export default (state = {}, action) => {
+export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case RESET_LOGIN:
-      return Object.assign({}, state, {
-        isPending: false,
-        username: undefined,
-        response: undefined,
-        error: undefined,
-      });
+      return state.clear();
     case LOGIN_REDIRECTED:
-      return Object.assign({}, state, {
-        continuation: action.meta.attemptedUrl,
-      });
+      return state.set('continuation', action.meta.attemptedUrl);
     case LOGIN_STARTED:
-      return Object.assign({}, state, {
-        isPending: true,
-        username: action.meta.username,
-        response: undefined,
-        error: undefined,
-      });
+      return state
+        .set('isPending', true)
+        .set('username', action.meta.username)
+        .delete('response')
+        .delete('error');
     case LOGIN_FULFILLED:
-      return Object.assign({}, state, {
-        isPending: false,
-        username: action.meta.username,
-        response: action.payload,
-        error: undefined,
-      });
+      return state
+        .delete('isPending')
+        .set('username', action.meta.username)
+        .set('response', Immutable.fromJS(action.payload))
+        .delete('error');
     case LOGIN_REJECTED:
-      return Object.assign({}, state, {
-        isPending: false,
-        username: action.meta.username,
-        response: undefined,
-        error: action.payload,
-      });
+      return state
+        .delete('isPending')
+        .set('username', action.meta.username)
+        .delete('response')
+        .set('error', Immutable.fromJS(action.payload));
+    case CSPACE_CONFIGURED:
+      return state
+        .set('username', action.payload.username);
     default:
       return state;
   }
 };
 
-export function getContinuation(state) {
-  return state.continuation;
-}
-
-export function isPending(state) {
-  return state.isPending;
-}
-
-export function getUsername(state) {
-  return state.username;
-}
-
-export function getResponse(state) {
-  return state.response;
-}
-
-export function getError(state) {
-  return state.error;
-}
+export const getContinuation = state => state.get('continuation');
+export const isPending = state => state.get('isPending');
+export const getUsername = state => state.get('username');
+export const getResponse = state => state.get('response');
+export const getError = state => state.get('error');

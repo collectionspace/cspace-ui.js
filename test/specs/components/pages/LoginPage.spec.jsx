@@ -4,6 +4,7 @@ import { findRenderedComponentWithType } from 'react-addons-test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import Immutable from 'immutable';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockRouter from '../../../helpers/mockRouter';
@@ -16,7 +17,7 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  login: {},
+  login: Immutable.Map(),
 });
 
 const router = mockRouter();

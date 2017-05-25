@@ -1,4 +1,5 @@
 import getSession, { createSession } from './cspace';
+import { loadPrefs } from './prefs';
 
 export const LOGIN_REDIRECTED = 'LOGIN_REDIRECTED';
 export const RESET_LOGIN = 'RESET_LOGIN';
@@ -29,7 +30,7 @@ export const login = (username, password) => (dispatch) => {
     },
   });
 
-  createSession(username, password);
+  dispatch(createSession(username, password));
 
   return getSession().login()
     .then(response => dispatch({
@@ -39,6 +40,7 @@ export const login = (username, password) => (dispatch) => {
         username,
       },
     }))
+    .then(() => dispatch(loadPrefs()))
     .catch(error => dispatch({
       type: LOGIN_REJECTED,
       payload: error,

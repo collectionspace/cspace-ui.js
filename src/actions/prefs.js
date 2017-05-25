@@ -1,7 +1,7 @@
 /* global window */
 
 import Immutable from 'immutable';
-import { getPrefs } from '../reducers';
+import { getLoginUsername, getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
@@ -14,7 +14,7 @@ export const SET_SEARCH_PANEL_PAGE_SIZE = 'SET_SEARCH_PANEL_PAGE_SIZE';
 export const SET_SEARCH_RESULT_PAGE_PAGE_SIZE = 'SET_SEARCH_RESULT_PAGE_PAGE_SIZE';
 export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
 
-export const storageKey = 'cspace-ui.prefs';
+export const storageKey = 'cspace-ui';
 
 export const collapsePanel = (recordType, name, collapsed) => ({
   type: COLLAPSE_PANEL,
@@ -72,33 +72,57 @@ export const setSearchToRelatePageSize = pageSize => ({
   payload: pageSize,
 });
 
-export const loadPrefs = () => {
+export const loadPrefs = () => (dispatch, getState) => {
   // TODO: Load prefs from server (requires adding services layer support).
   // For now, just load from local storage.
 
-  const serializedPrefs = window.localStorage.getItem(storageKey);
+  const username = getLoginUsername(getState());
 
-  let prefs = null;
+  let userPrefs = null;
 
-  if (serializedPrefs) {
-    try {
-      prefs = Immutable.fromJS(JSON.parse(serializedPrefs));
-    } catch (error) {
-      prefs = null;
+  if (username) {
+    const serializedPrefs = window.localStorage.getItem(storageKey);
+
+    if (serializedPrefs) {
+      try {
+        userPrefs = Immutable.fromJS((JSON.parse(serializedPrefs))[username]);
+      } catch (error) {
+        userPrefs = null;
+      }
     }
   }
 
-  return {
+  dispatch({
     type: PREFS_LOADED,
-    payload: prefs,
-  };
+    payload: userPrefs,
+  });
 };
 
 export const savePrefs = () => (dispatch, getState) => {
   // TODO: Save prefs to server (requires adding services layer support).
   // For now, just save to local storage.
 
-  const prefs = getPrefs(getState());
+  const username = getLoginUsername(getState());
 
-  window.localStorage.setItem(storageKey, JSON.stringify(prefs.toJS()));
+  let prefs;
+
+  if (username) {
+    const serializedPrefs = window.localStorage.getItem(storageKey);
+
+    if (serializedPrefs) {
+      try {
+        prefs = JSON.parse(serializedPrefs);
+      } catch (error) {
+        prefs = null;
+      }
+    }
+
+    if (!prefs) {
+      prefs = {};
+    }
+
+    prefs[username] = getPrefs(getState());
+
+    window.localStorage.setItem(storageKey, JSON.stringify(prefs));
+  }
 };

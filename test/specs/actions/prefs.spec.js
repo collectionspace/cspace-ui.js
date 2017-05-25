@@ -152,7 +152,9 @@ describe('prefs action creator', function suite() {
   });
 
   describe('loadPrefs', function actionSuite() {
-    it('should create a PREFS_LOADED action', function test() {
+    it('should dispatch a PREFS_LOADED action', function test() {
+      const username = 'user@collectionspace.org';
+
       const prefs = {
         foo: {
           bar: true,
@@ -160,27 +162,67 @@ describe('prefs action creator', function suite() {
         baz: 'a',
       };
 
-      window.localStorage.setItem(storageKey, JSON.stringify(prefs));
+      window.localStorage.setItem(storageKey, JSON.stringify({ [username]: prefs }));
 
-      loadPrefs().should.deep.equal({
+      const store = mockStore({
+        login: Immutable.Map({
+          username,
+        }),
+      });
+
+      store.dispatch(loadPrefs());
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
         type: PREFS_LOADED,
         payload: Immutable.fromJS(prefs),
       });
     });
 
     it('should return null prefs if serialized prefs are not valid JSON', function test() {
-      window.localStorage.setItem(storageKey, 'not json!');
+      const username = 'user@collectionspace.org';
 
-      loadPrefs().should.deep.equal({
+      window.localStorage.setItem(storageKey, '{invalid json!');
+
+      const store = mockStore({
+        login: Immutable.Map({
+          username,
+        }),
+      });
+
+      store.dispatch(loadPrefs());
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
         type: PREFS_LOADED,
         payload: null,
       });
     });
 
     it('should return null prefs if no serialized prefs exist in local storage', function test() {
+      const username = 'user@collectionspace.org';
+
       window.localStorage.removeItem(storageKey);
 
-      loadPrefs().should.deep.equal({
+      const store = mockStore({
+        login: Immutable.Map({
+          username,
+        }),
+      });
+
+      store.dispatch(loadPrefs());
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
         type: PREFS_LOADED,
         payload: null,
       });
@@ -189,6 +231,8 @@ describe('prefs action creator', function suite() {
 
   describe('savePrefs', function actionSuite() {
     it('should save prefs to local storage', function test() {
+      const username = 'user@collectionspace.org';
+
       const prefs = {
         foo: {
           bar: true,
@@ -198,13 +242,78 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore({
         prefs: Immutable.fromJS(prefs),
+        login: Immutable.Map({
+          username,
+        }),
       });
 
       store.dispatch(savePrefs());
 
       const serializedPrefs = window.localStorage.getItem(storageKey);
+      const revivedPrefs = JSON.parse(serializedPrefs);
 
-      JSON.parse(serializedPrefs).should.deep.equal(prefs);
+      revivedPrefs[username].should.deep.equal(prefs);
+    });
+
+    it('should not affect prefs for other users', function test() {
+      const username = 'user@collectionspace.org';
+
+      const prefs = {
+        foo: {
+          bar: true,
+        },
+        baz: 'a',
+      };
+
+      const store = mockStore({
+        prefs: Immutable.fromJS(prefs),
+        login: Immutable.Map({
+          username,
+        }),
+      });
+
+      const otherUsername = 'otheruser';
+
+      const otherPrefs = {
+        xyz: 123,
+      };
+
+      window.localStorage.setItem(storageKey, JSON.stringify({ [otherUsername]: otherPrefs }));
+
+      store.dispatch(savePrefs());
+
+      const serializedPrefs = window.localStorage.getItem(storageKey);
+      const revivedPrefs = JSON.parse(serializedPrefs);
+
+      revivedPrefs[username].should.deep.equal(prefs);
+      revivedPrefs[otherUsername].should.deep.equal(otherPrefs);
+    });
+
+    it('should overwrite existing prefs that are not valid JSON', function test() {
+      const username = 'user@collectionspace.org';
+
+      const prefs = {
+        foo: {
+          bar: true,
+        },
+        baz: 'a',
+      };
+
+      const store = mockStore({
+        prefs: Immutable.fromJS(prefs),
+        login: Immutable.Map({
+          username,
+        }),
+      });
+
+      window.localStorage.setItem(storageKey, '{foobar');
+
+      store.dispatch(savePrefs());
+
+      const serializedPrefs = window.localStorage.getItem(storageKey);
+      const revivedPrefs = JSON.parse(serializedPrefs);
+
+      revivedPrefs[username].should.deep.equal(prefs);
     });
   });
 });

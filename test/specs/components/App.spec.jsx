@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import configureMockStore from 'redux-mock-store';
 import { hashHistory } from 'react-router';
+import Immutable from 'immutable';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
@@ -13,7 +14,7 @@ const mockStore = configureMockStore();
 
 const store = mockStore({
   user: {},
-  login: {},
+  login: Immutable.Map(),
 });
 
 const config = {

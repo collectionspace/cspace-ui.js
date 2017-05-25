@@ -1,19 +1,33 @@
+import Immutable from 'immutable';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
 import getSession, {
   CSPACE_CONFIGURED,
   configureCSpace,
   createSession,
 } from '../../../src/actions/cspace';
 
+import {
+  PREFS_LOADED,
+} from '../../../src/actions/prefs';
+
 chai.should();
+
+const mockStore = configureMockStore([thunk]);
 
 describe('cspace action creator', function suite() {
   describe('configureCSpace', function actionSuite() {
     it('should create a CSpace session as a side effect', function test() {
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
       const cspaceConfig = {
         foo: 'bar',
       };
 
-      configureCSpace(cspaceConfig);
+      store.dispatch(configureCSpace(cspaceConfig));
 
       const session = getSession();
 
@@ -21,15 +35,28 @@ describe('cspace action creator', function suite() {
       session.config().should.have.property('foo', 'bar');
     });
 
-    it('should create a CSPACE_CONFIGURED action', function test() {
+    it('should dispatch CSPACE_CONFIGURED followed by PREFS_LOADED', function test() {
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
       const cspaceConfig = {
         foo: 'bar',
       };
 
-      configureCSpace(cspaceConfig).should
+      store.dispatch(configureCSpace(cspaceConfig));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(2);
+
+      actions[0].should
         .include({ type: CSPACE_CONFIGURED })
         .and.have.property('payload')
           .that.has.property('foo', 'bar');
+
+      actions[1].should
+        .include({ type: PREFS_LOADED });
     });
   });
 

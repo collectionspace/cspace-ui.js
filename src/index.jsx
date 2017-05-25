@@ -13,7 +13,7 @@ import { Modal } from 'cspace-layout';
 import { configureCSpace } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
 import { addOptionLists } from './actions/optionList';
-import { loadPrefs, savePrefs } from './actions/prefs';
+import { savePrefs } from './actions/prefs';
 import reducer from './reducers';
 import App from './components/App';
 import createPluginContext from './helpers/createPluginContext';
@@ -112,7 +112,6 @@ module.exports = (uiConfig) => {
       url: serverUrl,
     }));
 
-    store.dispatch(loadPrefs());
     store.dispatch(addOptionLists(optionLists));
     store.dispatch(addIDGenerators(idGenerators));
 

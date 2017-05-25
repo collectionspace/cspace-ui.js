@@ -1,9 +1,11 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import Immutable from 'immutable';
 
 import getSession, {
   configureCSpace,
+  CSPACE_CONFIGURED,
 } from '../../../src/actions/cspace';
 
 import {
@@ -16,6 +18,10 @@ import {
   resetLogin,
   login,
 } from '../../../src/actions/login';
+
+import {
+  PREFS_LOADED,
+} from '../../../src/actions/prefs';
 
 chai.should();
 
@@ -62,6 +68,10 @@ describe('login action creator', function suite() {
     const username = 'user@collectionspace.org';
     const password = 'pw';
 
+    const store = mockStore({
+      login: Immutable.Map(),
+    });
+
     const tokenGrantPayload = {
       access_token: 'abcd',
       token_type: 'bearer',
@@ -71,7 +81,8 @@ describe('login action creator', function suite() {
     };
 
     before(() => {
-      configureCSpace({});
+      store.dispatch(configureCSpace());
+      store.clearActions();
     });
 
     beforeEach(() => {
@@ -79,6 +90,7 @@ describe('login action creator', function suite() {
     });
 
     afterEach(() => {
+      store.clearActions();
       moxios.uninstall();
     });
 
@@ -87,8 +99,6 @@ describe('login action creator', function suite() {
         status: 200,
         response: tokenGrantPayload,
       });
-
-      const store = mockStore({});
 
       return store.dispatch(login(username, password))
         .then(() => {
@@ -103,13 +113,11 @@ describe('login action creator', function suite() {
         response: tokenGrantPayload,
       });
 
-      const store = mockStore({});
-
       return store.dispatch(login(username, password))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(4);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -118,7 +126,9 @@ describe('login action creator', function suite() {
             },
           });
 
-          actions[1].should.deep.equal({
+          actions[1].should.have.property('type', CSPACE_CONFIGURED);
+
+          actions[2].should.deep.equal({
             type: LOGIN_FULFILLED,
             payload: {
               status: 200,
@@ -130,6 +140,8 @@ describe('login action creator', function suite() {
               username,
             },
           });
+
+          actions[3].should.have.property('type', PREFS_LOADED);
         });
     });
 
@@ -138,13 +150,11 @@ describe('login action creator', function suite() {
         status: 400,
       });
 
-      const store = mockStore({});
-
       return store.dispatch(login(username, password))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -153,8 +163,10 @@ describe('login action creator', function suite() {
             },
           });
 
-          actions[1].should.have.property('type', LOGIN_REJECTED);
-          actions[1].should.have.deep.property('meta.username', username);
+          actions[1].should.have.property('type', CSPACE_CONFIGURED);
+
+          actions[2].should.have.property('type', LOGIN_REJECTED);
+          actions[2].should.have.deep.property('meta.username', username);
         });
     });
   });
