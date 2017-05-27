@@ -4,11 +4,11 @@ export const READ_VOCABULARY_ITEMS_STARTED = 'READ_VOCABULARY_ITEMS_STARTED';
 export const READ_VOCABULARY_ITEMS_FULFILLED = 'READ_VOCABULARY_ITEMS_FULFILLED';
 export const READ_VOCABULARY_ITEMS_REJECTED = 'READ_VOCABULARY_ITEMS_REJECTED';
 
-export const readVocabularyItems = vocabularyName => (dispatch) => {
+export const readVocabularyItems = vocabulary => (dispatch) => {
   dispatch({
     type: READ_VOCABULARY_ITEMS_STARTED,
     meta: {
-      vocabularyName,
+      vocabulary,
     },
   });
 
@@ -19,19 +19,19 @@ export const readVocabularyItems = vocabularyName => (dispatch) => {
     },
   };
 
-  return getSession().read(`vocabularies/urn:cspace:name(${vocabularyName})/items`, config)
+  return getSession().read(`vocabularies/urn:cspace:name(${vocabulary})/items`, config)
     .then(response => dispatch({
       type: READ_VOCABULARY_ITEMS_FULFILLED,
       payload: response,
       meta: {
-        vocabularyName,
+        vocabulary,
       },
     }))
     .catch(error => dispatch({
       type: READ_VOCABULARY_ITEMS_REJECTED,
       payload: error,
       meta: {
-        vocabularyName,
+        vocabulary,
       },
     }));
 };

@@ -10,7 +10,7 @@ import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputConta
 import AutocompleteInputContainer from '../containers/input/AutocompleteInputContainer';
 import OptionListControlledInputContainer from '../containers/input/OptionListControlledInputContainer';
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
-import VocabularyControlledInputContainer from '../containers/input/VocabularyControlledInputContainer';
+import TermPickerInputContainer from '../containers/input/TermPickerInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
@@ -39,7 +39,7 @@ const IDGeneratorInput = IDGeneratorInputContainer;
 const DateInput = DateInputContainer;
 const OptionListControlledInput = OptionListControlledInputContainer;
 const StructuredDateInput = StructuredDateInputContainer;
-const VocabularyControlledInput = VocabularyControlledInputContainer;
+const TermPickerInput = TermPickerInputContainer;
 
 export default () => ({
   dataTypes,
@@ -56,7 +56,7 @@ export default () => ({
     OptionListControlledInput,
     StructuredDateInput,
     TextInput,
-    VocabularyControlledInput,
+    TermPickerInput,
   },
   layoutComponents: {
     Panel,

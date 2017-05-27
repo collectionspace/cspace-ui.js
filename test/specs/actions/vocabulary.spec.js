@@ -18,8 +18,8 @@ chai.should();
 describe('vocabulary action creator', function suite() {
   describe('readVocabularyItems', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
-    const vocabularyName = 'languages';
-    const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabularyName}\\)/items.*`);
+    const vocabulary = 'languages';
+    const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabulary}\\)/items.*`);
 
     before(() => {
       configureCSpace({});
@@ -41,7 +41,7 @@ describe('vocabulary action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(readVocabularyItems(vocabularyName))
+      return store.dispatch(readVocabularyItems(vocabulary))
         .then(() => {
           const actions = store.getActions();
 
@@ -50,7 +50,7 @@ describe('vocabulary action creator', function suite() {
           actions[0].should.deep.equal({
             type: READ_VOCABULARY_ITEMS_STARTED,
             meta: {
-              vocabularyName,
+              vocabulary,
             },
           });
 
@@ -63,7 +63,7 @@ describe('vocabulary action creator', function suite() {
               data: {},
             },
             meta: {
-              vocabularyName,
+              vocabulary,
             },
           });
         });
@@ -77,7 +77,7 @@ describe('vocabulary action creator', function suite() {
 
       const store = mockStore({});
 
-      return store.dispatch(readVocabularyItems(vocabularyName))
+      return store.dispatch(readVocabularyItems(vocabulary))
         .then(() => {
           const actions = store.getActions();
 
@@ -86,14 +86,14 @@ describe('vocabulary action creator', function suite() {
           actions[0].should.deep.equal({
             type: READ_VOCABULARY_ITEMS_STARTED,
             meta: {
-              vocabularyName,
+              vocabulary,
             },
           });
 
           actions[1].should.have.property('type', READ_VOCABULARY_ITEMS_REJECTED);
           actions[1].should.have.property('meta')
             .that.deep.equals({
-              vocabularyName,
+              vocabulary,
             });
         });
     });

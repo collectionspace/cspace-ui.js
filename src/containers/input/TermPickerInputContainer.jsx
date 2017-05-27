@@ -6,12 +6,12 @@ import warning from 'warning';
 import { readVocabularyItems } from '../../actions/vocabulary';
 import { getVocabulary } from '../../reducers';
 
-const { VocabularyControlledInput } = inputComponents;
+const { TermPickerInput } = inputComponents;
 
 const messages = defineMessages({
   count: {
-    id: 'vocabularyControlledInput.count',
-    description: 'Message displayed in the vocabulary controlled input dropdown when filtering options.',
+    id: 'termPickerInputContainer.count',
+    description: 'Message displayed in the term picker input dropdown when filtering options.',
     defaultMessage: `{count, plural,
         =0 {No matching terms}
         one {# matching term}
@@ -23,10 +23,10 @@ const messages = defineMessages({
 const mapStateToProps = (state, ownProps) => {
   const {
     intl,
-    vocabularyName,
+    source,
   } = ownProps;
 
-  const vocabulary = getVocabulary(state, vocabularyName);
+  const vocabulary = getVocabulary(state, source);
 
   return {
     formatStatusMessage: count => intl.formatMessage(messages.count, { count }),
@@ -38,16 +38,16 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     name,
-    vocabularyName,
+    source,
   } = ownProps;
 
-  warning(vocabularyName,
-    `The vocabulary controlled input with name '${name}' is not associated with a vocabulary. Set the 'vocabularyName' prop.`);
+  warning(source,
+    `The term picker input with name '${name}' is not associated with a term source. Set the 'source' prop.`);
 
-  if (vocabularyName) {
+  if (source) {
     return {
       onMount: () => {
-        dispatch(readVocabularyItems(vocabularyName));
+        dispatch(readVocabularyItems(source));
       },
     };
   }
@@ -60,7 +60,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     /* eslint-disable no-unused-vars */
     intl,
     onMount,
-    vocabularyName,
+    source,
     /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
@@ -72,17 +72,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export const ConnectedVocabularyControlledInput = connect(
+export const ConnectedTermPickerInput = connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps
-)(VocabularyControlledInput);
+)(TermPickerInput);
 
-const IntlizedConnectedVocabularyControlledInput = injectIntl(ConnectedVocabularyControlledInput);
+const IntlizedConnectedTermPickerInput = injectIntl(ConnectedTermPickerInput);
 
-IntlizedConnectedVocabularyControlledInput.propTypes = {
-  ...VocabularyControlledInput.propTypes,
-  vocabularyName: PropTypes.string.isRequired,
+IntlizedConnectedTermPickerInput.propTypes = {
+  ...TermPickerInput.propTypes,
+  source: PropTypes.string.isRequired,
 };
 
-export default IntlizedConnectedVocabularyControlledInput;
+export default IntlizedConnectedTermPickerInput;

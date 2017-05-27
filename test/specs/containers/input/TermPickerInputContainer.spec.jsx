@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
-import { ConnectedVocabularyControlledInput } from '../../../../src/containers/input/VocabularyControlledInputContainer';
+import { ConnectedTermPickerInput } from '../../../../src/containers/input/TermPickerInputContainer';
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
@@ -11,11 +11,11 @@ import {
 
 chai.should();
 
-const { VocabularyControlledInput } = inputComponents;
+const { TermPickerInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
-describe('VocabularyControlledInputContainer', function suite() {
-  it('should set props on VocabularyControlledInput', function test() {
+describe('TermPickerInputContainer', function suite() {
+  it('should set props on TermPickerInput', function test() {
     const vocabularyName = 'languages';
 
     const vocabulary = {
@@ -48,11 +48,11 @@ describe('VocabularyControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedVocabularyControlledInput vocabularyName={vocabularyName} />, context);
+      <ConnectedTermPickerInput source={vocabularyName} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(VocabularyControlledInput);
+    result.type.should.equal(TermPickerInput);
     result.props.should.have.property('formatStatusMessage').that.is.a('function');
     result.props.should.have.property('terms', vocabulary.items);
     // result.props.should.have.property('isLoading', vocabulary.isReadPending);
@@ -92,7 +92,7 @@ describe('VocabularyControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedVocabularyControlledInput vocabularyName={vocabularyName} />, context);
+      <ConnectedTermPickerInput source={vocabularyName} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -110,7 +110,7 @@ describe('VocabularyControlledInputContainer', function suite() {
     }
   });
 
-  it('should not set onMount on the base component vocabularyName is not set', function test() {
+  it('should not set onMount on the base component if source is not provided', function test() {
     const store = mockStore({
       vocabulary: {},
     });
@@ -131,7 +131,7 @@ describe('VocabularyControlledInputContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedVocabularyControlledInput />, context);
+    shallowRenderer.render(<ConnectedTermPickerInput />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -175,9 +175,9 @@ describe('VocabularyControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedVocabularyControlledInput
+      <ConnectedTermPickerInput
         intl={context.intl}
-        vocabularyName={vocabularyName}
+        source={vocabularyName}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();

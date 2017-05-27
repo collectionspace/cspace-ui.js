@@ -10,7 +10,7 @@ export default (pluginContext) => {
     OptionListControlledInput,
     StructuredDateInput,
     TextInput,
-    VocabularyControlledInput,
+    TermPickerInput,
   } = pluginContext.inputComponents;
 
   const {
@@ -406,9 +406,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: VocabularyControlledInput,
+                  type: TermPickerInput,
                   props: {
-                    vocabularyName: 'languages',
+                    source: 'languages',
                   },
                 },
               },
@@ -457,9 +457,9 @@ export default (pluginContext) => {
                       },
                     }),
                     view: {
-                      type: VocabularyControlledInput,
+                      type: TermPickerInput,
                       props: {
-                        vocabularyName: 'languages',
+                        source: 'languages',
                       },
                     },
                   },
@@ -593,9 +593,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: VocabularyControlledInput,
+                  type: TermPickerInput,
                   props: {
-                    vocabularyName: 'languages',
+                    source: 'languages',
                   },
                 },
               },
@@ -758,9 +758,9 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: VocabularyControlledInput,
+              type: TermPickerInput,
               props: {
-                vocabularyName: 'agequalifier',
+                source: 'agequalifier',
               },
             },
           },
@@ -1301,9 +1301,9 @@ export default (pluginContext) => {
           contentLanguage: {
             [config]: {
               view: {
-                type: VocabularyControlledInput,
+                type: TermPickerInput,
                 props: {
-                  vocabularyName: 'languages',
+                  source: 'languages',
                   repeating: true,
                 },
               },
@@ -1771,9 +1771,9 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: VocabularyControlledInput,
+                  type: TermPickerInput,
                   props: {
-                    vocabularyName: 'languages',
+                    source: 'languages',
                   },
                 },
               },
@@ -3317,9 +3317,9 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: VocabularyControlledInput,
+              type: TermPickerInput,
               props: {
-                vocabularyName: 'currency',
+                source: 'currency',
               },
             },
           },
@@ -3568,9 +3568,9 @@ export default (pluginContext) => {
           fieldCollectionMethod: {
             [config]: {
               view: {
-                type: VocabularyControlledInput,
+                type: TermPickerInput,
                 props: {
-                  vocabularyName: 'collectionmethod',
+                  source: 'collectionmethod',
                   repeating: true,
                 },
               },

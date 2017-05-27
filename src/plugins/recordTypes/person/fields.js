@@ -10,7 +10,7 @@ export default (pluginContext) => {
     // OptionListControlledInput,
     // StructuredDateInput,
     TextInput,
-    // VocabularyControlledInput,
+    // TermPickerInput,
   } = pluginContext.inputComponents;
 
   const {

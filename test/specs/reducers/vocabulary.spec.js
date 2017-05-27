@@ -16,30 +16,30 @@ describe('vocabulary reducer', function suite() {
   });
 
   it('should handle READ_VOCABULARY_ITEMS_STARTED', function test() {
-    const vocabularyName = 'languages';
+    const vocabulary = 'languages';
 
     const state = reducer({}, {
       type: READ_VOCABULARY_ITEMS_STARTED,
       meta: {
-        vocabularyName,
+        vocabulary,
       },
     });
 
     state.should.deep.equal({
-      [vocabularyName]: {
+      [vocabulary]: {
         isReadPending: true,
         items: null,
       },
     });
 
-    get(state, vocabularyName).should.deep.equal({
+    get(state, vocabulary).should.deep.equal({
       isReadPending: true,
       items: null,
     });
   });
 
   it('should handle READ_VOCABULARY_ITEMS_FULFILLED', function test() {
-    const vocabularyName = 'states';
+    const vocabulary = 'states';
 
     const items = [
       { displayName: 'California' },
@@ -58,40 +58,40 @@ describe('vocabulary reducer', function suite() {
         data,
       },
       meta: {
-        vocabularyName,
+        vocabulary,
       },
     });
 
     state.should.deep.equal({
-      [vocabularyName]: {
+      [vocabulary]: {
         items,
       },
     });
 
-    get(state, vocabularyName).should.deep.equal({
+    get(state, vocabulary).should.deep.equal({
       items,
     });
   });
 
   it('should handle READ_VOCABULARY_ITEMS_REJECTED', function test() {
-    const vocabularyName = 'languages';
+    const vocabulary = 'languages';
     const error = new Error();
 
     const state = reducer({}, {
       type: READ_VOCABULARY_ITEMS_REJECTED,
       payload: error,
       meta: {
-        vocabularyName,
+        vocabulary,
       },
     });
 
     state.should.deep.equal({
-      [vocabularyName]: {
+      [vocabulary]: {
         error,
       },
     });
 
-    get(state, vocabularyName).should.deep.equal({
+    get(state, vocabulary).should.deep.equal({
       error,
     });
   });
