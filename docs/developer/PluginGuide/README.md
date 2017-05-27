@@ -4,14 +4,14 @@ Plugins modify or extend the functionality of the CollectionSpace UI by supplyin
 
 ## API
 
-A plugin is a JavaScript module whose default export is a factory function, with two possible return types. 
+A plugin is a JavaScript module whose default export is a factory function, with two possible return types.
 
 ```JavaScript
 (config: Object) => Object
 (config: Object) => (pluginContext: Object) => Object
 ```
 
-The factory function accepts a configuration object, whose shape is determined by the plugin author. The purpose of the configuration object is to configure the plugin. The plugin author determines how the configuration object is used.
+The factory function accepts a configuration object, whose shape is determined by the plugin author. The purpose of the configuration object is to modify the behavior the plugin, but the plugin author determines exactly how the configuration object is used.
 
 The factory function has two possible return values: an object, or a function. If an object is returned, it must be a [CollectionSpace UI configuration object](../../configuration), which will be merged into the current UI configuration. If a function is returned, it will be executed with a plugin context object, and it must return a CollectionSpace UI configuration object to be merged into the current UI configuration.
 

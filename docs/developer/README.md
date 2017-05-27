@@ -1,6 +1,6 @@
 # Developer Documentation
 
-This documentation is intended for developers who want to modify cspace-ui source code, or implement plugins to extend the functionality of the CollectionSpace UI.
+This documentation is intended for developers who wish to modify CollectionSpace UI source code, or implement plugins to extend the functionality of the application.
 
 ## Table of Contents
 

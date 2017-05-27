@@ -1,6 +1,6 @@
 # Configuration
 
-The CollectionSpace UI may be configured by passing a configuration object to the `cspaceUI` function, or by implementing a plugin that returns a configuration object.
+The CollectionSpace UI is configured by passing a configuration object to the `cspaceUI` function.
 
 ## Merging
 
@@ -34,5 +34,5 @@ Default: `undefined`
 An array of plugins to be loaded. Plugins are loaded in the order specified. [TODO: Add more info.]
 
 #### `prettyUrls`: boolean
-By default, the URLs of pages in the UI contain `#` and a generated hash string. For example, if the HTML page containing the UI is published to http://somehost.com/cspace, the URL of the Create New page would look like http://somehost.com/cspace/#/create?_k=xu2oud. To make the URLs prettier, e.g. http://somehost.com/cspace/create, the web server must be configured so that any requests to http://somehost.com/cspace/** that are not found will fall back to the page at http://somehost.com/cspace. In apache, the `FallbackResource` directive does this. Once the web server is configured with fallback support, `prettyUrls` may be set to true. 
+By default, the URLs of pages in the UI contain `#` and a generated hash string. For example, if the HTML page containing the UI is published to http://somehost.com/cspace, the URL of the Create New page would look like http://somehost.com/cspace/#/create?_k=xu2oud. To make the URLs prettier, e.g. http://somehost.com/cspace/create, the web server must be configured so that any requests to http://somehost.com/cspace/** that are not found will fall back to the page at http://somehost.com/cspace. In apache, the `FallbackResource` directive does this. Once the web server is configured with fallback support, `prettyUrls` may be set to true.
 Default: `false`

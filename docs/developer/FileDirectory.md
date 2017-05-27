@@ -24,7 +24,7 @@ Contains definitions of [presentational React components](ArchitecturalOverview.
 
 ### containers
 
-Contains definitions of React Redux [container components](ArchitecturalOverview.md#connecting-the-application-state-to-the-view-layer).
+Contains definitions of Redux [container components](ArchitecturalOverview.md#connecting-the-application-state-to-the-view-layer).
 
 ### enhancers
 
@@ -56,8 +56,8 @@ Contains integration tests.
 
 ### specs
 
-Contains unit tests (aka specifications). The `src` tree is mirrored here.
+Contains unit tests (aka specifications). The `src` tree is more-or-less mirrored here; there is usually a spec file for each JS file in `src`.
 
 ## Other Assets
 
-The `images` directory contains icon/logo images. The `styles` directory contains stylesheets.
+The `images` directory contains icon and logo images. The `styles` directory contains stylesheets.
