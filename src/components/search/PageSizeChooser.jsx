@@ -71,7 +71,7 @@ export default class PageSizeChooser extends Component {
     const chooser = (
       <ComboBoxInputContainer
         embedded={embedded}
-        optionListName={pageSizeOptionListName}
+        source={pageSizeOptionListName}
         value={value}
         onAddOption={this.handleAddOption}
         onCommit={this.handleCommit}

@@ -40,7 +40,7 @@ describe('OptionPickerInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionPickerInput optionListName={optionListName} />, context);
+      <ConnectedOptionPickerInput source={optionListName} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -90,7 +90,7 @@ describe('OptionPickerInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedOptionPickerInput
         intl={context.intl}
-        optionListName={optionListName}
+        source={optionListName}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -142,7 +142,7 @@ describe('OptionPickerInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedOptionPickerInput
         intl={context.intl}
-        optionListName={optionListName}
+        source={optionListName}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();

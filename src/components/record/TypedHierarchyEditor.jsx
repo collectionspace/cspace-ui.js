@@ -141,7 +141,7 @@ export class BaseTypedHierarchyEditor extends Component {
           <OptionPickerInputContainer
             label={intl.formatMessage(messages.parentType)}
             name="parentType"
-            optionListName={parentTypeOptionListName}
+            source={parentTypeOptionListName}
             value={parentType}
             onCommit={this.handleParentTypeCommit}
           />
@@ -167,7 +167,7 @@ export class BaseTypedHierarchyEditor extends Component {
             <OptionPickerInputContainer
               label={intl.formatMessage(messages.childType)}
               name="type"
-              optionListName={childTypeOptionListName}
+              source={childTypeOptionListName}
               onCommit={this.handleChildTypeCommit}
             />
           </CompoundInput>

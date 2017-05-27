@@ -102,7 +102,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'departments',
+                source: 'departments',
               },
             },
           },

@@ -209,7 +209,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'numberTypes',
+                    source: 'numberTypes',
                   },
                 },
               },
@@ -240,7 +240,7 @@ export default (pluginContext) => {
               view: {
                 type: OptionPickerInput,
                 props: {
-                  optionListName: 'departments',
+                  source: 'departments',
                   repeating: true,
                 },
               },
@@ -258,7 +258,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'collections',
+                source: 'collections',
               },
             },
           },
@@ -275,7 +275,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'recordStatuses',
+                source: 'recordStatuses',
               },
             },
           },
@@ -477,7 +477,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'titleTypes',
+                    source: 'titleTypes',
                   },
                 },
               },
@@ -531,7 +531,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'nameCurrencies',
+                    source: 'nameCurrencies',
                   },
                 },
               },
@@ -547,7 +547,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'nameLevels',
+                    source: 'nameLevels',
                   },
                 },
               },
@@ -563,7 +563,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'nameSystems',
+                    source: 'nameSystems',
                   },
                 },
               },
@@ -579,7 +579,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'nameTypes',
+                    source: 'nameTypes',
                   },
                 },
               },
@@ -652,7 +652,7 @@ export default (pluginContext) => {
               view: {
                 type: OptionPickerInput,
                 props: {
-                  optionListName: 'objectStatuses',
+                  source: 'objectStatuses',
                   repeating: true,
                 },
               },
@@ -670,7 +670,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'sexes',
+                source: 'sexes',
               },
             },
           },
@@ -686,7 +686,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'phases',
+                source: 'phases',
               },
             },
           },
@@ -715,7 +715,7 @@ export default (pluginContext) => {
               view: {
                 type: OptionPickerInput,
                 props: {
-                  optionListName: 'forms',
+                  source: 'forms',
                   repeating: true,
                 },
               },
@@ -776,7 +776,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'ageUnits',
+                source: 'ageUnits',
               },
             },
           },
@@ -994,7 +994,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'objectComponentNames',
+                    source: 'objectComponentNames',
                   },
                 },
               },
@@ -1052,7 +1052,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'technicalAttributes',
+                    source: 'technicalAttributes',
                   },
                 },
               },
@@ -1068,7 +1068,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'technicalAttributeMeasurements',
+                    source: 'technicalAttributeMeasurements',
                   },
                 },
               },
@@ -1084,7 +1084,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'technicalAttributeMeasurementUnits',
+                    source: 'technicalAttributeMeasurementUnits',
                   },
                 },
               },
@@ -1123,7 +1123,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'measuredParts',
+                    source: 'measuredParts',
                   },
                 },
               },
@@ -1174,7 +1174,7 @@ export default (pluginContext) => {
                     view: {
                       type: OptionPickerInput,
                       props: {
-                        optionListName: 'dimensions',
+                        source: 'dimensions',
                       },
                     },
                   },
@@ -1206,7 +1206,7 @@ export default (pluginContext) => {
                     view: {
                       type: OptionPickerInput,
                       props: {
-                        optionListName: 'measurementMethods',
+                        source: 'measurementMethods',
                       },
                     },
                   },
@@ -1235,7 +1235,7 @@ export default (pluginContext) => {
                     view: {
                       type: OptionPickerInput,
                       props: {
-                        optionListName: 'measurementUnits',
+                        source: 'measurementUnits',
                       },
                     },
                   },
@@ -1397,7 +1397,7 @@ export default (pluginContext) => {
               view: {
                 type: OptionPickerInput,
                 props: {
-                  optionListName: 'positions',
+                  source: 'positions',
                   repeating: true,
                 },
               },
@@ -1450,7 +1450,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'contentObjectTypes',
+                    source: 'contentObjectTypes',
                   },
                 },
               },
@@ -1554,7 +1554,7 @@ export default (pluginContext) => {
               view: {
                 type: OptionPickerInput,
                 props: {
-                  optionListName: 'scripts',
+                  source: 'scripts',
                   repeating: true,
                 },
               },
@@ -1802,7 +1802,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'positions',
+                    source: 'positions',
                   },
                 },
               },
@@ -1818,7 +1818,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'scripts',
+                    source: 'scripts',
                   },
                 },
               },
@@ -1834,7 +1834,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'inscriptionTypes',
+                    source: 'inscriptionTypes',
                   },
                 },
               },
@@ -1972,7 +1972,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'positions',
+                    source: 'positions',
                   },
                 },
               },
@@ -1988,7 +1988,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    optionListName: 'inscriptionTypes',
+                    source: 'inscriptionTypes',
                   },
                 },
               },
@@ -3245,7 +3245,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'ownershipAccessLevels',
+                source: 'ownershipAccessLevels',
               },
             },
           },
@@ -3261,7 +3261,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'ownershipCategories',
+                source: 'ownershipCategories',
               },
             },
           },
@@ -3290,7 +3290,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                optionListName: 'ownershipExchangeMethods',
+                source: 'ownershipExchangeMethods',
               },
             },
           },

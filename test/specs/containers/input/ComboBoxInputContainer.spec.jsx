@@ -30,7 +30,7 @@ describe('ComboBoxInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedComboBoxInput optionListName={optionListName} />, context);
+      <ConnectedComboBoxInput source={optionListName} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -75,7 +75,7 @@ describe('ComboBoxInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedComboBoxInput
         intl={context.intl}
-        optionListName={optionListName}
+        source={optionListName}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();

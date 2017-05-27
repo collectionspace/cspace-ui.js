@@ -21,7 +21,7 @@ const messages = defineMessages({
 const mapStateToProps = (state, ownProps) => {
   const {
     intl,
-    optionListName,
+    source: optionListName,
   } = ownProps;
 
   const options = getOptionList(state, optionListName);
@@ -41,7 +41,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
     /* eslint-disable no-unused-vars */
     intl,
-    optionListName,
+    source,
     /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
@@ -63,7 +63,7 @@ const IntlizedConnectedOptionPickerInput = injectIntl(ConnectedOptionPickerInput
 
 IntlizedConnectedOptionPickerInput.propTypes = {
   ...OptionPickerInput.propTypes,
-  optionListName: PropTypes.string,
+  source: PropTypes.string,
 };
 
 export default IntlizedConnectedOptionPickerInput;
