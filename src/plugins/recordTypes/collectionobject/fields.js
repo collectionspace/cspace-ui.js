@@ -7,7 +7,7 @@ export default (pluginContext) => {
     DateInput,
     HierarchyInput,
     IDGeneratorInput,
-    OptionListControlledInput,
+    OptionPickerInput,
     StructuredDateInput,
     TextInput,
     TermPickerInput,
@@ -207,7 +207,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'numberTypes',
                   },
@@ -238,7 +238,7 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: OptionListControlledInput,
+                type: OptionPickerInput,
                 props: {
                   optionListName: 'departments',
                   repeating: true,
@@ -256,7 +256,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'collections',
               },
@@ -273,7 +273,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'recordStatuses',
               },
@@ -475,7 +475,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'titleTypes',
                   },
@@ -529,7 +529,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'nameCurrencies',
                   },
@@ -545,7 +545,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'nameLevels',
                   },
@@ -561,7 +561,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'nameSystems',
                   },
@@ -577,7 +577,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'nameTypes',
                   },
@@ -650,7 +650,7 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: OptionListControlledInput,
+                type: OptionPickerInput,
                 props: {
                   optionListName: 'objectStatuses',
                   repeating: true,
@@ -668,7 +668,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'sexes',
               },
@@ -684,7 +684,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'phases',
               },
@@ -713,7 +713,7 @@ export default (pluginContext) => {
                 },
               }),
               view: {
-                type: OptionListControlledInput,
+                type: OptionPickerInput,
                 props: {
                   optionListName: 'forms',
                   repeating: true,
@@ -774,7 +774,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'ageUnits',
               },
@@ -992,7 +992,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'objectComponentNames',
                   },
@@ -1050,7 +1050,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'technicalAttributes',
                   },
@@ -1066,7 +1066,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'technicalAttributeMeasurements',
                   },
@@ -1082,7 +1082,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'technicalAttributeMeasurementUnits',
                   },
@@ -1121,7 +1121,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'measuredParts',
                   },
@@ -1172,7 +1172,7 @@ export default (pluginContext) => {
                       },
                     }),
                     view: {
-                      type: OptionListControlledInput,
+                      type: OptionPickerInput,
                       props: {
                         optionListName: 'dimensions',
                       },
@@ -1204,7 +1204,7 @@ export default (pluginContext) => {
                       },
                     }),
                     view: {
-                      type: OptionListControlledInput,
+                      type: OptionPickerInput,
                       props: {
                         optionListName: 'measurementMethods',
                       },
@@ -1233,7 +1233,7 @@ export default (pluginContext) => {
                       },
                     }),
                     view: {
-                      type: OptionListControlledInput,
+                      type: OptionPickerInput,
                       props: {
                         optionListName: 'measurementUnits',
                       },
@@ -1395,7 +1395,7 @@ export default (pluginContext) => {
           contentPosition: {
             [config]: {
               view: {
-                type: OptionListControlledInput,
+                type: OptionPickerInput,
                 props: {
                   optionListName: 'positions',
                   repeating: true,
@@ -1448,7 +1448,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'contentObjectTypes',
                   },
@@ -1552,7 +1552,7 @@ export default (pluginContext) => {
           contentScript: {
             [config]: {
               view: {
-                type: OptionListControlledInput,
+                type: OptionPickerInput,
                 props: {
                   optionListName: 'scripts',
                   repeating: true,
@@ -1800,7 +1800,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'positions',
                   },
@@ -1816,7 +1816,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'scripts',
                   },
@@ -1832,7 +1832,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'inscriptionTypes',
                   },
@@ -1970,7 +1970,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'positions',
                   },
@@ -1986,7 +1986,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: OptionListControlledInput,
+                  type: OptionPickerInput,
                   props: {
                     optionListName: 'inscriptionTypes',
                   },
@@ -3243,7 +3243,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'ownershipAccessLevels',
               },
@@ -3259,7 +3259,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'ownershipCategories',
               },
@@ -3288,7 +3288,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'ownershipExchangeMethods',
               },

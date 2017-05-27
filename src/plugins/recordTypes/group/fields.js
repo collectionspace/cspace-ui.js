@@ -5,7 +5,7 @@ export default (pluginContext) => {
     AutocompleteInput,
     CompoundInput,
     DateInput,
-    OptionListControlledInput,
+    OptionPickerInput,
     TextInput,
   } = pluginContext.inputComponents;
 
@@ -100,7 +100,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: OptionListControlledInput,
+              type: OptionPickerInput,
               props: {
                 optionListName: 'departments',
               },

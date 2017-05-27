@@ -8,7 +8,7 @@ import { getDisplayName } from 'cspace-refname';
 import DateInputContainer from '../containers/input/DateInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
 import AutocompleteInputContainer from '../containers/input/AutocompleteInputContainer';
-import OptionListControlledInputContainer from '../containers/input/OptionListControlledInputContainer';
+import OptionPickerInputContainer from '../containers/input/OptionPickerInputContainer';
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
 import TermPickerInputContainer from '../containers/input/TermPickerInputContainer';
 
@@ -37,7 +37,7 @@ const {
 const AutocompleteInput = AutocompleteInputContainer;
 const IDGeneratorInput = IDGeneratorInputContainer;
 const DateInput = DateInputContainer;
-const OptionListControlledInput = OptionListControlledInputContainer;
+const OptionPickerInput = OptionPickerInputContainer;
 const StructuredDateInput = StructuredDateInputContainer;
 const TermPickerInput = TermPickerInputContainer;
 
@@ -53,7 +53,7 @@ export default () => ({
     DateInput,
     HierarchyInput,
     IDGeneratorInput,
-    OptionListControlledInput,
+    OptionPickerInput,
     StructuredDateInput,
     TextInput,
     TermPickerInput,

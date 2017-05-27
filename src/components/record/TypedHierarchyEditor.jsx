@@ -3,7 +3,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
-import OptionListControlledInputContainer from '../../containers/input/OptionListControlledInputContainer';
+import OptionPickerInputContainer from '../../containers/input/OptionPickerInputContainer';
 
 const {
   CompoundInput,
@@ -138,7 +138,7 @@ export class BaseTypedHierarchyEditor extends Component {
             onCommit={this.handleParentRefNameCommit}
             matchFilter={this.filterMatch}
           />
-          <OptionListControlledInputContainer
+          <OptionPickerInputContainer
             label={intl.formatMessage(messages.parentType)}
             name="parentType"
             optionListName={parentTypeOptionListName}
@@ -164,7 +164,7 @@ export class BaseTypedHierarchyEditor extends Component {
               matchFilter={this.filterMatch}
               onCommit={this.handleChildRefNameCommit}
             />
-            <OptionListControlledInputContainer
+            <OptionPickerInputContainer
               label={intl.formatMessage(messages.childType)}
               name="type"
               optionListName={childTypeOptionListName}

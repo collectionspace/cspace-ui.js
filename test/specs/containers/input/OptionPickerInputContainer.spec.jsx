@@ -2,15 +2,15 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-addons-test-utils';
 import { components as inputComponents } from 'cspace-input';
-import { ConnectedOptionListControlledInput } from '../../../../src/containers/input/OptionListControlledInputContainer';
+import { ConnectedOptionPickerInput } from '../../../../src/containers/input/OptionPickerInputContainer';
 
 chai.should();
 
-const { OptionListControlledInput } = inputComponents;
+const { OptionPickerInput } = inputComponents;
 const mockStore = configureMockStore([]);
 
-describe('OptionListControlledInputContainer', function suite() {
-  it('should set props on OptionListControlledInput', function test() {
+describe('OptionPickerInputContainer', function suite() {
+  it('should set props on OptionPickerInput', function test() {
     const optionListName = 'units';
 
     const options = [
@@ -40,11 +40,11 @@ describe('OptionListControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionListControlledInput optionListName={optionListName} />, context);
+      <ConnectedOptionPickerInput optionListName={optionListName} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(OptionListControlledInput);
+    result.type.should.equal(OptionPickerInput);
     result.props.options.should.deep.equal(options);
   });
 
@@ -88,7 +88,7 @@ describe('OptionListControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionListControlledInput
+      <ConnectedOptionPickerInput
         intl={context.intl}
         optionListName={optionListName}
       />, context);
@@ -140,7 +140,7 @@ describe('OptionListControlledInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionListControlledInput
+      <ConnectedOptionPickerInput
         intl={context.intl}
         optionListName={optionListName}
       />, context);

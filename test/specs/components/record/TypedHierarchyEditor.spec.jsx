@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import { components as inputComponents } from 'cspace-input';
 import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
-import OptionListControlledInputContainer from '../../../../src/containers/input/OptionListControlledInputContainer';
+import OptionPickerInputContainer from '../../../../src/containers/input/OptionPickerInputContainer';
 import { BaseTypedHierarchyEditor as TypedHierarchyEditor } from '../../../../src/components/record/TypedHierarchyEditor';
 
 const {
@@ -63,7 +63,7 @@ describe('TypedHierarchyEditor', function suite() {
 
     refNameInputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'refName']));
 
-    const typeInputs = findAllWithType(result, OptionListControlledInputContainer);
+    const typeInputs = findAllWithType(result, OptionPickerInputContainer);
 
     typeInputs.should.have.lengthOf(2);
 
@@ -160,7 +160,7 @@ describe('TypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, OptionListControlledInputContainer);
+    const inputs = findAllWithType(result, OptionPickerInputContainer);
 
     const newValue = 'newValue';
 
@@ -223,7 +223,7 @@ describe('TypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, OptionListControlledInputContainer);
+    const inputs = findAllWithType(result, OptionPickerInputContainer);
 
     const newValue = 'newValue';
 

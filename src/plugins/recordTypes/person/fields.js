@@ -7,7 +7,7 @@ export default (pluginContext) => {
     // DateInput,
     HierarchyInput,
     // IDGeneratorInput,
-    // OptionListControlledInput,
+    // OptionPickerInput,
     // StructuredDateInput,
     TextInput,
     // TermPickerInput,

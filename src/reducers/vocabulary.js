@@ -30,6 +30,6 @@ export default (state = {}, action) => {
   }
 };
 
-export function get(state, vocabulary) {
-  return state[vocabulary];
+export function get(state, vocabularyName) {
+  return state[vocabularyName];
 }

@@ -4,12 +4,12 @@ import { defineMessages, injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { getOptionList } from '../../reducers';
 
-const { OptionListControlledInput } = inputComponents;
+const { OptionPickerInput } = inputComponents;
 
 const messages = defineMessages({
   count: {
-    id: 'optionListControlledInput.count',
-    description: 'Message displayed in the option list controlled input dropdown when filtering options.',
+    id: 'optionPickerInput.count',
+    description: 'Message displayed in the option picker input dropdown when filtering options.',
     defaultMessage: `{count, plural,
         =0 {No matching options}
         one {# matching option}
@@ -53,17 +53,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export const ConnectedOptionListControlledInput = connect(
+export const ConnectedOptionPickerInput = connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps
-)(OptionListControlledInput);
+)(OptionPickerInput);
 
-const IntlizedConnectedOptionListControlledInput = injectIntl(ConnectedOptionListControlledInput);
+const IntlizedConnectedOptionPickerInput = injectIntl(ConnectedOptionPickerInput);
 
-IntlizedConnectedOptionListControlledInput.propTypes = {
-  ...OptionListControlledInput.propTypes,
+IntlizedConnectedOptionPickerInput.propTypes = {
+  ...OptionPickerInput.propTypes,
   optionListName: PropTypes.string,
 };
 
-export default IntlizedConnectedOptionListControlledInput;
+export default IntlizedConnectedOptionPickerInput;

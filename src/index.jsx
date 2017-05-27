@@ -34,7 +34,6 @@ import organizationRecordType from './plugins/recordTypes/organization';
 import personRecordType from './plugins/recordTypes/person';
 import placeRecordType from './plugins/recordTypes/place';
 import procedureRecordType from './plugins/recordTypes/procedure';
-import vocabularyRecordType from './plugins/recordTypes/vocabulary';
 import refsSubresource from './plugins/subresources/refs';
 import termsSubresource from './plugins/subresources/terms';
 
@@ -70,7 +69,6 @@ const defaultConfig = mergeConfig({
     placeRecordType(),
     organizationRecordType(),
     procedureRecordType(),
-    vocabularyRecordType(),
     refsSubresource(),
     termsSubresource(),
   ],
