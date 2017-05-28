@@ -1,6 +1,6 @@
 # Installation
 
-This document is intended for web developers and system administrators who wish to install the CollectionSpace UI for production or evaluation.
+This document is intended for web developers and system administrators who wish to install the CollectionSpace UI for production use or evaluation.
 
 Install the CollectionSpace UI by creating an HTML page, as in the following example:
 
