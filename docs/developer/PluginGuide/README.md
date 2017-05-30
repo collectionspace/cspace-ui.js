@@ -1,6 +1,6 @@
 # Plugin Guide
 
-Plugins modify or extend the functionality of the CollectionSpace UI by supplying configuration options to be merged into the configuration of the UI. The cspace-ui project contains some standard built-in plugins in its source tree (in the plugins directory), but plugins may also be authored as separate projects, and distributed as separate npm packages that are configured into the UI at runtime.
+Plugins modify or extend the functionality of the CollectionSpace UI by supplying configuration options to be merged into the configuration of the UI. The cspace-ui project contains built-in plugins in its source tree (in the [src/plugins](../../../src/plugins) directory), but plugins may also be authored as separate projects, and distributed as npm packages that are configured into the UI at runtime.
 
 ## API
 
@@ -13,7 +13,7 @@ A plugin is a JavaScript module whose default export is a factory function, with
 
 The factory function accepts a configuration object, whose shape is determined by the plugin author. The purpose of the configuration object is to modify the behavior the plugin, but the plugin author determines exactly how the configuration object is used.
 
-The factory function has two possible return values: an object, or a function. If an object is returned, it must be a [CollectionSpace UI configuration object](../../configuration), which will be merged into the current UI configuration. If a function is returned, it will be executed with a plugin context object, and it must return a CollectionSpace UI configuration object to be merged into the current UI configuration.
+The factory function has two possible return values: an object, or a function. If an object is returned, it must be a [CollectionSpace UI configuration object](../../configuration). If a function is returned, it will be executed with a plugin context object, and it must return a CollectionSpace UI configuration object. The plugin's configuration contribution is merged into the UI configuration.
 
 Using ES2015 [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), a simple plugin implementation might look like this:
 
