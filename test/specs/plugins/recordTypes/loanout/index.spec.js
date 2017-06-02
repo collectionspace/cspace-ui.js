@@ -3,12 +3,12 @@ import createPluginContext from '../../../../../src/helpers/createPluginContext'
 
 chai.should();
 
-describe('loan-out record plugin', function suite () {
+describe('loan-out record plugin', function suite() {
   const config = {};
   const loanoutRecordTypePlugin = loanoutRecordTypePluginFactory(config);
   const pluginContext = createPluginContext();
 
-  it('should have the correct shape', function test () {
+  it('should have the correct shape', function test() {
     const pluginConfigContribution = loanoutRecordTypePlugin(pluginContext);
 
     const {
@@ -17,7 +17,7 @@ describe('loan-out record plugin', function suite () {
     } = pluginConfigContribution;
 
     optionLists.should.be.an('object');
-    recordTypes.should.have.property('loanOut');
+    recordTypes.should.have.property('loanout');
 
     const loanOutRecordTypes = recordTypes.loanout;
 
