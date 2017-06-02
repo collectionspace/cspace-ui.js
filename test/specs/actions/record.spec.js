@@ -39,7 +39,11 @@ describe('record action creator', function suite() {
     const mockStore = configureMockStore([thunk]);
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -149,7 +153,11 @@ describe('record action creator', function suite() {
       const vocabularyConfig = null;
 
       before(() => {
-        configureCSpace({});
+        const store = mockStore({
+          login: Immutable.Map(),
+        });
+
+        store.dispatch(configureCSpace());
       });
 
       beforeEach(() => {
@@ -280,7 +288,11 @@ describe('record action creator', function suite() {
       };
 
       before(() => {
-        configureCSpace({});
+        const store = mockStore({
+          login: Immutable.Map(),
+        });
+
+        store.dispatch(configureCSpace());
       });
 
       beforeEach(() => {
@@ -351,7 +363,11 @@ describe('record action creator', function suite() {
       };
 
       before(() => {
-        configureCSpace({});
+        const store = mockStore({
+          login: Immutable.Map(),
+        });
+
+        store.dispatch(configureCSpace());
       });
 
       beforeEach(() => {
@@ -646,7 +662,11 @@ describe('record action creator', function suite() {
       };
 
       before(() => {
-        configureCSpace({});
+        const store = mockStore({
+          login: Immutable.Map(),
+        });
+
+        store.dispatch(configureCSpace());
       });
 
       beforeEach(() => {

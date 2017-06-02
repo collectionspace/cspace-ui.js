@@ -27,6 +27,7 @@ const data = Immutable.fromJS({
 });
 
 const store = mockStore({
+  login: Immutable.Map(),
   record: Immutable.fromJS({
     '': {
       data: {
@@ -63,7 +64,8 @@ const config = {
 
 describe('RecordBrowser', function suite() {
   before(() => {
-    configureCSpace({});
+    store.dispatch(configureCSpace());
+    store.clearActions();
   });
 
   beforeEach(function before() {

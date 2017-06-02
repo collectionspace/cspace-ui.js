@@ -99,7 +99,11 @@ describe('search action creator', function suite() {
     };
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {

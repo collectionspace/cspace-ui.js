@@ -99,6 +99,7 @@ const config = {
 };
 
 const store = mockStore({
+  login: Immutable.Map(),
   record: Immutable.fromJS({
     [csid]: {
       data: {},
@@ -116,7 +117,8 @@ const store = mockStore({
 
 describe('RecordPage', function suite() {
   before(() => {
-    configureCSpace({});
+    store.dispatch(configureCSpace());
+    store.clearActions();
   });
 
   beforeEach(function before() {

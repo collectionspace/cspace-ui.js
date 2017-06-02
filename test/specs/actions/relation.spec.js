@@ -82,7 +82,11 @@ describe('relation action creator', function suite() {
 
   describe('find', function actionSuite() {
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -200,7 +204,11 @@ describe('relation action creator', function suite() {
 
   describe('create', function actionSuite() {
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -300,7 +308,11 @@ describe('relation action creator', function suite() {
 
   describe('createBidirectional', function actionSuite() {
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -391,7 +403,11 @@ describe('relation action creator', function suite() {
 
   describe('batchCreate', function actionSuite() {
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -523,7 +539,11 @@ describe('relation action creator', function suite() {
 
   describe('batchCreateBidirectional', function actionSuite() {
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -680,7 +700,11 @@ describe('relation action creator', function suite() {
     const deleteUrl = `/cspace-services/relations/${relationCsid}`;
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -768,7 +792,11 @@ describe('relation action creator', function suite() {
     const deleteUrl = `/cspace-services/relations/${relationCsid}`;
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -943,7 +971,11 @@ describe('relation action creator', function suite() {
     const backwardDeleteUrl = `/cspace-services/relations/${backwardRelationCsid}`;
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -1075,7 +1107,11 @@ describe('relation action creator', function suite() {
     const deleteUrls = relationCsids.map(csid => `/cspace-services/relations/${csid}`);
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -1189,7 +1225,11 @@ describe('relation action creator', function suite() {
       backwardRelationCsids.map(csid => `/cspace-services/relations/${csid}`);
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {

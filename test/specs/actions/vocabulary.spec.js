@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import Immutable from 'immutable';
 
 import {
   configureCSpace,
@@ -22,7 +23,11 @@ describe('vocabulary action creator', function suite() {
     const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabulary}\\)/items.*`);
 
     before(() => {
-      configureCSpace({});
+      const store = mockStore({
+        login: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
