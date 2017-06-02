@@ -10,6 +10,7 @@ export default (pluginContext) => {
 
   const {
     Field,
+    InputTable,
   } = pluginContext.recordComponents;
 
   return (
@@ -22,20 +23,20 @@ export default (pluginContext) => {
         </Row>
 
         <Row>
-          <Field name="lendersGroup">
+          <InputTable name="lender">
             <Field name="lendersAuthorizer" />
             <Field name="lendersContact" />
             <Field name="lendersAuthorizationDate" />
-          </Field>
+          </InputTable>
         </Row>
 
         <Row>
-          <Field name="borrowerGroup">
+          <InputTable name="borrower">
             <Field name="borrower" />
             <Field name="borrowersContact" />
             <Field name="borrowersAuthorizer" />
             <Field name="borrowersAuthorizationDate" />
-          </Field>
+          </InputTable>
         </Row>
 
         <Row>

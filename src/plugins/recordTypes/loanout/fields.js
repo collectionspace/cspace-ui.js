@@ -116,63 +116,52 @@ export default (pluginContext) => {
             },
           },
         },
-        lendersGroup: {
+        lendersAuthorizer: {
           [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.lendersAuthorizer.name',
+                defaultMessage: 'Lender\'s Authorizer',
+              },
+            }),
             view: {
-              type: CompoundInput,
+              type: AutocompleteInput,
               props: {
-                tabular: true,
-                repeating: false,
-              },
-            },
-          },
-          lendersAuthorizer: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.lendersAuthorizer.name',
-                  defaultMessage: 'Lender\'s Authorizer',
-                },
-              }),
-              view: {
-                type: AutocompleteInput,
-                props: {
-                  source: 'person/local,person/shared',
-                },
-              },
-            },
-          },
-          lendersContact: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.lendersContact.name',
-                  defaultMessage: 'Lender\'s Contact',
-                },
-              }),
-              view: {
-                type: AutocompleteInput,
-                props: {
-                  source: 'person/local,person/shared',
-                },
-              },
-            },
-          },
-          lendersAuthorizationDate: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.lendersAuthorizationDate.name',
-                  defaultMessage: 'Lender\'s Authorization Date',
-                },
-              }),
-              view: {
-                type: DateInput,
+                source: 'person/local,person/shared',
               },
             },
           },
         },
-        borrowerGroup: {
+        lendersContact: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.lendersContact.name',
+                defaultMessage: 'Lender\'s Contact',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared',
+              },
+            },
+          },
+        },
+        lendersAuthorizationDate: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.lendersAuthorizationDate.name',
+                defaultMessage: 'Lender\'s Authorization Date',
+              },
+            }),
+            view: {
+              type: DateInput,
+            },
+          },
+        },
+        borrower: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -181,72 +170,55 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: CompoundInput,
+              type: AutocompleteInput,
               props: {
-                tabular: true,
-                repeating: false,
+                source: 'person/local,person/shared,organization/local,organization/shared',
               },
             },
           },
-          borrower: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.borrower.name',
-                  defaultMessage: 'Borrower',
-                },
-              }),
-              view: {
-                type: AutocompleteInput,
-                props: {
-                  source: 'person/local,person/shared,organization/local,organization/shared',
-                },
+        },
+        borrowersContact: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.borrowersContact.name',
+                defaultMessage: 'Borrower\'s Contact',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared',
               },
             },
           },
-          borrowersContact: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.borrowersContact.name',
-                  defaultMessage: 'Borrower\'s Contact',
-                },
-              }),
-              view: {
-                type: AutocompleteInput,
-                props: {
-                  source: 'person/local,person/shared',
-                },
+        },
+        borrowersAuthorizer: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.borrowersAuthorizer.name',
+                defaultMessage: 'Borrower\'s Authorizer',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared',
               },
             },
           },
-          borrowersAuthorizer: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.borrowersAuthorizer.name',
-                  defaultMessage: 'Borrower\'s Authorizer',
-                },
-              }),
-              view: {
-                type: AutocompleteInput,
-                props: {
-                  source: 'person/local,person/shared',
-                },
+        },
+        borrowersAuthorizationDate: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.borrowersAuthorizationDate.name',
+                defaultMessage: 'Borrower\'s Authorization Date',
               },
-            },
-          },
-          borrowersAuthorizationDate: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.loansout_common.borrowersAuthorizationDate.name',
-                  defaultMessage: 'Borrower\'s Authorization Date',
-                },
-              }),
-              view: {
-                type: DateInput,
-              },
+            }),
+            view: {
+              type: DateInput,
             },
           },
         },
