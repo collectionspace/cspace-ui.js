@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import Immutable from 'immutable';
 
 import {
   configureCSpace,
@@ -47,8 +48,13 @@ describe('partialTermSearch action creator', function suite() {
       },
     };
 
+    const store = mockStore({
+      login: Immutable.Map(),
+    });
+
     before(() => {
-      configureCSpace({});
+      store.dispatch(configureCSpace());
+      store.clearActions();
     });
 
     beforeEach(() => {
@@ -56,6 +62,7 @@ describe('partialTermSearch action creator', function suite() {
     });
 
     afterEach(() => {
+      store.clearActions();
       moxios.uninstall();
     });
 
@@ -71,8 +78,6 @@ describe('partialTermSearch action creator', function suite() {
         status: 200,
         response: {},
       });
-
-      const store = mockStore({});
 
       return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName))
         .then(() => {
@@ -111,8 +116,6 @@ describe('partialTermSearch action creator', function suite() {
         status: 400,
         response: {},
       });
-
-      const store = mockStore({});
 
       return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName))
         .then(() => {
@@ -163,8 +166,13 @@ describe('partialTermSearch action creator', function suite() {
       },
     };
 
+    const store = mockStore({
+      login: Immutable.Map(),
+    });
+
     before(() => {
-      configureCSpace({});
+      store.dispatch(configureCSpace());
+      store.clearActions();
     });
 
     beforeEach(() => {
@@ -172,6 +180,7 @@ describe('partialTermSearch action creator', function suite() {
     });
 
     afterEach(() => {
+      store.clearActions();
       moxios.uninstall();
     });
 
@@ -180,8 +189,6 @@ describe('partialTermSearch action creator', function suite() {
         status: 200,
         response: {},
       });
-
-      const store = mockStore({});
 
       return store.dispatch(
         findMatchingTerms(recordTypeConfig, vocabulary, partialTerm)
@@ -223,8 +230,6 @@ describe('partialTermSearch action creator', function suite() {
         response: {},
       });
 
-      const store = mockStore({});
-
       return store.dispatch(
         findMatchingTerms(recordTypeConfig, vocabulary, partialTerm)
       )
@@ -250,6 +255,16 @@ describe('partialTermSearch action creator', function suite() {
               vocabulary,
             });
         });
+    });
+
+    it('should dispatch no action if the vocabulary does not have a service path', function test() {
+      const invalidVocabulary = `${vocabulary}abcd`;
+
+      store.dispatch(
+        findMatchingTerms(recordTypeConfig, invalidVocabulary, partialTerm)
+      );
+
+      store.getActions().should.have.lengthOf(0);
     });
   });
 

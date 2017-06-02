@@ -39,7 +39,7 @@ describe('AutocompleteInputContainer', function suite() {
           vocabularies: {
             local: {
               serviceConfig: {
-                name: 'urn:cspace:name(person)',
+                servicePath: 'urn:cspace:name(person)',
               },
             },
           },
@@ -91,7 +91,7 @@ describe('AutocompleteInputContainer', function suite() {
           vocabularies: {
             local: {
               serviceConfig: {
-                name: 'urn:cspace:name(person)',
+                servicePath: 'urn:cspace:name(person)',
               },
             },
           },
@@ -180,7 +180,7 @@ describe('AutocompleteInputContainer', function suite() {
           vocabularies: {
             local: {
               serviceConfig: {
-                name: 'urn:cspace:name(person)',
+                servicePath: 'urn:cspace:name(person)',
               },
             },
           },

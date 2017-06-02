@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import warning from 'warning';
 import getSession from './cspace';
 
 export const ADD_TERM_STARTED = 'ADD_TERM_STARTED';
@@ -66,6 +67,12 @@ export const findMatchingTerms = (recordTypeConfig, vocabulary, partialTerm) => 
   const vocabularyServicePath = vocabulary
     ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
     : undefined;
+
+  warning(vocabularyServicePath, `No service path found for the vocabulary ${vocabulary} in record type ${recordType}. Partial term search will not include this vocabulary.`);
+
+  if (!vocabularyServicePath) {
+    return null;
+  }
 
   dispatch({
     type: PARTIAL_TERM_SEARCH_STARTED,
