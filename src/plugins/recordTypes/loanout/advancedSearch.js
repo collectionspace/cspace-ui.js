@@ -10,15 +10,39 @@ export default {
   value: [
     {
       op: OP_MATCH,
-      path: 'ns2:groups_common/title',
+      path: 'ns2:loansout_common/loanOutNumber',
     },
     {
       op: OP_EQ,
-      path: 'ns2:groups_common/responsibleDepartment',
+      path: 'ns2:loansout_common/loanPurpose',
     },
     {
       op: OP_EQ,
-      path: 'ns2:groups_common/owner',
+      path: 'ns2:loansout_common/lendersAuthorizer',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:loansout_common/lendersContact',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:loansout_common/lendersAuthorizer',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:loansout_common/borrower',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:loansout_common/borrowersContact',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:loansout_common/borrowersAuthorizer',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:loansout_common/loanStatusGroupList/loanStatusGroup/loanStatus',
     },
     {
       op: OP_MATCH,
