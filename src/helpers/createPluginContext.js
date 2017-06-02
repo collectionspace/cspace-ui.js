@@ -19,6 +19,8 @@ import InputTable from '../components/record/InputTable';
 
 import * as dataTypes from '../constants/dataTypes';
 
+import withBooleanValue from '../enhancers/withBooleanValue';
+
 import {
   configKey,
 } from '../helpers/configHelpers';
@@ -30,6 +32,7 @@ import {
 } from '../helpers/recordDataHelpers';
 
 const {
+  CheckboxInput: BaseCheckboxInput,
   CompoundInput,
   TextInput,
 } = inputComponents;
@@ -40,6 +43,7 @@ const DateInput = DateInputContainer;
 const OptionPickerInput = OptionPickerInputContainer;
 const StructuredDateInput = StructuredDateInputContainer;
 const TermPickerInput = TermPickerInputContainer;
+const CheckboxInput = withBooleanValue(BaseCheckboxInput);
 
 export default () => ({
   dataTypes,
@@ -49,6 +53,7 @@ export default () => ({
   },
   inputComponents: {
     AutocompleteInput,
+    CheckboxInput,
     CompoundInput,
     DateInput,
     HierarchyInput,
