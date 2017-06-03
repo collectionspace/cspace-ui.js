@@ -6,6 +6,7 @@ import concept from './concept';
 import group from './group';
 import intake from './intake';
 import loanin from './loanin';
+import loanout from './loanout';
 import media from './media';
 import object from './object';
 import organization from './organization';
@@ -22,6 +23,7 @@ export default [
   group,
   intake,
   loanin,
+  loanout,
   media,
   object,
   organization,
