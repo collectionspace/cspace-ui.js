@@ -19,31 +19,31 @@ export default {
     messages: defineMessages({
       exhibition: {
         id: 'option.loanPurposes.exhibition',
-        defaultMessage: 'Exhibition',
+        defaultMessage: 'exhibition',
       },
       research: {
         id: 'option.loanPurposes.research',
-        defaultMessage: 'Research',
+        defaultMessage: 'research',
       },
       scientificorexhibitpreparation: {
         id: 'option.loanPurposes.scientificorexhibitpreparation',
-        defaultMessage: 'Scientific or exhibit preparation',
+        defaultMessage: 'scientific or exhibit preparation',
       },
       analysis: {
         id: 'option.loanPurposes.analysis',
-        defaultMessage: 'Analysis',
+        defaultMessage: 'analysis',
       },
       photography: {
         id: 'option.loanPurposes.photography',
-        defaultMessage: 'Photography',
+        defaultMessage: 'photography',
       },
       conservationotherrequestedservices: {
         id: 'option.loanPurposes.conservationotherrequestedservices',
-        defaultMessage: 'Conservation of other requested services',
+        defaultMessage: 'conservation of other requested services',
       },
       longtermcollectionsmanagementandstorage: {
         id: 'option.loanPurposes.longtermcollectionsmanagementandstorage',
-        defaultMessage: 'Long-term collections management and storage',
+        defaultMessage: 'long-term collections management and storage',
       },
     }),
   },

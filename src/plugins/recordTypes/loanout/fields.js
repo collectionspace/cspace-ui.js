@@ -86,7 +86,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanOutNumber.name',
-                defaultMessage: 'Loan Out Number',
+                defaultMessage: 'Loan out number',
               },
             }),
             searchView: {
@@ -105,7 +105,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanPurpose.name',
-                defaultMessage: 'Loan Purpose',
+                defaultMessage: 'Loan purpose',
               },
             }),
             view: {
@@ -121,7 +121,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.lendersAuthorizer.name',
-                defaultMessage: 'Lender\'s Authorizer',
+                defaultMessage: 'Lender\'s authorizer',
               },
             }),
             view: {
@@ -137,7 +137,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.lendersContact.name',
-                defaultMessage: 'Lender\'s Contact',
+                defaultMessage: 'Lender\'s contact',
               },
             }),
             view: {
@@ -153,7 +153,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.lendersAuthorizationDate.name',
-                defaultMessage: 'Lender\'s Authorization Date',
+                defaultMessage: 'Lender\'s authorization date',
               },
             }),
             view: {
@@ -182,7 +182,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrowersContact.name',
-                defaultMessage: 'Borrower\'s Contact',
+                defaultMessage: 'Borrower\'s contact',
               },
             }),
             view: {
@@ -198,7 +198,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrowersAuthorizer.name',
-                defaultMessage: 'Borrower\'s Authorizer',
+                defaultMessage: 'Borrower\'s authorizer',
               },
             }),
             view: {
@@ -214,7 +214,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrowersAuthorizationDate.name',
-                defaultMessage: 'Borrower\'s Authorization Date',
+                defaultMessage: 'Borrower\'s authorization date',
               },
             }),
             view: {
@@ -227,7 +227,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.specialConditionsOfLoan.name',
-                defaultMessage: 'Loan Out Conditions',
+                defaultMessage: 'Loan out conditions',
               },
             }),
             view: {
@@ -243,7 +243,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanOutNote.name',
-                defaultMessage: 'Loan Out Note',
+                defaultMessage: 'Loan out note',
               },
             }),
             view: {
@@ -260,7 +260,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanStatusGroupList.name',
-                defaultMessage: 'Loan Status',
+                defaultMessage: 'Loan status',
               },
             }),
             view: {
@@ -282,7 +282,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.loansout_common.loanStatus.name',
-                    defaultMessage: 'Loan Status',
+                    defaultMessage: 'Loan status',
                   },
                 }),
                 view: {
@@ -298,7 +298,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.loansout_common.loanStatusDate.name',
-                    defaultMessage: 'Loan Status Date',
+                    defaultMessage: 'Loan status date',
                   },
                 }),
                 view: {
@@ -311,7 +311,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.loansout_common.loanStatusNote.name',
-                    defaultMessage: 'Loan Status Note',
+                    defaultMessage: 'Loan status note',
                   },
                 }),
                 view: {
@@ -326,7 +326,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanOutDate.name',
-                defaultMessage: 'Loan Out Date',
+                defaultMessage: 'Loan out date',
               },
             }),
             view: {
@@ -339,7 +339,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanReturnDate.name',
-                defaultMessage: 'Loan Return Date',
+                defaultMessage: 'Loan return date',
               },
             }),
             view: {
@@ -352,7 +352,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanRenewalApplicationDate.name',
-                defaultMessage: 'Loan Renewal Application Date',
+                defaultMessage: 'Loan renewal application date',
               },
             }),
             view: {
