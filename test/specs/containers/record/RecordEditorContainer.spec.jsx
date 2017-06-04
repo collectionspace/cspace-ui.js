@@ -9,6 +9,14 @@ import RecordEditor from '../../../../src/components/record/RecordEditor';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 
 import {
+  STATUS_PENDING,
+} from '../../../../src/constants/notificationStatusCodes';
+
+import {
+  SHOW_NOTIFICATION,
+} from '../../../../src/actions/notification';
+
+import {
   CREATE_NEW_RECORD,
   RECORD_READ_STARTED,
   RECORD_SAVE_STARTED,
@@ -34,6 +42,7 @@ describe('RecordEditorContainer', function suite() {
     serviceConfig: {
       servicePath: 'collectionobjects',
     },
+    title: () => '',
   };
 
   const config = {
@@ -281,11 +290,14 @@ describe('RecordEditorContainer', function suite() {
     try {
       result.props.save();
     } catch (error) {
-      const action = store.getActions()[0];
+      const actions = store.getActions();
 
-      action.should.have.property('type', RECORD_SAVE_STARTED);
-      action.should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
-      action.should.have.deep.property('meta.csid', csid);
+      actions[0].should.have.property('type', SHOW_NOTIFICATION);
+      actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+      actions[1].should.have.property('type', RECORD_SAVE_STARTED);
+      actions[1].should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
+      actions[1].should.have.deep.property('meta.csid', csid);
     }
   });
 });

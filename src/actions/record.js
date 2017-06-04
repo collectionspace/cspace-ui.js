@@ -192,15 +192,6 @@ export const saveRecord =
         },
       });
 
-      dispatch({
-        type: RECORD_SAVE_STARTED,
-        meta: {
-          recordTypeConfig,
-          csid,
-          relatedSubjectCsid,
-        },
-      });
-
       const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
 
       const vocabularyServicePath = vocabularyConfig
