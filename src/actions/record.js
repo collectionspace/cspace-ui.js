@@ -1,12 +1,53 @@
 /* global window */
 
+import get from 'lodash/get';
+import { defineMessages } from 'react-intl';
 import getSession from './cspace';
+import { showNotification } from './notification';
 import { getRecordData, isRecordReadPending } from '../reducers';
-import { prepareForSending } from '../helpers/recordDataHelpers';
+import getNotificationID from '../helpers/notificationHelpers';
+
+import {
+  getDocument,
+  prepareForSending,
+} from '../helpers/recordDataHelpers';
 
 import {
   ERR_API,
 } from '../constants/errorCodes';
+
+import {
+  STATUS_ERROR,
+  STATUS_PENDING,
+  STATUS_SUCCESS,
+} from '../constants/notificationStatusCodes';
+
+const messages = defineMessages({
+  saving: {
+    id: 'action.record.saving',
+    description: 'Notification message displayed when a record is being saved.',
+    defaultMessage: `{hasTitle, select,
+      yes {Saving {title}…}
+      other {Saving record…}
+    }`,
+  },
+  errorSaving: {
+    id: 'action.record.errorSaving',
+    description: 'Notification message displayed when a record save fails.',
+    defaultMessage: `{hasTitle, select,
+      yes {Error saving {title}: {error}}
+      other {Error saving record: {error}}
+    }`,
+  },
+  saved: {
+    id: 'action.record.saved',
+    description: 'Notification message displayed when a record is saved successfully.',
+    defaultMessage: `{hasTitle, select,
+      yes {Saved {title}}
+      other {Saved record}
+    }`,
+  },
+});
 
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
 export const RECORD_READ_STARTED = 'RECORD_READ_STARTED';
@@ -128,6 +169,29 @@ export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =
 export const saveRecord =
   (recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated) =>
     (dispatch, getState) => {
+      const data = getRecordData(getState(), csid);
+      const title = recordTypeConfig.title(getDocument(data));
+      const notificationID = getNotificationID();
+
+      dispatch(showNotification({
+        messageDescriptor: messages.saving,
+        values: {
+          title,
+          hasTitle: title ? 'yes' : '',
+        },
+        date: new Date(),
+        status: STATUS_PENDING,
+      }, notificationID));
+
+      dispatch({
+        type: RECORD_SAVE_STARTED,
+        meta: {
+          recordTypeConfig,
+          csid,
+          relatedSubjectCsid,
+        },
+      });
+
       dispatch({
         type: RECORD_SAVE_STARTED,
         meta: {
@@ -156,35 +220,59 @@ export const saveRecord =
 
       const path = pathParts.join('/');
 
-      const data = getRecordData(getState(), csid);
-
       const config = {
         data: prepareForSending(data).toJS(),
       };
 
       if (csid) {
         return getSession().update(path, config)
-          .then(response => dispatch({
-            type: RECORD_SAVE_FULFILLED,
-            payload: response,
-            meta: {
-              recordTypeConfig,
-              csid,
-              relatedSubjectCsid,
-            },
-          }))
-          .catch(error => dispatch({
-            type: RECORD_SAVE_REJECTED,
-            payload: {
-              code: ERR_API,
-              error,
-            },
-            meta: {
-              recordTypeConfig,
-              csid,
-              relatedSubjectCsid,
-            },
-          }));
+          .then((response) => {
+            dispatch(showNotification({
+              messageDescriptor: messages.saved,
+              values: {
+                title,
+                hasTitle: title ? 'yes' : '',
+              },
+              date: new Date(),
+              status: STATUS_SUCCESS,
+              autoClose: true,
+            }, notificationID));
+
+            dispatch({
+              type: RECORD_SAVE_FULFILLED,
+              payload: response,
+              meta: {
+                recordTypeConfig,
+                csid,
+                relatedSubjectCsid,
+              },
+            });
+          })
+          .catch((error) => {
+            dispatch(showNotification({
+              messageDescriptor: messages.errorSaving,
+              values: {
+                title,
+                hasTitle: title ? 'yes' : '',
+                error: get(error, ['response', 'data']) || get(error, 'message'),
+              },
+              date: new Date(),
+              status: STATUS_ERROR,
+            }, notificationID));
+
+            dispatch({
+              type: RECORD_SAVE_REJECTED,
+              payload: {
+                code: ERR_API,
+                error,
+              },
+              meta: {
+                recordTypeConfig,
+                csid,
+                relatedSubjectCsid,
+              },
+            });
+          });
       }
 
       return getSession().create(path, config)
@@ -195,6 +283,17 @@ export const saveRecord =
 
             return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
               .then((readResponse) => {
+                dispatch(showNotification({
+                  messageDescriptor: messages.saved,
+                  values: {
+                    title,
+                    hasTitle: title ? 'yes' : '',
+                  },
+                  date: new Date(),
+                  status: STATUS_SUCCESS,
+                  autoClose: true,
+                }, notificationID));
+
                 dispatch({
                   type: RECORD_SAVE_FULFILLED,
                   payload: readResponse,
@@ -216,18 +315,31 @@ export const saveRecord =
 
           throw error;
         })
-        .catch(error => dispatch({
-          type: RECORD_SAVE_REJECTED,
-          payload: {
-            code: ERR_API,
-            error,
-          },
-          meta: {
-            recordTypeConfig,
-            csid,
-            relatedSubjectCsid,
-          },
-        }));
+        .catch((error) => {
+          dispatch(showNotification({
+            messageDescriptor: messages.errorSaving,
+            values: {
+              title,
+              hasTitle: title ? 'yes' : '',
+              error: get(error, ['response', 'data']) || get(error, 'message'),
+            },
+            date: new Date(),
+            status: STATUS_ERROR,
+          }, notificationID));
+
+          dispatch({
+            type: RECORD_SAVE_REJECTED,
+            payload: {
+              code: ERR_API,
+              error,
+            },
+            meta: {
+              recordTypeConfig,
+              csid,
+              relatedSubjectCsid,
+            },
+          });
+        });
     };
 
 export const addFieldInstance = (recordTypeConfig, csid, path) => ({

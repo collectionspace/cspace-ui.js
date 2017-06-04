@@ -6,6 +6,7 @@ import searchPage, * as fromSearchPage from './searchPage';
 import quickSearch, * as fromQuickSearch from './quickSearch';
 import login, * as fromLogin from './login';
 import logout, * as fromLogout from './logout';
+import notification, * as fromNotification from './notification';
 import optionList, * as fromOptionList from './optionList';
 import partialTermSearch, * as fromPartialTermSearch from './partialTermSearch';
 import prefs, * as fromPrefs from './prefs';
@@ -25,6 +26,7 @@ export default combineReducers({
   login,
   logout,
   optionList,
+  notification,
   partialTermSearch,
   prefs,
   record,
@@ -143,3 +145,6 @@ export const getSearchToRelateRecordType = state =>
 
 export const getSearchToRelateVocabulary = (state, recordType) =>
   fromSearchToRelate.getVocabulary(state.searchToRelate, recordType);
+
+export const getNotifications = state =>
+  fromNotification.getAll(state.notification);

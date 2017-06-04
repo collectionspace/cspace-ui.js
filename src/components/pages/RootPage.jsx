@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
+import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
 
 const messages = defineMessages({
   title: {
@@ -43,6 +44,7 @@ function RootPage(props) {
         <link rel="shortcut icon" href={favicon} />
       </Helmet>
       {children}
+      <NotificationBarContainer />
     </div>
   );
 }

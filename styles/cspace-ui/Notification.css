@@ -1,0 +1,61 @@
+.common {
+  max-width: 350px;
+  padding: 10px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.common + .common {
+  border-left: 1px solid rgb(220, 220, 220);
+}
+
+.common > div {
+  overflow: auto;
+}
+
+.common > div > header {
+  font-size: 12px;
+  line-height: 20px;
+  color: rgb(160, 160, 160);
+}
+
+.common > div > div {
+  padding-left: 20px;
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: 0 2px;
+}
+
+.common > footer {
+  padding-left: 10px;
+}
+
+.common > footer > button {
+  outline: 1px solid rgb(220, 220, 220);
+}
+
+.error {
+  composes: common;
+}
+
+.error > div > div {
+  background-image: url(../../images/error.svg);
+  color: #D80000;
+}
+
+.pending {
+  composes: common;
+}
+
+.pending > div > div {
+  background-image: url(../../images/spinner.svg);
+}
+
+.success {
+  composes: common;
+}
+
+.success > div > div {
+  background-image: url(../../images/success.svg);
+}
