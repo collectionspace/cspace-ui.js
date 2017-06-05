@@ -4,8 +4,18 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
 import {
+  STATUS_ERROR,
+  STATUS_PENDING,
+  STATUS_SUCCESS,
+} from '../../../src/constants/notificationStatusCodes';
+
+import {
   configureCSpace,
 } from '../../../src/actions/cspace';
+
+import {
+  SHOW_NOTIFICATION,
+} from '../../../src/actions/notification';
 
 import {
   CREATE_NEW_RECORD,
@@ -360,6 +370,7 @@ describe('record action creator', function suite() {
         serviceConfig: {
           servicePath,
         },
+        title: () => '',
       };
 
       before(() => {
@@ -405,9 +416,12 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-            actions[0].should.deep.equal({
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -416,7 +430,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[1].should.deep.equal({
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -455,9 +472,12 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-            actions[0].should.deep.equal({
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -466,8 +486,11 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[1].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[1].should.have.property('meta')
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[3].should.have.property('meta')
               .that.deep.equals({
                 csid,
                 recordTypeConfig,
@@ -498,9 +521,12 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-            actions[0].should.deep.equal({
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -509,8 +535,11 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[1].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[1].should.have.property('meta')
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[3].should.have.property('meta')
               .that.deep.equals({
                 csid: '',
                 recordTypeConfig,
@@ -541,9 +570,12 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-            actions[0].should.deep.equal({
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -552,8 +584,11 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[1].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[1].should.have.property('meta')
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[3].should.have.property('meta')
               .that.deep.equals({
                 csid: '',
                 recordTypeConfig,
@@ -603,9 +638,12 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-            actions[0].should.deep.equal({
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -614,7 +652,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[1].should.deep.equal({
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -656,6 +697,7 @@ describe('record action creator', function suite() {
         serviceConfig: {
           servicePath: recordServicePath,
         },
+        title: () => '',
         vocabularies: {
           [vocabulary]: vocabularyConfig,
         },
@@ -704,9 +746,12 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-            actions[0].should.deep.equal({
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -715,7 +760,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[1].should.deep.equal({
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,

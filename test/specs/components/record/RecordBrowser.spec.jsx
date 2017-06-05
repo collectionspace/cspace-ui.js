@@ -58,6 +58,7 @@ const config = {
       serviceConfig: {
         servicePath: 'collectionobjects',
       },
+      title: () => '',
     },
   },
 };

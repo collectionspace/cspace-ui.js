@@ -56,6 +56,7 @@ describe('reducer', function suite() {
       'quickSearch',
       'login',
       'logout',
+      'notification',
       'optionList',
       'partialTermSearch',
       'prefs',
