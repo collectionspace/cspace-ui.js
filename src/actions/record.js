@@ -1,11 +1,11 @@
 /* global window */
 
-import get from 'lodash/get';
 import { defineMessages } from 'react-intl';
 import getSession from './cspace';
 import { showNotification } from './notification';
 import { getRecordData, isRecordReadPending } from '../reducers';
 import getNotificationID from '../helpers/notificationHelpers';
+import getErrorDescription from '../helpers/getErrorDescription';
 
 import {
   getDocument,
@@ -245,7 +245,7 @@ export const saveRecord =
               values: {
                 title,
                 hasTitle: title ? 'yes' : '',
-                error: get(error, ['response', 'data']) || get(error, 'message'),
+                error: getErrorDescription(error),
               },
               date: new Date(),
               status: STATUS_ERROR,
@@ -312,7 +312,7 @@ export const saveRecord =
             values: {
               title,
               hasTitle: title ? 'yes' : '',
-              error: get(error, ['response', 'data']) || get(error, 'message'),
+              error: getErrorDescription(error),
             },
             date: new Date(),
             status: STATUS_ERROR,
