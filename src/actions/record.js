@@ -174,7 +174,7 @@ export const saveRecord =
       const notificationID = getNotificationID();
 
       dispatch(showNotification({
-        messageDescriptor: messages.saving,
+        message: messages.saving,
         values: {
           title,
           hasTitle: title ? 'yes' : '',
@@ -219,7 +219,7 @@ export const saveRecord =
         return getSession().update(path, config)
           .then((response) => {
             dispatch(showNotification({
-              messageDescriptor: messages.saved,
+              message: messages.saved,
               values: {
                 title,
                 hasTitle: title ? 'yes' : '',
@@ -241,7 +241,7 @@ export const saveRecord =
           })
           .catch((error) => {
             dispatch(showNotification({
-              messageDescriptor: messages.errorSaving,
+              message: messages.errorSaving,
               values: {
                 title,
                 hasTitle: title ? 'yes' : '',
@@ -275,7 +275,7 @@ export const saveRecord =
             return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
               .then((readResponse) => {
                 dispatch(showNotification({
-                  messageDescriptor: messages.saved,
+                  message: messages.saved,
                   values: {
                     title,
                     hasTitle: title ? 'yes' : '',
@@ -308,7 +308,7 @@ export const saveRecord =
         })
         .catch((error) => {
           dispatch(showNotification({
-            messageDescriptor: messages.errorSaving,
+            message: messages.errorSaving,
             values: {
               title,
               hasTitle: title ? 'yes' : '',

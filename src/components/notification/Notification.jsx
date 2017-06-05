@@ -8,8 +8,8 @@ import styles from '../../../styles/cspace-ui/Notification.css';
 const { MiniButton } = inputComponents;
 
 const propTypes = {
-  id: PropTypes.number.isRequired,
-  messageDescriptor: PropTypes.objectOf(PropTypes.string),
+  id: PropTypes.string.isRequired,
+  message: PropTypes.objectOf(PropTypes.string),
   values: PropTypes.objectOf(PropTypes.string),
   date: PropTypes.instanceOf(Date),
   status: PropTypes.string,
@@ -100,7 +100,7 @@ export default class Notification extends Component {
 
   render() {
     const {
-      messageDescriptor,
+      message,
       values,
       date,
       status,
@@ -128,12 +128,13 @@ export default class Notification extends Component {
             {timestamp}
           </header>
           <div>
-            <FormattedMessage {...messageDescriptor} values={values} />
+            <FormattedMessage {...message} values={values} />
           </div>
         </div>
         <footer>
           <MiniButton
             className="material-icons"
+            name="close"
             onClick={this.handleCloseButtonClick}
             onFocus={this.handleCloseButtonFocus}
           >

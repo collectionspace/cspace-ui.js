@@ -40,4 +40,3 @@ export default (state = Immutable.OrderedMap(), action) => {
 };
 
 export const getAll = state => state;
-
