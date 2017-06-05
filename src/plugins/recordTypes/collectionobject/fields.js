@@ -138,6 +138,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Identification number',
               },
             }),
+            required: true,
             searchView: {
               type: TextInput,
             },

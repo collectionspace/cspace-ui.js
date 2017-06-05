@@ -23,7 +23,7 @@ const renderLabel = (fieldConfig, props) => {
 
   if (message) {
     return (
-      <Label {...props}>
+      <Label {...props} required={fieldConfig.required}>
         <FormattedMessage {...message} />
       </Label>
     );

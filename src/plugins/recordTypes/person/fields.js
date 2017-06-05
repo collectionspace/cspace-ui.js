@@ -92,6 +92,7 @@ export default (pluginContext) => {
                     defaultMessage: 'Display name',
                   },
                 }),
+                required: true,
                 view: {
                   type: TextInput,
                 },

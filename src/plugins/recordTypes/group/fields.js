@@ -86,6 +86,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Title',
               },
             }),
+            required: true,
             view: {
               type: TextInput,
             },

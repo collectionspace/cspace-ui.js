@@ -89,6 +89,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Loan out number',
               },
             }),
+            required: true,
             searchView: {
               type: TextInput,
             },

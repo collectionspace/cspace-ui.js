@@ -170,6 +170,11 @@ export const saveRecord =
   (recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated) =>
     (dispatch, getState) => {
       const data = getRecordData(getState(), csid);
+
+      // TODO: Compute
+
+      // TODO: Validate
+
       const title = recordTypeConfig.title(getDocument(data));
       const notificationID = getNotificationID();
 
