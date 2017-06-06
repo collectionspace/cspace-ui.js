@@ -18,7 +18,6 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    DATA_TYPE_LIST,
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
     DATA_TYPE_DATETIME,
@@ -219,7 +218,6 @@ export default (pluginContext) => {
         },
         responsibleDepartments: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.responsibleDepartments.name',
@@ -238,6 +236,7 @@ export default (pluginContext) => {
                   defaultMessage: 'Responsible department',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
@@ -365,7 +364,6 @@ export default (pluginContext) => {
         },
         titleGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.titleGroupList.name',
@@ -378,6 +376,7 @@ export default (pluginContext) => {
           },
           titleGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -487,7 +486,6 @@ export default (pluginContext) => {
         },
         objectNameList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectNameList.name',
@@ -499,6 +497,7 @@ export default (pluginContext) => {
             },
           },
           objectNameGroup: {
+            repeating: true,
             [config]: {
               view: {
                 type: CompoundInput,
@@ -631,7 +630,6 @@ export default (pluginContext) => {
         },
         objectStatusList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectStatusList.name',
@@ -650,6 +648,7 @@ export default (pluginContext) => {
                   defaultMessage: 'Object status',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
@@ -694,7 +693,6 @@ export default (pluginContext) => {
         },
         forms: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.forms.name',
@@ -713,6 +711,7 @@ export default (pluginContext) => {
                   defaultMessage: 'Form',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
@@ -784,7 +783,6 @@ export default (pluginContext) => {
         },
         styles: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.styles.name',
@@ -803,6 +801,7 @@ export default (pluginContext) => {
                   defaultMessage: 'Style',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
@@ -837,7 +836,6 @@ export default (pluginContext) => {
         },
         materialGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.materialGroupList.name',
@@ -850,6 +848,7 @@ export default (pluginContext) => {
           },
           materialGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -959,7 +958,6 @@ export default (pluginContext) => {
         },
         objectComponentGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectComponentGroupList.name',
@@ -972,6 +970,7 @@ export default (pluginContext) => {
           },
           objectComponentGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -1017,7 +1016,6 @@ export default (pluginContext) => {
         },
         technicalAttributeGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.technicalAttributeGroupList.name',
@@ -1030,6 +1028,7 @@ export default (pluginContext) => {
           },
           technicalAttributeGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -1899,13 +1898,13 @@ export default (pluginContext) => {
         },
         nonTextualInscriptionGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             view: {
               type: CompoundInput,
             },
           },
           nonTextualInscriptionGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -2031,7 +2030,6 @@ export default (pluginContext) => {
         },
         objectProductionDateGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionDateGroupList.name',
@@ -2050,6 +2048,7 @@ export default (pluginContext) => {
                   defaultMessage: 'Production date',
                 },
               }),
+              repeating: true,
               searchView: {
                 type: DateInput,
               },
@@ -2064,7 +2063,6 @@ export default (pluginContext) => {
         },
         techniqueGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.techniqueGroupList.name',
@@ -2077,6 +2075,7 @@ export default (pluginContext) => {
           },
           techniqueGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -2119,7 +2118,6 @@ export default (pluginContext) => {
         },
         objectProductionPlaceGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionPlaceGroupList.name',
@@ -2132,6 +2130,7 @@ export default (pluginContext) => {
           },
           objectProductionPlaceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -2198,7 +2197,6 @@ export default (pluginContext) => {
         },
         objectProductionPeopleGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionPeopleGroupList.name',
@@ -2211,6 +2209,7 @@ export default (pluginContext) => {
           },
           objectProductionPeopleGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -2253,7 +2252,6 @@ export default (pluginContext) => {
         },
         objectProductionPersonGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionPersonGroupList.name',
@@ -2266,6 +2264,7 @@ export default (pluginContext) => {
           },
           objectProductionPersonGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -2311,7 +2310,6 @@ export default (pluginContext) => {
         },
         objectProductionOrganizationGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionOrganizationGroupList.name',
@@ -2324,6 +2322,7 @@ export default (pluginContext) => {
           },
           objectProductionOrganizationGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -3685,7 +3684,6 @@ export default (pluginContext) => {
         },
         fieldColEventNames: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.fieldColEventNames.name',
@@ -3704,6 +3702,7 @@ export default (pluginContext) => {
                   defaultMessage: 'Field collection event name',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
