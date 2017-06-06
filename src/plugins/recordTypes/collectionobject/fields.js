@@ -20,6 +20,7 @@ export default (pluginContext) => {
   const {
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
+    DATA_TYPE_DATE,
     DATA_TYPE_DATETIME,
   } = pluginContext.dataTypes;
 
@@ -1196,6 +1197,7 @@ export default (pluginContext) => {
                 },
                 value: {
                   [config]: {
+                    dataType: DATA_TYPE_FLOAT,
                     messages: defineMessages({
                       name: {
                         id: 'field.collectionobjects_common.value.name',
@@ -1238,6 +1240,7 @@ export default (pluginContext) => {
                 },
                 valueDate: {
                   [config]: {
+                    dataType: DATA_TYPE_DATE,
                     messages: defineMessages({
                       name: {
                         id: 'field.collectionobjects_common.valueDate.name',

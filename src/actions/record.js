@@ -10,6 +10,7 @@ import getErrorDescription from '../helpers/getErrorDescription';
 import {
   getDocument,
   prepareForSending,
+  validateRecordData,
 } from '../helpers/recordDataHelpers';
 
 import {
@@ -173,7 +174,7 @@ export const saveRecord =
 
       // TODO: Compute
 
-      // TODO: Validate
+      const errors = validateRecordData(recordTypeConfig, data);
 
       const title = recordTypeConfig.title(getDocument(data));
       const notificationID = getNotificationID();

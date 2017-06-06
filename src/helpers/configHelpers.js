@@ -14,6 +14,11 @@ import {
 } from '../constants/errorCodes';
 
 import {
+  DATA_TYPE_MAP,
+  DATA_TYPE_STRING,
+} from '../constants/dataTypes';
+
+import {
   NS_PREFIX,
 } from './recordDataHelpers';
 
@@ -227,7 +232,7 @@ export const getDefaults = (fieldDescriptor, currentPath = []) => {
   return results;
 };
 
-export const isCloneable = (fieldDescriptor) => {
+export const isFieldCloneable = (fieldDescriptor) => {
   const config = fieldDescriptor[configKey];
 
   if (config && 'cloneable' in config) {
@@ -235,6 +240,73 @@ export const isCloneable = (fieldDescriptor) => {
   }
 
   return true;
+};
+
+export const isFieldRepeating = (fieldDescriptor) => {
+  let repeating;
+
+  const fieldConfig = fieldDescriptor[configKey];
+
+  if (fieldConfig) {
+    repeating = fieldConfig.repeating;
+  }
+
+  return repeating;
+};
+
+export const isFieldRequired = (fieldDescriptor) => {
+  let required;
+
+  const fieldConfig = fieldDescriptor[configKey];
+
+  if (fieldConfig) {
+    required = fieldConfig.required;
+  }
+
+  return required;
+};
+
+export const getFieldDataType = (fieldDescriptor) => {
+  let type;
+
+  const fieldConfig = fieldDescriptor[configKey];
+
+  if (fieldConfig) {
+    type = fieldConfig.dataType;
+  }
+
+  if (!type) {
+    // Check if there are child field descriptors. If so, default to map.
+
+    const keys = Object.keys(fieldDescriptor);
+
+    for (let i = 0; i < keys.length; i += 1) {
+      if (keys[i] !== configKey) {
+        type = DATA_TYPE_MAP;
+        break;
+      }
+    }
+  }
+
+  if (!type) {
+    // Default to string.
+
+    type = DATA_TYPE_STRING;
+  }
+
+  return type;
+};
+
+export const getFieldCustomValidator = (fieldDescriptor) => {
+  let validator;
+
+  const fieldConfig = fieldDescriptor[configKey];
+
+  if (fieldConfig) {
+    validator = fieldConfig.validator;
+  }
+
+  return validator;
 };
 
 export const isAuthority = recordTypeConfig =>
