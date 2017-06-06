@@ -44,12 +44,15 @@ const config = {
             },
           },
         },
-        comment: {
-          [configKey]: {
-            view: {
-              type: TestInput,
-              props: {
-                foo: 'fooValue',
+        comments: {
+          comment: {
+            [configKey]: {
+              repeating: true,
+              view: {
+                type: TestInput,
+                props: {
+                  foo: 'fooValue',
+                },
               },
             },
           },
@@ -113,6 +116,22 @@ describe('Field', function suite() {
     result.props.bar.should.equal('123');
   });
 
+  it('should set repeating on the base component if the field is repeating', function test() {
+    const context = {
+      config,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<Field name="comment" subpath="comments" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(TestInput);
+    result.props.repeating.should.equal(true);
+  });
+
   it('should set label on the base component if it is an accepted prop of the base component', function test() {
     const context = {
       config,
@@ -144,7 +163,7 @@ describe('Field', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<Field name="comment" />, context);
+    shallowRenderer.render(<Field name="comment" subpath="comments" />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

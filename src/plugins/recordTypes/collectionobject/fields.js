@@ -177,11 +177,11 @@ export default (pluginContext) => {
           },
           otherNumber: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -241,7 +241,6 @@ export default (pluginContext) => {
                 type: OptionPickerInput,
                 props: {
                   source: 'departments',
-                  repeating: true,
                 },
               },
             },
@@ -294,11 +293,11 @@ export default (pluginContext) => {
           },
           briefDescription: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
                   multiline: true,
-                  repeating: true,
                 },
               },
             },
@@ -334,11 +333,11 @@ export default (pluginContext) => {
           },
           comment: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
                   multiline: true,
-                  repeating: true,
                 },
               },
             },
@@ -379,9 +378,6 @@ export default (pluginContext) => {
               repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             title: {
@@ -427,11 +423,11 @@ export default (pluginContext) => {
               },
               titleTranslationSubGroup: {
                 [config]: {
+                  repeating: true,
                   view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
-                      repeating: true,
                     },
                   },
                 },
@@ -503,7 +499,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -653,7 +648,6 @@ export default (pluginContext) => {
                 type: OptionPickerInput,
                 props: {
                   source: 'objectStatuses',
-                  repeating: true,
                 },
               },
             },
@@ -716,7 +710,6 @@ export default (pluginContext) => {
                 type: OptionPickerInput,
                 props: {
                   source: 'forms',
-                  repeating: true,
                 },
               },
             },
@@ -804,9 +797,6 @@ export default (pluginContext) => {
               repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -825,11 +815,9 @@ export default (pluginContext) => {
           },
           color: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -853,7 +841,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -975,7 +962,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1033,7 +1019,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1105,11 +1090,9 @@ export default (pluginContext) => {
           },
           measuredPartGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             measuredPart: {
@@ -1155,11 +1138,11 @@ export default (pluginContext) => {
               },
               dimensionSubGroup: {
                 [config]: {
+                  repeating: true,
                   view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
-                      repeating: true,
                     },
                   },
                 },
@@ -1300,11 +1283,11 @@ export default (pluginContext) => {
           },
           contentLanguage: {
             [config]: {
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
                   source: 'languages',
-                  repeating: true,
                 },
               },
             },
@@ -1324,11 +1307,9 @@ export default (pluginContext) => {
           },
           contentActivity: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -1357,11 +1338,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Concept',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'concept/associated,concept/material,concept/material_shared',
-                  repeating: true,
                 },
               },
             },
@@ -1394,11 +1375,11 @@ export default (pluginContext) => {
           },
           contentPosition: {
             [config]: {
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'positions',
-                  repeating: true,
                 },
               },
             },
@@ -1418,11 +1399,11 @@ export default (pluginContext) => {
           },
           contentObjectGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1471,11 +1452,9 @@ export default (pluginContext) => {
           },
           contentPeople: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -1504,11 +1483,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Person',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,person/ulan',
-                  repeating: true,
                 },
               },
             },
@@ -1528,11 +1507,9 @@ export default (pluginContext) => {
           },
           contentPlace: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -1551,11 +1528,11 @@ export default (pluginContext) => {
           },
           contentScript: {
             [config]: {
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'scripts',
-                  repeating: true,
                 },
               },
             },
@@ -1585,11 +1562,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Organization',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'organization/local,organization/shared,organization/ulan',
-                  repeating: true,
                 },
               },
             },
@@ -1609,11 +1586,11 @@ export default (pluginContext) => {
           },
           contentEventNameGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1659,11 +1636,11 @@ export default (pluginContext) => {
           },
           contentOtherGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1719,11 +1696,9 @@ export default (pluginContext) => {
           },
           textualInscriptionGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             inscriptionContent: {
@@ -1907,9 +1882,6 @@ export default (pluginContext) => {
               repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             inscriptionDescription: {
@@ -2054,9 +2026,6 @@ export default (pluginContext) => {
               },
               view: {
                 type: StructuredDateInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -2080,7 +2049,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2135,7 +2103,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2185,11 +2152,11 @@ export default (pluginContext) => {
           },
           objectProductionReason: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
                   multiline: true,
-                  repeating: true,
                 },
               },
             },
@@ -2214,7 +2181,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2269,7 +2235,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2327,7 +2292,6 @@ export default (pluginContext) => {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2396,11 +2360,11 @@ export default (pluginContext) => {
           },
           assocActivityGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2459,11 +2423,11 @@ export default (pluginContext) => {
           },
           assocObjectGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2522,11 +2486,11 @@ export default (pluginContext) => {
           },
           assocConceptGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2592,11 +2556,11 @@ export default (pluginContext) => {
           },
           assocCulturalContextGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2655,11 +2619,11 @@ export default (pluginContext) => {
           },
           assocOrganizationGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2725,11 +2689,11 @@ export default (pluginContext) => {
           },
           assocPeopleGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2788,11 +2752,11 @@ export default (pluginContext) => {
           },
           assocPersonGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2858,11 +2822,11 @@ export default (pluginContext) => {
           },
           assocPlaceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2953,11 +2917,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Associated event organization',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'organization/local,organization/shared',
-                  repeating: true,
                 },
               },
             },
@@ -2977,11 +2941,9 @@ export default (pluginContext) => {
           },
           assocEventPeople: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3006,11 +2968,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Associated event person',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3030,11 +2992,9 @@ export default (pluginContext) => {
           },
           assocEventPlace: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3066,11 +3026,11 @@ export default (pluginContext) => {
           },
           assocDateGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -3145,11 +3105,11 @@ export default (pluginContext) => {
           },
           usageGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -3201,11 +3161,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Owner',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,organization/local,organization/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3225,11 +3185,9 @@ export default (pluginContext) => {
           },
           ownershipDateGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: StructuredDateInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3384,11 +3342,9 @@ export default (pluginContext) => {
           },
           ownersReference: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3468,11 +3424,9 @@ export default (pluginContext) => {
           },
           viewersReference: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3501,11 +3455,11 @@ export default (pluginContext) => {
           },
           referenceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -3567,11 +3521,11 @@ export default (pluginContext) => {
           },
           fieldCollectionMethod: {
             [config]: {
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
                   source: 'collectionmethod',
-                  repeating: true,
                 },
               },
             },
@@ -3642,11 +3596,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Field collection source',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3672,11 +3626,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Field collection collector',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,organization/local,organization/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3705,9 +3659,6 @@ export default (pluginContext) => {
               repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },

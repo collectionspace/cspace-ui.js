@@ -77,11 +77,9 @@ export default (pluginContext) => {
           },
           personTermGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             termDisplayName: {

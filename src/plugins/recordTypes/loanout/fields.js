@@ -272,7 +272,6 @@ export default (pluginContext) => {
               view: {
                 type: CompoundInput,
                 props: {
-                  repeating: true,
                   tabular: true,
                 },
               },

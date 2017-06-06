@@ -111,6 +111,10 @@ export default function Field(props, context) {
     computedProps.label = renderLabel(fieldConfig);
   }
 
+  if (fieldConfig.repeating) {
+    computedProps.repeating = true;
+  }
+
   if ('renderChildInputLabel' in basePropTypes) {
     computedProps.renderChildInputLabel = (childInput) => {
       const childName = childInput.props.name;
