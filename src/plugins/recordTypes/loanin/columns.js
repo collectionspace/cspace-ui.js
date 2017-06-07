@@ -16,15 +16,15 @@ export default {
       width: 250,
     },
     {
-      name: 'borrower',
+      name: 'lender',
       messages: defineMessages({
         label: {
-          id: 'column.loanin.default.borrower',
-          defaultMessage: 'Borrower',
+          id: 'column.loanin.default.lender',
+          defaultMessage: 'Lender',
         },
       }),
       formatValue: value => getDisplayName(value),
-      sortBy: 'loansin_common:borrower',
+      sortBy: 'loansin_common:lender',
       width: 400,
     },
     {
