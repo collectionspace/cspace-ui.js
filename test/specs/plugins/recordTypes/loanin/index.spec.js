@@ -12,11 +12,9 @@ describe('loan-in record plugin', function suite() {
     const pluginConfigContribution = loaninRecordTypePlugin(pluginContext);
 
     const {
-      optionLists,
       recordTypes,
     } = pluginConfigContribution;
 
-    optionLists.should.be.an('object');
     recordTypes.should.have.property('loanin');
 
     const loanInRecordTypes = recordTypes.loanin;
