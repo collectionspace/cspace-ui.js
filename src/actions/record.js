@@ -1,16 +1,32 @@
 /* global window */
 
 import { defineMessages } from 'react-intl';
+import get from 'lodash/get';
 import getSession from './cspace';
-import { showNotification } from './notification';
-import { getRecordData, isRecordReadPending } from '../reducers';
 import getNotificationID from '../helpers/notificationHelpers';
 import getErrorDescription from '../helpers/getErrorDescription';
 
 import {
+  showNotification,
+  showValidationNotification,
+  removeValidationNotification,
+} from './notification';
+
+import {
+  getRecordData,
+  getRecordValidationErrors,
+  isRecordReadPending,
+} from '../reducers';
+
+import {
+  dataPathToFieldDescriptorPath,
+} from '../helpers/configHelpers';
+
+import {
   getDocument,
   prepareForSending,
-  validateRecordData,
+  validateField,
+  // validateRecordData,
 } from '../helpers/recordDataHelpers';
 
 import {
@@ -62,6 +78,42 @@ export const DELETE_FIELD_VALUE = 'DELETE_FIELD_VALUE';
 export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
 export const REVERT_RECORD = 'REVERT_RECORD';
+export const VALIDATION_FAILED = 'VALIDATION_FAILED';
+export const VALIDATION_PASSED = 'VALIDATION_PASSED';
+
+export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch) => {
+  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
+  const errors = validateField(fieldDescriptor, value, true);
+
+  if (errors) {
+    dispatch({
+      type: VALIDATION_FAILED,
+      payload: errors,
+      meta: {
+        csid,
+        path,
+      },
+    });
+
+    dispatch(showValidationNotification(recordTypeConfig.name, csid));
+  } else {
+    dispatch({
+      type: VALIDATION_PASSED,
+      meta: {
+        csid,
+        path,
+      },
+    });
+
+    dispatch(removeValidationNotification());
+  }
+};
+
+export const validateRecordData = (recordTypeConfig, csid) => (dispatch, getState) => {
+  const data = getRecordData(getState(), csid);
+
+  dispatch(validateFieldValue(recordTypeConfig, csid, [], data));
+};
 
 const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
@@ -174,7 +226,11 @@ export const saveRecord =
 
       // TODO: Compute
 
-      const errors = validateRecordData(recordTypeConfig, data);
+      dispatch(validateRecordData(recordTypeConfig, csid));
+
+      if (getRecordValidationErrors(getState(), csid)) {
+        return null;
+      }
 
       const title = recordTypeConfig.title(getDocument(data));
       const notificationID = getNotificationID();
@@ -365,18 +421,27 @@ export const moveFieldValue = (csid, path, newPosition) => ({
   },
 });
 
-export const setFieldValue = (csid, path, value) => ({
-  type: SET_FIELD_VALUE,
-  payload: value,
-  meta: {
-    csid,
-    path,
-  },
-});
+export const setFieldValue = (recordTypeConfig, csid, path, value) => (dispatch) => {
+  dispatch({
+    type: SET_FIELD_VALUE,
+    payload: value,
+    meta: {
+      recordTypeConfig,
+      csid,
+      path,
+    },
+  });
 
-export const revertRecord = csid => ({
-  type: REVERT_RECORD,
-  meta: {
-    csid,
-  },
-});
+  dispatch(validateRecordData(recordTypeConfig, csid));
+};
+
+export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
+  dispatch({
+    type: REVERT_RECORD,
+    meta: {
+      csid,
+    },
+  });
+
+  dispatch(validateRecordData(recordTypeConfig, csid));
+};

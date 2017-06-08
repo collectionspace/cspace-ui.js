@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import arrayGet from 'lodash/get';
+import get from 'lodash/get';
 
 import {
   applyDefaults,
@@ -28,6 +28,8 @@ import {
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
   REVERT_RECORD,
+  VALIDATION_FAILED,
+  VALIDATION_PASSED,
 } from '../actions/record';
 
 import {
@@ -62,7 +64,7 @@ const addFieldInstance = (state, action) => {
   const value = deepGet(data, path);
   const list = Immutable.List.isList(value) ? value : Immutable.List.of(value);
 
-  const fieldDescriptor = arrayGet(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
+  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
   const defaultData = applyDefaults(fieldDescriptor);
 
   const updatedData = deepSet(data, path, list.push(defaultData));
@@ -161,13 +163,17 @@ const setFieldValue = (state, action) => {
 
   const newValue = action.payload;
   const updatedData = deepSet(data, path, newValue);
+  const updatedState = setCurrentData(state, csid, updatedData);
 
-  return setCurrentData(state, csid, updatedData);
+  return updatedState;
 };
 
 const handleRecordReadFulfilled = (state, action) => {
   const data = Immutable.fromJS(action.payload.data);
-  const csid = action.meta.csid;
+
+  const {
+    csid,
+  } = action.meta;
 
   let updatedState = state.deleteIn([csid, 'isReadPending']);
 
@@ -232,12 +238,37 @@ const handleCreateIDFulfilled = (state, action) => {
 
   const newValue = action.payload.data;
   const updatedData = deepSet(data, path, newValue);
+  const updatedState = setCurrentData(state, csid, updatedData);
 
-  return setCurrentData(state, csid, updatedData);
+  return updatedState;
+};
+
+const handleValidationFailed = (state, action) => {
+  const errors = action.payload;
+
+  const {
+    csid,
+    path,
+  } = action.meta;
+
+  return state.setIn([csid, 'validation', ...path], errors);
+};
+
+const handleValidationPassed = (state, action) => {
+  const {
+    csid,
+    path,
+  } = action.meta;
+
+  return state.deleteIn([csid, 'validation', ...path]);
 };
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
+    case VALIDATION_FAILED:
+      return handleValidationFailed(state, action);
+    case VALIDATION_PASSED:
+      return handleValidationPassed(state, action);
     case ADD_FIELD_INSTANCE:
       return addFieldInstance(state, action);
     case CREATE_NEW_RECORD:
@@ -284,6 +315,8 @@ export const getData = (state, csid) => getCurrentData(state, csid);
 export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);
 
 export const getNewData = state => getData(state, newRecordCsid);
+
+export const getValidationErrors = (state, csid) => state.getIn([csid, 'validation']);
 
 export const isReadPending = (state, csid) => state.getIn([csid, 'isReadPending']);
 

@@ -36,6 +36,7 @@ const propTypes = {
   csid: PropTypes.string,
   cloneCsid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
   createNewRecord: PropTypes.func,
@@ -48,6 +49,7 @@ const propTypes = {
   save: PropTypes.func,
   revert: PropTypes.func,
   clone: PropTypes.func,
+  removeValidationNotification: PropTypes.func,
 };
 
 const defaultProps = {
@@ -115,13 +117,28 @@ export default class RecordEditor extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const {
+      removeValidationNotification,
+    } = this.props;
+
+    if (removeValidationNotification) {
+      removeValidationNotification();
+    }
+  }
+
   initRecord() {
     const {
       csid,
       cloneCsid,
       createNewRecord,
       readRecord,
+      removeValidationNotification,
     } = this.props;
+
+    if (removeValidationNotification) {
+      removeValidationNotification();
+    }
 
     if (csid) {
       if (readRecord) {
@@ -172,6 +189,7 @@ export default class RecordEditor extends Component {
       isModified,
       isSavePending,
       recordType,
+      validationErrors,
       onAddInstance,
       onCommit,
       onMoveInstance,
@@ -216,6 +234,7 @@ export default class RecordEditor extends Component {
             csid={csid}
             isModified={isModified}
             isSavePending={isSavePending}
+            validationErrors={validationErrors}
             onSaveButtonClick={this.handleSaveButtonClick}
             onRevertButtonClick={this.handleRevertButtonClick}
             onCloneButtonClick={this.handleCloneButtonClick}
@@ -232,6 +251,7 @@ export default class RecordEditor extends Component {
             csid={csid}
             isModified={isModified}
             isSavePending={isSavePending}
+            validationErrors={validationErrors}
             onSaveButtonClick={this.handleSaveButtonClick}
             onRevertButtonClick={this.handleRevertButtonClick}
             onCloneButtonClick={this.handleCloneButtonClick}

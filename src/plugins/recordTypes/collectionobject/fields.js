@@ -1199,6 +1199,10 @@ export default (pluginContext) => {
                   [config]: {
                     dataType: DATA_TYPE_FLOAT,
                     messages: defineMessages({
+                      fullName: {
+                        id: 'field.collectionobjects_common.value.fullName',
+                        defaultMessage: 'Measurement value',
+                      },
                       name: {
                         id: 'field.collectionobjects_common.value.name',
                         defaultMessage: 'Value',
@@ -3289,6 +3293,10 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ownershipExchangePriceValue.fullName',
+                defaultMessage: 'Ownership exchange price',
+              },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceValue.name',
                 defaultMessage: 'Price',

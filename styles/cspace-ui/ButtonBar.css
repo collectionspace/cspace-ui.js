@@ -2,11 +2,16 @@
   padding: 0;
 }
 
-.common > button + button {
+.common > div {
+  display: inline-block;
+  position: relative;
+}
+
+.common > * + * {
   margin-left: 4px;
 }
 
-.common > a + button {
+.common > a + * {
   margin-left: 10px;
 }
 

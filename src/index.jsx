@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import { useRouterHistory } from 'react-router';
 import { createHistory, createHashHistory, useBeforeUnload } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
+import { IntlProvider } from 'react-intl';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
 
@@ -59,7 +60,14 @@ module.exports = (uiConfig) => {
     warning(mountNode !== document.body,
       `The container element for the CollectionSpace UI found using the selector '${container}' is the document body. This may cause problems, and is not supported.`);
 
-    const store = createStore(reducer, applyMiddleware(thunk));
+    const intlProvider = new IntlProvider({
+      locale: config.locale,
+      messages: config.messages,
+    });
+
+    const { intl } = intlProvider.getChildContext();
+
+    const store = createStore(reducer, applyMiddleware(thunk.withExtraArgument(intl)));
 
     const baseHistory = prettyUrls
       ? useRouterHistory(useBeforeUnload(createHistory))({ basename })

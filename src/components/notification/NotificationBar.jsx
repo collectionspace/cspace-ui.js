@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Immutable from 'immutable';
 import Notification from './Notification';
+import ValidationErrorNotificationContainer from '../../containers/notification/ValidationErrorNotificationContainer';
 import styles from '../../../styles/cspace-ui/NotificationBar.css';
 
 const propTypes = {
@@ -14,15 +15,24 @@ export default function NotificationBar(props) {
     notifications,
   } = props;
 
-  const children = notifications.entrySeq().map((entry) => {
+  const children = notifications.entrySeq().reverse().map((entry) => {
     const [id, descriptor] = entry;
 
+    const {
+      type,
+      ...remainingProps
+    } = descriptor;
+
+    const NotificationComponent = (type === 'validation')
+      ? ValidationErrorNotificationContainer
+      : Notification;
+
     return (
-      <Notification
+      <NotificationComponent
         key={id}
         id={id}
         close={close}
-        {...descriptor}
+        {...remainingProps}
       />
     );
   }).toJS();

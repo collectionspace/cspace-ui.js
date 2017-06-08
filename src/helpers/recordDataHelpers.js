@@ -21,6 +21,7 @@ const numericPattern = /^[0-9]$/;
 
 export const NS_PREFIX = 'ns2';
 export const DOCUMENT_PROPERTY_NAME = 'document';
+export const ERROR_KEY = Symbol.for('recordDataHelpers.ERROR_KEY');
 
 export const getPartPropertyName = partName =>
   `${NS_PREFIX}:${partName}`;
@@ -379,79 +380,85 @@ const validateDataType = (value, dataType) => {
   return (validator ? validator(value) : true);
 };
 
-const validateField = (path, fieldDescriptor, data) => {
-  const errors = [];
+export const validateField = (fieldDescriptor, data, deep) => {
+  let errors = Immutable.Map();
 
-  if (data && (typeof path[path.length - 1] === 'string') && isFieldRepeating(fieldDescriptor)) {
-    // This is a repeating field, and we're not already looking at an instance (the last element of
-    // the path is a string, not a number). Validate each instance against the current field
-    // descriptor.
+  if (deep && isFieldRepeating(fieldDescriptor)) {
+    // This is a repeating field, and we're validating deeply. Validate each instance against the
+    // current field descriptor.
 
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      Array.prototype.push.apply(errors,
-        validateField([...path, index], fieldDescriptor, instances.get(index))
-      );
+      const instanceErrors = validateField(fieldDescriptor, instances.get(index));
+
+      if (instanceErrors) {
+        errors = errors.set(index, instanceErrors);
+      }
     });
 
-    return errors;
+    return (errors.size > 0 ? errors : null);
   }
 
   const dataType = getFieldDataType(fieldDescriptor);
 
   if (dataType === 'DATA_TYPE_MAP') {
+    // Validate this field's children, and add any child errors to the errors map.
+
     const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
     childKeys.forEach((childKey) => {
       const childData = data ? data.get(childKey) : undefined;
+      const childErrors = validateField(fieldDescriptor[childKey], childData, true);
 
-      Array.prototype.push.apply(errors,
-        validateField([...path, childKey], fieldDescriptor[childKey], childData)
-      );
+      if (childErrors) {
+        errors = errors.set(childKey, childErrors);
+      }
     });
   }
 
-  // Validate required.
+  let error;
+
+  // Check required.
 
   const required = isFieldRequired(fieldDescriptor);
 
   // TODO: Does this make sense for compound fields?
 
   if (required && (typeof data === 'undefined' || data === null || data === '')) {
-    errors.push({
-      path,
+    error = {
       code: ERR_MISSING_REQ_FIELD,
-    });
+    };
   }
 
-  if (typeof data !== 'undefined' && data !== null && data !== '') {
-    // Validate data type.
+  if (!error && typeof data !== 'undefined' && data !== null && data !== '') {
+    // Check data type.
 
     if (!validateDataType(data, dataType)) {
-      errors.push({
-        path,
+      error = {
         dataType,
         code: ERR_DATA_TYPE,
         value: data,
-      });
+      };
     }
 
-    // Custom validation.
+    if (!error) {
+      // Custom validation.
 
-    const customValidator = getFieldCustomValidator(fieldDescriptor);
+      const customValidator = getFieldCustomValidator(fieldDescriptor);
 
-    if (customValidator) {
-      // TODO
+      if (customValidator) {
+        // TODO: Run custom validator.
+      }
     }
   }
 
-  return errors;
+  if (error) {
+    errors = errors.set(ERROR_KEY, error);
+  }
+
+  return (errors.size > 0 ? errors : null);
 };
 
 export const validateRecordData = (recordTypeConfig, data) =>
-  validateField(
-    [DOCUMENT_PROPERTY_NAME],
-    get(recordTypeConfig, ['fields', DOCUMENT_PROPERTY_NAME]),
-    data.get(DOCUMENT_PROPERTY_NAME)
-  );
+  validateField(get(recordTypeConfig, 'fields'), data, true);
