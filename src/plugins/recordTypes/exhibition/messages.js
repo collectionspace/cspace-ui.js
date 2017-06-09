@@ -23,5 +23,13 @@ export default {
       id: 'panel.exhibition.info',
       defaultMessage: 'Exhibition Information',
     },
+    planningInfo: {
+      id: 'panel.exhibition.planningInfo',
+      defaultMessage: 'Exhibition Planning Information',
+    },
+    exhibitedObjectInformation: {
+      id: 'panel.exhibition.exhibitedObjectInformation',
+      defaultMessage: 'Exhibited Object Information',
+    }
   }),
 };

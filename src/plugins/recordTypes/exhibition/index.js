@@ -5,11 +5,12 @@ import fields from './fields';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
-// import optionLists from './optionLists';
+import optionLists from './optionLists';
 import idGenerators from './idGenerators';
 
 export default () => pluginContext => ({
   idGenerators,
+  optionLists,
   recordTypes: {
     exhibition: {
       advancedSearch,
