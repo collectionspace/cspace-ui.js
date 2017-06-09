@@ -11,7 +11,7 @@ import idGenerators from './idGenerators';
 export default () => pluginContext => ({
   idGenerators,
   recordTypes: {
-    loanout: {
+    loanin: {
       advancedSearch,
       columns,
       messages,

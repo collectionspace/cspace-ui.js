@@ -45,12 +45,24 @@ export default {
       path: 'ns2:loansout_common/loanStatusGroupList/loanStatusGroup/loanStatus',
     },
     {
-      op: OP_MATCH,
-      path: 'ns2:collectionspace_core/updatedBy',
+      op: OP_RANGE,
+      path: 'ns2:loansout_common/loanOutDate',
+    },
+    {
+      op: OP_RANGE,
+      path: 'ns2:loansout_common/loanReturnDate',
+    },
+    {
+      op: OP_RANGE,
+      path: 'ns2:loansout_common/loanRenewalApplicationDate',
     },
     {
       op: OP_RANGE,
       path: 'ns2:collectionspace_core/updatedAt',
+    },
+    {
+      op: OP_MATCH,
+      path: 'ns2:collectionspace_core/updatedBy',
     },
   ],
 };

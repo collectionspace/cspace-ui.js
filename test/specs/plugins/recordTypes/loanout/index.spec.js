@@ -12,11 +12,9 @@ describe('loan-out record plugin', function suite() {
     const pluginConfigContribution = loanoutRecordTypePlugin(pluginContext);
 
     const {
-      optionLists,
       recordTypes,
     } = pluginConfigContribution;
 
-    optionLists.should.be.an('object');
     recordTypes.should.have.property('loanout');
 
     const loanOutRecordTypes = recordTypes.loanout;
