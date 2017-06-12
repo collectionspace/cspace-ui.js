@@ -6,12 +6,10 @@ export default (pluginContext) => {
   const {
     Panel,
     Row,
-    Column,
   } = pluginContext.layoutComponents;
 
   const {
     Field,
-    InputTable,
   } = pluginContext.recordComponents;
 
   return (
@@ -147,6 +145,7 @@ export default (pluginContext) => {
         </Row>
 
       </Panel>
+
     </Field>
   );
 };

@@ -136,7 +136,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.sponsors.name',
-                defaultMessage: 'Sponsor',
+                defaultMessage: 'Exhibition sponsors',
               },
             }),
             view: {
@@ -145,6 +145,12 @@ export default (pluginContext) => {
           },
           sponsor: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.sponsor.name',
+                  defaultMessage: 'Sponsor',
+                },
+              }),
               view: {
                 type: AutocompleteInput,
                 props: {
@@ -160,7 +166,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.organizers.name',
-                defaultMessage: 'Organizer',
+                defaultMessage: 'Exhibition organizers',
               },
             }),
             view: {
@@ -169,6 +175,12 @@ export default (pluginContext) => {
           },
           organizer: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.organizer.name',
+                  defaultMessage: 'Organizer',
+                },
+              }),
               view: {
                 type: AutocompleteInput,
                 props: {
@@ -185,7 +197,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.venueGroupList.name',
-                defaultMessage: 'Venue',
+                defaultMessage: 'Venues',
               },
             }),
             view: {
@@ -207,7 +219,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.venue.name',
-                    defaultMessage: 'Venues',
+                    defaultMessage: 'Venue',
                   },
                 }),
                 view: {
