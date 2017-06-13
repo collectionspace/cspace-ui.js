@@ -52,6 +52,7 @@ const store = mockStore({
 const config = {
   recordTypes: {
     collectionobject: {
+      fields: {},
       forms: {
         default: <div />,
       },

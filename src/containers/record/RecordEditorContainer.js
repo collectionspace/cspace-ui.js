@@ -67,10 +67,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setFieldValue(recordTypeConfig, csid, path, value));
     },
     onMoveInstance: (path, newPosition) => {
-      dispatch(moveFieldValue(csid, path, newPosition));
+      dispatch(moveFieldValue(recordTypeConfig, csid, path, newPosition));
     },
     onRemoveInstance: (path) => {
-      dispatch(deleteFieldValue(csid, path));
+      dispatch(deleteFieldValue(recordTypeConfig, csid, path));
     },
     revert: () => {
       dispatch(revertRecord(recordTypeConfig, csid));

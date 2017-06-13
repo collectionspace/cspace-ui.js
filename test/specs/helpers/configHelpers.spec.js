@@ -16,7 +16,7 @@ import {
   getRecordTypeConfigByServicePath,
   getRecordTypeNameByServiceObjectName,
   getVocabularyConfigByShortID,
-  isCloneable,
+  isFieldCloneable,
   getDefaultSearchRecordType,
   getDefaultSearchVocabulary,
   validateLocation,
@@ -445,15 +445,15 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('isCloneable', function suite() {
+  describe('isFieldCloneable', function suite() {
     it('should return the cloneable configuration setting', function test() {
-      isCloneable({
+      isFieldCloneable({
         [configKey]: {
           cloneable: false,
         },
       }).should.equal(false);
 
-      isCloneable({
+      isFieldCloneable({
         [configKey]: {
           cloneable: true,
         },
@@ -461,7 +461,7 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should default to true', function test() {
-      isCloneable({
+      isFieldCloneable({
         [configKey]: {},
       }).should.equal(true);
     });

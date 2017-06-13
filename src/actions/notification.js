@@ -5,7 +5,7 @@ import {
 export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
 export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 
-const NOTIFICATION_VALIDATION = 'NOTIFICATION_VALIDATION';
+export const NOTIFICATION_ID_VALIDATION = 'NOTIFICATION_ID_VALIDATION';
 
 export const showNotification = (notificationDescriptor, notificationID) => ({
   type: SHOW_NOTIFICATION,
@@ -30,7 +30,7 @@ export const showValidationNotification = (recordType, csid) =>
     date: new Date(),
     showCloseButton: false,
     status: STATUS_ERROR,
-  }, NOTIFICATION_VALIDATION);
+  }, NOTIFICATION_ID_VALIDATION);
 
 export const removeValidationNotification = () =>
-  removeNotification(NOTIFICATION_VALIDATION);
+  removeNotification(NOTIFICATION_ID_VALIDATION);

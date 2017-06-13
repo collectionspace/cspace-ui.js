@@ -26,7 +26,6 @@ import {
   getDocument,
   prepareForSending,
   validateField,
-  // validateRecordData,
 } from '../helpers/recordDataHelpers';
 
 import {
@@ -395,38 +394,49 @@ export const saveRecord =
         });
     };
 
-export const addFieldInstance = (recordTypeConfig, csid, path) => ({
-  type: ADD_FIELD_INSTANCE,
-  meta: {
-    csid,
-    path,
-    recordTypeConfig,
-  },
-});
+export const addFieldInstance = (recordTypeConfig, csid, path) => (dispatch) => {
+  dispatch({
+    type: ADD_FIELD_INSTANCE,
+    meta: {
+      csid,
+      path,
+      recordTypeConfig,
+    },
+  });
 
-export const deleteFieldValue = (csid, path) => ({
-  type: DELETE_FIELD_VALUE,
-  meta: {
-    csid,
-    path,
-  },
-});
+  dispatch(validateRecordData(recordTypeConfig, csid));
+};
 
-export const moveFieldValue = (csid, path, newPosition) => ({
-  type: MOVE_FIELD_VALUE,
-  meta: {
-    csid,
-    path,
-    newPosition,
-  },
-});
+export const deleteFieldValue = (recordTypeConfig, csid, path) => (dispatch) => {
+  dispatch({
+    type: DELETE_FIELD_VALUE,
+    meta: {
+      csid,
+      path,
+    },
+  });
+
+  dispatch(validateRecordData(recordTypeConfig, csid));
+};
+
+export const moveFieldValue = (recordTypeConfig, csid, path, newPosition) => (dispatch) => {
+  dispatch({
+    type: MOVE_FIELD_VALUE,
+    meta: {
+      csid,
+      path,
+      newPosition,
+    },
+  });
+
+  dispatch(validateRecordData(recordTypeConfig, csid));
+};
 
 export const setFieldValue = (recordTypeConfig, csid, path, value) => (dispatch) => {
   dispatch({
     type: SET_FIELD_VALUE,
     payload: value,
     meta: {
-      recordTypeConfig,
       csid,
       path,
     },

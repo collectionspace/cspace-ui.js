@@ -381,6 +381,10 @@ const validateDataType = (value, dataType) => {
 };
 
 export const validateField = (fieldDescriptor, data, deep) => {
+  if (!fieldDescriptor) {
+    return null;
+  }
+
   let errors = Immutable.Map();
 
   if (deep && isFieldRepeating(fieldDescriptor)) {
