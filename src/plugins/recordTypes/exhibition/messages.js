@@ -30,6 +30,6 @@ export default {
     exhibitedObjectInformation: {
       id: 'panel.exhibition.exhibitedObjectInformation',
       defaultMessage: 'Exhibited Object Information',
-    }
+    },
   }),
 };

@@ -10,7 +10,7 @@ describe('exhibition record messages', function suite() {
       const exhibitionMessages = messages[exhibitionName];
 
       Object.keys(exhibitionMessages).forEach((name) => {
-        exhibitionMessages[name].should.contain.all.keys(['id', 'defaultMessage'])
+        exhibitionMessages[name].should.contain.all.keys(['id', 'defaultMessage']);
       });
     });
   });

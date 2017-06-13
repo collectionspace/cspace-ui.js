@@ -3,12 +3,12 @@ import createPluginContext from '../../../../../src/helpers/createPluginContext'
 
 chai.should();
 
-describe('exhibition record plugin', function suite () {
+describe('exhibition record plugin', function suite() {
   const config = {};
   const exhibitionRecordTypePlugin = exhibitionRecordTypePluginFactory(config);
   const pluginContext = createPluginContext();
 
-  it('should have the correct shape', function test () {
+  it('should have the correct shape', function test() {
     const pluginConfigContribution = exhibitionRecordTypePlugin(pluginContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');

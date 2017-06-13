@@ -39,7 +39,7 @@ export default (pluginContext) => {
               <Field name="venueOpeningDate" />
               <Field name="venueClosingDate" />
               <Field name="venueAttendance" />
-              {/*TODO Add external URL input function*/}
+              {/* TODO Add external URL input function  */}
               <Field name="venueURL" />
             </Field>
           </Field>
@@ -67,7 +67,7 @@ export default (pluginContext) => {
           </Field>
         </Row>
 
-        {/*TODO Verify if layout of notes are okay, because does not match 4.5*/}
+        {/* TODO Verify if layout of notes are okay, because does not match 4.5 */}
         <Row>
           <Field name="planningNote" />
           <Field name="curatorialNote" />

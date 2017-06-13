@@ -88,7 +88,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.exhibitionNumber.name',
-                defaultMessage: 'Exhibition number'
+                defaultMessage: 'Exhibition number',
               },
             }),
             searchView: {
@@ -225,7 +225,7 @@ export default (pluginContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/shared,organization/ulan,location/local,location/offsite,place/local,place/shared,place/tgn'
+                    source: 'organization/local,organization/shared,organization/ulan,location/local,location/offsite,place/local,place/shared,place/tgn',
                   },
                 },
               },
@@ -274,7 +274,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.venueURL.name',
-                    defaultMessage: 'Web address'
+                    defaultMessage: 'Web address',
                   },
                 }),
                 view: {
@@ -315,7 +315,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput
+                  type: TextInput,
                 },
               },
             },
@@ -328,7 +328,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput
+                  type: TextInput,
                 },
               },
             },
@@ -337,7 +337,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionPersonGroupList.name',
-                    defaultMessage: 'Working group persons'
+                    defaultMessage: 'Working group persons',
                   },
                 }),
                 view: {
@@ -563,7 +563,7 @@ export default (pluginContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'citation/local,citation/shared,citation/worldcat'
+                    source: 'citation/local,citation/shared,citation/worldcat',
                   },
                 },
               },
@@ -579,7 +579,7 @@ export default (pluginContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'exhibitionreferencetype'
+                    source: 'exhibitionreferencetype',
                   },
                 },
               },
@@ -626,7 +626,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionName.name',
-                    defaultMessage: 'Section'
+                    defaultMessage: 'Section',
                   },
                 }),
                 view: {
@@ -639,7 +639,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionLocation.name',
-                    defaultMessage: 'Location'
+                    defaultMessage: 'Location',
                   },
                 }),
                 view: {
@@ -652,7 +652,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionObjects.name',
-                    defaultMessage: 'Objects'
+                    defaultMessage: 'Objects',
                   },
                 }),
                 view: {
@@ -665,7 +665,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionNote.name',
-                    defaultMessage: 'Remarks'
+                    defaultMessage: 'Remarks',
                   },
                 }),
                 view: {
@@ -702,13 +702,13 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionStatus.name',
-                    defaultMessage: 'Status'
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'exhibitionstatus'
+                    source: 'exhibitionstatus',
                   },
                 },
               },
@@ -718,7 +718,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionStatusDate.name',
-                    defaultMessage: 'Status date'
+                    defaultMessage: 'Status date',
                   },
                 }),
                 view: {
@@ -731,7 +731,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionNote.name',
-                    defaultMessage: 'Remarks'
+                    defaultMessage: 'Remarks',
                   },
                 }),
                 view: {
