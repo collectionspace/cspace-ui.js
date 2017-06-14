@@ -53,16 +53,16 @@ export default (pluginContext) => {
                   <Field name="workingGroupTitle" />
                   <Field name="workingGroupNote" />
                 </Row>
-              </Panel>
 
-              <Row>
-                <Field name="exhibitionPersonGroupList">
-                  <Field name="exhibitionPersonGroup">
-                    <Field name="exhibitionPerson" />
-                    <Field name="exhibitionPersonRole" />
+                <Row>
+                  <Field name="exhibitionPersonGroupList">
+                    <Field name="exhibitionPersonGroup">
+                      <Field name="exhibitionPerson" />
+                      <Field name="exhibitionPersonRole" />
+                    </Field>
                   </Field>
-                </Field>
-              </Row>
+                </Row>
+              </Panel>
             </Field>
           </Field>
         </Row>
