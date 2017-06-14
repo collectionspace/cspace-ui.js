@@ -136,7 +136,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.sponsors.name',
-                defaultMessage: 'Exhibition sponsors',
+                defaultMessage: 'Sponsors',
               },
             }),
             view: {
@@ -146,8 +146,8 @@ export default (pluginContext) => {
           sponsor: {
             [config]: {
               messages: defineMessages({
-                name: {
-                  id: 'field.exhibitions_common.sponsor.name',
+                fullName: {
+                  id: 'field.exhibitions_common.sponsor.fullName',
                   defaultMessage: 'Sponsor',
                 },
               }),
@@ -166,7 +166,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.organizers.name',
-                defaultMessage: 'Exhibition organizers',
+                defaultMessage: 'Organizers',
               },
             }),
             view: {
@@ -176,8 +176,8 @@ export default (pluginContext) => {
           organizer: {
             [config]: {
               messages: defineMessages({
-                name: {
-                  id: 'field.exhibitions_common.organizer.name',
+                fullName: {
+                  id: 'field.exhibitions_common.organizer.fullName',
                   defaultMessage: 'Organizer',
                 },
               }),
@@ -330,12 +330,6 @@ export default (pluginContext) => {
             },
             exhibitionPersonGroupList: {
               [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.exhibitions_common.exhibitionPersonGroupList.name',
-                    defaultMessage: 'Working group persons',
-                  },
-                }),
                 view: {
                   type: CompoundInput,
                 },
@@ -353,6 +347,10 @@ export default (pluginContext) => {
                 exhibitionPerson: {
                   [config]: {
                     messages: defineMessages({
+                      fullName: {
+                        id: 'field.exhibitions_common.exhibitionPerson.fullName',
+                        defaultMessage: 'Working group person',
+                      },
                       name: {
                         id: 'field.exhibitions_common.exhibitionPerson.name',
                         defaultMessage: 'Person',
