@@ -30,7 +30,7 @@ import {
 const onlyDigitsPattern = /^\d+$/;
 const isNotNumeric = string => !onlyDigitsPattern.test(string);
 
-export const configKey = Symbol.for('configHelpers.configKey');
+export const configKey = '[config]';
 
 export const dataPathToFieldDescriptorPath = dataPath =>
   dataPath.filter(isNotNumeric);

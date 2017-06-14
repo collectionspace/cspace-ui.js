@@ -70,7 +70,7 @@ function SaveButton(props) {
 
   if (errorBadge) {
     return (
-      <div>
+      <div style={{ display: 'inline-block', position: 'relative' }}>
         {button}
         {errorBadge}
       </div>

@@ -5,8 +5,13 @@ import get from 'lodash/get';
 import { ERROR_KEY } from '../../helpers/recordDataHelpers';
 import { configKey, dataPathToFieldDescriptorPath } from '../../helpers/configHelpers';
 
+import {
+  ERR_MISSING_REQ_FIELD,
+  ERR_DATA_TYPE,
+} from '../../constants/errorCodes';
+
 const messages = defineMessages({
-  ERR_DATA_TYPE: {
+  [ERR_DATA_TYPE]: {
     id: 'validationErrorMessage.ERR_DATA_TYPE',
     description: 'The error message for a data type validation error.',
     defaultMessage: `{dataType, select,
@@ -16,8 +21,7 @@ const messages = defineMessages({
       other {{fieldName} has an invalid value for the data type {dataType}.}
     }`,
   },
-
-  ERR_MISSING_REQ_FIELD: {
+  [ERR_MISSING_REQ_FIELD]: {
     id: 'validationErrorMessage.ERR_MISSING_REQ_FIELD',
     description: 'The error message for a missing required field validation error.',
     defaultMessage: '{fieldName} is required.',
@@ -48,17 +52,20 @@ const formatErrors = (fieldDescriptor, errors, path = []) => {
 
       const fieldName = fieldNameMessage
         ? <FormattedMessage {...fieldNameMessage} />
-        : key;
+        : path[path.length - 1];
 
       const error = value;
-      const errorMessage = get(error, 'message') || messages[error.code] || messages.default;
-      const values = Object.assign({}, error, { fieldName });
 
-      const formattedMessage = (
-        <li key={id}><FormattedMessage {...errorMessage} values={values} /></li>
-      );
+      if (error) {
+        const errorMessage = error.get('message') || messages[error.get('code')] || messages.default;
+        const values = error.set('fieldName', fieldName).toJS();
 
-      formattedErrors.push(formattedMessage);
+        const formattedMessage = (
+          <li key={id}><FormattedMessage {...errorMessage} values={values} /></li>
+        );
+
+        formattedErrors.push(formattedMessage);
+      }
     } else {
       formattedErrors.push(
         ...formatErrors(fieldDescriptor, value, [...path, key])

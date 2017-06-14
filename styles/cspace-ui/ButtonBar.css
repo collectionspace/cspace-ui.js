@@ -2,11 +2,6 @@
   padding: 0;
 }
 
-.common > div {
-  display: inline-block;
-  position: relative;
-}
-
 .common > * + * {
   margin-left: 4px;
 }

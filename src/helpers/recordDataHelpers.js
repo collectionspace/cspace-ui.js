@@ -21,7 +21,7 @@ const numericPattern = /^[0-9]$/;
 
 export const NS_PREFIX = 'ns2';
 export const DOCUMENT_PROPERTY_NAME = 'document';
-export const ERROR_KEY = Symbol.for('recordDataHelpers.ERROR_KEY');
+export const ERROR_KEY = '[error]';
 
 export const getPartPropertyName = partName =>
   `${NS_PREFIX}:${partName}`;
@@ -380,21 +380,21 @@ const validateDataType = (value, dataType) => {
   return (validator ? validator(value) : true);
 };
 
-export const validateField = (fieldDescriptor, data, deep) => {
+export const validateField = (fieldDescriptor, data, expandRepeating = true) => {
   if (!fieldDescriptor) {
     return null;
   }
 
   let errors = Immutable.Map();
 
-  if (deep && isFieldRepeating(fieldDescriptor)) {
-    // This is a repeating field, and we're validating deeply. Validate each instance against the
+  if (expandRepeating && isFieldRepeating(fieldDescriptor)) {
+    // This is a repeating field, and the expand flag is true. Validate each instance against the
     // current field descriptor.
 
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceErrors = validateField(fieldDescriptor, instances.get(index));
+      const instanceErrors = validateField(fieldDescriptor, instances.get(index), false);
 
       if (instanceErrors) {
         errors = errors.set(index, instanceErrors);
@@ -406,14 +406,14 @@ export const validateField = (fieldDescriptor, data, deep) => {
 
   const dataType = getFieldDataType(fieldDescriptor);
 
-  if (dataType === 'DATA_TYPE_MAP') {
+  if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
     // Validate this field's children, and add any child errors to the errors map.
 
     const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
     childKeys.forEach((childKey) => {
       const childData = data ? data.get(childKey) : undefined;
-      const childErrors = validateField(fieldDescriptor[childKey], childData, true);
+      const childErrors = validateField(fieldDescriptor[childKey], childData);
 
       if (childErrors) {
         errors = errors.set(childKey, childErrors);
@@ -430,20 +430,20 @@ export const validateField = (fieldDescriptor, data, deep) => {
   // TODO: Does this make sense for compound fields?
 
   if (required && (typeof data === 'undefined' || data === null || data === '')) {
-    error = {
+    error = Immutable.Map({
       code: ERR_MISSING_REQ_FIELD,
-    };
+    });
   }
 
   if (!error && typeof data !== 'undefined' && data !== null && data !== '') {
     // Check data type.
 
     if (!validateDataType(data, dataType)) {
-      error = {
+      error = Immutable.Map({
         dataType,
         code: ERR_DATA_TYPE,
         value: data,
-      };
+      });
     }
 
     if (!error) {
@@ -465,4 +465,4 @@ export const validateField = (fieldDescriptor, data, deep) => {
 };
 
 export const validateRecordData = (recordTypeConfig, data) =>
-  validateField(get(recordTypeConfig, 'fields'), data, true);
+  validateField(get(recordTypeConfig, 'fields'), data);

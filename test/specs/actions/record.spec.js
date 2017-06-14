@@ -45,6 +45,7 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  VALIDATION_FAILED,
   VALIDATION_PASSED,
   createNewRecord,
   readRecord,
@@ -425,7 +426,7 @@ describe('record action creator', function suite() {
                   document: {},
                 },
               },
-              validation: Immutable.Map(),
+              validation: {},
             },
           }),
         });
@@ -436,15 +437,11 @@ describe('record action creator', function suite() {
 
         actions.should.have.lengthOf(2);
 
-        actions[0].should.deep.equal({
-          type: 'VALIDATION_FAILED',
-          payload: Immutable.Map().setIn(['objectNumber', ERROR_KEY], {
-            code: ERR_MISSING_REQ_FIELD,
-          }),
-          meta: {
-            csid,
-            path: [],
-          },
+        actions[0].type.should.equal(VALIDATION_FAILED);
+        actions[0].payload.should.equal(Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD));
+        actions[0].meta.should.deep.equal({
+          csid,
+          path: [],
         });
       });
 

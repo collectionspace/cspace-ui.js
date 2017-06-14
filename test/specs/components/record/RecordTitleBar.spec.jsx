@@ -36,11 +36,13 @@ const data = Immutable.Map();
 
 describe('RecordTitleBar', function suite() {
   before(function first() {
-    // Make sure there's enough on the page to scroll, so that docking can be tested.
-    document.body.style.paddingBottom = '1200px';
-
-    // Clear any previous tests from the page, and restore scroll position to top.
+    // Clear any previous tests from the page.
     document.body.innerHTML = '';
+
+    // Make sure there's enough on the page to scroll, so that docking can be tested.
+    document.body.style.paddingBottom = `${window.innerHeight}px`;
+
+    // Restore scroll position to top.
     window.scrollTo(0, 0);
   });
 

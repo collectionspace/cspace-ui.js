@@ -28,7 +28,6 @@ export const showValidationNotification = (recordType, csid) =>
     csid,
     type: 'validation',
     date: new Date(),
-    showCloseButton: false,
     status: STATUS_ERROR,
   }, NOTIFICATION_ID_VALIDATION);
 

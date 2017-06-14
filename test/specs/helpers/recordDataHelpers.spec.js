@@ -1,7 +1,23 @@
 /* eslint-disable no-unused-expressions */
 
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import { configKey } from '../../../src/helpers/configHelpers';
+
+import {
+  ERR_DATA_TYPE,
+  ERR_MISSING_REQ_FIELD,
+} from '../../../src/constants/errorCodes';
+
+import {
+  DATA_TYPE_BOOL,
+  DATA_TYPE_DATE,
+  DATA_TYPE_DATETIME,
+  DATA_TYPE_FLOAT,
+  DATA_TYPE_INT,
+  DATA_TYPE_MAP,
+  DATA_TYPE_STRING,
+} from '../../../src/constants/dataTypes';
 
 import {
   applyDefaults,
@@ -24,10 +40,14 @@ import {
   getUpdatedUser,
   prepareForSending,
   spreadDefaultValue,
+  validateField,
+  validateRecordData,
+  ERROR_KEY,
 } from '../../../src/helpers/recordDataHelpers';
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 describe('recordDataHelpers', function moduleSuite() {
@@ -1555,6 +1575,290 @@ describe('recordDataHelpers', function moduleSuite() {
 
     it('should return undefined if the data does not exist', function test() {
       expect(getCoreFieldValue(null, 'foo')).to.equal(undefined);
+    });
+  });
+
+  describe('validateField', function suite() {
+    const fieldDescriptor = {
+      id: {
+        [configKey]: {
+          required: true,
+        },
+      },
+      color: {
+        [configKey]: {},
+      },
+      count: {
+        [configKey]: {
+          dataType: DATA_TYPE_INT,
+        },
+      },
+      date: {
+        [configKey]: {
+          dataType: DATA_TYPE_DATE,
+        },
+      },
+      preferred: {
+        [configKey]: {
+          dataType: DATA_TYPE_BOOL,
+        },
+      },
+      price: {
+        [configKey]: {
+          dataType: DATA_TYPE_FLOAT,
+        },
+      },
+      time: {
+        [configKey]: {
+          dataType: DATA_TYPE_DATETIME,
+        },
+      },
+      departments: {
+        department: {
+          [configKey]: {
+            repeating: true,
+          },
+        },
+      },
+      ages: {
+        age: {
+          [configKey]: {
+            dataType: DATA_TYPE_INT,
+            repeating: true,
+          },
+        },
+      },
+      measurements: {
+        measurement: {
+          [configKey]: {
+            repeating: true,
+          },
+          value: {
+            [configKey]: {
+              dataType: DATA_TYPE_FLOAT,
+            },
+          },
+          unit: {
+            [configKey]: {
+              dataType: DATA_TYPE_STRING,
+            },
+          },
+        },
+      },
+    };
+
+    it('should return null if the value is valid', function test() {
+      expect(validateField(fieldDescriptor.color, 'red')).to.equal(null);
+    });
+
+    it('should return an error if a required field is empty, null, or undefined', function test() {
+      validateField(fieldDescriptor.id, '').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+      }));
+
+      validateField(fieldDescriptor.id, null).get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+      }));
+
+      validateField(fieldDescriptor.id, undefined).get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+      }));
+    });
+
+    it('should return null if an integer field is valid', function test() {
+      expect(validateField(fieldDescriptor.count, '1')).to.equal(null);
+      expect(validateField(fieldDescriptor.count, '-1')).to.equal(null);
+      expect(validateField(fieldDescriptor.count, '0')).to.equal(null);
+    });
+
+    it('should return an error if an integer field is invalid', function test() {
+      validateField(fieldDescriptor.count, 'a').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_INT,
+        value: 'a',
+      }));
+
+      validateField(fieldDescriptor.count, '24w').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_INT,
+        value: '24w',
+      }));
+    });
+
+    it('should return null when no field descriptor is supplied', function test() {
+      expect(validateField(null, 'a')).to.equal(null);
+    });
+
+    it('should return null if a float field is valid', function test() {
+      expect(validateField(fieldDescriptor.price, '1.00')).to.equal(null);
+      expect(validateField(fieldDescriptor.price, '-14.12')).to.equal(null);
+      expect(validateField(fieldDescriptor.price, '32')).to.equal(null);
+    });
+
+    it('should return an error if a float field is invalid', function test() {
+      validateField(fieldDescriptor.price, 'a').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: 'a',
+      }));
+
+      validateField(fieldDescriptor.price, '24.sd').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: '24.sd',
+      }));
+    });
+
+    it('should return null if a date field is valid', function test() {
+      expect(validateField(fieldDescriptor.date, '1983-03-05')).to.equal(null);
+    });
+
+    it('should return an error if a date field is invalid', function test() {
+      validateField(fieldDescriptor.date, 'a').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATE,
+        value: 'a',
+      }));
+
+      validateField(fieldDescriptor.date, '1983-03-05T13:00:00').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATE,
+        value: '1983-03-05T13:00:00',
+      }));
+    });
+
+    it('should return null if a datetime field is valid', function test() {
+      expect(validateField(fieldDescriptor.time, '1983-03-05T13:45:23.000Z')).to.equal(null);
+    });
+
+    it('should return an error if a datetime field is invalid', function test() {
+      validateField(fieldDescriptor.time, 'a').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATETIME,
+        value: 'a',
+      }));
+
+      validateField(fieldDescriptor.time, '1983-03-05').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATETIME,
+        value: '1983-03-05',
+      }));
+    });
+
+    it('should return null if a boolean field is valid', function test() {
+      expect(validateField(fieldDescriptor.preferred, true)).to.equal(null);
+      expect(validateField(fieldDescriptor.preferred, false)).to.equal(null);
+    });
+
+    it('should return an error if a boolean field is invalid', function test() {
+      validateField(fieldDescriptor.preferred, 'a').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_BOOL,
+        value: 'a',
+      }));
+
+      validateField(fieldDescriptor.preferred, 'true').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_BOOL,
+        value: 'true',
+      }));
+
+      validateField(fieldDescriptor.preferred, 'false').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_BOOL,
+        value: 'false',
+      }));
+    });
+
+    it('should return null if a map field is valid', function test() {
+      expect(validateField(fieldDescriptor.departments, Immutable.Map())).to.equal(null);
+    });
+
+    it('should return an error if a map field is invalid', function test() {
+      validateField(fieldDescriptor.departments, 'a').get(ERROR_KEY).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_MAP,
+        value: 'a',
+      }));
+    });
+
+    it('should validate nested fields recursively', function test() {
+      const value = Immutable.fromJS({
+        measurement: {
+          value: 'uh oh',
+          unit: 'cm',
+        },
+      });
+
+      const error = validateField(fieldDescriptor.measurements, value, true);
+
+      error.getIn(['measurement', 0, 'value', ERROR_KEY]).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: 'uh oh',
+      }));
+    });
+
+    it('should validate repeating instances when the expand repeating flag is true', function test() {
+      const expandRepeating = true;
+
+      const value = Immutable.List([
+        'a',
+        '32',
+        'c',
+      ]);
+
+      const error = validateField(fieldDescriptor.ages.age, value, expandRepeating);
+
+      error.getIn([0, ERROR_KEY]).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_INT,
+        value: 'a',
+      }));
+
+      error.has(1).should.equal(false);
+
+      error.getIn([2, ERROR_KEY]).should.equal(Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_INT,
+        value: 'c',
+      }));
+    });
+
+    it('should not validate repeating instances when the expand repeating flag is false', function test() {
+      const expandRepeating = false;
+
+      const value = Immutable.List([
+        'a',
+        '32',
+        'c',
+      ]);
+
+      const error = validateField(fieldDescriptor.ages.age, value.get[1], expandRepeating);
+
+      expect(error).to.equal(null);
+    });
+  });
+
+  describe('validateRecordData', function suite() {
+    const recordTypeConfig = {
+      fields: {
+        id: {
+          [configKey]: {
+            required: true,
+          },
+        },
+      },
+    };
+
+    const data = Immutable.Map();
+
+    it('should validate the data against the field descriptor in the record type config', function test() {
+      const error = validateRecordData(recordTypeConfig, data);
+
+      error.getIn(['id', ERROR_KEY]).should.equal(Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+      }));
     });
   });
 });
