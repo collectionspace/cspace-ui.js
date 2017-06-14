@@ -17,7 +17,6 @@ export default (pluginContext) => {
 
   const {
     DATA_TYPE_DATETIME,
-    DATA_TYPE_LIST,
   } = pluginContext.dataTypes;
 
   return {
@@ -89,6 +88,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Loan in number',
               },
             }),
+            required: true,
             searchView: {
               type: TextInput,
             },
@@ -118,7 +118,6 @@ export default (pluginContext) => {
         },
         lenderGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.lenderGroupList.name',
@@ -131,10 +130,10 @@ export default (pluginContext) => {
           },
           lenderGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
-                  repeating: true,
                   tabular: true,
                 },
               },
@@ -281,7 +280,6 @@ export default (pluginContext) => {
         },
         loanStatusGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.loanStatusGroupList.name',
@@ -294,10 +292,10 @@ export default (pluginContext) => {
           },
           loanStatusGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
-                  repeating: true,
                   tabular: true,
                 },
               },
