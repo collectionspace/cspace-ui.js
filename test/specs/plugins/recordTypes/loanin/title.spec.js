@@ -12,7 +12,13 @@ describe('loan-in record title', function suite() {
     const cspaceDocument = Immutable.fromJS({
       'ns2:loansin_common': {
         loanInNumber: 'LI.2017.2',
-        borrower: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+        lenderGroupList: {
+          lenderGroup: [{
+            lender: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+          }, {
+            lender: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(BruceSpringsteen1480570017652)\'Bruce Springsteen\'',
+          }],
+        },
       },
     });
 
@@ -23,7 +29,7 @@ describe('loan-in record title', function suite() {
     const cspaceDocument = Immutable.fromJS({
       'ns2:loansin_common': {
         loanInNumber: 'LI.2017.2',
-        borrower: '',
+        lenderGroupList: {},
       },
     });
 
@@ -34,7 +40,13 @@ describe('loan-in record title', function suite() {
     const cspaceDocument = Immutable.fromJS({
       'ns2:loansin_common': {
         loanInNumber: '',
-        borrower: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+        lenderGroupList: {
+          lenderGroup: [{
+            lender: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+          }, {
+            lender: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(BruceSpringsteen1480570017652)\'Bruce Springsteen\'',
+          }],
+        },
       },
     });
 
@@ -50,6 +62,7 @@ describe('loan-in record title', function suite() {
     const cspaceDocument = Immutable.fromJS({
       'ns2:loansout_extension': {
         loanInNumber: 'Something',
+        lenderGroupList: {},
       },
     });
 

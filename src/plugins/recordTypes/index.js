@@ -3,6 +3,7 @@ import authority from './authority';
 import citation from './citation';
 import collectionobject from './collectionobject';
 import concept from './concept';
+import exhibition from './exhibition';
 import group from './group';
 import intake from './intake';
 import loanin from './loanin';
@@ -20,6 +21,7 @@ export default [
   citation,
   collectionobject,
   concept,
+  exhibition,
   group,
   intake,
   loanin,

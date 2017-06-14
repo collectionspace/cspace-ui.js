@@ -1,6 +1,7 @@
 export default pluginContext => (cspaceDocument) => {
   const {
     getPart,
+    deepGet,
   } = pluginContext.recordDataHelpers;
 
   const {
@@ -18,7 +19,7 @@ export default pluginContext => (cspaceDocument) => {
   }
 
   const loanInNumber = common.get('loanInNumber');
-  const borrower = getDisplayName(common.get('borrower'));
+  const borrower = getDisplayName(deepGet(common, ['lenderGroupList', 'lenderGroup', 0, 'lender']));
 
   return [loanInNumber, borrower].filter(part => !!part).join(' – ');
 };
