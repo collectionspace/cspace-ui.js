@@ -1,7 +1,12 @@
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+
+import {
+  ERR_MISSING_REQ_FIELD,
+} from '../../../src/constants/errorCodes';
 
 import {
   STATUS_ERROR,
@@ -10,11 +15,21 @@ import {
 } from '../../../src/constants/notificationStatusCodes';
 
 import {
+  configKey,
+} from '../../../src/helpers/configHelpers';
+
+import {
+  ERROR_KEY,
+} from '../../../src/helpers/recordDataHelpers';
+
+import {
   configureCSpace,
 } from '../../../src/actions/cspace';
 
 import {
   SHOW_NOTIFICATION,
+  REMOVE_NOTIFICATION,
+  NOTIFICATION_ID_VALIDATION,
 } from '../../../src/actions/notification';
 
 import {
@@ -30,6 +45,8 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  VALIDATION_FAILED,
+  VALIDATION_PASSED,
   createNewRecord,
   readRecord,
   saveRecord,
@@ -42,6 +59,7 @@ import {
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 describe('record action creator', function suite() {
@@ -105,7 +123,7 @@ describe('record action creator', function suite() {
       });
 
       const store = mockStore({
-        record: Immutable.fromJS({}),
+        record: Immutable.Map(),
       });
 
       return store.dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid))
@@ -358,7 +376,7 @@ describe('record action creator', function suite() {
   describe('saveRecord', function actionSuite() {
     context('for an object/procedure', function contextSuite() {
       const mockStore = configureMockStore([thunk]);
-      const recordType = 'object';
+      const recordType = 'collectionobject';
       const servicePath = 'collectionobjects';
       const csid = '5678';
       const saveRecordUrl = `/cspace-services/${servicePath}/${csid}`;
@@ -389,6 +407,44 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
+      it('should do nothing if there are validation errors', function test() {
+        const recordTypeConfigWithRequiredField = Object.assign({}, recordTypeConfig, {
+          fields: {
+            objectNumber: {
+              [configKey]: {
+                required: true,
+              },
+            },
+          },
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+              validation: {},
+            },
+          }),
+        });
+
+        store.dispatch(saveRecord(recordTypeConfigWithRequiredField, undefined, csid));
+
+        const actions = store.getActions();
+
+        actions.should.have.lengthOf(2);
+
+        actions[0].type.should.equal(VALIDATION_FAILED);
+        actions[0].payload.should.equal(Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD));
+        actions[0].meta.should.deep.equal({
+          csid,
+          path: [],
+        });
+      });
+
       it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
@@ -416,12 +472,27 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(6);
 
-            actions[0].should.have.property('type', SHOW_NOTIFICATION);
-            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
 
             actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -430,10 +501,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[3].should.deep.equal({
+            actions[5].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -472,12 +543,27 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(6);
 
-            actions[0].should.have.property('type', SHOW_NOTIFICATION);
-            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
 
             actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -486,11 +572,11 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
 
-            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[3].should.have.property('meta')
+            actions[5].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[5].should.have.property('meta')
               .that.deep.equals({
                 csid,
                 recordTypeConfig,
@@ -521,12 +607,27 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(6);
 
-            actions[0].should.have.property('type', SHOW_NOTIFICATION);
-            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
 
             actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -535,11 +636,11 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
 
-            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[3].should.have.property('meta')
+            actions[5].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[5].should.have.property('meta')
               .that.deep.equals({
                 csid: '',
                 recordTypeConfig,
@@ -570,12 +671,27 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(6);
 
-            actions[0].should.have.property('type', SHOW_NOTIFICATION);
-            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
 
             actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -584,11 +700,11 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
 
-            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[3].should.have.property('meta')
+            actions[5].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[5].should.have.property('meta')
               .that.deep.equals({
                 csid: '',
                 recordTypeConfig,
@@ -638,12 +754,27 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(6);
 
-            actions[0].should.have.property('type', SHOW_NOTIFICATION);
-            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
 
             actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -652,10 +783,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[3].should.deep.equal({
+            actions[5].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -746,12 +877,27 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(6);
 
-            actions[0].should.have.property('type', SHOW_NOTIFICATION);
-            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
 
             actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -760,10 +906,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[3].should.deep.equal({
+            actions[5].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -783,25 +929,65 @@ describe('record action creator', function suite() {
   });
 
   describe('revertRecord', function actionSuite() {
-    it('should create a REVERT_RECORD action', function test() {
+    const mockStore = configureMockStore([thunk]);
+
+    it('should dispatch REVERT_RECORD', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
+      const recordTypeConfig = {};
       const csid = '1234';
 
-      revertRecord(csid).should.deep.equal({
+      store.dispatch(revertRecord(recordTypeConfig, csid));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(3);
+
+      actions[0].should.deep.equal({
         type: REVERT_RECORD,
         meta: {
           csid,
+        },
+      });
+
+      actions[1].should.deep.equal({
+        type: 'VALIDATION_PASSED',
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      actions[2].should.deep.equal({
+        type: REMOVE_NOTIFICATION,
+        meta: {
+          notificationID: NOTIFICATION_ID_VALIDATION,
         },
       });
     });
   });
 
   describe('addFieldInstance', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+
     it('should create an ADD_FIELD_INSTANCE action', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
       const recordTypeConfig = {};
 
-      addFieldInstance(recordTypeConfig, csid, path).should.deep.equal({
+      store.dispatch(addFieldInstance(recordTypeConfig, csid, path));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(3);
+
+      actions[0].should.deep.equal({
         type: ADD_FIELD_INSTANCE,
         meta: {
           csid,
@@ -809,31 +995,87 @@ describe('record action creator', function suite() {
           recordTypeConfig,
         },
       });
+
+      actions[1].should.deep.equal({
+        type: VALIDATION_PASSED,
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      actions[2].should.deep.equal({
+        type: REMOVE_NOTIFICATION,
+        meta: {
+          notificationID: NOTIFICATION_ID_VALIDATION,
+        },
+      });
     });
   });
 
   describe('deleteFieldValue', function actionSuite() {
-    it('should create a DELETE_FIELD_VALUE action', function test() {
+    const mockStore = configureMockStore([thunk]);
+
+    it('should dispatch DELETE_FIELD_VALUE', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
+      const recordTypeConfig = {};
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
 
-      deleteFieldValue(csid, path).should.deep.equal({
+      store.dispatch(deleteFieldValue(recordTypeConfig, csid, path));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(3);
+
+      actions[0].should.deep.equal({
         type: DELETE_FIELD_VALUE,
         meta: {
           csid,
           path,
         },
       });
+
+      actions[1].should.deep.equal({
+        type: 'VALIDATION_PASSED',
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      actions[2].should.deep.equal({
+        type: REMOVE_NOTIFICATION,
+        meta: {
+          notificationID: NOTIFICATION_ID_VALIDATION,
+        },
+      });
     });
   });
 
   describe('moveFieldValue', function actionSuite() {
-    it('should create a MOVE_FIELD_VALUE action', function test() {
+    const mockStore = configureMockStore([thunk]);
+
+    it('should dispatch MOVE_FIELD_VALUE', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
+      const recordTypeConfig = {};
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field', '2'];
       const newPosition = '0';
 
-      moveFieldValue(csid, path, newPosition).should.deep.equal({
+      store.dispatch(moveFieldValue(recordTypeConfig, csid, path, newPosition));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(3);
+
+      actions[0].should.deep.equal({
         type: MOVE_FIELD_VALUE,
         meta: {
           csid,
@@ -841,21 +1083,64 @@ describe('record action creator', function suite() {
           newPosition,
         },
       });
+
+      actions[1].should.deep.equal({
+        type: 'VALIDATION_PASSED',
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      actions[2].should.deep.equal({
+        type: REMOVE_NOTIFICATION,
+        meta: {
+          notificationID: NOTIFICATION_ID_VALIDATION,
+        },
+      });
     });
   });
 
   describe('setFieldValue', function actionSuite() {
-    it('should create a SET_FIELD_VALUE action', function test() {
+    const mockStore = configureMockStore([thunk]);
+
+    it('should dispatch SET_FIELD_VALUE', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
+      const recordTypeConfig = {};
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
       const value = 'foo';
 
-      setFieldValue(csid, path, value).should.deep.equal({
+      store.dispatch(setFieldValue(recordTypeConfig, csid, path, value));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(3);
+
+      actions[0].should.deep.equal({
         type: SET_FIELD_VALUE,
         payload: value,
         meta: {
           csid,
           path,
+        },
+      });
+
+      actions[1].should.deep.equal({
+        type: 'VALIDATION_PASSED',
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      actions[2].should.deep.equal({
+        type: REMOVE_NOTIFICATION,
+        meta: {
+          notificationID: NOTIFICATION_ID_VALIDATION,
         },
       });
     });

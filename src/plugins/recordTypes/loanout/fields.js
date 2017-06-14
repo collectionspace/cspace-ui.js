@@ -17,7 +17,6 @@ export default (pluginContext) => {
 
   const {
     DATA_TYPE_DATETIME,
-    DATA_TYPE_LIST,
   } = pluginContext.dataTypes;
 
   return {
@@ -89,6 +88,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Loan out number',
               },
             }),
+            required: true,
             searchView: {
               type: TextInput,
             },
@@ -256,7 +256,6 @@ export default (pluginContext) => {
         },
         loanStatusGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanStatusGroupList.name',
@@ -269,10 +268,10 @@ export default (pluginContext) => {
           },
           loanStatusGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
-                  repeating: true,
                   tabular: true,
                 },
               },

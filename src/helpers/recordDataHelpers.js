@@ -2,16 +2,26 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 
 import {
+  ERR_DATA_TYPE,
+  ERR_MISSING_REQ_FIELD,
+} from '../constants/errorCodes';
+
+import {
   configKey,
   getDefaults,
   getDefaultValue,
-  isCloneable,
+  getFieldCustomValidator,
+  getFieldDataType,
+  isFieldCloneable,
+  isFieldRepeating,
+  isFieldRequired,
 } from './configHelpers';
 
 const numericPattern = /^[0-9]$/;
 
 export const NS_PREFIX = 'ns2';
 export const DOCUMENT_PROPERTY_NAME = 'document';
+export const ERROR_KEY = '[error]';
 
 export const getPartPropertyName = partName =>
   `${NS_PREFIX}:${partName}`;
@@ -200,7 +210,7 @@ export const clearUncloneable = (fieldDescriptor, data) => {
     return data;
   }
 
-  if (typeof data !== 'undefined' && !isCloneable(fieldDescriptor)) {
+  if (typeof data !== 'undefined' && !isFieldCloneable(fieldDescriptor)) {
     // If the field has been configured as not cloneable and there is an existing value, replace
     // the existing value with the default value if there is one, or undefined otherwise. The old
     // UI did not set uncloneable fields to the default value, but I think this was an oversight.
@@ -348,3 +358,111 @@ export const getCreatedTimestamp = data =>
 
 export const getCreatedUser = data =>
   getCoreFieldValue(data, 'createdBy');
+
+const intPattern = /^-?\d+$/;
+const floatPattern = /^-?\d+(\.\d+)?$/;
+const datePattern = /^\d{4}-\d{2}-\d{2}(T00:00:00.000Z)?$/;
+const dateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+
+const dataTypeValidators = {
+  DATA_TYPE_MAP: value => Immutable.Map.isMap(value),
+  DATA_TYPE_STRING: () => true,
+  DATA_TYPE_INT: value => intPattern.test(value),
+  DATA_TYPE_FLOAT: value => floatPattern.test(value),
+  DATA_TYPE_BOOL: value => (typeof value === 'boolean'),
+  DATA_TYPE_DATE: value => datePattern.test(value),
+  DATA_TYPE_DATETIME: value => dateTimePattern.test(value),
+};
+
+const validateDataType = (value, dataType) => {
+  const validator = dataTypeValidators[dataType];
+
+  return (validator ? validator(value) : true);
+};
+
+export const validateField = (fieldDescriptor, data, expandRepeating = true) => {
+  if (!fieldDescriptor) {
+    return null;
+  }
+
+  let errors = Immutable.Map();
+
+  if (expandRepeating && isFieldRepeating(fieldDescriptor)) {
+    // This is a repeating field, and the expand flag is true. Validate each instance against the
+    // current field descriptor.
+
+    const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
+
+    instances.forEach((instance, index) => {
+      const instanceErrors = validateField(fieldDescriptor, instances.get(index), false);
+
+      if (instanceErrors) {
+        errors = errors.set(index, instanceErrors);
+      }
+    });
+
+    return (errors.size > 0 ? errors : null);
+  }
+
+  const dataType = getFieldDataType(fieldDescriptor);
+
+  if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
+    // Validate this field's children, and add any child errors to the errors map.
+
+    const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+
+    childKeys.forEach((childKey) => {
+      const childData = data ? data.get(childKey) : undefined;
+      const childErrors = validateField(fieldDescriptor[childKey], childData);
+
+      if (childErrors) {
+        errors = errors.set(childKey, childErrors);
+      }
+    });
+  }
+
+  let error;
+
+  // Check required.
+
+  const required = isFieldRequired(fieldDescriptor);
+
+  // TODO: Does this make sense for compound fields?
+
+  if (required && (typeof data === 'undefined' || data === null || data === '')) {
+    error = Immutable.Map({
+      code: ERR_MISSING_REQ_FIELD,
+    });
+  }
+
+  if (!error && typeof data !== 'undefined' && data !== null && data !== '') {
+    // Check data type.
+
+    if (!validateDataType(data, dataType)) {
+      error = Immutable.Map({
+        dataType,
+        code: ERR_DATA_TYPE,
+        value: data,
+      });
+    }
+
+    if (!error) {
+      // Custom validation.
+
+      const customValidator = getFieldCustomValidator(fieldDescriptor);
+
+      if (customValidator) {
+        // TODO: Run custom validator.
+      }
+    }
+  }
+
+  if (error) {
+    errors = errors.set(ERROR_KEY, error);
+  }
+
+  return (errors.size > 0 ? errors : null);
+};
+
+export const validateRecordData = (recordTypeConfig, data) =>
+  validateField(get(recordTypeConfig, 'fields'), data);

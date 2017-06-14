@@ -496,16 +496,19 @@ describe('searchHelpers', function moduleSuite() {
       document: {
         'ns2:collectionobjects_common': {
           titleGroupList: {
-            [configKey]: {
-              dataType: DATA_TYPE_LIST,
-            },
             titleGroup: {
+              [configKey]: {
+                repeating: true,
+              },
               title: {},
               titleTranslationSubGroupList: {
                 [configKey]: {
                   dataType: DATA_TYPE_LIST,
                 },
                 titleTranslationSubGroup: {
+                  [configKey]: {
+                    repeating: true,
+                  },
                   titleTranslation: {},
                 },
               },
@@ -525,7 +528,7 @@ describe('searchHelpers', function moduleSuite() {
         .equal('collectionobjects_common:objectNumber');
     });
 
-    it('should replace list items with *', function test() {
+    it('should replace repeating items with *', function test() {
       pathToNXQL(fields, 'ns2:collectionobjects_common/titleGroupList/titleGroup/title').should
         .equal('collectionobjects_common:titleGroupList/*/title');
 

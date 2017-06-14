@@ -9,14 +9,18 @@ import {
 
 import {
   CLEAR_SEARCH_RESULTS,
+  CLEAR_SELECTED,
   CREATE_EMPTY_SEARCH_RESULT,
+  DESELECT_RESULT_ITEM,
   SET_MOST_RECENT_SEARCH,
   SET_RESULT_ITEM_SELECTED,
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
   SET_ALL_RESULT_ITEMS_SELECTED,
+  clearSelected,
   clearSearchResults,
+  deselectResultItem,
   search,
   setResultItemSelected,
   setAllResultItemsSelected,
@@ -718,6 +722,34 @@ describe('search action creator', function suite() {
           listTypeConfig,
           searchName,
           searchDescriptor,
+        },
+      });
+    });
+  });
+
+  describe('clearSelected', function actionSuite() {
+    it('should dispatch CLEAR_SELECTED', function test() {
+      const searchName = 'searchName';
+
+      clearSelected(searchName).should.deep.equal({
+        type: CLEAR_SELECTED,
+        meta: {
+          searchName,
+        },
+      });
+    });
+  });
+
+  describe('deselectResultItem', function actionSuite() {
+    it('should dispatch DESELECT_RESULT_ITEM', function test() {
+      const searchName = 'searchName';
+      const csid = '1234';
+
+      deselectResultItem(searchName, csid).should.deep.equal({
+        type: DESELECT_RESULT_ITEM,
+        meta: {
+          searchName,
+          csid,
         },
       });
     });

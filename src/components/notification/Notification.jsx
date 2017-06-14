@@ -2,10 +2,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage, FormattedTime } from 'react-intl';
-import { baseComponents as inputComponents } from 'cspace-input';
+import MiniCloseButton from '../record/MiniCloseButton';
 import styles from '../../../styles/cspace-ui/Notification.css';
 
-const { MiniButton } = inputComponents;
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -15,11 +14,14 @@ const propTypes = {
   status: PropTypes.string,
   autoClose: PropTypes.bool,
   autoCloseTime: PropTypes.number,
+  showCloseButton: PropTypes.bool,
+  children: PropTypes.node,
   close: PropTypes.func,
 };
 
 const defaultProps = {
-  autoCloseTime: 5000, //ms
+  autoCloseTime: 5000, // ms
+  showCloseButton: true,
 };
 
 export default class Notification extends Component {
@@ -104,6 +106,8 @@ export default class Notification extends Component {
       values,
       date,
       status,
+      showCloseButton,
+      children,
     } = this.props;
 
     const className = status ? styles[status] : styles.common;
@@ -121,26 +125,40 @@ export default class Notification extends Component {
       );
     }
 
+    let closeButton;
+
+    if (showCloseButton) {
+      closeButton = (
+        <MiniCloseButton
+          onClick={this.handleCloseButtonClick}
+          onFocus={this.handleCloseButtonFocus}
+        />
+      );
+    }
+
+    let content;
+
+    if (children) {
+      content = children;
+    } else {
+      content = (
+        <ul>
+          <li><FormattedMessage {...message} values={values} /></li>
+        </ul>
+      );
+    }
+
     return (
       <div className={className} onMouseDown={this.handleMouseDown}>
+        {closeButton}
         <div>
           <header>
             {timestamp}
           </header>
           <div>
-            <FormattedMessage {...message} values={values} />
+            {content}
           </div>
         </div>
-        <footer>
-          <MiniButton
-            className="material-icons"
-            name="close"
-            onClick={this.handleCloseButtonClick}
-            onFocus={this.handleCloseButtonFocus}
-          >
-            close
-          </MiniButton>
-        </footer>
       </div>
     );
   }

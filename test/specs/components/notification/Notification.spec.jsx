@@ -208,4 +208,20 @@ describe('Notification', function suite() {
 
     this.container.querySelector('header').textContent.should.equal('1:45:59 PM');
   });
+
+  it('should render children prop as the content if provided', function test() {
+    const content = 'This is some notification content';
+
+    render(
+      <IntlProvider locale="en">
+        <Notification
+          id={notificationID}
+        >
+          {content}
+        </Notification>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-Notification--common > div > div').textContent.should
+      .equal(content);
+  });
 });

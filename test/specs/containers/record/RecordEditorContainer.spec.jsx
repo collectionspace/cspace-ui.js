@@ -13,6 +13,7 @@ import {
 } from '../../../../src/constants/notificationStatusCodes';
 
 import {
+  REMOVE_NOTIFICATION,
   SHOW_NOTIFICATION,
 } from '../../../../src/actions/notification';
 
@@ -25,6 +26,7 @@ import {
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   REVERT_RECORD,
+  VALIDATION_PASSED,
 } from '../../../../src/actions/record';
 
 chai.should();
@@ -42,6 +44,7 @@ describe('RecordEditorContainer', function suite() {
     serviceConfig: {
       servicePath: 'collectionobjects',
     },
+    fields: {},
     title: () => '',
   };
 
@@ -292,12 +295,16 @@ describe('RecordEditorContainer', function suite() {
     } catch (error) {
       const actions = store.getActions();
 
-      actions[0].should.have.property('type', SHOW_NOTIFICATION);
-      actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+      actions[0].should.have.property('type', VALIDATION_PASSED);
 
-      actions[1].should.have.property('type', RECORD_SAVE_STARTED);
-      actions[1].should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
-      actions[1].should.have.deep.property('meta.csid', csid);
+      actions[1].should.have.property('type', REMOVE_NOTIFICATION);
+
+      actions[2].should.have.property('type', SHOW_NOTIFICATION);
+      actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+      actions[3].should.have.property('type', RECORD_SAVE_STARTED);
+      actions[3].should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
+      actions[3].should.have.deep.property('meta.csid', csid);
     }
   });
 });

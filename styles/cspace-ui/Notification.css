@@ -1,9 +1,7 @@
 .common {
-  max-width: 350px;
-  padding: 10px;
-  background-color: white;
+  width: 100%;
+  position: relative;
   display: flex;
-  justify-content: space-between;
 }
 
 .common + .common {
@@ -11,7 +9,10 @@
 }
 
 .common > div {
-  overflow: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px 10px 10px;
+  overflow-y: auto;
 }
 
 .common > div > header {
@@ -21,41 +22,54 @@
 }
 
 .common > div > div {
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: 0 2px;
+}
+
+.common ul {
+  margin: 0;
+  padding: 0;
+}
+
+.common ul > li {
   padding-left: 20px;
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: 0 2px;
 }
 
-.common > footer {
-  padding-left: 10px;
-}
-
-.common > footer > button {
-  outline: 1px solid rgb(220, 220, 220);
-}
-
 .error {
   composes: common;
+  border-top: 2px solid #D80000;
+}
+
+.error > div > header {
+  color: rgb(219, 161, 161);
 }
 
 .error > div > div {
+  color: rgb(220, 0, 0);
+}
+
+.error ul > li {
   background-image: url(../../images/error.svg);
-  color: #D80000;
 }
 
 .pending {
   composes: common;
+  border-top: 2px solid #444444;
 }
 
-.pending > div > div {
+.pending ul > li {
   background-image: url(../../images/spinner.svg);
 }
 
 .success {
   composes: common;
+  border-top: 2px solid #444444;
 }
 
-.success > div > div {
+.success ul > li {
   background-image: url(../../images/success.svg);
 }

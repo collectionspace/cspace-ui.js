@@ -1,0 +1,8 @@
+.common {
+  composes: common from './FlatButton.css';
+  position: absolute;
+  width: 16px;
+  top: -8px;
+  right: 2px;
+  z-index: 3;
+}

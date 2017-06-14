@@ -11,7 +11,6 @@ import {
 } from './recordDataHelpers';
 
 import {
-  DATA_TYPE_LIST,
   DATA_TYPE_BOOL,
   DATA_TYPE_FLOAT,
   DATA_TYPE_INT,
@@ -207,16 +206,9 @@ export const pathToNXQL = (fieldDescriptor, path) => {
     const fieldName = pathInPartArray[i];
     const fieldPath = pathInPartArray.slice(0, i + 1);
     const fieldConfig = get(partDescriptor, [...fieldPath, configKey]);
+    const repeating = get(fieldConfig, 'repeating');
 
-    nxqlPathInPartArray.push(fieldName);
-
-    if (fieldConfig && fieldConfig.dataType === DATA_TYPE_LIST) {
-      // If the field is a list, replace the next field name with '*'.
-
-      nxqlPathInPartArray.push('*');
-
-      i += 1;
-    }
+    nxqlPathInPartArray.push(repeating ? '*' : fieldName);
   }
 
   const nxqlPath = nxqlPathInPartArray.join('/');

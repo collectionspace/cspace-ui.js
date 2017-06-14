@@ -23,7 +23,7 @@ const renderLabel = (fieldConfig, props) => {
 
   if (message) {
     return (
-      <Label {...props}>
+      <Label {...props} required={fieldConfig.required}>
         <FormattedMessage {...message} />
       </Label>
     );
@@ -70,10 +70,12 @@ export default function Field(props, context) {
     viewType,
   } = props;
 
+  const fullPath = pathHelpers.getPath(props);
+
   // Filter out numeric parts of the path, since they indicate repeating instances that won't be
   // present in the field descriptor.
 
-  const path = dataPathToFieldDescriptorPath(pathHelpers.getPath(props));
+  const path = dataPathToFieldDescriptorPath(fullPath);
   const fields = get(config, ['recordTypes', recordType, 'fields']);
 
   warning(fields, `No field descriptor found for the record type ${recordType}. The field with path ${path} will not be rendered.`);
@@ -109,6 +111,10 @@ export default function Field(props, context) {
 
   if ('label' in basePropTypes) {
     computedProps.label = renderLabel(fieldConfig);
+  }
+
+  if (fieldConfig.repeating) {
+    computedProps.repeating = true;
   }
 
   if ('renderChildInputLabel' in basePropTypes) {

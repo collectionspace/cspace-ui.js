@@ -19,7 +19,6 @@ export default (pluginContext) => {
 
   const {
     DATA_TYPE_DATETIME,
-    DATA_TYPE_LIST,
   } = pluginContext.dataTypes;
 
   return {
@@ -91,6 +90,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Exhibition number',
               },
             }),
+            required: true,
             searchView: {
               type: TextInput,
             },
@@ -151,11 +151,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Sponsor',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,person/ulan,organization/local,organization/shared,organization/ulan',
-                  repeating: true,
                 },
               },
             },
@@ -181,11 +181,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Organizer',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,person/ulan,organization/local,organization/shared,organization/ulan',
-                  repeating: true,
                 },
               },
             },
@@ -193,7 +193,6 @@ export default (pluginContext) => {
         },
         venueGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.venueGroupList.name',
@@ -206,11 +205,11 @@ export default (pluginContext) => {
           },
           venueGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -286,7 +285,6 @@ export default (pluginContext) => {
         },
         workingGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.workingGroupList.name',
@@ -299,11 +297,9 @@ export default (pluginContext) => {
           },
           workingGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             workingGroupTitle: {
@@ -346,11 +342,11 @@ export default (pluginContext) => {
               },
               exhibitionPersonGroup: {
                 [config]: {
+                  repeating: true,
                   view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
-                      repeating: true,
                     },
                   },
                 },
@@ -468,11 +464,11 @@ export default (pluginContext) => {
           },
           galleryRotationGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -544,11 +540,11 @@ export default (pluginContext) => {
           },
           exhibitionReferenceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -613,11 +609,11 @@ export default (pluginContext) => {
           },
           exhibitionSectionGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -689,11 +685,11 @@ export default (pluginContext) => {
           },
           exhibitionStatusGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -743,7 +739,6 @@ export default (pluginContext) => {
         },
         exhibitionObjectGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.exhibitionObjectGroupList.name',
@@ -756,11 +751,11 @@ export default (pluginContext) => {
           },
           exhibitionObjectGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },

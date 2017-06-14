@@ -60,6 +60,9 @@ export const getRecordRelationUpdatedTimestamp = (state, csid) =>
 
 export const getRecordData = (state, csid) => fromRecord.getData(state.record, csid);
 
+export const getRecordValidationErrors = (state, csid) =>
+  fromRecord.getValidationErrors(state.record, csid);
+
 export const getNewRecordData = state => fromRecord.getNewData(state.record);
 
 export const isRecordReadPending = (state, csid) => fromRecord.isReadPending(state.record, csid);

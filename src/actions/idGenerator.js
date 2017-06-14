@@ -1,4 +1,5 @@
 import getSession from './cspace';
+import { validateRecordData } from './record';
 import { getIDGenerator } from '../reducers';
 
 export const ADD_ID_GENERATORS = 'ADD_ID_GENERATORS';
@@ -57,7 +58,7 @@ export const readIDGenerator = idGeneratorName => (dispatch, getState) => {
     }));
 };
 
-export const createID = (idGeneratorName, csid, path) => (dispatch, getState) => {
+export const createID = (recordTypeConfig, idGeneratorName, csid, path) => (dispatch, getState) => {
   let idGeneratorCsid = null;
 
   const idGenerator = getIDGenerator(getState(), idGeneratorName);
@@ -73,6 +74,7 @@ export const createID = (idGeneratorName, csid, path) => (dispatch, getState) =>
   dispatch({
     type: CREATE_ID_STARTED,
     meta: {
+      recordTypeConfig,
       idGeneratorName,
       csid,
       path,
@@ -80,19 +82,25 @@ export const createID = (idGeneratorName, csid, path) => (dispatch, getState) =>
   });
 
   return getSession().create(`idgenerators/${idGeneratorCsid}/ids`)
-    .then(response => dispatch({
-      type: CREATE_ID_FULFILLED,
-      payload: response,
-      meta: {
-        idGeneratorName,
-        csid,
-        path,
-      },
-    }))
+    .then((response) => {
+      dispatch({
+        type: CREATE_ID_FULFILLED,
+        payload: response,
+        meta: {
+          recordTypeConfig,
+          idGeneratorName,
+          csid,
+          path,
+        },
+      });
+
+      dispatch(validateRecordData(recordTypeConfig, csid));
+    })
     .catch(error => dispatch({
       type: CREATE_ID_REJECTED,
       payload: error,
       meta: {
+        recordTypeConfig,
         idGeneratorName,
         csid,
         path,

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Immutable from 'immutable';
 import CloneButton from './CloneButton';
 import SaveButton from './SaveButton';
 import RevertButton from './RevertButton';
@@ -8,6 +9,7 @@ const propTypes = {
   csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  validationErrors: PropTypes.instanceOf(Immutable.Map),
   onCloneButtonClick: PropTypes.func,
   onRevertButtonClick: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
@@ -18,6 +20,7 @@ export default function RecordButtonBar(props) {
     csid,
     isModified,
     isSavePending,
+    validationErrors,
     onCloneButtonClick,
     onRevertButtonClick,
     onSaveButtonClick,
@@ -28,6 +31,7 @@ export default function RecordButtonBar(props) {
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}
+        validationErrors={validationErrors}
         onClick={onSaveButtonClick}
       />
       <CloneButton

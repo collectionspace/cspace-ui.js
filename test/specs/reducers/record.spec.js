@@ -14,6 +14,8 @@ import {
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
   REVERT_RECORD,
+  VALIDATION_FAILED,
+  VALIDATION_PASSED,
 } from '../../../src/actions/record';
 
 import {
@@ -28,6 +30,7 @@ import reducer, {
   getData,
   getNewData,
   getRelationUpdatedTimestamp,
+  getValidationErrors,
   isModified,
   isReadPending,
   isSavePending,
@@ -862,5 +865,67 @@ describe('record reducer', function suite() {
     }));
 
     isModified(state, csid).should.equal(true);
+  });
+
+  it('should handle VALIDATION_PASSED', function test() {
+    const csid = '1234';
+    const path = ['foo', 'bar'];
+
+    const initialState = Immutable.Map().setIn(
+      [csid, 'validation', ...path], {}
+    );
+
+    let state;
+
+    state = reducer(initialState, {
+      type: VALIDATION_PASSED,
+      meta: {
+        csid,
+        path: ['foo', 'bar'],
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        validation: {
+          foo: {},
+        },
+      },
+    }));
+
+    state = reducer(initialState, {
+      type: VALIDATION_PASSED,
+      meta: {
+        csid,
+        path: [],
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {},
+    }));
+  });
+
+  it('should handle VALIDATION_FAILED', function test() {
+    const csid = '1234';
+
+    const error = {
+      code: 'ERROR_CODE',
+    };
+
+    const state = reducer(undefined, {
+      type: VALIDATION_FAILED,
+      payload: error,
+      meta: {
+        csid,
+        path: [],
+      },
+    });
+
+    state.should.equal(Immutable.Map().setIn(
+      [csid, 'validation'], error
+    ));
+
+    getValidationErrors(state, csid).should.equal(error);
   });
 });

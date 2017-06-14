@@ -18,9 +18,9 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    DATA_TYPE_LIST,
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
+    DATA_TYPE_DATE,
     DATA_TYPE_DATETIME,
   } = pluginContext.dataTypes;
 
@@ -138,6 +138,7 @@ export default (pluginContext) => {
                 defaultMessage: 'Identification number',
               },
             }),
+            required: true,
             searchView: {
               type: TextInput,
             },
@@ -177,11 +178,11 @@ export default (pluginContext) => {
           },
           otherNumber: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -218,7 +219,6 @@ export default (pluginContext) => {
         },
         responsibleDepartments: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.responsibleDepartments.name',
@@ -237,11 +237,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Responsible department',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'departments',
-                  repeating: true,
                 },
               },
             },
@@ -294,11 +294,11 @@ export default (pluginContext) => {
           },
           briefDescription: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
                   multiline: true,
-                  repeating: true,
                 },
               },
             },
@@ -334,11 +334,11 @@ export default (pluginContext) => {
           },
           comment: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
                   multiline: true,
-                  repeating: true,
                 },
               },
             },
@@ -364,7 +364,6 @@ export default (pluginContext) => {
         },
         titleGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.titleGroupList.name',
@@ -377,11 +376,9 @@ export default (pluginContext) => {
           },
           titleGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             title: {
@@ -427,11 +424,11 @@ export default (pluginContext) => {
               },
               titleTranslationSubGroup: {
                 [config]: {
+                  repeating: true,
                   view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
-                      repeating: true,
                     },
                   },
                 },
@@ -486,7 +483,6 @@ export default (pluginContext) => {
         },
         objectNameList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectNameList.name',
@@ -498,12 +494,12 @@ export default (pluginContext) => {
             },
           },
           objectNameGroup: {
+            repeating: true,
             [config]: {
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -630,7 +626,6 @@ export default (pluginContext) => {
         },
         objectStatusList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectStatusList.name',
@@ -649,11 +644,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Object status',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'objectStatuses',
-                  repeating: true,
                 },
               },
             },
@@ -693,7 +688,6 @@ export default (pluginContext) => {
         },
         forms: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.forms.name',
@@ -712,11 +706,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Form',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'forms',
-                  repeating: true,
                 },
               },
             },
@@ -783,7 +777,6 @@ export default (pluginContext) => {
         },
         styles: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.styles.name',
@@ -802,11 +795,9 @@ export default (pluginContext) => {
                   defaultMessage: 'Style',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -825,18 +816,15 @@ export default (pluginContext) => {
           },
           color: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
         },
         materialGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.materialGroupList.name',
@@ -849,11 +837,11 @@ export default (pluginContext) => {
           },
           materialGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -958,7 +946,6 @@ export default (pluginContext) => {
         },
         objectComponentGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectComponentGroupList.name',
@@ -971,11 +958,11 @@ export default (pluginContext) => {
           },
           objectComponentGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1016,7 +1003,6 @@ export default (pluginContext) => {
         },
         technicalAttributeGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.technicalAttributeGroupList.name',
@@ -1029,11 +1015,11 @@ export default (pluginContext) => {
           },
           technicalAttributeGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1105,11 +1091,9 @@ export default (pluginContext) => {
           },
           measuredPartGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             measuredPart: {
@@ -1155,11 +1139,11 @@ export default (pluginContext) => {
               },
               dimensionSubGroup: {
                 [config]: {
+                  repeating: true,
                   view: {
                     type: CompoundInput,
                     props: {
                       tabular: true,
-                      repeating: true,
                     },
                   },
                 },
@@ -1213,7 +1197,12 @@ export default (pluginContext) => {
                 },
                 value: {
                   [config]: {
+                    dataType: DATA_TYPE_FLOAT,
                     messages: defineMessages({
+                      fullName: {
+                        id: 'field.collectionobjects_common.value.fullName',
+                        defaultMessage: 'Measurement value',
+                      },
                       name: {
                         id: 'field.collectionobjects_common.value.name',
                         defaultMessage: 'Value',
@@ -1255,6 +1244,7 @@ export default (pluginContext) => {
                 },
                 valueDate: {
                   [config]: {
+                    dataType: DATA_TYPE_DATE,
                     messages: defineMessages({
                       name: {
                         id: 'field.collectionobjects_common.valueDate.name',
@@ -1300,11 +1290,11 @@ export default (pluginContext) => {
           },
           contentLanguage: {
             [config]: {
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
                   source: 'languages',
-                  repeating: true,
                 },
               },
             },
@@ -1324,11 +1314,9 @@ export default (pluginContext) => {
           },
           contentActivity: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -1357,11 +1345,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Concept',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'concept/associated,concept/material,concept/material_shared',
-                  repeating: true,
                 },
               },
             },
@@ -1394,11 +1382,11 @@ export default (pluginContext) => {
           },
           contentPosition: {
             [config]: {
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'positions',
-                  repeating: true,
                 },
               },
             },
@@ -1418,11 +1406,11 @@ export default (pluginContext) => {
           },
           contentObjectGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1471,11 +1459,9 @@ export default (pluginContext) => {
           },
           contentPeople: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -1504,11 +1490,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Person',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,person/ulan',
-                  repeating: true,
                 },
               },
             },
@@ -1528,11 +1514,9 @@ export default (pluginContext) => {
           },
           contentPlace: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -1551,11 +1535,11 @@ export default (pluginContext) => {
           },
           contentScript: {
             [config]: {
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'scripts',
-                  repeating: true,
                 },
               },
             },
@@ -1585,11 +1569,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Organization',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'organization/local,organization/shared,organization/ulan',
-                  repeating: true,
                 },
               },
             },
@@ -1609,11 +1593,11 @@ export default (pluginContext) => {
           },
           contentEventNameGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1659,11 +1643,11 @@ export default (pluginContext) => {
           },
           contentOtherGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -1719,11 +1703,9 @@ export default (pluginContext) => {
           },
           textualInscriptionGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             inscriptionContent: {
@@ -1898,18 +1880,15 @@ export default (pluginContext) => {
         },
         nonTextualInscriptionGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             view: {
               type: CompoundInput,
             },
           },
           nonTextualInscriptionGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
             inscriptionDescription: {
@@ -2030,7 +2009,6 @@ export default (pluginContext) => {
         },
         objectProductionDateGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionDateGroupList.name',
@@ -2049,21 +2027,18 @@ export default (pluginContext) => {
                   defaultMessage: 'Production date',
                 },
               }),
+              repeating: true,
               searchView: {
                 type: DateInput,
               },
               view: {
                 type: StructuredDateInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
         },
         techniqueGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.techniqueGroupList.name',
@@ -2076,11 +2051,11 @@ export default (pluginContext) => {
           },
           techniqueGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2118,7 +2093,6 @@ export default (pluginContext) => {
         },
         objectProductionPlaceGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionPlaceGroupList.name',
@@ -2131,11 +2105,11 @@ export default (pluginContext) => {
           },
           objectProductionPlaceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2185,11 +2159,11 @@ export default (pluginContext) => {
           },
           objectProductionReason: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
                   multiline: true,
-                  repeating: true,
                 },
               },
             },
@@ -2197,7 +2171,6 @@ export default (pluginContext) => {
         },
         objectProductionPeopleGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionPeopleGroupList.name',
@@ -2210,11 +2183,11 @@ export default (pluginContext) => {
           },
           objectProductionPeopleGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2252,7 +2225,6 @@ export default (pluginContext) => {
         },
         objectProductionPersonGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionPersonGroupList.name',
@@ -2265,11 +2237,11 @@ export default (pluginContext) => {
           },
           objectProductionPersonGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2310,7 +2282,6 @@ export default (pluginContext) => {
         },
         objectProductionOrganizationGroupList: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.objectProductionOrganizationGroupList.name',
@@ -2323,11 +2294,11 @@ export default (pluginContext) => {
           },
           objectProductionOrganizationGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2396,11 +2367,11 @@ export default (pluginContext) => {
           },
           assocActivityGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2459,11 +2430,11 @@ export default (pluginContext) => {
           },
           assocObjectGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2522,11 +2493,11 @@ export default (pluginContext) => {
           },
           assocConceptGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2592,11 +2563,11 @@ export default (pluginContext) => {
           },
           assocCulturalContextGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2655,11 +2626,11 @@ export default (pluginContext) => {
           },
           assocOrganizationGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2725,11 +2696,11 @@ export default (pluginContext) => {
           },
           assocPeopleGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2788,11 +2759,11 @@ export default (pluginContext) => {
           },
           assocPersonGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2858,11 +2829,11 @@ export default (pluginContext) => {
           },
           assocPlaceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -2953,11 +2924,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Associated event organization',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'organization/local,organization/shared',
-                  repeating: true,
                 },
               },
             },
@@ -2977,11 +2948,9 @@ export default (pluginContext) => {
           },
           assocEventPeople: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3006,11 +2975,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Associated event person',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3030,11 +2999,9 @@ export default (pluginContext) => {
           },
           assocEventPlace: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3066,11 +3033,11 @@ export default (pluginContext) => {
           },
           assocDateGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -3145,11 +3112,11 @@ export default (pluginContext) => {
           },
           usageGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -3201,11 +3168,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Owner',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,organization/local,organization/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3225,11 +3192,9 @@ export default (pluginContext) => {
           },
           ownershipDateGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: StructuredDateInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3328,6 +3293,10 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ownershipExchangePriceValue.fullName',
+                defaultMessage: 'Ownership exchange price',
+              },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceValue.name',
                 defaultMessage: 'Price',
@@ -3384,11 +3353,9 @@ export default (pluginContext) => {
           },
           ownersReference: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3468,11 +3435,9 @@ export default (pluginContext) => {
           },
           viewersReference: {
             [config]: {
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },
@@ -3501,11 +3466,11 @@ export default (pluginContext) => {
           },
           referenceGroup: {
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                  repeating: true,
                 },
               },
             },
@@ -3567,11 +3532,11 @@ export default (pluginContext) => {
           },
           fieldCollectionMethod: {
             [config]: {
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
                   source: 'collectionmethod',
-                  repeating: true,
                 },
               },
             },
@@ -3642,11 +3607,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Field collection source',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3672,11 +3637,11 @@ export default (pluginContext) => {
                   defaultMessage: 'Field collection collector',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
                   source: 'person/local,person/shared,organization/local,organization/shared',
-                  repeating: true,
                 },
               },
             },
@@ -3684,7 +3649,6 @@ export default (pluginContext) => {
         },
         fieldColEventNames: {
           [config]: {
-            dataType: DATA_TYPE_LIST,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.fieldColEventNames.name',
@@ -3703,11 +3667,9 @@ export default (pluginContext) => {
                   defaultMessage: 'Field collection event name',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
-                props: {
-                  repeating: true,
-                },
               },
             },
           },

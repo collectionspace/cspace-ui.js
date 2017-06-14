@@ -20,6 +20,15 @@ import {
   createID,
 } from '../../../src/actions/idGenerator';
 
+import {
+  REMOVE_NOTIFICATION,
+  NOTIFICATION_ID_VALIDATION,
+} from '../../../src/actions/notification';
+
+import {
+  VALIDATION_PASSED,
+} from '../../../src/actions/record';
+
 const expect = chai.expect;
 
 chai.should();
@@ -154,8 +163,10 @@ describe('ID generator action creator', function suite() {
         },
       }),
       login: Immutable.Map(),
+      record: Immutable.Map(),
     });
 
+    const recordTypeConfig = {};
     const createIDUrl = `/cspace-services/idgenerators/${idGeneratorCsid}/ids`;
     const csid = '9987';
     const path = ['collectionobjects_common', 'objectNumber'];
@@ -180,15 +191,16 @@ describe('ID generator action creator', function suite() {
         response: '2016.1.1',
       });
 
-      return store.dispatch(createID(idGeneratorName, csid, path))
+      return store.dispatch(createID(recordTypeConfig, idGeneratorName, csid, path))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(4);
 
           actions[0].should.deep.equal({
             type: CREATE_ID_STARTED,
             meta: {
+              recordTypeConfig,
               idGeneratorName,
               csid,
               path,
@@ -204,9 +216,25 @@ describe('ID generator action creator', function suite() {
               data: '2016.1.1',
             },
             meta: {
+              recordTypeConfig,
               idGeneratorName,
               csid,
               path,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: VALIDATION_PASSED,
+            meta: {
+              csid,
+              path: [],
+            },
+          });
+
+          actions[3].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
             },
           });
         });
@@ -218,7 +246,7 @@ describe('ID generator action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(createID(idGeneratorName, csid, path))
+      return store.dispatch(createID(recordTypeConfig, idGeneratorName, csid, path))
         .then(() => {
           const actions = store.getActions();
 
@@ -227,6 +255,7 @@ describe('ID generator action creator', function suite() {
           actions[0].should.deep.equal({
             type: CREATE_ID_STARTED,
             meta: {
+              recordTypeConfig,
               idGeneratorName,
               csid,
               path,
@@ -236,6 +265,7 @@ describe('ID generator action creator', function suite() {
           actions[1].should.have.property('type', CREATE_ID_REJECTED);
           actions[1].should.have.property('meta')
             .that.deep.equals({
+              recordTypeConfig,
               idGeneratorName,
               csid,
               path,

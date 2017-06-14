@@ -2,6 +2,10 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 import {
+  removeValidationNotification,
+} from '../../actions/notification';
+
+import {
   createNewRecord,
   readRecord,
   addFieldInstance,
@@ -14,6 +18,7 @@ import {
 
 import {
   getRecordData,
+  getRecordValidationErrors,
   isRecordModified,
   isRecordSavePending,
 } from '../../reducers';
@@ -29,6 +34,7 @@ const mapStateToProps = (state, ownProps) => {
     data: getRecordData(state, csid),
     isModified: isRecordModified(state, csid),
     isSavePending: isRecordSavePending(state, csid),
+    validationErrors: getRecordValidationErrors(state, csid),
   };
 };
 
@@ -58,21 +64,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(addFieldInstance(recordTypeConfig, csid, path));
     },
     onCommit: (path, value) => {
-      dispatch(setFieldValue(csid, path, value));
+      dispatch(setFieldValue(recordTypeConfig, csid, path, value));
     },
     onMoveInstance: (path, newPosition) => {
-      dispatch(moveFieldValue(csid, path, newPosition));
+      dispatch(moveFieldValue(recordTypeConfig, csid, path, newPosition));
     },
     onRemoveInstance: (path) => {
-      dispatch(deleteFieldValue(csid, path));
+      dispatch(deleteFieldValue(recordTypeConfig, csid, path));
     },
     revert: () => {
-      dispatch(revertRecord(csid));
+      dispatch(revertRecord(recordTypeConfig, csid));
     },
     save: (onRecordCreated) => {
       dispatch(
         saveRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated)
       );
+    },
+    removeValidationNotification: () => {
+      dispatch(removeValidationNotification());
     },
   };
 };
