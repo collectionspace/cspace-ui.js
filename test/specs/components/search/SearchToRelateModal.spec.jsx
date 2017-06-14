@@ -1,7 +1,7 @@
 /* global window, document */
 
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Provider as StoreProvider } from 'react-redux';

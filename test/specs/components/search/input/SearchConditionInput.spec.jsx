@@ -1,6 +1,6 @@
 import React from 'react';
 import Immutable from 'immutable';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import BooleanConditionInput from '../../../../../src/components/search/input/BooleanConditionInput';
 import FieldConditionInput from '../../../../../src/components/search/input/FieldConditionInput';
 import SearchConditionInput from '../../../../../src/components/search/input/SearchConditionInput';

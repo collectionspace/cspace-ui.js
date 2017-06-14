@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage, FormattedNumber } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 import PageSizeChooser from './PageSizeChooser';

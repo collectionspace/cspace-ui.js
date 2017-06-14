@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType, findAllWithType } from 'react-shallow-testutils';
 import { FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';

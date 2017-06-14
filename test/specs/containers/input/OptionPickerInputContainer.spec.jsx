@@ -1,6 +1,6 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import { components as inputComponents } from 'cspace-input';
 import { ConnectedOptionPickerInput } from '../../../../src/containers/input/OptionPickerInputContainer';
 

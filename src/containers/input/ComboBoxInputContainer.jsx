@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';

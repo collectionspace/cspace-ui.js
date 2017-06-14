@@ -1,6 +1,6 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
 import { ConnectedTermPickerInput } from '../../../../src/containers/input/TermPickerInputContainer';

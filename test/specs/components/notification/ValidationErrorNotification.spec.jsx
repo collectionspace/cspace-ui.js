@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import Notification from '../../../../src/components/notification/Notification';
 import ValidationErrorMessage from '../../../../src/components/notification/ValidationErrorMessage';

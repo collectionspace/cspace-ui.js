@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { findAllWithType } from 'react-shallow-testutils';
 import createTestContainer from '../../../helpers/createTestContainer';

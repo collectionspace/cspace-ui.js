@@ -1,7 +1,7 @@
 // TODO: Break out non-state related props into a separate component. This component should just
 // connect to redux state.
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import get from 'lodash/get';

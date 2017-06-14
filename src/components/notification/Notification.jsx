@@ -1,6 +1,7 @@
 /* global window */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedTime } from 'react-intl';
 import MiniCloseButton from '../record/MiniCloseButton';
 import styles from '../../../styles/cspace-ui/Notification.css';

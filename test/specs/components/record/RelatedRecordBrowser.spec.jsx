@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { findRenderedComponentWithType, Simulate } from 'react-addons-test-utils';
+import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

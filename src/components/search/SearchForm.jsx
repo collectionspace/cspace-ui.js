@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { Panel } from 'cspace-layout';

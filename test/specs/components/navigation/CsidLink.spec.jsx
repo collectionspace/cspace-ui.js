@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import SearchResultLinkContainer from '../../../../src/containers/search/SearchResultLinkContainer';
 import CsidLink from '../../../../src/components/navigation/CsidLink';
 

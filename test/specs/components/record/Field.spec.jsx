@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import { IntlProvider } from 'react-intl';
 import { configKey } from '../../../../src/helpers/configHelpers';
 import Field from '../../../../src/components/record/Field';

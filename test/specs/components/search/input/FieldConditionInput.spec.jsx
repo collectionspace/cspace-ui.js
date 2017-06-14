@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';

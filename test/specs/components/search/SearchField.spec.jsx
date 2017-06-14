@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Field from '../../../../src/components/record/Field';
 import SearchField from '../../../../src/components/search/SearchField';
 

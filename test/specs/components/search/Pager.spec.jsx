@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
 import createTestContainer from '../../../helpers/createTestContainer';
 import Pager from '../../../../src/components/search/Pager';

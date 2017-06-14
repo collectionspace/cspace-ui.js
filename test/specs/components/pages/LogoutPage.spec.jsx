@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { findRenderedComponentWithType } from 'react-addons-test-utils';
+import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';

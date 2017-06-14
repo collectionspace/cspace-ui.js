@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import CreateButton from './CreateButton';
 import RelateButton from './RelateButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import { IntlProvider } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { configKey } from '../../../../src/helpers/configHelpers';

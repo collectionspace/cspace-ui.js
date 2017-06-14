@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';

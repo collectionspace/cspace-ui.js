@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { findRenderedComponentWithType, Simulate } from 'react-addons-test-utils';
+import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import thunk from 'redux-thunk';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

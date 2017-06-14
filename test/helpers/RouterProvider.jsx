@@ -1,4 +1,5 @@
-import { Component, Children, PropTypes } from 'react';
+import { Component, Children } from 'react';
+import PropTypes from 'prop-types';
 import { routerShape } from 'react-router/lib/PropTypes';
 
 const propTypes = {

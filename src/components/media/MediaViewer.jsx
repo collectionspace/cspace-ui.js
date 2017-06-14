@@ -1,6 +1,7 @@
 /* global window */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import ImageGallery from 'react-image-gallery';
 import { baseComponents as inputComponents } from 'cspace-input';

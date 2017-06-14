@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { createRenderer } from 'react-test-renderer/shallow';
 
 import withBooleanValue from '../../../src/enhancers/withBooleanValue';
 

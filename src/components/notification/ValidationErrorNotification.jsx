@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import Notification from './Notification';

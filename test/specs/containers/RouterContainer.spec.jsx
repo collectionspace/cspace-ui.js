@@ -1,7 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { browserHistory } from 'react-router';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Router from '../../../src/components/Router';
 import RouterContainer from '../../../src/containers/RouterContainer';
 

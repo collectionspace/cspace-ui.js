@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import Notification from '../../../../src/components/notification/Notification';

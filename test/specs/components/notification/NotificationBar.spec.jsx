@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import { findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import NotificationBar from '../../../../src/components/notification/NotificationBar';

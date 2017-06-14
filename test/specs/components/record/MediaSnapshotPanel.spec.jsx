@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import MediaViewerPanelContainer from '../../../../src/containers/media/MediaViewerPanelContainer';
 import MediaSnapshotPanel from '../../../../src/components/record/MediaSnapshotPanel';

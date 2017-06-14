@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';

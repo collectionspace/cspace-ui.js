@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';

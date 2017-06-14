@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Footer from '../sections/Footer';
 import styles from '../../../styles/cspace-ui/PublicPage.css';
 

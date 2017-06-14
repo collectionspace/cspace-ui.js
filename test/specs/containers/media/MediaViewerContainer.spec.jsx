@@ -1,7 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import MediaViewer from '../../../../src/components/media/MediaViewer';
 import MediaViewerContainer from '../../../../src/containers/media/MediaViewerContainer';
 

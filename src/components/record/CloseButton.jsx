@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/CloseButton.css';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
 import { ConnectedAutocompleteInput } from '../../../../src/containers/input/AutocompleteInputContainer';

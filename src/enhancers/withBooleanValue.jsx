@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * An enhancer that accepts a value prop, converts it to a boolean, and passes the boolean on to

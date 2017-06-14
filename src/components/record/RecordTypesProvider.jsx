@@ -1,4 +1,5 @@
-import { Component, Children, PropTypes } from 'react';
+import { Component, Children } from 'react';
+import PropTypes from 'prop-types';
 
 export default class RecordTypesProvider extends Component {
   getChildContext() {

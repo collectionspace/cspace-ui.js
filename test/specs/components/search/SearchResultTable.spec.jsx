@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';

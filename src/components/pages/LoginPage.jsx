@@ -1,6 +1,7 @@
 /* global window */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import About from '../sections/About';
 import LoginFormContainer from '../../containers/login/LoginFormContainer';

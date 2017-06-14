@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPanelContainer';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
