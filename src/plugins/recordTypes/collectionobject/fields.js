@@ -494,8 +494,8 @@ export default (pluginContext) => {
             },
           },
           objectNameGroup: {
-            repeating: true,
             [config]: {
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
