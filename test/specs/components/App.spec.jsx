@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
-import { MemoryRouter } from 'react-router';
+import { StaticRouter } from 'react-router';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 
@@ -24,12 +24,9 @@ const config = {
 };
 
 const TestRouter = ({ children }) => (
-  <MemoryRouter
-    initialEntries={['/login']}
-    initialIndex={0}
-  >
+  <StaticRouter location="/login" context={{}}>
     {children}
-  </MemoryRouter>
+  </StaticRouter>
 );
 
 TestRouter.propTypes = {
