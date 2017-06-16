@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import get from 'lodash/get';
 import Immutable from 'immutable';
+import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import ErrorPage from './ErrorPage';
 import RelateButton from '../record/RelateButton';
@@ -40,8 +40,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  location: locationShape,
-  params: PropTypes.objectOf(PropTypes.string),
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
@@ -54,7 +55,6 @@ const propTypes = {
 
 const contextTypes = {
   config: PropTypes.object.isRequired,
-  router: routerShape,
 };
 
 export default class SearchResultPage extends Component {
@@ -89,8 +89,10 @@ export default class SearchResultPage extends Component {
 
       if (setPreferredPageSize) {
         const {
-          query,
+          search,
         } = location;
+
+        const query = qs.parse(search.substring(1));
 
         setPreferredPageSize(parseInt(query.size, 10));
       }
@@ -100,23 +102,37 @@ export default class SearchResultPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const {
+      location,
+      match,
+    } = this.props;
+
+    const {
+      location: prevLocation,
+      match: prevMatch,
+    } = prevProps;
+
+    const { params } = match;
+    const { params: prevParams } = prevMatch;
+
     if (
-      this.props.params.recordType !== prevProps.params.recordType ||
-      this.props.params.vocabulary !== prevProps.params.vocabulary ||
-      this.props.params.csid !== prevProps.params.csid ||
-      this.props.params.subresource !== prevProps.params.subresource ||
-      this.props.location.query !== prevProps.location.query
+      params.recordType !== prevParams.recordType ||
+      params.vocabulary !== prevParams.vocabulary ||
+      params.csid !== prevParams.csid ||
+      params.subresource !== prevParams.subresource ||
+      location.search !== prevLocation.search
     ) {
       if (!this.normalizeQuery()) {
         const {
-          location,
           setPreferredPageSize,
         } = this.props;
 
         if (setPreferredPageSize) {
           const {
-            query,
+            search,
           } = location;
+
+          const query = qs.parse(search.substring(1));
 
           setPreferredPageSize(parseInt(query.size, 10));
         }
@@ -154,15 +170,25 @@ export default class SearchResultPage extends Component {
 
     const {
       location,
-      params,
+      match,
     } = this.props;
 
-    const searchQuery = Object.assign({}, location.query, {
-      p: parseInt(location.query.p, 10) - 1,
-      size: parseInt(location.query.size, 10),
+    const {
+      params,
+    } = match;
+
+    const {
+      search,
+    } = location;
+
+    const query = qs.parse(search.substring(1));
+
+    const searchQuery = Object.assign({}, query, {
+      p: parseInt(query.p, 10) - 1,
+      size: parseInt(query.size, 10),
     });
 
-    const advancedSearchCondition = location.query.as;
+    const advancedSearchCondition = query.as;
 
     if (advancedSearchCondition) {
       searchQuery.as = Immutable.fromJS(JSON.parse(advancedSearchCondition));
@@ -241,19 +267,18 @@ export default class SearchResultPage extends Component {
 
   normalizeQuery() {
     const {
+      history,
       location,
       preferredPageSize,
     } = this.props;
 
     const {
-      query,
+      search,
     } = location;
 
-    const {
-      router,
-    } = this.context;
+    const query = qs.parse(search.substring(1));
 
-    if (router) {
+    if (history) {
       const normalizedQueryParams = {};
 
       const pageSize = parseInt(query.size, 10);
@@ -279,10 +304,11 @@ export default class SearchResultPage extends Component {
 
       if (Object.keys(normalizedQueryParams).length > 0) {
         const newQuery = Object.assign({}, query, normalizedQueryParams);
+        const queryString = qs.stringify(newQuery);
 
-        router.replace({
+        history.replace({
           pathname: location.pathname,
-          query: newQuery,
+          search: `?${queryString}`,
         });
 
         return true;
@@ -352,44 +378,54 @@ export default class SearchResultPage extends Component {
 
   handlePageChange(pageNum) {
     const {
+      history,
       location,
     } = this.props;
 
-    const {
-      router,
-    } = this.context;
+    if (history) {
+      const {
+        search,
+      } = location;
 
-    if (router) {
-      router.push({
+      const query = qs.parse(search.substring(1));
+
+      query.p = (pageNum + 1).toString();
+
+      const queryString = qs.stringify(query);
+
+      history.push({
         pathname: location.pathname,
-        query: Object.assign({}, location.query, {
-          p: (pageNum + 1).toString(),
-        }),
+        search: `?${queryString}`,
       });
     }
   }
 
   handlePageSizeChange(pageSize) {
     const {
+      history,
       location,
       setPreferredPageSize,
     } = this.props;
-
-    const {
-      router,
-    } = this.context;
 
     if (setPreferredPageSize) {
       setPreferredPageSize(pageSize);
     }
 
-    if (router) {
-      router.push({
+    if (history) {
+      const {
+        search,
+      } = location;
+
+      const query = qs.parse(search.substring(1));
+
+      query.p = '1';
+      query.size = pageSize.toString();
+
+      const queryString = qs.stringify(query);
+
+      history.push({
         pathname: location.pathname,
-        query: Object.assign({}, location.query, {
-          p: '1',
-          size: pageSize.toString(),
-        }),
+        search: `?${queryString}`,
       });
     }
   }
@@ -406,19 +442,24 @@ export default class SearchResultPage extends Component {
 
   handleSortChange(sort) {
     const {
+      history,
       location,
     } = this.props;
 
-    const {
-      router,
-    } = this.context;
+    if (history) {
+      const {
+        search,
+      } = location;
 
-    if (router) {
-      router.push({
+      const query = qs.parse(search.substring(1));
+
+      query.sort = sort;
+
+      const queryString = qs.stringify(query);
+
+      history.push({
         pathname: location.pathname,
-        query: Object.assign({}, location.query, {
-          sort,
-        }),
+        search: `?${queryString}`,
       });
     }
   }
@@ -554,6 +595,10 @@ export default class SearchResultPage extends Component {
 
   render() {
     const {
+      history,
+    } = this.props;
+
+    const {
       config,
     } = this.context;
 
@@ -608,6 +653,7 @@ export default class SearchResultPage extends Component {
         <div className={pageBodyStyles.common}>
           <SearchResultTableContainer
             config={config}
+            history={history}
             listType={listType}
             searchName={searchName}
             searchDescriptor={searchDescriptor}

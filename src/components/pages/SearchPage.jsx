@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
-import { locationShape, routerShape } from 'react-router/lib/PropTypes';
 import ErrorPage from './ErrorPage';
 import BaseSearchForm from '../search/SearchForm';
 import TitleBar from '../sections/TitleBar';
@@ -31,9 +30,9 @@ const propTypes = {
   vocabularyValue: PropTypes.string,
   keywordValue: PropTypes.string,
   advancedSearchCondition: PropTypes.object,
-  location: locationShape,
-  params: PropTypes.objectOf(PropTypes.string),
-  router: routerShape,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -60,9 +59,12 @@ export default class SearchPage extends Component {
   componentDidUpdate(prevProps) {
     let historyChanged = false;
 
+    const { params } = this.props.match;
+    const { params: prevParams } = prevProps.match;
+
     if (
-      this.props.params.recordType !== prevProps.params.recordType ||
-      this.props.params.vocabulary !== prevProps.params.vocabulary
+      params.recordType !== prevParams.recordType ||
+      params.vocabulary !== prevParams.vocabulary
     ) {
       historyChanged = this.normalizePath();
     }
@@ -105,7 +107,7 @@ export default class SearchPage extends Component {
   getSearchDescriptor() {
     const {
       params,
-    } = this.props;
+    } = this.props.match;
 
     const searchDescriptor = {};
 
@@ -124,20 +126,20 @@ export default class SearchPage extends Component {
     const {
       recordTypeValue,
       vocabularyValue,
+      history,
       location,
-      params,
-      router,
+      match,
     } = this.props;
 
     const {
       config,
     } = this.context;
 
-    if (router) {
+    if (history) {
       let {
         recordType,
         vocabulary,
-      } = params;
+      } = match.params;
 
       if (!recordType) {
         recordType = recordTypeValue || getDefaultSearchRecordType(config);
@@ -153,7 +155,7 @@ export default class SearchPage extends Component {
       const normalizedPath = `/search/${recordType}${vocabularyPath}`;
 
       if (normalizedPath !== location.pathname) {
-        router.replace({
+        history.replace({
           pathname: normalizedPath,
         });
 
@@ -166,7 +168,7 @@ export default class SearchPage extends Component {
 
   handleRecordTypeCommit(value) {
     const {
-      router,
+      history,
       onRecordTypeCommit,
     } = this.props;
 
@@ -174,14 +176,14 @@ export default class SearchPage extends Component {
       onRecordTypeCommit(value);
     }
 
-    router.replace({
+    history.replace({
       pathname: `/search/${value}`,
     });
   }
 
   handleVocabularyCommit(value) {
     const {
-      router,
+      history,
       onVocabularyCommit,
     } = this.props;
 
@@ -195,7 +197,7 @@ export default class SearchPage extends Component {
       recordType,
     } = searchDescriptor;
 
-    router.replace({
+    history.replace({
       pathname: `/search/${recordType}/${value}`,
     });
   }

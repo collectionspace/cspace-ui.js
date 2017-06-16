@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import SearchPage from '../../../../src/components/pages/SearchPage';
 import { ConnectedSearchPage } from '../../../../src/containers/pages/SearchPageContainer';
 
@@ -217,7 +217,7 @@ describe('SearchPageContainer', function suite() {
 
     let pushedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       push: (location) => {
         pushedLocation = location;
       },
@@ -225,7 +225,7 @@ describe('SearchPageContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage router={router} />, context);
+    shallowRenderer.render(<ConnectedSearchPage history={history} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

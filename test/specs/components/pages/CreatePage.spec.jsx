@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import { render } from 'react-dom';
 
@@ -64,7 +65,9 @@ describe('CreatePage', function suite() {
         locale="en"
       >
         <ConfigProvider config={config}>
-          <CreatePage />
+          <Router>
+            <CreatePage />
+          </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
 
@@ -75,7 +78,9 @@ describe('CreatePage', function suite() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
-          <CreatePage />
+          <Router>
+            <CreatePage />
+          </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
 

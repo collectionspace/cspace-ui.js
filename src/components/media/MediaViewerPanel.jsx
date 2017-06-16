@@ -33,10 +33,6 @@ const defaultProps = {
   listType: 'common',
 };
 
-const contextTypes = {
-  router: PropTypes.object,
-};
-
 export default class MediaViewerPanel extends Component {
   componentDidMount() {
     this.search();
@@ -146,4 +142,3 @@ export default class MediaViewerPanel extends Component {
 
 MediaViewerPanel.propTypes = propTypes;
 MediaViewerPanel.defaultProps = defaultProps;
-MediaViewerPanel.contextTypes = contextTypes;

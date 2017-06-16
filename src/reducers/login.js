@@ -6,7 +6,6 @@ import {
 
 import {
   RESET_LOGIN,
-  LOGIN_REDIRECTED,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
@@ -16,8 +15,6 @@ export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case RESET_LOGIN:
       return state.clear();
-    case LOGIN_REDIRECTED:
-      return state.set('continuation', action.meta.attemptedUrl);
     case LOGIN_STARTED:
       return state
         .set('isPending', true)
@@ -44,7 +41,6 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getContinuation = state => state.get('continuation');
 export const isPending = state => state.get('isPending');
 export const getUsername = state => state.get('username');
 export const getResponse = state => state.get('response');

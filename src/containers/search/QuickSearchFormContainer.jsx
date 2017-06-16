@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import QuickSearchForm from '../../components/search/QuickSearchForm';
 
 import {
@@ -39,13 +38,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(setQuickSearchVocabulary(value));
   },
   onSearch: () => {
-    dispatch(initiateSearch(ownProps.router.push));
+    dispatch(initiateSearch(ownProps.history.push));
   },
 });
 
-export const ConnectedQuickSearchForm = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(QuickSearchForm);
-
-export default withRouter(ConnectedQuickSearchForm);

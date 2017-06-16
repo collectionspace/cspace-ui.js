@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-import { routerShape } from 'react-router/lib/PropTypes';
 import RelatedRecordButtonBar from './RelatedRecordButtonBar';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RelationEditorContainer from '../../containers/record/RelationEditorContainer';
@@ -11,19 +9,19 @@ import styles from '../../../styles/cspace-ui/RelatedRecordBrowser.css';
 const propTypes = {
   cloneCsid: PropTypes.string,
   config: PropTypes.object,
+  history: PropTypes.object,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   preferredRelatedCsid: PropTypes.string,
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
-  router: routerShape,
   deselectItem: PropTypes.func,
   setPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
-class RelatedRecordBrowser extends Component {
+export default class RelatedRecordBrowser extends Component {
   constructor() {
     super();
 
@@ -89,7 +87,7 @@ class RelatedRecordBrowser extends Component {
         recordType,
         vocabulary,
         csid,
-        router,
+        history,
       } = this.props;
 
       const path =
@@ -97,7 +95,7 @@ class RelatedRecordBrowser extends Component {
           .filter(part => !!part)
           .join('/');
 
-      router.replace(`/record/${path}`);
+      history.replace(`/record/${path}`);
     }
   }
 
@@ -107,7 +105,7 @@ class RelatedRecordBrowser extends Component {
       vocabulary,
       csid,
       relatedRecordType,
-      router,
+      history,
     } = this.props;
 
     const path =
@@ -115,7 +113,7 @@ class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.replace({
+    history.replace({
       pathname: `/record/${path}/new`,
       query: {
         clone: relatedRecordCsid,
@@ -131,11 +129,11 @@ class RelatedRecordBrowser extends Component {
 
   handleCreateButtonClick() {
     const {
+      history,
       recordType,
       vocabulary,
       csid,
       relatedRecordType,
-      router,
     } = this.props;
 
     const path =
@@ -143,7 +141,7 @@ class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.replace(`/record/${path}`);
+    history.replace(`/record/${path}`);
   }
 
   handleRelateButtonClick() {
@@ -162,11 +160,11 @@ class RelatedRecordBrowser extends Component {
 
   handleRelationEditorClose() {
     const {
+      history,
       recordType,
       vocabulary,
       csid,
       relatedRecordType,
-      router,
       setPreferredRelatedCsid,
     } = this.props;
 
@@ -179,7 +177,7 @@ class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.replace(`/record/${path}`);
+    history.replace(`/record/${path}`);
   }
 
   handleRelationEditorUnrelated(subject, object) {
@@ -218,11 +216,11 @@ class RelatedRecordBrowser extends Component {
 
   handleRelatedRecordCreated(newRecordCsid) {
     const {
+      history,
       recordType,
       vocabulary,
       csid,
       relatedRecordType,
-      router,
     } = this.props;
 
     const path =
@@ -230,7 +228,7 @@ class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.replace(`/record/${path}`);
+    history.replace(`/record/${path}`);
   }
 
   handleRelatedRecordPanelUnrelated(objects) {
@@ -330,4 +328,3 @@ class RelatedRecordBrowser extends Component {
 
 RelatedRecordBrowser.propTypes = propTypes;
 
-export default withRouter(RelatedRecordBrowser);

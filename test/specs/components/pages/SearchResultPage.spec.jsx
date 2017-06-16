@@ -5,16 +5,16 @@ import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
+import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import merge from 'lodash/merge';
+import qs from 'qs';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
-import RouterProvider from '../../../helpers/RouterProvider';
+import mockHistory from '../../../helpers/mockHistory';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultPage, { searchName } from '../../../../src/components/pages/SearchResultPage';
@@ -130,27 +130,30 @@ const config = {
   },
 };
 
-const params = {
-  recordType: 'collectionobject',
-  // vocabulary: 'something',
+const match = {
+  params: {
+    recordType: 'collectionobject',
+    // vocabulary: 'something',
+  },
+};
+
+const query = {
+  p: '1',
+  size: '2',
 };
 
 const location = {
   action: '',
   pathname: '/search/collectionobject',
-  search: '',
-  query: {
-    p: '1',
-    size: '2',
-  },
+  search: `?${qs.stringify(query)}`,
 };
 
 const searchDescriptor = {
-  recordType: params.recordType,
-  // vocabulary: params.vocabulary,
+  recordType: match.params.recordType,
+  // vocabulary: match.params.vocabulary,
   searchQuery: {
-    p: parseInt(location.query.p, 10) - 1,
-    size: parseInt(location.query.size, 10),
+    p: parseInt(query.p, 10) - 1,
+    size: parseInt(query.size, 10),
   },
 };
 
@@ -185,7 +188,9 @@ describe('SearchResultPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage location={location} params={params} />
+            <Router>
+              <SearchResultPage location={location} match={match} />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -194,11 +199,17 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should not render a result table if the record type is unknown', function test() {
+    const unknownRecordTypeMatch = {
+      params: {
+        recordType: 'foo',
+      },
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage location={location} params={{ recordType: 'foo' }} />
+            <SearchResultPage location={location} match={unknownRecordTypeMatch} />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -207,11 +218,18 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should not render a result table if the vocabulary is unknown', function test() {
+    const unknownVocabularyMatch = {
+      params: {
+        recordType: 'person',
+        vocabulary: 'foo',
+      },
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage location={location} params={{ recordType: 'person', vocabulary: 'foo' }} />
+            <SearchResultPage location={location} match={unknownVocabularyMatch} />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -220,13 +238,20 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should not render a result table if the subresource is unknown', function test() {
+    const unknownSubresourceMatch = {
+      params: {
+        recordType: 'collectionobject',
+        subresource: 'foo',
+      },
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchResultPage
               location={location}
-              params={{ recordType: 'collectionobject', subresource: 'foo' }}
+              match={unknownSubresourceMatch}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -236,10 +261,12 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should normalize query parameters', function test() {
-    const testQuery = (query) => {
+    const testQuery = (queryParams) => {
+      const queryString = qs.stringify(queryParams);
+
       let replacedLocation = null;
 
-      const router = mockRouter({
+      const history = mockHistory({
         replace: (locationArg) => {
           replacedLocation = locationArg;
         },
@@ -249,22 +276,26 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RouterProvider router={router}>
+              <Router>
                 <SearchResultPage
+                  history={history}
                   location={{
                     action: '',
                     pathname: '',
-                    search: '',
-                    query,
+                    search: `?${queryString}`,
                   }}
-                  params={params}
+                  match={match}
                 />
-              </RouterProvider>
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
 
-      return (replacedLocation ? replacedLocation.query : null);
+      if (!replacedLocation) {
+        return null;
+      }
+
+      return qs.parse(replacedLocation.search.substring(1));
     };
 
     testQuery({}).should.deep.equal({ p: '1', size: '20' });
@@ -291,11 +322,13 @@ describe('SearchResultPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage
-              location={location}
-              params={params}
-              setPreferredPageSize={setPreferredPageSize}
-            />
+            <Router>
+              <SearchResultPage
+                location={location}
+                match={match}
+                setPreferredPageSize={setPreferredPageSize}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -304,21 +337,21 @@ describe('SearchResultPage', function suite() {
 
     preferredPageSize = null;
 
-    const newLocation = merge({}, location, {
-      query: {
-        size: '34',
-      },
+    const newLocation = Object.assign({}, location, {
+      search: '?size=34',
     });
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage
-              location={newLocation}
-              params={params}
-              setPreferredPageSize={setPreferredPageSize}
-            />
+            <Router>
+              <SearchResultPage
+                location={newLocation}
+                match={match}
+                setPreferredPageSize={setPreferredPageSize}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -341,11 +374,13 @@ describe('SearchResultPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage
-              location={location}
-              params={params}
-              search={search}
-            />
+            <Router>
+              <SearchResultPage
+                location={location}
+                match={match}
+                search={search}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -354,13 +389,13 @@ describe('SearchResultPage', function suite() {
     searchedSearchName.should.equal(searchName);
 
     searchedSearchDescriptor.should.deep.equal({
-      recordType: params.recordType,
-      // vocabulary: params.vocabulary,
+      recordType: match.params.recordType,
+      // vocabulary: match.params.vocabulary,
 
       // expect the page num searched to be 1 less than the page num in the URL
-      searchQuery: Object.assign({}, location.query, {
-        p: parseInt(location.query.p, 10) - 1,
-        size: parseInt(location.query.size, 10),
+      searchQuery: Object.assign({}, query, {
+        p: parseInt(query.p, 10) - 1,
+        size: parseInt(query.size, 10),
       }),
     });
   });
@@ -368,7 +403,7 @@ describe('SearchResultPage', function suite() {
   it('should handle table sort changes', function test() {
     let pushedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       push: (locationArg) => {
         pushedLocation = locationArg;
       },
@@ -378,12 +413,13 @@ describe('SearchResultPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <RouterProvider router={router}>
+            <Router>
               <SearchResultPage
+                history={history}
                 location={location}
-                params={params}
+                match={match}
               />
-            </RouterProvider>
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -394,27 +430,25 @@ describe('SearchResultPage', function suite() {
 
     pushedLocation.should.deep.equal({
       pathname: location.pathname,
-      query: Object.assign({}, location.query, {
-        sort: 'objectNumber',
-      }),
+      search: `${location.search}&sort=objectNumber`,
     });
   });
 
   it('should render a related query title', function test() {
-    const relLocation = merge({}, location, {
-      query: {
-        rel: '1234',
-      },
+    const relLocation = Object.assign({}, location, {
+      search: `${location.search}&rel=1234`,
     });
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage
-              location={relLocation}
-              params={params}
-            />
+            <Router>
+              <SearchResultPage
+                location={relLocation}
+                match={match}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -423,14 +457,23 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should render a vocabulary title', function test() {
+    const localPersonMatch = {
+      params: {
+        recordType: 'person',
+        vocabulary: 'local',
+      },
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchResultPage
-              location={location}
-              params={{ recordType: 'person', vocabulary: 'local' }}
-            />
+            <Router>
+              <SearchResultPage
+                location={location}
+                match={localPersonMatch}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -439,13 +482,21 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should render a subresource title', function test() {
+    const subresourceMatch = {
+      params: {
+        recordType: 'collectionobject',
+        csid: 'b09295cf-ff56-4018-be16',
+        subresource: 'terms',
+      },
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <SearchResultPage
               location={location}
-              params={{ recordType: 'collectionobject', csid: 'b09295cf-ff56-4018-be16', subresource: 'terms' }}
+              match={subresourceMatch}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -466,11 +517,13 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <SearchResultPage
-                location={location}
-                params={params}
-                ref={(ref) => { searchResultPage = ref; }}
-              />
+              <Router>
+                <SearchResultPage
+                  location={location}
+                  match={match}
+                  ref={(ref) => { searchResultPage = ref; }}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -483,7 +536,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderHeader({ searchResult })}
+              <Router>
+                {searchResultPage.renderHeader({ searchResult })}
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -502,7 +557,7 @@ describe('SearchResultPage', function suite() {
 
       const input = pageSizeChooser.querySelector('input');
 
-      input.value.should.equal(location.query.size);
+      input.value.should.equal(qs.parse(location.search).size);
 
       Simulate.mouseDown(input);
 
@@ -525,11 +580,13 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <SearchResultPage
-                location={location}
-                params={params}
-                ref={(ref) => { searchResultPage = ref; }}
-              />
+              <Router>
+                <SearchResultPage
+                  location={location}
+                  match={match}
+                  ref={(ref) => { searchResultPage = ref; }}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -546,7 +603,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              { searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult }) }
+              <Router>
+                { searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult }) }
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -572,11 +631,13 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <SearchResultPage
-                location={location}
-                params={params}
-                ref={(ref) => { searchResultPage = ref; }}
-              />
+              <Router>
+                <SearchResultPage
+                  location={location}
+                  match={match}
+                  ref={(ref) => { searchResultPage = ref; }}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -589,7 +650,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderHeader({ searchError })}
+              <Router>
+                {searchResultPage.renderHeader({ searchError })}
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -602,7 +665,7 @@ describe('SearchResultPage', function suite() {
     it('should connect page size change events to a handler', function test() {
       let pushedLocation = null;
 
-      const router = mockRouter({
+      const history = mockHistory({
         push: (locationArg) => {
           pushedLocation = locationArg;
         },
@@ -624,14 +687,15 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RouterProvider router={router}>
+              <Router>
                 <SearchResultPage
+                  history={history}
                   location={location}
-                  params={params}
+                  match={match}
                   ref={(ref) => { searchResultPage = ref; }}
                   setPreferredPageSize={setPreferredPageSize}
                 />
-              </RouterProvider>
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -644,7 +708,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderHeader({ searchResult })}
+              <Router>
+                {searchResultPage.renderHeader({ searchResult })}
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -663,10 +729,7 @@ describe('SearchResultPage', function suite() {
 
       pushedLocation.should.deep.equal({
         pathname: location.pathname,
-        query: {
-          p: '1',
-          size: '20',
-        },
+        search: '?p=1&size=20',
       });
 
       preferredPageSize.should.equal(20);
@@ -680,12 +743,10 @@ describe('SearchResultPage', function suite() {
       };
 
       const keywordLocation = Object.assign({}, location, {
-        query: {
-          kw: 'foo',
-        },
+        search: `${location.search}&kw=foo`,
       });
 
-      const router = mockRouter();
+      const history = mockHistory();
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -696,12 +757,15 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <SearchResultPage
-                location={keywordLocation}
-                params={params}
-                ref={(ref) => { searchResultPage = ref; }}
-                setSearchPageKeyword={setSearchPageKeyword}
-              />
+              <Router>
+                <SearchResultPage
+                  history={history}
+                  location={keywordLocation}
+                  match={match}
+                  ref={(ref) => { searchResultPage = ref; }}
+                  setSearchPageKeyword={setSearchPageKeyword}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -714,9 +778,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RouterProvider router={router}>
+              <Router>
                 {searchResultPage.renderHeader({ searchResult })}
-              </RouterProvider>
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -738,12 +802,10 @@ describe('SearchResultPage', function suite() {
       };
 
       const advancedLocation = Object.assign({}, location, {
-        query: {
-          as: '{"op": "eq", "path": "ns2:path/foo", "value": "bar"}',
-        },
+        search: `${location.search}&as={"op": "eq", "path": "ns2:path/foo", "value": "bar"}`,
       });
 
-      const router = mockRouter();
+      const history = mockHistory();
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -754,12 +816,15 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <SearchResultPage
-                location={advancedLocation}
-                params={params}
-                ref={(ref) => { searchResultPage = ref; }}
-                setSearchPageAdvanced={setSearchPageAdvanced}
-              />
+              <Router>
+                <SearchResultPage
+                  history={history}
+                  location={advancedLocation}
+                  match={match}
+                  ref={(ref) => { searchResultPage = ref; }}
+                  setSearchPageAdvanced={setSearchPageAdvanced}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -772,9 +837,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RouterProvider router={router}>
+              <Router>
                 {searchResultPage.renderHeader({ searchResult })}
-              </RouterProvider>
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, headerContainer);
@@ -805,11 +870,13 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <SearchResultPage
-                location={location}
-                params={params}
-                ref={(ref) => { searchResultPage = ref; }}
-              />
+              <Router>
+                <SearchResultPage
+                  location={location}
+                  match={match}
+                  ref={(ref) => { searchResultPage = ref; }}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -822,7 +889,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderFooter({ searchResult })}
+              <Router>
+                {searchResultPage.renderFooter({ searchResult })}
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, footerContainer);
@@ -844,7 +913,7 @@ describe('SearchResultPage', function suite() {
     it('should connect page select events to a handler', function test() {
       let pushedLocation = null;
 
-      const router = mockRouter({
+      const history = mockHistory({
         push: (locationArg) => {
           pushedLocation = locationArg;
         },
@@ -860,13 +929,14 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RouterProvider router={router}>
+              <Router>
                 <SearchResultPage
+                  history={history}
                   location={location}
-                  params={params}
+                  match={match}
                   ref={(ref) => { searchResultPage = ref; }}
                 />
-              </RouterProvider>
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, pageContainer);
@@ -879,7 +949,9 @@ describe('SearchResultPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              {searchResultPage.renderFooter({ searchResult })}
+              <Router>
+                {searchResultPage.renderFooter({ searchResult })}
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, footerContainer);
@@ -897,10 +969,7 @@ describe('SearchResultPage', function suite() {
 
       pushedLocation.should.deep.equal({
         pathname: location.pathname,
-        query: {
-          p: '20',
-          size: location.query.size,
-        },
+        search: `?p=20&size=${query.size}`,
       });
     });
   });
@@ -916,7 +985,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -944,7 +1013,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
         selectedItems={selectedItems}
       />, context);
 
@@ -970,7 +1039,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -992,7 +1061,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
       />, context);
 
     let result;
@@ -1030,7 +1099,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
       />, context);
 
     let result;
@@ -1068,7 +1137,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
       />, context);
 
     let result;
@@ -1123,7 +1192,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
         onItemSelectChange={handleItemSelectChange}
       />, context);
 
@@ -1156,7 +1225,7 @@ describe('SearchResultPage', function suite() {
     shallowRenderer.render(
       <SearchResultPage
         location={location}
-        params={params}
+        match={match}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();

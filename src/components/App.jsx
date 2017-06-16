@@ -2,43 +2,50 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
+import { Redirect, Route, Switch } from 'react-router';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import ConfigProvider from './config/ConfigProvider';
-import RouterContainer from '../containers/RouterContainer';
+import RootPage from './pages/RootPage';
+import withClassName from '../enhancers/withClassName';
 
 const propTypes = {
   store: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  className: PropTypes.string,
-  config: PropTypes.object,
-};
-
-const defaultProps = {
-  locale: 'en',
+  config: PropTypes.object.isRequired,
+  router: PropTypes.func,
 };
 
 export default function App(props) {
   const {
-    className,
     config,
-    history,
     store,
+    router,
   } = props;
 
   const {
+    basename,
+    className,
     index,
     locale,
     messages,
+    prettyUrls,
   } = config;
+
+  let Router = router;
+
+  if (!Router) {
+    Router = prettyUrls ? BrowserRouter : HashRouter;
+  }
 
   return (
     <IntlProvider locale={locale} messages={messages}>
       <StoreProvider store={store}>
         <ConfigProvider config={config}>
-          <RouterContainer
-            className={className}
-            history={history}
-            index={index}
-          />
+          <Router basename={basename}>
+            <Switch>
+              <Redirect exact path="/" to={index} />
+              <Route component={withClassName(RootPage, className)} />
+            </Switch>
+          </Router>
         </ConfigProvider>
       </StoreProvider>
     </IntlProvider>
@@ -46,4 +53,3 @@ export default function App(props) {
 }
 
 App.propTypes = propTypes;
-App.defaultProps = defaultProps;

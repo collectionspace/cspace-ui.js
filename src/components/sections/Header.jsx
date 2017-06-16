@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import QuickSearchFormContainer from '../../containers/search/QuickSearchFormContainer';
 import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
@@ -14,19 +14,21 @@ import logoStyles from '../../../styles/cspace-ui/Logo.css';
 const messages = defineMessages({
   logoTitle: {
     id: 'header.logoTitle',
-    description: 'The title (advisory text) of the logo.',
+    description: 'The title (advisory text) of the application logo image.',
     defaultMessage: 'CollectionSpace',
   },
 });
 
 const propTypes = {
+  username: PropTypes.string.isRequired,
+  history: PropTypes.object,
   intl: intlShape,
   config: PropTypes.object,
-  username: PropTypes.string.isRequired,
 };
 
 function Header(props) {
   const {
+    history,
     intl,
     config,
     username,
@@ -42,6 +44,7 @@ function Header(props) {
             <div className={logoStyles.common} />
           </Link>
           <QuickSearchFormContainer
+            history={history}
             intl={intl}
             config={config}
           />

@@ -6,7 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPage from '../../../../src/components/pages/SearchPage';
 
@@ -88,15 +88,17 @@ describe('SearchPage', function suite() {
   });
 
   it('should render as a div', function test() {
-    const params = {
-      recordType: 'collectionobject',
+    const match = {
+      params: {
+        recordType: 'collectionobject',
+      },
     };
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPage params={params} />
+            <SearchPage match={match} />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -105,15 +107,17 @@ describe('SearchPage', function suite() {
   });
 
   it('should render an error page if the record type is unknown', function test() {
-    const params = {
-      recordType: 'foo',
+    const match = {
+      params: {
+        recordType: 'foo',
+      },
     };
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPage params={params} />
+            <SearchPage match={match} />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -124,7 +128,7 @@ describe('SearchPage', function suite() {
   it('should replace history with the recordTypeValue prop if no record type is supplied in params', function test() {
     let replacementLocation = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacementLocation = locationArg;
       },
@@ -134,10 +138,11 @@ describe('SearchPage', function suite() {
       pathname: '/search',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {};
+    const match = {
+      params: {},
+    };
 
     render(
       <IntlProvider locale="en">
@@ -145,9 +150,9 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
+              match={match}
               recordTypeValue="group"
-              router={stubbedRouter}
+              history={history}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -161,7 +166,7 @@ describe('SearchPage', function suite() {
   it('should replace history with the recordTypeValue prop if no record type is supplied in updated params', function test() {
     let replacementLocation = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacementLocation = locationArg;
       },
@@ -171,11 +176,12 @@ describe('SearchPage', function suite() {
       pathname: '/search/collectionobject',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: 'collectionobject',
+    const match = {
+      params: {
+        recordType: 'collectionobject',
+      },
     };
 
     render(
@@ -184,15 +190,17 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
+              match={match}
               recordTypeValue="group"
-              router={stubbedRouter}
+              history={history}
             />
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    const newParams = {};
+    const newMatch = {
+      params: {},
+    };
 
     render(
       <IntlProvider locale="en">
@@ -200,9 +208,9 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={newParams}
+              match={newMatch}
               recordTypeValue="group"
-              router={stubbedRouter}
+              history={history}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -216,7 +224,7 @@ describe('SearchPage', function suite() {
   it('should replace history with the vocabularyValue prop if no vocabulary is supplied in params', function test() {
     let replacementLocation = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacementLocation = locationArg;
       },
@@ -226,10 +234,11 @@ describe('SearchPage', function suite() {
       pathname: '/search',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {};
+    const match = {
+      params: {},
+    };
 
     render(
       <IntlProvider locale="en">
@@ -237,10 +246,10 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
+              match={match}
               recordTypeValue="person"
               vocabularyValue="ulan"
-              router={stubbedRouter}
+              history={history}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -254,7 +263,7 @@ describe('SearchPage', function suite() {
   it('should replace history when the record type is committed', function test() {
     let replacementLocation = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacementLocation = locationArg;
       },
@@ -264,11 +273,12 @@ describe('SearchPage', function suite() {
       pathname: '/search/collectionobject',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: 'collectionobject',
+    const match = {
+      params: {
+        recordType: 'collectionobject',
+      },
     };
 
     render(
@@ -277,8 +287,8 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
-              router={stubbedRouter}
+              match={match}
+              history={history}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -303,17 +313,18 @@ describe('SearchPage', function suite() {
       committedRecordType = recordTypeArg;
     };
 
-    const stubbedRouter = mockRouter();
+    const history = mockHistory();
 
     const location = {
       pathname: '/search/collectionobject',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: 'collectionobject',
+    const match = {
+      params: {
+        recordType: 'collectionobject',
+      },
     };
 
     render(
@@ -322,8 +333,8 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
-              router={stubbedRouter}
+              match={match}
+              history={history}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>
@@ -351,10 +362,11 @@ describe('SearchPage', function suite() {
       pathname: '/search',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {};
+    const match = {
+      params: {},
+    };
 
     render(
       <IntlProvider locale="en">
@@ -362,7 +374,7 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
+              match={match}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>
@@ -371,8 +383,10 @@ describe('SearchPage', function suite() {
 
     const newLocation = Object.assign({}, location, { pathname: '/search/group' });
 
-    const newParams = {
-      recordType: 'group',
+    const newMatch = {
+      params: {
+        recordType: 'group',
+      },
     };
 
     render(
@@ -381,7 +395,7 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={newLocation}
-              params={newParams}
+              match={newMatch}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>
@@ -394,7 +408,7 @@ describe('SearchPage', function suite() {
   it('should replace history when the vocabulary is committed', function test() {
     let replacementLocation = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacementLocation = locationArg;
       },
@@ -404,12 +418,13 @@ describe('SearchPage', function suite() {
       pathname: '/search/person/local',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: 'person',
-      vocabulary: 'local',
+    const match = {
+      params: {
+        recordType: 'person',
+        vocabulary: 'local',
+      },
     };
 
     render(
@@ -418,8 +433,8 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
-              router={stubbedRouter}
+              match={match}
+              history={history}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -444,18 +459,19 @@ describe('SearchPage', function suite() {
       committedVocabulary = vocabularyArg;
     };
 
-    const stubbedRouter = mockRouter();
+    const history = mockHistory();
 
     const location = {
       pathname: '/search/person/local',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: 'person',
-      vocabulary: 'local',
+    const match = {
+      params: {
+        recordType: 'person',
+        vocabulary: 'local',
+      },
     };
 
     render(
@@ -464,8 +480,8 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
-              router={stubbedRouter}
+              match={match}
+              history={history}
               onVocabularyCommit={handleVocabularyCommit}
             />
           </ConfigProvider>
@@ -493,11 +509,12 @@ describe('SearchPage', function suite() {
       pathname: '/search/person',
       action: '',
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: 'person',
+    const match = {
+      params: {
+        recordType: 'person',
+      },
     };
 
     render(
@@ -506,7 +523,7 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={location}
-              params={params}
+              match={match}
               onVocabularyCommit={handleVocabularyCommit}
             />
           </ConfigProvider>
@@ -515,9 +532,11 @@ describe('SearchPage', function suite() {
 
     const newLocation = Object.assign({}, location, { pathname: '/search/person/ulan' });
 
-    const newParams = {
-      recordType: 'person',
-      vocabulary: 'ulan',
+    const newMatch = {
+      params: {
+        recordType: 'person',
+        vocabulary: 'ulan',
+      },
     };
 
     render(
@@ -526,7 +545,7 @@ describe('SearchPage', function suite() {
           <ConfigProvider config={config}>
             <SearchPage
               location={newLocation}
-              params={newParams}
+              match={newMatch}
               onVocabularyCommit={handleVocabularyCommit}
             />
           </ConfigProvider>

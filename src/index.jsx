@@ -4,9 +4,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { useRouterHistory } from 'react-router';
-import { createHistory, createHashHistory, useBeforeUnload } from 'history';
-import { syncHistoryWithStore } from 'react-router-redux';
 import { IntlProvider } from 'react-intl';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
@@ -28,7 +25,7 @@ const defaultConfig = mergeConfig({
   basename: '',
   className: '',
   container: 'main',
-  index: undefined,
+  index: '/dashboard',
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
@@ -42,12 +39,9 @@ module.exports = (uiConfig) => {
   const config = normalizeConfig(mergeConfig(defaultConfig, uiConfig, pluginContext));
 
   const {
-    basename,
-    className,
     container,
     idGenerators,
     optionLists,
-    prettyUrls,
     serverUrl,
   } = config;
 
@@ -69,15 +63,9 @@ module.exports = (uiConfig) => {
 
     const store = createStore(reducer, applyMiddleware(thunk.withExtraArgument(intl)));
 
-    const baseHistory = prettyUrls
-      ? useRouterHistory(useBeforeUnload(createHistory))({ basename })
-      : useRouterHistory(useBeforeUnload(createHashHistory))();
-
-    baseHistory.listenBeforeUnload(() => {
+    window.addEventListener('beforeunload', () => {
       store.dispatch(savePrefs());
     });
-
-    const history = syncHistoryWithStore(baseHistory, store);
 
     store.dispatch(configureCSpace({
       url: serverUrl,
@@ -87,9 +75,7 @@ module.exports = (uiConfig) => {
     store.dispatch(addIDGenerators(idGenerators));
 
     const props = {
-      className,
       config,
-      history,
       store,
     };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locationShape, routerShape } from 'react-router/lib/PropTypes';
+import qs from 'qs';
 import get from 'lodash/get';
 import ErrorPage from './ErrorPage';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
@@ -11,15 +11,11 @@ import styles from '../../../styles/cspace-ui/RecordPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
 const propTypes = {
-  location: locationShape,
-  params: PropTypes.shape({
-    recordType: PropTypes.string.isRequired,
-    path1: PropTypes.string,
-    path2: PropTypes.string,
-    path3: PropTypes.string,
-  }).isRequired,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  // Use of the match prop isn't being detected by eslint.
+  match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
   readRecord: PropTypes.func,
-  router: routerShape,
 };
 
 const contextTypes = {
@@ -60,7 +56,7 @@ export default class RecordPage extends Component {
       path1,
       path2,
       path3,
-    } = props.params;
+    } = props.match.params;
 
     const {
       config,
@@ -132,7 +128,7 @@ export default class RecordPage extends Component {
     } = this.getParams(this.props);
 
     const {
-      router,
+      history,
     } = this.props;
 
     const path =
@@ -140,11 +136,12 @@ export default class RecordPage extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.replace(`/record/${path}`);
+    history.replace(`/record/${path}`);
   }
 
   render() {
     const {
+      history,
       location,
     } = this.props;
 
@@ -160,7 +157,9 @@ export default class RecordPage extends Component {
       relatedCsid,
     } = this.getParams(this.props);
 
-    const cloneCsid = location.query.clone;
+    const query = qs.parse(location.search.substring(1));
+
+    const cloneCsid = query.clone;
     const normalizedCsid = (csid === 'new') ? '' : (csid || '');
     const normalizedRelatedCsid = (relatedCsid === 'new') ? '' : relatedCsid;
 
@@ -186,6 +185,7 @@ export default class RecordPage extends Component {
           <RecordBrowserContainer
             cloneCsid={cloneCsid}
             csid={normalizedCsid}
+            history={history}
             recordType={recordType}
             relatedCsid={normalizedRelatedCsid}
             relatedRecordType={relatedRecordType}

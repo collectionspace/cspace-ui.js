@@ -10,7 +10,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import moxios from 'moxios';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';
 
@@ -136,7 +136,7 @@ describe('RecordBrowser', function suite() {
 
     let replacementUrl = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (url) => {
         replacementUrl = url;
       },
@@ -149,7 +149,7 @@ describe('RecordBrowser', function suite() {
             config={config}
             csid=""
             recordType="collectionobject"
-            router={stubbedRouter}
+            history={history}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -169,7 +169,7 @@ describe('RecordBrowser', function suite() {
   it('should push on history to clone a record', function test() {
     let pushedUrl = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       push: (url) => {
         pushedUrl = url;
       },
@@ -182,7 +182,7 @@ describe('RecordBrowser', function suite() {
             config={config}
             csid="4f516e24-6dfc-47c0-b368"
             recordType="collectionobject"
-            router={stubbedRouter}
+            history={history}
           />
         </StoreProvider>
       </IntlProvider>, this.container);

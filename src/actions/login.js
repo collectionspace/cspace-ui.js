@@ -1,22 +1,10 @@
 import getSession, { createSession } from './cspace';
 import { loadPrefs } from './prefs';
 
-export const LOGIN_REDIRECTED = 'LOGIN_REDIRECTED';
 export const RESET_LOGIN = 'RESET_LOGIN';
 export const LOGIN_STARTED = 'LOGIN_STARTED';
 export const LOGIN_FULFILLED = 'LOGIN_FULFILLED';
 export const LOGIN_REJECTED = 'LOGIN_REJECTED';
-
-export const redirectLogin = (replace, attemptedUrl) => {
-  replace('/login');
-
-  return {
-    type: LOGIN_REDIRECTED,
-    meta: {
-      attemptedUrl,
-    },
-  };
-};
 
 export const resetLogin = () => ({
   type: RESET_LOGIN,
