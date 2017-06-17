@@ -115,9 +115,7 @@ export default class RelatedRecordBrowser extends Component {
 
     history.replace({
       pathname: `/record/${path}/new`,
-      query: {
-        clone: relatedRecordCsid,
-      },
+      search: `?clone=${relatedRecordCsid}`,
     });
   }
 

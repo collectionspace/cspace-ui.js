@@ -69,9 +69,7 @@ export default class RecordBrowser extends Component {
 
     history.push({
       pathname: `/record/${path}`,
-      query: {
-        clone: csid,
-      },
+      search: `?clone=${csid}`,
     });
   }
 
