@@ -212,21 +212,23 @@ export default class RelatedRecordBrowser extends Component {
     return false;
   }
 
-  handleRelatedRecordCreated(newRecordCsid) {
-    const {
-      history,
-      recordType,
-      vocabulary,
-      csid,
-      relatedRecordType,
-    } = this.props;
+  handleRelatedRecordCreated(newRecordCsid, isNavigating) {
+    if (!isNavigating) {
+      const {
+        history,
+        recordType,
+        vocabulary,
+        csid,
+        relatedRecordType,
+      } = this.props;
 
-    const path =
-      [recordType, vocabulary, csid, relatedRecordType, newRecordCsid]
-        .filter(part => !!part)
-        .join('/');
+      const path =
+        [recordType, vocabulary, csid, relatedRecordType, newRecordCsid]
+          .filter(part => !!part)
+          .join('/');
 
-    history.replace(`/record/${path}`);
+      history.replace(`/record/${path}`);
+    }
   }
 
   handleRelatedRecordPanelUnrelated(objects) {

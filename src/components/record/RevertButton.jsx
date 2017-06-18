@@ -17,6 +17,7 @@ const messages = defineMessages({
 const propTypes = {
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  label: PropTypes.node,
   onClick: PropTypes.func,
 };
 
@@ -27,6 +28,14 @@ export default function RevertButton(props) {
     onClick,
   } = props;
 
+  let {
+    label,
+  } = props;
+
+  if (!label) {
+    label = <FormattedMessage {...messages.label} />;
+  }
+
   return (
     <Button
       className={styles.common}
@@ -35,7 +44,7 @@ export default function RevertButton(props) {
       name="revert"
       onClick={onClick}
     >
-      <FormattedMessage {...messages.label} />
+      {label}
     </Button>
   );
 }

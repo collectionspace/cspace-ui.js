@@ -146,4 +146,7 @@ export const getSearchToRelateVocabulary = (state, recordType) =>
   fromSearchToRelate.getVocabulary(state.searchToRelate, recordType);
 
 export const getNotifications = state =>
-  fromNotification.getAll(state.notification);
+  fromNotification.getNotifications(state.notification);
+
+export const getOpenModalName = state =>
+  fromNotification.getModal(state.notification);

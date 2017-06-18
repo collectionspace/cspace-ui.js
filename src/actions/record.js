@@ -453,5 +453,14 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
     },
   });
 
-  dispatch(validateRecordData(recordTypeConfig, csid));
+  // Clear validation errors. Could maybe revalidate here, but to be consistent, we should also
+  // validate when a record is first loaded.
+
+  dispatch({
+    type: VALIDATION_PASSED,
+    meta: {
+      csid,
+      path: [],
+    },
+  });
 };

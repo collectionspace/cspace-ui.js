@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 import {
+  closeModal,
   removeValidationNotification,
 } from '../../actions/notification';
 
@@ -14,9 +15,11 @@ import {
   deleteFieldValue,
   revertRecord,
   saveRecord,
+  validateRecordData,
 } from '../../actions/record';
 
 import {
+  getOpenModalName,
   getRecordData,
   getRecordValidationErrors,
   isRecordModified,
@@ -34,6 +37,7 @@ const mapStateToProps = (state, ownProps) => {
     data: getRecordData(state, csid),
     isModified: isRecordModified(state, csid),
     isSavePending: isRecordSavePending(state, csid),
+    openModalName: getOpenModalName(state),
     validationErrors: getRecordValidationErrors(state, csid),
   };
 };
@@ -54,6 +58,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     : undefined;
 
   return {
+    closeModal: (result) => {
+      dispatch(closeModal(result));
+    },
     createNewRecord: (cloneCsid) => {
       dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid));
     },
@@ -82,6 +89,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeValidationNotification: () => {
       dispatch(removeValidationNotification());
+    },
+    validateRecordData: () => {
+      dispatch(validateRecordData(recordTypeConfig, csid));
     },
   };
 };

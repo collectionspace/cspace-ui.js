@@ -14,7 +14,7 @@ import { addOptionLists } from './actions/optionList';
 import { savePrefs } from './actions/prefs';
 import defaultPlugins from './plugins';
 import reducer from './reducers';
-import App from './components/App';
+import AppContainer from './containers/AppContainer';
 import createPluginContext from './helpers/createPluginContext';
 
 import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
@@ -81,6 +81,6 @@ module.exports = (uiConfig) => {
 
     Modal.setAppElement(mountNode);
 
-    render(<App {...props} />, mountNode);
+    render(<AppContainer {...props} />, mountNode);
   }
 };

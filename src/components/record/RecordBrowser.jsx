@@ -73,19 +73,21 @@ export default class RecordBrowser extends Component {
     });
   }
 
-  handleRecordCreated(newRecordCsid) {
-    const {
-      history,
-      recordType,
-      vocabulary,
-    } = this.props;
+  handleRecordCreated(newRecordCsid, isNavigating) {
+    if (!isNavigating) {
+      const {
+        history,
+        recordType,
+        vocabulary,
+      } = this.props;
 
-    const path =
-      [recordType, vocabulary, newRecordCsid]
-        .filter(part => !!part)
-        .join('/');
+      const path =
+        [recordType, vocabulary, newRecordCsid]
+          .filter(part => !!part)
+          .join('/');
 
-    history.replace(`/record/${path}`);
+      history.replace(`/record/${path}`);
+    }
   }
 
   render() {
