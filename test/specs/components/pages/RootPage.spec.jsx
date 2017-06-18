@@ -13,7 +13,9 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  notification: Immutable.OrderedMap(),
+  notification: Immutable.Map({
+    notifications: Immutable.OrderedMap(),
+  }),
 });
 
 describe('RootPage', function suite() {

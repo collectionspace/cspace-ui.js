@@ -447,7 +447,7 @@ describe('RelationEditor', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should call onClose and unrelate followed by onUnrelated when the unrelate button is clicked in the button bar', function test() {
+  it('should call onClose, then unrelate and onUnrelated when unmounted when the unrelate button is clicked in the button bar', function test() {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -516,6 +516,10 @@ describe('RelationEditor', function suite() {
     buttonBar.props.onUnrelateButtonClick();
 
     handleCloseCalled.should.equal(true);
+
+    expect(unrelateConfig).to.equal(null);
+
+    shallowRenderer.unmount();
 
     unrelateConfig.should.equal(config);
     unrelateSubject.should.equal(subject);

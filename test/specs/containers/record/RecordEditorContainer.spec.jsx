@@ -55,6 +55,7 @@ describe('RecordEditorContainer', function suite() {
   };
 
   const store = mockStore({
+    notification: Immutable.Map(),
     record: Immutable.fromJS({
       [csid]: {
         data: {

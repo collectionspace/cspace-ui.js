@@ -188,7 +188,7 @@ export default class RecordEditor extends Component {
       // its own.
 
       const callback = onRecordCreated
-        ? (newRecordCsid) => { onRecordCreated(newRecordCsid, true) }
+        ? (newRecordCsid) => { onRecordCreated(newRecordCsid, true); }
         : undefined;
 
       save(callback);

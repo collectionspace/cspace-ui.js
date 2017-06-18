@@ -32,6 +32,7 @@ const relatedRecordType = 'group';
 
 const store = mockStore({
   login: Immutable.Map(),
+  notification: Immutable.Map(),
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
     '': {
@@ -213,9 +214,7 @@ describe('RelatedRecordBrowser', function suite() {
 
     replacedLocation.should.deep.equal({
       pathname: `/record/${recordType}/${csid}/${relatedRecordType}/new`,
-      query: {
-        clone: relatedCsid,
-      },
+      search: `?clone=${relatedCsid}`,
     });
   });
 

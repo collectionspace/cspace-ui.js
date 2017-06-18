@@ -6,6 +6,7 @@ import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 
@@ -85,7 +86,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor config={config} recordType="object" />
+          <Router>
+            <RecordEditor config={config} recordType="object" />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -97,7 +100,9 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor config={config} recordType="object" />
+          <Router>
+            <RecordEditor config={config} recordType="object" />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -125,12 +130,14 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            csid="1234"
-            recordType="object"
-            readRecord={readRecord}
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="object"
+              readRecord={readRecord}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -147,11 +154,13 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            recordType="object"
-            createNewRecord={createNewRecord}
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              recordType="object"
+              createNewRecord={createNewRecord}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -168,23 +177,27 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            csid="1234"
-            recordType="object"
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="object"
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            csid="5678"
-            recordType="object"
-            readRecord={readRecord}
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="5678"
+              recordType="object"
+              readRecord={readRecord}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -203,12 +216,14 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            recordType="object"
-            save={save}
-            onRecordCreated={handleRecordCreated}
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              recordType="object"
+              save={save}
+              onRecordCreated={handleRecordCreated}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -229,12 +244,14 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            isModified
-            recordType="object"
-            revert={revert}
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              isModified
+              recordType="object"
+              revert={revert}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -255,12 +272,14 @@ describe('RecordEditor', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            csid="1234"
-            recordType="object"
-            clone={clone}
-          />
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="object"
+              clone={clone}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 

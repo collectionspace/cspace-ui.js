@@ -463,4 +463,6 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
       path: [],
     },
   });
+
+  dispatch(removeValidationNotification());
 };

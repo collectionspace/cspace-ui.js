@@ -16,7 +16,9 @@ const mockStore = configureMockStore();
 const store = mockStore({
   user: {},
   login: Immutable.Map(),
-  notification: Immutable.OrderedMap(),
+  notification: Immutable.Map({
+    notifications: Immutable.OrderedMap(),
+  }),
 });
 
 const config = {
