@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -19,7 +20,9 @@ describe('UserMenu', function suite() {
   it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
-        <UserMenu username={username} />
+        <Router>
+          <UserMenu username={username} />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -28,7 +31,9 @@ describe('UserMenu', function suite() {
   it('should render with correct class', function test() {
     render(
       <IntlProvider locale="en">
-        <UserMenu username={username} />
+        <Router>
+          <UserMenu username={username} />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);

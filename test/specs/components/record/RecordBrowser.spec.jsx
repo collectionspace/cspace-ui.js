@@ -7,10 +7,11 @@ import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider as StoreProvider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import moxios from 'moxios';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';
 
@@ -28,6 +29,7 @@ const data = Immutable.fromJS({
 
 const store = mockStore({
   login: Immutable.Map(),
+  notification: Immutable.Map(),
   record: Immutable.fromJS({
     '': {
       data: {
@@ -83,11 +85,13 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            csid="bf334217-62e9-4ef5-a46a"
-            recordType="collectionobject"
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              csid="bf334217-62e9-4ef5-a46a"
+              recordType="collectionobject"
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -98,7 +102,9 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser config={config} recordType="collectionobject" />
+          <Router>
+            <RecordBrowser config={config} recordType="collectionobject" />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -109,10 +115,12 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            recordType="collectionobject"
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              recordType="collectionobject"
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -136,7 +144,7 @@ describe('RecordBrowser', function suite() {
 
     let replacementUrl = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       replace: (url) => {
         replacementUrl = url;
       },
@@ -145,12 +153,14 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            csid=""
-            recordType="collectionobject"
-            router={stubbedRouter}
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              csid=""
+              recordType="collectionobject"
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -166,24 +176,28 @@ describe('RecordBrowser', function suite() {
     });
   });
 
-  it('should push on history to clone a record', function test() {
+  it('should push a location onto history to clone a record', function test() {
     let pushedUrl = null;
 
-    const stubbedRouter = mockRouter({
+    const history = mockHistory({
       push: (url) => {
         pushedUrl = url;
       },
     });
 
+    const csid = '4f516e24-6dfc-47c0-b368';
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            csid="4f516e24-6dfc-47c0-b368"
-            recordType="collectionobject"
-            router={stubbedRouter}
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              csid={csid}
+              recordType="collectionobject"
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -193,9 +207,7 @@ describe('RecordBrowser', function suite() {
 
     pushedUrl.should.deep.equal({
       pathname: '/record/collectionobject',
-      query: {
-        clone: '4f516e24-6dfc-47c0-b368',
-      },
+      search: `?clone=${csid}`,
     });
   });
 
@@ -203,11 +215,13 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            recordType="collectionobject"
-            relatedRecordType="group"
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              recordType="collectionobject"
+              relatedRecordType="group"
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -224,11 +238,13 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            recordType="collectionobject"
-            clearPreferredRelatedCsid={clearPreferredRelatedCsid}
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              recordType="collectionobject"
+              clearPreferredRelatedCsid={clearPreferredRelatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -247,24 +263,28 @@ describe('RecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            csid="1111"
-            recordType="collectionobject"
-            clearPreferredRelatedCsid={clearPreferredRelatedCsid}
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              csid="1111"
+              recordType="collectionobject"
+              clearPreferredRelatedCsid={clearPreferredRelatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordBrowser
-            config={config}
-            csid="2222"
-            recordType="collectionobject"
-            clearPreferredRelatedCsid={clearPreferredRelatedCsid}
-          />
+          <Router>
+            <RecordBrowser
+              config={config}
+              csid="2222"
+              recordType="collectionobject"
+              clearPreferredRelatedCsid={clearPreferredRelatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 

@@ -3,9 +3,9 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import QuickSearchForm from '../../../../src/components/search/QuickSearchForm';
-import { ConnectedQuickSearchForm } from '../../../../src/containers/search/QuickSearchFormContainer';
+import QuickSearchFormContainer from '../../../../src/containers/search/QuickSearchFormContainer';
 
 import {
   SET_QUICK_SEARCH_KEYWORD,
@@ -42,7 +42,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
+    shallowRenderer.render(<QuickSearchFormContainer />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -79,7 +79,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
+    shallowRenderer.render(<QuickSearchFormContainer />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -112,7 +112,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
+    shallowRenderer.render(<QuickSearchFormContainer />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -145,7 +145,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedQuickSearchForm />, context);
+    shallowRenderer.render(<QuickSearchFormContainer />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -178,7 +178,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     let pushedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       push: (location) => {
         pushedLocation = location;
       },
@@ -186,7 +186,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedQuickSearchForm router={router} />, context);
+    shallowRenderer.render(<QuickSearchFormContainer history={history} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

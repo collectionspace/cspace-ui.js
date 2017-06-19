@@ -4,18 +4,25 @@ import chaiImmutable from 'chai-immutable';
 import {
   SHOW_NOTIFICATION,
   REMOVE_NOTIFICATION,
+  OPEN_MODAL,
+  CLOSE_MODAL,
 } from '../../../src/actions/notification';
 
 import reducer, {
-  getAll,
+  getModal,
+  getNotifications,
 } from '../../../src/reducers/notification';
+
+const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
 
 describe('notification reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
-    reducer(undefined, {}).should.equal(Immutable.OrderedMap());
+  it('should have immutable map initial state with notifications key', function test() {
+    reducer(undefined, {}).should.equal(Immutable.Map({
+      notifications: Immutable.OrderedMap(),
+    }));
   });
 
   it('should handle SHOW_NOTIFICATION', function test() {
@@ -41,11 +48,13 @@ describe('notification reducer', function suite() {
       },
     });
 
-    state.should.equal(Immutable.OrderedMap({
-      [notificationID]: notificationDescriptor,
+    state.should.equal(Immutable.Map({
+      notifications: Immutable.OrderedMap({
+        [notificationID]: notificationDescriptor,
+      }),
     }));
 
-    getAll(state).should.equal(Immutable.OrderedMap({
+    getNotifications(state).should.equal(Immutable.OrderedMap({
       [notificationID]: notificationDescriptor,
     }));
   });
@@ -73,19 +82,21 @@ describe('notification reducer', function suite() {
       },
     });
 
-    state.size.should.equal(1);
+    state.get('notifications').size.should.equal(1);
 
-    const entry = state.entrySeq().first();
+    const entry = state.get('notifications').entrySeq().first();
 
     entry[0].should.not.equal(null);
     entry[1].should.equal(notificationDescriptor);
   });
 
   it('should handle REMOVE_NOTIFICATION', function test() {
-    const initialState = Immutable.OrderedMap({
-      1: {},
-      2: {},
-      3: {},
+    const initialState = Immutable.Map({
+      notifications: Immutable.OrderedMap({
+        1: {},
+        2: {},
+        3: {},
+      }),
     });
 
     const notificationID = '2';
@@ -97,6 +108,45 @@ describe('notification reducer', function suite() {
       },
     });
 
-    state.should.deep.equal(initialState.delete(notificationID));
+    state.should.equal(Immutable.Map({
+      notifications: initialState.get('notifications').delete(notificationID),
+    }));
+  });
+
+  it('should handle OPEN_MODAL', function test() {
+    const name = 'modalName';
+
+    const state = reducer(undefined, {
+      type: OPEN_MODAL,
+      meta: {
+        name,
+      },
+    });
+
+    state.should.equal(Immutable.Map({
+      modal: name,
+      notifications: Immutable.OrderedMap(),
+    }));
+
+    getModal(state).should.equal(name);
+  });
+
+  it('should handle CLOSE_MODAL', function test() {
+    const name = 'modalName';
+
+    const initialState = Immutable.Map({
+      modal: name,
+      notifications: Immutable.OrderedMap(),
+    });
+
+    const state = reducer(initialState, {
+      type: CLOSE_MODAL,
+    });
+
+    state.should.equal(Immutable.Map({
+      notifications: Immutable.OrderedMap(),
+    }));
+
+    expect(getModal(state)).to.equal(undefined);
   });
 });

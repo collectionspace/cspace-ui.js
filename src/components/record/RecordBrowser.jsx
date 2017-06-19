@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-import { routerShape } from 'react-router/lib/PropTypes';
 import RecordBrowserNavBarContainer from '../../containers/record/RecordBrowserNavBarContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import RelatedRecordBrowserContainer from '../../containers/record/RelatedRecordBrowserContainer';
@@ -11,16 +9,16 @@ const propTypes = {
   cloneCsid: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  history: PropTypes.object,
   recordType: PropTypes.string,
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
-  router: routerShape,
   vocabulary: PropTypes.string,
   clearPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
-class RecordBrowser extends Component {
+export default class RecordBrowser extends Component {
   constructor() {
     super();
 
@@ -61,7 +59,7 @@ class RecordBrowser extends Component {
       csid,
       recordType,
       vocabulary,
-      router,
+      history,
     } = this.props;
 
     const path =
@@ -69,27 +67,27 @@ class RecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    router.push({
+    history.push({
       pathname: `/record/${path}`,
-      query: {
-        clone: csid,
-      },
+      search: `?clone=${csid}`,
     });
   }
 
-  handleRecordCreated(newRecordCsid) {
-    const {
-      recordType,
-      vocabulary,
-      router,
-    } = this.props;
+  handleRecordCreated(newRecordCsid, isNavigating) {
+    if (!isNavigating) {
+      const {
+        history,
+        recordType,
+        vocabulary,
+      } = this.props;
 
-    const path =
-      [recordType, vocabulary, newRecordCsid]
-        .filter(part => !!part)
-        .join('/');
+      const path =
+        [recordType, vocabulary, newRecordCsid]
+          .filter(part => !!part)
+          .join('/');
 
-    router.replace(`/record/${path}`);
+      history.replace(`/record/${path}`);
+    }
   }
 
   render() {
@@ -97,6 +95,7 @@ class RecordBrowser extends Component {
       cloneCsid,
       config,
       csid,
+      history,
       recordType,
       relatedCsid,
       relatedRecordType,
@@ -111,6 +110,7 @@ class RecordBrowser extends Component {
         <RelatedRecordBrowserContainer
           cloneCsid={cloneCsid}
           config={config}
+          history={history}
           recordType={recordType}
           csid={csid}
           relatedRecordType={relatedRecordType}
@@ -148,5 +148,3 @@ class RecordBrowser extends Component {
 }
 
 RecordBrowser.propTypes = propTypes;
-
-export default withRouter(RecordBrowser);

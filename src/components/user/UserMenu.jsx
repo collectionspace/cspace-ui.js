@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/UserMenu.css';
 

@@ -5,10 +5,8 @@ import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
-
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
-
+import mockHistory from '../../../helpers/mockHistory';
 import LoginFormContainer from '../../../../src/containers/login/LoginFormContainer';
 import LoginPage from '../../../../src/components/pages/LoginPage';
 
@@ -20,7 +18,7 @@ const store = mockStore({
   login: Immutable.Map(),
 });
 
-const router = mockRouter();
+const history = mockHistory();
 
 describe('LoginPage', function suite() {
   beforeEach(function before() {
@@ -31,7 +29,10 @@ describe('LoginPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LoginPage router={router} />
+          <LoginPage
+            history={history}
+            location={{}}
+          />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -49,7 +50,8 @@ describe('LoginPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LoginPage
-            router={router}
+            history={history}
+            location={{}}
             onMount={handleMount}
           />
         </StoreProvider>
@@ -58,23 +60,29 @@ describe('LoginPage', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should replace router url with continuation when login form is submitted', function test() {
+  it('should replace history with continuation when login form is submitted', function test() {
     const continuationUrl = '/foo';
 
     let replacementUrl = null;
 
-    const stubbedRouter = mockRouter({
+    const stubbedHistory = mockHistory({
       replace: (url) => {
         replacementUrl = url;
       },
     });
 
+    const location = {
+      state: {
+        continuation: continuationUrl,
+      },
+    };
+
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LoginPage
-            router={stubbedRouter}
-            continuation={continuationUrl}
+            history={stubbedHistory}
+            location={location}
           />
         </StoreProvider>
       </IntlProvider>, this.container);

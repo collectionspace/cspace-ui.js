@@ -14,6 +14,7 @@ const propTypes = {
   onCloneButtonClick: PropTypes.func,
   onRevertButtonClick: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
+  onSaveButtonErrorBadgeClick: PropTypes.func,
 };
 
 export default function RecordButtonBar(props) {
@@ -25,6 +26,7 @@ export default function RecordButtonBar(props) {
     onCloneButtonClick,
     onRevertButtonClick,
     onSaveButtonClick,
+    onSaveButtonErrorBadgeClick,
   } = props;
 
   return (
@@ -34,6 +36,7 @@ export default function RecordButtonBar(props) {
         isSavePending={isSavePending}
         validationErrors={validationErrors}
         onClick={onSaveButtonClick}
+        onErrorBadgeClick={onSaveButtonErrorBadgeClick}
       />
       <CloneButton
         csid={csid}

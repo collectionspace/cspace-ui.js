@@ -4,6 +4,8 @@ import getNotificationID from '../helpers/notificationHelpers';
 import {
   SHOW_NOTIFICATION,
   REMOVE_NOTIFICATION,
+  OPEN_MODAL,
+  CLOSE_MODAL,
 } from '../actions/notification';
 
 const showNotification = (state, action) => {
@@ -17,7 +19,7 @@ const showNotification = (state, action) => {
     notificationID = getNotificationID();
   }
 
-  return state.set(notificationID, notificationDescriptor);
+  return state.setIn(['notifications', notificationID], notificationDescriptor);
 };
 
 const removeNotification = (state, action) => {
@@ -25,18 +27,23 @@ const removeNotification = (state, action) => {
     notificationID,
   } = action.meta;
 
-  return state.delete(notificationID);
+  return state.deleteIn(['notifications', notificationID]);
 };
 
-export default (state = Immutable.OrderedMap(), action) => {
+export default (state = Immutable.Map({ notifications: Immutable.OrderedMap() }), action) => {
   switch (action.type) {
     case SHOW_NOTIFICATION:
       return showNotification(state, action);
     case REMOVE_NOTIFICATION:
       return removeNotification(state, action);
+    case OPEN_MODAL:
+      return state.set('modal', action.meta.name);
+    case CLOSE_MODAL:
+      return state.delete('modal');
     default:
       return state;
   }
 };
 
-export const getAll = state => state;
+export const getModal = state => state.get('modal');
+export const getNotifications = state => state.get('notifications');

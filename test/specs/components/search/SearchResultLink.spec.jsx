@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -95,7 +96,9 @@ describe('SearchResultLink', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchResultLink config={config} searchResult={searchResult} />
+        <Router>
+          <SearchResultLink config={config} searchResult={searchResult} />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('a > span').textContent.should.equal(docNumber);
@@ -116,7 +119,9 @@ describe('SearchResultLink', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchResultLink config={config} searchResult={searchResult} />
+        <Router>
+          <SearchResultLink config={config} searchResult={searchResult} />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('a > span').textContent.should.equal(docNumber);

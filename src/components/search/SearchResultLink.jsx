@@ -9,7 +9,7 @@ import {
 
 import isEqual from 'lodash/isEqual';
 import Immutable from 'immutable';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import {
   getRecordTypeConfigByServicePath,

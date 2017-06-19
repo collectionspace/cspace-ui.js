@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
@@ -10,7 +11,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import moxios from 'moxios';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
@@ -31,6 +32,7 @@ const relatedRecordType = 'group';
 
 const store = mockStore({
   login: Immutable.Map(),
+  notification: Immutable.Map(),
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
     '': {
@@ -136,13 +138,15 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -154,7 +158,7 @@ describe('RelatedRecordBrowser', function suite() {
   it('should replace history when a related csid is not provided but a preferred related csid is provided', function test() {
     let replacedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacedLocation = locationArg;
       },
@@ -163,14 +167,16 @@ describe('RelatedRecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            preferredRelatedCsid={relatedCsid}
-            router={router}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              preferredRelatedCsid={relatedCsid}
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -180,7 +186,7 @@ describe('RelatedRecordBrowser', function suite() {
   it('should replace history when the clone button is clicked', function test() {
     let replacedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacedLocation = locationArg;
       },
@@ -189,14 +195,16 @@ describe('RelatedRecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-            router={router}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -206,16 +214,14 @@ describe('RelatedRecordBrowser', function suite() {
 
     replacedLocation.should.deep.equal({
       pathname: `/record/${recordType}/${csid}/${relatedRecordType}/new`,
-      query: {
-        clone: relatedCsid,
-      },
+      search: `?clone=${relatedCsid}`,
     });
   });
 
   it('should replace history when the create new button is clicked', function test() {
     let replacedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacedLocation = locationArg;
       },
@@ -224,13 +230,15 @@ describe('RelatedRecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            router={router}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -253,13 +261,15 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            onShowRelated={handleShowRelated}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              onShowRelated={handleShowRelated}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -274,7 +284,7 @@ describe('RelatedRecordBrowser', function suite() {
   it('should replace history when a new related record is created', function test() {
     let replacedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacedLocation = locationArg;
       },
@@ -306,14 +316,16 @@ describe('RelatedRecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid=""
-            router={router}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid=""
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -334,12 +346,14 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -358,12 +372,14 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -390,12 +406,14 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -422,12 +440,14 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -453,7 +473,7 @@ describe('RelatedRecordBrowser', function suite() {
   it('should replace history when the related record is unrelated in the related record panel', function test() {
     let replacedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacedLocation = locationArg;
       },
@@ -462,14 +482,16 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-            router={router}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -497,14 +519,16 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-            deselectItem={deselectItem}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+              deselectItem={deselectItem}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -519,7 +543,7 @@ describe('RelatedRecordBrowser', function suite() {
   it('should replace history when the relation editor is closed', function test() {
     let replacedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       replace: (locationArg) => {
         replacedLocation = locationArg;
       },
@@ -528,14 +552,16 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-            router={router}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+              history={history}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -560,28 +586,32 @@ describe('RelatedRecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-            setPreferredRelatedCsid={setPreferredRelatedCsid}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+              setPreferredRelatedCsid={setPreferredRelatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={newRelatedCsid}
-            setPreferredRelatedCsid={setPreferredRelatedCsid}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={newRelatedCsid}
+              setPreferredRelatedCsid={setPreferredRelatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -590,7 +620,7 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should call setPreferredRelatedCsid when the relation editor is closed', function test() {
-    const router = mockRouter();
+    const history = mockHistory();
 
     let setRecordType = null;
     let setCsid = '';
@@ -603,15 +633,17 @@ describe('RelatedRecordBrowser', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser
-            config={config}
-            recordType={recordType}
-            csid={csid}
-            relatedRecordType={relatedRecordType}
-            relatedCsid={relatedCsid}
-            router={router}
-            setPreferredRelatedCsid={setPreferredRelatedCsid}
-          />
+          <Router>
+            <RelatedRecordBrowser
+              config={config}
+              recordType={recordType}
+              csid={csid}
+              relatedRecordType={relatedRecordType}
+              relatedCsid={relatedCsid}
+              history={history}
+              setPreferredRelatedCsid={setPreferredRelatedCsid}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 

@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import About from '../sections/About';
 import LogoutIndicatorContainer from '../../containers/login/LogoutIndicatorContainer';
 import styles from '../../../styles/cspace-ui/LoginPage.css';
 
-class LogoutPage extends Component {
+const propTypes = {
+  history: PropTypes.object.isRequired,
+  onMount: PropTypes.func,
+};
+
+export default class LogoutPage extends Component {
   constructor(props) {
     super(props);
 
     this.onSuccess = this.onSuccess.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       onMount,
     } = this.props;
@@ -24,10 +28,10 @@ class LogoutPage extends Component {
 
   onSuccess() {
     const {
-      router,
+      history,
     } = this.props;
 
-    router.replace('/login');
+    history.replace('/login');
   }
 
   render() {
@@ -40,9 +44,4 @@ class LogoutPage extends Component {
   }
 }
 
-LogoutPage.propTypes = {
-  router: PropTypes.object.isRequired,
-  onMount: PropTypes.func,
-};
-
-export default withRouter(LogoutPage);
+LogoutPage.propTypes = propTypes;

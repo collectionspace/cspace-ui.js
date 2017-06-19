@@ -191,8 +191,9 @@ const handleRecordSaveFulfilled = (state, action) => {
     relatedSubjectCsid,
   } = action.meta;
 
-  let updatedState =
-    state.deleteIn([csid, 'isSavePending']).deleteIn([newRecordCsid, 'isSavePending']);
+  let updatedState = state;
+
+  updatedState = updatedState.deleteIn([csid, 'isSavePending']);
 
   updatedState = setBaselineData(updatedState, csid, data);
   updatedState = setCurrentData(updatedState, csid, data);
@@ -203,6 +204,10 @@ const handleRecordSaveFulfilled = (state, action) => {
       getUpdatedTimestamp(data)
     );
   }
+
+  // Reset new record data.
+
+  updatedState = updatedState.delete(newRecordCsid);
 
   return updatedState;
 };

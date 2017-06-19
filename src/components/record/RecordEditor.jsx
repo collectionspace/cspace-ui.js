@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Prompt } from 'react-router';
 import Immutable from 'immutable';
 import RecordButtonBar from './RecordButtonBar';
 import RecordHistory from './RecordHistory';
+import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
@@ -40,6 +42,7 @@ const propTypes = {
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  openModalName: PropTypes.string,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
   onAddInstance: PropTypes.func,
@@ -47,10 +50,13 @@ const propTypes = {
   onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
   onRecordCreated: PropTypes.func,
+  onSaveCancelled: PropTypes.func,
+  closeModal: PropTypes.func,
   save: PropTypes.func,
   revert: PropTypes.func,
   clone: PropTypes.func,
   removeValidationNotification: PropTypes.func,
+  validateRecordData: PropTypes.func,
 };
 
 const defaultProps = {
@@ -68,7 +74,11 @@ export default class RecordEditor extends Component {
   constructor() {
     super();
 
+    this.handleConfirmCancelButtonClick = this.handleConfirmCancelButtonClick.bind(this);
+    this.handleConfirmSaveButtonClick = this.handleConfirmSaveButtonClick.bind(this);
+    this.handleConfirmRevertButtonClick = this.handleConfirmRevertButtonClick.bind(this);
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
+    this.handleSaveButtonErrorBadgeClick = this.handleSaveButtonErrorBadgeClick.bind(this);
     this.handleRevertButtonClick = this.handleRevertButtonClick.bind(this);
     this.handleCloneButtonClick = this.handleCloneButtonClick.bind(this);
   }
@@ -150,6 +160,60 @@ export default class RecordEditor extends Component {
     }
   }
 
+  handleConfirmCancelButtonClick() {
+    const {
+      closeModal,
+      onSaveCancelled,
+    } = this.props;
+
+    if (closeModal) {
+      closeModal(false);
+    }
+
+    if (onSaveCancelled) {
+      onSaveCancelled();
+    }
+  }
+
+  handleConfirmSaveButtonClick() {
+    const {
+      closeModal,
+      save,
+      onRecordCreated,
+    } = this.props;
+
+    if (save) {
+      // Wrap the onRecordCreated callback in a function that sets isNavigating to true. This lets
+      // the callback know that we're already navigating away, so it should not do any navigation
+      // of its own.
+
+      const callback = onRecordCreated
+        ? (newRecordCsid) => { onRecordCreated(newRecordCsid, true); }
+        : undefined;
+
+      save(callback);
+    }
+
+    if (closeModal) {
+      closeModal(true);
+    }
+  }
+
+  handleConfirmRevertButtonClick() {
+    const {
+      closeModal,
+      revert,
+    } = this.props;
+
+    if (revert) {
+      revert();
+    }
+
+    if (closeModal) {
+      closeModal(true);
+    }
+  }
+
   handleCloneButtonClick() {
     const {
       clone,
@@ -182,6 +246,16 @@ export default class RecordEditor extends Component {
     }
   }
 
+  handleSaveButtonErrorBadgeClick() {
+    const {
+      validateRecordData,
+    } = this.props;
+
+    if (validateRecordData) {
+      validateRecordData();
+    }
+  }
+
   render() {
     const {
       config,
@@ -189,6 +263,7 @@ export default class RecordEditor extends Component {
       data,
       isModified,
       isSavePending,
+      openModalName,
       recordType,
       validationErrors,
       onAddInstance,
@@ -237,6 +312,7 @@ export default class RecordEditor extends Component {
             isSavePending={isSavePending}
             validationErrors={validationErrors}
             onSaveButtonClick={this.handleSaveButtonClick}
+            onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
             onRevertButtonClick={this.handleRevertButtonClick}
             onCloneButtonClick={this.handleCloneButtonClick}
           />
@@ -254,10 +330,23 @@ export default class RecordEditor extends Component {
             isSavePending={isSavePending}
             validationErrors={validationErrors}
             onSaveButtonClick={this.handleSaveButtonClick}
+            onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
             onRevertButtonClick={this.handleRevertButtonClick}
             onCloneButtonClick={this.handleCloneButtonClick}
           />
         </footer>
+        <Prompt when={isModified && !isSavePending} message={ConfirmRecordNavigationModal.name} />
+        <ConfirmRecordNavigationModal
+          isOpen={openModalName === ConfirmRecordNavigationModal.name}
+          isModified={isModified}
+          isSavePending={isSavePending}
+          validationErrors={validationErrors}
+          onCancelButtonClick={this.handleConfirmCancelButtonClick}
+          onCloseButtonClick={this.handleConfirmCancelButtonClick}
+          onSaveButtonClick={this.handleConfirmSaveButtonClick}
+          onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
+          onRevertButtonClick={this.handleConfirmRevertButtonClick}
+        />
       </form>
     );
   }

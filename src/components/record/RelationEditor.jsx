@@ -68,6 +68,7 @@ export default class RelationEditor extends Component {
     this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
     this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
+    this.handleSaveCancelled = this.handleSaveCancelled.bind(this);
   }
 
   componentDidMount() {
@@ -103,6 +104,10 @@ export default class RelationEditor extends Component {
     const {
       onUnmount,
     } = this.props;
+
+    if (this.unrelateWhenUnmounted) {
+      this.unrelate();
+    }
 
     if (onUnmount) {
       onUnmount();
@@ -162,11 +167,13 @@ export default class RelationEditor extends Component {
   }
 
   handleUnrelateButtonClick() {
+    this.unrelateWhenUnmounted = true;
+
     this.close();
-    this.unrelate();
+    // this.unrelate();
   }
 
-  handleRecordCreated(newRecordCsid) {
+  handleRecordCreated(newRecordCsid, isNavigating) {
     const {
       subject,
       predicate,
@@ -182,10 +189,14 @@ export default class RelationEditor extends Component {
       createRelation(subject, object, predicate)
         .then(() => {
           if (onRecordCreated) {
-            onRecordCreated(newRecordCsid);
+            onRecordCreated(newRecordCsid, isNavigating);
           }
         });
     }
+  }
+
+  handleSaveCancelled() {
+    this.unrelateWhenUnmounted = false;
   }
 
   renderHeader() {
@@ -278,6 +289,7 @@ export default class RelationEditor extends Component {
           relatedSubjectCsid={subject.csid}
           clone={cloneRecord}
           onRecordCreated={this.handleRecordCreated}
+          onSaveCancelled={this.handleSaveCancelled}
         />
       </div>
     );

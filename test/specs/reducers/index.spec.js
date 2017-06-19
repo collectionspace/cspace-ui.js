@@ -3,7 +3,6 @@ import chaiImmutable from 'chai-immutable';
 
 import reducer, {
   getUserUsername,
-  getLoginContinuation,
   getLoginUsername,
   isLoginPending,
   getLoginResponse,
@@ -50,7 +49,6 @@ describe('reducer', function suite() {
 
     state.should.have.all.keys([
       'searchPage',
-      'routing',
       'cspace',
       'idGenerator',
       'quickSearch',
@@ -77,16 +75,6 @@ describe('reducer', function suite() {
           username: 'user@collectionspace.org',
         },
       }).should.equal('user@collectionspace.org');
-    });
-  });
-
-  describe('getLoginContinuation selector', function selectorSuite() {
-    it('should select from the login key', function test() {
-      getLoginContinuation({
-        login: Immutable.Map({
-          continuation: '/some/path',
-        }),
-      }).should.equal('/some/path');
     });
   });
 

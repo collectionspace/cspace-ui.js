@@ -34,6 +34,7 @@ const propTypes = {
   config: PropTypes.object.isRequired,
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
+  history: PropTypes.object,
   isSearchPending: PropTypes.bool,
   listType: PropTypes.string,
   searchDescriptor: PropTypes.object,
@@ -58,10 +59,6 @@ const defaultProps = {
   renderSelectBar: () => null,
 };
 
-const contextTypes = {
-  router: PropTypes.object,
-};
-
 export default class SearchResultTable extends Component {
   constructor() {
     super();
@@ -74,17 +71,14 @@ export default class SearchResultTable extends Component {
   handleRowClick(index) {
     const {
       config,
+      history,
       listType,
       searchDescriptor,
       searchResult,
       onItemClick,
     } = this.props;
 
-    const {
-      router,
-    } = this.context;
-
-    if (searchResult && (router || onItemClick)) {
+    if (searchResult && (history || onItemClick)) {
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -102,7 +96,7 @@ export default class SearchResultTable extends Component {
         const itemLocation = listTypeConfig.getItemLocation(item, itemContext);
 
         if (itemLocation) {
-          router.push(itemLocation);
+          history.push(itemLocation);
         }
       }
     }
@@ -261,4 +255,3 @@ export default class SearchResultTable extends Component {
 
 SearchResultTable.propTypes = propTypes;
 SearchResultTable.defaultProps = defaultProps;
-SearchResultTable.contextTypes = contextTypes;

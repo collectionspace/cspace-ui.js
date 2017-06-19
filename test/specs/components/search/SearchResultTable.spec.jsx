@@ -4,8 +4,7 @@ import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
-import RouterProvider from '../../../helpers/RouterProvider';
+import mockHistory from '../../../helpers/mockHistory';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 
 const expect = chai.expect;
@@ -372,20 +371,19 @@ describe('SearchResultTable', function suite() {
   it('should navigate to the item location when a row is clicked', function test() {
     let pushedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       push: (location) => {
         pushedLocation = location;
       },
     });
 
     render(
-      <RouterProvider router={router}>
-        <SearchResultTable
-          config={config}
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-        />
-      </RouterProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        history={history}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />, this.container);
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 
@@ -399,7 +397,7 @@ describe('SearchResultTable', function suite() {
   it('should call onItemClick a row is clicked', function test() {
     let pushedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       push: (location) => {
         pushedLocation = location;
       },
@@ -414,14 +412,13 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <RouterProvider router={router}>
-        <SearchResultTable
-          config={config}
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          onItemClick={handleItemClick}
-        />
-      </RouterProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        history={history}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        onItemClick={handleItemClick}
+      />, this.container);
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 
@@ -437,7 +434,7 @@ describe('SearchResultTable', function suite() {
   it('should not navigate to the item location if onItemClick returns false', function test() {
     let pushedLocation = null;
 
-    const router = mockRouter({
+    const history = mockHistory({
       push: (location) => {
         pushedLocation = location;
       },
@@ -452,14 +449,13 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <RouterProvider router={router}>
-        <SearchResultTable
-          config={config}
-          searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
-          onItemClick={handleItemClick}
-        />
-      </RouterProvider>, this.container);
+      <SearchResultTable
+        config={config}
+        history={history}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+        onItemClick={handleItemClick}
+      />, this.container);
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 

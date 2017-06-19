@@ -25,8 +25,10 @@ const propTypes = {
   intl: intlShape,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  label: PropTypes.node,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   onClick: PropTypes.func,
+  onErrorBadgeClick: PropTypes.func,
 };
 
 function SaveButton(props) {
@@ -36,6 +38,7 @@ function SaveButton(props) {
     isSavePending,
     validationErrors,
     onClick,
+    onErrorBadgeClick,
   } = props;
 
   let className;
@@ -48,8 +51,16 @@ function SaveButton(props) {
     className = styles.done;
   }
 
+  let {
+    label,
+  } = props;
+
+  if (!label) {
+    label = <FormattedMessage {...messages.label} />;
+  }
+
   const errorBadge = validationErrors
-    ? <ErrorBadge onClick={onClick} />
+    ? <ErrorBadge onClick={onErrorBadgeClick} />
     : null;
 
   const title = validationErrors
@@ -65,7 +76,7 @@ function SaveButton(props) {
       title={title}
       onClick={onClick}
     >
-      <FormattedMessage {...messages.label} />
+      {label}
     </Button>
   );
 

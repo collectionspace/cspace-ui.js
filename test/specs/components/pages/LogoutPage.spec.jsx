@@ -4,10 +4,8 @@ import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
-
+import mockHistory from '../../../helpers/mockHistory';
 import LogoutIndicator from '../../../../src/components/login/LogoutIndicator';
 import LogoutPage from '../../../../src/components/pages/LogoutPage';
 
@@ -19,7 +17,7 @@ const store = mockStore({
   logout: {},
 });
 
-const router = mockRouter();
+const history = mockHistory();
 
 describe('LogoutPage', function suite() {
   beforeEach(function before() {
@@ -30,7 +28,7 @@ describe('LogoutPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LogoutPage router={router} />
+          <LogoutPage history={history} />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -48,7 +46,7 @@ describe('LogoutPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LogoutPage
-            router={router}
+            history={history}
             onMount={handleMount}
           />
         </StoreProvider>
@@ -57,10 +55,10 @@ describe('LogoutPage', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should replace router url with continuation when logout form is submitted', function test() {
+  it('should replace history with continuation when logout form is submitted', function test() {
     let replacementUrl = null;
 
-    const stubbedRouter = mockRouter({
+    const stubbedHistory = mockHistory({
       replace: (url) => {
         replacementUrl = url;
       },
@@ -70,7 +68,7 @@ describe('LogoutPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LogoutPage
-            router={stubbedRouter}
+            history={stubbedHistory}
           />
         </StoreProvider>
       </IntlProvider>, this.container);

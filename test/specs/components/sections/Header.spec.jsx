@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
@@ -33,7 +34,9 @@ describe('Header', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <Header username="username" />
+            <Router>
+              <Header username="username" />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer as routing } from 'react-router-redux';
 import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
 import searchPage, * as fromSearchPage from './searchPage';
@@ -33,15 +32,12 @@ export default combineReducers({
   recordBrowser,
   searchToRelate,
   relation,
-  routing,
   search,
   user,
   vocabulary,
 });
 
 export const getUserUsername = state => fromUser.getUsername(state.user);
-
-export const getLoginContinuation = state => fromLogin.getContinuation(state.login);
 
 export const getLoginUsername = state => fromLogin.getUsername(state.login);
 
@@ -150,4 +146,7 @@ export const getSearchToRelateVocabulary = (state, recordType) =>
   fromSearchToRelate.getVocabulary(state.searchToRelate, recordType);
 
 export const getNotifications = state =>
-  fromNotification.getAll(state.notification);
+  fromNotification.getNotifications(state.notification);
+
+export const getOpenModalName = state =>
+  fromNotification.getModal(state.notification);

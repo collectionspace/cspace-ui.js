@@ -9,12 +9,10 @@ import getSession, {
 } from '../../../src/actions/cspace';
 
 import {
-  LOGIN_REDIRECTED,
   RESET_LOGIN,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
-  redirectLogin,
   resetLogin,
   login,
 } from '../../../src/actions/login';
@@ -26,34 +24,6 @@ import {
 chai.should();
 
 describe('login action creator', function suite() {
-  describe('redirectLogin', function actionSuite() {
-    it('should call the replace function with the login page URL as a side effect', function test() {
-      let replaceArg = null;
-
-      const replace = (arg) => {
-        replaceArg = arg;
-      };
-
-      const attemptedUrl = '/some/url';
-
-      redirectLogin(replace, attemptedUrl);
-
-      replaceArg.should.equal('/login');
-    });
-
-    it('should create a LOGIN_REDIRECTED action', function test() {
-      const replace = () => null;
-      const attemptedUrl = '/some/url';
-
-      redirectLogin(replace, attemptedUrl).should.deep.equal({
-        type: LOGIN_REDIRECTED,
-        meta: {
-          attemptedUrl,
-        },
-      });
-    });
-  });
-
   describe('resetLogin', function actionSuite() {
     it('should create a RESET_LOGIN action', function test() {
       resetLogin().should.deep.equal({

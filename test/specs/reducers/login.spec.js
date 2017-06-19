@@ -3,14 +3,12 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   RESET_LOGIN,
-  LOGIN_REDIRECTED,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
 } from '../../../src/actions/login';
 
 import reducer, {
-  getContinuation,
   getError,
   getResponse,
   getUsername,
@@ -35,21 +33,6 @@ describe('login reducer', function suite() {
     state.should.deep.equal(Immutable.Map({}));
 
     expect(isPending(state)).to.equal(undefined);
-  });
-
-  it('should handle LOGIN_REDIRECTED', function test() {
-    const state = reducer(undefined, {
-      type: LOGIN_REDIRECTED,
-      meta: {
-        attemptedUrl: '/some/path',
-      },
-    });
-
-    state.should.deep.equal(Immutable.Map({
-      continuation: '/some/path',
-    }));
-
-    getContinuation(state).should.equal('/some/path');
   });
 
   it('should handle LOGIN_STARTED', function test() {

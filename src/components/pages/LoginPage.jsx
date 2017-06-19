@@ -2,19 +2,25 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import get from 'lodash/get';
 import About from '../sections/About';
 import LoginFormContainer from '../../containers/login/LoginFormContainer';
 import styles from '../../../styles/cspace-ui/LoginPage.css';
 
-class LoginPage extends Component {
+const propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  onMount: PropTypes.func,
+};
+
+export default class LoginPage extends Component {
   constructor(props) {
     super(props);
 
     this.onSuccess = this.onSuccess.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       onMount,
     } = this.props;
@@ -26,9 +32,11 @@ class LoginPage extends Component {
 
   onSuccess() {
     const {
-      router,
-      continuation,
+      history,
+      location,
     } = this.props;
+
+    const landing = get(location, ['state', 'continuation']) || '';
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -36,7 +44,7 @@ class LoginPage extends Component {
       }, 0);
     })
     .then(() => {
-      router.replace(continuation);
+      history.replace(landing);
     });
   }
 
@@ -50,14 +58,4 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
-  router: PropTypes.object.isRequired,
-  continuation: PropTypes.string,
-  onMount: PropTypes.func,
-};
-
-LoginPage.defaultProps = {
-  continuation: '/',
-};
-
-export default withRouter(LoginPage);
+LoginPage.propTypes = propTypes;

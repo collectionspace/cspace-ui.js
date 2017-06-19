@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
@@ -15,13 +16,19 @@ describe('NavBar', function suite() {
   });
 
   it('should render as a nav', function test() {
-    render(<NavBar />, this.container);
+    render(
+      <Router>
+        <NavBar />
+      </Router>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('NAV');
   });
 
   it('should render with correct class', function test() {
-    render(<NavBar />, this.container);
+    render(
+      <Router>
+        <NavBar />
+      </Router>, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });

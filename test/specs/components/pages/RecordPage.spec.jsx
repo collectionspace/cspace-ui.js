@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockRouter from '../../../helpers/mockRouter';
+import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';
@@ -100,6 +100,7 @@ const config = {
 
 const store = mockStore({
   login: Immutable.Map(),
+  notification: Immutable.Map(),
   record: Immutable.fromJS({
     [csid]: {
       data: {},
@@ -130,11 +131,12 @@ describe('RecordPage', function suite() {
       action: '',
       pathname: `/record/${objectRecordType}`,
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: objectRecordType,
+    const match = {
+      params: {
+        recordType: objectRecordType,
+      },
     };
 
     render(
@@ -143,7 +145,7 @@ describe('RecordPage', function suite() {
           <ConfigProvider config={config}>
             <RecordPage
               location={location}
-              params={params}
+              match={match}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -157,11 +159,12 @@ describe('RecordPage', function suite() {
       action: '',
       pathname: `/record/${objectRecordType}`,
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: objectRecordType,
+    const match = {
+      params: {
+        recordType: objectRecordType,
+      },
     };
 
     render(
@@ -170,7 +173,7 @@ describe('RecordPage', function suite() {
           <ConfigProvider config={config}>
             <RecordPage
               location={location}
-              params={params}
+              match={match}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -184,12 +187,13 @@ describe('RecordPage', function suite() {
       action: '',
       pathname: `/record/${objectRecordType}/${csid}`,
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: objectRecordType,
-      path1: csid,
+    const match = {
+      params: {
+        recordType: objectRecordType,
+        path1: csid,
+      },
     };
 
     it('should call readRecord when mounted if a csid is provided', function test() {
@@ -209,7 +213,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={params}
+                match={match}
                 readRecord={readRecord}
               />
             </ConfigProvider>
@@ -228,8 +232,10 @@ describe('RecordPage', function suite() {
         readRecordCalled = true;
       };
 
-      const badRecordTypeParams = {
-        recordType: 'foo',
+      const badRecordTypeMatch = {
+        params: {
+          recordType: 'foo',
+        },
       };
 
       render(
@@ -238,7 +244,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={badRecordTypeParams}
+                match={badRecordTypeMatch}
                 readRecord={readRecord}
               />
             </ConfigProvider>
@@ -265,7 +271,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={params}
+                match={match}
               />
             </ConfigProvider>
           </StoreProvider>
@@ -277,9 +283,11 @@ describe('RecordPage', function suite() {
         pathname: `/record/${objectRecordType}/${newCsid}`,
       });
 
-      const newParams = {
-        recordType: objectRecordType,
-        path1: newCsid,
+      const newMatch = {
+        params: {
+          recordType: objectRecordType,
+          path1: newCsid,
+        },
       };
 
       render(
@@ -288,7 +296,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={newLocation}
-                params={newParams}
+                match={newMatch}
                 readRecord={readRecord}
               />
             </ConfigProvider>
@@ -307,7 +315,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={params}
+                match={match}
               />
             </ConfigProvider>
           </StoreProvider>
@@ -328,7 +336,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={params}
+                match={match}
               />
             </ConfigProvider>
           </StoreProvider>
@@ -347,11 +355,14 @@ describe('RecordPage', function suite() {
         path: `/record/${objectRecordType}`,
       });
 
-      const noCsidParams = {
-        recordType: objectRecordType,
+      const noCsidMatch = {
+        params: {
+          recordType: objectRecordType,
+        },
       };
 
       const noCsidStore = mockStore({
+        notification: Immutable.Map(),
         prefs: Immutable.Map(),
         record: Immutable.fromJS({
           '': {
@@ -367,7 +378,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={noCsidLocation}
-                params={noCsidParams}
+                match={noCsidMatch}
               />
             </ConfigProvider>
           </StoreProvider>
@@ -383,7 +394,7 @@ describe('RecordPage', function suite() {
     it('should replace history with a related record URL when a related record tab is clicked', function test() {
       let replacedLocation = null;
 
-      const router = mockRouter({
+      const history = mockHistory({
         replace: (locationArg) => {
           replacedLocation = locationArg;
         },
@@ -395,8 +406,8 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={params}
-                router={router}
+                match={match}
+                history={history}
               />
             </ConfigProvider>
           </StoreProvider>
@@ -416,13 +427,14 @@ describe('RecordPage', function suite() {
       action: '',
       pathname: `/record/${authorityRecordType}/${vocabulary}/${csid}`,
       search: '',
-      query: {},
     };
 
-    const params = {
-      recordType: authorityRecordType,
-      path1: vocabulary,
-      path2: csid,
+    const match = {
+      params: {
+        recordType: authorityRecordType,
+        path1: vocabulary,
+        path2: csid,
+      },
     };
 
     it('should call readRecord when mounted if a csid is provided', function test() {
@@ -442,7 +454,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={params}
+                match={match}
                 readRecord={readRecord}
               />
             </ConfigProvider>
@@ -464,9 +476,11 @@ describe('RecordPage', function suite() {
         readRecordCalled = true;
       };
 
-      const badVocabularyParams = {
-        recordType: authorityRecordType,
-        path1: 'foo',
+      const badVocabularyMatch = {
+        params: {
+          recordType: authorityRecordType,
+          path1: 'foo',
+        },
       };
 
       render(
@@ -475,7 +489,7 @@ describe('RecordPage', function suite() {
             <ConfigProvider config={config}>
               <RecordPage
                 location={location}
-                params={badVocabularyParams}
+                match={badVocabularyMatch}
                 readRecord={readRecord}
               />
             </ConfigProvider>

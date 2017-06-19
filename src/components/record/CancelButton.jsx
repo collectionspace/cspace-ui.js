@@ -9,12 +9,13 @@ const { Button } = inputComponents;
 const messages = defineMessages({
   label: {
     id: 'cancelButton.label',
-    description: 'Label of the cancel button.',
+    description: 'Default label of the cancel button.',
     defaultMessage: 'Cancel',
   },
 });
 
 const propTypes = {
+  label: PropTypes.node,
   onClick: PropTypes.func,
 };
 
@@ -23,6 +24,14 @@ export default function CancelButton(props) {
     onClick,
   } = props;
 
+  let {
+    label,
+  } = props;
+
+  if (!label) {
+    label = <FormattedMessage {...messages.label} />;
+  }
+
   return (
     <Button
       className={styles.common}
@@ -30,7 +39,7 @@ export default function CancelButton(props) {
       name="cancel"
       onClick={onClick}
     >
-      <FormattedMessage {...messages.label} />
+      {label}
     </Button>
   );
 }

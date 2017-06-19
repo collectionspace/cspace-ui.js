@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
@@ -145,10 +146,12 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              searchDescriptor={searchDescriptor}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                searchDescriptor={searchDescriptor}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -183,13 +186,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-              search={search}
-              onSearchDescriptorChange={handleSearchDescriptorChange}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                search={search}
+                onSearchDescriptorChange={handleSearchDescriptorChange}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -230,11 +235,13 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -251,13 +258,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              name={searchName}
-              searchDescriptor={newSearchDescriptor}
-              search={search}
-              onSearchDescriptorChange={handleSearchDescriptorChange}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                name={searchName}
+                searchDescriptor={newSearchDescriptor}
+                search={search}
+                onSearchDescriptorChange={handleSearchDescriptorChange}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -276,13 +285,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              recordType="collectionobject"
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-              title="SearchPanel title"
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                recordType="collectionobject"
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                title="SearchPanel title"
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -304,13 +315,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              recordType="collectionobject"
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-              onSearchDescriptorChange={handleSearchDescriptorChange}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                recordType="collectionobject"
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                onSearchDescriptorChange={handleSearchDescriptorChange}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -341,13 +354,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              recordType="collectionobject"
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-              onSearchDescriptorChange={handleSearchDescriptorChange}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                recordType="collectionobject"
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                onSearchDescriptorChange={handleSearchDescriptorChange}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -386,13 +401,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              recordType={recordType}
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-              setPreferredPageSize={setPreferredPageSize}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                recordType={recordType}
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                setPreferredPageSize={setPreferredPageSize}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -421,13 +438,15 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              recordType="collectionobject"
-              name={searchName}
-              searchDescriptor={searchDescriptor}
-              onSearchDescriptorChange={handleSearchDescriptorChange}
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                recordType="collectionobject"
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                onSearchDescriptorChange={handleSearchDescriptorChange}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -479,11 +498,13 @@ describe('SearchPanel', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <SearchPanel
-              config={config}
-              searchDescriptor={searchDescriptor}
-              showAddButton
-            />
+            <Router>
+              <SearchPanel
+                config={config}
+                searchDescriptor={searchDescriptor}
+                showAddButton
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
