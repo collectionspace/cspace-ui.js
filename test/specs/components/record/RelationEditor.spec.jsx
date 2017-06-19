@@ -536,4 +536,57 @@ describe('RelationEditor', function suite() {
       }, 0);
     });
   });
+
+  it('should not call unrelate when unmounted if navigation is cancelled following the unrelate button being clicked', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const predicate = 'affects';
+
+    const findResult = Immutable.fromJS({
+      'ns2:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let unrelateCalled = false;
+
+    const unrelate = () => {
+      unrelateCalled = true;
+
+      return Promise.resolve();
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        predicate={predicate}
+        findResult={findResult}
+        unrelate={unrelate}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const buttonBar = findWithType(result, RelationButtonBar);
+
+    buttonBar.props.onUnrelateButtonClick();
+
+    const recordEditor = findWithType(result, RecordEditorContainer);
+
+    recordEditor.props.onSaveCancelled();
+
+    shallowRenderer.unmount();
+
+    unrelateCalled.should.equal(false);
+  });
 });

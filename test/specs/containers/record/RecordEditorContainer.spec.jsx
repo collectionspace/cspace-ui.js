@@ -15,6 +15,8 @@ import {
 import {
   REMOVE_NOTIFICATION,
   SHOW_NOTIFICATION,
+  CLOSE_MODAL,
+  NOTIFICATION_ID_VALIDATION,
 } from '../../../../src/actions/notification';
 
 import {
@@ -307,5 +309,66 @@ describe('RecordEditorContainer', function suite() {
       actions[3].should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
       actions[3].should.have.deep.property('meta.csid', csid);
     }
+  });
+
+  it('should connect closeModal to closeModal action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.closeModal();
+
+    const action = store.getActions()[0];
+
+    action.should.have.property('type', CLOSE_MODAL);
+  });
+
+  it('should connect removeValidationNotification to removeValidationNotification action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.removeValidationNotification();
+
+    const action = store.getActions()[0];
+
+    action.type.should.equal = REMOVE_NOTIFICATION;
+    action.meta.should.have.property('notificationID', NOTIFICATION_ID_VALIDATION);
+  });
+
+  it('should connect validateRecordData to validateRecordData action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.validateRecordData();
+
+    const action = store.getActions()[0];
+
+    action.type.should.equal = VALIDATION_PASSED;
+
+    action.meta.should.have.property('csid', csid);
+    action.meta.should.have.property('path').that.deep.equals([]);
   });
 });

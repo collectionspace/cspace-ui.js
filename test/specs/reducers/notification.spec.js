@@ -4,11 +4,16 @@ import chaiImmutable from 'chai-immutable';
 import {
   SHOW_NOTIFICATION,
   REMOVE_NOTIFICATION,
+  OPEN_MODAL,
+  CLOSE_MODAL,
 } from '../../../src/actions/notification';
 
 import reducer, {
+  getModal,
   getNotifications,
 } from '../../../src/reducers/notification';
+
+const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -106,5 +111,42 @@ describe('notification reducer', function suite() {
     state.should.equal(Immutable.Map({
       notifications: initialState.get('notifications').delete(notificationID),
     }));
+  });
+
+  it('should handle OPEN_MODAL', function test() {
+    const name = 'modalName';
+
+    const state = reducer(undefined, {
+      type: OPEN_MODAL,
+      meta: {
+        name,
+      },
+    });
+
+    state.should.equal(Immutable.Map({
+      modal: name,
+      notifications: Immutable.OrderedMap(),
+    }));
+
+    getModal(state).should.equal(name);
+  });
+
+  it('should handle CLOSE_MODAL', function test() {
+    const name = 'modalName';
+
+    const initialState = Immutable.Map({
+      modal: name,
+      notifications: Immutable.OrderedMap(),
+    });
+
+    const state = reducer(initialState, {
+      type: CLOSE_MODAL,
+    });
+
+    state.should.equal(Immutable.Map({
+      notifications: Immutable.OrderedMap(),
+    }));
+
+    expect(getModal(state)).to.equal(undefined);
   });
 });

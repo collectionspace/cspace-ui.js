@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
+import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import { StaticRouter } from 'react-router';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 
@@ -21,10 +24,6 @@ const store = mockStore({
   }),
 });
 
-const config = {
-  locale: 'en',
-};
-
 const TestRouter = ({ children }) => (
   <StaticRouter location="/login" context={{}}>
     {children}
@@ -41,6 +40,10 @@ describe('App', function suite() {
   });
 
   it('should render', function test() {
+    const config = {
+      locale: 'en',
+    };
+
     render(
       <App
         store={store}
@@ -50,5 +53,77 @@ describe('App', function suite() {
 
     this.container.querySelector('div.cspace-ui-RootPage--common').should
       .not.equal(null);
+  });
+
+  it('should render a BrowserRouter if no router prop is supplied and prettyUrls is true', function test() {
+    const config = {
+      locale: 'en',
+      prettyUrls: true,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <App
+        store={store}
+        config={config}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    findWithType(result, BrowserRouter).should.not.equal(null);
+  });
+
+  it('should render a HashRouter if no router prop is supplied and prettyUrls is true', function test() {
+    const config = {
+      locale: 'en',
+      prettyUrls: false,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <App
+        store={store}
+        config={config}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    findWithType(result, HashRouter).should.not.equal(null);
+  });
+
+  it('should call openModal to confirm router navigation', function test() {
+    const config = {
+      locale: 'en',
+    };
+
+    let openModalName = null;
+    let openModalCallback = null;
+
+    const openModal = (nameArg, callbackArg) => {
+      openModalName = nameArg;
+      openModalCallback = callbackArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <App
+        store={store}
+        config={config}
+        openModal={openModal}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const router = findWithType(result, HashRouter);
+
+    const modalName = 'modalName';
+    const modalCallback = () => null;
+
+    router.props.getUserConfirmation(modalName, modalCallback);
+
+    openModalName.should.equal(modalName);
+    openModalCallback.should.equal(modalCallback);
   });
 });

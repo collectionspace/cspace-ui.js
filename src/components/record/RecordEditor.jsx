@@ -183,9 +183,9 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     if (save) {
-      // Wrap the onRecordCreated callback in a HOF that sets isNavigating to true. This lets the
-      // callback know that we're already navigating away, so it should not do any navigation of
-      // its own.
+      // Wrap the onRecordCreated callback in a function that sets isNavigating to true. This lets
+      // the callback know that we're already navigating away, so it should not do any navigation
+      // of its own.
 
       const callback = onRecordCreated
         ? (newRecordCsid) => { onRecordCreated(newRecordCsid, true); }
