@@ -11,6 +11,7 @@ const propTypes = {
   csid: PropTypes.string,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export default function RecordSideBar(props) {
@@ -19,6 +20,7 @@ export default function RecordSideBar(props) {
     csid,
     recordType,
     vocabulary,
+    history,
   } = props;
 
   // TODO: Make sidebar components configurable based on service type/record type.
@@ -43,6 +45,7 @@ export default function RecordSideBar(props) {
         columnSetName="narrow"
         csid={csid}
         config={config}
+        history={history}
         name="relatedObjectPanel"
         recordType={recordType}
         relatedRecordType="collectionobject"
@@ -55,6 +58,7 @@ export default function RecordSideBar(props) {
         color="blue"
         csid={csid}
         config={config}
+        history={history}
         name="relatedProcedurePanel"
         recordType={recordType}
         relatedRecordType="procedure"
@@ -69,6 +73,7 @@ export default function RecordSideBar(props) {
         color="blue"
         csid={csid}
         config={config}
+        history={history}
         recordType={recordType}
         vocabulary={vocabulary}
       />
@@ -87,6 +92,7 @@ export default function RecordSideBar(props) {
         color="blue"
         csid={csid}
         config={config}
+        history={history}
         recordType={recordType}
         vocabulary={vocabulary}
       />

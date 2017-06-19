@@ -1,3 +1,4 @@
+import qs from 'qs';
 import { isCsid } from '../helpers/csidHelpers';
 
 import {
@@ -20,9 +21,9 @@ export const initiateSearch = push => (dispatch, getState) => {
   const vocabulary = getQuickSearchVocabulary(getState(), recordType);
 
   let pathname;
+  let search;
 
   const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
-  const query = {};
 
   if (isCsid(kw)) {
     // Go straight to the record with the csid.
@@ -32,12 +33,18 @@ export const initiateSearch = push => (dispatch, getState) => {
     pathname = `/list/${recordType}${vocabularyPath}`;
 
     if (kw) {
-      query.kw = kw;
+      const query = {
+        kw,
+      };
+
+      const queryString = qs.stringify(query);
+
+      search = `?${queryString}`;
     }
   }
 
   push({
     pathname,
-    query,
+    search,
   });
 };

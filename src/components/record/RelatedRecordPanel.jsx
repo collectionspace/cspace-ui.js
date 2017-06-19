@@ -47,6 +47,7 @@ const propTypes = {
   columnSetName: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  history: PropTypes.object,
   name: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   // This use isn't detected by eslint.
@@ -261,6 +262,7 @@ export default class RelatedRecordPanel extends Component {
       columnSetName,
       config,
       csid,
+      history,
       name,
       recordData,
       recordType,
@@ -288,6 +290,7 @@ export default class RelatedRecordPanel extends Component {
         columnSetName={columnSetName}
         config={config}
         csid={csid}
+        history={history}
         name={name}
         searchDescriptor={searchDescriptor}
         recordType={recordType}

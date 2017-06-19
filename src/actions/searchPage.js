@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import qs from 'qs';
 
 import {
   getSearchPageAdvanced,
@@ -47,8 +48,10 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
     query.as = JSON.stringify(condition.toJS());
   }
 
+  const queryString = qs.stringify(query);
+
   push({
     pathname,
-    query,
+    search: `?${queryString}`,
   });
 };

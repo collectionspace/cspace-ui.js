@@ -48,8 +48,10 @@ describe('quick search action creator', function suite() {
 
       store.dispatch(initiateSearch(push));
 
-      pushedLocation.pathname.should.equal('/list/person/ulan');
-      pushedLocation.query.should.deep.equal({ kw: 'hello' });
+      pushedLocation.should.include({
+        pathname: '/list/person/ulan',
+        search: '?kw=hello',
+      });
     });
 
     it('should push a search result location onto history for procedure records', function test() {
@@ -72,8 +74,10 @@ describe('quick search action creator', function suite() {
 
       store.dispatch(initiateSearch(push));
 
-      pushedLocation.pathname.should.equal('/list/loanin');
-      pushedLocation.query.should.deep.equal({ kw: 'hello' });
+      pushedLocation.should.include({
+        pathname: '/list/loanin',
+        search: '?kw=hello',
+      });
     });
 
     it('should push a record location onto history when a csid is entered as a keyword', function test() {

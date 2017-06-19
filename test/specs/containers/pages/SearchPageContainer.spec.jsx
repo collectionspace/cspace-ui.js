@@ -233,9 +233,7 @@ describe('SearchPageContainer', function suite() {
 
     pushedLocation.should.deep.equal({
       pathname: '/list/concept/material',
-      query: {
-        kw: 'hello world',
-      },
+      search: '?kw=hello%20world',
     });
   });
 });

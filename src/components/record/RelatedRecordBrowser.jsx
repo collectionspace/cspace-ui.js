@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import qs from 'qs';
 import RelatedRecordButtonBar from './RelatedRecordButtonBar';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RelationEditorContainer from '../../containers/record/RelationEditorContainer';
@@ -113,9 +114,15 @@ export default class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
+    const query = {
+      clone: relatedRecordCsid,
+    };
+
+    const queryString = qs.stringify(query);
+
     history.replace({
       pathname: `/record/${path}/new`,
-      search: `?clone=${relatedRecordCsid}`,
+      search: `?${queryString}`,
     });
   }
 

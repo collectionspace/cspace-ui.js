@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import qs from 'qs';
 import RecordBrowserNavBarContainer from '../../containers/record/RecordBrowserNavBarContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import RelatedRecordBrowserContainer from '../../containers/record/RelatedRecordBrowserContainer';
@@ -67,9 +68,15 @@ export default class RecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
+    const query = {
+      clone: csid,
+    };
+
+    const queryString = qs.stringify(query);
+
     history.push({
       pathname: `/record/${path}`,
-      search: `?clone=${csid}`,
+      search: `?${queryString}`,
     });
   }
 

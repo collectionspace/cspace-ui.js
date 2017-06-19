@@ -38,6 +38,7 @@ const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  history: PropTypes.object,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
@@ -95,6 +96,7 @@ export default class TermsUsedPanel extends Component {
       color,
       config,
       csid,
+      history,
       recordType,
       vocabulary,
       recordData,
@@ -117,6 +119,7 @@ export default class TermsUsedPanel extends Component {
         columnSetName="narrow"
         config={config}
         csid={csid}
+        history={history}
         listType="authRef"
         name="termsUsedPanel"
         searchDescriptor={searchDescriptor}

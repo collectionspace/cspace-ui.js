@@ -486,10 +486,7 @@ describe('SearchPanel', function suite() {
 
     addButton.props.to.should.deep.equal({
       pathname: '/list/collectionobject',
-      query: {
-        p: '1',
-        size: undefined,
-      },
+      search: '?p=1',
     });
   });
 

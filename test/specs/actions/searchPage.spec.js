@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
+import qs from 'qs';
 
 import {
   SET_SEARCH_PAGE_ADVANCED,
@@ -67,8 +68,10 @@ describe('search page action creator', function suite() {
 
       store.dispatch(initiateSearch(config, push));
 
-      pushedLocation.pathname.should.equal('/list/person/ulan');
-      pushedLocation.query.should.deep.equal({ kw: 'hello' });
+      pushedLocation.should.include({
+        pathname: '/list/person/ulan',
+        search: '?kw=hello',
+      });
     });
 
     it('should push a search result location onto history for procedure records', function test() {
@@ -99,10 +102,13 @@ describe('search page action creator', function suite() {
 
       store.dispatch(initiateSearch(config, push));
 
-      pushedLocation.pathname.should.equal('/list/loanin');
-
-      pushedLocation.query.should.deep.equal({
+      const expectedQueryString = qs.stringify({
         as: JSON.stringify(advancedSearchCondition.toJS()),
+      });
+
+      pushedLocation.should.include({
+        pathname: '/list/loanin',
+        search: `?${expectedQueryString}`,
       });
     });
   });

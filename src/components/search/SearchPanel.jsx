@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
+import qs from 'qs';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
@@ -33,6 +34,7 @@ const propTypes = {
   columnSetName: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  history: PropTypes.object,
   name: PropTypes.string,
   recordType: PropTypes.string,
   searchDescriptor: PropTypes.object,
@@ -129,9 +131,11 @@ export default class SearchPanel extends Component {
       size: undefined,
     });
 
+    const queryString = qs.stringify(query);
+
     return {
       pathname,
-      query,
+      search: `?${queryString}`,
     };
   }
 
@@ -319,6 +323,7 @@ export default class SearchPanel extends Component {
       color,
       columnSetName,
       config,
+      history,
       listType,
       name,
       recordType,
@@ -378,6 +383,7 @@ export default class SearchPanel extends Component {
           <SearchResultTableContainer
             columnSetName={columnSetName}
             config={config}
+            history={history}
             listType={listType}
             recordType={recordType}
             searchName={name}

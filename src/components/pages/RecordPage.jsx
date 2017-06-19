@@ -198,6 +198,7 @@ export default class RecordPage extends Component {
             recordType={recordType}
             vocabulary={vocabulary}
             config={config}
+            history={history}
           />
         </div>
       </div>
