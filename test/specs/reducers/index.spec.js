@@ -11,10 +11,12 @@ import reducer, {
   getLogoutResponse,
   getRecordRelationUpdatedTimestamp,
   getRecordData,
+  getRecordValidationErrors,
   getNewRecordData,
   isRecordModified,
   isRecordReadPending,
   isRecordSavePending,
+  getRelatedRecordBrowserRelatedCsid,
   getPrefs,
   isPanelCollapsed,
   getRecordBrowserNavBarItems,
@@ -22,6 +24,7 @@ import reducer, {
   getSearchPageVocabulary,
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
+  getSearchToRelatePageSize,
   getOptionList,
   getVocabulary,
   getPartialTermSearchMatches,
@@ -32,10 +35,18 @@ import reducer, {
   getSearchPageAdvanced,
   getSearchPageKeyword,
   isSearchPending,
+  getSearchState,
   getMostRecentSearchDescriptor,
   getSearchResult,
   getSearchError,
+  getSearchSelectedItems,
   getRelationFindResult,
+  getSearchToRelateAdvanced,
+  getSearchToRelateKeyword,
+  getSearchToRelateRecordType,
+  getSearchToRelateVocabulary,
+  getNotifications,
+  getOpenModalName,
 } from '../../../src/reducers';
 
 import { searchKey } from '../../../src/reducers/search';
@@ -176,6 +187,24 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('getRecordValidationErrors selector', function selectorSuite() {
+    it('should select from the record key', function test() {
+      const csid = '1234';
+
+      const validationError = Immutable.Map({
+        code: 'ERROR_CODE',
+      });
+
+      getRecordValidationErrors({
+        record: Immutable.fromJS({
+          [csid]: {
+            validation: validationError,
+          },
+        }),
+      }, csid).should.equal(validationError);
+    });
+  });
+
   describe('getNewRecordData selector', function selectorSuite() {
     it('should select from the record key', function test() {
       const data = Immutable.Map();
@@ -234,6 +263,23 @@ describe('reducer', function suite() {
           },
         }),
       }, csid).should.equal(true);
+    });
+  });
+
+  describe('getRelatedRecordBrowserRelatedCsid selector', function selectorSuite() {
+    it('should select from the recordBrowser key', function test() {
+      const recordType = 'collectionobject';
+      const relatedCsid = '1234';
+
+      getRelatedRecordBrowserRelatedCsid({
+        recordBrowser: Immutable.fromJS({
+          relatedRecordBrowser: {
+            relatedCsid: {
+              [recordType]: relatedCsid,
+            },
+          },
+        }),
+      }, recordType).should.equal(relatedCsid);
     });
   });
 
@@ -344,6 +390,18 @@ describe('reducer', function suite() {
           searchResultPagePageSize,
         }),
       }).should.equal(searchResultPagePageSize);
+    });
+  });
+
+  describe('getSearchToRelatePageSize selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const searchToRelatePageSize = 15;
+
+      getSearchToRelatePageSize({
+        prefs: Immutable.fromJS({
+          searchToRelatePageSize,
+        }),
+      }).should.equal(searchToRelatePageSize);
     });
   });
 
@@ -478,9 +536,9 @@ describe('reducer', function suite() {
 
   describe('isSearchPending selector', function selectorSuite() {
     it('should select from the search key', function test() {
-      const searchDescriptor = {
+      const searchDescriptor = Immutable.Map({
         recordType: 'object',
-      };
+      });
 
       const searchName = 'testSearch';
       const key = searchKey(searchDescriptor);
@@ -499,11 +557,39 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('getSearchState selector', function selectorSuite() {
+    it('should select from the search key', function test() {
+      const searchDescriptor = Immutable.Map({
+        recordType: 'object',
+      });
+
+      const searchName = 'testSearch';
+      const key = searchKey(searchDescriptor);
+
+      const state = Immutable.fromJS({
+        descriptor: searchDescriptor,
+        result: {},
+      });
+
+      getSearchState({
+        search: Immutable.fromJS({
+          [searchName]: {
+            mostRecentKey: key,
+            byKey: {
+              [key]: state,
+            },
+          },
+        }),
+      }, searchName, searchDescriptor).should.equal(state);
+    });
+  });
+
+
   describe('getMostRecentSearchDescriptor selector', function selectorSuite() {
     it('should select from the search key', function test() {
-      const searchDescriptor = {
+      const searchDescriptor = Immutable.Map({
         recordType: 'object',
-      };
+      });
 
       const searchName = 'testSearch';
       const key = searchKey(searchDescriptor);
@@ -525,9 +611,9 @@ describe('reducer', function suite() {
 
   describe('getSearchResult selector', function selectorSuite() {
     it('should select from the search key', function test() {
-      const searchDescriptor = {
+      const searchDescriptor = Immutable.Map({
         recordType: 'object',
-      };
+      });
 
       const searchName = 'testSearch';
       const key = searchKey(searchDescriptor);
@@ -554,9 +640,9 @@ describe('reducer', function suite() {
 
   describe('getSearchError selector', function selectorSuite() {
     it('should select from the search key', function test() {
-      const searchDescriptor = {
+      const searchDescriptor = Immutable.Map({
         recordType: 'object',
-      };
+      });
 
       const searchName = 'testSearch';
       const key = searchKey(searchDescriptor);
@@ -576,6 +662,26 @@ describe('reducer', function suite() {
           },
         }),
       }, searchName, searchDescriptor).should.deep.equal(Immutable.fromJS(error));
+    });
+  });
+
+  describe('getSearchSelectedItems selector', function selectorSuite() {
+    it('should select from the search key', function test() {
+      const searchName = 'testSearch';
+
+      const selected = Immutable.fromJS({
+        1234: {
+          csid: '1234',
+        },
+      });
+
+      getSearchSelectedItems({
+        search: Immutable.fromJS({
+          [searchName]: {
+            selected,
+          },
+        }),
+      }, searchName).should.equal(selected);
     });
   });
 
@@ -613,6 +719,97 @@ describe('reducer', function suite() {
           },
         }),
       }, subject, object, predicate).should.equal(result);
+    });
+  });
+
+  describe('getSearchToRelateAdvanced selector', function selectorSuite() {
+    it('should select from the searchToRelate key', function test() {
+      const advancedSearchCondition = Immutable.Map({
+        op: 'eq',
+        path: '',
+        value: '',
+      });
+
+      getSearchToRelateAdvanced({
+        searchToRelate: Immutable.fromJS({
+          advanced: advancedSearchCondition,
+        }),
+      }).should.equal(advancedSearchCondition);
+    });
+  });
+
+  describe('getSearchToRelateKeyword selector', function selectorSuite() {
+    it('should select from the searchToRelate key', function test() {
+      const keyword = 'something';
+
+      getSearchToRelateKeyword({
+        searchToRelate: Immutable.fromJS({
+          keyword,
+        }),
+      }).should.equal(keyword);
+    });
+  });
+
+  describe('getSearchToRelateRecordType selector', function selectorSuite() {
+    it('should select from the searchToRelate key', function test() {
+      const recordType = 'person';
+
+      getSearchToRelateRecordType({
+        searchToRelate: Immutable.fromJS({
+          recordType,
+        }),
+      }).should.equal(recordType);
+    });
+  });
+
+  describe('getSearchToRelateVocabulary selector', function selectorSuite() {
+    it('should select from the searchToRelate key', function test() {
+      const recordType = 'person';
+      const vocabulary = 'local';
+
+      getSearchToRelateVocabulary({
+        searchToRelate: Immutable.fromJS({
+          vocabulary: {
+            [recordType]: vocabulary,
+          },
+        }),
+      }, recordType).should.equal(vocabulary);
+    });
+  });
+
+  describe('getNotifications selector', function selectorSuite() {
+    it('should select from the notification key', function test() {
+      const notifications = Immutable.OrderedMap({
+        1: {
+          message: {
+            id: 'messageId',
+            defaultMessage: 'Saving {title}',
+          },
+          values: {
+            title: 'Title',
+          },
+          date: new Date(),
+          status: 'pending',
+        },
+      });
+
+      getNotifications({
+        notification: Immutable.fromJS({
+          notifications,
+        }),
+      }).should.equal(notifications);
+    });
+  });
+
+  describe('getOpenModalName selector', function selectorSuite() {
+    it('should select from the notification key', function test() {
+      const modalName = 'modalName';
+
+      getOpenModalName({
+        notification: Immutable.fromJS({
+          modal: modalName,
+        }),
+      }).should.equal(modalName);
     });
   });
 });

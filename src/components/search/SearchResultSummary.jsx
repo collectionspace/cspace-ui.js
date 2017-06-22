@@ -20,7 +20,7 @@ const messages = defineMessages({
 const propTypes = {
   config: PropTypes.object,
   listType: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   renderEditLink: PropTypes.func,
@@ -30,14 +30,12 @@ const propTypes = {
 
 const defaultProps = {
   renderEditLink: (searchDescriptor, onEditSearchLinkClick) => {
-    const {
-      recordType,
-      vocabulary,
-      subresource,
-      searchQuery,
-    } = searchDescriptor;
+    const recordType = searchDescriptor.get('recordType');
+    const vocabulary = searchDescriptor.get('vocabulary');
+    const subresource = searchDescriptor.get('subresource');
+    const searchQuery = searchDescriptor.get('searchQuery');
 
-    if (subresource || searchQuery.rel) {
+    if (subresource || searchQuery.get('rel')) {
       // Services layer does not allow combining related record searches or subresource
       // (terms/refs) searches with keywords or advanced search conditions, so don't render an edit
       // search link.
@@ -116,7 +114,7 @@ export default function SearchResultSummary(props) {
   }
 
   if (pageSize === null) {
-    pageSize = searchDescriptor.searchQuery.size;
+    pageSize = searchDescriptor.getIn(['searchQuery', 'size']);
   }
 
   const editLink = renderEditLink(searchDescriptor, onEditSearchLinkClick);

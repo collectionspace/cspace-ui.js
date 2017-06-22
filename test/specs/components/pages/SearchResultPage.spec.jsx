@@ -148,14 +148,14 @@ const location = {
   search: `?${qs.stringify(query)}`,
 };
 
-const searchDescriptor = {
+const searchDescriptor = Immutable.fromJS({
   recordType: match.params.recordType,
   // vocabulary: match.params.vocabulary,
   searchQuery: {
     p: parseInt(query.p, 10) - 1,
     size: parseInt(query.size, 10),
   },
-};
+});
 
 const store = mockStore({
   optionList: {
@@ -388,7 +388,7 @@ describe('SearchResultPage', function suite() {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
 
-    searchedSearchDescriptor.should.deep.equal({
+    searchedSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: match.params.recordType,
       // vocabulary: match.params.vocabulary,
 
@@ -397,7 +397,7 @@ describe('SearchResultPage', function suite() {
         p: parseInt(query.p, 10) - 1,
         size: parseInt(query.size, 10),
       }),
-    });
+    }));
   });
 
   it('should handle table sort changes', function test() {

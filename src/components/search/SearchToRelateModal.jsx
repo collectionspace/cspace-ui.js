@@ -262,11 +262,11 @@ export class BaseSearchToRelateModal extends Component {
       searchQuery.as = condition;
     }
 
-    return {
+    return Immutable.fromJS({
       recordType,
       vocabulary,
       searchQuery,
-    };
+    });
   }
 
   relate() {
@@ -295,7 +295,7 @@ export class BaseSearchToRelateModal extends Component {
 
         const objects = selectedItems.valueSeq().map(item => ({
           csid: item.get('csid'),
-          recordType: searchDescriptor.recordType,
+          recordType: searchDescriptor.get('recordType'),
         })).toJS();
 
         Promise.all(subjects.map(subject => createRelations(subject, objects, 'affects')))

@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import merge from 'lodash/merge';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import UsedByPanel from '../../../../src/components/record/UsedByPanel';
 
@@ -79,7 +78,7 @@ describe('UsedByPanel', function suite() {
       />);
 
     const result = shallowRenderer.getRenderOutput();
-    const newSearchDescriptor = { foo: 'bar', seqID: 'seq1234' };
+    const newSearchDescriptor = Immutable.fromJS({ foo: 'bar', seqID: 'seq1234' });
 
     result.props.onSearchDescriptorChange(newSearchDescriptor);
 
@@ -105,7 +104,7 @@ describe('UsedByPanel', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.searchDescriptor.should.have.property('csid', csid);
+    result.props.searchDescriptor.get('csid').should.equal(csid);
 
     const newCsid = '5678';
 
@@ -119,7 +118,7 @@ describe('UsedByPanel', function suite() {
 
     const newResult = shallowRenderer.getRenderOutput();
 
-    newResult.props.searchDescriptor.should.have.property('csid', newCsid);
+    newResult.props.searchDescriptor.get('csid').should.equal(newCsid);
   });
 
   it('should retain the same page number and page size when only the last updated timestamp is changed', function test() {
@@ -142,12 +141,10 @@ describe('UsedByPanel', function suite() {
 
     // Change the page num and size
 
-    const changedPageSearchDescriptor = merge({}, searchDescriptor, {
-      searchQuery: {
-        p: 3,
-        size: 7,
-      },
-    });
+    const changedPageSearchDescriptor = searchDescriptor.set('searchQuery', Immutable.Map({
+      p: 3,
+      size: 7,
+    }));
 
     result.props.onSearchDescriptorChange(changedPageSearchDescriptor);
 
@@ -170,8 +167,8 @@ describe('UsedByPanel', function suite() {
     const newResult = shallowRenderer.getRenderOutput();
     const newSearchDescriptor = newResult.props.searchDescriptor;
 
-    newSearchDescriptor.seqID.should.equal('new updated at');
-    newSearchDescriptor.searchQuery.p.should.equal(3);
-    newSearchDescriptor.searchQuery.size.should.equal(7);
+    newSearchDescriptor.get('seqID').should.equal('new updated at');
+    newSearchDescriptor.getIn(['searchQuery', 'p']).should.equal(3);
+    newSearchDescriptor.getIn(['searchQuery', 'size']).should.equal(7);
   });
 });

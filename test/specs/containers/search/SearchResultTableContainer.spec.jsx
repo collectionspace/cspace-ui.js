@@ -15,7 +15,7 @@ const mockStore = configureMockStore([thunk]);
 
 describe('SearchResultTableContainer', function suite() {
   const searchName = 'testSearch';
-  const searchDescriptor = {};
+  const searchDescriptor = Immutable.Map();
   const searchResult = {};
 
   const searchError = {

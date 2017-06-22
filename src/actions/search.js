@@ -36,14 +36,14 @@ const findColumnByName = (columns, columnName) => {
 };
 
 const getSortParam = (config, searchDescriptor, columnSetName) => {
-  const sortSpec = searchDescriptor.searchQuery.sort;
+  const sortSpec = searchDescriptor.getIn(['searchQuery', 'sort']);
   const [sortColumnName, sortDir] = sortSpec.split(' ');
 
   if (sortDir && sortDir !== 'desc') {
     return null;
   }
 
-  const columns = get(config, ['recordTypes', searchDescriptor.recordType, 'columns', columnSetName]);
+  const columns = get(config, ['recordTypes', searchDescriptor.get('recordType'), 'columns', columnSetName]);
   const column = findColumnByName(columns, sortColumnName);
 
   if (column && column.sortBy) {
@@ -69,13 +69,11 @@ export const clearSearchResults = searchName => ({
 
 export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default') =>
   (dispatch, getState) => {
-    const {
-      recordType,
-      vocabulary,
-      csid,
-      subresource,
-      searchQuery,
-    } = searchDescriptor;
+    const recordType = searchDescriptor.get('recordType');
+    const vocabulary = searchDescriptor.get('vocabulary');
+    const csid = searchDescriptor.get('csid');
+    const subresource = searchDescriptor.get('subresource');
+    const searchQuery = searchDescriptor.get('searchQuery');
 
     if (
       isSearchPending(getState(), searchName, searchDescriptor) ||
@@ -156,11 +154,11 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     if (
       // A related record search for an empty csid.
 
-      (searchQuery.rel === '') ||
+      (searchQuery.get('rel') === '') ||
 
       // A subresource query without a csid.
 
-      (typeof subresource !== 'undefined' && !searchDescriptor.csid)
+      (typeof subresource !== 'undefined' && !searchDescriptor.get('csid'))
     ) {
       return dispatch({
         type: CREATE_EMPTY_SEARCH_RESULT,
@@ -175,19 +173,19 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     const requestConfig = {
       params: {
         as: advancedSearchConditionToNXQL(
-          recordTypeConfig.fields, searchQuery.as, config.serverTimeZone
+          recordTypeConfig.fields, searchQuery.get('as'), config.serverTimeZone
         ),
-        csid: searchQuery.csid,
-        kw: searchQuery.kw,
-        mkRtSbj: searchQuery.mkRtSbj,
-        pgNum: searchQuery.p,
-        pgSz: searchQuery.size,
-        rtSbj: searchQuery.rel,
+        csid: searchQuery.get('csid'),
+        kw: searchQuery.get('kw'),
+        mkRtSbj: searchQuery.get('mkRtSbj'),
+        pgNum: searchQuery.get('p'),
+        pgSz: searchQuery.get('size'),
+        rtSbj: searchQuery.get('rel'),
         wf_deleted: false,
       },
     };
 
-    if (searchQuery.sort) {
+    if (searchQuery.get('sort')) {
       const sortParam = getSortParam(config, searchDescriptor, columnSetName);
 
       if (!sortParam) {
@@ -238,6 +236,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
           type: SEARCH_FULFILLED,
           payload: response,
           meta: {
+            listTypeConfig,
             searchName,
             searchDescriptor,
           },

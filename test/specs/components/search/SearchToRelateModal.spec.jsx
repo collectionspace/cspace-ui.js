@@ -8,6 +8,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import SearchToRelateModal, { BaseSearchToRelateModal, searchName } from '../../../../src/components/search/SearchToRelateModal';
 import RelateButton from '../../../../src/components/record/RelateButton';
 import SearchButton from '../../../../src/components/search/SearchButton';
@@ -21,6 +22,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 const mockStore = configureMockStore();
@@ -383,7 +385,7 @@ describe('SearchToRelateModal', function suite() {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
 
-    searchedSearchDescriptor.should.deep.equal({
+    searchedSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: recordTypeValue,
       vocabulary: undefined,
       searchQuery: {
@@ -393,7 +395,7 @@ describe('SearchToRelateModal', function suite() {
         p: 0,
         size: 20,
       },
-    });
+    }));
   });
 
   it('should call search when the search form is submitted', function test() {
@@ -436,7 +438,7 @@ describe('SearchToRelateModal', function suite() {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
 
-    searchedSearchDescriptor.should.deep.equal({
+    searchedSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: recordTypeValue,
       vocabulary: undefined,
       searchQuery: {
@@ -444,7 +446,7 @@ describe('SearchToRelateModal', function suite() {
         p: 0,
         size: 20,
       },
-    });
+    }));
   });
 
   it('should render a table header containing a summary with an edit button and select bar when there is a search result', function test() {
@@ -747,7 +749,7 @@ describe('SearchToRelateModal', function suite() {
 
     searchButton.props.onClick();
 
-    searchedSearchDescriptor.searchQuery.p.should.equal(newPage);
+    searchedSearchDescriptor.getIn(['searchQuery', 'p']).should.equal(newPage);
   });
 
   it('should not render a table footer when there is no search result', function test() {
@@ -983,7 +985,7 @@ describe('SearchToRelateModal', function suite() {
 
     searchButton.props.onClick();
 
-    searchedSearchDescriptor.searchQuery.sort.should.equal(newSort);
+    searchedSearchDescriptor.getIn(['searchQuery', 'sort']).should.equal(newSort);
   });
 
   it('should render a relating message and call createRelations followed by onRelationsCreated when the relate button is clicked', function test() {

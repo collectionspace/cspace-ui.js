@@ -27,7 +27,7 @@ export const searchKey = (searchDescriptor) => {
   // ensures that the key is not sensitive to the order in which properties are iterated out of the
   // search descriptor object.
 
-  const pairs = asPairs(searchDescriptor);
+  const pairs = asPairs(searchDescriptor.toJS());
 
   // Serialize the name/value pairs to JSON.
 
@@ -74,7 +74,7 @@ const handleSearchStarted = (state, action) => {
     const mostRecentSearchState = namedSearch.getIn(['byKey', mostRecentKey]);
     const mostRecentSearchDescriptor = mostRecentSearchState.get('descriptor');
 
-    const changes = diff(searchDescriptor, mostRecentSearchDescriptor.toJS(), 2);
+    const changes = diff(searchDescriptor.toJS(), mostRecentSearchDescriptor.toJS(), 3);
     const changeCount = Object.keys(changes).length;
 
     const pageChanged = 'searchQuery.p' in changes;
@@ -145,7 +145,9 @@ const handleSearchStarted = (state, action) => {
   // change. This allows a blank result table to be rendered while the search is pending,
   // preventing a flash of empty content.
 
-  const { p, size } = searchDescriptor.searchQuery;
+  const searchQuery = searchDescriptor.get('searchQuery');
+  const p = searchQuery.get('p');
+  const size = searchQuery.get('size');
 
   const pageNum = (typeof p === 'number') ? p.toString() : p;
   const pageSize = (typeof size === 'number') ? size.toString() : size;
@@ -171,7 +173,24 @@ const handleSearchStarted = (state, action) => {
   return state.set(searchName, updatedNamedSearch);
 };
 
-const setSearchResult = (state, searchName, searchDescriptor, result) => {
+const computeIndexesByCsid = (listTypeConfig, result) => {
+  const { listNodeName, itemNodeName } = listTypeConfig;
+
+  let indexesByCsid;
+  let items = result.getIn([listNodeName, itemNodeName]);
+
+  if (items) {
+    if (!Immutable.List.isList(items)) {
+      items = Immutable.List.of(items);
+    }
+
+    indexesByCsid = Immutable.Map(items.map((item, index) => [item.get('csid'), index]));
+  }
+
+  return indexesByCsid;
+};
+
+const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, result) => {
   const namedSearch = state.get(searchName);
   const key = searchKey(searchDescriptor);
 
@@ -182,6 +201,9 @@ const setSearchResult = (state, searchName, searchDescriptor, result) => {
       searchState
         .set('isPending', false)
         .set('result', result)
+        .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, result))
+        .set('listNodeName', listTypeConfig.listNodeName)
+        .set('itemNodeName', listTypeConfig.itemNodeName)
         .delete('error');
 
     const updatedNamedSearch = namedSearch.setIn(['byKey', key], updatedSearchState);
@@ -199,7 +221,9 @@ const handleCreateEmptySearchResult = (state, action) => {
     searchDescriptor,
   } = action.meta;
 
-  const { p, size } = searchDescriptor.searchQuery;
+  const searchQuery = searchDescriptor.get('searchQuery');
+  const p = searchQuery.get('p');
+  const size = searchQuery.get('size');
 
   const pageNum = (typeof p === 'number') ? p.toString() : p;
   const pageSize = (typeof size === 'number') ? size.toString() : size;
@@ -213,17 +237,18 @@ const handleCreateEmptySearchResult = (state, action) => {
     },
   });
 
-  return setSearchResult(state, searchName, searchDescriptor, result);
+  return setSearchResult(state, listTypeConfig, searchName, searchDescriptor, result);
 };
 
 const handleSearchFulfilled = (state, action) => {
   const {
+    listTypeConfig,
     searchName,
     searchDescriptor,
   } = action.meta;
 
   return setSearchResult(
-    state, searchName, searchDescriptor, Immutable.fromJS(action.payload.data)
+    state, listTypeConfig, searchName, searchDescriptor, Immutable.fromJS(action.payload.data)
   );
 };
 
@@ -357,6 +382,12 @@ export default (state = Immutable.Map(), action) => {
 
 export const isPending = (state, searchName, searchDescriptor) =>
   state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
+
+export const getState = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor)]);
+
+export const getIndexesByCsid = (state, searchName, searchDescriptor) =>
+  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'indexesByCsid']);
 
 export const getMostRecentDescriptor = (state, searchName) =>
   state.getIn([searchName, 'byKey', state.getIn([searchName, 'mostRecentKey']), 'descriptor']);

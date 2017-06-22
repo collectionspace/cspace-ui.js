@@ -1,20 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
-
-import {
-  getServicePath,
-  getVocabularyShortID,
-} from 'cspace-refname';
-
-import isEqual from 'lodash/isEqual';
 import Immutable from 'immutable';
-import { Link } from 'react-router-dom';
-
-import {
-  getRecordTypeConfigByServicePath,
-  getVocabularyConfigByShortID,
-} from '../../helpers/configHelpers';
+import SearchResultItemLink from './SearchResultItemLink';
 
 const messages = defineMessages({
   pending: {
@@ -40,7 +28,7 @@ const propTypes = {
   listType: PropTypes.string,
   search: PropTypes.func,
   searchName: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   itemFilter: PropTypes.func,
   isSearchPending: PropTypes.bool,
   searchError: PropTypes.instanceOf(Immutable.Map),
@@ -68,7 +56,7 @@ export default class SearchResultLink extends Component {
       searchDescriptor: prevSearchDescriptor,
     } = prevProps;
 
-    if (searchName !== prevSearchName || !isEqual(searchDescriptor, prevSearchDescriptor)) {
+    if (searchName !== prevSearchName || !Immutable.is(searchDescriptor, prevSearchDescriptor)) {
       this.search();
     }
   }
@@ -133,32 +121,12 @@ export default class SearchResultLink extends Component {
       const item = this.getResultItem();
 
       if (item) {
-        const recordNumber = item.get('docNumber');
-        const csid = item.get('csid');
-        const refName = item.get('refName');
-        const servicePath = getServicePath(refName);
-
-        const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
-
-        const pathParts = ['/record', recordTypeConfig.name];
-
-        if (recordTypeConfig.serviceConfig.serviceType === 'authority') {
-          const vocabularyShortID = getVocabularyShortID(refName);
-
-          const vocabularyConfig =
-            getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
-
-          if (vocabularyConfig) {
-            pathParts.push(vocabularyConfig.name);
-          }
-        }
-
-        pathParts.push(csid);
-
         return (
-          <Link to={pathParts.join('/')}>
-            <FormattedMessage {...messages.label} values={{ recordNumber }} />
-          </Link>
+          <SearchResultItemLink
+            config={config}
+            item={item}
+            message={messages.label}
+          />
         );
       }
 

@@ -16,7 +16,7 @@ const mockStore = configureMockStore();
 describe('MediaViewerPanelContainer', function suite() {
   it('should set props on MediaViewerPanel', function test() {
     const searchName = 'test';
-    const searchDescriptor = {};
+    const searchDescriptor = Immutable.Map();
     const key = searchKey(searchDescriptor);
 
     const searchResult = Immutable.Map();

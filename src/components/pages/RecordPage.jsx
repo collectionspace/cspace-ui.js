@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import qs from 'qs';
 import get from 'lodash/get';
 import ErrorPage from './ErrorPage';
@@ -129,6 +130,7 @@ export default class RecordPage extends Component {
 
     const {
       history,
+      location,
     } = this.props;
 
     const path =
@@ -136,7 +138,10 @@ export default class RecordPage extends Component {
         .filter(part => !!part)
         .join('/');
 
-    history.replace(`/record/${path}`);
+    history.replace({
+      pathname: `/record/${path}`,
+      state: location.state,
+    });
   }
 
   render() {
@@ -177,15 +182,30 @@ export default class RecordPage extends Component {
       );
     }
 
+    const locationState = location.state;
+
+    let searchName;
+    let searchDescriptor;
+
+    if (locationState) {
+      searchName = locationState.searchName;
+      searchDescriptor = Immutable.fromJS(locationState.searchDescriptor);
+    }
+
     return (
       <div className={styles.common}>
-        <RecordTitleBarContainer csid={normalizedCsid} recordType={recordType} />
-
+        <RecordTitleBarContainer
+          csid={normalizedCsid}
+          recordType={recordType}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+        />
         <div className={pageBodyStyles.common}>
           <RecordBrowserContainer
             cloneCsid={cloneCsid}
             csid={normalizedCsid}
             history={history}
+            location={location}
             recordType={recordType}
             relatedCsid={normalizedRelatedCsid}
             relatedRecordType={relatedRecordType}

@@ -118,6 +118,9 @@ export const getQuickSearchVocabulary = (state, recordType) =>
 export const isSearchPending = (state, searchName, searchDescriptor) =>
   fromSearch.isPending(state.search, searchName, searchDescriptor);
 
+export const getSearchState = (state, searchName, searchDescriptor) =>
+  fromSearch.getState(state.search, searchName, searchDescriptor);
+
 export const getMostRecentSearchDescriptor = (state, searchName) =>
   fromSearch.getMostRecentDescriptor(state.search, searchName);
 

@@ -96,11 +96,11 @@ describe('search action creator', function suite() {
 
     const searchName = 'testSearch';
 
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType,
       vocabulary,
       searchQuery,
-    };
+    });
 
     before(() => {
       const store = mockStore({
@@ -152,6 +152,7 @@ describe('search action creator', function suite() {
               data: {},
             },
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor,
             },
@@ -226,13 +227,13 @@ describe('search action creator', function suite() {
     });
 
     it('should dispatch CREATE_EMPTY_SEARCH_RESULT on a related record query with empty csid', function test() {
-      const relSearchDescriptor = {
+      const relSearchDescriptor = Immutable.fromJS({
         recordType,
         vocabulary,
         searchQuery: {
           rel: '',
         },
-      };
+      });
 
       const store = mockStore({
         search: Immutable.fromJS({
@@ -279,10 +280,10 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      const noVocabularySearchDescriptor = {
+      const noVocabularySearchDescriptor = Immutable.fromJS({
         recordType,
         searchQuery,
-      };
+      });
 
       return store.dispatch(search(config, searchName, noVocabularySearchDescriptor))
         .then(() => {
@@ -308,6 +309,7 @@ describe('search action creator', function suite() {
               data: {},
             },
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: noVocabularySearchDescriptor,
             },
@@ -334,13 +336,13 @@ describe('search action creator', function suite() {
         size: 10,
       };
 
-      const subresourceSearchDescriptor = {
+      const subresourceSearchDescriptor = Immutable.fromJS({
         recordType,
         vocabulary,
         csid,
         subresource,
         searchQuery: subresourceSearchQuery,
-      };
+      });
 
       return store.dispatch(search(config, searchName, subresourceSearchDescriptor))
         .then(() => {
@@ -366,6 +368,7 @@ describe('search action creator', function suite() {
               data: {},
             },
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: subresourceSearchDescriptor,
             },
@@ -385,12 +388,12 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      const sortedSearchDescriptor = {
+      const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
         searchQuery: Object.assign({}, searchQuery, {
           sort: 'updatedAt',
         }),
-      };
+      });
 
       return store.dispatch(search(config, searchName, sortedSearchDescriptor))
         .then(() => {
@@ -416,6 +419,7 @@ describe('search action creator', function suite() {
               data: {},
             },
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: sortedSearchDescriptor,
             },
@@ -435,12 +439,12 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      const sortedSearchDescriptor = {
+      const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
         searchQuery: Object.assign({}, searchQuery, {
           sort: 'updatedAt desc',
         }),
-      };
+      });
 
       return store.dispatch(search(config, searchName, sortedSearchDescriptor))
         .then(() => {
@@ -466,6 +470,7 @@ describe('search action creator', function suite() {
               data: {},
             },
             meta: {
+              listTypeConfig: listTypes.common,
               searchName,
               searchDescriptor: sortedSearchDescriptor,
             },
@@ -478,12 +483,12 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      const sortedSearchDescriptor = {
+      const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
         searchQuery: Object.assign({}, searchQuery, {
           sort: 'foobar',
         }),
-      };
+      });
 
       store.dispatch(search(config, searchName, sortedSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
@@ -502,12 +507,12 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      const sortedSearchDescriptor = {
+      const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
         searchQuery: Object.assign({}, searchQuery, {
           sort: 'updatedAt foo',
         }),
-      };
+      });
 
       store.dispatch(search(config, searchName, sortedSearchDescriptor)).should.deep.equal({
         type: SEARCH_REJECTED,
@@ -555,9 +560,7 @@ describe('search action creator', function suite() {
     });
 
     it('should dispatch SEARCH_REJECTED if the record type is unknown', function test() {
-      const badSearchDescriptor = Object.assign({}, searchDescriptor, {
-        recordType: 'foobar',
-      });
+      const badSearchDescriptor = searchDescriptor.set('recordType', 'foobar');
 
       const store = mockStore({
         search: Immutable.Map(),
@@ -650,12 +653,12 @@ describe('search action creator', function suite() {
     it('should dispatch SET_RESULT_ITEM_SELECTED', function test() {
       const searchName = 'searchName';
 
-      const searchDescriptor = {
+      const searchDescriptor = Immutable.fromJS({
         recordType: 'collectionobjects',
         searchQuery: {
           kw: 'foo',
         },
-      };
+      });
 
       const index = 3;
       const checked = true;
@@ -705,9 +708,9 @@ describe('search action creator', function suite() {
 
       const searchName = 'searchName';
 
-      const searchDescriptor = {
+      const searchDescriptor = Immutable.fromJS({
         recordType: 'group',
-      };
+      });
 
       const isSelected = true;
       const filter = () => true;

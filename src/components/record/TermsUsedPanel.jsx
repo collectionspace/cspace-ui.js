@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import isEqual from 'lodash/isEqual';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
@@ -21,7 +20,7 @@ const getSearchDescriptor = (props) => {
     recordData,
   } = props;
 
-  return {
+  return Immutable.fromJS({
     recordType,
     vocabulary,
     csid,
@@ -31,7 +30,7 @@ const getSearchDescriptor = (props) => {
       size: 5,
     },
     seqID: getUpdatedTimestamp(recordData),
-  };
+  });
 };
 
 const propTypes = {
@@ -56,27 +55,27 @@ export default class TermsUsedPanel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const searchDescriptor = getSearchDescriptor(this.props);
-    const nextSearchDescriptor = getSearchDescriptor(nextProps);
+    const searchDescriptor = this.state.searchDescriptor;
 
-    if (!isEqual(searchDescriptor, nextSearchDescriptor)) {
+    let nextSearchDescriptor = getSearchDescriptor(nextProps);
+
+    if (!Immutable.is(searchDescriptor, nextSearchDescriptor)) {
       if (
-        searchDescriptor.csid === nextSearchDescriptor.csid &&
-        searchDescriptor.recordType === nextSearchDescriptor.recordType &&
-        searchDescriptor.vocabulary === nextSearchDescriptor.vocabulary
+        searchDescriptor.get('csid') === nextSearchDescriptor.get('csid') &&
+        searchDescriptor.get('recordType') === nextSearchDescriptor.get('recordType') &&
+        searchDescriptor.get('vocabulary') === nextSearchDescriptor.get('vocabulary')
       ) {
         // The record type, vocabulary, and csid didn't change, so carry over the page number, size,
         // and sort from the current search descriptor.
 
-        const {
-          p,
-          size,
-          sort,
-        } = this.state.searchDescriptor.searchQuery;
+        const searchQuery = searchDescriptor.get('searchQuery');
 
-        nextSearchDescriptor.searchQuery.p = p;
-        nextSearchDescriptor.searchQuery.size = size;
-        nextSearchDescriptor.searchQuery.sort = sort;
+        const nextSearchQuery = nextSearchDescriptor.get('searchQuery')
+          .set('p', searchQuery.get('p'))
+          .set('size', searchQuery.get('size'))
+          .set('sort', searchQuery.get('sort'));
+
+        nextSearchDescriptor = nextSearchDescriptor.set('searchQuery', nextSearchQuery);
       }
 
       this.setState({

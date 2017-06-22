@@ -58,7 +58,7 @@ describe('MediaSnapshotPanel', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.searchDescriptor.searchQuery.should.have.property('rel', csid);
+    result.props.searchDescriptor.getIn(['searchQuery', 'rel']).should.equal(csid);
 
     const newCsid = '5678';
 
@@ -72,7 +72,7 @@ describe('MediaSnapshotPanel', function suite() {
 
     const newResult = shallowRenderer.getRenderOutput();
 
-    newResult.props.searchDescriptor.searchQuery.should.have.property('rel', newCsid);
+    newResult.props.searchDescriptor.getIn(['searchQuery', 'rel']).should.equal(newCsid);
   });
 
   it('should render nothing if the record data has not been saved', function test() {

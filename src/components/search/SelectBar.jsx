@@ -47,7 +47,7 @@ const propTypes = {
   config: PropTypes.object,
   buttons: PropTypes.arrayOf(PropTypes.node),
   listType: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchName: PropTypes.string,
   searchResult: PropTypes.instanceOf(Immutable.Map),
   selectedItems: PropTypes.instanceOf(Immutable.Map),

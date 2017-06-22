@@ -11,19 +11,21 @@ const expect = chai.expect;
 
 chai.should();
 
-const searchDescriptor = {
+const searchName = 'searchName';
+
+const searchDescriptor = Immutable.fromJS({
   recordType: 'object',
   searchQuery: {
     sort: 'title',
   },
-};
+});
 
 const config = {
   listTypes: {
     common: {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
-      getItemLocation: item => `itemLocation: ${item.get('csid')}`,
+      getItemLocationPath: item => `itemLocation: ${item.get('csid')}`,
     },
   },
   recordTypes: {
@@ -368,7 +370,7 @@ describe('SearchResultTable', function suite() {
     }
   });
 
-  it('should navigate to the item location when a row is clicked', function test() {
+  it('should push the item location onto history when a row is clicked', function test() {
     let pushedLocation = null;
 
     const history = mockHistory({
@@ -381,6 +383,7 @@ describe('SearchResultTable', function suite() {
       <SearchResultTable
         config={config}
         history={history}
+        searchName={searchName}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />, this.container);
@@ -391,10 +394,16 @@ describe('SearchResultTable', function suite() {
 
     const csid = searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3', 'csid']);
 
-    pushedLocation.should.equal(`itemLocation: ${csid}`);
+    pushedLocation.should.deep.equal({
+      pathname: `itemLocation: ${csid}`,
+      state: {
+        searchName: 'searchResultPage',
+        searchDescriptor: searchDescriptor.toJS(),
+      },
+    });
   });
 
-  it('should call onItemClick a row is clicked', function test() {
+  it('should call onItemClick when a row is clicked', function test() {
     let pushedLocation = null;
 
     const history = mockHistory({
@@ -415,6 +424,7 @@ describe('SearchResultTable', function suite() {
       <SearchResultTable
         config={config}
         history={history}
+        searchName={searchName}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
         onItemClick={handleItemClick}
@@ -428,7 +438,13 @@ describe('SearchResultTable', function suite() {
 
     const csid = searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3', 'csid']);
 
-    pushedLocation.should.equal(`itemLocation: ${csid}`);
+    pushedLocation.should.deep.equal({
+      pathname: `itemLocation: ${csid}`,
+      state: {
+        searchName: 'searchResultPage',
+        searchDescriptor: searchDescriptor.toJS(),
+      },
+    });
   });
 
   it('should not navigate to the item location if onItemClick returns false', function test() {

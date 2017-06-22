@@ -3,16 +3,19 @@
 }
 
 .common > div {
-  padding: 10px;
   box-sizing: border-box;
   background: inherit;
+  padding: 10px 0;
 }
 
 .common > div > nav {
   height: 22px;
+  box-sizing: border-box;
+  padding: 0 20px 0 10px;
 }
 
-.common > div > div {
+.common > div > div:first-of-type {
+  padding: 0 10px;
   display: flex;
 }
 
@@ -50,4 +53,8 @@
 
 .docked > div > :global(.cspace-ui-Subtitle--common) {
   padding-right: 20px;
+}
+
+.docked > div > nav {
+  padding-right: 16px;
 }

@@ -116,7 +116,7 @@ describe('SearchToRelateTitleBar', function suite() {
   });
 
   it('should show the keyword and advanced search condition after a search is initiated', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         kw: 'keyword',
@@ -126,7 +126,7 @@ describe('SearchToRelateTitleBar', function suite() {
           value: 'value',
         }),
       },
-    };
+    });
 
     render(
       <IntlProvider locale="en">
@@ -144,11 +144,11 @@ describe('SearchToRelateTitleBar', function suite() {
   });
 
   it('should render the vocabulary name if a vocabulary is supplied after a search is initiated', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'person',
       vocabulary: 'local',
       searchQuery: {},
-    };
+    });
 
     render(
       <IntlProvider locale="en">

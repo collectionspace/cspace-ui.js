@@ -12,7 +12,7 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = (recordType, vocabulary, csid, updatedTimestamp) => ({
+const getSearchDescriptor = (recordType, vocabulary, csid, updatedTimestamp) => Immutable.fromJS({
   recordType,
   vocabulary,
   csid,
@@ -89,9 +89,7 @@ export default class UsedByPanel extends Component {
       ) {
         // Only the updated timestamp changed, so just update the seq id of the search.
 
-        newSearchDescriptor = Object.assign({}, this.state.searchDescriptor, {
-          seqID: nextUpdatedTimestamp,
-        });
+        newSearchDescriptor = this.state.searchDescriptor.set('seqID', nextUpdatedTimestamp);
       } else {
         newSearchDescriptor =
           getSearchDescriptor(nextRecordType, nextVocabulary, nextCsid, nextUpdatedTimestamp);
@@ -123,7 +121,7 @@ export default class UsedByPanel extends Component {
       searchDescriptor,
     } = this.state;
 
-    if (!searchDescriptor.seqID) {
+    if (!searchDescriptor.get('seqID')) {
       // Don't render until after the record has loaded.
 
       return null;

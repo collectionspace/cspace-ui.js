@@ -13,6 +13,7 @@ import SearchResultSummary from '../search/SearchResultSummary';
 import SelectBar from '../search/SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
+import { getListType } from '../../helpers/searchHelpers';
 
 import {
   getRecordTypeNameByServiceObjectName,
@@ -143,19 +144,11 @@ export default class SearchResultPage extends Component {
   }
 
   getListType(searchDescriptor) {
-    if (searchDescriptor) {
-      const { subresource } = searchDescriptor;
+    const {
+      config,
+    } = this.context;
 
-      if (subresource) {
-        const {
-          config,
-        } = this.context;
-
-        return get(config, ['subresources', subresource, 'listType']);
-      }
-    }
-
-    return 'common';
+    return getListType(config, searchDescriptor);
   }
 
   getSearchDescriptor() {
@@ -191,7 +184,7 @@ export default class SearchResultPage extends Component {
     const advancedSearchCondition = query.as;
 
     if (advancedSearchCondition) {
-      searchQuery.as = Immutable.fromJS(JSON.parse(advancedSearchCondition));
+      searchQuery.as = JSON.parse(advancedSearchCondition);
     }
 
     const searchDescriptor = {
@@ -206,7 +199,7 @@ export default class SearchResultPage extends Component {
       }
     });
 
-    return searchDescriptor;
+    return Immutable.fromJS(searchDescriptor);
   }
 
   getSearchToRelateSubjects() {
@@ -224,10 +217,7 @@ export default class SearchResultPage extends Component {
 
     const searchDescriptor = this.getSearchDescriptor();
 
-    const {
-      recordType,
-    } = searchDescriptor;
-
+    const recordType = searchDescriptor.get('recordType');
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
     const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
 
@@ -242,10 +232,8 @@ export default class SearchResultPage extends Component {
       config,
     } = this.context;
 
-    const {
-      recordType,
-      subresource,
-    } = searchDescriptor;
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
 
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
 
@@ -348,22 +336,14 @@ export default class SearchResultPage extends Component {
 
     if (setSearchPageKeyword || setSearchPageAdvanced) {
       const searchDescriptor = this.getSearchDescriptor();
-      const { searchQuery } = searchDescriptor;
+      const searchQuery = searchDescriptor.get('searchQuery');
 
       if (setSearchPageKeyword) {
-        const {
-          kw,
-        } = searchQuery;
-
-        setSearchPageKeyword(kw);
+        setSearchPageKeyword(searchQuery.get('kw'));
       }
 
       if (setSearchPageAdvanced) {
-        const {
-          as: advancedSearchCondition,
-        } = searchQuery;
-
-        setSearchPageAdvanced(advancedSearchCondition);
+        setSearchPageAdvanced(searchQuery.get('as'));
       }
     }
   }
@@ -609,12 +589,10 @@ export default class SearchResultPage extends Component {
     const searchDescriptor = this.getSearchDescriptor();
     const listType = this.getListType(searchDescriptor);
 
-    const {
-      recordType,
-      vocabulary,
-      csid,
-      subresource,
-    } = searchDescriptor;
+    const recordType = searchDescriptor.get('recordType');
+    const vocabulary = searchDescriptor.get('vocabulary');
+    const csid = searchDescriptor.get('csid');
+    const subresource = searchDescriptor.get('subresource');
 
     const validation = validateLocation(config, { recordType, vocabulary, csid, subresource });
 

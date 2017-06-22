@@ -11,14 +11,14 @@ const expect = chai.expect;
 
 chai.should();
 
-const searchDescriptor = {
+const searchDescriptor = Immutable.fromJS({
   recordType: 'media',
   searchQuery: {
     p: 0,
     size: 0,
     rel: '1234',
   },
-};
+});
 
 const config = {
   listTypes: {

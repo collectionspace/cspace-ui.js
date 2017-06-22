@@ -14,14 +14,14 @@ const mockStore = configureMockStore();
 
 const searchName = 'testSearch';
 
-const searchDescriptor = {
+const searchDescriptor = Immutable.fromJS({
   recordType: 'all',
   searchQuery: {
     p: 0,
     size: 0,
     kw: '"123 456"',
   },
-};
+});
 
 const searchResult = {
   'ns2:abstract-common-list': {

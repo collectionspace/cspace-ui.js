@@ -4,9 +4,9 @@ import React from 'react';
 import ReactDOM, { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
-
+import { createRenderer } from 'react-test-renderer/shallow';
 import createTestContainer from '../../../helpers/createTestContainer';
-
+import SearchResultTraverserContainer from '../../../../src/containers/search/SearchResultTraverserContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordTitleBar from '../../../../src/components/record/RecordTitleBar';
 
@@ -18,7 +18,7 @@ const expectedClassName = 'cspace-ui-TitleBar--common';
 
 const config = {
   recordTypes: {
-    object: {
+    collectionobject: {
       messages: {
         record: {
           name: {
@@ -58,7 +58,7 @@ describe('RecordTitleBar', function suite() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
-          <RecordTitleBar data={data} recordType="object" />
+          <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
       </IntlProvider>, this.container);
 
@@ -69,7 +69,7 @@ describe('RecordTitleBar', function suite() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
-          <RecordTitleBar data={data} recordType="object" />
+          <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
       </IntlProvider>, this.container);
 
@@ -91,7 +91,7 @@ describe('RecordTitleBar', function suite() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
-          <RecordTitleBar data={data} recordType="object" />
+          <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
       </IntlProvider>, this.container);
 
@@ -127,6 +127,39 @@ describe('RecordTitleBar', function suite() {
     });
   });
 
+  it('should render a search result traverser as the title bar navigation if a search descriptor is supplied', function test() {
+    const searchName = 'searchName';
+    const searchDescriptor = Immutable.Map();
+    const csid = '1234';
+
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+    };
+
+    shallowRenderer.render(
+      <RecordTitleBar
+        data={data}
+        recordType="collectionobject"
+        csid={csid}
+        searchName={searchName}
+        searchDescriptor={searchDescriptor}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const nav = result.props.nav;
+
+    nav.type.should.equal(SearchResultTraverserContainer);
+
+    nav.props.should.deep.equal({
+      config,
+      csid,
+      searchName,
+      searchDescriptor,
+    });
+  });
+
   // This test must be the last, since it replaces methods on the window object.
 
   it('should add and remove window scroll listeners when mounted and unmounted', function test() {
@@ -145,7 +178,7 @@ describe('RecordTitleBar', function suite() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
-          <RecordTitleBar data={data} recordType="object" />
+          <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
       </IntlProvider>, this.container);
 

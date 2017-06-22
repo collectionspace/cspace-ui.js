@@ -20,7 +20,7 @@ const getSearchDescriptor = (props) => {
     recordRelationUpdatedTimestamp,
   } = props;
 
-  return {
+  return Immutable.fromJS({
     recordType: 'media',
     searchQuery: {
       rel: csid,
@@ -29,7 +29,7 @@ const getSearchDescriptor = (props) => {
       sort: 'title',
     },
     seqID: recordRelationUpdatedTimestamp,
-  };
+  });
 };
 
 const propTypes = {

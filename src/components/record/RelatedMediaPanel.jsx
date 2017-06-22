@@ -12,7 +12,7 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = (relatedCsid, updatedTimestamp) => ({
+const getSearchDescriptor = (relatedCsid, updatedTimestamp) => Immutable.fromJS({
   recordType: 'media',
   searchQuery: {
     rel: relatedCsid,
@@ -84,7 +84,7 @@ export default class RelatedMediaPanel extends Component {
       searchDescriptor,
     } = this.state;
 
-    if (!searchDescriptor.seqID) {
+    if (!searchDescriptor.get('seqID')) {
       // Don't render until after the record has loaded.
 
       return null;
