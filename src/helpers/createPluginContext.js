@@ -2,7 +2,7 @@ import React from 'react';
 import Immutable from 'immutable';
 
 import { components as inputComponents } from 'cspace-input';
-import { Row } from 'cspace-layout';
+import { Col, Cols, Row } from 'cspace-layout';
 import { getDisplayName } from 'cspace-refname';
 
 import DateInputContainer from '../containers/input/DateInputContainer';
@@ -64,6 +64,8 @@ export default () => ({
     TermPickerInput,
   },
   layoutComponents: {
+    Col,
+    Cols,
     Panel,
     Row,
   },

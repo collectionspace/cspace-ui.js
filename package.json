@@ -41,7 +41,7 @@
     "classnames": "^2.2.5",
     "cspace-client": ">=0.1.1 <0.2.0",
     "cspace-input": ">=0.12.1 <0.13.0",
-    "cspace-layout": ">=0.1.16 <0.2.0",
+    "cspace-layout": ">=0.1.17 <0.2.0",
     "cspace-refname": ">=0.0.3 <0.1.0",
     "deep-assign": "^2.0.0",
     "history": "4.6.2",
