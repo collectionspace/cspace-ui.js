@@ -35,7 +35,7 @@ export default (pluginContext) => {
             </Field>
             <Field name="acquisitionMethod" />
             <Field name="acquisitionSources">
-              <Field name="acquisitionSource" label=""/>
+              <Field name="acquisitionSource" label="" />
             </Field>
             <Field name="owners">
               <Field name="owner" />
