@@ -67,7 +67,7 @@ describe('procedure record columns', function suite() {
       formatMessage: message => `formatted ${message.id}`,
     };
 
-    docTypeColumn.formatValue('CollectionObject', {intl, config}).should
+    docTypeColumn.formatValue('CollectionObject', { intl, config }).should
       .equal('formatted record.collectionobject.name');
   });
 
@@ -97,7 +97,7 @@ describe('procedure record columns', function suite() {
       formatMessage: message => `formatted ${message.id}`,
     };
 
-    docTypeColumn.formatValue('Group', {intl, config}).should
+    docTypeColumn.formatValue('Group', { intl, config }).should
       .equal('[ group ]');
   });
 
