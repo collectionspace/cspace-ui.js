@@ -31,7 +31,7 @@ export default {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.group.default.updatedAt',
+          id: 'column.loanout.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
