@@ -109,4 +109,15 @@ describe('object record columns', function suite() {
     updatedAtColumn.should.have.property('sortBy');
     updatedAtColumn.should.have.property('width').that.is.a('number');
   });
+
+  it('should have updatedAt column that is formatted as a date', function test() {
+    const updatedAtColumn = columns.default.find(column => column.name === 'updatedAt');
+
+    const intl = {
+      formatDate: value => `formatted ${value}`,
+    };
+
+    updatedAtColumn.formatValue('2017-01-04T05:20:36.377Z', { intl }).should
+      .equal('formatted 2017-01-04T05:20:36.377Z');
+  });
 });
