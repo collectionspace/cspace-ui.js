@@ -101,12 +101,23 @@ describe('procedure record columns', function suite() {
       .equal('[ group ]');
   });
 
-  it('should have updated column with the proper shape', function test() {
+  it('should have updatedAt column with the proper shape', function test() {
     const updatedAtColumn = columns.default.find(column => column.name === 'updatedAt');
 
     updatedAtColumn.should.have.property('messages').that.is.a('object');
     updatedAtColumn.should.have.property('formatValue').that.is.a('function');
     updatedAtColumn.should.have.property('sortBy');
     updatedAtColumn.should.have.property('width').that.is.a('number');
+  });
+
+  it('should have updatedAt column that is formatted as a date', function test() {
+    const updatedAtColumn = columns.default.find(column => column.name === 'updatedAt');
+
+    const intl = {
+      formatDate: value => `formatted ${value}`,
+    };
+
+    updatedAtColumn.formatValue('2017-01-04T05:20:36.377Z', { intl }).should
+      .equal('formatted 2017-01-04T05:20:36.377Z');
   });
 });
