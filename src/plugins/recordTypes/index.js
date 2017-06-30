@@ -1,4 +1,5 @@
 import all from './all';
+import acquisition from './acquisition';
 import authority from './authority';
 import citation from './citation';
 import collectionobject from './collectionobject';
@@ -17,6 +18,7 @@ import procedure from './procedure';
 
 export default [
   all,
+  acquisition,
   authority,
   citation,
   collectionobject,

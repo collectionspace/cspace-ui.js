@@ -5,33 +5,33 @@ import { formatTimestamp } from '../../../helpers/formatHelpers';
 export default {
   default: [
     {
-      name: 'loanOutNumber',
+      name: 'acquisitionReferenceNumber',
       messages: defineMessages({
         label: {
-          id: 'column.loanout.default.loanOutNumber',
-          defaultMessage: 'Loan Out Number',
+          id: 'column.acquisition.default.acquisitionReferenceNumber',
+          defaultMessage: 'Acquisition reference number',
         },
       }),
-      sortBy: 'loansout_common:loanOutNumber',
+      sortBy: 'acquisitions_common:acquisitionReferenceNumber',
       width: 250,
     },
     {
-      name: 'borrower',
+      name: 'acquisitionSource',
       messages: defineMessages({
         label: {
-          id: 'column.loanout.default.borrower',
-          defaultMessage: 'Borrower',
+          id: 'column.acquisition.default.acquisitionSource',
+          defaultMessage: 'Acquisition source',
         },
       }),
       formatValue: value => getDisplayName(value),
-      sortBy: 'loansout_common:borrower',
+      sortBy: 'acquisitions_common:acquisitionSources/0/acquisitionSource',
       width: 400,
     },
     {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.loanout.default.updatedAt',
+          id: 'column.acquisition.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
