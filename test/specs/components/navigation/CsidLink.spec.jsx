@@ -20,6 +20,7 @@ describe('CsidLink', function suite() {
     result.type.should.equal(SearchResultLinkContainer);
     result.props.should.have.property('config', config);
     result.props.should.have.property('searchName', searchName);
-    result.props.should.have.deep.property('searchDescriptor.searchQuery.csid', csid);
+
+    result.props.searchDescriptor.getIn(['searchQuery', 'csid']).should.equal(csid);
   });
 });

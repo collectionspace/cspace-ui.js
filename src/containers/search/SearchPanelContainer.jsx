@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import merge from 'lodash/merge';
 import SearchPanel from '../../components/search/SearchPanel';
 import { search } from '../../actions/search';
 import { setSearchPanelPageSize } from '../../actions/prefs';
@@ -17,21 +16,20 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   const preferredPageSize = getSearchPanelPageSize(state, recordType, name);
+  const providedSearchQuery = providedSearchDescriptor.get('searchQuery');
 
   let searchDescriptor;
 
   if (
     preferredPageSize &&
-    preferredPageSize !== providedSearchDescriptor.searchQuery.size &&
-    !providedSearchDescriptor.searchQuery.p
+    preferredPageSize !== providedSearchQuery.get('size') &&
+    !providedSearchQuery.get('p')
   ) {
     // A preferred page size exists. Override the provided page size.
 
-    searchDescriptor = merge({}, providedSearchDescriptor, {
-      searchQuery: {
-        size: preferredPageSize,
-      },
-    });
+    searchDescriptor = providedSearchDescriptor.set(
+      'searchQuery', providedSearchQuery.set('size', preferredPageSize)
+    );
   } else {
     searchDescriptor = providedSearchDescriptor;
   }

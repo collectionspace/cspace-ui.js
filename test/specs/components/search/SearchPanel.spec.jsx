@@ -6,6 +6,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -15,6 +16,7 @@ import SearchPanel from '../../../../src/components/search/SearchPanel';
 import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
 import { ConnectedPanel as PanelContainer } from '../../../../src/containers/layout/PanelContainer';
 
+chai.use(chaiImmutable);
 chai.should();
 
 const mockStore = configureMockStore();
@@ -78,13 +80,13 @@ const config = {
 
 const searchName = 'testSearch';
 
-const searchDescriptor = {
+const searchDescriptor = Immutable.fromJS({
   recordType: 'collectionobject',
   searchQuery: {
     p: 0,
     size: 5,
   },
-};
+});
 
 const store = mockStore({
   optionList: {},
@@ -246,13 +248,13 @@ describe('SearchPanel', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    const newSearchDescriptor = {
+    const newSearchDescriptor = Immutable.fromJS({
       recordType: 'group',
       searchQuery: {
         p: 2,
         size: 10,
       },
-    };
+    });
 
     render(
       <IntlProvider locale="en">
@@ -334,13 +336,13 @@ describe('SearchPanel', function suite() {
 
     Simulate.click(nextPageButton);
 
-    changedToSearchDescriptor.should.deep.equal({
+    changedToSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: 1,
         size: 5,
       },
-    });
+    }));
   });
 
   it('should call onSearchDescriptorChange when the page size changes', function test() {
@@ -375,13 +377,13 @@ describe('SearchPanel', function suite() {
     Simulate.change(pageSizeInput);
     Simulate.keyDown(pageSizeInput, { key: 'Enter' });
 
-    changedToSearchDescriptor.should.deep.equal({
+    changedToSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: 0,
         size: newPageSize,
       },
-    });
+    }));
   });
 
   it('should call setPreferredPageSize when the page size changes', function test() {
@@ -455,14 +457,14 @@ describe('SearchPanel', function suite() {
 
     Simulate.click(titleHeader);
 
-    changedToSearchDescriptor.should.deep.equal({
+    changedToSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: 0,
         size: 5,
         sort: 'title',
       },
-    });
+    }));
   });
 
   it('should render a search link', function test() {
@@ -636,13 +638,13 @@ describe('SearchPanel', function suite() {
   });
 
   it('should set allowedServiceTypes on the search to relate modal when the searched record type is a utility type', function test() {
-    const utilitySearchDescriptor = {
+    const utilitySearchDescriptor = Immutable.fromJS({
       recordType: 'procedure',
       searchQuery: {
         p: 0,
         size: 5,
       },
-    };
+    });
 
     const shallowRenderer = createRenderer();
 
@@ -668,6 +670,6 @@ describe('SearchPanel', function suite() {
     const searchToRelateModal = findWithType(result, SearchToRelateModalContainer);
 
     searchToRelateModal.props.allowedServiceTypes.should
-      .deep.equal([utilitySearchDescriptor.recordType]);
+      .deep.equal([utilitySearchDescriptor.get('recordType')]);
   });
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
+import Immutable from 'immutable';
 import AdvancedSearchBuilder from './AdvancedSearchBuilder';
 import styles from '../../../styles/cspace-ui/SearchToRelateTitleBar.css';
 import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';
@@ -22,7 +23,7 @@ const propTypes = {
   isSearchInitiated: PropTypes.bool,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
 };
 
 export default function SearchToRelateTitleBar(props) {
@@ -69,18 +70,15 @@ export default function SearchToRelateTitleBar(props) {
     );
   }
 
-  const {
-    recordType,
-    vocabulary,
-  } = searchDescriptor;
+  const recordType = searchDescriptor.get('recordType');
+  const vocabulary = searchDescriptor.get('vocabulary');
 
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
   const vocabularyConfig = vocabulary ? get(recordTypeConfig, ['vocabularies', vocabulary]) : undefined;
 
-  const {
-    as: advancedSearchCondition,
-    kw,
-  } = searchDescriptor.searchQuery;
+  const searchQuery = searchDescriptor.get('searchQuery');
+  const advancedSearchCondition = searchQuery.get('as');
+  const kw = searchQuery.get('kw');
 
   const queryTitle = kw
     ? <FormattedMessage {...messages.keyword} values={{ keyword: kw }} />
@@ -100,17 +98,19 @@ export default function SearchToRelateTitleBar(props) {
     );
   }
 
-  let advancedTitle;
+  let subtitle;
 
   if (advancedSearchCondition) {
-    advancedTitle = (
-      <AdvancedSearchBuilder
-        condition={advancedSearchCondition}
-        config={config}
-        inline
-        readOnly
-        recordType={recordType}
-      />
+    subtitle = (
+      <div className={subtitleStyles.common}>
+        <AdvancedSearchBuilder
+          condition={advancedSearchCondition}
+          config={config}
+          inline
+          readOnly
+          recordType={recordType}
+        />
+      </div>
     );
   }
 
@@ -119,7 +119,7 @@ export default function SearchToRelateTitleBar(props) {
       <h1>
         <FormattedMessage {...messages.title} values={{ collectionName, query: queryTitle }} />
       </h1>
-      <div className={subtitleStyles.common}>{advancedTitle}</div>
+      {subtitle}
     </header>
   );
 }

@@ -1,0 +1,32 @@
+.common {
+  display: flex;
+  width: 70%;
+}
+
+.common > div {
+  flex: 1 1 auto;
+}
+
+.common > div:last-child {
+  text-align: right;
+}
+
+.common a:not([href]) {
+  opacity: .5;
+}
+
+.common a[rel="prev"],
+.common a[rel="next"] {
+  padding-left: 14px;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: -2px center;
+}
+
+.common a[rel="prev"] {
+  background-image: url(../../images/prevLink.svg);
+}
+
+.common a[rel="next"] {
+  background-image: url(../../images/nextLink.svg);
+}

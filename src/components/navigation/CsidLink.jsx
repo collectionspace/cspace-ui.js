@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import SearchResultLinkContainer from '../../containers/search/SearchResultLinkContainer';
 
 const propTypes = {
@@ -15,14 +16,14 @@ export default function CsidLink(props) {
     searchName,
   } = props;
 
-  const searchDescriptor = {
+  const searchDescriptor = Immutable.fromJS({
     recordType: 'all',
     searchQuery: {
       csid,
       p: 0,
       size: 0,
     },
-  };
+  });
 
   return (
     <SearchResultLinkContainer

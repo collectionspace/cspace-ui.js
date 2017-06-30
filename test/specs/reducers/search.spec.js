@@ -19,8 +19,10 @@ import reducer, {
   getResult,
   isPending,
   searchKey,
+  getIndexesByCsid,
   getSelectedItems,
   getMostRecentDescriptor,
+  getState,
 } from '../../../src/reducers/search';
 
 const expect = chai.expect;
@@ -41,13 +43,13 @@ describe('search reducer', function suite() {
   });
 
   it('should handle SEARCH_STARTED', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: 0,
         size: 3,
       },
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -82,14 +84,14 @@ describe('search reducer', function suite() {
     }));
 
     isPending(state, searchName, searchDescriptor).should.equal(true);
-    getMostRecentDescriptor(state, searchName).should.equal(Immutable.fromJS(searchDescriptor));
+    getMostRecentDescriptor(state, searchName).should.equal(searchDescriptor);
   });
 
   it('should clear all search states on SEARCH_STARTED when the new search is not only a page change', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'group',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -120,13 +122,13 @@ describe('search reducer', function suite() {
   });
 
   it('should seed the search result on SEARCH_STARTED when the new search is only a page change', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: '2',
         size: '10',
       },
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -166,14 +168,14 @@ describe('search reducer', function suite() {
   });
 
   it('should seed the search result on SEARCH_STARTED when the new search is only a sort change', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: '0',
         size: '10',
         sort: 'title desc',
       },
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -216,14 +218,14 @@ describe('search reducer', function suite() {
   });
 
   it('should seed the search result on SEARCH_STARTED when the new search is only a seq id change', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: '0',
         size: '10',
       },
       seqID: '2',
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -274,10 +276,10 @@ describe('search reducer', function suite() {
   });
 
   it('should handle SET_MOST_RECENT_SEARCH', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -304,10 +306,10 @@ describe('search reducer', function suite() {
   });
 
   it('should not change state on SET_MOST_RECENT_SEARCH if the specified key does not exist', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const initialState = Immutable.fromJS({
       [searchName]: {
@@ -328,18 +330,34 @@ describe('search reducer', function suite() {
   });
 
   it('should handle SEARCH_FULFILLED', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
     const data = {
-      itemsInPage: 40,
-      pageNum: 0,
-      pageSize: 40,
-      totalItems: 234,
+      'ns2:abstract-common-list': {
+        itemsInPage: 4,
+        pageNum: 0,
+        pageSize: 4,
+        totalItems: 23,
+        'list-item': [
+          {
+            csid: '1111',
+          },
+          {
+            csid: '2222',
+          },
+          {
+            csid: '3333',
+          },
+          {
+            csid: '4444',
+          },
+        ],
+      },
     };
 
     const initialState = Immutable.fromJS({
@@ -361,12 +379,13 @@ describe('search reducer', function suite() {
         data,
       },
       meta: {
+        listTypeConfig,
         searchName,
         searchDescriptor,
       },
     });
 
-    state.should.deep.equal(Immutable.fromJS({
+    state.should.equal(Immutable.fromJS({
       [searchName]: {
         mostRecentKey: key,
         byKey: {
@@ -374,21 +393,114 @@ describe('search reducer', function suite() {
             descriptor: searchDescriptor,
             isPending: false,
             result: data,
+            indexesByCsid: {
+              1111: 0,
+              2222: 1,
+              3333: 2,
+              4444: 3,
+            },
+            listNodeName: listTypeConfig.listNodeName,
+            itemNodeName: listTypeConfig.itemNodeName,
           },
         },
       },
     }));
 
     isPending(state, searchName, searchDescriptor).should.equal(false);
-    getResult(state, searchName, searchDescriptor).should.deep.equal(Immutable.fromJS(data));
+    getResult(state, searchName, searchDescriptor).should.equal(Immutable.fromJS(data));
     (typeof getError(state, searchName, searchDescriptor)).should.equal('undefined');
+
+    getIndexesByCsid(state, searchName, searchDescriptor).should.equal(Immutable.fromJS({
+      1111: 0,
+      2222: 1,
+      3333: 2,
+      4444: 3,
+    }));
+
+    getState(state, searchName, searchDescriptor).should
+      .equal(state.getIn([searchName, 'byKey', key]));
+  });
+
+  it('should handle SEARCH_FULFILLED when a single item is found', function test() {
+    const searchDescriptor = Immutable.fromJS({
+      recordType: 'collectionobject',
+      searchQuery: {},
+    });
+
+    const key = searchKey(searchDescriptor);
+
+    const data = {
+      'ns2:abstract-common-list': {
+        itemsInPage: 1,
+        pageNum: 0,
+        pageSize: 40,
+        totalItems: 1,
+        'list-item': {
+          csid: '1111',
+        },
+      },
+    };
+
+    const initialState = Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            descriptor: searchDescriptor,
+            isPending: true,
+            result: null,
+          },
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: SEARCH_FULFILLED,
+      payload: {
+        data,
+      },
+      meta: {
+        listTypeConfig,
+        searchName,
+        searchDescriptor,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName]: {
+        mostRecentKey: key,
+        byKey: {
+          [key]: {
+            descriptor: searchDescriptor,
+            isPending: false,
+            result: data,
+            indexesByCsid: {
+              1111: 0,
+            },
+            listNodeName: listTypeConfig.listNodeName,
+            itemNodeName: listTypeConfig.itemNodeName,
+          },
+        },
+      },
+    }));
+
+    isPending(state, searchName, searchDescriptor).should.equal(false);
+    getResult(state, searchName, searchDescriptor).should.equal(Immutable.fromJS(data));
+    (typeof getError(state, searchName, searchDescriptor)).should.equal('undefined');
+
+    getIndexesByCsid(state, searchName, searchDescriptor).should.equal(Immutable.fromJS({
+      1111: 0,
+    }));
+
+    getState(state, searchName, searchDescriptor).should
+      .equal(state.getIn([searchName, 'byKey', key]));
   });
 
   it('should not change state on SEARCH_FULFILLED for an unknown search descriptor', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
     const data = {};
@@ -415,10 +527,10 @@ describe('search reducer', function suite() {
   });
 
   it('should handle SEARCH_REJECTED', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -448,7 +560,7 @@ describe('search reducer', function suite() {
       },
     });
 
-    state.should.deep.equal(Immutable.fromJS({
+    state.should.equal(Immutable.fromJS({
       [searchName]: {
         mostRecentKey: key,
         byKey: {
@@ -467,10 +579,10 @@ describe('search reducer', function suite() {
   });
 
   it('should not change state on SEARCH_REJECTED for an unknown search descriptor', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -513,13 +625,13 @@ describe('search reducer', function suite() {
   });
 
   it('should handle CREATE_EMPTY_SEARCH_RESULT', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
         p: 2,
         size: 12,
       },
-    };
+    });
 
     const emptyResultData = {
       'ns2:abstract-common-list': {
@@ -562,6 +674,9 @@ describe('search reducer', function suite() {
             descriptor: searchDescriptor,
             isPending: false,
             result: emptyResultData,
+            indexesByCsid: undefined,
+            listNodeName: listTypeConfig.listNodeName,
+            itemNodeName: listTypeConfig.itemNodeName,
           },
         },
       },
@@ -570,16 +685,16 @@ describe('search reducer', function suite() {
     isPending(state, searchName, searchDescriptor).should.equal(false);
 
     getResult(state, searchName, searchDescriptor).should
-      .deep.equal(Immutable.fromJS(emptyResultData));
+      .equal(Immutable.fromJS(emptyResultData));
 
     (typeof getError(state, searchName, searchDescriptor)).should.equal('undefined');
   });
 
   it('should handle SET_RESULT_ITEM_SELECTED', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 
@@ -632,7 +747,7 @@ describe('search reducer', function suite() {
       },
     });
 
-    state.should.deep.equal(Immutable.fromJS({
+    state.should.equal(Immutable.fromJS({
       [searchName]: {
         mostRecentKey: key,
         byKey: {
@@ -647,7 +762,7 @@ describe('search reducer', function suite() {
       },
     }));
 
-    getSelectedItems(state, searchName).should.deep.equal(Immutable.fromJS({
+    getSelectedItems(state, searchName).should.equal(Immutable.fromJS({
       2222: items[1],
     }));
 
@@ -662,7 +777,7 @@ describe('search reducer', function suite() {
       },
     });
 
-    state.should.deep.equal(Immutable.fromJS({
+    state.should.equal(Immutable.fromJS({
       [searchName]: {
         mostRecentKey: key,
         byKey: {
@@ -675,7 +790,7 @@ describe('search reducer', function suite() {
       },
     }));
 
-    getSelectedItems(state, searchName).should.deep.equal(Immutable.fromJS({}));
+    getSelectedItems(state, searchName).should.equal(Immutable.fromJS({}));
 
     state = reducer(initialState, {
       type: SET_RESULT_ITEM_SELECTED,
@@ -749,10 +864,10 @@ describe('search reducer', function suite() {
   });
 
   it('should handle SET_ALL_RESULT_ITEMS_SELECTED', function test() {
-    const searchDescriptor = {
+    const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
-    };
+    });
 
     const key = searchKey(searchDescriptor);
 

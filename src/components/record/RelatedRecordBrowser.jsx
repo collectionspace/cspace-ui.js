@@ -11,6 +11,7 @@ const propTypes = {
   cloneCsid: PropTypes.string,
   config: PropTypes.object,
   history: PropTypes.object,
+  location: PropTypes.object,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -89,6 +90,7 @@ export default class RelatedRecordBrowser extends Component {
         vocabulary,
         csid,
         history,
+        location,
       } = this.props;
 
       const path =
@@ -96,7 +98,10 @@ export default class RelatedRecordBrowser extends Component {
           .filter(part => !!part)
           .join('/');
 
-      history.replace(`/record/${path}`);
+      history.replace({
+        pathname: `/record/${path}`,
+        state: location.state,
+      });
     }
   }
 
@@ -107,6 +112,7 @@ export default class RelatedRecordBrowser extends Component {
       csid,
       relatedRecordType,
       history,
+      location,
     } = this.props;
 
     const path =
@@ -123,6 +129,7 @@ export default class RelatedRecordBrowser extends Component {
     history.replace({
       pathname: `/record/${path}/new`,
       search: `?${queryString}`,
+      state: location.state,
     });
   }
 
@@ -135,6 +142,7 @@ export default class RelatedRecordBrowser extends Component {
   handleCreateButtonClick() {
     const {
       history,
+      location,
       recordType,
       vocabulary,
       csid,
@@ -146,7 +154,10 @@ export default class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    history.replace(`/record/${path}`);
+    history.replace({
+      pathname: `/record/${path}`,
+      state: location.state,
+    });
   }
 
   handleRelateButtonClick() {
@@ -166,6 +177,7 @@ export default class RelatedRecordBrowser extends Component {
   handleRelationEditorClose() {
     const {
       history,
+      location,
       recordType,
       vocabulary,
       csid,
@@ -182,7 +194,10 @@ export default class RelatedRecordBrowser extends Component {
         .filter(part => !!part)
         .join('/');
 
-    history.replace(`/record/${path}`);
+    history.replace({
+      pathname: `/record/${path}`,
+      state: location.state,
+    });
   }
 
   handleRelationEditorUnrelated(subject, object) {
@@ -223,6 +238,7 @@ export default class RelatedRecordBrowser extends Component {
     if (!isNavigating) {
       const {
         history,
+        location,
         recordType,
         vocabulary,
         csid,
@@ -234,7 +250,10 @@ export default class RelatedRecordBrowser extends Component {
           .filter(part => !!part)
           .join('/');
 
-      history.replace(`/record/${path}`);
+      history.replace({
+        pathname: `/record/${path}`,
+        state: location.state,
+      });
     }
   }
 

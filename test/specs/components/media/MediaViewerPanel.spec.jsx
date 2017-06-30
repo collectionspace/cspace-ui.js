@@ -23,14 +23,14 @@ const config = {
 
 const searchName = 'testSearch';
 
-const searchDescriptor = {
+const searchDescriptor = Immutable.fromJS({
   recordType: 'media',
   searchQuery: {
     p: 0,
     size: 0,
     rel: '1234',
   },
-};
+});
 
 const searchResult = Immutable.fromJS({
   'ns2:abstract-common-list': {
@@ -179,14 +179,14 @@ describe('MediaViewerPanel', function suite() {
         />
       </StoreProvider>, this.container);
 
-    const newSearchDescriptor = {
+    const newSearchDescriptor = Immutable.fromJS({
       recordType: 'media',
       searchQuery: {
         p: 0,
         size: 0,
         rel: '5678',
       },
-    };
+    });
 
     render(
       <StoreProvider store={store}>

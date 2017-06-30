@@ -138,7 +138,7 @@ describe('SearchResultLink', function suite() {
 
   it('should call search when mounted', function test() {
     const searchName = 'test';
-    const searchDescriptor = {};
+    const searchDescriptor = Immutable.Map();
 
     let searchedConfig = null;
     let searchedSearchName = null;
@@ -167,7 +167,7 @@ describe('SearchResultLink', function suite() {
 
   it('should call search when a new searchName is supplied via props', function test() {
     const searchName = 'test';
-    const searchDescriptor = {};
+    const searchDescriptor = Immutable.Map();
 
     let searchedConfig = null;
     let searchedSearchName = null;

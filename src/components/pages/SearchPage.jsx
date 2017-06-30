@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
+import Immutable from 'immutable';
 import ErrorPage from './ErrorPage';
 import BaseSearchForm from '../search/SearchForm';
 import TitleBar from '../sections/TitleBar';
@@ -74,11 +75,8 @@ export default class SearchPage extends Component {
       // commit the new values.
 
       const searchDescriptor = this.getSearchDescriptor();
-
-      const {
-        recordType,
-        vocabulary,
-      } = searchDescriptor;
+      const recordType = searchDescriptor.get('recordType');
+      const vocabulary = searchDescriptor.get('vocabulary');
 
       const {
         recordTypeValue,
@@ -119,7 +117,7 @@ export default class SearchPage extends Component {
       }
     });
 
-    return searchDescriptor;
+    return Immutable.fromJS(searchDescriptor);
   }
 
   normalizePath() {
@@ -192,10 +190,7 @@ export default class SearchPage extends Component {
     }
 
     const searchDescriptor = this.getSearchDescriptor();
-
-    const {
-      recordType,
-    } = searchDescriptor;
+    const recordType = searchDescriptor.get('recordType');
 
     history.replace({
       pathname: `/search/${recordType}/${value}`,
@@ -216,11 +211,8 @@ export default class SearchPage extends Component {
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
-
-    const {
-      recordType,
-      vocabulary,
-    } = searchDescriptor;
+    const recordType = searchDescriptor.get('recordType');
+    const vocabulary = searchDescriptor.get('vocabulary');
 
     const validation = validateLocation(config, { recordType, vocabulary });
 

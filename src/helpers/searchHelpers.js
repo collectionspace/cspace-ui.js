@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import moment from 'moment-timezone';
+import qs from 'qs';
 
 import {
   configKey,
@@ -315,3 +316,70 @@ export const advancedSearchConditionToNXQL = (fieldDescriptor, condition, server
   return null;
 };
 
+/**
+ * Converts a search descriptor to a React Router location.
+ */
+export const searchDescriptorToLocation = (searchDescriptor) => {
+  const recordType = searchDescriptor.get('recordType');
+  const vocabulary = searchDescriptor.get('vocabulary');
+  const csid = searchDescriptor.get('csid');
+  const subresource = searchDescriptor.get('subresource');
+  const searchQuery = searchDescriptor.get('searchQuery');
+
+  const pathParts = ['/list', recordType, vocabulary, csid, subresource];
+  const pathname = pathParts.filter(part => !!part).join('/');
+
+  const as = searchQuery.get('as');
+  const p = searchQuery.get('p');
+
+  const asParam = as
+    ? JSON.stringify(as.toJS())
+    : undefined;
+
+  const pParam = (typeof p === 'number')
+    ? (p + 1).toString()
+    : undefined;
+
+  const queryString = qs.stringify(searchQuery.set('as', asParam).set('p', pParam).toJS());
+
+  return {
+    pathname,
+    search: `?${queryString}`,
+  };
+};
+
+export const getListType = (config, searchDescriptor) => {
+  if (searchDescriptor) {
+    const subresource = searchDescriptor.get('subresource');
+
+    if (subresource) {
+      return get(config, ['subresources', subresource, 'listType']);
+    }
+  }
+
+  return 'common';
+};
+
+/**
+ * Returns a search descriptor that describes the next page of the search described by a given
+ * descriptor.
+ */
+export const getNextPageSearchDescriptor = (searchDescriptor) => {
+  const p = searchDescriptor.getIn(['searchQuery', 'p']) || 0;
+
+  return searchDescriptor.setIn(['searchQuery', 'p'], p + 1);
+};
+
+/**
+ * Returns a search descriptor that describes the previous page of the search described by a given
+ * descriptor. Null is returned if the given descriptor is on the first page.
+ */
+export const getPreviousPageSearchDescriptor = (searchDescriptor) => {
+  const p = searchDescriptor.getIn(['searchQuery', 'p']) || 0;
+
+  if (p <= 0) {
+    return null;
+  }
+
+  return searchDescriptor.setIn(['searchQuery', 'p'], p - 1);
+};

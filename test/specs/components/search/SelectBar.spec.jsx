@@ -261,7 +261,7 @@ describe('SelectBar', function suite() {
       setShowCheckboxFilter = showCheckboxFilterArg;
     };
 
-    const searchDescriptor = {};
+    const searchDescriptor = Immutable.Map();
     const showCheckboxFilter = () => true;
 
     const shallowRenderer = createRenderer();

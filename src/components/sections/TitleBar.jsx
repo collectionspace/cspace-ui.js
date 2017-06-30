@@ -9,6 +9,7 @@ const propTypes = {
   title: PropTypes.node,
   subtitle: PropTypes.node,
   aside: PropTypes.node,
+  nav: PropTypes.node,
 };
 
 export default class TitleBar extends Component {
@@ -51,6 +52,14 @@ export default class TitleBar extends Component {
         docked: true,
       });
     }
+  }
+
+  renderNav() {
+    const {
+      nav,
+    } = this.props;
+
+    return nav;
   }
 
   renderTitle() {
@@ -106,6 +115,7 @@ export default class TitleBar extends Component {
         style={inlineStyle}
       >
         <div className={styles.inner}>
+          {this.renderNav()}
           <div>
             {this.renderTitle()}
             {this.renderAside()}

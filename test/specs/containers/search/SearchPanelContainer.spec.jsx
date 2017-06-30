@@ -4,7 +4,6 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import merge from 'lodash/merge';
 import SearchPanel from '../../../../src/components/search/SearchPanel';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import { searchKey } from '../../../../src/reducers/search';
@@ -23,12 +22,12 @@ describe('SearchPanelContainer', function suite() {
     code: 'ERROR_CODE',
   };
 
-  const searchDescriptor = {
+  const searchDescriptor = Immutable.fromJS({
     searchQuery: {
       p: 0,
       size: 5,
     },
-  };
+  });
 
   const recordType = 'object';
   const preferredPageSize = 23;
@@ -111,10 +110,7 @@ describe('SearchPanelContainer', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.searchDescriptor.should.deep.equal(merge({}, searchDescriptor, {
-      searchQuery: {
-        size: preferredPageSize,
-      },
-    }));
+    result.props.searchDescriptor.should
+      .equal(searchDescriptor.setIn(['searchQuery', 'size'], preferredPageSize));
   });
 });

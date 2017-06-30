@@ -43,6 +43,10 @@ import {
   rangeFieldConditionToNXQL,
   fieldConditionToNXQL,
   advancedSearchConditionToNXQL,
+  searchDescriptorToLocation,
+  getListType,
+  getNextPageSearchDescriptor,
+  getPreviousPageSearchDescriptor,
 } from '../../../src/helpers/searchHelpers';
 
 const expect = chai.expect;
@@ -742,6 +746,176 @@ describe('searchHelpers', function moduleSuite() {
 
     it('should return null for a null condition', function test() {
       expect(advancedSearchConditionToNXQL(fields, null)).to.equal(null);
+    });
+  });
+
+  describe('searchDescriptorToLocation', function suite() {
+    it('should put the record type, vocabulary, csid, and subresource into the location\'s pathname', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'person',
+        vocabulary: 'local',
+        csid: '1234',
+        subresource: 'terms',
+        searchQuery: {},
+      });
+
+      searchDescriptorToLocation(searchDescriptor).should.include({
+        pathname: '/list/person/local/1234/terms',
+      });
+    });
+
+    it('should stringify the searchQuery, and put it into the location\'s search', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'person',
+        vocabulary: 'local',
+        csid: '1234',
+        subresource: 'terms',
+        searchQuery: {
+          p: 2,
+          size: 10,
+          as: {
+            op: OP_GT,
+            path: 'ns2:part/foo',
+            value: 'bar',
+          },
+        },
+      });
+
+      searchDescriptorToLocation(searchDescriptor).should.deep.equal({
+        pathname: '/list/person/local/1234/terms',
+        search: '?p=3&size=10&as=%7B%22op%22%3A%22gt%22%2C%22path%22%3A%22ns2%3Apart%2Ffoo%22%2C%22value%22%3A%22bar%22%7D',
+      });
+    });
+
+    it('should increment the page number by one (to make it human readable)', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 0,
+          size: 10,
+        },
+      });
+
+      searchDescriptorToLocation(searchDescriptor).should.deep.equal({
+        pathname: '/list/collectionobject',
+        search: '?p=1&size=10',
+      });
+    });
+  });
+
+  describe('getListType', function suite() {
+    it('should return the list type of the given search descriptor\'s subresource, if it has one', function test() {
+      const config = {
+        subresources: {
+          refs: {
+            listType: 'refDoc',
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'person',
+        vocabulary: 'local',
+        subresource: 'refs',
+      });
+
+      getListType(config, searchDescriptor).should.equal('refDoc');
+    });
+
+    it('should return \'common\' if the given search desriptor does not have a subresource', function test() {
+      const config = {
+        subresources: {
+          refs: {
+            listType: 'refDoc',
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'group',
+      });
+
+      getListType(config, searchDescriptor).should.equal('common');
+    });
+  });
+
+  describe('getNextPageSearchDescriptor', function suite() {
+    it('should increment the page number of the given search descriptor', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 6,
+          size: 20,
+        },
+      });
+
+      getNextPageSearchDescriptor(searchDescriptor).should.equal(Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 7,
+          size: 20,
+        },
+      }));
+    });
+
+    it('should treat the given search descriptor as having page 0 if it has no page', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          size: 20,
+        },
+      });
+
+      getNextPageSearchDescriptor(searchDescriptor).should.equal(Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 1,
+          size: 20,
+        },
+      }));
+    });
+  });
+
+  describe('getPreviousPageSearchDescriptor', function suite() {
+    it('should decrement the page number of the given search descriptor', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 6,
+          size: 20,
+        },
+      });
+
+      getPreviousPageSearchDescriptor(searchDescriptor).should.equal(Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 5,
+          size: 20,
+        },
+      }));
+    });
+
+    it('should return null if the given search descriptor is on page 0', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          p: 0,
+          size: 20,
+        },
+      });
+
+      expect(getPreviousPageSearchDescriptor(searchDescriptor)).to.equal(null);
+    });
+
+    it('should treat the given search descriptor as having page 0 if it has no page', function test() {
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        searchQuery: {
+          size: 20,
+        },
+      });
+
+      expect(getPreviousPageSearchDescriptor(searchDescriptor)).to.equal(null);
     });
   });
 });

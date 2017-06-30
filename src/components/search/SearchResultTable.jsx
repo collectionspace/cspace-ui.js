@@ -26,7 +26,7 @@ const messages = defineMessages({
 const isSortable = (column, searchDescriptor) => {
   const { sortBy } = column;
 
-  return (sortBy && (!searchDescriptor.searchQuery.rel || sortBy.indexOf('/0/') === -1));
+  return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
 };
 
 const propTypes = {
@@ -37,7 +37,7 @@ const propTypes = {
   history: PropTypes.object,
   isSearchPending: PropTypes.bool,
   listType: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   showCheckboxColumn: PropTypes.bool,
@@ -93,10 +93,22 @@ export default class SearchResultTable extends Component {
 
       if (performDefault) {
         const itemContext = { config, searchDescriptor };
-        const itemLocation = listTypeConfig.getItemLocation(item, itemContext);
+        const itemLocationPath = listTypeConfig.getItemLocationPath(item, itemContext);
 
-        if (itemLocation) {
-          history.push(itemLocation);
+        if (itemLocationPath) {
+          // Push the item location onto history, along with enough state to reproduce this search.
+          // The search descriptor is converted to an objectin order to reliably store it in
+          // location state.
+
+          history.push({
+            pathname: itemLocationPath,
+            state: {
+              searchDescriptor: searchDescriptor.toJS(),
+              // The search traverser on records will always link to the search result page, so use
+              // its search name.
+              searchName: 'searchResultPage',
+            },
+          });
         }
       }
     }
@@ -136,11 +148,9 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     if (searchResult) {
-      const {
-        recordType,
-        subresource,
-        searchQuery,
-      } = searchDescriptor;
+      const recordType = searchDescriptor.get('recordType');
+      const subresource = searchDescriptor.get('subresource');
+      const searchQuery = searchDescriptor.get('searchQuery');
 
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
@@ -148,7 +158,7 @@ export default class SearchResultTable extends Component {
       let sortColumnName = null;
       let sortDir = null;
 
-      const sortSpec = searchQuery.sort;
+      const sortSpec = searchQuery.get('sort');
 
       if (sortSpec) {
         [sortColumnName, sortDir] = sortSpec.split(' ');

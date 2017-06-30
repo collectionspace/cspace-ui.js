@@ -187,6 +187,10 @@ describe('RecordPage', function suite() {
       action: '',
       pathname: `/record/${objectRecordType}/${csid}`,
       search: '',
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
     };
 
     const match = {
@@ -418,7 +422,10 @@ describe('RecordPage', function suite() {
 
       Simulate.click(tabButton);
 
-      replacedLocation.should.equal(`/record/${objectRecordType}/${csid}/group`);
+      replacedLocation.should.deep.equal({
+        pathname: `/record/${objectRecordType}/${csid}/group`,
+        state: location.state,
+      });
     });
   });
 

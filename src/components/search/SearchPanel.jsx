@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
-import qs from 'qs';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
-import merge from 'lodash/merge';
 import { baseComponents as inputComponents } from 'cspace-input';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
+import { searchDescriptorToLocation } from '../../helpers/searchHelpers';
 import Pager from './Pager';
 import styles from '../../../styles/cspace-ui/SearchPanel.css';
 
@@ -33,11 +31,10 @@ const propTypes = {
   color: PropTypes.string,
   columnSetName: PropTypes.string,
   config: PropTypes.object,
-  csid: PropTypes.string,
   history: PropTypes.object,
   name: PropTypes.string,
   recordType: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
   title: PropTypes.node,
@@ -102,7 +99,7 @@ export default class SearchPanel extends Component {
       onSearchDescriptorChange,
     } = this.props;
 
-    if (!isEqual(prevSearchDescriptor, searchDescriptor)) {
+    if (!Immutable.is(prevSearchDescriptor, searchDescriptor)) {
       this.search();
 
       if (onSearchDescriptorChange) {
@@ -113,30 +110,18 @@ export default class SearchPanel extends Component {
 
   getSearchLocation() {
     const {
-      recordType,
-      vocabulary,
-      csid,
-      subresource,
-      searchQuery,
-    } = this.props.searchDescriptor;
+      searchDescriptor,
+    } = this.props;
 
-    const pathParts = ['/list', recordType, vocabulary, csid, subresource];
-    const pathname = pathParts.filter(part => !!part).join('/');
+    const searchQuery = searchDescriptor.get('searchQuery');
 
-    const query = Object.assign({}, searchQuery, {
-      // Always go to the first page, since the page size may differ on the search result page.
-      p: '1',
-      // Remove the size, so that the default/preferred setting for the search result page will
-      // take effect.
-      size: undefined,
-    });
+    // Always go to the first page, since the page size may differ on the search result page.
+    // Remove the size, so that the default/preferred setting for the search result page will
+    // take effect.
 
-    const queryString = qs.stringify(query);
-
-    return {
-      pathname,
-      search: `?${queryString}`,
-    };
+    return searchDescriptorToLocation(
+      searchDescriptor.set('searchQuery', searchQuery.set('p', 0).delete('size'))
+    );
   }
 
   closeModal() {
@@ -166,11 +151,11 @@ export default class SearchPanel extends Component {
     } = this.props;
 
     if (onSearchDescriptorChange) {
-      onSearchDescriptorChange(merge({}, searchDescriptor, {
-        searchQuery: {
-          p: pageNum,
-        },
-      }));
+      const searchQuery = searchDescriptor.get('searchQuery');
+
+      onSearchDescriptorChange(
+        searchDescriptor.set('searchQuery', searchQuery.set('p', pageNum))
+      );
     }
   }
 
@@ -188,12 +173,11 @@ export default class SearchPanel extends Component {
     }
 
     if (onSearchDescriptorChange) {
-      onSearchDescriptorChange(merge({}, searchDescriptor, {
-        searchQuery: {
-          p: 0,
-          size: pageSize,
-        },
-      }));
+      const searchQuery = searchDescriptor.get('searchQuery');
+
+      onSearchDescriptorChange(
+        searchDescriptor.set('searchQuery', searchQuery.set('p', 0).set('size', pageSize))
+      );
     }
   }
 
@@ -208,11 +192,11 @@ export default class SearchPanel extends Component {
     } = this.props;
 
     if (onSearchDescriptorChange) {
-      onSearchDescriptorChange(merge({}, searchDescriptor, {
-        searchQuery: {
-          sort,
-        },
-      }));
+      const searchQuery = searchDescriptor.get('searchQuery');
+
+      onSearchDescriptorChange(
+        searchDescriptor.set('searchQuery', searchQuery.set('sort', sort))
+      );
     }
   }
 
@@ -342,7 +326,7 @@ export default class SearchPanel extends Component {
     let searchToRelateModal;
 
     if (showAddButton) {
-      const defaultRecordTypeValue = searchDescriptor.recordType;
+      const defaultRecordTypeValue = searchDescriptor.get('recordType');
 
       const defaultServiceType =
         get(config, ['recordTypes', defaultRecordTypeValue, 'serviceConfig', 'serviceType']);
@@ -356,7 +340,7 @@ export default class SearchPanel extends Component {
       searchToRelateModal = (
         <SearchToRelateModalContainer
           allowedServiceTypes={allowedServiceTypes}
-          subjects={[{ csid: searchDescriptor.searchQuery.rel, recordType }]}
+          subjects={[{ csid: searchDescriptor.getIn(['searchQuery', 'rel']), recordType }]}
           config={config}
           isOpen={isSearchToRelateModalOpen}
           defaultRecordTypeValue={defaultRecordTypeValue}

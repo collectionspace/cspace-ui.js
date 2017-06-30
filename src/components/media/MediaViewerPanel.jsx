@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
-import isEqual from 'lodash/isEqual';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import MediaViewerContainer from '../../containers/media/MediaViewerContainer';
 
@@ -21,7 +20,7 @@ const propTypes = {
   name: PropTypes.string,
   ownBlobCsid: PropTypes.string,
   recordType: PropTypes.string,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
   title: PropTypes.node,
@@ -47,7 +46,7 @@ export default class MediaViewerPanel extends Component {
       searchDescriptor,
     } = this.props;
 
-    if (!isEqual(prevSearchDescriptor, searchDescriptor)) {
+    if (!Immutable.is(prevSearchDescriptor, searchDescriptor)) {
       this.search();
     }
   }

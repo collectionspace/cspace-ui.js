@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
+import Immutable from 'immutable';
 import CsidLink from '../navigation/CsidLink';
 import TitleBar from '../sections/TitleBar';
 import AdvancedSearchBuilder from './AdvancedSearchBuilder';
@@ -23,7 +24,7 @@ const messages = defineMessages({
 
 const propTypes = {
   config: PropTypes.object,
-  searchDescriptor: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchName: PropTypes.string,
 };
 
@@ -34,22 +35,19 @@ export default function SearchResultTitleBar(props) {
     searchName,
   } = props;
 
-  const {
-    recordType,
-    vocabulary,
-    csid,
-    subresource,
-  } = searchDescriptor;
+  const recordType = searchDescriptor.get('recordType');
+  const vocabulary = searchDescriptor.get('vocabulary');
+  const csid = searchDescriptor.get('csid');
+  const subresource = searchDescriptor.get('subresource');
+  const searchQuery = searchDescriptor.get('searchQuery');
 
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
   const vocabularyConfig = vocabulary ? get(recordTypeConfig, ['vocabularies', vocabulary]) : undefined;
   const subresourceConfig = subresource ? get(config, ['subresources', subresource]) : undefined;
 
-  const {
-    as: advancedSearchCondition,
-    kw,
-    rel,
-  } = searchDescriptor.searchQuery;
+  const advancedSearchCondition = searchQuery.get('as');
+  const kw = searchQuery.get('kw');
+  const rel = searchQuery.get('rel');
 
   let queryTitle;
 

@@ -11,6 +11,7 @@ const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   history: PropTypes.object,
+  location: PropTypes.object,
   recordType: PropTypes.string,
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
@@ -103,6 +104,7 @@ export default class RecordBrowser extends Component {
       config,
       csid,
       history,
+      location,
       recordType,
       relatedCsid,
       relatedRecordType,
@@ -118,6 +120,7 @@ export default class RecordBrowser extends Component {
           cloneCsid={cloneCsid}
           config={config}
           history={history}
+          location={location}
           recordType={recordType}
           csid={csid}
           relatedRecordType={relatedRecordType}

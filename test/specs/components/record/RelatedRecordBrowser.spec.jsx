@@ -156,6 +156,13 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should replace history when a related csid is not provided but a preferred related csid is provided', function test() {
+    const location = {
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
+    };
+
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -170,6 +177,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -180,10 +188,20 @@ describe('RelatedRecordBrowser', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}/${relatedCsid}`);
+    replacedLocation.should.deep.equal({
+      pathname: `/record/${recordType}/${csid}/${relatedRecordType}/${relatedCsid}`,
+      state: location.state,
+    });
   });
 
   it('should replace history when the clone button is clicked', function test() {
+    const location = {
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
+    };
+
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -198,6 +216,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -215,10 +234,18 @@ describe('RelatedRecordBrowser', function suite() {
     replacedLocation.should.deep.equal({
       pathname: `/record/${recordType}/${csid}/${relatedRecordType}/new`,
       search: `?clone=${relatedCsid}`,
+      state: location.state,
     });
   });
 
   it('should replace history when the create new button is clicked', function test() {
+    const location = {
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
+    };
+
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -233,6 +260,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -246,7 +274,10 @@ describe('RelatedRecordBrowser', function suite() {
 
     Simulate.click(button);
 
-    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}/new`);
+    replacedLocation.should.deep.equal({
+      pathname: `/record/${recordType}/${csid}/${relatedRecordType}/new`,
+      state: location.state,
+    });
   });
 
   it('should call onShowRelated when a related record list item is clicked', function test() {
@@ -282,6 +313,13 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should replace history when a new related record is created', function test() {
+    const location = {
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
+    };
+
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -319,6 +357,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -335,7 +374,10 @@ describe('RelatedRecordBrowser', function suite() {
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}/${newCsid}`);
+        replacedLocation.should.deep.equal({
+          pathname: `/record/${recordType}/${csid}/${relatedRecordType}/${newCsid}`,
+          state: location.state,
+        });
 
         resolve();
       }, 10);
@@ -471,6 +513,13 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should replace history when the related record is unrelated in the related record panel', function test() {
+    const location = {
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
+    };
+
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -485,6 +534,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -504,7 +554,10 @@ describe('RelatedRecordBrowser', function suite() {
       { csid: '1113' },
     ]);
 
-    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}`);
+    replacedLocation.should.deep.equal({
+      pathname: `/record/${recordType}/${csid}/${relatedRecordType}`,
+      state: location.state,
+    });
   });
 
   it('should call deselect when a record is unrelated in the relation editor', function test() {
@@ -541,6 +594,13 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should replace history when the relation editor is closed', function test() {
+    const location = {
+      state: {
+        foo: 'foo',
+        bar: 'bar',
+      },
+    };
+
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -555,6 +615,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -569,7 +630,10 @@ describe('RelatedRecordBrowser', function suite() {
 
     relationEditor.props.onClose();
 
-    replacedLocation.should.equal(`/record/${recordType}/${csid}/${relatedRecordType}`);
+    replacedLocation.should.deep.equal({
+      pathname: `/record/${recordType}/${csid}/${relatedRecordType}`,
+      state: location.state,
+    });
   });
 
   it('should call setPreferredRelatedCsid when the related csid is changed via props', function test() {
@@ -620,6 +684,7 @@ describe('RelatedRecordBrowser', function suite() {
   });
 
   it('should call setPreferredRelatedCsid when the relation editor is closed', function test() {
+    const location = {};
     const history = mockHistory();
 
     let setRecordType = null;
@@ -636,6 +701,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              location={location}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}

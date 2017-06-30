@@ -1,14 +1,11 @@
-import Immutable from 'immutable';
-
 /**
  * Converts an object into an array of name/value pairs (two-element arrays), sorted by name.
  */
 export const asPairs = (object) => {
-  const obj = Immutable.Map.isMap(object) ? object.toJS() : object;
   const array = [];
 
-  Object.keys(obj).sort().forEach((key) => {
-    const value = obj[key];
+  Object.keys(object).sort().forEach((key) => {
+    const value = object[key];
 
     array.push([key, (typeof value === 'object' ? asPairs(value) : value)]);
   });

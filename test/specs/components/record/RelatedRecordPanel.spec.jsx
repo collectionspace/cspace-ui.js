@@ -6,6 +6,7 @@ import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType, findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
@@ -14,6 +15,7 @@ import SelectBar from '../../../../src/components/search/SelectBar';
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 const recordData = Immutable.fromJS({
@@ -75,7 +77,7 @@ describe('RelatedRecordPanel', function suite() {
     result.props.config.should.equal(config);
     result.props.recordType.should.equal(recordType);
 
-    result.props.searchDescriptor.should.deep.equal({
+    result.props.searchDescriptor.should.equal(Immutable.fromJS({
       recordType: relatedRecordType,
       searchQuery: {
         rel: csid,
@@ -83,7 +85,7 @@ describe('RelatedRecordPanel', function suite() {
         size: 5,
       },
       seqID: recordRelationUpdatedTimestamp,
-    });
+    }));
   });
 
   it('should render a select bar in the panel header if showCheckboxColumn is true', function test() {
@@ -170,7 +172,7 @@ describe('RelatedRecordPanel', function suite() {
       />);
 
     const result = shallowRenderer.getRenderOutput();
-    const newSearchDescriptor = { foo: 'bar', seqID: 'seq1234' };
+    const newSearchDescriptor = Immutable.fromJS({ foo: 'bar', seqID: 'seq1234' });
 
     result.props.onSearchDescriptorChange(newSearchDescriptor);
 
@@ -196,7 +198,7 @@ describe('RelatedRecordPanel', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.searchDescriptor.searchQuery.should.have.property('rel', csid);
+    result.props.searchDescriptor.getIn(['searchQuery', 'rel']).should.equal(csid);
 
     const newCsid = '5678';
 
@@ -211,7 +213,7 @@ describe('RelatedRecordPanel', function suite() {
 
     const newResult = shallowRenderer.getRenderOutput();
 
-    newResult.props.searchDescriptor.searchQuery.should.have.property('rel', newCsid);
+    newResult.props.searchDescriptor.getIn(['searchQuery', 'rel']).should.equal(newCsid);
   });
 
   it('should maintain the page number, size, and sort when only recordRelationUpdatedTimestamp is changed', function test() {
@@ -231,7 +233,7 @@ describe('RelatedRecordPanel', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onSearchDescriptorChange({
+    result.props.onSearchDescriptorChange(Immutable.fromJS({
       recordType: 'group',
       searchQuery: {
         rel: csid,
@@ -239,7 +241,7 @@ describe('RelatedRecordPanel', function suite() {
         size: 4,
         sort: 'sortfield',
       },
-    });
+    }));
 
     shallowRenderer.render(
       <RelatedRecordPanel
@@ -252,10 +254,11 @@ describe('RelatedRecordPanel', function suite() {
       />);
 
     const newResult = shallowRenderer.getRenderOutput();
+    const searchQuery = newResult.props.searchDescriptor.get('searchQuery');
 
-    newResult.props.searchDescriptor.searchQuery.p.should.equal(2);
-    newResult.props.searchDescriptor.searchQuery.size.should.equal(4);
-    newResult.props.searchDescriptor.searchQuery.sort.should.equal('sortfield');
+    searchQuery.get('p').should.equal(2);
+    searchQuery.get('size').should.equal(4);
+    searchQuery.get('sort').should.equal('sortfield');
   });
 
   it('should render checkboxes as checked for selected items', function test() {
@@ -348,8 +351,8 @@ describe('RelatedRecordPanel', function suite() {
     handleItemSelectChangeConfig.should.equal(config);
     handleItemSelectChangeName.should.equal(panelName);
 
-    handleItemSelectChangeSearchDescriptor.recordType.should.equal(relatedRecordType);
-    handleItemSelectChangeSearchDescriptor.searchQuery.rel.should.equal(csid);
+    handleItemSelectChangeSearchDescriptor.get('recordType').should.equal(relatedRecordType);
+    handleItemSelectChangeSearchDescriptor.getIn(['searchQuery', 'rel']).should.equal(csid);
 
     handleItemSelectChangeListType.should.equal('common');
     handleItemSelectChangeIndex.should.equal(3);

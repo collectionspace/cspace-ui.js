@@ -30,7 +30,7 @@ export default () => ({
           defaultMessage: 'Finding records...',
         },
       }),
-      getItemLocation: (item, { config, searchDescriptor }) => {
+      getItemLocationPath: (item, { config, searchDescriptor }) => {
         const docType = item.get('docType');
         const refName = item.get('refName');
         const csid = item.get('csid');
@@ -46,7 +46,7 @@ export default () => ({
           // This is a search on a single record type, so the record type of all items is in the
           // search descriptor.
 
-          recordTypeConfig = config.recordTypes[searchDescriptor.recordType];
+          recordTypeConfig = config.recordTypes[searchDescriptor.get('recordType')];
         }
 
         if (recordTypeConfig) {
@@ -86,7 +86,7 @@ export default () => ({
           defaultMessage: 'Finding terms...',
         },
       }),
-      getItemLocation: (item, { config }) => {
+      getItemLocationPath: (item, { config }) => {
         const refName = item.get('refName');
         const servicePath = getServicePath(refName);
         const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
@@ -129,7 +129,7 @@ export default () => ({
           defaultMessage: 'Finding uses...',
         },
       }),
-      getItemLocation: (item, { config }) => {
+      getItemLocationPath: (item, { config }) => {
         const refName = item.get('refName');
         const csid = item.get('docId');
         const servicePath = getServicePath(refName);
