@@ -19,6 +19,7 @@ const propTypes = {
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
   deselectItem: PropTypes.func,
+  invalidateSubjectRelations: PropTypes.func,
   setPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
@@ -31,6 +32,7 @@ export default class RelatedRecordBrowser extends Component {
     this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
     this.handleRelateButtonClick = this.handleRelateButtonClick.bind(this);
     this.handleRelatedRecordCreated = this.handleRelatedRecordCreated.bind(this);
+    this.handleRelatedRecordTransitioned = this.handleRelatedRecordTransitioned.bind(this);
     this.handleRelatedRecordClick = this.handleRelatedRecordClick.bind(this);
     this.handleRelatedRecordPanelUnrelated = this.handleRelatedRecordPanelUnrelated.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
@@ -257,6 +259,18 @@ export default class RelatedRecordBrowser extends Component {
     }
   }
 
+  handleRelatedRecordTransitioned(transitionName) {
+    const {
+      csid,
+      recordType,
+      invalidateSubjectRelations,
+    } = this.props;
+
+    if (transitionName === 'delete' && invalidateSubjectRelations) {
+      invalidateSubjectRelations({ csid, recordType });
+    }
+  }
+
   handleRelatedRecordPanelUnrelated(objects) {
     const {
       relatedCsid,
@@ -309,6 +323,7 @@ export default class RelatedRecordBrowser extends Component {
           cloneRecord={this.cloneRelatedRecord}
           onClose={this.handleRelationEditorClose}
           onRecordCreated={this.handleRelatedRecordCreated}
+          onRecordTransitioned={this.handleRelatedRecordTransitioned}
           onUnrelated={this.handleRelationEditorUnrelated}
         />
       );

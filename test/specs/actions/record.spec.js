@@ -40,6 +40,9 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
+  RECORD_TRANSITION_STARTED,
+  RECORD_TRANSITION_FULFILLED,
+  RECORD_TRANSITION_REJECTED,
   REVERT_RECORD,
   ADD_FIELD_INSTANCE,
   DELETE_FIELD_VALUE,
@@ -51,6 +54,7 @@ import {
   readRecord,
   saveRecord,
   revertRecord,
+  transitionRecord,
   addFieldInstance,
   deleteFieldValue,
   moveFieldValue,
@@ -1142,6 +1146,249 @@ describe('record action creator', function suite() {
         meta: {
           notificationID: NOTIFICATION_ID_VALIDATION,
         },
+      });
+    });
+  });
+
+  describe('transitionRecord', function actionSuite() {
+    context('for an object/procedure', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordType = 'collectionobject';
+      const servicePath = 'collectionobjects';
+      const csid = '5678';
+      const transitionName = 'delete';
+      const transitionRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}/workflow/${transitionName}.*`);
+
+      const recordTypeConfig = {
+        name: recordType,
+        serviceConfig: {
+          servicePath,
+        },
+        title: () => '',
+      };
+
+      before(() => {
+        const store = mockStore({
+          login: Immutable.Map(),
+        });
+
+        store.dispatch(configureCSpace());
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should dispatch RECORD_TRANSITION_FULFILLED on success', function test() {
+        moxios.stubRequest(transitionRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(transitionRecord(recordTypeConfig, undefined, csid, transitionName))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(4);
+
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
+              type: RECORD_TRANSITION_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+                transitionName,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.deep.equal({
+              type: RECORD_TRANSITION_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                recordTypeConfig,
+                transitionName,
+              },
+            });
+          });
+      });
+
+      it('should dispatch RECORD_TRANSITION_REJECTED on error', function test() {
+        moxios.stubRequest(transitionRecordUrl, {
+          status: 400,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(transitionRecord(recordTypeConfig, undefined, csid, transitionName))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(4);
+
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
+              type: RECORD_TRANSITION_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+                transitionName,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[3].should.have.property('type', RECORD_TRANSITION_REJECTED);
+            actions[3].should.have.property('meta')
+              .that.deep.equals({
+                csid,
+                recordTypeConfig,
+                transitionName,
+              });
+          });
+      });
+    });
+
+    context('for an authority', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordType = 'person';
+      const recordServicePath = 'personauthorities';
+      const vocabulary = 'ulan';
+      const vocabularyServicePath = 'urn:cspace:name(ulan)';
+      const csid = '5678';
+      const transitionName = 'delete';
+      const transitionRecordUrl = new RegExp(`^/cspace-services/${recordServicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}/workflow/${transitionName}.*`);
+
+      const vocabularyConfig = {
+        name: vocabulary,
+        serviceConfig: {
+          servicePath: vocabularyServicePath,
+        },
+      };
+
+      const recordTypeConfig = {
+        name: recordType,
+        serviceConfig: {
+          servicePath: recordServicePath,
+        },
+        title: () => '',
+        vocabularies: {
+          [vocabulary]: vocabularyConfig,
+        },
+      };
+
+      before(() => {
+        const store = mockStore({
+          login: Immutable.Map(),
+        });
+
+        store.dispatch(configureCSpace());
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+        moxios.stubRequest(transitionRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(
+          transitionRecord(recordTypeConfig, vocabularyConfig, csid, transitionName)
+        )
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(4);
+
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
+              type: RECORD_TRANSITION_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+                transitionName,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.deep.equal({
+              type: RECORD_TRANSITION_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                recordTypeConfig,
+                transitionName,
+              },
+            });
+          });
       });
     });
   });

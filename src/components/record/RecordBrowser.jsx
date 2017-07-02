@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import qs from 'qs';
+import get from 'lodash/get';
+import Immutable from 'immutable';
 import RecordBrowserNavBarContainer from '../../containers/record/RecordBrowserNavBarContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import RelatedRecordBrowserContainer from '../../containers/record/RelatedRecordBrowserContainer';
+import { searchDescriptorToLocation } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/RecordBrowser.css';
 
 const propTypes = {
@@ -17,6 +20,7 @@ const propTypes = {
   relatedRecordType: PropTypes.string,
   vocabulary: PropTypes.string,
   clearPreferredRelatedCsid: PropTypes.func,
+  clearSearchResults: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
@@ -26,6 +30,7 @@ export default class RecordBrowser extends Component {
 
     this.cloneRecord = this.cloneRecord.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
+    this.handleRecordTransitioned = this.handleRecordTransitioned.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -98,6 +103,39 @@ export default class RecordBrowser extends Component {
     }
   }
 
+  handleRecordTransitioned(transitionName) {
+    const {
+      history,
+      location,
+      clearSearchResults,
+    } = this.props;
+
+    if (transitionName === 'delete') {
+      // The record was soft-deleted.
+
+      const searchDescriptor = get(location, ['state', 'searchDescriptor']);
+
+      let newLocation;
+
+      if (searchDescriptor) {
+        // We came from a search. Clear the results (since we know they'll be different now), and
+        // return to the search result page.
+
+        if (clearSearchResults) {
+          clearSearchResults(location.state.searchName);
+        }
+
+        newLocation = searchDescriptorToLocation(Immutable.fromJS(searchDescriptor));
+      } else {
+        // Go to the index page.
+
+        newLocation = '/';
+      }
+
+      history.replace(newLocation);
+    }
+  }
+
   render() {
     const {
       cloneCsid,
@@ -138,6 +176,7 @@ export default class RecordBrowser extends Component {
           vocabulary={vocabulary}
           clone={this.cloneRecord}
           onRecordCreated={this.handleRecordCreated}
+          onRecordTransitioned={this.handleRecordTransitioned}
         />
       );
     }

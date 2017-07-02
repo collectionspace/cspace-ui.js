@@ -144,6 +144,7 @@ describe('RecordPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <RecordPage
+              config={config}
               location={location}
               match={match}
             />
@@ -172,6 +173,7 @@ describe('RecordPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <RecordPage
+              config={config}
               location={location}
               match={match}
             />
@@ -180,6 +182,40 @@ describe('RecordPage', function suite() {
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
+  });
+
+  it('should render an error page if an error is supplied', function test() {
+    const location = {
+      action: '',
+      pathname: `/record/${objectRecordType}`,
+      search: '',
+    };
+
+    const match = {
+      params: {
+        recordType: objectRecordType,
+      },
+    };
+
+    const error = Immutable.Map({
+      code: 'ERROR_CODE',
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <RecordPage
+              config={config}
+              location={location}
+              match={match}
+              error={error}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.firstElementChild.className.should.equal('cspace-ui-ErrorPage--common');
   });
 
   context('for an object/procedure record', function contextSuite() {
@@ -216,6 +252,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={match}
                 readRecord={readRecord}
@@ -247,6 +284,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={badRecordTypeMatch}
                 readRecord={readRecord}
@@ -274,6 +312,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={match}
               />
@@ -299,6 +338,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={newLocation}
                 match={newMatch}
                 readRecord={readRecord}
@@ -318,6 +358,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={match}
               />
@@ -339,6 +380,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={match}
               />
@@ -381,6 +423,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={noCsidStore}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={noCsidLocation}
                 match={noCsidMatch}
               />
@@ -409,6 +452,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={match}
                 history={history}
@@ -460,6 +504,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={match}
                 readRecord={readRecord}
@@ -495,6 +540,7 @@ describe('RecordPage', function suite() {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <RecordPage
+                config={config}
                 location={location}
                 match={badVocabularyMatch}
                 readRecord={readRecord}

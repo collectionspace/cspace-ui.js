@@ -16,6 +16,7 @@ import {
   REMOVE_NOTIFICATION,
   SHOW_NOTIFICATION,
   CLOSE_MODAL,
+  OPEN_MODAL,
   NOTIFICATION_ID_VALIDATION,
 } from '../../../../src/actions/notification';
 
@@ -23,6 +24,7 @@ import {
   CREATE_NEW_RECORD,
   RECORD_READ_STARTED,
   RECORD_SAVE_STARTED,
+  RECORD_TRANSITION_STARTED,
   ADD_FIELD_INSTANCE,
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
@@ -370,5 +372,58 @@ describe('RecordEditorContainer', function suite() {
 
     action.meta.should.have.property('csid', csid);
     action.meta.should.have.property('path').that.deep.equals([]);
+  });
+
+  it('should connect transitionRecord to transitionRecord action creator', function test() {
+    const transitionName = 'transitionName';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    // The call to transitionRecord will fail because we haven't stubbed out everything it needs,
+    // but there's enough to verify that the transitionRecord action creator gets called, and
+    // dispatches RECORD_TRANSITION_STARTED.
+
+    try {
+      result.props.transitionRecord(transitionName);
+    } catch (error) {
+      const action = store.getActions()[0];
+
+      action.type.should.equal = RECORD_TRANSITION_STARTED;
+
+      action.meta.should.have.property('csid', csid);
+      action.meta.should.have.property('transitionName').that.equals(transitionName);
+    }
+  });
+
+  it('should connect openModal to openModal action creator', function test() {
+    const modalName = 'modalName';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.openModal(modalName);
+
+    const action = store.getActions()[0];
+
+    action.type.should.equal = OPEN_MODAL;
+
+    action.meta.should.have.property('name').that.equals(modalName);
   });
 });

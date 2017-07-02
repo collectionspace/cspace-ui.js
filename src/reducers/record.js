@@ -27,6 +27,9 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
+  RECORD_TRANSITION_STARTED,
+  RECORD_TRANSITION_FULFILLED,
+  RECORD_TRANSITION_REJECTED,
   REVERT_RECORD,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
@@ -268,6 +271,21 @@ const handleValidationPassed = (state, action) => {
   return state.deleteIn([csid, 'validation', ...path]);
 };
 
+const handleTransitionFulfilled = (state, action) => {
+  const {
+    csid,
+    transitionName,
+  } = action.meta;
+
+  let updatedState = state.deleteIn([csid, 'isSavePending']);
+
+  if (transitionName === 'delete') {
+    updatedState = updatedState.delete(csid);
+  }
+
+  return updatedState;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case VALIDATION_FAILED:
@@ -304,6 +322,12 @@ export default (state = Immutable.Map(), action) => {
           .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
           .deleteIn([action.meta.csid, 'isSavePending'])
       );
+    case RECORD_TRANSITION_STARTED:
+      return state.setIn([action.meta.csid, 'isSavePending'], true);
+    case RECORD_TRANSITION_FULFILLED:
+      return handleTransitionFulfilled(state, action);
+    case RECORD_TRANSITION_REJECTED:
+      return state.deleteIn([action.meta.csid, 'isSavePending']);
     case REVERT_RECORD:
       return setCurrentData(state, action.meta.csid, getBaselineData(state, action.meta.csid));
     case SUBJECT_RELATIONS_UPDATED:
@@ -316,6 +340,8 @@ export default (state = Immutable.Map(), action) => {
 };
 
 export const getData = (state, csid) => getCurrentData(state, csid);
+
+export const getError = (state, csid) => state.getIn([csid, 'error']);
 
 export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);
 

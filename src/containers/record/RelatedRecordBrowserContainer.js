@@ -6,6 +6,10 @@ import {
 } from '../../actions/recordBrowser';
 
 import {
+  invalidateSubjectRelations,
+} from '../../actions/relation';
+
+import {
   deselectResultItem,
 } from '../../actions/search';
 
@@ -24,6 +28,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
+  invalidateSubjectRelations,
   deselectItem: deselectResultItem,
   setPreferredRelatedCsid: setRelatedRecordBrowserRelatedCsid,
 };

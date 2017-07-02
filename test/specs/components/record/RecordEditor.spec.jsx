@@ -17,6 +17,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import ConfirmRecordNavigationModal from '../../../../src/components/record/ConfirmRecordNavigationModal';
+import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 
 const expect = chai.expect;
 
@@ -356,6 +357,34 @@ describe('RecordEditor', function suite() {
     cloneCalled.should.equal(true);
   });
 
+  it('should call openModal when the delete button is clicked', function test() {
+    let openModalName = null;
+
+    const openModal = (modalNameArg) => {
+      openModalName = modalNameArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="object"
+              openModal={openModal}
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const deleteButton = this.container.querySelector('button[name=delete]');
+
+    Simulate.click(deleteButton);
+
+    openModalName.should.equal(ConfirmRecordDeleteModal.name);
+  });
+
   it('should call validateRecordData when the save button error badge is clicked', function test() {
     let validateCalled = false;
 
@@ -563,5 +592,66 @@ describe('RecordEditor', function suite() {
 
     saveCancelledCalled.should.equal(true);
     closeModalCalled.should.equal(true);
+  });
+
+  it('should call transitionRecord, closeModal, and onRecordTransitioned when the delete modal delete button is clicked', function test() {
+    let transitionRecordTransitionName = null;
+
+    const transitionRecord = (transitionNameArg) => {
+      transitionRecordTransitionName = transitionNameArg;
+
+      return Promise.resolve();
+    };
+
+    let recordTransitionedTransitionName = null;
+
+    const handleRecordTransitioned = (transitionNameArg) => {
+      recordTransitionedTransitionName = transitionNameArg;
+    };
+
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordEditor
+            config={config}
+            csid="1234"
+            recordType="object"
+            openModalName={ConfirmRecordDeleteModal.name}
+            transitionRecord={transitionRecord}
+            closeModal={closeModal}
+            onRecordTransitioned={handleRecordTransitioned}
+          />
+        </StoreProvider>
+      </IntlProvider>);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
+    const recordEditorRenderer = createRenderer();
+
+    recordEditorRenderer.render(recordEditor);
+
+    const recordEditorResult = recordEditorRenderer.getRenderOutput();
+    const modal = findWithType(recordEditorResult, ConfirmRecordDeleteModal);
+
+    modal.props.onDeleteButtonClick();
+
+    transitionRecordTransitionName.should.equal('delete');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        closeModalCalled.should.equal(true);
+        recordTransitionedTransitionName.should.equal('delete');
+
+        resolve();
+      }, 0);
+    });
   });
 });

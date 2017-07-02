@@ -9,6 +9,7 @@ import {
 
 import {
   getRecordData,
+  getRecordError,
   getRelationFindResult,
 } from '../../reducers';
 
@@ -23,6 +24,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     objectData: getRecordData(state, object.csid),
+    objectError: getRecordError(state, object.csid),
     findResult: getRelationFindResult(state, subject, object, predicate),
   };
 };

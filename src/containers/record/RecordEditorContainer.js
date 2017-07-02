@@ -3,6 +3,7 @@ import get from 'lodash/get';
 
 import {
   closeModal,
+  openModal,
   removeValidationNotification,
 } from '../../actions/notification';
 
@@ -15,6 +16,7 @@ import {
   deleteFieldValue,
   revertRecord,
   saveRecord,
+  transitionRecord,
   validateRecordData,
 } from '../../actions/record';
 
@@ -61,6 +63,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     closeModal: (result) => {
       dispatch(closeModal(result));
     },
+    openModal: (modalName) => {
+      dispatch(openModal(modalName));
+    },
     createNewRecord: (cloneCsid) => {
       dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid));
     },
@@ -87,6 +92,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         saveRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated)
       );
     },
+    transitionRecord: transitionName =>
+      dispatch(transitionRecord(recordTypeConfig, vocabularyConfig, csid, transitionName)),
     removeValidationNotification: () => {
       dispatch(removeValidationNotification());
     },
