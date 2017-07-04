@@ -4,6 +4,7 @@ import authority from './authority';
 import citation from './citation';
 import collectionobject from './collectionobject';
 import concept from './concept';
+import conservation from './conservation';
 import exhibition from './exhibition';
 import group from './group';
 import intake from './intake';
@@ -23,6 +24,7 @@ export default [
   citation,
   collectionobject,
   concept,
+  conservation,
   exhibition,
   group,
   intake,
