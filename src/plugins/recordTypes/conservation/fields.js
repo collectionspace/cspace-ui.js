@@ -59,6 +59,19 @@ export default (pluginContext) => {
             },
           },
         },
+        updatedBy: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionspace_core.updatedBy.name',
+                defaultMessage: 'Last updated by',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
       },
       'ns2:conservation_common': {
         [config]: {

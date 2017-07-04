@@ -14,7 +14,7 @@ export default {
     },
     {
       op: OP_EQ,
-      path: 'ns2:conservation_common/conservationStatusGroupList/conservationStatusGroup/0/status',
+      path: 'ns2:conservation_common/conservationStatusGroupList/conservationStatusGroup/status',
     },
     {
       op: OP_EQ,
@@ -50,7 +50,7 @@ export default {
     },
     {
       op: OP_EQ,
-      path: 'ns2:conservation_common/sampleBy',
+      path: 'ns2:conservation_common/destAnalysisGroupList/destAnalysisGroup/sampleBy',
     },
     {
       op: OP_RANGE,
