@@ -48,6 +48,7 @@ const propTypes = {
   }),
   /* eslint-enable react/no-unused-prop-types */
   objectData: PropTypes.instanceOf(Immutable.Map),
+  objectError: PropTypes.instanceOf(Immutable.Map),
   predicate: PropTypes.string,
   findResult: PropTypes.instanceOf(Immutable.Map),
   cloneRecord: PropTypes.func,
@@ -56,6 +57,7 @@ const propTypes = {
   unrelate: PropTypes.func,
   onClose: PropTypes.func,
   onRecordCreated: PropTypes.func,
+  onRecordTransitioned: PropTypes.func,
   onUnmount: PropTypes.func,
   onUnrelated: PropTypes.func,
 };
@@ -68,6 +70,7 @@ export default class RelationEditor extends Component {
     this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
     this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
+    this.handleRecordTransitioned = this.handleRecordTransitioned.bind(this);
     this.handleSaveCancelled = this.handleSaveCancelled.bind(this);
   }
 
@@ -170,7 +173,6 @@ export default class RelationEditor extends Component {
     this.unrelateWhenUnmounted = true;
 
     this.close();
-    // this.unrelate();
   }
 
   handleRecordCreated(newRecordCsid, isNavigating) {
@@ -192,6 +194,20 @@ export default class RelationEditor extends Component {
             onRecordCreated(newRecordCsid, isNavigating);
           }
         });
+    }
+  }
+
+  handleRecordTransitioned(transitionName) {
+    const {
+      onRecordTransitioned,
+    } = this.props;
+
+    if (transitionName === 'delete') {
+      this.close();
+    }
+
+    if (onRecordTransitioned) {
+      onRecordTransitioned(transitionName);
     }
   }
 
@@ -248,6 +264,7 @@ export default class RelationEditor extends Component {
       config,
       subject,
       object,
+      objectError,
       findResult,
     } = this.props;
 
@@ -256,13 +273,23 @@ export default class RelationEditor extends Component {
         return null;
       }
 
-      // FIXME: Services should return a consistent (or no) namespace prefix.
+      let isObjectFound = true;
 
-      const list = findResult.get('ns2:relations-common-list') || findResult.get('ns3:relations-common-list');
-      const count = parseInt(list.get('totalItems'), 10);
+      if (objectError) {
+        isObjectFound = false;
+      } else {
+        // FIXME: Services should return a consistent (or no) namespace prefix.
 
-      if (isNaN(count) || count < 1) {
-        // There is no relation.
+        const list = findResult.get('ns2:relations-common-list') || findResult.get('ns3:relations-common-list');
+        const count = parseInt(list.get('totalItems'), 10);
+
+        if (isNaN(count) || count < 1) {
+          isObjectFound = false;
+        }
+      }
+
+      if (!isObjectFound) {
+        // There is no related object record.
 
         return (
           <div>
@@ -289,6 +316,7 @@ export default class RelationEditor extends Component {
           relatedSubjectCsid={subject.csid}
           clone={cloneRecord}
           onRecordCreated={this.handleRecordCreated}
+          onRecordTransitioned={this.handleRecordTransitioned}
           onSaveCancelled={this.handleSaveCancelled}
         />
       </div>

@@ -3,6 +3,8 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -14,6 +16,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';
+import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 
 chai.should();
 
@@ -289,5 +292,91 @@ describe('RecordBrowser', function suite() {
       </IntlProvider>, this.container);
 
     clearCalled.should.equal(true);
+  });
+
+  it('should replace the history location with the index location when a record is soft-deleted and there is no search state', function test() {
+    let replacedLocation = null;
+
+    const history = mockHistory({
+      replace: (location) => {
+        replacedLocation = location;
+      },
+    });
+
+    const csid = '4f516e24-6dfc-47c0-b368';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordBrowser
+        config={config}
+        csid={csid}
+        recordType="collectionobject"
+        history={history}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
+
+    recordEditorContainer.props.onRecordTransitioned('delete');
+
+    replacedLocation.should.equal('/');
+  });
+
+  it('should call clearSearchResults and replace the history location with a search result page location when a record is soft-deleted and there is a search state', function test() {
+    let replacedLocation = null;
+
+    const history = mockHistory({
+      replace: (location) => {
+        replacedLocation = location;
+      },
+    });
+
+    let clearedSearchName = null;
+
+    const clearSearchResults = (searchNameArg) => {
+      clearedSearchName = searchNameArg;
+    };
+
+    const csid = '4f516e24-6dfc-47c0-b368';
+    const searchName = 'searchName';
+
+    const location = {
+      state: {
+        searchName,
+        searchDescriptor: {
+          recordType: 'collectionobject',
+          searchQuery: {
+            kw: 'foo',
+            p: 2,
+            size: 15,
+          },
+        },
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordBrowser
+        config={config}
+        csid={csid}
+        recordType="collectionobject"
+        history={history}
+        location={location}
+        clearSearchResults={clearSearchResults}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
+
+    recordEditorContainer.props.onRecordTransitioned('delete');
+
+    clearedSearchName.should.equal(searchName);
+
+    replacedLocation.should.deep.equal({
+      pathname: '/list/collectionobject',
+      search: '?kw=foo&p=3&size=15',
+    });
   });
 });

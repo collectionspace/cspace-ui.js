@@ -129,18 +129,11 @@ describe('RelationEditor', function suite() {
     result.type.should.equal('div');
   });
 
-  it('should call createRelation followed by onRecordCreated when a new record is created', function test() {
-    const subject = {
-      csid: '1234',
-      recordType: 'collectionobject',
-    };
-
+  it('should render an error message div if an object error is provided', function test() {
     const object = {
       csid: '5678',
       recordType: 'group',
     };
-
-    const predicate = 'affects';
 
     const findResult = Immutable.fromJS({
       'ns2:relations-common-list': {
@@ -148,24 +141,55 @@ describe('RelationEditor', function suite() {
       },
     });
 
-    const newRecordCsid = '9999';
+    const error = Immutable.Map({
+      code: 'ERROR_CODE',
+    });
 
-    let createSubject = null;
-    let createObject = null;
-    let createPredicate = null;
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        object={object}
+        objectError={error}
+        findResult={findResult}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal('div');
+  });
+
+  it('should call createRelation followed by onRecordCreated when a record is created', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      recordType: 'group',
+    };
+
+    const predicate = 'affects';
+
+    let createRelationSubject = null;
+    let createRelationObject = null;
+    let createRelationPredicate = null;
 
     const createRelation = (subjectArg, objectArg, predicateArg) => {
-      createSubject = subjectArg;
-      createObject = objectArg;
-      createPredicate = predicateArg;
+      createRelationSubject = subjectArg;
+      createRelationObject = objectArg;
+      createRelationPredicate = predicateArg;
 
       return Promise.resolve();
     };
 
     let createdCsid = null;
+    let createdIsNavigating = null;
 
-    const handleRecordCreated = (csidArg) => {
+    const handleRecordCreated = (csidArg, isNavigatingArg) => {
       createdCsid = csidArg;
+      createdIsNavigating = isNavigatingArg;
     };
 
     const shallowRenderer = createRenderer();
@@ -176,7 +200,6 @@ describe('RelationEditor', function suite() {
         subject={subject}
         object={object}
         predicate={predicate}
-        findResult={findResult}
         createRelation={createRelation}
         onRecordCreated={handleRecordCreated}
       />);
@@ -184,19 +207,111 @@ describe('RelationEditor', function suite() {
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
 
-    recordEditorContainer.props.onRecordCreated(newRecordCsid);
+    const newRecordCsid = '5678';
+    const isNavigating = true;
 
-    createSubject.should.equal(subject);
-    createObject.should.deep.equal({ csid: newRecordCsid });
-    createPredicate.should.equal(predicate);
+    recordEditorContainer.props.onRecordCreated(newRecordCsid, isNavigating);
+
+    createRelationSubject.should.equal(subject);
+    createRelationObject.should.deep.equal({ csid: newRecordCsid });
+    createRelationPredicate.should.equal(predicate);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
         createdCsid.should.equal(newRecordCsid);
+        createdIsNavigating.should.equal(isNavigating);
 
         resolve();
       }, 0);
     });
+  });
+
+  it('should call onRecordTransitioned when a record is transitioned', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const findResult = Immutable.fromJS({
+      'ns2:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let transitionedTransitionName = null;
+
+    const handleRecordTransitioned = (transitionNameArg) => {
+      transitionedTransitionName = transitionNameArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        findResult={findResult}
+        onRecordTransitioned={handleRecordTransitioned}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
+
+    const transitionName = 'transitionName';
+
+    recordEditorContainer.props.onRecordTransitioned(transitionName);
+
+    transitionedTransitionName.should.equal(transitionName);
+  });
+
+  it('should call onClose when a record is transitioned with transition name \'delete\'', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const findResult = Immutable.fromJS({
+      'ns2:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let handlerCalled = false;
+
+    const close = () => {
+      handlerCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        findResult={findResult}
+        onClose={close}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
+
+    const transitionName = 'delete';
+
+    recordEditorContainer.props.onRecordTransitioned(transitionName);
+
+    handlerCalled.should.equal(true);
   });
 
   it('should call findRelation when mounted', function test() {

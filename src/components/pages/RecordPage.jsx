@@ -11,16 +11,56 @@ import { validateLocation } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
+export const getParams = (props) => {
+  const {
+    config,
+  } = props;
+
+  const {
+    recordType,
+    path1,
+    path2,
+    path3,
+  } = props.match.params;
+
+  let vocabulary;
+  let csid;
+  let relatedRecordType;
+  let relatedCsid;
+
+  const recordTypeConfig = get(config, ['recordTypes', recordType]);
+
+  if (recordTypeConfig) {
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+    if (serviceType === 'authority') {
+      vocabulary = path1;
+      csid = path2;
+      relatedRecordType = path3;
+    } else {
+      csid = path1;
+      relatedRecordType = path2;
+      relatedCsid = path3;
+    }
+  }
+
+  return {
+    recordType,
+    vocabulary,
+    csid,
+    relatedRecordType,
+    relatedCsid,
+  };
+};
+
 const propTypes = {
+  config: PropTypes.object.isRequired,
+  error: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.object,
   location: PropTypes.object,
   // Use of the match prop isn't being detected by eslint.
   match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
   readRecord: PropTypes.func,
-};
-
-const contextTypes = {
-  config: PropTypes.object.isRequired,
 };
 
 export default class RecordPage extends Component {
@@ -35,8 +75,8 @@ export default class RecordPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const params = this.getParams(this.props);
-    const prevParams = this.getParams(prevProps);
+    const params = getParams(this.props);
+    const prevParams = getParams(prevProps);
 
     const {
       csid,
@@ -51,62 +91,17 @@ export default class RecordPage extends Component {
     }
   }
 
-  getParams(props) {
-    const {
-      recordType,
-      path1,
-      path2,
-      path3,
-    } = props.match.params;
-
-    const {
-      config,
-    } = this.context;
-
-    let vocabulary;
-    let csid;
-    let relatedRecordType;
-    let relatedCsid;
-
-    const recordTypeConfig = get(config, ['recordTypes', recordType]);
-
-    if (recordTypeConfig) {
-      const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
-
-      if (serviceType === 'authority') {
-        vocabulary = path1;
-        csid = path2;
-        relatedRecordType = path3;
-      } else {
-        csid = path1;
-        relatedRecordType = path2;
-        relatedCsid = path3;
-      }
-    }
-
-    return {
-      recordType,
-      vocabulary,
-      csid,
-      relatedRecordType,
-      relatedCsid,
-    };
-  }
-
   initRecord() {
     const {
+      config,
       readRecord,
     } = this.props;
 
     const {
-      config,
-    } = this.context;
-
-    const {
       recordType,
       vocabulary,
       csid,
-    } = this.getParams(this.props);
+    } = getParams(this.props);
 
     const normalizedCsid = (csid === 'new') ? '' : csid;
 
@@ -126,7 +121,7 @@ export default class RecordPage extends Component {
       recordType,
       vocabulary,
       csid,
-    } = this.getParams(this.props);
+    } = getParams(this.props);
 
     const {
       history,
@@ -146,13 +141,17 @@ export default class RecordPage extends Component {
 
   render() {
     const {
+      config,
+      error,
       history,
       location,
     } = this.props;
 
-    const {
-      config,
-    } = this.context;
+    if (error) {
+      return (
+        <ErrorPage error={error.toJS()} />
+      );
+    }
 
     const {
       recordType,
@@ -160,7 +159,7 @@ export default class RecordPage extends Component {
       csid,
       relatedRecordType,
       relatedCsid,
-    } = this.getParams(this.props);
+    } = getParams(this.props);
 
     const query = qs.parse(location.search.substring(1));
 
@@ -227,4 +226,3 @@ export default class RecordPage extends Component {
 }
 
 RecordPage.propTypes = propTypes;
-RecordPage.contextTypes = contextTypes;

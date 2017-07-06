@@ -13,6 +13,9 @@ import {
   RECORD_SAVE_STARTED,
   RECORD_SAVE_FULFILLED,
   RECORD_SAVE_REJECTED,
+  RECORD_TRANSITION_STARTED,
+  RECORD_TRANSITION_FULFILLED,
+  RECORD_TRANSITION_REJECTED,
   REVERT_RECORD,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
@@ -28,6 +31,7 @@ import {
 
 import reducer, {
   getData,
+  getError,
   getNewData,
   getRelationUpdatedTimestamp,
   getValidationErrors,
@@ -613,6 +617,10 @@ describe('record reducer', function suite() {
     }));
 
     expect(isReadPending(state, csid)).to.equal(undefined);
+
+    getError(state, csid).should.equal(Immutable.fromJS({
+      code: 'ERR_CODE',
+    }));
   });
 
   it('should handle RECORD_SAVE_STARTED', function test() {
@@ -739,6 +747,10 @@ describe('record reducer', function suite() {
     }));
 
     expect(isSavePending(state, csid)).to.equal(undefined);
+
+    getError(state, csid).should.equal(Immutable.fromJS({
+      code: 'ERR_CODE',
+    }));
   });
 
   it('should handle REVERT_RECORD', function test() {
@@ -927,5 +939,86 @@ describe('record reducer', function suite() {
     ));
 
     getValidationErrors(state, csid).should.equal(error);
+  });
+
+  it('should handle RECORD_TRANSITION_STARTED', function test() {
+    const csid = '1234';
+
+    const state = reducer(undefined, {
+      type: RECORD_TRANSITION_STARTED,
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.Map().setIn(
+      [csid, 'isSavePending'], true
+    ));
+
+    isSavePending(state, csid).should.equal(true);
+  });
+
+  it('should handle RECORD_TRANSITION_FULFILLED', function test() {
+    const csid = '1234';
+
+    const initialState = Immutable.fromJS({
+      [csid]: {
+        isSavePending: true,
+      },
+    });
+
+    let state;
+
+    // Any transition should remove isSavePending.
+
+    state = reducer(initialState, {
+      type: RECORD_TRANSITION_FULFILLED,
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {},
+    }));
+
+    expect(isSavePending(state, csid)).to.equal(undefined);
+
+    // Delete transition should remove entire record state for the csid.
+
+    state = reducer(initialState, {
+      type: RECORD_TRANSITION_FULFILLED,
+      meta: {
+        csid,
+        transitionName: 'delete',
+      },
+    });
+
+    state.should.equal(Immutable.Map());
+  });
+
+  it('should handle RECORD_TRANSITION_REJECTED', function test() {
+    const csid = '1234';
+
+    const initialState = Immutable.fromJS({
+      [csid]: {
+        isSavePending: true,
+      },
+    });
+
+    // Any transition should remove isSavePending.
+
+    const state = reducer(initialState, {
+      type: RECORD_TRANSITION_REJECTED,
+      meta: {
+        csid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {},
+    }));
+
+    expect(isSavePending(state, csid)).to.equal(undefined);
   });
 });

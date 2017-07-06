@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import CloneButton from './CloneButton';
 import SaveButton from './SaveButton';
 import RevertButton from './RevertButton';
+import DeleteButton from './DeleteButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
 
 const propTypes = {
@@ -12,6 +13,7 @@ const propTypes = {
   isSavePending: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   onCloneButtonClick: PropTypes.func,
+  onDeleteButtonClick: PropTypes.func,
   onRevertButtonClick: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
@@ -24,6 +26,7 @@ export default function RecordButtonBar(props) {
     isSavePending,
     validationErrors,
     onCloneButtonClick,
+    onDeleteButtonClick,
     onRevertButtonClick,
     onSaveButtonClick,
     onSaveButtonErrorBadgeClick,
@@ -48,6 +51,11 @@ export default function RecordButtonBar(props) {
         isModified={isModified}
         isSavePending={isSavePending}
         onClick={onRevertButtonClick}
+      />
+      <DeleteButton
+        csid={csid}
+        isSavePending={isSavePending}
+        onClick={onDeleteButtonClick}
       />
     </div>
   );

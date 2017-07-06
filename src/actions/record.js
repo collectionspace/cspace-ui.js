@@ -38,7 +38,7 @@ import {
   STATUS_SUCCESS,
 } from '../constants/notificationStatusCodes';
 
-const messages = defineMessages({
+const saveMessages = defineMessages({
   saving: {
     id: 'action.record.saving',
     description: 'Notification message displayed when a record is being saved.',
@@ -65,6 +65,35 @@ const messages = defineMessages({
   },
 });
 
+const transitionMessages = {
+  delete: defineMessages({
+    transitioning: {
+      id: 'action.record.transition.delete.transitioning',
+      description: 'Notification message displayed when a delete workflow transition (soft-delete) is in progress.',
+      defaultMessage: `{hasTitle, select,
+        yes {Deleting {title}…}
+        other {Deleting record…}
+      }`,
+    },
+    errorTransitioning: {
+      id: 'action.record.transition.delete.errorTransitioning',
+      description: 'Notification message displayed when a delete workflow transition (soft-delete) fails.',
+      defaultMessage: `{hasTitle, select,
+        yes {Error deleting {title}: {error}}
+        other {Error deleting record: {error}}
+      }`,
+    },
+    transitioned: {
+      id: 'action.record.transition.delete.transitioned',
+      description: 'Notification message displayed when a delete workflow transition (soft-delete) completes successfully.',
+      defaultMessage: `{hasTitle, select,
+        yes {Deleted {title}}
+        other {Deleted record}
+      }`,
+    },
+  }),
+};
+
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
 export const RECORD_READ_STARTED = 'RECORD_READ_STARTED';
 export const RECORD_READ_FULFILLED = 'RECORD_READ_FULFILLED';
@@ -72,6 +101,9 @@ export const RECORD_READ_REJECTED = 'RECORD_READ_REJECTED';
 export const RECORD_SAVE_STARTED = 'RECORD_SAVE_STARTED';
 export const RECORD_SAVE_FULFILLED = 'RECORD_SAVE_FULFILLED';
 export const RECORD_SAVE_REJECTED = 'RECORD_SAVE_REJECTED';
+export const RECORD_TRANSITION_STARTED = 'RECORD_TRANSITION_STARTED';
+export const RECORD_TRANSITION_FULFILLED = 'RECORD_TRANSITION_FULFILLED';
+export const RECORD_TRANSITION_REJECTED = 'RECORD_TRANSITION_REJECTED';
 export const ADD_FIELD_INSTANCE = 'ADD_FIELD_INSTANCE';
 export const DELETE_FIELD_VALUE = 'DELETE_FIELD_VALUE';
 export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
@@ -235,7 +267,7 @@ export const saveRecord =
       const notificationID = getNotificationID();
 
       dispatch(showNotification({
-        message: messages.saving,
+        message: saveMessages.saving,
         values: {
           title,
           hasTitle: title ? 'yes' : '',
@@ -280,7 +312,7 @@ export const saveRecord =
         return getSession().update(path, config)
           .then((response) => {
             dispatch(showNotification({
-              message: messages.saved,
+              message: saveMessages.saved,
               values: {
                 title,
                 hasTitle: title ? 'yes' : '',
@@ -302,7 +334,7 @@ export const saveRecord =
           })
           .catch((error) => {
             dispatch(showNotification({
-              message: messages.errorSaving,
+              message: saveMessages.errorSaving,
               values: {
                 title,
                 hasTitle: title ? 'yes' : '',
@@ -336,7 +368,7 @@ export const saveRecord =
             return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
               .then((readResponse) => {
                 dispatch(showNotification({
-                  message: messages.saved,
+                  message: saveMessages.saved,
                   values: {
                     title,
                     hasTitle: title ? 'yes' : '',
@@ -369,7 +401,7 @@ export const saveRecord =
         })
         .catch((error) => {
           dispatch(showNotification({
-            message: messages.errorSaving,
+            message: saveMessages.errorSaving,
             values: {
               title,
               hasTitle: title ? 'yes' : '',
@@ -466,3 +498,110 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
 
   dispatch(removeValidationNotification());
 };
+
+export const transitionRecord = (recordTypeConfig, vocabularyConfig, csid, transitionName) =>
+  (dispatch, getState) => {
+    const data = getRecordData(getState(), csid);
+    const title = recordTypeConfig.title(getDocument(data));
+    const notificationID = getNotificationID();
+
+    const messages = transitionMessages[transitionName];
+
+    if (messages) {
+      dispatch(showNotification({
+        message: messages.transitioning,
+        values: {
+          title,
+          hasTitle: title ? 'yes' : '',
+        },
+        date: new Date(),
+        status: STATUS_PENDING,
+      }, notificationID));
+    }
+
+    dispatch({
+      type: RECORD_TRANSITION_STARTED,
+      meta: {
+        recordTypeConfig,
+        csid,
+        transitionName,
+      },
+    });
+
+    const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+    const vocabularyServicePath = vocabularyConfig
+      ? vocabularyConfig.serviceConfig.servicePath
+      : null;
+
+    const pathParts = [recordServicePath];
+
+    if (vocabularyServicePath) {
+      pathParts.push(vocabularyServicePath);
+      pathParts.push('items');
+    }
+
+    if (csid) {
+      pathParts.push(csid);
+    }
+
+    pathParts.push('workflow');
+    pathParts.push(transitionName);
+
+    const path = pathParts.join('/');
+
+    return getSession().update(path)
+      .then((response) => {
+        if (messages) {
+          dispatch(showNotification({
+            message: messages.transitioned,
+            values: {
+              transitionName,
+              title,
+              hasTitle: title ? 'yes' : '',
+            },
+            date: new Date(),
+            status: STATUS_SUCCESS,
+            autoClose: true,
+          }, notificationID));
+        }
+
+        return dispatch({
+          type: RECORD_TRANSITION_FULFILLED,
+          payload: response,
+          meta: {
+            recordTypeConfig,
+            csid,
+            transitionName,
+          },
+        });
+      })
+      .catch((error) => {
+        if (messages) {
+          dispatch(showNotification({
+            message: messages.errorTransitioning,
+            values: {
+              transitionName,
+              title,
+              hasTitle: title ? 'yes' : '',
+              error: getErrorDescription(error),
+            },
+            date: new Date(),
+            status: STATUS_ERROR,
+          }, notificationID));
+        }
+
+        return dispatch({
+          type: RECORD_TRANSITION_REJECTED,
+          payload: {
+            code: ERR_API,
+            error,
+          },
+          meta: {
+            recordTypeConfig,
+            csid,
+            transitionName,
+          },
+        });
+      });
+  };

@@ -56,6 +56,8 @@ export const getRecordRelationUpdatedTimestamp = (state, csid) =>
 
 export const getRecordData = (state, csid) => fromRecord.getData(state.record, csid);
 
+export const getRecordError = (state, csid) => fromRecord.getError(state.record, csid);
+
 export const getRecordValidationErrors = (state, csid) =>
   fromRecord.getValidationErrors(state.record, csid);
 
