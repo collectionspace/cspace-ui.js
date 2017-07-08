@@ -8,7 +8,7 @@ describe('object exit record columns', function suite() {
   });
 
   it('should have current owner column that is formatted as a refname display name', function test() {
-  	const currentOwnerColumn = columns.default.find(column => column.name === 'currentOwner');
+    const currentOwnerColumn = columns.default.find(column => column.name === 'currentOwner');
 
     currentOwnerColumn.should.have.property('formatValue').that.is.a('function');
 
