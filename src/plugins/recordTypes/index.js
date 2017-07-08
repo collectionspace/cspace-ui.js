@@ -12,6 +12,7 @@ import loanin from './loanin';
 import loanout from './loanout';
 import media from './media';
 import object from './object';
+import objectexit from './objectexit';
 import organization from './organization';
 import person from './person';
 import place from './place';
@@ -32,6 +33,7 @@ export default [
   loanout,
   media,
   object,
+  objectexit,
   organization,
   person,
   place,
