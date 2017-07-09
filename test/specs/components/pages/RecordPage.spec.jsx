@@ -19,10 +19,9 @@ const expect = chai.expect;
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
-const expectedClassName = 'cspace-ui-RecordPage--common';
 const csid = 'b09295cf-ff56-4018-be16';
 const objectRecordType = 'collectionobject';
-const authorityRecordType = 'personauthorities';
+const authorityRecordType = 'person';
 const vocabulary = 'local';
 
 const config = {
@@ -89,6 +88,12 @@ const config = {
       title: () => '',
       vocabularies: {
         local: {
+          messages: {
+            name: {
+              id: `vocab.${authorityRecordType}.local.name`,
+              defaultMessage: 'local',
+            },
+          },
           serviceConfig: {
             servicePath: 'local',
           },
@@ -181,7 +186,7 @@ describe('RecordPage', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.firstElementChild.className.should.equal(expectedClassName);
+    this.container.firstElementChild.className.should.equal('cspace-ui-RecordPage--object');
   });
 
   it('should render an error page if an error is supplied', function test() {

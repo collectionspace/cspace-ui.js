@@ -5,7 +5,6 @@
 
 .common :global(.cspace-layout-Panel--common) {
   margin: 0;
-  background-color: rgba(156, 185, 211, .2);
 }
 
 .common :global(.cspace-layout-Panel--common) > div {
@@ -14,4 +13,25 @@
 
 .common :global(.cspace-layout-Table--common) {
   font-size: 12px;
+}
+
+.object {
+  composes: common;
+}
+
+.procedure {
+  composes: common;
+}
+
+.authority {
+  composes: common;
+}
+
+.object :global(.cspace-layout-Panel--common),
+.procedure :global(.cspace-layout-Panel--common) {
+  background-color: rgba(156, 185, 211, .2);
+}
+
+.authority :global(.cspace-layout-Panel--common) {
+  background-color: rgba(209, 157, 194, .2);
 }

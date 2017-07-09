@@ -1,9 +1,130 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import TitleBar from '../sections/TitleBar';
+import styles from '../../../styles/cspace-ui/CreatePage.css';
+import panelStyles from '../../../styles/cspace-ui/CreatePagePanel.css';
+
+const serviceTypes = ['object', 'procedure', 'authority'];
+
+const messages = defineMessages({
+  title: {
+    id: 'createPage.title',
+    defaultMessage: 'Create New',
+  },
+  object: {
+    id: 'createPage.object',
+    defaultMessage: 'Objects',
+  },
+  procedure: {
+    id: 'createPage.procedure',
+    defaultMessage: 'Procedures',
+  },
+  authority: {
+    id: 'createPage.authority',
+    defaultMessage: 'Authorities',
+  },
+});
+
+const getRecordTypesByServiceType = (recordTypes, intl) => {
+  const recordTypesByServiceType = {};
+
+  serviceTypes.forEach((serviceType) => {
+    const recordTypeNames = Object.keys(recordTypes)
+      .filter(recordTypeName =>
+        recordTypes[recordTypeName].serviceConfig.serviceType === serviceType)
+      .sort((nameA, nameB) => {
+        const configA = recordTypes[nameA];
+        const configB = recordTypes[nameB];
+
+        // Primary sort by sortOrder
+
+        let sortOrderA = configA.sortOrder;
+        let sortOrderB = configB.sortOrder;
+
+        if (typeof sortOrderA !== 'number') {
+          sortOrderA = Number.MAX_VALUE;
+        }
+
+        if (typeof sortOrderB !== 'number') {
+          sortOrderB = Number.MAX_VALUE;
+        }
+
+        if (sortOrderA !== sortOrderB) {
+          return (sortOrderA > sortOrderB ? 1 : -1);
+        }
+
+        // Secondary sort by label
+
+        const labelA = intl.formatMessage(configA.messages.record.name);
+        const labelB = intl.formatMessage(configB.messages.record.name);
+
+        // FIXME: This should be locale aware
+        return labelA.localeCompare(labelB);
+      });
+
+    recordTypesByServiceType[serviceType] = recordTypeNames;
+  });
+
+  return recordTypesByServiceType;
+};
+
+const getVocabularies = (recordTypeConfig, intl) => {
+  const { vocabularies } = recordTypeConfig;
+
+  let vocabularyNames;
+
+  if (vocabularies) {
+    vocabularyNames = Object.keys(vocabularies)
+      .filter(vocabularyName => vocabularyName !== 'all')
+      .sort((nameA, nameB) => {
+        const configA = vocabularies[nameA];
+        const configB = vocabularies[nameB];
+
+        // Primary sort by sortOrder
+
+        let sortOrderA = configA.sortOrder;
+        let sortOrderB = configB.sortOrder;
+
+        if (typeof sortOrderA !== 'number') {
+          sortOrderA = Number.MAX_VALUE;
+        }
+
+        if (typeof sortOrderB !== 'number') {
+          sortOrderB = Number.MAX_VALUE;
+        }
+
+        if (sortOrderA !== sortOrderB) {
+          return (sortOrderA > sortOrderB ? 1 : -1);
+        }
+
+        // Secondary sort by label
+
+        const labelA = intl.formatMessage(configA.messages.name);
+        const labelB = intl.formatMessage(configB.messages.name);
+
+        // FIXME: This should be locale aware
+        return labelA.localeCompare(labelB);
+      });
+  }
+
+  return vocabularyNames;
+};
+
+const contextTypes = {
+  config: PropTypes.object,
+};
+
+const propTypes = {
+  intl: intlShape,
+};
 
 export default function CreatePage(props, context) {
+  const {
+    intl,
+  } = props;
+
   const {
     config,
   } = context;
@@ -12,31 +133,74 @@ export default function CreatePage(props, context) {
     recordTypes,
   } = config;
 
-  let items = null;
+  const itemsByServiceType = {};
+  const lists = [];
 
   if (recordTypes) {
-    items = Object.keys(recordTypes)
-      .filter(recordType => recordTypes[recordType].serviceConfig.serviceType !== 'utility')
-      .map(recordType =>
-        <li key={recordType}>
-          <Link to={`record/${recordType}`}>
-            <FormattedMessage {...recordTypes[recordType].messages.record.name} />
-          </Link>
-        </li>
-      );
+    const recordTypesByServiceType = getRecordTypesByServiceType(recordTypes, intl);
+
+    serviceTypes.forEach((serviceType) => {
+      itemsByServiceType[serviceType] = recordTypesByServiceType[serviceType].map((recordType) => {
+        const recordTypeConfig = recordTypes[recordType];
+        const vocabularies = getVocabularies(recordTypeConfig, intl);
+
+        let vocabularyList;
+
+        if (vocabularies && vocabularies.length > 0) {
+          const vocabularyItems = vocabularies.map(vocabulary =>
+            <li key={vocabulary}>
+              <Link to={`record/${recordType}/${vocabulary}`}>
+                <FormattedMessage {...recordTypeConfig.vocabularies[vocabulary].messages.name} />
+              </Link>
+            </li>
+          );
+
+          vocabularyList = <ul>{vocabularyItems}</ul>;
+        }
+
+        let recordLink = <FormattedMessage {...recordTypeConfig.messages.record.name} />;
+
+        if (!vocabularyList) {
+          recordLink = <Link to={`record/${recordType}`}>{recordLink}</Link>;
+        }
+
+        return (
+          <li key={recordType}>
+            {recordLink}
+            {vocabularyList}
+          </li>
+        );
+      });
+    });
+
+    serviceTypes.forEach((serviceType) => {
+      const items = itemsByServiceType[serviceType];
+
+      if (items && items.length > 0) {
+        lists.push(
+          <div className={panelStyles[serviceType]} key={serviceType}>
+            <h2><FormattedMessage {...messages[serviceType]} /></h2>
+            <ul>
+              {items}
+            </ul>
+          </div>
+        );
+      }
+    });
   }
 
-  return (
-    <div>
-      <h2>Create New</h2>
+  const title = <FormattedMessage {...messages.title} />;
 
-      <ul>
-        {items}
-      </ul>
+  return (
+    <div className={styles.common}>
+      <TitleBar title={title} />
+
+      <div>
+        {lists}
+      </div>
     </div>
   );
 }
 
-CreatePage.contextTypes = {
-  config: PropTypes.object,
-};
+CreatePage.propTypes = propTypes;
+CreatePage.contextTypes = contextTypes;

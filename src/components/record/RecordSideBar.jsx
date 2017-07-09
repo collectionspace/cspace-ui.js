@@ -33,6 +33,7 @@ export default function RecordSideBar(props) {
 
   const serviceType = recordTypeConfig.serviceConfig.serviceType;
   const isAuthority = serviceType === 'authority';
+  const panelColor = isAuthority ? 'purple' : 'blue';
 
   let relatedObjects = null;
   let relatedProcedures = null;
@@ -41,7 +42,7 @@ export default function RecordSideBar(props) {
   if (!isAuthority) {
     relatedObjects = (
       <RelatedRecordPanelContainer
-        color="blue"
+        color={panelColor}
         columnSetName="narrow"
         csid={csid}
         config={config}
@@ -55,7 +56,7 @@ export default function RecordSideBar(props) {
 
     relatedProcedures = (
       <RelatedRecordPanelContainer
-        color="blue"
+        color={panelColor}
         csid={csid}
         config={config}
         history={history}
@@ -70,7 +71,7 @@ export default function RecordSideBar(props) {
   if (isAuthority) {
     usedBy = (
       <UsedByPanelContainer
-        color="blue"
+        color={panelColor}
         csid={csid}
         config={config}
         history={history}
@@ -81,15 +82,15 @@ export default function RecordSideBar(props) {
   }
 
   return (
-    <div className={styles.common}>
+    <div className={styles[serviceType]}>
       <MediaSnapshotPanelContainer
-        color="blue"
+        color={panelColor}
         csid={csid}
         config={config}
         recordType={recordType}
       />
       <TermsUsedPanelContainer
-        color="blue"
+        color={panelColor}
         csid={csid}
         config={config}
         history={history}

@@ -61,8 +61,17 @@ const config = {
       forms: {
         default: <div />,
       },
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.collectionobject.collectionName',
+            defaultMessage: 'Objects',
+          },
+        },
+      },
       serviceConfig: {
         servicePath: 'collectionobjects',
+        serviceType: 'object',
       },
       title: () => '',
     },

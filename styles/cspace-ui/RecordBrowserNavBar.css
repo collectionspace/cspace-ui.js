@@ -1,3 +1,16 @@
+.common {
+}
+
+.object, .procedure {
+  composes: common;
+  color: #739CD2;
+}
+
+.authority {
+  composes: common;
+  color: #78449A;
+}
+
 .common > ul {
   display: flex;
   align-items: baseline;

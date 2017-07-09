@@ -31,7 +31,15 @@
 .common > div > div > aside > h2 {
   flex: 1 1 auto;
   text-align: right;
+}
+
+.object > div > div > aside > h2,
+.procedure > div > div > aside > h2 {
   color: #739CD2;
+}
+
+.authority > div > div > aside > h2 {
+  color: #78449A;
 }
 
 .docked {

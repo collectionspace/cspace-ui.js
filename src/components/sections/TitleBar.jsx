@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/TitleBar.css';
 import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';
 
@@ -10,6 +11,7 @@ const propTypes = {
   subtitle: PropTypes.node,
   aside: PropTypes.node,
   nav: PropTypes.node,
+  serviceType: PropTypes.string,
 };
 
 export default class TitleBar extends Component {
@@ -105,7 +107,11 @@ export default class TitleBar extends Component {
       docked,
     } = this.state;
 
-    const className = docked ? styles.docked : styles.common;
+    const {
+      serviceType,
+    } = this.props;
+
+    const className = classNames(styles[serviceType], docked ? styles.docked : styles.common);
     const inlineStyle = docked ? { height: this.domNode.offsetHeight } : {};
 
     return (
