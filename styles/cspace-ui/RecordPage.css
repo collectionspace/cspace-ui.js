@@ -1,3 +1,7 @@
-.common {
+.object, .procedure {
   background-color: #F0F5FB;
+}
+
+.authority {
+  background-color: #F3EDF6;
 }

@@ -59,7 +59,7 @@ function RootPage(props) {
         <PublicRoute path="/logout" component={LogoutPageContainer} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
-        <ProtectedRouteContainer path="/create" component={CreatePage} />
+        <ProtectedRouteContainer path="/create" component={injectIntl(CreatePage)} />
         <ProtectedRouteContainer path="/admin" component={AdminPage} />
 
         <ProtectedRouteContainer

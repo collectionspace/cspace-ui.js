@@ -4,7 +4,6 @@
   overflow: hidden;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  color: #739CD2;
 }
 
 .common > button {
@@ -46,7 +45,7 @@
 }
 
 .normal {
-  composes: common;  
+  composes: common;
 }
 
 .normal {

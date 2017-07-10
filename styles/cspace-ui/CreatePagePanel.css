@@ -1,0 +1,54 @@
+.common {
+  padding: 10px 10px 20px 10px;
+  flex: 1 1 auto;
+}
+
+.common + .common {
+  margin-left: 2px;
+}
+
+.common > h2 {
+  margin: 0;
+}
+
+.common > ul {
+  margin: 0;
+  padding: 10px 0 0 10px;
+  list-style: none;
+}
+
+.common > ul > li + li {
+  margin-top: 4px;
+}
+
+.common > ul > li > ul {
+  margin: 0;
+  padding: 0 0 0 10px;
+  list-style: none;
+}
+
+.common > ul > li > ul > li {
+  display: inline-block;
+}
+
+.common > ul > li > ul > li + li::before {
+  content: ' | ';
+}
+
+.object {
+  composes: common;
+  background-color: #F0F5FB;
+  color: #739CD2;
+}
+
+.procedure {
+  composes: common;
+  background-color: #F0F5FB;
+  color: #739CD2;
+}
+
+.authority {
+  composes: common;
+  background-color: #F3EDF6;
+  color: #78449A;
+}

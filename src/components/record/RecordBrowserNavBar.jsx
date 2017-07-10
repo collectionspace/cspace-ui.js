@@ -251,8 +251,10 @@ class RecordBrowserNavBar extends Component {
       }
     }
 
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
     return (
-      <nav className={styles.common}>
+      <nav className={styles[serviceType]}>
         <ul>
           {primaryItem}
           {relatedItems}

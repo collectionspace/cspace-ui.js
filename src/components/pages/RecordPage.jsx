@@ -191,11 +191,14 @@ export default class RecordPage extends Component {
       searchDescriptor = Immutable.fromJS(locationState.searchDescriptor);
     }
 
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
     return (
-      <div className={styles.common}>
+      <div className={styles[serviceType]}>
         <RecordTitleBarContainer
           csid={normalizedCsid}
           recordType={recordType}
+          vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
         />
