@@ -89,6 +89,8 @@ export const getSearchResultPagePageSize = state =>
 export const getSearchToRelatePageSize = state =>
   fromPrefs.getSearchToRelatePageSize(state.prefs);
 
+export const getForm = (state, recordType) => fromPrefs.getForm(state.prefs, recordType);
+
 export const getOptionList = (state, optionListName) =>
   fromOptionList.get(state.optionList, optionListName);
 

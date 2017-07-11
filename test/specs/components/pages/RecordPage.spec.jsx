@@ -5,6 +5,7 @@ import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
+import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
@@ -35,7 +36,9 @@ const config = {
         serviceType: 'object',
       },
       forms: {
-        default: <div />,
+        default: {
+          template: <div />,
+        },
       },
       messages: {
         record: {
@@ -75,7 +78,9 @@ const config = {
         serviceType: 'authority',
       },
       forms: {
-        default: <div />,
+        default: {
+          template: <div />,
+        },
       },
       messages: {
         record: {
@@ -148,11 +153,13 @@ describe('RecordPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <RecordPage
-              config={config}
-              location={location}
-              match={match}
-            />
+            <Router>
+              <RecordPage
+                config={config}
+                location={location}
+                match={match}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -177,11 +184,13 @@ describe('RecordPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <RecordPage
-              config={config}
-              location={location}
-              match={match}
-            />
+            <Router>
+              <RecordPage
+                config={config}
+                location={location}
+                match={match}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -210,12 +219,14 @@ describe('RecordPage', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
-            <RecordPage
-              config={config}
-              location={location}
-              match={match}
-              error={error}
-            />
+            <Router>
+              <RecordPage
+                config={config}
+                location={location}
+                match={match}
+                error={error}
+              />
+            </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -256,12 +267,14 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={match}
-                readRecord={readRecord}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                  readRecord={readRecord}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -288,12 +301,14 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={badRecordTypeMatch}
-                readRecord={readRecord}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={badRecordTypeMatch}
+                  readRecord={readRecord}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -316,11 +331,13 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={match}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -342,12 +359,14 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={newLocation}
-                match={newMatch}
-                readRecord={readRecord}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={newLocation}
+                  match={newMatch}
+                  readRecord={readRecord}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -362,11 +381,13 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={match}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -384,11 +405,13 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={match}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -427,11 +450,13 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={noCsidStore}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={noCsidLocation}
-                match={noCsidMatch}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={noCsidLocation}
+                  match={noCsidMatch}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -456,12 +481,14 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={match}
-                history={history}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                  history={history}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -508,12 +535,14 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={match}
-                readRecord={readRecord}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                  readRecord={readRecord}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);
@@ -544,12 +573,14 @@ describe('RecordPage', function suite() {
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
-              <RecordPage
-                config={config}
-                location={location}
-                match={badVocabularyMatch}
-                readRecord={readRecord}
-              />
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={badVocabularyMatch}
+                  readRecord={readRecord}
+                />
+              </Router>
             </ConfigProvider>
           </StoreProvider>
         </IntlProvider>, this.container);

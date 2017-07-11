@@ -1,7 +1,7 @@
 import advancedSearch from './advancedSearch';
 import columns from './columns';
-import defaultForm from './forms/default';
 import fields from './fields';
+import forms from './forms';
 import idGenerators from './idGenerators';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
@@ -17,9 +17,7 @@ export default () => pluginContext => ({
       serviceConfig,
       defaultForSearch: true, // Is this the default in search dropdowns?
       fields: fields(pluginContext),
-      forms: {
-        default: defaultForm(pluginContext),
-      },
+      forms: forms(pluginContext),
       sortOrder: null, // Ordering among record types of the same type
       title: title(pluginContext),
     },

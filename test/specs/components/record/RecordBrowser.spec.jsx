@@ -59,7 +59,9 @@ const config = {
     collectionobject: {
       fields: {},
       forms: {
-        default: <div />,
+        default: {
+          template: <div />,
+        },
       },
       messages: {
         record: {

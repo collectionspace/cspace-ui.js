@@ -91,7 +91,9 @@ const config = {
         servicePath: 'groups',
       },
       forms: {
-        default: <div />,
+        default: {
+          template: <div />,
+        },
       },
       messages: {
         record: {

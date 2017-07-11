@@ -1,4 +1,4 @@
-export default (pluginContext) => {
+const template = (pluginContext) => {
   const {
     React,
   } = pluginContext.lib;
@@ -120,3 +120,7 @@ export default (pluginContext) => {
 
   );
 };
+
+export default pluginContext => ({
+  template: template(pluginContext),
+});

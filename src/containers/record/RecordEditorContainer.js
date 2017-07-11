@@ -8,6 +8,10 @@ import {
 } from '../../actions/notification';
 
 import {
+  setForm,
+} from '../../actions/prefs';
+
+import {
   createNewRecord,
   readRecord,
   addFieldInstance,
@@ -21,6 +25,7 @@ import {
 } from '../../actions/record';
 
 import {
+  getForm,
   getOpenModalName,
   getRecordData,
   getRecordValidationErrors,
@@ -33,10 +38,12 @@ import RecordEditor from '../../components/record/RecordEditor';
 const mapStateToProps = (state, ownProps) => {
   const {
     csid,
+    recordType,
   } = ownProps;
 
   return {
     data: getRecordData(state, csid),
+    formName: getForm(state, recordType),
     isModified: isRecordModified(state, csid),
     isSavePending: isRecordSavePending(state, csid),
     openModalName: getOpenModalName(state),
@@ -91,6 +98,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         saveRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated)
       );
+    },
+    setForm: (formName) => {
+      dispatch(setForm(recordType, formName));
     },
     transitionRecord: transitionName =>
       dispatch(transitionRecord(recordTypeConfig, vocabularyConfig, csid, transitionName)),

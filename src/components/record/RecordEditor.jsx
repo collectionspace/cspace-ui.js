@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router';
 import Immutable from 'immutable';
+import warning from 'warning';
 import RecordButtonBar from './RecordButtonBar';
+import RecordFormSelector from './RecordFormSelector';
 import RecordHistory from './RecordHistory';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
@@ -40,6 +42,7 @@ const propTypes = {
   csid: PropTypes.string,
   cloneCsid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  formName: PropTypes.string,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
@@ -59,12 +62,14 @@ const propTypes = {
   clone: PropTypes.func,
   transitionRecord: PropTypes.func,
   removeValidationNotification: PropTypes.func,
+  setForm: PropTypes.func,
   validateRecordData: PropTypes.func,
   onRecordTransitioned: PropTypes.func,
 };
 
 const defaultProps = {
   data: Immutable.Map(),
+  formName: 'default',
 };
 
 const childContextTypes = {
@@ -92,6 +97,7 @@ export default class RecordEditor extends Component {
     this.handleRevertButtonClick = this.handleRevertButtonClick.bind(this);
     this.handleCloneButtonClick = this.handleCloneButtonClick.bind(this);
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
+    this.handleRecordFormSelectorCommit = this.handleRecordFormSelectorCommit.bind(this);
   }
 
   getChildContext() {
@@ -300,11 +306,22 @@ export default class RecordEditor extends Component {
     }
   }
 
+  handleRecordFormSelectorCommit(path, value) {
+    const {
+      setForm,
+    } = this.props;
+
+    if (setForm) {
+      setForm(value);
+    }
+  }
+
   render() {
     const {
       config,
       csid,
       data,
+      formName,
       isModified,
       isSavePending,
       openModalName,
@@ -334,7 +351,9 @@ export default class RecordEditor extends Component {
       onRemoveInstance,
     };
 
-    const formTemplate = forms.default;
+    const formTemplate = forms[formName].template;
+
+    warning(formTemplate, `No form template found for form name ${formName} in record type ${recordType}. Check the record type plugin configuration.`);
 
     const formContent = React.cloneElement(formTemplate, {
       name: DOCUMENT_PROPERTY_NAME,
@@ -360,6 +379,12 @@ export default class RecordEditor extends Component {
             onRevertButtonClick={this.handleRevertButtonClick}
             onCloneButtonClick={this.handleCloneButtonClick}
             onDeleteButtonClick={this.handleDeleteButtonClick}
+          />
+          <RecordFormSelector
+            config={config}
+            formName={formName}
+            recordType={recordType}
+            onCommit={this.handleRecordFormSelectorCommit}
           />
           <RecordHistory
             data={data}

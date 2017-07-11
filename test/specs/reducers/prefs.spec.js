@@ -4,6 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
+  SET_FORM,
   SET_RECORD_BROWSER_NAV_BAR_ITEMS,
   SET_SEARCH_PAGE_RECORD_TYPE,
   SET_SEARCH_PAGE_VOCABULARY,
@@ -15,6 +16,7 @@ import {
 } from '../../../src/actions/prefs';
 
 import reducer, {
+  getForm,
   getRecordBrowserNavBarItems,
   getSearchPageRecordType,
   getSearchPageVocabulary,
@@ -59,6 +61,27 @@ describe('prefs reducer', function suite() {
     }));
 
     isPanelCollapsed(state, recordType, panelName).should.equal(collapsed);
+  });
+
+  it('should handle SET_FORM', function test() {
+    const recordType = 'collectionobject';
+    const formName = 'default';
+
+    const state = reducer(undefined, {
+      type: SET_FORM,
+      payload: formName,
+      meta: {
+        recordType,
+      },
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      form: {
+        collectionobject: formName,
+      },
+    }));
+
+    getForm(state, recordType).should.equal(formName);
   });
 
   it('should handle SET_RECORD_BROWSER_NAV_BAR_ITEMS', function test() {

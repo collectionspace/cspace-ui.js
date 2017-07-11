@@ -13,6 +13,7 @@ export const SET_QUICK_SEARCH_VOCABULARY = 'SET_QUICK_SEARCH_VOCABULARY';
 export const SET_SEARCH_PANEL_PAGE_SIZE = 'SET_SEARCH_PANEL_PAGE_SIZE';
 export const SET_SEARCH_RESULT_PAGE_PAGE_SIZE = 'SET_SEARCH_RESULT_PAGE_PAGE_SIZE';
 export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
+export const SET_FORM = 'SET_FORM';
 
 export const storageKey = 'cspace-ui';
 
@@ -70,6 +71,14 @@ export const setSearchResultPagePageSize = pageSize => ({
 export const setSearchToRelatePageSize = pageSize => ({
   type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
   payload: pageSize,
+});
+
+export const setForm = (recordType, formName) => ({
+  type: SET_FORM,
+  payload: formName,
+  meta: {
+    recordType,
+  },
 });
 
 export const loadPrefs = () => (dispatch, getState) => {
