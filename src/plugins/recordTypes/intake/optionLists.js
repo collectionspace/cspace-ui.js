@@ -18,7 +18,7 @@ export default {
         id: 'option.entryReason.enquiry',
         defaultMessage: 'enquiry',
       },
-      'consideration': {
+      consideration: {
         id: 'option.entryReason.consideration',
         defaultMessage: 'consideration',
       },

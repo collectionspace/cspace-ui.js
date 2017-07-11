@@ -18,7 +18,7 @@ export default {
     },
     {
       op: OP_RANGE,
-      path: 'ns2:intakes_common/entryDate'
+      path: 'ns2:intakes_common/entryDate',
     },
     {
       op: OP_EQ,
@@ -34,7 +34,7 @@ export default {
     },
     {
       op: OP_RANGE,
-      path: 'ns2:intakes_common/returnDate'
+      path: 'ns2:intakes_common/returnDate',
     },
     {
       op: OP_MATCH,

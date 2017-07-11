@@ -1,8 +1,8 @@
-import advancedSearch from '../../../../../src/plugins/recordTypes/exhibition/advancedSearch';
+import advancedSearch from '../../../../../src/plugins/recordTypes/intake/advancedSearch';
 
 chai.should();
 
-describe('exhibition record advanced search', function suite() {
+describe('intake record advanced search', function suite() {
   it('should contain a top level property `op`', function test() {
     advancedSearch.should.have.property('op');
   });

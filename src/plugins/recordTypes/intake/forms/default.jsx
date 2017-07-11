@@ -133,7 +133,7 @@ export default (pluginContext) => {
 
         <Field name="currentLocationGroupList">
           <Field name="currentLocationGroup">
-            { /*TODO fix currentLocation field source */ }
+            { /* TODO fix currentLocation field source */ }
             <Field name="currentLocation" />
             <Field name="currentLocationFitness" />
             <Field name="currentLocationNote" />
@@ -142,7 +142,7 @@ export default (pluginContext) => {
 
         <Row>
           <Field name="locationDate" />
-          { /*TODO fix normalLocation field source */ }
+          { /* TODO fix normalLocation field source */ }
           <Field name="normalLocation" />
         </Row>
 

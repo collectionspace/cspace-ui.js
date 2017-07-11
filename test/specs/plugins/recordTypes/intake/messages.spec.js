@@ -1,16 +1,16 @@
-import messages from '../../../../../src/plugins/recordTypes/exhibition/messages';
+import messages from '../../../../../src/plugins/recordTypes/intake/messages';
 
 chai.should();
 
-describe('exhibition record messages', function suite() {
+describe('intake record messages', function suite() {
   it('should contain properties with id and defaultMessage properties', function test() {
     messages.should.be.an('object');
 
-    Object.keys(messages).forEach((exhibitionName) => {
-      const exhibitionMessages = messages[exhibitionName];
+    Object.keys(messages).forEach((intakeName) => {
+      const intakeMessages = messages[intakeName];
 
-      Object.keys(exhibitionMessages).forEach((name) => {
-        exhibitionMessages[name].should.contain.all.keys(['id', 'defaultMessage']);
+      Object.keys(intakeMessages).forEach((name) => {
+        intakeMessages[name].should.contain.all.keys(['id', 'defaultMessage']);
       });
     });
   });
