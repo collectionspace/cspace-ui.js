@@ -33,6 +33,10 @@ import {
   VALIDATION_PASSED,
 } from '../../../../src/actions/record';
 
+import {
+  SET_FORM,
+} from '../../../../src/actions/prefs';
+
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -60,6 +64,7 @@ describe('RecordEditorContainer', function suite() {
 
   const store = mockStore({
     notification: Immutable.Map(),
+    prefs: Immutable.Map(),
     record: Immutable.fromJS({
       [csid]: {
         data: {
@@ -425,5 +430,29 @@ describe('RecordEditorContainer', function suite() {
     action.type.should.equal = OPEN_MODAL;
 
     action.meta.should.have.property('name').that.equals(modalName);
+  });
+
+  it('should connect setForm to setForm action creator', function test() {
+    const formName = 'formName';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.setForm(formName);
+
+    const action = store.getActions()[0];
+
+    action.type.should.equal = SET_FORM;
+
+    action.should.have.property('payload').that.equals(formName);
+    action.meta.should.have.property('recordType').that.equals(recordType);
   });
 });

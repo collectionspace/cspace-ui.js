@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
+  SET_FORM,
   SET_QUICK_SEARCH_RECORD_TYPE,
   SET_QUICK_SEARCH_VOCABULARY,
   SET_RECORD_BROWSER_NAV_BAR_ITEMS,
@@ -20,6 +21,7 @@ import {
   collapsePanel,
   loadPrefs,
   savePrefs,
+  setForm,
   setQuickSearchRecordType,
   setQuickSearchVocabulary,
   setRecordBrowserNavBarItems,
@@ -48,6 +50,21 @@ describe('prefs action creator', function suite() {
         meta: {
           recordType,
           name,
+        },
+      });
+    });
+  });
+
+  describe('setForm', function actionSuite() {
+    it('should create a SET_FORM action', function test() {
+      const recordType = 'collectionobject';
+      const formName = 'default';
+
+      setForm(recordType, formName).should.deep.equal({
+        type: SET_FORM,
+        payload: formName,
+        meta: {
+          recordType,
         },
       });
     });

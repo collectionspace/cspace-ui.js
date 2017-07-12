@@ -11,6 +11,7 @@ import {
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_FORM,
 } from '../actions/prefs';
 
 export default (state = Immutable.Map(), action) => {
@@ -47,6 +48,8 @@ export default (state = Immutable.Map(), action) => {
       return state.set('searchResultPagePageSize', action.payload);
     case SET_SEARCH_TO_RELATE_PAGE_SIZE:
       return state.set('searchToRelatePageSize', action.payload);
+    case SET_FORM:
+      return state.setIn(['form', action.meta.recordType], action.payload);
     default:
       return state;
   }
@@ -78,3 +81,6 @@ export const isPanelCollapsed = (state, recordType, name) =>
 
 export const getRecordBrowserNavBarItems = (state, recordType) =>
   state.getIn(['recordBrowserNavBarItems', recordType]);
+
+export const getForm = (state, recordType) =>
+  state.getIn(['form', recordType]);

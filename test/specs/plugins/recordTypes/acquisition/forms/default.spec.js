@@ -1,5 +1,5 @@
 import Field from '../../../../../../src/components/record/Field';
-import formTemplate from '../../../../../../src/plugins/recordTypes/acquisition/forms/default';
+import form from '../../../../../../src/plugins/recordTypes/acquisition/forms/default';
 import createPluginContext from '../../../../../../src/helpers/createPluginContext';
 
 chai.should();
@@ -7,7 +7,7 @@ chai.should();
 describe('acquisition record default form', function suite() {
   it('should be a Field', function test() {
     const pluginContext = createPluginContext();
-    const template = formTemplate(pluginContext);
+    const { template } = form(pluginContext);
 
     template.type.should.equal(Field);
   });

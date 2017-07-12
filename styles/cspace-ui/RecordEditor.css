@@ -11,10 +11,6 @@
   align-items: baseline;
 }
 
-.common > header > * {
-  flex: 1 1 auto;
-}
-
 .common > footer {
   margin-bottom: 10px;
 }

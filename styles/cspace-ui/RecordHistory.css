@@ -1,4 +1,5 @@
 .common {
+  flex: 1 1 auto;
   font-size: 12px;
   text-align: right;
 }

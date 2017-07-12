@@ -1,7 +1,7 @@
 import advancedSearch from './advancedSearch';
 import columns from './columns';
-import defaultForm from './forms/default';
 import fields from './fields';
+import forms from './forms';
 import idGenerators from './idGenerators';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
@@ -16,9 +16,7 @@ export default () => pluginContext => ({
       messages,
       serviceConfig,
       fields: fields(pluginContext),
-      forms: {
-        default: defaultForm(pluginContext),
-      },
+      forms: forms(pluginContext),
       title: title(pluginContext),
     },
   },

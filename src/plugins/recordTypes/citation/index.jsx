@@ -42,7 +42,9 @@ export default () => () => ({
         }),
       },
       forms: {
-        default: <div />,
+        default: {
+          template: <div />,
+        },
       },
       title: () => '',
       vocabularies: {

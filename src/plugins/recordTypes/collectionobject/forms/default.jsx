@@ -1,4 +1,6 @@
-export default (pluginContext) => {
+import { defineMessages } from 'react-intl';
+
+const template = (pluginContext) => {
   const {
     React,
   } = pluginContext.lib;
@@ -570,3 +572,14 @@ export default (pluginContext) => {
     </Field>
   );
 };
+
+export default pluginContext => ({
+  messages: defineMessages({
+    name: {
+      id: 'form.collectionobject.default.name',
+      defaultMessage: 'Default Template',
+    },
+  }),
+  sortOrder: 0,
+  template: template(pluginContext),
+});

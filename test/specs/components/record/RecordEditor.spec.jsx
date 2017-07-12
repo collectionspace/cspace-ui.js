@@ -37,18 +37,44 @@ const store = mockStore({
 
 const config = {
   recordTypes: {
-    object: {
+    collectionobject: {
       forms: {
-        default: (
-          <CompoundInput>
-            <Panel name="id">
-              <TextInput name="objectNumber" />
-              <TextInput name="desc" msgkey="foo" />
-              <TextInput name="color" label="Color" />
-              <TextInput name="bar" />
-            </Panel>
-          </CompoundInput>
-        ),
+        default: {
+          messages: {
+            name: {
+              id: 'form.collectionobject.default.name',
+              defaultMessage: 'Default Template',
+            },
+          },
+          template: (
+            <CompoundInput>
+              <Panel name="id">
+                <TextInput name="objectNumber" />
+                <TextInput name="desc" msgkey="foo" />
+                <TextInput name="color" label="Color" />
+                <TextInput name="bar" />
+              </Panel>
+            </CompoundInput>
+          ),
+        },
+        inventory: {
+          messages: {
+            name: {
+              id: 'form.collectionobject.inventory.name',
+              defaultMessage: 'Inventory Template',
+            },
+          },
+          template: <div />,
+        },
+        photo: {
+          messages: {
+            name: {
+              id: 'form.collectionobject.photo.name',
+              defaultMessage: 'Photo Template',
+            },
+          },
+          template: <div />,
+        },
       },
       messages: {
         record: {
@@ -91,7 +117,7 @@ describe('RecordEditor', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <Router>
-            <RecordEditor config={config} recordType="object" />
+            <RecordEditor config={config} recordType="collectionobject" />
           </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -105,7 +131,7 @@ describe('RecordEditor', function suite() {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <Router>
-            <RecordEditor config={config} recordType="object" />
+            <RecordEditor config={config} recordType="collectionobject" />
           </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -138,7 +164,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
               readRecord={readRecord}
             />
           </Router>
@@ -161,7 +187,7 @@ describe('RecordEditor', function suite() {
           <Router>
             <RecordEditor
               config={config}
-              recordType="object"
+              recordType="collectionobject"
               createNewRecord={createNewRecord}
             />
           </Router>
@@ -185,7 +211,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
             />
           </Router>
         </StoreProvider>
@@ -198,7 +224,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="5678"
-              recordType="object"
+              recordType="collectionobject"
               readRecord={readRecord}
             />
           </Router>
@@ -222,7 +248,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
               removeValidationNotification={removeValidationNotification}
             />
           </Router>
@@ -248,7 +274,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
             />
           </Router>
         </StoreProvider>
@@ -261,7 +287,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="5678"
-              recordType="object"
+              recordType="collectionobject"
               removeValidationNotification={removeValidationNotification}
             />
           </Router>
@@ -286,7 +312,7 @@ describe('RecordEditor', function suite() {
           <Router>
             <RecordEditor
               config={config}
-              recordType="object"
+              recordType="collectionobject"
               save={save}
               onRecordCreated={handleRecordCreated}
             />
@@ -315,7 +341,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               isModified
-              recordType="object"
+              recordType="collectionobject"
               revert={revert}
             />
           </Router>
@@ -343,7 +369,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
               clone={clone}
             />
           </Router>
@@ -371,7 +397,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
               openModal={openModal}
             />
           </Router>
@@ -399,7 +425,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
               validateRecordData={validateRecordData}
               validationErrors={Immutable.Map()}
             />
@@ -428,7 +454,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
-              recordType="object"
+              recordType="collectionobject"
               validateRecordData={validateRecordData}
               validationErrors={Immutable.Map()}
             />
@@ -441,6 +467,39 @@ describe('RecordEditor', function suite() {
     Simulate.click(errorBadge);
 
     validateCalled.should.equal(true);
+  });
+
+  it('should call setForm when a value is committed in the form selector', function test() {
+    let setFormName = null;
+
+    const setForm = (formNameArg) => {
+      setFormName = formNameArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="collectionobject"
+              setForm={setForm}
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const formSelector = this.container.querySelector('.cspace-ui-RecordFormSelector--common');
+    const input = formSelector.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    const items = formSelector.querySelectorAll('li');
+
+    Simulate.click(items[2]);
+
+    setFormName.should.equal('photo');
   });
 
   it('should call save and closeModal when the confirmation modal save button is clicked', function test() {
@@ -472,7 +531,7 @@ describe('RecordEditor', function suite() {
           <RecordEditor
             config={config}
             csid="1234"
-            recordType="object"
+            recordType="collectionobject"
             openModalName={ConfirmRecordNavigationModal.name}
             save={save}
             closeModal={closeModal}
@@ -527,7 +586,7 @@ describe('RecordEditor', function suite() {
           <RecordEditor
             config={config}
             csid="1234"
-            recordType="object"
+            recordType="collectionobject"
             openModalName={ConfirmRecordNavigationModal.name}
             revert={revert}
             closeModal={closeModal}
@@ -571,7 +630,7 @@ describe('RecordEditor', function suite() {
           <RecordEditor
             config={config}
             csid="1234"
-            recordType="object"
+            recordType="collectionobject"
             openModalName={ConfirmRecordNavigationModal.name}
             onSaveCancelled={handleSaveCancelled}
             closeModal={closeModal}
@@ -623,7 +682,7 @@ describe('RecordEditor', function suite() {
           <RecordEditor
             config={config}
             csid="1234"
-            recordType="object"
+            recordType="collectionobject"
             openModalName={ConfirmRecordDeleteModal.name}
             transitionRecord={transitionRecord}
             closeModal={closeModal}

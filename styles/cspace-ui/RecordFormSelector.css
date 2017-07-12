@@ -1,0 +1,16 @@
+.common {
+  flex: 0 0 auto;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-left: 1px solid rgb(220, 220, 220);
+}
+
+.common :global(.cspace-input-TextInput--normal) {
+  margin-bottom: 0;
+  font-size: 12px;
+  background-size: 17px;
+}
+
+.common :global(.cspace-input-MenuItem--common) {
+  font-size: 12px;
+}
