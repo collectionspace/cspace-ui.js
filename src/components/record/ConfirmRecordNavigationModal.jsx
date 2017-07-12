@@ -110,4 +110,5 @@ export default class ConfirmRecordNavigationModal extends Component {
   }
 }
 
+ConfirmRecordNavigationModal.modalName = 'ConfirmRecordNavigationModal';
 ConfirmRecordNavigationModal.propTypes = propTypes;

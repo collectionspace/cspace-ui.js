@@ -271,7 +271,7 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     if (openModal) {
-      openModal(ConfirmRecordDeleteModal.name);
+      openModal(ConfirmRecordDeleteModal.modalName);
     }
   }
 
@@ -316,6 +316,48 @@ export default class RecordEditor extends Component {
     }
   }
 
+  renderConfirmNavigationModal() {
+    const {
+      isModified,
+      isSavePending,
+      openModalName,
+      validationErrors,
+    } = this.props;
+
+    return (
+      <ConfirmRecordNavigationModal
+        isOpen={openModalName === ConfirmRecordNavigationModal.modalName}
+        isModified={isModified}
+        isSavePending={isSavePending}
+        validationErrors={validationErrors}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCancelButtonClick}
+        onSaveButtonClick={this.handleConfirmNavigationSaveButtonClick}
+        onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
+        onRevertButtonClick={this.handleConfirmNavigationRevertButtonClick}
+      />
+    );
+  }
+
+  renderConfirmRecordDeleteModal() {
+    const {
+      csid,
+      isSavePending,
+      openModalName,
+    } = this.props;
+
+    return (
+      <ConfirmRecordDeleteModal
+        csid={csid}
+        isOpen={openModalName === ConfirmRecordDeleteModal.modalName}
+        isSavePending={isSavePending}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCancelButtonClick}
+        onDeleteButtonClick={this.handleConfirmDeleteButtonClick}
+      />
+    );
+  }
+
   render() {
     const {
       config,
@@ -324,7 +366,6 @@ export default class RecordEditor extends Component {
       formName,
       isModified,
       isSavePending,
-      openModalName,
       recordType,
       validationErrors,
       onAddInstance,
@@ -406,26 +447,12 @@ export default class RecordEditor extends Component {
             onDeleteButtonClick={this.handleDeleteButtonClick}
           />
         </footer>
-        <Prompt when={isModified && !isSavePending} message={ConfirmRecordNavigationModal.name} />
-        <ConfirmRecordNavigationModal
-          isOpen={openModalName === ConfirmRecordNavigationModal.name}
-          isModified={isModified}
-          isSavePending={isSavePending}
-          validationErrors={validationErrors}
-          onCancelButtonClick={this.handleModalCancelButtonClick}
-          onCloseButtonClick={this.handleModalCancelButtonClick}
-          onSaveButtonClick={this.handleConfirmNavigationSaveButtonClick}
-          onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
-          onRevertButtonClick={this.handleConfirmNavigationRevertButtonClick}
+        <Prompt
+          when={isModified && !isSavePending}
+          message={ConfirmRecordNavigationModal.modalName}
         />
-        <ConfirmRecordDeleteModal
-          csid={csid}
-          isOpen={openModalName === ConfirmRecordDeleteModal.name}
-          isSavePending={isSavePending}
-          onCancelButtonClick={this.handleModalCancelButtonClick}
-          onCloseButtonClick={this.handleModalCancelButtonClick}
-          onDeleteButtonClick={this.handleConfirmDeleteButtonClick}
-        />
+        {this.renderConfirmNavigationModal()}
+        {this.renderConfirmRecordDeleteModal()}
       </form>
     );
   }

@@ -408,7 +408,7 @@ describe('RecordEditor', function suite() {
 
     Simulate.click(deleteButton);
 
-    openModalName.should.equal(ConfirmRecordDeleteModal.name);
+    openModalName.should.equal(ConfirmRecordDeleteModal.modalName);
   });
 
   it('should call validateRecordData when the save button error badge is clicked', function test() {
@@ -532,7 +532,7 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordNavigationModal.name}
+            openModalName={ConfirmRecordNavigationModal.modalName}
             save={save}
             closeModal={closeModal}
             onRecordCreated={handleRecordCreated}
@@ -587,7 +587,7 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordNavigationModal.name}
+            openModalName={ConfirmRecordNavigationModal.modalName}
             revert={revert}
             closeModal={closeModal}
           />
@@ -631,7 +631,7 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordNavigationModal.name}
+            openModalName={ConfirmRecordNavigationModal.modalName}
             onSaveCancelled={handleSaveCancelled}
             closeModal={closeModal}
           />
@@ -683,7 +683,7 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordDeleteModal.name}
+            openModalName={ConfirmRecordDeleteModal.modalName}
             transitionRecord={transitionRecord}
             closeModal={closeModal}
             onRecordTransitioned={handleRecordTransitioned}

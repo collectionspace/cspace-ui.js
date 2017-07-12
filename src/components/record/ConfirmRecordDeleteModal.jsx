@@ -90,4 +90,5 @@ export default class ConfirmRecordDeleteModal extends Component {
   }
 }
 
+ConfirmRecordDeleteModal.modalName = 'ConfirmRecordDeleteModal';
 ConfirmRecordDeleteModal.propTypes = propTypes;
