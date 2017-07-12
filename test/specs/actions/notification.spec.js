@@ -82,7 +82,7 @@ describe('notification action creator', function suite() {
         status: STATUS_ERROR,
       });
 
-      action.payload.date.getTime().should.be.closeTo((new Date()).getTime(), 10);
+      action.payload.date.getTime().should.be.closeTo((new Date()).getTime(), 20);
     });
   });
 
