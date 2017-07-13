@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import {
   ERR_DATA_TYPE,
   ERR_MISSING_REQ_FIELD,
+  ERR_UNABLE_TO_VALIDATE,
 } from '../constants/errorCodes';
 
 import {
@@ -380,12 +381,12 @@ const validateDataType = (value, dataType) => {
   return (validator ? validator(value) : true);
 };
 
-export const validateField = (fieldDescriptor, data, expandRepeating = true) => {
+const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeating = true) => {
   if (!fieldDescriptor) {
     return null;
   }
 
-  let errors = Immutable.Map();
+  const results = [];
 
   if (expandRepeating && isFieldRepeating(fieldDescriptor)) {
     // This is a repeating field, and the expand flag is true. Validate each instance against the
@@ -394,34 +395,42 @@ export const validateField = (fieldDescriptor, data, expandRepeating = true) => 
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceErrors = validateField(fieldDescriptor, instances.get(index), false);
+      const instanceData = instances.get(index);
+      const instancePath = [...path, index];
 
-      if (instanceErrors) {
-        errors = errors.set(index, instanceErrors);
+      const instanceResults =
+        doValidate(instanceData, instancePath, recordData, fieldDescriptor, false);
+
+      if (instanceResults) {
+        Array.prototype.push.apply(results, instanceResults);
       }
     });
 
-    return (errors.size > 0 ? errors : null);
+    return (results.length > 0 ? results : null);
   }
 
   const dataType = getFieldDataType(fieldDescriptor);
 
   if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
-    // Validate this field's children, and add any child errors to the errors map.
+    // Validate this field's children, and add any child results to the results array.
 
     const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
     childKeys.forEach((childKey) => {
       const childData = data ? data.get(childKey) : undefined;
-      const childErrors = validateField(fieldDescriptor[childKey], childData);
+      const childPath = [...path, childKey];
+      const childFieldDescriptor = fieldDescriptor[childKey];
 
-      if (childErrors) {
-        errors = errors.set(childKey, childErrors);
+      const childResults =
+        doValidate(childData, childPath, recordData, childFieldDescriptor);
+
+      if (childResults) {
+        Array.prototype.push.apply(results, childResults);
       }
     });
   }
 
-  let error;
+  let result;
 
   // Check required.
 
@@ -430,39 +439,94 @@ export const validateField = (fieldDescriptor, data, expandRepeating = true) => 
   // TODO: Does this make sense for compound fields?
 
   if (required && (typeof data === 'undefined' || data === null || data === '')) {
-    error = Immutable.Map({
-      code: ERR_MISSING_REQ_FIELD,
-    });
+    result = {
+      path,
+      error: {
+        code: ERR_MISSING_REQ_FIELD,
+      },
+    };
   }
 
-  if (!error && typeof data !== 'undefined' && data !== null && data !== '') {
+  if (!result && typeof data !== 'undefined' && data !== null && data !== '') {
     // Check data type.
 
     if (!validateDataType(data, dataType)) {
-      error = Immutable.Map({
-        dataType,
-        code: ERR_DATA_TYPE,
-        value: data,
-      });
+      result = {
+        path,
+        error: {
+          dataType,
+          code: ERR_DATA_TYPE,
+          value: data,
+        },
+      };
     }
 
-    if (!error) {
+    if (!result) {
       // Custom validation.
 
       const customValidator = getFieldCustomValidator(fieldDescriptor);
 
       if (customValidator) {
-        // TODO: Run custom validator.
+        const error = customValidator(data, path, recordData, fieldDescriptor);
+
+        if (error) {
+          result = {
+            path,
+            error,
+          };
+        }
       }
     }
   }
 
-  if (error) {
-    errors = errors.set(ERROR_KEY, error);
+  if (result) {
+    results.push(result);
   }
 
-  return (errors.size > 0 ? errors : null);
+  return (results.length > 0 ? results : null);
 };
 
-export const validateRecordData = (recordTypeConfig, data) =>
-  validateField(get(recordTypeConfig, 'fields'), data);
+export const validateField = (data, path, recordData, fieldDescriptor, expandRepeating) => {
+  const validationResults = doValidate(data, path, recordData, fieldDescriptor, expandRepeating);
+
+  if (validationResults) {
+    // Validation results may either contain error objects, or promises that will resolve to error
+    // objects (when the validation function was async). Wait for all of the promises to resolve.
+
+    return (
+      Promise.all(validationResults.map(result => result.error))
+        .then((resolvedErrors) => {
+          // Convert the resolved error array into a tree of errors.
+
+          let errorTree = Immutable.Map();
+
+          resolvedErrors.forEach((error, index) => {
+            if (error) {
+              const errorPath = [...validationResults[index].path, ERROR_KEY];
+
+              errorTree = deepSet(errorTree, errorPath, Immutable.Map(error));
+            }
+          });
+
+          return Promise.resolve(errorTree.size > 0 ? errorTree : null);
+        })
+        .catch(() => {
+          // Something went wrong in an async validator. Set an error on the document.
+
+          const errorTree = Immutable.fromJS({
+            document: {
+              [ERROR_KEY]: {
+                code: ERR_UNABLE_TO_VALIDATE,
+              },
+            },
+          });
+
+          return Promise.resolve(errorTree);
+        }));
+  }
+
+  return Promise.resolve(null);
+};
+
+export const validateRecordData = (data, recordTypeConfig) =>
+  validateField(data, [], data, get(recordTypeConfig, 'fields'));

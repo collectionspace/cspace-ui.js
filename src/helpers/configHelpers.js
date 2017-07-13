@@ -303,7 +303,7 @@ export const getFieldCustomValidator = (fieldDescriptor) => {
   const fieldConfig = fieldDescriptor[configKey];
 
   if (fieldConfig) {
-    validator = fieldConfig.validator;
+    validator = fieldConfig.validate;
   }
 
   return validator;

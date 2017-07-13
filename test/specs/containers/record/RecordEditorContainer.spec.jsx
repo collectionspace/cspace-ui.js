@@ -371,12 +371,18 @@ describe('RecordEditorContainer', function suite() {
 
     result.props.validateRecordData();
 
-    const action = store.getActions()[0];
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const action = store.getActions()[0];
 
-    action.type.should.equal = VALIDATION_PASSED;
+        action.type.should.equal = VALIDATION_PASSED;
 
-    action.meta.should.have.property('csid', csid);
-    action.meta.should.have.property('path').that.deep.equals([]);
+        action.meta.should.have.property('csid', csid);
+        action.meta.should.have.property('path').that.deep.equals([]);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should connect transitionRecord to transitionRecord action creator', function test() {
