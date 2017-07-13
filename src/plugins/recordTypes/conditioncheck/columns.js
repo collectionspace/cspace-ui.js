@@ -1,37 +1,35 @@
 import { defineMessages } from 'react-intl';
-import { getDisplayName } from 'cspace-refname';
 import { formatTimestamp } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
     {
-      name: 'entryNumber',
+      name: 'conditionCheckRefNumber',
       messages: defineMessages({
         label: {
-          id: 'column.intake.default.entryNumber',
-          defaultMessage: 'Intake entry number',
+          id: 'column.conditioncheck.default.conditionCheckRefNumber',
+          defaultMessage: 'Condition check reference number',
         },
       }),
-      sortBy: 'intakes_common:entryNumber',
+      sortBy: 'conditionchecks_common:conditionCheckRefNumber',
       width: 200,
     },
     {
-      name: 'currentOwner',
+      name: 'condition',
       messages: defineMessages({
         label: {
-          id: 'column.intake.default.currentOwner',
-          defaultMessage: 'Current owner',
+          id: 'column.conditioncheck.default.condition',
+          defaultMessage: 'Condition',
         },
       }),
-      formatValue: value => getDisplayName(value),
-      sortBy: 'intakes_common:currentOwner',
+      sortBy: 'conditionchecks_common:conditionCheckGroupList/conditionCheckGroup/0/condition',
       width: 450,
     },
     {
       name: 'updatedAt',
       messages: defineMessages({
         label: {
-          id: 'column.intake.default.updatedAt',
+          id: 'column.conditioncheck.default.updatedAt',
           defaultMessage: 'Updated',
         },
       }),
