@@ -1,5 +1,5 @@
 import getSession from './cspace';
-import { validateRecordData } from './record';
+import { computeRecordData, validateRecordData } from './record';
 import { getIDGenerator } from '../reducers';
 
 export const ADD_ID_GENERATORS = 'ADD_ID_GENERATORS';
@@ -94,7 +94,8 @@ export const createID = (recordTypeConfig, idGeneratorName, csid, path) => (disp
         },
       });
 
-      dispatch(validateRecordData(recordTypeConfig, csid));
+      return dispatch(computeRecordData(recordTypeConfig, csid))
+        .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
     })
     .catch(error => dispatch({
       type: CREATE_ID_REJECTED,

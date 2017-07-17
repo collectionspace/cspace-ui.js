@@ -9,6 +9,7 @@ import {
   deepSet,
   deepDelete,
   getUpdatedTimestamp,
+  normalizeRecordData,
 } from '../helpers/recordDataHelpers';
 
 import {
@@ -29,6 +30,7 @@ import {
   CREATE_NEW_SUBRECORD,
   DELETE_FIELD_VALUE,
   DETACH_SUBRECORD,
+  FIELD_COMPUTE_FULFILLED,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_CREATED,
@@ -229,12 +231,40 @@ const setFieldValue = (state, action) => {
   return updatedState;
 };
 
-const handleRecordReadFulfilled = (state, action) => {
-  const data = Immutable.fromJS(action.payload.data);
-
+const handleFieldComputeFulfilled = (state, action) => {
   const {
     csid,
+    path,
   } = action.meta;
+
+  const data = getCurrentData(state, csid);
+
+  if (!data) {
+    return state;
+  }
+
+  if (path.length === 0) {
+    // The entire record was computed.
+
+    const computedData = action.payload;
+    const updatedData = data.mergeDeep(computedData);
+    const updatedState = setCurrentData(state, csid, updatedData);
+
+    return updatedState;
+  }
+
+  // TODO: Handle an individual field being computed.
+
+  return state;
+};
+
+const handleRecordReadFulfilled = (state, action) => {
+  const {
+    csid,
+    recordTypeConfig,
+  } = action.meta;
+
+  const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(action.payload.data));
 
   let updatedState = state.deleteIn([csid, 'isReadPending']);
 
@@ -245,12 +275,13 @@ const handleRecordReadFulfilled = (state, action) => {
 };
 
 const handleRecordSaveFulfilled = (state, action) => {
-  const data = Immutable.fromJS(action.payload.data);
-
   const {
     csid,
+    recordTypeConfig,
     relatedSubjectCsid,
   } = action.meta;
+
+  const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(action.payload.data));
 
   let updatedState = state;
 
@@ -448,6 +479,7 @@ const handleTransitionFulfilled = (state, action) => {
   const {
     csid,
     transitionName,
+    recordTypeConfig,
     relatedSubjectCsid,
     updatedTimestamp,
   } = action.meta;
@@ -460,7 +492,7 @@ const handleTransitionFulfilled = (state, action) => {
     const newData = get(action, ['payload', 'data']);
 
     if (newData) {
-      const data = Immutable.fromJS(newData);
+      const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(newData));
 
       updatedState = setBaselineData(updatedState, csid, data);
       updatedState = setCurrentData(updatedState, csid, data);
@@ -500,6 +532,8 @@ export default (state = Immutable.Map(), action) => {
       return moveFieldValue(state, action);
     case SET_FIELD_VALUE:
       return setFieldValue(state, action);
+    case FIELD_COMPUTE_FULFILLED:
+      return handleFieldComputeFulfilled(state, action);
     case RECORD_CREATED:
       return (
         state

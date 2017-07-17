@@ -40,6 +40,8 @@ import {
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
   DETACH_SUBRECORD,
+  FIELD_COMPUTE_FULFILLED,
+  FIELD_COMPUTE_REJECTED,
   RECORD_CREATED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
@@ -59,6 +61,7 @@ import {
   SET_FIELD_VALUE,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
+  computeFieldValue,
   createNewRecord,
   createNewSubrecord,
   detachSubrecord,
@@ -1020,6 +1023,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
               },
@@ -1299,6 +1303,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid: createdCsid,
                 relatedSubjectCsid: undefined,
               },
@@ -1480,6 +1485,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
               },
@@ -1685,6 +1691,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig: subrecordTypeConfig,
                 csid: subrecordCsid,
                 relatedSubjectCsid: undefined,
               },
@@ -1702,6 +1709,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
               },
@@ -2093,6 +2101,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig: subrecordTypeConfig,
                 csid: subrecordCsid,
                 relatedSubjectCsid: undefined,
               },
@@ -2110,6 +2119,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
               },
@@ -2252,6 +2262,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig: subrecordTypeConfig,
                 csid: createdSubrecordCsid,
                 relatedSubjectCsid: undefined,
               },
@@ -2279,6 +2290,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
               },
@@ -2370,6 +2382,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
               },
@@ -2988,6 +3001,7 @@ describe('record action creator', function suite() {
               data: {},
             },
             meta: {
+              recordTypeConfig,
               csid,
               relatedSubjectCsid: undefined,
             },
@@ -3025,6 +3039,103 @@ describe('record action creator', function suite() {
           });
 
           actions[9].meta.should.have.property('updatedTimestamp');
+        });
+    });
+  });
+
+  describe('computeFieldValue', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+
+    const recordTypeConfig = {
+      fields: {
+        document: {
+          sayHello: {
+            [configKey]: {
+              compute: value => `Hello ${value}`,
+            },
+          },
+          badCompute: {
+            [configKey]: {
+              compute: () => {
+                throw new Error();
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const csid = '1234';
+
+    before(() => {
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      return store.dispatch(configureCSpace());
+    });
+
+    it('should dispatch FIELD_COMPUTE_FULFILLED when field values are computed', function test() {
+      const path = ['document', 'sayHello'];
+      const value = 'world';
+
+      const store = mockStore({
+        record: Immutable.fromJS({
+          [csid]: {
+            data: {
+              current: {
+                document: {
+                  sayHello: value,
+                },
+              },
+            },
+          },
+        }),
+      });
+
+      return store.dispatch(computeFieldValue(recordTypeConfig, csid, path, value))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: FIELD_COMPUTE_FULFILLED,
+            payload: 'Hello world',
+            meta: {
+              path,
+              csid,
+            },
+          });
+        });
+    });
+
+    it('should dispatch FIELD_COMPUTE_REJECTED when there is an error computing field values', function test() {
+      const path = ['document', 'badCompute'];
+      const value = 'foo';
+
+      const store = mockStore({
+        record: Immutable.fromJS({
+          [csid]: {
+            data: {
+              current: {},
+            },
+          },
+        }),
+      });
+
+      return store.dispatch(computeFieldValue(recordTypeConfig, csid, path, value))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.have.property('type', FIELD_COMPUTE_REJECTED);
+
+          actions[0].should.have.property('meta').that.deep.equals({
+            path,
+            csid,
+          });
         });
     });
   });
