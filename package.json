@@ -13,7 +13,7 @@
     "web",
     "browser"
   ],
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/collectionspace/cspace-ui.js.git"
   },
