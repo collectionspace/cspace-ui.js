@@ -11,6 +11,7 @@ import group from './group';
 import intake from './intake';
 import loanin from './loanin';
 import loanout from './loanout';
+import location from './location';
 import media from './media';
 import object from './object';
 import objectexit from './objectexit';
@@ -33,6 +34,7 @@ export default [
   intake,
   loanin,
   loanout,
+  location,
   media,
   object,
   objectexit,
