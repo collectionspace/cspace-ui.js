@@ -19,6 +19,7 @@ import organization from './organization';
 import person from './person';
 import place from './place';
 import procedure from './procedure';
+import valuation from './valuation';
 
 export default [
   all,
@@ -42,4 +43,5 @@ export default [
   person,
   place,
   procedure,
+  valuation,
 ];
