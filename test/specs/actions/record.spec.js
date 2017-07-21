@@ -1,3 +1,5 @@
+/* global window */
+
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
@@ -411,7 +413,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should do nothing if there are validation errors', function test() {
+      it('should dispatch RECORD_SAVE_REJECTED if there are validation errors', function test() {
         const recordTypeConfigWithRequiredField = Object.assign({}, recordTypeConfig, {
           fields: {
             objectNumber: {
@@ -437,15 +439,41 @@ describe('record action creator', function suite() {
 
         store.dispatch(saveRecord(recordTypeConfigWithRequiredField, undefined, csid));
 
-        const actions = store.getActions();
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const actions = store.getActions();
 
-        actions.should.have.lengthOf(2);
+            actions.should.have.lengthOf(4);
 
-        actions[0].type.should.equal(VALIDATION_FAILED);
-        actions[0].payload.should.equal(Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD));
-        actions[0].meta.should.deep.equal({
-          csid,
-          path: [],
+            actions[0].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig: recordTypeConfigWithRequiredField,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[1].type.should.equal(VALIDATION_FAILED);
+            actions[1].payload.should.equal(Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD));
+            actions[1].meta.should.deep.equal({
+              csid,
+              path: [],
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[3].should.have.property('meta')
+              .that.deep.equals({
+                csid,
+                recordTypeConfig: recordTypeConfigWithRequiredField,
+                relatedSubjectCsid: undefined,
+              });
+
+            resolve();
+          }, 0);
         });
       });
 
@@ -479,24 +507,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: 'VALIDATION_PASSED',
-              meta: {
-                csid,
-                path: [],
-              },
-            });
-
-            actions[1].should.deep.equal({
-              type: REMOVE_NOTIFICATION,
-              meta: {
-                notificationID: NOTIFICATION_ID_VALIDATION,
-              },
-            });
-
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
-
-            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -504,6 +514,24 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            actions[1].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.have.property('type', SHOW_NOTIFICATION);
             actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
@@ -550,24 +578,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: 'VALIDATION_PASSED',
-              meta: {
-                csid,
-                path: [],
-              },
-            });
-
-            actions[1].should.deep.equal({
-              type: REMOVE_NOTIFICATION,
-              meta: {
-                notificationID: NOTIFICATION_ID_VALIDATION,
-              },
-            });
-
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
-
-            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -575,6 +585,24 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            actions[1].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.have.property('type', SHOW_NOTIFICATION);
             actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
@@ -614,24 +642,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: 'VALIDATION_PASSED',
-              meta: {
-                csid: '',
-                path: [],
-              },
-            });
-
-            actions[1].should.deep.equal({
-              type: REMOVE_NOTIFICATION,
-              meta: {
-                notificationID: NOTIFICATION_ID_VALIDATION,
-              },
-            });
-
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
-
-            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -639,6 +649,24 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            actions[1].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.have.property('type', SHOW_NOTIFICATION);
             actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
@@ -678,24 +706,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: 'VALIDATION_PASSED',
-              meta: {
-                csid: '',
-                path: [],
-              },
-            });
-
-            actions[1].should.deep.equal({
-              type: REMOVE_NOTIFICATION,
-              meta: {
-                notificationID: NOTIFICATION_ID_VALIDATION,
-              },
-            });
-
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
-
-            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -703,6 +713,24 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            actions[1].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.have.property('type', SHOW_NOTIFICATION);
             actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
@@ -761,24 +789,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: 'VALIDATION_PASSED',
-              meta: {
-                csid: '',
-                path: [],
-              },
-            });
-
-            actions[1].should.deep.equal({
-              type: REMOVE_NOTIFICATION,
-              meta: {
-                notificationID: NOTIFICATION_ID_VALIDATION,
-              },
-            });
-
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
-
-            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: '',
@@ -786,6 +796,24 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            actions[1].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.have.property('type', SHOW_NOTIFICATION);
             actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
@@ -884,24 +912,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: 'VALIDATION_PASSED',
-              meta: {
-                csid,
-                path: [],
-              },
-            });
-
-            actions[1].should.deep.equal({
-              type: REMOVE_NOTIFICATION,
-              meta: {
-                notificationID: NOTIFICATION_ID_VALIDATION,
-              },
-            });
-
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
-
-            actions[3].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid,
@@ -909,6 +919,24 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            actions[1].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.have.property('type', SHOW_NOTIFICATION);
             actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
@@ -987,32 +1015,38 @@ describe('record action creator', function suite() {
 
       store.dispatch(addFieldInstance(recordTypeConfig, csid, path));
 
-      const actions = store.getActions();
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          const actions = store.getActions();
 
-      actions.should.have.lengthOf(3);
+          actions.should.have.lengthOf(3);
 
-      actions[0].should.deep.equal({
-        type: ADD_FIELD_INSTANCE,
-        meta: {
-          csid,
-          path,
-          recordTypeConfig,
-        },
-      });
+          actions[0].should.deep.equal({
+            type: ADD_FIELD_INSTANCE,
+            meta: {
+              csid,
+              path,
+              recordTypeConfig,
+            },
+          });
 
-      actions[1].should.deep.equal({
-        type: VALIDATION_PASSED,
-        meta: {
-          csid,
-          path: [],
-        },
-      });
+          actions[1].should.deep.equal({
+            type: VALIDATION_PASSED,
+            meta: {
+              csid,
+              path: [],
+            },
+          });
 
-      actions[2].should.deep.equal({
-        type: REMOVE_NOTIFICATION,
-        meta: {
-          notificationID: NOTIFICATION_ID_VALIDATION,
-        },
+          actions[2].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
+            },
+          });
+
+          resolve();
+        }, 0);
       });
     });
   });
@@ -1031,31 +1065,37 @@ describe('record action creator', function suite() {
 
       store.dispatch(deleteFieldValue(recordTypeConfig, csid, path));
 
-      const actions = store.getActions();
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          const actions = store.getActions();
 
-      actions.should.have.lengthOf(3);
+          actions.should.have.lengthOf(3);
 
-      actions[0].should.deep.equal({
-        type: DELETE_FIELD_VALUE,
-        meta: {
-          csid,
-          path,
-        },
-      });
+          actions[0].should.deep.equal({
+            type: DELETE_FIELD_VALUE,
+            meta: {
+              csid,
+              path,
+            },
+          });
 
-      actions[1].should.deep.equal({
-        type: 'VALIDATION_PASSED',
-        meta: {
-          csid,
-          path: [],
-        },
-      });
+          actions[1].should.deep.equal({
+            type: 'VALIDATION_PASSED',
+            meta: {
+              csid,
+              path: [],
+            },
+          });
 
-      actions[2].should.deep.equal({
-        type: REMOVE_NOTIFICATION,
-        meta: {
-          notificationID: NOTIFICATION_ID_VALIDATION,
-        },
+          actions[2].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
+            },
+          });
+
+          resolve();
+        }, 0);
       });
     });
   });
@@ -1075,32 +1115,38 @@ describe('record action creator', function suite() {
 
       store.dispatch(moveFieldValue(recordTypeConfig, csid, path, newPosition));
 
-      const actions = store.getActions();
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          const actions = store.getActions();
 
-      actions.should.have.lengthOf(3);
+          actions.should.have.lengthOf(3);
 
-      actions[0].should.deep.equal({
-        type: MOVE_FIELD_VALUE,
-        meta: {
-          csid,
-          path,
-          newPosition,
-        },
-      });
+          actions[0].should.deep.equal({
+            type: MOVE_FIELD_VALUE,
+            meta: {
+              csid,
+              path,
+              newPosition,
+            },
+          });
 
-      actions[1].should.deep.equal({
-        type: 'VALIDATION_PASSED',
-        meta: {
-          csid,
-          path: [],
-        },
-      });
+          actions[1].should.deep.equal({
+            type: 'VALIDATION_PASSED',
+            meta: {
+              csid,
+              path: [],
+            },
+          });
 
-      actions[2].should.deep.equal({
-        type: REMOVE_NOTIFICATION,
-        meta: {
-          notificationID: NOTIFICATION_ID_VALIDATION,
-        },
+          actions[2].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
+            },
+          });
+
+          resolve();
+        }, 0);
       });
     });
   });
@@ -1120,32 +1166,38 @@ describe('record action creator', function suite() {
 
       store.dispatch(setFieldValue(recordTypeConfig, csid, path, value));
 
-      const actions = store.getActions();
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          const actions = store.getActions();
 
-      actions.should.have.lengthOf(3);
+          actions.should.have.lengthOf(3);
 
-      actions[0].should.deep.equal({
-        type: SET_FIELD_VALUE,
-        payload: value,
-        meta: {
-          csid,
-          path,
-        },
-      });
+          actions[0].should.deep.equal({
+            type: SET_FIELD_VALUE,
+            payload: value,
+            meta: {
+              csid,
+              path,
+            },
+          });
 
-      actions[1].should.deep.equal({
-        type: 'VALIDATION_PASSED',
-        meta: {
-          csid,
-          path: [],
-        },
-      });
+          actions[1].should.deep.equal({
+            type: 'VALIDATION_PASSED',
+            meta: {
+              csid,
+              path: [],
+            },
+          });
 
-      actions[2].should.deep.equal({
-        type: REMOVE_NOTIFICATION,
-        meta: {
-          notificationID: NOTIFICATION_ID_VALIDATION,
-        },
+          actions[2].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
+            },
+          });
+
+          resolve();
+        }, 0);
       });
     });
   });

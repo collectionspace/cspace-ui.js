@@ -9,6 +9,7 @@ import { configKey, dataPathToFieldDescriptorPath } from '../../helpers/configHe
 import {
   ERR_MISSING_REQ_FIELD,
   ERR_DATA_TYPE,
+  ERR_UNABLE_TO_VALIDATE,
 } from '../../constants/errorCodes';
 
 const messages = defineMessages({
@@ -16,20 +17,25 @@ const messages = defineMessages({
     id: 'validationErrorMessage.ERR_DATA_TYPE',
     description: 'The error message for a data type validation error.',
     defaultMessage: `{dataType, select,
-      DATA_TYPE_INT {{fieldName} must be an integer.}
-      DATA_TYPE_FLOAT {{fieldName} must be a number.}
-      DATA_TYPE_DATE {{fieldName} must be a date in the format YYYY-MM-DD.}
-      other {{fieldName} has an invalid value for the data type {dataType}.}
+      DATA_TYPE_INT {{fieldName} must be an integer. Please change the value {value}.}
+      DATA_TYPE_FLOAT {{fieldName} must be a number. Please change the value {value}.}
+      DATA_TYPE_DATE {{fieldName} must be a date in the format YYYY-MM-DD. Please change the value {value}.}
+      other {{fieldName} has an invalid value for the data type {dataType}. Please change the value {value}.}
     }`,
   },
   [ERR_MISSING_REQ_FIELD]: {
     id: 'validationErrorMessage.ERR_MISSING_REQ_FIELD',
     description: 'The error message for a missing required field validation error.',
-    defaultMessage: '{fieldName} is required.',
+    defaultMessage: '{fieldName} is required. Please enter a value.',
+  },
+  [ERR_UNABLE_TO_VALIDATE]: {
+    id: 'validationErrorMessage.ERR_UNABLE_TO_VALIDATE',
+    description: 'The error message for a failure to validate one or more fields.',
+    defaultMessage: 'An unexpected error occurred while validating this record.',
   },
   default: {
     id: 'validationErrorMessage.default',
-    description: 'The default message for a validation error. Validators should provide a more specific message.',
+    description: 'The default, generic message for a validation error. Validators should provide a more specific message.',
     defaultMessage: '{fieldName} has an invalid value.',
   },
 });
@@ -67,7 +73,7 @@ const formatErrors = (fieldDescriptor, errors, path = []) => {
 
         formattedErrors.push(formattedMessage);
       }
-    } else {
+    } else if (value) {
       formattedErrors.push(
         ...formatErrors(fieldDescriptor, value, [...path, key])
       );

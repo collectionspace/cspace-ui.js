@@ -30,6 +30,7 @@ import {
 
 import {
   ERR_API,
+  ERR_VALIDATION,
 } from '../constants/errorCodes';
 
 import {
@@ -112,38 +113,41 @@ export const REVERT_RECORD = 'REVERT_RECORD';
 export const VALIDATION_FAILED = 'VALIDATION_FAILED';
 export const VALIDATION_PASSED = 'VALIDATION_PASSED';
 
-export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch) => {
+export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
-  const errors = validateField(fieldDescriptor, value, true);
+  const recordData = getRecordData(getState(), csid);
 
-  if (errors) {
-    dispatch({
-      type: VALIDATION_FAILED,
-      payload: errors,
-      meta: {
-        csid,
-        path,
-      },
+  return validateField(value, [], recordData, fieldDescriptor, true)
+    .then((errors) => {
+      if (errors) {
+        dispatch({
+          type: VALIDATION_FAILED,
+          payload: errors,
+          meta: {
+            csid,
+            path,
+          },
+        });
+
+        dispatch(showValidationNotification(recordTypeConfig.name, csid));
+      } else {
+        dispatch({
+          type: VALIDATION_PASSED,
+          meta: {
+            csid,
+            path,
+          },
+        });
+
+        dispatch(removeValidationNotification());
+      }
     });
-
-    dispatch(showValidationNotification(recordTypeConfig.name, csid));
-  } else {
-    dispatch({
-      type: VALIDATION_PASSED,
-      meta: {
-        csid,
-        path,
-      },
-    });
-
-    dispatch(removeValidationNotification());
-  }
 };
 
 export const validateRecordData = (recordTypeConfig, csid) => (dispatch, getState) => {
-  const data = getRecordData(getState(), csid);
+  const recordData = getRecordData(getState(), csid);
 
-  dispatch(validateFieldValue(recordTypeConfig, csid, [], data));
+  return dispatch(validateFieldValue(recordTypeConfig, csid, [], recordData));
 };
 
 const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
@@ -253,29 +257,6 @@ export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =
 export const saveRecord =
   (recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated) =>
     (dispatch, getState) => {
-      const data = getRecordData(getState(), csid);
-
-      // TODO: Compute
-
-      dispatch(validateRecordData(recordTypeConfig, csid));
-
-      if (getRecordValidationErrors(getState(), csid)) {
-        return null;
-      }
-
-      const title = recordTypeConfig.title(getDocument(data));
-      const notificationID = getNotificationID();
-
-      dispatch(showNotification({
-        message: saveMessages.saving,
-        values: {
-          title,
-          hasTitle: title ? 'yes' : '',
-        },
-        date: new Date(),
-        status: STATUS_PENDING,
-      }, notificationID));
-
       dispatch({
         type: RECORD_SAVE_STARTED,
         meta: {
@@ -285,70 +266,17 @@ export const saveRecord =
         },
       });
 
-      const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+      const data = getRecordData(getState(), csid);
 
-      const vocabularyServicePath = vocabularyConfig
-        ? vocabularyConfig.serviceConfig.servicePath
-        : null;
+      // TODO: Compute
 
-      const pathParts = [recordServicePath];
-
-      if (vocabularyServicePath) {
-        pathParts.push(vocabularyServicePath);
-        pathParts.push('items');
-      }
-
-      if (csid) {
-        pathParts.push(csid);
-      }
-
-      const path = pathParts.join('/');
-
-      const config = {
-        data: prepareForSending(data).toJS(),
-      };
-
-      if (csid) {
-        return getSession().update(path, config)
-          .then((response) => {
-            dispatch(showNotification({
-              message: saveMessages.saved,
-              values: {
-                title,
-                hasTitle: title ? 'yes' : '',
-              },
-              date: new Date(),
-              status: STATUS_SUCCESS,
-              autoClose: true,
-            }, notificationID));
-
-            dispatch({
-              type: RECORD_SAVE_FULFILLED,
-              payload: response,
-              meta: {
-                recordTypeConfig,
-                csid,
-                relatedSubjectCsid,
-              },
-            });
-          })
-          .catch((error) => {
-            dispatch(showNotification({
-              message: saveMessages.errorSaving,
-              values: {
-                title,
-                hasTitle: title ? 'yes' : '',
-                error: getErrorDescription(error),
-              },
-              date: new Date(),
-              status: STATUS_ERROR,
-            }, notificationID));
-
+      return dispatch(validateRecordData(recordTypeConfig, csid))
+        .then(() => {
+          if (getRecordValidationErrors(getState(), csid)) {
             dispatch({
               type: RECORD_SAVE_REJECTED,
               payload: {
-                code: ERR_API,
-                error,
+                code: ERR_VALIDATION,
               },
               meta: {
                 recordTypeConfig,
@@ -356,17 +284,49 @@ export const saveRecord =
                 relatedSubjectCsid,
               },
             });
-          });
-      }
 
-      return getSession().create(path, config)
-        .then((response) => {
-          if (response.status === 201 && response.headers.location) {
-            const location = response.headers.location;
-            const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
+            return null;
+          }
 
-            return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
-              .then((readResponse) => {
+          const title = recordTypeConfig.title(getDocument(data));
+          const notificationID = getNotificationID();
+
+          dispatch(showNotification({
+            message: saveMessages.saving,
+            values: {
+              title,
+              hasTitle: title ? 'yes' : '',
+            },
+            date: new Date(),
+            status: STATUS_PENDING,
+          }, notificationID));
+
+          const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+          const vocabularyServicePath = vocabularyConfig
+            ? vocabularyConfig.serviceConfig.servicePath
+            : null;
+
+          const pathParts = [recordServicePath];
+
+          if (vocabularyServicePath) {
+            pathParts.push(vocabularyServicePath);
+            pathParts.push('items');
+          }
+
+          if (csid) {
+            pathParts.push(csid);
+          }
+
+          const path = pathParts.join('/');
+
+          const config = {
+            data: prepareForSending(data).toJS(),
+          };
+
+          if (csid) {
+            return getSession().update(path, config)
+              .then((response) => {
                 dispatch(showNotification({
                   message: saveMessages.saved,
                   values: {
@@ -380,49 +340,106 @@ export const saveRecord =
 
                 dispatch({
                   type: RECORD_SAVE_FULFILLED,
-                  payload: readResponse,
+                  payload: response,
                   meta: {
                     recordTypeConfig,
-                    csid: newRecordCsid,
+                    csid,
                     relatedSubjectCsid,
                   },
                 });
+              })
+              .catch((error) => {
+                dispatch(showNotification({
+                  message: saveMessages.errorSaving,
+                  values: {
+                    title,
+                    hasTitle: title ? 'yes' : '',
+                    error: getErrorDescription(error),
+                  },
+                  date: new Date(),
+                  status: STATUS_ERROR,
+                }, notificationID));
 
-                if (onRecordCreated) {
-                  onRecordCreated(newRecordCsid);
-                }
+                dispatch({
+                  type: RECORD_SAVE_REJECTED,
+                  payload: {
+                    code: ERR_API,
+                    error,
+                  },
+                  meta: {
+                    recordTypeConfig,
+                    csid,
+                    relatedSubjectCsid,
+                  },
+                });
               });
           }
 
-          const error = new Error('Expected response with status 201 and a location header');
-          error.response = response;
+          return getSession().create(path, config)
+            .then((response) => {
+              if (response.status === 201 && response.headers.location) {
+                const location = response.headers.location;
+                const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
 
-          throw error;
-        })
-        .catch((error) => {
-          dispatch(showNotification({
-            message: saveMessages.errorSaving,
-            values: {
-              title,
-              hasTitle: title ? 'yes' : '',
-              error: getErrorDescription(error),
-            },
-            date: new Date(),
-            status: STATUS_ERROR,
-          }, notificationID));
+                return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
+                  .then((readResponse) => {
+                    dispatch(showNotification({
+                      message: saveMessages.saved,
+                      values: {
+                        title,
+                        hasTitle: title ? 'yes' : '',
+                      },
+                      date: new Date(),
+                      status: STATUS_SUCCESS,
+                      autoClose: true,
+                    }, notificationID));
 
-          dispatch({
-            type: RECORD_SAVE_REJECTED,
-            payload: {
-              code: ERR_API,
-              error,
-            },
-            meta: {
-              recordTypeConfig,
-              csid,
-              relatedSubjectCsid,
-            },
-          });
+                    dispatch({
+                      type: RECORD_SAVE_FULFILLED,
+                      payload: readResponse,
+                      meta: {
+                        recordTypeConfig,
+                        csid: newRecordCsid,
+                        relatedSubjectCsid,
+                      },
+                    });
+
+                    if (onRecordCreated) {
+                      onRecordCreated(newRecordCsid);
+                    }
+                  });
+              }
+
+              const error = new Error('Expected response with status 201 and a location header');
+              error.response = response;
+
+              throw error;
+            })
+            .catch((error) => {
+              dispatch(showNotification({
+                message: saveMessages.errorSaving,
+                values: {
+                  title,
+                  hasTitle: title ? 'yes' : '',
+                  error: getErrorDescription(error),
+                },
+                date: new Date(),
+                status: STATUS_ERROR,
+              }, notificationID));
+
+              dispatch({
+                type: RECORD_SAVE_REJECTED,
+                payload: {
+                  code: ERR_API,
+                  error,
+                },
+                meta: {
+                  recordTypeConfig,
+                  csid,
+                  relatedSubjectCsid,
+                },
+              });
+            });
         });
     };
 
