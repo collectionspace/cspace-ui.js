@@ -568,7 +568,7 @@ export default (pluginContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'location/local,location/offsite,organization/local,organization/shared',
+                    source: 'location/local,location/offsite',
                   },
                 },
               },
@@ -628,7 +628,7 @@ export default (pluginContext) => {
             view: {
               type: AutocompleteInput,
               props: {
-                source: 'location/local,location/offsite,organization/local,organization/shared',
+                source: 'location/local,location/offsite',
               },
             },
           },
