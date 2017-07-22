@@ -18,6 +18,8 @@ $ cd cspace-ui.js
 $ npm install
 ```
 
+For more development documentation, take a look here: https://github.com/collectionspace/cspace-ui.js/tree/master/docs
+
 ## About CollectionSpace
 
 [CollectionSpace](http://www.collectionspace.org/) is a free, open-source collections management application for museums, historical societies, natural science collections, and more.
