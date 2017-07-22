@@ -6,7 +6,7 @@
 
 The CollectionSpace user interface for web browsers, implemented as a single page JavaScript application.
 
-Release 4.5 of the CollectionSpace services API, which is currently under development, is required. This application is not compatible with releases 4.4 and earlier.
+Release 4.5 of the CollectionSpace services API is required. This application is not compatible with releases 4.4 and earlier.
 
 ## Installation
 
