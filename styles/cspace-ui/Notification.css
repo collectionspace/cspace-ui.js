@@ -2,6 +2,7 @@
   width: 100%;
   position: relative;
   display: flex;
+  box-shadow: 3px 0 4px rgba(220, 220, 220, .5);
 }
 
 .common + .common {
@@ -30,6 +31,7 @@
 .common ul {
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .common ul > li {
@@ -41,7 +43,6 @@
 
 .error {
   composes: common;
-  border-top: 2px solid #D80000;
 }
 
 .error > div > header {
@@ -58,7 +59,6 @@
 
 .pending {
   composes: common;
-  border-top: 2px solid #444444;
 }
 
 .pending ul > li {
@@ -67,7 +67,6 @@
 
 .success {
   composes: common;
-  border-top: 2px solid #444444;
 }
 
 .success ul > li {
