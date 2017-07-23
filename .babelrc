@@ -5,12 +5,8 @@
   ],
   "plugins": [
     "dev-expression",
-    "transform-object-rest-spread",
-    [
-      "react-intl", {
-        "messagesDir": "./build/messages/"
-      }
-    ]
+    ["transform-object-rest-spread", { "useBuiltIns": true }],
+    ["react-intl", { "messagesDir": "./build/messages/" }]
   ],
   "env": {
     "test": {

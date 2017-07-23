@@ -128,23 +128,38 @@ module.exports = function karma(config) {
     webpack: {
       devtool: 'cheap-module-inline-source-map',
       module: {
-        loaders: [
+        rules: [
           {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            loader: 'babel',
+            use: [
+              {
+                loader: 'babel-loader',
+              },
+            ],
           },
           {
             test: /\.css$/,
-            loader: 'style-loader!css-loader?modules&localIdentName=[folder]-[name]--[local]',
+            use: [
+              {
+                loader: 'style-loader',
+              },
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localIdentName: '[folder]-[name]--[local]',
+                },
+              },
+            ],
           },
           {
             test: /\.(png|jpg|svg)$/,
-            loader: 'url-loader',
-          },
-          {
-            test: /\.json$/,
-            loader: 'json-loader',
+            use: [
+              {
+                loader: 'url-loader',
+              },
+            ],
           },
         ],
       },
@@ -154,7 +169,7 @@ module.exports = function karma(config) {
         }),
       ],
       resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['.js', '.jsx'],
       },
     },
 

@@ -1,6 +1,7 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 
 const webpack = require('webpack');
+const path = require('path');
 
 const library = 'cspaceUI';
 const isProduction = process.env.NODE_ENV === 'production';
@@ -12,48 +13,56 @@ const config = {
     filename,
     library,
     libraryTarget: 'umd',
-    path: 'dist',
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&localIdentName=[folder]-[name]--[local]',
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[folder]-[name]--[local]',
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|svg)$/,
-        loader: 'url-loader',
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
       },
     ],
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
 };
 
 if (isProduction) {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-    })
-  );
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
 }
 
 module.exports = config;
