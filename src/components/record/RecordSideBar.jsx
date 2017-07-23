@@ -35,11 +35,21 @@ export default function RecordSideBar(props) {
   const isAuthority = serviceType === 'authority';
   const panelColor = isAuthority ? 'purple' : 'blue';
 
+  let mediaSnapshot = null;
   let relatedObjects = null;
   let relatedProcedures = null;
   let usedBy = null;
 
   if (!isAuthority) {
+    mediaSnapshot = (
+      <MediaSnapshotPanelContainer
+        color={panelColor}
+        csid={csid}
+        config={config}
+        recordType={recordType}
+      />
+    );
+
     relatedObjects = (
       <RelatedRecordPanelContainer
         color={panelColor}
@@ -83,12 +93,7 @@ export default function RecordSideBar(props) {
 
   return (
     <div className={styles[serviceType]}>
-      <MediaSnapshotPanelContainer
-        color={panelColor}
-        csid={csid}
-        config={config}
-        recordType={recordType}
-      />
+      {mediaSnapshot}
       <TermsUsedPanelContainer
         color={panelColor}
         csid={csid}
