@@ -41,10 +41,10 @@ describe('RecordHistory', function suite() {
     const items = popover.querySelectorAll('li');
 
     items[0].textContent.should
-      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+      .match(/^Updated Jan \d{2}, 2017 \d\d?:08 (AM|PM) \/ updater@collectionspace.org$/);
 
     items[1].textContent.should
-      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
+      .match(/^Created Jan \d{2}, 2017 \d\d?:12 (AM|PM) \/ creator@collectionspace.org$/);
   });
 
   it('should render a span when only created information is supplied', function test() {
@@ -65,7 +65,7 @@ describe('RecordHistory', function suite() {
     const span = this.container.firstElementChild;
 
     span.textContent.should
-      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
+      .match(/^Created Jan \d{2}, 2017 \d\d?:12 (AM|PM) \/ creator@collectionspace.org$/);
   });
 
 
@@ -87,7 +87,7 @@ describe('RecordHistory', function suite() {
     const span = this.container.firstElementChild;
 
     span.textContent.should
-      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+      .match(/^Updated Jan \d{2}, 2017 \d\d?:08 (AM|PM) \/ updater@collectionspace.org$/);
   });
 
   it('should omit \'by...\' when no user is supplied', function test() {
@@ -106,7 +106,7 @@ describe('RecordHistory', function suite() {
 
     const span = this.container.firstElementChild;
 
-    span.textContent.should.match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM)$/);
+    span.textContent.should.match(/^Created Jan \d{2}, 2017 \d\d?:12 (AM|PM)$/);
   });
 
   it('should include a save pending message when isSavePending is true', function test() {
@@ -139,10 +139,10 @@ describe('RecordHistory', function suite() {
     items[0].textContent.should.equal('Saving');
 
     items[1].textContent.should
-      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+      .match(/^Updated Jan \d{2}, 2017 \d\d?:08 (AM|PM) \/ updater@collectionspace.org$/);
 
     items[2].textContent.should
-      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
+      .match(/^Created Jan \d{2}, 2017 \d\d?:12 (AM|PM) \/ creator@collectionspace.org$/);
   });
 
   it('should include a record modified message when isModified is true', function test() {
@@ -175,9 +175,9 @@ describe('RecordHistory', function suite() {
     items[0].textContent.should.equal('Editing');
 
     items[1].textContent.should
-      .match(/^Updated Jan \d{2}, 2017 at \d\d?:08 (AM|PM) by updater@collectionspace.org$/);
+      .match(/^Updated Jan \d{2}, 2017 \d\d?:08 (AM|PM) \/ updater@collectionspace.org$/);
 
     items[2].textContent.should
-      .match(/^Created Jan \d{2}, 2017 at \d\d?:12 (AM|PM) by creator@collectionspace.org$/);
+      .match(/^Created Jan \d{2}, 2017 \d\d?:12 (AM|PM) \/ creator@collectionspace.org$/);
   });
 });

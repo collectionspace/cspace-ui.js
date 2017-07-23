@@ -25,14 +25,14 @@ const messages = defineMessages({
   updated: {
     id: 'recordHistory.updated',
     defaultMessage: `{style, select,
-      full {Updated {date} {time} - {user}}
+      full {Updated {date} {time} / {user}}
       dateTime {Updated {date} {time}}
     }`,
   },
   created: {
     id: 'recordHistory.created',
     defaultMessage: `{style, select,
-      full {Created {date} {time} - {user}}
+      full {Created {date} {time} / {user}}
       dateTime {Created {date} {time}}
     }`,
   },
