@@ -10,7 +10,7 @@ export default {
     name: {
       id: 'record.conditioncheck.name',
       description: 'The name of the record type.',
-      defaultMessage: 'Condtion Check',
+      defaultMessage: 'Condition Check',
     },
     collectionName: {
       id: 'record.conditioncheck.collectionName',

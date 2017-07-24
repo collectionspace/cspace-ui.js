@@ -67,7 +67,6 @@ const template = (pluginContext) => {
           </Field>
         </Row>
 
-        {/* TODO Verify if layout of notes are okay, because does not match 4.5 */}
         <Row>
           <Field name="planningNote" />
           <Field name="curatorialNote" />
