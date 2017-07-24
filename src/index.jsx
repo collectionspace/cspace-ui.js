@@ -25,7 +25,7 @@ const defaultConfig = mergeConfig({
   basename: '',
   className: '',
   container: 'main',
-  index: '/dashboard',
+  index: '/create',
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
