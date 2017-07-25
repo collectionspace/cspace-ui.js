@@ -1,7 +1,7 @@
 /* global window */
 
 import Immutable from 'immutable';
-import { getLoginUsername, getPrefs } from '../reducers';
+import { getUserUsername, getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
@@ -85,7 +85,7 @@ export const loadPrefs = () => (dispatch, getState) => {
   // TODO: Load prefs from server (requires adding services layer support).
   // For now, just load from local storage.
 
-  const username = getLoginUsername(getState());
+  const username = getUserUsername(getState());
 
   let userPrefs = null;
 
@@ -111,7 +111,7 @@ export const savePrefs = () => (dispatch, getState) => {
   // TODO: Save prefs to server (requires adding services layer support).
   // For now, just save to local storage.
 
-  const username = getLoginUsername(getState());
+  const username = getUserUsername(getState());
 
   let prefs;
 

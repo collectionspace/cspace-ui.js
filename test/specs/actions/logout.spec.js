@@ -31,7 +31,7 @@ describe('logout action creator', function suite() {
     const password = 'pw';
 
     const store = mockStore({
-      login: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
     const tokenGrantPayload = {
@@ -42,10 +42,10 @@ describe('logout action creator', function suite() {
       jti: '1234',
     };
 
-    before(() => {
-      store.dispatch(configureCSpace());
-      store.clearActions();
-    });
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
 
     beforeEach(() => {
       moxios.install();

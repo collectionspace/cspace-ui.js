@@ -5,6 +5,7 @@ import Footer from '../sections/Footer';
 
 const propTypes = {
   history: PropTypes.object,
+  screenName: PropTypes.string,
   username: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
@@ -12,13 +13,14 @@ const propTypes = {
 export default function ProtectedPage(props) {
   const {
     history,
+    screenName,
     username,
     children,
   } = props;
 
   return (
     <div>
-      <Header history={history} username={username} />
+      <Header history={history} screenName={screenName || username} />
       {children}
       <Footer />
     </div>

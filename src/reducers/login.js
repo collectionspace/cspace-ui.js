@@ -1,10 +1,6 @@
 import Immutable from 'immutable';
 
 import {
-  CSPACE_CONFIGURED,
-} from '../actions/cspace';
-
-import {
   RESET_LOGIN,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
@@ -19,23 +15,17 @@ export default (state = Immutable.Map(), action) => {
       return state
         .set('isPending', true)
         .set('username', action.meta.username)
-        .delete('response')
         .delete('error');
     case LOGIN_FULFILLED:
       return state
         .delete('isPending')
         .set('username', action.meta.username)
-        .set('response', Immutable.fromJS(action.payload))
         .delete('error');
     case LOGIN_REJECTED:
       return state
         .delete('isPending')
         .set('username', action.meta.username)
-        .delete('response')
         .set('error', Immutable.fromJS(action.payload));
-    case CSPACE_CONFIGURED:
-      return state
-        .set('username', action.payload.username);
     default:
       return state;
   }
@@ -43,5 +33,4 @@ export default (state = Immutable.Map(), action) => {
 
 export const isPending = state => state.get('isPending');
 export const getUsername = state => state.get('username');
-export const getResponse = state => state.get('response');
 export const getError = state => state.get('error');

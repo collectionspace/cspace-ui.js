@@ -83,10 +83,10 @@ describe('relation action creator', function suite() {
   describe('find', function actionSuite() {
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -205,10 +205,10 @@ describe('relation action creator', function suite() {
   describe('create', function actionSuite() {
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -309,10 +309,10 @@ describe('relation action creator', function suite() {
   describe('createBidirectional', function actionSuite() {
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -404,10 +404,10 @@ describe('relation action creator', function suite() {
   describe('batchCreate', function actionSuite() {
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -540,10 +540,10 @@ describe('relation action creator', function suite() {
   describe('batchCreateBidirectional', function actionSuite() {
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -701,10 +701,10 @@ describe('relation action creator', function suite() {
 
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -793,10 +793,10 @@ describe('relation action creator', function suite() {
 
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -972,10 +972,10 @@ describe('relation action creator', function suite() {
 
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -1108,10 +1108,10 @@ describe('relation action creator', function suite() {
 
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {
@@ -1226,10 +1226,10 @@ describe('relation action creator', function suite() {
 
     before(() => {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
-      store.dispatch(configureCSpace());
+      return store.dispatch(configureCSpace());
     });
 
     beforeEach(() => {

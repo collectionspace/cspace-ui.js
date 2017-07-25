@@ -37,13 +37,13 @@ export default combineReducers({
   vocabulary,
 });
 
+export const getUserScreenName = state => fromUser.getScreenName(state.user);
+
 export const getUserUsername = state => fromUser.getUsername(state.user);
 
 export const getLoginUsername = state => fromLogin.getUsername(state.login);
 
 export const isLoginPending = state => fromLogin.isPending(state.login);
-
-export const getLoginResponse = state => fromLogin.getResponse(state.login);
 
 export const getLoginError = state => fromLogin.getError(state.login);
 

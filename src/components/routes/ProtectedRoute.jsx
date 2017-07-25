@@ -5,6 +5,7 @@ import ProtectedPage from '../pages/ProtectedPage';
 
 const propTypes = {
   component: PropTypes.func,
+  screenName: PropTypes.string,
   username: PropTypes.string,
   redirectLogin: PropTypes.func,
 };
@@ -12,6 +13,7 @@ const propTypes = {
 export default function ProtectedRoute(props) {
   const {
     component: Component,
+    screenName,
     username,
     ...remainingProps
   } = props;
@@ -21,7 +23,11 @@ export default function ProtectedRoute(props) {
       {...remainingProps}
       render={routeProps => (
         username ? (
-          <ProtectedPage username={username} {...routeProps} >
+          <ProtectedPage
+            screenName={screenName}
+            username={username}
+            {...routeProps}
+          >
             <Component {...routeProps} />
           </ProtectedPage>
         ) : (

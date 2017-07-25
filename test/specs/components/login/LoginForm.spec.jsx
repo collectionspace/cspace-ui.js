@@ -57,28 +57,24 @@ describe('LoginForm', function suite() {
       .equal(messages['loginForm.pending']);
   });
 
-  it('should show success message when response exists', function test() {
+  it('should show success message when no error is provided', function test() {
     const messages = {
       'loginForm.success': 'this is the success message',
     };
-
-    const response = {};
 
     render(
       <IntlProvider
         locale="en"
         messages={messages}
       >
-        <LoginForm
-          response={response}
-        />
+        <LoginForm />
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should
       .equal(messages['loginForm.success']);
   });
 
-  it('should show error message when error exists', function test() {
+  it('should show error message when error is provided', function test() {
     const messages = {
       'loginForm.error': 'this is the error message',
     };
@@ -170,7 +166,7 @@ describe('LoginForm', function suite() {
     Simulate.submit(form);
   });
 
-  it('should call onSuccess when isPending changes from true to false and a response exists', function test() {
+  it('should call onSuccess when isPending changes from true to false and there is no error', function test() {
     let handlerCalled = false;
 
     const handleSuccess = () => {
@@ -191,13 +187,14 @@ describe('LoginForm', function suite() {
 
     handlerCalled.should.equal(false);
 
-    // Change from isPending to not, but no response - onSuccess should not be called
+    // Change isPending to false, but with an error - onSuccess should not be called
 
     render(
       <IntlProvider
         locale="en"
       >
         <LoginForm
+          error={{}}
           onSuccess={handleSuccess}
         />
       </IntlProvider>, this.container);
@@ -216,16 +213,13 @@ describe('LoginForm', function suite() {
         />
       </IntlProvider>, this.container);
 
-    // Change isPending to false, with response - onSuccess should be called
-
-    const response = {};
+    // Change isPending to false, with no error - onSuccess should be called
 
     render(
       <IntlProvider
         locale="en"
       >
         <LoginForm
-          response={response}
           onSuccess={handleSuccess}
         />
       </IntlProvider>, this.container);
@@ -263,15 +257,13 @@ describe('LoginForm', function suite() {
 
     handlerCalled.should.equal(false);
 
-    // Change isPending to false, with response, but no onSuccess - handler should not be called
+    // Change isPending to false, with no error, but no onSuccess - handler should not be called
 
     render(
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          response={response}
-        />
+        <LoginForm />
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(false);

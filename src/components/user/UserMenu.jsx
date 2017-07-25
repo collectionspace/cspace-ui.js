@@ -12,18 +12,20 @@ const messages = defineMessages({
   },
 });
 
+const propTypes = {
+  screenName: PropTypes.string.isRequired,
+};
+
 export default function UserMenu(props) {
   const {
-    username,
+    screenName,
   } = props;
 
   return (
     <div className={styles.common}>
-      {username} | <Link to="/logout"><FormattedMessage {...messages.logout} /></Link>
+      {screenName} | <Link to="/logout"><FormattedMessage {...messages.logout} /></Link>
     </div>
   );
 }
 
-UserMenu.propTypes = {
-  username: PropTypes.string.isRequired,
-};
+UserMenu.propTypes = propTypes;
