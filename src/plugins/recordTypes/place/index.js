@@ -1,52 +1,24 @@
-import React from 'react';
 import { defineMessages } from 'react-intl';
+import advancedSearch from './advancedSearch';
+import columns from './columns';
+import fields from './fields';
+import forms from './forms';
+import messages from './messages';
+import optionLists from './optionLists';
+import serviceConfig from './serviceConfig';
+import title from './title';
 
-export default () => () => ({
+export default () => pluginContext => ({
+  optionLists,
   recordTypes: {
     place: {
-      serviceConfig: {
-        serviceName: 'Places',
-        servicePath: 'placeauthorities',
-        serviceType: 'authority',
-
-        objectName: 'Placeitem',
-
-        documentName: 'places',
-
-        quickAddData: values => ({
-          document: {
-            '@name': 'places',
-            'ns2:places_common': {
-              '@xmlns:ns2': 'http://collectionspace.org/services/place',
-              placeTermGroupList: {
-                placeTermGroup: {
-                  termDisplayName: values.displayName,
-                },
-              },
-            },
-          },
-        }),
-      },
-      messages: {
-        record: defineMessages({
-          name: {
-            id: 'record.place.name',
-            description: 'The name of the record type.',
-            defaultMessage: 'Place',
-          },
-          collectionName: {
-            id: 'record.place.collectionName',
-            description: 'The name of a collection of records of the type.',
-            defaultMessage: 'Places',
-          },
-        }),
-      },
-      forms: {
-        default: {
-          template: <div />,
-        },
-      },
-      title: () => '',
+      advancedSearch,
+      columns,
+      messages,
+      serviceConfig,
+      fields: fields(pluginContext),
+      forms: forms(pluginContext),
+      title: title(pluginContext),
       vocabularies: {
         all: {
           isCreatable: false,
