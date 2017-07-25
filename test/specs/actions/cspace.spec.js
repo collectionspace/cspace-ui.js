@@ -1,3 +1,5 @@
+/* global window */
+
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -20,7 +22,7 @@ describe('cspace action creator', function suite() {
   describe('configureCSpace', function actionSuite() {
     it('should create a CSpace session as a side effect', function test() {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const cspaceConfig = {
@@ -37,7 +39,7 @@ describe('cspace action creator', function suite() {
 
     it('should dispatch CSPACE_CONFIGURED followed by PREFS_LOADED', function test() {
       const store = mockStore({
-        login: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const cspaceConfig = {
@@ -46,17 +48,23 @@ describe('cspace action creator', function suite() {
 
       store.dispatch(configureCSpace(cspaceConfig));
 
-      const actions = store.getActions();
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          const actions = store.getActions();
 
-      actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(2);
 
-      actions[0].should
-        .include({ type: CSPACE_CONFIGURED })
-        .and.have.property('payload')
-          .that.has.property('foo', 'bar');
+          actions[0].should
+            .include({ type: CSPACE_CONFIGURED })
+            .and.have.property('payload')
+              .that.has.property('foo', 'bar');
 
-      actions[1].should
-        .include({ type: PREFS_LOADED });
+          actions[1].should
+            .include({ type: PREFS_LOADED });
+
+          resolve();
+        }, 0);
+      });
     });
   });
 

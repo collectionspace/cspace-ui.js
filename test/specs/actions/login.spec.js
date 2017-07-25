@@ -9,10 +9,15 @@ import getSession, {
 } from '../../../src/actions/cspace';
 
 import {
+  ACCOUNT_PERMS_READ_FULFILLED,
+  ACCOUNT_PERMS_READ_REJECTED,
+  AUTH_RENEW_FULFILLED,
+  AUTH_RENEW_REJECTED,
   RESET_LOGIN,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
+  readAccountPerms,
   resetLogin,
   login,
 } from '../../../src/actions/login';
@@ -39,7 +44,7 @@ describe('login action creator', function suite() {
     const password = 'pw';
 
     const store = mockStore({
-      login: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
     const tokenGrantPayload = {
@@ -50,10 +55,10 @@ describe('login action creator', function suite() {
       jti: '1234',
     };
 
-    before(() => {
-      store.dispatch(configureCSpace());
-      store.clearActions();
-    });
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
 
     beforeEach(() => {
       moxios.install();
@@ -87,7 +92,7 @@ describe('login action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(4);
+          actions.should.have.lengthOf(5);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -99,7 +104,7 @@ describe('login action creator', function suite() {
           actions[1].should.have.property('type', CSPACE_CONFIGURED);
 
           actions[2].should.deep.equal({
-            type: LOGIN_FULFILLED,
+            type: AUTH_RENEW_FULFILLED,
             payload: {
               status: 200,
               statusText: undefined,
@@ -112,6 +117,13 @@ describe('login action creator', function suite() {
           });
 
           actions[3].should.have.property('type', PREFS_LOADED);
+
+          actions[4].should.deep.equal({
+            type: LOGIN_FULFILLED,
+            meta: {
+              username,
+            },
+          });
         });
     });
 
@@ -124,7 +136,7 @@ describe('login action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(3);
+          actions.should.have.lengthOf(4);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -134,9 +146,106 @@ describe('login action creator', function suite() {
           });
 
           actions[1].should.have.property('type', CSPACE_CONFIGURED);
+          actions[2].should.have.property('type', AUTH_RENEW_REJECTED);
 
-          actions[2].should.have.property('type', LOGIN_REJECTED);
-          actions[2].should.have.deep.property('meta.username', username);
+          actions[3].should.have.property('type', LOGIN_REJECTED);
+          actions[3].should.have.deep.property('meta.username', username);
+        });
+    });
+  });
+
+  describe('readAccountPerms', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+    const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
+    const username = 'admin@core.collectionspace.org';
+
+    const store = mockStore({
+      user: Immutable.Map(),
+    });
+
+    const accountPermsPayload = {
+      'ns2:account_permission': {
+        account: {},
+      },
+    };
+
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      store.clearActions();
+      moxios.uninstall();
+    });
+
+    it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', function test() {
+      moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: accountPermsPayload,
+      });
+
+      const usernameStore = mockStore({
+        user: Immutable.Map({
+          username,
+        }),
+      });
+
+      return usernameStore.dispatch(readAccountPerms())
+        .then(() => {
+          const actions = usernameStore.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: ACCOUNT_PERMS_READ_FULFILLED,
+            payload: {
+              data: accountPermsPayload,
+              headers: undefined,
+              status: 200,
+              statusText: undefined,
+            },
+          });
+        });
+    });
+
+    it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', function test() {
+      moxios.stubRequest(accountPermsUrl, {
+        status: 400,
+        response: {},
+      });
+
+      const usernameStore = mockStore({
+        user: Immutable.Map({
+          username,
+        }),
+      });
+
+      return usernameStore.dispatch(readAccountPerms())
+        .catch(() => {
+          const actions = usernameStore.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.have.property('type', ACCOUNT_PERMS_READ_REJECTED);
+        });
+    });
+
+    it('should dispatch nothing if there is no username in the store', function test() {
+      moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: accountPermsPayload,
+      });
+
+      return store.dispatch(readAccountPerms())
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(0);
         });
     });
   });

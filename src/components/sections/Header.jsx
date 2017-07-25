@@ -20,7 +20,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  username: PropTypes.string.isRequired,
+  screenName: PropTypes.string.isRequired,
   history: PropTypes.object,
   intl: intlShape,
   config: PropTypes.object,
@@ -31,7 +31,7 @@ function Header(props) {
     history,
     intl,
     config,
-    username,
+    screenName,
   } = props;
 
   const logoTitle = intl.formatMessage(messages.logoTitle);
@@ -50,7 +50,7 @@ function Header(props) {
           />
         </div>
         <div className={bannerRightStyles.common}>
-          <UserMenu username={username} />
+          <UserMenu screenName={screenName} />
         </div>
       </div>
       <NavBar />

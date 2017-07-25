@@ -49,13 +49,13 @@ describe('partialTermSearch action creator', function suite() {
     };
 
     const store = mockStore({
-      login: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
-    before(() => {
-      store.dispatch(configureCSpace());
-      store.clearActions();
-    });
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
 
     beforeEach(() => {
       moxios.install();
@@ -167,13 +167,13 @@ describe('partialTermSearch action creator', function suite() {
     };
 
     const store = mockStore({
-      login: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
-    before(() => {
-      store.dispatch(configureCSpace());
-      store.clearActions();
-    });
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
 
     beforeEach(() => {
       moxios.install();

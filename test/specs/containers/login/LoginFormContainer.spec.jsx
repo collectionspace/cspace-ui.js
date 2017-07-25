@@ -17,7 +17,6 @@ describe('LoginFormContainer', function suite() {
       login: Immutable.Map({
         username,
         isPending: true,
-        response: null,
         error: null,
       }),
     });
@@ -32,7 +31,6 @@ describe('LoginFormContainer', function suite() {
     result.type.should.equal(LoginForm);
     result.props.should.have.property('isPending', true);
     result.props.should.have.property('username', username);
-    result.props.should.have.property('response', null);
     result.props.should.have.property('error', null);
     result.props.should.have.property('onSubmit').that.is.a('function');
   });

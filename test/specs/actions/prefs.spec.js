@@ -182,7 +182,7 @@ describe('prefs action creator', function suite() {
       window.localStorage.setItem(storageKey, JSON.stringify({ [username]: prefs }));
 
       const store = mockStore({
-        login: Immutable.Map({
+        user: Immutable.Map({
           username,
         }),
       });
@@ -205,7 +205,7 @@ describe('prefs action creator', function suite() {
       window.localStorage.setItem(storageKey, '{invalid json!');
 
       const store = mockStore({
-        login: Immutable.Map({
+        user: Immutable.Map({
           username,
         }),
       });
@@ -228,7 +228,7 @@ describe('prefs action creator', function suite() {
       window.localStorage.removeItem(storageKey);
 
       const store = mockStore({
-        login: Immutable.Map({
+        user: Immutable.Map({
           username,
         }),
       });
@@ -259,7 +259,7 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore({
         prefs: Immutable.fromJS(prefs),
-        login: Immutable.Map({
+        user: Immutable.Map({
           username,
         }),
       });
@@ -284,7 +284,7 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore({
         prefs: Immutable.fromJS(prefs),
-        login: Immutable.Map({
+        user: Immutable.Map({
           username,
         }),
       });
@@ -318,7 +318,7 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore({
         prefs: Immutable.fromJS(prefs),
-        login: Immutable.Map({
+        user: Immutable.Map({
           username,
         }),
       });

@@ -10,7 +10,6 @@ import {
 
 import reducer, {
   getError,
-  getResponse,
   getUsername,
   isPending,
 } from '../../../src/reducers/login';
@@ -57,16 +56,8 @@ describe('login reducer', function suite() {
   it('should handle LOGIN_FULFILLED', function test() {
     const loginUsername = 'user@collectionspace.org';
 
-    const loginResponse = {
-      status: 200,
-      headers: {
-        foo: 'bar',
-      },
-    };
-
     const state = reducer(undefined, {
       type: LOGIN_FULFILLED,
-      payload: loginResponse,
       meta: {
         username: loginUsername,
       },
@@ -74,10 +65,8 @@ describe('login reducer', function suite() {
 
     state.should.deep.equal(Immutable.fromJS({
       username: loginUsername,
-      response: loginResponse,
     }));
 
-    getResponse(state).should.equal(Immutable.fromJS(loginResponse));
     getUsername(state).should.equal(loginUsername);
     expect(isPending(state)).to.equal(undefined);
   });

@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import ProtectedRoute from '../../components/routes/ProtectedRoute';
-import { getUserUsername } from '../../reducers';
+
+import {
+  getUserScreenName,
+  getUserUsername,
+} from '../../reducers';
 
 import {
   redirectLogin,
@@ -8,6 +12,7 @@ import {
 
 const mapStateToProps = state => ({
   username: getUserUsername(state),
+  screenName: getUserScreenName(state),
 });
 
 const mapDispatchToProps = {

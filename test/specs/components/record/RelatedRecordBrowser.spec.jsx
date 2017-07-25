@@ -34,7 +34,7 @@ const relatedCsid = '5678';
 const relatedRecordType = 'group';
 
 const store = mockStore({
-  login: Immutable.Map(),
+  user: Immutable.Map(),
   notification: Immutable.Map(),
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
@@ -113,10 +113,10 @@ const config = {
 };
 
 describe('RelatedRecordBrowser', function suite() {
-  before(() => {
-    store.dispatch(configureCSpace());
-    store.clearActions();
-  });
+  before(() =>
+    store.dispatch(configureCSpace())
+      .then(() => store.clearActions())
+  );
 
   beforeEach(function before() {
     this.container = createTestContainer(this);

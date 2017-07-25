@@ -61,6 +61,15 @@ const errorMessageMap = {
   'Bad credentials': 'badCredentialsError',
 };
 
+const propTypes = {
+  intl: PropTypes.object.isRequired,
+  isPending: PropTypes.bool,
+  username: PropTypes.string,
+  error: PropTypes.object,
+  onSubmit: PropTypes.func,
+  onSuccess: PropTypes.func,
+};
+
 class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -72,11 +81,11 @@ class LoginForm extends Component {
     const {
       onSuccess,
       isPending,
-      response,
+      error,
     } = this.props;
 
     if (onSuccess) {
-      const isSuccess = (prevProps.isPending && !isPending && response);
+      const isSuccess = (prevProps.isPending && !isPending && !error);
 
       if (isSuccess) {
         onSuccess();
@@ -103,7 +112,6 @@ class LoginForm extends Component {
   renderMessage() {
     const {
       isPending,
-      response,
       error,
     } = this.props;
 
@@ -111,8 +119,6 @@ class LoginForm extends Component {
 
     if (isPending) {
       messageKey = 'pending';
-    } else if (response) {
-      messageKey = 'success';
     } else if (error) {
       messageKey = 'error';
 
@@ -120,6 +126,8 @@ class LoginForm extends Component {
         const desc = error.response.data.error_description;
         messageKey = errorMessageMap[desc];
       }
+    } else {
+      messageKey = 'success';
     }
 
     return (
@@ -169,14 +177,6 @@ class LoginForm extends Component {
   }
 }
 
-LoginForm.propTypes = {
-  intl: PropTypes.object.isRequired,
-  isPending: PropTypes.bool,
-  username: PropTypes.string,
-  response: PropTypes.object,
-  error: PropTypes.object,
-  onSubmit: PropTypes.func,
-  onSuccess: PropTypes.func,
-};
+LoginForm.propTypes = propTypes;
 
 export default injectIntl(LoginForm);

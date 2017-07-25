@@ -66,15 +66,15 @@ describe('ID generator action creator', function suite() {
           csid: idGeneratorCsid,
         },
       }),
-      login: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
     const readIDGeneratorUrl = new RegExp(`/cspace-services/idgenerators/${idGeneratorCsid}.*`);
 
-    before(() => {
-      store.dispatch(configureCSpace());
-      store.clearActions();
-    });
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
 
     beforeEach(() => {
       moxios.install();
@@ -162,7 +162,7 @@ describe('ID generator action creator', function suite() {
           csid: idGeneratorCsid,
         },
       }),
-      login: Immutable.Map(),
+      user: Immutable.Map(),
       record: Immutable.Map(),
     });
 
@@ -171,10 +171,10 @@ describe('ID generator action creator', function suite() {
     const csid = '9987';
     const path = ['collectionobjects_common', 'objectNumber'];
 
-    before(() => {
-      store.dispatch(configureCSpace());
-      store.clearActions();
-    });
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
 
     beforeEach(() => {
       moxios.install();

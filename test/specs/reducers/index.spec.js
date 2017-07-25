@@ -2,15 +2,16 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import reducer, {
+  getUserScreenName,
   getUserUsername,
   getLoginUsername,
   isLoginPending,
-  getLoginResponse,
   getLoginError,
   isLogoutPending,
   getLogoutResponse,
   getRecordRelationUpdatedTimestamp,
   getRecordData,
+  getRecordError,
   getRecordValidationErrors,
   getNewRecordData,
   isRecordModified,
@@ -25,6 +26,7 @@ import reducer, {
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
   getSearchToRelatePageSize,
+  getForm,
   getOptionList,
   getVocabulary,
   getPartialTermSearchMatches,
@@ -79,12 +81,22 @@ describe('reducer', function suite() {
     ]);
   });
 
+  describe('getUserScreenName selector', function selectorSuite() {
+    it('should select from the users key', function test() {
+      getUserScreenName({
+        user: Immutable.Map({
+          screenName: 'Screen Name',
+        }),
+      }).should.equal('Screen Name');
+    });
+  });
+
   describe('getUserUsername selector', function selectorSuite() {
     it('should select from the users key', function test() {
       getUserUsername({
-        user: {
+        user: Immutable.Map({
           username: 'user@collectionspace.org',
-        },
+        }),
       }).should.equal('user@collectionspace.org');
     });
   });
@@ -106,18 +118,6 @@ describe('reducer', function suite() {
           isPending: true,
         }),
       }).should.equal(true);
-    });
-  });
-
-  describe('getLoginResponse selector', function selectorSuite() {
-    it('should select from the login key', function test() {
-      const response = {};
-
-      getLoginResponse({
-        login: Immutable.Map({
-          response,
-        }),
-      }).should.equal(response);
     });
   });
 
@@ -184,6 +184,21 @@ describe('reducer', function suite() {
           },
         }),
       }, csid).should.equal(data);
+    });
+  });
+
+  describe('getRecordError selector', function selectorSuite() {
+    it('should select from the record key', function test() {
+      const csid = '1234';
+      const error = Immutable.Map();
+
+      getRecordError({
+        record: Immutable.fromJS({
+          [csid]: {
+            error,
+          },
+        }),
+      }, csid).should.equal(error);
     });
   });
 
@@ -402,6 +417,21 @@ describe('reducer', function suite() {
           searchToRelatePageSize,
         }),
       }).should.equal(searchToRelatePageSize);
+    });
+  });
+
+  describe('getForm selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const recordType = 'collectionobject';
+      const form = 'default';
+
+      getForm({
+        prefs: Immutable.fromJS({
+          form: {
+            [recordType]: form,
+          },
+        }),
+      }, recordType).should.equal(form);
     });
   });
 
