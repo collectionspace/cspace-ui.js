@@ -1,9 +1,9 @@
 export default {
-  serviceName: 'LoansIn',
+  serviceName: 'Loanin',
   servicePath: 'loansin',
   serviceType: 'procedure',
 
-  objectName: 'LoansIn',
+  objectName: 'Loanin',
 
-  documentName: 'loansin',
+  documentName: 'loanin',
 };

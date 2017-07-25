@@ -1,9 +1,9 @@
 export default {
-  serviceName: 'LoansOut',
+  serviceName: 'Loanout',
   servicePath: 'loansout',
   serviceType: 'procedure',
 
-  objectName: 'LoansOut',
+  objectName: 'Loanout',
 
-  documentName: 'loansout',
+  documentName: 'loanout',
 };
