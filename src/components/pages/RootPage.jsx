@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
 import AdminPage from './AdminPage';
+import ConfigPage from './ConfigPage';
 import CreatePage from './CreatePage';
 import DashboardPage from './DashboardPage';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
@@ -60,6 +61,7 @@ function RootPage(props) {
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePage)} />
+        <ProtectedRouteContainer path="/admin/config" component={ConfigPage} />
         <ProtectedRouteContainer path="/admin" component={AdminPage} />
 
         <ProtectedRouteContainer
