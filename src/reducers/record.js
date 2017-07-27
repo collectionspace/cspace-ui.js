@@ -21,6 +21,7 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  RECORD_CREATED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
@@ -31,6 +32,8 @@ import {
   RECORD_TRANSITION_FULFILLED,
   RECORD_TRANSITION_REJECTED,
   REVERT_RECORD,
+  SUBRECORD_CREATED,
+  SUBRECORD_READ_FULFILLED,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
 } from '../actions/record';
@@ -75,16 +78,7 @@ const addFieldInstance = (state, action) => {
   return setCurrentData(state, csid, updatedData);
 };
 
-const createNewRecord = (state, action) => {
-  const {
-    recordTypeConfig,
-    cloneCsid,
-  } = action.meta;
-
-  // This code assumes that only one new record of any type may be in the process of being
-  // edited at any time. The new record's data is stored alongside existing record data, at
-  // key ''.
-
+const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) => {
   let data;
 
   if (cloneCsid) {
@@ -95,12 +89,47 @@ const createNewRecord = (state, action) => {
     data = createRecordData(recordTypeConfig);
   }
 
+  const csid = subrecordName ? `${newRecordCsid}/${subrecordName}` : newRecordCsid;
+
   let updatedState = state;
 
-  updatedState = setBaselineData(updatedState, newRecordCsid, data);
-  updatedState = setCurrentData(updatedState, newRecordCsid, data);
+  updatedState = setBaselineData(updatedState, csid, data);
+  updatedState = setCurrentData(updatedState, csid, data);
+
+  const { subrecords } = recordTypeConfig;
+
+  if (subrecords) {
+    Object.keys(subrecords).forEach((name) => {
+      const subrecordConfig = subrecords[name];
+      const subrecordType = subrecordConfig.recordType;
+      const subrecordTypeConfig = get(config, ['recordTypes', subrecordType]);
+      const subrecordCsid = state.getIn([cloneCsid, 'subrecord', name]);
+
+      updatedState = doCreateNew(
+        updatedState,
+        config,
+        subrecordTypeConfig,
+        subrecordCsid,
+        name
+      );
+
+      updatedState = updatedState.setIn(
+        [csid, 'subrecord', name], `${csid}/${name}`
+      );
+    });
+  }
 
   return updatedState;
+};
+
+const createNewRecord = (state, action) => {
+  const {
+    config,
+    recordTypeConfig,
+    cloneCsid,
+  } = action.meta;
+
+  return doCreateNew(state, config, recordTypeConfig, cloneCsid);
 };
 
 const deleteFieldValue = (state, action) => {
@@ -208,9 +237,27 @@ const handleRecordSaveFulfilled = (state, action) => {
     );
   }
 
-  // Reset new record data.
+  return updatedState;
+};
 
-  updatedState = updatedState.delete(newRecordCsid);
+const revertRecord = (state, action) => {
+  const { csid } = action.meta;
+
+  let updatedState = setCurrentData(state, csid, getBaselineData(state, csid));
+
+  // Revert subrecords.
+
+  const subrecords = state.getIn([csid, 'subrecord']);
+
+  if (subrecords) {
+    subrecords.forEach((subrecordCsid) => {
+      updatedState = revertRecord(updatedState, {
+        meta: {
+          csid: subrecordCsid,
+        },
+      });
+    });
+  }
 
   return updatedState;
 };
@@ -302,6 +349,12 @@ export default (state = Immutable.Map(), action) => {
       return moveFieldValue(state, action);
     case SET_FIELD_VALUE:
       return setFieldValue(state, action);
+    case RECORD_CREATED:
+      return (
+        state
+          .set(action.meta.newRecordCsid, state.get(action.meta.currentCsid))
+          .delete(action.meta.currentCsid)
+      );
     case RECORD_READ_STARTED:
       return state.setIn([action.meta.csid, 'isReadPending'], true);
     case RECORD_READ_FULFILLED:
@@ -328,8 +381,16 @@ export default (state = Immutable.Map(), action) => {
       return handleTransitionFulfilled(state, action);
     case RECORD_TRANSITION_REJECTED:
       return state.deleteIn([action.meta.csid, 'isSavePending']);
+    case SUBRECORD_CREATED:
+      return state.setIn(
+        [action.meta.csid, 'subrecord', action.meta.subrecordName], action.meta.subrecordCsid
+      );
+    case SUBRECORD_READ_FULFILLED:
+      return state.setIn(
+        [action.meta.csid, 'subrecord', action.meta.subrecordName], action.meta.subrecordCsid
+      );
     case REVERT_RECORD:
-      return setCurrentData(state, action.meta.csid, getBaselineData(state, action.meta.csid));
+      return revertRecord(state, action);
     case SUBJECT_RELATIONS_UPDATED:
       return handleSubjectRelationsUpdated(state, action);
     case CREATE_ID_FULFILLED:
@@ -343,9 +404,14 @@ export const getData = (state, csid) => getCurrentData(state, csid);
 
 export const getError = (state, csid) => state.getIn([csid, 'error']);
 
+export const getSubrecordCsid = (state, csid, subrecordName) => state.getIn([csid, 'subrecord', subrecordName]);
+
 export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);
 
 export const getNewData = state => getData(state, newRecordCsid);
+
+export const getNewSubrecordCsid = (state, subrecordName) =>
+  getSubrecordCsid(state, newRecordCsid, subrecordName);
 
 export const getValidationErrors = (state, csid) => state.getIn([csid, 'validation']);
 
@@ -353,8 +419,22 @@ export const isReadPending = (state, csid) => state.getIn([csid, 'isReadPending'
 
 export const isSavePending = (state, csid) => state.getIn([csid, 'isSavePending']);
 
-export const isModified = (state, csid) =>
+export const isModified = (state, csid) => {
   // Do a reference equality test between the current and baseline data. This will not detect if
   // a change is made, then another change is made that undoes the first. But it's more efficient
   // than a deep value equality test.
-  getCurrentData(state, csid) !== getBaselineData(state, csid);
+
+  if (getCurrentData(state, csid) !== getBaselineData(state, csid)) {
+    return true;
+  }
+
+  // Check subrecords.
+
+  const subrecords = state.getIn([csid, 'subrecord']);
+
+  if (subrecords && subrecords.find(subrecordCsid => isModified(state, subrecordCsid))) {
+    return true;
+  }
+
+  return false;
+};

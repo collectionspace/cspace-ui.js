@@ -7,6 +7,7 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  RECORD_CREATED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
@@ -17,6 +18,8 @@ import {
   RECORD_TRANSITION_FULFILLED,
   RECORD_TRANSITION_REJECTED,
   REVERT_RECORD,
+  SUBRECORD_CREATED,
+  SUBRECORD_READ_FULFILLED,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
 } from '../../../src/actions/record';
@@ -33,7 +36,9 @@ import reducer, {
   getData,
   getError,
   getNewData,
+  getNewSubrecordCsid,
   getRelationUpdatedTimestamp,
+  getSubrecordCsid,
   getValidationErrors,
   isModified,
   isReadPending,
@@ -230,6 +235,53 @@ describe('record reducer', function suite() {
     });
 
     getNewData(state).should.equal(cloneData);
+
+    // Subrecord
+
+    state = reducer(undefined, {
+      type: CREATE_NEW_RECORD,
+      meta: {
+        config: {
+          recordTypes: {
+            contact: {
+              serviceConfig: {
+                documentName: 'contacts',
+              },
+              fields: {
+                document: {},
+              },
+            },
+          },
+        },
+        recordTypeConfig: {
+          serviceConfig: {
+            documentName: 'groups',
+          },
+          fields: {
+            document: {},
+          },
+          subrecords: {
+            contact: {
+              recordType: 'contact',
+            },
+          },
+        },
+      },
+    });
+
+    getNewData(state).should.equal(Immutable.fromJS({
+      document: {
+        '@name': 'groups',
+      },
+    }));
+
+    const subrecordCsid = getNewSubrecordCsid(state, 'contact');
+
+    getData(state, subrecordCsid).should.equal(Immutable.fromJS({
+      document: {
+        '@name': 'contacts',
+      },
+    }));
   });
 
   it('should handle DELETE_FIELD_VALUE', function test() {
@@ -762,6 +814,12 @@ describe('record reducer', function suite() {
       },
     });
 
+    const subrecordCsid = '5678';
+
+    const subrecordData = Immutable.fromJS({
+      baz: 'abc',
+    });
+
     const state = reducer(Immutable.fromJS({
       [csid]: {
         data: {
@@ -770,6 +828,17 @@ describe('record reducer', function suite() {
             foo: {
               bar: 'b',
             },
+          },
+        },
+        subrecord: {
+          contact: subrecordCsid,
+        },
+      },
+      [subrecordCsid]: {
+        data: {
+          baseline: subrecordData,
+          current: {
+            baz: 'xyz',
           },
         },
       },
@@ -785,6 +854,15 @@ describe('record reducer', function suite() {
         data: {
           baseline: data,
           current: data,
+        },
+        subrecord: {
+          contact: subrecordCsid,
+        },
+      },
+      [subrecordCsid]: {
+        data: {
+          baseline: subrecordData,
+          current: subrecordData,
         },
       },
     }));
@@ -1020,5 +1098,126 @@ describe('record reducer', function suite() {
     }));
 
     expect(isSavePending(state, csid)).to.equal(undefined);
+  });
+
+  it('should handle RECORD_CREATED', function test() {
+    const currentCsid = '1234';
+    const newRecordCsid = '5678';
+
+    const data = Immutable.fromJS({
+      foo: 'abc',
+    });
+
+    const initialState = Immutable.fromJS({
+      [currentCsid]: {
+        data: {
+          current: data,
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: RECORD_CREATED,
+      meta: {
+        currentCsid,
+        newRecordCsid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [newRecordCsid]: {
+        data: {
+          current: data,
+        },
+      },
+    }));
+  });
+
+  it('should handle SUBRECORD_CREATED', function test() {
+    const csid = '1234';
+    const subrecordName = 'contact';
+    const subrecordCsid = '5678';
+
+    const state = reducer(undefined, {
+      type: SUBRECORD_CREATED,
+      meta: {
+        csid,
+        subrecordName,
+        subrecordCsid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        subrecord: {
+          [subrecordName]: subrecordCsid,
+        },
+      },
+    }));
+
+    expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
+  });
+
+  it('should handle SUBRECORD_READ_FULFILLED', function test() {
+    const csid = '1234';
+    const subrecordName = 'contact';
+    const subrecordCsid = '5678';
+
+    const state = reducer(undefined, {
+      type: SUBRECORD_READ_FULFILLED,
+      meta: {
+        csid,
+        subrecordName,
+        subrecordCsid,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        subrecord: {
+          [subrecordName]: subrecordCsid,
+        },
+      },
+    }));
+
+    expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
+  });
+
+  it('should detect subrecord modifications', function test() {
+    const csid = '1234';
+
+    const data = Immutable.fromJS({
+      foo: {
+        bar: 'a',
+      },
+    });
+
+    const subrecordCsid = '5678';
+
+    const subrecordData = Immutable.fromJS({
+      baz: 'abc',
+    });
+
+    const state = Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: data,
+        },
+        subrecord: {
+          contact: subrecordCsid,
+        },
+      },
+      [subrecordCsid]: {
+        data: {
+          baseline: subrecordData,
+          current: {
+            baz: 'xyz',
+          },
+        },
+      },
+    });
+
+    isModified(state, csid).should.equal(true);
   });
 });

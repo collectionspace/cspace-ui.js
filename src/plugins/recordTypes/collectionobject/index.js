@@ -4,9 +4,9 @@ import fields from './fields';
 import forms from './forms';
 import idGenerators from './idGenerators';
 import messages from './messages';
+import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
 import title from './title';
-import optionLists from './optionLists';
 
 export default () => pluginContext => ({
   idGenerators,

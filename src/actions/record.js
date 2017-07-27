@@ -2,6 +2,7 @@
 
 import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
+import Immutable from 'immutable';
 import getSession from './cspace';
 import getNotificationID from '../helpers/notificationHelpers';
 import getErrorDescription from '../helpers/getErrorDescription';
@@ -13,8 +14,14 @@ import {
 } from './notification';
 
 import {
+  search,
+} from './search';
+
+import {
   getRecordData,
+  getRecordSubrecordCsid,
   getRecordValidationErrors,
+  getSearchResult,
   isRecordReadPending,
 } from '../reducers';
 
@@ -27,6 +34,10 @@ import {
   prepareForSending,
   validateField,
 } from '../helpers/recordDataHelpers';
+
+import {
+  getFirstItem,
+} from '../helpers/searchHelpers';
 
 import {
   ERR_API,
@@ -96,9 +107,12 @@ const transitionMessages = {
 };
 
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
+export const RECORD_CREATED = 'RECORD_CREATED';
+export const SUBRECORD_CREATED = 'SUBRECORD_CREATED';
 export const RECORD_READ_STARTED = 'RECORD_READ_STARTED';
 export const RECORD_READ_FULFILLED = 'RECORD_READ_FULFILLED';
 export const RECORD_READ_REJECTED = 'RECORD_READ_REJECTED';
+export const SUBRECORD_READ_FULFILLED = 'SUBRECORD_READ_FILFILLED';
 export const RECORD_SAVE_STARTED = 'RECORD_SAVE_STARTED';
 export const RECORD_SAVE_FULFILLED = 'RECORD_SAVE_FULFILLED';
 export const RECORD_SAVE_REJECTED = 'RECORD_SAVE_REJECTED';
@@ -150,6 +164,90 @@ export const validateRecordData = (recordTypeConfig, csid) => (dispatch, getStat
   return dispatch(validateFieldValue(recordTypeConfig, csid, [], recordData));
 };
 
+const readSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) =>
+  (dispatch, getState) => {
+    const { subrecords } = recordTypeConfig;
+
+    if (!subrecords) {
+      return null;
+    }
+
+    return Promise.all(Object.entries(subrecords).map((entry) => {
+      const [subrecordName, subrecordConfig] = entry;
+
+      const {
+        csidField,
+        subresource,
+        recordType: subrecordType,
+        vocabulary: subrecordVocabulary,
+      } = subrecordConfig;
+
+      if (csidField) {
+        // TODO
+        // return Promise.resolve();
+      }
+
+      if (subresource) {
+        const searchDescriptor = Immutable.fromJS({
+          csid,
+          subresource,
+          recordType: recordTypeConfig.name,
+          vocabulary: vocabularyConfig.name,
+          searchQuery: {
+            // Set page size to 1, and page to 0. This assumes we'll only ever care about the first
+            // result.
+            p: 0,
+            size: 1,
+          },
+        });
+
+        const searchName = `subrecords/${csid}/${subrecordName}`;
+
+        const listType = subresource
+          ? get(config, ['subresources', subresource, 'listType'])
+          : null;
+
+        return (
+          dispatch(search(config, searchName, searchDescriptor, listType))
+            .then(() => {
+              const result = getSearchResult(getState(), searchName, searchDescriptor);
+
+              if (result) {
+                // Read the first item.
+
+                const item = getFirstItem(config, result, listType);
+                const subrecordCsid = item.get('csid');
+                const subrecordTypeConfig = get(config, ['recordTypes', subrecordType]);
+
+                const subrecordVocabularyConfig = get(
+                  subrecordTypeConfig, ['vocabularies', subrecordVocabulary]
+                );
+
+                return (
+                  // eslint-disable-next-line no-use-before-define
+                  dispatch(readRecord(
+                    config, subrecordTypeConfig, subrecordVocabularyConfig, subrecordCsid
+                  ))
+                    .then(() => dispatch({
+                      type: SUBRECORD_READ_FULFILLED,
+                      meta: {
+                        csid,
+                        subrecordCsid,
+                        subrecordName,
+                      },
+                    }))
+                );
+              }
+
+              return Promise.resolve();
+            })
+        );
+      }
+
+      return Promise.resolve();
+    }));
+  };
+
 const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
 
@@ -178,47 +276,49 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   return getSession().read(path, config);
 };
 
-export const readRecord = (recordTypeConfig, vocabularyConfig, csid) => (dispatch, getState) => {
-  if (
-    isRecordReadPending(getState(), csid) ||
-    getRecordData(getState(), csid)
-  ) {
-    // We already have data for this record, or a request is already pending. Do nothing.
+export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
+  (dispatch, getState) => {
+    if (
+      isRecordReadPending(getState(), csid) ||
+      getRecordData(getState(), csid)
+    ) {
+      // We already have data for this record, or a request is already pending. Do nothing.
 
-    return null;
-  }
+      return null;
+    }
 
-  dispatch({
-    type: RECORD_READ_STARTED,
-    meta: {
-      recordTypeConfig,
-      csid,
-    },
-  });
-
-  return doRead(recordTypeConfig, vocabularyConfig, csid)
-    .then(response => dispatch({
-      type: RECORD_READ_FULFILLED,
-      payload: response,
+    dispatch({
+      type: RECORD_READ_STARTED,
       meta: {
         recordTypeConfig,
         csid,
       },
-    }))
-    .catch(error => dispatch({
-      type: RECORD_READ_REJECTED,
-      payload: {
-        code: ERR_API,
-        error,
-      },
-      meta: {
-        recordTypeConfig,
-        csid,
-      },
-    }));
-};
+    });
 
-export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =>
+    return doRead(recordTypeConfig, vocabularyConfig, csid)
+      .then(response => dispatch({
+        type: RECORD_READ_FULFILLED,
+        payload: response,
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      }))
+      .then(() => dispatch(readSubrecords(config, recordTypeConfig, vocabularyConfig, csid)))
+      .catch(error => dispatch({
+        type: RECORD_READ_REJECTED,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      }));
+  };
+
+export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, cloneCsid) =>
   (dispatch, getState) => {
     let readClone;
 
@@ -228,7 +328,7 @@ export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =
       if (!data) {
         // We don't have data for the record to be cloned. Read it first.
 
-        readClone = dispatch(readRecord(recordTypeConfig, vocabularyConfig, cloneCsid));
+        readClone = dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, cloneCsid));
       }
     }
 
@@ -247,6 +347,7 @@ export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =
       readClone.then(() => dispatch({
         type: CREATE_NEW_RECORD,
         meta: {
+          config,
           recordTypeConfig,
           cloneCsid,
         },
@@ -254,58 +355,137 @@ export const createNewRecord = (recordTypeConfig, vocabularyConfig, cloneCsid) =
     );
   };
 
+const saveSubrecordsAfter = (config, recordTypeConfig, vocabularyConfig, csid) =>
+  (dispatch, getState) => {
+    const { subrecords } = recordTypeConfig;
+
+    if (!subrecords) {
+      return Promise.resolve();
+    }
+
+    return Promise.all(
+      Object.entries(subrecords)
+        .filter(entry => !!entry[1].saveAfterContainer)
+        .map((entry) => {
+          const [subrecordName, subrecordConfig] = entry;
+
+          const {
+            csidField,
+            subresource,
+          } = subrecordConfig;
+
+          if (csidField) {
+            // TODO
+            // return Promise.resolve();
+          }
+
+          if (subresource) {
+            const subrecordSubresourceConfig = get(config, ['subresources', subresource]);
+            const subrecordCsid = getRecordSubrecordCsid(getState(), csid, subrecordName);
+
+            if (subrecordSubresourceConfig && subrecordCsid) {
+              // eslint-disable-next-line no-use-before-define
+              return dispatch(saveRecord(
+                config,
+                recordTypeConfig,
+                vocabularyConfig,
+                csid,
+                subrecordSubresourceConfig,
+                subrecordCsid,
+                undefined,
+                (newRecordCsid) => {
+                  dispatch({
+                    type: SUBRECORD_CREATED,
+                    meta: {
+                      csid,
+                      subrecordName,
+                      subrecordCsid: newRecordCsid,
+                    },
+                  });
+                },
+                false
+              ));
+            }
+          }
+
+          return Promise.resolve();
+        })
+    );
+  };
+
 export const saveRecord =
-  (recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated) =>
+  (
+    config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
+    relatedSubjectCsid, onRecordCreated, showNotifications = true
+  ) =>
     (dispatch, getState) => {
+      let currentRecordTypeConfig;
+      let currentVocabularyConfig;
+      let currentCsid;
+
+      if (subresourceConfig) {
+        currentRecordTypeConfig = get(config, ['recordTypes', subresourceConfig.recordType]);
+
+        currentVocabularyConfig = get(
+          currentRecordTypeConfig, ['vocabularies', subresourceConfig.vocabulary]
+        );
+
+        currentCsid = subresourceCsid;
+      } else {
+        currentRecordTypeConfig = recordTypeConfig;
+        currentVocabularyConfig = vocabularyConfig;
+        currentCsid = csid;
+      }
+
       dispatch({
         type: RECORD_SAVE_STARTED,
         meta: {
-          recordTypeConfig,
-          csid,
-          relatedSubjectCsid,
+          csid: currentCsid,
         },
       });
 
-      const data = getRecordData(getState(), csid);
+      const data = getRecordData(getState(), currentCsid);
 
       // TODO: Compute
 
-      return dispatch(validateRecordData(recordTypeConfig, csid))
+      return dispatch(validateRecordData(currentRecordTypeConfig, currentCsid))
         .then(() => {
-          if (getRecordValidationErrors(getState(), csid)) {
+          if (getRecordValidationErrors(getState(), currentCsid)) {
             dispatch({
               type: RECORD_SAVE_REJECTED,
               payload: {
                 code: ERR_VALIDATION,
               },
               meta: {
-                recordTypeConfig,
-                csid,
-                relatedSubjectCsid,
+                csid: currentCsid,
               },
             });
 
             return null;
           }
 
-          const title = recordTypeConfig.title(getDocument(data));
+          const title = currentRecordTypeConfig.title
+            ? currentRecordTypeConfig.title(getDocument(data))
+            : null;
+
           const notificationID = getNotificationID();
 
-          dispatch(showNotification({
-            message: saveMessages.saving,
-            values: {
-              title,
-              hasTitle: title ? 'yes' : '',
-            },
-            date: new Date(),
-            status: STATUS_PENDING,
-          }, notificationID));
+          if (showNotifications) {
+            dispatch(showNotification({
+              message: saveMessages.saving,
+              values: {
+                title,
+                hasTitle: title ? 'yes' : '',
+              },
+              date: new Date(),
+              status: STATUS_PENDING,
+            }, notificationID));
+          }
 
-          const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+          const isExistingRecord = data.getIn(['document', 'ns2:collectionspace_core', 'uri']);
 
-          const vocabularyServicePath = vocabularyConfig
-            ? vocabularyConfig.serviceConfig.servicePath
-            : null;
+          const recordServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
+          const vocabularyServicePath = get(vocabularyConfig, ['serviceConfig', 'servicePath']);
 
           const pathParts = [recordServicePath];
 
@@ -314,51 +494,73 @@ export const saveRecord =
             pathParts.push('items');
           }
 
-          if (csid) {
-            pathParts.push(csid);
+          if (subresourceConfig) {
+            if (csid) {
+              pathParts.push(csid);
+            }
+
+            const subresourceServicePath = get(subresourceConfig, ['serviceConfig', 'servicePath']);
+
+            if (subresourceServicePath) {
+              pathParts.push(subresourceServicePath);
+            }
+          }
+
+          if (isExistingRecord && currentCsid) {
+            pathParts.push(currentCsid);
           }
 
           const path = pathParts.join('/');
 
-          const config = {
+          const requestConfig = {
             data: prepareForSending(data).toJS(),
           };
 
-          if (csid) {
-            return getSession().update(path, config)
-              .then((response) => {
-                dispatch(showNotification({
-                  message: saveMessages.saved,
-                  values: {
-                    title,
-                    hasTitle: title ? 'yes' : '',
-                  },
-                  date: new Date(),
-                  status: STATUS_SUCCESS,
-                  autoClose: true,
-                }, notificationID));
+          if (isExistingRecord) {
+            // TODO: Save subrecords that should be saved before the main record.
 
-                dispatch({
-                  type: RECORD_SAVE_FULFILLED,
-                  payload: response,
-                  meta: {
-                    recordTypeConfig,
-                    csid,
-                    relatedSubjectCsid,
-                  },
-                });
-              })
+            return getSession().update(path, requestConfig)
+              .then(response =>
+                dispatch(saveSubrecordsAfter(
+                  config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid
+                ))
+                  .then(() => {
+                    if (showNotifications) {
+                      dispatch(showNotification({
+                        message: saveMessages.saved,
+                        values: {
+                          title,
+                          hasTitle: title ? 'yes' : '',
+                        },
+                        date: new Date(),
+                        status: STATUS_SUCCESS,
+                        autoClose: true,
+                      }, notificationID));
+                    }
+
+                    dispatch({
+                      type: RECORD_SAVE_FULFILLED,
+                      payload: response,
+                      meta: {
+                        csid: currentCsid,
+                        relatedSubjectCsid,
+                      },
+                    });
+                  })
+              )
               .catch((error) => {
-                dispatch(showNotification({
-                  message: saveMessages.errorSaving,
-                  values: {
-                    title,
-                    hasTitle: title ? 'yes' : '',
-                    error: getErrorDescription(error),
-                  },
-                  date: new Date(),
-                  status: STATUS_ERROR,
-                }, notificationID));
+                if (showNotifications) {
+                  dispatch(showNotification({
+                    message: saveMessages.errorSaving,
+                    values: {
+                      title,
+                      hasTitle: title ? 'yes' : '',
+                      error: getErrorDescription(error),
+                    },
+                    date: new Date(),
+                    status: STATUS_ERROR,
+                  }, notificationID));
+                }
 
                 dispatch({
                   type: RECORD_SAVE_REJECTED,
@@ -367,40 +569,56 @@ export const saveRecord =
                     error,
                   },
                   meta: {
-                    recordTypeConfig,
-                    csid,
-                    relatedSubjectCsid,
+                    csid: currentCsid,
                   },
                 });
+
+                throw error;
               });
           }
 
-          return getSession().create(path, config)
+          // TODO: Save subrecords that should be saved before the main record.
+
+          return getSession().create(path, requestConfig)
             .then((response) => {
               if (response.status === 201 && response.headers.location) {
                 const location = response.headers.location;
                 const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
 
-                return doRead(recordTypeConfig, vocabularyConfig, newRecordCsid)
+                dispatch({
+                  type: RECORD_CREATED,
+                  meta: {
+                    currentCsid,
+                    newRecordCsid,
+                  },
+                });
+
+                return dispatch(saveSubrecordsAfter(
+                  config, currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid
+                ))
+                  .then(() => doRead(
+                    currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid
+                  ))
                   .then((readResponse) => {
-                    dispatch(showNotification({
-                      message: saveMessages.saved,
-                      values: {
-                        title,
-                        hasTitle: title ? 'yes' : '',
-                      },
-                      date: new Date(),
-                      status: STATUS_SUCCESS,
-                      autoClose: true,
-                    }, notificationID));
+                    if (showNotifications) {
+                      dispatch(showNotification({
+                        message: saveMessages.saved,
+                        values: {
+                          title,
+                          hasTitle: title ? 'yes' : '',
+                        },
+                        date: new Date(),
+                        status: STATUS_SUCCESS,
+                        autoClose: true,
+                      }, notificationID));
+                    }
 
                     dispatch({
                       type: RECORD_SAVE_FULFILLED,
                       payload: readResponse,
                       meta: {
-                        recordTypeConfig,
-                        csid: newRecordCsid,
                         relatedSubjectCsid,
+                        csid: newRecordCsid,
                       },
                     });
 
@@ -416,16 +634,18 @@ export const saveRecord =
               throw error;
             })
             .catch((error) => {
-              dispatch(showNotification({
-                message: saveMessages.errorSaving,
-                values: {
-                  title,
-                  hasTitle: title ? 'yes' : '',
-                  error: getErrorDescription(error),
-                },
-                date: new Date(),
-                status: STATUS_ERROR,
-              }, notificationID));
+              if (showNotifications) {
+                dispatch(showNotification({
+                  message: saveMessages.errorSaving,
+                  values: {
+                    title,
+                    hasTitle: title ? 'yes' : '',
+                    error: getErrorDescription(error),
+                  },
+                  date: new Date(),
+                  status: STATUS_ERROR,
+                }, notificationID));
+              }
 
               dispatch({
                 type: RECORD_SAVE_REJECTED,
@@ -434,11 +654,11 @@ export const saveRecord =
                   error,
                 },
                 meta: {
-                  recordTypeConfig,
-                  csid,
-                  relatedSubjectCsid,
+                  csid: currentCsid,
                 },
               });
+
+              throw error;
             });
         });
     };

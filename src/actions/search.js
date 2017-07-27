@@ -81,13 +81,15 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     ) {
       // There's already a result for this search. Just set this search to be the most recent.
 
-      return dispatch({
+      dispatch({
         type: SET_MOST_RECENT_SEARCH,
         meta: {
           searchName,
           searchDescriptor,
         },
       });
+
+      return Promise.resolve();
     }
 
     const listTypeConfig = config.listTypes[listType];
@@ -104,7 +106,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     const recordTypeConfig = config.recordTypes[recordType];
 
     if (!recordTypeConfig) {
-      return dispatch({
+      dispatch({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_UNKNOWN_RECORD_TYPE,
@@ -114,12 +116,14 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
           searchDescriptor,
         },
       });
+
+      return Promise.reject();
     }
 
     const recordTypeServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
 
     if (!recordTypeServicePath) {
-      return dispatch({
+      dispatch({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_UNKNOWN_RECORD_TYPE,
@@ -129,6 +133,8 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
           searchDescriptor,
         },
       });
+
+      return Promise.reject();
     }
 
     const vocabularyServicePath = vocabulary
@@ -136,7 +142,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       : null;
 
     if (vocabulary && !vocabularyServicePath) {
-      return dispatch({
+      dispatch({
         type: SEARCH_REJECTED,
         payload: {
           code: ERR_UNKNOWN_VOCABULARY,
@@ -146,6 +152,8 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
           searchDescriptor,
         },
       });
+
+      return Promise.reject();
     }
 
     // Check for conditions where we just want to create an empty result.
@@ -160,7 +168,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
 
       (typeof subresource !== 'undefined' && !searchDescriptor.get('csid'))
     ) {
-      return dispatch({
+      dispatch({
         type: CREATE_EMPTY_SEARCH_RESULT,
         meta: {
           listTypeConfig,
@@ -168,6 +176,8 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
           searchDescriptor,
         },
       });
+
+      return Promise.resolve();
     }
 
     const requestConfig = {
@@ -189,7 +199,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       const sortParam = getSortParam(config, searchDescriptor, columnSetName);
 
       if (!sortParam) {
-        return dispatch({
+        dispatch({
           type: SEARCH_REJECTED,
           payload: {
             code: ERR_INVALID_SORT,
@@ -199,6 +209,8 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
             searchDescriptor,
           },
         });
+
+        return Promise.reject();
       }
 
       requestConfig.params.sortBy = sortParam;
@@ -231,28 +243,26 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       //     resolve(response);
       //   }, 1000);
       // }))
-      .then(
-        response => dispatch({
-          type: SEARCH_FULFILLED,
-          payload: response,
-          meta: {
-            listTypeConfig,
-            searchName,
-            searchDescriptor,
-          },
-        }),
-        error => dispatch({
-          type: SEARCH_REJECTED,
-          payload: {
-            code: ERR_API,
-            error,
-          },
-          meta: {
-            searchName,
-            searchDescriptor,
-          },
-        })
-      );
+      .then(response => dispatch({
+        type: SEARCH_FULFILLED,
+        payload: response,
+        meta: {
+          listTypeConfig,
+          searchName,
+          searchDescriptor,
+        },
+      }))
+      .catch(error => dispatch({
+        type: SEARCH_REJECTED,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          searchName,
+          searchDescriptor,
+        },
+      }));
   };
 
 export const setResultItemSelected =

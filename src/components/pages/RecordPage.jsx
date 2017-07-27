@@ -112,7 +112,7 @@ export default class RecordPage extends Component {
         ? get(recordTypeConfig, ['vocabularies', vocabulary])
         : undefined;
 
-      readRecord(recordTypeConfig, vocabularyConfig, normalizedCsid);
+      readRecord(config, recordTypeConfig, vocabularyConfig, normalizedCsid);
     }
   }
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import warning from 'warning';
@@ -61,7 +61,12 @@ module.exports = (uiConfig) => {
 
     const { intl } = intlProvider.getChildContext();
 
-    const store = createStore(reducer, applyMiddleware(thunk.withExtraArgument(intl)));
+    // eslint-disable-next-line no-underscore-dangle
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+    const store = createStore(reducer, composeEnhancers(
+      applyMiddleware(thunk.withExtraArgument(intl))
+    ));
 
     window.addEventListener('beforeunload', () => {
       store.dispatch(savePrefs());

@@ -6,6 +6,7 @@ import collectionobject from './collectionobject';
 import concept from './concept';
 import conditioncheck from './conditioncheck';
 import conservation from './conservation';
+import contact from './contact';
 import exhibition from './exhibition';
 import group from './group';
 import intake from './intake';
@@ -33,6 +34,7 @@ export default [
   concept,
   conditioncheck,
   conservation,
+  contact,
   exhibition,
   group,
   intake,

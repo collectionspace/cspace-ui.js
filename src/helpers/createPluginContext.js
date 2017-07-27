@@ -16,6 +16,7 @@ import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
 import HierarchyInput from '../components/record/HierarchyInput';
 import InputTable from '../components/record/InputTable';
+import Subrecord from '../components/record/Subrecord';
 
 import * as dataTypes from '../constants/dataTypes';
 
@@ -72,6 +73,7 @@ export default () => ({
   recordComponents: {
     Field,
     InputTable,
+    Subrecord,
   },
   configHelpers: {
     configKey,

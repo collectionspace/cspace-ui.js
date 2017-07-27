@@ -14,10 +14,6 @@ import {
 import {
   createNewRecord,
   readRecord,
-  addFieldInstance,
-  moveFieldValue,
-  setFieldValue,
-  deleteFieldValue,
   revertRecord,
   saveRecord,
   transitionRecord,
@@ -74,30 +70,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(openModal(modalName));
     },
     createNewRecord: (cloneCsid) => {
-      dispatch(createNewRecord(recordTypeConfig, vocabularyConfig, cloneCsid));
+      dispatch(createNewRecord(config, recordTypeConfig, vocabularyConfig, cloneCsid));
     },
     readRecord: () => {
-      dispatch(readRecord(recordTypeConfig, vocabularyConfig, csid));
-    },
-    onAddInstance: (path) => {
-      dispatch(addFieldInstance(recordTypeConfig, csid, path));
-    },
-    onCommit: (path, value) => {
-      dispatch(setFieldValue(recordTypeConfig, csid, path, value));
-    },
-    onMoveInstance: (path, newPosition) => {
-      dispatch(moveFieldValue(recordTypeConfig, csid, path, newPosition));
-    },
-    onRemoveInstance: (path) => {
-      dispatch(deleteFieldValue(recordTypeConfig, csid, path));
+      dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid));
     },
     revert: () => {
       dispatch(revertRecord(recordTypeConfig, csid));
     },
     save: (onRecordCreated) => {
-      dispatch(
-        saveRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid, onRecordCreated)
-      );
+      dispatch(saveRecord(
+        config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
+        relatedSubjectCsid, onRecordCreated
+      ));
     },
     setForm: (formName) => {
       dispatch(setForm(recordType, formName));
