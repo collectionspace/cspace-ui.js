@@ -3,7 +3,7 @@ export default {
   servicePath: 'locationauthorities',
   serviceType: 'authority',
 
-  objectName: 'Location',
+  objectName: 'Locationitem',
 
   documentName: 'location',
 
