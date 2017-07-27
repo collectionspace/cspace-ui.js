@@ -57,7 +57,7 @@ describe('LoginForm', function suite() {
       .equal(messages['loginForm.pending']);
   });
 
-  it('should show success message when no error is provided', function test() {
+  it('should show success message when isPending is false, no error is provided, and a username is present', function test() {
     const messages = {
       'loginForm.success': 'this is the success message',
     };
@@ -67,7 +67,7 @@ describe('LoginForm', function suite() {
         locale="en"
         messages={messages}
       >
-        <LoginForm />
+        <LoginForm username="admin@core.collectionspace.org" />
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should

@@ -113,6 +113,7 @@ class LoginForm extends Component {
     const {
       isPending,
       error,
+      username,
     } = this.props;
 
     let messageKey = 'prompt';
@@ -126,7 +127,7 @@ class LoginForm extends Component {
         const desc = error.response.data.error_description;
         messageKey = errorMessageMap[desc];
       }
-    } else {
+    } else if (username) {
       messageKey = 'success';
     }
 
