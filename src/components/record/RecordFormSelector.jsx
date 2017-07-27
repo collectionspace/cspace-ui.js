@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { injectIntl, intlShape } from 'react-intl';
 import { baseComponents as components } from 'cspace-input';
