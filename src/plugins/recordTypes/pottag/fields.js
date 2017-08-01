@@ -83,31 +83,11 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/pottags',
           },
         },
-        exitNumber: {
+        taxonName: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.pottags_common.exitNumber.name',
-                defaultMessage: 'Exit number',
-              },
-            }),
-            required: true,
-            searchView: {
-              type: TextInput,
-            },
-            view: {
-              type: IDGeneratorInput,
-              props: {
-                idGeneratorName: 'objectexit',
-              },
-            },
-          },
-        },
-        currentOwner: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.currentOwner.name',
+                id: 'field.pottags_common.taxonName.name',
                 defaultMessage: 'Current owner',
               },
             }),
