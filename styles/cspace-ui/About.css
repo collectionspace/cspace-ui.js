@@ -1,3 +1,7 @@
+.common {
+  min-height: 300px;
+}
+
 .common ul {
   display: inline-table;
   margin: 0;
