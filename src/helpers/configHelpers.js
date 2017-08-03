@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import deepAssign from 'deep-assign';
+import merge from 'lodash/merge';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import warning from 'warning';
@@ -77,7 +77,7 @@ export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
     ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
     : targetConfig;
 
-  const mergedConfig = deepAssign({}, pluginsAppliedConfig, sourceConfig);
+  const mergedConfig = merge({}, pluginsAppliedConfig, sourceConfig);
 
   delete mergedConfig.plugins;
 

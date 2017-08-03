@@ -166,7 +166,11 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should apply plugins from the source config, then merge in the source config', function test() {
-      mergeConfig({}, {
+      mergeConfig({
+        messages: {
+          name: 'Dale',
+        },
+      }, {
         serverUrl: 'http://collectionspace.org',
         messages: {
           title: 'CSpace',
@@ -183,6 +187,7 @@ describe('configHelpers', function moduleSuite() {
             messages: {
               title: 'c',
               greeting: 'Hello',
+              name: 'Diane',
             },
           },
         ],
@@ -191,6 +196,7 @@ describe('configHelpers', function moduleSuite() {
         messages: {
           title: 'CSpace',
           greeting: 'Hello',
+          name: 'Diane',
         },
         options: {
           languages: {},
