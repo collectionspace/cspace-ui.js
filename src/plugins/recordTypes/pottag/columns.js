@@ -12,6 +12,7 @@ export default {
           defaultMessage: 'Family',
         },
       }),
+	  formatValue: value => getDisplayName(value),
       sortBy: 'pottags_common:family',
       width: 200,
     },

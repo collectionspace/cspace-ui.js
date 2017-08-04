@@ -6,45 +6,19 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  exitReason: {
+  printLabels: {
     values: [
-      'deaccession',
-      'disposal',
-      'return-of-loan',
+      'yes',
+      'no',
     ],
     messages: defineMessages({
-      deaccession: {
-        id: 'option.exitReason.deaccession',
-        defaultMessage: 'deaccession',
+      yes: {
+        id: 'option.printLabels.yes',
+        defaultMessage: 'yes',
       },
-      disposal: {
-        id: 'option.exitReason.disposal',
-        defaultMessage: 'disposal',
-      },
-      'return-of-loan': {
-        id: 'option.exitReason.return-of-loan',
-        defaultMessage: 'return of loan',
-      },
-    }),
-  },
-  exitMethod: {
-    values: [
-      'courier',
-      'in-person',
-      'post',
-    ],
-    messages: defineMessages({
-      courier: {
-        id: 'option.exitMethod.courier',
-        defaultMessage: 'courier',
-      },
-      'in-person': {
-        id: 'option.exitMethod.in-person',
-        defaultMessage: 'in person',
-      },
-      post: {
-        id: 'option.exitMethod.post',
-        defaultMessage: 'post',
+      no: {
+        id: 'option.printLabels.no',
+        defaultMessage: 'no',
       },
     }),
   },

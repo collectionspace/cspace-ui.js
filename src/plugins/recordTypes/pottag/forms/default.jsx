@@ -6,13 +6,10 @@ const template = (pluginContext) => {
   const {
     Panel,
     Row,
-    Cols,
-    Col,
   } = pluginContext.layoutComponents;
 
   const {
     Field,
-    InputTable,
   } = pluginContext.recordComponents;
 
   return (

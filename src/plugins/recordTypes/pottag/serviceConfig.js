@@ -1,9 +1,9 @@
 export default {
-  serviceName: 'ObjectExit',
-  servicePath: 'objectexit',
+  serviceName: 'Pottags',
+  servicePath: 'pottags',
   serviceType: 'procedure',
 
-  objectName: 'ObjectExit',
+  objectName: 'Pottag',
 
-  documentName: 'objectexit',
+  documentName: 'pottags',
 };

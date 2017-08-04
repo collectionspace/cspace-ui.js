@@ -11,14 +11,14 @@ export default pluginContext => (cspaceDocument) => {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'objectexit_common');
+  const common = getPart(cspaceDocument, 'pottags_common');
 
   if (!common) {
     return '';
   }
 
-  const exitNumber = common.get('exitNumber');
-  const currentOwner = getDisplayName(common.get('currentOwner'));
+  const commonName = common.get('commonName');
+  const family = getDisplayName(common.get('family'));
 
-  return [exitNumber, currentOwner].filter(part => !!part).join(' – ');
+  return [commonName, family].filter(part => !!part).join(' – ');
 };

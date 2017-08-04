@@ -9,10 +9,9 @@ import optionLists from './optionLists';
 import idGenerators from './idGenerators';
 
 export default () => pluginContext => ({
-  idGenerators,
   optionLists,
   recordTypes: {
-    objectexit: {
+    pottag: {
       advancedSearch,
       columns,
       messages,
