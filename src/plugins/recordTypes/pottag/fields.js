@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
   const {
-    // CompoundInput,
+    CompoundInput,
     DateInput,
     OptionPickerInput,
     TextInput,
@@ -20,6 +20,7 @@ export default (pluginContext) => {
   const {
     DATA_TYPE_DATETIME,
     DATA_TYPE_FLOAT,
+	DATA_TYPE_INT,
   } = pluginContext.dataTypes;
 
   return {

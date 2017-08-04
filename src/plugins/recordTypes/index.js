@@ -15,6 +15,7 @@ import location from './location';
 import media from './media';
 import object from './object';
 import objectexit from './objectexit';
+import pottag from './pottag';
 import organization from './organization';
 import person from './person';
 import place from './place';
@@ -39,6 +40,7 @@ export default [
   media,
   object,
   objectexit,
+  pottag,
   organization,
   person,
   place,
