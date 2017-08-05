@@ -81,7 +81,7 @@ export default (pluginContext) => {
       'ns2:pottags_common': {
         [config]: {
           service: {
-            ns: 'http://collectionspace.org/services/pottags',
+            ns: 'http://collectionspace.org/services/pottag',
           },
         },
         taxonName: {

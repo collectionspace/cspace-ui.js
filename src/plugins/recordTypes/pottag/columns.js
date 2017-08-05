@@ -24,9 +24,8 @@ export default {
           defaultMessage: 'Common Name',
         },
       }),
-      formatValue: value => getDisplayName(value),
       sortBy: 'pottags_common:commonName',
-      width: 450,
+      width: 150,
     },
     {
       name: 'updatedAt',
