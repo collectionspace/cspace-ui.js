@@ -5,26 +5,26 @@ import { formatTimestamp } from '../../../helpers/formatHelpers';
 export default {
   default: [
     {
-      name: 'family',
+      name: 'taxonName',
       messages: defineMessages({
         label: {
-          id: 'column.pottag.default.family',
-          defaultMessage: 'Family',
+          id: 'column.pottag.default.taxonName',
+          defaultMessage: 'Taxon Name',
         },
       }),
 	  formatValue: value => getDisplayName(value),
-      sortBy: 'pottags_common:family',
+      sortBy: 'pottags_common:taxonName',
       width: 200,
     },
     {
-      name: 'commonName',
+      name: 'printLabels',
       messages: defineMessages({
         label: {
-          id: 'column.pottag.default.commonName',
-          defaultMessage: 'Common Name',
+          id: 'column.pottag.default.printLabels',
+          defaultMessage: 'Should print labels?',
         },
       }),
-      sortBy: 'pottags_common:commonName',
+      sortBy: 'pottags_common:printLabels',
       width: 150,
     },
     {
