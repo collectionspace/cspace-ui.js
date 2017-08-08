@@ -1,5 +1,13 @@
 import React from 'react';
 import { defineMessages } from 'react-intl';
+import advancedSearch from './advancedSearch';
+import columns from './columns';
+import fields from './fields';
+import forms from './forms';
+import messages from './messages';
+import optionLists from './optionLists';
+import serviceConfig from './serviceConfig';
+import title from './title';
 
 export default () => () => ({
   recordTypes: {
