@@ -20,6 +20,7 @@ import person from './person';
 import place from './place';
 import procedure from './procedure';
 import valuation from './valuation';
+import work from './work';
 
 export default [
   all,
@@ -44,4 +45,5 @@ export default [
   place,
   procedure,
   valuation,
+  work,
 ];
