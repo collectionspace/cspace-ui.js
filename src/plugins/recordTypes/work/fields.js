@@ -322,7 +322,7 @@ export default (pluginContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.works_common.placeType.name',
+                id: 'field.works_common.workType.name',
                 defaultMessage: 'Work record type',
               },
             }),
