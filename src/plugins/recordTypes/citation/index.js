@@ -1,52 +1,24 @@
-import React from 'react';
 import { defineMessages } from 'react-intl';
+import advancedSearch from './advancedSearch';
+import columns from './columns';
+import fields from './fields';
+import forms from './forms';
+import messages from './messages';
+import optionLists from './optionLists';
+import serviceConfig from './serviceConfig';
+import title from './title';
 
-export default () => () => ({
+export default () => pluginContext => ({
+  optionLists,
   recordTypes: {
     citation: {
-      serviceConfig: {
-        serviceName: 'Citations',
-        servicePath: 'citationauthorities',
-        serviceType: 'authority',
-
-        objectName: 'Citation',
-
-        documentName: 'citations',
-
-        quickAddData: values => ({
-          document: {
-            '@name': 'citations',
-            'ns2:citations_common': {
-              '@xmlns:ns2': 'http://collectionspace.org/services/citation',
-              citationTermGroupList: {
-                citationTermGroup: {
-                  termDisplayName: values.displayName,
-                },
-              },
-            },
-          },
-        }),
-      },
-      messages: {
-        record: defineMessages({
-          name: {
-            id: 'record.citation.name',
-            description: 'The name of the record type.',
-            defaultMessage: 'Citation',
-          },
-          collectionName: {
-            id: 'record.citation.collectionName',
-            description: 'The name of a collection of records of the type.',
-            defaultMessage: 'Citations',
-          },
-        }),
-      },
-      forms: {
-        default: {
-          template: <div />,
-        },
-      },
-      title: () => '',
+      advancedSearch,
+      columns,
+      messages,
+      serviceConfig,
+      fields: fields(pluginContext),
+      forms: forms(pluginContext),
+      title: title(pluginContext),
       vocabularies: {
         all: {
           isCreatable: false,
