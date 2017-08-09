@@ -1,52 +1,24 @@
-import React from 'react';
 import { defineMessages } from 'react-intl';
+import advancedSearch from './advancedSearch';
+import columns from './columns';
+import fields from './fields';
+import forms from './forms';
+import messages from './messages';
+import optionLists from './optionLists';
+import serviceConfig from './serviceConfig';
+import title from './title';
 
-export default () => () => ({
+export default () => pluginContext => ({
+  optionLists,
   recordTypes: {
     concept: {
-      serviceConfig: {
-        serviceName: 'Concepts',
-        servicePath: 'conceptauthorities',
-        serviceType: 'authority',
-
-        objectName: 'Conceptitem',
-
-        documentName: 'concepts',
-
-        quickAddData: values => ({
-          document: {
-            '@name': 'concepts',
-            'ns2:concepts_common': {
-              '@xmlns:ns2': 'http://collectionspace.org/services/concept',
-              conceptTermGroupList: {
-                conceptTermGroup: {
-                  termDisplayName: values.displayName,
-                },
-              },
-            },
-          },
-        }),
-      },
-      messages: {
-        record: defineMessages({
-          name: {
-            id: 'record.concept.name',
-            description: 'The name of the record type.',
-            defaultMessage: 'Concept',
-          },
-          collectionName: {
-            id: 'record.concept.collectionName',
-            description: 'The name of a collection of records of the type.',
-            defaultMessage: 'Concepts',
-          },
-        }),
-      },
-      forms: {
-        default: {
-          template: <div />,
-        },
-      },
-      title: () => '',
+      advancedSearch,
+      columns,
+      messages,
+      serviceConfig,
+      fields: fields(pluginContext),
+      forms: forms(pluginContext),
+      title: title(pluginContext),
       vocabularies: {
         all: {
           isCreatable: false,
