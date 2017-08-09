@@ -15,12 +15,14 @@ import location from './location';
 import media from './media';
 import object from './object';
 import objectexit from './objectexit';
+import pottag from './pottag';
 import organization from './organization';
 import person from './person';
 import place from './place';
 import procedure from './procedure';
 import valuation from './valuation';
 import work from './work';
+import taxon from './taxon';
 
 export default [
   all,
@@ -40,10 +42,12 @@ export default [
   media,
   object,
   objectexit,
+  pottag,
   organization,
   person,
   place,
   procedure,
   valuation,
   work,
+  taxon,
 ];
