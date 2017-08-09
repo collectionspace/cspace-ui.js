@@ -75,10 +75,16 @@ const template = (pluginContext) => {
         <Field name="taxonNote" />
 
 		<InputTable>
-			<Field name="commonName" />
-			<Field name="commonNameLanguage" />
-			<Field name="commonNameSource" />
-			<Field name="commonNameSourceDetail" />
+		  <Field name="commonNameGroupList">
+            <Field name="commonNameGroup">
+            
+			  <Field name="commonName" />
+			  <Field name="commonNameLanguage" />
+			  <Field name="commonNameSource" />
+			  <Field name="commonNameSourceDetail" />
+			
+			</Field>
+          </Field>
 		</InputTable>
 		
       </Panel>
