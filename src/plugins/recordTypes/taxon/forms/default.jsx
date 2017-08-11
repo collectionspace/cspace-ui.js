@@ -6,8 +6,8 @@ const template = (pluginContext) => {
   const {
     Panel,
     Row,
-    Cols,
-    Col,
+    //Cols,
+    //Col,
   } = pluginContext.layoutComponents;
 
   const {
@@ -37,7 +37,7 @@ const template = (pluginContext) => {
                 <Field name="termFlag" />
                 <Field name="termLanguage" />
                 <Field name="termPrefForLang" />
-                <Field name="taxonomicStatus" />				
+                <Field name="taxonomicStatus" />
               </InputTable>
 
               <InputTable>
@@ -64,29 +64,29 @@ const template = (pluginContext) => {
           </Field>
         </Field>
 
-		<Row>
+        <Row>
           <Field name="taxonYear" />
-		  <Field name="taxonCitationList">
-              <Field name="taxonCitation" />
-            </Field>
+          <Field name="taxonCitationList">
+            <Field name="taxonCitation" />
+          </Field>
         </Row>
-		
+
         <Field name="taxonIsNamedHybrid" />
         <Field name="taxonNote" />
 
-		<InputTable>
-		  <Field name="commonNameGroupList">
+        <InputTable>
+          <Field name="commonNameGroupList">
             <Field name="commonNameGroup">
-            
-			  <Field name="commonName" />
-			  <Field name="commonNameLanguage" />
-			  <Field name="commonNameSource" />
-			  <Field name="commonNameSourceDetail" />
-			
-			</Field>
+
+              <Field name="commonName" />
+              <Field name="commonNameLanguage" />
+              <Field name="commonNameSource" />
+              <Field name="commonNameSourceDetail" />
+
+            </Field>
           </Field>
-		</InputTable>
-		
+        </InputTable>
+
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>

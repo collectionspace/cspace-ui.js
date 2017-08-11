@@ -23,7 +23,7 @@ export default {
     {
       op: OP_EQ,
       path: 'ns2:taxon_common/taxonTermGroupList/taxonTermGroup/taxonomicStatus',
-    },	
+    },
     {
       op: OP_EQ,
       path: 'ns2:taxon_common/taxonRank',
@@ -43,7 +43,7 @@ export default {
     {
       op: OP_MATCH,
       path: 'ns2:taxon_common/commonNameGroupList/commonNameGroup/commonName',
-    },	
+    },
     {
       op: OP_MATCH,
       path: 'ns2:taxon_common/taxonNote',

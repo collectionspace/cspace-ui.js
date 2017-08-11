@@ -10,7 +10,7 @@ export default (pluginContext) => {
     TermPickerInput,
     CheckboxInput,
     DateInput,
-    StructuredDateInput,
+    // StructuredDateInput,
   } = pluginContext.inputComponents;
 
   const {
@@ -19,8 +19,8 @@ export default (pluginContext) => {
 
   const {
     DATA_TYPE_DATETIME,
-    DATA_TYPE_FLOAT,
-    DATA_TYPE_INT,
+    // DATA_TYPE_FLOAT,
+    // DATA_TYPE_INT,
   } = pluginContext.dataTypes;
 
   return {
@@ -367,7 +367,7 @@ export default (pluginContext) => {
               },
             },
           },
-        },        
+        },
         taxonAuthorGroupList: {
           [config]: {
             messages: defineMessages({
@@ -406,25 +406,25 @@ export default (pluginContext) => {
                 },
               },
             },
-			taxonAuthorType: {
-			  [config]: {
-				messages: defineMessages({
-				  name: {
-					id: 'field.taxon_common.taxonAuthorType.name',
-					defaultMessage: 'Author Type',
-				  },
-				}),
-				view: {
-				  type: OptionPickerInput,
-				  props: {
-					source: 'taxonAuthorType',
-				  },
-				},
-			  },
-			},
+            taxonAuthorType: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.taxon_common.taxonAuthorType.name',
+                    defaultMessage: 'Author Type',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'taxonAuthorType',
+                  },
+                },
+              },
+            },
           },
         },
-		taxonYear: {
+        taxonYear: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -437,7 +437,7 @@ export default (pluginContext) => {
             },
           },
         },
-		taxonCitationList: {
+        taxonCitationList: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -471,20 +471,20 @@ export default (pluginContext) => {
             },
           },
         },
-		taxonIsNamedHybrid: {
-		  [config]: {
-			messages: defineMessages({
-			  name: {
-				id: 'field.taxon_common.taxonIsNamedHybrid.name',
-				defaultMessage: 'Is named hybrid',
-			  },
-			}),
-			view: {
-			  type: CheckboxInput,
-			},
-		  },
-		},
-		taxonNote: {
+        taxonIsNamedHybrid: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.taxon_common.taxonIsNamedHybrid.name',
+                defaultMessage: 'Is named hybrid',
+              },
+            }),
+            view: {
+              type: CheckboxInput,
+            },
+          },
+        },
+        taxonNote: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -500,7 +500,7 @@ export default (pluginContext) => {
             },
           },
         },
-		commonNameGroupList: {
+        commonNameGroupList: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -522,20 +522,20 @@ export default (pluginContext) => {
                 },
               },
             },
-			commonName: {
-			  [config]: {
-				messages: defineMessages({
-				  name: {
-					id: 'field.taxon_common.commonName.name',
-					defaultMessage: 'Common Name',
-				  },
-				}),
-				view: {
-				  type: TextInput,
-				},
-			  },
-			},
-			commonNameLanguage: {
+            commonName: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.taxon_common.commonName.name',
+                    defaultMessage: 'Common Name',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            commonNameLanguage: {
               [config]: {
                 messages: defineMessages({
                   name: {
@@ -567,19 +567,19 @@ export default (pluginContext) => {
                 },
               },
             },
-			commonNameSourceDetail: {
-			  [config]: {
-				messages: defineMessages({
-				  name: {
-					id: 'field.taxon_common.commonNameSourceDetail.name',
-					defaultMessage: 'Source Detail',
-				  },
-				}),
-				view: {
-				  type: TextInput,
-				},
-			  },
-			},
+            commonNameSourceDetail: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.taxon_common.commonNameSourceDetail.name',
+                    defaultMessage: 'Source Detail',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
           },
         },
       },

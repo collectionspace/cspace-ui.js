@@ -20,12 +20,12 @@ const template = (pluginContext) => {
         <Row>
           <Field name="family" />
           <Field name="commonName" />
-		  <Field name="locale" />
+          <Field name="locale" />
         </Row>
 
         <Row>
           <Field name="taxonName" />
-		  <Field name="labelData" />
+          <Field name="labelData" />
         </Row>
 
         <Row>

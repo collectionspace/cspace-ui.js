@@ -7,7 +7,7 @@ export default (pluginContext) => {
     OptionPickerInput,
     TextInput,
     AutocompleteInput,
-    IDGeneratorInput,
+    // IDGeneratorInput,
     // TermPickerInput,
     // StructuredDateInput,
     // URLInput,
@@ -19,8 +19,8 @@ export default (pluginContext) => {
 
   const {
     DATA_TYPE_DATETIME,
-    DATA_TYPE_FLOAT,
-	DATA_TYPE_INT,
+    // DATA_TYPE_FLOAT,
+    DATA_TYPE_INT,
   } = pluginContext.dataTypes;
 
   return {
@@ -129,7 +129,7 @@ export default (pluginContext) => {
             },
           },
         },
-		locale: {
+        locale: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -142,7 +142,7 @@ export default (pluginContext) => {
             },
           },
         },
-		labelData: {
+        labelData: {
           [config]: {
             messages: defineMessages({
               name: {
@@ -158,7 +158,7 @@ export default (pluginContext) => {
             },
           },
         },
-		numberOfLabels: {
+        numberOfLabels: {
           [config]: {
             dataType: DATA_TYPE_INT,
             messages: defineMessages({
@@ -172,7 +172,7 @@ export default (pluginContext) => {
             },
           },
         },
-		printLabels: {
+        printLabels: {
           [config]: {
             messages: defineMessages({
               name: {

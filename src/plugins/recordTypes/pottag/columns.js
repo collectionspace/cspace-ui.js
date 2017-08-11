@@ -12,7 +12,7 @@ export default {
           defaultMessage: 'Taxon Name',
         },
       }),
-	  formatValue: value => getDisplayName(value),
+      formatValue: value => getDisplayName(value),
       sortBy: 'pottags_common:taxonName',
       width: 200,
     },
