@@ -7,8 +7,8 @@ describe('place record optionLists', function suite() {
     optionsList.should.be.an('object');
 
     Object.keys(optionsList).forEach((option) => {
-      const locationOptions = optionsList[option];
-      locationOptions.should.contain.all.keys(['values', 'messages']);
+      const placeOptions = optionsList[option];
+      placeOptions.should.contain.all.keys(['values', 'messages']);
     });
   });
 });
