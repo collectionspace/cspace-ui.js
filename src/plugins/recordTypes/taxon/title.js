@@ -1,3 +1,4 @@
+// Just a test comment.  Please remove this comment.
 export default pluginContext => (cspaceDocument) => {
   const {
     deepGet,
