@@ -490,16 +490,23 @@ describe('search action creator', function suite() {
         }),
       });
 
-      store.dispatch(search(config, searchName, sortedSearchDescriptor)).should.deep.equal({
-        type: SEARCH_REJECTED,
-        payload: {
-          code: ERR_INVALID_SORT,
-        },
-        meta: {
-          searchName,
-          searchDescriptor: sortedSearchDescriptor,
-        },
-      });
+      store.dispatch(search(config, searchName, sortedSearchDescriptor))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_REJECTED,
+            payload: {
+              code: ERR_INVALID_SORT,
+            },
+            meta: {
+              searchName,
+              searchDescriptor: sortedSearchDescriptor,
+            },
+          });
+        });
     });
 
     it('should dispatch SEARCH_REJECTED when an invalid search order is specified', function test() {
@@ -514,16 +521,23 @@ describe('search action creator', function suite() {
         }),
       });
 
-      store.dispatch(search(config, searchName, sortedSearchDescriptor)).should.deep.equal({
-        type: SEARCH_REJECTED,
-        payload: {
-          code: ERR_INVALID_SORT,
-        },
-        meta: {
-          searchName,
-          searchDescriptor: sortedSearchDescriptor,
-        },
-      });
+      store.dispatch(search(config, searchName, sortedSearchDescriptor))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_REJECTED,
+            payload: {
+              code: ERR_INVALID_SORT,
+            },
+            meta: {
+              searchName,
+              searchDescriptor: sortedSearchDescriptor,
+            },
+          });
+        });
     });
 
     it('should dispatch SEARCH_REJECTED on API error', function test() {
@@ -566,16 +580,23 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(config, searchName, badSearchDescriptor)).should.deep.equal({
-        type: SEARCH_REJECTED,
-        payload: {
-          code: ERR_UNKNOWN_RECORD_TYPE,
-        },
-        meta: {
-          searchName,
-          searchDescriptor: badSearchDescriptor,
-        },
-      });
+      store.dispatch(search(config, searchName, badSearchDescriptor))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_REJECTED,
+            payload: {
+              code: ERR_UNKNOWN_RECORD_TYPE,
+            },
+            meta: {
+              searchName,
+              searchDescriptor: badSearchDescriptor,
+            },
+          });
+        });
     });
 
     it('should dispatch SEARCH_REJECTED if the record type does not have a service path', function test() {
@@ -592,16 +613,23 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(badConfig, searchName, searchDescriptor)).should.deep.equal({
-        type: SEARCH_REJECTED,
-        payload: {
-          code: ERR_UNKNOWN_RECORD_TYPE,
-        },
-        meta: {
-          searchName,
-          searchDescriptor,
-        },
-      });
+      store.dispatch(search(badConfig, searchName, searchDescriptor))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_REJECTED,
+            payload: {
+              code: ERR_UNKNOWN_RECORD_TYPE,
+            },
+            meta: {
+              searchName,
+              searchDescriptor,
+            },
+          });
+        });
     });
 
     it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', function test() {
@@ -625,16 +653,23 @@ describe('search action creator', function suite() {
         search: Immutable.Map(),
       });
 
-      store.dispatch(search(badConfig, searchName, searchDescriptor)).should.deep.equal({
-        type: SEARCH_REJECTED,
-        payload: {
-          code: ERR_UNKNOWN_VOCABULARY,
-        },
-        meta: {
-          searchName,
-          searchDescriptor,
-        },
-      });
+      store.dispatch(search(badConfig, searchName, searchDescriptor))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: SEARCH_REJECTED,
+            payload: {
+              code: ERR_UNKNOWN_VOCABULARY,
+            },
+            meta: {
+              searchName,
+              searchDescriptor,
+            },
+          });
+        });
     });
   });
 

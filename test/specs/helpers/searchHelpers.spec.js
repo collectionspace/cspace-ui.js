@@ -47,6 +47,7 @@ import {
   getListType,
   getNextPageSearchDescriptor,
   getPreviousPageSearchDescriptor,
+  getFirstItem,
 } from '../../../src/helpers/searchHelpers';
 
 const expect = chai.expect;
@@ -916,6 +917,138 @@ describe('searchHelpers', function moduleSuite() {
       });
 
       expect(getPreviousPageSearchDescriptor(searchDescriptor)).to.equal(null);
+    });
+  });
+
+  describe('getFirstItem', function suite() {
+    it('should return the first item of a list result', function test() {
+      const config = {
+        listTypes: {
+          myListType: {
+            listNodeName: 'my-list',
+            itemNodeName: 'list-item',
+          },
+        },
+      };
+
+      const listData = Immutable.fromJS({
+        'my-list': {
+          'list-item': [
+            {
+              foo: 'abc',
+            },
+            {
+              foo: 'def',
+            },
+            {
+              foo: 'ghi',
+            },
+          ],
+        },
+      });
+
+      getFirstItem(config, listData, 'myListType').should.equal(Immutable.Map({
+        foo: 'abc',
+      }));
+    });
+
+    it('should return undefined if there are no items in the list result', function test() {
+      const config = {
+        listTypes: {
+          myListType: {
+            listNodeName: 'my-list',
+            itemNodeName: 'list-item',
+          },
+        },
+      };
+
+      const listData = Immutable.fromJS({
+        'my-list': {},
+      });
+
+      expect(getFirstItem(config, listData, 'myListType')).to.equal(undefined);
+    });
+
+    it('should return the item in a single (non-array) list result', function test() {
+      const config = {
+        listTypes: {
+          myListType: {
+            listNodeName: 'my-list',
+            itemNodeName: 'list-item',
+          },
+        },
+      };
+
+      const listData = Immutable.fromJS({
+        'my-list': {
+          'list-item': {
+            foo: 'abc',
+          },
+        },
+      });
+
+      getFirstItem(config, listData, 'myListType').should.equal(Immutable.Map({
+        foo: 'abc',
+      }));
+    });
+
+    it('should default to the \'common\' list type if no list type is supplied', function test() {
+      const config = {
+        listTypes: {
+          common: {
+            listNodeName: 'ns2:abstract-common-list',
+            itemNodeName: 'list-item',
+          },
+        },
+      };
+
+      const listData = Immutable.fromJS({
+        'ns2:abstract-common-list': {
+          'list-item': [
+            {
+              foo: 'abc',
+            },
+            {
+              foo: 'def',
+            },
+            {
+              foo: 'ghi',
+            },
+          ],
+        },
+      });
+
+      getFirstItem(config, listData).should.equal(Immutable.Map({
+        foo: 'abc',
+      }));
+    });
+
+    it('should return null if the specified list type is not found in the configuration', function test() {
+      const config = {
+        listTypes: {
+          common: {
+            listNodeName: 'ns2:abstract-common-list',
+            itemNodeName: 'list-item',
+          },
+        },
+      };
+
+      const listData = Immutable.Map();
+
+      expect(getFirstItem(config, listData, 'badListType')).to.equal(null);
+    });
+
+    it('should return null if no list data is supplied', function test() {
+      const config = {
+        listTypes: {
+          common: {
+            listNodeName: 'ns2:abstract-common-list',
+            itemNodeName: 'list-item',
+          },
+        },
+      };
+
+      expect(getFirstItem(config)).to.equal(null);
     });
   });
 });

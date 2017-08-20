@@ -4,12 +4,15 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
     Panel,
-    // Row,
+    Row,
   } = pluginContext.layoutComponents;
 
   const {
+    InputTable,
     Field,
+    Subrecord,
   } = pluginContext.recordComponents;
 
   return (
@@ -18,12 +21,80 @@ const template = (pluginContext) => {
         <Field name="personTermGroupList">
           <Field name="personTermGroup">
             <Panel>
-              <Field name="termDisplayName" />
-              <Field name="termSource" />
+              <Row>
+                <Field name="termDisplayName" />
+                <Field name="termName" />
+                <Field name="termQualifier" />
+                <Field name="termStatus" />
+              </Row>
+
+              <Row>
+                <Field name="termType" />
+                <Field name="termFlag" />
+                <Field name="termLanguage" />
+                <Field name="termPrefForLang" />
+              </Row>
+
+              <InputTable name="nameDetail">
+                <Field name="salutation" />
+                <Field name="title" />
+                <Field name="foreName" />
+                <Field name="middleName" />
+                <Field name="surName" />
+                <Field name="nameAdditions" />
+                <Field name="initials" />
+              </InputTable>
+
+              <InputTable name="termSource">
+                <Field name="termSource" />
+                <Field name="termSourceDetail" />
+                <Field name="termSourceID" />
+                <Field name="termSourceNote" />
+              </InputTable>
             </Panel>
           </Field>
         </Field>
+
+        <Row>
+          <Col>
+            <Field name="gender" />
+
+            <Field name="occupations">
+              <Field name="occupation" />
+            </Field>
+
+            <Field name="schoolsOrStyles">
+              <Field name="schoolOrStyle" />
+            </Field>
+
+            <Field name="groups">
+              <Field name="group" />
+            </Field>
+
+            <Field name="nationalities">
+              <Field name="nationality" />
+            </Field>
+          </Col>
+          <Col>
+            <Field name="nameNote" />
+
+            <Row>
+              <Field name="birthDateGroup" />
+              <Field name="birthPlace" />
+            </Row>
+
+            <Row>
+              <Field name="deathDateGroup" />
+              <Field name="deathPlace" />
+            </Row>
+
+            <Field name="bioNote" />
+          </Col>
+        </Row>
       </Panel>
+
+      <Subrecord name="contact" template="default" />
+
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>

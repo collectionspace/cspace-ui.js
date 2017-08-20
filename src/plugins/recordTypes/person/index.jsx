@@ -3,10 +3,12 @@ import columns from './columns';
 import fields from './fields';
 import forms from './forms';
 import messages from './messages';
+import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
 export default () => pluginContext => ({
+  optionLists,
   recordTypes: {
     person: {
       columns,
@@ -15,6 +17,13 @@ export default () => pluginContext => ({
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),
+      subrecords: {
+        contact: {
+          recordType: 'contact',
+          subresource: 'contacts',
+          saveAfterContainer: true,
+        },
+      },
       vocabularies: {
         all: {
           isCreatable: false,

@@ -2,38 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router';
 import Immutable from 'immutable';
-import warning from 'warning';
 import RecordButtonBar from './RecordButtonBar';
 import RecordFormSelector from './RecordFormSelector';
 import RecordHistory from './RecordHistory';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
-import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
+import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
-
-function renderTemplate(component, messages, handlers) {
-  const overrideProps = {};
-  const type = component.type;
-
-  if (type) {
-    const propTypes = type.propTypes;
-
-    if (propTypes) {
-      Object.keys(handlers).forEach((handlerName) => {
-        if (propTypes[handlerName] && !component.props[handlerName]) {
-          overrideProps[handlerName] = handlers[handlerName];
-        }
-      });
-    }
-  }
-
-  return React.cloneElement(
-    component,
-    overrideProps,
-    React.Children.map(
-      component.props.children,
-      child => renderTemplate(child, messages, handlers)));
-}
 
 const propTypes = {
   config: PropTypes.object,
@@ -49,10 +24,6 @@ const propTypes = {
   openModalName: PropTypes.string,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
-  onAddInstance: PropTypes.func,
-  onCommit: PropTypes.func,
-  onMoveInstance: PropTypes.func,
-  onRemoveInstance: PropTypes.func,
   onRecordCreated: PropTypes.func,
   onSaveCancelled: PropTypes.func,
   closeModal: PropTypes.func,
@@ -70,13 +41,6 @@ const propTypes = {
 const defaultProps = {
   data: Immutable.Map(),
   formName: 'default',
-};
-
-const childContextTypes = {
-  config: PropTypes.object,
-  recordType: PropTypes.string,
-  vocabulary: PropTypes.string,
-  csid: PropTypes.string,
 };
 
 export default class RecordEditor extends Component {
@@ -98,22 +62,6 @@ export default class RecordEditor extends Component {
     this.handleCloneButtonClick = this.handleCloneButtonClick.bind(this);
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.handleRecordFormSelectorCommit = this.handleRecordFormSelectorCommit.bind(this);
-  }
-
-  getChildContext() {
-    const {
-      config,
-      csid,
-      recordType,
-      vocabulary,
-    } = this.props;
-
-    return {
-      config,
-      csid,
-      recordType,
-      vocabulary,
-    };
   }
 
   componentDidMount() {
@@ -368,10 +316,6 @@ export default class RecordEditor extends Component {
       isSavePending,
       recordType,
       validationErrors,
-      onAddInstance,
-      onCommit,
-      onMoveInstance,
-      onRemoveInstance,
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -380,35 +324,8 @@ export default class RecordEditor extends Component {
       return null;
     }
 
-    const {
-      forms,
-      messages,
-    } = recordTypeConfig;
-
-    const handlers = {
-      onAddInstance,
-      onCommit,
-      onMoveInstance,
-      onRemoveInstance,
-    };
-
-    const formTemplate = forms[formName].template;
-
-    warning(formTemplate, `No form template found for form name ${formName} in record type ${recordType}. Check the record type plugin configuration.`);
-
-    const formContent = React.cloneElement(formTemplate, {
-      name: DOCUMENT_PROPERTY_NAME,
-      value: data.get(DOCUMENT_PROPERTY_NAME),
-      children: React.Children.map(
-        formTemplate.props.children,
-        child => renderTemplate(child, messages, handlers)),
-    });
-
     return (
-      <form
-        autoComplete="off"
-        className={styles.common}
-      >
+      <form className={styles.common} autoComplete="off">
         <header>
           <RecordButtonBar
             csid={csid}
@@ -433,7 +350,13 @@ export default class RecordEditor extends Component {
             isSavePending={isSavePending}
           />
         </header>
-        {formContent}
+        <RecordFormContainer
+          config={config}
+          csid={csid}
+          data={data}
+          formName={formName}
+          recordType={recordType}
+        />
         <footer>
           <RecordButtonBar
             csid={csid}
@@ -460,5 +383,4 @@ export default class RecordEditor extends Component {
 
 RecordEditor.propTypes = propTypes;
 RecordEditor.defaultProps = defaultProps;
-RecordEditor.childContextTypes = childContextTypes;
 

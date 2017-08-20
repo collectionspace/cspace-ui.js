@@ -12,6 +12,7 @@ import reducer, {
   getRecordRelationUpdatedTimestamp,
   getRecordData,
   getRecordError,
+  getRecordSubrecordCsid,
   getRecordValidationErrors,
   getNewRecordData,
   isRecordModified,
@@ -199,6 +200,24 @@ describe('reducer', function suite() {
           },
         }),
       }, csid).should.equal(error);
+    });
+  });
+
+  describe('getRecordSubrecordCsid selector', function selectorSuite() {
+    it('should select from the record key', function test() {
+      const csid = '1234';
+      const subrecordName = 'contact';
+      const subrecordCsid = '5678';
+
+      getRecordSubrecordCsid({
+        record: Immutable.fromJS({
+          [csid]: {
+            subrecord: {
+              [subrecordName]: subrecordCsid,
+            },
+          },
+        }),
+      }, csid, subrecordName).should.equal(subrecordCsid);
     });
   });
 

@@ -253,11 +253,13 @@ describe('RecordPage', function suite() {
     };
 
     it('should call readRecord when mounted if a csid is provided', function test() {
+      let readConfig = null;
       let readRecordTypeConfig = null;
       let readVocabularyConfig = null;
       let readCsid = null;
 
-      const readRecord = (recordTypeConfigArg, vocabularyConfigArg, csidArg) => {
+      const readRecord = (configArg, recordTypeConfigArg, vocabularyConfigArg, csidArg) => {
+        readConfig = configArg;
         readRecordTypeConfig = recordTypeConfigArg;
         readVocabularyConfig = vocabularyConfigArg;
         readCsid = csidArg;
@@ -279,6 +281,7 @@ describe('RecordPage', function suite() {
           </StoreProvider>
         </IntlProvider>, this.container);
 
+      readConfig.should.equal(config);
       readRecordTypeConfig.should.equal(config.recordTypes[objectRecordType]);
       expect(readVocabularyConfig).to.equal(undefined);
       readCsid.should.equal(csid);
@@ -317,11 +320,13 @@ describe('RecordPage', function suite() {
     });
 
     it('should call readRecord when new params are passed via props', function test() {
+      let readConfig = null;
       let readRecordTypeConfig = null;
       let readVocabularyConfig = null;
       let readCsid = null;
 
-      const readRecord = (recordTypeConfigArg, vocabularyConfigArg, csidArg) => {
+      const readRecord = (configArg, recordTypeConfigArg, vocabularyConfigArg, csidArg) => {
+        readConfig = configArg;
         readRecordTypeConfig = recordTypeConfigArg;
         readVocabularyConfig = vocabularyConfigArg;
         readCsid = csidArg;
@@ -371,6 +376,7 @@ describe('RecordPage', function suite() {
           </StoreProvider>
         </IntlProvider>, this.container);
 
+      readConfig.should.equal(config);
       readRecordTypeConfig.should.equal(config.recordTypes[objectRecordType]);
       expect(readVocabularyConfig).to.equal(undefined);
       readCsid.should.equal(newCsid);
@@ -521,11 +527,13 @@ describe('RecordPage', function suite() {
     };
 
     it('should call readRecord when mounted if a csid is provided', function test() {
+      let readConfig = null;
       let readRecordTypeConfig = null;
       let readVocabularyConfig = null;
       let readCsid = null;
 
-      const readRecord = (recordTypeConfigArg, vocabularyConfigArg, csidArg) => {
+      const readRecord = (configArg, recordTypeConfigArg, vocabularyConfigArg, csidArg) => {
+        readConfig = configArg;
         readRecordTypeConfig = recordTypeConfigArg;
         readVocabularyConfig = vocabularyConfigArg;
         readCsid = csidArg;
@@ -547,6 +555,7 @@ describe('RecordPage', function suite() {
           </StoreProvider>
         </IntlProvider>, this.container);
 
+      readConfig.should.equal(config);
       readRecordTypeConfig.should.equal(config.recordTypes[authorityRecordType]);
 
       readVocabularyConfig.should

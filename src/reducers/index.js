@@ -58,6 +58,9 @@ export const getRecordData = (state, csid) => fromRecord.getData(state.record, c
 
 export const getRecordError = (state, csid) => fromRecord.getError(state.record, csid);
 
+export const getRecordSubrecordCsid = (state, csid, subrecordName) =>
+  fromRecord.getSubrecordCsid(state.record, csid, subrecordName);
+
 export const getRecordValidationErrors = (state, csid) =>
   fromRecord.getValidationErrors(state.record, csid);
 

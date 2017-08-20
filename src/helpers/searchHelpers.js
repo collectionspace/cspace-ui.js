@@ -383,3 +383,28 @@ export const getPreviousPageSearchDescriptor = (searchDescriptor) => {
 
   return searchDescriptor.setIn(['searchQuery', 'p'], p - 1);
 };
+
+/**
+ * Returns the first item in list result data.
+ */
+export const getFirstItem = (config, listData, listType = 'common') => {
+  if (!listData) {
+    return null;
+  }
+
+  const listTypeConfig = get(config, ['listTypes', listType]);
+
+  if (!listTypeConfig) {
+    return null;
+  }
+
+  const {
+    listNodeName,
+    itemNodeName,
+  } = listTypeConfig;
+
+  const items = listData.getIn([listNodeName, itemNodeName]);
+  const item = Immutable.List.isList(items) ? items.first() : items;
+
+  return item;
+};
