@@ -6,6 +6,7 @@
   box-sizing: border-box;
   background: inherit;
   padding: 10px 0;
+  min-height: 75px;
 }
 
 .common > div > nav {

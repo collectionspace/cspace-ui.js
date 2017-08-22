@@ -1,0 +1,57 @@
+.common {
+  flex: 1;
+  margin: 0;
+  padding: 0 10px 0 0;
+  background: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.common > header {
+  min-height: 60px;
+} 
+
+.common > header > div {
+  display: flex;
+  margin-top: 10px;
+  align-items: baseline;
+}
+
+.docked {
+  position: fixed;
+  width: 68%;
+  left: 0;
+  top: 70;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  z-index: 99;
+  background-color: #fff;
+  padding: 8px;
+}
+
+.docked > :global(.cspace-ui-RecordHistory--common) {
+  padding-right: 14px;
+}
+
+@media (min-width: 1100px) {
+  .docked {
+    width: 68.25%;
+  }
+}
+
+@media (min-width: 1300px) {
+  .docked {
+    width: 68.5%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .docked {
+    width: 68.75%;
+  }
+}
+
+@media (min-width: 1900px) {
+  .docked {
+    width: 69%;
+  }
+} 
