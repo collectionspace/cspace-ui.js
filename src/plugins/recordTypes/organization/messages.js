@@ -18,10 +18,6 @@ export default {
       id: 'panel.organization.info',
       defaultMessage: 'Organization Information',
     },
-    contactInfo: {
-      id: 'panel.organization.contactInfo',
-      defaultMessage: 'Contact Information',
-    },
     hierarchy: {
       id: 'panel.organization.hierarchy',
       defaultMessage: 'Hierarchy',

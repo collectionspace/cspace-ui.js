@@ -13,6 +13,7 @@ const template = (pluginContext) => {
   const {
     Field,
     InputTable,
+    Subrecord,
   } = pluginContext.recordComponents;
 
   return (
@@ -92,71 +93,7 @@ const template = (pluginContext) => {
 
       </Panel>
 
-      <Panel name="contactInfo">
-
-        <Row>
-          <Field name="emailGroupList">
-            <Field name="emailGroup">
-              <Field name="emailType" />
-              <Field name="email" />
-            </Field>
-          </Field>
-          <Field name="faxNumberGroupList">
-            <Field name="faxNumberGroup">
-              <Field name="faxNumberType" />
-              <Field name="faxNumber" />
-            </Field>
-          </Field>
-        </Row>
-
-        <Row>
-          <Field name="telephoneNumberGroupList">
-            <Field name="telephoneNumberGroup">
-              <Field name="telephoneNumberType" />
-              <Field name="telephoneNumber" />
-            </Field>
-          </Field>
-          <Field name="webAddressGroupList">
-            <Field name="webAddressGroup">
-              <Field name="webAddressType" />
-              <Field name="webAddress" />
-            </Field>
-          </Field>
-        </Row>
-
-        <Field name="addrGroupList">
-          <Field name="addrGroup">
-
-            <Panel>
-
-              <Row>
-                <Field name="addressType" />
-                <Field name="addressMunicipality" />
-              </Row>
-
-              <Row>
-                <Field name="addressPlace1" />
-                <Field name="addressStateOrProvince" />
-              </Row>
-
-              <Row>
-                <Field name="addressPlace2" />
-                <Field name="addressPostCode" />
-              </Row>
-
-              <Cols>
-                <Col />
-                <Col>
-                  <Field name="addressCountry" />
-                </Col>
-              </Cols>
-
-            </Panel>
-
-          </Field>
-        </Field>
-
-      </Panel>
+      <Subrecord name="contact" template="default" />
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />

@@ -19,6 +19,13 @@ export default () => pluginContext => ({
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),
+      subrecords: {
+        contact: {
+          recordType: 'contact',
+          subresource: 'contacts',
+          saveAfterContainer: true,
+        },
+      },
       vocabularies: {
         all: {
           isCreatable: false,
