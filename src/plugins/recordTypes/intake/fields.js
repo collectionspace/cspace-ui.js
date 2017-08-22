@@ -124,7 +124,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'entryReason',
+                source: 'entryReasons',
               },
             },
           },

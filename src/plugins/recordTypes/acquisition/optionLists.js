@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  acquisitionMethod: {
+  acquisitionMethods: {
     values: [
       'gift',
       'purchase',
@@ -16,23 +16,23 @@ export default {
     ],
     messages: defineMessages({
       gift: {
-        id: 'option.acquisitionMethod.gift',
+        id: 'option.acquisitionMethods.gift',
         defaultMessage: 'gift',
       },
       purchase: {
-        id: 'option.acquisitionMethod.purchase',
+        id: 'option.acquisitionMethods.purchase',
         defaultMessage: 'purchase',
       },
       exchange: {
-        id: 'option.acquisitionMethod.exchange',
+        id: 'option.acquisitionMethods.exchange',
         defaultMessage: 'exchange',
       },
       transfer: {
-        id: 'option.acquisitionMethod.transfer',
+        id: 'option.acquisitionMethods.transfer',
         defaultMessage: 'transfer',
       },
       treasure: {
-        id: 'option.acquisitionMethod.treasure',
+        id: 'option.acquisitionMethods.treasure',
         defaultMessage: 'treasure',
       },
     }),

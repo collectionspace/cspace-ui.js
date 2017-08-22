@@ -6,32 +6,28 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  termType: {
+  taxonTermTypes: {
     values: [
       'descriptor',
-      'alternate-descriptor',
-      'native',
-      'non-native',
-      'local',
-      'descriptive',
-      'spelling-variant',
+      'alternate descriptor',
+      'used for term',
     ],
     messages: defineMessages({
       descriptor: {
-        id: 'option.termType.descriptor',
-        defaultMessage: 'Descriptor',
+        id: 'option.taxonTermTypes.descriptor',
+        defaultMessage: 'descriptor',
       },
       'alternate-descriptor': {
-        id: 'option.termType.alternate-descriptor',
-        defaultMessage: 'Alternate Descriptor',
+        id: 'option.taxonTermTypes.alternate descriptor',
+        defaultMessage: 'alternate descriptor',
       },
-      'used-for-term': {
-        id: 'option.termType.used-for-term',
-        defaultMessage: 'Used for Term',
+      native: {
+        id: 'option.taxonTermTypes.used for term',
+        defaultMessage: 'used for term',
       },
     }),
   },
-  termStatus: {
+  taxonTermStatuses: {
     values: [
       'provisional',
       'under-review',
@@ -40,24 +36,24 @@ export default {
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.termStatus.provisional',
-        defaultMessage: 'Provisional',
+        id: 'option.taxonTermStatuses.provisional',
+        defaultMessage: 'provisional',
       },
       'under-review': {
-        id: 'option.termStatus.under-review',
-        defaultMessage: 'Under Review',
+        id: 'option.taxonTermStatuses.under-review',
+        defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.termStatus.accepted',
-        defaultMessage: 'Accepted',
+        id: 'option.taxonTermStatuses.accepted',
+        defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.termStatus.rejected',
-        defaultMessage: 'Rejected',
+        id: 'option.taxonTermStatuses.rejected',
+        defaultMessage: 'rejected',
       },
     }),
   },
-  taxonomicStatus: {
+  taxonomicStatuses: {
     values: [
       'valid',
       'invalid',
@@ -66,24 +62,24 @@ export default {
     ],
     messages: defineMessages({
       valid: {
-        id: 'option.taxonomicStatus.valid',
-        defaultMessage: 'Valid',
+        id: 'option.taxonomicStatuses.valid',
+        defaultMessage: 'valid',
       },
       invalid: {
-        id: 'option.taxonomicStatus.invalid',
-        defaultMessage: 'Invalid',
+        id: 'option.taxonomicStatuses.invalid',
+        defaultMessage: 'invalid',
       },
       accepted: {
-        id: 'option.taxonomicStatus.accepted',
-        defaultMessage: 'Accepted',
+        id: 'option.taxonomicStatuses.accepted',
+        defaultMessage: 'accepted',
       },
       'misapplied-name': {
-        id: 'option.taxonomicStatus.misapplied-name',
-        defaultMessage: 'Misapplied Name',
+        id: 'option.taxonomicStatuses.misapplied-name',
+        defaultMessage: 'misapplied name',
       },
     }),
   },
-  taxonRank: {
+  taxonRanks: {
     values: [
       'domain',
       'kingdom',
@@ -97,44 +93,44 @@ export default {
     ],
     messages: defineMessages({
       domain: {
-        id: 'option.taxonRank.domain',
+        id: 'option.taxonRanks.domain',
         defaultMessage: 'Domain',
       },
       kingdom: {
-        id: 'option.taxonRank.kingdom',
+        id: 'option.taxonRanks.kingdom',
         defaultMessage: 'Kingdom',
       },
       phylum: {
-        id: 'option.taxonRank.phylum',
+        id: 'option.taxonRanks.phylum',
         defaultMessage: 'Phylum',
       },
       division: {
-        id: 'option.taxonRank.division',
+        id: 'option.taxonRanks.division',
         defaultMessage: 'Division',
       },
       family: {
-        id: 'option.taxonRank.family',
+        id: 'option.taxonRanks.family',
         defaultMessage: 'Family',
       },
       clazz: {
-        id: 'option.taxonRank.clazz',
+        id: 'option.taxonRanks.clazz',
         defaultMessage: 'Class',
       },
       order: {
-        id: 'option.taxonRank.order',
+        id: 'option.taxonRanks.order',
         defaultMessage: 'order',
       },
       genus: {
-        id: 'option.taxonRank.genus',
+        id: 'option.taxonRanks.genus',
         defaultMessage: 'Genus',
       },
       species: {
-        id: 'option.taxonRank.species',
+        id: 'option.taxonRanks.species',
         defaultMessage: 'Species',
       },
     }),
   },
-  taxonCurrency: {
+  taxonCurrencies: {
     values: [
       'current',
       'obsolete',
@@ -142,31 +138,31 @@ export default {
     ],
     messages: defineMessages({
       current: {
-        id: 'option.taxonCurrency.current',
+        id: 'option.taxonCurrencies.current',
         defaultMessage: 'Current',
       },
       obsolete: {
-        id: 'option.taxonCurrency.obsolete',
+        id: 'option.taxonCurrencies.obsolete',
         defaultMessage: 'Obsolete',
       },
       archaic: {
-        id: 'option.taxonCurrency.archaic',
+        id: 'option.taxonCurrencies.archaic',
         defaultMessage: 'Archaic',
       },
     }),
   },
-  taxonAuthorType: {
+  taxonAuthorTypes: {
     values: [
       'ascribed',
       'parenthetical',
     ],
     messages: defineMessages({
       ascribed: {
-        id: 'option.taxonAuthorType.ascribed',
+        id: 'option.taxonAuthorTypes.ascribed',
         defaultMessage: 'Ascribed',
       },
       parenthetical: {
-        id: 'option.taxonAuthorType.parenthetical',
+        id: 'option.taxonAuthorTypes.parenthetical',
         defaultMessage: 'Parenthetical',
       },
     }),

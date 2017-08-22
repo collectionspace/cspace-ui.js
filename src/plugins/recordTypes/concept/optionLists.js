@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  conceptTermStatus: {
+  conceptTermStatuses: {
     values: [
       'provisional',
       'under-review',
@@ -15,24 +15,24 @@ export default {
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.conceptTermStatus.provisional',
+        id: 'option.conceptTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
       'under-review': {
-        id: 'option.conceptTermStatus.under-review',
+        id: 'option.conceptTermStatuses.under-review',
         defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.conceptTermStatus.accepted',
+        id: 'option.conceptTermStatuses.accepted',
         defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.conceptTermStatus.rejected',
+        id: 'option.conceptTermStatuses.rejected',
         defaultMessage: 'rejected',
       },
     }),
   },
-  conceptTermType: {
+  conceptTermTypes: {
     values: [
       'descriptor',
       'alternate-descriptor',
@@ -40,20 +40,20 @@ export default {
     ],
     messages: defineMessages({
       descriptor: {
-        id: 'option.conceptTermType.descriptor',
+        id: 'option.conceptTermTypes.descriptor',
         defaultMessage: 'descriptor',
       },
       'alternate-descriptor': {
-        id: 'option.conceptTermType.alternate-descriptor',
+        id: 'option.conceptTermTypes.alternate-descriptor',
         defaultMessage: 'alternate descriptor',
       },
       'used-for-term': {
-        id: 'option.conceptTermType.used-for-term',
+        id: 'option.conceptTermTypes.used-for-term',
         defaultMessage: 'used for term',
       },
     }),
   },
-  conceptHistoricalStatus: {
+  conceptHistoricalStatuses: {
     values: [
       'current',
       'historical',
@@ -62,19 +62,19 @@ export default {
     ],
     messages: defineMessages({
       current: {
-        id: 'option.conceptHistoricalStatus.current',
+        id: 'option.conceptHistoricalStatuses.current',
         defaultMessage: 'current',
       },
       historical: {
-        id: 'option.conceptHistoricalStatus.historical',
+        id: 'option.conceptHistoricalStatuses.historical',
         defaultMessage: 'historical',
       },
       both: {
-        id: 'option.conceptHistoricalStatus.both',
+        id: 'option.conceptHistoricalStatuses.both',
         defaultMessage: 'both',
       },
       unknown: {
-        id: 'option.conceptHistoricalStatus.unknown',
+        id: 'option.conceptHistoricalStatuses.unknown',
         defaultMessage: 'unknown',
       },
     }),

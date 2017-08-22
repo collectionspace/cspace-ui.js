@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  termType: {
+  locationTermTypes: {
     values: [
       'descriptor',
       'alternate-descriptor',
@@ -14,20 +14,20 @@ export default {
     ],
     messages: defineMessages({
       descriptor: {
-        id: 'option.termType.descriptor',
+        id: 'option.locationTermTypes.descriptor',
         defaultMessage: 'descriptor',
       },
       'alternate-descriptor': {
-        id: 'option.termType.alternate-descriptor',
+        id: 'option.locationTermTypes.alternate-descriptor',
         defaultMessage: 'alternate descriptor',
       },
       'used-for-term': {
-        id: 'option.termType.used-for-term',
+        id: 'option.locationTermTypes.used-for-term',
         defaultMessage: 'used for term',
       },
     }),
   },
-  termStatus: {
+  locationTermStatuses: {
     values: [
       'provisional',
       'under-review',
@@ -36,19 +36,19 @@ export default {
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.termStatus.provisional',
+        id: 'option.locationTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
       'under-review': {
-        id: 'option.termStatus.under-review',
+        id: 'option.locationTermStatuses.under-review',
         defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.termStatus.accepted',
+        id: 'option.locationTermStatuses.accepted',
         defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.termStatus.rejected',
+        id: 'option.locationTermStatuses.rejected',
         defaultMessage: 'rejected',
       },
     }),

@@ -171,7 +171,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termType',
+                    source: 'taxonTermTypes',
                   },
                 },
               },
@@ -203,7 +203,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termStatus',
+                    source: 'taxonTermStatuses',
                   },
                 },
               },
@@ -329,7 +329,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'taxonomicStatus',
+                    source: 'taxonomicStatuses',
                   },
                 },
               },
@@ -347,7 +347,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'taxonRank',
+                source: 'taxonRanks',
               },
             },
           },
@@ -363,7 +363,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'taxonCurrency',
+                source: 'taxonCurrencies',
               },
             },
           },
@@ -417,7 +417,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'taxonAuthorType',
+                    source: 'taxonAuthorTypes',
                   },
                 },
               },

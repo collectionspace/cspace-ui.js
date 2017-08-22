@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  valueType: {
+  valueTypes: {
     values: [
       'current-value',
       'original-value',
@@ -14,15 +14,15 @@ export default {
     ],
     messages: defineMessages({
       'current-value': {
-        id: 'option.valueType.current-value',
+        id: 'option.valueTypes.current-value',
         defaultMessage: 'current value',
       },
       'original-value': {
-        id: 'option.valueType.original-value',
+        id: 'option.valueTypes.original-value',
         defaultMessage: 'original value',
       },
       'replacement-value': {
-        id: 'option.valueType.replacement-value',
+        id: 'option.valueTypes.replacement-value',
         defaultMessage: 'replacement value',
       },
     }),

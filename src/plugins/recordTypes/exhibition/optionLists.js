@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  exhibitionObjectConsTreatment: {
+  exhibitionConsTreatmentStatuses: {
     values: [
       'needed',
       'not-needed',
@@ -14,20 +14,20 @@ export default {
     ],
     messages: defineMessages({
       needed: {
-        id: 'option.exhibitionObjectConsTreatment.needed',
+        id: 'option.exhibitionConsTreatmentStatuses.needed',
         defaultMessage: 'needed',
       },
       'not-needed': {
-        id: 'option.exhibitionObjectConsTreatment.not-needed',
+        id: 'option.exhibitionConsTreatmentStatuses.not-needed',
         defaultMessage: 'not needed',
       },
       done: {
-        id: 'option.exhibitionObjectConsTreatment.done',
+        id: 'option.exhibitionConsTreatmentStatuses.done',
         defaultMessage: 'done',
       },
     }),
   },
-  exhibitionObjectMount: {
+  exhibitionMountStatuses: {
     values: [
       'needed',
       'not-needed',
@@ -35,15 +35,15 @@ export default {
     ],
     messages: defineMessages({
       needed: {
-        id: 'option.exhibitionObjectMount.needed',
+        id: 'option.exhibitionMountStatuses.needed',
         defaultMessage: 'needed',
       },
       'not-needed': {
-        id: 'option.exhibitionObjectMount.not-needed',
+        id: 'option.exhibitionMountStatuses.not-needed',
         defaultMessage: 'not needed',
       },
       done: {
-        id: 'option.exhibitionObjectMount.done',
+        id: 'option.exhibitionMountStatuses.done',
         defaultMessage: 'done',
       },
     }),

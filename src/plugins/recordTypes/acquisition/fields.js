@@ -176,7 +176,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'acquisitionMethod',
+                source: 'acquisitionMethods',
               },
             },
           },

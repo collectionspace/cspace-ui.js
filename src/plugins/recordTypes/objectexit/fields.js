@@ -172,7 +172,7 @@ export default (pluginContext) => {
               view: {
                 type: OptionPickerInput,
                 props: {
-                  source: 'exitMethod',
+                  source: 'exitMethods',
                 },
               },
             },
@@ -205,7 +205,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'exitReason',
+                source: 'exitReasons',
               },
             },
           },

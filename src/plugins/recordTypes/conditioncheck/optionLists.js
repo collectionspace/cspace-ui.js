@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  objectAuditCategory: {
+  objectAuditCategories: {
     values: [
       'low',
       'medium',
@@ -14,20 +14,20 @@ export default {
     ],
     messages: defineMessages({
       low: {
-        id: 'option.objectAuditCategory.low',
+        id: 'option.objectAuditCategories.low',
         defaultMessage: 'low',
       },
       medium: {
-        id: 'option.objectAuditCategory.medium',
+        id: 'option.objectAuditCategories.medium',
         defaultMessage: 'medium',
       },
       high: {
-        id: 'option.objectAuditCategory.high',
+        id: 'option.objectAuditCategories.high',
         defaultMessage: 'high',
       },
     }),
   },
-  completeness: {
+  completenessLevels: {
     values: [
       'complete',
       'fragmented',
@@ -35,20 +35,20 @@ export default {
     ],
     messages: defineMessages({
       complete: {
-        id: 'option.completeness.complete',
+        id: 'option.completenessLevels.complete',
         defaultMessage: 'complete',
       },
       fragmented: {
-        id: 'option.completeness.fragmented',
+        id: 'option.completenessLevels.fragmented',
         defaultMessage: 'fragmented',
       },
       incomplete: {
-        id: 'option.completeness.incomplete',
+        id: 'option.completenessLevels.incomplete',
         defaultMessage: 'incomplete',
       },
     }),
   },
-  condition: {
+  conditions: {
     values: [
       'needs-no-work',
       'exhibitable-needs-work',
@@ -57,24 +57,24 @@ export default {
     ],
     messages: defineMessages({
       'needs-no-work': {
-        id: 'option.condition.needs-no-work',
+        id: 'option.conditions.needs-no-work',
         defaultMessage: 'needs no work',
       },
       'exhibitable-needs-work': {
-        id: 'option.condition.exhibitable-needs-work',
+        id: 'option.conditions.exhibitable-needs-work',
         defaultMessage: 'exhibitable / needs work',
       },
       'not-exhibitable-stable': {
-        id: 'option.condition.not-exhibitable-stable',
+        id: 'option.conditions.not-exhibitable-stable',
         defaultMessage: 'not exhibitable / stable',
       },
       'in-jeopardy': {
-        id: 'option.condition.in-jeopardy',
+        id: 'option.conditions.in-jeopardy',
         defaultMessage: 'in jeopardy',
       },
     }),
   },
-  conservationTreatmentPriority: {
+  conservationTreatmentPriorities: {
     values: [
       'low',
       'medium',
@@ -82,52 +82,52 @@ export default {
     ],
     messages: defineMessages({
       low: {
-        id: 'option.conservationTreatmentPriority.low',
+        id: 'option.conservationTreatmentPriorities.low',
         defaultMessage: 'low',
       },
       medium: {
-        id: 'option.conservationTreatmentPriority.medium',
+        id: 'option.conservationTreatmentPriorities.medium',
         defaultMessage: 'medium',
       },
       high: {
-        id: 'option.conservationTreatmentPriority.high',
+        id: 'option.conservationTreatmentPriorities.high',
         defaultMessage: 'high',
       },
     }),
   },
-  hazard: {
+  hazards: {
     values: [
       'poisonous',
       'radioactive',
     ],
     messages: defineMessages({
       poisonous: {
-        id: 'option.hazard.poisonous',
+        id: 'option.hazards.poisonous',
         defaultMessage: 'poisonous',
       },
       radioactive: {
-        id: 'option.hazard.radioactive',
+        id: 'option.hazards.radioactive',
         defaultMessage: 'radioactive',
       },
     }),
   },
-  conditionCheckMethod: {
+  conditionCheckMethods: {
     values: [
       'observed',
       'x-rayed',
     ],
     messages: defineMessages({
       observed: {
-        id: 'option.conditionCheckMethod.observed',
+        id: 'option.conditionCheckMethods.observed',
         defaultMessage: 'observed',
       },
       'x-rayed': {
-        id: 'option.conditionCheckMethod.x-rayed',
+        id: 'option.conditionCheckMethods.x-rayed',
         defaultMessage: 'x-rayed',
       },
     }),
   },
-  conditionCheckReason: {
+  conditionCheckReasons: {
     values: [
       'conservation',
       'damaged-in-transit',
@@ -136,24 +136,24 @@ export default {
     ],
     messages: defineMessages({
       conservation: {
-        id: 'option.conditionCheckReason.conservation',
+        id: 'option.conditionCheckReasons.conservation',
         defaultMessage: 'conservation',
       },
       'damaged-in-transit': {
-        id: 'option.conditionCheckReason.damaged-in-transit',
+        id: 'option.conditionCheckReasons.damaged-in-transit',
         defaultMessage: 'damaged in transit',
       },
       'loan-in': {
-        id: 'option.conditionCheckReason.loan-in',
+        id: 'option.conditionCheckReasons.loan-in',
         defaultMessage: 'loan in',
       },
       'new-acquisition': {
-        id: 'option.conditionCheckReason.new-acquisition',
+        id: 'option.conditionCheckReasons.new-acquisition',
         defaultMessage: 'new acquisition',
       },
     }),
   },
-  salvagePriorityCode: {
+  salvagePriorityCodes: {
     values: [
       'low',
       'medium',
@@ -161,18 +161,17 @@ export default {
     ],
     messages: defineMessages({
       low: {
-        id: 'option.salvagePriorityCode.low',
+        id: 'option.salvagePriorityCodes.low',
         defaultMessage: 'low',
       },
       medium: {
-        id: 'option.salvagePriorityCode.medium',
+        id: 'option.salvagePriorityCodes.medium',
         defaultMessage: 'medium',
       },
       high: {
-        id: 'option.salvagePriorityCode.high',
+        id: 'option.salvagePriorityCodes.high',
         defaultMessage: 'high',
       },
     }),
   },
-
 };

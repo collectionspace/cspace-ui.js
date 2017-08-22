@@ -807,7 +807,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'exhibitionObjectConsTreatment',
+                    source: 'exhibitionConsTreatmentStatuses',
                   },
                 },
               },
@@ -823,7 +823,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'exhibitionObjectMount',
+                    source: 'exhibitionMountStatuses',
                   },
                 },
               },

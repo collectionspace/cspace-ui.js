@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  exitReason: {
+  exitReasons: {
     values: [
       'deaccession',
       'disposal',
@@ -14,20 +14,20 @@ export default {
     ],
     messages: defineMessages({
       deaccession: {
-        id: 'option.exitReason.deaccession',
+        id: 'option.exitReasons.deaccession',
         defaultMessage: 'deaccession',
       },
       disposal: {
-        id: 'option.exitReason.disposal',
+        id: 'option.exitReasons.disposal',
         defaultMessage: 'disposal',
       },
       'return-of-loan': {
-        id: 'option.exitReason.return-of-loan',
+        id: 'option.exitReasons.return-of-loan',
         defaultMessage: 'return of loan',
       },
     }),
   },
-  exitMethod: {
+  exitMethods: {
     values: [
       'courier',
       'in-person',
@@ -35,15 +35,15 @@ export default {
     ],
     messages: defineMessages({
       courier: {
-        id: 'option.exitMethod.courier',
+        id: 'option.exitMethods.courier',
         defaultMessage: 'courier',
       },
       'in-person': {
-        id: 'option.exitMethod.in-person',
+        id: 'option.exitMethods.in-person',
         defaultMessage: 'in person',
       },
       post: {
-        id: 'option.exitMethod.post',
+        id: 'option.exitMethods.post',
         defaultMessage: 'post',
       },
     }),

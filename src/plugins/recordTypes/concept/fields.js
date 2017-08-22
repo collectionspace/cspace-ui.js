@@ -168,7 +168,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'conceptTermType',
+                    source: 'conceptTermTypes',
                   },
                 },
               },
@@ -200,7 +200,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'conceptHistoricalStatus',
+                    source: 'conceptHistoricalStatuses',
                   },
                 },
               },
@@ -216,7 +216,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'conceptTermStatus',
+                    source: 'conceptTermStatuses',
                   },
                 },
               },

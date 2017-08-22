@@ -156,7 +156,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'personTermStatus',
+                    source: 'personTermStatuses',
                   },
                 },
               },
@@ -233,7 +233,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'salutation',
+                    source: 'salutations',
                   },
                 },
               },
@@ -249,7 +249,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'personTitle',
+                    source: 'personTitles',
                   },
                 },
               },
@@ -387,7 +387,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'gender',
+                source: 'genders',
               },
             },
           },

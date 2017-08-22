@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  orgTermType: {
+  orgTermTypes: {
     values: [
       'descriptor',
       'alternate-descriptor',
@@ -14,20 +14,20 @@ export default {
     ],
     messages: defineMessages({
       descriptor: {
-        id: 'option.orgTermType.descriptor',
+        id: 'option.orgTermTypes.descriptor',
         defaultMessage: 'descriptor',
       },
       'alternate-descriptor': {
-        id: 'option.orgTermType.alternate-descriptor',
+        id: 'option.orgTermTypes.alternate-descriptor',
         defaultMessage: 'alternate descriptor',
       },
       'used-for-term': {
-        id: 'option.orgTermType.used-for-term',
+        id: 'option.orgTermTypes.used-for-term',
         defaultMessage: 'used for term',
       },
     }),
   },
-  orgTermStatus: {
+  orgTermStatuses: {
     values: [
       'provisional',
       'under-review',
@@ -36,19 +36,19 @@ export default {
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.orgTermStatus.provisional',
+        id: 'option.orgTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
       'under-review': {
-        id: 'option.orgTermStatus.under-review',
+        id: 'option.orgTermStatuses.under-review',
         defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.orgTermStatus.accepted',
+        id: 'option.orgTermStatuses.accepted',
         defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.orgTermStatus.rejected',
+        id: 'option.orgTermStatuses.rejected',
         defaultMessage: 'rejected',
       },
     }),

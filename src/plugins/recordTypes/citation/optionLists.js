@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  citationTermStatus: {
+  citationTermStatuses: {
     values: [
       'provisional',
       'under-review',
@@ -15,19 +15,19 @@ export default {
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.citationTermStatus.provisional',
+        id: 'option.citationTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
       'under-review': {
-        id: 'option.citationTermStatus.under-review',
+        id: 'option.citationTermStatuses.under-review',
         defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.citationTermStatus.accepted',
+        id: 'option.citationTermStatuses.accepted',
         defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.citationTermStatus.rejected',
+        id: 'option.citationTermStatuses.rejected',
         defaultMessage: 'rejected',
       },
     }),

@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  workTermStatus: {
+  workTermStatuses: {
     values: [
       'quick-added-but-needs-attention',
       'in-progress',
@@ -14,15 +14,15 @@ export default {
     ],
     messages: defineMessages({
       'quick-added-but-needs-attention': {
-        id: 'option.workTermStatus.quick-added-but-needs-attention',
+        id: 'option.workTermStatuses.quick-added-but-needs-attention',
         defaultMessage: 'quick added but needs attention',
       },
       'in-progress': {
-        id: 'option.workTermStatus.in-progress',
+        id: 'option.workTermStatuses.in-progress',
         defaultMessage: 'in progress',
       },
       complete: {
-        id: 'option.workTermStatus.complete',
+        id: 'option.workTermStatuses.complete',
         defaultMessage: 'complete',
       },
     }),
