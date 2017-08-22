@@ -340,7 +340,6 @@ export default class RecordEditor extends Component {
           recordType={recordType}
           onCommit={this.handleRecordFormSelectorCommit}
           data={data}
-
         />
         <RecordFormContainer
           config={config}
