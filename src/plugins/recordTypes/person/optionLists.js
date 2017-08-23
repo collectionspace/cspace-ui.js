@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  personTermStatus: {
+  personTermStatuses: {
     values: [
       'provisional',
       'under review',
@@ -15,24 +15,24 @@ export default {
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.personTermStatus.provisional',
+        id: 'option.personTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
       'under review': {
-        id: 'option.personTermStatus.under review',
+        id: 'option.personTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.personTermStatus.accepted',
+        id: 'option.personTermStatuses.accepted',
         defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.personTermStatus.rejected',
+        id: 'option.personTermStatuses.rejected',
         defaultMessage: 'rejected',
       },
     }),
   },
-  salutation: {
+  salutations: {
     values: [
       'dear',
       'hello',
@@ -40,20 +40,20 @@ export default {
     ],
     messages: defineMessages({
       dear: {
-        id: 'option.salutation.dear',
+        id: 'option.salutations.dear',
         defaultMessage: 'Dear',
       },
       hello: {
-        id: 'option.salutation.hello',
+        id: 'option.salutations.hello',
         defaultMessage: 'Hello',
       },
       to: {
-        id: 'option.salutation.to',
+        id: 'option.salutations.to',
         defaultMessage: 'To',
       },
     }),
   },
-  personTitle: {
+  personTitles: {
     values: [
       'Mr',
       'Mrs',
@@ -70,67 +70,67 @@ export default {
     ],
     messages: defineMessages({
       Mr: {
-        id: 'option.personTitle.Mr',
+        id: 'option.personTitles.Mr',
         defaultMessage: 'Mr',
       },
       Mrs: {
-        id: 'option.personTitle.Mrs',
+        id: 'option.personTitles.Mrs',
         defaultMessage: 'Mrs',
       },
       Ms: {
-        id: 'option.personTitle.Ms',
+        id: 'option.personTitles.Ms',
         defaultMessage: 'Ms',
       },
       Miss: {
-        id: 'option.personTitle.Miss',
+        id: 'option.personTitles.Miss',
         defaultMessage: 'Miss',
       },
       Dr: {
-        id: 'option.personTitle.Dr',
+        id: 'option.personTitles.Dr',
         defaultMessage: 'Dr',
       },
       Professor: {
-        id: 'option.personTitle.Professor',
+        id: 'option.personTitles.Professor',
         defaultMessage: 'Professor',
       },
       Sir: {
-        id: 'option.personTitle.Sir',
+        id: 'option.personTitles.Sir',
         defaultMessage: 'Sir',
       },
       Dame: {
-        id: 'option.personTitle.Dame',
+        id: 'option.personTitles.Dame',
         defaultMessage: 'Dame',
       },
       Baron: {
-        id: 'option.personTitle.Baron',
+        id: 'option.personTitles.Baron',
         defaultMessage: 'Baron',
       },
       Baroness: {
-        id: 'option.personTitle.Baroness',
+        id: 'option.personTitles.Baroness',
         defaultMessage: 'Baroness',
       },
       Lord: {
-        id: 'option.personTitle.Lord',
+        id: 'option.personTitles.Lord',
         defaultMessage: 'Lord',
       },
       Lady: {
-        id: 'option.personTitle.Lady',
+        id: 'option.personTitles.Lady',
         defaultMessage: 'Lady',
       },
     }),
   },
-  gender: {
+  genders: {
     values: [
       'male',
       'female',
     ],
     messages: defineMessages({
       dear: {
-        id: 'option.gender.male',
+        id: 'option.genders.male',
         defaultMessage: 'male',
       },
       hello: {
-        id: 'option.gender.female',
+        id: 'option.genders.female',
         defaultMessage: 'female',
       },
     }),

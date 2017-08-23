@@ -6,135 +6,131 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  termType: {
+  taxonTermTypes: {
     values: [
       'descriptor',
-      'alternate-descriptor',
-      'native',
-      'non-native',
-      'local',
-      'descriptive',
-      'spelling-variant',
+      'alternate descriptor',
+      'used for term',
     ],
     messages: defineMessages({
       descriptor: {
-        id: 'option.termType.descriptor',
-        defaultMessage: 'Descriptor',
+        id: 'option.taxonTermTypes.descriptor',
+        defaultMessage: 'descriptor',
       },
-      'alternate-descriptor': {
-        id: 'option.termType.alternate-descriptor',
-        defaultMessage: 'Alternate Descriptor',
+      'alternate descriptor': {
+        id: 'option.taxonTermTypes.alternate descriptor',
+        defaultMessage: 'alternate descriptor',
       },
-      'used-for-term': {
-        id: 'option.termType.used-for-term',
-        defaultMessage: 'Used for Term',
+      'used for term': {
+        id: 'option.taxonTermTypes.used for term',
+        defaultMessage: 'used for term',
       },
     }),
   },
-  termStatus: {
+  taxonTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.termStatus.provisional',
-        defaultMessage: 'Provisional',
+        id: 'option.taxonTermStatuses.provisional',
+        defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.termStatus.under-review',
-        defaultMessage: 'Under Review',
+      'under review': {
+        id: 'option.taxonTermStatuses.under review',
+        defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.termStatus.accepted',
-        defaultMessage: 'Accepted',
+        id: 'option.taxonTermStatuses.accepted',
+        defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.termStatus.rejected',
-        defaultMessage: 'Rejected',
+        id: 'option.taxonTermStatuses.rejected',
+        defaultMessage: 'rejected',
       },
     }),
   },
-  taxonomicStatus: {
+  taxonomicStatuses: {
     values: [
       'valid',
       'invalid',
       'accepted',
-      'misapplied-name',
+      'misapplied name',
     ],
     messages: defineMessages({
       valid: {
-        id: 'option.taxonomicStatus.valid',
-        defaultMessage: 'Valid',
+        id: 'option.taxonomicStatuses.valid',
+        defaultMessage: 'valid',
       },
       invalid: {
-        id: 'option.taxonomicStatus.invalid',
-        defaultMessage: 'Invalid',
+        id: 'option.taxonomicStatuses.invalid',
+        defaultMessage: 'invalid',
       },
       accepted: {
-        id: 'option.taxonomicStatus.accepted',
-        defaultMessage: 'Accepted',
+        id: 'option.taxonomicStatuses.accepted',
+        defaultMessage: 'accepted',
       },
-      'misapplied-name': {
-        id: 'option.taxonomicStatus.misapplied-name',
-        defaultMessage: 'Misapplied Name',
+      'misapplied name': {
+        id: 'option.taxonomicStatuses.misapplied name',
+        defaultMessage: 'misapplied name',
       },
     }),
   },
-  taxonRank: {
+  taxonRanks: {
     values: [
       'domain',
       'kingdom',
       'phylum',
       'division',
       'family',
-      'clazz',
+      'class',
       'order',
       'genus',
       'species',
     ],
     messages: defineMessages({
       domain: {
-        id: 'option.taxonRank.domain',
-        defaultMessage: 'Domain',
+        id: 'option.taxonRanks.domain',
+        defaultMessage: 'domain',
       },
       kingdom: {
-        id: 'option.taxonRank.kingdom',
-        defaultMessage: 'Kingdom',
+        id: 'option.taxonRanks.kingdom',
+        defaultMessage: 'kingdom',
       },
       phylum: {
-        id: 'option.taxonRank.phylum',
-        defaultMessage: 'Phylum',
+        id: 'option.taxonRanks.phylum',
+        defaultMessage: 'phylum',
       },
       division: {
-        id: 'option.taxonRank.division',
-        defaultMessage: 'Division',
+        id: 'option.taxonRanks.division',
+        defaultMessage: 'division',
       },
       family: {
-        id: 'option.taxonRank.family',
-        defaultMessage: 'Family',
+        id: 'option.taxonRanks.family',
+        defaultMessage: 'family',
       },
-      clazz: {
-        id: 'option.taxonRank.clazz',
-        defaultMessage: 'Class',
+      class: {
+        id: 'option.taxonRanks.class',
+        defaultMessage: 'class',
       },
       order: {
-        id: 'option.taxonRank.order',
+        id: 'option.taxonRanks.order',
         defaultMessage: 'order',
       },
       genus: {
-        id: 'option.taxonRank.genus',
-        defaultMessage: 'Genus',
+        id: 'option.taxonRanks.genus',
+        defaultMessage: 'genus',
       },
       species: {
-        id: 'option.taxonRank.species',
-        defaultMessage: 'Species',
+        id: 'option.taxonRanks.species',
+        defaultMessage: 'species',
       },
     }),
   },
-  taxonCurrency: {
+  taxonCurrencies: {
     values: [
       'current',
       'obsolete',
@@ -142,32 +138,32 @@ export default {
     ],
     messages: defineMessages({
       current: {
-        id: 'option.taxonCurrency.current',
-        defaultMessage: 'Current',
+        id: 'option.taxonCurrencies.current',
+        defaultMessage: 'current',
       },
       obsolete: {
-        id: 'option.taxonCurrency.obsolete',
-        defaultMessage: 'Obsolete',
+        id: 'option.taxonCurrencies.obsolete',
+        defaultMessage: 'obsolete',
       },
       archaic: {
-        id: 'option.taxonCurrency.archaic',
-        defaultMessage: 'Archaic',
+        id: 'option.taxonCurrencies.archaic',
+        defaultMessage: 'archaic',
       },
     }),
   },
-  taxonAuthorType: {
+  taxonAuthorTypes: {
     values: [
       'ascribed',
       'parenthetical',
     ],
     messages: defineMessages({
       ascribed: {
-        id: 'option.taxonAuthorType.ascribed',
-        defaultMessage: 'Ascribed',
+        id: 'option.taxonAuthorTypes.ascribed',
+        defaultMessage: 'ascribed',
       },
       parenthetical: {
-        id: 'option.taxonAuthorType.parenthetical',
-        defaultMessage: 'Parenthetical',
+        id: 'option.taxonAuthorTypes.parenthetical',
+        defaultMessage: 'parenthetical',
       },
     }),
   },

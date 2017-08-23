@@ -90,7 +90,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'objectAuditCategory',
+                source: 'objectAuditCategories',
               },
             },
           },
@@ -128,7 +128,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'completeness',
+                    source: 'completenessLevels',
                   },
                 },
               },
@@ -194,7 +194,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'condition',
+                    source: 'conditions',
                   },
                 },
               },
@@ -238,7 +238,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'conservationTreatmentPriority',
+                source: 'conservationTreatmentPriorities',
               },
             },
           },
@@ -389,7 +389,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'hazard',
+                    source: 'hazards',
                   },
                 },
               },
@@ -446,7 +446,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'conditionCheckMethod',
+                source: 'conditionCheckMethods',
               },
             },
           },
@@ -478,7 +478,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'conditionCheckReason',
+                source: 'conditionCheckReasons',
               },
             },
           },
@@ -680,7 +680,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'salvagePriorityCode',
+                    source: 'salvagePriorityCodes',
                   },
                 },
               },

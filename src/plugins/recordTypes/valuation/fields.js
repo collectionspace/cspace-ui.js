@@ -208,7 +208,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'valueType',
+                source: 'valueTypes',
               },
             },
           },

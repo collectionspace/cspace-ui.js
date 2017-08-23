@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  termType: {
+  placeTermTypes: {
     values: [
       'common',
       'technical-scientific',
@@ -18,62 +18,62 @@ export default {
     ],
     messages: defineMessages({
       common: {
-        id: 'option.termType.common',
-        defaultMessage: 'common',
+        id: 'option.placeTermTypes.common',
+        defaultMessage: 'common name',
       },
       'technical-scientific': {
-        id: 'option.termType.technical-scientific',
-        defaultMessage: 'technical or scientific',
+        id: 'option.placeTermTypes.technical-scientific',
+        defaultMessage: 'technical or scientific name',
       },
       native: {
-        id: 'option.termType.native',
-        defaultMessage: 'native',
+        id: 'option.placeTermTypes.native',
+        defaultMessage: 'native name',
       },
       'non-native': {
-        id: 'option.termType.non-native',
-        defaultMessage: 'non-native',
+        id: 'option.placeTermTypes.non-native',
+        defaultMessage: 'non-native name',
       },
       local: {
-        id: 'option.termType.local',
-        defaultMessage: 'local',
+        id: 'option.placeTermTypes.local',
+        defaultMessage: 'local name',
       },
       descriptive: {
-        id: 'option.termType.descriptive',
-        defaultMessage: 'descriptive',
+        id: 'option.placeTermTypes.descriptive',
+        defaultMessage: 'descriptive name',
       },
       'spelling-variant': {
-        id: 'option.termType.spelling-variant',
+        id: 'option.placeTermTypes.spelling-variant',
         defaultMessage: 'spelling variant',
       },
     }),
   },
-  termStatus: {
+  placeTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
     messages: defineMessages({
       provisional: {
-        id: 'option.termStatus.provisional',
+        id: 'option.placeTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.termStatus.under-review',
+      'under review': {
+        id: 'option.placeTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {
-        id: 'option.termStatus.accepted',
+        id: 'option.placeTermStatuses.accepted',
         defaultMessage: 'accepted',
       },
       rejected: {
-        id: 'option.termStatus.rejected',
+        id: 'option.placeTermStatuses.rejected',
         defaultMessage: 'rejected',
       },
     }),
   },
-  historicalStatus: {
+  placeHistoricalStatuses: {
     values: [
       'current',
       'historical',
@@ -81,20 +81,20 @@ export default {
     ],
     messages: defineMessages({
       current: {
-        id: 'option.historicalStatus.current',
+        id: 'option.placeHistoricalStatuses.current',
         defaultMessage: 'current',
       },
       historical: {
-        id: 'option.historicalStatus.historical',
+        id: 'option.placeHistoricalStatuses.historical',
         defaultMessage: 'historical',
       },
       both: {
-        id: 'option.historicalStatus.both',
+        id: 'option.placeHistoricalStatuses.both',
         defaultMessage: 'both',
       },
     }),
   },
-  placeType: {
+  placeTypes: {
     values: [
       'autonomous-region',
       'borough',
@@ -111,6 +111,7 @@ export default {
       'governorate',
       'inhabited-place',
       'island',
+      'island-group',
       'localilty',
       'metropolitan-area',
       'municipality',
@@ -131,140 +132,140 @@ export default {
     ],
     messages: defineMessages({
       'autonomous-region': {
-        id: 'option.placeType.autonomous-region',
+        id: 'option.placeTypes.autonomous-region',
         defaultMessage: 'autonomous region',
       },
       borough: {
-        id: 'option.placeType.borough',
+        id: 'option.placeTypes.borough',
         defaultMessage: 'borough',
       },
       city: {
-        id: 'option.placeType.city',
+        id: 'option.placeTypes.city',
         defaultMessage: 'city',
       },
       'collection-site': {
-        id: 'option.placeType.collection-site',
+        id: 'option.placeTypes.collection-site',
         defaultMessage: 'collection site',
       },
       continent: {
-        id: 'option.placeType.continent',
+        id: 'option.placeTypes.continent',
         defaultMessage: 'continent',
       },
       country: {
-        id: 'option.placeType.country',
+        id: 'option.placeTypes.country',
         defaultMessage: 'country',
       },
       'country-code': {
-        id: 'option.placeType.country-code',
+        id: 'option.placeTypes.country-code',
         defaultMessage: 'country code',
       },
       county: {
-        id: 'option.placeType.county',
+        id: 'option.placeTypes.county',
         defaultMessage: 'county',
       },
       'dependent-state': {
-        id: 'option.placeType.dependent-state',
+        id: 'option.placeTypes.dependent-state',
         defaultMessage: 'dependent state',
       },
       'deserted-settlement': {
-        id: 'option.placeType.deserted-settlement',
+        id: 'option.placeTypes.deserted-settlement',
         defaultMessage: 'deserted settlement',
       },
       'district-national': {
-        id: 'option.placeType.district-national',
-        defaultMessage: 'district national',
+        id: 'option.placeTypes.district-national',
+        defaultMessage: 'district (national)',
       },
       'general-region': {
-        id: 'option.placeType.general-region',
+        id: 'option.placeTypes.general-region',
         defaultMessage: 'general region',
       },
       governorate: {
-        id: 'option.placeType.governorate',
+        id: 'option.placeTypes.governorate',
         defaultMessage: 'governorate',
       },
       'inhabited-place': {
-        id: 'option.placeType.inhabited-place',
+        id: 'option.placeTypes.inhabited-place',
         defaultMessage: 'inhabited place',
       },
       island: {
-        id: 'option.placeType.island',
+        id: 'option.placeTypes.island',
         defaultMessage: 'island',
       },
       'island-group': {
-        id: 'option.placeType.island-group',
+        id: 'option.placeTypes.island-group',
         defaultMessage: 'island group',
       },
       locality: {
-        id: 'option.placeType.locality',
+        id: 'option.placeTypes.locality',
         defaultMessage: 'locality',
       },
       'metropolitan-area': {
-        id: 'option.placeType.metropolitan-area',
+        id: 'option.placeTypes.metropolitan-area',
         defaultMessage: 'metropolitan area',
       },
       municipality: {
-        id: 'option.placeType.municipality',
+        id: 'option.placeTypes.municipality',
         defaultMessage: 'municipality',
       },
       nation: {
-        id: 'option.placeType.nation',
+        id: 'option.placeTypes.nation',
         defaultMessage: 'nation',
       },
       'national-division': {
-        id: 'option.placeType.national-division',
+        id: 'option.placeTypes.national-division',
         defaultMessage: 'national division',
       },
       neighborhood: {
-        id: 'option.placeType.neighborhood',
+        id: 'option.placeTypes.neighborhood',
         defaultMessage: 'neighborhood',
       },
       'occupied-territory': {
-        id: 'option.placeType.occupied-territory',
+        id: 'option.placeTypes.occupied-territory',
         defaultMessage: 'occupied territory',
       },
       prefecture: {
-        id: 'option.placeType.prefecture',
+        id: 'option.placeTypes.prefecture',
         defaultMessage: 'prefecture',
       },
       province: {
-        id: 'option.placeType.province',
+        id: 'option.placeTypes.province',
         defaultMessage: 'province',
       },
       region: {
-        id: 'option.placeType.region',
+        id: 'option.placeTypes.region',
         defaultMessage: 'region',
       },
       state: {
-        id: 'option.placeType.state',
+        id: 'option.placeTypes.state',
         defaultMessage: 'state',
       },
       'state-province': {
-        id: 'option.placeType.state-province',
-        defaultMessage: 'state-province',
+        id: 'option.placeTypes.state-province',
+        defaultMessage: 'state province',
       },
       territory: {
-        id: 'option.placeType.territory',
+        id: 'option.placeTypes.territory',
         defaultMessage: 'territory',
       },
       'union-territory': {
-        id: 'option.placeType.union-territory',
+        id: 'option.placeTypes.union-territory',
         defaultMessage: 'union territory',
       },
       'unitary-authority': {
-        id: 'option.placeType.unitary-authority',
-        defaultMessage: 'unitary-authority',
+        id: 'option.placeTypes.unitary-authority',
+        defaultMessage: 'unitary authority',
       },
       'urban-prefecture': {
-        id: 'option.placeType.urban-prefecture',
-        defaultMessage: 'urban-prefecture',
+        id: 'option.placeTypes.urban-prefecture',
+        defaultMessage: 'urban prefecture',
       },
       'water-body': {
-        id: 'option.placeType.water-body',
-        defaultMessage: 'water-body',
+        id: 'option.placeTypes.water-body',
+        defaultMessage: 'water body',
       },
     }),
   },
-  vCoordSys: {
+  coordinateSystems: {
     values: [
       'altitude-depth',
       'latitude-longitude',
@@ -273,50 +274,50 @@ export default {
     ],
     messages: defineMessages({
       'altitude-depth': {
-        id: 'option.vCoordSys.altitude-depth',
+        id: 'option.coordinateSystems.altitude-depth',
         defaultMessage: 'altitude depth',
       },
       'latitude-longitude': {
-        id: 'option.vCoordSys.latitude-longitude',
-        defaultMessage: 'latitude longitude',
+        id: 'option.coordinateSystems.latitude-longitude',
+        defaultMessage: 'latitude and longitude',
       },
       'national-grid-reference': {
-        id: 'option.vCoordSys.national-grid-reference',
-        defaultMessage: 'national grid reference',
+        id: 'option.coordinateSystems.national-grid-reference',
+        defaultMessage: 'National Grid reference',
       },
       utm: {
-        id: 'option.vCoordSys.utm',
+        id: 'option.coordinateSystems.utm',
         defaultMessage: 'Universal Transverse Mercator (UTM)',
       },
     }),
   },
-  vSpatialReferenceSystem: {
+  spatialRefSystems: {
     values: [
       'epsg4326-wgs84',
       'epsg4269-nad83',
       'epsg4267-nad27',
-      'unkown',
+      'unknown',
     ],
     messages: defineMessages({
       'epsg4326-wgs84': {
-        id: 'option.vSpatialReferenceSystem.epsg4326-wgs84',
+        id: 'option.spatialRefSystems.epsg4326-wgs84',
         defaultMessage: 'EPSG:4326-WGS84',
       },
       'epsg4269-nad83': {
-        id: 'option.vSpatialReferenceSystem.epsg4269-nad83',
+        id: 'option.spatialRefSystems.epsg4269-nad83',
         defaultMessage: 'EPSG:4269-NAD83',
       },
       'epsg4267-nad27': {
-        id: 'option.vSpatialReferenceSystem.epsg4267-nad27',
+        id: 'option.spatialRefSystems.epsg4267-nad27',
         defaultMessage: 'EPSG:4267-NAD27',
       },
-      unkown: {
-        id: 'option.vSpatialReferenceSystem.unkown',
-        defaultMessage: 'unkown',
+      unknown: {
+        id: 'option.spatialRefSystems.unknown',
+        defaultMessage: 'unknown',
       },
     }),
   },
-  vUnitofMeasure: {
+  localityUnits: {
     values: [
       'acres',
       'centimeters',
@@ -334,56 +335,60 @@ export default {
     ],
     messages: defineMessages({
       acres: {
-        id: 'option.vUnitofMeasure.acres',
+        id: 'option.localityUnits.acres',
         defaultMessage: 'acres',
       },
       centimeters: {
-        id: 'option.vUnitofMeasure.centimeters',
+        id: 'option.localityUnits.centimeters',
         defaultMessage: 'centimeters',
       },
       feet: {
-        id: 'option.vUnitofMeasure.feet',
+        id: 'option.localityUnits.feet',
         defaultMessage: 'feet',
       },
       hectares: {
-        id: 'option.vUnitofMeasure.hectares',
+        id: 'option.localityUnits.hectares',
         defaultMessage: 'hectares',
       },
       inches: {
-        id: 'option.vUnitofMeasure.inches',
+        id: 'option.localityUnits.inches',
         defaultMessage: 'inches',
       },
       kilometers: {
-        id: 'option.vUnitofMeasure.kilometers',
+        id: 'option.localityUnits.kilometers',
         defaultMessage: 'kilometers',
       },
       meters: {
-        id: 'option.vUnitofMeasure.meters',
+        id: 'option.localityUnits.meters',
         defaultMessage: 'meters',
       },
+      miles: {
+        id: 'option.localityUnits.miles',
+        defaultMessage: 'miles',
+      },
       millimeters: {
-        id: 'option.vUnitofMeasure.millimeters',
+        id: 'option.localityUnits.millimeters',
         defaultMessage: 'millimeters',
       },
       'square-feet': {
-        id: 'option.vUnitofMeasure.square-feet',
+        id: 'option.localityUnits.square-feet',
         defaultMessage: 'square feet',
       },
       'square-meters': {
-        id: 'option.vUnitofMeasure.square-meters',
+        id: 'option.localityUnits.square-meters',
         defaultMessage: 'square meters',
       },
       'square-yards': {
-        id: 'option.vUnitofMeasure.square-yards',
+        id: 'option.localityUnits.square-yards',
         defaultMessage: 'square yards',
       },
       stories: {
-        id: 'option.vUnitofMeasure.stories',
+        id: 'option.localityUnits.stories',
         defaultMessage: 'stories',
       },
     }),
   },
-  geodeticDatum: {
+  geodeticDatums: {
     values: [
       'epsg4326-wgs84',
       'epsg4269-nad83',
@@ -392,24 +397,24 @@ export default {
     ],
     messages: defineMessages({
       'epsg4326-wgs84': {
-        id: 'option.geodeticDatum.epsg4326-wgs84',
+        id: 'option.geodeticDatums.epsg4326-wgs84',
         defaultMessage: 'EPSG:4326-WGS84',
       },
       'epsg4269-nad83': {
-        id: 'option.geodeticDatum.epsg4269-nad83',
+        id: 'option.geodeticDatums.epsg4269-nad83',
         defaultMessage: 'EPSG:4269-NAD83',
       },
       'epsg4267-nad27': {
-        id: 'option.geodeticDatum.epsg4267-nad27',
+        id: 'option.geodeticDatums.epsg4267-nad27',
         defaultMessage: 'EPSG:4267-NAD27',
       },
       unknown: {
-        id: 'option.geodeticDatum.unknown',
+        id: 'option.geodeticDatums.unknown',
         defaultMessage: 'unknown',
       },
     }),
   },
-  geoRefProtocol: {
+  geoRefProtocols: {
     values: [
       'chapman-wieczorek-2006-guide-best-practices-georeferencing',
       'manis-herpnet-ornis-georeferencing-guidelines',
@@ -418,24 +423,24 @@ export default {
     ],
     messages: defineMessages({
       'chapman-wieczorek-2006-guide-best-practices-georeferencing': {
-        id: 'option.geoRefProtocol.chapman-wieczorek-2006-guide-best-practices-georeferencing',
+        id: 'option.geoRefProtocols.chapman-wieczorek-2006-guide-best-practices-georeferencing',
         defaultMessage: 'Chapman, Wieczorek 2006, Guide to Best Practices for Georeferencing',
       },
       'manis-herpnet-ornis-georeferencing-guidelines': {
-        id: 'option.geoRefProtocol.manis-herpnet-ornis-georeferencing-guidelines',
+        id: 'option.geoRefProtocols.manis-herpnet-ornis-georeferencing-guidelines',
         defaultMessage: 'MaNIS/HerpNet/ORNIS Georeferencing Guidelines',
       },
       'georeferencing-dummies': {
-        id: 'option.geoRefProtocol.georeferencing-dummies',
+        id: 'option.geoRefProtocols.georeferencing-dummies',
         defaultMessage: 'Georeferencing For Dummies',
       },
       biogeomancer: {
-        id: 'option.geoRefProtocol.biogeomancer',
+        id: 'option.geoRefProtocols.biogeomancer',
         defaultMessage: 'BioGeomancer',
       },
     }),
   },
-  geoRefVerificationStatus: {
+  geoRefVerificationStatuses: {
     values: [
       'unverified',
       'verified-data-custodian',
@@ -443,16 +448,16 @@ export default {
     ],
     messages: defineMessages({
       unverified: {
-        id: 'option.geoRefVerificationStatus.unverified',
+        id: 'option.geoRefVerificationStatuses.unverified',
         defaultMessage: 'unverified',
       },
       'verified-data-custodian': {
-        id: 'option.geoRefVerificationStatus.verified-data-custodian',
-        defaultMessage: 'verified data custodian',
+        id: 'option.geoRefVerificationStatuses.verified-data-custodian',
+        defaultMessage: 'verified by data custodian',
       },
       'verified-contributor': {
-        id: 'option.geoRefVerificationStatus.verified-contributor',
-        defaultMessage: 'verified contributor',
+        id: 'option.geoRefVerificationStatuses.verified-contributor',
+        defaultMessage: 'verified by contributor',
       },
     }),
   },

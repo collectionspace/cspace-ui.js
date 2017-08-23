@@ -169,7 +169,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'orgTermType',
+                    source: 'orgTermTypes',
                   },
                 },
               },
@@ -201,7 +201,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termStatus',
+                    source: 'orgTermStatuses',
                   },
                 },
               },

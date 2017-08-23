@@ -168,7 +168,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termType',
+                    source: 'locationTermTypes',
                   },
                 },
               },
@@ -200,7 +200,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termStatus',
+                    source: 'locationTermStatuses',
                   },
                 },
               },

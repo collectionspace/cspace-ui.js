@@ -93,7 +93,7 @@ const template = (pluginContext) => {
         </Row>
       </Panel>
 
-      <Subrecord name="contact" template="default" />
+      <Subrecord name="contact" />
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />

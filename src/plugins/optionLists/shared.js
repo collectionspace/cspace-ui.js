@@ -59,6 +59,7 @@ export default () => ({
         'photographs',
         'prints-drawings',
       ],
+      // I think department names are proper nouns? Capitalizing them.
       messages: defineMessages({
         antiquities: {
           id: 'option.departments.antiquities',
@@ -135,7 +136,7 @@ export default () => ({
         },
         conservationotherrequestedservices: {
           id: 'option.loanPurposes.conservationotherrequestedservices',
-          defaultMessage: 'conservation of other requested services',
+          defaultMessage: 'conservation or other requested services',
         },
         longtermcollectionsmanagementandstorage: {
           id: 'option.loanPurposes.longtermcollectionsmanagementandstorage',

@@ -6,18 +6,18 @@ import { defineMessages } from 'react-intl';
 // only operates on files that import react-intl.
 
 export default {
-  printLabels: {
+  printLabelOptions: {
     values: [
       'yes',
       'no',
     ],
     messages: defineMessages({
       yes: {
-        id: 'option.printLabels.yes',
+        id: 'option.printLabelOptions.yes',
         defaultMessage: 'yes',
       },
       no: {
-        id: 'option.printLabels.no',
+        id: 'option.printLabelOptions.no',
         defaultMessage: 'no',
       },
     }),

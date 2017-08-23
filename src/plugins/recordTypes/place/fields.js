@@ -171,7 +171,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termType',
+                    source: 'placeTermTypes',
                   },
                 },
               },
@@ -203,7 +203,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'termStatus',
+                    source: 'placeTermStatuses',
                   },
                 },
               },
@@ -316,7 +316,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'historicalStatus',
+                    source: 'placeHistoricalStatuses',
                   },
                 },
               },
@@ -373,7 +373,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'placeType',
+                source: 'placeTypes',
               },
             },
           },
@@ -647,7 +647,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'vCoordSys',
+                source: 'coordinateSystems',
               },
             },
           },
@@ -663,7 +663,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'vSpatialReferenceSystem',
+                source: 'spatialRefSystems',
               },
             },
           },
@@ -705,7 +705,7 @@ export default (pluginContext) => {
             view: {
               type: OptionPickerInput,
               props: {
-                source: 'vUnitofMeasure',
+                source: 'localityUnits',
               },
             },
           },
@@ -891,7 +891,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'geodeticDatum',
+                    source: 'geodeticDatums',
                   },
                 },
               },
@@ -1015,7 +1015,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'geoRefProtocol',
+                    source: 'geoRefProtocols',
                   },
                 },
               },
@@ -1044,7 +1044,7 @@ export default (pluginContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'geoRefVerificationStatus',
+                    source: 'geoRefVerificationStatuses',
                   },
                 },
               },

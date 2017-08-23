@@ -4,11 +4,19 @@
 [![build status](https://travis-ci.org/collectionspace/cspace-ui.js.svg?branch=master)](https://travis-ci.org/collectionspace/cspace-ui.js)
 [![coverage status](https://coveralls.io/repos/github/collectionspace/cspace-ui.js/badge.svg?branch=master)](https://coveralls.io/github/collectionspace/cspace-ui.js?branch=master)
 
-The CollectionSpace user interface for web browsers, implemented as a single page JavaScript application.
+The CollectionSpace user interface for web browsers.
 
 Release 4.5 of the CollectionSpace services API is required. This application is not compatible with releases 4.4 and earlier.
 
 ## Installation
+
+### For CollectionSpace Administrators
+
+See the [installation instructions](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/installation) to set up the CollectionSpace user interface for your users.
+
+### For CollectionSpace Developers
+
+Follow these instructions to download and install the source code of the application.
 
 Using git:
 
@@ -18,7 +26,7 @@ $ cd cspace-ui.js
 $ npm install
 ```
 
-For more development documentation, take a look here: https://github.com/collectionspace/cspace-ui.js/tree/master/docs
+See the [developer documentation](https://github.com/collectionspace/cspace-ui.js/tree/master/docs) for instructions on building, testing, and running the source code.
 
 ## About CollectionSpace
 
