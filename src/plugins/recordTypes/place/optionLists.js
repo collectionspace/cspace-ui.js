@@ -264,7 +264,7 @@ export default {
       },
     }),
   },
-  coordSystems: {
+  coordinateSystems: {
     values: [
       'altitude-depth',
       'latitude-longitude',
@@ -273,19 +273,19 @@ export default {
     ],
     messages: defineMessages({
       'altitude-depth': {
-        id: 'option.coordSystems.altitude-depth',
+        id: 'option.coordinateSystems.altitude-depth',
         defaultMessage: 'altitude depth',
       },
       'latitude-longitude': {
-        id: 'option.coordSystems.latitude-longitude',
+        id: 'option.coordinateSystems.latitude-longitude',
         defaultMessage: 'latitude longitude',
       },
       'national-grid-reference': {
-        id: 'option.coordSystems.national-grid-reference',
+        id: 'option.coordinateSystems.national-grid-reference',
         defaultMessage: 'national grid reference',
       },
       utm: {
-        id: 'option.coordSystems.utm',
+        id: 'option.coordinateSystems.utm',
         defaultMessage: 'Universal Transverse Mercator (UTM)',
       },
     }),
