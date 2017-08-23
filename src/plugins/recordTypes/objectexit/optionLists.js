@@ -10,7 +10,7 @@ export default {
     values: [
       'deaccession',
       'disposal',
-      'return-of-loan',
+      'returnofloan',
     ],
     messages: defineMessages({
       deaccession: {
@@ -21,8 +21,8 @@ export default {
         id: 'option.exitReasons.disposal',
         defaultMessage: 'disposal',
       },
-      'return-of-loan': {
-        id: 'option.exitReasons.return-of-loan',
+      returnofloan: {
+        id: 'option.exitReasons.returnofloan',
         defaultMessage: 'return of loan',
       },
     }),
@@ -30,7 +30,7 @@ export default {
   exitMethods: {
     values: [
       'courier',
-      'in-person',
+      'inperson',
       'post',
     ],
     messages: defineMessages({
@@ -38,8 +38,8 @@ export default {
         id: 'option.exitMethods.courier',
         defaultMessage: 'courier',
       },
-      'in-person': {
-        id: 'option.exitMethods.in-person',
+      inperson: {
+        id: 'option.exitMethods.inperson',
         defaultMessage: 'in person',
       },
       post: {

@@ -9,7 +9,7 @@ export default {
   citationTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
@@ -18,8 +18,8 @@ export default {
         id: 'option.citationTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.citationTermStatuses.under-review',
+      'under review': {
+        id: 'option.citationTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {

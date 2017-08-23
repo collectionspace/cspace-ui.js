@@ -50,26 +50,26 @@ export default {
   },
   conditions: {
     values: [
-      'needs-no-work',
-      'exhibitable-needs-work',
-      'not-exhibitable-stable',
-      'in-jeopardy',
+      'needsnowork',
+      'exhibitableneedswork',
+      'notexhibitablestable',
+      'injeopardy',
     ],
     messages: defineMessages({
-      'needs-no-work': {
-        id: 'option.conditions.needs-no-work',
+      needsnowork: {
+        id: 'option.conditions.needsnowork',
         defaultMessage: 'needs no work',
       },
-      'exhibitable-needs-work': {
-        id: 'option.conditions.exhibitable-needs-work',
+      exhibitableneedswork: {
+        id: 'option.conditions.exhibitableneedswork',
         defaultMessage: 'exhibitable / needs work',
       },
-      'not-exhibitable-stable': {
-        id: 'option.conditions.not-exhibitable-stable',
+      notexhibitablestable: {
+        id: 'option.conditions.notexhibitablestable',
         defaultMessage: 'not exhibitable / stable',
       },
-      'in-jeopardy': {
-        id: 'option.conditions.in-jeopardy',
+      injeopardy: {
+        id: 'option.conditions.injeopardy',
         defaultMessage: 'in jeopardy',
       },
     }),
@@ -114,15 +114,15 @@ export default {
   conditionCheckMethods: {
     values: [
       'observed',
-      'x-rayed',
+      'xrayed',
     ],
     messages: defineMessages({
       observed: {
         id: 'option.conditionCheckMethods.observed',
         defaultMessage: 'observed',
       },
-      'x-rayed': {
-        id: 'option.conditionCheckMethods.x-rayed',
+      xrayed: {
+        id: 'option.conditionCheckMethods.xrayed',
         defaultMessage: 'x-rayed',
       },
     }),
@@ -130,25 +130,25 @@ export default {
   conditionCheckReasons: {
     values: [
       'conservation',
-      'damaged-in-transit',
-      'loan-in',
-      'new-acquisition',
+      'damagedintransit',
+      'loanin',
+      'newacquisition',
     ],
     messages: defineMessages({
       conservation: {
         id: 'option.conditionCheckReasons.conservation',
         defaultMessage: 'conservation',
       },
-      'damaged-in-transit': {
-        id: 'option.conditionCheckReasons.damaged-in-transit',
+      damagedintransit: {
+        id: 'option.conditionCheckReasons.damagedintransit',
         defaultMessage: 'damaged in transit',
       },
-      'loan-in': {
-        id: 'option.conditionCheckReasons.loan-in',
+      loanin: {
+        id: 'option.conditionCheckReasons.loanin',
         defaultMessage: 'loan in',
       },
-      'new-acquisition': {
-        id: 'option.conditionCheckReasons.new-acquisition',
+      newacquisition: {
+        id: 'option.conditionCheckReasons.newacquisition',
         defaultMessage: 'new acquisition',
       },
     }),

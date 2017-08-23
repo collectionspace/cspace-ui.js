@@ -9,20 +9,20 @@ export default {
   orgTermTypes: {
     values: [
       'descriptor',
-      'alternate-descriptor',
-      'used-for-term',
+      'alternate descriptor',
+      'used for term',
     ],
     messages: defineMessages({
       descriptor: {
         id: 'option.orgTermTypes.descriptor',
         defaultMessage: 'descriptor',
       },
-      'alternate-descriptor': {
-        id: 'option.orgTermTypes.alternate-descriptor',
+      'alternate descriptor': {
+        id: 'option.orgTermTypes.alternate descriptor',
         defaultMessage: 'alternate descriptor',
       },
-      'used-for-term': {
-        id: 'option.orgTermTypes.used-for-term',
+      'used for term': {
+        id: 'option.orgTermTypes.used for term',
         defaultMessage: 'used for term',
       },
     }),
@@ -30,7 +30,7 @@ export default {
   orgTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
@@ -39,8 +39,8 @@ export default {
         id: 'option.orgTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.orgTermStatuses.under-review',
+      'under review': {
+        id: 'option.orgTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {

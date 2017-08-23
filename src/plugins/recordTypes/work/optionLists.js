@@ -8,17 +8,17 @@ import { defineMessages } from 'react-intl';
 export default {
   workTermStatuses: {
     values: [
-      'quick-added-but-needs-attention',
-      'in-progress',
+      'quickaddedneedsattention',
+      'inprogress',
       'complete',
     ],
     messages: defineMessages({
-      'quick-added-but-needs-attention': {
-        id: 'option.workTermStatuses.quick-added-but-needs-attention',
-        defaultMessage: 'quick added but needs attention',
+      quickaddedneedsattention: {
+        id: 'option.workTermStatuses.quickaddedneedsattention',
+        defaultMessage: 'quick added, needs attention',
       },
-      'in-progress': {
-        id: 'option.workTermStatuses.in-progress',
+      inprogress: {
+        id: 'option.workTermStatuses.inprogress',
         defaultMessage: 'in progress',
       },
       complete: {

@@ -8,21 +8,21 @@ import { defineMessages } from 'react-intl';
 export default {
   valueTypes: {
     values: [
-      'current-value',
-      'original-value',
-      'replacement-value',
+      'Current Value',
+      'Original Value',
+      'Replacement Value',
     ],
     messages: defineMessages({
-      'current-value': {
-        id: 'option.valueTypes.current-value',
+      'Current Value': {
+        id: 'option.valueTypes.Current Value',
         defaultMessage: 'current value',
       },
-      'original-value': {
-        id: 'option.valueTypes.original-value',
+      'Original Value': {
+        id: 'option.valueTypes.Original Value',
         defaultMessage: 'original value',
       },
-      'replacement-value': {
-        id: 'option.valueTypes.replacement-value',
+      'Replacement Value': {
+        id: 'option.valueTypes.Replacement Value',
         defaultMessage: 'replacement value',
       },
     }),

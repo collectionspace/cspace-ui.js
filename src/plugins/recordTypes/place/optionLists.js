@@ -19,27 +19,27 @@ export default {
     messages: defineMessages({
       common: {
         id: 'option.placeTermTypes.common',
-        defaultMessage: 'common',
+        defaultMessage: 'common name',
       },
       'technical-scientific': {
         id: 'option.placeTermTypes.technical-scientific',
-        defaultMessage: 'technical or scientific',
+        defaultMessage: 'technical or scientific name',
       },
       native: {
         id: 'option.placeTermTypes.native',
-        defaultMessage: 'native',
+        defaultMessage: 'native name',
       },
       'non-native': {
         id: 'option.placeTermTypes.non-native',
-        defaultMessage: 'non-native',
+        defaultMessage: 'non-native name',
       },
       local: {
         id: 'option.placeTermTypes.local',
-        defaultMessage: 'local',
+        defaultMessage: 'local name',
       },
       descriptive: {
         id: 'option.placeTermTypes.descriptive',
-        defaultMessage: 'descriptive',
+        defaultMessage: 'descriptive name',
       },
       'spelling-variant': {
         id: 'option.placeTermTypes.spelling-variant',
@@ -50,7 +50,7 @@ export default {
   placeTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
@@ -59,8 +59,8 @@ export default {
         id: 'option.placeTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.placeTermStatuses.under-review',
+      'under review': {
+        id: 'option.placeTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {
@@ -111,6 +111,7 @@ export default {
       'governorate',
       'inhabited-place',
       'island',
+      'island-group',
       'localilty',
       'metropolitan-area',
       'municipality',
@@ -172,7 +173,7 @@ export default {
       },
       'district-national': {
         id: 'option.placeTypes.district-national',
-        defaultMessage: 'district national',
+        defaultMessage: 'district (national)',
       },
       'general-region': {
         id: 'option.placeTypes.general-region',
@@ -240,7 +241,7 @@ export default {
       },
       'state-province': {
         id: 'option.placeTypes.state-province',
-        defaultMessage: 'state-province',
+        defaultMessage: 'state province',
       },
       territory: {
         id: 'option.placeTypes.territory',
@@ -252,15 +253,15 @@ export default {
       },
       'unitary-authority': {
         id: 'option.placeTypes.unitary-authority',
-        defaultMessage: 'unitary-authority',
+        defaultMessage: 'unitary authority',
       },
       'urban-prefecture': {
         id: 'option.placeTypes.urban-prefecture',
-        defaultMessage: 'urban-prefecture',
+        defaultMessage: 'urban prefecture',
       },
       'water-body': {
         id: 'option.placeTypes.water-body',
-        defaultMessage: 'water-body',
+        defaultMessage: 'water body',
       },
     }),
   },
@@ -278,11 +279,11 @@ export default {
       },
       'latitude-longitude': {
         id: 'option.coordinateSystems.latitude-longitude',
-        defaultMessage: 'latitude longitude',
+        defaultMessage: 'latitude and longitude',
       },
       'national-grid-reference': {
         id: 'option.coordinateSystems.national-grid-reference',
-        defaultMessage: 'national grid reference',
+        defaultMessage: 'National Grid reference',
       },
       utm: {
         id: 'option.coordinateSystems.utm',
@@ -295,7 +296,7 @@ export default {
       'epsg4326-wgs84',
       'epsg4269-nad83',
       'epsg4267-nad27',
-      'unkown',
+      'unknown',
     ],
     messages: defineMessages({
       'epsg4326-wgs84': {
@@ -310,9 +311,9 @@ export default {
         id: 'option.spatialRefSystems.epsg4267-nad27',
         defaultMessage: 'EPSG:4267-NAD27',
       },
-      unkown: {
-        id: 'option.spatialRefSystems.unkown',
-        defaultMessage: 'unkown',
+      unknown: {
+        id: 'option.spatialRefSystems.unknown',
+        defaultMessage: 'unknown',
       },
     }),
   },
@@ -360,6 +361,10 @@ export default {
       meters: {
         id: 'option.localityUnits.meters',
         defaultMessage: 'meters',
+      },
+      miles: {
+        id: 'option.localityUnits.miles',
+        defaultMessage: 'miles',
       },
       millimeters: {
         id: 'option.localityUnits.millimeters',
@@ -448,11 +453,11 @@ export default {
       },
       'verified-data-custodian': {
         id: 'option.geoRefVerificationStatuses.verified-data-custodian',
-        defaultMessage: 'verified data custodian',
+        defaultMessage: 'verified by data custodian',
       },
       'verified-contributor': {
         id: 'option.geoRefVerificationStatuses.verified-contributor',
-        defaultMessage: 'verified contributor',
+        defaultMessage: 'verified by contributor',
       },
     }),
   },

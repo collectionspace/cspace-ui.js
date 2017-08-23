@@ -987,7 +987,7 @@ export default {
     messages: defineMessages({
       set: {
         id: 'option.objectChildTypes.set',
-        defaultMessage: 'item in set',
+        defaultMessage: 'item in a set',
       },
       derivative: {
         id: 'option.objectChildTypes.derivative',

@@ -9,7 +9,7 @@ export default {
   conceptTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
@@ -18,8 +18,8 @@ export default {
         id: 'option.conceptTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.conceptTermStatuses.under-review',
+      'under review': {
+        id: 'option.conceptTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {
@@ -35,20 +35,20 @@ export default {
   conceptTermTypes: {
     values: [
       'descriptor',
-      'alternate-descriptor',
-      'used-for-term',
+      'alternate descriptor',
+      'used for term',
     ],
     messages: defineMessages({
       descriptor: {
         id: 'option.conceptTermTypes.descriptor',
         defaultMessage: 'descriptor',
       },
-      'alternate-descriptor': {
-        id: 'option.conceptTermTypes.alternate-descriptor',
+      'alternate descriptor': {
+        id: 'option.conceptTermTypes.alternate descriptor',
         defaultMessage: 'alternate descriptor',
       },
-      'used-for-term': {
-        id: 'option.conceptTermTypes.used-for-term',
+      'used for term': {
+        id: 'option.conceptTermTypes.used for term',
         defaultMessage: 'used for term',
       },
     }),

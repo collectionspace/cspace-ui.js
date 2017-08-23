@@ -17,11 +17,11 @@ export default {
         id: 'option.taxonTermTypes.descriptor',
         defaultMessage: 'descriptor',
       },
-      'alternate-descriptor': {
+      'alternate descriptor': {
         id: 'option.taxonTermTypes.alternate descriptor',
         defaultMessage: 'alternate descriptor',
       },
-      native: {
+      'used for term': {
         id: 'option.taxonTermTypes.used for term',
         defaultMessage: 'used for term',
       },
@@ -30,7 +30,7 @@ export default {
   taxonTermStatuses: {
     values: [
       'provisional',
-      'under-review',
+      'under review',
       'accepted',
       'rejected',
     ],
@@ -39,8 +39,8 @@ export default {
         id: 'option.taxonTermStatuses.provisional',
         defaultMessage: 'provisional',
       },
-      'under-review': {
-        id: 'option.taxonTermStatuses.under-review',
+      'under review': {
+        id: 'option.taxonTermStatuses.under review',
         defaultMessage: 'under review',
       },
       accepted: {
@@ -58,7 +58,7 @@ export default {
       'valid',
       'invalid',
       'accepted',
-      'misapplied-name',
+      'misapplied name',
     ],
     messages: defineMessages({
       valid: {
@@ -73,8 +73,8 @@ export default {
         id: 'option.taxonomicStatuses.accepted',
         defaultMessage: 'accepted',
       },
-      'misapplied-name': {
-        id: 'option.taxonomicStatuses.misapplied-name',
+      'misapplied name': {
+        id: 'option.taxonomicStatuses.misapplied name',
         defaultMessage: 'misapplied name',
       },
     }),
@@ -86,7 +86,7 @@ export default {
       'phylum',
       'division',
       'family',
-      'clazz',
+      'class',
       'order',
       'genus',
       'species',
@@ -94,27 +94,27 @@ export default {
     messages: defineMessages({
       domain: {
         id: 'option.taxonRanks.domain',
-        defaultMessage: 'Domain',
+        defaultMessage: 'domain',
       },
       kingdom: {
         id: 'option.taxonRanks.kingdom',
-        defaultMessage: 'Kingdom',
+        defaultMessage: 'kingdom',
       },
       phylum: {
         id: 'option.taxonRanks.phylum',
-        defaultMessage: 'Phylum',
+        defaultMessage: 'phylum',
       },
       division: {
         id: 'option.taxonRanks.division',
-        defaultMessage: 'Division',
+        defaultMessage: 'division',
       },
       family: {
         id: 'option.taxonRanks.family',
-        defaultMessage: 'Family',
+        defaultMessage: 'family',
       },
-      clazz: {
-        id: 'option.taxonRanks.clazz',
-        defaultMessage: 'Class',
+      class: {
+        id: 'option.taxonRanks.class',
+        defaultMessage: 'class',
       },
       order: {
         id: 'option.taxonRanks.order',
@@ -122,11 +122,11 @@ export default {
       },
       genus: {
         id: 'option.taxonRanks.genus',
-        defaultMessage: 'Genus',
+        defaultMessage: 'genus',
       },
       species: {
         id: 'option.taxonRanks.species',
-        defaultMessage: 'Species',
+        defaultMessage: 'species',
       },
     }),
   },
@@ -139,15 +139,15 @@ export default {
     messages: defineMessages({
       current: {
         id: 'option.taxonCurrencies.current',
-        defaultMessage: 'Current',
+        defaultMessage: 'current',
       },
       obsolete: {
         id: 'option.taxonCurrencies.obsolete',
-        defaultMessage: 'Obsolete',
+        defaultMessage: 'obsolete',
       },
       archaic: {
         id: 'option.taxonCurrencies.archaic',
-        defaultMessage: 'Archaic',
+        defaultMessage: 'archaic',
       },
     }),
   },
@@ -159,11 +159,11 @@ export default {
     messages: defineMessages({
       ascribed: {
         id: 'option.taxonAuthorTypes.ascribed',
-        defaultMessage: 'Ascribed',
+        defaultMessage: 'ascribed',
       },
       parenthetical: {
         id: 'option.taxonAuthorTypes.parenthetical',
-        defaultMessage: 'Parenthetical',
+        defaultMessage: 'parenthetical',
       },
     }),
   },

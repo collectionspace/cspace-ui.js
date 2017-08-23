@@ -8,42 +8,42 @@ import { defineMessages } from 'react-intl';
 export default {
   exhibitionConsTreatmentStatuses: {
     values: [
-      'needed',
-      'not-needed',
-      'done',
+      'Needed',
+      'Not needed',
+      'Done',
     ],
     messages: defineMessages({
-      needed: {
-        id: 'option.exhibitionConsTreatmentStatuses.needed',
+      Needed: {
+        id: 'option.exhibitionConsTreatmentStatuses.Needed',
         defaultMessage: 'needed',
       },
-      'not-needed': {
-        id: 'option.exhibitionConsTreatmentStatuses.not-needed',
+      'Not needed': {
+        id: 'option.exhibitionConsTreatmentStatuses.Not needed',
         defaultMessage: 'not needed',
       },
-      done: {
-        id: 'option.exhibitionConsTreatmentStatuses.done',
+      Done: {
+        id: 'option.exhibitionConsTreatmentStatuses.Done',
         defaultMessage: 'done',
       },
     }),
   },
   exhibitionMountStatuses: {
     values: [
-      'needed',
-      'not-needed',
-      'done',
+      'Needed',
+      'Not needed',
+      'Done',
     ],
     messages: defineMessages({
-      needed: {
-        id: 'option.exhibitionMountStatuses.needed',
+      Needed: {
+        id: 'option.exhibitionMountStatuses.Needed',
         defaultMessage: 'needed',
       },
-      'not-needed': {
-        id: 'option.exhibitionMountStatuses.not-needed',
+      'Not needed': {
+        id: 'option.exhibitionMountStatuses.Not needed',
         defaultMessage: 'not needed',
       },
-      done: {
-        id: 'option.exhibitionMountStatuses.done',
+      Done: {
+        id: 'option.exhibitionMountStatuses.Done',
         defaultMessage: 'done',
       },
     }),
