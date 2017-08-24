@@ -77,6 +77,12 @@ When `prettyUrls` is false (the default), the URLs of pages in the UI contain `#
 
 ⚠️ Certain CollectionSpace features do not work correctly when `prettyUrls` is set to `false`. This setting is intended only to get the UI up and running quickly. Before doing a full evaluation or running the UI in production, the web server should be configured with fallback support, and `prettyUrls` should be set to `true`.
 
+### recordTypes
+```
+recordTypes: RecordTypeMap = defaultRecordTypes
+```
+An object containing definitions of the record types that are known to the UI. See the [record type configuration](./RecordTypeConfiguration.md) documentation for details. All record types required by the core application are defined by default.
+
 ### serverTimeZone
 ```
 serverTimeZone: string = 'UTC'
