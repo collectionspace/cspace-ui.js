@@ -1,5 +1,6 @@
+import React from 'react';
 import Immutable from 'immutable';
-import merge from 'lodash/merge';
+import mergeWith from 'lodash/mergeWith';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import warning from 'warning';
@@ -72,12 +73,21 @@ export const applyPlugins = (targetConfig, plugins, pluginContext) => {
     applyPlugin(updatedConfig, plugin, pluginContext), targetConfig);
 };
 
+const configMerger = (objValue, srcValue) => {
+  if (React.isValidElement(objValue)) {
+    // Don't merge React elements. Just override with the source value.
+    return srcValue;
+  }
+
+  return undefined;
+};
+
 export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
   const pluginsAppliedConfig = (sourceConfig && ('plugins' in sourceConfig))
     ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
     : targetConfig;
 
-  const mergedConfig = merge({}, pluginsAppliedConfig, sourceConfig);
+  const mergedConfig = mergeWith({}, pluginsAppliedConfig, sourceConfig, configMerger);
 
   delete mergedConfig.plugins;
 

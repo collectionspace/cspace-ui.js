@@ -1,3 +1,4 @@
+import React from 'react';
 import Immutable from 'immutable';
 
 import {
@@ -201,6 +202,31 @@ describe('configHelpers', function moduleSuite() {
         options: {
           languages: {},
         },
+      });
+    });
+
+    it('should overwrite React elements in the target with the source value, instead of deeply merging them', function test() {
+      const sourceTemplate = (
+        <div>
+          <p>1</p>
+          <p>2</p>
+        </div>
+      );
+
+      const targetTemplate = (
+        <div>
+          <p>1</p>
+          <p>2</p>
+          <p>3</p>
+        </div>
+      );
+
+      mergeConfig({
+        template: targetTemplate,
+      }, {
+        template: sourceTemplate,
+      }).should.deep.equal({
+        template: sourceTemplate,
       });
     });
   });
