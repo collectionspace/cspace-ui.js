@@ -29,19 +29,25 @@ export default {
     },
     valuation: {
       id: 'panel.intake.valuation',
-      defaultMessage: 'Valuation',
+      defaultMessage: 'Valuation Information',
     },
     insurance: {
       id: 'panel.intake.insurance',
-      defaultMessage: 'Insurance',
+      defaultMessage: 'Insurance Information',
     },
     location: {
       id: 'panel.intake.location',
-      defaultMessage: 'Location',
+      defaultMessage: 'Location Information',
     },
     condition: {
       id: 'panel.intake.condition',
-      defaultMessage: 'Condition',
+      defaultMessage: 'Condition Information',
+    },
+  }),
+  inputTable: defineMessages({
+    depositor: {
+      id: 'inputTable.intake.depositor',
+      defaultMessage: 'Depositor',
     },
   }),
 };

@@ -145,8 +145,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.entryMethod.name',
+                fullName: {
+                  id: 'field.intakes_common.entryMethod.fullName',
                   defaultMessage: 'Entry method',
                 },
               }),
@@ -193,7 +193,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.depositor.name',
-                defaultMessage: 'Depositor',
+                defaultMessage: 'Name',
+              },
+              fullName: {
+                id: 'field.intakes_common.depositor.fullName',
+                defaultMessage: 'Depositor name',
               },
             }),
             view: {
@@ -209,6 +213,10 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.despositorsRequirements.name',
+                defaultMessage: 'Requirements',
+              },
+              fullName: {
+                id: 'field.intakes_common.despositorsRequirements.fullName',
                 defaultMessage: 'Depositor requirements',
               },
             }),
@@ -278,8 +286,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.fieldCollectionMethod.name',
+                fullName: {
+                  id: 'field.intakes_common.fieldCollectionMethod.fullName',
                   defaultMessage: 'Field collection method',
                 },
               }),
@@ -350,15 +358,15 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.fieldCollectionSource.name',
+                fullName: {
+                  id: 'field.intakes_common.fieldCollectionSource.fullName',
                   defaultMessage: 'Field collection source',
                 },
               }),
               view: {
                 type: AutocompleteInput,
                 props: {
-                  source: 'person/local,person/shared,organization/local,organization/shared',
+                  source: 'person/local,person/shared',
                 },
               },
             },
@@ -380,8 +388,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.fieldCollector.name',
+                fullName: {
+                  id: 'field.intakes_common.fieldCollector.fullName',
                   defaultMessage: 'Field collector',
                 },
               }),
@@ -410,8 +418,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.fieldCollectionEventName.name',
+                fullName: {
+                  id: 'field.intakes_common.fieldCollectionEventName.fullName',
                   defaultMessage: 'Field collection event name',
                 },
               }),
@@ -466,8 +474,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.insurer.name',
+                fullName: {
+                  id: 'field.intakes_common.insurer.fullName',
                   defaultMessage: 'Insurer',
                 },
               }),
@@ -549,6 +557,12 @@ export default (pluginContext) => {
           },
           currentLocationGroup: {
             [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.intakes_common.currentLocationGroup.fullName',
+                  defaultMessage: 'Current location',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -562,13 +576,17 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.intakes_common.currentLocation.name',
+                    defaultMessage: 'Location',
+                  },
+                  fullName: {
+                    id: 'field.intakes_common.currentLocation.fullName',
                     defaultMessage: 'Current location',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'location/local,location/offsite',
+                    source: 'location/local',
                   },
                 },
               },
@@ -578,6 +596,10 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.intakes_common.currentLocationFitness.name',
+                    defaultMessage: 'Fitness',
+                  },
+                  fullName: {
+                    id: 'field.intakes_common.currentLocationFitness.fullName',
                     defaultMessage: 'Current location fitness',
                   },
                 }),
@@ -594,6 +616,10 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.intakes_common.currentLocationNote.name',
+                    defaultMessage: 'Note',
+                  },
+                  fullName: {
+                    id: 'field.intakes_common.currentLocationNote.fullName',
                     defaultMessage: 'Current location note',
                   },
                 }),
@@ -628,7 +654,7 @@ export default (pluginContext) => {
             view: {
               type: AutocompleteInput,
               props: {
-                source: 'location/local,location/offsite',
+                source: 'location/local',
               },
             },
           },
@@ -649,8 +675,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.conditionCheckMethod.name',
+                fullName: {
+                  id: 'field.intakes_common.conditionCheckMethod.fullName',
                   defaultMessage: 'Condition check method',
                 },
               }),
@@ -679,8 +705,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.conditionCheckReason.name',
+                fullName: {
+                  id: 'field.intakes_common.conditionCheckReason.fullName',
                   defaultMessage: 'Condition check reason',
                 },
               }),
@@ -709,8 +735,8 @@ export default (pluginContext) => {
             [config]: {
               repeating: true,
               messages: defineMessages({
-                name: {
-                  id: 'field.intakes_common.conditionCheckerOrAssessor.name',
+                fullName: {
+                  id: 'field.intakes_common.conditionCheckerOrAssessor.fullName',
                   defaultMessage: 'Condition check assessor',
                 },
               }),

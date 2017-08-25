@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 const template = (pluginContext) => {
   const {
     React,
@@ -17,123 +19,92 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="objectEntryInfo" collapsible>
-
-        <Row>
-          <Field name="entryNumber" />
-          <Field name="returnDate" />
-        </Row>
-
-        <Row>
-          <Field name="entryDate" />
-          <Field name="currentOwner" />
-        </Row>
-
-        <Row>
-          <Field name="entryReason" />
-          <InputTable>
-            <Field name="depositor" />
-            <Field name="depositorsRequirements" />
-          </InputTable>
-        </Row>
-
         <Cols>
           <Col>
-            <Field name="entryMethods" label="">
+            <Field name="entryNumber" />
+            <Field name="entryDate" />
+            <Field name="entryReason" />
+
+            <Field name="entryMethods">
               <Field name="entryMethod" />
             </Field>
           </Col>
-          <Col />
+
+          <Col>
+            <Field name="returnDate" />
+            <Field name="currentOwner" />
+
+            <InputTable name="depositor">
+              <Field name="depositor" />
+              <Field name="depositorsRequirements" />
+            </InputTable>
+          </Col>
         </Cols>
 
         <Field name="entryNote" />
         <Field name="packingNote" />
-
       </Panel>
 
-
-      <Panel name="objectCollectionInfo" collapsible>
-
-        <Row>
-          <Field name="fieldCollectionDate" />
-          <Field name="fieldCollectionPlace" />
-        </Row>
-
+      <Panel name="objectCollectionInfo" collapsible collapsed>
         <Cols>
           <Col>
-            <Field name="fieldCollectionMethods" label="">
+            <Field name="fieldCollectionDate" />
+
+            <Field name="fieldCollectionMethods">
               <Field name="fieldCollectionMethod" />
             </Field>
+
+            <Field name="fieldCollectionNote" />
+            <Field name="fieldCollectionNumber" />
           </Col>
+
           <Col>
-            <Field name="fieldCollectionSources" label="">
+            <Field name="fieldCollectionPlace" />
+
+            <Field name="fieldCollectionSources">
               <Field name="fieldCollectionSource" />
             </Field>
-          </Col>
-        </Cols>
 
-        <Cols>
-          <Col>
-            <Field name="fieldCollectionEventNames" label="">
+            <Field name="fieldCollectors">
+              <Field name="fieldCollector" />
+            </Field>
+
+            <Field name="fieldCollectionEventNames">
               <Field name="fieldCollectionEventName" />
             </Field>
           </Col>
-          <Col>
-            <Field name="fieldCollectors" label="">
-              <Field name="fieldCollector" />
-            </Field>
-          </Col>
         </Cols>
-
-        <Cols>
-          <Col>
-            <Field name="fieldCollectionNumber" />
-          </Col>
-          <Col />
-        </Cols>
-
-        <Field name="fieldCollectionNote" />
-
       </Panel>
 
-      <Panel name="valuation" collapsible>
-
+      <Panel name="valuation" collapsible collapsed>
         <Row>
           <Field name="valuer" />
           <Field name="valuationReferenceNumber" />
         </Row>
-
       </Panel>
 
-      <Panel name="insurance" collapsible>
-
+      <Panel name="insurance" collapsible collapsed>
         <Cols>
           <Col>
-            <Field name="insurers" label="">
+            <Field name="insurers">
               <Field name="insurer" />
             </Field>
+
+            <Field name="insurancePolicyNumber" />
+            <Field name="insuranceRenewalDate" />
           </Col>
+
           <Col>
             <Field name="insuranceReferenceNumber" />
+            <Field name="insuranceNote" />
           </Col>
         </Cols>
-
-        <Row>
-          <Field name="insurancePolicyNumber" />
-          <Field name="insuranceRenewalDate" />
-        </Row>
-
-        <Field name="insuranceNote" />
-
       </Panel>
 
-
-      <Panel name="location" collapsible>
-
+      <Panel name="location" collapsible collapsed>
         <Field name="currentLocationGroupList">
           <Field name="currentLocationGroup">
-            { /* TODO fix currentLocation field source */ }
             <Field name="currentLocation" />
             <Field name="currentLocationFitness" />
             <Field name="currentLocationNote" />
@@ -142,54 +113,45 @@ const template = (pluginContext) => {
 
         <Row>
           <Field name="locationDate" />
-          { /* TODO fix normalLocation field source */ }
           <Field name="normalLocation" />
         </Row>
-
       </Panel>
 
-
-      <Panel name="condition" collapsible>
-
+      <Panel name="condition" collapsible collapsed>
         <Cols>
           <Col>
-            <Field name="conditionCheckMethods" label="">
+            <Field name="conditionCheckMethods">
               <Field name="conditionCheckMethod" />
             </Field>
-          </Col>
-          <Col>
-            <Field name="conditionCheckDate" />
-          </Col>
-        </Cols>
 
-        <Cols>
-          <Col>
-            <Field name="conditionCheckReasons" label="">
+            <Field name="conditionCheckReasons">
               <Field name="conditionCheckReason" />
             </Field>
+
+            <Field name="conditionCheckersOrAssessors">
+              <Field name="conditionCheckerOrAssessor" />
+            </Field>
           </Col>
+
           <Col>
+            <Field name="conditionCheckDate" />
             <Field name="conditionCheckReferenceNumber" />
           </Col>
         </Cols>
 
-        <Cols>
-          <Col>
-            <Field name="conditionCheckersOrAssessors" label="">
-              <Field name="conditionCheckerOrAssessor" />
-            </Field>
-          </Col>
-          <Col />
-        </Cols>
-
         <Field name="conditionCheckNote" />
-
       </Panel>
-
     </Field>
   );
 };
 
 export default pluginContext => ({
+  messages: defineMessages({
+    name: {
+      id: 'form.intake.default.name',
+      defaultMessage: 'Standard Template',
+    },
+  }),
+  sortOrder: 0,
   template: template(pluginContext),
 });
