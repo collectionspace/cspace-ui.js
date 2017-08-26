@@ -13,6 +13,7 @@ const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  dockTop: PropTypes.number,
   formName: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
@@ -72,6 +73,7 @@ export default class RecordHeader extends Component {
       config,
       csid,
       data,
+      dockTop,
       formName,
       isModified,
       isSavePending,
@@ -90,15 +92,19 @@ export default class RecordHeader extends Component {
     } = this.state;
 
     const className = classNames(docked ? styles.docked : '');
+    const containerInlineStyle = docked ? { minHeight: '42px' } : {};
+    const inlineStyle = docked ? { top: (dockTop || 0) } : {};
 
     return (
       <div
         className={styles.common}
+        style={containerInlineStyle}
       >
         <header>
           <div
             className={className}
             ref={this.setDomNode}
+            style={inlineStyle}
           >
             <RecordButtonBar
               csid={csid}

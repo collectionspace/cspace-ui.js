@@ -12,6 +12,7 @@ const propTypes = {
   aside: PropTypes.node,
   nav: PropTypes.node,
   serviceType: PropTypes.string,
+  onHeightChanged: PropTypes.func,
 };
 
 export default class TitleBar extends Component {
@@ -39,6 +40,10 @@ export default class TitleBar extends Component {
   }
 
   handleScroll() {
+    const {
+      onHeightChanged,
+    } = this.props;
+
     const node = this.domNode;
 
     if (!node) return;
@@ -53,6 +58,10 @@ export default class TitleBar extends Component {
       this.setState({
         docked: true,
       });
+
+      if (onHeightChanged) {
+        onHeightChanged(node.offsetHeight);
+      }
     }
   }
 

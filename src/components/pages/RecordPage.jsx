@@ -68,6 +68,11 @@ export default class RecordPage extends Component {
     super();
 
     this.handleShowRelated = this.handleShowRelated.bind(this);
+    this.handleTitleBarHeightChanged = this.handleTitleBarHeightChanged.bind(this);
+
+    this.state = ({
+      headerDockPosition: null,
+    });
   }
 
   componentDidMount() {
@@ -139,7 +144,18 @@ export default class RecordPage extends Component {
     });
   }
 
+  // Handle positioning of RecordHeader on dock depending on TitleBar height.
+  handleTitleBarHeightChanged(height) {
+    this.setState({
+      headerDockPosition: height - 10,
+    });
+  }
+
   render() {
+    const {
+      headerDockPosition,
+    } = this.state;
+
     const {
       config,
       error,
@@ -201,11 +217,13 @@ export default class RecordPage extends Component {
           vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
+          onHeightChanged={this.handleTitleBarHeightChanged}
         />
         <div className={pageBodyStyles.common}>
           <RecordBrowserContainer
             cloneCsid={cloneCsid}
             csid={normalizedCsid}
+            dockTop={headerDockPosition}
             history={history}
             location={location}
             recordType={recordType}

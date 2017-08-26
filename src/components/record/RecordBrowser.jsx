@@ -13,6 +13,7 @@ const propTypes = {
   cloneCsid: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  dockTop: PropTypes.number,
   history: PropTypes.object,
   location: PropTypes.object,
   recordType: PropTypes.string,
@@ -141,6 +142,7 @@ export default class RecordBrowser extends Component {
       cloneCsid,
       config,
       csid,
+      dockTop,
       history,
       location,
       recordType,
@@ -172,6 +174,7 @@ export default class RecordBrowser extends Component {
           cloneCsid={cloneCsid}
           config={config}
           csid={csid}
+          dockTop={dockTop}
           recordType={recordType}
           vocabulary={vocabulary}
           clone={this.cloneRecord}

@@ -17,7 +17,6 @@
   position: fixed;
   width: calc(calc(100% - 7px) * .7);
   left: 0;
-  top: 65;
   box-shadow: 0 3px 12px -6px rgba(0, 0, 0, 0.3);
   z-index: 99;
   padding: 10px;

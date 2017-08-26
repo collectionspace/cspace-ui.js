@@ -16,6 +16,7 @@ const propTypes = {
   csid: PropTypes.string,
   cloneCsid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  dockTop: PropTypes.number,
   formName: PropTypes.string,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
@@ -310,6 +311,7 @@ export default class RecordEditor extends Component {
       config,
       csid,
       data,
+      dockTop,
       formName,
       isModified,
       isSavePending,
@@ -340,6 +342,7 @@ export default class RecordEditor extends Component {
           recordType={recordType}
           onCommit={this.handleRecordFormSelectorCommit}
           data={data}
+          dockTop={dockTop}
         />
         <RecordFormContainer
           config={config}
