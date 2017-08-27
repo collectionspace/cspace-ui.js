@@ -115,9 +115,9 @@ In CollectionSpace, repeating (multi-valued) fields are always modeled as a pair
 
 Only the inner field (in this case, `entryMethod`) has its `repeating` property set to `true`. Conceptually, this says that *entry methods* consists of one or more *entry method*. Because of this field structure, there are two possible places to define messages for a repeating field.
 
-1. Define the `name` message only on the outer field.
+1. Do not define the `name` message on both the outer and inner fields.
 
-   Why: Defining `name` messages on both the outer and inner fields causes two labels to be rendered on the record editor form, and is almost always redundant. A `name` defined on the inner field is rendered inside a bordered box, so it looks more cluttered than a `name` defined on the outer field.
+   Why: Defining `name` messages on both the outer and inner fields causes two labels to be rendered on the record editor form, and is almost always redundant.
 
    <img align="right" src="./images/repeatingRedundantName.png">
 
@@ -137,14 +137,14 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
        },
        entryMethod: {
          [config]: {
-           repeating: true,
-           messages: defineMessages({
+            messages: defineMessages({
              name: {
                id: 'field.intakes_common.entryMethod.name',
                defaultMessage: 'Entry method',
              },
            }),
-           // ...
+           repeating: true,
+          // ...
          },
        },
      },
@@ -155,7 +155,7 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
    <img align="right" src="./images/repeatingInnerName.png">
 
    ```JavaScript
-   // 🚫 BAD - name defined on inner field
+   // ✅ GOOD - name defined only on inner field
 
    {
      entryMethods: {
@@ -164,38 +164,12 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
        },
        entryMethod: {
          [config]: {
-           repeating: true,
            messages: defineMessages({
              name: {
                id: 'field.intakes_common.entryMethod.name',
                defaultMessage: 'Entry method',
              },
            }),
-           // ...
-         },
-       },
-     },
-   };
-   ```
-
-   <img align="right" src="./images/repeatingOuterName.png">
-
-   ```JavaScript
-   // ✅ GOOD - name defined on outer field
-
-   {
-     entryMethods: {
-       [config]: {
-         messages: defineMessages({
-           name: {
-             id: 'field.intakes_common.entryMethods.name',
-             defaultMessage: 'Entry method',
-           },
-         }),
-         // ...
-       },
-       entryMethod: {
-         [config]: {
            repeating: true,
            // ...
          },
@@ -203,15 +177,16 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
      },
    };
    ```
+   
+1. Define the `name` message on the inner field.
 
-1. Define the `fullName` message on the inner field.
-
-   Why: The `fullName` message is not used as a field label on record editing forms, so it does not cause the problems that defining the `name` message does (as described in the previous rule). The `fullName` message is used preferentially on the search form, and in other locations in the UI. If `fullName` is not defined, `name` is normally used; but `name` should not be defined on the inner field (see previous rule), effectively making `fullName` required. Not defining it may result in the raw field name being displayed to the user on the search form and in other places.
+   Why: In addition to the record editor form, the `name` message of the inner field is used in other places, such as the record sidebar and search form. Not defining it may result in the raw field name being displayed to the user in these places.
 
    <img align="right" src="./images/searchRepeatingInnerMissingFullName.png">
 
    ```JavaScript
-   // 🚫 BAD - fullName not defined on inner field
+   // 🚫 BAD - name defined on outer field instead
+   // of inner field
 
    {
      entryMethods: {
@@ -237,25 +212,19 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
    <img align="right" src="./images/searchRepeatingInnerFullName.png">
 
    ```JavaScript
-   // ✅ GOOD - fullName defined on inner field
+   // ✅ GOOD - name defined on inner field
 
    {
      entryMethods: {
        [config]: {
-         messages: defineMessages({
-           name: {
-             id: 'field.intakes_common.entryMethods.name',
-             defaultMessage: 'Entry method',
-           },
-         }),
          // ...
        },
        entryMethod: {
          [config]: {
            repeating: true,
            messages: defineMessages({
-             fullName: {
-               id: 'field.intakes_common.entryMethod.fullName',
+             name: {
+               id: 'field.intakes_common.entryMethod.name',
                defaultMessage: 'Entry method',
              },
            }),
@@ -268,17 +237,17 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
 
 ### Repeating Field Groups
 
-A repeating group of fields is modeled like any repeating field, with an outer parent field containing a single inner repeating child. The only difference is that the inner field happens to be a *group*, meaning that it has child fields of its own (the *group members*). The above rules about defining messages continue to apply to the outer field and the group field.
+A repeating group of fields is modeled like any repeating field, with an outer parent field containing a single inner repeating child. The only difference is that the inner field happens to be a *group*, meaning that it has child fields of its own (the *group members*). The above rules about defining messages continue to apply to the outer field and the inner (group) field.
 
 A group field is typically configured with the view type `CompoundInput`. The `CompoundInput` component can render the member fields in a table, or it can render the member fields using a template you supply.
 
 1. Use a table (set the `tabular` prop to `true` in the field's view configuration) when the group contains a small number of fields whose values are expected to be short.
 
-1. Always define a `name` message for the outer field, and a `fullName` message for the group field, following the [rules for repeating fields](#repeating-fields).
+1. Define a `name` message for the group field.
 
    Why: This causes a label to be rendered for the entire group, making it easy for users to see how the how the member fields are related.
 
-1. Avoid repeating the label of the group (the `name` message of the outer field) on the label (`name` message) of any member field in the group. Usually you can either shorten the field label to save space, or change it to something that gives the user more information.
+1. Avoid repeating the label (`name` message) of the group on the label (`name` message) of any member field in the group. Usually you can either shorten the member field label to save space, or change it to something that gives the user more information.
 
    Why: Don't waste space on redundant/uninformative labels.
 
@@ -290,19 +259,13 @@ A group field is typically configured with the view type `CompoundInput`. The `C
 
    currentLocationGroupList: {
      [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.intakes_common.currentLocationGroupList.name',
-           defaultMessage: 'Current location',
-         },
-       }),
        // ...
      },
      currentLocationGroup: {
        [config]: {
          messages: defineMessages({
-           fullName: {
-             id: 'field.intakes_common.currentLocationGroup.fullName',
+           name: {
+             id: 'field.intakes_common.currentLocationGroup.name',
              defaultMessage: 'Current location',
            },
          }),
@@ -332,19 +295,13 @@ A group field is typically configured with the view type `CompoundInput`. The `C
 
    currentLocationGroupList: {
      [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.intakes_common.currentLocationGroupList.name',
-           defaultMessage: 'Current location',
-         },
-       }),
        // ...
      },
      currentLocationGroup: {
        [config]: {
          messages: defineMessages({
-           fullName: {
-             id: 'field.intakes_common.currentLocationGroup.fullName',
+           name: {
+             id: 'field.intakes_common.currentLocationGroup.name',
              defaultMessage: 'Current location',
            },
          }),
@@ -374,24 +331,18 @@ A group field is typically configured with the view type `CompoundInput`. The `C
 
    ```JavaScript
    // ✅ GOOD - Change the member field label to
-   // provide further description of the content of
-   // the field
+   // something that further describes the content
+   // of the field
 
    currentLocationGroupList: {
      [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.intakes_common.currentLocationGroupList.name',
-           defaultMessage: 'Current location',
-         },
-       }),
        // ...
      },
      currentLocationGroup: {
        [config]: {
          messages: defineMessages({
-           fullName: {
-             id: 'field.intakes_common.currentLocationGroup.fullName',
+           name: {
+             id: 'field.intakes_common.currentLocationGroup.name',
              defaultMessage: 'Current location',
            },
          }),
@@ -429,19 +380,13 @@ A group field is typically configured with the view type `CompoundInput`. The `C
 
    currentLocationGroupList: {
      [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.intakes_common.currentLocationGroupList.name',
-           defaultMessage: 'Current location',
-         },
-       }),
        // ...
      },
      currentLocationGroup: {
        [config]: {
          messages: defineMessages({
-           fullName: {
-             id: 'field.intakes_common.currentLocationGroup.fullName',
+           name: {
+             id: 'field.intakes_common.currentLocationGroup.name',
              defaultMessage: 'Current location',
            },
          }),
@@ -498,19 +443,13 @@ A group field is typically configured with the view type `CompoundInput`. The `C
 
    currentLocationGroupList: {
      [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.intakes_common.currentLocationGroupList.name',
-           defaultMessage: 'Current location',
-         },
-       }),
        // ...
      },
      currentLocationGroup: {
        [config]: {
          messages: defineMessages({
-           fullName: {
-             id: 'field.intakes_common.currentLocationGroup.fullName',
+           name: {
+             id: 'field.intakes_common.currentLocationGroup.name',
              defaultMessage: 'Current location',
            },
          }),
@@ -583,7 +522,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
 
    <img align="right" src="./images/inputTableMissingLabel.png">
 
-   ```HTML
+   ```JSX
    // 🚫 BAD - no name specified on InputTable
 
    <InputTable>
