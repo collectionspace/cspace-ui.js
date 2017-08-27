@@ -131,25 +131,19 @@ export default (pluginContext) => {
         },
         entryMethods: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.entryMethods.name',
-                defaultMessage: 'Entry method',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           entryMethod: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.entryMethod.fullName',
+                name: {
+                  id: 'field.intakes_common.entryMethod.name',
                   defaultMessage: 'Entry method',
                 },
               }),
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
@@ -215,10 +209,6 @@ export default (pluginContext) => {
                 id: 'field.intakes_common.despositorsRequirements.name',
                 defaultMessage: 'Requirements',
               },
-              fullName: {
-                id: 'field.intakes_common.despositorsRequirements.fullName',
-                defaultMessage: 'Depositor requirements',
-              },
             }),
             view: {
               type: TextInput,
@@ -272,25 +262,19 @@ export default (pluginContext) => {
         },
         fieldCollectionMethods: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.fieldCollectionMethods.name',
-                defaultMessage: 'Field collection method',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           fieldCollectionMethod: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.fieldCollectionMethod.fullName',
+                name: {
+                  id: 'field.intakes_common.fieldCollectionMethod.name',
                   defaultMessage: 'Field collection method',
                 },
               }),
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
@@ -344,25 +328,19 @@ export default (pluginContext) => {
         },
         fieldCollectionSources: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.fieldCollectionSources.name',
-                defaultMessage: 'Field collection source',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           fieldCollectionSource: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.fieldCollectionSource.fullName',
+                name: {
+                  id: 'field.intakes_common.fieldCollectionSource.name',
                   defaultMessage: 'Field collection source',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
@@ -374,25 +352,19 @@ export default (pluginContext) => {
         },
         fieldCollectors: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.fieldCollectors.name',
-                defaultMessage: 'Field collector',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           fieldCollector: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.fieldCollector.fullName',
+                name: {
+                  id: 'field.intakes_common.fieldCollector.name',
                   defaultMessage: 'Field collector',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
@@ -404,25 +376,19 @@ export default (pluginContext) => {
         },
         fieldCollectionEventNames: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.fieldCollectionEventNames.name',
-                defaultMessage: 'Field collection event name',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           fieldCollectionEventName: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.fieldCollectionEventName.fullName',
+                name: {
+                  id: 'field.intakes_common.fieldCollectionEventName.name',
                   defaultMessage: 'Field collection event name',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
               },
@@ -460,25 +426,19 @@ export default (pluginContext) => {
         },
         insurers: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.insurers.name',
-                defaultMessage: 'Insurer',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           insurer: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.insurer.fullName',
+                name: {
+                  id: 'field.intakes_common.insurer.name',
                   defaultMessage: 'Insurer',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {
@@ -545,12 +505,6 @@ export default (pluginContext) => {
         },
         currentLocationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.currentLocationGroupList.name',
-                defaultMessage: 'Current location',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -558,8 +512,8 @@ export default (pluginContext) => {
           currentLocationGroup: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.currentLocationGroup.fullName',
+                name: {
+                  id: 'field.intakes_common.currentLocationGroup.name',
                   defaultMessage: 'Current location',
                 },
               }),
@@ -598,10 +552,6 @@ export default (pluginContext) => {
                     id: 'field.intakes_common.currentLocationFitness.name',
                     defaultMessage: 'Fitness',
                   },
-                  fullName: {
-                    id: 'field.intakes_common.currentLocationFitness.fullName',
-                    defaultMessage: 'Current location fitness',
-                  },
                 }),
                 view: {
                   type: TermPickerInput,
@@ -617,10 +567,6 @@ export default (pluginContext) => {
                   name: {
                     id: 'field.intakes_common.currentLocationNote.name',
                     defaultMessage: 'Note',
-                  },
-                  fullName: {
-                    id: 'field.intakes_common.currentLocationNote.fullName',
-                    defaultMessage: 'Current location note',
                   },
                 }),
                 view: {
@@ -661,25 +607,19 @@ export default (pluginContext) => {
         },
         conditionCheckMethods: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.conditionCheckMethods.name',
-                defaultMessage: 'Condition check method',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conditionCheckMethod: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.conditionCheckMethod.fullName',
+                name: {
+                  id: 'field.intakes_common.conditionCheckMethod.name',
                   defaultMessage: 'Condition check method',
                 },
               }),
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
@@ -691,25 +631,19 @@ export default (pluginContext) => {
         },
         conditionCheckReasons: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.conditionCheckReasons.name',
-                defaultMessage: 'Condition check reason',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conditionCheckReason: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.conditionCheckReason.fullName',
+                name: {
+                  id: 'field.intakes_common.conditionCheckReason.name',
                   defaultMessage: 'Condition check reason',
                 },
               }),
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
@@ -721,25 +655,19 @@ export default (pluginContext) => {
         },
         conditionCheckersOrAssessors: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.conditionCheckersOrAssessors.name',
-                defaultMessage: 'Condition check assessor',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conditionCheckerOrAssessor: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
-                fullName: {
-                  id: 'field.intakes_common.conditionCheckerOrAssessor.fullName',
+                name: {
+                  id: 'field.intakes_common.conditionCheckerOrAssessor.name',
                   defaultMessage: 'Condition check assessor',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {

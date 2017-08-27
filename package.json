@@ -43,7 +43,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "cspace-client": ">=0.1.2 <0.2.0",
-    "cspace-input": ">=0.12.9 <0.13.0",
+    "cspace-input": ">=0.12.10 <0.13.0",
     "cspace-layout": ">=0.1.23 <0.2.0",
     "cspace-refname": ">=0.0.5 <0.1.0",
     "history": "4.6.2",
@@ -94,7 +94,7 @@
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.1.1",
-    "karma-mocha-reporter": "^2.1.0",
+    "karma-mocha-reporter": "^2.2.4",
     "karma-sauce-launcher": "^1.2.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.4",
