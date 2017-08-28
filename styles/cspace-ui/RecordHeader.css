@@ -6,14 +6,20 @@
   box-sizing: border-box;
 }
 
-.common > header > div {
+.common > div {
   display: flex;
-  margin-top: 10px;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  background: inherit;
+  padding-top: 10px;
 }
 
 .docked {
   composes: common;
+}
+
+.docked > div {
   position: fixed;
   width: calc(calc(100% - 7px) * .7);
   left: 0;

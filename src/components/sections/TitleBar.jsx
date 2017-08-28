@@ -129,7 +129,7 @@ export default class TitleBar extends Component {
         ref={this.setDomNode}
         style={inlineStyle}
       >
-        <div className={styles.inner}>
+        <div>
           {this.renderNav()}
           <div>
             {this.renderTitle()}

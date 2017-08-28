@@ -1,7 +1,6 @@
 /* global window */
 
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import RecordButtonBar from './RecordButtonBar';
@@ -55,13 +54,17 @@ export default class RecordHeader extends Component {
 
     if (!node) return;
 
+    const {
+      dockTop,
+    } = this.props;
+
     if (this.state.docked) {
-      if (window.scrollY < 136) {
+      if ((window.scrollY + dockTop) < node.offsetTop) {
         this.setState({
           docked: false,
         });
       }
-    } else if (window.scrollY >= 136) {
+    } else if ((window.scrollY + dockTop) >= node.offsetTop) {
       this.setState({
         docked: true,
       });
@@ -91,46 +94,48 @@ export default class RecordHeader extends Component {
       docked,
     } = this.state;
 
-    const className = classNames(docked ? styles.docked : '');
-    const containerInlineStyle = docked ? { minHeight: '42px' } : {};
-    const inlineStyle = docked ? { top: (dockTop || 0) } : {};
+    const className = docked ? styles.docked : styles.common;
+
+    const inlineStyle = docked
+      ? { height: this.domNode.offsetHeight }
+      : {};
+
+    const innerInlineStyle = docked
+      ? { top: (dockTop || 0) }
+      : {};
+
 
     return (
-      <div
-        className={styles.common}
-        style={containerInlineStyle}
+      <header
+        className={className}
+        style={inlineStyle}
+        ref={this.setDomNode}
       >
-        <header>
-          <div
-            className={className}
-            ref={this.setDomNode}
-            style={inlineStyle}
-          >
-            <RecordButtonBar
-              csid={csid}
-              isModified={isModified}
-              isSavePending={isSavePending}
-              validationErrors={validationErrors}
-              onSaveButtonClick={onSaveButtonClick}
-              onSaveButtonErrorBadgeClick={onSaveButtonErrorBadgeClick}
-              onRevertButtonClick={onRevertButtonClick}
-              onCloneButtonClick={onCloneButtonClick}
-              onDeleteButtonClick={onDeleteButtonClick}
-            />
-            <RecordFormSelector
-              config={config}
-              formName={formName}
-              recordType={recordType}
-              onCommit={onCommit}
-            />
-            <RecordHistory
-              data={data}
-              isModified={isModified}
-              isSavePending={isSavePending}
-            />
-          </div>
-        </header>
-      </div>
+        <div style={innerInlineStyle}>
+          <RecordButtonBar
+            csid={csid}
+            isModified={isModified}
+            isSavePending={isSavePending}
+            validationErrors={validationErrors}
+            onSaveButtonClick={onSaveButtonClick}
+            onSaveButtonErrorBadgeClick={onSaveButtonErrorBadgeClick}
+            onRevertButtonClick={onRevertButtonClick}
+            onCloneButtonClick={onCloneButtonClick}
+            onDeleteButtonClick={onDeleteButtonClick}
+          />
+          <RecordFormSelector
+            config={config}
+            formName={formName}
+            recordType={recordType}
+            onCommit={onCommit}
+          />
+          <RecordHistory
+            data={data}
+            isModified={isModified}
+            isSavePending={isSavePending}
+          />
+        </div>
+      </header>
     );
   }
 }
