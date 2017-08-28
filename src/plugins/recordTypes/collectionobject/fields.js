@@ -166,18 +166,18 @@ export default (pluginContext) => {
         },
         otherNumberList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.otherNumberList.name',
-                defaultMessage: 'Other number',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           otherNumber: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.otherNumber.name',
+                  defaultMessage: 'Other number',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -219,12 +219,6 @@ export default (pluginContext) => {
         },
         responsibleDepartments: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.responsibleDepartments.name',
-                defaultMessage: 'Responsible department',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -232,8 +226,8 @@ export default (pluginContext) => {
           responsibleDepartment: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.responsibleDepartment.fullName',
+                name: {
+                  id: 'field.collectionobjects_common.responsibleDepartment.name',
                   defaultMessage: 'Responsible department',
                 },
               }),
@@ -282,18 +276,18 @@ export default (pluginContext) => {
         },
         briefDescriptions: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.briefDescriptions.name',
-                defaultMessage: 'Brief description',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           briefDescription: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.briefDescription.name',
+                  defaultMessage: 'Brief description',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -322,18 +316,18 @@ export default (pluginContext) => {
         },
         comments: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.comments.name',
-                defaultMessage: 'Comment',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           comment: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.comment.name',
+                  defaultMessage: 'Comment',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -364,18 +358,18 @@ export default (pluginContext) => {
         },
         titleGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.titleGroupList.name',
-                defaultMessage: 'Title',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           titleGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.titleGroup.name',
+                  defaultMessage: 'Title',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -412,18 +406,18 @@ export default (pluginContext) => {
             },
             titleTranslationSubGroupList: {
               [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.collectionobjects_common.titleTranslationSubGroupList.name',
-                    defaultMessage: 'Translation',
-                  },
-                }),
                 view: {
                   type: CompoundInput,
                 },
               },
               titleTranslationSubGroup: {
                 [config]: {
+                  messages: defineMessages({
+                    name: {
+                      id: 'field.collectionobjects_common.titleTranslationSubGroup.name',
+                      defaultMessage: 'Translation',
+                    },
+                  }),
                   repeating: true,
                   view: {
                     type: CompoundInput,
@@ -483,18 +477,18 @@ export default (pluginContext) => {
         },
         objectNameList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectNameList.name',
-                defaultMessage: 'Object name',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectNameGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectNameGroup.name',
+                  defaultMessage: 'Object name',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -626,12 +620,6 @@ export default (pluginContext) => {
         },
         objectStatusList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectStatusList.name',
-                defaultMessage: 'Object status',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -639,8 +627,8 @@ export default (pluginContext) => {
           objectStatus: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.objectStatus.fullName',
+                name: {
+                  id: 'field.collectionobjects_common.objectStatus.name',
                   defaultMessage: 'Object status',
                 },
               }),
@@ -688,12 +676,6 @@ export default (pluginContext) => {
         },
         forms: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.forms.name',
-                defaultMessage: 'Form',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -701,8 +683,8 @@ export default (pluginContext) => {
           form: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.form.fullName',
+                name: {
+                  id: 'field.collectionobjects_common.form.name',
                   defaultMessage: 'Form',
                 },
               }),
@@ -735,7 +717,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.age.name',
-                defaultMessage: 'Age',
+                defaultMessage: 'Value',
+              },
+              fullName: {
+                id: 'field.collectionobjects_common.age.fullName',
+                defaultMessage: 'Age value',
               },
             }),
             view: {
@@ -777,12 +763,6 @@ export default (pluginContext) => {
         },
         styles: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.styles.name',
-                defaultMessage: 'Style',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -790,8 +770,8 @@ export default (pluginContext) => {
           style: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.style.fullName',
+                name: {
+                  id: 'field.collectionobjects_common.style.name',
                   defaultMessage: 'Style',
                 },
               }),
@@ -804,18 +784,18 @@ export default (pluginContext) => {
         },
         colors: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.colors.name',
-                defaultMessage: 'Color',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           color: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.color.name',
+                  defaultMessage: 'Color',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -825,18 +805,18 @@ export default (pluginContext) => {
         },
         materialGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.materialGroupList.name',
-                defaultMessage: 'Material',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           materialGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.materialGroup.name',
+                  defaultMessage: 'Material',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -946,18 +926,18 @@ export default (pluginContext) => {
         },
         objectComponentGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectComponentGroupList.name',
-                defaultMessage: 'Object component',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectComponentGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectComponentGroup.name',
+                  defaultMessage: 'Object component',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1003,18 +983,18 @@ export default (pluginContext) => {
         },
         technicalAttributeGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.technicalAttributeGroupList.name',
-                defaultMessage: 'Technical attribute',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           technicalAttributeGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.technicalAttributeGroup.name',
+                  defaultMessage: 'Technical attribute',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1079,18 +1059,18 @@ export default (pluginContext) => {
         },
         measuredPartGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.measuredPartGroupList.name',
-                defaultMessage: 'Dimensions',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           measuredPartGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.measuredPartGroup.name',
+                  defaultMessage: 'Dimensions',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1127,18 +1107,18 @@ export default (pluginContext) => {
             },
             dimensionSubGroupList: {
               [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.collectionobjects_common.dimensionSubGroupList.name',
-                    defaultMessage: 'Measurements',
-                  },
-                }),
                 view: {
                   type: CompoundInput,
                 },
               },
               dimensionSubGroup: {
                 [config]: {
+                  messages: defineMessages({
+                    name: {
+                      id: 'field.collectionobjects_common.dimensionSubGroup.name',
+                      defaultMessage: 'Measurements',
+                    },
+                  }),
                   repeating: true,
                   view: {
                     type: CompoundInput,
@@ -1278,18 +1258,18 @@ export default (pluginContext) => {
         },
         contentLanguages: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentLanguages.name',
-                defaultMessage: 'Language',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentLanguage: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentLanguage.name',
+                  defaultMessage: 'Language',
+                },
+              }),
               repeating: true,
               view: {
                 type: TermPickerInput,
@@ -1302,18 +1282,18 @@ export default (pluginContext) => {
         },
         contentActivities: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentActivities.name',
-                defaultMessage: 'Activity',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentActivity: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentActivity.name',
+                  defaultMessage: 'Activity',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -1323,12 +1303,6 @@ export default (pluginContext) => {
         },
         contentConcepts: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentConcepts.name',
-                defaultMessage: 'Concept',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -1370,18 +1344,18 @@ export default (pluginContext) => {
         },
         contentPositions: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentPositions.name',
-                defaultMessage: 'Position',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentPosition: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentPosition.name',
+                  defaultMessage: 'Position',
+                },
+              }),
               repeating: true,
               view: {
                 type: OptionPickerInput,
@@ -1394,18 +1368,18 @@ export default (pluginContext) => {
         },
         contentObjectGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentObjectGroupList.name',
-                defaultMessage: 'Object',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentObjectGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentObjectGroup.name',
+                  defaultMessage: 'Object',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1447,18 +1421,18 @@ export default (pluginContext) => {
         },
         contentPeoples: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentPeoples.name',
-                defaultMessage: 'People',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentPeople: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentPeople.name',
+                  defaultMessage: 'People',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -1468,12 +1442,6 @@ export default (pluginContext) => {
         },
         contentPersons: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentPersons.name',
-                defaultMessage: 'Person',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -1481,13 +1449,13 @@ export default (pluginContext) => {
           contentPerson: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.contentPerson.fullName',
-                  defaultMessage: 'Content person',
-                },
                 name: {
                   id: 'field.collectionobjects_common.contentPerson.name',
                   defaultMessage: 'Person',
+                },
+                fullName: {
+                  id: 'field.collectionobjects_common.contentPerson.fullName',
+                  defaultMessage: 'Content person',
                 },
               }),
               repeating: true,
@@ -1502,18 +1470,18 @@ export default (pluginContext) => {
         },
         contentPlaces: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentPlaces.name',
-                defaultMessage: 'Place',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentPlace: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentPlace.name',
+                  defaultMessage: 'Place',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -1523,18 +1491,18 @@ export default (pluginContext) => {
         },
         contentScripts: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentScripts.name',
-                defaultMessage: 'Script',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentScript: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentScript.name',
+                  defaultMessage: 'Script',
+                },
+              }),
               repeating: true,
               view: {
                 type: OptionPickerInput,
@@ -1547,12 +1515,6 @@ export default (pluginContext) => {
         },
         contentOrganizations: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentOrganizations.name',
-                defaultMessage: 'Organization',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -1560,13 +1522,13 @@ export default (pluginContext) => {
           contentOrganization: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.contentOrganization.fullName',
-                  defaultMessage: 'Content organization',
-                },
                 name: {
                   id: 'field.collectionobjects_common.contentOrganization.name',
                   defaultMessage: 'Organization',
+                },
+                fullName: {
+                  id: 'field.collectionobjects_common.contentOrganization.fullName',
+                  defaultMessage: 'Content organization',
                 },
               }),
               repeating: true,
@@ -1581,18 +1543,18 @@ export default (pluginContext) => {
         },
         contentEventNameGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentEventNameGroupList.name',
-                defaultMessage: 'Event',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentEventNameGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentEventNameGroup.name',
+                  defaultMessage: 'Event',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1631,18 +1593,18 @@ export default (pluginContext) => {
         },
         contentOtherGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.contentOtherGroupList.name',
-                defaultMessage: 'Other',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contentOtherGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.contentOtherGroup.name',
+                  defaultMessage: 'Other',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2009,12 +1971,6 @@ export default (pluginContext) => {
         },
         objectProductionDateGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectProductionDateGroupList.name',
-                defaultMessage: 'Production date',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -2022,8 +1978,8 @@ export default (pluginContext) => {
           objectProductionDateGroup: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.objectProductionDateGroup.fullName',
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionDateGroup.name',
                   defaultMessage: 'Production date',
                 },
               }),
@@ -2039,18 +1995,18 @@ export default (pluginContext) => {
         },
         techniqueGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.techniqueGroupList.name',
-                defaultMessage: 'Production technique',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           techniqueGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.techniqueGroup.name',
+                  defaultMessage: 'Production technique',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2093,18 +2049,18 @@ export default (pluginContext) => {
         },
         objectProductionPlaceGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectProductionPlaceGroupList.name',
-                defaultMessage: 'Production place',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectProductionPlaceGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionPlaceGroup.name',
+                  defaultMessage: 'Production place',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2147,18 +2103,18 @@ export default (pluginContext) => {
         },
         objectProductionReasons: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectProductionReasons.name',
-                defaultMessage: 'Production reason',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectProductionReason: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionReason.name',
+                  defaultMessage: 'Production reason',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -2171,18 +2127,18 @@ export default (pluginContext) => {
         },
         objectProductionPeopleGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectProductionPeopleGroupList.name',
-                defaultMessage: 'Production people',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectProductionPeopleGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionPeopleGroup.name',
+                  defaultMessage: 'Production people',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2225,18 +2181,18 @@ export default (pluginContext) => {
         },
         objectProductionPersonGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectProductionPersonGroupList.name',
-                defaultMessage: 'Production person',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectProductionPersonGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionPersonGroup.name',
+                  defaultMessage: 'Production person',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2282,18 +2238,18 @@ export default (pluginContext) => {
         },
         objectProductionOrganizationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.objectProductionOrganizationGroupList.name',
-                defaultMessage: 'Production organization',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           objectProductionOrganizationGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionOrganizationGroup.name',
+                  defaultMessage: 'Production organization',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2355,18 +2311,18 @@ export default (pluginContext) => {
         },
         assocActivityGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocActivityGroupList.name',
-                defaultMessage: 'Associated activity',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocActivityGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocActivityGroup.name',
+                  defaultMessage: 'Associated activity',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2418,18 +2374,18 @@ export default (pluginContext) => {
         },
         assocObjectGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocObjectGroupList.name',
-                defaultMessage: 'Associated object',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocObjectGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocObjectGroup.name',
+                  defaultMessage: 'Associated object',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2481,18 +2437,18 @@ export default (pluginContext) => {
         },
         assocConceptGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocConceptGroupList.name',
-                defaultMessage: 'Associated concept',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocConceptGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocConceptGroup.name',
+                  defaultMessage: 'Associated concept',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2551,18 +2507,18 @@ export default (pluginContext) => {
         },
         assocCulturalContextGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocCulturalContextGroupList.name',
-                defaultMessage: 'Associated cultural affinity',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocCulturalContextGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocCulturalContextGroup.name',
+                  defaultMessage: 'Associated cultural affinity',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2614,18 +2570,18 @@ export default (pluginContext) => {
         },
         assocOrganizationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocOrganizationGroupList.name',
-                defaultMessage: 'Associated organization',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocOrganizationGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocOrganizationGroup.name',
+                  defaultMessage: 'Associated organization',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2684,18 +2640,18 @@ export default (pluginContext) => {
         },
         assocPeopleGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocPeopleGroupList.name',
-                defaultMessage: 'Associated people',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocPeopleGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocPeopleGroup.name',
+                  defaultMessage: 'Associated people',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2747,18 +2703,18 @@ export default (pluginContext) => {
         },
         assocPersonGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocPersonGroupList.name',
-                defaultMessage: 'Associated person',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocPersonGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocPersonGroup.name',
+                  defaultMessage: 'Associated person',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2817,18 +2773,18 @@ export default (pluginContext) => {
         },
         assocPlaceGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocPlaceGroupList.name',
-                defaultMessage: 'Associated place',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocPlaceGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocPlaceGroup.name',
+                  defaultMessage: 'Associated place',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -2906,12 +2862,6 @@ export default (pluginContext) => {
         },
         assocEventOrganizations: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocEventOrganizations.name',
-                defaultMessage: 'Associated event organization',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -2936,18 +2886,18 @@ export default (pluginContext) => {
         },
         assocEventPeoples: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocEventPeoples.name',
-                defaultMessage: 'Associated event people',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocEventPeople: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocEventPeople.name',
+                  defaultMessage: 'Associated event people',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -2957,12 +2907,6 @@ export default (pluginContext) => {
         },
         assocEventPersons: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocEventPersons.name',
-                defaultMessage: 'Associated event person',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -2987,18 +2931,18 @@ export default (pluginContext) => {
         },
         assocEventPlaces: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocEventPlaces.name',
-                defaultMessage: 'Associated event place',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocEventPlace: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocEventPlace.name',
+                  defaultMessage: 'Associated event place',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -3021,18 +2965,18 @@ export default (pluginContext) => {
         },
         assocDateGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.assocDateGroupList.name',
-                defaultMessage: 'Associated date',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           assocDateGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.assocDateGroup.name',
+                  defaultMessage: 'Associated date',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -3100,18 +3044,18 @@ export default (pluginContext) => {
         },
         usageGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.usageGroupList.name',
-                defaultMessage: 'Usage',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           usageGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.usageGroup.name',
+                  defaultMessage: 'Usage',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -3150,12 +3094,6 @@ export default (pluginContext) => {
         },
         owners: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.owners.name',
-                defaultMessage: 'Owner',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -3180,18 +3118,18 @@ export default (pluginContext) => {
         },
         ownershipDateGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.ownershipDateGroupList.name',
-                defaultMessage: 'Ownership date',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           ownershipDateGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.ownershipDateGroup.name',
+                  defaultMessage: 'Ownership date',
+                },
+              }),
               repeating: true,
               view: {
                 type: StructuredDateInput,
@@ -3341,18 +3279,18 @@ export default (pluginContext) => {
         },
         ownersReferences: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.ownersReferences.name',
-                defaultMessage: 'Owner\'s reference',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           ownersReference: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.ownersReference.name',
+                  defaultMessage: 'Owner\'s reference',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -3423,18 +3361,18 @@ export default (pluginContext) => {
         },
         viewersReferences: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.viewersReferences.name',
-                defaultMessage: 'Viewer\'s reference',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           viewersReference: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.viewersReference.name',
+                  defaultMessage: 'Viewer\'s reference',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,
@@ -3520,18 +3458,18 @@ export default (pluginContext) => {
         },
         fieldCollectionMethods: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.fieldCollectionMethods.name',
-                defaultMessage: 'Field collection method',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           fieldCollectionMethod: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.fieldCollectionMethod.name',
+                  defaultMessage: 'Field collection method',
+                },
+              }),
               repeating: true,
               view: {
                 type: TermPickerInput,
@@ -3589,12 +3527,6 @@ export default (pluginContext) => {
         },
         fieldCollectionSources: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.fieldCollectionSources.name',
-                defaultMessage: 'Field collection source',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -3619,12 +3551,6 @@ export default (pluginContext) => {
         },
         fieldCollectors: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.fieldCollectors.name',
-                defaultMessage: 'Field collection collector',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -3634,7 +3560,7 @@ export default (pluginContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.fieldCollector.name',
-                  defaultMessage: 'Field collection collector',
+                  defaultMessage: 'Field collector',
                 },
               }),
               repeating: true,
@@ -3649,12 +3575,6 @@ export default (pluginContext) => {
         },
         fieldColEventNames: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.fieldColEventNames.name',
-                defaultMessage: 'Field collection event name',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -3662,8 +3582,8 @@ export default (pluginContext) => {
           fieldColEventName: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.collectionobjects_common.fieldColEventName.fullName',
+                name: {
+                  id: 'field.collectionobjects_common.fieldColEventName.name',
                   defaultMessage: 'Field collection event name',
                 },
               }),

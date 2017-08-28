@@ -71,7 +71,7 @@ const template = (pluginContext) => {
         </Field>
       </Panel>
 
-      <Panel name="desc" collapsible>
+      <Panel name="desc" collapsible collapsed>
         {/* TODO: Break out measuredPartGroupList */}
 
         <Field name="measuredPartGroupList">

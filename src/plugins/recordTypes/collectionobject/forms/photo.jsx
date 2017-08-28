@@ -73,7 +73,7 @@ const template = (pluginContext) => {
         </Field>
       </Panel>
 
-      <Panel name="desc" collapsible>
+      <Panel name="desc" collapsible collapsed>
         <Row>
           <div>
             <Field name="copyNumber" />

@@ -88,7 +88,7 @@ const template = (pluginContext) => {
         </Field>
       </Panel>
 
-      <Panel name="desc" collapsible>
+      <Panel name="desc" collapsible collapsed>
         <Row>
           <div>
             <Field name="copyNumber" />
@@ -196,7 +196,7 @@ const template = (pluginContext) => {
               </Field>
 
               <Field name="contentConcepts">
-                <Field name="contentConcept" label="" />
+                <Field name="contentConcept" />
               </Field>
 
               <Field name="contentDateGroup" />
@@ -219,7 +219,7 @@ const template = (pluginContext) => {
               </Field>
 
               <Field name="contentPersons">
-                <Field name="contentPerson" label="" />
+                <Field name="contentPerson" />
               </Field>
 
               <Field name="contentPlaces">
@@ -231,7 +231,7 @@ const template = (pluginContext) => {
               </Field>
 
               <Field name="contentOrganizations">
-                <Field name="contentOrganization" label="" />
+                <Field name="contentOrganization" />
               </Field>
 
               <Field name="contentEventNameGroupList">
@@ -437,7 +437,7 @@ const template = (pluginContext) => {
               </InputTable>
 
               <Field name="assocEventOrganizations">
-                <Field name="assocEventOrganization" label="" />
+                <Field name="assocEventOrganization" />
               </Field>
 
               <Field name="assocEventPeoples">
@@ -445,7 +445,7 @@ const template = (pluginContext) => {
               </Field>
 
               <Field name="assocEventPersons">
-                <Field name="assocEventPerson" label="" />
+                <Field name="assocEventPerson" />
               </Field>
 
               <Field name="assocEventPlaces">
@@ -477,7 +477,7 @@ const template = (pluginContext) => {
         <Row>
           <div>
             <Field name="owners">
-              <Field name="owner" label="" />
+              <Field name="owner" />
             </Field>
 
             <Field name="ownershipDateGroupList">
@@ -552,11 +552,11 @@ const template = (pluginContext) => {
             <Field name="fieldCollectionPlace" />
 
             <Field name="fieldCollectionSources">
-              <Field name="fieldCollectionSource" label="" />
+              <Field name="fieldCollectionSource" />
             </Field>
 
             <Field name="fieldCollectors">
-              <Field name="fieldCollector" label="" />
+              <Field name="fieldCollector" />
             </Field>
 
             <Field name="fieldColEventNames">
