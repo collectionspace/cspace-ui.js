@@ -147,7 +147,7 @@ export default class RecordPage extends Component {
   // Handle positioning of RecordHeader on dock depending on TitleBar height.
   handleTitleBarHeightChanged(height) {
     this.setState({
-      headerDockPosition: height - 10,
+      headerDockPosition: height,
     });
   }
 

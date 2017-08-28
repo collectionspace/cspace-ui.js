@@ -5,12 +5,6 @@
   background: white;
 }
 
-.common > header {
-  display: flex;
-  margin-top: 10px;
-  align-items: baseline;
-}
-
 .common > footer {
   margin-bottom: 10px;
 }
