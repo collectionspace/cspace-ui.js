@@ -68,7 +68,7 @@ export default class RecordPage extends Component {
     super();
 
     this.handleShowRelated = this.handleShowRelated.bind(this);
-    this.handleTitleBarHeightChanged = this.handleTitleBarHeightChanged.bind(this);
+    this.handleTitleBarOnDocked = this.handleTitleBarOnDocked.bind(this);
 
     this.state = ({
       headerDockPosition: null,
@@ -144,8 +144,7 @@ export default class RecordPage extends Component {
     });
   }
 
-  // Handle positioning of RecordHeader on dock depending on TitleBar height.
-  handleTitleBarHeightChanged(height) {
+  handleTitleBarOnDocked(height) {
     this.setState({
       headerDockPosition: height,
     });
@@ -217,7 +216,7 @@ export default class RecordPage extends Component {
           vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
-          onHeightChanged={this.handleTitleBarHeightChanged}
+          onDocked={this.handleTitleBarOnDocked}
         />
         <div className={pageBodyStyles.common}>
           <RecordBrowserContainer
