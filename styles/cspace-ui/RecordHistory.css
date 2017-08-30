@@ -4,6 +4,10 @@
   text-align: right;
 }
 
+.common button {
+  white-space: nowrap;
+}
+
 .common ul {
   list-style: none;
   margin: 0;

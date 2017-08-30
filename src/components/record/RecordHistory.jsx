@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 
@@ -6,6 +6,7 @@ import {
   defineMessages,
   FormattedMessage,
   FormattedDate,
+  FormattedRelative,
   FormattedTime,
 } from 'react-intl';
 
@@ -25,16 +26,20 @@ const messages = defineMessages({
   updated: {
     id: 'recordHistory.updated',
     defaultMessage: `{style, select,
-      full {Updated {date} {time} / {user}}
+      full {Updated {date} {time} by {user}}
       dateTime {Updated {date} {time}}
     }`,
   },
   created: {
     id: 'recordHistory.created',
     defaultMessage: `{style, select,
-      full {Created {date} {time} / {user}}
+      full {Created {date} {time} by {user}}
       dateTime {Created {date} {time}}
     }`,
+  },
+  savedRelative: {
+    id: 'recordHistory.savedRelative',
+    defaultMessage: 'Saved {relativeTime}',
   },
   editing: {
     id: 'recordHistory.editing',
@@ -54,7 +59,13 @@ const formatDate = timestamp => (
 
 const formatTime = timestamp => (
   timestamp
-    ? <FormattedTime value={timestamp} />
+    ? <FormattedTime value={timestamp} hour="numeric" minute="numeric" second="numeric" />
+    : null
+);
+
+const formatTimeRelative = timestamp => (
+  timestamp
+    ? <FormattedRelative value={timestamp} />
     : null
 );
 
@@ -70,85 +81,179 @@ const propTypes = {
   isSavePending: PropTypes.bool,
 };
 
-export default function RecordHistory(props) {
-  const {
-    data,
-    isModified,
-    isSavePending,
-  } = props;
+export default class RecordHistory extends Component {
+  constructor() {
+    super();
 
-  const updatedTimestamp = getUpdatedTimestamp(data);
-  const updatedUserId = getUpdatedUser(data);
+    this.renderHistory = this.renderHistory.bind(this);
+    this.handlePopoverBeforeClose = this.handlePopoverBeforeClose.bind(this);
+    this.handlePopoverBeforeOpen = this.handlePopoverBeforeOpen.bind(this);
 
-  let updated = null;
+    // The header shows last saved time as a FormattedRelative that gets automatically updated at
+    // most every ten seconds. The popup content also shows last saved time as a FormattedRelative,
+    // but since it is mounted at a different time than the one in the header, the two can easily
+    // be out of sync. Fix this by unmounting the one in the header when the popup is open, and
+    // remounting it when the popup is closed, in order to force it to update to the same (or
+    // greater) value as was shown in the popup.
 
-  if (updatedTimestamp || updatedUserId) {
-    updated = (
-      <FormattedMessage
-        {...messages.updated}
-        key="updated"
-        values={{
-          date: formatDate(updatedTimestamp),
-          time: formatTime(updatedTimestamp),
-          user: formatUserId(updatedUserId),
-          style: updatedUserId ? 'full' : 'dateTime',
-        }}
-      />
+    this.state = {
+      showHeader: true,
+    };
+  }
+
+  handlePopoverBeforeClose() {
+    this.setState({
+      showHeader: true,
+    });
+  }
+
+  handlePopoverBeforeOpen() {
+    this.setState({
+      showHeader: false,
+    });
+  }
+
+  renderCurrentState() {
+    const {
+      data,
+      isModified,
+      isSavePending,
+    } = this.props;
+
+    if (isSavePending) {
+      return (
+        <FormattedMessage {...messages.saving} />
+      );
+    }
+
+    if (isModified) {
+      return (
+        <FormattedMessage {...messages.editing} />
+      );
+    }
+
+    const updatedTimestamp = getUpdatedTimestamp(data);
+
+    if (updatedTimestamp) {
+      return (
+        <FormattedMessage
+          {...messages.savedRelative}
+          key="saved"
+          values={{
+            relativeTime: formatTimeRelative(updatedTimestamp),
+          }}
+        />
+      );
+    }
+
+    const createdTimestamp = getCreatedTimestamp(data);
+
+    if (createdTimestamp) {
+      return (
+        <FormattedMessage
+          {...messages.savedRelative}
+          key="saved"
+          values={{
+            relativeTime: formatTimeRelative(createdTimestamp),
+          }}
+        />
+      );
+    }
+
+    return null;
+  }
+
+  renderHistory() {
+    const {
+      data,
+    } = this.props;
+
+    const currentState = this.renderCurrentState();
+
+    const updatedTimestamp = getUpdatedTimestamp(data);
+    const updatedUserId = getUpdatedUser(data);
+
+    let updated = null;
+
+    if (updatedTimestamp) {
+      updated = (
+        <FormattedMessage
+          {...messages.updated}
+          key="updated"
+          values={{
+            date: formatDate(updatedTimestamp),
+            time: formatTime(updatedTimestamp),
+            user: formatUserId(updatedUserId),
+            style: updatedUserId ? 'full' : 'dateTime',
+          }}
+        />
+      );
+    }
+
+    const createdTimestamp = getCreatedTimestamp(data);
+    const createdUserId = getCreatedUser(data);
+
+    let created = null;
+
+    if (createdTimestamp) {
+      created = (
+        <FormattedMessage
+          {...messages.created}
+          key="created"
+          values={{
+            date: formatDate(createdTimestamp),
+            time: formatTime(createdTimestamp),
+            user: formatUserId(createdUserId),
+            style: createdUserId ? 'full' : 'dateTime',
+          }}
+        />
+      );
+    }
+
+    const items = [currentState, updated, created].filter(item => !!item);
+
+    return (
+      <ul>
+        {items.map(item => <li key={item.key}>{item}</li>)}
+      </ul>
     );
   }
 
-  const createdTimestamp = getCreatedTimestamp(data);
-  const createdUserId = getCreatedUser(data);
+  renderHeader() {
+    const {
+      showHeader,
+    } = this.state;
 
-  let created = null;
-
-  if (createdTimestamp || createdUserId) {
-    created = (
-      <FormattedMessage
-        {...messages.created}
-        key="created"
-        values={{
-          date: formatDate(createdTimestamp),
-          time: formatTime(createdTimestamp),
-          user: formatUserId(createdUserId),
-          style: createdUserId ? 'full' : 'dateTime',
-        }}
-      />
-    );
+    return (showHeader ? this.renderCurrentState() : <br />);
   }
 
-  let currentState;
+  render() {
+    const {
+      data,
+    } = this.props;
 
-  if (isSavePending) {
-    currentState = (
-      <FormattedMessage {...messages.saving} key="current" />
-    );
-  } else if (isModified) {
-    currentState = (
-      <FormattedMessage {...messages.editing} key="current" />
+    let content;
+
+    if (getUpdatedTimestamp(data) || getCreatedTimestamp(data)) {
+      content = (
+        <Popover
+          align="right"
+          header={this.renderHeader()}
+          renderContent={this.renderHistory}
+          onBeforeOpen={this.handlePopoverBeforeOpen}
+          onBeforeClose={this.handlePopoverBeforeClose}
+        />
+      );
+    } else {
+      content = this.renderCurrentState();
+    }
+
+    return (
+      <div className={styles.common}>
+        {content}
+      </div>
     );
   }
-
-  const items = [currentState, updated, created].filter(item => !!item);
-  let history;
-
-  if (items.length > 1) {
-    history = (
-      <Popover header={items[0]} align="right">
-        <ul>
-          {items.map(item => <li key={item.key}>{item}</li>)}
-        </ul>
-      </Popover>
-    );
-  } else if (items.length > 0) {
-    history = items[0];
-  }
-
-  return (
-    <div className={styles.common}>
-      {history}
-    </div>
-  );
 }
 
 RecordHistory.propTypes = propTypes;
