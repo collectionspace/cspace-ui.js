@@ -21,7 +21,7 @@ export default () => pluginContext => ({
         contact: {
           recordType: 'contact',
           subresource: 'contacts',
-          saveAfterContainer: true,
+          saveStage: 'after',
         },
       },
       vocabularies: {

@@ -13,6 +13,7 @@ import {
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_UPLOAD_TYPE,
 } from '../../../src/actions/prefs';
 
 import reducer, {
@@ -25,6 +26,7 @@ import reducer, {
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
   getSearchToRelatePageSize,
+  getUploadType,
   isPanelCollapsed,
 } from '../../../src/reducers/prefs';
 
@@ -244,6 +246,21 @@ describe('prefs reducer', function suite() {
     }));
 
     getSearchToRelatePageSize(state).should.equal(pageSize);
+  });
+
+  it('should handle SET_UPLOAD_TYPE', function test() {
+    const uploadType = 'file';
+
+    const state = reducer(undefined, {
+      type: SET_UPLOAD_TYPE,
+      payload: uploadType,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      uploadType,
+    }));
+
+    getUploadType(state).should.equal(uploadType);
   });
 
   it('should handle PREFS_LOADED', function test() {

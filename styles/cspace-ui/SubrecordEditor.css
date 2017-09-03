@@ -1,0 +1,13 @@
+.common {
+  position: relative;
+}
+
+.common > button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.common + :global(.cspace-layout-Panel--common) {
+  margin-top: 10px;
+}

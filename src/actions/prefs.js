@@ -14,6 +14,7 @@ export const SET_SEARCH_PANEL_PAGE_SIZE = 'SET_SEARCH_PANEL_PAGE_SIZE';
 export const SET_SEARCH_RESULT_PAGE_PAGE_SIZE = 'SET_SEARCH_RESULT_PAGE_PAGE_SIZE';
 export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
 export const SET_FORM = 'SET_FORM';
+export const SET_UPLOAD_TYPE = 'SET_UPLOAD_TYPE';
 
 export const storageKey = 'cspace-ui';
 
@@ -79,6 +80,11 @@ export const setForm = (recordType, formName) => ({
   meta: {
     recordType,
   },
+});
+
+export const setUploadType = type => ({
+  type: SET_UPLOAD_TYPE,
+  payload: type,
 });
 
 export const loadPrefs = () => (dispatch, getState) => {

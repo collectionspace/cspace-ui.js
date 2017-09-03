@@ -5,6 +5,7 @@ import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import merge from 'lodash/merge';
 import { searchKey } from '../../../src/reducers/search';
 
 import {
@@ -37,6 +38,8 @@ import {
 
 import {
   CREATE_NEW_RECORD,
+  CREATE_NEW_SUBRECORD,
+  DETACH_SUBRECORD,
   RECORD_CREATED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
@@ -57,6 +60,8 @@ import {
   VALIDATION_FAILED,
   VALIDATION_PASSED,
   createNewRecord,
+  createNewSubrecord,
+  detachSubrecord,
   readRecord,
   saveRecord,
   revertRecord,
@@ -72,8 +77,6 @@ import {
   SEARCH_FULFILLED,
   SET_MOST_RECENT_SEARCH,
 } from '../../../src/actions/search';
-
-const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -181,8 +184,9 @@ describe('record action creator', function suite() {
               data: {},
             },
             meta: {
-              csid: cloneCsid,
+              config,
               recordTypeConfig,
+              csid: cloneCsid,
             },
           });
 
@@ -194,6 +198,178 @@ describe('record action creator', function suite() {
               cloneCsid,
             },
           });
+        });
+    });
+  });
+
+  describe('createNewSubrecord', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+
+    before(() => {
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      return store.dispatch(configureCSpace());
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch CREATE_NEW_SUBRECORD', function test() {
+      const store = mockStore({});
+
+      const config = {
+        foo: 'abc',
+      };
+
+      const csid = '1234';
+      const csidField = ['document', 'csid'];
+      const subrecordName = 'blob';
+
+      const subrecordTypeConfig = {
+        bar: '123',
+      };
+
+      const subrecordVocabularyConfig = {
+        baz: 'xyz',
+      };
+
+      const cloneCsid = undefined;
+      const isDefault = true;
+
+      return store.dispatch(createNewSubrecord(
+        config, csid, csidField, subrecordName,
+        subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid, isDefault
+      ))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: CREATE_NEW_SUBRECORD,
+            meta: {
+              config,
+              csid,
+              csidField,
+              subrecordName,
+              subrecordTypeConfig,
+              cloneCsid,
+              isDefault,
+            },
+          });
+        });
+    });
+
+    it('should read the record to be cloned', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
+      const config = {
+        foo: 'abc',
+      };
+
+      const csid = '1234';
+      const csidField = ['document', 'csid'];
+      const subrecordName = 'blob';
+
+      const subrecordServicePath = 'blobs';
+
+      const subrecordTypeConfig = {
+        serviceConfig: {
+          servicePath: subrecordServicePath,
+        },
+      };
+
+      const cloneCsid = '9999';
+      const isDefault = true;
+
+      const readRecordUrl = new RegExp(`^/cspace-services/${subrecordServicePath}/${cloneCsid}.*`);
+
+      moxios.stubRequest(readRecordUrl, {
+        status: 200,
+        response: {},
+      });
+
+      return store.dispatch(createNewSubrecord(
+        config, csid, csidField, subrecordName,
+        subrecordTypeConfig, undefined, cloneCsid, isDefault
+      ))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RECORD_READ_STARTED,
+            meta: {
+              csid: cloneCsid,
+              recordTypeConfig: subrecordTypeConfig,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: RECORD_READ_FULFILLED,
+            meta: {
+              config,
+              csid: cloneCsid,
+              recordTypeConfig: subrecordTypeConfig,
+            },
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: CREATE_NEW_SUBRECORD,
+            meta: {
+              config,
+              csid,
+              csidField,
+              subrecordName,
+              subrecordTypeConfig,
+              cloneCsid,
+              isDefault,
+            },
+          });
+        });
+    });
+  });
+
+  describe('detachSubrecord', function actionSuite() {
+    it('should return a DETACH_SUBRECORD action', function test() {
+      const config = {
+        foo: 'bar',
+      };
+
+      const csid = '1234';
+      const csidField = ['document', 'blobCsid'];
+      const subrecordName = 'blob';
+
+      const subrecordTypeConfig = {
+        bar: 'baz',
+      };
+
+      detachSubrecord(config, csid, csidField, subrecordName, subrecordTypeConfig).should
+        .deep.equal({
+          type: DETACH_SUBRECORD,
+          meta: {
+            config,
+            csid,
+            csidField,
+            subrecordName,
+            subrecordTypeConfig,
+          },
         });
     });
   });
@@ -264,6 +440,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                config,
                 csid,
                 recordTypeConfig,
               },
@@ -304,7 +481,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should return null if a read is already pending for the given csid', function test() {
+      it('should dispatch no actions if a read is already pending for the given csid', function test() {
         const store = mockStore({
           record: Immutable.fromJS({
             [csid]: {
@@ -313,11 +490,13 @@ describe('record action creator', function suite() {
           }),
         });
 
-        expect(store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid)))
-          .to.equal(null);
+        store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            store.getActions().should.have.lengthOf(0);
+          });
       });
 
-      it('should return null if data is already available for the given csid', function test() {
+      it('should dispatch no actions if data is already available for the given csid', function test() {
         const store = mockStore({
           record: Immutable.fromJS({
             [csid]: {
@@ -328,8 +507,10 @@ describe('record action creator', function suite() {
           }),
         });
 
-        expect(store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid)))
-          .to.equal(null);
+        store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            store.getActions().should.have.lengthOf(0);
+          });
       });
     });
 
@@ -403,6 +584,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                config,
                 csid,
                 recordTypeConfig,
               },
@@ -521,9 +703,7 @@ describe('record action creator', function suite() {
           status: 200,
           response: {
             'ns2:abstract-common-list': {
-              'list-item': {
-                csid: subrecordCsid,
-              },
+              // No results.
             },
           },
         });
@@ -544,7 +724,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(5);
 
             actions[0].should.deep.equal({
               type: RECORD_READ_STARTED,
@@ -563,6 +743,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                config,
                 csid,
                 recordTypeConfig,
               },
@@ -575,6 +756,11 @@ describe('record action creator', function suite() {
             actions[3].type.should.equal(SEARCH_FULFILLED);
             actions[3].meta.searchDescriptor.should.equal(expectedSubrecordSearchDescriptor);
             actions[3].meta.searchName.should.equal(expectedSubrecordSearchName);
+
+            actions[4].type.should.equal(CREATE_NEW_SUBRECORD);
+            actions[4].meta.csid.should.equal(csid);
+            actions[4].meta.isDefault.should.equal(true);
+            actions[4].meta.subrecordName.should.equal(subrecordName);
           });
       });
 
@@ -631,6 +817,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                config,
                 csid,
                 recordTypeConfig,
               },
@@ -655,6 +842,7 @@ describe('record action creator', function suite() {
                 data: {},
               },
               meta: {
+                config,
                 csid: subrecordCsid,
                 recordTypeConfig: subrecordTypeConfig,
               },
@@ -709,7 +897,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_SAVE_REJECTED if there are validation errors', function test() {
+      it('should dispatch VALIDATION_FAILED if there are validation errors', function test() {
         const recordTypeConfigWithRequiredField = Object.assign({}, recordTypeConfig, {
           fields: {
             objectNumber: {
@@ -737,40 +925,28 @@ describe('record action creator', function suite() {
           }),
         });
 
-        store.dispatch(saveRecord(config, recordTypeConfigWithRequiredField, undefined, csid));
-
-        return new Promise((resolve) => {
-          setTimeout(() => {
+        return store.dispatch(
+          saveRecord(config, recordTypeConfigWithRequiredField, undefined, csid)
+        )
+          .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(4);
+            actions.should.have.lengthOf(2);
 
-            actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid,
-              },
-            });
+            actions[0].type.should.equal(VALIDATION_FAILED);
 
-            actions[1].type.should.equal(VALIDATION_FAILED);
-            actions[1].payload.should.equal(Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD));
-            actions[1].meta.should.deep.equal({
+            actions[0].payload.should.equal(
+              Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD)
+            );
+
+            actions[0].meta.should.deep.equal({
               csid,
               path: [],
             });
 
-            actions[2].should.have.property('type', SHOW_NOTIFICATION);
-            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
-
-            actions[3].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[3].should.have.property('meta')
-              .that.deep.equals({
-                csid,
-              });
-
-            resolve();
-          }, 0);
-        });
+            actions[1].should.have.property('type', SHOW_NOTIFICATION);
+            actions[1].should.have.deep.property('payload.status', STATUS_ERROR);
+          });
       });
 
       it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
@@ -807,13 +983,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid,
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid,
@@ -821,10 +990,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
               },
             });
 
@@ -879,13 +1055,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid,
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid,
@@ -893,10 +1062,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
               },
             });
 
@@ -939,13 +1115,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid: '',
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid: '',
@@ -953,10 +1122,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: '',
               },
             });
 
@@ -999,13 +1175,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid: '',
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid: '',
@@ -1013,10 +1182,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: '',
               },
             });
 
@@ -1078,13 +1254,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid: '',
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid: '',
@@ -1092,10 +1261,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: '',
               },
             });
 
@@ -1128,6 +1304,61 @@ describe('record action creator', function suite() {
             });
 
             reportedCreatedCsid.should.equal(createdCsid);
+          });
+      });
+
+      it('should merge in a request config contribution from the record type config', function test() {
+        let requestConfigData = null;
+
+        const recordTypeConfigWithRequestConfig = merge({}, recordTypeConfig, {
+          requestConfig: (dataArg) => {
+            requestConfigData = dataArg;
+
+            return {
+              params: {
+                foo: 'bar',
+              },
+            };
+          },
+        });
+
+        moxios.stubRequest(saveRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        moxios.stubRequest(readRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const data = Immutable.fromJS({
+          document: {
+            'ns2:collectionspace_core': {
+              uri: `/${servicePath}/${csid}`,
+            },
+          },
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: data,
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(
+          saveRecord(config, recordTypeConfigWithRequestConfig, undefined, csid)
+        )
+          .then(() => {
+            requestConfigData.should.equal(data);
+
+            moxios.requests.first().config.params.should.deep.equal({
+              foo: 'bar',
+            });
           });
       });
     });
@@ -1212,13 +1443,6 @@ describe('record action creator', function suite() {
             actions.should.have.lengthOf(6);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid,
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid,
@@ -1226,10 +1450,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
               },
             });
 
@@ -1256,7 +1487,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for a record with subrecords', function contextSuite() {
+    context('for a record with subrersource subrecords', function contextSuite() {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -1270,6 +1501,7 @@ describe('record action creator', function suite() {
       const subrecordSubresourceServicePath = 'contacts';
       const subrecordCsid = 'abcd';
       const saveRecordUrl = `/cspace-services/${recordServicePath}/${vocabularyServicePath}/items/${csid}`;
+      const saveSubrecordUrl = `/cspace-services/${recordServicePath}/${vocabularyServicePath}/items/${csid}/${subrecordSubresourceServicePath}/${subrecordCsid}`;
       const readRecordUrl = new RegExp(`^/cspace-services/${recordServicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}.*`);
 
       const vocabularyConfig = {
@@ -1287,12 +1519,12 @@ describe('record action creator', function suite() {
         subrecords: {
           [subrecordName]: {
             subresource: subrecordSubresource,
-            saveAfterContainer: true,
+            saveStage: 'after',
           },
           foo: {
             // This subrecord config doesn't contain a subresource or csidField, so it should have
             // no effect.
-            saveAfterContainer: true,
+            saveStage: 'after',
           },
         },
         title: () => '',
@@ -1317,6 +1549,12 @@ describe('record action creator', function suite() {
       };
 
       const config = {
+        listTypes: {
+          common: {
+            listNodeName: 'ns2:abstract-common-list',
+            itemNodeName: 'list-item',
+          },
+        },
         recordTypes: {
           [recordType]: recordTypeConfig,
           [subrecordType]: subrecordTypeConfig,
@@ -1381,22 +1619,16 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          search: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(10);
+            actions.should.have.lengthOf(13);
 
             actions[0].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid,
-              },
-            });
-
-            actions[1].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid,
@@ -1404,10 +1636,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[2].should.deep.equal({
+            actions[1].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
               },
             });
 
@@ -1415,13 +1654,6 @@ describe('record action creator', function suite() {
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.deep.equal({
-              type: RECORD_SAVE_STARTED,
-              meta: {
-                csid: subrecordCsid,
-              },
-            });
-
-            actions[5].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid: subrecordCsid,
@@ -1429,10 +1661,17 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[6].should.deep.equal({
+            actions[5].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[6].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: subrecordCsid,
               },
             });
 
@@ -1466,6 +1705,131 @@ describe('record action creator', function suite() {
                 relatedSubjectCsid: undefined,
               },
             });
+
+            // Subrecord initialization actions. In this test the subrecord won't be found (even
+            // though it was just saved), because the search result won't exist in the mocked
+            // store.
+
+            actions[10].should.have.property('type', SEARCH_STARTED);
+            actions[11].should.have.property('type', SEARCH_FULFILLED);
+            actions[12].should.have.property('type', CREATE_NEW_SUBRECORD);
+          });
+      });
+
+      it('should dispatch RECORD_SAVE_REJECTED if the subrecord save fails', function test() {
+        moxios.stubRequest(saveSubrecordUrl, {
+          status: 400,
+          response: {},
+        });
+
+        moxios.stubRequest(saveRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        moxios.stubRequest(readRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${recordServicePath}/${vocabularyServicePath}/items/${csid}`,
+                    },
+                  },
+                },
+              },
+              subrecord: {
+                [subrecordName]: subrecordCsid,
+              },
+            },
+            [subrecordCsid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${recordServicePath}/${vocabularyServicePath}/items/${csid}/${subrecordSubresourceServicePath}/${subrecordCsid}`,
+                    },
+                  },
+                },
+              },
+            },
+          }),
+          search: Immutable.Map(),
+        });
+
+        return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .catch(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(10);
+
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[4].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: subrecordCsid,
+                path: [],
+              },
+            });
+
+            actions[5].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[6].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: subrecordCsid,
+              },
+            });
+
+            actions[7].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[7].should.have.property('meta')
+              .that.deep.equals({
+                csid: subrecordCsid,
+              });
+
+            actions[8].should.have.property('type', SHOW_NOTIFICATION);
+            actions[8].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[9].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[9].should.have.property('meta')
+              .that.deep.equals({
+                csid,
+              });
           });
       });
 
@@ -1526,13 +1890,14 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          search: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(12);
+            actions.should.have.lengthOf(15);
 
             actions[9].should.deep.equal({
               type: SUBRECORD_CREATED,
@@ -1540,6 +1905,479 @@ describe('record action creator', function suite() {
                 csid,
                 subrecordName,
                 subrecordCsid: newRecordCsid,
+              },
+            });
+          });
+      });
+    });
+
+    context('for a record with field-referenced subrecords', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordType = 'person';
+      const recordServicePath = 'personauthorities';
+      const vocabulary = 'local';
+      const vocabularyServicePath = 'urn:cspace:name(person)';
+      const csid = '5678';
+      const subrecordName = 'blob';
+      const subrecordType = 'blob';
+      const subrecordServicePath = 'blobs';
+      const subrecordCsidField = ['document', 'ns2:persons_common', 'blobCsid'];
+      const subrecordCsid = 'abcd';
+      const saveRecordUrl = `/cspace-services/${recordServicePath}/${vocabularyServicePath}/items/${csid}`;
+      const saveSubrecordUrl = `/cspace-services/${subrecordServicePath}/${subrecordCsid}`;
+
+      const vocabularyConfig = {
+        name: vocabulary,
+        serviceConfig: {
+          servicePath: vocabularyServicePath,
+        },
+      };
+
+      const recordTypeConfig = {
+        name: recordType,
+        serviceConfig: {
+          servicePath: recordServicePath,
+        },
+        subrecords: {
+          [subrecordName]: {
+            csidField: subrecordCsidField,
+            recordType: subrecordType,
+            saveCondition: data => !data.getIn(['document', 'noSave']),
+            saveStage: 'before',
+          },
+        },
+        title: () => '',
+        vocabularies: {
+          [vocabulary]: vocabularyConfig,
+        },
+      };
+
+      const subrecordTypeConfig = {
+        name: subrecordType,
+        serviceConfig: {
+          servicePath: subrecordServicePath,
+        },
+        title: () => '',
+      };
+
+      const config = {
+        recordTypes: {
+          [recordType]: recordTypeConfig,
+          [subrecordType]: subrecordTypeConfig,
+        },
+      };
+
+      before(() => {
+        const store = mockStore({
+          user: Immutable.Map(),
+        });
+
+        return store.dispatch(configureCSpace());
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+        moxios.stubRequest(saveRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        moxios.stubRequest(saveSubrecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${recordServicePath}/${vocabularyServicePath}/items/${csid}`,
+                    },
+                    'ns2:persons_common': {
+                      blobCsid: subrecordCsid,
+                    },
+                  },
+                },
+              },
+              subrecord: {
+                [subrecordName]: subrecordCsid,
+              },
+            },
+            [subrecordCsid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${subrecordServicePath}/${subrecordCsid}`,
+                    },
+                  },
+                },
+              },
+            },
+          }),
+          search: Immutable.Map(),
+        });
+
+        return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(11);
+
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[4].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: subrecordCsid,
+                path: [],
+              },
+            });
+
+            actions[5].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[6].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: subrecordCsid,
+              },
+            });
+
+            actions[7].should.deep.equal({
+              type: RECORD_SAVE_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid: subrecordCsid,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[8].should.have.property('type', SHOW_NOTIFICATION);
+            actions[8].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[9].should.deep.equal({
+              type: RECORD_SAVE_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[10].should.deep.equal({
+              type: SUBRECORD_READ_FULFILLED,
+              meta: {
+                csid,
+                subrecordCsid,
+                subrecordName,
+              },
+            });
+          });
+      });
+
+      it('should dispatch SUBRECORD_CREATED if a new subrecord is created', function test() {
+        const saveNewSubrecordUrl = `/cspace-services/${subrecordServicePath}`;
+        const createdSubrecordCsid = '8888';
+        const readNewSubrecordUrl = `/cspace-services/${subrecordServicePath}/${createdSubrecordCsid}?showRelations=true&wf_deleted=false`;
+
+        moxios.stubRequest(saveRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        moxios.stubRequest(saveNewSubrecordUrl, {
+          status: 201,
+          headers: {
+            location: `some/new/url/${createdSubrecordCsid}`,
+          },
+        });
+
+        moxios.stubRequest(readNewSubrecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${recordServicePath}/${vocabularyServicePath}/items/${csid}`,
+                    },
+                    'ns2:persons_common': {
+                      blobCsid: subrecordCsid,
+                    },
+                  },
+                },
+              },
+              subrecord: {
+                [subrecordName]: subrecordCsid,
+              },
+            },
+            [subrecordCsid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      // No uri, so it's a new record.
+                    },
+                  },
+                },
+              },
+            },
+          }),
+          search: Immutable.Map(),
+        });
+
+        return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(13);
+
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[4].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: subrecordCsid,
+                path: [],
+              },
+            });
+
+            actions[5].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[6].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: subrecordCsid,
+              },
+            });
+
+            actions[7].should.deep.equal({
+              type: RECORD_CREATED,
+              meta: {
+                currentCsid: subrecordCsid,
+                newRecordCsid: createdSubrecordCsid,
+              },
+            });
+
+            actions[8].should.deep.equal({
+              type: RECORD_SAVE_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid: createdSubrecordCsid,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[9].should.deep.equal({
+              type: SUBRECORD_CREATED,
+              meta: {
+                csid,
+                subrecordName,
+                csidField: subrecordCsidField,
+                subrecordCsid: createdSubrecordCsid,
+              },
+            });
+
+            actions[10].should.have.property('type', SHOW_NOTIFICATION);
+            actions[10].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[11].should.deep.equal({
+              type: RECORD_SAVE_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                relatedSubjectCsid: undefined,
+              },
+            });
+          });
+      });
+
+      it('should not save the subrecord if the configured save condition function returns false', function test() {
+        moxios.stubRequest(saveRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${recordServicePath}/${vocabularyServicePath}/items/${csid}`,
+                    },
+                    'ns2:persons_common': {
+                      blobCsid: subrecordCsid,
+                    },
+                  },
+                },
+              },
+              subrecord: {
+                [subrecordName]: subrecordCsid,
+              },
+            },
+            [subrecordCsid]: {
+              data: {
+                current: {
+                  document: {
+                    'ns2:collectionspace_core': {
+                      uri: `/${subrecordServicePath}/${subrecordCsid}`,
+                    },
+                    // The configured saveCondition checks this field.
+                    noSave: true,
+                  },
+                },
+              },
+            },
+          }),
+          search: Immutable.Map(),
+        });
+
+        return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(7);
+
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid,
+                path: [],
+              },
+            });
+
+            actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid,
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[5].should.deep.equal({
+              type: RECORD_SAVE_FULFILLED,
+              payload: {
+                status: 200,
+                statusText: undefined,
+                headers: undefined,
+                data: {},
+              },
+              meta: {
+                csid,
+                relatedSubjectCsid: undefined,
+              },
+            });
+
+            actions[6].should.deep.equal({
+              type: SUBRECORD_READ_FULFILLED,
+              meta: {
+                csid,
+                subrecordCsid,
+                subrecordName,
               },
             });
           });
@@ -1568,6 +2406,7 @@ describe('record action creator', function suite() {
         type: REVERT_RECORD,
         meta: {
           csid,
+          recordTypeConfig,
         },
       });
 

@@ -23,12 +23,17 @@
   composes: common;
 }
 
+.utility {
+  composes: common;
+}
+
 .authority {
   composes: common;
 }
 
 .object :global(.cspace-layout-Panel--common),
-.procedure :global(.cspace-layout-Panel--common) {
+.procedure :global(.cspace-layout-Panel--common),
+.utility :global(.cspace-layout-Panel--common) {
   background-color: rgba(156, 185, 211, .2);
 }
 

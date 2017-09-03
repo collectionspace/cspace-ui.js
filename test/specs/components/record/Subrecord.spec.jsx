@@ -15,16 +15,18 @@ describe('Subrecord', function suite() {
   const subrecordType = 'contact';
   const subrecordVocabulary = 'foo';
 
+  const subrecordConfig = {
+    recordType: subrecordType,
+    vocabulary: subrecordVocabulary,
+  };
+
   const template = 'default';
 
   const config = {
     recordTypes: {
       [recordType]: {
         subrecords: {
-          [subrecordName]: {
-            recordType: subrecordType,
-            vocabulary: subrecordVocabulary,
-          },
+          [subrecordName]: subrecordConfig,
         },
       },
     },
@@ -43,6 +45,7 @@ describe('Subrecord', function suite() {
       <Subrecord
         name={subrecordName}
         template={template}
+        showDetachButton
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -51,9 +54,9 @@ describe('Subrecord', function suite() {
     result.props.containerCsid.should.equal(csid);
     result.props.name.should.equal(subrecordName);
     result.props.config.should.equal(config);
-    result.props.recordType.should.equal(subrecordType);
-    result.props.vocabulary.should.equal(subrecordVocabulary);
+    result.props.subrecordConfig.should.equal(subrecordConfig);
     result.props.formName.should.equal(template);
+    result.props.showDetachButton.should.equal(true);
   });
 
   it('should render nothing if the named subrecord is not configured for the record type', function test() {

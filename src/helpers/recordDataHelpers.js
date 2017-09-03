@@ -18,6 +18,10 @@ import {
   isFieldRequired,
 } from './configHelpers';
 
+import {
+  isCsid,
+} from './csidHelpers';
+
 const numericPattern = /^[0-9]$/;
 
 export const NS_PREFIX = 'ns2';
@@ -284,18 +288,24 @@ export const attributePropertiesToTop = (propertyNameA, propertyNameB) => {
 };
 
 /**
- * Prepare record data for POST or PUT to the CollectionSpace REST API. Document parts that may
- * be present in data retrieved from the REST API, but that do not need to be present in data sent
- * to the API, are removed. In the remaining parts, properties beginning with '@', which represent
- * XML attributes and namespace declarations, are moved to the top. This is required by the REST
- * API in order to properly translate the payload to XML.
+ * Prepare record data for POST or PUT to the CollectionSpace REST API:
+ *
+ * - Document parts that may be present in data retrieved from the REST API, but that should not be
+ *   present in data sent to the API, are removed.
+ * - In the remaining parts, properties beginning with '@', which represent XML attributes and
+ *   namespace declarations, are moved to the top. This is required by the REST API in order to
+ *   properly translate the payload to XML.
  */
-export const prepareForSending = (data) => {
+export const prepareForSending = (data, recordTypeConfig) => {
   // Filter out the core schema and account information parts.
+  // TODO: Use field configuration to determine what should be removed.
 
   let cspaceDocument = data.get(DOCUMENT_PROPERTY_NAME)
-    .filter((value, key) =>
-      (key !== `${NS_PREFIX}:collectionspace_core` && key !== `${NS_PREFIX}:account_permission`));
+    .filter((value, key) => (
+      key !== `${NS_PREFIX}:collectionspace_core`
+      && key !== `${NS_PREFIX}:account_permission`
+      && key !== `${NS_PREFIX}:image_metadata`
+    ));
 
   // For each remaining part, move XML attribute and namespace declaration properties (those
   // that start with @) to the top, since the REST API requires this.
@@ -329,7 +339,28 @@ export const prepareForSending = (data) => {
     );
   }
 
-  return data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
+  let updatedData = data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
+
+  // Set to null any subrecord csid fields that don't contain valid csids -- these are pointing to
+  // new subrecords that haven't been saved.
+
+  const { subrecords } = recordTypeConfig;
+
+  if (subrecords) {
+    Object.values(subrecords).forEach((subrecordConfig) => {
+      const { csidField } = subrecordConfig;
+
+      if (csidField) {
+        const subrecordCsid = deepGet(updatedData, csidField);
+
+        if (!isCsid(subrecordCsid)) {
+          updatedData = deepSet(updatedData, csidField, null);
+        }
+      }
+    });
+  }
+
+  return updatedData;
 };
 
 export const getCoreFieldValue = (data, fieldName) => {
@@ -530,3 +561,8 @@ export const validateField = (data, path, recordData, fieldDescriptor, expandRep
 
 export const validateRecordData = (data, recordTypeConfig) =>
   validateField(data, [], data, get(recordTypeConfig, 'fields'));
+
+export const isNewRecord = data =>
+  (!data || !data.getIn(['document', 'ns2:collectionspace_core', 'uri']));
+
+export const isExistingRecord = data => !isNewRecord(data);

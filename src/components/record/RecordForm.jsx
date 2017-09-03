@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import warning from 'warning';
 import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordForm.css';
@@ -103,7 +104,17 @@ export default class RecordForm extends Component {
       onRemoveInstance,
     };
 
-    const formTemplate = forms[formName].template;
+    let formTemplate = get(forms, [formName, 'template']);
+
+    if (typeof formTemplate === 'function') {
+      const resolvedFormName = formTemplate(data);
+
+      if (!resolvedFormName) {
+        return null;
+      }
+
+      formTemplate = forms[resolvedFormName].template;
+    }
 
     warning(formTemplate, `No form template found for form name ${formName} in record type ${recordType}. Check the record type plugin configuration.`);
 

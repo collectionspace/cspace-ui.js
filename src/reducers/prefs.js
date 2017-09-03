@@ -12,6 +12,7 @@ import {
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
   SET_FORM,
+  SET_UPLOAD_TYPE,
 } from '../actions/prefs';
 
 export default (state = Immutable.Map(), action) => {
@@ -50,6 +51,8 @@ export default (state = Immutable.Map(), action) => {
       return state.set('searchToRelatePageSize', action.payload);
     case SET_FORM:
       return state.setIn(['form', action.meta.recordType], action.payload);
+    case SET_UPLOAD_TYPE:
+      return state.set('uploadType', action.payload);
     default:
       return state;
   }
@@ -84,3 +87,6 @@ export const getRecordBrowserNavBarItems = (state, recordType) =>
 
 export const getForm = (state, recordType) =>
   state.getIn(['form', recordType]);
+
+export const getUploadType = state =>
+  state.get('uploadType');

@@ -176,7 +176,7 @@ describe('MediaViewer', function suite() {
 
     Simulate.click(image);
 
-    const mediaViewerWindow = window.open('', 'mediaViewer');
+    const mediaViewerWindow = window.open('', 'viewer');
 
     return new Promise((resolve) => {
       window.setTimeout(() => {

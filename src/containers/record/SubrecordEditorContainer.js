@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 
 import {
+  detachSubrecord,
+} from '../../actions/record';
+
+import {
   getRecordData,
   getRecordSubrecordCsid,
 } from '../../reducers';
@@ -21,6 +25,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = {
+  detachSubrecord,
+};
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(SubrecordEditor);

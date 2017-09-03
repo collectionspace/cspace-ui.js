@@ -58,6 +58,9 @@ const config = {
           },
           template: <p>inventory template</p>,
         },
+        computed: {
+          template: data => data.getIn(['foo', 'bar']),
+        },
         photo: {
           messages: {
             name: {
@@ -136,6 +139,50 @@ describe('RecordForm', function suite() {
       </IntlProvider>, this.container);
 
     this.container.querySelector('p').textContent.should.equal('inventory template');
+  });
+
+  it('should resolve a computed form template', function test() {
+    const data = Immutable.fromJS({
+      foo: {
+        bar: 'inventory',
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordForm
+            config={config}
+            data={data}
+            recordType="collectionobject"
+            formName="computed"
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('p').textContent.should.equal('inventory template');
+  });
+
+  it('should render nothing if a computed form returns no form name', function test() {
+    const data = Immutable.fromJS({
+      foo: {
+        bar: undefined,
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordForm
+            config={config}
+            data={data}
+            recordType="collectionobject"
+            formName="computed"
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
   });
 
   it('should render the data into the form template', function test() {
