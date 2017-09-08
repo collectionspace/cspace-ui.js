@@ -17,6 +17,18 @@ export default {
       width: 200,
     },
     {
+      name: 'family',
+      messages: defineMessages({
+        label: {
+          id: 'column.pottag.default.family',
+          defaultMessage: 'Family',
+        },
+      }),
+      formatValue: value => getDisplayName(value),
+      sortBy: 'pottags_common:family',
+      width: 200,
+    },
+    {
       name: 'printLabels',
       messages: defineMessages({
         label: {
