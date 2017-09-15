@@ -1,4 +1,5 @@
 import { defineMessages } from 'react-intl';
+import getCoreFields from '../../../helpers/coreFields';
 
 export default (pluginContext) => {
   const {
@@ -9,19 +10,13 @@ export default (pluginContext) => {
     TextInput,
     TermPickerInput,
     CheckboxInput,
-    DateInput,
-    // StructuredDateInput,
   } = pluginContext.inputComponents;
 
   const {
     configKey: config,
   } = pluginContext.configHelpers;
 
-  const {
-    DATA_TYPE_DATETIME,
-    // DATA_TYPE_FLOAT,
-    // DATA_TYPE_INT,
-  } = pluginContext.dataTypes;
+  const coreFields = getCoreFields(pluginContext);
 
   return {
     document: {
@@ -63,51 +58,8 @@ export default (pluginContext) => {
           },
         },
       },
-      // TODO: Define core fields in one taxon.
-      'ns2:collectionspace_core': {
-        createdAt: {
-          [config]: {
-            dataType: DATA_TYPE_DATETIME,
-            view: {
-              type: DateInput,
-            },
-          },
-        },
-        createdBy: {
-          [config]: {
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        updatedAt: {
-          [config]: {
-            dataType: DATA_TYPE_DATETIME,
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionspace_core.updatedAt.name',
-                defaultMessage: 'Last updated time',
-              },
-            }),
-            view: {
-              type: DateInput,
-            },
-          },
-        },
-        updatedBy: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionspace_core.updatedBy.name',
-                defaultMessage: 'Last updated by',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-      },
+      // Define core fields
+      ...coreFields,
       'ns2:taxon_common': {
         [config]: {
           service: {

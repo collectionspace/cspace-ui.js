@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import corefields from '../../subresources/corefields';
+import getCoreFields from '../../../helpers/coreFields';
 
 export default (pluginContext) => {
   const {
@@ -22,10 +22,9 @@ export default (pluginContext) => {
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
     DATA_TYPE_DATE,
-    DATA_TYPE_DATETIME,
   } = pluginContext.dataTypes;
 
-  const coreFields = corefields(pluginContext);
+  const coreFields = getCoreFields(pluginContext);
 
   return {
     document: {
@@ -38,7 +37,7 @@ export default (pluginContext) => {
         },
       },
       // Define core fields
-      coreFields,
+      ...coreFields,
       'ns2:relations-common-list': {
         [config]: {
           service: {

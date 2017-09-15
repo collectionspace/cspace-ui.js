@@ -1,7 +1,13 @@
+import { defineMessages } from 'react-intl';
+
 export default (pluginContext) => {
   const {
     DATA_TYPE_DATETIME,
   } = pluginContext.dataTypes;
+
+  const {
+    configKey: config,
+  } = pluginContext.configHelpers;
 
   const {
     TextInput,
@@ -53,5 +59,5 @@ export default (pluginContext) => {
         },
       },
     },
-  }
+  };
 };

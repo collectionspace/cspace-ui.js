@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import corefields from '../../subresources/corefields';
+import getCoreFields from '../../../helpers/coreFields';
 
 export default (pluginContext) => {
   const {
@@ -18,9 +18,10 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    DATA_TYPE_DATETIME,
     DATA_TYPE_INT,
   } = pluginContext.dataTypes;
+
+  const coreFields = getCoreFields(pluginContext);
 
   return {
     document: {
@@ -32,7 +33,8 @@ export default (pluginContext) => {
           },
         },
       },
-      corefields,
+      // Define core fields
+      'ns2:collectionspace_core': coreFields,
       'ns2:acquisitions_common': {
         [config]: {
           service: {

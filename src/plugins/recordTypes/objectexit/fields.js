@@ -1,4 +1,5 @@
 import { defineMessages } from 'react-intl';
+import getCoreFields from '../../../helpers/coreFields';
 
 export default (pluginContext) => {
   const {
@@ -10,7 +11,6 @@ export default (pluginContext) => {
     IDGeneratorInput,
     TermPickerInput,
     StructuredDateInput,
-    // URLInput,
   } = pluginContext.inputComponents;
 
   const {
@@ -18,9 +18,10 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    DATA_TYPE_DATETIME,
     DATA_TYPE_FLOAT,
   } = pluginContext.dataTypes;
+
+  const coreFields = getCoreFields(pluginContext);
 
   return {
     document: {
@@ -32,51 +33,8 @@ export default (pluginContext) => {
           },
         },
       },
-      // TODO: Define core fields in one place.
-      'ns2:collectionspace_core': {
-        createdAt: {
-          [config]: {
-            dataType: DATA_TYPE_DATETIME,
-            view: {
-              type: DateInput,
-            },
-          },
-        },
-        createdBy: {
-          [config]: {
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        updatedAt: {
-          [config]: {
-            dataType: DATA_TYPE_DATETIME,
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionspace_core.updatedAt.name',
-                defaultMessage: 'Last updated time',
-              },
-            }),
-            view: {
-              type: DateInput,
-            },
-          },
-        },
-        updatedBy: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionspace_core.updatedBy.name',
-                defaultMessage: 'Last updated by',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-      },
+      // Define core fields
+      ...coreFields,
       'ns2:objectexit_common': {
         [config]: {
           service: {
