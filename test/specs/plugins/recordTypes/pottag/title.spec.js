@@ -33,4 +33,14 @@ describe('pot tag record title', function suite() {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
+
+  it('should return empty string if the common part is not present', function test() {
+    const cspaceDocument = Immutable.fromJS({
+      'ns2:pottags_extension': {
+        commonName: 'Something',
+      },
+    });
+
+    title(cspaceDocument).should.equal('');
+  });
 });
