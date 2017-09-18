@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router';
 import Immutable from 'immutable';
 import RecordButtonBar from './RecordButtonBar';
-import RecordFormSelector from './RecordFormSelector';
-import RecordHistory from './RecordHistory';
+import RecordHeader from './RecordHeader';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
@@ -17,6 +16,7 @@ const propTypes = {
   csid: PropTypes.string,
   cloneCsid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  dockTop: PropTypes.number,
   formName: PropTypes.string,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
@@ -311,6 +311,7 @@ export default class RecordEditor extends Component {
       config,
       csid,
       data,
+      dockTop,
       formName,
       isModified,
       isSavePending,
@@ -326,30 +327,23 @@ export default class RecordEditor extends Component {
 
     return (
       <form className={styles.common} autoComplete="off">
-        <header>
-          <RecordButtonBar
-            csid={csid}
-            isModified={isModified}
-            isSavePending={isSavePending}
-            validationErrors={validationErrors}
-            onSaveButtonClick={this.handleSaveButtonClick}
-            onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
-            onRevertButtonClick={this.handleRevertButtonClick}
-            onCloneButtonClick={this.handleCloneButtonClick}
-            onDeleteButtonClick={this.handleDeleteButtonClick}
-          />
-          <RecordFormSelector
-            config={config}
-            formName={formName}
-            recordType={recordType}
-            onCommit={this.handleRecordFormSelectorCommit}
-          />
-          <RecordHistory
-            data={data}
-            isModified={isModified}
-            isSavePending={isSavePending}
-          />
-        </header>
+        <RecordHeader
+          csid={csid}
+          isModified={isModified}
+          isSavePending={isSavePending}
+          validationErrors={validationErrors}
+          onSaveButtonClick={this.handleSaveButtonClick}
+          onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
+          onRevertButtonClick={this.handleRevertButtonClick}
+          onCloneButtonClick={this.handleCloneButtonClick}
+          onDeleteButtonClick={this.handleDeleteButtonClick}
+          config={config}
+          formName={formName}
+          recordType={recordType}
+          onCommit={this.handleRecordFormSelectorCommit}
+          data={data}
+          dockTop={dockTop}
+        />
         <RecordFormContainer
           config={config}
           csid={csid}

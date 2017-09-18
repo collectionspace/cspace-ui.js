@@ -68,6 +68,11 @@ export default class RecordPage extends Component {
     super();
 
     this.handleShowRelated = this.handleShowRelated.bind(this);
+    this.handleTitleBarOnDocked = this.handleTitleBarOnDocked.bind(this);
+
+    this.state = ({
+      headerDockPosition: null,
+    });
   }
 
   componentDidMount() {
@@ -139,7 +144,17 @@ export default class RecordPage extends Component {
     });
   }
 
+  handleTitleBarOnDocked(height) {
+    this.setState({
+      headerDockPosition: height,
+    });
+  }
+
   render() {
+    const {
+      headerDockPosition,
+    } = this.state;
+
     const {
       config,
       error,
@@ -201,11 +216,13 @@ export default class RecordPage extends Component {
           vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
+          onDocked={this.handleTitleBarOnDocked}
         />
         <div className={pageBodyStyles.common}>
           <RecordBrowserContainer
             cloneCsid={cloneCsid}
             csid={normalizedCsid}
+            dockTop={headerDockPosition}
             history={history}
             location={location}
             recordType={recordType}

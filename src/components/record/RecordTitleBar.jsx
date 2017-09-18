@@ -22,6 +22,7 @@ const propTypes = {
   vocabulary: PropTypes.string,
   searchName: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  onDocked: PropTypes.func,
 };
 
 const contextTypes = {
@@ -36,6 +37,7 @@ export default function RecordTitleBar(props, context) {
     vocabulary,
     searchName,
     searchDescriptor,
+    onDocked,
   } = props;
 
   const {
@@ -85,6 +87,7 @@ export default function RecordTitleBar(props, context) {
       title={title}
       aside={aside}
       nav={nav}
+      onDocked={onDocked}
     />
   );
 }
