@@ -35,3 +35,15 @@ Edit the following files in the new plugin directory:
 Next, add the plugin to the default set of record type plugins that are enabled in the application. This is done by editing [src/plugins/recordTypes/index.js](../../../src/plugins/recordTypes/index.js). In that file, import the new plugin, and add it to the exported list of plugins.
 
 The new record type should now appear on the Create New screen, and you should now be able to view and edit records of the new type at the URL `/record/{name}/{csid}`.
+
+Next, add tests for the plugin. The tests for the built-in record type plugins are located in the [test/specs/plugins/recordTypes](../../../test/specs/plugins/recordTypes) directory. Each subdirectory contains the test code for the plugin for a record type.
+
+Start by copying the tests for existing record type plugin, to use it as a template.
+
+```
+$ cp -r test/specs/plugins/recordTypes/collectionobject test/specs/plugins/recordTypes/{name}
+```
+
+Substitute `{name}` with the name of the new record type. By convention, this is the name that you used when you created the new plugin.
+
+Edit each file in the new directory replacing the the field names, imports, variables, etc to to correspond to the plugin record type you will be testing.
