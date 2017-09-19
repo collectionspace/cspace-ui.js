@@ -38,7 +38,7 @@ The new record type should now appear on the Create New screen, and you should n
 
 Next, add tests for the plugin. The tests for the built-in record type plugins are located in the [test/specs/plugins/recordTypes](../../../test/specs/plugins/recordTypes) directory. Each subdirectory contains the test code for the plugin for a record type.
 
-Start by copying the tests for existing record type plugin, to use it as a template.
+Start by copying the tests for existing record type plugin, to use as a template.
 
 ```
 $ cp -r test/specs/plugins/recordTypes/collectionobject test/specs/plugins/recordTypes/{name}
