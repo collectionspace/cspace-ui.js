@@ -23,7 +23,7 @@ import place from './place';
 import procedure from './procedure';
 import valuation from './valuation';
 import work from './work';
-// import taxon from './taxon';
+import taxon from './taxon';
 
 export default [
   all,
@@ -49,7 +49,7 @@ export default [
   person,
   place,
   procedure,
-  // taxon,
+  taxon,
   valuation,
   work,
 ];
