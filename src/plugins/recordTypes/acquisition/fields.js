@@ -34,7 +34,7 @@ export default (pluginContext) => {
         },
       },
       // Define core fields
-      'ns2:collectionspace_core': coreFields,
+      ...coreFields,
       'ns2:acquisitions_common': {
         [config]: {
           service: {
