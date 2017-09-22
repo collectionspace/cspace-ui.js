@@ -92,7 +92,8 @@ export default class RecordHistory extends Component {
     // The header shows last saved time as a FormattedRelative that gets automatically updated at
     // most every ten seconds. The popup content also shows last saved time as a FormattedRelative,
     // but since it is mounted at a different time than the one in the header, the two can easily
-    // be out of sync. Fix this by unmounting the one in the header when the popup is open, and
+    // be out of sync.
+    // DRYD-169: Fix this by unmounting the one in the header when the popup is open, and
     // remounting it when the popup is closed, in order to force it to update to the same (or
     // greater) value as was shown in the popup.
 
