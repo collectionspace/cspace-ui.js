@@ -19,9 +19,13 @@ export default {
     },
   }),
   panel: defineMessages({
-    mediaInfo: {
-      id: 'panel.media.mediaInfo',
+    media: {
+      id: 'panel.media.media',
       defaultMessage: 'Media Handling Information',
+    },
+    file: {
+      id: 'panel.media.file',
+      defaultMessage: 'File Information',
     },
   }),
 };

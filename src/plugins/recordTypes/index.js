@@ -1,6 +1,7 @@
 import all from './all';
 import acquisition from './acquisition';
 import authority from './authority';
+import blob from './blob';
 import citation from './citation';
 import collectionobject from './collectionobject';
 import concept from './concept';
@@ -29,6 +30,7 @@ export default [
   all,
   acquisition,
   authority,
+  blob,
   citation,
   collectionobject,
   concept,

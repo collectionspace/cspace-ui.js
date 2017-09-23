@@ -3,6 +3,7 @@ import forms from './forms';
 import messages from './messages';
 import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
+import title from './title';
 
 export default () => pluginContext => ({
   optionLists,
@@ -12,6 +13,7 @@ export default () => pluginContext => ({
       serviceConfig,
       fields: fields(pluginContext),
       forms: forms(pluginContext),
+      title: title(pluginContext),
     },
   },
 });

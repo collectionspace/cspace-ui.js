@@ -4,7 +4,9 @@ import chaiImmutable from 'chai-immutable';
 import {
   ADD_FIELD_INSTANCE,
   CREATE_NEW_RECORD,
+  CREATE_NEW_SUBRECORD,
   DELETE_FIELD_VALUE,
+  DETACH_SUBRECORD,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_CREATED,
@@ -275,13 +277,106 @@ describe('record reducer', function suite() {
       },
     }));
 
-    const subrecordCsid = getNewSubrecordCsid(state, 'contact');
+    const contactSubrecordCsid = getNewSubrecordCsid(state, 'contact');
 
-    getData(state, subrecordCsid).should.equal(Immutable.fromJS({
+    getData(state, contactSubrecordCsid).should.equal(Immutable.fromJS({
       document: {
         '@name': 'contacts',
       },
     }));
+
+    getSubrecordCsid(state, '', 'contact').should.equal(contactSubrecordCsid);
+
+    // Subrecord referenced by a csid field
+
+    state = reducer(undefined, {
+      type: CREATE_NEW_RECORD,
+      meta: {
+        config: {
+          recordTypes: {
+            blob: {
+              serviceConfig: {
+                documentName: 'blobs',
+              },
+              fields: {
+                document: {},
+              },
+            },
+          },
+        },
+        recordTypeConfig: {
+          serviceConfig: {
+            documentName: 'media',
+          },
+          fields: {
+            document: {},
+          },
+          subrecords: {
+            blob: {
+              recordType: 'blob',
+              csidField: ['foo', 'blobCsid'],
+            },
+          },
+        },
+      },
+    });
+
+    const blobSubrecordCsid = getNewSubrecordCsid(state, 'blob');
+
+    getData(state, blobSubrecordCsid).should.equal(Immutable.fromJS({
+      document: {
+        '@name': 'blobs',
+      },
+    }));
+
+    getSubrecordCsid(state, '', 'blob').should.equal(blobSubrecordCsid);
+
+    // Subrecord referenced by a csid field, via clone
+
+    state = reducer(Immutable.fromJS({
+      1234: {
+        data: {
+          current: {
+            foo: {
+              blobCsid: '8888',
+            },
+          },
+        },
+      },
+    }), {
+      type: CREATE_NEW_RECORD,
+      meta: {
+        cloneCsid: '1234',
+        config: {
+          recordTypes: {
+            blob: {
+              serviceConfig: {
+                documentName: 'blobs',
+              },
+              fields: {
+                document: {},
+              },
+            },
+          },
+        },
+        recordTypeConfig: {
+          serviceConfig: {
+            documentName: 'media',
+          },
+          fields: {
+            document: {},
+          },
+          subrecords: {
+            blob: {
+              recordType: 'blob',
+              csidField: ['foo', 'blobCsid'],
+            },
+          },
+        },
+      },
+    });
+
+    getSubrecordCsid(state, '', 'blob').should.equal('8888');
   });
 
   it('should handle DELETE_FIELD_VALUE', function test() {
@@ -791,18 +886,10 @@ describe('record reducer', function suite() {
     });
 
     state.should.equal(Immutable.fromJS({
-      [csid]: {
-        error: {
-          code: 'ERR_CODE',
-        },
-      },
+      [csid]: {},
     }));
 
     expect(isSavePending(state, csid)).to.equal(undefined);
-
-    getError(state, csid).should.equal(Immutable.fromJS({
-      code: 'ERR_CODE',
-    }));
   });
 
   it('should handle REVERT_RECORD', function test() {
@@ -863,6 +950,104 @@ describe('record reducer', function suite() {
         data: {
           baseline: subrecordData,
           current: subrecordData,
+        },
+      },
+    }));
+
+    isModified(state, csid).should.equal(false);
+  });
+
+  it('should handle REVERT_RECORD when subrecord csid fields are present', function test() {
+    const baselineSubrecordCsid = '0000';
+
+    const baselineSubrecordBaselineData = Immutable.fromJS({
+      baz: 'abc',
+    });
+
+    const baselineSubrecordCurrentData = Immutable.fromJS({
+      baz: 'xyz',
+    });
+
+    const currentSubrecordCsid = '1111';
+
+    const currentSubrecordData = Immutable.fromJS({
+      baz: 'def',
+    });
+
+    const csid = '1234';
+
+    const baselineData = Immutable.fromJS({
+      foo: {
+        bar: 'a',
+        blobCsid: baselineSubrecordCsid,
+      },
+    });
+
+    const currentData = Immutable.fromJS({
+      foo: {
+        bar: 'b',
+        blobCsid: currentSubrecordCsid,
+      },
+    });
+
+    const recordTypeConfig = {
+      subrecords: {
+        blob: {
+          csidField: ['foo', 'blobCsid'],
+        },
+      },
+    };
+
+    const state = reducer(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: baselineData,
+          current: currentData,
+        },
+        subrecord: {
+          blob: currentSubrecordCsid,
+        },
+      },
+      [currentSubrecordCsid]: {
+        data: {
+          baseline: currentSubrecordData,
+          current: currentSubrecordData,
+        },
+      },
+      [baselineSubrecordCsid]: {
+        data: {
+          baseline: baselineSubrecordBaselineData,
+          current: baselineSubrecordCurrentData,
+        },
+      },
+    }), {
+      type: REVERT_RECORD,
+      meta: {
+        csid,
+        recordTypeConfig,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: baselineData,
+          current: baselineData,
+        },
+        subrecord: {
+          blob: baselineSubrecordCsid,
+        },
+      },
+      [currentSubrecordCsid]: {
+        data: {
+          baseline: currentSubrecordData,
+          current: currentSubrecordData,
+        },
+      },
+      [baselineSubrecordCsid]: {
+        data: {
+          baseline: baselineSubrecordBaselineData,
+          current: baselineSubrecordBaselineData,
         },
       },
     }));
@@ -1133,6 +1318,136 @@ describe('record reducer', function suite() {
     }));
   });
 
+  it('should handle CREATE_NEW_SUBRECORD', function test() {
+    const csid = '1234';
+    const csidField = ['document', 'ns2:media_common', 'blobCsid'];
+    const subrecordName = 'blob';
+
+    const blobConfig = {
+      fields: {
+        document: {},
+      },
+      serviceConfig: {
+        documentName: 'blobs',
+      },
+    };
+
+    const config = {
+      recordTypes: {
+        blob: blobConfig,
+      },
+    };
+
+    const state = reducer(undefined, {
+      type: CREATE_NEW_SUBRECORD,
+      meta: {
+        config,
+        csid,
+        csidField,
+        subrecordName,
+        subrecordTypeConfig: blobConfig,
+      },
+    });
+
+    const expectedNewSubrecordKey = `/${subrecordName}`;
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        data: {
+          current: {
+            document: {
+              'ns2:media_common': {
+                blobCsid: expectedNewSubrecordKey,
+              },
+            },
+          },
+        },
+        subrecord: {
+          [subrecordName]: expectedNewSubrecordKey,
+        },
+      },
+      [expectedNewSubrecordKey]: {
+        data: {
+          baseline: {
+            document: {
+              '@name': 'blobs',
+            },
+          },
+          current: {
+            document: {
+              '@name': 'blobs',
+            },
+          },
+        },
+      },
+    }));
+  });
+
+  it('should handle DETACH_SUBRECORD', function test() {
+    const csid = '1234';
+    const csidField = ['document', 'ns2:media_common', 'blobCsid'];
+    const subrecordName = 'blob';
+
+    const blobConfig = {
+      fields: {
+        document: {},
+      },
+      serviceConfig: {
+        documentName: 'blobs',
+      },
+    };
+
+    const config = {
+      recordTypes: {
+        blob: blobConfig,
+      },
+    };
+
+    const state = reducer(undefined, {
+      type: DETACH_SUBRECORD,
+      meta: {
+        config,
+        csid,
+        csidField,
+        subrecordName,
+        subrecordTypeConfig: blobConfig,
+      },
+    });
+
+    const expectedNewSubrecordKey = `/${subrecordName}`;
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        data: {
+          current: {
+            document: {
+              'ns2:media_common': {
+                blobCsid: expectedNewSubrecordKey,
+              },
+            },
+          },
+        },
+        subrecord: {
+          [subrecordName]: expectedNewSubrecordKey,
+        },
+      },
+      [expectedNewSubrecordKey]: {
+        data: {
+          baseline: {
+            document: {
+              '@name': 'blobs',
+            },
+          },
+          current: {
+            document: {
+              '@name': 'blobs',
+            },
+          },
+        },
+      },
+    }));
+  });
+
   it('should handle SUBRECORD_CREATED', function test() {
     const csid = '1234';
     const subrecordName = 'contact';
@@ -1151,6 +1466,88 @@ describe('record reducer', function suite() {
       [csid]: {
         subrecord: {
           [subrecordName]: subrecordCsid,
+        },
+      },
+    }));
+
+    expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
+  });
+
+  it('should handle SUBRECORD_CREATED with a csidField', function test() {
+    const csid = '1234';
+    const subrecordName = 'blob';
+    const subrecordCsid = '5678';
+    const csidField = ['document', 'ns2:media_common', 'blobCsid'];
+
+    const state = reducer(undefined, {
+      type: SUBRECORD_CREATED,
+      meta: {
+        csid,
+        subrecordName,
+        subrecordCsid,
+        csidField,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        subrecord: {
+          [subrecordName]: subrecordCsid,
+        },
+        data: {
+          current: {
+            document: {
+              'ns2:media_common': {
+                blobCsid: subrecordCsid,
+              },
+            },
+          },
+        },
+      },
+    }));
+
+    expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
+  });
+
+  it('should handle SUBRECORD_CREATED with a csidField where isDefault is true', function test() {
+    const csid = '1234';
+    const subrecordName = 'blob';
+    const subrecordCsid = '5678';
+    const csidField = ['document', 'ns2:media_common', 'blobCsid'];
+
+    const state = reducer(undefined, {
+      type: SUBRECORD_CREATED,
+      meta: {
+        csid,
+        subrecordName,
+        subrecordCsid,
+        csidField,
+        isDefault: true,
+      },
+    });
+
+    // Should set both baseline and current data.
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        subrecord: {
+          [subrecordName]: subrecordCsid,
+        },
+        data: {
+          baseline: {
+            document: {
+              'ns2:media_common': {
+                blobCsid: subrecordCsid,
+              },
+            },
+          },
+          current: {
+            document: {
+              'ns2:media_common': {
+                blobCsid: subrecordCsid,
+              },
+            },
+          },
         },
       },
     }));

@@ -34,7 +34,8 @@
 }
 
 .object > div > div > aside > h2,
-.procedure > div > div > aside > h2 {
+.procedure > div > div > aside > h2,
+.utility > div > div > aside > h2 {
   color: #739CD2;
 }
 

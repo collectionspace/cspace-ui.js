@@ -8,9 +8,9 @@ export const ERR_INVALID_RELATED_TYPE = 'ERR_INVALID_RELATED_TYPE';
 export const ERR_INVALID_SORT = 'ERR_INVALID_SORT';
 export const ERR_API = 'ERR_API';
 
-//
-// Validation errors
-//
+/*
+ * Validation errors
+ */
 
 // Generic validation error. A field value is invalid, for an unspecified reason.
 export const ERR_VALIDATION = 'ERR_VALIDATION';

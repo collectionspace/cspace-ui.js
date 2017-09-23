@@ -1,7 +1,7 @@
 .common {
 }
 
-.object, .procedure {
+.object, .procedure, .utility {
   composes: common;
   color: #739CD2;
 }

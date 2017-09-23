@@ -18,7 +18,9 @@ import {
 import {
   ADD_FIELD_INSTANCE,
   CREATE_NEW_RECORD,
+  CREATE_NEW_SUBRECORD,
   DELETE_FIELD_VALUE,
+  DETACH_SUBRECORD,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_CREATED,
@@ -46,7 +48,10 @@ import {
   CREATE_ID_FULFILLED,
 } from '../actions/idGenerator';
 
-const newRecordCsid = '';
+const BASE_NEW_RECORD_KEY = '';
+
+const unsavedRecordKey = subrecordName =>
+  (subrecordName ? `${BASE_NEW_RECORD_KEY}/${subrecordName}` : BASE_NEW_RECORD_KEY);
 
 const getCurrentData = (state, csid) => state.getIn([csid, 'data', 'current']);
 const setCurrentData = (state, csid, data) => state.setIn([csid, 'data', 'current'], data);
@@ -89,35 +94,51 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
     data = createRecordData(recordTypeConfig);
   }
 
-  const csid = subrecordName ? `${newRecordCsid}/${subrecordName}` : newRecordCsid;
+  const csid = unsavedRecordKey(subrecordName);
 
-  let updatedState = state;
-
-  updatedState = setBaselineData(updatedState, csid, data);
-  updatedState = setCurrentData(updatedState, csid, data);
+  let updatedState = state.delete(csid);
 
   const { subrecords } = recordTypeConfig;
 
   if (subrecords) {
     Object.keys(subrecords).forEach((name) => {
       const subrecordConfig = subrecords[name];
-      const subrecordType = subrecordConfig.recordType;
-      const subrecordTypeConfig = get(config, ['recordTypes', subrecordType]);
-      const subrecordCsid = state.getIn([cloneCsid, 'subrecord', name]);
+      const { csidField } = subrecordConfig;
 
-      updatedState = doCreateNew(
-        updatedState,
-        config,
-        subrecordTypeConfig,
-        subrecordCsid,
-        name
-      );
+      let cloneSubrecordCsid;
+
+      if (csidField) {
+        cloneSubrecordCsid = deepGet(data, csidField);
+      }
+
+      if (!cloneSubrecordCsid) {
+        const subrecordType = subrecordConfig.recordType;
+        const subrecordTypeConfig = get(config, ['recordTypes', subrecordType]);
+        const subrecordCsid = state.getIn([cloneCsid, 'subrecord', name]);
+
+        updatedState = doCreateNew(
+          updatedState,
+          config,
+          subrecordTypeConfig,
+          subrecordCsid,
+          name
+        );
+
+        cloneSubrecordCsid = `${csid}/${name}`;
+
+        if (csidField) {
+          data = deepSet(data, csidField, cloneSubrecordCsid);
+        }
+      }
 
       updatedState = updatedState.setIn(
-        [csid, 'subrecord', name], `${csid}/${name}`
+        [csid, 'subrecord', name], cloneSubrecordCsid
       );
     });
   }
+
+  updatedState = setBaselineData(updatedState, csid, data);
+  updatedState = setCurrentData(updatedState, csid, data);
 
   return updatedState;
 };
@@ -241,13 +262,18 @@ const handleRecordSaveFulfilled = (state, action) => {
 };
 
 const revertRecord = (state, action) => {
-  const { csid } = action.meta;
+  const {
+    recordTypeConfig,
+    csid,
+  } = action.meta;
 
-  let updatedState = setCurrentData(state, csid, getBaselineData(state, csid));
+  const baselineData = getBaselineData(state, csid);
+
+  let updatedState = setCurrentData(state, csid, baselineData);
 
   // Revert subrecords.
 
-  const subrecords = state.getIn([csid, 'subrecord']);
+  const subrecords = updatedState.getIn([csid, 'subrecord']);
 
   if (subrecords) {
     subrecords.forEach((subrecordCsid) => {
@@ -258,6 +284,97 @@ const revertRecord = (state, action) => {
       });
     });
   }
+
+  // Revert any cached subrecord csids that originated from fields in the record.
+
+  const configuredSubrecords = get(recordTypeConfig, 'subrecords');
+
+  if (configuredSubrecords) {
+    Object.entries(configuredSubrecords).forEach((entry) => {
+      const [subrecordName, subrecordConfig] = entry;
+
+      const {
+        csidField,
+      } = subrecordConfig;
+
+      if (csidField) {
+        const revertedSubrecordCsid = deepGet(baselineData, csidField);
+
+        updatedState = updatedState.setIn(
+          [csid, 'subrecord', subrecordName], revertedSubrecordCsid
+        );
+
+        // Revert the reattached subrecord.
+
+        updatedState = revertRecord(updatedState, {
+          meta: {
+            csid: revertedSubrecordCsid,
+          },
+        });
+      }
+    });
+  }
+
+  return updatedState;
+};
+
+const handleSubrecordCreated = (state, action) => {
+  const {
+    csid,
+    csidField,
+    subrecordName,
+    subrecordCsid,
+    isDefault,
+  } = action.meta;
+
+  let updatedState = state.setIn([csid, 'subrecord', subrecordName], subrecordCsid);
+
+  if (csidField) {
+    const currentData = getCurrentData(state, csid);
+    const baselineData = getBaselineData(state, csid);
+
+    if (isDefault && currentData === baselineData) {
+      // This subrecord was created as the default for the container. Set the csid field in both
+      // the baseline and current data, so it won't be considered a modification.
+
+      const updatedData = deepSet(baselineData, csidField, subrecordCsid);
+
+      updatedState = setBaselineData(updatedState, csid, updatedData);
+      updatedState = setCurrentData(updatedState, csid, updatedData);
+    } else {
+      const updatedData = deepSet(currentData, csidField, subrecordCsid);
+
+      updatedState = setCurrentData(updatedState, csid, updatedData);
+    }
+  }
+
+  return updatedState;
+};
+
+const createNewSubrecord = (state, action) => {
+  const {
+    config,
+    csid,
+    csidField,
+    subrecordName,
+    subrecordTypeConfig,
+    cloneCsid,
+    isDefault,
+  } = action.meta;
+
+  let updatedState = doCreateNew(state, config, subrecordTypeConfig, cloneCsid, subrecordName);
+
+  const subrecordCsid = unsavedRecordKey(subrecordName);
+
+  updatedState = handleSubrecordCreated(updatedState, {
+    meta: {
+      csid,
+      csidField,
+      subrecordName,
+      subrecordCsid,
+      isDefault,
+    },
+  });
 
   return updatedState;
 };
@@ -333,6 +450,9 @@ const handleTransitionFulfilled = (state, action) => {
   return updatedState;
 };
 
+const detachSubrecord = (state, action) =>
+  createNewSubrecord(state, action);
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case VALIDATION_FAILED:
@@ -343,6 +463,8 @@ export default (state = Immutable.Map(), action) => {
       return addFieldInstance(state, action);
     case CREATE_NEW_RECORD:
       return createNewRecord(state, action);
+    case CREATE_NEW_SUBRECORD:
+      return createNewSubrecord(state, action);
     case DELETE_FIELD_VALUE:
       return deleteFieldValue(state, action);
     case MOVE_FIELD_VALUE:
@@ -372,7 +494,8 @@ export default (state = Immutable.Map(), action) => {
     case RECORD_SAVE_REJECTED:
       return (
         state
-          .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
+          // I don't think there's any reason to store the save error.
+          // .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
           .deleteIn([action.meta.csid, 'isSavePending'])
       );
     case RECORD_TRANSITION_STARTED:
@@ -382,9 +505,7 @@ export default (state = Immutable.Map(), action) => {
     case RECORD_TRANSITION_REJECTED:
       return state.deleteIn([action.meta.csid, 'isSavePending']);
     case SUBRECORD_CREATED:
-      return state.setIn(
-        [action.meta.csid, 'subrecord', action.meta.subrecordName], action.meta.subrecordCsid
-      );
+      return handleSubrecordCreated(state, action);
     case SUBRECORD_READ_FULFILLED:
       return state.setIn(
         [action.meta.csid, 'subrecord', action.meta.subrecordName], action.meta.subrecordCsid
@@ -395,6 +516,8 @@ export default (state = Immutable.Map(), action) => {
       return handleSubjectRelationsUpdated(state, action);
     case CREATE_ID_FULFILLED:
       return handleCreateIDFulfilled(state, action);
+    case DETACH_SUBRECORD:
+      return detachSubrecord(state, action);
     default:
       return state;
   }
@@ -408,10 +531,10 @@ export const getSubrecordCsid = (state, csid, subrecordName) => state.getIn([csi
 
 export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);
 
-export const getNewData = state => getData(state, newRecordCsid);
+export const getNewData = state => getData(state, unsavedRecordKey());
 
 export const getNewSubrecordCsid = (state, subrecordName) =>
-  getSubrecordCsid(state, newRecordCsid, subrecordName);
+  getSubrecordCsid(state, unsavedRecordKey(), subrecordName);
 
 export const getValidationErrors = (state, csid) => state.getIn([csid, 'validation']);
 

@@ -82,7 +82,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(saveRecord(
         config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
         relatedSubjectCsid, onRecordCreated
-      ));
+      ))
+        .catch(() => {});
     },
     setForm: (formName) => {
       dispatch(setForm(recordType, formName));

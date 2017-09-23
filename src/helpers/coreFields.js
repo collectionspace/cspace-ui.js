@@ -12,6 +12,7 @@ export default (pluginContext) => {
   const {
     TextInput,
     DateInput,
+    DateTimeInput,
   } = pluginContext.inputComponents;
 
   return {
@@ -19,8 +20,20 @@ export default (pluginContext) => {
       createdAt: {
         [config]: {
           dataType: DATA_TYPE_DATETIME,
-          view: {
+          messages: defineMessages({
+            name: {
+              id: 'field.collectionspace_core.createdAt.name',
+              defaultMessage: 'Created time',
+            },
+          }),
+          searchView: {
             type: DateInput,
+          },
+          view: {
+            type: DateTimeInput,
+            props: {
+              readOnly: true,
+            },
           },
         },
       },
@@ -40,8 +53,14 @@ export default (pluginContext) => {
               defaultMessage: 'Last updated time',
             },
           }),
-          view: {
+          searchView: {
             type: DateInput,
+          },
+          view: {
+            type: DateTimeInput,
+            props: {
+              readOnly: true,
+            },
           },
         },
       },

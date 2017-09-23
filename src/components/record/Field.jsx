@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import warning from 'warning';
 
@@ -58,12 +58,14 @@ const propTypes = {
 
 const contextTypes = {
   config: PropTypes.object,
+  intl: intlShape,
   recordType: PropTypes.string,
 };
 
 export default function Field(props, context) {
   const {
     config,
+    intl,
     recordType,
   } = context;
 
@@ -112,6 +114,14 @@ export default function Field(props, context) {
 
   if ('label' in basePropTypes) {
     computedProps.label = renderLabel(fieldConfig);
+  }
+
+  if ('formatValue' in basePropTypes) {
+    const valueMessage = get(fieldConfig, ['messages', 'value']);
+
+    if (valueMessage) {
+      computedProps.formatValue = value => intl.formatMessage(valueMessage, { value });
+    }
   }
 
   if (fieldConfig.repeating) {

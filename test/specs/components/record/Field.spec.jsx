@@ -17,6 +17,7 @@ TestInput.propTypes = {
   foo: PropTypes.string,
   bar: PropTypes.string,
   label: PropTypes.node,
+  formatValue: PropTypes.func,
 };
 
 const CompoundTestInput = () => <div />;
@@ -75,9 +76,33 @@ const config = {
             },
           },
         },
+        updatedAt: {
+          [configKey]: {
+            messages: {
+              value: {
+                id: 'field.updatedAt.value',
+                defaultMessage: 'formatted {value}',
+              },
+            },
+            view: {
+              type: TestInput,
+            },
+          },
+        },
       },
     },
   },
+};
+
+const intl = {
+  formatDate: () => null,
+  formatTime: () => null,
+  formatRelative: () => null,
+  formatNumber: () => null,
+  formatPlural: () => null,
+  formatMessage: message => `formatted ${message.id}`,
+  formatHTMLMessage: () => null,
+  now: () => null,
 };
 
 describe('Field', function suite() {
@@ -170,6 +195,25 @@ describe('Field', function suite() {
 
     result.type.should.equal(TestInput);
     expect(result.props.label).to.equal(null);
+  });
+
+  it('should set formatValue on the base component if it is an accepted prop of the base component and a value message is present', function test() {
+    const context = {
+      config,
+      intl,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<Field name="updatedAt" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(TestInput);
+    result.props.formatValue.should.be.a('function');
+
+    result.props.formatValue('something').should.equal('formatted field.updatedAt.value');
   });
 
   it('should set renderChildInputLabel on the base component if it is an accepted prop of the base component', function test() {

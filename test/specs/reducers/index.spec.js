@@ -27,6 +27,7 @@ import reducer, {
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
   getSearchToRelatePageSize,
+  getUploadType,
   getForm,
   getOptionList,
   getVocabulary,
@@ -436,6 +437,18 @@ describe('reducer', function suite() {
           searchToRelatePageSize,
         }),
       }).should.equal(searchToRelatePageSize);
+    });
+  });
+
+  describe('getUploadType selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const uploadType = 'url';
+
+      getUploadType({
+        prefs: Immutable.fromJS({
+          uploadType,
+        }),
+      }).should.equal(uploadType);
     });
   });
 

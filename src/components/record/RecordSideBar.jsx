@@ -33,6 +33,7 @@ export default function RecordSideBar(props) {
 
   const serviceType = recordTypeConfig.serviceConfig.serviceType;
   const isAuthority = serviceType === 'authority';
+  const isUtility = serviceType === 'utility';
   const panelColor = isAuthority ? 'purple' : 'blue';
 
   let mediaSnapshot = null;
@@ -40,7 +41,7 @@ export default function RecordSideBar(props) {
   let relatedProcedures = null;
   let usedBy = null;
 
-  if (!isAuthority) {
+  if (!isAuthority && !isUtility) {
     mediaSnapshot = (
       <MediaSnapshotPanelContainer
         color={panelColor}

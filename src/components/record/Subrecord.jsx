@@ -6,6 +6,7 @@ import SubrecordEditorContainer from '../../containers/record/SubrecordEditorCon
 
 const propTypes = {
   name: PropTypes.string,
+  showDetachButton: PropTypes.bool,
   template: PropTypes.string,
 };
 
@@ -25,6 +26,7 @@ export default function Subrecord(props, context) {
   const {
     name,
     template,
+    showDetachButton,
   } = props;
 
   const subrecordConfig = get(config, ['recordTypes', recordType, 'subrecords', name]);
@@ -40,9 +42,9 @@ export default function Subrecord(props, context) {
       containerCsid={csid}
       name={name}
       config={config}
-      recordType={subrecordConfig.recordType}
-      vocabulary={subrecordConfig.vocabulary}
+      subrecordConfig={subrecordConfig}
       formName={template}
+      showDetachButton={showDetachButton}
     />
   );
 }

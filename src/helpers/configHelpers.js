@@ -322,6 +322,9 @@ export const getFieldCustomValidator = (fieldDescriptor) => {
 export const isAuthority = recordTypeConfig =>
   get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
 
+export const isUtility = recordTypeConfig =>
+  get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'utility';
+
 export const validateLocation = (config, location) => {
   const {
     recordType,

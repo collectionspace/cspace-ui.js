@@ -1,3 +1,7 @@
-.common {
-  margin: 10px 0;
+.common:not(:first-child) {
+  margin-top: 10px;
+}
+
+.common:not(:last-child) {
+  margin-bottom: 10px;
 }

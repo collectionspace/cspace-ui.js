@@ -71,7 +71,7 @@ export default class MediaViewer extends Component {
         ? url.replace(`/${carouselDerivative}/`, `/${popupDerivative}/`)
         : url.replace(`/derivatives/${carouselDerivative}`, '');
 
-      window.open(popupUrl, 'mediaViewer');
+      window.open(popupUrl, 'viewer');
     }
   }
 

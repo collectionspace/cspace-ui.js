@@ -4,7 +4,7 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import { isAuthority } from '../../helpers/configHelpers';
+import { isAuthority, isUtility } from '../../helpers/configHelpers';
 import styles from '../../../styles/cspace-ui/RecordBrowserNavBar.css';
 import itemStyles from '../../../styles/cspace-ui/RecordBrowserNavItem.css';
 
@@ -184,7 +184,9 @@ class RecordBrowserNavBar extends Component {
     } = this.props;
 
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
-    const showRelatedItems = csid && !isAuthority(recordTypeConfig);
+
+    const showRelatedItems =
+      csid && !isAuthority(recordTypeConfig) && !isUtility(recordTypeConfig);
 
     const primaryItem = (
       <li className={relatedRecordType ? itemStyles.normal : itemStyles.active}>

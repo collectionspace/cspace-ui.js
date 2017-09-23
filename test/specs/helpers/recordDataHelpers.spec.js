@@ -41,6 +41,8 @@ import {
   getCreatedUser,
   getUpdatedTimestamp,
   getUpdatedUser,
+  isNewRecord,
+  isExistingRecord,
   prepareForSending,
   spreadDefaultValue,
   validateField,
@@ -823,6 +825,9 @@ describe('recordDataHelpers', function moduleSuite() {
           date: '2000-01-01',
           '@xmlns:ns2': 'http://collectionspace.org',
         },
+        'ns2:groups_extension': {
+          blobCsid: 'not a csid',
+        },
         'ns2:account_permission': {},
         'ns2:relations-common-list': {
           'relation-list-item': [
@@ -851,23 +856,44 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     });
 
+    const recordTypeConfig = {
+      subrecords: {
+        blob: {
+          csidField: ['document', 'ns2:groups_extension', 'blobCsid'],
+        },
+      },
+    };
+
     it('should remove the collectionspace_core part', function test() {
-      prepareForSending(recordData).get('document').has('ns2:collectionspace_core').should.equal(false);
+      prepareForSending(recordData, recordTypeConfig).get('document').has('ns2:collectionspace_core').should.equal(false);
     });
 
     it('should remove the account_permission part', function test() {
-      prepareForSending(recordData).get('document').has('ns2:account_permission').should.equal(false);
+      prepareForSending(recordData, recordTypeConfig).get('document').has('ns2:account_permission').should.equal(false);
     });
 
     it('should sort attribute and namespace declaration properties to the top of each part', function test() {
-      prepareForSending(recordData).get('document').get('ns2:groups_common').keySeq()
+      prepareForSending(recordData, recordTypeConfig).get('document').get('ns2:groups_common').keySeq()
         .toArray().should.deep.equal(['@attr1', '@xmlns:ns2', 'name', 'date']);
     });
 
     it('should filter out incomplete relation items', function test() {
-      prepareForSending(recordData)
+      prepareForSending(recordData, recordTypeConfig)
         .getIn(['document', 'ns2:relations-common-list', 'relation-list-item']).size.should
           .equal(0);
+    });
+
+    it('should filter out incomplete relation items', function test() {
+      prepareForSending(recordData, recordTypeConfig)
+        .getIn(['document', 'ns2:relations-common-list', 'relation-list-item']).size.should
+          .equal(0);
+    });
+
+    it('should set subrecord csid fields that don\'t contain valid csids to null', function test() {
+      expect(
+        prepareForSending(recordData, recordTypeConfig)
+          .getIn(['document', 'ns2:groups_extension', 'blobCsid'])
+      ).to.equal(null);
     });
   });
 
@@ -1982,6 +2008,54 @@ describe('recordDataHelpers', function moduleSuite() {
         .have.deep.property(['id', ERROR_KEY], Immutable.Map({
           code: ERR_MISSING_REQ_FIELD,
         }));
+    });
+  });
+
+  describe('isNewRecord', function suite() {
+    it('should return false if the data contains a uri', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: 'something',
+          },
+        },
+      });
+
+      isNewRecord(data).should.equal(false);
+    });
+
+    it('should return true if the data doees not contain a uri', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {},
+        },
+      });
+
+      isNewRecord(data).should.equal(true);
+    });
+  });
+
+  describe('isExistingRecord', function suite() {
+    it('should return true if the data contains a uri', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: 'something',
+          },
+        },
+      });
+
+      isExistingRecord(data).should.equal(true);
+    });
+
+    it('should return false if the data doees not contain a uri', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {},
+        },
+      });
+
+      isExistingRecord(data).should.equal(false);
     });
   });
 });
