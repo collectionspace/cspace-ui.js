@@ -33,12 +33,12 @@ export default {
       path: 'ns2:places_common/placeType',
     },
     {
-      op: OP_MATCH,
-      path: 'ns2:places_common/placeNote',
-    },
-    {
       op: OP_EQ,
       path: 'ns2:places_common/placeOwnerGroupList/placeOwnerGroup/owner',
+    },
+    {
+      op: OP_MATCH,
+      path: 'ns2:places_common/placeNote',
     },
     {
       op: OP_MATCH,

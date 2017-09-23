@@ -93,6 +93,44 @@ This document contains guidelines to follow in order to maintain a consistent lo
    </Panel>
    ```
 
+1. "Note" vs. "Notes": Singular.
+
+   <img align="right" src="./images/notes.png">
+
+   ```JavaScript
+   // 🚫 BAD
+
+   planningNote: {
+     [config]: {
+       messages: defineMessages({
+         name: {
+           id: 'field.exhibitions_common.planningNote.name',
+           defaultMessage: 'Planning notes',
+         },
+       }),
+       // ...
+     },
+   },
+   ```
+
+   <img align="right" src="./images/note.png">
+
+   ```JavaScript
+   // ✅ GOOD
+
+   planningNote: {
+     [config]: {
+       messages: defineMessages({
+         name: {
+           id: 'field.exhibitions_common.planningNote.name',
+           defaultMessage: 'Planning note',
+         },
+       }),
+       // ...
+     },
+   },
+   ```
+
 ### Repeating Fields
 
 In CollectionSpace, repeating (multi-valued) fields are always modeled as a pair of nested fields: an outer (parent) field, and an inner (child) field. For example, in the record type configuration for `intake` records, the multi-valued *entry method* field is defined as:
@@ -177,7 +215,7 @@ Only the inner field (in this case, `entryMethod`) has its `repeating` property 
      },
    };
    ```
-   
+
 1. Define the `name` message on the inner field.
 
    Why: In addition to the record editor form, the `name` message of the inner field is used in other places, such as the record sidebar and search form. Not defining it may result in the raw field name being displayed to the user in these places.
@@ -287,7 +325,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
      },
    },
    ```
-   
+
    <img align="right" src="./images/groupFieldNoRepetitiveLabels.png">
 
    ```JavaScript
@@ -326,7 +364,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
      },
    },
    ```
-   
+
    <img align="right" src="./images/groupFieldDetailedLabel.png">
 
    ```JavaScript
@@ -367,11 +405,11 @@ A group field is typically configured with the view type `CompoundInput`. The `C
      },
    },
    ```
-   
+
 1. Avoid repetitive member field labels. If some text appears in the label of every member field, it probably belongs in the label of the group.
 
    Why: Don't waste space on redundant/uninformative labels.
-   
+
    <img align="right" src="./images/groupFieldRepetitiveLabels.png">
 
    ```JavaScript
@@ -434,7 +472,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
      },
    },
    ```
-   
+
    <img align="right" src="./images/groupFieldNoRepetitiveLabels.png">
 
    ```JavaScript
@@ -606,7 +644,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
      },
    };
    ```
-   
+
 ## Option Lists
 
 - Option labels should be lowercase, except for proper nouns and abbreviations that are normally capitalized.

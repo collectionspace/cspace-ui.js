@@ -17,47 +17,37 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
+        <Cols>
+          <Col>
+            <Field name="exitNumber" />
+            <Field name="exitDateGroup" />
+            <Field name="exitReason" />
 
-        <Row>
-          <Field name="exitNumber" />
-          <Field name="exitDateGroup" />
-        </Row>
+            <Field name="exitMethods">
+              <Field name="exitMethod" />
+            </Field>
+          </Col>
 
-        <Row>
-          <Field name="currentOwner" />
-
-          <Cols>
-            <Col>
-              { /* Wrapped in col because of label prop which seems
-               necessary to display label properly in advanced search*/ }
-              <Field name="exitMethods" label="">
-                <Field name="exitMethod" />
-              </Field>
-            </Col>
-          </Cols>
-        </Row>
-
-        <Row>
-          <Field name="depositor" />
-          <Field name="exitReason" />
-        </Row>
+          <Col>
+            <Field name="exitQuantity" />
+            <Field name="currentOwner" />
+            <Field name="depositor" />
+          </Col>
+        </Cols>
 
         <Field name="exitNote" />
         <Field name="packingNote" />
       </Panel>
 
-      <Panel name="deaccessionDisposalInfo" collapsible>
+      <Panel name="deaccessionDisposalInfo" collapsible collapsed>
         <Row>
           <Field name="disposalNewObjectNumber" />
-          <InputTable>
-            <Field name="deaccessionAuthorizer" />
-            <Field name="authorizationDate" />
-          </InputTable>
+          <Field name="deaccessionAuthorizer" />
+          <Field name="authorizationDate" />
         </Row>
 
-        <Field name="deacApprovalGroupList" label="">
+        <Field name="deacApprovalGroupList">
           <Field name="deacApprovalGroup">
             <Field name="deaccessionApprovalGroup" />
             <Field name="deaccessionApprovalStatus" />
@@ -65,34 +55,33 @@ const template = (pluginContext) => {
           </Field>
         </Field>
 
-        <Row>
-          <Field name="deaccessionDate" />
-          <Field name="disposalDate" />
-          <Field name="disposalMethod" />
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="deaccessionDate" />
+            <Field name="disposalDate" />
+            <Field name="disposalMethod" />
+            <Field name="disposalReason" />
+          </Col>
 
-        <Row>
-          <Field name="disposalReason" />
-          <Field name="disposalProposedRecipient" />
-          <Field name="disposalRecipient" />
-        </Row>
+          <Col>
+            <Field name="disposalProposedRecipient" />
+            <Field name="disposalRecipient" />
 
-        <InputTable>
-          <Field name="disposalCurrency" />
-          <Field name="disposalValue" />
-        </InputTable>
+            <InputTable name="disposal">
+              <Field name="disposalCurrency" />
+              <Field name="disposalValue" />
+            </InputTable>
 
-        <InputTable>
-          <Field name="groupDisposalCurrency" />
-          <Field name="groupDisposalValue" />
-        </InputTable>
+            <InputTable name="groupDisposal">
+              <Field name="groupDisposalCurrency" />
+              <Field name="groupDisposalValue" />
+            </InputTable>
+          </Col>
+        </Cols>
 
-        <Row>
-          <Field name="disposalProvisos" />
-          <Field name="disposalNote" />
-        </Row>
+        <Field name="disposalProvisos" />
+        <Field name="disposalNote" />
       </Panel>
-
     </Field>
   );
 };

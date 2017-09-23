@@ -22,19 +22,19 @@ export default {
     },
     {
       op: OP_EQ,
-      path: 'ns2:valuationcontrols_common/valueType',
-    },
-    {
-      op: OP_EQ,
       path: 'ns2:valuationcontrols_common/valueSource',
     },
     {
-      op: OP_RANGE,
-      path: 'ns2:collectionspace_core/updatedAt',
+      op: OP_EQ,
+      path: 'ns2:valuationcontrols_common/valueType',
     },
     {
       op: OP_MATCH,
       path: 'ns2:collectionspace_core/updatedBy',
+    },
+    {
+      op: OP_RANGE,
+      path: 'ns2:collectionspace_core/updatedAt',
     },
   ],
 };

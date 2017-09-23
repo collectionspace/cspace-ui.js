@@ -48,15 +48,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.place.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.place.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.place.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -72,20 +72,30 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/place',
           },
         },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         placeTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.placeTermGroupList.name',
-                defaultMessage: 'Place term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           placeTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.places_common.placeTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -123,7 +133,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -139,7 +149,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -200,7 +210,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for lang',
                   },
                 }),
                 view: {
@@ -213,7 +223,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.places_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -229,7 +243,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -242,7 +256,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -255,7 +269,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -325,7 +339,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.places_common.placeType.name',
-                defaultMessage: 'Place record type',
+                defaultMessage: 'Place type',
               },
             }),
             view: {
@@ -357,6 +371,9 @@ export default (pluginContext) => {
                 defaultMessage: 'Place note',
               },
             }),
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: TextInput,
               props: {
@@ -367,18 +384,18 @@ export default (pluginContext) => {
         },
         placeOwnerGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.placeOwnerGroupList.name',
-                defaultMessage: 'Place owners',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           placeOwnerGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.places_common.placeOwnerGroup.name',
+                  defaultMessage: 'Ownership',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -433,18 +450,18 @@ export default (pluginContext) => {
         },
         addrGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.addrGroupList.name',
-                defaultMessage: 'Address',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           addrGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.places_common.addrGroup.name',
+                  defaultMessage: 'Address',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -793,12 +810,6 @@ export default (pluginContext) => {
         },
         placeGeoRefGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.placeGeoRefGroupList.name',
-                defaultMessage: 'Georeference',
-              },
-            }),
             view: {
               type: CompoundInput,
             },

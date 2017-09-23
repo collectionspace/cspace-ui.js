@@ -16,9 +16,23 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
+      <Panel name="conditionCheckAndTechAssessmentInfo" collapsible>
+        <Cols>
+          <Col>
+            <Field name="conditionCheckRefNumber" />
+            <Field name="conditionCheckAssessmentDate" />
+            <Field name="conditionCheckMethod" />
+          </Col>
+          <Col>
+            <Field name="conditionCheckReason" />
+            <Field name="conditionChecker" />
+          </Col>
+        </Cols>
 
-      <Panel name="objectConditionAndTechAssessmentInfo" collapsible>
+        <Field name="conditionCheckNote" />
+      </Panel>
 
+      <Panel name="objectConditionAndTechAssessmentInfo" collapsible collapsed>
         <Row>
           <Field name="objectAuditCategory" />
           <Field name="conservationTreatmentPriority" />
@@ -33,26 +47,11 @@ const template = (pluginContext) => {
           </Field>
         </Field>
 
-        <Field name="conditionCheckGroupList">
-          <Field name="conditionCheckGroup">
-            <Field name="condition" />
-            <Field name="conditionDate" />
-            <Field name="conditionNote" />
-          </Field>
-        </Field>
-
         <Field name="hazardGroupList">
           <Field name="hazardGroup">
             <Field name="hazard" />
             <Field name="hazardDate" />
             <Field name="hazardNote" />
-          </Field>
-        </Field>
-
-        <Field name="envConditionNoteGroupList">
-          <Field name="envConditionNoteGroup">
-            <Field name="envConditionNote" />
-            <Field name="envConditionNoteDate" />
           </Field>
         </Field>
 
@@ -63,46 +62,38 @@ const template = (pluginContext) => {
           </Field>
         </Field>
 
+        <Field name="conditionCheckGroupList">
+          <Field name="conditionCheckGroup">
+            <Field name="condition" />
+            <Field name="conditionDate" />
+            <Field name="conditionNote" />
+          </Field>
+        </Field>
+
+        <Field name="envConditionNoteGroupList">
+          <Field name="envConditionNoteGroup">
+            <Field name="envConditionNote" />
+            <Field name="envConditionNoteDate" />
+          </Field>
+        </Field>
       </Panel>
 
-      <Panel name="conditionCheckAndTechAssessmentInfo" collapsible>
+      <Panel name="objectRequirementInfo" collapsible collapsed>
+        <Cols>
+          <Col>
+            <Field name="displayRecommendations" />
+            <Field name="handlingRecommendations" />
+            <Field name="securityRecommendations" />
+            <Field name="storageRequirements" />
+          </Col>
 
-        <Row>
-          <Field name="conditionCheckRefNumber" />
-          <Field name="conditionCheckAssessmentDate" />
-        </Row>
-
-        <Row>
-          <Field name="conditionCheckMethod" />
-          <Field name="conditionCheckReason" />
-          <Field name="conditionChecker" />
-        </Row>
-
-        <Field name="conditionCheckNote" />
-
-      </Panel>
-
-      <Panel name="objectRequirementInfo" collapsible>
-
-        <Row>
-          <Field name="displayRecommendations" />
-          <Field name="envRecommendations" />
-        </Row>
-
-        <Row>
-          <Field name="handlingRecommendations" />
-          <Field name="packingRecommendations" />
-        </Row>
-
-        <Row>
-          <Field name="securityRecommendations" />
-          <Field name="specialRequirements" />
-        </Row>
-
-        <Row>
-          <Field name="storageRequirements" />
-          <Field name="legalRequirements" />
-        </Row>
+          <Col>
+            <Field name="envRecommendations" />
+            <Field name="packingRecommendations" />
+            <Field name="specialRequirements" />
+            <Field name="legalRequirements" />
+          </Col>
+        </Cols>
 
         <Field name="legalReqsHeldGroupList">
           <Field name="legalReqsHeldGroup">
@@ -123,11 +114,10 @@ const template = (pluginContext) => {
               </Field>
             </Field>
           </Col>
+
           <Col />
         </Cols>
-
       </Panel>
-
     </Field>
   );
 };

@@ -9,28 +9,28 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_RANGE,
-      path: 'ns2:acquisitions_common/accessionDateGroup',
+      op: OP_MATCH,
+      path: 'ns2:acquisitions_common/acquisitionReferenceNumber',
     },
-    {
-      op: OP_RANGE,
-      path: 'ns2:acquisitions_common/acquisitionDateGroupList/acquisitionDateGroup',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:acquisitions_common/acquisitionFundingList/acquisitionFunding/acquisitionFundingSource',
-    },
+    // {
+    //   op: OP_RANGE,
+    //   path: 'ns2:acquisitions_common/accessionDateGroup',
+    // },
+    // {
+    //   op: OP_RANGE,
+    //   path: 'ns2:acquisitions_common/acquisitionDateGroupList/acquisitionDateGroup',
+    // },
     {
       op: OP_EQ,
       path: 'ns2:acquisitions_common/acquisitionMethod',
     },
     {
-      op: OP_MATCH,
-      path: 'ns2:acquisitions_common/acquisitionReferenceNumber',
+      op: OP_EQ,
+      path: 'ns2:acquisitions_common/acquisitionSources/acquisitionSource',
     },
     {
       op: OP_EQ,
-      path: 'ns2:acquisitions_common/acquisitionSources/acquisitionSource',
+      path: 'ns2:acquisitions_common/acquisitionFundingList/acquisitionFunding/acquisitionFundingSource',
     },
     {
       op: OP_MATCH,

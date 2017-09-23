@@ -12,51 +12,49 @@ const template = (pluginContext) => {
 
   const {
     Field,
-    InputTable,
   } = pluginContext.recordComponents;
 
   return (
     <Field name="document">
       <Panel name="info" collapsible>
-
         <Cols>
           <Col>
             <Field name="conservationNumber" />
-          </Col>
-          <Col />
-        </Cols>
-        <Row>
-          <Field name="conservationStatusGroupList">
-            <Field name="conservationStatusGroup">
-              <Field name="status" />
-              <Field name="statusDate" />
-            </Field>
-          </Field>
-          <Field name="conservators">
-            <Field name="conservator" />
-          </Field>
-        </Row>
 
-        <Row>
-          <Field name="treatmentPurpose" />
-          <Field name="otherPartyGroupList">
-            <Field name="otherPartyGroup">
-              <Field name="otherParty" />
-              <Field name="otherPartyRole" />
-              <Field name="otherPartyNote" />
+            <Field name="conservationStatusGroupList">
+              <Field name="conservationStatusGroup">
+                <Field name="status" />
+                <Field name="statusDate" />
+              </Field>
             </Field>
-          </Field>
-        </Row>
+
+            <Field name="treatmentPurpose" />
+          </Col>
+
+          <Col>
+            <Field name="conservators">
+              <Field name="conservator" />
+            </Field>
+
+            <Field name="otherPartyGroupList">
+              <Field name="otherPartyGroup">
+                <Field name="otherParty" />
+                <Field name="otherPartyRole" />
+                <Field name="otherPartyNote" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
 
         <Field name="examinationGroupList">
-
           <Field name="examinationGroup">
             <Panel>
-              <InputTable>
+              <Row>
                 <Field name="examinationStaff" />
                 <Field name="examinationPhase" />
                 <Field name="examinationDate" />
-              </InputTable>
+              </Row>
+
               <Field name="examinationNote" />
             </Panel>
           </Field>
@@ -66,49 +64,39 @@ const template = (pluginContext) => {
         <Field name="proposedTreatment" />
 
         <Row>
-          <InputTable name="approvalInfo">
-            <Field name="approvedBy" />
-            <Field name="approvedDate" />
-          </InputTable>
+          <Field name="approvedBy" />
+          <Field name="approvedDate" />
           <Field name="treatmentStartDate" />
           <Field name="treatmentEndDate" />
         </Row>
 
         <Field name="treatmentSummary" />
-
       </Panel>
 
-      <Panel name="objectAnalysisInfo" collapsible>
-
-        <Cols>
-          <Col>
-            <Field name="researcher" />
-          </Col>
-          <Col />
-        </Cols>
+      <Panel name="objectAnalysisInfo" collapsible collapsed>
+        <Field name="proposedAnalysis" />
 
         <Row>
-          <Field name="proposedAnalysis" />
+          <Field name="researcher" />
           <Field name="proposedAnalysisDate" />
         </Row>
 
         <Field name="destAnalysisGroupList">
           <Field name="destAnalysisGroup">
             <Panel>
-              <InputTable>
+              <Row>
                 <Field name="destAnalysisApprovedDate" />
                 <Field name="destAnalysisApprovalNote" />
-              </InputTable>
-              <InputTable>
                 <Field name="sampleBy" />
                 <Field name="sampleDate" />
-              </InputTable>
+              </Row>
+
+              <Field name="sampleDescription" />
+
               <Row>
-                { /* TODO fix checkbox behavior to prevent jumping to page start on select */ }
                 <Field name="sampleReturned" />
                 <Field name="sampleReturnedLocation" />
               </Row>
-              <Field name="sampleDescription" />
             </Panel>
           </Field>
         </Field>
@@ -117,7 +105,6 @@ const template = (pluginContext) => {
         <Field name="analysisResults" />
       </Panel>
     </Field>
-
   );
 };
 

@@ -10,23 +10,17 @@ export default {
     collectionName: {
       id: 'record.conservation.collectionName',
       description: 'The name of a collection of records of the type.',
-      defaultMessage: 'Conservations',
+      defaultMessage: 'Conservation Treatments',
     },
   }),
   panel: defineMessages({
     info: {
       id: 'panel.conservation.info',
-      defaultMessage: 'Conservation Information',
+      defaultMessage: 'Conservation Treatment Information',
     },
     objectAnalysisInfo: {
       id: 'panel.conservation.objectAnalysisInfo',
       defaultMessage: 'Object Analysis Information',
-    },
-  }),
-  inputTable: defineMessages({
-    approvalInfo: {
-      id: 'inputTable.conservation.approvalInfo',
-      defaultMessage: 'Approval information',
     },
   }),
 };

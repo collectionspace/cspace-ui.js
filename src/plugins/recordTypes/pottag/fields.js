@@ -37,22 +37,6 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/pottag',
           },
         },
-        taxonName: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.pottags_common.taxonName.name',
-                defaultMessage: 'Taxon',
-              },
-            }),
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'taxon/local',
-              },
-            },
-          },
-        },
         family: {
           [config]: {
             messages: defineMessages({
@@ -74,7 +58,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.pottags_common.commonName.name',
-                defaultMessage: 'Common Name',
+                defaultMessage: 'Common name',
               },
             }),
             view: {
@@ -86,12 +70,28 @@ export default (pluginContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.pottags_common.local.name',
-                defaultMessage: 'Locale',
+                id: 'field.pottags_common.locale.name',
+                defaultMessage: 'Country name/locale',
               },
             }),
             view: {
               type: TextInput,
+            },
+          },
+        },
+        taxonName: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.pottags_common.taxonName.name',
+                defaultMessage: 'Taxon name',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'taxon/local',
+              },
             },
           },
         },

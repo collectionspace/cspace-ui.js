@@ -16,7 +16,7 @@ export default {
   panel: defineMessages({
     info: {
       id: 'panel.place.info',
-      defaultMessage: 'Place Authority',
+      defaultMessage: 'Place Information',
     },
     localityInfo: {
       id: 'panel.place.localityInfo',
@@ -29,6 +29,16 @@ export default {
     hierarchy: {
       id: 'panel.place.hierarchy',
       defaultMessage: 'Hierarchy',
+    },
+  }),
+  inputTable: defineMessages({
+    nameDetail: {
+      id: 'inputTable.place.nameDetail',
+      defaultMessage: 'Name detail',
+    },
+    termSource: {
+      id: 'inputTable.place.termSource',
+      defaultMessage: 'Source',
     },
   }),
 };

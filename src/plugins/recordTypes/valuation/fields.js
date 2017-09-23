@@ -17,6 +17,7 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
+    DATA_TYPE_DATE,
     DATA_TYPE_FLOAT,
   } = pluginContext.dataTypes;
 
@@ -42,10 +43,11 @@ export default (pluginContext) => {
         },
         valuationcontrolRefNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.valuationcontrols_common.valuationcontrolRefNumber.name',
-                defaultMessage: 'Valuation control reference number',
+                defaultMessage: 'Reference number',
               },
             }),
             required: true,
@@ -62,37 +64,23 @@ export default (pluginContext) => {
         },
         valueAmountsList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.valuationcontrols_common.valueAmountsList.name',
-                defaultMessage: 'Amounts',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           valueAmounts: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.valuationcontrols_common.valueAmounts.name',
+                  defaultMessage: 'Amount',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
                   tabular: true,
-                },
-              },
-            },
-            valueAmount: {
-              [config]: {
-                dataType: DATA_TYPE_FLOAT,
-                messages: defineMessages({
-                  name: {
-                    id: 'field.valuationcontrols_common.valueAmount.name',
-                    defaultMessage: 'Amount',
-                  },
-                }),
-                view: {
-                  type: TextInput,
                 },
               },
             },
@@ -112,10 +100,29 @@ export default (pluginContext) => {
                 },
               },
             },
+            valueAmount: {
+              [config]: {
+                dataType: DATA_TYPE_FLOAT,
+                messages: defineMessages({
+                  name: {
+                    id: 'field.valuationcontrols_common.valueAmount.name',
+                    defaultMessage: 'Value',
+                  },
+                  fullName: {
+                    id: 'field.valuationcontrols_common.valueAmount.fullName',
+                    defaultMessage: 'Amount value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
           },
         },
         valueDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.valuationcontrols_common.valueDate.name',
@@ -129,6 +136,7 @@ export default (pluginContext) => {
         },
         valueRenewalDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.valuationcontrols_common.valueRenewalDate.name',

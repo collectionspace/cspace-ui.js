@@ -18,87 +18,75 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
-
         <Field name="orgTermGroupList">
           <Field name="orgTermGroup">
-
             <Panel>
-
-              <InputTable>
+              <Row>
                 <Field name="termDisplayName" />
                 <Field name="termName" />
                 <Field name="termQualifier" />
                 <Field name="termStatus" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <Row>
                 <Field name="termType" />
                 <Field name="termFlag" />
                 <Field name="termLanguage" />
                 <Field name="termPrefForLang" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <InputTable name="nameDetail">
                 <Field name="mainBodyName" />
                 <Field name="additionsToName" />
               </InputTable>
 
-              <InputTable>
+              <InputTable name="termSource">
                 <Field name="termSource" />
                 <Field name="termSourceDetail" />
                 <Field name="termSourceID" />
                 <Field name="termSourceNote" />
               </InputTable>
-
             </Panel>
-
           </Field>
         </Field>
-
-        <Row>
-          <Field name="organizationRecordTypes" label="">
-            <Field name="organizationRecordType" />
-          </Field>
-          <Field name="groups" label="">
-            <Field name="group" />
-          </Field>
-        </Row>
-
-        <Row>
-          <Field name="foundingDateGroup" />
-          <Field name="foundingPlace" />
-        </Row>
-
-        <Row>
-          <Field name="functions" label="">
-            <Field name="function" />
-          </Field>
-          <Field name="contactNames" label="">
-            <Field name="contactName" />
-          </Field>
-        </Row>
 
         <Cols>
           <Col>
+            <Field name="organizationRecordTypes">
+              <Field name="organizationRecordType" />
+            </Field>
+
+            <Field name="foundingDateGroup" />
+            <Field name="foundingPlace" />
             <Field name="dissolutionDateGroup" />
+
+            <Field name="contactNames">
+              <Field name="contactName" />
+            </Field>
           </Col>
-          <Col />
+
+          <Col>
+            <Field name="groups">
+              <Field name="group" />
+            </Field>
+
+            <Field name="functions">
+              <Field name="function" />
+            </Field>
+
+            <Field name="historyNotes">
+              <Field name="historyNote" />
+            </Field>
+          </Col>
         </Cols>
-
-        <Field name="historyNotes" label="">
-          <Field name="historyNote" />
-        </Field>
-
       </Panel>
 
-      <Subrecord name="contact" template="default" />
+      <Subrecord name="contact" />
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>
-
     </Field>
   );
 };

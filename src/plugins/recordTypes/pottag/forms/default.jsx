@@ -4,6 +4,8 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -14,27 +16,26 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
+        <Cols>
+          <Col>
+            <Field name="family" />
+            <Field name="commonName" />
+            <Field name="locale" />
+          </Col>
 
-        <Row>
-          <Field name="family" />
-          <Field name="commonName" />
-          <Field name="locale" />
-        </Row>
+          <Col>
+            <Field name="taxonName" />
 
-        <Row>
-          <Field name="taxonName" />
-          <Field name="labelData" />
-        </Row>
+            <Row>
+              <Field name="numberOfLabels" />
+              <Field name="printLabels" />
+            </Row>
+          </Col>
+        </Cols>
 
-        <Row>
-          <Field name="numberOfLabels" />
-          <Field name="printLabels" />
-        </Row>
-
+        <Field name="labelData" />
       </Panel>
-
     </Field>
   );
 };

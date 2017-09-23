@@ -43,15 +43,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.organization.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.organization.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.organization.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -67,20 +67,30 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/organization',
           },
         },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         orgTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.orgTermGroupList.name',
-                defaultMessage: 'organization term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           orgTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.organizations_common.orgTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -105,7 +115,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termName.name',
-                    defaultMessage: 'Term',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -118,7 +128,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -134,7 +144,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -195,7 +205,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for language',
                   },
                 }),
                 view: {
@@ -208,7 +218,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.organizations_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -224,7 +238,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -237,7 +251,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -250,7 +264,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -276,7 +290,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.additionsToName.name',
-                    defaultMessage: 'Additions to name',
+                    defaultMessage: 'Addition',
                   },
                 }),
                 view: {
@@ -288,25 +302,19 @@ export default (pluginContext) => {
         },
         organizationRecordTypes: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.organizationRecordTypes.name',
-                defaultMessage: 'Organization record type',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           organizationRecordType: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
                   id: 'field.organizations_common.organizationRecordType.name',
-                  defaultMessage: 'Organization record type',
+                  defaultMessage: 'Organization type',
                 },
               }),
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
@@ -357,25 +365,19 @@ export default (pluginContext) => {
         },
         groups: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.groups.name',
-                defaultMessage: 'Group',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           group: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
                   id: 'field.organizations_common.group.name',
                   defaultMessage: 'Group',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
               },
@@ -384,25 +386,19 @@ export default (pluginContext) => {
         },
         functions: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.functions.name',
-                defaultMessage: 'Function',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           function: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
                   id: 'field.organizations_common.function.name',
                   defaultMessage: 'Function',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
               },
@@ -411,25 +407,19 @@ export default (pluginContext) => {
         },
         historyNotes: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.historyNotes.name',
-                defaultMessage: 'History',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           historyNote: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
                   id: 'field.organizations_common.historyNote.name',
                   defaultMessage: 'History',
                 },
               }),
+              repeating: true,
               view: {
                 type: TextInput,
                 props: {
@@ -441,25 +431,19 @@ export default (pluginContext) => {
         },
         contactNames: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.contactNames.name',
-                defaultMessage: 'Contact name',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           contactName: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
                   id: 'field.organizations_common.contactName.name',
                   defaultMessage: 'Contact name',
                 },
               }),
+              repeating: true,
               view: {
                 type: AutocompleteInput,
                 props: {

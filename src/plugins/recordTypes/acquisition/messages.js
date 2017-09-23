@@ -21,7 +21,7 @@ export default {
   panel: defineMessages({
     info: {
       id: 'panel.acquisition.info',
-      defaultMessage: 'Acquisitions Information',
+      defaultMessage: 'Acquisition Information',
     },
     objectCollectionInformation: {
       id: 'panel.acquisition.objectCollectionInformation',
@@ -29,13 +29,13 @@ export default {
     },
     priceInformation: {
       id: 'panel.acquisition.priceInformation',
-      defaultMessage: 'Price information',
+      defaultMessage: 'Price Information',
     },
   }),
   inputTable: defineMessages({
     acquisitionAuthorizer: {
       id: 'inputTable.acquisition.acquisitionAuthorizer',
-      defaultMessage: 'Acquisition authorizer',
+      defaultMessage: 'Authorization',
     },
     groupPurchasePrice: {
       id: 'inputTable.acquisition.groupPurchasePrice',

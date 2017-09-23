@@ -16,6 +16,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -38,10 +42,11 @@ export default (pluginContext) => {
         },
         entryNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.entryNumber.name',
-                defaultMessage: 'Intake entry number',
+                defaultMessage: 'Entry number',
               },
             }),
             required: true,
@@ -58,6 +63,7 @@ export default (pluginContext) => {
         },
         entryDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.entryDate.name',
@@ -111,6 +117,7 @@ export default (pluginContext) => {
         },
         returnDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.returnDate.name',
@@ -205,6 +212,7 @@ export default (pluginContext) => {
         },
         fieldCollectionDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.fieldCollectionDate.name',
@@ -419,10 +427,15 @@ export default (pluginContext) => {
         },
         insuranceRenewalDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.insuranceRenewalDate.name',
                 defaultMessage: 'Renewal date',
+              },
+              fullName: {
+                id: 'field.intakes_common.insuranceRenewalDate.fullName',
+                defaultMessage: 'Insurance renewal date',
               },
             }),
             view: {
@@ -534,6 +547,7 @@ export default (pluginContext) => {
         },
         locationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.locationDate.name',
@@ -651,6 +665,7 @@ export default (pluginContext) => {
         },
         conditionCheckDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.intakes_common.conditionCheckDate.name',

@@ -13,12 +13,12 @@ export default {
       path: 'ns2:conditionchecks_common/conditionCheckRefNumber',
     },
     {
-      op: OP_EQ,
-      path: 'ns2:conditionchecks_common/objectAuditCategory',
+      op: OP_RANGE,
+      path: 'ns2:conditionchecks_common/conditionCheckAssessmentDate',
     },
     {
       op: OP_EQ,
-      path: 'ns2:conditionchecks_common/conditionCheckGroupList/conditionCheckGroup/condition',
+      path: 'ns2:conditionchecks_common/objectAuditCategory',
     },
     {
       op: OP_EQ,
@@ -29,16 +29,16 @@ export default {
       path: 'ns2:conditionchecks_common/nextConditionCheckDate',
     },
     {
-      op: OP_RANGE,
-      path: 'ns2:conditionchecks_common/conditionCheckAssessmentDate',
-    },
-    {
-      op: OP_RANGE,
-      path: 'ns2:collectionspace_core/updatedAt',
+      op: OP_EQ,
+      path: 'ns2:conditionchecks_common/conditionCheckGroupList/conditionCheckGroup/condition',
     },
     {
       op: OP_MATCH,
       path: 'ns2:collectionspace_core/updatedBy',
+    },
+    {
+      op: OP_RANGE,
+      path: 'ns2:collectionspace_core/updatedAt',
     },
   ],
 };

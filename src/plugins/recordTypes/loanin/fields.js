@@ -16,6 +16,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -38,6 +42,7 @@ export default (pluginContext) => {
         },
         loanInNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.loanInNumber.name',
@@ -72,20 +77,95 @@ export default (pluginContext) => {
             },
           },
         },
+        loanStatusGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          loanStatusGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.loansin_common.loanStatusGroup.name',
+                  defaultMessage: 'Loan status',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            loanStatus: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansin_common.loanStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                  fullName: {
+                    id: 'field.loansin_common.loanStatus.fullName',
+                    defaultMessage: 'Loan status',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'loanoutstatus',
+                  },
+                },
+              },
+            },
+            loanStatusDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansin_common.loanStatusDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.loansin_common.loanStatusDate.fullName',
+                    defaultMessage: 'Loan status date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            loanStatusNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansin_common.loanStatusNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
         lenderGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.loansin_common.lenderGroupList.name',
-                defaultMessage: 'Lender',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           lenderGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.loansin_common.lenderGroup.name',
+                  defaultMessage: 'Lender',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -99,7 +179,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.loansin_common.lender.name',
-                    defaultMessage: 'Lender',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.loansin_common.lender.fullName',
+                    defaultMessage: 'Lender name',
                   },
                 }),
                 view: {
@@ -110,12 +194,16 @@ export default (pluginContext) => {
                 },
               },
             },
-            lendersAuthorizer: {
+            lendersContact: {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.loansin_common.lendersAuthorizer.name',
-                    defaultMessage: 'Lender\'s authorizer',
+                    id: 'field.loansin_common.lendersContact.name',
+                    defaultMessage: 'Contact',
+                  },
+                  fullName: {
+                    id: 'field.loansin_common.lendersContact.fullName',
+                    defaultMessage: 'Lender contact',
                   },
                 }),
                 view: {
@@ -126,12 +214,16 @@ export default (pluginContext) => {
                 },
               },
             },
-            lendersContact: {
+            lendersAuthorizer: {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.loansin_common.lendersContact.name',
-                    defaultMessage: 'Lender\'s contact',
+                    id: 'field.loansin_common.lendersAuthorizer.name',
+                    defaultMessage: 'Authorizer',
+                  },
+                  fullName: {
+                    id: 'field.loansin_common.lendersAuthorizer.fullName',
+                    defaultMessage: 'Lender authorizer',
                   },
                 }),
                 view: {
@@ -144,10 +236,15 @@ export default (pluginContext) => {
             },
             lendersAuthorizationDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.loansin_common.lendersAuthorizationDate.name',
-                    defaultMessage: 'Lender\'s authorization date',
+                    defaultMessage: 'Authorization date',
+                  },
+                  fullName: {
+                    id: 'field.loansin_common.lendersAuthorizationDate.fullName',
+                    defaultMessage: 'Lender authorization date',
                   },
                 }),
                 view: {
@@ -162,7 +259,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.borrowersContact.name',
-                defaultMessage: 'Borrower\'s contact',
+                defaultMessage: 'Contact',
+              },
+              fullName: {
+                id: 'field.loansin_common.borrowersContact.fullName',
+                defaultMessage: 'Borrower contact',
               },
             }),
             view: {
@@ -178,7 +279,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.borrowersAuthorizer.name',
-                defaultMessage: 'Borrower\'s authorizer',
+                defaultMessage: 'Authorizer',
+              },
+              fullName: {
+                id: 'field.loansin_common.borrowersAuthorizer.fullName',
+                defaultMessage: 'Borrower authorizer',
               },
             }),
             view: {
@@ -191,10 +296,15 @@ export default (pluginContext) => {
         },
         borrowersAuthorizationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.borrowersAuthorizationDate.name',
-                defaultMessage: 'Borrower\'s authorization date',
+                defaultMessage: 'Authorization date',
+              },
+              fullName: {
+                id: 'field.loansin_common.borrowersAuthorizationDate.fullName',
+                defaultMessage: 'Borrower authorization date',
               },
             }),
             view: {
@@ -207,7 +317,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.specialConditionsOfLoan.name',
-                defaultMessage: 'Loan in conditions',
+                defaultMessage: 'Conditions of loan',
               },
             }),
             view: {
@@ -223,7 +333,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.loanInNote.name',
-                defaultMessage: 'Loan in note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -234,74 +344,9 @@ export default (pluginContext) => {
             },
           },
         },
-        loanStatusGroupList: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.loansin_common.loanStatusGroupList.name',
-                defaultMessage: 'Loan status',
-              },
-            }),
-            view: {
-              type: CompoundInput,
-            },
-          },
-          loanStatusGroup: {
-            [config]: {
-              repeating: true,
-              view: {
-                type: CompoundInput,
-                props: {
-                  tabular: true,
-                },
-              },
-            },
-            loanStatus: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanStatus.name',
-                    defaultMessage: 'Loan status',
-                  },
-                }),
-                view: {
-                  type: TermPickerInput,
-                  props: {
-                    source: 'loanoutstatus',
-                  },
-                },
-              },
-            },
-            loanStatusDate: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanStatusDate.name',
-                    defaultMessage: 'Loan status date',
-                  },
-                }),
-                view: {
-                  type: DateInput,
-                },
-              },
-            },
-            loanStatusNote: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanStatusNote.name',
-                    defaultMessage: 'Loan status note',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-          },
-        },
         loanInDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.loanInDate.name',
@@ -315,6 +360,7 @@ export default (pluginContext) => {
         },
         loanReturnDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.loanReturnDate.name',
@@ -328,6 +374,7 @@ export default (pluginContext) => {
         },
         loanRenewalApplicationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansin_common.loanRenewalApplicationDate.name',

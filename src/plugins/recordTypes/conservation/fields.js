@@ -16,6 +16,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -38,10 +42,11 @@ export default (pluginContext) => {
         },
         conservationNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.conservationNumber.name',
-                defaultMessage: 'Conservation treatment reference number',
+                defaultMessage: 'Reference number',
               },
             }),
             required: true,
@@ -58,18 +63,18 @@ export default (pluginContext) => {
         },
         conservationStatusGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conservation_common.conservationStatusGroupList.name',
-                defaultMessage: 'Procedural status',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conservationStatusGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conservation_common.conservationStatusGroup.name',
+                  defaultMessage: 'Procedural status',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -85,6 +90,10 @@ export default (pluginContext) => {
                     id: 'field.conservation_common.status.name',
                     defaultMessage: 'Status',
                   },
+                  fullName: {
+                    id: 'field.conservation_common.status.fullName',
+                    defaultMessage: 'Procedural status',
+                  },
                 }),
                 view: {
                   type: TermPickerInput,
@@ -96,10 +105,15 @@ export default (pluginContext) => {
             },
             statusDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.statusDate.name',
-                    defaultMessage: 'Status date',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conservation_common.statusDate.fullName',
+                    defaultMessage: 'Procedural status date',
                   },
                 }),
                 view: {
@@ -127,12 +141,6 @@ export default (pluginContext) => {
         },
         conservators: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conservation_common.conservators.name',
-                defaultMessage: 'Conservator',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -157,18 +165,18 @@ export default (pluginContext) => {
         },
         otherPartyGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conservation_common.otherPartyGroupList.name',
-                defaultMessage: 'Other treatment party',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           otherPartyGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conservation_common.otherPartyGroup.name',
+                  defaultMessage: 'Other treatment party',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -182,7 +190,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.otherParty.name',
-                    defaultMessage: 'Other party',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.conservation_common.otherParty.fullName',
+                    defaultMessage: 'Other treatment party name',
                   },
                 }),
                 view: {
@@ -198,7 +210,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.otherPartyRole.name',
-                    defaultMessage: 'Other party role',
+                    defaultMessage: 'Role',
                   },
                 }),
                 view: {
@@ -214,7 +226,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.otherPartyNote.name',
-                    defaultMessage: 'Other party note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -226,18 +238,18 @@ export default (pluginContext) => {
         },
         examinationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conservation_common.examinationGroupList.name',
-                defaultMessage: 'Examination information',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           examinationGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conservation_common.examinationGroup.name',
+                  defaultMessage: 'Examination',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -278,10 +290,15 @@ export default (pluginContext) => {
             },
             examinationDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.examinationDate.name',
-                    defaultMessage: 'Exam date',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conservation_common.examinationDate.fullName',
+                    defaultMessage: 'Examination date',
                   },
                 }),
                 view: {
@@ -294,7 +311,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.examinationNote.name',
-                    defaultMessage: 'Examination note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -312,7 +329,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.fabricationNote.name',
-                defaultMessage: 'Fabrication notes',
+                defaultMessage: 'Fabrication note',
               },
             }),
             view: {
@@ -357,10 +374,11 @@ export default (pluginContext) => {
         },
         approvedDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.approvedDate.name',
-                defaultMessage: 'Date approved',
+                defaultMessage: 'Approval date',
               },
             }),
             view: {
@@ -370,6 +388,7 @@ export default (pluginContext) => {
         },
         treatmentStartDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.treatmentStartDate.name',
@@ -383,6 +402,7 @@ export default (pluginContext) => {
         },
         treatmentEndDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.treatmentEndDate.name',
@@ -444,10 +464,15 @@ export default (pluginContext) => {
         },
         proposedAnalysisDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.proposedAnalysisDate.name',
-                defaultMessage: 'Date analysis proposed',
+                defaultMessage: 'Proposal date',
+              },
+              fullName: {
+                id: 'field.conservation_common.proposedAnalysisDate.fullName',
+                defaultMessage: 'Analysis proposal date',
               },
             }),
             view: {
@@ -457,18 +482,18 @@ export default (pluginContext) => {
         },
         destAnalysisGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conservation_common.destAnalysisGroupList.name',
-                defaultMessage: 'Destructive analysis',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           destAnalysisGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conservation_common.destAnalysisGroup.name',
+                  defaultMessage: 'Destructive analysis',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -476,10 +501,15 @@ export default (pluginContext) => {
             },
             destAnalysisApprovedDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.destAnalysisApprovedDate.name',
-                    defaultMessage: 'Date approved',
+                    defaultMessage: 'Approval date',
+                  },
+                  fullName: {
+                    id: 'field.conservation_common.destAnalysisApprovedDate.fullName',
+                    defaultMessage: 'Destructive analysis approval date',
                   },
                 }),
                 view: {
@@ -492,7 +522,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.destAnalysisApprovalNote.name',
-                    defaultMessage: 'Approval notes',
+                    defaultMessage: 'Approval note',
                   },
                 }),
                 view: {
@@ -518,10 +548,11 @@ export default (pluginContext) => {
             },
             sampleDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.sampleDate.name',
-                    defaultMessage: 'Date',
+                    defaultMessage: 'Sample date',
                   },
                 }),
                 view: {
@@ -550,7 +581,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conservation_common.sampleReturned.name',
-                    defaultMessage: 'Sample returned?',
+                    defaultMessage: 'Sample returned',
                   },
                 }),
                 view: {
@@ -594,7 +625,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conservation_common.analysisResults.name',
-                defaultMessage: 'Analytical results',
+                defaultMessage: 'Analytical result',
               },
             }),
             view: {

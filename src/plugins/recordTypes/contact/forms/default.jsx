@@ -15,7 +15,7 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-      <Panel name="info" collapsible>
+      <Panel name="info" collapsible collapsed>
         <Row>
           <Col>
             <Field name="emailGroupList">
@@ -24,6 +24,7 @@ const template = (pluginContext) => {
                 <Field name="emailType" />
               </Field>
             </Field>
+
             <Field name="telephoneNumberGroupList">
               <Field name="telephoneNumberGroup">
                 <Field name="telephoneNumber" />
@@ -31,6 +32,7 @@ const template = (pluginContext) => {
               </Field>
             </Field>
           </Col>
+
           <Col>
             <Field name="faxNumberGroupList">
               <Field name="faxNumberGroup">
@@ -38,6 +40,7 @@ const template = (pluginContext) => {
                 <Field name="faxNumberType" />
               </Field>
             </Field>
+
             <Field name="webAddressGroupList">
               <Field name="webAddressGroup">
                 <Field name="webAddress" />
@@ -46,6 +49,7 @@ const template = (pluginContext) => {
             </Field>
           </Col>
         </Row>
+
         <Field name="addressGroupList">
           <Field name="addressGroup">
             <Panel>
@@ -55,16 +59,20 @@ const template = (pluginContext) => {
                   <Field name="addressPlace2" />
                   <Field name="addressMunicipality" />
                 </Col>
+
                 <Col>
                   <Row>
                     <Field name="addressStateOrProvince" />
                     <Field name="addressPostCode" />
                   </Row>
+
                   <Field name="addressCountry" />
+
                   <Row>
                     <Col>
                       <Field name="addressType" />
                     </Col>
+
                     <Col />
                   </Row>
                 </Col>

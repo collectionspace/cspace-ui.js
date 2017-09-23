@@ -5,6 +5,7 @@ const template = (pluginContext) => {
 
   const {
     Panel,
+    Row,
   } = pluginContext.layoutComponents;
 
   const {
@@ -14,45 +15,39 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
-
         <Field name="citationTermGroupList">
           <Field name="citationTermGroup">
-
             <Panel>
-
-              <InputTable>
+              <Row>
                 <Field name="termDisplayName" />
                 <Field name="termStatus" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <Row>
                 <Field name="termType" />
                 <Field name="termFlag" />
                 <Field name="termLanguage" />
                 <Field name="termPrefForLang" />
-              </InputTable>
+              </Row>
 
               <Field name="termFullCitation" />
               <Field name="termTitle" />
               <Field name="termSubTitle" />
 
-              <InputTable>
+              <Row>
                 <Field name="termSectionTitle" />
                 <Field name="termVolume" />
                 <Field name="termIssue" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <InputTable name="termSource">
                 <Field name="termSource" />
                 <Field name="termSourceDetail" />
                 <Field name="termSourceID" />
                 <Field name="termSourceNote" />
               </InputTable>
-
             </Panel>
-
           </Field>
         </Field>
 
@@ -90,13 +85,11 @@ const template = (pluginContext) => {
             <Field name="relationType" />
           </Field>
         </Field>
-
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>
-
     </Field>
   );
 };

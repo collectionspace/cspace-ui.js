@@ -30,11 +30,11 @@ export default {
     },
     {
       op: OP_MATCH,
-      path: 'ns2:pottags_common/updatedBy',
+      path: 'ns2:collectionspace_core/updatedBy',
     },
     {
       op: OP_RANGE,
-      path: 'ns2:pottags_common/updatedAt',
+      path: 'ns2:collectionspace_core/updatedAt',
     },
   ],
 };

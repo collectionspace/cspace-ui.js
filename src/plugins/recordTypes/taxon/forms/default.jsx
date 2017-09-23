@@ -4,10 +4,10 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
     Row,
-    //Cols,
-    //Col,
   } = pluginContext.layoutComponents;
 
   const {
@@ -17,38 +17,32 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
-
         <Field name="taxonTermGroupList">
           <Field name="taxonTermGroup">
-
             <Panel>
-
-              <InputTable>
+              <Row>
                 <Field name="termDisplayName" />
                 <Field name="termFormattedDisplayName" />
                 <Field name="termQualifier" />
                 <Field name="termStatus" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <Row>
                 <Field name="termType" />
                 <Field name="termFlag" />
+                <Field name="taxonomicStatus" />
                 <Field name="termLanguage" />
                 <Field name="termPrefForLang" />
-                <Field name="taxonomicStatus" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <InputTable name="termSource">
                 <Field name="termSource" />
                 <Field name="termSourceDetail" />
                 <Field name="termSourceID" />
                 <Field name="termSourceNote" />
               </InputTable>
-
             </Panel>
-
           </Field>
         </Field>
 
@@ -64,35 +58,34 @@ const template = (pluginContext) => {
           </Field>
         </Field>
 
-        <Row>
-          <Field name="taxonYear" />
-          <Field name="taxonCitationList">
-            <Field name="taxonCitation" />
-          </Field>
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="taxonYear" />
+            <Field name="taxonIsNamedHybrid" />
+          </Col>
 
-        <Field name="taxonIsNamedHybrid" />
+          <Col>
+            <Field name="taxonCitationList">
+              <Field name="taxonCitation" />
+            </Field>
+          </Col>
+        </Cols>
+
         <Field name="taxonNote" />
 
-        <InputTable>
-          <Field name="commonNameGroupList">
-            <Field name="commonNameGroup">
-
-              <Field name="commonName" />
-              <Field name="commonNameLanguage" />
-              <Field name="commonNameSource" />
-              <Field name="commonNameSourceDetail" />
-
-            </Field>
+        <Field name="commonNameGroupList">
+          <Field name="commonNameGroup">
+            <Field name="commonName" />
+            <Field name="commonNameLanguage" />
+            <Field name="commonNameSource" />
+            <Field name="commonNameSourceDetail" />
           </Field>
-        </InputTable>
-
+        </Field>
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>
-
     </Field>
   );
 };

@@ -263,6 +263,10 @@ export default (pluginContext) => {
                         id: 'field.media_common.valueDate.name',
                         defaultMessage: 'Date',
                       },
+                      fullName: {
+                        id: 'field.media_common.valueDate.fullName',
+                        defaultMessage: 'Measurement date',
+                      },
                     }),
                     view: {
                       type: DateInput,

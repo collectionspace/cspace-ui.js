@@ -15,6 +15,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -53,18 +57,18 @@ export default (pluginContext) => {
         },
         completenessGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.completenessGroupList.name',
-                defaultMessage: 'Completeness',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           completenessGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.completenessGroup.name',
+                  defaultMessage: 'Completeness',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -78,7 +82,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.completeness.name',
-                    defaultMessage: 'Completeness',
+                    defaultMessage: 'Description',
                   },
                 }),
                 view: {
@@ -91,9 +95,14 @@ export default (pluginContext) => {
             },
             completenessDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.completenessDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.completenessDate.fullName',
                     defaultMessage: 'Completeness date',
                   },
                 }),
@@ -107,7 +116,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.completenessNote.name',
-                    defaultMessage: 'Completeness note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -119,18 +128,18 @@ export default (pluginContext) => {
         },
         conditionCheckGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.conditionCheckGroupList.name',
-                defaultMessage: 'Condition',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conditionCheckGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.conditionCheckGroup.name',
+                  defaultMessage: 'Condition',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -144,7 +153,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.condition.name',
-                    defaultMessage: 'Condition',
+                    defaultMessage: 'Description',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.condition.fullName',
+                    defaultMessage: 'Condition description',
                   },
                 }),
                 view: {
@@ -157,9 +170,14 @@ export default (pluginContext) => {
             },
             conditionDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.conditionDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.conditionDate.fullName',
                     defaultMessage: 'Condition date',
                   },
                 }),
@@ -173,7 +191,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.conditionNote.name',
-                    defaultMessage: 'Condition note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -201,18 +219,18 @@ export default (pluginContext) => {
         },
         envConditionNoteGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.envConditionNoteGroupList.name',
-                defaultMessage: 'Environmental condition note',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           envConditionNoteGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.envConditionNoteGroup.name',
+                  defaultMessage: 'Environmental condition',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -226,7 +244,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.envConditionNote.name',
-                    defaultMessage: 'Environmental condition note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -236,9 +254,14 @@ export default (pluginContext) => {
             },
             envConditionNoteDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.envConditionNoteDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.envConditionNoteDate.fullName',
                     defaultMessage: 'Environmental condition date',
                   },
                 }),
@@ -251,10 +274,11 @@ export default (pluginContext) => {
         },
         nextConditionCheckDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.nextConditionCheckDate.name',
-                defaultMessage: 'Next condition/assessment date',
+                defaultMessage: 'Next check/assessment date',
               },
             }),
             view: {
@@ -264,18 +288,18 @@ export default (pluginContext) => {
         },
         techAssessmentGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.techAssessmentGroupList.name',
-                defaultMessage: 'Technical assessment',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           techAssessmentGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.techAssessmentGroup.name',
+                  defaultMessage: 'Technical assessment',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -289,7 +313,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.techAssessment.name',
-                    defaultMessage: 'Technical assessment',
+                    defaultMessage: 'Description',
                   },
                 }),
                 view: {
@@ -299,9 +323,14 @@ export default (pluginContext) => {
             },
             techAssessmentDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.techAssessmentDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.techAssessmentDate.fullName',
                     defaultMessage: 'Technical assessment date',
                   },
                 }),
@@ -314,18 +343,18 @@ export default (pluginContext) => {
         },
         hazardGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.hazardGroupList.name',
-                defaultMessage: 'Hazard',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           hazardGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.hazardGroup.name',
+                  defaultMessage: 'Hazard',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -339,7 +368,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.hazard.name',
-                    defaultMessage: 'Hazard',
+                    defaultMessage: 'Description',
                   },
                 }),
                 view: {
@@ -352,9 +381,14 @@ export default (pluginContext) => {
             },
             hazardDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.hazardDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.hazardDate.fullName',
                     defaultMessage: 'Hazard date',
                   },
                 }),
@@ -368,7 +402,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.hazardNote.name',
-                    defaultMessage: 'Hazard note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -380,10 +414,11 @@ export default (pluginContext) => {
         },
         conditionCheckAssessmentDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.conditionCheckAssessmentDate.name',
-                defaultMessage: 'Condition check/assessment date',
+                defaultMessage: 'Check/assessment date',
               },
             }),
             view: {
@@ -396,7 +431,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.conditionCheckMethod.name',
-                defaultMessage: 'Condition check/assessment method',
+                defaultMessage: 'Method',
               },
             }),
             view: {
@@ -412,7 +447,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.conditionCheckNote.name',
-                defaultMessage: 'Condition check/assessment note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -428,7 +463,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.conditionCheckReason.name',
-                defaultMessage: 'Condition check/assessment reason',
+                defaultMessage: 'Reason',
               },
             }),
             view: {
@@ -441,10 +476,11 @@ export default (pluginContext) => {
         },
         conditionCheckRefNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.conditionCheckRefNumber.name',
-                defaultMessage: 'Condition check/assessment reference number',
+                defaultMessage: 'Reference number',
               },
             }),
             required: true,
@@ -464,7 +500,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.conditionChecker.name',
-                defaultMessage: 'Condition checker/assessor',
+                defaultMessage: 'Checker/assessor',
               },
             }),
             view: {
@@ -480,7 +516,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.displayRecommendations.name',
-                defaultMessage: 'Display recommendations',
+                defaultMessage: 'Display recommendation',
               },
             }),
             view: {
@@ -496,7 +532,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.envRecommendations.name',
-                defaultMessage: 'Environmental recommendations',
+                defaultMessage: 'Environmental recommendation',
               },
             }),
             view: {
@@ -512,7 +548,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.handlingRecommendations.name',
-                defaultMessage: 'Handling recommendations',
+                defaultMessage: 'Handling recommendation',
               },
             }),
             view: {
@@ -528,7 +564,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.packingRecommendations.name',
-                defaultMessage: 'Packing recommendations',
+                defaultMessage: 'Packing recommendation',
               },
             }),
             view: {
@@ -544,7 +580,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.securityRecommendations.name',
-                defaultMessage: 'Security recommendations',
+                defaultMessage: 'Security recommendation',
               },
             }),
             view: {
@@ -560,7 +596,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.specialRequirements.name',
-                defaultMessage: 'Special requirements',
+                defaultMessage: 'Special requirement',
               },
             }),
             view: {
@@ -576,7 +612,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.storageRequirements.name',
-                defaultMessage: 'Storage recommendations',
+                defaultMessage: 'Storage recommendation',
               },
             }),
             view: {
@@ -592,7 +628,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.conditionchecks_common.legalRequirements.name',
-                defaultMessage: 'Legal requirements',
+                defaultMessage: 'Legal requirement',
               },
             }),
             view: {
@@ -605,18 +641,18 @@ export default (pluginContext) => {
         },
         salvagePriorityCodeGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.salvagePriorityCodeGroupList.name',
-                defaultMessage: 'Salvage priority code',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           salvagePriorityCodeGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.salvagePriorityCodeGroup.name',
+                  defaultMessage: 'Salvage priority',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -630,7 +666,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.salvagePriorityCode.name',
-                    defaultMessage: 'Salvage priority code',
+                    defaultMessage: 'Code',
                   },
                 }),
                 view: {
@@ -643,10 +679,15 @@ export default (pluginContext) => {
             },
             salvagePriorityCodeDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.salvagePriorityCodeDate.name',
-                    defaultMessage: 'Salvage priority code date',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.salvagePriorityCodeDate.fullName',
+                    defaultMessage: 'Salvage priority date',
                   },
                 }),
                 view: {
@@ -658,18 +699,18 @@ export default (pluginContext) => {
         },
         legalReqsHeldGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.conditionchecks_common.legalReqsHeldGroupList.name',
-                defaultMessage: 'Legal/license requirements held',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           legalReqsHeldGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.conditionchecks_common.legalReqsHeldGroup.name',
+                  defaultMessage: 'Legal/license requirement held',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -683,7 +724,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeld.name',
-                    defaultMessage: 'Legal/license requirements held',
+                    defaultMessage: 'Description',
                   },
                 }),
                 view: {
@@ -693,10 +734,15 @@ export default (pluginContext) => {
             },
             legalReqsHeldBeginDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldBeginDate.name',
-                    defaultMessage: 'Legal/license requirements held begin date',
+                    defaultMessage: 'Begin date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldBeginDate.fullName',
+                    defaultMessage: 'Legal/license requirement begin date',
                   },
                 }),
                 view: {
@@ -706,10 +752,15 @@ export default (pluginContext) => {
             },
             legalReqsHeldEndDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldEndDate.name',
-                    defaultMessage: 'Legal/license requirements held begin date',
+                    defaultMessage: 'End date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldEndDate.fullName',
+                    defaultMessage: 'Legal/license requirement end date',
                   },
                 }),
                 view: {
@@ -722,7 +773,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldNumber.name',
-                    defaultMessage: 'Legal/license requirements held number',
+                    defaultMessage: 'Number',
                   },
                 }),
                 view: {
@@ -732,10 +783,15 @@ export default (pluginContext) => {
             },
             legalReqsHeldRenewDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldRenewDate.name',
-                    defaultMessage: 'Legal/license requirements held begin date',
+                    defaultMessage: 'Renewal date',
+                  },
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldRenewDate.fullName',
+                    defaultMessage: 'Legal/license requirement renewal date',
                   },
                 }),
                 view: {

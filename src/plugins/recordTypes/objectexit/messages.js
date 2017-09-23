@@ -28,4 +28,14 @@ export default {
       defaultMessage: 'Deaccession and Disposal Information',
     },
   }),
+  inputTable: defineMessages({
+    disposal: {
+      id: 'inputTable.objectexit.disposal',
+      defaultMessage: 'Disposal',
+    },
+    groupDisposal: {
+      id: 'inputTable.objectexit.groupDisposal',
+      defaultMessage: 'Group disposal',
+    },
+  }),
 };

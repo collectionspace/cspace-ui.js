@@ -18,7 +18,9 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
+    DATA_TYPE_DATE,
     DATA_TYPE_FLOAT,
+    DATA_TYPE_INT,
   } = pluginContext.dataTypes;
 
   const coreFields = getCoreFields(pluginContext);
@@ -43,6 +45,7 @@ export default (pluginContext) => {
         },
         exitNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.exitNumber.name',
@@ -108,31 +111,39 @@ export default (pluginContext) => {
         },
         exitMethods: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.exitMethods.name',
-                defaultMessage: 'Exit methods',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           exitMethod: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
                   id: 'field.objectexit_common.exitMethod.name',
                   defaultMessage: 'Exit method',
                 },
               }),
+              repeating: true,
               view: {
                 type: OptionPickerInput,
                 props: {
                   source: 'exitMethods',
                 },
               },
+            },
+          },
+        },
+        exitQuantity: {
+          [config]: {
+            dataType: DATA_TYPE_INT,
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.exitQuantity.name',
+                defaultMessage: 'Exit quantity',
+              },
+            }),
+            view: {
+              type: TextInput,
             },
           },
         },
@@ -144,6 +155,9 @@ export default (pluginContext) => {
                 defaultMessage: 'Exit note',
               },
             }),
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: TextInput,
               props: {
@@ -199,18 +213,18 @@ export default (pluginContext) => {
         },
         deacApprovalGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.deacApprovalGroupList.name',
-                defaultMessage: 'Deaccession approval group',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           deacApprovalGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.objectexit_common.deacApprovalGroupList.name',
+                  defaultMessage: 'Deaccession approval',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -224,7 +238,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.objectexit_common.deaccessionApprovalGroup.name',
-                    defaultMessage: 'Deaccession approval group',
+                    defaultMessage: 'Group',
                   },
                 }),
                 view: {
@@ -240,7 +254,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.objectexit_common.deaccessionApprovalStatus.name',
-                    defaultMessage: 'Deaccession approval status',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
@@ -253,10 +267,15 @@ export default (pluginContext) => {
             },
             deaccessionApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.objectexit_common.deaccessionApprovalDate.name',
-                    defaultMessage: 'Deaccession approval date',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.objectexit_common.deaccessionApprovalDate.fullName',
+                    defaultMessage: 'Deaccession approval status date',
                   },
                 }),
                 view: {
@@ -284,6 +303,7 @@ export default (pluginContext) => {
         },
         authorizationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.authorizationDate.name',
@@ -297,6 +317,7 @@ export default (pluginContext) => {
         },
         deaccessionDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.deaccessionDate.name',
@@ -310,6 +331,7 @@ export default (pluginContext) => {
         },
         disposalDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.disposalDate.name',
@@ -419,7 +441,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.disposalCurrency.name',
-                defaultMessage: 'Disposal currency',
+                defaultMessage: 'Currency',
               },
             }),
             view: {
@@ -436,6 +458,10 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.disposalValue.name',
+                defaultMessage: 'Value',
+              },
+              fullName: {
+                id: 'field.objectexit_common.disposalValue.fullName',
                 defaultMessage: 'Disposal value',
               },
             }),
@@ -449,7 +475,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.groupDisposalCurrency.name',
-                defaultMessage: 'Group disposal currency',
+                defaultMessage: 'Currency',
               },
             }),
             view: {
@@ -466,6 +492,10 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.groupDisposalValue.name',
+                defaultMessage: 'Value',
+              },
+              fullName: {
+                id: 'field.objectexit_common.groupDisposalValue.fullName',
                 defaultMessage: 'Group disposal value',
               },
             }),

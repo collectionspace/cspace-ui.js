@@ -9,7 +9,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.conservation.default.conservationNumber',
-          defaultMessage: 'Conservation number',
+          defaultMessage: 'Reference number',
         },
       }),
       sortBy: 'conservation_common:conservationNumber',

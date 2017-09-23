@@ -18,7 +18,8 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    DATA_TYPE_INT,
+    DATA_TYPE_DATE,
+    DATA_TYPE_FLOAT,
   } = pluginContext.dataTypes;
 
   const coreFields = getCoreFields(pluginContext);
@@ -43,10 +44,11 @@ export default (pluginContext) => {
         },
         acquisitionReferenceNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.acquisitionReferenceNumber.name',
-                defaultMessage: 'Acquisition reference number',
+                defaultMessage: 'Reference number',
               },
             }),
             required: true,
@@ -79,7 +81,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.acquisitionAuthorizer.name',
-                defaultMessage: 'Acquisition authorizer',
+                defaultMessage: 'Authorizer',
               },
             }),
             view: {
@@ -92,10 +94,15 @@ export default (pluginContext) => {
         },
         acquisitionAuthorizerDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.acquisitionAuthorizerDate.name',
-                defaultMessage: 'Acquisition authorizer date',
+                defaultMessage: 'Date',
+              },
+              fullName: {
+                id: 'field.acquisitions_common.acquisitionAuthorizerDate.fullName',
+                defaultMessage: 'Authorization date',
               },
             }),
             view: {
@@ -105,18 +112,18 @@ export default (pluginContext) => {
         },
         acquisitionDateGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.acquisitionDateGroupList.name',
-                defaultMessage: 'Acquisition date',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           acquisitionDateGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.acquisitions_common.acquisitionDateGroup.name',
+                  defaultMessage: 'Acquisition date',
+                },
+              }),
               repeating: true,
               view: {
                 type: StructuredDateInput,
@@ -142,12 +149,6 @@ export default (pluginContext) => {
         },
         acquisitionSources: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.acquisitionSources.name',
-                defaultMessage: 'Acquisition source',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -172,18 +173,18 @@ export default (pluginContext) => {
         },
         owners: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.owners.name',
-                defaultMessage: 'Owner',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           owner: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.acquisitions_common.owner.name',
+                  defaultMessage: 'Owner',
+                },
+              }),
               repeating: true,
               view: {
                 type: AutocompleteInput,
@@ -238,13 +239,17 @@ export default (pluginContext) => {
         },
         groupPurchasePriceValue: {
           [config]: {
+            dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.groupPurchasePriceValue.name',
                 defaultMessage: 'Value',
               },
+              fullName: {
+                id: 'field.acquisitions_common.groupPurchasePriceValue.fullName',
+                defaultMessage: 'Group purchase price value',
+              },
             }),
-            dataType: DATA_TYPE_INT,
             view: {
               type: TextInput,
             },
@@ -268,13 +273,17 @@ export default (pluginContext) => {
         },
         objectOfferPriceValue: {
           [config]: {
+            dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.objectOfferPriceValue.name',
                 defaultMessage: 'Value',
               },
+              fullName: {
+                id: 'field.acquisitions_common.objectOfferPriceValue.fullName',
+                defaultMessage: 'Object offer price value',
+              },
             }),
-            dataType: DATA_TYPE_INT,
             view: {
               type: TextInput,
             },
@@ -298,13 +307,17 @@ export default (pluginContext) => {
         },
         objectPurchaseOfferPriceValue: {
           [config]: {
+            dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.objectPurchaseOfferPriceValue.name',
                 defaultMessage: 'Value',
               },
+              fullName: {
+                id: 'field.acquisitions_common.objectPurchaseOfferPriceValue.fullName',
+                defaultMessage: 'Object purchaser offer price value',
+              },
             }),
-            dataType: DATA_TYPE_INT,
             view: {
               type: TextInput,
             },
@@ -328,13 +341,17 @@ export default (pluginContext) => {
         },
         objectPurchasePriceValue: {
           [config]: {
+            dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.objectPurchasePriceValue.name',
                 defaultMessage: 'Value',
               },
+              fullName: {
+                id: 'field.acquisitions_common.objectPurchasePriceValue.fullName',
+                defaultMessage: 'Object purchase price value',
+              },
             }),
-            dataType: DATA_TYPE_INT,
             view: {
               type: TextInput,
             },
@@ -358,13 +375,17 @@ export default (pluginContext) => {
         },
         originalObjectPurchasePriceValue: {
           [config]: {
+            dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.originalObjectPurchasePriceValue.name',
                 defaultMessage: 'Value',
               },
+              fullName: {
+                id: 'field.acquisitions_common.originalObjectPurchasePriceValue.fullName',
+                defaultMessage: 'Original object purchase price value',
+              },
             }),
-            dataType: DATA_TYPE_INT,
             view: {
               type: TextInput,
             },
@@ -391,7 +412,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.acquisitionNote.name',
-                defaultMessage: 'Acquisition note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -407,7 +428,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.acquisitionProvisos.name',
-                defaultMessage: 'Acquisition provisos',
+                defaultMessage: 'Provisos',
               },
             }),
             view: {
@@ -420,18 +441,18 @@ export default (pluginContext) => {
         },
         acquisitionFundingList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.acquisitionFundingList.name',
-                defaultMessage: 'Acquisition funding',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           acquisitionFunding: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.acquisitions_common.acquisitionFunding.name',
+                  defaultMessage: 'Funding',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -458,11 +479,15 @@ export default (pluginContext) => {
             },
             acquisitionFundingValue: {
               [config]: {
-                dataType: DATA_TYPE_INT,
+                dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
                   name: {
                     id: 'field.acquisitions_common.acquisitionFundingValue.name',
                     defaultMessage: 'Value',
+                  },
+                  fullName: {
+                    id: 'field.acquisitions_common.acquisitionFundingValue.fullName',
+                    defaultMessage: 'Funding value',
                   },
                 }),
                 view: {
@@ -503,18 +528,18 @@ export default (pluginContext) => {
         },
         fieldCollectionEventNames: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.fieldCollectionEventNames.name',
-                defaultMessage: 'Field collection event name',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           fieldCollectionEventName: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.acquisitions_common.fieldCollectionEventName.name',
+                  defaultMessage: 'Field collection event name',
+                },
+              }),
               repeating: true,
               view: {
                 type: TextInput,

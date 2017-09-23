@@ -8,7 +8,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.valuation.default.valuationcontrolRefNumber',
-          defaultMessage: 'Valuation control reference number',
+          defaultMessage: 'Reference number',
         },
       }),
       sortBy: 'valuationcontrols_common:valuationcontrolRefNumber',

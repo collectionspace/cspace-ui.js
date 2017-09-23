@@ -17,6 +17,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -43,15 +47,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.location.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.location.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.location.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -69,18 +73,18 @@ export default (pluginContext) => {
         },
         locTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.locations_common.locTermGroupList.name',
-                defaultMessage: 'Location term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           locTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.locations_common.locTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -118,7 +122,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -134,7 +138,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -150,7 +154,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termStatus.name',
-                    defaultMessage: 'Term status',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
@@ -195,7 +199,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for language',
                   },
                 }),
                 view: {
@@ -208,7 +212,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.locations_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -224,7 +232,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -237,7 +245,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -250,7 +258,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -268,6 +276,9 @@ export default (pluginContext) => {
                 defaultMessage: 'Access note',
               },
             }),
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: TextInput,
               props: {
@@ -291,18 +302,18 @@ export default (pluginContext) => {
         },
         conditionGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.persons_common.conditionGroupList.name',
-                defaultMessage: 'Condition note',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conditionGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.conditionGroup.name',
+                  defaultMessage: 'Condition note',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -313,9 +324,13 @@ export default (pluginContext) => {
             },
             conditionNote: {
               [config]: {
-                message: defineMessages({
+                messages: defineMessages({
                   name: {
                     id: 'field.locations_common.conditionNote.name',
+                    defaultMessage: 'Note',
+                  },
+                  fullName: {
+                    id: 'field.locations_common.conditionNote.fullName',
                     defaultMessage: 'Condition note',
                   },
                 }),
@@ -326,10 +341,15 @@ export default (pluginContext) => {
             },
             conditionNoteDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.conditionNoteDate.name',
                     defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.locations_common.conditionNoteDate.fullName',
+                    defaultMessage: 'Condition note date',
                   },
                 }),
                 view: {
@@ -347,6 +367,9 @@ export default (pluginContext) => {
                 defaultMessage: 'Security note',
               },
             }),
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: TextInput,
               props: {
@@ -360,7 +383,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.locations_common.locationType.name',
-                defaultMessage: 'Storage location record type',
+                defaultMessage: 'Storage location type',
               },
             }),
             view: {

@@ -4,6 +4,8 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -15,49 +17,44 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
-
         <Field name="locTermGroupList">
           <Field name="locTermGroup">
-
             <Panel>
-
-              <InputTable>
+              <Row>
                 <Field name="termDisplayName" />
                 <Field name="termName" />
                 <Field name="termQualifier" />
                 <Field name="termStatus" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <Row>
                 <Field name="termType" />
                 <Field name="termFlag" />
                 <Field name="termLanguage" />
                 <Field name="termPrefForLang" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <InputTable name="termSource">
                 <Field name="termSource" />
                 <Field name="termSourceDetail" />
                 <Field name="termSourceID" />
                 <Field name="termSourceNote" />
               </InputTable>
-
             </Panel>
-
           </Field>
         </Field>
 
-        <Row>
-          <Field name="locationType" />
-          <Field name="address" />
-        </Row>
-
-        <Row>
-          <Field name="securityNote" />
-          <Field name="accessNote" />
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="locationType" />
+            <Field name="securityNote" />
+          </Col>
+          <Col>
+            <Field name="address" />
+            <Field name="accessNote" />
+          </Col>
+        </Cols>
 
         <Field name="conditionGroupList">
           <Field name="conditionGroup">
@@ -65,13 +62,11 @@ const template = (pluginContext) => {
             <Field name="conditionNoteDate" />
           </Field>
         </Field>
-
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>
-
     </Field>
   );
 };

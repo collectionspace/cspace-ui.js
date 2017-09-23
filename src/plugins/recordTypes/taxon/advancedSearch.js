@@ -42,11 +42,11 @@ export default {
     },
     {
       op: OP_MATCH,
-      path: 'ns2:taxon_common/commonNameGroupList/commonNameGroup/commonName',
+      path: 'ns2:taxon_common/taxonNote',
     },
     {
       op: OP_MATCH,
-      path: 'ns2:taxon_common/taxonNote',
+      path: 'ns2:taxon_common/commonNameGroupList/commonNameGroup/commonName',
     },
     {
       op: OP_MATCH,

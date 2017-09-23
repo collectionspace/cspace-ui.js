@@ -1,4 +1,5 @@
 import { defineMessages } from 'react-intl';
+import advancedSearch from './advancedSearch';
 import columns from './columns';
 import fields from './fields';
 import forms from './forms';
@@ -11,6 +12,7 @@ export default () => pluginContext => ({
   optionLists,
   recordTypes: {
     person: {
+      advancedSearch,
       columns,
       messages,
       serviceConfig,

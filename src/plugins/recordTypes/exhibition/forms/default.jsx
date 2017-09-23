@@ -4,6 +4,8 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -14,23 +16,24 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
+        <Cols>
+          <Col>
+            <Field name="exhibitionNumber" />
+            <Field name="type" />
+            <Field name="title" />
+          </Col>
 
-        <Row>
-          <Field name="exhibitionNumber" />
-          <Field name="type" />
-          <Field name="title" />
-        </Row>
+          <Col>
+            <Field name="sponsors">
+              <Field name="sponsor" />
+            </Field>
 
-        <Row>
-          <Field name="sponsors">
-            <Field name="sponsor" />
-          </Field>
-          <Field name="organizers">
-            <Field name="organizer" />
-          </Field>
-        </Row>
+            <Field name="organizers">
+              <Field name="organizer" />
+            </Field>
+          </Col>
+        </Cols>
 
         <Row>
           <Field name="venueGroupList">
@@ -45,106 +48,91 @@ const template = (pluginContext) => {
           </Field>
         </Row>
 
-        <Row>
-          <Field name="workingGroupList">
-            <Field name="workingGroup">
-              <Panel>
-                <Row>
-                  <Field name="workingGroupTitle" />
-                  <Field name="workingGroupNote" />
-                </Row>
+        <Field name="workingGroupList">
+          <Field name="workingGroup">
+            <Panel>
+              <Row>
+                <Field name="workingGroupTitle" />
+                <Field name="workingGroupNote" />
+              </Row>
 
-                <Row>
-                  <Field name="exhibitionPersonGroupList">
-                    <Field name="exhibitionPersonGroup">
-                      <Field name="exhibitionPerson" />
-                      <Field name="exhibitionPersonRole" />
-                    </Field>
+              <Row>
+                <Field name="exhibitionPersonGroupList">
+                  <Field name="exhibitionPersonGroup">
+                    <Field name="exhibitionPerson" />
+                    <Field name="exhibitionPersonRole" />
                   </Field>
-                </Row>
-              </Panel>
-            </Field>
+                </Field>
+              </Row>
+            </Panel>
           </Field>
-        </Row>
+        </Field>
 
-        <Row>
-          <Field name="planningNote" />
-          <Field name="curatorialNote" />
-        </Row>
-        <Row>
-          <Field name="generalNote" />
-          <Field name="boilerplateText" />
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="planningNote" />
+            <Field name="curatorialNote" />
+          </Col>
 
-        <Row>
-          <Field name="galleryRotationGroupList">
-            <Field name="galleryRotationGroup">
-              <Field name="galleryRotationName" />
-              <Field name="galleryRotationStartDateGroup" />
-              <Field name="galleryRotationEndDateGroup" />
-              <Field name="galleryRotationNote" />
-            </Field>
+          <Col>
+            <Field name="generalNote" />
+            <Field name="boilerplateText" />
+          </Col>
+        </Cols>
+
+        <Field name="galleryRotationGroupList">
+          <Field name="galleryRotationGroup">
+            <Field name="galleryRotationName" />
+            <Field name="galleryRotationStartDateGroup" />
+            <Field name="galleryRotationEndDateGroup" />
+            <Field name="galleryRotationNote" />
           </Field>
-        </Row>
+        </Field>
 
-        <Row>
-          <Field name="exhibitionReferenceGroupList">
-            <Field name="exhibitionReferenceGroup">
-              <Field name="exhibitionReference" />
-              <Field name="exhibitionReferenceType" />
-              <Field name="exhibitionReferenceNote" />
-            </Field>
+        <Field name="exhibitionReferenceGroupList">
+          <Field name="exhibitionReferenceGroup">
+            <Field name="exhibitionReference" />
+            <Field name="exhibitionReferenceType" />
+            <Field name="exhibitionReferenceNote" />
           </Field>
-        </Row>
-
+        </Field>
       </Panel>
 
-      <Panel name="planningInfo" collapsible>
-
-        <Row>
-          <Field name="exhibitionSectionGroupList">
-            <Field name="exhibitionSectionGroup">
-              <Field name="exhibitionSectionName" />
-              <Field name="exhibitionSectionLocation" />
-              <Field name="exhibitionSectionObjects" />
-              <Field name="exhibitionSectionNote" />
-            </Field>
+      <Panel name="planningInfo" collapsible collapsed>
+        <Field name="exhibitionSectionGroupList">
+          <Field name="exhibitionSectionGroup">
+            <Field name="exhibitionSectionName" />
+            <Field name="exhibitionSectionLocation" />
+            <Field name="exhibitionSectionObjects" />
+            <Field name="exhibitionSectionNote" />
           </Field>
-        </Row>
+        </Field>
 
-        <Row>
-          <Field name="exhibitionStatusGroupList">
-            <Field name="exhibitionStatusGroup">
-              <Field name="exhibitionStatus" />
-              <Field name="exhibitionStatusDate" />
-              <Field name="exhibitionStatusNote" />
-            </Field>
+        <Field name="exhibitionStatusGroupList">
+          <Field name="exhibitionStatusGroup">
+            <Field name="exhibitionStatus" />
+            <Field name="exhibitionStatusDate" />
+            <Field name="exhibitionStatusNote" />
           </Field>
-        </Row>
-
+        </Field>
       </Panel>
 
-      <Panel name="exhibitedObjectInformation" collapsible>
-
-        <Row>
-          <Field name="exhibitionObjectGroupList">
-            <Field name="exhibitionObjectGroup">
-              <Field name="exhibitionObjectNumber" />
-              <Field name="exhibitionObjectName" />
-              <Field name="exhibitionObjectConsCheckDate" />
-              <Field name="exhibitionObjectConsTreatment" />
-              <Field name="exhibitionObjectMount" />
-              <Field name="exhibitionObjectSection" />
-              <Field name="exhibitionObjectCase" />
-              <Field name="exhibitionObjectSeqNum" />
-              <Field name="exhibitionObjectRotation" />
-              <Field name="exhibitionObjectNote" />
-            </Field>
+      <Panel name="exhibitedObjectInformation" collapsible collapsed>
+        <Field name="exhibitionObjectGroupList">
+          <Field name="exhibitionObjectGroup">
+            <Field name="exhibitionObjectNumber" />
+            <Field name="exhibitionObjectName" />
+            <Field name="exhibitionObjectConsCheckDate" />
+            <Field name="exhibitionObjectConsTreatment" />
+            <Field name="exhibitionObjectMount" />
+            <Field name="exhibitionObjectSection" />
+            <Field name="exhibitionObjectCase" />
+            <Field name="exhibitionObjectSeqNum" />
+            <Field name="exhibitionObjectRotation" />
+            <Field name="exhibitionObjectNote" />
           </Field>
-        </Row>
-
+        </Field>
       </Panel>
-
     </Field>
   );
 };

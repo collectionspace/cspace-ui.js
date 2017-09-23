@@ -24,4 +24,14 @@ export default {
       defaultMessage: 'Loan Out Information',
     },
   }),
+  inputTable: defineMessages({
+    borrower: {
+      id: 'inputTable.loanout.borrower',
+      defaultMessage: 'Borrower',
+    },
+    lender: {
+      id: 'inputTable.loanout.lender',
+      defaultMessage: 'Lender',
+    },
+  }),
 };

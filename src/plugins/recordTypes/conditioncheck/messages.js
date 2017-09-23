@@ -19,17 +19,17 @@ export default {
     },
   }),
   panel: defineMessages({
-    objectConditionAndTechAssessmentInfo: {
-      id: 'panel.conditioncheck.objectConditionAndTechAssessmentInfo',
-      defaultMessage: 'Object Condition and Technical Assessment Information',
-    },
     conditionCheckAndTechAssessmentInfo: {
       id: 'panel.conditioncheck.conditionCheckAndTechAssessmentInfo',
-      defaultMessage: 'Condition Check Technical Assessment Information',
+      defaultMessage: 'Condition Check/Technical Assessment Information',
+    },
+    objectConditionAndTechAssessmentInfo: {
+      id: 'panel.conditioncheck.objectConditionAndTechAssessmentInfo',
+      defaultMessage: 'Object Condition Information',
     },
     objectRequirementInfo: {
       id: 'panel.conditioncheck.objectRequirementInfo',
-      defaultMessage: 'Object Requirement Information',
+      defaultMessage: 'Object Recommendation/Requirement Information',
     },
   }),
 };

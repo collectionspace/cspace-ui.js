@@ -26,10 +26,6 @@ export default {
     },
     {
       op: OP_EQ,
-      path: 'ns2:loansout_common/lendersAuthorizer',
-    },
-    {
-      op: OP_EQ,
       path: 'ns2:loansout_common/borrower',
     },
     {
@@ -57,12 +53,12 @@ export default {
       path: 'ns2:loansout_common/loanRenewalApplicationDate',
     },
     {
-      op: OP_RANGE,
-      path: 'ns2:collectionspace_core/updatedAt',
-    },
-    {
       op: OP_MATCH,
       path: 'ns2:collectionspace_core/updatedBy',
+    },
+    {
+      op: OP_RANGE,
+      path: 'ns2:collectionspace_core/updatedAt',
     },
   ],
 };

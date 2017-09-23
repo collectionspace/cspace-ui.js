@@ -29,8 +29,12 @@ export default {
       path: 'ns2:locations_common/locTermGroupList/locTermGroup/termLanguage',
     },
     {
+      op: OP_EQ,
+      path: 'ns2:locations_common/locationType',
+    },
+    {
       op: OP_MATCH,
-      path: 'ns2:locations_common/accessNote',
+      path: 'ns2:locations_common/securityNote',
     },
     {
       op: OP_MATCH,
@@ -38,11 +42,11 @@ export default {
     },
     {
       op: OP_MATCH,
-      path: 'ns2:locations_common/securityNote',
+      path: 'ns2:locations_common/accessNote',
     },
     {
-      op: OP_EQ,
-      path: 'ns2:locations_common/locationType',
+      op: OP_MATCH,
+      path: 'ns2:locations_common/conditionGroupList/conditionGroup/conditionNote',
     },
     {
       op: OP_MATCH,

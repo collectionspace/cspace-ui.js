@@ -17,6 +17,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -39,6 +43,7 @@ export default (pluginContext) => {
         },
         exhibitionNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.exhibitionNumber.name',
@@ -62,7 +67,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.type.name',
-                defaultMessage: 'Exhibition type',
+                defaultMessage: 'Type',
               },
             }),
             view: {
@@ -78,7 +83,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.title.name',
-                defaultMessage: 'Exhibition title',
+                defaultMessage: 'Title',
               },
             }),
             view: {
@@ -88,12 +93,6 @@ export default (pluginContext) => {
         },
         sponsors: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.sponsors.name',
-                defaultMessage: 'Sponsors',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -101,8 +100,8 @@ export default (pluginContext) => {
           sponsor: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.exhibitions_common.sponsor.fullName',
+                name: {
+                  id: 'field.exhibitions_common.sponsor.name',
                   defaultMessage: 'Sponsor',
                 },
               }),
@@ -118,12 +117,6 @@ export default (pluginContext) => {
         },
         organizers: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.organizers.name',
-                defaultMessage: 'Organizers',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -131,8 +124,8 @@ export default (pluginContext) => {
           organizer: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.exhibitions_common.organizer.fullName',
+                name: {
+                  id: 'field.exhibitions_common.organizer.name',
                   defaultMessage: 'Organizer',
                 },
               }),
@@ -148,18 +141,18 @@ export default (pluginContext) => {
         },
         venueGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.venueGroupList.name',
-                defaultMessage: 'Venues',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           venueGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.venueGroup.name',
+                  defaultMessage: 'Venue',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -173,7 +166,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.venue.name',
-                    defaultMessage: 'Venue',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.exhibitions_common.venue.fullName',
+                    defaultMessage: 'Venue name',
                   },
                 }),
                 view: {
@@ -186,10 +183,15 @@ export default (pluginContext) => {
             },
             venueOpeningDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.venueOpeningDate.name',
                     defaultMessage: 'Opening date',
+                  },
+                  fullName: {
+                    id: 'field.exhibitions_common.venueOpeningDate.fullName',
+                    defaultMessage: 'Venue opening date',
                   },
                 }),
                 view: {
@@ -199,10 +201,15 @@ export default (pluginContext) => {
             },
             venueClosingDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.venueClosingDate.name',
                     defaultMessage: 'Closing date',
+                  },
+                  fullName: {
+                    id: 'field.exhibitions_common.venueClosingDate.fullName',
+                    defaultMessage: 'Venue closing date',
                   },
                 }),
                 view: {
@@ -240,18 +247,18 @@ export default (pluginContext) => {
         },
         workingGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.workingGroupList.name',
-                defaultMessage: 'Exhibition working group',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           workingGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.workingGroup.name',
+                  defaultMessage: 'Working group',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -262,7 +269,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.workingGroupTitle.name',
-                    defaultMessage: 'Working group title',
+                    defaultMessage: 'Title',
                   },
                 }),
                 view: {
@@ -275,7 +282,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.workingGroupNote.name',
-                    defaultMessage: 'Notes',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -291,6 +298,12 @@ export default (pluginContext) => {
               },
               exhibitionPersonGroup: {
                 [config]: {
+                  messages: defineMessages({
+                    name: {
+                      id: 'field.exhibitions_common.exhibitionPersonGroup.name',
+                      defaultMessage: 'Member',
+                    },
+                  }),
                   repeating: true,
                   view: {
                     type: CompoundInput,
@@ -302,13 +315,13 @@ export default (pluginContext) => {
                 exhibitionPerson: {
                   [config]: {
                     messages: defineMessages({
-                      fullName: {
-                        id: 'field.exhibitions_common.exhibitionPerson.fullName',
-                        defaultMessage: 'Working group person',
-                      },
                       name: {
                         id: 'field.exhibitions_common.exhibitionPerson.name',
-                        defaultMessage: 'Person',
+                        defaultMessage: 'Name',
+                      },
+                      fullName: {
+                        id: 'field.exhibitions_common.exhibitionPerson.fullName',
+                        defaultMessage: 'Working group member name',
                       },
                     }),
                     view: {
@@ -344,7 +357,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.planningNote.name',
-                defaultMessage: 'Planning notes',
+                defaultMessage: 'Planning note',
               },
             }),
             view: {
@@ -360,7 +373,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.curatorialNote.name',
-                defaultMessage: 'Curatorial notes',
+                defaultMessage: 'Curatorial note',
               },
             }),
             view: {
@@ -376,7 +389,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.exhibitions_common.generalNote.name',
-                defaultMessage: 'General notes',
+                defaultMessage: 'General note',
               },
             }),
             view: {
@@ -405,18 +418,18 @@ export default (pluginContext) => {
         },
         galleryRotationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.galleryRotationGroupList.name',
-                defaultMessage: 'Gallery rotations',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           galleryRotationGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.galleryRotationGroup.name',
+                  defaultMessage: 'Gallery rotation',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -430,7 +443,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.galleryRotationName.name',
-                    defaultMessage: 'Rotation name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -469,7 +482,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.galleryRotationNote.name',
-                    defaultMessage: 'Notes',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -481,18 +494,18 @@ export default (pluginContext) => {
         },
         exhibitionReferenceGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.exhibitionReferenceGroupList.name',
-                defaultMessage: 'Bibliographic references',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           exhibitionReferenceGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.exhibitionReferenceGroup.name',
+                  defaultMessage: 'Bibliographic reference',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -508,6 +521,10 @@ export default (pluginContext) => {
                     id: 'field.exhibitions_common.exhibitionReference.name',
                     defaultMessage: 'Reference',
                   },
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionReference.fullName',
+                    defaultMessage: 'Bibliographic reference',
+                  },
                 }),
                 view: {
                   type: AutocompleteInput,
@@ -522,7 +539,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionReferenceType.name',
-                    defaultMessage: 'Reference type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -538,7 +555,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionReferenceNote.name',
-                    defaultMessage: 'Reference note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -550,18 +567,18 @@ export default (pluginContext) => {
         },
         exhibitionSectionGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.exhibitionSectionGroupList.name',
-                defaultMessage: 'Exhibition sections',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           exhibitionSectionGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.exhibitionSectionGroup.name',
+                  defaultMessage: 'Exhibition section',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -614,7 +631,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionNote.name',
-                    defaultMessage: 'Remarks',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -626,18 +643,18 @@ export default (pluginContext) => {
         },
         exhibitionStatusGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.exhibitionStatusGroupList.name',
-                defaultMessage: 'Exhibition status',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           exhibitionStatusGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.exhibitionStatusGroup.name',
+                  defaultMessage: 'Exhibition status',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -664,10 +681,15 @@ export default (pluginContext) => {
             },
             exhibitionStatusDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionStatusDate.name',
-                    defaultMessage: 'Status date',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionStatusDate.fullName',
+                    defaultMessage: 'Exhibition status date',
                   },
                 }),
                 view: {
@@ -679,8 +701,8 @@ export default (pluginContext) => {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.exhibitions_common.exhibitionSectionNote.name',
-                    defaultMessage: 'Remarks',
+                    id: 'field.exhibitions_common.exhibitionStatusNote.name',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -692,18 +714,18 @@ export default (pluginContext) => {
         },
         exhibitionObjectGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.exhibitions_common.exhibitionObjectGroupList.name',
-                defaultMessage: 'Object checklist',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           exhibitionObjectGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.exhibitions_common.exhibitionObjectGroup.name',
+                  defaultMessage: 'Object checklist',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -740,6 +762,7 @@ export default (pluginContext) => {
             },
             exhibitionObjectConsCheckDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectConsCheckDate.name',
@@ -772,7 +795,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectMount.name',
-                    defaultMessage: 'Mount?',
+                    defaultMessage: 'Mount',
                   },
                 }),
                 view: {

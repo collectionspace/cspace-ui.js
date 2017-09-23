@@ -55,6 +55,7 @@ export default () => pluginContext => ({
           serviceConfig: {
             servicePath: 'urn:cspace:name(work)',
           },
+          sortOrder: 0,
         },
         cona: {
           messages: defineMessages({
@@ -72,6 +73,7 @@ export default () => pluginContext => ({
           serviceConfig: {
             servicePath: 'urn:cspace:name(cona_work)',
           },
+          sortOrder: 1,
         },
       },
     },

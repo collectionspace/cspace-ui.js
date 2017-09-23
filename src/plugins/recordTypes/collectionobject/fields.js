@@ -1075,7 +1075,7 @@ export default (pluginContext) => {
                   messages: defineMessages({
                     name: {
                       id: 'field.collectionobjects_common.dimensionSubGroup.name',
-                      defaultMessage: 'Measurements',
+                      defaultMessage: 'Measurement',
                     },
                   }),
                   repeating: true,
@@ -1188,6 +1188,10 @@ export default (pluginContext) => {
                       name: {
                         id: 'field.collectionobjects_common.valueDate.name',
                         defaultMessage: 'Date',
+                      },
+                      fullName: {
+                        id: 'field.collectionobjects_common.valueDate.fullName',
+                        defaultMessage: 'Measurement date',
                       },
                     }),
                     view: {

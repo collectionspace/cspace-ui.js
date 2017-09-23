@@ -17,105 +17,102 @@ const template = (pluginContext) => {
 
   return (
     <Field name="document">
-
       <Panel name="info" collapsible>
-
         <Field name="workTermGroupList">
           <Field name="workTermGroup">
-
             <Panel>
-
-              <InputTable>
+              <Row>
                 <Field name="termDisplayName" />
                 <Field name="termName" />
                 <Field name="termQualifier" />
                 <Field name="termStatus" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <Row>
                 <Field name="termType" />
                 <Field name="termFlag" />
                 <Field name="termLanguage" />
                 <Field name="termPrefForLang" />
-              </InputTable>
+              </Row>
 
-              <InputTable>
+              <InputTable name="termSource">
                 <Field name="termSource" />
                 <Field name="termSourceDetail" />
                 <Field name="termSourceID" />
                 <Field name="termSourceNote" />
               </InputTable>
-
             </Panel>
-
           </Field>
         </Field>
 
-        <Row>
-          <Field name="workType" />
-          <Field name="creatorGroupList">
-            <Field name="creatorGroup">
-              <Field name="creator" />
-              <Field name="creatorType" />
-            </Field>
-          </Field>
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="workType" />
 
-        <Row>
-          <Field name="workDateGroupList">
-            <Field name="workDateGroup">
-              <Field name="workDate" />
+            <Field name="workDateGroupList">
+              <Field name="workDateGroup">
+                <Field name="workDate" />
+              </Field>
             </Field>
-          </Field>
-          <Field name="publisherGroupList">
-            <Field name="publisherGroup">
-              <Field name="publisher" />
-              <Field name="publisherType" />
+
+            <Field name="workHistoryNote" />
+          </Col>
+
+          <Col>
+            <Field name="creatorGroupList">
+              <Field name="creatorGroup">
+                <Field name="creator" />
+                <Field name="creatorType" />
+              </Field>
             </Field>
-          </Field>
-        </Row>
 
-        <Field name="workHistoryNote" />
+            <Field name="publisherGroupList">
+              <Field name="publisherGroup">
+                <Field name="publisher" />
+                <Field name="publisherType" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
 
+        {/* TODO: Break out address group */}
 
         <Field name="addrGroupList">
           <Field name="addrGroup">
-
             <Panel>
-
-              <Row>
-                <Field name="addressType" />
-                <Field name="addressMunicipality" />
-              </Row>
-
-              <Row>
-                <Field name="addressPlace1" />
-                <Field name="addressStateOrProvince" />
-              </Row>
-
-              <Row>
-                <Field name="addressPlace2" />
-                <Field name="addressPostCode" />
-              </Row>
-
               <Cols>
-                <Col />
                 <Col>
+                  <Field name="addressPlace1" />
+                  <Field name="addressPlace2" />
+                  <Field name="addressMunicipality" />
+
+                </Col>
+
+                <Col>
+                  <Row>
+                    <Field name="addressStateOrProvince" />
+                    <Field name="addressPostCode" />
+                  </Row>
+
                   <Field name="addressCountry" />
+
+                  <Row>
+                    <Col>
+                      <Field name="addressType" />
+                    </Col>
+
+                    <Col />
+                  </Row>
                 </Col>
               </Cols>
-
             </Panel>
-
           </Field>
         </Field>
-
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="ns2:relations-common-list" />
       </Panel>
-
     </Field>
   );
 };

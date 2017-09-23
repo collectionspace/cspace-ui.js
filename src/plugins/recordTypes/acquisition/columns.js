@@ -9,7 +9,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.acquisition.default.acquisitionReferenceNumber',
-          defaultMessage: 'Acquisition reference number',
+          defaultMessage: 'Reference number',
         },
       }),
       sortBy: 'acquisitions_common:acquisitionReferenceNumber',

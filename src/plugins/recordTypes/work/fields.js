@@ -43,15 +43,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.work.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.work.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.work.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -67,20 +67,30 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/work',
           },
         },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         workTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.works_common.workTermGroupList.name',
-                defaultMessage: 'Work term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           workTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.works_common.workTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -105,7 +115,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termName.name',
-                    defaultMessage: 'Term',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -118,7 +128,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -131,7 +141,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -192,7 +202,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for language',
                   },
                 }),
                 view: {
@@ -205,7 +215,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.works_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -221,7 +235,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -234,7 +248,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -247,7 +261,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -257,28 +271,12 @@ export default (pluginContext) => {
             },
           },
         },
-        workHistoryNote: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.works_common.workHistoryNote.name',
-                defaultMessage: 'History notes',
-              },
-            }),
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
-              },
-            },
-          },
-        },
         workType: {
           [config]: {
             messages: defineMessages({
               name: {
                 id: 'field.works_common.workType.name',
-                defaultMessage: 'Work record type',
+                defaultMessage: 'Work type',
               },
             }),
             view: {
@@ -291,52 +289,55 @@ export default (pluginContext) => {
         },
         workDateGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.works_common.workDateGroupList.name',
-                defaultMessage: 'Work date',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           workDateGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.works_common.workDateGroup.name',
+                  defaultMessage: 'Work date',
+                },
+              }),
               repeating: true,
               view: {
-                type: CompoundInput,
+                type: StructuredDateInput,
               },
             },
-            workDate: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.works_common.workDate.name',
-                    defaultMessage: 'Work date',
-                  },
-                }),
-                view: {
-                  type: StructuredDateInput,
-                },
+          },
+        },
+        workHistoryNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.works_common.workHistoryNote.name',
+                defaultMessage: 'History note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
               },
             },
           },
         },
         creatorGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.works_common.creatorGroupList.name',
-                defaultMessage: 'Creator',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           creatorGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.works_common.creatorGroup.name',
+                  defaultMessage: 'Creator',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -350,7 +351,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.creator.name',
-                    defaultMessage: 'Creator',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.works_common.creator.fullName',
+                    defaultMessage: 'Creator name',
                   },
                 }),
                 view: {
@@ -366,7 +371,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.creatorType.name',
-                    defaultMessage: 'Creator type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -381,18 +386,18 @@ export default (pluginContext) => {
         },
         publisherGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.works_common.publisherGroupList.name',
-                defaultMessage: 'Publisher',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           publisherGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.works_common.publisherGroup.name',
+                  defaultMessage: 'Publisher',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -406,7 +411,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.publisher.name',
-                    defaultMessage: 'Publisher',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.works_common.publisher.fullName',
+                    defaultMessage: 'Publisher name',
                   },
                 }),
                 view: {
@@ -422,7 +431,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.works_common.publisherType.name',
-                    defaultMessage: 'Publisher type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -437,18 +446,18 @@ export default (pluginContext) => {
         },
         addrGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.works_common.addrGroupList.name',
-                defaultMessage: 'Address',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           addrGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.works_common.addrGroup.name',
+                  defaultMessage: 'Address',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,

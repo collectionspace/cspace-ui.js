@@ -42,15 +42,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.taxon.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.taxon.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.taxon.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -66,20 +66,30 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/taxonomy',
           },
         },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         taxonTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.taxon_common.taxonTermGroupList.name',
-                defaultMessage: 'Taxon term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           taxonTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.taxon_common.taxonTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -117,7 +127,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -133,7 +143,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -194,7 +204,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for lang',
                   },
                 }),
                 view: {
@@ -207,7 +217,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.taxon_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -223,7 +237,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -236,7 +250,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -249,7 +263,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -293,7 +307,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.taxon_common.taxonRank.name',
-                defaultMessage: 'Taxon rank',
+                defaultMessage: 'Rank',
               },
             }),
             view: {
@@ -309,7 +323,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.taxon_common.taxonCurrency.name',
-                defaultMessage: 'Taxon rank',
+                defaultMessage: 'Currency',
               },
             }),
             view: {
@@ -322,18 +336,18 @@ export default (pluginContext) => {
         },
         taxonAuthorGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.taxon_common.taxonAuthorGroupList.name',
-                defaultMessage: 'Taxon authors',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           taxonAuthorGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.taxon_common.taxonAuthorGroup.name',
+                  defaultMessage: 'Author',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -347,6 +361,10 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.taxonAuthor.name',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.taxon_common.taxonAuthor.fullName',
                     defaultMessage: 'Author name',
                   },
                 }),
@@ -363,7 +381,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.taxonAuthorType.name',
-                    defaultMessage: 'Author Type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -391,12 +409,6 @@ export default (pluginContext) => {
         },
         taxonCitationList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.taxon_common.taxonCitationList.name',
-                defaultMessage: 'Citations',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -404,13 +416,9 @@ export default (pluginContext) => {
           taxonCitation: {
             [config]: {
               messages: defineMessages({
-                fullName: {
-                  id: 'field.taxon_common.taxonCitation.fullName',
-                  defaultMessage: 'Citation',
-                },
                 name: {
                   id: 'field.taxon_common.taxonCitation.name',
-                  defaultMessage: 'Concept',
+                  defaultMessage: 'Citation',
                 },
               }),
               repeating: true,
@@ -441,9 +449,12 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.taxon_common.taxonNote.name',
-                defaultMessage: 'Notes',
+                defaultMessage: 'Note',
               },
             }),
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: TextInput,
               props: {
@@ -454,18 +465,18 @@ export default (pluginContext) => {
         },
         commonNameGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.taxon_common.commonNameGroupList.name',
-                defaultMessage: 'Taxon authors',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           commonNameGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.taxon_common.commonNameGroup.name',
+                  defaultMessage: 'Common name',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -479,7 +490,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.commonName.name',
-                    defaultMessage: 'Common Name',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.taxon_common.commonName.fullName',
+                    defaultMessage: 'Common name',
                   },
                 }),
                 view: {
@@ -510,11 +525,15 @@ export default (pluginContext) => {
                     id: 'field.taxon_common.commonNameSource.name',
                     defaultMessage: 'Source',
                   },
+                  fullName: {
+                    id: 'field.taxon_common.commonNameSource.fullName',
+                    defaultMessage: 'Common name source',
+                  },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'citation/local, citation/shared',
+                    source: 'citation/local,citation/shared',
                   },
                 },
               },
@@ -524,7 +543,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.taxon_common.commonNameSourceDetail.name',
-                    defaultMessage: 'Source Detail',
+                    defaultMessage: 'Source detail',
                   },
                 }),
                 view: {

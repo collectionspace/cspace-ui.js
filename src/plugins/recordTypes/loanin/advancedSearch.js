@@ -18,6 +18,10 @@ export default {
     },
     {
       op: OP_EQ,
+      path: 'ns2:loansin_common/loanStatusGroupList/loanStatusGroup/loanStatus',
+    },
+    {
+      op: OP_EQ,
       path: 'ns2:loansin_common/lenderGroupList/lenderGroup/lender',
     },
     {
@@ -37,10 +41,6 @@ export default {
       path: 'ns2:loansin_common/borrowersAuthorizer',
     },
     {
-      op: OP_EQ,
-      path: 'ns2:loansin_common/loanStatusGroupList/loanStatusGroup/loanStatus',
-    },
-    {
       op: OP_RANGE,
       path: 'ns2:loansin_common/loanInDate',
     },
@@ -53,12 +53,12 @@ export default {
       path: 'ns2:loansin_common/loanRenewalApplicationDate',
     },
     {
-      op: OP_RANGE,
-      path: 'ns2:collectionspace_core/updatedAt',
-    },
-    {
       op: OP_MATCH,
       path: 'ns2:collectionspace_core/updatedBy',
+    },
+    {
+      op: OP_RANGE,
+      path: 'ns2:collectionspace_core/updatedAt',
     },
   ],
 };

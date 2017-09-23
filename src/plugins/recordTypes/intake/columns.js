@@ -9,7 +9,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.intake.default.entryNumber',
-          defaultMessage: 'Intake entry number',
+          defaultMessage: 'Entry number',
         },
       }),
       sortBy: 'intakes_common:entryNumber',

@@ -13,12 +13,12 @@ export default {
       path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termDisplayName',
     },
     {
-      op: OP_MATCH,
-      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termName',
+      op: OP_EQ,
+      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termStatus',
     },
     {
       op: OP_EQ,
-      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termStatus',
+      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termType',
     },
     {
       op: OP_EQ,
@@ -30,11 +30,11 @@ export default {
     },
     {
       op: OP_MATCH,
-      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termTitle',
+      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termFullCitation',
     },
     {
       op: OP_MATCH,
-      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termFullCitation',
+      path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termTitle',
     },
     {
       op: OP_MATCH,

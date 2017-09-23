@@ -43,15 +43,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.citation.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.citation.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.citation.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -67,20 +67,30 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/citation',
           },
         },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         citationTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.citations_common.citationTermGroupList.name',
-                defaultMessage: 'Citation term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           citationTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.citations_common.citationTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -118,7 +128,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -134,7 +144,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -195,7 +205,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for language',
                   },
                 }),
                 view: {
@@ -208,7 +218,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.citations_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -224,7 +238,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -237,7 +251,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -250,7 +264,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -340,12 +354,6 @@ export default (pluginContext) => {
         },
         citationRecordTypes: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.citations_common.citationRecordTypes.name',
-                defaultMessage: 'Type',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
@@ -370,18 +378,18 @@ export default (pluginContext) => {
         },
         citationPublicationInfoGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.citations_common.citationPublicationInfoGroupList.name',
-                defaultMessage: 'Publication information',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           citationPublicationInfoGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.citations_common.citationPublicationInfoGroup.name',
+                  defaultMessage: 'Publication',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -412,6 +420,10 @@ export default (pluginContext) => {
                   name: {
                     id: 'field.citations_common.publicationPlace.name',
                     defaultMessage: 'Place',
+                  },
+                  fullName: {
+                    id: 'field.citations_common.publicationPlace.fullName',
+                    defaultMessage: 'Publication place',
                   },
                 }),
                 view: {
@@ -465,18 +477,18 @@ export default (pluginContext) => {
         },
         citationAgentInfoGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.citations_common.citationAgentInfoGroupList.name',
-                defaultMessage: 'Agent information',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           citationAgentInfoGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.citations_common.citationAgentInfoGroup.name',
+                  defaultMessage: 'Agent',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -490,7 +502,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.agent.name',
-                    defaultMessage: 'Agent',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.citations_common.agent.fullName',
+                    defaultMessage: 'Agent name',
                   },
                 }),
                 view: {
@@ -550,18 +566,18 @@ export default (pluginContext) => {
         },
         citationResourceIdentGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.citations_common.citationResourceIdentGroupList.name',
-                defaultMessage: 'Resource identifiers',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           citationResourceIdentGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.citations_common.citationResourceIdentGroup.name',
+                  defaultMessage: 'Resource identifier',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -575,7 +591,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.resourceIdent.name',
-                    defaultMessage: 'Resource identifier',
+                    defaultMessage: 'Identifier',
                   },
                 }),
                 view: {
@@ -616,18 +632,18 @@ export default (pluginContext) => {
         },
         citationRelatedTermsGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.citations_common.citationRelatedTermsGroupList.name',
-                defaultMessage: 'Related terms',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           citationRelatedTermsGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.citations_common.citationRelatedTermsGroup.name',
+                  defaultMessage: 'Related term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -641,6 +657,10 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.relatedTerm.name',
+                    defaultMessage: 'Term',
+                  },
+                  fullName: {
+                    id: 'field.citations_common.relatedTerm.fullName',
                     defaultMessage: 'Related term',
                   },
                 }),

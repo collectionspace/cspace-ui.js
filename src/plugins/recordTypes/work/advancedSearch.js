@@ -32,6 +32,10 @@ export default {
       op: OP_EQ,
       path: 'ns2:works_common/workType',
     },
+    // {
+    //   op: OP_RANGE,
+    //   path: 'ns2:works_common/workDateGroupList/workDateGroup',
+    // },
     {
       op: OP_EQ,
       path: 'ns2:works_common/creatorGroupList/creatorGroup/creator',

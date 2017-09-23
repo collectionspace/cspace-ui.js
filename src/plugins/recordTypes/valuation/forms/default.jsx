@@ -4,8 +4,9 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
-    Row,
   } = pluginContext.layoutComponents;
 
   const {
@@ -15,29 +16,27 @@ const template = (pluginContext) => {
   return (
     <Field name="document">
       <Panel name="info" collapsible>
+        <Cols>
+          <Col>
+            <Field name="valuationcontrolRefNumber" />
 
-        <Row>
-          <Field name="valuationcontrolRefNumber" />
-          <Field name="valueType" />
-        </Row>
-
-        <Row>
-          <Field name="valueAmountsList">
-            <Field name="valueAmounts">
-              <Field name="valueAmount" />
-              <Field name="valueCurrency" />
+            <Field name="valueAmountsList">
+              <Field name="valueAmounts">
+                <Field name="valueCurrency" />
+                <Field name="valueAmount" />
+              </Field>
             </Field>
-          </Field>
-          <Field name="valueSource" />
-        </Row>
 
-        <Row>
-          <Field name="valueDate" />
-          <Field name="valueRenewalDate" />
-        </Row>
+            <Field name="valueDate" />
+            <Field name="valueRenewalDate" />
+          </Col>
 
-        <Field name="valueNote" />
-
+          <Col>
+            <Field name="valueSource" />
+            <Field name="valueType" />
+            <Field name="valueNote" />
+          </Col>
+        </Cols>
       </Panel>
     </Field>
   );

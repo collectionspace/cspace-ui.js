@@ -9,7 +9,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.pottag.default.taxonName',
-          defaultMessage: 'Taxon Name',
+          defaultMessage: 'Taxon name',
         },
       }),
       formatValue: value => getDisplayName(value),
@@ -33,7 +33,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.pottag.default.printLabels',
-          defaultMessage: 'Should print labels?',
+          defaultMessage: 'Print labels',
         },
       }),
       sortBy: 'pottags_common:printLabels',

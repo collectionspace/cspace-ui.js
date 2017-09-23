@@ -16,40 +16,33 @@ const template = (pluginContext) => {
   return (
     <Field name="document">
       <Panel name="info" collapsible>
-
         <Row>
           <Field name="loanInNumber" />
           <Field name="loanPurpose" />
         </Row>
 
-        <Row>
-          <Field name="loanStatusGroupList">
-            <Field name="loanStatusGroup">
-              <Field name="loanStatus" />
-              <Field name="loanStatusDate" />
-              <Field name="loanStatusNote" />
-            </Field>
+        <Field name="loanStatusGroupList">
+          <Field name="loanStatusGroup">
+            <Field name="loanStatus" />
+            <Field name="loanStatusDate" />
+            <Field name="loanStatusNote" />
           </Field>
-        </Row>
+        </Field>
 
-        <Row>
-          <Field name="lenderGroupList">
-            <Field name="lenderGroup">
-              <Field name="lender" />
-              <Field name="lendersContact" />
-              <Field name="lendersAuthorizer" />
-              <Field name="lendersAuthorizationDate" />
-            </Field>
+        <Field name="lenderGroupList">
+          <Field name="lenderGroup">
+            <Field name="lender" />
+            <Field name="lendersContact" />
+            <Field name="lendersAuthorizer" />
+            <Field name="lendersAuthorizationDate" />
           </Field>
-        </Row>
+        </Field>
 
-        <Row>
-          <InputTable name="borrower">
-            <Field name="borrowersContact" />
-            <Field name="borrowersAuthorizer" />
-            <Field name="borrowersAuthorizationDate" />
-          </InputTable>
-        </Row>
+        <InputTable name="borrower">
+          <Field name="borrowersContact" />
+          <Field name="borrowersAuthorizer" />
+          <Field name="borrowersAuthorizationDate" />
+        </InputTable>
 
         <Row>
           <Field name="specialConditionsOfLoan" />
@@ -61,7 +54,6 @@ const template = (pluginContext) => {
           <Field name="loanReturnDate" />
           <Field name="loanRenewalApplicationDate" />
         </Row>
-
       </Panel>
     </Field>
   );

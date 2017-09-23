@@ -13,12 +13,12 @@ export default {
       path: 'ns2:exhibitions_common/exhibitionNumber',
     },
     {
-      op: OP_MATCH,
-      path: 'ns2:exhibitions_common/title',
-    },
-    {
       op: OP_EQ,
       path: 'ns2:exhibitions_common/type',
+    },
+    {
+      op: OP_MATCH,
+      path: 'ns2:exhibitions_common/title',
     },
     {
       op: OP_EQ,

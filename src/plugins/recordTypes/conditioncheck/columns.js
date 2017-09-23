@@ -8,7 +8,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.conditioncheck.default.conditionCheckRefNumber',
-          defaultMessage: 'Condition check reference number',
+          defaultMessage: 'Reference number',
         },
       }),
       sortBy: 'conditionchecks_common:conditionCheckRefNumber',

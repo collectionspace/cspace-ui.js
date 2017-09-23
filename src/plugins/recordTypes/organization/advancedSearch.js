@@ -32,18 +32,18 @@ export default {
       op: OP_EQ,
       path: 'ns2:organizations_common/organizationRecordTypes/organizationRecordType',
     },
-    {
-      op: OP_RANGE,
-      path: 'ns2:organizations_common/foundingDateGroup',
-    },
-    {
-      op: OP_RANGE,
-      path: 'ns2:organizations_common/dissolutionDateGroup',
-    },
+    // {
+    //   op: OP_RANGE,
+    //   path: 'ns2:organizations_common/foundingDateGroup',
+    // },
     {
       op: OP_MATCH,
       path: 'ns2:organizations_common/foundingPlace',
     },
+    // {
+    //   op: OP_RANGE,
+    //   path: 'ns2:organizations_common/dissolutionDateGroup',
+    // },
     {
       op: OP_MATCH,
       path: 'ns2:organizations_common/groups/group',

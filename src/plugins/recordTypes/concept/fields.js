@@ -42,15 +42,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.concept.parent',
-                    defaultMessage: 'Broader context',
+                    defaultMessage: 'Broader',
                   },
                   children: {
                     id: 'hierarchyInput.concept.children',
-                    defaultMessage: 'Narrower context',
+                    defaultMessage: 'Narrower',
                   },
                   siblings: {
                     id: 'hierarchyInput.concept.siblings',
-                    defaultMessage: 'Equivalent context',
+                    defaultMessage: 'Adjacent',
                   },
                 }),
               },
@@ -66,20 +66,30 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/concept',
           },
         },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         conceptTermGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.conceptTermGroupList.name',
-                defaultMessage: 'Concept term group(s)',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conceptTermGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.concepts_common.conceptTermGroup.name',
+                  defaultMessage: 'Term',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -104,7 +114,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termName.name',
-                    defaultMessage: 'Term',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -117,7 +127,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termType.name',
-                    defaultMessage: 'Term type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -133,7 +143,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termFlag.name',
-                    defaultMessage: 'Term flag',
+                    defaultMessage: 'Flag',
                   },
                 }),
                 view: {
@@ -210,7 +220,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termPrefForLang.name',
-                    defaultMessage: 'Pref for lang',
+                    defaultMessage: 'Preferred for lang',
                   },
                 }),
                 view: {
@@ -223,7 +233,11 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
+                  },
+                  fullName: {
+                    id: 'field.concepts_common.termSource.fullName',
+                    defaultMessage: 'Source name',
                   },
                 }),
                 view: {
@@ -239,7 +253,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -252,7 +266,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -265,7 +279,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -277,25 +291,19 @@ export default (pluginContext) => {
         },
         conceptRecordTypes: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.conceptRecordTypes.name',
-                defaultMessage: 'Concept record type',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           conceptRecordType: {
             [config]: {
-              repeating: true,
               messages: defineMessages({
                 name: {
-                  id: 'field.concepts_common.conceptType.name',
-                  defaultMessage: 'Concept record type',
+                  id: 'field.concepts_common.conceptRecordType.name',
+                  defaultMessage: 'Concept type',
                 },
               }),
+              repeating: true,
               view: {
                 type: TermPickerInput,
                 props: {
@@ -310,7 +318,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.concepts_common.scopeNote.name',
-                defaultMessage: 'Scope note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -323,7 +331,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.concepts_common.scopeNoteSource.name',
-                defaultMessage: 'Scope note source',
+                defaultMessage: 'Source',
               },
             }),
             view: {
@@ -336,7 +344,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.concepts_common.scopeNoteSourceDetail.name',
-                defaultMessage: 'Scope note source detail',
+                defaultMessage: 'Source detail',
               },
             }),
             view: {
@@ -346,18 +354,18 @@ export default (pluginContext) => {
         },
         citationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.citationGroupList.name',
-                defaultMessage: 'Citations',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           citationGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.concepts_common.citationGroup.name',
+                  defaultMessage: 'Citation',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -375,10 +383,7 @@ export default (pluginContext) => {
                   },
                 }),
                 view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'citation/local,citation/worldcat',
-                  },
+                  type: TextInput,
                 },
               },
             },
@@ -387,7 +392,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.citationSourceDetail.name',
-                    defaultMessage: 'Citation source detail',
+                    defaultMessage: 'Source detail',
                   },
                 }),
                 view: {
@@ -399,18 +404,18 @@ export default (pluginContext) => {
         },
         additionalSourceGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.additionalSourceGroupList.name',
-                defaultMessage: 'Additional sources',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           additionalSourceGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.concepts_common.additionalSourceGroup.name',
+                  defaultMessage: 'Additional source',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -424,7 +429,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.additionalSource.name',
-                    defaultMessage: 'Additional source',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -437,7 +442,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.additionalSourceDetail.name',
-                    defaultMessage: 'Additional source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -450,7 +455,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.additionalSourceUniqueID.name',
-                    defaultMessage: 'Additional source unique ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -463,7 +468,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.additionalSourceNote.name',
-                    defaultMessage: 'Additional source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {

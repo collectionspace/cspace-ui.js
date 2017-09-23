@@ -13,28 +13,28 @@ export default {
       path: 'ns2:intakes_common/entryNumber',
     },
     {
-      op: OP_EQ,
-      path: 'ns2:intakes_common/currentOwner',
-    },
-    {
       op: OP_RANGE,
       path: 'ns2:intakes_common/entryDate',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:intakes_common/depositor',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:intakes_common/entryMethods/entryMethod',
     },
     {
       op: OP_MATCH,
       path: 'ns2:intakes_common/entryReason',
     },
     {
+      op: OP_EQ,
+      path: 'ns2:intakes_common/entryMethods/entryMethod',
+    },
+    {
       op: OP_RANGE,
       path: 'ns2:intakes_common/returnDate',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:intakes_common/currentOwner',
+    },
+    {
+      op: OP_EQ,
+      path: 'ns2:intakes_common/depositor',
     },
     {
       op: OP_MATCH,

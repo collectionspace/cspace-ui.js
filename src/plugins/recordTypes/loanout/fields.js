@@ -16,6 +16,10 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
+  const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
   const coreFields = getCoreFields(pluginContext);
 
   return {
@@ -38,6 +42,7 @@ export default (pluginContext) => {
         },
         loanOutNumber: {
           [config]: {
+            cloneable: false,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanOutNumber.name',
@@ -77,7 +82,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.lendersAuthorizer.name',
-                defaultMessage: 'Lender\'s authorizer',
+                defaultMessage: 'Authorizer',
+              },
+              fullName: {
+                id: 'field.loansout_common.lendersAuthorizer.fullName',
+                defaultMessage: 'Lender authorizer',
               },
             }),
             view: {
@@ -93,7 +102,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.lendersContact.name',
-                defaultMessage: 'Lender\'s contact',
+                defaultMessage: 'Contact',
+              },
+              fullName: {
+                id: 'field.loansout_common.lendersContact.fullName',
+                defaultMessage: 'Lender contact',
               },
             }),
             view: {
@@ -106,10 +119,15 @@ export default (pluginContext) => {
         },
         lendersAuthorizationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.lendersAuthorizationDate.name',
-                defaultMessage: 'Lender\'s authorization date',
+                defaultMessage: 'Authorization date',
+              },
+              fullName: {
+                id: 'field.loansout_common.lendersAuthorizationDate.fullName',
+                defaultMessage: 'Lender authorization date',
               },
             }),
             view: {
@@ -122,7 +140,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrower.name',
-                defaultMessage: 'Borrower',
+                defaultMessage: 'Name',
+              },
+              fullName: {
+                id: 'field.loansout_common.borrower.fullName',
+                defaultMessage: 'Borrower name',
               },
             }),
             view: {
@@ -138,7 +160,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrowersContact.name',
-                defaultMessage: 'Borrower\'s contact',
+                defaultMessage: 'Contact',
+              },
+              fullName: {
+                id: 'field.loansout_common.borrowersContact.fullName',
+                defaultMessage: 'Borrower contact',
               },
             }),
             view: {
@@ -154,7 +180,11 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrowersAuthorizer.name',
-                defaultMessage: 'Borrower\'s authorizer',
+                defaultMessage: 'Authorizer',
+              },
+              fullName: {
+                id: 'field.loansout_common.borrowersAuthorizer.fullName',
+                defaultMessage: 'Borrower authorizer',
               },
             }),
             view: {
@@ -167,10 +197,15 @@ export default (pluginContext) => {
         },
         borrowersAuthorizationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.borrowersAuthorizationDate.name',
-                defaultMessage: 'Borrower\'s authorization date',
+                defaultMessage: 'Authorization date',
+              },
+              fullName: {
+                id: 'field.loansout_common.borrowersAuthorizationDate.fullName',
+                defaultMessage: 'Borrower authorization date',
               },
             }),
             view: {
@@ -183,7 +218,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.specialConditionsOfLoan.name',
-                defaultMessage: 'Loan out conditions',
+                defaultMessage: 'Conditions of loan',
               },
             }),
             view: {
@@ -199,7 +234,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanOutNote.name',
-                defaultMessage: 'Loan out note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -212,18 +247,18 @@ export default (pluginContext) => {
         },
         loanStatusGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.loansout_common.loanStatusGroupList.name',
-                defaultMessage: 'Loan status',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           loanStatusGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.loansout_common.loanStatusGroup.name',
+                  defaultMessage: 'Loan status',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -237,6 +272,10 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.loansout_common.loanStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                  fullName: {
+                    id: 'field.loansout_common.loanStatus.fullName',
                     defaultMessage: 'Loan status',
                   },
                 }),
@@ -250,9 +289,14 @@ export default (pluginContext) => {
             },
             loanStatusDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.loansout_common.loanStatusDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.loansout_common.loanStatusDate.fullName',
                     defaultMessage: 'Loan status date',
                   },
                 }),
@@ -266,7 +310,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.loansout_common.loanStatusNote.name',
-                    defaultMessage: 'Loan status note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -278,6 +322,7 @@ export default (pluginContext) => {
         },
         loanOutDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanOutDate.name',
@@ -291,6 +336,7 @@ export default (pluginContext) => {
         },
         loanReturnDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanReturnDate.name',
@@ -304,6 +350,7 @@ export default (pluginContext) => {
         },
         loanRenewalApplicationDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.loansout_common.loanRenewalApplicationDate.name',

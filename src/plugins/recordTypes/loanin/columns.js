@@ -9,7 +9,7 @@ export default {
       messages: defineMessages({
         label: {
           id: 'column.loanin.default.loanInNumber',
-          defaultMessage: 'Loan In Number',
+          defaultMessage: 'Loan in number',
         },
       }),
       sortBy: 'loansin_common:loanInNumber',
