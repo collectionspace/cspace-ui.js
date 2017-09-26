@@ -404,7 +404,13 @@ export const getFirstItem = (config, listData, listType = 'common') => {
   } = listTypeConfig;
 
   const items = listData.getIn([listNodeName, itemNodeName]);
+
   const item = Immutable.List.isList(items) ? items.first() : items;
 
   return item;
 };
+
+/**
+ * Returns a name for a search for subrecords.
+ */
+export const getSubrecordSearchName = (csid, subrecordName) => `subrecord/${csid}/${subrecordName}`;

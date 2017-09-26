@@ -15,6 +15,7 @@ import {
 } from './notification';
 
 import {
+  clearSearchResults,
   search,
 } from './search';
 
@@ -40,6 +41,7 @@ import {
 
 import {
   getFirstItem,
+  getSubrecordSearchName,
 } from '../helpers/searchHelpers';
 
 import {
@@ -206,7 +208,7 @@ const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) 
           },
         });
 
-        const searchName = `subrecords/${csid}/${subrecordName}`;
+        const searchName = getSubrecordSearchName(csid, subrecordName);
 
         const listType = subresource
           ? get(config, ['subresources', subresource, 'listType'])
@@ -216,13 +218,19 @@ const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) 
           .then(() => {
             const result = getSearchResult(getState(), searchName, searchDescriptor);
 
+            let subrecordCsid;
+
             if (result) {
               // Read the csid of the first item.
 
-              return getFirstItem(config, result, listType).get('csid');
+              const firstItem = getFirstItem(config, result, listType);
+
+              if (firstItem) {
+                subrecordCsid = firstItem.get('csid');
+              }
             }
 
-            return null;
+            return subrecordCsid;
           });
       }
 
@@ -501,6 +509,12 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
                         subrecordCsid: newRecordCsid,
                       },
                     });
+
+                    // Clear previous subrecord search results from the store.
+
+                    const searchName = getSubrecordSearchName(csid, subrecordName);
+
+                    dispatch(clearSearchResults(searchName));
                   },
                   false
                 ));
