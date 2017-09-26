@@ -184,7 +184,9 @@ const computeIndexesByCsid = (listTypeConfig, result) => {
       items = Immutable.List.of(items);
     }
 
-    indexesByCsid = Immutable.Map(items.map((item, index) => [item.get('csid'), index]));
+    indexesByCsid = Immutable.Map(
+      items.map((item, index) => [item.get('csid') || item.get('docId'), index])
+    );
   }
 
   return indexesByCsid;
