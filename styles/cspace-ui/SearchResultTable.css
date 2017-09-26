@@ -1,3 +1,9 @@
 .common {
   box-sizing: border-box;
 }
+
+.common :global(.cspace-input-CheckboxInput--common) > span {
+  width: 14px;
+  height: 14px;
+  margin: 1px;
+}

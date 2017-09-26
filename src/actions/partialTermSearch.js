@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import warning from 'warning';
 import getSession from './cspace';
 
 export const ADD_TERM_STARTED = 'ADD_TERM_STARTED';
@@ -68,7 +67,10 @@ export const findMatchingTerms = (recordTypeConfig, vocabulary, partialTerm) => 
     ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
     : undefined;
 
-  warning(vocabularyServicePath, `No service path found for the vocabulary ${vocabulary} in record type ${recordType}. Partial term search will not include this vocabulary.`);
+  // Disable this warning, because shared vocabs are not defined in core, but are configured as
+  // sources in autocompletes.
+  // eslint-disable-next-line max-len
+  // warning(vocabularyServicePath, `No service path found for the vocabulary ${vocabulary} in record type ${recordType}. Partial term search will not include this vocabulary.`);
 
   if (!vocabularyServicePath) {
     return null;
