@@ -15,6 +15,7 @@ import loanin from './loanin';
 import loanout from './loanout';
 import location from './location';
 import media from './media';
+import movement from './movement';
 import object from './object';
 import objectexit from './objectexit';
 import pottag from './pottag';
@@ -44,6 +45,7 @@ export default [
   loanout,
   location,
   media,
+  movement,
   object,
   objectexit,
   pottag,
