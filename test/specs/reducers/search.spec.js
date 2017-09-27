@@ -14,6 +14,11 @@ import {
   SET_ALL_RESULT_ITEMS_SELECTED,
 } from '../../../src/actions/search';
 
+import {
+  SUBRECORD_CREATED,
+  RECORD_CREATED,
+} from '../../../src/actions/record';
+
 import reducer, {
   getError,
   getResult,
@@ -1059,5 +1064,48 @@ describe('search reducer', function suite() {
     });
 
     state.should.equal(initialState);
+  });
+
+  it('should handle SUBRECORD_CREATED', function test() {
+    const searchName1 = 'searchName 1';
+    const searchName2 = 'searchName 2';
+
+    const initialState = Immutable.fromJS({
+      [searchName1]: {
+        mostRecentKey: 'foo',
+        byKey: {
+          foo: {
+            result: {},
+            descriptor: 'bar',
+          },
+        },
+      },
+      [searchName2]: {},
+    });
+
+    const state = reducer(initialState, {
+      type: SUBRECORD_CREATED,
+      meta: {
+        searchName: searchName1,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [searchName2]: {},
+    }));
+  });
+
+  it('should handle RECORD_CREATED', function test() {
+    const initialState = Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    });
+
+    const state = reducer(initialState, {
+      type: RECORD_CREATED,
+    });
+
+    state.should.equal(Immutable.Map());
   });
 });

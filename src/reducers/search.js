@@ -18,6 +18,11 @@ import {
   DESELECT_RESULT_ITEM,
 } from '../actions/search';
 
+import {
+  RECORD_CREATED,
+  SUBRECORD_CREATED,
+} from '../actions/record';
+
 /**
  * Generates a search key for a given search descriptor. All search descriptors that represent the
  * same search should have the same search key.
@@ -355,12 +360,17 @@ const handleSetResultItemSelected = (state, action) => {
   return state;
 };
 
+const clearNamedResults = (state, action) =>
+  state.delete(action.meta.searchName);
+
+const clearAllResults = state => state.clear();
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case CLEAR_SELECTED:
       return state.deleteIn([action.meta.searchName, 'selected']);
     case CLEAR_SEARCH_RESULTS:
-      return state.delete(action.meta.searchName);
+      return clearNamedResults(state, action);
     case SET_MOST_RECENT_SEARCH:
       return handleSetMostRecentSearch(state, action);
     case CREATE_EMPTY_SEARCH_RESULT:
@@ -377,6 +387,10 @@ export default (state = Immutable.Map(), action) => {
       return handleSetResultItemSelected(state, action);
     case DESELECT_RESULT_ITEM:
       return state.deleteIn([action.meta.searchName, 'selected', action.meta.csid]);
+    case SUBRECORD_CREATED:
+      return clearNamedResults(state, action);
+    case RECORD_CREATED:
+      return clearAllResults(state);
     default:
       return state;
   }

@@ -15,7 +15,6 @@ import {
 } from './notification';
 
 import {
-  clearSearchResults,
   search,
 } from './search';
 
@@ -488,6 +487,7 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
             }
 
             if (subresource) {
+              const searchName = getSubrecordSearchName(csid, subrecordName);
               const subrecordSubresourceConfig = get(config, ['subresources', subresource]);
 
               if (subrecordSubresourceConfig) {
@@ -505,16 +505,11 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
                       type: SUBRECORD_CREATED,
                       meta: {
                         csid,
+                        searchName,
                         subrecordName,
                         subrecordCsid: newRecordCsid,
                       },
                     });
-
-                    // Clear previous subrecord search results from the store.
-
-                    const searchName = getSubrecordSearchName(csid, subrecordName);
-
-                    dispatch(clearSearchResults(searchName));
                   },
                   false
                 ));

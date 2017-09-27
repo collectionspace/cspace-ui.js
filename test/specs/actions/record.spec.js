@@ -73,7 +73,6 @@ import {
 } from '../../../src/actions/record';
 
 import {
-  CLEAR_SEARCH_RESULTS,
   SEARCH_STARTED,
   SEARCH_FULFILLED,
   SET_MOST_RECENT_SEARCH,
@@ -1834,7 +1833,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch SUBRECORD_CREATED and CLEAR_SEARCH_RESULTS if a subrecord is created', function test() {
+      it('should dispatch SUBRECORD_CREATED if a subrecord is created', function test() {
         const newRecordCsid = '8888';
         const saveNewRecordUrl = `/cspace-services/${recordServicePath}/${vocabularyServicePath}/items/${csid}/${subrecordSubresourceServicePath}`;
         const readNewRecordUrl = `/cspace-services/${subrecordServicePath}/${newRecordCsid}?showRelations=true&wf_deleted=false`;
@@ -1899,21 +1898,15 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(16);
+            actions.should.have.lengthOf(15);
 
             actions[9].should.deep.equal({
               type: SUBRECORD_CREATED,
               meta: {
                 csid,
                 subrecordName,
-                subrecordCsid: newRecordCsid,
-              },
-            });
-
-            actions[10].should.deep.equal({
-              type: CLEAR_SEARCH_RESULTS,
-              meta: {
                 searchName: expectedSubrecordSearchName,
+                subrecordCsid: newRecordCsid,
               },
             });
           });
