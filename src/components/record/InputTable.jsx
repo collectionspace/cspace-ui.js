@@ -20,8 +20,8 @@ const {
 
 const { pathHelpers } = inputHelpers;
 
-const renderMessageLabel = message => (
-  <Label>
+const renderMessageLabel = (message, required) => (
+  <Label required={required}>
     <FormattedMessage {...message} />
   </Label>
 );
@@ -34,8 +34,9 @@ const renderTableLabel = (recordTypeConfig, name) => {
 
 const renderFieldLabel = (fieldConfig) => {
   const message = get(fieldConfig, ['messages', 'name']);
+  const required = get(fieldConfig, 'required');
 
-  return (message ? renderMessageLabel(message) : null);
+  return (message ? renderMessageLabel(message, required) : null);
 };
 
 const propTypes = {
