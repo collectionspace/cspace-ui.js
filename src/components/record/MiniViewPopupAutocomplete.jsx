@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { components as inputComponents } from 'cspace-input';
 import MiniViewPopup from './MiniViewPopup';
+import styles from '../../../styles/cspace-ui/MiniViewPopupAutocomplete.css';
+
 
 const { AutocompleteInput } = inputComponents;
+
+const propTypes = {
+  ...AutocompleteInput.propTypes,
+};
 
 export default class MiniViewPopupAutocomplete extends Component {
   constructor() {
     super();
+
     this.setDomNode = this.setDomNode.bind(this);
     this.handleOnMouseEnter = this.handleOnMouseEnter.bind(this);
     this.handleOnMouseLeave = this.handleOnMouseLeave.bind(this);
 
-    this.state = ({
-      onHover: false,
-    });
+    this.state = {
+      hovered: false,
+    };
   }
 
   setDomNode(ref) {
@@ -22,34 +29,31 @@ export default class MiniViewPopupAutocomplete extends Component {
 
   handleOnMouseEnter() {
     this.setState({
-      onHover: true,
+      hovered: true,
     });
   }
 
   handleOnMouseLeave() {
     this.setState({
-      onHover: false,
+      hovered: false,
     });
   }
 
   renderMiniViewPopup() {
     const {
-      onHover,
-    } = this.state;
-
-    const {
-      ...allProps
+      value,
+      ...remainingProps
     } = this.props;
 
-  // domNode not available before component mount so how to get this.domNode.offsetWidth? 
-  // const popupInlineStyle = { width: '' };
-    const popupInlineStyle = { width: this.domNode.offsetWidth };
+    const popupMiniInlineStyle = { minWidth: this.domNode.offsetWidth };
 
-    if (onHover) { // TODO: ...and autocomplete has value
+    if (value) {
       return (
         <MiniViewPopup
-          popupInlineStyle={popupInlineStyle}
-          {...allProps}
+          onMouseLeave={this.handleOnMouseLeave}
+          popupMiniInlineStyle={popupMiniInlineStyle}
+          value={value}
+          {...remainingProps}
         />
       );
     }
@@ -58,19 +62,32 @@ export default class MiniViewPopupAutocomplete extends Component {
 
   render() {
     const {
-      ...allProps
-    } = this.props;
+      hovered,
+    } = this.state;
+
+    const autocompleteProps = Object.assign({}, this.props);
+    delete autocompleteProps.recordType;
+    delete autocompleteProps.config;
+
+    let miniViewPopup = null;
+
+    if (hovered) {
+      miniViewPopup = this.renderMiniViewPopup();
+    }
 
     return (
       <div
+        className={styles.common}
         ref={this.setDomNode}
         onMouseEnter={this.handleOnMouseEnter}
       >
         <AutocompleteInput
-          {...allProps}
+          {...autocompleteProps}
         />
-        {this.renderMiniViewPopup()}
+        {miniViewPopup}
       </div>
     );
   }
 }
+
+MiniViewPopupAutocomplete.propTypes = propTypes;

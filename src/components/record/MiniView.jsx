@@ -2,10 +2,14 @@ import React from 'react';
 import RecordForm from './RecordForm';
 import styles from '../../../styles/cspace-ui/MiniView.css';
 
+const propTypes = {
+  ...RecordForm.propTypes,
+};
+
 export default function MiniView(props) {
-  const {
-    ...allProps
-  } = props;
+  const miniViewProps = Object.assign({}, props);
+
+  delete miniViewProps.formName;
 
   return (
     <div
@@ -13,8 +17,10 @@ export default function MiniView(props) {
     >
       <RecordForm
         formName="mini"
-        {...allProps}
+        {...miniViewProps}
       />
     </div>
   );
 }
+
+MiniView.propTypes = propTypes;

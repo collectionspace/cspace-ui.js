@@ -11,8 +11,6 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import MiniView from '../../../../src/components/record/MiniView';
 
-const expect = chai.expect;
-
 chai.should();
 
 const {
@@ -58,15 +56,6 @@ const config = {
           },
           template: <p>inventory template</p>,
         },
-        photo: {
-          messages: {
-            name: {
-              id: 'form.collectionobject.photo.name',
-              defaultMessage: 'Photo Template',
-            },
-          },
-          template: <p>photo template</p>,
-        },
       },
       messages: {
         record: {
@@ -101,29 +90,37 @@ describe('MiniView', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a div', function test() {
+  it('should wrap a RecordForm component', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <MiniView config={config} recordType="collectionobject" />
+          <MiniView
+            config={config}
+            recordType="collectionobject"
+          />
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
+    const miniView = this.container.querySelector('.cspace-ui-MiniView--common');
+    miniView.firstElementChild.className.should.equal('cspace-ui-RecordForm--common');
   });
 
-  it('should render nothing for an unknown record type', function test() {
+  it('should render a mini form template by default', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <MiniView config={config} recordType="foo" />
+          <MiniView
+            config={config}
+            recordType="collectionobject"
+          />
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    expect(this.container.firstElementChild).to.equal(null);
+    const recordForm = this.container.querySelector('.cspace-ui-RecordForm--common');
+    recordForm.firstElementChild.className.should.equal('cspace-input-CompoundInput--common');
   });
 
-  it('should render the specified form template', function test() {
+  it('should render a mini form template if conflicting form name is provided ', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -135,29 +132,7 @@ describe('MiniView', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('p').textContent.should.equal('inventory template');
-  });
-
-  it('should render the data into the form template', function test() {
-    const objectNumber = '1-421';
-
-    const data = Immutable.fromJS({
-      document: {
-        objectNumber,
-      },
-    });
-
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <MiniView
-            config={config}
-            data={data}
-            recordType="collectionobject"
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container);
-
-    this.container.querySelector('input[name="objectNumber"]').value.should.equal(objectNumber);
+    const recordForm = this.container.querySelector('.cspace-ui-RecordForm--common');
+    recordForm.firstElementChild.className.should.equal('cspace-input-CompoundInput--common');
   });
 });

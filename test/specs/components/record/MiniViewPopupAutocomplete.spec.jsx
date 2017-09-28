@@ -1,24 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
-import { components as inputComponents } from 'cspace-input';
-
-import createTestContainer from '../../../helpers/createTestContainer';
-
+import { components as inputcomponents } from 'cspace-input';
+import { Row } from 'cspace-layout';
 import Panel from '../../../../src/containers/layout/PanelContainer';
+import createTestContainer from '../../../helpers/createTestContainer';
 import MiniViewPopupAutocomplete from '../../../../src/components/record/MiniViewPopupAutocomplete';
 
 const expect = chai.expect;
 
 chai.should();
-
-const {
-  CompoundInput,
-  TextInput,
-} = inputComponents;
 
 const mockStore = configureMockStore();
 
@@ -27,119 +22,127 @@ const store = mockStore({
   record: Immutable.Map(),
 });
 
+const {
+  CompoundInput,
+  TextInput,
+} = inputcomponents;
+
 const config = {
   recordTypes: {
-    collectionobject: {
+    person: {
       forms: {
-        default: {
-          messages: {
-            name: {
-              id: 'form.collectionobject.default.name'
-            },
-          },
-        },
         mini: {
           messages: {
             name: {
-              id: 'form.collectionobject.mini.name',
+              id: 'form.person.mini.name',
               defaultMessage: 'Mini Template',
             },
           },
           template: (
             <CompoundInput>
-              <Panel name="id">
-                <TextInput name="objectNumber" />
-                <TextInput name="desc" msgkey="foo" />
-                <TextInput name="color" label="Color" />
-                <TextInput name="bar" />
+              <Panel name="info" collapsible>
+                <CompoundInput name="personTermGroupList">
+                  <CompoundInput name="personTermGroup">
+                    <Panel>
+                      <Row>
+                        <TextInput name="termDisplayName" label="Term display name" />
+                        <TextInput name="termType" label="Person term type" />
+                      </Row>
+                    </Panel>
+                  </CompoundInput>
+                </CompoundInput>
               </Panel>
             </CompoundInput>
           ),
-        },
-        inventory: {
-          messages: {
-            name: {
-              id: 'form.collectionobject.inventory.name',
-              defaultMessage: 'Inventory Template',
-            },
-          },
-          template: <p>inventory template</p>,
-        },
-        photo: {
-          messages: {
-            name: {
-              id: 'form.collectionobject.photo.name',
-              defaultMessage: 'Photo Template',
-            },
-          },
-          template: <p>photo template</p>,
         },
       },
       messages: {
         record: {
           name: {
-            id: 'name',
-            defaultMessage: 'Object',
+            id: 'record.person.name',
+            description: 'The name of the record type.',
+            defaultMessage: 'Person',
+          },
+          collectionName: {
+            id: 'record.person.collectionName',
+            description: 'The name of a collection of records of the type.',
+            defaultMessage: 'Persons',
           },
         },
         panel: {
-          id: {
-            id: 'panel.id.label',
-            defaultMessage: 'Object Identification Information',
+          info: {
+            id: 'panel.person.info',
+            defaultMessage: 'Person Information',
           },
         },
-        field: {
-          objectNumber: {
-            id: 'field.objectNumber.label',
-            defaultMessage: 'Identification number',
+      },
+      vocabularies: {
+        local: {
+          messages: {
+            name: {
+              id: 'vocab.person.local.name',
+              defaultMessage: 'Local',
+            },
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
+              defaultMessage: 'Local Persons',
+            },
           },
-          foo: {
-            id: 'field.foo.label',
-            defaultMessage: 'Some label',
+        },
+        ulan: {
+          messages: {
+            name: {
+              id: 'vocab.person.ulan.name',
+              defaultMessage: 'ULAN',
+            },
+            collectionName: {
+              id: 'vocab.person.ulan.collectionName',
+              defaultMessage: 'ULAN Persons',
+            },
+          },
+        },
+      },
+      fields: {
+        personTermGroupList: {
+          config: {
+            messages: {
+              name: {
+                id: 'field.person.personTermGroupList.name',
+                defaultMessage: 'Term',
+              },
+            },
+          },
+          personTermGroup: {
+            config: {
+              repeating: true,
+            },
+            termDisplayName: {
+              config: {
+                messages: {
+                  name: {
+                    id: 'field.person.termDisplayName.name',
+                    defaultMessage: 'Display name',
+                  },
+                },
+                required: true,
+              },
+            },
+            termType: {
+              config: {
+                messages: {
+                  name: {
+                    id: 'field.person.termType.name',
+                    defaultMessage: 'Type',
+                  },
+                },
+              },
+            },
           },
         },
       },
     },
   },
 };
-
-const recordTypes = {
-  person: {
-    vocabularies: {
-      local: {
-        messages: {
-          name: {
-            id: 'vocab.person.local.name',
-            defaultMessage: 'Local',
-          },
-          collectionName: {
-            id: 'vocab.person.local.collectionName',
-            defaultMessage: 'Local Persons',
-          },
-        },
-      },
-      ulan: {
-        messages: {
-          name: {
-            id: 'vocab.person.ulan.name',
-            defaultMessage: 'ULAN',
-          },
-          collectionName: {
-            id: 'vocab.person.ulan.collectionName',
-            defaultMessage: 'ULAN Persons',
-          },
-        },
-      },
-    },
-  },
-}
-
-const janMatches = Immutable.Map().setIn(['jan', 'person', 'local', 'items'], [
-  {
-    refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'',
-    uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
-  },
-]);
 
 describe('MiniViewPopupAutocomplete', function suite() {
   beforeEach(function before() {
@@ -155,13 +158,35 @@ describe('MiniViewPopupAutocomplete', function suite() {
           <MiniViewPopupAutocomplete
             source={'person/local,person/ulan'}
             config={config}
-            recordType='collectionobject'
+            recordType="person"
             value={value}
-            recordTypes={recordTypes}
+            recordTypes={config.recordTypes}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    // this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('DIV');
+  });
+
+  it('should not render a MiniViewPopup if there is no value', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <MiniViewPopupAutocomplete
+            source={'person/local,person/ulan'}
+            config={config}
+            recordType="person"
+            recordTypes={config.recordTypes}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const miniViewPopupAutoComplete = this.container.querySelector('.cspace-ui-MiniViewPopupAutocomplete--common');
+
+    Simulate.mouseEnter(miniViewPopupAutoComplete);
+
+    const miniViewPopup = this.container.querySelector('.cspace-ui-MiniViewPopup--common');
+
+    expect(miniViewPopup).to.equal(null);
   });
 });
