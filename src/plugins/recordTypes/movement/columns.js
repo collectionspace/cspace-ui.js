@@ -1,9 +1,16 @@
 import { defineMessages } from 'react-intl';
 import { getDisplayName } from 'cspace-refname';
-import { formatTimestamp } from '../../../helpers/formatHelpers';
+import { formatTimestamp, formatWorkflowStateIcon } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
+    {
+      name: 'workflowState',
+      formatValue: formatWorkflowStateIcon,
+      width: 16,
+      flexGrow: 0,
+      flexShrink: 0,
+    },
     {
       name: 'movementReferenceNumber',
       messages: defineMessages({
@@ -23,9 +30,9 @@ export default {
           defaultMessage: 'Current location',
         },
       }),
-      formatValue: value => getDisplayName(value),
+      formatValue: getDisplayName,
       sortBy: 'movements_common:currentLocation',
-      width: 400,
+      width: 380,
     },
     {
       name: 'updatedAt',

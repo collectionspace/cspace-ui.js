@@ -40,6 +40,16 @@ const stopPropagation = (event) => {
   event.stopPropagation();
 };
 
+const shouldShowCheckbox = (item) => {
+  const itemWorkflowState = item.get('workflowState');
+
+  if (itemWorkflowState === 'locked') {
+    return false;
+  }
+
+  return true;
+};
+
 const propTypes = {
   collapsed: PropTypes.bool,
   color: PropTypes.string,
@@ -181,19 +191,23 @@ export default class RelatedRecordPanel extends Component {
       selectedItems,
     } = this.props;
 
-    const itemCsid = rowData.get('csid');
-    const selected = selectedItems ? selectedItems.has(itemCsid) : false;
+    if (shouldShowCheckbox(rowData)) {
+      const itemCsid = rowData.get('csid');
+      const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
-    return (
-      <CheckboxInput
-        name={`${rowIndex}`}
-        value={selected}
-        onCommit={this.handleCheckboxCommit}
+      return (
+        <CheckboxInput
+          name={`${rowIndex}`}
+          value={selected}
+          onCommit={this.handleCheckboxCommit}
 
-        // Prevent clicking on the checkbox from selecting the record.
-        onClick={stopPropagation}
-      />
-    );
+          // Prevent clicking on the checkbox from selecting the record.
+          onClick={stopPropagation}
+        />
+      );
+    }
+
+    return null;
   }
 
   renderTableHeader({ searchError, searchResult }) {
@@ -235,6 +249,7 @@ export default class RelatedRecordPanel extends Component {
           searchResult={searchResult}
           selectedItems={selectedItems}
           setAllItemsSelected={setAllItemsSelected}
+          showCheckboxFilter={shouldShowCheckbox}
         />
       </header>
     );

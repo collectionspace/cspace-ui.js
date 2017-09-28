@@ -40,6 +40,28 @@ const config = {
             },
           },
         },
+        computedCurrentLocation: {
+          [configKey]: {
+            messages: {
+              name: {
+                id: 'field.computedCurrentLocation.name',
+                defaultMessage: 'message for field.computedCurrentLocation.name',
+              },
+            },
+            readOnly: true,
+          },
+        },
+        objectNumber: {
+          [configKey]: {
+            messages: {
+              name: {
+                id: 'field.objectNumber.name',
+                defaultMessage: 'message for field.objectNumber.name',
+              },
+            },
+            required: true,
+          },
+        },
       },
     },
   },
@@ -112,6 +134,50 @@ describe('InputTable', function suite() {
         {label}
       </IntlProvider>, this.container);
 
-    // this.container.textContent.should.equal('message for field.ageValue.name');
+    this.container.textContent.should.equal('message for field.ageValue.name');
+  });
+
+  it('should set readOnly to true on field labels for child inputs that are configured as read only', function test() {
+    const context = {
+      config,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InputTable />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(BaseInputTable);
+    result.props.renderLabel.should.be.a('function');
+
+    const childInput = <TestInput name="computedCurrentLocation" />;
+    const label = result.props.renderLabel(childInput);
+
+    label.props.readOnly.should.equal(true);
+  });
+
+  it('should set required to true on field labels for child inputs that configured as required', function test() {
+    const context = {
+      config,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InputTable />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(BaseInputTable);
+    result.props.renderLabel.should.be.a('function');
+
+    const childInput = <TestInput name="objectNumber" />;
+    const label = result.props.renderLabel(childInput);
+
+    label.props.required.should.equal(true);
   });
 });

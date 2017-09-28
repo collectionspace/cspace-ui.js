@@ -96,7 +96,10 @@ describe('notification action creator', function suite() {
 
   describe('openModal', function actionSuite() {
     it('should dispatch an OPEN_MODAL action', function test() {
-      const store = mockStore();
+      const store = mockStore({
+        notification: Immutable.Map(),
+      });
+
       const name = 'modalName';
 
       store.dispatch(openModal(name));
@@ -163,6 +166,127 @@ describe('notification action creator', function suite() {
           resolve();
         }, 10);
       });
+    });
+  });
+
+  it('should open a new modal if a previous one has not been closed', function test() {
+    let store = mockStore({
+      notification: Immutable.Map(),
+    });
+
+    let handleCloseSecondCalled = false;
+
+    const handleCloseSecond = () => {
+      handleCloseSecondCalled = true;
+    };
+
+    store.dispatch(openModal('first'));
+
+    store = mockStore({
+      notification: Immutable.Map({
+        modal: 'first',
+      }),
+    });
+
+    store.dispatch(openModal('second', handleCloseSecond));
+
+    store = mockStore({
+      notification: Immutable.Map({
+        modal: 'second',
+      }),
+    });
+
+    store.dispatch(closeModal());
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handleCloseSecondCalled.should.equal(true);
+
+        resolve();
+      }, 10);
+    });
+  });
+
+  it('should still call the close callback of a modal that is replaced without closing', function test() {
+    let store = mockStore({
+      notification: Immutable.Map(),
+    });
+
+    let handleCloseFirstCalled = false;
+
+    const handleCloseFirst = () => {
+      handleCloseFirstCalled = true;
+    };
+
+    store.dispatch(openModal('first', handleCloseFirst));
+
+    store = mockStore({
+      notification: Immutable.Map({
+        modal: 'first',
+      }),
+    });
+
+    store.dispatch(openModal('second'));
+
+    store = mockStore({
+      notification: Immutable.Map({
+        modal: 'second',
+      }),
+    });
+
+    store.dispatch(closeModal());
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handleCloseFirstCalled.should.equal(true);
+
+        resolve();
+      }, 10);
+    });
+  });
+
+  it('should chain the onClose callback of a previously opened modal that has not been closed', function test() {
+    let store = mockStore({
+      notification: Immutable.Map(),
+    });
+
+    let handleCloseFirstCalled = false;
+
+    const handleCloseFirst = () => {
+      handleCloseFirstCalled = true;
+    };
+
+    let handleCloseSecondCalled = false;
+
+    const handleCloseSecond = () => {
+      handleCloseSecondCalled = true;
+    };
+
+    store.dispatch(openModal('first', handleCloseFirst));
+
+    store = mockStore({
+      notification: Immutable.Map({
+        modal: 'first',
+      }),
+    });
+
+    store.dispatch(openModal('second', handleCloseSecond));
+
+    store = mockStore({
+      notification: Immutable.Map({
+        modal: 'second',
+      }),
+    });
+
+    store.dispatch(closeModal());
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handleCloseSecondCalled.should.equal(true);
+        handleCloseFirstCalled.should.equal(true);
+
+        resolve();
+      }, 10);
     });
   });
 });

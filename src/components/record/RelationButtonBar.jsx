@@ -16,6 +16,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  subjectWorkflowState: PropTypes.string,
   // TODO: These uses aren't properly detected. Try updating eslint-plugin-react.
   /* eslint-disable react/no-unused-prop-types */
   object: PropTypes.shape({
@@ -23,6 +24,7 @@ const propTypes = {
     recordType: PropTypes.string,
   }),
   /* eslint-enable react/no-unused-prop-types */
+  objectWorkflowState: PropTypes.string,
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onUnrelateButtonClick: PropTypes.func,
@@ -30,7 +32,9 @@ const propTypes = {
 
 export default function RelationButtonBar(props) {
   const {
+    subjectWorkflowState,
     object,
+    objectWorkflowState,
     onCancelButtonClick,
     onCloseButtonClick,
     onUnrelateButtonClick,
@@ -40,7 +44,18 @@ export default function RelationButtonBar(props) {
 
   const cancelButton = objectCsid ? null : <CancelButton onClick={onCancelButtonClick} />;
   const closeButton = objectCsid ? <CloseButton onClick={onCloseButtonClick} /> : null;
-  const unrelateButton = objectCsid ? <UnrelateButton onClick={onUnrelateButtonClick} /> : null;
+
+  let unrelateButton;
+
+  if (objectCsid) {
+    unrelateButton = (
+      <UnrelateButton
+        subjectWorkflowState={subjectWorkflowState}
+        objectWorkflowState={objectWorkflowState}
+        onClick={onUnrelateButtonClick}
+      />
+    );
+  }
 
   let openLink;
 

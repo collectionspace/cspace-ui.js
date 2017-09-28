@@ -19,6 +19,7 @@ export default () => pluginContext => ({
       serviceConfig,
       fields: fields(pluginContext),
       forms: forms(pluginContext),
+      lockOnSave: 'prompt', // or true/false boolean
       title: title(pluginContext),
     },
   },

@@ -296,6 +296,31 @@ describe('RelatedRecordPanel', function suite() {
     }).props.value.should.equal(false);
   });
 
+  it('should not render checkboxes for locked items', function test() {
+    const csid = '1234';
+    const recordType = 'collectionobject';
+    const relatedRecordType = 'group';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelatedRecordPanel
+        config={config}
+        csid={csid}
+        recordData={recordData}
+        recordType={recordType}
+        relatedRecordType={relatedRecordType}
+        showCheckboxColumn
+      />);
+
+    const searchPanel = shallowRenderer.getRenderOutput();
+
+    expect(searchPanel.props.renderCheckbox({
+      rowData: Immutable.Map({ csid: '1111', workflowState: 'locked' }),
+      rowIndex: 0,
+    })).to.equal(null);
+  });
+
   it('should call onItemSelectChange when a checkbox value is changed', function test() {
     const csid = '1234';
     const recordType = 'collectionobject';

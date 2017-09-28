@@ -5,7 +5,12 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import TitleBar from '../sections/TitleBar';
 import SearchResultTraverserContainer from '../../containers/search/SearchResultTraverserContainer';
-import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
+import WorkflowStateIcon from './WorkflowStateIcon';
+
+import {
+  DOCUMENT_PROPERTY_NAME,
+  getWorkflowState,
+} from '../../helpers/recordDataHelpers';
 
 const messages = defineMessages({
   authority: {
@@ -80,12 +85,14 @@ export default function RecordTitleBar(props, context) {
   }
 
   const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+  const workflowStateIcon = <WorkflowStateIcon state={getWorkflowState(data)} />;
 
   return (
     <TitleBar
       serviceType={serviceType}
       title={title}
       aside={aside}
+      icon={workflowStateIcon}
       nav={nav}
       onDocked={onDocked}
     />

@@ -59,6 +59,20 @@ const config = {
             },
           },
         },
+        objectNumber: {
+          [configKey]: {
+            messages: {
+              name: {
+                id: 'field.objectNumber.name',
+                defaultMessage: 'message for field.objectNumber.name',
+              },
+            },
+            required: true,
+            view: {
+              type: TestInput,
+            },
+          },
+        },
         titleGroup: {
           [configKey]: {
             view: {
@@ -79,11 +93,16 @@ const config = {
         updatedAt: {
           [configKey]: {
             messages: {
+              name: {
+                id: 'field.updatedAt.name',
+                defaultMessage: 'message for field.updatedAt.name',
+              },
               value: {
                 id: 'field.updatedAt.value',
                 defaultMessage: 'formatted {value}',
               },
             },
+            readOnly: true,
             view: {
               type: TestInput,
             },
@@ -179,6 +198,40 @@ describe('Field', function suite() {
       </IntlProvider>, this.container);
 
     this.container.textContent.should.equal('message for field.color.name');
+  });
+
+  it('should set readOnly prop of the label if the field is configured to be read only', function test() {
+    const context = {
+      config,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<Field name="updatedAt" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(TestInput);
+    result.props.label.should.be.an('object');
+    result.props.label.props.readOnly.should.equal(true);
+  });
+
+  it('should set required prop of the label if the field is configured to be required', function test() {
+    const context = {
+      config,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<Field name="objectNumber" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(TestInput);
+    result.props.label.should.be.an('object');
+    result.props.label.props.required.should.equal(true);
   });
 
   it('should set label to null on the base component if no message is found', function test() {

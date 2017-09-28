@@ -5,24 +5,19 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import RelationButtonBar from './RelationButtonBar';
+import WorkflowStateIcon from './WorkflowStateIcon';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
-import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
+import { DOCUMENT_PROPERTY_NAME, getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
 const messages = defineMessages({
   editTitle: {
     id: 'relationEditor.editTitle',
-    defaultMessage: `{hasRecordTitle, select,
-      yes   {Related {recordTypeName}: {recordTitle}}
-      other {Related {recordTypeName}}
-    }`,
+    defaultMessage: 'Related {recordTypeName}',
   },
   newTitle: {
     id: 'relationEditor.newTitle',
-    defaultMessage: `{hasRecordTitle, select,
-      yes   {New Related {recordTypeName}: {recordTitle}}
-      other {New Related {recordTypeName}}
-    }`,
+    defaultMessage: 'New Related {recordTypeName}',
   },
   notFound: {
     id: 'relationEditor.notFound',
@@ -42,6 +37,7 @@ const propTypes = {
   subject: PropTypes.shape({
     csid: PropTypes.string,
   }),
+  subjectWorkflowState: PropTypes.string,
   object: PropTypes.shape({
     csid: PropTypes.string,
     recordType: PropTypes.string,
@@ -188,13 +184,11 @@ export default class RelationEditor extends Component {
         csid: newRecordCsid,
       };
 
-      createRelation(subject, object, predicate)
-        .then(() => {
-          if (onRecordCreated) {
-            onRecordCreated(newRecordCsid, isNavigating);
-          }
-        });
+      return createRelation(subject, object, predicate)
+        .then(() => (onRecordCreated ? onRecordCreated(newRecordCsid, isNavigating) : null));
     }
+
+    return null;
   }
 
   handleRecordTransitioned(transitionName) {
@@ -218,6 +212,7 @@ export default class RelationEditor extends Component {
   renderHeader() {
     const {
       config,
+      subjectWorkflowState,
       object,
       objectData,
     } = this.props;
@@ -226,7 +221,6 @@ export default class RelationEditor extends Component {
 
     const cspaceDocument = objectData ? objectData.get(DOCUMENT_PROPERTY_NAME) : undefined;
     const recordTitle = recordTypeConfig.title(cspaceDocument);
-    const hasRecordTitle = recordTitle ? 'yes' : 'no';
 
     const recordTypeName = (
       <FormattedMessage
@@ -236,23 +230,30 @@ export default class RelationEditor extends Component {
 
     const values = {
       recordTypeName,
-      hasRecordTitle,
-      recordTitle,
     };
 
     const title = object.csid
       ? <FormattedMessage {...messages.editTitle} values={values} />
       : <FormattedMessage {...messages.newTitle} values={values} />;
 
+    const objectWorkflowState = getWorkflowState(objectData);
+    const objectWorkflowStateIcon = <WorkflowStateIcon state={objectWorkflowState} />;
+
     return (
       <header>
         <h3>{title}</h3>
-        <RelationButtonBar
-          object={object}
-          onCancelButtonClick={this.handleCancelButtonClick}
-          onCloseButtonClick={this.handleCloseButtonClick}
-          onUnrelateButtonClick={this.handleUnrelateButtonClick}
-        />
+        <div>
+          {objectWorkflowStateIcon}
+          <h1>{recordTitle}</h1>
+          <RelationButtonBar
+            subjectWorkflowState={subjectWorkflowState}
+            object={object}
+            objectWorkflowState={objectWorkflowState}
+            onCancelButtonClick={this.handleCancelButtonClick}
+            onCloseButtonClick={this.handleCloseButtonClick}
+            onUnrelateButtonClick={this.handleUnrelateButtonClick}
+          />
+        </div>
       </header>
     );
   }
@@ -263,6 +264,7 @@ export default class RelationEditor extends Component {
       cloneCsid,
       config,
       subject,
+      subjectWorkflowState,
       object,
       objectError,
       findResult,
@@ -314,6 +316,7 @@ export default class RelationEditor extends Component {
           csid={object.csid}
           recordType={object.recordType}
           relatedSubjectCsid={subject.csid}
+          relatedSubjectWorkflowState={subjectWorkflowState}
           clone={cloneRecord}
           onRecordCreated={this.handleRecordCreated}
           onRecordTransitioned={this.handleRecordTransitioned}

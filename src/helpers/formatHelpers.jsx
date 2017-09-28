@@ -1,4 +1,6 @@
+import React from 'react';
 import { getServicePath, getVocabularyShortID } from 'cspace-refname';
+import WorkflowStateIcon from '../components/record/WorkflowStateIcon';
 
 import {
   getRecordTypeConfigByServiceObjectName,
@@ -90,3 +92,5 @@ export const formatForeignSourceField = (sourceField, formatterContext) => {
 
   return formatRecordTypeSourceField(recordType, sourceField, formatterContext);
 };
+
+export const formatWorkflowStateIcon = workflowState => <WorkflowStateIcon state={workflowState} />;

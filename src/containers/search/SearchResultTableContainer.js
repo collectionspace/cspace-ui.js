@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import get from 'lodash/get';
 import SearchResultTable from '../../components/search/SearchResultTable';
 
 import {
@@ -32,8 +33,11 @@ const mapStateToProps = (state, ownProps) => {
 
       return data;
     },
-    formatColumnLabel: column =>
-      intl.formatMessage(column.messages.label),
+    formatColumnLabel: (column) => {
+      const message = get(column, ['messages', 'label']);
+
+      return (message ? intl.formatMessage(message) : '');
+    },
     isSearchPending: isSearchPending(state, searchName, searchDescriptor),
     searchResult: getSearchResult(state, searchName, searchDescriptor),
     searchError: getSearchError(state, searchName, searchDescriptor),

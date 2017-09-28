@@ -4,10 +4,18 @@ import { getDisplayName } from 'cspace-refname';
 import {
   formatTimestamp,
   formatServiceObjectName,
+  formatWorkflowStateIcon,
 } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
+    {
+      name: 'workflowState',
+      formatValue: formatWorkflowStateIcon,
+      width: 16,
+      flexGrow: 0,
+      flexShrink: 0,
+    },
     {
       name: 'docNumber',
       messages: defineMessages({

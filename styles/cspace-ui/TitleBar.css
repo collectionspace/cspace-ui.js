@@ -17,6 +17,7 @@
 .common > div > div:first-of-type {
   padding: 0 10px;
   display: flex;
+  align-items: baseline;
 }
 
 .common > div > div > h1, .common > div > div > aside > h2 {

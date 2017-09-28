@@ -44,15 +44,47 @@ export const showValidationNotification = (recordType, csid) =>
 export const removeValidationNotification = () =>
   removeNotification(NOTIFICATION_ID_VALIDATION);
 
-export const openModal = (name, onClose) => (dispatch) => {
-  modalCloseCallbacks[name] = onClose;
+export const openModal = (name, onClose) => (dispatch, getState) => {
+  const openModalName = getOpenModalName(getState());
 
-  dispatch({
-    type: OPEN_MODAL,
-    meta: {
-      name,
-    },
-  });
+  if (openModalName !== name) {
+    if (openModalName) {
+      // There's another modal open. Make sure its callback gets called when this modal is closed.
+      // This lets us transfer control from one modal to another simply by opening the new one
+      // without closing the previous one, since all onClose callbacks will get called at the end.
+      // This is used when navigating away from movement records with unsaved changes -- first the
+      // confirm navigation modal is shown, and if save is selected, control is transferred to the
+      // lock modal.
+
+      let composedOnClose;
+
+      const pendingOnClose = modalCloseCallbacks[openModalName];
+
+      delete modalCloseCallbacks[openModalName];
+
+      if (pendingOnClose && onClose) {
+        composedOnClose = () => {
+          onClose();
+          pendingOnClose();
+        };
+      } else if (pendingOnClose) {
+        composedOnClose = pendingOnClose;
+      } else {
+        composedOnClose = onClose;
+      }
+
+      modalCloseCallbacks[name] = composedOnClose;
+    } else {
+      modalCloseCallbacks[name] = onClose;
+    }
+
+    dispatch({
+      type: OPEN_MODAL,
+      meta: {
+        name,
+      },
+    });
+  }
 };
 
 export const closeModal = result => (dispatch, getState) => {

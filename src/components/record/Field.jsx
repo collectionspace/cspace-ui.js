@@ -22,9 +22,19 @@ const defaultViewConfigKey = 'view';
 const renderLabel = (fieldConfig, props) => {
   const message = get(fieldConfig, ['messages', 'name']);
 
+  const configuredProps = {};
+
+  if ('required' in fieldConfig) {
+    configuredProps.required = fieldConfig.required;
+  }
+
+  if ('readOnly' in fieldConfig) {
+    configuredProps.readOnly = fieldConfig.readOnly;
+  }
+
   if (message) {
     return (
-      <Label {...props} required={fieldConfig.required}>
+      <Label {...props} {...configuredProps}>
         <FormattedMessage {...message} />
       </Label>
     );
@@ -113,7 +123,7 @@ export default function Field(props, context) {
   const computedProps = {};
 
   if ('label' in basePropTypes) {
-    computedProps.label = renderLabel(fieldConfig);
+    computedProps.label = renderLabel(fieldConfig, { readOnly: providedProps.readOnly });
   }
 
   if ('formatValue' in basePropTypes) {
@@ -133,15 +143,15 @@ export default function Field(props, context) {
       const childName = childInput.props.name;
       const childFieldConfig = get(field, [childName, configKey]);
 
-      return renderLabel(childFieldConfig, { key: childName });
+      return renderLabel(childFieldConfig, { key: childName, readOnly: providedProps.readOnly });
     };
   }
 
   return (
     <BaseComponent
       {...computedProps}
-      {...configuredProps}
       {...providedProps}
+      {...configuredProps}
     />
   );
 }

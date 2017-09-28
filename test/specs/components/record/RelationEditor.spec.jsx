@@ -226,6 +226,38 @@ describe('RelationEditor', function suite() {
     });
   });
 
+  it('should return null when a record create is attempted but no createRelation prop is supplied', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      recordType: 'group',
+    };
+
+    const predicate = 'affects';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        predicate={predicate}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditorContainer = findWithType(result, RecordEditorContainer);
+
+    const newRecordCsid = '5678';
+    const isNavigating = true;
+
+    expect(recordEditorContainer.props.onRecordCreated(newRecordCsid, isNavigating)).to
+      .equal(null);
+  });
+
   it('should call onRecordTransitioned when a record is transitioned', function test() {
     const subject = {
       csid: '1234',

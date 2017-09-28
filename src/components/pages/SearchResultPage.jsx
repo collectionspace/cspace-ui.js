@@ -40,6 +40,16 @@ const messages = defineMessages({
   },
 });
 
+const shouldShowCheckbox = (item) => {
+  const itemWorkflowState = item.get('workflowState');
+
+  if (itemWorkflowState === 'locked') {
+    return false;
+  }
+
+  return true;
+};
+
 const propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
@@ -466,19 +476,23 @@ export default class SearchResultPage extends Component {
       selectedItems,
     } = this.props;
 
-    const itemCsid = rowData.get('csid');
-    const selected = selectedItems ? selectedItems.has(itemCsid) : false;
+    if (shouldShowCheckbox(rowData)) {
+      const itemCsid = rowData.get('csid');
+      const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
-    return (
-      <CheckboxInput
-        name={`${rowIndex}`}
-        value={selected}
-        onCommit={this.handleCheckboxCommit}
+      return (
+        <CheckboxInput
+          name={`${rowIndex}`}
+          value={selected}
+          onCommit={this.handleCheckboxCommit}
 
-        // Prevent clicking on the checkbox from selecting the record.
-        onClick={stopPropagation}
-      />
-    );
+          // Prevent clicking on the checkbox from selecting the record.
+          onClick={stopPropagation}
+        />
+      );
+    }
+
+    return null;
   }
 
   renderHeader({ searchError, searchResult }) {
@@ -519,6 +533,7 @@ export default class SearchResultPage extends Component {
           searchResult={searchResult}
           selectedItems={selectedItems}
           setAllItemsSelected={setAllItemsSelected}
+          showCheckboxFilter={shouldShowCheckbox}
         />
       );
     }
@@ -641,6 +656,7 @@ export default class SearchResultPage extends Component {
             renderHeader={this.renderHeader}
             renderFooter={this.renderFooter}
             onSortChange={this.handleSortChange}
+
           />
           <div className={searchResultSidebarStyles.common} />
         </div>

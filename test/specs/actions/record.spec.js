@@ -64,6 +64,7 @@ import {
   detachSubrecord,
   readRecord,
   saveRecord,
+  saveRecordWithTransition,
   revertRecord,
   transitionRecord,
   addFieldInstance,
@@ -2702,20 +2703,23 @@ describe('record action creator', function suite() {
             actions[2].should.have.property('type', SHOW_NOTIFICATION);
             actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[3].should.deep.equal({
-              type: RECORD_TRANSITION_FULFILLED,
-              payload: {
-                status: 200,
-                statusText: undefined,
-                headers: undefined,
-                data: {},
-              },
-              meta: {
-                csid,
-                recordTypeConfig,
-                transitionName,
-              },
+            actions[3].should.have.property('type', RECORD_TRANSITION_FULFILLED);
+
+            actions[3].payload.should.deep.equal({
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
             });
+
+            actions[3].meta.should.include({
+              csid,
+              recordTypeConfig,
+              transitionName,
+              relatedSubjectCsid: undefined,
+            });
+
+            actions[3].meta.should.have.property('updatedTimestamp');
           });
       });
 
@@ -2854,22 +2858,174 @@ describe('record action creator', function suite() {
             actions[2].should.have.property('type', SHOW_NOTIFICATION);
             actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[3].should.deep.equal({
-              type: RECORD_TRANSITION_FULFILLED,
-              payload: {
-                status: 200,
-                statusText: undefined,
-                headers: undefined,
-                data: {},
-              },
-              meta: {
-                csid,
-                recordTypeConfig,
-                transitionName,
-              },
+            actions[3].should.have.property('type', RECORD_TRANSITION_FULFILLED);
+
+            actions[3].payload.should.deep.equal({
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
             });
+
+            actions[3].meta.should.include({
+              csid,
+              recordTypeConfig,
+              transitionName,
+              relatedSubjectCsid: undefined,
+            });
+
+            actions[3].meta.should.have.property('updatedTimestamp');
           });
       });
+    });
+  });
+
+  describe('saveRecordWithTransition', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+    const recordType = 'collectionobject';
+    const servicePath = 'collectionobjects';
+    const csid = '5678';
+    const saveRecordUrl = `/cspace-services/${servicePath}/${csid}`;
+    const readRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}.*`);
+
+    const config = {};
+
+    const recordTypeConfig = {
+      name: recordType,
+      serviceConfig: {
+        servicePath,
+      },
+      title: () => '',
+    };
+
+    before(() => {
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      return store.dispatch(configureCSpace());
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should dispatch saveRecord actions followed by transitionRecord actions', function test() {
+      moxios.stubRequest(saveRecordUrl, {
+        status: 200,
+        response: {},
+      });
+
+      moxios.stubRequest(readRecordUrl, {
+        status: 200,
+        response: {},
+      });
+
+      const store = mockStore({
+        record: Immutable.fromJS({
+          [csid]: {
+            data: {
+              current: {
+                document: {
+                  'ns2:collectionspace_core': {
+                    uri: `/${servicePath}/${csid}`,
+                  },
+                },
+              },
+            },
+          },
+        }),
+      });
+
+      const transitionName = 'lock';
+
+      return store.dispatch(saveRecordWithTransition(
+        config, recordTypeConfig, undefined, csid, undefined, undefined, undefined, transitionName
+      ))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(10);
+
+          actions[0].should.deep.equal({
+            type: 'VALIDATION_PASSED',
+            meta: {
+              csid,
+              path: [],
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: RECORD_SAVE_STARTED,
+            meta: {
+              csid,
+            },
+          });
+
+          actions[3].should.have.property('type', SHOW_NOTIFICATION);
+          actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
+
+          actions[4].should.have.property('type', SHOW_NOTIFICATION);
+          actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+          actions[5].should.deep.equal({
+            type: RECORD_SAVE_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: {
+              csid,
+              relatedSubjectCsid: undefined,
+            },
+          });
+
+          actions[6].should.have.property('type', SHOW_NOTIFICATION);
+          actions[6].should.have.deep.property('payload.status', STATUS_PENDING);
+
+          actions[7].should.deep.equal({
+            type: RECORD_TRANSITION_STARTED,
+            meta: {
+              csid,
+              recordTypeConfig,
+              transitionName,
+            },
+          });
+
+          actions[8].should.have.property('type', SHOW_NOTIFICATION);
+          actions[8].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+          actions[9].should.have.property('type', RECORD_TRANSITION_FULFILLED);
+
+          actions[9].payload.should.deep.equal({
+            status: 200,
+            statusText: undefined,
+            headers: undefined,
+            data: {},
+          });
+
+          actions[9].meta.should.include({
+            csid,
+            recordTypeConfig,
+            transitionName,
+            relatedSubjectCsid: undefined,
+          });
+
+          actions[9].meta.should.have.property('updatedTimestamp');
+        });
     });
   });
 });

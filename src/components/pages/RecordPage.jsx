@@ -8,6 +8,7 @@ import RecordTitleBarContainer from '../../containers/record/RecordTitleBarConta
 import RecordBrowserContainer from '../../containers/record/RecordBrowserContainer';
 import RecordSideBar from '../record/RecordSideBar';
 import { validateLocation } from '../../helpers/configHelpers';
+import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
@@ -55,6 +56,7 @@ export const getParams = (props) => {
 
 const propTypes = {
   config: PropTypes.object.isRequired,
+  data: PropTypes.instanceOf(Immutable.Map),
   error: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.object,
   location: PropTypes.object,
@@ -157,6 +159,7 @@ export default class RecordPage extends Component {
 
     const {
       config,
+      data,
       error,
       history,
       location,
@@ -207,6 +210,7 @@ export default class RecordPage extends Component {
     }
 
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+    const workflowState = getWorkflowState(data);
 
     return (
       <div className={styles[serviceType]}>
@@ -225,6 +229,7 @@ export default class RecordPage extends Component {
             dockTop={headerDockPosition}
             history={history}
             location={location}
+            workflowState={workflowState}
             recordType={recordType}
             relatedCsid={normalizedRelatedCsid}
             relatedRecordType={relatedRecordType}
@@ -238,6 +243,7 @@ export default class RecordPage extends Component {
             vocabulary={vocabulary}
             config={config}
             history={history}
+            workflowState={workflowState}
           />
         </div>
       </div>

@@ -428,6 +428,10 @@ export class BaseSearchToRelateModal extends Component {
   }
 
   shouldShowCheckbox(item) {
+    if (item.get('workflowState') === 'locked') {
+      return false;
+    }
+
     if (item.get('related') === 'true') {
       return false;
     }

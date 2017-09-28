@@ -11,7 +11,9 @@ const propTypes = {
   csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  relatedSubjectWorkflowState: PropTypes.string,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
+  workflowState: PropTypes.string,
   onCloneButtonClick: PropTypes.func,
   onDeleteButtonClick: PropTypes.func,
   onRevertButtonClick: PropTypes.func,
@@ -24,7 +26,9 @@ export default function RecordButtonBar(props) {
     csid,
     isModified,
     isSavePending,
+    relatedSubjectWorkflowState,
     validationErrors,
+    workflowState,
     onCloneButtonClick,
     onDeleteButtonClick,
     onRevertButtonClick,
@@ -37,6 +41,7 @@ export default function RecordButtonBar(props) {
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}
+        workflowState={workflowState}
         validationErrors={validationErrors}
         onClick={onSaveButtonClick}
         onErrorBadgeClick={onSaveButtonErrorBadgeClick}
@@ -45,16 +50,19 @@ export default function RecordButtonBar(props) {
         csid={csid}
         isModified={isModified}
         isSavePending={isSavePending}
+        relatedSubjectWorkflowState={relatedSubjectWorkflowState}
         onClick={onCloneButtonClick}
       />
       <RevertButton
         isModified={isModified}
         isSavePending={isSavePending}
+        workflowState={workflowState}
         onClick={onRevertButtonClick}
       />
       <DeleteButton
         csid={csid}
         isSavePending={isSavePending}
+        workflowState={workflowState}
         onClick={onDeleteButtonClick}
       />
     </div>

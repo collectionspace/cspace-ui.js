@@ -18,6 +18,7 @@ const propTypes = {
   csid: PropTypes.string,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  relatedSubjectWorkflowState: PropTypes.string,
   onClick: PropTypes.func,
 };
 
@@ -26,10 +27,19 @@ export default function CloneButton(props) {
     csid,
     isModified,
     isSavePending,
+    relatedSubjectWorkflowState,
     onClick,
   } = props;
 
   if (!csid) {
+    return null;
+  }
+
+  if (relatedSubjectWorkflowState === 'locked') {
+    // We're editing an object record in a secondary tab, and the primary record is locked. This
+    // means a new cloned record would not be able to be related to the primary, so the clone
+    // button should not appear.
+
     return null;
   }
 

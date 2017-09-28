@@ -1,22 +1,29 @@
+.common {
+  background-color: #F0F5FB;
+}
+
 .common > header {
-  display: flex;
-  align-items: baseline;
+  padding: 10px;
 }
 
 .common > header > h3 {
-  margin: 0 10px 0 0;
+  margin: 0;
   font-size: 14px;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  font-weight: 400;
+  color: #739CD2;
 }
 
-.common > header > * {
+.common > header > div {
+  display: flex;
+  align-items: center;
+}
+
+.common > header > div > h1 {
+  margin: 0;
   flex: 1 1 auto;
 }
 
-.common > header > :global(.cspace-ui-ButtonBar--common) {
+.common > header > div > :global(.cspace-ui-ButtonBar--common) {
   text-align: right;
   white-space: nowrap;
 }

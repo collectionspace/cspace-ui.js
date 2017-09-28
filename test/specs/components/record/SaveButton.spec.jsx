@@ -5,6 +5,8 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SaveButton from '../../../../src/components/record/SaveButton';
 
+const expect = chai.expect;
+
 chai.should();
 
 describe('SaveButton', function suite() {
@@ -12,6 +14,14 @@ describe('SaveButton', function suite() {
     this.container = createTestContainer(this);
   });
 
+  it('should render nothing when workflowState is \'locked\'', function test() {
+    render(
+      <IntlProvider locale="en">
+        <SaveButton workflowState="locked" />
+      </IntlProvider>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
+  });
   context('without validation errors', () => {
     it('should render a button', function test() {
       render(
@@ -73,14 +83,14 @@ describe('SaveButton', function suite() {
       div.querySelector('button[name="save"]').should.not.equal(null);
       div.querySelector('button.cspace-ui-Badge--common').should.not.equal(null);
     });
-  });
 
-  it('should render a disabled save button', function test() {
-    render(
-      <IntlProvider locale="en">
-        <SaveButton validationErrors={Immutable.Map()} />
-      </IntlProvider>, this.container);
+    it('should render a disabled save button', function test() {
+      render(
+        <IntlProvider locale="en">
+          <SaveButton validationErrors={Immutable.Map()} />
+        </IntlProvider>, this.container);
 
-    this.container.querySelector('button[name="save"]').disabled.should.equal(true);
+      this.container.querySelector('button[name="save"]').disabled.should.equal(true);
+    });
   });
 });

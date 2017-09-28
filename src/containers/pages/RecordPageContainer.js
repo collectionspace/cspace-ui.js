@@ -7,6 +7,7 @@ import {
 } from '../../actions/record';
 
 import {
+  getRecordData,
   getRecordError,
 } from '../../reducers';
 
@@ -16,6 +17,7 @@ const mapStateToProps = (state, ownProps) => {
   } = getParams(ownProps);
 
   return {
+    data: getRecordData(state, csid),
     error: getRecordError(state, csid),
   };
 };
