@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { components as inputComponents } from 'cspace-input';
 import MiniViewPopup from './MiniViewPopup';
+import { refNameToCsid, refNameToRecordType, refNameToVocabType } from '../../../src/helpers/refNameHelpers';
 import styles from '../../../styles/cspace-ui/MiniViewPopupAutocomplete.css';
-
 
 const { AutocompleteInput } = inputComponents;
 
@@ -42,17 +42,26 @@ export default class MiniViewPopupAutocomplete extends Component {
   renderMiniViewPopup() {
     const {
       value,
+      config,
       ...remainingProps
     } = this.props;
 
     const popupMiniInlineStyle = { minWidth: this.domNode.offsetWidth };
-
+    // Check if value is refName?
     if (value) {
+      const csid = refNameToCsid(config, value);
+      const vocabulary = refNameToVocabType(config, value);
+      const recordType = refNameToRecordType(config, value);
+
       return (
         <MiniViewPopup
           onMouseLeave={this.handleOnMouseLeave}
           popupMiniInlineStyle={popupMiniInlineStyle}
           value={value}
+          csid={csid}
+          vocabulary={vocabulary}
+          recordType={recordType}
+          config={config}
           {...remainingProps}
         />
       );

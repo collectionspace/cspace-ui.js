@@ -30,6 +30,12 @@ const {
 const config = {
   recordTypes: {
     person: {
+      name: 'person',
+      serviceConfig: {
+        objectName: 'Person',
+        servicePath: 'personauthorities',
+        serviceType: 'authority',
+      },
       forms: {
         mini: {
           messages: {
@@ -88,6 +94,9 @@ const config = {
               defaultMessage: 'Local Persons',
             },
           },
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person)',
+          },
         },
         ulan: {
           messages: {
@@ -99,6 +108,9 @@ const config = {
               id: 'vocab.person.ulan.collectionName',
               defaultMessage: 'ULAN Persons',
             },
+          },
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person_ulan)',
           },
         },
       },
@@ -188,5 +200,32 @@ describe('MiniViewPopupAutocomplete', function suite() {
     const miniViewPopup = this.container.querySelector('.cspace-ui-MiniViewPopup--common');
 
     expect(miniViewPopup).to.equal(null);
+  });
+
+  it('should not render a MiniViewPopup on mouse leave', function test() {
+    const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'';
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <MiniViewPopupAutocomplete
+            source={'person/local,person/ulan'}
+            config={config}
+            recordType="person"
+            value={value}
+            recordTypes={config.recordTypes}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const miniViewPopupAutoComplete = this.container.querySelector('.cspace-ui-MiniViewPopupAutocomplete--common');
+
+    Simulate.mouseEnter(miniViewPopupAutoComplete);
+
+    const popup = this.container.querySelector('.cspace-layout-Popup--common');
+
+    Simulate.mouseLeave(popup);
+
+    expect(this.container.querySelector('.cspace-ui-MiniViewPopup--common')).to.equal(null);
   });
 });
