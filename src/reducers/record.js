@@ -387,6 +387,7 @@ const handleSubjectRelationsUpdated = (state, action) => {
   // relation record.
 
   const subjectCsid = action.meta.csid;
+  // TODO: Move this into action creator. (This makes the reducer not pure).
   const newUpdatedTime = (new Date()).toISOString();
 
   if (state.has(subjectCsid)) {
@@ -439,12 +440,30 @@ const handleTransitionFulfilled = (state, action) => {
   const {
     csid,
     transitionName,
+    relatedSubjectCsid,
+    updatedTimestamp,
   } = action.meta;
 
   let updatedState = state.deleteIn([csid, 'isSavePending']);
 
   if (transitionName === 'delete') {
     updatedState = updatedState.delete(csid);
+  } else {
+    const newData = get(action, ['payload', 'data']);
+
+    if (newData) {
+      const data = Immutable.fromJS(newData);
+
+      updatedState = setBaselineData(updatedState, csid, data);
+      updatedState = setCurrentData(updatedState, csid, data);
+    }
+  }
+
+  if (relatedSubjectCsid) {
+    updatedState = updatedState.setIn(
+      [relatedSubjectCsid, 'relationUpdatedTime'],
+      updatedTimestamp
+    );
   }
 
   return updatedState;

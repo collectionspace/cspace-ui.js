@@ -20,6 +20,7 @@ const propTypes = {
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
   vocabulary: PropTypes.string,
+  workflowState: PropTypes.string,
   clearPreferredRelatedCsid: PropTypes.func,
   clearSearchResults: PropTypes.func,
   onShowRelated: PropTypes.func,
@@ -149,6 +150,7 @@ export default class RecordBrowser extends Component {
       relatedCsid,
       relatedRecordType,
       vocabulary,
+      workflowState,
       onShowRelated,
     } = this.props;
 
@@ -165,6 +167,7 @@ export default class RecordBrowser extends Component {
           csid={csid}
           relatedRecordType={relatedRecordType}
           relatedCsid={relatedCsid}
+          workflowState={workflowState}
           onShowRelated={onShowRelated}
         />
       );

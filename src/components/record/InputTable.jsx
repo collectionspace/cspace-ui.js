@@ -20,8 +20,8 @@ const {
 
 const { pathHelpers } = inputHelpers;
 
-const renderMessageLabel = message => (
-  <Label>
+const renderMessageLabel = (message, props) => (
+  <Label {...props}>
     <FormattedMessage {...message} />
   </Label>
 );
@@ -32,10 +32,23 @@ const renderTableLabel = (recordTypeConfig, name) => {
   return (message ? renderMessageLabel(message) : null);
 };
 
-const renderFieldLabel = (fieldConfig) => {
+const renderFieldLabel = (fieldConfig, inputProps) => {
   const message = get(fieldConfig, ['messages', 'name']);
 
-  return (message ? renderMessageLabel(message) : null);
+  const props = {
+    readOnly: inputProps.readOnly,
+    required: inputProps.required,
+  };
+
+  if ('readOnly' in fieldConfig) {
+    props.readOnly = fieldConfig.readOnly;
+  }
+
+  if ('required' in fieldConfig) {
+    props.required = fieldConfig.required;
+  }
+
+  return (message ? renderMessageLabel(message, props) : null);
 };
 
 const propTypes = {
@@ -67,7 +80,7 @@ export default function InputTable(props, context) {
     const field = get(fields, path);
     const fieldConfig = get(field, configKey);
 
-    return renderFieldLabel(fieldConfig);
+    return renderFieldLabel(fieldConfig, input.props);
   };
 
   const tableLabel = renderTableLabel(recordTypeConfig, name);

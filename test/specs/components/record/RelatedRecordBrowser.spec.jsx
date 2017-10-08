@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { createRenderer } from 'react-test-renderer/shallow';
-import { findWithType } from 'react-shallow-testutils';
 import { MemoryRouter as Router } from 'react-router';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
@@ -20,7 +18,6 @@ import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordP
 import RelatedRecordBrowser from '../../../../src/components/record/RelatedRecordBrowser';
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
 import RelatedRecordPanelContainer from '../../../../src/containers/record/RelatedRecordPanelContainer';
-import RelationEditorContainer from '../../../../src/containers/record/RelationEditorContainer';
 
 const expect = chai.expect;
 
@@ -283,36 +280,6 @@ describe('RelatedRecordBrowser', function suite() {
       pathname: `/record/${recordType}/${csid}/${relatedRecordType}/new`,
       state: location.state,
     });
-  });
-
-  it('should call invalidateSubjectRelations when a related record is transitioned with transition name \'delete\'', function test() {
-    let invalidateSubjectRelationsCsid = null;
-    let invalidateSubjectRelationsRecordType = null;
-
-    const invalidateSubjectRelations = ({ csid: csidArg, recordType: recordTypeArg }) => {
-      invalidateSubjectRelationsCsid = csidArg;
-      invalidateSubjectRelationsRecordType = recordTypeArg;
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <RelatedRecordBrowser
-        config={config}
-        recordType={recordType}
-        csid={csid}
-        relatedRecordType={relatedRecordType}
-        relatedCsid={relatedCsid}
-        invalidateSubjectRelations={invalidateSubjectRelations}
-      />);
-
-    const result = shallowRenderer.getRenderOutput();
-    const relationEditorContainer = findWithType(result, RelationEditorContainer);
-
-    relationEditorContainer.props.onRecordTransitioned('delete');
-
-    invalidateSubjectRelationsCsid.should.equal(csid);
-    invalidateSubjectRelationsRecordType.should.equal(recordType);
   });
 
   it('should call onShowRelated when a related record list item is clicked', function test() {

@@ -566,3 +566,6 @@ export const isNewRecord = data =>
   (!data || !data.getIn(['document', 'ns2:collectionspace_core', 'uri']));
 
 export const isExistingRecord = data => !isNewRecord(data);
+
+export const getWorkflowState = data =>
+  (data ? data.getIn(['document', 'ns2:collectionspace_core', 'workflowState']) : undefined);

@@ -107,6 +107,32 @@ const transitionMessages = {
       }`,
     },
   }),
+  lock: defineMessages({
+    transitioning: {
+      id: 'action.record.transition.lock.transitioning',
+      description: 'Notification message displayed when a lock workflow transition is in progress.',
+      defaultMessage: `{hasTitle, select,
+        yes {Locking {title}…}
+        other {Locking record…}
+      }`,
+    },
+    errorTransitioning: {
+      id: 'action.record.transition.lock.errorTransitioning',
+      description: 'Notification message displayed when a lock workflow transition fails.',
+      defaultMessage: `{hasTitle, select,
+        yes {Error locking {title}: {error}}
+        other {Error locking record: {error}}
+      }`,
+    },
+    transitioned: {
+      id: 'action.record.transition.lock.transitioned',
+      description: 'Notification message displayed when a lock workflow transition completes successfully.',
+      defaultMessage: `{hasTitle, select,
+        yes {Locked {title}}
+        other {Locked record}
+      }`,
+    },
+  }),
 };
 
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
@@ -654,6 +680,7 @@ export const saveRecord =
                   .then(() => dispatch(initializeSubrecords(
                     config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid
                   )))
+                  .then(() => currentCsid)
                   .catch((error) => {
                     throw error;
                   })
@@ -710,11 +737,10 @@ export const saveRecord =
                     .then(() => dispatch(initializeSubrecords(
                       config, currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid
                     )))
-                    .then(() => {
-                      if (onRecordCreated) {
-                        onRecordCreated(newRecordCsid);
-                      }
-                    });
+                    .then(() => Promise.resolve(
+                      onRecordCreated ? onRecordCreated(newRecordCsid) : null
+                    ))
+                    .then(() => newRecordCsid);
                 }
 
                 const error = new Error('Expected response with status 201 and a location header');
@@ -828,7 +854,9 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
   dispatch(removeValidationNotification());
 };
 
-export const transitionRecord = (recordTypeConfig, vocabularyConfig, csid, transitionName) =>
+export const transitionRecord = (
+  recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
+) =>
   (dispatch, getState) => {
     const data = getRecordData(getState(), csid);
     const title = recordTypeConfig.title(getDocument(data));
@@ -880,6 +908,13 @@ export const transitionRecord = (recordTypeConfig, vocabularyConfig, csid, trans
     const path = pathParts.join('/');
 
     return getSession().update(path)
+      .then(response => (
+        (transitionName === 'delete')
+          ? response
+          // For all transitions other than delete, re-read the record to obtain the new workflow
+          // state.
+          : doRead(recordTypeConfig, vocabularyConfig, csid)
+      ))
       .then((response) => {
         if (messages) {
           dispatch(showNotification({
@@ -902,6 +937,10 @@ export const transitionRecord = (recordTypeConfig, vocabularyConfig, csid, trans
             recordTypeConfig,
             csid,
             transitionName,
+            relatedSubjectCsid,
+            // We don't get data back from the transition request. Rather than making a separate
+            // request to get the actual updated time of the record, just make it the current time.
+            updatedTimestamp: (new Date()).toISOString(),
           },
         });
       })
@@ -934,6 +973,19 @@ export const transitionRecord = (recordTypeConfig, vocabularyConfig, csid, trans
         });
       });
   };
+
+export const saveRecordWithTransition =
+  (
+    config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
+    relatedSubjectCsid, transitionName, onRecordCreated, showNotifications = true
+  ) => dispatch =>
+    dispatch(saveRecord(
+      config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
+      relatedSubjectCsid, onRecordCreated, showNotifications
+    ))
+    .then(savedCsid => dispatch(transitionRecord(
+      recordTypeConfig, vocabularyConfig, savedCsid, transitionName, relatedSubjectCsid
+    )));
 
 export const detachSubrecord = (config, csid, csidField, subrecordName, subrecordTypeConfig) => ({
   type: DETACH_SUBRECORD,

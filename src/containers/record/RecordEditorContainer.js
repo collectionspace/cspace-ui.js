@@ -16,6 +16,7 @@ import {
   readRecord,
   revertRecord,
   saveRecord,
+  saveRecordWithTransition,
   transitionRecord,
   validateRecordData,
 } from '../../actions/record';
@@ -78,18 +79,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     revert: () => {
       dispatch(revertRecord(recordTypeConfig, csid));
     },
-    save: (onRecordCreated) => {
+    save: onRecordCreated =>
       dispatch(saveRecord(
         config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
         relatedSubjectCsid, onRecordCreated
       ))
-        .catch(() => {});
-    },
+      .catch(() => {}),
+    saveWithTransition: (transitionName, onRecordCreated) =>
+      dispatch(saveRecordWithTransition(
+        config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
+        relatedSubjectCsid, transitionName, onRecordCreated
+      ))
+      .catch(() => {}),
     setForm: (formName) => {
       dispatch(setForm(recordType, formName));
     },
-    transitionRecord: transitionName =>
-      dispatch(transitionRecord(recordTypeConfig, vocabularyConfig, csid, transitionName)),
+    transitionRecord: transitionName => dispatch(transitionRecord(
+      recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
+    )),
     removeValidationNotification: () => {
       dispatch(removeValidationNotification());
     },

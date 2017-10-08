@@ -17,7 +17,9 @@ const propTypes = {
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
+  relatedSubjectWorkflowState: PropTypes.string,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
+  workflowState: PropTypes.string,
   onCommit: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
@@ -81,7 +83,9 @@ export default class RecordHeader extends Component {
       isModified,
       isSavePending,
       recordType,
+      relatedSubjectWorkflowState,
       validationErrors,
+      workflowState,
       onCommit,
       onSaveButtonClick,
       onSaveButtonErrorBadgeClick,
@@ -116,6 +120,8 @@ export default class RecordHeader extends Component {
             csid={csid}
             isModified={isModified}
             isSavePending={isSavePending}
+            relatedSubjectWorkflowState={relatedSubjectWorkflowState}
+            workflowState={workflowState}
             validationErrors={validationErrors}
             onSaveButtonClick={onSaveButtonClick}
             onSaveButtonErrorBadgeClick={onSaveButtonErrorBadgeClick}

@@ -41,6 +41,8 @@ describe('RecordEditorContainer', function suite() {
   const csid = '1234';
   const cloneCsid = '9999';
   const recordType = 'collectionobject';
+  const authRecordType = 'person';
+  const vocabulary = 'ulan';
   const data = Immutable.Map();
 
   const recordTypeConfig = {
@@ -51,9 +53,27 @@ describe('RecordEditorContainer', function suite() {
     title: () => '',
   };
 
+  const vocabularyConfig = {
+    serviceConfig: {
+      servicePath: 'urn:cpace:name(ulan)',
+    },
+  };
+
+  const authRecordTypeConfig = {
+    serviceConfig: {
+      servicePath: 'personauthorities',
+    },
+    fields: {},
+    title: () => '',
+    vocabularies: {
+      [vocabulary]: vocabularyConfig,
+    },
+  };
+
   const config = {
     recordTypes: {
       [recordType]: recordTypeConfig,
+      [authRecordType]: authRecordTypeConfig,
     },
   };
 
@@ -121,7 +141,8 @@ describe('RecordEditorContainer', function suite() {
       <RecordEditorContainer
         config={config}
         csid={csid}
-        recordType={recordType}
+        recordType={authRecordType}
+        vocabulary={vocabulary}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -133,7 +154,7 @@ describe('RecordEditorContainer', function suite() {
         const action = store.getActions()[0];
 
         action.should.have.property('type', CREATE_NEW_RECORD);
-        action.should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
+        action.should.have.deep.property('meta.recordTypeConfig', authRecordTypeConfig);
         action.should.have.deep.property('meta.cloneCsid', cloneCsid);
 
         resolve();
@@ -206,6 +227,43 @@ describe('RecordEditorContainer', function suite() {
 
     try {
       result.props.save();
+    } catch (error) {
+      const actions = store.getActions();
+
+      actions[0].should.have.property('type', VALIDATION_PASSED);
+
+      actions[1].should.have.property('type', REMOVE_NOTIFICATION);
+
+      actions[2].should.have.property('type', SHOW_NOTIFICATION);
+      actions[2].should.have.deep.property('payload.status', STATUS_PENDING);
+
+      actions[3].should.have.property('type', RECORD_SAVE_STARTED);
+      actions[3].should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
+      actions[3].should.have.deep.property('meta.csid', csid);
+    }
+  });
+
+  it('should connect saveWithTransition to saveRecordWithTransition action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    // The call to saveWithTransition will fail because we haven't stubbed out everything it needs,
+    // but there's enough to verify that the saveRecordWithTransition action creator gets called,
+    // and dispatches RECORD_SAVE_STARTED.
+
+    // TODO: Should verify that RECORD_TRANSITION_STARTED is dispatched, but this requires fully
+    // stubbing out the save.
+
+    try {
+      result.props.saveWithTransition();
     } catch (error) {
       const actions = store.getActions();
 

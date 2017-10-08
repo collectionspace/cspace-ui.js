@@ -306,8 +306,3 @@ export const createBidirectional = (subject, object, predicate) => dispatch =>
       meta: subject,
     }))
     .catch(() => {});
-
-export const invalidateSubjectRelations = subject => ({
-  type: SUBJECT_RELATIONS_UPDATED,
-  meta: subject,
-});

@@ -1248,4 +1248,29 @@ describe('SearchResultPage', function suite() {
 
     clickPropagated.should.equal(false);
   });
+
+  it('should not render checkboxes on items that are locked', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const table = findWithType(result, SearchResultTableContainer);
+
+    const checkbox = table.props.renderCheckbox({
+      rowData: Immutable.Map({ workflowState: 'locked' }),
+      rowIndex: 1,
+    });
+
+    expect(checkbox).to.equal(null);
+  });
 });

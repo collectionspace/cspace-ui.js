@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import classNames from 'classnames';
 import { components as inputComponents } from 'cspace-input';
 import ErrorBadge from './ErrorBadge';
 import styles from '../../../styles/cspace-ui/SaveButton.css';
@@ -22,34 +23,44 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  className: PropTypes.string,
   intl: intlShape,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
   label: PropTypes.node,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
+  workflowState: PropTypes.string,
   onClick: PropTypes.func,
   onErrorBadgeClick: PropTypes.func,
 };
 
 function SaveButton(props) {
   const {
+    className,
     intl,
     isModified,
     isSavePending,
     validationErrors,
+    workflowState,
     onClick,
     onErrorBadgeClick,
   } = props;
 
-  let className;
+  if (workflowState === 'locked') {
+    return null;
+  }
+
+  let statusClass;
 
   if (isSavePending) {
-    className = styles.pending;
+    statusClass = styles.pending;
   } else if (isModified) {
-    className = styles.normal;
+    statusClass = styles.normal;
   } else {
-    className = styles.done;
+    statusClass = styles.done;
   }
+
+  const classes = classNames(className, statusClass);
 
   let {
     label,
@@ -69,7 +80,7 @@ function SaveButton(props) {
 
   const button = (
     <Button
-      className={className}
+      className={classes}
       disabled={validationErrors || isSavePending}
       icon
       name="save"

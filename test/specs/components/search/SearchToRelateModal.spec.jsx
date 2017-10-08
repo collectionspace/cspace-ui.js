@@ -793,7 +793,7 @@ describe('SearchToRelateModal', function suite() {
     expect(footer).to.equal(null);
   });
 
-  it('should render a checkbox for items that are not already related', function test() {
+  it('should render a checkbox for items that are not already related and not locked', function test() {
     const recordTypeValue = 'collectionobject';
 
     const subject = {
@@ -832,8 +832,10 @@ describe('SearchToRelateModal', function suite() {
 
     const unrelatedItem = Immutable.Map();
     const relatedItem = Immutable.Map({ related: 'true' });
+    const lockedItem = Immutable.Map({ workflowState: 'locked' });
 
     expect(searchResultTable.props.renderCheckbox({ rowData: relatedItem })).to.equal(null);
+    expect(searchResultTable.props.renderCheckbox({ rowData: lockedItem })).to.equal(null);
 
     searchResultTable.props.renderCheckbox({ rowData: unrelatedItem }).should.not.equal(null);
   });

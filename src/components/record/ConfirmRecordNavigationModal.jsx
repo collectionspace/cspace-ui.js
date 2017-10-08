@@ -11,7 +11,7 @@ const messages = defineMessages({
   title: {
     id: 'confirmRecordNavigationModal.title',
     description: 'Title of the modal shown to confirm navigation away from a record that has unsaved changes.',
-    defaultMessage: 'Not Saved',
+    defaultMessage: 'Leave Record?',
   },
   prompt: {
     id: 'confirmRecordNavigationModal.prompt',

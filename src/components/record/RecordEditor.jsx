@@ -6,7 +6,9 @@ import RecordButtonBar from './RecordButtonBar';
 import RecordHeader from './RecordHeader';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
+import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
+import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const propTypes = {
@@ -21,6 +23,8 @@ const propTypes = {
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  // The workflow state of the related subject (aka primary) record when we're in a secondary tab.
+  relatedSubjectWorkflowState: PropTypes.string,
   openModalName: PropTypes.string,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
@@ -29,6 +33,7 @@ const propTypes = {
   closeModal: PropTypes.func,
   openModal: PropTypes.func,
   save: PropTypes.func,
+  saveWithTransition: PropTypes.func,
   revert: PropTypes.func,
   clone: PropTypes.func,
   transitionRecord: PropTypes.func,
@@ -47,7 +52,11 @@ export default class RecordEditor extends Component {
   constructor() {
     super();
 
+    // Confirm delete modal button handlers.
+
     this.handleConfirmDeleteButtonClick = this.handleConfirmDeleteButtonClick.bind(this);
+
+    // Confirm navigation modal button handlers.
 
     this.handleConfirmNavigationSaveButtonClick =
       this.handleConfirmNavigationSaveButtonClick.bind(this);
@@ -55,7 +64,17 @@ export default class RecordEditor extends Component {
     this.handleConfirmNavigationRevertButtonClick =
       this.handleConfirmNavigationRevertButtonClick.bind(this);
 
+    // Lock modal button handlers.
+
+    this.handleSaveOnlyButtonClick = this.handleSaveOnlyButtonClick.bind(this);
+    this.handleSaveLockButtonClick = this.handleSaveLockButtonClick.bind(this);
+
+    // Shared modal handlers.
+
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
+
+    // Button bar handlers.
+
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
     this.handleSaveButtonErrorBadgeClick = this.handleSaveButtonErrorBadgeClick.bind(this);
     this.handleRevertButtonClick = this.handleRevertButtonClick.bind(this);
@@ -125,6 +144,33 @@ export default class RecordEditor extends Component {
     }
   }
 
+  save(onRecordCreated) {
+    const {
+      config,
+      recordType,
+      openModal,
+      save,
+      saveWithTransition,
+    } = this.props;
+
+    const recordTypeConfig = config.recordTypes[recordType];
+    const { lockOnSave } = recordTypeConfig;
+
+    if (lockOnSave === 'prompt' && openModal) {
+      openModal(LockRecordModal.name);
+
+      return false;
+    }
+
+    if (lockOnSave === true && saveWithTransition) {
+      saveWithTransition('lock', onRecordCreated);
+    } else if (save) {
+      save(onRecordCreated);
+    }
+
+    return true;
+  }
+
   handleModalCancelButtonClick() {
     const {
       closeModal,
@@ -166,23 +212,20 @@ export default class RecordEditor extends Component {
   handleConfirmNavigationSaveButtonClick() {
     const {
       closeModal,
-      save,
       onRecordCreated,
     } = this.props;
 
-    if (save) {
-      // Wrap the onRecordCreated callback in a function that sets isNavigating to true. This lets
-      // the callback know that we're already navigating away, so it should not do any navigation
-      // of its own.
+    // Wrap the onRecordCreated callback in a function that sets isNavigating to true. This lets
+    // the callback know that we're already navigating away, so it should not do any navigation
+    // of its own.
 
-      const callback = onRecordCreated
-        ? (newRecordCsid) => { onRecordCreated(newRecordCsid, true); }
-        : undefined;
+    const callback = onRecordCreated
+      ? (newRecordCsid) => { onRecordCreated(newRecordCsid, true); }
+      : undefined;
 
-      save(callback);
-    }
+    const saveCalled = this.save(callback);
 
-    if (closeModal) {
+    if (saveCalled && closeModal) {
       closeModal(true);
     }
   }
@@ -235,13 +278,10 @@ export default class RecordEditor extends Component {
 
   handleSaveButtonClick() {
     const {
-      save,
       onRecordCreated,
     } = this.props;
 
-    if (save) {
-      save(onRecordCreated);
-    }
+    this.save(onRecordCreated);
   }
 
   handleSaveButtonErrorBadgeClick() {
@@ -251,6 +291,40 @@ export default class RecordEditor extends Component {
 
     if (validateRecordData) {
       validateRecordData();
+    }
+  }
+
+  handleSaveOnlyButtonClick() {
+    const {
+      save,
+      closeModal,
+      onRecordCreated,
+    } = this.props;
+
+    if (save) {
+      save(onRecordCreated)
+        .then(() => {
+          if (closeModal) {
+            closeModal(true);
+          }
+        });
+    }
+  }
+
+  handleSaveLockButtonClick() {
+    const {
+      saveWithTransition,
+      closeModal,
+      onRecordCreated,
+    } = this.props;
+
+    if (saveWithTransition) {
+      saveWithTransition('lock', onRecordCreated)
+        .then(() => {
+          if (closeModal) {
+            closeModal(true);
+          }
+        });
     }
   }
 
@@ -306,6 +380,35 @@ export default class RecordEditor extends Component {
     );
   }
 
+  renderLockRecordModal() {
+    const {
+      config,
+      csid,
+      isSavePending,
+      openModalName,
+      recordType,
+    } = this.props;
+
+    const recordTypeConfig = config.recordTypes[recordType];
+    const { lockOnSave } = recordTypeConfig;
+
+    if (lockOnSave !== 'prompt') {
+      return null;
+    }
+
+    return (
+      <LockRecordModal
+        csid={csid}
+        isOpen={openModalName === LockRecordModal.modalName}
+        isSavePending={isSavePending}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCancelButtonClick}
+        onSaveOnlyButtonClick={this.handleSaveOnlyButtonClick}
+        onSaveLockButtonClick={this.handleSaveLockButtonClick}
+      />
+    );
+  }
+
   render() {
     const {
       config,
@@ -316,6 +419,7 @@ export default class RecordEditor extends Component {
       isModified,
       isSavePending,
       recordType,
+      relatedSubjectWorkflowState,
       validationErrors,
     } = this.props;
 
@@ -325,12 +429,15 @@ export default class RecordEditor extends Component {
       return null;
     }
 
+    const workflowState = getWorkflowState(data);
+
     return (
       <form className={styles.common} autoComplete="off">
         <RecordHeader
           csid={csid}
           isModified={isModified}
           isSavePending={isSavePending}
+          workflowState={workflowState}
           validationErrors={validationErrors}
           onSaveButtonClick={this.handleSaveButtonClick}
           onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
@@ -340,6 +447,7 @@ export default class RecordEditor extends Component {
           config={config}
           formName={formName}
           recordType={recordType}
+          relatedSubjectWorkflowState={relatedSubjectWorkflowState}
           onCommit={this.handleRecordFormSelectorCommit}
           data={data}
           dockTop={dockTop}
@@ -349,6 +457,7 @@ export default class RecordEditor extends Component {
           csid={csid}
           data={data}
           formName={formName}
+          readOnly={workflowState === 'locked'}
           recordType={recordType}
         />
         <footer>
@@ -357,6 +466,7 @@ export default class RecordEditor extends Component {
             isModified={isModified}
             isSavePending={isSavePending}
             validationErrors={validationErrors}
+            workflowState={workflowState}
             onSaveButtonClick={this.handleSaveButtonClick}
             onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
             onRevertButtonClick={this.handleRevertButtonClick}
@@ -370,6 +480,7 @@ export default class RecordEditor extends Component {
         />
         {this.renderConfirmNavigationModal()}
         {this.renderConfirmRecordDeleteModal()}
+        {this.renderLockRecordModal()}
       </form>
     );
   }

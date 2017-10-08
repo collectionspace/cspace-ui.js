@@ -1258,6 +1258,55 @@ describe('record reducer', function suite() {
     });
 
     state.should.equal(Immutable.Map());
+
+    // Non-delete transition should update data.
+
+    const data = {
+      foo: {
+        bar: 'baz',
+      },
+    };
+
+    state = reducer(initialState, {
+      type: RECORD_TRANSITION_FULFILLED,
+      payload: {
+        data,
+      },
+      meta: {
+        csid,
+        transitionName: 'lock',
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: data,
+        },
+      },
+    }));
+
+    // Should update relationUpdatedTime if a relatedSubjectCsid is present.
+
+    const relatedSubjectCsid = '8888';
+    const updatedTimestamp = '2000-01-01T12:00:00Z';
+
+    state = reducer(initialState, {
+      type: RECORD_TRANSITION_FULFILLED,
+      meta: {
+        csid,
+        relatedSubjectCsid,
+        updatedTimestamp,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      [csid]: {},
+      [relatedSubjectCsid]: {
+        relationUpdatedTime: updatedTimestamp,
+      },
+    }));
   });
 
   it('should handle RECORD_TRANSITION_REJECTED', function test() {

@@ -39,6 +39,7 @@ const propTypes = {
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   formName: PropTypes.string,
+  readOnly: PropTypes.bool,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
@@ -79,6 +80,7 @@ export default class RecordForm extends Component {
       config,
       data,
       formName,
+      readOnly,
       recordType,
       onAddInstance,
       onCommit,
@@ -119,6 +121,7 @@ export default class RecordForm extends Component {
     warning(formTemplate, `No form template found for form name ${formName} in record type ${recordType}. Check the record type plugin configuration.`);
 
     const formContent = React.cloneElement(formTemplate, {
+      readOnly,
       name: DOCUMENT_PROPERTY_NAME,
       value: data.get(DOCUMENT_PROPERTY_NAME),
       children: React.Children.map(

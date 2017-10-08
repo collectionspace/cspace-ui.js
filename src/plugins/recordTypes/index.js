@@ -18,14 +18,14 @@ import media from './media';
 import movement from './movement';
 import object from './object';
 import objectexit from './objectexit';
-import pottag from './pottag';
+// import pottag from './pottag';
 import organization from './organization';
 import person from './person';
 import place from './place';
 import procedure from './procedure';
 import valuation from './valuation';
 import work from './work';
-import taxon from './taxon';
+// import taxon from './taxon';
 
 export default [
   all,
@@ -48,12 +48,12 @@ export default [
   movement,
   object,
   objectexit,
-  pottag,
+  // pottag,
   organization,
   person,
   place,
   procedure,
-  taxon,
+  // taxon,
   valuation,
   work,
 ];

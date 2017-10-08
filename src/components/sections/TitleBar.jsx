@@ -10,6 +10,7 @@ const propTypes = {
   title: PropTypes.node,
   subtitle: PropTypes.node,
   aside: PropTypes.node,
+  icon: PropTypes.node,
   nav: PropTypes.node,
   serviceType: PropTypes.string,
   onDocked: PropTypes.func,
@@ -117,6 +118,7 @@ export default class TitleBar extends Component {
     } = this.state;
 
     const {
+      icon,
       serviceType,
     } = this.props;
 
@@ -132,6 +134,7 @@ export default class TitleBar extends Component {
         <div>
           {this.renderNav()}
           <div>
+            {icon}
             {this.renderTitle()}
             {this.renderAside()}
           </div>

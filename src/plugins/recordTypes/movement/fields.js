@@ -63,7 +63,7 @@ export default (pluginContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.movements_common.normalLocation.name',
-                defaultMessage: 'Normal Location',
+                defaultMessage: 'Normal location',
               },
             }),
             view: {

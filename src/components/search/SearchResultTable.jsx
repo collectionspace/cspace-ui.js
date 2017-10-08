@@ -52,7 +52,7 @@ const propTypes = {
 const defaultProps = {
   columnSetName: 'default',
   formatCellData: (column, data) => data,
-  formatColumnLabel: column => column.messages.label.defaultMessage,
+  formatColumnLabel: column => get(column, ['messages', 'label', 'defaultMessage']),
   listType: 'common',
   renderHeader: () => null,
   renderFooter: () => null,
@@ -190,6 +190,8 @@ export default class SearchResultTable extends Component {
         cellDataGetter: ({ dataKey, rowData }) =>
           formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
         disableSort: !isSortable(column, searchDescriptor),
+        flexGrow: column.flexGrow,
+        flexShrink: column.flexShrink,
         label: formatColumnLabel(column),
         dataKey: column.dataKey || column.name,
         width: column.width,

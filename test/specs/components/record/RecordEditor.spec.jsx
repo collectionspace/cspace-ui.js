@@ -18,6 +18,7 @@ import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import ConfirmRecordNavigationModal from '../../../../src/components/record/ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
+import LockRecordModal from '../../../../src/components/record/LockRecordModal';
 
 const expect = chai.expect;
 
@@ -97,6 +98,52 @@ const config = {
           foo: {
             id: 'field.foo.label',
             defaultMessage: 'Some label',
+          },
+        },
+      },
+      title: () => 'Title',
+    },
+    movement: {
+      forms: {
+        default: {
+          messages: {
+            name: {
+              id: 'form.collectionobject.default.name',
+              defaultMessage: 'Default Template',
+            },
+          },
+          template: <div />,
+        },
+      },
+      lockOnSave: 'prompt',
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'Movement',
+          },
+        },
+      },
+      title: () => 'Title',
+    },
+    loanin: {
+      forms: {
+        default: {
+          messages: {
+            name: {
+              id: 'form.collectionobject.default.name',
+              defaultMessage: 'Default Template',
+            },
+          },
+          template: <div />,
+        },
+      },
+      lockOnSave: true,
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'Loan In',
           },
         },
       },
@@ -327,6 +374,39 @@ describe('RecordEditor', function suite() {
     saveCallback.should.equal(handleRecordCreated);
   });
 
+  it('should call saveWithTransition when the save button is clicked if lockOnSave is true for the record type', function test() {
+    const handleRecordCreated = () => null;
+
+    let saveWithTransitionName = null;
+    let saveWithTransitionCallback = null;
+
+    const saveWithTransition = (transitionNameArg, callbackArg) => {
+      saveWithTransitionName = transitionNameArg;
+      saveWithTransitionCallback = callbackArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              recordType="loanin"
+              saveWithTransition={saveWithTransition}
+              onRecordCreated={handleRecordCreated}
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const saveButton = this.container.querySelector('button[name=save]');
+
+    Simulate.click(saveButton);
+
+    saveWithTransitionName.should.equal('lock');
+    saveWithTransitionCallback.should.equal(handleRecordCreated);
+  });
+
   it('should call revert when the revert button is clicked', function test() {
     let revertCalled = false;
 
@@ -409,6 +489,34 @@ describe('RecordEditor', function suite() {
     Simulate.click(deleteButton);
 
     openModalName.should.equal(ConfirmRecordDeleteModal.modalName);
+  });
+
+  it('should call openModal when the save button is clicked on a locking record', function test() {
+    let openModalName = null;
+
+    const openModal = (modalNameArg) => {
+      openModalName = modalNameArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="movement"
+              openModal={openModal}
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const saveButton = this.container.querySelector('button[name=save]');
+
+    Simulate.click(saveButton);
+
+    openModalName.should.equal(LockRecordModal.modalName);
   });
 
   it('should call validateRecordData when the save button error badge is clicked', function test() {
@@ -708,6 +816,145 @@ describe('RecordEditor', function suite() {
       window.setTimeout(() => {
         closeModalCalled.should.equal(true);
         recordTransitionedTransitionName.should.equal('delete');
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call save and closeModal when the lock modal save button is clicked', function test() {
+    let saveCallback = null;
+
+    const save = (callbackArg) => {
+      saveCallback = callbackArg;
+
+      return Promise.resolve();
+    };
+
+    let recordCreatedNewCsid = null;
+
+    const handleRecordCreated = (newRecordCsidArg) => {
+      recordCreatedNewCsid = newRecordCsidArg;
+    };
+
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordEditor
+            config={config}
+            csid="1234"
+            recordType="movement"
+            openModalName={LockRecordModal.modalName}
+            save={save}
+            closeModal={closeModal}
+            onRecordCreated={handleRecordCreated}
+          />
+        </StoreProvider>
+      </IntlProvider>);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
+    const recordEditorRenderer = createRenderer();
+
+    recordEditorRenderer.render(recordEditor);
+
+    const recordEditorResult = recordEditorRenderer.getRenderOutput();
+    const modal = findWithType(recordEditorResult, LockRecordModal);
+
+    modal.props.onSaveOnlyButtonClick();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        saveCallback.should.not.equal(null);
+        closeModalCalled.should.equal(true);
+
+        // The save callback should call the onRecordCreated function, passing in true for
+        // isNavigating.
+
+        const newCsid = '1234';
+
+        saveCallback(newCsid);
+
+        recordCreatedNewCsid.should.equal(newCsid);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call saveWithTransition and closeModal when the lock modal save and lock button is clicked', function test() {
+    let saveWithTransitionName = null;
+    let saveWithTransitionCallback = null;
+
+    const saveWithTransition = (transitionNameArg, callbackArg) => {
+      saveWithTransitionName = transitionNameArg;
+      saveWithTransitionCallback = callbackArg;
+
+      return Promise.resolve();
+    };
+
+    let recordCreatedNewCsid = null;
+
+    const handleRecordCreated = (newRecordCsidArg) => {
+      recordCreatedNewCsid = newRecordCsidArg;
+    };
+
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordEditor
+            config={config}
+            csid="1234"
+            recordType="movement"
+            openModalName={LockRecordModal.modalName}
+            saveWithTransition={saveWithTransition}
+            closeModal={closeModal}
+            onRecordCreated={handleRecordCreated}
+          />
+        </StoreProvider>
+      </IntlProvider>);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
+    const recordEditorRenderer = createRenderer();
+
+    recordEditorRenderer.render(recordEditor);
+
+    const recordEditorResult = recordEditorRenderer.getRenderOutput();
+    const modal = findWithType(recordEditorResult, LockRecordModal);
+
+    modal.props.onSaveLockButtonClick();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        saveWithTransitionName.should.equal('lock');
+        saveWithTransitionCallback.should.not.equal(null);
+        closeModalCalled.should.equal(true);
+
+        // The save callback should call the onRecordCreated function, passing in true for
+        // isNavigating.
+
+        const newCsid = '1234';
+
+        saveWithTransitionCallback(newCsid);
+
+        recordCreatedNewCsid.should.equal(newCsid);
 
         resolve();
       }, 0);
