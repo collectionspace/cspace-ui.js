@@ -2,6 +2,14 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  LOGIN_FULFILLED,
+} from '../../../src/actions/login';
+
+import {
+  LOGOUT_FULFILLED,
+} from '../../../src/actions/logout';
+
+import {
   CLEAR_SEARCH_RESULTS,
   CREATE_EMPTY_SEARCH_RESULT,
   SET_MOST_RECENT_SEARCH,
@@ -1140,5 +1148,29 @@ describe('search reducer', function suite() {
     });
 
     state.should.equal(initialState);
+  });
+
+  it('should handle LOGIN_FULFILLED', function test() {
+    const state = reducer(Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    }), {
+      type: LOGIN_FULFILLED,
+    });
+
+    state.should.deep.equal(Immutable.Map({}));
+  });
+
+  it('should handle LOGOUT_FULFILLED', function test() {
+    const state = reducer(Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    }), {
+      type: LOGOUT_FULFILLED,
+    });
+
+    state.should.deep.equal(Immutable.Map({}));
   });
 });

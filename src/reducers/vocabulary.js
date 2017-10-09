@@ -1,8 +1,18 @@
 import {
+  LOGIN_FULFILLED,
+} from '../actions/login';
+
+import {
+  LOGOUT_FULFILLED,
+} from '../actions/logout';
+
+import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
 } from '../actions/vocabulary';
+
+const clearAll = () => ({});
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -25,6 +35,10 @@ export default (state = {}, action) => {
           error: action.payload,
         },
       });
+    case LOGIN_FULFILLED:
+      return clearAll(state);
+    case LOGOUT_FULFILLED:
+      return clearAll(state);
     default:
       return state;
   }

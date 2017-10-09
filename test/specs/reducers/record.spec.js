@@ -2,6 +2,14 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  LOGIN_FULFILLED,
+} from '../../../src/actions/login';
+
+import {
+  LOGOUT_FULFILLED,
+} from '../../../src/actions/logout';
+
+import {
   ADD_FIELD_INSTANCE,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
@@ -1665,5 +1673,29 @@ describe('record reducer', function suite() {
     });
 
     isModified(state, csid).should.equal(true);
+  });
+
+  it('should handle LOGIN_FULFILLED', function test() {
+    const state = reducer(Immutable.fromJS({
+      recordCsid1: {},
+      recordCsid2: {},
+      recordCsid3: {},
+    }), {
+      type: LOGIN_FULFILLED,
+    });
+
+    state.should.deep.equal(Immutable.Map({}));
+  });
+
+  it('should handle LOGOUT_FULFILLED', function test() {
+    const state = reducer(Immutable.fromJS({
+      recordCsid1: {},
+      recordCsid2: {},
+      recordCsid3: {},
+    }), {
+      type: LOGOUT_FULFILLED,
+    });
+
+    state.should.deep.equal(Immutable.Map({}));
   });
 });

@@ -16,6 +16,14 @@ import {
 } from '../helpers/configHelpers';
 
 import {
+  LOGIN_FULFILLED,
+} from '../actions/login';
+
+import {
+  LOGOUT_FULFILLED,
+} from '../actions/logout';
+
+import {
   ADD_FIELD_INSTANCE,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
@@ -472,6 +480,8 @@ const handleTransitionFulfilled = (state, action) => {
 const detachSubrecord = (state, action) =>
   createNewSubrecord(state, action);
 
+const clearAll = state => state.clear();
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case VALIDATION_FAILED:
@@ -537,6 +547,10 @@ export default (state = Immutable.Map(), action) => {
       return handleCreateIDFulfilled(state, action);
     case DETACH_SUBRECORD:
       return detachSubrecord(state, action);
+    case LOGIN_FULFILLED:
+      return clearAll(state);
+    case LOGOUT_FULFILLED:
+      return clearAll(state);
     default:
       return state;
   }

@@ -6,6 +6,20 @@ import {
 } from '../helpers/recordDataHelpers';
 
 import {
+  LOGIN_FULFILLED,
+} from '../actions/login';
+
+import {
+  LOGOUT_FULFILLED,
+} from '../actions/logout';
+
+import {
+  RECORD_CREATED,
+  RECORD_TRANSITION_FULFILLED,
+  SUBRECORD_CREATED,
+} from '../actions/record';
+
+import {
   CLEAR_SELECTED,
   CLEAR_SEARCH_RESULTS,
   SET_MOST_RECENT_SEARCH,
@@ -17,12 +31,6 @@ import {
   SET_RESULT_ITEM_SELECTED,
   DESELECT_RESULT_ITEM,
 } from '../actions/search';
-
-import {
-  RECORD_CREATED,
-  RECORD_TRANSITION_FULFILLED,
-  SUBRECORD_CREATED,
-} from '../actions/record';
 
 /**
  * Generates a search key for a given search descriptor. All search descriptors that represent the
@@ -406,6 +414,10 @@ export default (state = Immutable.Map(), action) => {
       return clearAllResults(state);
     case RECORD_TRANSITION_FULFILLED:
       return handleRecordTransitionFulfilled(state, action);
+    case LOGIN_FULFILLED:
+      return clearAllResults(state);
+    case LOGOUT_FULFILLED:
+      return clearAllResults(state);
     default:
       return state;
   }

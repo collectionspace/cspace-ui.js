@@ -1,4 +1,12 @@
 import {
+  LOGIN_FULFILLED,
+} from '../../../src/actions/login';
+
+import {
+  LOGOUT_FULFILLED,
+} from '../../../src/actions/logout';
+
+import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
@@ -94,5 +102,27 @@ describe('vocabulary reducer', function suite() {
     get(state, vocabulary).should.deep.equal({
       error,
     });
+  });
+
+  it('should handle LOGIN_FULFILLED', function test() {
+    const state = reducer({
+      vocab1: {},
+      vocab2: {},
+    }, {
+      type: LOGIN_FULFILLED,
+    });
+
+    state.should.deep.equal({});
+  });
+
+  it('should handle LOGOUT_FULFILLED', function test() {
+    const state = reducer({
+      vocab1: {},
+      vocab2: {},
+    }, {
+      type: LOGOUT_FULFILLED,
+    });
+
+    state.should.deep.equal({});
   });
 });
