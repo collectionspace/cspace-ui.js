@@ -334,7 +334,7 @@ describe('RecordBrowser', function suite() {
     replacedLocation.should.equal('/');
   });
 
-  it('should call clearSearchResults and replace the history location with a search result page location when a record is soft-deleted and there is a search state', function test() {
+  it('should replace the history location with a search result page location when a record is soft-deleted and there is a search state', function test() {
     let replacedLocation = null;
 
     const history = mockHistory({
@@ -342,12 +342,6 @@ describe('RecordBrowser', function suite() {
         replacedLocation = location;
       },
     });
-
-    let clearedSearchName = null;
-
-    const clearSearchResults = (searchNameArg) => {
-      clearedSearchName = searchNameArg;
-    };
 
     const csid = '4f516e24-6dfc-47c0-b368';
     const searchName = 'searchName';
@@ -375,15 +369,12 @@ describe('RecordBrowser', function suite() {
         recordType="collectionobject"
         history={history}
         location={location}
-        clearSearchResults={clearSearchResults}
       />);
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
 
     recordEditorContainer.props.onRecordTransitioned('delete');
-
-    clearedSearchName.should.equal(searchName);
 
     replacedLocation.should.deep.equal({
       pathname: '/list/collectionobject',

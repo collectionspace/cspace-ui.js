@@ -17,6 +17,7 @@ import {
 import {
   SUBRECORD_CREATED,
   RECORD_CREATED,
+  RECORD_TRANSITION_FULFILLED,
 } from '../../../src/actions/record';
 
 import reducer, {
@@ -1107,5 +1108,37 @@ describe('search reducer', function suite() {
     });
 
     state.should.equal(Immutable.Map());
+  });
+
+  it('should handle RECORD_TRANSITION_FULFILLED', function test() {
+    const initialState = Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    });
+
+    let state;
+
+    // Delete transition
+
+    state = reducer(initialState, {
+      type: RECORD_TRANSITION_FULFILLED,
+      meta: {
+        transitionName: 'delete',
+      },
+    });
+
+    state.should.equal(Immutable.Map());
+
+    // Other transition
+
+    state = reducer(initialState, {
+      type: RECORD_TRANSITION_FULFILLED,
+      meta: {
+        transitionName: 'foo',
+      },
+    });
+
+    state.should.equal(initialState);
   });
 });

@@ -22,7 +22,6 @@ const propTypes = {
   vocabulary: PropTypes.string,
   workflowState: PropTypes.string,
   clearPreferredRelatedCsid: PropTypes.func,
-  clearSearchResults: PropTypes.func,
   onShowRelated: PropTypes.func,
 };
 
@@ -109,7 +108,6 @@ export default class RecordBrowser extends Component {
     const {
       history,
       location,
-      clearSearchResults,
     } = this.props;
 
     if (transitionName === 'delete') {
@@ -120,12 +118,7 @@ export default class RecordBrowser extends Component {
       let newLocation;
 
       if (searchDescriptor) {
-        // We came from a search. Clear the results (since we know they'll be different now), and
-        // return to the search result page.
-
-        if (clearSearchResults) {
-          clearSearchResults(location.state.searchName);
-        }
+        // We came from a search. Return to the search result page.
 
         newLocation = searchDescriptorToLocation(Immutable.fromJS(searchDescriptor));
       } else {

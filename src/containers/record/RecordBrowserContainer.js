@@ -5,12 +5,7 @@ import {
   clearRelatedRecordBrowserRelatedCsid,
 } from '../../actions/recordBrowser';
 
-import {
-  clearSearchResults,
-} from '../../actions/search';
-
 const mapDispatchToProps = {
-  clearSearchResults,
   clearPreferredRelatedCsid: clearRelatedRecordBrowserRelatedCsid,
 };
 

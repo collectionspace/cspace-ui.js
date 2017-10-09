@@ -20,6 +20,7 @@ import {
 
 import {
   RECORD_CREATED,
+  RECORD_TRANSITION_FULFILLED,
   SUBRECORD_CREATED,
 } from '../actions/record';
 
@@ -365,6 +366,18 @@ const clearNamedResults = (state, action) =>
 
 const clearAllResults = state => state.clear();
 
+const handleRecordTransitionFulfilled = (state, action) => {
+  const {
+    transitionName,
+  } = action.meta;
+
+  if (transitionName === 'delete') {
+    return clearAllResults(state);
+  }
+
+  return state;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case CLEAR_SELECTED:
@@ -391,6 +404,8 @@ export default (state = Immutable.Map(), action) => {
       return clearNamedResults(state, action);
     case RECORD_CREATED:
       return clearAllResults(state);
+    case RECORD_TRANSITION_FULFILLED:
+      return handleRecordTransitionFulfilled(state, action);
     default:
       return state;
   }
