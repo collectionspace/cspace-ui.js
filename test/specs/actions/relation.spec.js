@@ -1125,7 +1125,7 @@ describe('relation action creator', function suite() {
     it('should dispatch RELATION_DELETE_FULFILLED once for each object', function test() {
       const relationState = objects.reduce((map, obj, index) =>
         map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
-          'ns2:relations-common-list': {
+          'ns3:relations-common-list': {
             'relation-list-item': {
               csid: relationCsids[index],
             },
@@ -1244,14 +1244,14 @@ describe('relation action creator', function suite() {
       const relationState = objects.reduce((map, obj, index) =>
         map
           .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
-            'ns2:relations-common-list': {
+            'ns3:relations-common-list': {
               'relation-list-item': {
                 csid: forwardRelationCsids[index],
               },
             },
           }))
           .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
-            'ns2:relations-common-list': {
+            'ns3:relations-common-list': {
               'relation-list-item': {
                 csid: backwardRelationCsids[index],
               },
