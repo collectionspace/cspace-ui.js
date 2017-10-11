@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import ImageGallery from 'react-image-gallery';
 import { baseComponents as inputComponents } from 'cspace-input';
+import ImageContainer from '../../containers/media/ImageContainer';
 
 import {
+  VIEWER_WINDOW_NAME,
   DERIVATIVE_MEDIUM,
   DERIVATIVE_ORIGINAL,
   DERIVATIVE_THUMBNAIL,
-  getDerivativeUrl,
+  getDerivativePath,
+  getImageViewerPath,
 } from '../../helpers/blobHelpers';
 
 import styles from '../../../styles/cspace-ui/MediaViewer.css';
@@ -20,6 +23,32 @@ import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery-no
 /* eslint-enable import/imports-first, import/no-unresolved */
 
 const { MiniButton } = inputComponents;
+
+const renderItem = item => (
+  <div className="image-gallery-image">
+    <ImageContainer
+      src={item.original}
+      alt={item.originalAlt}
+      srcSet={item.srcSet}
+      sizes={item.sizes}
+      title={item.originalTitle}
+      data-csid={item.blobCsid}
+    />
+  </div>
+);
+
+const renderThumbInner = item => (
+  <div>
+    <ImageContainer
+      src={item.thumbnail}
+      alt={item.thumbnailAlt}
+      title={item.thumbnailTitle}
+    />
+    <div className="image-gallery-thumbnail-label">
+      {item.thumbnailLabel}
+    </div>
+  </div>
+);
 
 const renderLeftNav = (onClick, disabled) => (
   <MiniButton name="mediaViewerPrev" disabled={disabled} onClick={onClick}>&lt;</MiniButton>
@@ -61,30 +90,25 @@ export default class MediaViewer extends Component {
 
     if (target.nodeName === 'IMG') {
       const {
-        carouselDerivative,
         popupDerivative,
       } = this.props;
 
-      const url = (target.src);
+      const popupImagePath = getDerivativePath(target.dataset.csid, popupDerivative);
 
-      const popupUrl = popupDerivative
-        ? url.replace(`/${carouselDerivative}/`, `/${popupDerivative}/`)
-        : url.replace(`/derivatives/${carouselDerivative}`, '');
-
-      window.open(popupUrl, 'viewer');
+      window.open(getImageViewerPath(popupImagePath), VIEWER_WINDOW_NAME);
     }
   }
 
   createGalleryImage(blobCsid) {
     const {
-      config,
       carouselDerivative,
       thumbnailDerivative,
     } = this.props;
 
     return {
-      original: getDerivativeUrl(config, blobCsid, carouselDerivative),
-      thumbnail: getDerivativeUrl(config, blobCsid, thumbnailDerivative),
+      blobCsid,
+      original: getDerivativePath(blobCsid, carouselDerivative),
+      thumbnail: getDerivativePath(blobCsid, thumbnailDerivative),
     };
   }
 
@@ -145,6 +169,8 @@ export default class MediaViewer extends Component {
             showFullscreenButton={false}
             showPlayButton={false}
             onClick={this.handleImageGalleryClick}
+            renderItem={renderItem}
+            renderThumbInner={renderThumbInner}
           />
         </div>
       );

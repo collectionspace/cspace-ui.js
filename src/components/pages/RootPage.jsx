@@ -8,6 +8,7 @@ import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteConta
 import PublicRoute from '../routes/PublicRoute';
 import AdminPage from './AdminPage';
 import ConfigPage from './ConfigPage';
+import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
 import CreatePage from './CreatePage';
 import DashboardPage from './DashboardPage';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
@@ -87,6 +88,12 @@ function RootPage(props) {
         <ProtectedRouteContainer
           path="/record/:recordType/:path1?/:path2?/:path3?"
           component={RecordPageContainer}
+        />
+
+        <ProtectedRouteContainer
+          path="/view/:contentPath+"
+          component={ContentViewerPageContainer}
+          decorated={false}
         />
       </Switch>
 

@@ -1,0 +1,19 @@
+.common {
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.normal {
+  composes: common;
+}
+
+.pending {
+  composes: common;
+  padding: 10px;
+}
+
+.error {
+  composes: common;
+  padding: 10px;
+}

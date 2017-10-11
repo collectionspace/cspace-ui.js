@@ -6,7 +6,8 @@ import {
   DERIVATIVE_MEDIUM,
   DERIVATIVE_ORIGINAL_JPEG,
   DERIVATIVE_ORIGINAL,
-  getDerivativeUrl,
+  getDerivativePath,
+  getImageViewerPath,
   derivativeImage,
   thumbnailImage,
   smallImage,
@@ -20,34 +21,36 @@ const expect = chai.expect;
 chai.should();
 
 describe('blobHelpers', function moduleSuite() {
-  describe('getDerivativeUrl', function suite() {
-    const serverUrl = 'http://cspace';
-
-    const config = {
-      serverUrl,
-    };
-
+  describe('getDerivativePath', function suite() {
     const csid = '1234';
 
     it('should return the url of a derivative', function test() {
       const derivative = 'SomeDerivativeName';
 
-      getDerivativeUrl(config, csid, derivative).should
-        .equal(`${serverUrl}/cspace-services/blobs/${csid}/derivatives/${derivative}/content`);
+      getDerivativePath(csid, derivative).should
+        .equal(`blobs/${csid}/derivatives/${derivative}/content`);
     });
 
     it('should return the url of the original image', function test() {
       const derivative = DERIVATIVE_ORIGINAL;
 
-      getDerivativeUrl(config, csid, derivative).should
-        .equal(`${serverUrl}/cspace-services/blobs/${csid}/content`);
+      getDerivativePath(csid, derivative).should
+        .equal(`blobs/${csid}/content`);
     });
 
     it('should return a relative url if there is no services url', function test() {
       const derivative = 'SomeDerivativeName';
 
-      getDerivativeUrl({}, csid, derivative).should
-        .equal(`/cspace-services/blobs/${csid}/derivatives/${derivative}/content`);
+      getDerivativePath(csid, derivative).should
+        .equal(`blobs/${csid}/derivatives/${derivative}/content`);
+    });
+  });
+
+  describe('getImageViewerPath', function suite() {
+    const imagePath = 'foo/bar';
+
+    it('should prepend \'/view\' to the image path', function test() {
+      getImageViewerPath(imagePath).should.equal(`/view/${imagePath}`);
     });
   });
 
