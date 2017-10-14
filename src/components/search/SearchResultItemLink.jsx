@@ -35,7 +35,7 @@ export default function SearchResultItemLink(props) {
   // searches for multiple record types.
 
   const recordNumber = item.get('docNumber');
-  const csid = item.get('csid');
+  const csid = item.get('csid') || item.get('docId');
   const refName = item.get('refName');
   const servicePath = getServicePath(refName);
 
