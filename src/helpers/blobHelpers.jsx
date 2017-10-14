@@ -14,7 +14,7 @@ export const getImageViewerPath = (config, imagePath) => {
     basename,
   } = config;
 
-  return `${basename ? basename : ''}/view/${imagePath}`;
+  return `${basename || ''}/view/${imagePath}`;
 };
 
 export const getDerivativePath = (csid, derivative) => {

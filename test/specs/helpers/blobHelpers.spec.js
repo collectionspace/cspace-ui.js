@@ -47,13 +47,13 @@ describe('blobHelpers', function moduleSuite() {
   });
 
   describe('getImageViewerPath', function suite() {
-    const config = {
-      basename: 'base',
-    };
-
     const imagePath = 'foo/bar';
 
     it('should prepend the basename and \'/view\' to the image path', function test() {
+      const config = {
+        basename: 'base',
+      };
+
       getImageViewerPath(config, imagePath).should.equal(`${config.basename}/view/${imagePath}`);
     });
 
