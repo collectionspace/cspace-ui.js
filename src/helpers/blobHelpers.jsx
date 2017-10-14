@@ -9,7 +9,13 @@ export const DERIVATIVE_MEDIUM = 'Medium';
 export const DERIVATIVE_ORIGINAL_JPEG = 'OriginalJpeg';
 export const DERIVATIVE_ORIGINAL = '';
 
-export const getImageViewerPath = imagePath => `/view/${imagePath}`;
+export const getImageViewerPath = (config, imagePath) => {
+  const {
+    basename,
+  } = config;
+
+  return `${basename ? basename : ''}/view/${imagePath}`;
+};
 
 export const getDerivativePath = (csid, derivative) => {
   const derivativePath = derivative ? `/derivatives/${derivative}` : '';

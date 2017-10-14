@@ -87,6 +87,7 @@ export default function ContentViewer(props, context) {
   const previewSubresource = get(content, ['preview', 'subresource']);
 
   const fullUrl = getImageViewerPath(
+    config,
     getContentPath(config, recordType, vocabulary, csid, fullSubresource)
   );
 

@@ -90,12 +90,13 @@ export default class MediaViewer extends Component {
 
     if (target.nodeName === 'IMG') {
       const {
+        config,
         popupDerivative,
       } = this.props;
 
       const popupImagePath = getDerivativePath(target.dataset.csid, popupDerivative);
 
-      window.open(getImageViewerPath(popupImagePath), VIEWER_WINDOW_NAME);
+      window.open(getImageViewerPath(config, popupImagePath), VIEWER_WINDOW_NAME);
     }
   }
 
