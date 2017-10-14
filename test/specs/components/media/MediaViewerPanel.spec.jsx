@@ -1,16 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
+import thunk from 'redux-thunk';
+import { FormattedMessage } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { ConnectedPanel as Panel } from '../../../../src/containers/layout/PanelContainer';
 import { searchKey } from '../../../../src/reducers/search';
 import MediaViewerPanel from '../../../../src/components/media/MediaViewerPanel';
 
+import {
+  configureCSpace,
+} from '../../../../src/actions/cspace';
+
 chai.should();
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const config = {
   listTypes: {
@@ -66,57 +74,68 @@ const store = mockStore({
       },
     },
   }),
+  user: Immutable.Map(),
 });
 
 describe('MediaViewerPanel', function suite() {
+  before(() =>
+    store.dispatch(configureCSpace())
+      .then(() => store.clearActions())
+  );
+
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a section', function test() {
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <MediaViewerPanel
-            config={config}
-            searchDescriptor={searchDescriptor}
-            searchResult={searchResult}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container);
+  it('should render as a Panel', function test() {
+    const shallowRenderer = createRenderer();
 
-    this.container.firstElementChild.nodeName.should.equal('SECTION');
+    shallowRenderer.render(
+      <MediaViewerPanel
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(Panel);
   });
 
   it('should include the number of related media records in the header', function test() {
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <MediaViewerPanel
-            config={config}
-            searchDescriptor={searchDescriptor}
-            searchResult={searchResult}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container);
+    const shallowRenderer = createRenderer();
 
-    this.container.querySelector('header').textContent.should.match(/: 3/);
+    shallowRenderer.render(
+      <MediaViewerPanel
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const headerMessage = findWithType(result.props.header, FormattedMessage);
+
+    headerMessage.props.values.totalItems.should.equal(3);
   });
 
   it('should add one to the count if ownBlobCsid is provided', function test() {
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <MediaViewerPanel
-            config={config}
-            ownBlobCsid="1234"
-            searchDescriptor={searchDescriptor}
-            searchResult={searchResult}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container);
+    const shallowRenderer = createRenderer();
 
-    this.container.querySelector('header').textContent.should.match(/: 4/);
+    shallowRenderer.render(
+      <MediaViewerPanel
+        config={config}
+        ownBlobCsid="1234"
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const headerMessage = findWithType(result.props.header, FormattedMessage);
+
+    headerMessage.props.values.totalItems.should.equal(4);
   });
 
   it('should call search when mounted', function test() {

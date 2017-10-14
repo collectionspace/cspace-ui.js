@@ -1,15 +1,19 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
-import { Simulate } from 'react-dom/test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
-import createTestContainer from '../../../helpers/createTestContainer';
+import ImageGallery from 'react-image-gallery';
+import { baseComponents as inputComponents } from 'cspace-input';
+import ImageContainer from '../../../../src/containers/media/ImageContainer';
 import MediaViewer from '../../../../src/components/media/MediaViewer';
 
 const expect = chai.expect;
 
 chai.should();
+
+const { MiniButton } = inputComponents;
 
 const searchDescriptor = Immutable.fromJS({
   recordType: 'media',
@@ -60,26 +64,32 @@ const searchResult = Immutable.fromJS({
 });
 
 describe('MediaViewer', function suite() {
-  beforeEach(function before() {
-    this.container = createTestContainer(this);
+  it('should render a div', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<MediaViewer config={config} />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal('div');
   });
 
-  it('should render as a div', function test() {
-    render(<MediaViewer config={config} />, this.container);
+  it('should render an ImageGallery when there is a search result', function test() {
+    const shallowRenderer = createRenderer();
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
-  });
-
-  it('should render the search result', function test() {
-    render(
+    shallowRenderer.render(
       <MediaViewer
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />, this.container);
+      />
+    );
 
-    this.container.querySelector('.image-gallery').should.not.equal(null);
-    this.container.querySelectorAll('.image-gallery-thumbnail').length.should.equal(3);
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
+
+    gallery.should.not.equal(null);
+    gallery.props.items.should.have.lengthOf(3);
   });
 
   it('should render with empty class when the search result contains no items', function test() {
@@ -92,14 +102,86 @@ describe('MediaViewer', function suite() {
       },
     });
 
-    render(
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
       <MediaViewer
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={emptySearchResult}
-      />, this.container);
+      />
+    );
 
-    this.container.firstElementChild.className.should.equal('cspace-ui-MediaViewer--empty');
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.className.should.equal('cspace-ui-MediaViewer--empty');
+  });
+
+  it('should render an ImageContainer for each carousel image', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <MediaViewer
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
+
+    gallery.should.not.equal(null);
+
+    const carouselImage = gallery.props.renderItem({});
+
+    findWithType(carouselImage, ImageContainer).should.not.equal(null);
+  });
+
+  it('should render an ImageContainer for each thumbnail image', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <MediaViewer
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
+
+    gallery.should.not.equal(null);
+
+    const thumbImage = gallery.props.renderThumbInner({});
+
+    findWithType(thumbImage, ImageContainer).should.not.equal(null);
+  });
+
+  it('should render a MiniButton for each nav button', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <MediaViewer
+        config={config}
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
+
+    gallery.should.not.equal(null);
+
+    const leftNavButton = gallery.props.renderLeftNav();
+
+    findWithType(leftNavButton, MiniButton).should.not.equal(null);
+
+    const rightNavButton = gallery.props.renderRightNav();
+
+    findWithType(rightNavButton, MiniButton).should.not.equal(null);
   });
 
   it('should render nothing when the search is pending', function test() {
@@ -112,18 +194,23 @@ describe('MediaViewer', function suite() {
       },
     });
 
-    render(
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
       <MediaViewer
         config={config}
         isSearchPending
         searchDescriptor={searchDescriptor}
         searchResult={emptySearchResult}
-      />, this.container);
+      />
+    );
 
-    expect(this.container.firstElementChild).to.equal(null);
+    const result = shallowRenderer.getRenderOutput();
+
+    expect(result).to.equal(null);
   });
 
-  it('should render a single search result', function test() {
+  it('should not render thumbnails for a single search result', function test() {
     const singleSearchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',
@@ -137,21 +224,30 @@ describe('MediaViewer', function suite() {
       },
     });
 
-    render(
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
       <MediaViewer
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={singleSearchResult}
-      />, this.container);
+      />
+    );
 
-    expect(this.container.querySelector('.image-gallery-thumbnail')).to.equal(null);
-    this.container.querySelector('.image-gallery-image > img').src.should.match(/03794600-d98f-44a6-8985/);
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
+
+    gallery.should.not.equal(null);
+    gallery.props.items.should.have.lengthOf(1);
+    gallery.props.showThumbnails.should.equal(false);
   });
 
   // This test works on a local Chrome, but it's flaky on Sauce Labs because of opening and closing
   // the popup window. Skip it for now.
 
-  it.skip('should open a window when the carousel image is clicked', function test() {
+  it('should open a window when the carousel image is clicked', function test() {
+    const blobCsid = '03794600-d98f-44a6-8985';
+
     const singleSearchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',
@@ -159,48 +255,64 @@ describe('MediaViewer', function suite() {
         itemsInPage: '1',
         totalItems: '1',
         'list-item': {
-          blobCsid: '03794600-d98f-44a6-8985',
+          blobCsid,
           csid: 'b0945c52-36f7-4c51-a72a',
         },
       },
     });
 
-    render(
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
       <MediaViewer
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={singleSearchResult}
-      />, this.container);
+      />
+    );
 
-    const image = this.container.querySelector('.image-gallery-image > img');
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
 
-    Simulate.click(image);
+    const savedOpenFunc = window.open;
 
-    const mediaViewerWindow = window.open('', 'viewer');
+    let openedUrl = null;
 
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        mediaViewerWindow.location.href.should.match(/\/03794600-d98f-44a6-8985\/content/);
-        mediaViewerWindow.close();
+    window.open = (urlParam) => {
+      openedUrl = urlParam;
+    };
 
-        resolve();
-      }, 200);
+    gallery.props.onClick({
+      target: {
+        nodeName: 'IMG',
+        dataset: {
+          csid: blobCsid,
+        },
+      },
     });
+
+    openedUrl.should.equal(`/view/blobs/${blobCsid}/content`);
+
+    window.open = savedOpenFunc;
   });
 
   it('should render the own blobCsid image first', function test() {
-    render(
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
       <MediaViewer
         ownBlobCsid="1234"
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />, this.container);
+      />
+    );
 
-    const thumbnails = this.container.querySelectorAll('.image-gallery-thumbnail');
+    const result = shallowRenderer.getRenderOutput();
+    const gallery = findWithType(result, ImageGallery);
 
-    thumbnails.length.should.equal(4);
-
-    thumbnails[0].querySelector('img').src.should.match(/blobs\/1234\/derivatives\/Thumbnail/);
+    gallery.should.not.equal(null);
+    gallery.props.items.should.have.lengthOf(4);
+    gallery.props.items[0].blobCsid.should.equal('1234');
   });
 });

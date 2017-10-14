@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
+import ImageContainer from '../../../../src/containers/media/ImageContainer';
 import ContentViewer from '../../../../src/components/record/ContentViewer';
 
 const expect = chai.expect;
@@ -109,12 +110,12 @@ describe('ContentViewer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal('a');
-    result.props.href.should.equal(`/cspace-services/media/${csid}/content`);
+    result.props.href.should.equal(`/view/media/${csid}/content`);
 
-    const img = findWithType(result, 'img');
+    const img = findWithType(result, ImageContainer);
 
     img.should.not.equal(null);
-    img.props.src.should.equal(`/cspace-services/media/${csid}/derivatives/Thumbnail/content`);
+    img.props.src.should.equal(`media/${csid}/derivatives/Thumbnail/content`);
   });
 
   it('should render a link containing an img for an authority record type', function test() {
@@ -133,12 +134,12 @@ describe('ContentViewer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal('a');
-    result.props.href.should.equal(`/cspace-services/someAuthority/local/items/${csid}/content`);
+    result.props.href.should.equal(`/view/someAuthority/local/items/${csid}/content`);
 
-    const img = findWithType(result, 'img');
+    const img = findWithType(result, ImageContainer);
 
     img.should.not.equal(null);
-    img.props.src.should.equal(`/cspace-services/someAuthority/local/items/${csid}/derivatives/Thumbnail/content`);
+    img.props.src.should.equal(`someAuthority/local/items/${csid}/derivatives/Thumbnail/content`);
   });
 
   it('should render nothing if content is not configured for the record type', function test() {
