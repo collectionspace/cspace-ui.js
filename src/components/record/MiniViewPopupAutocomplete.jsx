@@ -11,8 +11,8 @@ const propTypes = {
 };
 
 export default class MiniViewPopupAutocomplete extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.setDomNode = this.setDomNode.bind(this);
     this.handleOnMouseEnter = this.handleOnMouseEnter.bind(this);

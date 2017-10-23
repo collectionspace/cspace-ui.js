@@ -5,6 +5,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
+import { Row } from 'cspace-layout';
 
 import createTestContainer from '../../../helpers/createTestContainer';
 
@@ -27,57 +28,93 @@ const store = mockStore({
 
 const config = {
   recordTypes: {
-    collectionobject: {
+    person: {
+      fields: {
+
+      },
       forms: {
         mini: {
           messages: {
             name: {
-              id: 'form.collectionobject.mini.name',
+              id: 'form.person.mini.name',
               defaultMessage: 'Mini Template',
             },
           },
           template: (
             <CompoundInput>
-              <Panel name="id">
-                <TextInput name="objectNumber" />
-                <TextInput name="desc" msgkey="foo" />
-                <TextInput name="color" label="Color" />
-                <TextInput name="bar" />
+              <Panel name="info">
+                <CompoundInput name="personTermGroupList">
+                  <CompoundInput name="personTermGroup">
+                    <Panel>
+                      <Row>
+                        <TextInput name="termDisplayName" label="Term display name" />
+                        <TextInput name="termType" label="Person term type" />
+                      </Row>
+                    </Panel>
+                  </CompoundInput>
+                </CompoundInput>
               </Panel>
             </CompoundInput>
           ),
         },
-        inventory: {
-          messages: {
-            name: {
-              id: 'form.collectionobject.inventory.name',
-              defaultMessage: 'Inventory Template',
-            },
-          },
-          template: <p>inventory template</p>,
-        },
       },
       messages: {
+        panel: {
+          info: {
+            id: 'panel.person.info',
+            defaultMessage: 'Person Information',
+          },
+        },
         record: {
           name: {
-            id: 'name',
-            defaultMessage: 'Object',
+            id: 'record.person.name',
+            description: 'The name of the record type.',
+            defaultMessage: 'Person',
+          },
+          collectionName: {
+            id: 'record.person.collectionName',
+            description: 'The name of a collection of records of the type.',
+            defaultMessage: 'Persons',
           },
         },
-        panel: {
-          id: {
-            id: 'panel.id.label',
-            defaultMessage: 'Object Identification Information',
+      },
+      name: 'person',
+      serviceConfig: {
+        documentName: 'persons',
+        objectName: 'Person',
+        serviceName: 'Persons',
+        servicePath: 'personauthorities',
+        serviceType: 'authority',
+      },
+      vocabularies: {
+        local: {
+          messages: {
+            name: {
+              id: 'vocab.person.local.name',
+              defaultMessage: 'Local',
+            },
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
+              defaultMessage: 'Local Persons',
+            },
+          },
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person)',
           },
         },
-        field: {
-          objectNumber: {
-            id: 'field.objectNumber.label',
-            defaultMessage: 'Identification number',
+        ulan: {
+          messages: {
+            name: {
+              id: 'vocab.person.ulan.name',
+              defaultMessage: 'ULAN',
+            },
+            collectionName: {
+              id: 'vocab.person.ulan.collectionName',
+              defaultMessage: 'ULAN Persons',
+            },
           },
-          foo: {
-            id: 'field.foo.label',
-            defaultMessage: 'Some label',
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person_ulan)',
           },
         },
       },
@@ -96,7 +133,7 @@ describe('MiniView', function suite() {
         <StoreProvider store={store}>
           <MiniView
             config={config}
-            recordType="collectionobject"
+            recordType="person"
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -111,7 +148,7 @@ describe('MiniView', function suite() {
         <StoreProvider store={store}>
           <MiniView
             config={config}
-            recordType="collectionobject"
+            recordType="person"
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -120,13 +157,13 @@ describe('MiniView', function suite() {
     recordForm.firstElementChild.className.should.equal('cspace-input-CompoundInput--common');
   });
 
-  it('should render a mini form template if conflicting form name is provided ', function test() {
+  it('should render a mini form template if conflicting form name is provided', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <MiniView
             config={config}
-            recordType="collectionobject"
+            recordType="person"
             formName="inventory"
           />
         </StoreProvider>
@@ -134,5 +171,52 @@ describe('MiniView', function suite() {
 
     const recordForm = this.container.querySelector('.cspace-ui-RecordForm--common');
     recordForm.firstElementChild.className.should.equal('cspace-input-CompoundInput--common');
+  });
+
+  it('should populate fields with data', function test() {
+    const data = Immutable.fromJS({
+      document: {
+        '@name': 'persons',
+        'ns2:collectionspace_core': {
+          tenantId: 1,
+          uri: '/personauthorities/763d495d-5d59-4aea-88ee/items/d3c29fb3-bffa-47fa-8db3',
+          updatedAt: '2017-10-03T07:52:46.311Z',
+          '@xmlns:ns2': 'http://collectionspace.org/collectionspace_core/',
+          '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+          workflowState: 'project',
+          updatedBy: 'admin@core.collectionspace.org',
+          createdAt: '2017-10-03T07:52:46.311Z',
+          refName:
+          'urn:cspace:core.collectionspace.org:personauthorities:name(person): item:name(bob1507017166311) \'bob\'',
+          createdBy: 'admin@core.collectionspace.org',
+          'ns2:persons_common': {
+            gender: 'female',
+            rev: 0,
+            schoolsOrStyles: null,
+            shortIdentifier: 'bob1507017166311',
+            csid: 'd3c29fb3-bffa-47fa-8db3',
+            '@xmlns:ns2': 'http://collectionspace.org/services/person',
+            personTermGroupList: {
+              personTermGroup: {
+                termDisplayName: 'bob',
+                termType: 'Artist',
+                termStatus: 'under review',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <MiniView
+            data={data}
+            config={config}
+            recordType="person"
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
   });
 });

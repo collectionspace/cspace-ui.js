@@ -1,5 +1,6 @@
 import React from 'react';
 import { Popup } from 'cspace-layout';
+import MiniViewContainer from '../../containers/record/MiniViewContainer';
 import MiniView from './MiniView';
 import styles from '../../../styles/cspace-ui/MiniViewPopup.css';
 
@@ -27,7 +28,7 @@ export default function MiniViewPopup(props) {
         onKeyDown={onKeyDown}
         onMouseLeave={onMouseLeave}
       >
-        <MiniView
+        <MiniViewContainer
           {...remainingProps}
         />
       </Popup>

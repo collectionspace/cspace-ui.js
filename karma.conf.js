@@ -203,6 +203,10 @@ module.exports = function karma(config) {
       },
     },
 
+    mochaReporter: {
+      showDiff: true,
+    },
+
     // Tolerate Sauce Labs slowness/flakiness.
 
     browserDisconnectTimeout: 10000,
