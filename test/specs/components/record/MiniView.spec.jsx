@@ -26,11 +26,82 @@ const store = mockStore({
   record: Immutable.Map(),
 });
 
+const fields = {
+  document: {
+    config: {
+      view: {
+        type: CompoundInput,
+        props: {
+          defaultChildSubpath: 'ns2:persons_common',
+        },
+      },
+    },
+    'ns2:persons_common': {
+      config: {
+        service: {
+          ns: 'http://collectionspace.org/services/person',
+        },
+      },
+      personTermGroupList: {
+        config: {
+          messages: {
+            name: {
+              id: 'field.persons_common.personTermGroupList.name',
+              defaultMessage: 'Term',
+            },
+          },
+          view: {
+            type: CompoundInput,
+          },
+        },
+        personTermGroup: {
+          config: {
+            repeating: true,
+            view: {
+              type: CompoundInput,
+            },
+          },
+          termDisplayName: {
+            config: {
+              messages: {
+                name: {
+                  id: 'field.persons_common.termDisplayName.name',
+                  defaultMessage: 'Display name',
+                },
+              },
+              required: true,
+              view: {
+                type: TextInput,
+              },
+            },
+          },
+          termType: {
+            config: {
+              messages: {
+                name: {
+                  id: 'field.persons_common.termType.name',
+                  defaultMessage: 'Type',
+                },
+              },
+              view: {
+                type: TextInput,
+                props: {
+                  source: 'persontermtype',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 const config = {
   recordTypes: {
     person: {
       fields: {
-
+        ...fields,
       },
       forms: {
         mini: {
@@ -174,6 +245,7 @@ describe('MiniView', function suite() {
   });
 
   it('should populate fields with data', function test() {
+    const csid = 'd3c29fb3-bffa-47fa-8db3';
     const data = Immutable.fromJS({
       document: {
         '@name': 'persons',
@@ -215,8 +287,15 @@ describe('MiniView', function suite() {
             data={data}
             config={config}
             recordType="person"
+            csid={csid}
+            vocabulary="local/ulan"
           />
         </StoreProvider>
       </IntlProvider>, this.container);
+
+    const textInputs = this.container.querySelectorAll('input');
+
+    textInputs[0].value.should.equal('bob');
+    textInputs[1].value.should.equal('Artist');
   });
 });
