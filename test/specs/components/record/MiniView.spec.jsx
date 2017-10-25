@@ -245,36 +245,13 @@ describe('MiniView', function suite() {
   });
 
   it('should populate fields with data', function test() {
-    const csid = 'd3c29fb3-bffa-47fa-8db3';
     const data = Immutable.fromJS({
       document: {
-        '@name': 'persons',
-        'ns2:collectionspace_core': {
-          tenantId: 1,
-          uri: '/personauthorities/763d495d-5d59-4aea-88ee/items/d3c29fb3-bffa-47fa-8db3',
-          updatedAt: '2017-10-03T07:52:46.311Z',
-          '@xmlns:ns2': 'http://collectionspace.org/collectionspace_core/',
-          '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-          workflowState: 'project',
-          updatedBy: 'admin@core.collectionspace.org',
-          createdAt: '2017-10-03T07:52:46.311Z',
-          refName:
-          'urn:cspace:core.collectionspace.org:personauthorities:name(person): item:name(bob1507017166311) \'bob\'',
-          createdBy: 'admin@core.collectionspace.org',
-          'ns2:persons_common': {
-            gender: 'female',
-            rev: 0,
-            schoolsOrStyles: null,
-            shortIdentifier: 'bob1507017166311',
-            csid: 'd3c29fb3-bffa-47fa-8db3',
-            '@xmlns:ns2': 'http://collectionspace.org/services/person',
-            personTermGroupList: {
-              personTermGroup: {
-                termDisplayName: 'bob',
-                termType: 'Artist',
-                termStatus: 'under review',
-              },
-            },
+        personTermGroupList: {
+          personTermGroup: {
+            termDisplayName: 'bob',
+            termType: 'Artist',
+            termStatus: 'under review',
           },
         },
       },
@@ -287,8 +264,6 @@ describe('MiniView', function suite() {
             data={data}
             config={config}
             recordType="person"
-            csid={csid}
-            vocabulary="local/ulan"
           />
         </StoreProvider>
       </IntlProvider>, this.container);

@@ -69,7 +69,7 @@ const config = {
   },
 };
 
-describe('MiniView', function suite() {
+describe('MiniViewPopup', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
