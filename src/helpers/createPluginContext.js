@@ -21,6 +21,7 @@ import InputTable from '../components/record/InputTable';
 import Subrecord from '../components/record/Subrecord';
 import ContentViewer from '../components/record/ContentViewer';
 import MiniViewPopupAutocomplete from '../components/record/MiniViewPopupAutocomplete';
+// import AutocompleteInputContainer from '../containers/input/AutocompleteInputContainer';
 
 
 import * as dataTypes from '../constants/dataTypes';
@@ -45,6 +46,7 @@ const {
 } = inputComponents;
 
 const AutocompleteInput = MiniViewPopupAutocomplete;
+// const AutocompleteInput = AutocompleteInputContainer;
 const CheckboxInput = withBooleanValue(BaseCheckboxInput);
 const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;

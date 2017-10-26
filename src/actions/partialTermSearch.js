@@ -63,7 +63,6 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch)
 export const findMatchingTerms = (recordTypeConfig, vocabulary, partialTerm) => (dispatch) => {
   const recordType = get(recordTypeConfig, 'name');
   const servicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
-
   const vocabularyServicePath = vocabulary
     ? get(recordTypeConfig, ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'])
     : undefined;

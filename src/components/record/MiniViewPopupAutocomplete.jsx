@@ -3,12 +3,14 @@ import { components as inputComponents } from 'cspace-input';
 import MiniViewPopup from './MiniViewPopup';
 import { refNameToCsid, refNameToRecordType, refNameToVocabType } from '../../../src/helpers/refNameHelpers';
 import styles from '../../../styles/cspace-ui/MiniViewPopupAutocomplete.css';
+import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
 
 const { AutocompleteInput } = inputComponents;
 
 const propTypes = {
   ...AutocompleteInput.propTypes,
 };
+
 
 export default class MiniViewPopupAutocomplete extends Component {
   constructor(props) {
@@ -90,7 +92,7 @@ export default class MiniViewPopupAutocomplete extends Component {
         ref={this.setDomNode}
         onMouseEnter={this.handleOnMouseEnter}
       >
-        <AutocompleteInput
+        <AutocompleteInputContainer
           {...autocompleteProps}
         />
         {miniViewPopup}
