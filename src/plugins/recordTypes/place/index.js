@@ -21,7 +21,6 @@ export default () => pluginContext => ({
       title: title(pluginContext),
       vocabularies: {
         all: {
-          isCreatable: false,
           messages: defineMessages({
             name: {
               id: 'vocab.place.all.name',

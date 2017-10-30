@@ -28,7 +28,6 @@ export default () => pluginContext => ({
       },
       vocabularies: {
         all: {
-          isCreatable: false,
           messages: defineMessages({
             name: {
               id: 'vocab.organization.all.name',
