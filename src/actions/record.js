@@ -32,6 +32,7 @@ import {
 
 import {
   deepGet,
+  computeField,
   getDocument,
   isExistingRecord,
   prepareForSending,
@@ -45,6 +46,7 @@ import {
 
 import {
   ERR_API,
+  ERR_COMPUTE,
 } from '../constants/errorCodes';
 
 import {
@@ -137,6 +139,8 @@ const transitionMessages = {
 
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
 export const CREATE_NEW_SUBRECORD = 'CREATE_NEW_SUBRECORD';
+export const FIELD_COMPUTE_FULFILLED = 'FIELD_COMPUTE_FULFILLED';
+export const FIELD_COMPUTE_REJECTED = 'FIELD_COMPUTE_REJECTED';
 export const RECORD_CREATED = 'RECORD_CREATED';
 export const SUBRECORD_CREATED = 'SUBRECORD_CREATED';
 export const RECORD_READ_STARTED = 'RECORD_READ_STARTED';
@@ -157,6 +161,46 @@ export const REVERT_RECORD = 'REVERT_RECORD';
 export const VALIDATION_FAILED = 'VALIDATION_FAILED';
 export const VALIDATION_PASSED = 'VALIDATION_PASSED';
 export const DETACH_SUBRECORD = 'DETACH_SUBRECORD';
+
+export const computeFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
+  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
+  const recordData = getRecordData(getState(), csid);
+
+  return computeField(value, [], recordData, fieldDescriptor, true)
+    .then((computedValue) => {
+      if (typeof computedValue !== 'undefined') {
+        dispatch({
+          type: FIELD_COMPUTE_FULFILLED,
+          payload: computedValue,
+          meta: {
+            csid,
+            path,
+          },
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: FIELD_COMPUTE_REJECTED,
+        payload: {
+          code: ERR_COMPUTE,
+          error,
+        },
+        meta: {
+          csid,
+          path,
+        },
+      });
+
+      // TODO: Show an error notification?
+    });
+};
+
+export const computeRecordData = (recordTypeConfig, csid) => (dispatch, getState) => {
+  const recordData = getRecordData(getState(), csid);
+
+  return dispatch(computeFieldValue(recordTypeConfig, csid, [], recordData));
+};
 
 export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
@@ -572,9 +616,8 @@ export const saveRecord =
         currentCsid = csid;
       }
 
-      // TODO: Compute
-
-      return dispatch(validateRecordData(currentRecordTypeConfig, currentCsid))
+      return dispatch(computeRecordData(currentRecordTypeConfig, currentCsid))
+        .then(() => dispatch(validateRecordData(currentRecordTypeConfig, currentCsid)))
         .then(() => {
           if (getRecordValidationErrors(getState(), currentCsid)) {
             return null;
@@ -672,6 +715,7 @@ export const saveRecord =
                       type: RECORD_SAVE_FULFILLED,
                       payload: response,
                       meta: {
+                        recordTypeConfig: currentRecordTypeConfig,
                         csid: currentCsid,
                         relatedSubjectCsid,
                       },
@@ -730,6 +774,7 @@ export const saveRecord =
                         payload: readResponse,
                         meta: {
                           relatedSubjectCsid,
+                          recordTypeConfig: currentRecordTypeConfig,
                           csid: newRecordCsid,
                         },
                       });
@@ -790,7 +835,8 @@ export const addFieldInstance = (recordTypeConfig, csid, path) => (dispatch) => 
     },
   });
 
-  dispatch(validateRecordData(recordTypeConfig, csid));
+  return dispatch(computeRecordData(recordTypeConfig, csid))
+    .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
 };
 
 export const deleteFieldValue = (recordTypeConfig, csid, path) => (dispatch) => {
@@ -802,7 +848,8 @@ export const deleteFieldValue = (recordTypeConfig, csid, path) => (dispatch) => 
     },
   });
 
-  dispatch(validateRecordData(recordTypeConfig, csid));
+  return dispatch(computeRecordData(recordTypeConfig, csid))
+    .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
 };
 
 export const moveFieldValue = (recordTypeConfig, csid, path, newPosition) => (dispatch) => {
@@ -815,7 +862,8 @@ export const moveFieldValue = (recordTypeConfig, csid, path, newPosition) => (di
     },
   });
 
-  dispatch(validateRecordData(recordTypeConfig, csid));
+  return dispatch(computeRecordData(recordTypeConfig, csid))
+    .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
 };
 
 export const setFieldValue = (recordTypeConfig, csid, path, value) => (dispatch) => {
@@ -828,7 +876,8 @@ export const setFieldValue = (recordTypeConfig, csid, path, value) => (dispatch)
     },
   });
 
-  dispatch(validateRecordData(recordTypeConfig, csid));
+  return dispatch(computeRecordData(recordTypeConfig, csid))
+    .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
 };
 
 export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {

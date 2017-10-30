@@ -17,10 +17,10 @@ const messages = defineMessages({
     id: 'validationErrorMessage.ERR_DATA_TYPE',
     description: 'The error message for a data type validation error.',
     defaultMessage: `{dataType, select,
-      DATA_TYPE_INT {{fieldName} must be an integer. Please change the value {value}.}
-      DATA_TYPE_FLOAT {{fieldName} must be a number. Please change the value {value}.}
-      DATA_TYPE_DATE {{fieldName} must be a date in the format YYYY-MM-DD. Please change the value {value}.}
-      other {{fieldName} has an invalid value for the data type {dataType}. Please change the value {value}.}
+      DATA_TYPE_INT {{fieldName} must be an integer. Correct the value {value}.}
+      DATA_TYPE_FLOAT {{fieldName} must be a number. Correct the value {value}.}
+      DATA_TYPE_DATE {{fieldName} must be a date in the format YYYY-MM-DD. Correct the value {value}.}
+      other {{fieldName} has an invalid value for the data type {dataType}. Correct the value {value}.}
     }`,
   },
   [ERR_MISSING_REQ_FIELD]: {

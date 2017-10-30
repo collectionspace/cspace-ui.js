@@ -27,6 +27,8 @@ import {
   attributePropertiesToTop,
   clearUncloneable,
   cloneRecordData,
+  computeField,
+  computeRecordData,
   createBlankRecord,
   createRecordData,
   deepGet,
@@ -41,8 +43,11 @@ import {
   getCreatedUser,
   getUpdatedTimestamp,
   getUpdatedUser,
+  getWorkflowState,
   isNewRecord,
   isExistingRecord,
+  normalizeFieldValue,
+  normalizeRecordData,
   prepareForSending,
   spreadDefaultValue,
   validateField,
@@ -2011,6 +2016,304 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
+  describe('computeField', function suite() {
+    const fieldDescriptor = {
+      sayHello: {
+        [configKey]: {
+          compute: data => `hello ${data}`,
+        },
+      },
+      names: {
+        name: {
+          [configKey]: {
+            compute: (data, path) => {
+              const index = path[path.length - 1];
+
+              return `${index}. ${data}`;
+            },
+            repeating: true,
+          },
+        },
+      },
+      colors: {
+        [configKey]: {
+          compute: data => data.set(
+            'color', data.get('color').map((color, index) => `${index}. ${color}`)
+          ),
+        },
+        color: {
+          [configKey]: {
+            repeating: true,
+          },
+        },
+      },
+      measuredPartGroupList: {
+        measuredPartGroup: {
+          [configKey]: {
+            compute: (data) => {
+              const part = data.get('measuredPart');
+              const dim1 = data.getIn(['dimensionSubGroupList', 'dimensionSubGroup', 0, 'value']);
+              const dim2 = data.getIn(['dimensionSubGroupList', 'dimensionSubGroup', 1, 'value']);
+              const summary = `${part}: ${dim1} x ${dim2}`;
+
+              return data.set('dimensionSummary', summary);
+            },
+            repeating: true,
+          },
+          measuredPart: {},
+          dimensionSummary: {},
+          dimensionSubGroupList: {
+            dimensionSubGroup: {
+              [configKey]: {
+                repeating: true,
+              },
+              dimension: {},
+              value: {},
+              measurementUnit: {},
+            },
+          },
+        },
+      },
+    };
+
+    it('should resolve to undefined if no field descriptor is supplied', function test() {
+      return computeField('world', [], Immutable.Map(), undefined)
+        .then((computedValue) => {
+          expect(computedValue).to.equal(undefined);
+        });
+    });
+
+    it('should resolve a computed value for scalar fields', function test() {
+      return computeField('world', [], Immutable.Map(), fieldDescriptor.sayHello).should
+        .eventually.equal('hello world');
+    });
+
+    it('should resolve a computed value for repeating field instances', function test() {
+      return Promise.all([
+        computeField('Alvar Aalto', [0], Immutable.Map(), fieldDescriptor.names.name, false).should
+          .eventually.equal('0. Alvar Aalto'),
+        computeField('Ray Eames', [1], Immutable.Map(), fieldDescriptor.names.name, false).should
+          .eventually.equal('1. Ray Eames'),
+      ]);
+    });
+
+    it('should resolve a computed value for repeating fields', function test() {
+      const value = Immutable.List([
+        'Lois Lane',
+        'Clark Kent',
+        'Bruce Wayne',
+      ]);
+
+      return computeField(value, [], Immutable.Map(), fieldDescriptor.names.name).should
+        .eventually.equal(Immutable.List([
+          '0. Lois Lane',
+          '1. Clark Kent',
+          '2. Bruce Wayne',
+        ]));
+    });
+
+    it('should resolve a computed value for repeating field containers', function test() {
+      // Really this is just a type of complex field, with one child that is repeating.
+
+      const value = Immutable.fromJS({
+        color: [
+          'blue',
+          'green',
+          'red',
+        ],
+      });
+
+      return computeField(value, [], Immutable.Map(), fieldDescriptor.colors).should
+        .eventually.equal(Immutable.fromJS({
+          color: [
+            '0. blue',
+            '1. green',
+            '2. red',
+          ],
+        }));
+    });
+
+    it('should resolve a computed value for complex fields', function test() {
+      // Test something more complicated then a repeating field container.
+
+      const value = Immutable.fromJS({
+        measuredPart: 'base',
+        dimensionSubGroupList: {
+          dimensionSubGroup: [
+            {
+              value: 12,
+            },
+            {
+              value: 24,
+            },
+          ],
+        },
+      });
+
+      return computeField(
+        value, [0], Immutable.Map(), fieldDescriptor.measuredPartGroupList.measuredPartGroup, false
+      ).should.eventually.equal(value.set('dimensionSummary', 'base: 12 x 24'));
+    });
+
+    it('should resolve a sparse tree of computed values for complex fields that have computed descendent fields', function test() {
+      const docFieldDescriptor = {
+        document: {
+          'ns2:collectionobjects_common': {
+            identificationNumber: {},
+            colors: {
+              color: {},
+            },
+            groupList: {
+              group: {
+                sayHello: {
+                  [configKey]: {
+                    compute: data => `hello ${data}`,
+                  },
+                },
+                foo: {},
+              },
+            },
+          },
+        },
+      };
+
+      const value = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            identificationNumber: '1234',
+            colors: {
+              color: [
+                'red',
+                'yellow',
+              ],
+            },
+            groupList: {
+              group: {
+                sayHello: 'world',
+                foo: 17,
+              },
+            },
+          },
+        },
+      });
+
+      return computeField(value, [], Immutable.Map(), docFieldDescriptor).should
+        .eventually.equal(Immutable.fromJS({
+          document: {
+            'ns2:collectionobjects_common': {
+              groupList: {
+                group: {
+                  sayHello: 'hello world',
+                },
+              },
+            },
+          },
+        }));
+    });
+
+    it('should resolve to undefined if there are no computed fields', function test() {
+      const docFieldDescriptor = {
+        document: {
+          'ns2:collectionobjects_common': {
+            identificationNumber: {},
+            colors: {
+              color: {},
+            },
+            groupList: {
+              group: {
+                foo: {},
+              },
+            },
+          },
+        },
+      };
+
+      const value = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            identificationNumber: '1234',
+            colors: {
+              color: [
+                'red',
+                'yellow',
+              ],
+            },
+            groupList: {
+              group: {
+                foo: 17,
+              },
+            },
+          },
+        },
+      });
+
+      return computeField(value, [], Immutable.Map(), docFieldDescriptor)
+        .then((computedValue) => {
+          expect(computedValue).to.equal(undefined);
+        });
+    });
+  });
+
+  describe('computeRecordData', function suite() {
+    it('should resolve a sparse tree of computed values for the record data', function test() {
+      const recordTypeConfig = {
+        fields: {
+          document: {
+            'ns2:collectionobjects_common': {
+              identificationNumber: {},
+              colors: {
+                color: {},
+              },
+              groupList: {
+                group: {
+                  sayHello: {
+                    [configKey]: {
+                      compute: data => `hello ${data}`,
+                    },
+                  },
+                  foo: {},
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            identificationNumber: '1234',
+            colors: {
+              color: [
+                'red',
+                'yellow',
+              ],
+            },
+            groupList: {
+              group: {
+                sayHello: 'world',
+                foo: 17,
+              },
+            },
+          },
+        },
+      });
+
+      return computeRecordData(data, recordTypeConfig).should
+        .eventually.equal(Immutable.fromJS({
+          document: {
+            'ns2:collectionobjects_common': {
+              groupList: {
+                group: {
+                  sayHello: 'hello world',
+                },
+              },
+            },
+          },
+        }));
+    });
+  });
+
   describe('isNewRecord', function suite() {
     it('should return false if the data contains a uri', function test() {
       const data = Immutable.fromJS({
@@ -2024,7 +2327,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isNewRecord(data).should.equal(false);
     });
 
-    it('should return true if the data doees not contain a uri', function test() {
+    it('should return true if the data does not contain a uri', function test() {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {},
@@ -2048,7 +2351,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isExistingRecord(data).should.equal(true);
     });
 
-    it('should return false if the data doees not contain a uri', function test() {
+    it('should return false if the data does not contain a uri', function test() {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {},
@@ -2056,6 +2359,175 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       isExistingRecord(data).should.equal(false);
+    });
+  });
+
+  describe('normalizeFieldValue', function suite() {
+    it('should return the value when the field descriptor is undefined', function test() {
+      normalizeFieldValue(undefined, 'a').should.equal('a');
+      normalizeFieldValue(undefined, 0).should.equal(0);
+      normalizeFieldValue(undefined, '').should.equal('');
+
+      expect(normalizeFieldValue(undefined, null)).to.equal(null);
+    });
+
+    it('should wrap the field value in a list when the field is repeating and the value is not a list', function test() {
+      const fieldDescriptor = {
+        [configKey]: {
+          repeating: true,
+        },
+      };
+
+      normalizeFieldValue(fieldDescriptor, 'a').should.equal(Immutable.List(['a']));
+      normalizeFieldValue(fieldDescriptor, 0).should.equal(Immutable.List([0]));
+      normalizeFieldValue(fieldDescriptor, null).should.equal(Immutable.List([null]));
+
+      normalizeFieldValue(fieldDescriptor, Immutable.Map()).should
+        .equal(Immutable.List([Immutable.Map()]));
+    });
+
+    it('should return the value when a repeating field value is already a list', function test() {
+      const fieldDescriptor = {
+        [configKey]: {
+          repeating: true,
+        },
+      };
+
+      normalizeFieldValue(fieldDescriptor, Immutable.List(['a'])).should
+        .equal(Immutable.List(['a']));
+
+      normalizeFieldValue(fieldDescriptor, Immutable.List(['a', 'b'])).should
+        .equal(Immutable.List(['a', 'b']));
+
+      normalizeFieldValue(fieldDescriptor, Immutable.fromJS(['a', { foo: 'bar' }])).should
+        .equal(Immutable.fromJS(['a', { foo: 'bar' }]));
+    });
+
+    it('should deeply normalize maps', function test() {
+      const fieldDescriptor = {
+        part: {
+          foo: {},
+          bar: {
+            [configKey]: {
+              repeating: true,
+            },
+          },
+          baz: {
+            titleGroupList: {
+              titleGroup: {
+                [configKey]: {
+                  repeating: true,
+                },
+                title: {},
+                titleSubgroupList: {
+                  titleSubgroup: {
+                    [configKey]: {
+                      repeating: true,
+                    },
+                    language: {},
+                    translation: {},
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const value = Immutable.fromJS({
+        part: {
+          foo: 'hello',
+          bar: 12,
+          baz: {
+            titleGroupList: {
+              titleGroup: {
+                title: 'Title 1',
+                titleSubgroupList: {
+                  titleSubgroup: {
+                    language: 'English',
+                    translation: 'Translated Title',
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      normalizeFieldValue(fieldDescriptor, value).should
+        .equal(Immutable.fromJS({
+          part: {
+            foo: 'hello',
+            bar: [12],
+            baz: {
+              titleGroupList: {
+                titleGroup: [{
+                  title: 'Title 1',
+                  titleSubgroupList: {
+                    titleSubgroup: [{
+                      language: 'English',
+                      translation: 'Translated Title',
+                    }],
+                  },
+                }],
+              },
+            },
+          },
+        }));
+    });
+  });
+
+  describe('normalizeRecordData', function suite() {
+    it('should deeply normalize the data', function test() {
+      const recordTypeConfig = {
+        fields: {
+          document: {
+            part: {
+              foo: {},
+              bar: {
+                [configKey]: {
+                  repeating: true,
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const data = Immutable.fromJS({
+        document: {
+          part: {
+            foo: 'hello',
+            bar: 12,
+          },
+        },
+      });
+
+      normalizeRecordData(recordTypeConfig, data).should
+        .equal(Immutable.fromJS({
+          document: {
+            part: {
+              foo: 'hello',
+              bar: [12],
+            },
+          },
+        }));
+    });
+  });
+
+  describe('getWorkflowState', function suite() {
+    it('should return the workflow state of the record', function test() {
+      const workflowState = 'deleted';
+
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState,
+          },
+        },
+      });
+
+      getWorkflowState(data).should.equal(workflowState);
     });
   });
 });

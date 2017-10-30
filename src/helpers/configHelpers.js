@@ -319,6 +319,18 @@ export const getFieldCustomValidator = (fieldDescriptor) => {
   return validator;
 };
 
+export const getFieldComputer = (fieldDescriptor) => {
+  let computer;
+
+  const fieldConfig = fieldDescriptor[configKey];
+
+  if (fieldConfig) {
+    computer = fieldConfig.compute;
+  }
+
+  return computer;
+};
+
 export const isAuthority = recordTypeConfig =>
   get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
 

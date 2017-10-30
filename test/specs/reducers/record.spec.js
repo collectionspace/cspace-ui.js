@@ -15,6 +15,7 @@ import {
   CREATE_NEW_SUBRECORD,
   DELETE_FIELD_VALUE,
   DETACH_SUBRECORD,
+  FIELD_COMPUTE_FULFILLED,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_CREATED,
@@ -695,6 +696,7 @@ describe('record reducer', function suite() {
   });
 
   it('should handle RECORD_READ_FULFILLED', function test() {
+    const recordTypeConfig = {};
     const csid = '1234';
 
     const data = {
@@ -713,6 +715,7 @@ describe('record reducer', function suite() {
         data,
       },
       meta: {
+        recordTypeConfig,
         csid,
       },
     });
@@ -737,6 +740,7 @@ describe('record reducer', function suite() {
         data,
       },
       meta: {
+        recordTypeConfig,
         csid,
       },
     });
@@ -798,6 +802,7 @@ describe('record reducer', function suite() {
   });
 
   it('should handle RECORD_SAVE_FULFILLED', function test() {
+    const recordTypeConfig = {};
     const csid = '1234';
     const updatedAt = '2017-03-23-08:34:21.000Z';
 
@@ -820,6 +825,7 @@ describe('record reducer', function suite() {
         data,
       },
       meta: {
+        recordTypeConfig,
         csid,
       },
     });
@@ -844,6 +850,7 @@ describe('record reducer', function suite() {
         data,
       },
       meta: {
+        recordTypeConfig,
         csid,
       },
     });
@@ -868,6 +875,7 @@ describe('record reducer', function suite() {
         data,
       },
       meta: {
+        recordTypeConfig,
         csid,
         relatedSubjectCsid,
       },
@@ -1230,6 +1238,7 @@ describe('record reducer', function suite() {
   });
 
   it('should handle RECORD_TRANSITION_FULFILLED', function test() {
+    const recordTypeConfig = {};
     const csid = '1234';
 
     const initialState = Immutable.fromJS({
@@ -1245,6 +1254,7 @@ describe('record reducer', function suite() {
     state = reducer(initialState, {
       type: RECORD_TRANSITION_FULFILLED,
       meta: {
+        recordTypeConfig,
         csid,
       },
     });
@@ -1260,6 +1270,7 @@ describe('record reducer', function suite() {
     state = reducer(initialState, {
       type: RECORD_TRANSITION_FULFILLED,
       meta: {
+        recordTypeConfig,
         csid,
         transitionName: 'delete',
       },
@@ -1281,6 +1292,7 @@ describe('record reducer', function suite() {
         data,
       },
       meta: {
+        recordTypeConfig,
         csid,
         transitionName: 'lock',
       },
@@ -1303,6 +1315,7 @@ describe('record reducer', function suite() {
     state = reducer(initialState, {
       type: RECORD_TRANSITION_FULFILLED,
       meta: {
+        recordTypeConfig,
         csid,
         relatedSubjectCsid,
         updatedTimestamp,
@@ -1697,5 +1710,121 @@ describe('record reducer', function suite() {
     });
 
     state.should.deep.equal(Immutable.Map({}));
+  });
+
+  describe('on FIELD_COMPUTE_FULFILLED', function actionSuite() {
+    it('should merge the computed data into the current data', function test() {
+      const csid = '1234';
+
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          data: {
+            current: {
+              document: {
+                part: {
+                  foo: 'a',
+                  bar: 'b',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const state = reducer(initialState, {
+        type: FIELD_COMPUTE_FULFILLED,
+        payload: Immutable.fromJS({
+          document: {
+            part: {
+              foo: 'x',
+              baz: 'y',
+            },
+          },
+        }),
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          data: {
+            current: {
+              document: {
+                part: {
+                  foo: 'x',
+                  bar: 'b',
+                  baz: 'y',
+                },
+              },
+            },
+          },
+        },
+      }));
+    });
+
+    it('should do nothing if there is no current data', function test() {
+      const csid = '1234';
+
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          data: {},
+        },
+      });
+
+      const state = reducer(initialState, {
+        type: FIELD_COMPUTE_FULFILLED,
+        payload: Immutable.fromJS({
+          document: {
+            part: {
+              foo: 'x',
+              baz: 'y',
+            },
+          },
+        }),
+        meta: {
+          csid,
+          path: [],
+        },
+      });
+
+      state.should.equal(initialState);
+    });
+
+    it('should do nothing if the computed value path is not empty', function test() {
+      const csid = '1234';
+
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          data: {
+            current: {
+              document: {
+                part: {
+                  foo: 'a',
+                  bar: 'b',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const state = reducer(initialState, {
+        type: FIELD_COMPUTE_FULFILLED,
+        payload: Immutable.fromJS({
+          part: {
+            foo: 'x',
+            baz: 'y',
+          },
+        }),
+        meta: {
+          csid,
+          path: ['document'],
+        },
+      });
+
+      state.should.equal(initialState);
+    });
   });
 });
