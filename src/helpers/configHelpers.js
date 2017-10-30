@@ -349,7 +349,7 @@ export const validateLocation = (config, location) => {
 
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-  if (!recordTypeConfig) {
+  if (!recordTypeConfig || recordTypeConfig.disabled) {
     return {
       error: {
         recordType,
@@ -370,7 +370,7 @@ export const validateLocation = (config, location) => {
 
     const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
 
-    if (!vocabularyConfig) {
+    if (!vocabularyConfig || vocabularyConfig.disabled) {
       return {
         error: {
           recordType,

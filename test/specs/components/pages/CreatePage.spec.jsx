@@ -11,6 +11,8 @@ import BaseCreatePage from '../../../../src/components/pages/CreatePage';
 
 const CreatePage = injectIntl(BaseCreatePage);
 
+const expect = chai.expect;
+
 chai.should();
 
 const config = {
@@ -91,6 +93,70 @@ const config = {
             },
           },
         },
+        disabled: {
+          disabled: true,
+          messages: {
+            name: {
+              id: 'vocab.person.disabled.name',
+              defaultMessage: 'Disabled Vocab',
+            },
+          },
+        },
+      },
+    },
+    exhibition: {
+      disabled: true,
+      messages: {
+        record: {
+          name: {
+            id: 'record.exhibition.name',
+            defaultMessage: 'Exhibition',
+          },
+        },
+      },
+      serviceConfig: {
+        serviceType: 'procedure',
+      },
+    },
+    work: {
+      messages: {
+        record: {
+          name: {
+            id: 'record.work.name',
+            defaultMessage: 'Work',
+          },
+        },
+      },
+      serviceConfig: {
+        serviceType: 'authority',
+      },
+      vocabularies: {
+        all: {
+          messages: {
+            name: {
+              id: 'vocab.work.all.name',
+              defaultMessage: 'All',
+            },
+          },
+        },
+        local: {
+          disabled: true,
+          messages: {
+            name: {
+              id: 'vocab.work.local.name',
+              defaultMessage: 'Local',
+            },
+          },
+        },
+        cona: {
+          disabled: true,
+          messages: {
+            name: {
+              id: 'vocab.work.cona.name',
+              defaultMessage: 'CONA',
+            },
+          },
+        },
       },
     },
   },
@@ -144,6 +210,57 @@ describe('CreatePage', function suite() {
       .equal(config.recordTypes.person.vocabularies.ulan.messages.name.defaultMessage);
   });
 
+  it('should not render links for disabled procedures', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <Router>
+            <CreatePage />
+          </Router>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const links = this.container.querySelectorAll('a');
+
+    links.should.have.lengthOf(5);
+
+    Array.from(links).map(link => link.textContent).should.not.include('Exhibition');
+  });
+
+  it('should not render links for disabled vocabularies', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <Router>
+            <CreatePage />
+          </Router>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const links = this.container.querySelectorAll('a');
+
+    links.should.have.lengthOf(5);
+
+    Array.from(links).map(link => link.textContent).should.not.include('Disabled Vocab');
+  });
+
+  it('should not render links for authority records whose vocabularies are all disabled', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <Router>
+            <CreatePage />
+          </Router>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const links = this.container.querySelectorAll('a');
+
+    links.should.have.lengthOf(5);
+
+    Array.from(links).map(link => link.textContent).should.not.include('Work');
+  });
+
   it('should sort procedures/vocabularies by sortOrder if present', function test() {
     const sortedConfig = merge({}, config, {
       recordTypes: {
@@ -193,5 +310,40 @@ describe('CreatePage', function suite() {
 
     links[4].textContent.should
       .equal(config.recordTypes.person.vocabularies.local.messages.name.defaultMessage);
+  });
+
+  it('should not render service types whose record types are all disabled', function test() {
+    const proceduresAndAuthoritiesDisabledConfig = merge({}, config, {
+      recordTypes: {
+        group: {
+          disabled: true,
+        },
+        intake: {
+          disabled: true,
+        },
+        person: {
+          disabled: true,
+        },
+        work: {
+          disabled: true,
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={proceduresAndAuthoritiesDisabledConfig}>
+          <Router>
+            <CreatePage />
+          </Router>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const links = this.container.querySelectorAll('a');
+
+    links.should.have.lengthOf(1);
+
+    expect(this.container.querySelector('.cspace-ui-CreatePagePanel--procedure')).to.equal(null);
+    expect(this.container.querySelector('.cspace-ui-CreatePagePanel--authority')).to.equal(null);
   });
 });

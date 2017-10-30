@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "0.11.12",
+  "version": "0.11.13",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -43,7 +43,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "cspace-client": ">=0.1.4 <0.2.0",
-    "cspace-input": ">=0.12.14 <0.13.0",
+    "cspace-input": ">=0.12.15 <0.13.0",
     "cspace-layout": ">=0.1.27 <0.2.0",
     "cspace-refname": ">=0.0.5 <0.1.0",
     "history": "4.6.2",

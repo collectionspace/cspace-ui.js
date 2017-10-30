@@ -32,8 +32,14 @@ const getRecordTypesByServiceType = (recordTypes, intl) => {
 
   serviceTypes.forEach((serviceType) => {
     const recordTypeNames = Object.keys(recordTypes)
-      .filter(recordTypeName =>
-        recordTypes[recordTypeName].serviceConfig.serviceType === serviceType)
+      .filter((recordTypeName) => {
+        const recordTypeConfig = recordTypes[recordTypeName];
+
+        return (
+          recordTypeConfig.serviceConfig.serviceType === serviceType &&
+          !recordTypeConfig.disabled
+        );
+      })
       .sort((nameA, nameB) => {
         const configA = recordTypes[nameA];
         const configB = recordTypes[nameB];
@@ -77,7 +83,9 @@ const getVocabularies = (recordTypeConfig, intl) => {
 
   if (vocabularies) {
     vocabularyNames = Object.keys(vocabularies)
-      .filter(vocabularyName => vocabularyName !== 'all')
+      .filter(
+        vocabularyName => (vocabularyName !== 'all' && !vocabularies[vocabularyName].disabled)
+      )
       .sort((nameA, nameB) => {
         const configA = vocabularies[nameA];
         const configB = vocabularies[nameB];
@@ -158,6 +166,13 @@ export default function CreatePage(props, context) {
           vocabularyList = <ul>{vocabularyItems}</ul>;
         }
 
+        if (recordTypeConfig.vocabularies && !vocabularyList) {
+          // The record type is an authority, but no vocabularies are enabled. Don't render
+          // anything.
+
+          return null;
+        }
+
         let recordLink = <FormattedMessage {...recordTypeConfig.messages.record.name} />;
 
         if (!vocabularyList) {
@@ -174,7 +189,7 @@ export default function CreatePage(props, context) {
     });
 
     serviceTypes.forEach((serviceType) => {
-      const items = itemsByServiceType[serviceType];
+      const items = itemsByServiceType[serviceType].filter(item => !!item);
 
       if (items && items.length > 0) {
         lists.push(
