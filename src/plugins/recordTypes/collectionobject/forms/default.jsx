@@ -577,7 +577,7 @@ export default pluginContext => ({
   messages: defineMessages({
     name: {
       id: 'form.collectionobject.default.name',
-      defaultMessage: 'Default Template',
+      defaultMessage: 'Standard Template',
     },
   }),
   sortOrder: 0,
