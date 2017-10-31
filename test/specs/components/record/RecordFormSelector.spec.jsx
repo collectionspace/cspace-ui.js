@@ -54,6 +54,16 @@ const config = {
           },
           template: <div />,
         },
+        other: {
+          disabled: true,
+          messages: {
+            name: {
+              id: 'form.group.other.name',
+              defaultMessage: 'Other Template',
+            },
+          },
+          template: <div />,
+        },
       },
     },
   },
@@ -106,7 +116,7 @@ describe('RecordFormSelector', function suite() {
   });
 
 
-  it('should render nothing if only one form is configured for the record type', function test() {
+  it('should render nothing if only one form is enabled for the record type', function test() {
     render(
       <IntlProvider locale="en">
         <RecordFormSelector

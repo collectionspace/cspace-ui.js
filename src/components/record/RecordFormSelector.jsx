@@ -9,6 +9,7 @@ const { DropdownMenuInput } = components;
 
 const formOptions = (forms, intl) =>
   Object.keys(forms)
+    .filter(formName => !forms[formName].disabled)
     .sort((nameA, nameB) => {
       const configA = forms[nameA];
       const configB = forms[nameB];
@@ -66,10 +67,16 @@ function RecordFormSelector(props) {
     return null;
   }
 
+  const options = formOptions(forms, intl);
+
+  if (options.length < 2) {
+    return null;
+  }
+
   return (
     <div className={styles.common}>
       <DropdownMenuInput
-        options={formOptions(forms, intl)}
+        options={options}
         value={formName}
         onCommit={onCommit}
       />
