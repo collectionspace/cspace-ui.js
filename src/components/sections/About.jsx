@@ -8,8 +8,8 @@ const messages = defineMessages({
     description: 'Title of the about page.',
     defaultMessage: 'Welcome to the CollectionSpace Demo',
   },
-  content: {
-    id: 'about.content',
+  contentHTML: {
+    id: 'about.contentHTML',
     description: 'HTML content of the about page.',
     defaultMessage: `
       <p>
@@ -63,7 +63,7 @@ export default function About() {
   return (
     <div className={styles.common}>
       <h2><FormattedMessage {...messages.title} /></h2>
-      <div><FormattedHTMLMessage {...messages.content} /></div>
+      <div><FormattedHTMLMessage {...messages.contentHTML} /></div>
     </div>
   );
 }
