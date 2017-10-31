@@ -24,7 +24,7 @@ const pluginContext = createPluginContext();
 const defaultConfig = mergeConfig({
   basename: '',
   className: '',
-  container: 'main',
+  container: '#cspace',
   index: '/create',
   locale: 'en',
   messages: undefined,

@@ -8,7 +8,7 @@ chai.should();
 function setup() {
   document.body.insertAdjacentHTML(
     'beforeend',
-    '<main></main>');
+    '<div id="cspace"></div>');
 }
 
 function getBasePath() {
