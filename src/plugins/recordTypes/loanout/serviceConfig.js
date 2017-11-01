@@ -4,6 +4,5 @@ export default {
   serviceType: 'procedure',
 
   objectName: 'Loanout',
-
-  documentName: 'loanout',
+  documentName: 'loansout',
 };

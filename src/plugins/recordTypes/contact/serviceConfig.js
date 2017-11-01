@@ -4,6 +4,5 @@ export default {
   serviceType: 'utility',
 
   objectName: 'Contact',
-
   documentName: 'contacts',
 };

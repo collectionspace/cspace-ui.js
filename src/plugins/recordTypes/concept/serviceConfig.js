@@ -4,12 +4,10 @@ export default {
   serviceType: 'authority',
 
   objectName: 'Conceptitem',
-
-  documentName: 'concept',
+  documentName: 'concepts',
 
   quickAddData: values => ({
     document: {
-      '@name': 'concepts',
       'ns2:concepts_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/concept',
         conceptTermGroupList: {

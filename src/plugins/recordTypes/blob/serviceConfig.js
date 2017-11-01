@@ -4,6 +4,5 @@ export default {
   serviceType: 'utility',
 
   objectName: 'Blob',
-
   documentName: 'blobs',
 };

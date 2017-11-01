@@ -4,6 +4,5 @@ export default {
   serviceType: 'procedure',
 
   objectName: 'Pottag',
-
   documentName: 'pottags',
 };

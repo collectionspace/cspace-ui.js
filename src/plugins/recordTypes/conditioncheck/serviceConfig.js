@@ -4,6 +4,5 @@ export default {
   serviceType: 'procedure',
 
   objectName: 'Conditioncheck',
-
-  documentName: 'conditioncheck',
+  documentName: 'conditionchecks',
 };

@@ -4,12 +4,10 @@ export default {
   serviceType: 'authority',
 
   objectName: 'Placeitem',
-
-  documentName: 'place',
+  documentName: 'places',
 
   quickAddData: values => ({
     document: {
-      '@name': 'places',
       'ns2:places_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/place',
         placeTermGroupList: {
