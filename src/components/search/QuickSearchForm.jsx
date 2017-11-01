@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, intlShape } from 'react-intl';
+import Immutable from 'immutable';
+import get from 'lodash/get';
+import pickBy from 'lodash/pickBy';
 import { components as inputComponents } from 'cspace-input';
+import { canList } from '../../helpers/permissionHelpers';
 
 const { QuickSearchInput } = inputComponents;
 
@@ -13,15 +17,34 @@ const messages = defineMessages({
   },
 });
 
+const getRecordTypes = (config, perms) => {
+  const { recordTypes } = config;
+
+  return pickBy(recordTypes, (recordTypeConfig, name) => {
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+    return (
+      (
+        serviceType === 'object' ||
+        serviceType === 'procedure' ||
+        serviceType === 'authority'
+      ) &&
+      canList(name, perms)
+    );
+  });
+};
+
 const propTypes = {
   intl: intlShape,
   config: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
 };
 
 export default function QuickSearchForm(props) {
   const {
     intl,
     config,
+    perms,
     ...remainingProps
   } = props;
 
@@ -38,7 +61,7 @@ export default function QuickSearchForm(props) {
         formatRecordTypeLabel={formatRecordTypeLabel}
         formatVocabularyLabel={formatVocabularyLabel}
         placeholder={intl.formatMessage(messages.quickSearchPlaceholder)}
-        recordTypes={config.recordTypes}
+        recordTypes={getRecordTypes(config, perms)}
       />
     </fieldset>
   );

@@ -122,13 +122,13 @@ describe('LoginForm', function suite() {
       .equal(messages['loginForm.error.badCredentials']);
   });
 
-  it('should call onSubmit when the form is submitted', function test() {
-    let handlerUsername = null;
-    let handlerPassword = null;
+  it('should call login when the form is submitted', function test() {
+    let loginUsername = null;
+    let loginPassword = null;
 
-    const handleSubmit = (username, password) => {
-      handlerUsername = username;
-      handlerPassword = password;
+    const login = (configArg, usernameArg, passwordArg) => {
+      loginUsername = usernameArg;
+      loginPassword = passwordArg;
     };
 
     render(
@@ -136,7 +136,7 @@ describe('LoginForm', function suite() {
         locale="en"
       >
         <LoginForm
-          onSubmit={handleSubmit}
+          login={login}
         />
       </IntlProvider>, this.container);
 
@@ -149,8 +149,8 @@ describe('LoginForm', function suite() {
 
     Simulate.submit(form);
 
-    handlerUsername.should.equal(username);
-    handlerPassword.should.equal(password);
+    loginUsername.should.equal(username);
+    loginPassword.should.equal(password);
   });
 
   it('should do nothing when the form is submitted if onSubmit is not set', function test() {

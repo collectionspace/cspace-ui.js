@@ -9,6 +9,7 @@ import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
+import { canCreate, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const propTypes = {
@@ -20,6 +21,7 @@ const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   dockTop: PropTypes.number,
   formName: PropTypes.string,
+  perms: PropTypes.instanceOf(Immutable.Map),
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
@@ -417,6 +419,7 @@ export default class RecordEditor extends Component {
       formName,
       isModified,
       isSavePending,
+      perms,
       recordType,
       relatedSubjectWorkflowState,
       validationErrors,
@@ -428,45 +431,68 @@ export default class RecordEditor extends Component {
       return null;
     }
 
-    const workflowState = getWorkflowState(data);
     const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
+    const workflowState = getWorkflowState(data);
+
+    const readOnly = (
+      workflowState === 'locked' ||
+      !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
+    );
+
+    const isCloneable = (
+      // The record must be saved.
+      !!csid &&
+      // If we're editing an object record in a secondary tab, and the primary record is locked,
+      // a new cloned record would not be able to be related to the primary, so the clone
+      // button should not appear.
+      relatedSubjectWorkflowState !== 'locked' &&
+      // We must have permission to create a new record of the type.
+      canCreate(recordType, perms)
+    );
+
+    const isDeletable = (
+      !!csid &&
+      workflowState !== 'locked' &&
+      canSoftDelete(recordType, perms)
+    );
 
     return (
       <form className={styles.common} autoComplete="off">
         <RecordHeader
-          csid={csid}
+          config={config}
+          data={data}
+          dockTop={dockTop}
+          formName={selectedFormName}
+          isCloneable={isCloneable}
+          isDeletable={isDeletable}
           isModified={isModified}
           isSavePending={isSavePending}
-          workflowState={workflowState}
+          readOnly={readOnly}
+          recordType={recordType}
           validationErrors={validationErrors}
+          onCloneButtonClick={this.handleCloneButtonClick}
+          onCommit={this.handleRecordFormSelectorCommit}
+          onDeleteButtonClick={this.handleDeleteButtonClick}
           onSaveButtonClick={this.handleSaveButtonClick}
           onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
           onRevertButtonClick={this.handleRevertButtonClick}
-          onCloneButtonClick={this.handleCloneButtonClick}
-          onDeleteButtonClick={this.handleDeleteButtonClick}
-          config={config}
-          formName={selectedFormName}
-          recordType={recordType}
-          relatedSubjectWorkflowState={relatedSubjectWorkflowState}
-          onCommit={this.handleRecordFormSelectorCommit}
-          data={data}
-          dockTop={dockTop}
         />
         <RecordFormContainer
           config={config}
           csid={csid}
           data={data}
           formName={selectedFormName}
-          readOnly={workflowState === 'locked'}
+          readOnly={readOnly}
           recordType={recordType}
         />
         <footer>
           <RecordButtonBar
-            csid={csid}
+            isCloneable={isCloneable}
+            isDeletable={isDeletable}
             isModified={isModified}
             isSavePending={isSavePending}
+            readOnly={readOnly}
             validationErrors={validationErrors}
-            workflowState={workflowState}
             onSaveButtonClick={this.handleSaveButtonClick}
             onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
             onRevertButtonClick={this.handleRevertButtonClick}

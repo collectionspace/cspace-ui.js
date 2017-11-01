@@ -35,6 +35,13 @@ describe('SearchPageContainer', function suite() {
           },
         },
       }),
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+        },
+      }),
     });
 
     const shallowRenderer = createRenderer();
@@ -69,6 +76,13 @@ describe('SearchPageContainer', function suite() {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
+          },
+        },
+      }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
           },
         },
       }),
@@ -110,6 +124,13 @@ describe('SearchPageContainer', function suite() {
           },
         },
       }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
+          },
+        },
+      }),
     });
 
     const context = {
@@ -140,6 +161,13 @@ describe('SearchPageContainer', function suite() {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
+          },
+        },
+      }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
           },
         },
       }),
@@ -176,6 +204,13 @@ describe('SearchPageContainer', function suite() {
           },
         },
       }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
+          },
+        },
+      }),
     });
 
     const context = {
@@ -206,6 +241,13 @@ describe('SearchPageContainer', function suite() {
           recordType: 'concept',
           vocabulary: {
             concept: 'material',
+          },
+        },
+      }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
           },
         },
       }),

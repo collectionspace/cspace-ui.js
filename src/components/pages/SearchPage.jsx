@@ -34,6 +34,7 @@ const propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -201,6 +202,7 @@ export default class SearchPage extends Component {
     const {
       advancedSearchCondition,
       keywordValue,
+      perms,
       onAdvancedSearchConditionCommit,
       onKeywordCommit,
       onSearch,
@@ -234,6 +236,7 @@ export default class SearchPage extends Component {
             keywordValue={keywordValue}
             recordTypeValue={recordType}
             vocabularyValue={vocabulary}
+            perms={perms}
             showButtons
             onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
             onKeywordCommit={onKeywordCommit}

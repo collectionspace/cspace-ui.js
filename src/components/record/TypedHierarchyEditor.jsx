@@ -18,6 +18,7 @@ const propTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.Map),
+  readOnly: PropTypes.bool,
   parentTypeOptionListName: PropTypes.string,
   childTypeOptionListName: PropTypes.string,
   onCommit: PropTypes.func,
@@ -118,6 +119,7 @@ export class BaseTypedHierarchyEditor extends Component {
       recordType,
       vocabulary,
       value,
+      readOnly,
       parentTypeOptionListName,
       childTypeOptionListName,
     } = this.props;
@@ -136,6 +138,7 @@ export class BaseTypedHierarchyEditor extends Component {
             name="parentRefName"
             source={source}
             value={parentRefName}
+            readOnly={readOnly}
             onCommit={this.handleParentRefNameCommit}
             matchFilter={this.filterMatch}
           />
@@ -144,12 +147,15 @@ export class BaseTypedHierarchyEditor extends Component {
             name="parentType"
             source={parentTypeOptionListName}
             value={parentType}
+            readOnly={readOnly}
             onCommit={this.handleParentTypeCommit}
           />
         </InputTable>
+
         <CompoundInput
           label={intl.formatMessage(messages.children)}
           value={children}
+          readOnly={readOnly}
         >
           <CompoundInput
             tabular

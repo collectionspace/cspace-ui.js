@@ -26,6 +26,7 @@ import {
   getOpenModalName,
   getRecordData,
   getRecordValidationErrors,
+  getUserPerms,
   isRecordModified,
   isRecordSavePending,
 } from '../../reducers';
@@ -44,6 +45,7 @@ const mapStateToProps = (state, ownProps) => {
     isModified: isRecordModified(state, csid),
     isSavePending: isRecordSavePending(state, csid),
     openModalName: getOpenModalName(state),
+    perms: getUserPerms(state),
     validationErrors: getRecordValidationErrors(state, csid),
   };
 };

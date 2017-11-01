@@ -30,8 +30,16 @@ const recordType = 'collectionobject';
 const relatedCsid = '5678';
 const relatedRecordType = 'group';
 
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+  group: {
+    data: 'CRUDL',
+  },
+});
+
 const store = mockStore({
-  user: Immutable.Map(),
   notification: Immutable.Map(),
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
@@ -72,6 +80,9 @@ const store = mockStore({
   search: Immutable.Map(),
   searchToRelate: Immutable.fromJS({
     recordType: 'group',
+  }),
+  user: Immutable.fromJS({
+    perms,
   }),
 });
 
@@ -219,6 +230,7 @@ describe('RelatedRecordBrowser', function suite() {
             <RelatedRecordBrowser
               config={config}
               location={location}
+              perms={perms}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -263,6 +275,7 @@ describe('RelatedRecordBrowser', function suite() {
             <RelatedRecordBrowser
               config={config}
               location={location}
+              perms={perms}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -393,6 +406,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              perms={perms}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -419,6 +433,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              perms={perms}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -453,6 +468,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              perms={perms}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}
@@ -487,6 +503,7 @@ describe('RelatedRecordBrowser', function suite() {
           <Router>
             <RelatedRecordBrowser
               config={config}
+              perms={perms}
               recordType={recordType}
               csid={csid}
               relatedRecordType={relatedRecordType}

@@ -22,19 +22,10 @@ describe('CloneButton', function suite() {
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
 
-  it('should render nothing if no csid is provided', function test() {
+  it('should render nothing if isCloneable is false', function test() {
     render(
       <IntlProvider locale="en">
-        <CloneButton />
-      </IntlProvider>, this.container);
-
-    expect(this.container.firstElementChild).to.equal(null);
-  });
-
-  it('should render nothing if relatedSubjectWorkflowState is \'locked\'', function test() {
-    render(
-      <IntlProvider locale="en">
-        <CloneButton csid="1234" relatedSubjectWorkflowState="locked" />
+        <CloneButton isCloneable={false} />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);

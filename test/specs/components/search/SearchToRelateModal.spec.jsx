@@ -42,6 +42,7 @@ const config = {
   },
   recordTypes: {
     collectionobject: {
+      name: 'collectionobject',
       messages: {
         record: {
           collectionName: {
@@ -51,11 +52,18 @@ const config = {
         },
       },
       serviceConfig: {
+        servicePath: 'collectionobjects',
         serviceType: 'object',
       },
     },
   },
 };
+
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+});
 
 const intl = {
   formatDate: () => null,
@@ -811,6 +819,7 @@ describe('SearchToRelateModal', function suite() {
         intl={intl}
         isOpen
         isSearchInitiated
+        perms={perms}
         recordTypeValue={recordTypeValue}
         subjects={[subject]}
         search={search}
@@ -830,9 +839,9 @@ describe('SearchToRelateModal', function suite() {
 
     const searchResultTable = findWithType(result, SearchResultTableContainer);
 
-    const unrelatedItem = Immutable.Map();
-    const relatedItem = Immutable.Map({ related: 'true' });
-    const lockedItem = Immutable.Map({ workflowState: 'locked' });
+    const unrelatedItem = Immutable.Map({ uri: '/collectionobjects/1111' });
+    const relatedItem = Immutable.Map({ related: 'true', uri: '/collectionobjects/2222' });
+    const lockedItem = Immutable.Map({ workflowState: 'locked', uri: '/collectionobjects/3333' });
 
     expect(searchResultTable.props.renderCheckbox({ rowData: relatedItem })).to.equal(null);
     expect(searchResultTable.props.renderCheckbox({ rowData: lockedItem })).to.equal(null);
@@ -868,6 +877,7 @@ describe('SearchToRelateModal', function suite() {
         intl={intl}
         isOpen
         isSearchInitiated
+        perms={perms}
         recordTypeValue={recordTypeValue}
         subjects={[subject]}
         search={search}
@@ -888,7 +898,7 @@ describe('SearchToRelateModal', function suite() {
 
     const searchResultTable = findWithType(result, SearchResultTableContainer);
 
-    const item = Immutable.Map();
+    const item = Immutable.Map({ uri: '/collectionobjects/1111' });
     const checkbox = searchResultTable.props.renderCheckbox({ rowData: item });
 
     const newValue = true;

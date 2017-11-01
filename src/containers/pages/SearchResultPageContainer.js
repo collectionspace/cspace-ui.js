@@ -12,9 +12,11 @@ import {
 import {
   getSearchResultPagePageSize,
   getSearchSelectedItems,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
+  perms: getUserPerms(state),
   preferredPageSize: getSearchResultPagePageSize(state),
   selectedItems: getSearchSelectedItems(state, searchName),
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import QuickSearchForm from '../../../../src/components/search/QuickSearchForm';
 
@@ -44,6 +45,12 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  person: {
+    data: 'CRUDL',
+  },
+});
+
 describe('QuickSearchForm', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -67,6 +74,7 @@ describe('QuickSearchForm', function suite() {
         config={config}
         intl={intl}
         recordTypeValue="person"
+        perms={perms}
       />, this.container);
 
     const [recordTypeInput, vocabularyInput] = this.container.querySelectorAll('input');

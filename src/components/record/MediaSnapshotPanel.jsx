@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { canList } from '../../helpers/permissionHelpers';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import MediaViewerPanelContainer from '../../containers/media/MediaViewerPanelContainer';
 
@@ -36,6 +37,7 @@ const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   // This use isn't detected by eslint.
   /* eslint-disable react/no-unused-prop-types */
@@ -49,15 +51,17 @@ export default function MediaSnapshotPanel(props) {
     color,
     config,
     csid,
+    perms,
     recordData,
     recordType,
   } = props;
 
   const searchDescriptor = getSearchDescriptor(props);
 
-  if (!getUpdatedTimestamp(recordData)) {
-    // Don't render until after the record has loaded.
+  // Don't render if list permissions on media are not present.
+  // Don't render until after the record has loaded.
 
+  if (!canList('media', perms) || !getUpdatedTimestamp(recordData)) {
     return null;
   }
 

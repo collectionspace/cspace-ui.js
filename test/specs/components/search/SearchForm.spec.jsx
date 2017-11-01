@@ -80,6 +80,18 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+  group: {
+    data: 'CRUDL',
+  },
+  person: {
+    data: 'CRUDL',
+  },
+});
+
 const intl = {
   formatDate: () => null,
   formatTime: () => null,
@@ -105,6 +117,7 @@ describe('SearchForm', function suite() {
             intl={intl}
             recordTypeValue="person"
             vocabularyValue="local"
+            perms={perms}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -120,6 +133,7 @@ describe('SearchForm', function suite() {
             config={config}
             intl={intl}
             recordTypeValue="group"
+            perms={perms}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -141,6 +155,7 @@ describe('SearchForm', function suite() {
             config={config}
             intl={intl}
             recordTypeValue="group"
+            perms={perms}
             onKeywordCommit={handleKeywordCommit}
           />
         </StoreProvider>
@@ -170,6 +185,7 @@ describe('SearchForm', function suite() {
             config={config}
             intl={intl}
             recordTypeValue="group"
+            perms={perms}
             onRecordTypeCommit={handleRecordTypeCommit}
           />
         </StoreProvider>
@@ -200,6 +216,7 @@ describe('SearchForm', function suite() {
             intl={intl}
             recordTypeValue="person"
             vocabularyValue="local"
+            perms={perms}
             onVocabularyCommit={handleVocabularyCommit}
           />
         </StoreProvider>
@@ -229,6 +246,7 @@ describe('SearchForm', function suite() {
             config={config}
             intl={intl}
             recordTypeValue="group"
+            perms={perms}
             onSearch={handleSearch}
           />
         </StoreProvider>

@@ -40,6 +40,7 @@ describe('login action creator', function suite() {
   describe('login', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const tokenUrl = '/cspace-services/oauth/token';
+    const config = {};
     const username = 'user@collectionspace.org';
     const password = 'pw';
 
@@ -75,7 +76,7 @@ describe('login action creator', function suite() {
         response: tokenGrantPayload,
       });
 
-      return store.dispatch(login(username, password))
+      return store.dispatch(login(config, username, password))
         .then(() => {
           getSession().should.be.an('object');
           getSession().config().should.have.property('username', username);
@@ -88,7 +89,7 @@ describe('login action creator', function suite() {
         response: tokenGrantPayload,
       });
 
-      return store.dispatch(login(username, password))
+      return store.dispatch(login(config, username, password))
         .then(() => {
           const actions = store.getActions();
 
@@ -132,7 +133,7 @@ describe('login action creator', function suite() {
         status: 400,
       });
 
-      return store.dispatch(login(username, password))
+      return store.dispatch(login(config, username, password))
         .then(() => {
           const actions = store.getActions();
 
@@ -158,6 +159,7 @@ describe('login action creator', function suite() {
     const mockStore = configureMockStore([thunk]);
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
     const username = 'admin@core.collectionspace.org';
+    const config = {};
 
     const store = mockStore({
       user: Immutable.Map(),
@@ -195,7 +197,7 @@ describe('login action creator', function suite() {
         }),
       });
 
-      return usernameStore.dispatch(readAccountPerms())
+      return usernameStore.dispatch(readAccountPerms(config))
         .then(() => {
           const actions = usernameStore.getActions();
 
@@ -208,6 +210,9 @@ describe('login action creator', function suite() {
               headers: undefined,
               status: 200,
               statusText: undefined,
+            },
+            meta: {
+              config,
             },
           });
         });
@@ -225,7 +230,7 @@ describe('login action creator', function suite() {
         }),
       });
 
-      return usernameStore.dispatch(readAccountPerms())
+      return usernameStore.dispatch(readAccountPerms(config))
         .catch(() => {
           const actions = usernameStore.getActions();
 
@@ -241,7 +246,7 @@ describe('login action creator', function suite() {
         response: accountPermsPayload,
       });
 
-      return store.dispatch(readAccountPerms())
+      return store.dispatch(readAccountPerms(config))
         .then(() => {
           const actions = store.getActions();
 

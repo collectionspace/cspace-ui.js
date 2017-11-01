@@ -22,10 +22,10 @@ describe('RevertButton', function suite() {
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
 
-  it('should render nothing if workflowState is \'locked\'', function test() {
+  it('should render nothing if readOnly is true', function test() {
     render(
       <IntlProvider locale="en">
-        <RevertButton workflowState="locked" />
+        <RevertButton readOnly />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);

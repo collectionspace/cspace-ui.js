@@ -55,6 +55,7 @@ const childContextTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
+  readOnly: PropTypes.bool,
 };
 
 export default class RecordForm extends Component {
@@ -64,6 +65,7 @@ export default class RecordForm extends Component {
       csid,
       recordType,
       vocabulary,
+      readOnly,
     } = this.props;
 
     return {
@@ -71,6 +73,7 @@ export default class RecordForm extends Component {
       csid,
       recordType,
       vocabulary,
+      readOnly,
     };
   }
 

@@ -38,7 +38,17 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch)
     : '';
 
   return getSession().create(`${servicePath}${itemPath}`, config)
-    .then(response => getSession().read(response.headers.location))
+    .then((response) => {
+      const { location } = response.headers;
+
+      // Workaround for DRYD-178
+      // Should be able to just read response.headers.location, but it might contain the wrong
+      // protocol, so parse out the path after cspace-services, and use that.
+
+      const path = location.split('cspace-services/')[1];
+
+      return getSession().read(path);
+    })
     .then(response => dispatch({
       type: ADD_TERM_FULFILLED,
       payload: response,

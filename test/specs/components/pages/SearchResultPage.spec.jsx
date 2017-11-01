@@ -64,6 +64,7 @@ const config = {
   },
   recordTypes: {
     collectionobject: {
+      name: 'collectionobject',
       messages: {
         record: {
           collectionName: {
@@ -100,6 +101,7 @@ const config = {
       },
       serviceConfig: {
         serviceType: 'object',
+        servicePath: 'collectionobjects',
       },
     },
     person: {
@@ -176,6 +178,7 @@ const store = mockStore({
     },
   }),
   searchToRelate: Immutable.Map(),
+  user: Immutable.Map(),
 });
 
 describe('SearchResultPage', function suite() {
@@ -1194,6 +1197,11 @@ describe('SearchResultPage', function suite() {
         location={location}
         match={match}
         onItemSelectChange={handleItemSelectChange}
+        perms={Immutable.fromJS({
+          collectionobject: {
+            data: 'CRUDL',
+          },
+        })}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -1202,7 +1210,13 @@ describe('SearchResultPage', function suite() {
     const checked = true;
 
     const table = findWithType(result, SearchResultTableContainer);
-    const checkbox = table.props.renderCheckbox({ rowData: Immutable.Map(), rowIndex });
+
+    const checkbox = table.props.renderCheckbox({
+      rowIndex,
+      rowData: Immutable.Map({
+        uri: '/collectionobjects/1234',
+      }),
+    });
 
     checkbox.props.onCommit([rowIndex.toString()], checked);
 
@@ -1226,11 +1240,22 @@ describe('SearchResultPage', function suite() {
       <SearchResultPage
         location={location}
         match={match}
+        perms={Immutable.fromJS({
+          collectionobject: {
+            data: 'CRUDL',
+          },
+        })}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
     const table = findWithType(result, SearchResultTableContainer);
-    const checkbox = table.props.renderCheckbox({ rowData: Immutable.Map(), rowIndex: 1 });
+
+    const checkbox = table.props.renderCheckbox({
+      rowData: Immutable.Map({
+        uri: '/collectionobjects/1234',
+      }),
+      rowIndex: 1,
+    });
 
     let clickPropagated = false;
 

@@ -32,6 +32,6 @@ describe('LoginFormContainer', function suite() {
     result.props.should.have.property('isPending', true);
     result.props.should.have.property('username', username);
     result.props.should.have.property('error', null);
-    result.props.should.have.property('onSubmit').that.is.a('function');
+    result.props.should.have.property('login').that.is.a('function');
   });
 });

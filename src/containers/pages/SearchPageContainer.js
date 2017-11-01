@@ -18,6 +18,7 @@ import {
   getSearchPageKeyword,
   getSearchPageRecordType,
   getSearchPageVocabulary,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = (state) => {
@@ -28,6 +29,7 @@ const mapStateToProps = (state) => {
     recordTypeValue: recordType,
     vocabularyValue: getSearchPageVocabulary(state, recordType),
     advancedSearchCondition: getSearchPageAdvanced(state),
+    perms: getUserPerms(state),
   };
 };
 

@@ -4,6 +4,7 @@ import ProtectedRoute from '../../components/routes/ProtectedRoute';
 import {
   getUserScreenName,
   getUserUsername,
+  getUserPerms,
 } from '../../reducers';
 
 import {
@@ -11,6 +12,7 @@ import {
 } from '../../actions/login';
 
 const mapStateToProps = state => ({
+  perms: getUserPerms(state),
   username: getUserUsername(state),
   screenName: getUserScreenName(state),
 });

@@ -27,6 +27,7 @@ describe('cspace action creator', function suite() {
 
       const cspaceConfig = {
         foo: 'bar',
+        serverUrl: 'http://something.org',
       };
 
       store.dispatch(configureCSpace(cspaceConfig));
@@ -34,7 +35,7 @@ describe('cspace action creator', function suite() {
       const session = getSession();
 
       session.should.be.an('object');
-      session.config().should.have.property('foo', 'bar');
+      session.config().should.have.property('url', 'http://something.org');
     });
 
     it('should dispatch CSPACE_CONFIGURED followed by PREFS_LOADED', function test() {
@@ -44,6 +45,7 @@ describe('cspace action creator', function suite() {
 
       const cspaceConfig = {
         foo: 'bar',
+        serverUrl: 'http://something.org',
       };
 
       store.dispatch(configureCSpace(cspaceConfig));
@@ -57,7 +59,7 @@ describe('cspace action creator', function suite() {
           actions[0].should
             .include({ type: CSPACE_CONFIGURED })
             .and.have.property('payload')
-              .that.has.property('foo', 'bar');
+              .that.has.property('url', 'http://something.org');
 
           actions[1].should
             .include({ type: PREFS_LOADED });
@@ -78,7 +80,6 @@ describe('cspace action creator', function suite() {
       const session = getSession();
 
       session.should.be.an('object');
-      session.config().should.have.property('foo', 'bar');
       session.config().should.have.property('username', username);
     });
 

@@ -10,16 +10,16 @@ import styles from '../../../styles/cspace-ui/RecordHeader.css';
 
 const propTypes = {
   config: PropTypes.object,
-  csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   dockTop: PropTypes.number,
   formName: PropTypes.string,
+  isCloneable: PropTypes.bool,
+  isDeletable: PropTypes.bool,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  readOnly: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
-  relatedSubjectWorkflowState: PropTypes.string,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
-  workflowState: PropTypes.string,
   onCommit: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
@@ -76,16 +76,16 @@ export default class RecordHeader extends Component {
   render() {
     const {
       config,
-      csid,
       data,
       dockTop,
       formName,
+      isCloneable,
+      isDeletable,
       isModified,
       isSavePending,
+      readOnly,
       recordType,
-      relatedSubjectWorkflowState,
       validationErrors,
-      workflowState,
       onCommit,
       onSaveButtonClick,
       onSaveButtonErrorBadgeClick,
@@ -108,7 +108,6 @@ export default class RecordHeader extends Component {
       ? { top: (dockTop || 0) }
       : {};
 
-
     return (
       <header
         className={className}
@@ -117,11 +116,11 @@ export default class RecordHeader extends Component {
       >
         <div style={innerInlineStyle}>
           <RecordButtonBar
-            csid={csid}
+            isCloneable={isCloneable}
+            isDeletable={isDeletable}
             isModified={isModified}
             isSavePending={isSavePending}
-            relatedSubjectWorkflowState={relatedSubjectWorkflowState}
-            workflowState={workflowState}
+            readOnly={readOnly}
             validationErrors={validationErrors}
             onSaveButtonClick={onSaveButtonClick}
             onSaveButtonErrorBadgeClick={onSaveButtonErrorBadgeClick}

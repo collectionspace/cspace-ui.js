@@ -139,9 +139,7 @@ describe('HierarchyInput', function suite() {
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: { csid: 'abcd', refName: 'urn:cspace:id(parent)', type: undefined },
-      children: [
-        { refName: undefined, type: undefined },
-      ],
+      children: [],
     }));
   });
 
@@ -170,9 +168,7 @@ describe('HierarchyInput', function suite() {
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: {},
-      children: [
-        { refName: undefined, type: undefined },
-      ],
+      children: [],
     }));
   });
 

@@ -14,14 +14,16 @@ describe('SaveButton', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render nothing when workflowState is \'locked\'', function test() {
+
+  it('should render nothing when readOnly is true', function test() {
     render(
       <IntlProvider locale="en">
-        <SaveButton workflowState="locked" />
+        <SaveButton readOnly />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
   });
+
   context('without validation errors', () => {
     it('should render a button', function test() {
       render(

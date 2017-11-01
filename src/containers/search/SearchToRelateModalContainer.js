@@ -30,6 +30,7 @@ import {
   getSearchToRelateVocabulary,
   getSearchToRelatePageSize,
   getSearchSelectedItems,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = (state) => {
@@ -40,6 +41,7 @@ const mapStateToProps = (state) => {
     recordTypeValue: recordType,
     vocabularyValue: getSearchToRelateVocabulary(state, recordType),
     advancedSearchCondition: getSearchToRelateAdvanced(state),
+    perms: getUserPerms(state),
     preferredPageSize: getSearchToRelatePageSize(state),
     selectedItems: getSearchSelectedItems(state, searchName),
   };

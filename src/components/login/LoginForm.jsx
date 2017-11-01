@@ -61,12 +61,16 @@ const errorMessageMap = {
   'Bad credentials': 'badCredentialsError',
 };
 
+const contextTypes = {
+  config: PropTypes.object,
+};
+
 const propTypes = {
   intl: PropTypes.object.isRequired,
   isPending: PropTypes.bool,
   username: PropTypes.string,
   error: PropTypes.object,
-  onSubmit: PropTypes.func,
+  login: PropTypes.func,
   onSuccess: PropTypes.func,
 };
 
@@ -97,15 +101,19 @@ class LoginForm extends Component {
     event.preventDefault();
 
     const {
-      onSubmit,
+      login,
     } = this.props;
 
-    if (onSubmit) {
+    const {
+      config,
+    } = this.context;
+
+    if (login) {
       const form = event.target;
       const username = form.username.value;
       const password = form.password.value;
 
-      onSubmit(username, password);
+      login(config, username, password);
     }
   }
 
@@ -178,6 +186,7 @@ class LoginForm extends Component {
   }
 }
 
+LoginForm.contextTypes = contextTypes;
 LoginForm.propTypes = propTypes;
 
 export default injectIntl(LoginForm);

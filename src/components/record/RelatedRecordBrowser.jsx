@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import qs from 'qs';
 import RelatedRecordButtonBar from './RelatedRecordButtonBar';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RelationEditorContainer from '../../containers/record/RelationEditorContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
+import { canRelate } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RelatedRecordBrowser.css';
 
 const propTypes = {
@@ -12,6 +14,7 @@ const propTypes = {
   config: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -283,6 +286,7 @@ export default class RelatedRecordBrowser extends Component {
       config,
       recordType,
       csid,
+      perms,
       relatedCsid,
       relatedRecordType,
       workflowState,
@@ -299,6 +303,7 @@ export default class RelatedRecordBrowser extends Component {
         <RelationEditorContainer
           cloneCsid={cloneCsid}
           config={config}
+          perms={perms}
           subject={{
             csid,
             recordType,
@@ -317,6 +322,12 @@ export default class RelatedRecordBrowser extends Component {
       );
     }
 
+    const isRelatable = (
+      workflowState !== 'locked' &&
+      canRelate(recordType, perms) &&
+      canRelate(relatedRecordType, perms)
+    );
+
     // TODO: Vary the name of the RelatedRecordPanelContainer depending on the object record type?
     // This would allow selected items to be remembered when switching back and forth between
     // secondary tabs, instead of being cleared.
@@ -325,7 +336,7 @@ export default class RelatedRecordBrowser extends Component {
       <div className={styles.common}>
         <header>
           <RelatedRecordButtonBar
-            workflowState={workflowState}
+            isRelatable={isRelatable}
             onCreateButtonClick={this.handleCreateButtonClick}
             onRelateButtonClick={this.handleRelateButtonClick}
           />
@@ -335,9 +346,10 @@ export default class RelatedRecordBrowser extends Component {
           csid={csid}
           config={config}
           name={this.getRelatedRecordPanelName()}
+          perms={perms}
           recordType={recordType}
           relatedRecordType={relatedRecordType}
-          showCheckboxColumn={workflowState !== 'locked'}
+          showCheckboxColumn={isRelatable}
           onItemClick={this.handleRelatedRecordClick}
           onUnrelated={this.handleRelatedRecordPanelUnrelated}
         />

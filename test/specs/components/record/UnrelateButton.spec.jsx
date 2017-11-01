@@ -22,19 +22,10 @@ describe('UnrelateButton', function suite() {
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
 
-  it('should render nothing if subjectWorkflowState is \'locked\'', function test() {
+  it('should render nothing if isUnrelatable is false', function test() {
     render(
       <IntlProvider locale="en">
-        <UnrelateButton subjectWorkflowState="locked" />
-      </IntlProvider>, this.container);
-
-    expect(this.container.firstElementChild).to.equal(null);
-  });
-
-  it('should render nothing if objectWorkflowState is \'locked\'', function test() {
-    render(
-      <IntlProvider locale="en">
-        <UnrelateButton objectWorkflowState="locked" />
+        <UnrelateButton isUnrelatable={false} />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);

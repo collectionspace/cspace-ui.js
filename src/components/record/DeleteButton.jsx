@@ -15,21 +15,19 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  csid: PropTypes.string,
+  isDeletable: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  workflowState: PropTypes.string,
   onClick: PropTypes.func,
 };
 
 export default function DeleteButton(props) {
   const {
-    csid,
+    isDeletable,
     isSavePending,
-    workflowState,
     onClick,
   } = props;
 
-  if (!csid || workflowState === 'locked') {
+  if (!isDeletable) {
     return null;
   }
 

@@ -4,6 +4,7 @@ import MediaSnapshotPanel from '../../components/record/MediaSnapshotPanel';
 import {
   getRecordData,
   getRecordRelationUpdatedTimestamp,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -12,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
+    perms: getUserPerms(state),
     recordData: getRecordData(state, csid),
     recordRelationUpdatedTimestamp: getRecordRelationUpdatedTimestamp(state, csid),
   };

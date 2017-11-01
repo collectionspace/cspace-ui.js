@@ -9,7 +9,7 @@ import PublicRoute from '../routes/PublicRoute';
 import AdminPage from './AdminPage';
 import ConfigPage from './ConfigPage';
 import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
-import CreatePage from './CreatePage';
+import CreatePageContainer from '../../containers/pages/CreatePageContainer';
 import DashboardPage from './DashboardPage';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
@@ -61,7 +61,7 @@ function RootPage(props) {
         <PublicRoute path="/logout" component={LogoutPageContainer} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
-        <ProtectedRouteContainer path="/create" component={injectIntl(CreatePage)} />
+        <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
         <ProtectedRouteContainer path="/admin/config" component={ConfigPage} />
         <ProtectedRouteContainer path="/admin" component={AdminPage} />
 

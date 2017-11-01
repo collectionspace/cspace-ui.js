@@ -31,7 +31,6 @@ const data = Immutable.fromJS({
 });
 
 const store = mockStore({
-  user: Immutable.Map(),
   notification: Immutable.Map(),
   record: Immutable.fromJS({
     '': {
@@ -52,6 +51,13 @@ const store = mockStore({
   recordBrowser: Immutable.Map(),
   search: Immutable.Map(),
   searchToRelate: Immutable.Map(),
+  user: Immutable.fromJS({
+    perms: {
+      collectionobject: {
+        data: 'CRUDL',
+      },
+    },
+  }),
 });
 
 const config = {

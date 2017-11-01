@@ -136,6 +136,7 @@ const store = mockStore({
     },
   }),
   searchToRelate: Immutable.Map(),
+  user: Immutable.Map(),
 });
 
 describe('SearchPanel', function suite() {

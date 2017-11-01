@@ -16,6 +16,8 @@ import SearchResultSummary from './SearchResultSummary';
 import SearchToRelateTitleBar from './SearchToRelateTitleBar';
 import SelectBar from './SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
+import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
+import { canRelate } from '../../helpers/permissionHelpers';
 import { normalizeCondition } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/SearchToRelateModal.css';
 
@@ -59,6 +61,7 @@ const propTypes = {
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.object,
   preferredPageSize: PropTypes.number,
+  perms: PropTypes.instanceOf(Immutable.Map),
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   subjects: PropTypes.oneOfType([
     PropTypes.arrayOf(
@@ -437,6 +440,8 @@ export class BaseSearchToRelateModal extends Component {
     }
 
     const {
+      config,
+      perms,
       subjects,
     } = this.props;
 
@@ -444,7 +449,7 @@ export class BaseSearchToRelateModal extends Component {
       return false;
     }
 
-    return true;
+    return canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms);
   }
 
   renderCheckbox({ rowData, rowIndex }) {
@@ -476,6 +481,7 @@ export class BaseSearchToRelateModal extends Component {
       keywordValue,
       recordTypeValue,
       vocabularyValue,
+      perms,
       advancedSearchCondition,
       onAdvancedSearchConditionCommit,
       onKeywordCommit,
@@ -504,6 +510,7 @@ export class BaseSearchToRelateModal extends Component {
         vocabularyValue={vocabularyValue}
         keywordValue={keywordValue}
         advancedSearchCondition={advancedSearchCondition}
+        perms={perms}
         recordTypeInputReadOnly={recordTypeInputReadOnly}
         recordTypeInputRootType={recordTypeInputRootType}
         recordTypeInputServiceTypes={allowedServiceTypes}

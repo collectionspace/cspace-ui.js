@@ -39,7 +39,7 @@ const renewAuth = (username, password) => (dispatch) => {
     });
 };
 
-export const readAccountPerms = () => (dispatch, getState) => {
+export const readAccountPerms = config => (dispatch, getState) => {
   const username = getUserUsername(getState());
 
   if (!username) {
@@ -50,6 +50,9 @@ export const readAccountPerms = () => (dispatch, getState) => {
     .then(response => dispatch({
       type: ACCOUNT_PERMS_READ_FULFILLED,
       payload: response,
+      meta: {
+        config,
+      },
     }))
     .catch((error) => {
       dispatch({
@@ -61,7 +64,7 @@ export const readAccountPerms = () => (dispatch, getState) => {
     });
 };
 
-export const login = (username, password) => (dispatch) => {
+export const login = (config, username, password) => (dispatch) => {
   dispatch({
     type: LOGIN_STARTED,
     meta: {
@@ -70,7 +73,7 @@ export const login = (username, password) => (dispatch) => {
   });
 
   return dispatch(renewAuth(username, password))
-    .then(() => dispatch(readAccountPerms()))
+    .then(() => dispatch(readAccountPerms(config)))
     .then(() => dispatch(loadPrefs()))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,

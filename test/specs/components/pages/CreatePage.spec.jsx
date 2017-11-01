@@ -3,9 +3,8 @@ import { MemoryRouter as Router } from 'react-router';
 import { injectIntl, IntlProvider } from 'react-intl';
 import { render } from 'react-dom';
 import merge from 'lodash/merge';
-
+import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
-
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import BaseCreatePage from '../../../../src/components/pages/CreatePage';
 
@@ -162,6 +161,27 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+  group: {
+    data: 'CRUDL',
+  },
+  intake: {
+    data: 'CRUDL',
+  },
+  person: {
+    data: 'CRUDL',
+  },
+  exhibition: {
+    data: 'CRUDL',
+  },
+  work: {
+    data: 'CRUDL',
+  },
+});
+
 describe('CreatePage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -172,7 +192,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -185,7 +205,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -215,7 +235,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -232,7 +252,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -249,7 +269,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -287,7 +307,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={sortedConfig}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -334,7 +354,7 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={proceduresAndAuthoritiesDisabledConfig}>
           <Router>
-            <CreatePage />
+            <CreatePage perms={perms} />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);

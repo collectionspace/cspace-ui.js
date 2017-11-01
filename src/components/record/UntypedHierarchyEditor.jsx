@@ -16,6 +16,7 @@ const propTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.Map),
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
   onAddChild: PropTypes.func,
   onRemoveChild: PropTypes.func,
@@ -90,6 +91,7 @@ export class BaseUntypedHierarchyEditor extends Component {
       recordType,
       vocabulary,
       value,
+      readOnly,
     } = this.props;
 
     const source = [recordType, vocabulary].join('/');
@@ -104,12 +106,14 @@ export class BaseUntypedHierarchyEditor extends Component {
           label={intl.formatMessage(messages.parent)}
           source={source}
           value={parentRefName}
+          readOnly={readOnly}
           onCommit={this.handleParentCommit}
           matchFilter={this.filterMatch}
         />
         <CompoundInput
           label={intl.formatMessage(messages.children)}
           value={{ childRefNames }}
+          readOnly={readOnly}
         >
           <AutocompleteInputContainer
             name="childRefNames"

@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import get from 'lodash/get';
+import pickBy from 'lodash/pickBy';
 import { components as inputComponents } from 'cspace-input';
 import warning from 'warning';
+import { canCreate } from '../../helpers/permissionHelpers';
 import parseResourceID from '../../helpers/parseResourceID';
 
 import {
@@ -16,7 +18,11 @@ import {
 } from '../../actions/partialTermSearch';
 
 import withConfig from '../../enhancers/withConfig';
-import { getPartialTermSearchMatches } from '../../reducers';
+
+import {
+  getPartialTermSearchMatches,
+  getUserPerms,
+} from '../../reducers';
 
 const { AutocompleteInput } = inputComponents;
 
@@ -42,11 +48,30 @@ const messages = defineMessages({
   },
 });
 
+const getRecordTypes = (config, perms) => {
+  const { recordTypes } = config;
+
+  return pickBy(recordTypes, (recordTypeConfig, name) => {
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+    return (
+      (
+        serviceType === 'object' ||
+        serviceType === 'procedure' ||
+        serviceType === 'authority'
+      ) &&
+      canCreate(name, perms)
+    );
+  });
+};
+
 const mapStateToProps = (state, ownProps) => {
   const {
     intl,
     config,
   } = ownProps;
+
+  const perms = getUserPerms(state);
 
   return {
     formatAddPrompt: displayName => intl.formatMessage(messages.addPrompt, { displayName }),
@@ -58,7 +83,7 @@ const mapStateToProps = (state, ownProps) => {
         : get(recordTypeConfig, ['messages', 'record', 'collectionName'])
     ),
     matches: getPartialTermSearchMatches(state),
-    recordTypes: config.recordTypes,
+    recordTypes: getRecordTypes(config, perms),
   };
 };
 

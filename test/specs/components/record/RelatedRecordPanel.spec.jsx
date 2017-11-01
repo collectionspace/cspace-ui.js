@@ -35,6 +35,7 @@ const config = {
   },
   recordTypes: {
     group: {
+      name: 'group',
       messages: {
         record: {
           collectionName: {
@@ -43,9 +44,21 @@ const config = {
           },
         },
       },
+      serviceConfig: {
+        servicePath: 'groups',
+      },
     },
   },
 };
+
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+  group: {
+    data: 'CRUDL',
+  },
+});
 
 describe('RelatedRecordPanel', function suite() {
   beforeEach(function before() {
@@ -276,6 +289,7 @@ describe('RelatedRecordPanel', function suite() {
       <RelatedRecordPanel
         config={config}
         csid={csid}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -286,12 +300,12 @@ describe('RelatedRecordPanel', function suite() {
     const searchPanel = shallowRenderer.getRenderOutput();
 
     searchPanel.props.renderCheckbox({
-      rowData: Immutable.Map({ csid: '1111' }),
+      rowData: Immutable.Map({ csid: '1111', uri: '/groups/1111' }),
       rowIndex: 0,
     }).props.value.should.equal(true);
 
     searchPanel.props.renderCheckbox({
-      rowData: Immutable.Map({ csid: '5678' }),
+      rowData: Immutable.Map({ csid: '5678', uri: '/groups/5678' }),
       rowIndex: 0,
     }).props.value.should.equal(false);
   });
@@ -351,6 +365,7 @@ describe('RelatedRecordPanel', function suite() {
         config={config}
         csid={csid}
         name={panelName}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -361,7 +376,7 @@ describe('RelatedRecordPanel', function suite() {
     const searchPanel = shallowRenderer.getRenderOutput();
 
     const checkbox = searchPanel.props.renderCheckbox({
-      rowData: Immutable.Map({ csid: '1111' }),
+      rowData: Immutable.Map({ csid: '1111', uri: '/groups/1111' }),
       rowIndex: 3,
     });
 
@@ -395,6 +410,7 @@ describe('RelatedRecordPanel', function suite() {
       <RelatedRecordPanel
         config={config}
         csid={csid}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -404,7 +420,7 @@ describe('RelatedRecordPanel', function suite() {
     const searchPanel = shallowRenderer.getRenderOutput();
 
     const checkbox = searchPanel.props.renderCheckbox({
-      rowData: Immutable.Map({ csid: '1111' }),
+      rowData: Immutable.Map({ csid: '1111', uri: '/groups/1111' }),
       rowIndex: 0,
     });
 
