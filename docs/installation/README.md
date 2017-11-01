@@ -13,7 +13,7 @@ Create an HTML file, starting with this snippet:
     <script src="http://unpkg.com/cspace-ui@0.11.6/dist/cspaceUI.min.js"></script>
   </head>
   <body>
-    <main></main>
+    <div id="cspace"></div>
     <script>
       cspaceUI();
     </script>
@@ -29,7 +29,7 @@ The HTML file performs the following functions:
 
 ### Define the Container Element
 
-The HTML file must define an element into which the CollectionSpace UI will be rendered -- in this example, `main`. By default, the UI is rendered into the first `main` element found on the page, but it may be directed to use another element by setting the `container` configuration option to an appropriate CSS selector.
+The HTML file must define an element into which the CollectionSpace UI will be rendered -- in this example, `<div id="cspace">`. By default, the UI is rendered into the first element on the page whose id is `cspace`, but it may be directed to use another element by setting the `container` configuration option to an appropriate CSS selector.
 
 The container element should be empty, as its contents will be overwritten when the UI is rendered. The UI may also modify the contents of the `head` element, in order to change the title and load additional scripts and stylesheets. No other elements on the page are affected.
 

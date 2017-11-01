@@ -39,12 +39,13 @@ const store = mockStore({
 const config = {
   recordTypes: {
     collectionobject: {
+      defaultForm: 'complete',
       forms: {
-        default: {
+        complete: {
           messages: {
             name: {
-              id: 'form.collectionobject.default.name',
-              defaultMessage: 'Default Template',
+              id: 'form.collectionobject.complete.name',
+              defaultMessage: 'Complete Template',
             },
           },
           template: (
@@ -104,12 +105,13 @@ const config = {
       title: () => 'Title',
     },
     movement: {
+      defaultForm: 'complete',
       forms: {
-        default: {
+        complete: {
           messages: {
             name: {
-              id: 'form.collectionobject.default.name',
-              defaultMessage: 'Default Template',
+              id: 'form.collectionobject.complete.name',
+              defaultMessage: 'Complete Template',
             },
           },
           template: <div />,
@@ -127,12 +129,13 @@ const config = {
       title: () => 'Title',
     },
     loanin: {
+      defaultForm: 'complete',
       forms: {
-        default: {
+        complete: {
           messages: {
             name: {
-              id: 'form.collectionobject.default.name',
-              defaultMessage: 'Default Template',
+              id: 'form.collectionobject.complete.name',
+              defaultMessage: 'Complete Template',
             },
           },
           template: <div />,

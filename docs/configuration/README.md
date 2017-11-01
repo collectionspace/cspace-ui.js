@@ -20,7 +20,7 @@ The path on the web server where the UI is located. For example, if the HTML pag
 
 ### container
 ```
-container: string = 'main'
+container: string = '#cspace'
 ```
 The [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) used to locate the container element into which the UI will be rendered. If the selector matches more than one element, the first is used. The specified element should be empty, as its content will be overwritten.
 

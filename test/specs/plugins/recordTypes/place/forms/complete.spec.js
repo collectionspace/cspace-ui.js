@@ -1,10 +1,10 @@
 import Field from '../../../../../../src/components/record/Field';
-import form from '../../../../../../src/plugins/recordTypes/concept/forms/default';
+import form from '../../../../../../src/plugins/recordTypes/place/forms/complete';
 import createPluginContext from '../../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
-describe('concept record default form', function suite() {
+describe('place record complete form', function suite() {
   it('should be a Field', function test() {
     const pluginContext = createPluginContext();
     const { template } = form(pluginContext);

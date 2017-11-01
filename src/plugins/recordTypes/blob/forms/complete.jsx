@@ -3,8 +3,8 @@ import { defineMessages } from 'react-intl';
 export default () => ({
   messages: defineMessages({
     name: {
-      id: 'form.blob.default.name',
-      defaultMessage: 'Standard Template',
+      id: 'form.blob.complete.name',
+      defaultMessage: 'All Fields',
     },
   }),
   sortOrder: 0,

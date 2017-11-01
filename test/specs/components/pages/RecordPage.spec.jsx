@@ -35,8 +35,9 @@ const config = {
         servicePath: 'collectionobjects',
         serviceType: 'object',
       },
+      defaultForm: 'complete',
       forms: {
-        default: {
+        complete: {
           template: <div />,
         },
       },
@@ -77,8 +78,9 @@ const config = {
         servicePath: 'authorities',
         serviceType: 'authority',
       },
+      defaultForm: 'complete',
       forms: {
-        default: {
+        complete: {
           template: <div />,
         },
       },

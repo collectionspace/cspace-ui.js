@@ -1,9 +1,9 @@
-import defaultForm from './default';
+import completeForm from './complete';
 import uploadForm from './upload';
 import viewForm from './view';
 
 export default pluginContext => ({
-  default: defaultForm(pluginContext),
+  complete: completeForm(pluginContext),
   upload: uploadForm(pluginContext),
   view: viewForm(pluginContext),
 });
