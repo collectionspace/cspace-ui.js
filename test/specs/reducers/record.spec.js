@@ -192,9 +192,7 @@ describe('record reducer', function suite() {
     });
 
     getNewData(state).should.equal(Immutable.fromJS({
-      document: {
-        '@name': 'groups',
-      },
+      document: {},
     }));
 
     isModified(state, '').should.equal(false);
@@ -216,9 +214,7 @@ describe('record reducer', function suite() {
     });
 
     getNewData(state).should.equal(Immutable.fromJS({
-      document: {
-        '@name': 'collectionobjects',
-      },
+      document: {},
     }));
 
     isModified(state, '').should.equal(false);
@@ -281,17 +277,13 @@ describe('record reducer', function suite() {
     });
 
     getNewData(state).should.equal(Immutable.fromJS({
-      document: {
-        '@name': 'groups',
-      },
+      document: {},
     }));
 
     const contactSubrecordCsid = getNewSubrecordCsid(state, 'contact');
 
     getData(state, contactSubrecordCsid).should.equal(Immutable.fromJS({
-      document: {
-        '@name': 'contacts',
-      },
+      document: {},
     }));
 
     getSubrecordCsid(state, '', 'contact').should.equal(contactSubrecordCsid);
@@ -333,9 +325,7 @@ describe('record reducer', function suite() {
     const blobSubrecordCsid = getNewSubrecordCsid(state, 'blob');
 
     getData(state, blobSubrecordCsid).should.equal(Immutable.fromJS({
-      document: {
-        '@name': 'blobs',
-      },
+      document: {},
     }));
 
     getSubrecordCsid(state, '', 'blob').should.equal(blobSubrecordCsid);
@@ -1439,14 +1429,10 @@ describe('record reducer', function suite() {
       [expectedNewSubrecordKey]: {
         data: {
           baseline: {
-            document: {
-              '@name': 'blobs',
-            },
+            document: {},
           },
           current: {
-            document: {
-              '@name': 'blobs',
-            },
+            document: {},
           },
         },
       },
@@ -1504,14 +1490,10 @@ describe('record reducer', function suite() {
       [expectedNewSubrecordKey]: {
         data: {
           baseline: {
-            document: {
-              '@name': 'blobs',
-            },
+            document: {},
           },
           current: {
-            document: {
-              '@name': 'blobs',
-            },
+            document: {},
           },
         },
       },

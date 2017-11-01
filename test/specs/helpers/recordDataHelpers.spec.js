@@ -736,10 +736,6 @@ describe('recordDataHelpers', function moduleSuite() {
       Immutable.Map.isMap(createBlankRecord(recordTypeConfig)).should.equal(true);
     });
 
-    it('should set the @name property to the document name', function test() {
-      createBlankRecord(recordTypeConfig).get('document').get('@name').should.equal('groups');
-    });
-
     it('should create properties for each service part', function test() {
       const document = createBlankRecord(recordTypeConfig);
 
