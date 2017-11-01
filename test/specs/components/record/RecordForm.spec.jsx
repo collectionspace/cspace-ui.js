@@ -30,13 +30,12 @@ const store = mockStore({
 const config = {
   recordTypes: {
     collectionobject: {
-      defaultForm: 'complete',
       forms: {
-        complete: {
+        default: {
           messages: {
             name: {
-              id: 'form.collectionobject.complete.name',
-              defaultMessage: 'Complete Template',
+              id: 'form.collectionobject.default.name',
+              defaultMessage: 'Default Template',
             },
           },
           template: (

@@ -1,7 +1,7 @@
-import completeForm from './complete';
+import defaultForm from './default';
 import doorstepForm from './doorstep';
 
 export default pluginContext => ({
-  complete: completeForm(pluginContext),
+  default: defaultForm(pluginContext),
   doorstep: doorstepForm(pluginContext),
 });

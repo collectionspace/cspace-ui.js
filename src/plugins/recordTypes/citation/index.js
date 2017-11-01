@@ -16,7 +16,6 @@ export default () => pluginContext => ({
       columns,
       messages,
       serviceConfig,
-      defaultForm: 'complete',
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

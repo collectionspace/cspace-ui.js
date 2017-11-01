@@ -576,8 +576,8 @@ const template = (pluginContext) => {
 export default pluginContext => ({
   messages: defineMessages({
     name: {
-      id: 'form.collectionobject.complete.name',
-      defaultMessage: 'All Fields',
+      id: 'form.collectionobject.default.name',
+      defaultMessage: 'Standard Template',
     },
   }),
   sortOrder: 0,

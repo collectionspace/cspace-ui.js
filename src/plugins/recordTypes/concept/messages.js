@@ -16,7 +16,7 @@ export default {
   panel: defineMessages({
     info: {
       id: 'panel.concept.info',
-      defaultMessage: 'Concept Information',
+      defaultMessage: 'Concept Authority',
     },
     hierarchy: {
       id: 'panel.concept.hierarchy',

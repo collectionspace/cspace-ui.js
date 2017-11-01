@@ -1,5 +1,5 @@
-import completeForm from './complete';
+import defaultForm from './default';
 
 export default pluginContext => ({
-  complete: completeForm(pluginContext),
+  default: defaultForm(pluginContext),
 });

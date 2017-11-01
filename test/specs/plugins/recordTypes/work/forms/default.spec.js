@@ -1,10 +1,10 @@
 import Field from '../../../../../../src/components/record/Field';
-import form from '../../../../../../src/plugins/recordTypes/loanin/forms/complete';
+import form from '../../../../../../src/plugins/recordTypes/work/forms/default';
 import createPluginContext from '../../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
-describe('loan-in record complete form', function suite() {
+describe('work record default form', function suite() {
   it('should be a Field', function test() {
     const pluginContext = createPluginContext();
     const { template } = form(pluginContext);

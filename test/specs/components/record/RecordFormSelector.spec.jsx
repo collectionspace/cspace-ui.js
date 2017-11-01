@@ -13,13 +13,12 @@ chai.should();
 const config = {
   recordTypes: {
     collectionobject: {
-      defaultForm: 'complete',
       forms: {
-        complete: {
+        default: {
           messages: {
             name: {
-              id: 'form.collectionobject.complete.name',
-              defaultMessage: 'Complete Template',
+              id: 'form.collectionobject.default.name',
+              defaultMessage: 'Default Template',
             },
           },
           template: <div />,
@@ -45,13 +44,12 @@ const config = {
       },
     },
     group: {
-      defaultForm: 'complete',
       forms: {
-        complete: {
+        default: {
           messages: {
             name: {
-              id: 'form.group.complete.name',
-              defaultMessage: 'Complete Template',
+              id: 'form.group.default.name',
+              defaultMessage: 'Default Template',
             },
           },
           template: <div />,
@@ -153,7 +151,7 @@ describe('RecordFormSelector', function suite() {
 
     items.should.have.lengthOf(3);
 
-    items[0].textContent.should.equal('Complete Template');
+    items[0].textContent.should.equal('Default Template');
     items[1].textContent.should.equal('Inventory Template');
     items[2].textContent.should.equal('Photo Template');
   });
@@ -162,9 +160,8 @@ describe('RecordFormSelector', function suite() {
     const sortedConfig = merge({}, config, {
       recordTypes: {
         collectionobject: {
-          defaultForm: 'complete',
           forms: {
-            complete: {
+            default: {
               sortOrder: 2,
             },
             inventory: {
@@ -201,6 +198,6 @@ describe('RecordFormSelector', function suite() {
 
     items[0].textContent.should.equal('Inventory Template');
     items[1].textContent.should.equal('Photo Template');
-    items[2].textContent.should.equal('Complete Template');
+    items[2].textContent.should.equal('Default Template');
   });
 });
