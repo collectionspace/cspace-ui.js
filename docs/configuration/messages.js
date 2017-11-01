@@ -3920,7 +3920,7 @@ export default {
 
   "panel.concept.hierarchy": "Hierarchy",
 
-  "panel.concept.info": "Concept Authority",
+  "panel.concept.info": "Concept Information",
 
   "panel.conditioncheck.conditionCheckAndTechAssessmentInfo": "Condition Check/Technical Assessment Information",
 
