@@ -57,9 +57,10 @@ const store = mockStore({
 const config = {
   recordTypes: {
     collectionobject: {
+      defaultForm: 'complete',
       fields: {},
       forms: {
-        default: {
+        complete: {
           template: <div />,
         },
       },

@@ -1,9 +1,9 @@
-import defaultForm from './default';
+import completeForm from './complete';
 import inventoryForm from './inventory';
 import photoForm from './photo';
 
 export default pluginContext => ({
-  default: defaultForm(pluginContext),
+  complete: completeForm(pluginContext),
   inventory: inventoryForm(pluginContext),
   photo: photoForm(pluginContext),
 });
