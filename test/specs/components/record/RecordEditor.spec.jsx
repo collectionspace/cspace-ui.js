@@ -108,11 +108,20 @@ const config = {
         default: {
           messages: {
             name: {
-              id: 'form.collectionobject.default.name',
+              id: 'form.movement.default.name',
               defaultMessage: 'Default Template',
             },
           },
-          template: <div />,
+          template: <div>Default</div>,
+        },
+        other: {
+          messages: {
+            name: {
+              id: 'form.movement.other.name',
+              defaultMessage: 'Other Template',
+            },
+          },
+          template: <div>Other</div>,
         },
       },
       lockOnSave: 'prompt',
@@ -131,7 +140,7 @@ const config = {
         default: {
           messages: {
             name: {
-              id: 'form.collectionobject.default.name',
+              id: 'form.loanin.default.name',
               defaultMessage: 'Default Template',
             },
           },
@@ -144,6 +153,38 @@ const config = {
           name: {
             id: 'name',
             defaultMessage: 'Loan In',
+          },
+        },
+      },
+      title: () => 'Title',
+    },
+    loanout: {
+      defaultForm: 'other',
+      forms: {
+        default: {
+          messages: {
+            name: {
+              id: 'form.loanout.default.name',
+              defaultMessage: 'Default Template',
+            },
+          },
+          template: <div>Default</div>,
+        },
+        other: {
+          messages: {
+            name: {
+              id: 'form.loanout.other.name',
+              defaultMessage: 'Other Template',
+            },
+          },
+          template: <div>Other</div>,
+        },
+      },
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'Loan Out',
           },
         },
       },
@@ -195,6 +236,42 @@ describe('RecordEditor', function suite() {
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
+  });
+
+  it('should render the \'default\' form if no formName is supplied, and no default form is configured', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="movement"
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-RecordFormSelector--common input').value.should.equal('Default Template');
+    this.container.querySelector('.cspace-ui-RecordForm--common').textContent.should.equal('Default');
+  });
+
+  it('should render the configured default form if no formName is supplied', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="loanout"
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-RecordFormSelector--common input').value.should.equal('Other Template');
+    this.container.querySelector('.cspace-ui-RecordForm--common').textContent.should.equal('Other');
   });
 
   it('should call readRecord when mounted if a csid is provided', function test() {

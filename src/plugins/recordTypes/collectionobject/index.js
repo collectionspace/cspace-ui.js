@@ -17,6 +17,7 @@ export default () => pluginContext => ({
       columns,
       messages,
       serviceConfig,
+      defaultForm: 'inventory',
       defaultForSearch: true, // Is this the default in search dropdowns?
       fields: fields(pluginContext),
       forms: forms(pluginContext),

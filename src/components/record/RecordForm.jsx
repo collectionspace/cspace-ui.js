@@ -48,7 +48,6 @@ const propTypes = {
 
 const defaultProps = {
   data: Immutable.Map(),
-  formName: 'default',
 };
 
 const childContextTypes = {
@@ -106,19 +105,35 @@ export default class RecordForm extends Component {
       onRemoveInstance,
     };
 
-    let formTemplate = get(forms, [formName, 'template']);
+    let formTemplate;
+
+    if (formName) {
+      formTemplate = get(forms, [formName, 'template']);
+    }
+
+    if (!formTemplate) {
+      // Try to get the configured default form.
+
+      const defaultFormName = recordTypeConfig.defaultForm || 'default';
+
+      if (defaultFormName) {
+        formTemplate = get(forms, [defaultFormName, 'template']);
+      }
+
+      warning(formTemplate, `No form template found for form name ${formName} or default form name ${defaultFormName} in record type ${recordType}. Check the record type plugin configuration.`);
+    }
 
     if (typeof formTemplate === 'function') {
-      const resolvedFormName = formTemplate(data);
+      const computedFormName = formTemplate(data);
 
-      if (!resolvedFormName) {
+      if (!computedFormName) {
         return null;
       }
 
-      formTemplate = forms[resolvedFormName].template;
-    }
+      formTemplate = forms[computedFormName].template;
 
-    warning(formTemplate, `No form template found for form name ${formName} in record type ${recordType}. Check the record type plugin configuration.`);
+      warning(formTemplate, `No form template found for computed form name ${computedFormName} in record type ${recordType}. Check the record type plugin configuration.`);
+    }
 
     const formContent = React.cloneElement(formTemplate, {
       readOnly,
