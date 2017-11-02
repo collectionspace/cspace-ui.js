@@ -1,5 +1,6 @@
 import React from 'react';
 import Immutable from 'immutable';
+import { defineMessages } from 'react-intl';
 
 import { components as inputComponents } from 'cspace-input';
 import { Col, Cols, Row } from 'cspace-layout';
@@ -22,6 +23,7 @@ import Subrecord from '../components/record/Subrecord';
 import ContentViewer from '../components/record/ContentViewer';
 
 import * as dataTypes from '../constants/dataTypes';
+import * as searchOperators from '../constants/searchOperators';
 
 import withBooleanValue from '../enhancers/withBooleanValue';
 
@@ -34,6 +36,8 @@ import {
   getPart,
   getPartPropertyName,
 } from '../helpers/recordDataHelpers';
+
+import * as formatHelpers from '../helpers/formatHelpers';
 
 const {
   CheckboxInput: BaseCheckboxInput,
@@ -54,6 +58,8 @@ const UploadInput = UploadInputContainer;
 
 export default () => ({
   dataTypes,
+  formatHelpers,
+  searchOperators,
   lib: {
     Immutable,
     React,
@@ -87,6 +93,7 @@ export default () => ({
   },
   configHelpers: {
     configKey,
+    defineMessages,
   },
   recordDataHelpers: {
     deepGet,
