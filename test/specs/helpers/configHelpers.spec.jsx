@@ -7,6 +7,9 @@ import {
   findFieldConfigInPart,
   getDefaults,
   getDefaultValue,
+  getFieldCustomValidator,
+  getFieldComputer,
+  getFieldDataType,
   initConfig,
   mergeConfig,
   applyPlugins,
@@ -18,10 +21,20 @@ import {
   getRecordTypeNameByServiceObjectName,
   getVocabularyConfigByShortID,
   isFieldCloneable,
+  isFieldRequired,
+  isFieldRepeating,
   getDefaultSearchRecordType,
   getDefaultSearchVocabulary,
   validateLocation,
+  isAuthority,
+  isUtility,
 } from '../../../src/helpers/configHelpers';
+
+import {
+  DATA_TYPE_INT,
+  DATA_TYPE_MAP,
+  DATA_TYPE_STRING,
+} from '../../../src/constants/dataTypes';
 
 import {
   ERR_INVALID_CSID,
@@ -202,6 +215,41 @@ describe('configHelpers', function moduleSuite() {
         options: {
           languages: {},
         },
+      });
+    });
+
+    it('should overwrite arrays in the target with the source value, instead of deeply merging them', function test() {
+      const sourceArray = [1, 2, 3, 4];
+      const targetArray = [5, 6, 7];
+
+      mergeConfig({
+        values: targetArray,
+      }, {
+        values: sourceArray,
+      }).should.deep.equal({
+        values: sourceArray,
+      });
+    });
+
+    it('should overwrite the \'advancedSearch\' key in the target with the source value, instead of deeply merging them', function test() {
+      const sourceConfig = {
+        foo: {
+          abc: 123,
+        },
+      };
+
+      const targetConfig = {
+        bar: {
+          def: 456,
+        },
+      };
+
+      mergeConfig({
+        advancedSearch: targetConfig,
+      }, {
+        advancedSearch: sourceConfig,
+      }).should.deep.equal({
+        advancedSearch: sourceConfig,
       });
     });
 
@@ -493,9 +541,59 @@ describe('configHelpers', function moduleSuite() {
     });
 
     it('should default to true', function test() {
+      isFieldCloneable({}).should.equal(true);
+
       isFieldCloneable({
         [configKey]: {},
       }).should.equal(true);
+    });
+  });
+
+  describe('isFieldRepeating', function suite() {
+    it('should return the repeating configuration setting', function test() {
+      isFieldRepeating({
+        [configKey]: {
+          repeating: false,
+        },
+      }).should.equal(false);
+
+      isFieldRepeating({
+        [configKey]: {
+          repeating: true,
+        },
+      }).should.equal(true);
+    });
+
+    it('should default to false', function test() {
+      isFieldRepeating({}).should.equal(false);
+
+      isFieldRepeating({
+        [configKey]: {},
+      }).should.equal(false);
+    });
+  });
+
+  describe('isFieldRequired', function suite() {
+    it('should return the required configuration setting', function test() {
+      isFieldRequired({
+        [configKey]: {
+          required: false,
+        },
+      }).should.equal(false);
+
+      isFieldRequired({
+        [configKey]: {
+          required: true,
+        },
+      }).should.equal(true);
+    });
+
+    it('should default to false', function test() {
+      isFieldRequired({}).should.equal(false);
+
+      isFieldRequired({
+        [configKey]: {},
+      }).should.equal(false);
     });
   });
 
@@ -721,6 +819,119 @@ describe('configHelpers', function moduleSuite() {
     it('should return null if an unknown field name is supplied', function test() {
       expect(findFieldConfigInPart(recordTypeConfig, 'collectionobjects_common', 'foo')).to
         .equal(null);
+    });
+  });
+
+  describe('isAuthority', function suite() {
+    it('should return true if the service type is \'authority\'', function test() {
+      isAuthority({
+        serviceConfig: {
+          serviceType: 'authority',
+        },
+      }).should.equal(true);
+    });
+
+    it('should return true if the service type is not \'authority\'', function test() {
+      isAuthority({
+        serviceConfig: {
+          serviceType: 'procedure',
+        },
+      }).should.equal(false);
+    });
+  });
+
+  describe('isUtility', function suite() {
+    it('should return true if the service type is \'utility\'', function test() {
+      isUtility({
+        serviceConfig: {
+          serviceType: 'utility',
+        },
+      }).should.equal(true);
+    });
+
+    it('should return true if the service type is not \'utility\'', function test() {
+      isUtility({
+        serviceConfig: {
+          serviceType: 'procedure',
+        },
+      }).should.equal(false);
+    });
+  });
+
+  describe('getFieldCustomValidator', function suite() {
+    it('should return the validator from a field descriptor', function test() {
+      const validator = () => '';
+
+      const fieldDescriptor = {
+        [configKey]: {
+          validate: validator,
+        },
+      };
+
+      getFieldCustomValidator(fieldDescriptor).should.equal(validator);
+    });
+
+    it('should return undefined if there is no field configuration', function test() {
+      const fieldDescriptor = {};
+
+      expect(getFieldCustomValidator(fieldDescriptor)).to.equal(undefined);
+    });
+  });
+
+  describe('getFieldComputer', function suite() {
+    it('should return the compute function from a field descriptor', function test() {
+      const computer = () => '';
+
+      const fieldDescriptor = {
+        [configKey]: {
+          compute: computer,
+        },
+      };
+
+      getFieldComputer(fieldDescriptor).should.equal(computer);
+    });
+
+    it('should return undefined if there is no field configuration', function test() {
+      const fieldDescriptor = {};
+
+      expect(getFieldComputer(fieldDescriptor)).to.equal(undefined);
+    });
+  });
+
+  describe('getFieldDataType', function suite() {
+    it('should return the data type from a field descriptor', function test() {
+      const dataType = DATA_TYPE_INT;
+
+      const fieldDescriptor = {
+        [configKey]: {
+          dataType,
+        },
+      };
+
+      getFieldDataType(fieldDescriptor).should.equal(dataType);
+    });
+
+    it('should default to string if there is no field configuration', function test() {
+      const fieldDescriptor = {};
+
+      expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_STRING);
+    });
+
+    it('should default to string if there is no data type specified in configuration', function test() {
+      const fieldDescriptor = {
+        [configKey]: {},
+      };
+
+      expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_STRING);
+    });
+
+    it('should default to map if there is no data type specified in configuration and child fields are defined', function test() {
+      const fieldDescriptor = {
+        [configKey]: {},
+        child: {},
+      };
+
+      expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_MAP);
     });
   });
 });

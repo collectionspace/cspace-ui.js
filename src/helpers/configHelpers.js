@@ -73,9 +73,19 @@ export const applyPlugins = (targetConfig, plugins, pluginContext) => {
     applyPlugin(updatedConfig, plugin, pluginContext), targetConfig);
 };
 
-const configMerger = (objValue, srcValue) => {
+const configMerger = (objValue, srcValue, key) => {
+  if (Array.isArray(objValue)) {
+    // Don't merge arrays. Just override with the source value.
+    return srcValue;
+  }
+
+  if (key === 'advancedSearch') {
+    // Don't merge advanced serach config. Just override with the source value.
+    return srcValue;
+  }
+
   if (React.isValidElement(objValue)) {
-    // Don't merge React elements. Just override with the source value.
+    // Don't merge React elements, e.g. in form templates. Just override with the source value.
     return srcValue;
   }
 
@@ -83,11 +93,15 @@ const configMerger = (objValue, srcValue) => {
 };
 
 export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
-  const pluginsAppliedConfig = (sourceConfig && ('plugins' in sourceConfig))
-    ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
+  const resolvedSourceConfig = typeof sourceConfig === 'function'
+    ? sourceConfig(pluginContext)
+    : sourceConfig;
+
+  const pluginsAppliedConfig = (resolvedSourceConfig && ('plugins' in resolvedSourceConfig))
+    ? applyPlugins(targetConfig, resolvedSourceConfig.plugins, pluginContext)
     : targetConfig;
 
-  const mergedConfig = mergeWith({}, pluginsAppliedConfig, sourceConfig, configMerger);
+  const mergedConfig = mergeWith({}, pluginsAppliedConfig, resolvedSourceConfig, configMerger);
 
   delete mergedConfig.plugins;
 
@@ -253,27 +267,23 @@ export const isFieldCloneable = (fieldDescriptor) => {
 };
 
 export const isFieldRepeating = (fieldDescriptor) => {
-  let repeating;
+  const config = fieldDescriptor[configKey];
 
-  const fieldConfig = fieldDescriptor[configKey];
-
-  if (fieldConfig) {
-    repeating = fieldConfig.repeating;
+  if (config && 'repeating' in config) {
+    return config.repeating;
   }
 
-  return repeating;
+  return false;
 };
 
 export const isFieldRequired = (fieldDescriptor) => {
-  let required;
+  const config = fieldDescriptor[configKey];
 
-  const fieldConfig = fieldDescriptor[configKey];
-
-  if (fieldConfig) {
-    required = fieldConfig.required;
+  if (config && 'required' in config) {
+    return config.required;
   }
 
-  return required;
+  return false;
 };
 
 export const getFieldDataType = (fieldDescriptor) => {
