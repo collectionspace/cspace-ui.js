@@ -102,5 +102,6 @@ export default pluginContext => ({
       id: 'form.citation.default.name',
       defaultMessage: 'Standard Template',
     },
-  }),  template: template(pluginContext),
+  }),
+  template: template(pluginContext),
 });
