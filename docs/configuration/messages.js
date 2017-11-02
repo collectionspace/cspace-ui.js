@@ -2258,11 +2258,15 @@ export default {
 
   "footer.release": "Release {version}",
 
+  "form.acquisition.default.name": "Standard Template",
+
   "form.blob.default.name": "Standard Template",
 
   "form.blob.upload.name": "Upload Template",
 
   "form.blob.view.name": "View Template",
+
+  "form.citation.default.name": "Standard Template",
 
   "form.collectionobject.default.name": "Standard Template",
 
@@ -2270,9 +2274,43 @@ export default {
 
   "form.collectionobject.photo.name": "Photograph Template",
 
+  "form.concept.default.name": "Standard Template",
+
+  "form.conditioncheck.default.name": "Standard Template",
+
+  "form.conservation.default.name": "Standard Template",
+
+  "form.contact.default.name": "Standard Template",
+
+  "form.exhibition.default.name": "Standard Template",
+
+  "form.group.default.name": "Standard Template",
+
   "form.intake.default.name": "Standard Template",
 
   "form.intake.doorstep.name": "Doorstep Donation Template",
+
+  "form.loanin.default.name": "Standard Template",
+
+  "form.loanout.default.name": "Standard Template",
+
+  "form.location.default.name": "Standard Template",
+
+  "form.media.default.name": "Standard Template",
+
+  "form.movement.default.name": "Standard Template",
+
+  "form.objectexit.default.name": "Standard Template",
+
+  "form.organization.default.name": "Standard Template",
+
+  "form.person.default.name": "Standard Template",
+
+  "form.place.default.name": "Standard Template",
+
+  "form.pottag.default.name": "Standard Template",
+
+  "form.taxon.default.name": "Standard Template",
 
   // The title (advisory text) of the application logo image.
   "header.logoTitle": "CollectionSpace",
