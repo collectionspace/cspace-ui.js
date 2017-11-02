@@ -114,7 +114,7 @@ export default class RecordForm extends Component {
     if (!formTemplate) {
       // Try to get the configured default form.
 
-      const defaultFormName = recordTypeConfig.defaultForm;
+      const defaultFormName = recordTypeConfig.defaultForm || 'default';
 
       if (defaultFormName) {
         formTemplate = get(forms, [defaultFormName, 'template']);

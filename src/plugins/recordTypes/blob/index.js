@@ -17,7 +17,6 @@ export default () => pluginContext => ({
           subresource: 'derivativeThumbnail',
         },
       },
-      defaultForm: 'complete',
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       // Override the default cspace-client requestConfig, since we need to

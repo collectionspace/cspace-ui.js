@@ -148,8 +148,8 @@ const template = (pluginContext) => {
 export default pluginContext => ({
   messages: defineMessages({
     name: {
-      id: 'form.intake.complete.name',
-      defaultMessage: 'All Fields',
+      id: 'form.intake.default.name',
+      defaultMessage: 'Standard Template',
     },
   }),
   sortOrder: 0,

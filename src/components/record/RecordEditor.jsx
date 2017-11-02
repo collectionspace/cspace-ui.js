@@ -45,7 +45,6 @@ const propTypes = {
 
 const defaultProps = {
   data: Immutable.Map(),
-  formName: 'default',
 };
 
 export default class RecordEditor extends Component {
@@ -430,6 +429,7 @@ export default class RecordEditor extends Component {
     }
 
     const workflowState = getWorkflowState(data);
+    const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
 
     return (
       <form className={styles.common} autoComplete="off">
@@ -445,7 +445,7 @@ export default class RecordEditor extends Component {
           onCloneButtonClick={this.handleCloneButtonClick}
           onDeleteButtonClick={this.handleDeleteButtonClick}
           config={config}
-          formName={formName}
+          formName={selectedFormName}
           recordType={recordType}
           relatedSubjectWorkflowState={relatedSubjectWorkflowState}
           onCommit={this.handleRecordFormSelectorCommit}
@@ -456,7 +456,7 @@ export default class RecordEditor extends Component {
           config={config}
           csid={csid}
           data={data}
-          formName={formName}
+          formName={selectedFormName}
           readOnly={workflowState === 'locked'}
           recordType={recordType}
         />

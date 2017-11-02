@@ -19,10 +19,6 @@ const propTypes = {
   detachSubrecord: PropTypes.func,
 };
 
-const defaultProps = {
-  template: 'default',
-};
-
 export default class SubrecordEditor extends Component {
   constructor() {
     super();
@@ -80,4 +76,3 @@ export default class SubrecordEditor extends Component {
 }
 
 SubrecordEditor.propTypes = propTypes;
-SubrecordEditor.defaultProps = defaultProps;

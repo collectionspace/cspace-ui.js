@@ -2258,19 +2258,19 @@ export default {
 
   "footer.release": "Release {version}",
 
-  "form.blob.complete.name": "All Fields",
+  "form.blob.default.name": "Standard Template",
 
   "form.blob.upload.name": "Upload Template",
 
   "form.blob.view.name": "View Template",
 
-  "form.collectionobject.complete.name": "All Fields",
+  "form.collectionobject.default.name": "Standard Template",
 
   "form.collectionobject.inventory.name": "Inventory Template",
 
   "form.collectionobject.photo.name": "Photograph Template",
 
-  "form.intake.complete.name": "All Fields",
+  "form.intake.default.name": "Standard Template",
 
   "form.intake.doorstep.name": "Doorstep Donation Template",
 

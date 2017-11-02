@@ -87,9 +87,8 @@ const config = {
       serviceConfig: {
         servicePath: 'groups',
       },
-      defaultForm: 'complete',
       forms: {
-        complete: {
+        default: {
           template: <div />,
         },
       },
