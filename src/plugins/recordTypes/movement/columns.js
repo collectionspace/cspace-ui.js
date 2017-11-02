@@ -1,6 +1,5 @@
 import { defineMessages } from 'react-intl';
-import { getDisplayName } from 'cspace-refname';
-import { formatTimestamp, formatWorkflowStateIcon } from '../../../helpers/formatHelpers';
+import { formatRefName, formatTimestamp, formatWorkflowStateIcon } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -30,7 +29,7 @@ export default {
           defaultMessage: 'Current location',
         },
       }),
-      formatValue: getDisplayName,
+      formatValue: formatRefName,
       sortBy: 'movements_common:currentLocation',
       width: 380,
     },

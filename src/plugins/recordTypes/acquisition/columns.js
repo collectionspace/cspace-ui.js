@@ -1,6 +1,5 @@
 import { defineMessages } from 'react-intl';
-import { getDisplayName } from 'cspace-refname';
-import { formatTimestamp } from '../../../helpers/formatHelpers';
+import { formatRefName, formatTimestamp } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -23,7 +22,7 @@ export default {
           defaultMessage: 'Acquisition source',
         },
       }),
-      formatValue: value => getDisplayName(value),
+      formatValue: formatRefName,
       sortBy: 'acquisitions_common:acquisitionSources/0/acquisitionSource',
       width: 400,
     },

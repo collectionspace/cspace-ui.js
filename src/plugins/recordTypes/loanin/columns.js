@@ -1,6 +1,5 @@
 import { defineMessages } from 'react-intl';
-import { getDisplayName } from 'cspace-refname';
-import { formatTimestamp } from '../../../helpers/formatHelpers';
+import { formatRefName, formatTimestamp } from '../../../helpers/formatHelpers';
 
 export default {
   default: [
@@ -23,7 +22,7 @@ export default {
           defaultMessage: 'Lender',
         },
       }),
-      formatValue: value => getDisplayName(value),
+      formatValue: formatRefName,
       sortBy: 'loansin_common:lender',
       width: 400,
     },

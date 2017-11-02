@@ -1,5 +1,5 @@
 import React from 'react';
-import { getServicePath, getVocabularyShortID } from 'cspace-refname';
+import { getDisplayName, getServicePath, getVocabularyShortID } from 'cspace-refname';
 import WorkflowStateIcon from '../components/record/WorkflowStateIcon';
 
 import {
@@ -28,6 +28,8 @@ export const formatServiceObjectName = (serviceObjectName, { intl, config }) => 
 
   return `[ ${serviceObjectName.toLowerCase()} ]`;
 };
+
+export const formatRefName = refName => getDisplayName(refName);
 
 export const formatRefNameAsRecordType = (refName, { intl, config }) => {
   const recordServicePath = getServicePath(refName);

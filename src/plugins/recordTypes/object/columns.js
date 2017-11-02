@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl';
-import { getDisplayName } from 'cspace-refname';
 
 import {
+  formatRefName,
   formatTimestamp,
   formatServiceObjectName,
 } from '../../../helpers/formatHelpers';
@@ -18,7 +18,7 @@ export default {
       }),
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => getDisplayName(value) || value,
+      formatValue: value => formatRefName(value) || value,
       width: 200,
     },
     {
@@ -31,7 +31,7 @@ export default {
       }),
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => getDisplayName(value) || value,
+      formatValue: value => formatRefName(value) || value,
       width: 300,
     },
     {
