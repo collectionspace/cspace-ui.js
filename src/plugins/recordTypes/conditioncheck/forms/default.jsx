@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 const template = (pluginContext) => {
   const {
     React,
@@ -123,5 +125,11 @@ const template = (pluginContext) => {
 };
 
 export default pluginContext => ({
+  messages: defineMessages({
+    name: {
+      id: 'form.conditioncheck.default.name',
+      defaultMessage: 'Standard Template',
+    },
+  }),
   template: template(pluginContext),
 });

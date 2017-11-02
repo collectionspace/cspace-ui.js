@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 const template = (pluginContext) => {
   const {
     React,
@@ -95,5 +97,10 @@ const template = (pluginContext) => {
 };
 
 export default pluginContext => ({
-  template: template(pluginContext),
+  messages: defineMessages({
+    name: {
+      id: 'form.citation.default.name',
+      defaultMessage: 'Standard Template',
+    },
+  }),  template: template(pluginContext),
 });
