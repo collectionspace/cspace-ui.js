@@ -91,7 +91,7 @@ The time zone of the server specified in `serverUrl`, as a [time zone name](http
 
 ```JavaScript
 cspaceUI({
-  serverUrl: 'http://nightly.collectionspace.org:8180',
+  serverUrl: 'https://nightly.collectionspace.org',
 
   // nightly.collectionspace.org is on east coast time
   serverTimeZone: 'America/New_York',

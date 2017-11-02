@@ -49,7 +49,7 @@ The `cspaceUI` function accepts a single argument: a configuration object. For e
 cspaceUI({
   basename: '/mymuseum',
   container: 'div.cspaceUI',
-  serverUrl: 'http://nightly.collectionspace.org:8180',
+  serverUrl: 'https://nightly.collectionspace.org',
   messages: {
     'about.title': 'Welcome to My Museum CollectionSpace',
   },

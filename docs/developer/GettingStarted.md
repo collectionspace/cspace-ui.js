@@ -43,7 +43,7 @@ To run the cspace-ui application, use the command:
 ```
 npm run devserver
 ```
-This starts a local web server, listening on port 8080. In a browser, open the URL `http://localhost:8080`. You should see the CollectionSpace UI. This UI is configured to connect to the REST API on the nightly build server (http://nightly.collectionspace.org:8180), so you should be able to log in and see records from that server.
+This starts a local web server, listening on port 8080. In a browser, open the URL `http://localhost:8080`. You should see the CollectionSpace UI. This UI is configured to connect to the REST API on the nightly build server (https://nightly.collectionspace.org), so you should be able to log in and see records from that server.
 
 As you edit files, changes are automatically detected and deployed into the dev server, and the browser automatically reloads the page. You should always be looking at your latest code, without doing anything.
 
