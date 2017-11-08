@@ -107,7 +107,8 @@ describe('user reducer', function suite() {
         group: {
           data: 'RL',
         },
-        createNew: true,
+        canCreateNew: true,
+        canAdmin: false,
       },
     }));
 

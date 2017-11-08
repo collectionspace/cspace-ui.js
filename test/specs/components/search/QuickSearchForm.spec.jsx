@@ -19,6 +19,19 @@ const intl = {
 
 const config = {
   recordTypes: {
+    all: {
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.all.collectionName',
+            defaultMessage: 'All',
+          },
+        },
+      },
+      serviceConfig: {
+        serviceType: 'utility',
+      },
+    },
     person: {
       messages: {
         record: {

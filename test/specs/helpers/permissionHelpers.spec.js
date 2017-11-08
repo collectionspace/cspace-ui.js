@@ -10,6 +10,8 @@ import {
   canRelate,
   canSoftDelete,
   getPermissions,
+  canCreateNew,
+  canAdmin,
 } from '../../../src/helpers/permissionHelpers';
 
 chai.use(chaiImmutable);
@@ -31,6 +33,13 @@ describe('permissionHelpers', function moduleSuite() {
           serviceConfig: {
             servicePath: 'groups',
             serviceType: 'procedure',
+          },
+        },
+        authrole: {
+          name: 'authrole',
+          serviceConfig: {
+            servicePath: 'authorization/role',
+            serviceType: 'security',
           },
         },
       },
@@ -59,7 +68,57 @@ describe('permissionHelpers', function moduleSuite() {
         group: {
           data: 'CRUL',
         },
-        createNew: true,
+        canCreateNew: true,
+        canAdmin: false,
+      }));
+    });
+
+    it('should set canCreateNew to false if no object/procedure/authority can be created', function test() {
+      const data = {
+        'ns2:account_permission': {
+          permission: [
+            {
+              resourceName: 'collectionobjects',
+              actionGroup: 'RL',
+            },
+            {
+              resourceName: 'groups',
+              actionGroup: 'RL',
+            },
+          ],
+        },
+      };
+
+      getPermissions(config, data).should.equal(Immutable.fromJS({
+        collectionobject: {
+          data: 'RL',
+        },
+        group: {
+          data: 'RL',
+        },
+        canCreateNew: false,
+        canAdmin: false,
+      }));
+    });
+
+    it('should set canAdmin to true if vocabularies or security records can be updated or created', function test() {
+      const data = {
+        'ns2:account_permission': {
+          permission: [
+            {
+              resourceName: 'authorization/role',
+              actionGroup: 'CRUDL',
+            },
+          ],
+        },
+      };
+
+      getPermissions(config, data).should.equal(Immutable.fromJS({
+        authrole: {
+          data: 'CRUDL',
+        },
+        canCreateNew: false,
+        canAdmin: true,
       }));
     });
 
@@ -77,7 +136,8 @@ describe('permissionHelpers', function moduleSuite() {
         collectionobject: {
           data: 'RL',
         },
-        createNew: false,
+        canCreateNew: false,
+        canAdmin: false,
       }));
     });
 
@@ -116,7 +176,8 @@ describe('permissionHelpers', function moduleSuite() {
             delete: 'CU',
           },
         },
-        createNew: false,
+        canCreateNew: false,
+        canAdmin: false,
       }));
     });
 
@@ -137,7 +198,8 @@ describe('permissionHelpers', function moduleSuite() {
       };
 
       getPermissions(config, data).should.equal(Immutable.fromJS({
-        createNew: false,
+        canCreateNew: false,
+        canAdmin: false,
       }));
     });
   });
@@ -367,6 +429,26 @@ describe('permissionHelpers', function moduleSuite() {
       const perms = Immutable.Map();
 
       canSoftDelete('loanin', perms).should.equal(false);
+    });
+  });
+
+  describe('canCreateNew', function suite() {
+    it('should return true if canCreateNew is true in the permissions', function test() {
+      const perms = Immutable.fromJS({
+        canCreateNew: true,
+      });
+
+      canCreateNew(perms).should.equal(true);
+    });
+  });
+
+  describe('canAdmin', function suite() {
+    it('should return true if canAdmin is true in the permissions', function test() {
+      const perms = Immutable.fromJS({
+        canAdmin: true,
+      });
+
+      canAdmin(perms).should.equal(true);
     });
   });
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import NavLink from './NavLink';
-import { canCreateAnyRecord } from '../../helpers/permissionHelpers';
+import { canAdmin, canCreateNew } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/NavBar.css';
 
 const propTypes = {
@@ -14,8 +14,12 @@ export default function NavBar(props) {
     perms,
   } = props;
 
-  const createLink = canCreateAnyRecord(perms)
+  const createLink = canCreateNew(perms)
     ? <li><NavLink to="/create">Create New</NavLink></li>
+    : null;
+
+  const adminLink = canAdmin(perms)
+    ? <li><NavLink to="/admin">Administration</NavLink></li>
     : null;
 
   return (
@@ -24,7 +28,7 @@ export default function NavBar(props) {
         <li><NavLink to="/dashboard">My CollectionSpace</NavLink></li>
         {createLink}
         <li><NavLink to="/search">Search</NavLink></li>
-        <li><NavLink to="/admin">Administration</NavLink></li>
+        {adminLink}
       </ul>
     </nav>
   );

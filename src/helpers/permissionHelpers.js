@@ -13,7 +13,8 @@ export const getPermissions = (config, accountPermsData) => {
       accountPerms = [accountPerms];
     }
 
-    let canCreateAnyRecord = false;
+    let canAdmin = false;
+    let canCreateNew = false;
 
     accountPerms.forEach((permission) => {
       const {
@@ -28,6 +29,8 @@ export const getPermissions = (config, accountPermsData) => {
 
       if (resourceNameParts.length === 1) {
         servicePath = resourceNameParts[0];
+      } else if (resourceNameParts.length === 2) {
+        servicePath = resourceName;
       } else if (resourceNameParts.length === 5 && resourceNameParts[3] === 'workflow') {
         servicePath = resourceNameParts[1];
         transitionName = resourceNameParts[4];
@@ -44,23 +47,41 @@ export const getPermissions = (config, accountPermsData) => {
           } else {
             set(perms, [name, 'data'], actionGroup);
 
-            if (actionGroup.indexOf('C') >= 0) {
-              const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+            const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
-              if (
+            // Track if any object, authority, or procedure record can be created. This is used to
+            // determine if the Create New navigation item should be shown.
+
+            if (
+              actionGroup.indexOf('C') >= 0 &&
+              (
                 serviceType === 'object' ||
                 serviceType === 'authority' ||
                 serviceType === 'procedure'
-              ) {
-                canCreateAnyRecord = true;
-              }
+              )
+            ) {
+              canCreateNew = true;
+            }
+
+            // Track if any vocabulary or security record can be created or updated. This is used
+            // to determine if the Admin navigation item should be shown.
+
+            if (
+              (actionGroup.indexOf('C') >= 0 || actionGroup.indexOf('U') >= 0) &&
+              (
+                serviceType === 'security' ||
+                name === 'vocabulary'
+              )
+            ) {
+              canAdmin = true;
             }
           }
         }
       }
     });
 
-    perms.createNew = canCreateAnyRecord;
+    perms.canCreateNew = canCreateNew;
+    perms.canAdmin = canAdmin;
   }
 
   return Immutable.fromJS(perms);
@@ -100,5 +121,8 @@ export const canRelate = (recordType, permissions) => can(recordType, permission
 export const canSoftDelete = (recordType, permissions) =>
   canTransition(recordType, permissions, 'delete');
 
-export const canCreateAnyRecord = permissions =>
-  permissions && !!permissions.get('createNew');
+export const canCreateNew = permissions =>
+  permissions && !!permissions.get('canCreateNew');
+
+export const canAdmin = permissions =>
+  permissions && !!permissions.get('canAdmin');

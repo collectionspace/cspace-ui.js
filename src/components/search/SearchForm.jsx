@@ -82,14 +82,15 @@ export default class SearchForm extends Component {
     return pickBy(recordTypes, (recordTypeConfig, name) => {
       const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
-      return (
-        (
-          serviceType === 'object' ||
-          serviceType === 'procedure' ||
-          serviceType === 'authority'
-        ) &&
-        canList(name, perms)
-      );
+      if (
+        serviceType === 'object' ||
+        serviceType === 'procedure' ||
+        serviceType === 'authority'
+      ) {
+        return canList(name, perms);
+      }
+
+      return true;
     });
   }
 

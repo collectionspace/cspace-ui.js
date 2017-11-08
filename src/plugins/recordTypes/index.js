@@ -1,6 +1,8 @@
+import account from './account';
 import all from './all';
 import acquisition from './acquisition';
 import authority from './authority';
+import authrole from './authrole';
 import blob from './blob';
 import citation from './citation';
 import collectionobject from './collectionobject';
@@ -24,13 +26,16 @@ import person from './person';
 import place from './place';
 import procedure from './procedure';
 import valuation from './valuation';
+import vocabulary from './vocabulary';
 import work from './work';
 // import taxon from './taxon';
 
 export default [
+  account,
   all,
   acquisition,
   authority,
+  authrole,
   blob,
   citation,
   collectionobject,
@@ -55,5 +60,6 @@ export default [
   procedure,
   // taxon,
   valuation,
+  vocabulary,
   work,
 ];
