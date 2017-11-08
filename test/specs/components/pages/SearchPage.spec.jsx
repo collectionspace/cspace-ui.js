@@ -82,6 +82,18 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+  group: {
+    data: 'CRUDL',
+  },
+  person: {
+    data: 'CRUDL',
+  },
+});
+
 describe('SearchPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -289,6 +301,7 @@ describe('SearchPage', function suite() {
               location={location}
               match={match}
               history={history}
+              perms={perms}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -335,6 +348,7 @@ describe('SearchPage', function suite() {
               location={location}
               match={match}
               history={history}
+              perms={perms}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>

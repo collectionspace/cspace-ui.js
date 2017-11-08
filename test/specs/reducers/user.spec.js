@@ -47,6 +47,25 @@ describe('user reducer', function suite() {
   });
 
   it('should handle ACCOUNT_PERMS_READ_FULFILLED', function test() {
+    const config = {
+      recordTypes: {
+        collectionobject: {
+          name: 'collectionobject',
+          serviceConfig: {
+            serviceType: 'object',
+            servicePath: 'collectionobjects',
+          },
+        },
+        group: {
+          name: 'group',
+          serviceConfig: {
+            serviceType: 'procedure',
+            servicePath: 'groups',
+          },
+        },
+      },
+    };
+
     const screenName = 'Screen Name';
 
     const response = {
@@ -55,6 +74,16 @@ describe('user reducer', function suite() {
           account: {
             screenName,
           },
+          permission: [
+            {
+              actionGroup: 'CRUDL',
+              resourceName: 'collectionobjects',
+            },
+            {
+              actionGroup: 'RL',
+              resourceName: 'groups',
+            },
+          ],
         },
       },
     };
@@ -62,10 +91,24 @@ describe('user reducer', function suite() {
     const state = reducer(undefined, {
       type: ACCOUNT_PERMS_READ_FULFILLED,
       payload: response,
+      meta: {
+        config,
+      },
     });
 
-    state.should.equal(Immutable.Map({
-      screenName,
+    state.should.equal(Immutable.fromJS({
+      account: {
+        screenName,
+      },
+      perms: {
+        collectionobject: {
+          data: 'CRUDL',
+        },
+        group: {
+          data: 'RL',
+        },
+        createNew: true,
+      },
     }));
 
     getScreenName(state).should.equal(screenName);

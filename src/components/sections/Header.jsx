@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
+import Immutable from 'immutable';
 import QuickSearchFormContainer from '../../containers/search/QuickSearchFormContainer';
 import NavBar from '../navigation/NavBar';
 import UserMenu from '../user/UserMenu';
@@ -24,6 +25,7 @@ const propTypes = {
   history: PropTypes.object,
   intl: intlShape,
   config: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
 };
 
 function Header(props) {
@@ -31,6 +33,7 @@ function Header(props) {
     history,
     intl,
     config,
+    perms,
     screenName,
   } = props;
 
@@ -47,13 +50,14 @@ function Header(props) {
             history={history}
             intl={intl}
             config={config}
+            perms={perms}
           />
         </div>
         <div className={bannerRightStyles.common}>
           <UserMenu screenName={screenName} />
         </div>
       </div>
-      <NavBar />
+      <NavBar perms={perms} />
     </header>
   );
 }

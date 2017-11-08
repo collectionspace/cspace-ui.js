@@ -15,31 +15,25 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  csid: PropTypes.string,
+  isCloneable: PropTypes.bool,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  relatedSubjectWorkflowState: PropTypes.string,
   onClick: PropTypes.func,
+};
+
+const defaultProps = {
+  isCloneable: true,
 };
 
 export default function CloneButton(props) {
   const {
-    csid,
+    isCloneable,
     isModified,
     isSavePending,
-    relatedSubjectWorkflowState,
     onClick,
   } = props;
 
-  if (!csid) {
-    return null;
-  }
-
-  if (relatedSubjectWorkflowState === 'locked') {
-    // We're editing an object record in a secondary tab, and the primary record is locked. This
-    // means a new cloned record would not be able to be related to the primary, so the clone
-    // button should not appear.
-
+  if (!isCloneable) {
     return null;
   }
 
@@ -57,3 +51,4 @@ export default function CloneButton(props) {
 }
 
 CloneButton.propTypes = propTypes;
+CloneButton.defaultProps = defaultProps;

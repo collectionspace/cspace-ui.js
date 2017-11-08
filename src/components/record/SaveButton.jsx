@@ -28,8 +28,8 @@ const propTypes = {
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
   label: PropTypes.node,
+  readOnly: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
-  workflowState: PropTypes.string,
   onClick: PropTypes.func,
   onErrorBadgeClick: PropTypes.func,
 };
@@ -40,13 +40,13 @@ function SaveButton(props) {
     intl,
     isModified,
     isSavePending,
+    readOnly,
     validationErrors,
-    workflowState,
     onClick,
     onErrorBadgeClick,
   } = props;
 
-  if (workflowState === 'locked') {
+  if (readOnly) {
     return null;
   }
 

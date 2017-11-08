@@ -18,7 +18,7 @@ const propTypes = {
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
   label: PropTypes.node,
-  workflowState: PropTypes.string,
+  readOnly: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
@@ -26,11 +26,11 @@ export default function RevertButton(props) {
   const {
     isModified,
     isSavePending,
-    workflowState,
+    readOnly,
     onClick,
   } = props;
 
-  if (workflowState === 'locked') {
+  if (readOnly) {
     return null;
   }
 

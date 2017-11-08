@@ -4,6 +4,8 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
+import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
+import { canList, canRelate } from '../../helpers/permissionHelpers';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import SelectBar from '../search/SelectBar';
@@ -40,16 +42,6 @@ const stopPropagation = (event) => {
   event.stopPropagation();
 };
 
-const shouldShowCheckbox = (item) => {
-  const itemWorkflowState = item.get('workflowState');
-
-  if (itemWorkflowState === 'locked') {
-    return false;
-  }
-
-  return true;
-};
-
 const propTypes = {
   collapsed: PropTypes.bool,
   color: PropTypes.string,
@@ -58,6 +50,7 @@ const propTypes = {
   csid: PropTypes.string,
   history: PropTypes.object,
   name: PropTypes.string,
+  perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   // This use isn't detected by eslint.
   /* eslint-disable react/no-unused-prop-types */
@@ -89,6 +82,7 @@ export default class RelatedRecordPanel extends Component {
     this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderTableHeader = this.renderTableHeader.bind(this);
+    this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
 
     this.state = {
       searchDescriptor: getSearchDescriptor(props),
@@ -122,6 +116,13 @@ export default class RelatedRecordPanel extends Component {
         searchDescriptor: nextSearchDescriptor,
       });
     }
+  }
+
+  shouldShowCheckbox(item) {
+    return (
+      item.get('workflowState') !== 'locked' &&
+      canRelate(getRecordTypeNameByUri(this.props.config, item.get('uri')), this.props.perms)
+    );
   }
 
   handleCheckboxCommit(path, value) {
@@ -191,7 +192,7 @@ export default class RelatedRecordPanel extends Component {
       selectedItems,
     } = this.props;
 
-    if (shouldShowCheckbox(rowData)) {
+    if (this.shouldShowCheckbox(rowData)) {
       const itemCsid = rowData.get('csid');
       const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
@@ -249,7 +250,7 @@ export default class RelatedRecordPanel extends Component {
           searchResult={searchResult}
           selectedItems={selectedItems}
           setAllItemsSelected={setAllItemsSelected}
-          showCheckboxFilter={shouldShowCheckbox}
+          showCheckboxFilter={this.shouldShowCheckbox}
         />
       </header>
     );
@@ -278,8 +279,10 @@ export default class RelatedRecordPanel extends Component {
       csid,
       history,
       name,
+      perms,
       recordData,
       recordType,
+      relatedRecordType,
       showCheckboxColumn,
       showAddButton,
       onItemClick,
@@ -288,6 +291,22 @@ export default class RelatedRecordPanel extends Component {
     const {
       searchDescriptor,
     } = this.state;
+
+    const relatedServiceType = get(
+      config, ['recordTypes', relatedRecordType, 'serviceConfig', 'serviceType']
+    );
+
+    if (
+      relatedServiceType === 'object' ||
+      relatedServiceType === 'procedure' ||
+      relatedServiceType === 'authority'
+    ) {
+      // Don't render if list permissions are not present for the related record type.
+
+      if (!canList(relatedRecordType, perms)) {
+        return null;
+      }
+    }
 
     if (!getUpdatedTimestamp(recordData)) {
       // Don't render until after the record has loaded.

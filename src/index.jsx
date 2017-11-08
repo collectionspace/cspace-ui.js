@@ -25,7 +25,7 @@ const defaultConfig = mergeConfig({
   basename: '',
   className: '',
   container: '#cspace',
-  index: '/create',
+  index: '/search',
   locale: 'en',
   messages: undefined,
   prettyUrls: false,
@@ -42,7 +42,6 @@ module.exports = (uiConfig) => {
     container,
     idGenerators,
     optionLists,
-    serverUrl,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -72,10 +71,7 @@ module.exports = (uiConfig) => {
       store.dispatch(savePrefs());
     });
 
-    store.dispatch(configureCSpace({
-      url: serverUrl,
-    }));
-
+    store.dispatch(configureCSpace(config));
     store.dispatch(addOptionLists(optionLists));
     store.dispatch(addIDGenerators(idGenerators));
 

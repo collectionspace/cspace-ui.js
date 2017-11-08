@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onSubmit: login,
+  login,
 };
 
 export default connect(

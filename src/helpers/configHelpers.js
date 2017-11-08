@@ -135,6 +135,30 @@ export const normalizeConfig = (config) => {
   return config;
 };
 
+export const getRecordTypeConfigByServiceDocumentName = (config, documentName) => {
+  if (!documentName) {
+    return undefined;
+  }
+
+  if (!config.recordTypesByServiceDocumentName) {
+    const recordTypesByServiceDocumentName = {};
+    const { recordTypes } = config;
+
+    Object.keys(recordTypes).forEach((recordType) => {
+      const recordTypeConfig = recordTypes[recordType];
+      const { serviceConfig } = recordTypeConfig;
+
+      recordTypesByServiceDocumentName[serviceConfig.documentName] = recordTypeConfig;
+    });
+
+    /* eslint-disable no-param-reassign */
+    config.recordTypesByServiceDocumentName = recordTypesByServiceDocumentName;
+    /* eslint-enable no-param-reassign */
+  }
+
+  return config.recordTypesByServiceDocumentName[documentName];
+};
+
 export const getRecordTypeConfigByServiceObjectName = (config, objectName) => {
   if (!objectName) {
     return undefined;
@@ -181,6 +205,22 @@ export const getRecordTypeConfigByServicePath = (config, servicePath) => {
   }
 
   return config.recordTypesByServicePath[servicePath];
+};
+
+export const getRecordTypeConfigByUri = (config, uri) => {
+  if (!uri) {
+    return undefined;
+  }
+
+  const servicePath = uri.split('/', 2)[1];
+
+  return getRecordTypeConfigByServicePath(config, servicePath);
+};
+
+export const getRecordTypeNameByUri = (config, uri) => {
+  const recordTypeConfig = getRecordTypeConfigByUri(config, uri);
+
+  return (recordTypeConfig ? recordTypeConfig.name : undefined);
 };
 
 export const getVocabularyConfigByShortID = (recordTypeConfig, shortID) => {

@@ -30,7 +30,7 @@ describe('partialTermSearch action creator', function suite() {
     const vocabulary = 'local';
     const vocabularyServicePath = 'urn:cspace:name(person)';
     const termAddUrl = `/cspace-services/${servicePath}/${vocabularyServicePath}/items`;
-    const termReadUrl = '/some/new/url/csid';
+    const termReadUrl = '/cspace-services/new/url/csid';
     const displayName = 'abc';
 
     const recordTypeConfig = {
@@ -74,7 +74,7 @@ describe('partialTermSearch action creator', function suite() {
         },
       });
 
-      moxios.stubRequest(`/cspace-services${termReadUrl}`, {
+      moxios.stubRequest(termReadUrl, {
         status: 200,
         response: {},
       });

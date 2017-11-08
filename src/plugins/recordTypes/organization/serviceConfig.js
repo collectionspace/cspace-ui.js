@@ -4,12 +4,10 @@ export default {
   serviceType: 'authority',
 
   objectName: 'Organization',
-
-  documentName: 'organization',
+  documentName: 'organizations',
 
   quickAddData: values => ({
     document: {
-      '@name': 'organizations',
       'ns2:organizations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/organization',
         orgTermGroupList: {

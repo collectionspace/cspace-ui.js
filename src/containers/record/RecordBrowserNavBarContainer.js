@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import RecordBrowserNavBar from '../../components/record/RecordBrowserNavBar';
 import { setRecordBrowserNavBarItems } from '../../actions/prefs';
-import { getRecordBrowserNavBarItems } from '../../reducers';
+
+import {
+  getRecordBrowserNavBarItems,
+  getUserPerms,
+} from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -10,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     items: getRecordBrowserNavBarItems(state, recordType),
+    perms: getUserPerms(state),
   };
 };
 

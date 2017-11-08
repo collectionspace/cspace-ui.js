@@ -85,6 +85,27 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
+  group: {
+    data: 'CRUDL',
+  },
+  media: {
+    data: 'CRUDL',
+  },
+  intake: {
+    data: 'CRUDL',
+  },
+  loanin: {
+    data: 'CRUDL',
+  },
+  person: {
+    data: 'CRUDL',
+  },
+});
+
 describe('RecordBrowserNavBar', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -106,6 +127,7 @@ describe('RecordBrowserNavBar', function suite() {
           config={config}
           recordType="collectionobject"
           csid="b09295cf-ff56-4018-be16"
+          perms={perms}
         />
       </IntlProvider>, this.container);
 
@@ -127,6 +149,7 @@ describe('RecordBrowserNavBar', function suite() {
           recordType="collectionobject"
           csid="b09295cf-ff56-4018-be16"
           items={navBarItems}
+          perms={perms}
         />
       </IntlProvider>, this.container);
 
@@ -149,6 +172,7 @@ describe('RecordBrowserNavBar', function suite() {
           config={config}
           recordType="collectionobject"
           items={items}
+          perms={perms}
         />
       </IntlProvider>, this.container);
 
@@ -169,6 +193,7 @@ describe('RecordBrowserNavBar', function suite() {
           recordType="person"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
         />
       </IntlProvider>, this.container);
 
@@ -198,6 +223,7 @@ describe('RecordBrowserNavBar', function suite() {
           relatedRecordType="intake"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
           setItems={setItems}
         />
       </IntlProvider>, this.container);
@@ -213,6 +239,7 @@ describe('RecordBrowserNavBar', function suite() {
           relatedRecordType="loanin"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
           setItems={setItems}
         />
       </IntlProvider>, this.container);
@@ -237,6 +264,7 @@ describe('RecordBrowserNavBar', function suite() {
           recordType="collectionobject"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
           onSelect={handleSelect}
         />
       </IntlProvider>, this.container);
@@ -267,6 +295,7 @@ describe('RecordBrowserNavBar', function suite() {
           recordType="collectionobject"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
           setItems={setItems}
         />
       </IntlProvider>, this.container);
@@ -297,6 +326,7 @@ describe('RecordBrowserNavBar', function suite() {
           relatedRecordType="group"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
           onSelect={handleSelect}
         />
       </IntlProvider>, this.container);
@@ -326,6 +356,7 @@ describe('RecordBrowserNavBar', function suite() {
           relatedRecordType="media"
           csid="b09295cf-ff56-4018-be16"
           items={items}
+          perms={perms}
           onSelect={handleSelect}
         />
       </IntlProvider>, this.container);
@@ -353,6 +384,7 @@ describe('RecordBrowserNavBar', function suite() {
           config={config}
           recordType="collectionobject"
           csid="b09295cf-ff56-4018-be16"
+          perms={perms}
           setItems={setItems}
         />
       </IntlProvider>, this.container);
@@ -384,6 +416,7 @@ describe('RecordBrowserNavBar', function suite() {
           config={config}
           recordType="collectionobject"
           csid="b09295cf-ff56-4018-be16"
+          perms={perms}
           onSelect={handleSelect}
         />
       </IntlProvider>, this.container);

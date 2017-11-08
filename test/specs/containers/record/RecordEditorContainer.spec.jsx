@@ -105,6 +105,7 @@ describe('RecordEditorContainer', function suite() {
         sample: '2016.1.23',
       },
     }),
+    user: Immutable.Map(),
   });
 
   const context = {

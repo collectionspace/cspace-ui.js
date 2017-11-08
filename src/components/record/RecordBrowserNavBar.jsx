@@ -4,7 +4,9 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import pickBy from 'lodash/pickBy';
 import { isAuthority, isUtility } from '../../helpers/configHelpers';
+import { canList } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RecordBrowserNavBar.css';
 import itemStyles from '../../../styles/cspace-ui/RecordBrowserNavItem.css';
 
@@ -31,23 +33,18 @@ const messages = defineMessages({
   },
 });
 
-const filterRecordTypes = (recordTypes, relatedRecordBrowsers) => {
-  const filtered = {};
+const filterRecordTypes = (recordTypes, relatedRecordBrowsers, perms) => {
   const existingBrowsers = relatedRecordBrowsers.toOrderedSet();
 
-  Object.keys(recordTypes).forEach((recordTypeName) => {
-    const recordType = recordTypes[recordTypeName];
-    const serviceType = get(recordType, ['serviceConfig', 'serviceType']);
+  return pickBy(recordTypes, (recordTypeConfig, name) => {
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
-    if (
+    return (
       (serviceType === 'procedure' || serviceType === 'object') &&
-      !existingBrowsers.includes(recordTypeName)
-    ) {
-      filtered[recordTypeName] = recordType;
-    }
+      !existingBrowsers.includes(name) &&
+      canList(name, perms)
+    );
   });
-
-  return filtered;
 };
 
 const propTypes = {
@@ -57,6 +54,7 @@ const propTypes = {
   relatedRecordType: PropTypes.string,
   intl: intlShape,
   items: PropTypes.instanceOf(Immutable.List),
+  perms: PropTypes.instanceOf(Immutable.Map),
   setItems: PropTypes.func,
   onSelect: PropTypes.func,
 };
@@ -179,6 +177,7 @@ class RecordBrowserNavBar extends Component {
       csid,
       intl,
       items,
+      perms,
       recordType,
       relatedRecordType,
     } = this.props;
@@ -231,7 +230,7 @@ class RecordBrowserNavBar extends Component {
     let relatedRecordTypeSelector;
 
     if (showRelatedItems) {
-      const filteredRecordTypes = filterRecordTypes(config.recordTypes, items);
+      const filteredRecordTypes = filterRecordTypes(config.recordTypes, items, perms);
 
       if (Object.keys(filteredRecordTypes).length > 0) {
         const placeholder = items.size > 0

@@ -450,6 +450,7 @@ describe('RecordPage', function suite() {
           },
         }),
         search: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const resultTree = render(

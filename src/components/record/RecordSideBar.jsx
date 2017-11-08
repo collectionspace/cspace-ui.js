@@ -12,7 +12,7 @@ const propTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   history: PropTypes.object,
-  workflowState: PropTypes.string,
+  isRelatable: PropTypes.bool,
 };
 
 export default function RecordSideBar(props) {
@@ -22,7 +22,7 @@ export default function RecordSideBar(props) {
     recordType,
     vocabulary,
     history,
-    workflowState,
+    isRelatable,
   } = props;
 
   // TODO: Make sidebar components configurable based on service type/record type.
@@ -42,8 +42,6 @@ export default function RecordSideBar(props) {
   let relatedObjects = null;
   let relatedProcedures = null;
   let usedBy = null;
-
-  const showAddButton = workflowState !== 'locked';
 
   if (!isAuthority && !isUtility) {
     mediaSnapshot = (
@@ -65,7 +63,7 @@ export default function RecordSideBar(props) {
         name="relatedObjectPanel"
         recordType={recordType}
         relatedRecordType="collectionobject"
-        showAddButton={showAddButton}
+        showAddButton={isRelatable}
       />
     );
 
@@ -78,7 +76,7 @@ export default function RecordSideBar(props) {
         name="relatedProcedurePanel"
         recordType={recordType}
         relatedRecordType="procedure"
-        showAddButton={showAddButton}
+        showAddButton={isRelatable}
       />
     );
   }

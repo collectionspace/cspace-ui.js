@@ -163,16 +163,12 @@ export const normalizeRecordData = (recordTypeConfig, data) =>
 export const createBlankRecord = (recordTypeConfig) => {
   const {
     fields,
-    serviceConfig,
   } = recordTypeConfig;
 
   const documentKey = (Object.keys(fields))[0];
   const documentDescriptor = fields[documentKey];
   const partKeys = Object.keys(documentDescriptor);
-
-  const document = {
-    '@name': serviceConfig.documentName,
-  };
+  const document = {};
 
   partKeys.forEach((partKey) => {
     const partDescriptor = documentDescriptor[partKey];

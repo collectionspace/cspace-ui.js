@@ -4,12 +4,10 @@ export default {
   serviceType: 'authority',
 
   objectName: 'Workitem',
-
-  documentName: 'work',
+  documentName: 'works',
 
   quickAddData: values => ({
     document: {
-      '@name': 'works',
       'ns2:works_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/work',
         workTermGroupList: {

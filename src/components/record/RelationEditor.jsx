@@ -7,6 +7,7 @@ import isEqual from 'lodash/isEqual';
 import RelationButtonBar from './RelationButtonBar';
 import WorkflowStateIcon from './WorkflowStateIcon';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
+import { canRelate } from '../../helpers/permissionHelpers';
 import { DOCUMENT_PROPERTY_NAME, getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
@@ -32,10 +33,12 @@ const messages = defineMessages({
 const propTypes = {
   cloneCsid: PropTypes.string,
   config: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
   // TODO: These uses aren't properly detected. Try updating eslint-plugin-react.
   /* eslint-disable react/no-unused-prop-types */
   subject: PropTypes.shape({
     csid: PropTypes.string,
+    recordType: PropTypes.string,
   }),
   subjectWorkflowState: PropTypes.string,
   object: PropTypes.shape({
@@ -212,6 +215,8 @@ export default class RelationEditor extends Component {
   renderHeader() {
     const {
       config,
+      perms,
+      subject,
       subjectWorkflowState,
       object,
       objectData,
@@ -239,6 +244,13 @@ export default class RelationEditor extends Component {
     const objectWorkflowState = getWorkflowState(objectData);
     const objectWorkflowStateIcon = <WorkflowStateIcon state={objectWorkflowState} />;
 
+    const isUnrelatable = (
+      subjectWorkflowState !== 'locked' &&
+      objectWorkflowState !== 'locked' &&
+      canRelate(subject.recordType, perms) &&
+      canRelate(object.recordType, perms)
+    );
+
     return (
       <header>
         <h3>{title}</h3>
@@ -246,9 +258,8 @@ export default class RelationEditor extends Component {
           {objectWorkflowStateIcon}
           <h1>{recordTitle}</h1>
           <RelationButtonBar
-            subjectWorkflowState={subjectWorkflowState}
+            isUnrelatable={isUnrelatable}
             object={object}
-            objectWorkflowState={objectWorkflowState}
             onCancelButtonClick={this.handleCancelButtonClick}
             onCloseButtonClick={this.handleCloseButtonClick}
             onUnrelateButtonClick={this.handleUnrelateButtonClick}

@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import Immutable from 'immutable';
 import TitleBar from '../sections/TitleBar';
+import { canCreate } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/CreatePage.css';
 import panelStyles from '../../../styles/cspace-ui/CreatePagePanel.css';
 
@@ -27,7 +29,7 @@ const messages = defineMessages({
   },
 });
 
-const getRecordTypesByServiceType = (recordTypes, intl) => {
+const getRecordTypesByServiceType = (recordTypes, perms, intl) => {
   const recordTypesByServiceType = {};
 
   serviceTypes.forEach((serviceType) => {
@@ -37,7 +39,8 @@ const getRecordTypesByServiceType = (recordTypes, intl) => {
 
         return (
           recordTypeConfig.serviceConfig.serviceType === serviceType &&
-          !recordTypeConfig.disabled
+          !recordTypeConfig.disabled &&
+          canCreate(recordTypeName, perms)
         );
       })
       .sort((nameA, nameB) => {
@@ -126,11 +129,13 @@ const contextTypes = {
 
 const propTypes = {
   intl: intlShape,
+  perms: PropTypes.instanceOf(Immutable.Map),
 };
 
 export default function CreatePage(props, context) {
   const {
     intl,
+    perms,
   } = props;
 
   const {
@@ -145,7 +150,7 @@ export default function CreatePage(props, context) {
   const lists = [];
 
   if (recordTypes) {
-    const recordTypesByServiceType = getRecordTypesByServiceType(recordTypes, intl);
+    const recordTypesByServiceType = getRecordTypesByServiceType(recordTypes, perms, intl);
 
     serviceTypes.forEach((serviceType) => {
       itemsByServiceType[serviceType] = recordTypesByServiceType[serviceType].map((recordType) => {

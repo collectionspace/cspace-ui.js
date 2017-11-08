@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import { getPermissions } from '../helpers/permissionHelpers';
 
 import {
   CSPACE_CONFIGURED,
@@ -14,15 +15,26 @@ import {
   LOGOUT_FULFILLED,
 } from '../actions/logout';
 
+const handleAccountPermsReadFulfilled = (state, action) => {
+  const {
+    data,
+  } = action.payload;
+
+  const account = Immutable.fromJS(get(data, ['ns2:account_permission', 'account']));
+  const perms = getPermissions(action.meta.config, data);
+
+  return (
+    state
+      .set('account', account)
+      // TODO: Process the payload into something usable.
+      .set('perms', perms)
+  );
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case ACCOUNT_PERMS_READ_FULFILLED:
-      return (
-        state
-          .set('screenName', get(action.payload.data, ['ns2:account_permission', 'account', 'screenName']))
-          // TODO: Process the payload into something usable.
-          // .set('perms', Immutable.fromJS(action.payload.data))
-      );
+      return handleAccountPermsReadFulfilled(state, action);
     case CSPACE_CONFIGURED:
       return state.set('username', action.payload.username);
     case LOGIN_FULFILLED:
@@ -35,4 +47,5 @@ export default (state = Immutable.Map(), action) => {
 };
 
 export const getUsername = state => state.get('username');
-export const getScreenName = state => state.get('screenName');
+export const getScreenName = state => state.getIn(['account', 'screenName']);
+export const getPerms = state => state.get('perms');

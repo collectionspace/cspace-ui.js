@@ -1,4 +1,5 @@
 import cspaceClient from 'cspace-client';
+import get from 'lodash/get';
 import { loadPrefs } from './prefs';
 import { readAccountPerms } from './login';
 
@@ -24,11 +25,13 @@ export const createSession = (username, password) => {
 };
 
 export const configureCSpace = config => (dispatch) => {
-  client = cspaceClient(config);
+  client = cspaceClient({
+    url: get(config, 'serverUrl'),
+  });
 
   dispatch(createSession());
 
-  return dispatch(readAccountPerms())
+  return dispatch(readAccountPerms(config))
     .then(() => dispatch(loadPrefs()));
     // .catch(() => {
     //   // TODO: Expect a 401 here if the stored token has expired.

@@ -9,6 +9,7 @@ import {
 import {
   getRecordData,
   getRecordError,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -19,6 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     data: getRecordData(state, csid),
     error: getRecordError(state, csid),
+    perms: getUserPerms(state),
   };
 };
 

@@ -8,12 +8,12 @@ import DeleteButton from './DeleteButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
 
 const propTypes = {
-  csid: PropTypes.string,
+  isCloneable: PropTypes.bool,
+  isDeletable: PropTypes.bool,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  relatedSubjectWorkflowState: PropTypes.string,
+  readOnly: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
-  workflowState: PropTypes.string,
   onCloneButtonClick: PropTypes.func,
   onDeleteButtonClick: PropTypes.func,
   onRevertButtonClick: PropTypes.func,
@@ -23,12 +23,12 @@ const propTypes = {
 
 export default function RecordButtonBar(props) {
   const {
-    csid,
+    isCloneable,
+    isDeletable,
     isModified,
     isSavePending,
-    relatedSubjectWorkflowState,
+    readOnly,
     validationErrors,
-    workflowState,
     onCloneButtonClick,
     onDeleteButtonClick,
     onRevertButtonClick,
@@ -41,28 +41,26 @@ export default function RecordButtonBar(props) {
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}
-        workflowState={workflowState}
+        readOnly={readOnly}
         validationErrors={validationErrors}
         onClick={onSaveButtonClick}
         onErrorBadgeClick={onSaveButtonErrorBadgeClick}
       />
       <CloneButton
-        csid={csid}
+        isCloneable={isCloneable}
         isModified={isModified}
         isSavePending={isSavePending}
-        relatedSubjectWorkflowState={relatedSubjectWorkflowState}
         onClick={onCloneButtonClick}
       />
       <RevertButton
         isModified={isModified}
         isSavePending={isSavePending}
-        workflowState={workflowState}
+        readOnly={readOnly}
         onClick={onRevertButtonClick}
       />
       <DeleteButton
-        csid={csid}
+        isDeletable={isDeletable}
         isSavePending={isSavePending}
-        workflowState={workflowState}
         onClick={onDeleteButtonClick}
       />
     </div>

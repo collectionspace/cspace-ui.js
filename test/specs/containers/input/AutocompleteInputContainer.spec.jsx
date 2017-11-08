@@ -23,6 +23,13 @@ describe('AutocompleteInputContainer', function suite() {
 
     const store = mockStore({
       partialTermSearch: matches,
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+        },
+      }),
     });
 
     const context = {
@@ -34,6 +41,7 @@ describe('AutocompleteInputContainer', function suite() {
         person: {
           serviceConfig: {
             name: 'personauthorities',
+            serviceType: 'authority',
             quickAddData: () => {},
           },
           vocabularies: {
@@ -59,7 +67,7 @@ describe('AutocompleteInputContainer', function suite() {
 
     result.type.should.equal(AutocompleteInput);
     result.props.should.have.property('matches', matches);
-    result.props.should.have.property('recordTypes', config.recordTypes);
+    result.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
     result.props.should.have.property('formatAddPrompt').that.is.a('function');
     result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
     result.props.should.have.property('formatSearchResultMessage').that.is.a('function');
@@ -69,11 +77,87 @@ describe('AutocompleteInputContainer', function suite() {
     result.props.should.have.property('onClose').that.is.a('function');
   });
 
+  it('should remove record types that do not have create permissions', function test() {
+    const matches = Immutable.Map({});
+
+    const store = mockStore({
+      partialTermSearch: matches,
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+          organization: {
+            data: 'RL',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const config = {
+      recordTypes: {
+        person: {
+          serviceConfig: {
+            name: 'personauthorities',
+            serviceType: 'authority',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                servicePath: 'urn:cspace:name(person)',
+              },
+            },
+          },
+        },
+        organization: {
+          serviceConfig: {
+            name: 'orgauthorities',
+            serviceType: 'authority',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                servicePath: 'urn:cspace:name(organization)',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedAutocompleteInput
+        source="person/local,organization/local"
+        config={config}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.should.have.property('recordTypes').that.deep.equals({
+      person: config.recordTypes.person,
+    });
+  });
+
   it('should connect addTerm, findMatchingTerms, and onClose to action creators', function test() {
     const matches = Immutable.Map({});
 
     const store = mockStore({
       partialTermSearch: matches,
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+        },
+      }),
     });
 
     const context = {
@@ -86,6 +170,7 @@ describe('AutocompleteInputContainer', function suite() {
           name: 'person',
           serviceConfig: {
             name: 'personauthorities',
+            serviceType: 'authority',
             quickAddData: () => {},
           },
           vocabularies: {
@@ -164,6 +249,13 @@ describe('AutocompleteInputContainer', function suite() {
 
     const store = mockStore({
       partialTermSearch: matches,
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+        },
+      }),
     });
 
     const context = {
@@ -175,6 +267,7 @@ describe('AutocompleteInputContainer', function suite() {
         person: {
           serviceConfig: {
             name: 'personauthorities',
+            serviceType: 'authority',
             quickAddData: () => {},
           },
           vocabularies: {

@@ -14,6 +14,7 @@ const contextTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   recordType: PropTypes.string,
+  readOnly: PropTypes.bool,
 };
 
 export default function Subrecord(props, context) {
@@ -21,6 +22,7 @@ export default function Subrecord(props, context) {
     config,
     csid,
     recordType,
+    readOnly,
   } = context;
 
   const {
@@ -45,6 +47,7 @@ export default function Subrecord(props, context) {
       subrecordConfig={subrecordConfig}
       formName={template}
       showDetachButton={showDetachButton}
+      readOnly={readOnly}
     />
   );
 }

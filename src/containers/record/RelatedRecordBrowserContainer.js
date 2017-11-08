@@ -11,6 +11,7 @@ import {
 
 import {
   getRelatedRecordBrowserRelatedCsid,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -19,6 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
+    perms: getUserPerms(state),
     preferredRelatedCsid: getRelatedRecordBrowserRelatedCsid(state, relatedRecordType),
   };
 };

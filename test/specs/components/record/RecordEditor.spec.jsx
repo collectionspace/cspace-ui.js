@@ -193,6 +193,24 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+    transition: {
+      delete: 'CU',
+    },
+  },
+  movement: {
+    data: 'CRUDL',
+  },
+  loanin: {
+    data: 'CRUDL',
+  },
+  loanout: {
+    data: 'CRUDL',
+  },
+});
+
 const expectedClassName = 'cspace-ui-RecordEditor--common';
 
 describe('RecordEditor', function suite() {
@@ -436,6 +454,7 @@ describe('RecordEditor', function suite() {
           <Router>
             <RecordEditor
               config={config}
+              perms={perms}
               recordType="collectionobject"
               save={save}
               onRecordCreated={handleRecordCreated}
@@ -468,6 +487,7 @@ describe('RecordEditor', function suite() {
           <Router>
             <RecordEditor
               config={config}
+              perms={perms}
               recordType="loanin"
               saveWithTransition={saveWithTransition}
               onRecordCreated={handleRecordCreated}
@@ -498,6 +518,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               isModified
+              perms={perms}
               recordType="collectionobject"
               revert={revert}
             />
@@ -526,6 +547,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
+              perms={perms}
               recordType="collectionobject"
               clone={clone}
             />
@@ -554,6 +576,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
+              perms={perms}
               recordType="collectionobject"
               openModal={openModal}
             />
@@ -582,6 +605,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
+              perms={perms}
               recordType="movement"
               openModal={openModal}
             />
@@ -610,6 +634,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
+              perms={perms}
               recordType="collectionobject"
               validateRecordData={validateRecordData}
               validationErrors={Immutable.Map()}
@@ -639,6 +664,7 @@ describe('RecordEditor', function suite() {
             <RecordEditor
               config={config}
               csid="1234"
+              perms={perms}
               recordType="collectionobject"
               validateRecordData={validateRecordData}
               validationErrors={Immutable.Map()}

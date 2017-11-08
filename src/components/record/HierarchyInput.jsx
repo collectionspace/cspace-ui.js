@@ -37,6 +37,7 @@ const propTypes = {
   name: PropTypes.string,
   parentPath: pathPropType,
   subpath: pathPropType,
+  readOnly: PropTypes.bool,
   /* eslint-enable react/no-unused-prop-types */
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(Immutable.List),
@@ -127,17 +128,7 @@ export default class HierarchyInput extends Component {
   initHierarchy(value) {
     const relations = normalizeValue(value);
     const parent = this.findParent(relations) || Immutable.Map();
-
-    let children = this.findChildren(relations);
-
-    if (children.size === 0) {
-      // Initialize to one empty child.
-
-      children = children.push(Immutable.Map({
-        refName: undefined,
-        type: undefined,
-      }));
-    }
+    const children = this.findChildren(relations);
 
     const hierarchy = Immutable.fromJS({
       parent,
@@ -276,6 +267,7 @@ export default class HierarchyInput extends Component {
       messages,
       parentTypeOptionListName,
       childTypeOptionListName,
+      readOnly,
     } = this.props;
 
     const {
@@ -305,6 +297,7 @@ export default class HierarchyInput extends Component {
           recordType={recordType}
           vocabulary={vocabulary}
           value={hierarchy}
+          readOnly={readOnly}
           onCommit={this.handleCommit}
           onAddChild={this.handleAddChild}
           onRemoveChild={this.handleRemoveChild}

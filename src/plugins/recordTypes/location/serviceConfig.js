@@ -4,12 +4,10 @@ export default {
   serviceType: 'authority',
 
   objectName: 'Locationitem',
-
-  documentName: 'location',
+  documentName: 'locations',
 
   quickAddData: values => ({
     document: {
-      '@name': 'locations',
       'ns2:locations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/location',
         locTermGroupList: {

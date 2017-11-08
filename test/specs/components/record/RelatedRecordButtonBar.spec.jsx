@@ -22,10 +22,10 @@ describe('RelatedRecordButtonBar', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
-  it('should render nothing when workflowState is \'locked\'', function test() {
+  it('should render nothing when isRelatable is false', function test() {
     render(
       <IntlProvider locale="en">
-        <RelatedRecordButtonBar workflowState="locked" />
+        <RelatedRecordButtonBar isRelatable={false} />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);

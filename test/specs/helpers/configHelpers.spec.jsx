@@ -16,9 +16,12 @@ import {
   applyPlugin,
   evaluatePlugin,
   normalizeConfig,
+  getRecordTypeConfigByServiceDocumentName,
   getRecordTypeConfigByServiceObjectName,
-  getRecordTypeConfigByServicePath,
   getRecordTypeNameByServiceObjectName,
+  getRecordTypeConfigByServicePath,
+  getRecordTypeConfigByUri,
+  getRecordTypeNameByUri,
   getVocabularyConfigByShortID,
   isFieldCloneable,
   isFieldRequired,
@@ -349,6 +352,33 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
+  describe('getRecordTypeConfigByServiceDocumentName', function suite() {
+    const config = {
+      recordTypes: {
+        collectionobject: {
+          messages: {
+            name: {
+              id: 'record.collectionobject.name',
+            },
+          },
+          serviceConfig: {
+            documentName: 'collectionobjects',
+          },
+        },
+      },
+    };
+
+    it('should return the record type config with the given service object name', function test() {
+      getRecordTypeConfigByServiceDocumentName(config, 'collectionobjects').should
+        .equal(config.recordTypes.collectionobject);
+    });
+
+    it('should return undefined if the service object name is undefined', function test() {
+      expect(getRecordTypeConfigByServiceDocumentName(config)).to
+        .equal(undefined);
+    });
+  });
+
   describe('getRecordTypeConfigByServiceObjectName', function suite() {
     const config = {
       recordTypes: {
@@ -423,6 +453,56 @@ describe('configHelpers', function moduleSuite() {
     it('should return the record type config with the given service path', function test() {
       getRecordTypeConfigByServicePath(config, 'collectionobjects').should
         .equal(config.recordTypes.collectionobject);
+    });
+  });
+
+  describe('getRecordTypeConfigByUri', function suite() {
+    const config = {
+      recordTypes: {
+        collectionobject: {
+          messages: {
+            name: {
+              id: 'record.collectionobject.name',
+            },
+          },
+          serviceConfig: {
+            servicePath: 'collectionobjects',
+          },
+        },
+      },
+    };
+
+    it('should return the record type config with the given URI', function test() {
+      getRecordTypeConfigByUri(config, '/collectionobjects/1234').should
+        .equal(config.recordTypes.collectionobject);
+    });
+  });
+
+  describe('getRecordTypeNameByUri', function suite() {
+    const config = {
+      recordTypes: {
+        collectionobject: {
+          messages: {
+            name: {
+              id: 'record.collectionobject.name',
+            },
+          },
+          name: 'collectionobject',
+          serviceConfig: {
+            servicePath: 'collectionobjects',
+          },
+        },
+      },
+    };
+
+    it('should return the record type config with the given URI', function test() {
+      getRecordTypeNameByUri(config, '/collectionobjects/1234').should
+        .equal(config.recordTypes.collectionobject.name);
+    });
+
+    it('should return undefined if the URI is undefined', function test() {
+      expect(getRecordTypeNameByUri(config)).to
+        .equal(undefined);
     });
   });
 

@@ -15,20 +15,22 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  subjectWorkflowState: PropTypes.string,
-  objectWorkflowState: PropTypes.string,
+  isUnrelatable: PropTypes.bool,
   onClick: PropTypes.func,
+};
+
+const defaultProps = {
+  isUnrelatable: true,
 };
 
 export default function UnrelateButton(props) {
   const {
-    subjectWorkflowState,
-    objectWorkflowState,
+    isUnrelatable,
     onClick,
     ...remainingProps
   } = props;
 
-  if (subjectWorkflowState === 'locked' || objectWorkflowState === 'locked') {
+  if (!isUnrelatable) {
     return null;
   }
 
@@ -46,3 +48,4 @@ export default function UnrelateButton(props) {
 }
 
 UnrelateButton.propTypes = propTypes;
+UnrelateButton.defaultProps = defaultProps;

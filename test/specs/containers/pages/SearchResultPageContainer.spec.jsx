@@ -15,6 +15,7 @@ describe('SearchResultPageContainer', function suite() {
       searchResultPagePageSize: 10,
     }),
     search: Immutable.Map(),
+    user: Immutable.Map(),
   });
 
   const config = {};

@@ -13,10 +13,12 @@ import SearchResultSummary from '../search/SearchResultSummary';
 import SelectBar from '../search/SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
+import { canRelate } from '../../helpers/permissionHelpers';
 import { getListType } from '../../helpers/searchHelpers';
 
 import {
   getRecordTypeNameByServiceObjectName,
+  getRecordTypeNameByUri,
   validateLocation,
 } from '../../helpers/configHelpers';
 
@@ -40,20 +42,11 @@ const messages = defineMessages({
   },
 });
 
-const shouldShowCheckbox = (item) => {
-  const itemWorkflowState = item.get('workflowState');
-
-  if (itemWorkflowState === 'locked') {
-    return false;
-  }
-
-  return true;
-};
-
 const propTypes = {
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
@@ -85,6 +78,7 @@ export default class SearchResultPage extends Component {
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
+    this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
 
     this.state = {
       isSearchToRelateModalOpen: false,
@@ -316,6 +310,13 @@ export default class SearchResultPage extends Component {
     return false;
   }
 
+  shouldShowCheckbox(item) {
+    return (
+      item.get('workflowState') !== 'locked' &&
+      canRelate(getRecordTypeNameByUri(this.context.config, item.get('uri')), this.props.perms)
+    );
+  }
+
   handleCheckboxCommit(path, value) {
     const index = parseInt(path[0], 10);
     const selected = value;
@@ -476,7 +477,7 @@ export default class SearchResultPage extends Component {
       selectedItems,
     } = this.props;
 
-    if (shouldShowCheckbox(rowData)) {
+    if (this.shouldShowCheckbox(rowData)) {
       const itemCsid = rowData.get('csid');
       const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
@@ -533,7 +534,7 @@ export default class SearchResultPage extends Component {
           searchResult={searchResult}
           selectedItems={selectedItems}
           setAllItemsSelected={setAllItemsSelected}
-          showCheckboxFilter={shouldShowCheckbox}
+          showCheckboxFilter={this.shouldShowCheckbox}
         />
       );
     }

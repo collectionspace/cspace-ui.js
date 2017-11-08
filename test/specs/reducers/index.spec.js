@@ -84,10 +84,12 @@ describe('reducer', function suite() {
   });
 
   describe('getUserScreenName selector', function selectorSuite() {
-    it('should select from the users key', function test() {
+    it('should select from the user key', function test() {
       getUserScreenName({
-        user: Immutable.Map({
-          screenName: 'Screen Name',
+        user: Immutable.fromJS({
+          account: {
+            screenName: 'Screen Name',
+          },
         }),
       }).should.equal('Screen Name');
     });

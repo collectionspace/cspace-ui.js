@@ -8,6 +8,7 @@ import RecordTitleBarContainer from '../../containers/record/RecordTitleBarConta
 import RecordBrowserContainer from '../../containers/record/RecordBrowserContainer';
 import RecordSideBar from '../record/RecordSideBar';
 import { validateLocation } from '../../helpers/configHelpers';
+import { canRelate } from '../../helpers/permissionHelpers';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
@@ -62,6 +63,7 @@ const propTypes = {
   location: PropTypes.object,
   // Use of the match prop isn't being detected by eslint.
   match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
+  perms: PropTypes.instanceOf(Immutable.Map),
   readRecord: PropTypes.func,
 };
 
@@ -163,6 +165,7 @@ export default class RecordPage extends Component {
       error,
       history,
       location,
+      perms,
     } = this.props;
 
     if (error) {
@@ -212,6 +215,11 @@ export default class RecordPage extends Component {
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
     const workflowState = getWorkflowState(data);
 
+    const isRelatable = (
+      workflowState !== 'locked' &&
+      canRelate(recordType, perms)
+    );
+
     return (
       <div className={styles[serviceType]}>
         <RecordTitleBarContainer
@@ -243,7 +251,7 @@ export default class RecordPage extends Component {
             vocabulary={vocabulary}
             config={config}
             history={history}
-            workflowState={workflowState}
+            isRelatable={isRelatable}
           />
         </div>
       </div>

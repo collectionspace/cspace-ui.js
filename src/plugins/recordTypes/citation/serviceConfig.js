@@ -4,12 +4,10 @@ export default {
   serviceType: 'authority',
 
   objectName: 'Citation',
-
-  documentName: 'citation',
+  documentName: 'citations',
 
   quickAddData: values => ({
     document: {
-      '@name': 'citations',
       'ns2:citations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/citation',
         citationTermGroupList: {

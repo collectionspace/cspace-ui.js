@@ -17,6 +17,7 @@ const propTypes = {
   name: PropTypes.string,
   showDetachButton: PropTypes.bool,
   detachSubrecord: PropTypes.func,
+  readOnly: PropTypes.bool,
 };
 
 export default class SubrecordEditor extends Component {
@@ -50,9 +51,10 @@ export default class SubrecordEditor extends Component {
       formName,
       showDetachButton,
       subrecordConfig,
+      readOnly,
     } = this.props;
 
-    const detachButton = (showDetachButton && isExistingRecord(data))
+    const detachButton = (showDetachButton && !readOnly && isExistingRecord(data))
       ? <SubrecordDetachButton onClick={this.handleDetachButtonClick} />
       : null;
 
@@ -66,6 +68,7 @@ export default class SubrecordEditor extends Component {
             csid={csid}
             data={data}
             formName={formName}
+            readOnly={readOnly}
           />
         </div>
 

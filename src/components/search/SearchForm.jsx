@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
+import Immutable from 'immutable';
+import get from 'lodash/get';
+import pickBy from 'lodash/pickBy';
 import { components as inputComponents } from 'cspace-input';
 import { Panel } from 'cspace-layout';
 import SearchButtonBar from './SearchButtonBar';
 import AdvancedSearchBuilder from './AdvancedSearchBuilder';
+import { canList } from '../../helpers/permissionHelpers';
 import { ConnectedPanel } from '../../containers/layout/PanelContainer';
 import styles from '../../../styles/cspace-ui/SearchForm.css';
 import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
@@ -47,6 +51,7 @@ const propTypes = {
   recordTypeInputRootType: PropTypes.string,
   recordTypeInputServiceTypes: PropTypes.arrayOf(PropTypes.string),
   showButtons: PropTypes.bool,
+  perms: PropTypes.instanceOf(Immutable.Map),
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -64,6 +69,28 @@ export default class SearchForm extends Component {
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
+  }
+
+  getRecordTypes() {
+    const {
+      config,
+      perms,
+    } = this.props;
+
+    const { recordTypes } = config;
+
+    return pickBy(recordTypes, (recordTypeConfig, name) => {
+      const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+      return (
+        (
+          serviceType === 'object' ||
+          serviceType === 'procedure' ||
+          serviceType === 'authority'
+        ) &&
+        canList(name, perms)
+      );
+    });
   }
 
   formatRecordTypeLabel(name, config) {
@@ -197,7 +224,7 @@ export default class SearchForm extends Component {
           <div className={recordTypeStyles.common}>
             <RecordTypeInput
               label={intl.formatMessage(messages.recordType)}
-              recordTypes={config.recordTypes}
+              recordTypes={this.getRecordTypes()}
               rootType={recordTypeInputRootType}
               serviceTypes={recordTypeInputServiceTypes}
               value={recordTypeValue}

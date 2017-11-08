@@ -5,19 +5,23 @@ import RelateButton from './RelateButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
 
 const propTypes = {
-  workflowState: PropTypes.string,
+  isRelatable: PropTypes.bool,
   onCreateButtonClick: PropTypes.func,
   onRelateButtonClick: PropTypes.func,
 };
 
+const defaultProps = {
+  isRelatable: true,
+};
+
 export default function RelatedRecordButtonBar(props) {
   const {
-    workflowState,
+    isRelatable,
     onCreateButtonClick,
     onRelateButtonClick,
   } = props;
 
-  if (workflowState === 'locked') {
+  if (!isRelatable) {
     return null;
   }
 
@@ -34,3 +38,4 @@ export default function RelatedRecordButtonBar(props) {
 }
 
 RelatedRecordButtonBar.propTypes = propTypes;
+RelatedRecordButtonBar.defaultProps = defaultProps;

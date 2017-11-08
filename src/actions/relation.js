@@ -231,7 +231,6 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
   const config = {
     data: {
       document: {
-        '@name': 'relations',
         'ns2:relations_common': {
           '@xmlns:ns2': 'http://collectionspace.org/services/relation',
           subjectCsid: subject.csid,

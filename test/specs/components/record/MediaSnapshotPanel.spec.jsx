@@ -16,10 +16,16 @@ const recordData = Immutable.fromJS({
   },
 });
 
+const perms = Immutable.fromJS({
+  media: {
+    data: 'CRUDL',
+  },
+});
+
 describe('MediaSnapshotPanel', function suite() {
   it('should render a media viewer panel', function test() {
     const config = {};
-    const recordType = 'object';
+    const recordType = 'collectionobject';
     const csid = '1234';
 
     const shallowRenderer = createRenderer();
@@ -30,6 +36,7 @@ describe('MediaSnapshotPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -43,7 +50,7 @@ describe('MediaSnapshotPanel', function suite() {
 
   it('should rerender with a new search descriptor when a new csid is supplied via props', function test() {
     const config = {};
-    const recordType = 'object';
+    const recordType = 'collectionobject';
     const csid = '1234';
 
     const shallowRenderer = createRenderer();
@@ -54,6 +61,7 @@ describe('MediaSnapshotPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -68,6 +76,7 @@ describe('MediaSnapshotPanel', function suite() {
         csid={newCsid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const newResult = shallowRenderer.getRenderOutput();
@@ -77,7 +86,7 @@ describe('MediaSnapshotPanel', function suite() {
 
   it('should render nothing if the record data has not been saved', function test() {
     const config = {};
-    const recordType = 'object';
+    const recordType = 'collectionobject';
 
     const unsavedRecordData = Immutable.fromJS({
       document: {
@@ -94,6 +103,7 @@ describe('MediaSnapshotPanel', function suite() {
         config={config}
         recordData={unsavedRecordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -126,6 +136,7 @@ describe('MediaSnapshotPanel', function suite() {
         csid={csid}
         recordData={mediaRecordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
