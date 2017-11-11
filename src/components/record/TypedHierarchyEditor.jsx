@@ -124,7 +124,7 @@ export class BaseTypedHierarchyEditor extends Component {
       childTypeOptionListName,
     } = this.props;
 
-    const source = [recordType, vocabulary].join('/');
+    const source = [recordType, vocabulary].filter(part => !!part).join('/');
     const parentRefName = value.getIn(['parent', 'refName']);
     const parentType = value.getIn(['parent', 'type']);
 

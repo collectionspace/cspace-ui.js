@@ -423,6 +423,7 @@ export default class RecordEditor extends Component {
       recordType,
       relatedSubjectWorkflowState,
       validationErrors,
+      vocabulary,
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -484,6 +485,7 @@ export default class RecordEditor extends Component {
           formName={selectedFormName}
           readOnly={readOnly}
           recordType={recordType}
+          vocabulary={vocabulary}
         />
         <footer>
           <RecordButtonBar

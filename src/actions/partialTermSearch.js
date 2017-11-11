@@ -82,7 +82,7 @@ export const findMatchingTerms = (recordTypeConfig, vocabulary, partialTerm) => 
   // eslint-disable-next-line max-len
   // warning(vocabularyServicePath, `No service path found for the vocabulary ${vocabulary} in record type ${recordType}. Partial term search will not include this vocabulary.`);
 
-  if (!vocabularyServicePath) {
+  if (recordTypeConfig.vocabularies && !vocabularyServicePath) {
     return null;
   }
 
