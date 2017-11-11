@@ -63,7 +63,7 @@ describe('relation reducer', function suite() {
     const predicate = 'affects';
 
     const data = {
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     };

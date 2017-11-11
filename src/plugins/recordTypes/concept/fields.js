@@ -28,7 +28,7 @@ export default (pluginContext) => {
           },
         },
       },
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         [config]: {
           service: {
             ns: 'http://collectionspace.org/services/relation',

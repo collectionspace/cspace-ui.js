@@ -47,7 +47,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -109,7 +109,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '0',
       },
     });
@@ -136,7 +136,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -270,7 +270,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -314,7 +314,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -522,7 +522,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -564,7 +564,7 @@ describe('RelationEditor', function suite() {
     };
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -608,7 +608,7 @@ describe('RelationEditor', function suite() {
     const predicate = 'affects';
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });
@@ -698,7 +698,7 @@ describe('RelationEditor', function suite() {
     const predicate = 'affects';
 
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         totalItems: '1',
       },
     });

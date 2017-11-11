@@ -165,9 +165,7 @@ const doUnrelate = (config, subject, object, predicate) => (dispatch, getState) 
 
   return promise
     .then((findResult) => {
-      // FIXME: Services should return a consistent (or no) namespace prefix.
-
-      const list = findResult.get('ns2:relations-common-list') || findResult.get('ns3:relations-common-list');
+      const list = findResult.get('rel:relations-common-list');
 
       let items = list.get('relation-list-item');
 
@@ -231,8 +229,8 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
   const config = {
     data: {
       document: {
-        'ns2:relations_common': {
-          '@xmlns:ns2': 'http://collectionspace.org/services/relation',
+        'rel:relations_common': {
+          '@xmlns:rel': 'http://collectionspace.org/services/relation',
           subjectCsid: subject.csid,
           objectCsid: object.csid,
           relationshipType: predicate,

@@ -66,7 +66,7 @@ export default class HierarchySiblingList extends Component {
     let siblings;
 
     if (findResult) {
-      const list = findResult.get('ns2:relations-common-list') || findResult.get('ns3:relations-common-list');
+      const list = findResult.get('rel:relations-common-list');
 
       let items = list.get('relation-list-item');
 

@@ -30,7 +30,7 @@ describe('RelationEditorContainer', function suite() {
   const predicate = 'affects';
 
   const findResult = Immutable.fromJS({
-    'ns2:relations-common-list': {
+    'rel:relations-common-list': {
       totalItems: '1',
     },
   });

@@ -115,7 +115,7 @@ describe('HierarchySiblingList', function suite() {
 
   it('should render a read only input for each item in the result set', function test() {
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         'relation-list-item': [
           {
             subject: {
@@ -159,14 +159,14 @@ describe('HierarchySiblingList', function suite() {
       inputs[index].props.readOnly.should.equal(true);
 
       inputs[index].props.value.should.equal(findResult.getIn(
-        ['ns2:relations-common-list', 'relation-list-item', index, 'subject', 'refName'])
+        ['rel:relations-common-list', 'relation-list-item', index, 'subject', 'refName'])
       );
     });
   });
 
   it('should render one input for a single item (non-list) result set', function test() {
     const findResult = Immutable.fromJS({
-      'ns2:relations-common-list': {
+      'rel:relations-common-list': {
         'relation-list-item': {
           subject: {
             csid: '1111',
@@ -193,7 +193,7 @@ describe('HierarchySiblingList', function suite() {
     inputs[0].props.readOnly.should.equal(true);
 
     inputs[0].props.value.should.equal(findResult.getIn(
-      ['ns2:relations-common-list', 'relation-list-item', 'subject', 'refName'])
+      ['rel:relations-common-list', 'relation-list-item', 'subject', 'refName'])
     );
   });
 });

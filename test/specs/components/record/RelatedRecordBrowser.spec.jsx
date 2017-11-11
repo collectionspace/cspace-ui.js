@@ -68,7 +68,7 @@ const store = mockStore({
         [relatedCsid]: {
           affects: {
             result: {
-              'ns2:relations-common-list': {
+              'rel:relations-common-list': {
                 totalItems: '1',
               },
             },

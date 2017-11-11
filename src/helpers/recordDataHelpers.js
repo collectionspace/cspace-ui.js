@@ -35,8 +35,8 @@ export const getPartPropertyName = partName =>
 export const getPart = (cspaceDocument, partName) =>
   cspaceDocument.get(getPartPropertyName(partName));
 
-export const getPartNSPropertyName = () =>
-  `@xmlns:${NS_PREFIX}`;
+export const getPartNSPropertyName = prefix =>
+  `@xmlns:${prefix}`;
 
 /**
  * Deeply get a value in an Immutable.Map. This is similar to Immutable.Map.getIn, but differs in
@@ -175,8 +175,10 @@ export const createBlankRecord = (recordTypeConfig) => {
     const nsUri = get(partDescriptor, [configKey, 'service', 'ns']);
 
     if (nsUri) {
+      const nsPrefix = partKey.split(':', 2)[0];
+
       document[partKey] = {
-        [getPartNSPropertyName()]: nsUri,
+        [getPartNSPropertyName(nsPrefix)]: nsUri,
       };
     }
   });
@@ -352,7 +354,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
   // TODO: Move this to a computation in the HierarchyInput, when a computed field infrastructure
   // exists.
 
-  const relations = cspaceDocument.getIn(['ns2:relations-common-list', 'relation-list-item']);
+  const relations = cspaceDocument.getIn(['rel:relations-common-list', 'relation-list-item']);
 
   if (relations && Immutable.List.isList(relations)) {
     const filteredRelations = relations.filter(relation => (
@@ -361,7 +363,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
     ));
 
     cspaceDocument = cspaceDocument.setIn(
-      ['ns2:relations-common-list', 'relation-list-item'], filteredRelations
+      ['rel:relations-common-list', 'relation-list-item'], filteredRelations
     );
   }
 

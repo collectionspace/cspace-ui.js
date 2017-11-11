@@ -69,8 +69,8 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('getPartNSPropertyName', function suite() {
-    it('should return the namespace prefix prepended with \'@xmlns:\'', function test() {
-      getPartNSPropertyName().should.equal('@xmlns:ns2');
+    it('should return the suppplied namespace prefix prepended with \'@xmlns:\'', function test() {
+      getPartNSPropertyName('ns2').should.equal('@xmlns:ns2');
     });
   });
 
@@ -830,7 +830,7 @@ describe('recordDataHelpers', function moduleSuite() {
           blobCsid: 'not a csid',
         },
         'ns2:account_permission': {},
-        'ns2:relations-common-list': {
+        'rel:relations-common-list': {
           'relation-list-item': [
             {
               predicate: 'hasBroader',
@@ -880,13 +880,13 @@ describe('recordDataHelpers', function moduleSuite() {
 
     it('should filter out incomplete relation items', function test() {
       prepareForSending(recordData, recordTypeConfig)
-        .getIn(['document', 'ns2:relations-common-list', 'relation-list-item']).size.should
+        .getIn(['document', 'rel:relations-common-list', 'relation-list-item']).size.should
           .equal(0);
     });
 
     it('should filter out incomplete relation items', function test() {
       prepareForSending(recordData, recordTypeConfig)
-        .getIn(['document', 'ns2:relations-common-list', 'relation-list-item']).size.should
+        .getIn(['document', 'rel:relations-common-list', 'relation-list-item']).size.should
           .equal(0);
     });
 

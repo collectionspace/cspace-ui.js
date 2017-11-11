@@ -764,7 +764,7 @@ describe('reducer', function suite() {
       };
 
       const result = Immutable.fromJS({
-        'ns2:relations-common-list': {
+        'rel:relations-common-list': {
           itemsInPage: '1',
           totalItems: '1',
         },
