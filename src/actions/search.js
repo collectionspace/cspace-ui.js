@@ -191,6 +191,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
         pgNum: searchQuery.get('p'),
         pgSz: searchQuery.get('size'),
         rtSbj: searchQuery.get('rel'),
+        rtPredicate: searchQuery.get('relType'),
         wf_deleted: false,
       },
     };

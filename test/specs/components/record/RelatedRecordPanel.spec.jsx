@@ -94,6 +94,7 @@ describe('RelatedRecordPanel', function suite() {
       recordType: relatedRecordType,
       searchQuery: {
         rel: csid,
+        relType: 'affects',
         p: 0,
         size: 5,
       },

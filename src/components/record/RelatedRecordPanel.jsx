@@ -31,6 +31,7 @@ const getSearchDescriptor = (props) => {
     recordType: relatedRecordType,
     searchQuery: {
       rel: csid,
+      relType: 'affects',
       p: 0,
       size: 5,
     },

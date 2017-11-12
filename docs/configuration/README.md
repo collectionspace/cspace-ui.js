@@ -1,10 +1,40 @@
 # Configuration
 
-The CollectionSpace UI is configured by passing a configuration object to the `cspaceUI` function, as described in the [installation instructions](../installation).
+The CollectionSpace UI is configured by passing a configuration object to the `cspaceUI` function, as in the following example:
+
+```JavaScript
+cspaceUI({
+  basename: '/mymuseum',
+  container: 'div.cspaceUI',
+  serverUrl: 'https://nightly.collectionspace.org',
+  messages: {
+    'about.title': 'Welcome to My Museum CollectionSpace',
+  },
+});
+```
+
+A configuration function may be used instead of an object. The configuration function will be called by the cspace-ui framework at initialization time, and it should return a configuration object. The function will receive one parameter: a context object (pluginContext) that allows the function to access more of the cspace-ui API.
+
+For example:
+
+```JavaScript
+cspaceUI((pluginContext) => {
+  // Can access pluginContext here.
+
+  return {
+    basename: '/mymuseum',
+    container: 'div.cspaceUI',
+    serverUrl: 'https://nightly.collectionspace.org',
+    messages: {
+      'about.title': 'Welcome to My Museum CollectionSpace',
+    },
+  };
+});
+```
 
 ## Merging
 
-The configuration object that is passed to `cspaceUI` (the *source* configuration) is merged into a default configuration (the *target* configuration). This allows the default value of any configuration property to be overridden.
+The configuration object passed to `cspaceUI` (the *source* configuration) is merged into a default configuration (the *target* configuration). This allows the default value of any configuration property to be overridden.
 
 A source configuration is merged into a target configuration as follows: First, if any [plugins](../developer/PluginGuide) are specified in the source configuration (under the [`plugins`](#plugins) key), each plugin is applied in order. The first plugin amends or overrides the target configuration, then the next plugin modifies that modified configuration, and so on, until all plugins have been applied. Finally, the remaining source configuration options are deeply merged into the resulting plugin-modified target configuration. Any properties that are present in the source configuration will override properties with the same key in the target configuration.
 
