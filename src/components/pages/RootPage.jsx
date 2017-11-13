@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
-import AdminPage from './AdminPage';
+import AdminPageContainer from '../../containers/pages/AdminPageContainer';
 import ConfigPage from './ConfigPage';
 import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
 import CreatePageContainer from '../../containers/pages/CreatePageContainer';
@@ -60,11 +60,11 @@ function RootPage(props) {
       <Switch>
         <PublicRoute path="/login" component={LoginPageContainer} />
         <PublicRoute path="/logout" component={LogoutPageContainer} />
+        <PublicRoute path="/config" component={ConfigPage} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
-        <ProtectedRouteContainer path="/admin/config" component={ConfigPage} />
-        <ProtectedRouteContainer path="/admin" component={AdminPage} />
+        <ProtectedRouteContainer path="/admin" component={AdminPageContainer} />
 
         <ProtectedRouteContainer
           path="/search/:recordType?/:vocabulary?"

@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import {
   PREFS_LOADED,
   COLLAPSE_PANEL,
+  SET_ADMIN_TAB,
   SET_RECORD_BROWSER_NAV_BAR_ITEMS,
   SET_SEARCH_PAGE_RECORD_TYPE,
   SET_SEARCH_PAGE_VOCABULARY,
@@ -18,11 +19,13 @@ import {
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case PREFS_LOADED:
-      return (action.payload || state);
+      return (action.payload || Immutable.Map());
     case COLLAPSE_PANEL:
       return state.setIn(
         ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload
       );
+    case SET_ADMIN_TAB:
+      return state.set('adminTab', action.payload);
     case SET_RECORD_BROWSER_NAV_BAR_ITEMS:
       return state.setIn(
         ['recordBrowserNavBarItems', action.meta.recordType], action.payload
@@ -90,3 +93,6 @@ export const getForm = (state, recordType) =>
 
 export const getUploadType = state =>
   state.get('uploadType');
+
+export const getAdminTab = state =>
+  state.get('adminTab');

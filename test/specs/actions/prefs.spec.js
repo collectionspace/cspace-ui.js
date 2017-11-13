@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
+  SET_ADMIN_TAB,
   SET_FORM,
   SET_QUICK_SEARCH_RECORD_TYPE,
   SET_QUICK_SEARCH_VOCABULARY,
@@ -21,6 +22,7 @@ import {
   collapsePanel,
   loadPrefs,
   savePrefs,
+  setAdminTab,
   setForm,
   setQuickSearchRecordType,
   setQuickSearchVocabulary,
@@ -51,6 +53,17 @@ describe('prefs action creator', function suite() {
           recordType,
           name,
         },
+      });
+    });
+  });
+
+  describe('setAdminTab', function actionSuite() {
+    it('should create a SET_ADMIN_TAB action', function test() {
+      const tabName = 'vocabulary';
+
+      setAdminTab(tabName).should.deep.equal({
+        type: SET_ADMIN_TAB,
+        payload: tabName,
       });
     });
   });
@@ -244,6 +257,23 @@ describe('prefs action creator', function suite() {
         payload: null,
       });
     });
+
+    it('should return null prefs if there is no username', function test() {
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      store.dispatch(loadPrefs());
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
+        type: PREFS_LOADED,
+        payload: null,
+      });
+    });
   });
 
   describe('savePrefs', function actionSuite() {
@@ -270,6 +300,31 @@ describe('prefs action creator', function suite() {
       const revivedPrefs = JSON.parse(serializedPrefs);
 
       revivedPrefs[username].should.deep.equal(prefs);
+    });
+
+    it('should not save prefs if there is no username', function test() {
+      const prevStoredPrefs = { foo: 'bar' };
+
+      window.localStorage.setItem(storageKey, JSON.stringify(prevStoredPrefs));
+
+      const prefs = {
+        foo: {
+          bar: true,
+        },
+        baz: 'a',
+      };
+
+      const store = mockStore({
+        prefs: Immutable.fromJS(prefs),
+        user: Immutable.Map(),
+      });
+
+      store.dispatch(savePrefs());
+
+      const serializedPrefs = window.localStorage.getItem(storageKey);
+      const revivedPrefs = JSON.parse(serializedPrefs);
+
+      revivedPrefs.should.deep.equal(prevStoredPrefs);
     });
 
     it('should not affect prefs for other users', function test() {

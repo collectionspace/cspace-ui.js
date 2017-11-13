@@ -98,6 +98,8 @@ export const getForm = (state, recordType) => fromPrefs.getForm(state.prefs, rec
 
 export const getUploadType = state => fromPrefs.getUploadType(state.prefs);
 
+export const getAdminTab = state => fromPrefs.getAdminTab(state.prefs);
+
 export const getOptionList = (state, optionListName) =>
   fromOptionList.get(state.optionList, optionListName);
 
