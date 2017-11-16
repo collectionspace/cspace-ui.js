@@ -43,6 +43,7 @@ const {
   CheckboxInput: BaseCheckboxInput,
   CompoundInput,
   ReadOnlyInput,
+  RichTextInput,
   TextInput,
 } = inputComponents;
 
@@ -75,6 +76,7 @@ export default () => ({
     OptionPickerInput,
     StructuredDateInput,
     ReadOnlyInput,
+    RichTextInput,
     TextInput,
     TermPickerInput,
     UploadInput,
