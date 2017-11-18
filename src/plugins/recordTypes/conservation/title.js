@@ -1,4 +1,4 @@
-export default pluginContext => (cspaceDocument) => {
+export default pluginContext => (data) => {
   const {
     getPart,
     deepGet,
@@ -8,11 +8,11 @@ export default pluginContext => (cspaceDocument) => {
     getDisplayName,
   } = pluginContext.refNameHelpers;
 
-  if (!cspaceDocument) {
+  if (!data) {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'conservation_common');
+  const common = getPart(data, 'conservation_common');
 
   if (!common) {
     return '';

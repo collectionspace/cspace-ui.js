@@ -22,6 +22,7 @@ import {
 
 import {
   CREATE_NEW_RECORD,
+  RECORD_DELETE_STARTED,
   RECORD_READ_STARTED,
   RECORD_SAVE_STARTED,
   RECORD_TRANSITION_STARTED,
@@ -132,6 +133,7 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('data', data);
     result.props.should.have.property('isModified', true);
     result.props.should.have.property('createNewRecord').that.is.a('function');
+    result.props.should.have.property('deleteRecord').that.is.a('function');
     result.props.should.have.property('readRecord').that.is.a('function');
   });
 
@@ -161,6 +163,35 @@ describe('RecordEditorContainer', function suite() {
         resolve();
       }, 0);
     });
+  });
+
+  it('should connect deleteRecord to deleteRecord action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid="abcd"
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    // The call to deleteRecord will fail because we haven't stubbed out everything it needs,
+    // but there's enough to verify that the deleteRecord action creator gets called, and
+    // dispatches RECORD_DELETE_STARTED.
+
+    try {
+      result.props.deleteRecord();
+    } catch (error) {
+      const actions = store.getActions();
+
+      actions[0].should.have.property('type', SHOW_NOTIFICATION);
+
+      actions[1].should.have.property('type', RECORD_DELETE_STARTED);
+      actions[1].should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
+      actions[1].should.have.deep.property('meta.csid', 'abcd');
+    }
   });
 
   it('should connect readRecord to readRecord action creator', function test() {

@@ -1,13 +1,13 @@
-export default pluginContext => (cspaceDocument) => {
+export default pluginContext => (data) => {
   const {
     getPart,
   } = pluginContext.recordDataHelpers;
 
-  if (!cspaceDocument) {
+  if (!data) {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'media_common');
+  const common = getPart(data, 'media_common');
 
   if (!common) {
     return '';

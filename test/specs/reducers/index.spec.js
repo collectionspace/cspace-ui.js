@@ -2,8 +2,11 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import reducer, {
+  getAuthResourceNames,
+  isAuthPermsReadPending,
   getUserScreenName,
   getUserUsername,
+  getUserPerms,
   getLoginUsername,
   isLoginPending,
   getLoginError,
@@ -29,6 +32,7 @@ import reducer, {
   getSearchToRelatePageSize,
   getUploadType,
   getForm,
+  getAdminTab,
   getOptionList,
   getVocabulary,
   getPartialTermSearchMatches,
@@ -63,6 +67,7 @@ describe('reducer', function suite() {
     const state = reducer(undefined, {});
 
     state.should.have.all.keys([
+      'auth',
       'searchPage',
       'cspace',
       'idGenerator',
@@ -83,6 +88,31 @@ describe('reducer', function suite() {
     ]);
   });
 
+  describe('getAuthResourceNames selector', function selectorSuite() {
+    it('should select from the auth key', function test() {
+      const resourceNames = Immutable.List([
+        'collectionobjects',
+        'groups',
+      ]);
+
+      getAuthResourceNames({
+        auth: Immutable.fromJS({
+          resourceNames,
+        }),
+      }).should.equal(resourceNames);
+    });
+  });
+
+  describe('isAuthPermsReadPending selector', function selectorSuite() {
+    it('should select from the auth key', function test() {
+      isAuthPermsReadPending({
+        auth: Immutable.fromJS({
+          isPermsReadPending: true,
+        }),
+      }).should.equal(true);
+    });
+  });
+
   describe('getUserScreenName selector', function selectorSuite() {
     it('should select from the user key', function test() {
       getUserScreenName({
@@ -95,8 +125,24 @@ describe('reducer', function suite() {
     });
   });
 
+  describe('getUserPerms selector', function selectorSuite() {
+    it('should select from the user key', function test() {
+      const perms = Immutable.Map({
+        foo: {
+          data: 'CRUDL',
+        },
+      });
+
+      getUserPerms({
+        user: Immutable.Map({
+          perms,
+        }),
+      }).should.equal(perms);
+    });
+  });
+
   describe('getUserUsername selector', function selectorSuite() {
-    it('should select from the users key', function test() {
+    it('should select from the user key', function test() {
       getUserUsername({
         user: Immutable.Map({
           username: 'user@collectionspace.org',
@@ -466,6 +512,18 @@ describe('reducer', function suite() {
           },
         }),
       }, recordType).should.equal(form);
+    });
+  });
+
+  describe('getAdminTab selector', function selectorSuite() {
+    it('should select from the prefs key', function test() {
+      const adminTab = 'roles';
+
+      getAdminTab({
+        prefs: Immutable.fromJS({
+          adminTab,
+        }),
+      }).should.equal(adminTab);
     });
   });
 

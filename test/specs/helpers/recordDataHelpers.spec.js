@@ -46,6 +46,7 @@ import {
   getWorkflowState,
   isNewRecord,
   isExistingRecord,
+  isLocked,
   normalizeFieldValue,
   normalizeRecordData,
   prepareForSending,
@@ -75,15 +76,17 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('getPart', function suite() {
-    it('should return the named part from the given document', function test() {
+    it('should return the named part from the given data', function test() {
       const corePart = Immutable.Map();
 
-      const cspaceDocument = Immutable.fromJS({
-        '@name': 'groups',
-        'ns2:collectionspace_core': corePart,
+      const data = Immutable.fromJS({
+        document: {
+          '@name': 'groups',
+          'ns2:collectionspace_core': corePart,
+        },
       });
 
-      getPart(cspaceDocument, 'collectionspace_core').should.equal(corePart);
+      getPart(data, 'collectionspace_core').should.equal(corePart);
     });
   });
 
@@ -708,10 +711,7 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('createBlankRecord', function suite() {
-    const recordTypeConfig = {
-      serviceConfig: {
-        documentName: 'groups',
-      },
+    const groupConfig = {
       fields: {
         document: {
           'ns2:groups_common': {
@@ -732,18 +732,38 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
+    const roleConfig = {
+      fields: {
+        'ns2:role': {
+          [configKey]: {
+            service: {
+              ns: 'http://collectionspace.org/services/role',
+            },
+          },
+        },
+      },
+    };
+
     it('should return an Immutable.Map', function test() {
-      Immutable.Map.isMap(createBlankRecord(recordTypeConfig)).should.equal(true);
+      Immutable.Map.isMap(createBlankRecord(groupConfig)).should.equal(true);
     });
 
-    it('should create properties for each service part', function test() {
-      const document = createBlankRecord(recordTypeConfig);
+    it('should create properties for the document', function test() {
+      const data = createBlankRecord(roleConfig);
 
-      document.get('document').get('ns2:groups_common').toJS().should.deep.equal({
+      data.get('ns2:role').toJS().should.deep.equal({
+        '@xmlns:ns2': 'http://collectionspace.org/services/role',
+      });
+    });
+
+    it('should create properties for each part', function test() {
+      const data = createBlankRecord(groupConfig);
+
+      data.get('document').get('ns2:groups_common').toJS().should.deep.equal({
         '@xmlns:ns2': 'http://collectionspace.org/services/group',
       });
 
-      document.get('document').get('ns2:groups_extension').toJS().should.deep.equal({
+      data.get('document').get('ns2:groups_extension').toJS().should.deep.equal({
         '@xmlns:ns2': 'http://collectionspace.org/services/extension/group',
       });
     });
@@ -895,6 +915,20 @@ describe('recordDataHelpers', function moduleSuite() {
         prepareForSending(recordData, recordTypeConfig)
           .getIn(['document', 'ns2:groups_extension', 'blobCsid'])
       ).to.equal(null);
+    });
+
+    it('should sort attribute and namespace properties of the root to the top', function test() {
+      const roleRecordData = Immutable.fromJS({
+        'ns2:role': {
+          createdAt: '1234',
+          '@csid': 'abcd',
+          displayName: 'Test Role',
+          '@xmlns:ns2': 'http://collectionspace.org',
+        },
+      });
+
+      prepareForSending(roleRecordData, recordTypeConfig).get('ns2:role').keySeq()
+        .toArray().should.deep.equal(['@csid', '@xmlns:ns2', 'createdAt', 'displayName']);
     });
   });
 
@@ -1532,12 +1566,22 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('getCreatedTimestamp', function suite() {
-    it('should return the created timestamp', function test() {
+    it('should return a core schema createdAt value', function test() {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
             createdAt: '1234',
           },
+        },
+      });
+
+      getCreatedTimestamp(data).should.equal('1234');
+    });
+
+    it('should return a top level createdAt value  ', function test() {
+      const data = Immutable.fromJS({
+        'ns2:role': {
+          createdAt: '1234',
         },
       });
 
@@ -1560,12 +1604,22 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('getUpdatedTimestamp', function suite() {
-    it('should return the updated timestamp', function test() {
+    it('should return a core schema updatedAt value', function test() {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
             updatedAt: '1234',
           },
+        },
+      });
+
+      getUpdatedTimestamp(data).should.equal('1234');
+    });
+
+    it('should return a top level updatedAt value', function test() {
+      const data = Immutable.fromJS({
+        'ns2:role': {
+          updatedAt: '1234',
         },
       });
 
@@ -2019,6 +2073,13 @@ describe('recordDataHelpers', function moduleSuite() {
           compute: data => `hello ${data}`,
         },
       },
+      throwError: {
+        [configKey]: {
+          compute: () => {
+            throw new Error('test error');
+          },
+        },
+      },
       names: {
         name: {
           [configKey]: {
@@ -2248,6 +2309,12 @@ describe('recordDataHelpers', function moduleSuite() {
           expect(computedValue).to.equal(undefined);
         });
     });
+
+    it('should reject if the compute function throws', function test() {
+      return computeField('', [], Immutable.Map(), fieldDescriptor.throwError)
+        .catch(error => error.message)
+        .should.eventually.equal('test error');
+    });
   });
 
   describe('computeRecordData', function suite() {
@@ -2355,6 +2422,34 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       isExistingRecord(data).should.equal(false);
+    });
+  });
+
+  describe('isLocked', function suite() {
+    it('should return true if the workflow state is \'locked\'', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'locked',
+          },
+        },
+      });
+
+      isLocked(data).should.equal(true);
+    });
+
+    it('should return true if permsProtection is \'immutable\'', function test() {
+      const data = Immutable.fromJS({
+        'ns2:role': {
+          permsProtection: 'immutable',
+        },
+      });
+
+      isLocked(data).should.equal(true);
+    });
+
+    it('should return false if no data is supplied', function test() {
+      isLocked().should.equal(false);
     });
   });
 

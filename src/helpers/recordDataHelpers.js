@@ -32,8 +32,8 @@ export const ERROR_KEY = '[error]';
 export const getPartPropertyName = partName =>
   `${NS_PREFIX}:${partName}`;
 
-export const getPart = (cspaceDocument, partName) =>
-  cspaceDocument.get(getPartPropertyName(partName));
+export const getPart = (data, partName) =>
+  data.getIn([DOCUMENT_PROPERTY_NAME, getPartPropertyName(partName)]);
 
 export const getPartNSPropertyName = prefix =>
   `@xmlns:${prefix}`;
@@ -167,8 +167,21 @@ export const createBlankRecord = (recordTypeConfig) => {
 
   const documentKey = (Object.keys(fields))[0];
   const documentDescriptor = fields[documentKey];
-  const partKeys = Object.keys(documentDescriptor);
   const document = {};
+
+  // On some records, e.g. roles, the document has a namespace.
+
+  const documentNsUri = get(documentDescriptor, [configKey, 'service', 'ns']);
+
+  if (documentNsUri) {
+    const nsPrefix = documentKey.split(':', 2)[0];
+
+    document[getPartNSPropertyName(nsPrefix)] = documentNsUri;
+  }
+
+  // Most records have parts with a namespace.
+
+  const partKeys = Object.keys(documentDescriptor);
 
   partKeys.forEach((partKey) => {
     const partDescriptor = documentDescriptor[partKey];
@@ -325,25 +338,39 @@ export const attributePropertiesToTop = (propertyNameA, propertyNameB) => {
  *   properly translate the payload to XML.
  */
 export const prepareForSending = (data, recordTypeConfig) => {
+  let documentName = DOCUMENT_PROPERTY_NAME;
+  let cspaceDocument = data.get(documentName);
+
+  if (!cspaceDocument) {
+    documentName = data.keySeq().first();
+    cspaceDocument = data.get(documentName);
+  }
+
   // Filter out the core schema and account information parts.
   // TODO: Use field configuration to determine what should be removed.
 
-  let cspaceDocument = data.get(DOCUMENT_PROPERTY_NAME)
-    .filter((value, key) => (
-      key !== `${NS_PREFIX}:collectionspace_core`
-      && key !== `${NS_PREFIX}:account_permission`
-      && key !== `${NS_PREFIX}:image_metadata`
-    ));
+  cspaceDocument = cspaceDocument.filter((value, key) => (
+    key !== `${NS_PREFIX}:collectionspace_core`
+    && key !== `${NS_PREFIX}:account_permission`
+    && key !== `${NS_PREFIX}:image_metadata`
+  ));
 
-  // For each remaining part, move XML attribute and namespace declaration properties (those
-  // that start with @) to the top, since the REST API requires this.
+  // Move XML attribute and namespace declaration properties (those that start with @) to the top,
+  // since the REST API requires this.
+
+  cspaceDocument = cspaceDocument.sortBy((value, name) => name, attributePropertiesToTop);
+
+  // For each part, move XML attribute and namespace declaration properties to the top.
 
   for (const key of cspaceDocument.keys()) {
     if (key.charAt(0) !== '@') {
       const part = cspaceDocument.get(key);
-      const sortedPart = part.sortBy((value, name) => name, attributePropertiesToTop);
 
-      cspaceDocument = cspaceDocument.set(key, sortedPart);
+      if (Immutable.Map.isMap(part)) {
+        const sortedPart = part.sortBy((value, name) => name, attributePropertiesToTop);
+
+        cspaceDocument = cspaceDocument.set(key, sortedPart);
+      }
     }
   }
 
@@ -367,7 +394,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
     );
   }
 
-  let updatedData = data.set(DOCUMENT_PROPERTY_NAME, cspaceDocument);
+  let updatedData = data.set(documentName, cspaceDocument);
 
   // Set to null any subrecord csid fields that don't contain valid csids -- these are pointing to
   // new subrecords that haven't been saved.
@@ -393,28 +420,50 @@ export const prepareForSending = (data, recordTypeConfig) => {
 
 export const getCoreFieldValue = (data, fieldName) => {
   if (data) {
-    const document = getDocument(data);
+    const corePart = getPart(data, 'collectionspace_core');
 
-    if (document) {
-      const corePart = getPart(document, 'collectionspace_core');
-
-      if (corePart) {
-        return corePart.get(fieldName);
-      }
+    if (corePart) {
+      return corePart.get(fieldName);
     }
   }
 
   return undefined;
 };
 
-export const getUpdatedTimestamp = data =>
-  getCoreFieldValue(data, 'updatedAt');
+export const getUpdatedTimestamp = (data) => {
+  let updatedAt = getCoreFieldValue(data, 'updatedAt');
+
+  if (!updatedAt && data) {
+    // Weird records like roles have updatedAt as a child of the root node.
+
+    const doc = data.first();
+
+    if (doc) {
+      updatedAt = doc.get('updatedAt');
+    }
+  }
+
+  return updatedAt;
+};
 
 export const getUpdatedUser = data =>
   getCoreFieldValue(data, 'updatedBy');
 
-export const getCreatedTimestamp = data =>
-  getCoreFieldValue(data, 'createdAt');
+export const getCreatedTimestamp = (data) => {
+  let createdAt = getCoreFieldValue(data, 'createdAt');
+
+  if (!createdAt) {
+    // Weird records like roles have updatedAt as a child of the root node.
+
+    const doc = data.first();
+
+    if (doc) {
+      createdAt = doc.get('createdAt');
+    }
+  }
+
+  return createdAt;
+};
 
 export const getCreatedUser = data =>
   getCoreFieldValue(data, 'createdBy');
@@ -704,10 +753,33 @@ export const computeField = (data, path, recordData, fieldDescriptor, expandRepe
 export const computeRecordData = (data, recordTypeConfig) =>
   computeField(data, [], data, get(recordTypeConfig, 'fields'));
 
-export const isNewRecord = data =>
-  (!data || !data.getIn(['document', 'ns2:collectionspace_core', 'uri']));
+export const isExistingRecord = data => !!(
+  // TODO: Move this into record type config.
 
-export const isExistingRecord = data => !isNewRecord(data);
+  data &&
+  (
+    data.getIn(['document', 'ns2:collectionspace_core', 'uri']) ||
+    data.getIn(['ns2:role', '@csid'])
+  )
+);
+
+export const isNewRecord = data => !isExistingRecord(data);
 
 export const getWorkflowState = data =>
   (data ? data.getIn(['document', 'ns2:collectionspace_core', 'workflowState']) : undefined);
+
+export const isLocked = (data) => {
+  if (getWorkflowState(data) === 'locked') {
+    return true;
+  }
+
+  // Deal with roles
+
+  if (data) {
+    const doc = data.first();
+
+    return (doc && doc.get('permsProtection') === 'immutable');
+  }
+
+  return false;
+};

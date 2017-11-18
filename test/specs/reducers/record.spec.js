@@ -19,6 +19,9 @@ import {
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_CREATED,
+  RECORD_DELETE_STARTED,
+  RECORD_DELETE_FULFILLED,
+  RECORD_DELETE_REJECTED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
@@ -1807,6 +1810,94 @@ describe('record reducer', function suite() {
       });
 
       state.should.equal(initialState);
+    });
+  });
+
+  describe('on RECORD_DELETE_STARTED', function actionSuite() {
+    it('should set isSavePending to true', function test() {
+      const csid = '1234';
+
+      const state = reducer(undefined, {
+        type: RECORD_DELETE_STARTED,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
+        },
+      }));
+
+      isSavePending(state, csid).should.equal(true);
+    });
+  });
+
+  describe('on RECORD_DELETE_FULFILLED', function actionSuite() {
+    it('should remove state associated with the deleted csid', function test() {
+      const csid = '1234';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
+        },
+      }), {
+        type: RECORD_DELETE_FULFILLED,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+      }));
+
+      expect(isSavePending(state, csid)).to.equal(undefined);
+    });
+
+    it('should update relationUpdatedTime of a related record', function test() {
+      const csid = '1234';
+      const relatedSubjectCsid = '5678';
+      const updatedTimestamp = '2000-01-01T12:00:00Z';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {},
+          isSavePending: true,
+        },
+      }), {
+        type: RECORD_DELETE_FULFILLED,
+        meta: {
+          csid,
+          relatedSubjectCsid,
+          updatedTimestamp,
+        },
+      });
+
+      getRelationUpdatedTimestamp(state, relatedSubjectCsid).should.equal(updatedTimestamp);
+    });
+  });
+
+  describe('on RECORD_DELETE_REJECTED', function actionSuite() {
+    it('should unset isSavePending', function test() {
+      const csid = '1234';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
+        },
+      }), {
+        type: RECORD_DELETE_REJECTED,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {},
+      }));
+
+      expect(isSavePending(state, csid)).to.equal(undefined);
     });
   });
 });

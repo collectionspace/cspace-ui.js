@@ -1,13 +1,13 @@
-export default pluginContext => (cspaceDocument) => {
+export default pluginContext => (data) => {
   const {
     getPart,
   } = pluginContext.recordDataHelpers;
 
-  if (!cspaceDocument) {
+  if (!data) {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'valuationcontrols_common');
+  const common = getPart(data, 'valuationcontrols_common');
 
   if (!common) {
     return '';

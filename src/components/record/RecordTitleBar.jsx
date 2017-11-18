@@ -5,12 +5,8 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import TitleBar from '../sections/TitleBar';
 import SearchResultTraverserContainer from '../../containers/search/SearchResultTraverserContainer';
+import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import WorkflowStateIcon from './WorkflowStateIcon';
-
-import {
-  DOCUMENT_PROPERTY_NAME,
-  getWorkflowState,
-} from '../../helpers/recordDataHelpers';
 
 const messages = defineMessages({
   authority: {
@@ -55,8 +51,7 @@ export default function RecordTitleBar(props, context) {
     return null;
   }
 
-  const cspaceDocument = data ? data.get(DOCUMENT_PROPERTY_NAME) : undefined;
-  const title = recordTypeConfig.title(cspaceDocument);
+  const title = recordTypeConfig.title(data);
 
   let aside;
 

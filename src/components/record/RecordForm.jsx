@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import warning from 'warning';
-import { DOCUMENT_PROPERTY_NAME } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordForm.css';
 
 function renderTemplate(component, messages, handlers) {
@@ -97,6 +96,7 @@ export default class RecordForm extends Component {
     }
 
     const {
+      fields,
       forms,
       messages,
     } = recordTypeConfig;
@@ -138,10 +138,12 @@ export default class RecordForm extends Component {
       warning(formTemplate, `No form template found for computed form name ${computedFormName} in record type ${recordType}. Check the record type plugin configuration.`);
     }
 
+    const rootPropertyName = Object.keys(fields)[0];
+
     const formContent = React.cloneElement(formTemplate, {
       readOnly,
-      name: DOCUMENT_PROPERTY_NAME,
-      value: data.get(DOCUMENT_PROPERTY_NAME),
+      name: rootPropertyName,
+      value: data.get(rootPropertyName),
       children: React.Children.map(
         formTemplate.props.children,
         child => renderTemplate(child, messages, handlers)),

@@ -25,6 +25,7 @@ import {
 import {
   SUBRECORD_CREATED,
   RECORD_CREATED,
+  RECORD_DELETE_FULFILLED,
   RECORD_TRANSITION_FULFILLED,
 } from '../../../src/actions/record';
 
@@ -1113,6 +1114,20 @@ describe('search reducer', function suite() {
 
     const state = reducer(initialState, {
       type: RECORD_CREATED,
+    });
+
+    state.should.equal(Immutable.Map());
+  });
+
+  it('should handle RECORD_DELETE_FULFILLED', function test() {
+    const initialState = Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    });
+
+    const state = reducer(initialState, {
+      type: RECORD_DELETE_FULFILLED,
     });
 
     state.should.equal(Immutable.Map());

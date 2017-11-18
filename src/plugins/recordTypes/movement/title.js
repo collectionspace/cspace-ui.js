@@ -12,7 +12,7 @@ const normalizeDate = (date) => {
   return date;
 };
 
-export default pluginContext => (cspaceDocument) => {
+export default pluginContext => (data) => {
   const {
     getPart,
   } = pluginContext.recordDataHelpers;
@@ -21,11 +21,11 @@ export default pluginContext => (cspaceDocument) => {
     getDisplayName,
   } = pluginContext.refNameHelpers;
 
-  if (!cspaceDocument) {
+  if (!data) {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'movements_common');
+  const common = getPart(data, 'movements_common');
 
   if (!common) {
     return '';

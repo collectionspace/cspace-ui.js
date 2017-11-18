@@ -33,7 +33,6 @@ import {
 import {
   deepGet,
   computeField,
-  getDocument,
   isExistingRecord,
   prepareForSending,
   validateField,
@@ -54,6 +53,33 @@ import {
   STATUS_PENDING,
   STATUS_SUCCESS,
 } from '../constants/notificationStatusCodes';
+
+const deleteMessages = defineMessages({
+  deleting: {
+    id: 'action.record.deleting',
+    description: 'Notification message displayed when a record is being deleted.',
+    defaultMessage: `{hasTitle, select,
+      yes {Deleting {title}…}
+      other {Deleting record…}
+    }`,
+  },
+  errorDeleting: {
+    id: 'action.record.errorDeleting',
+    description: 'Notification message displayed when a record delete fails.',
+    defaultMessage: `{hasTitle, select,
+      yes {Error deleting {title}: {error}}
+      other {Error deleting record: {error}}
+    }`,
+  },
+  deleted: {
+    id: 'action.record.deleted',
+    description: 'Notification message displayed when a record is deleted successfully.',
+    defaultMessage: `{hasTitle, select,
+      yes {Deleted {title}}
+      other {Deleted record}
+    }`,
+  },
+});
 
 const saveMessages = defineMessages({
   saving: {
@@ -143,6 +169,9 @@ export const FIELD_COMPUTE_FULFILLED = 'FIELD_COMPUTE_FULFILLED';
 export const FIELD_COMPUTE_REJECTED = 'FIELD_COMPUTE_REJECTED';
 export const RECORD_CREATED = 'RECORD_CREATED';
 export const SUBRECORD_CREATED = 'SUBRECORD_CREATED';
+export const RECORD_DELETE_STARTED = 'RECORD_DELETE_STARTED';
+export const RECORD_DELETE_FULFILLED = 'RECORD_DELETE_FULFILLED';
+export const RECORD_DELETE_REJECTED = 'RECORD_DELETE_REJECTED';
 export const RECORD_READ_STARTED = 'RECORD_READ_STARTED';
 export const RECORD_READ_FULFILLED = 'RECORD_READ_FULFILLED';
 export const RECORD_READ_REJECTED = 'RECORD_READ_REJECTED';
@@ -360,14 +389,18 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
 
   const path = pathParts.join('/');
 
-  const config = {
+  const requestConfig = {
     params: {
       showRelations: true,
       wf_deleted: false,
     },
   };
 
-  return getSession().read(path, config);
+  if (recordTypeConfig.requestConfig) {
+    merge(requestConfig, recordTypeConfig.requestConfig('read'));
+  }
+
+  return getSession().read(path, requestConfig);
 };
 
 export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
@@ -631,7 +664,7 @@ export const saveRecord =
           });
 
           const title = currentRecordTypeConfig.title
-            ? currentRecordTypeConfig.title(getDocument(getRecordData(getState(), currentCsid)))
+            ? currentRecordTypeConfig.title(getRecordData(getState(), currentCsid))
             : null;
 
           const notificationID = getNotificationID();
@@ -688,7 +721,7 @@ export const saveRecord =
             };
 
             if (recordTypeConfig.requestConfig) {
-              merge(requestConfig, recordTypeConfig.requestConfig(data));
+              merge(requestConfig, recordTypeConfig.requestConfig('save', data));
             }
 
             if (isExisting) {
@@ -903,12 +936,106 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
   dispatch(removeValidationNotification());
 };
 
+export const deleteRecord = (
+  recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid
+) =>
+  (dispatch, getState) => {
+    const data = getRecordData(getState(), csid);
+    const title = recordTypeConfig.title(data);
+    const notificationID = getNotificationID();
+
+    dispatch(showNotification({
+      message: deleteMessages.deleting,
+      values: {
+        title,
+        hasTitle: title ? 'yes' : '',
+      },
+      date: new Date(),
+      status: STATUS_PENDING,
+    }, notificationID));
+
+    dispatch({
+      type: RECORD_DELETE_STARTED,
+      meta: {
+        recordTypeConfig,
+        csid,
+      },
+    });
+
+    const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+    const vocabularyServicePath = vocabularyConfig
+      ? vocabularyConfig.serviceConfig.servicePath
+      : null;
+
+    const pathParts = [recordServicePath];
+
+    if (vocabularyServicePath) {
+      pathParts.push(vocabularyServicePath);
+      pathParts.push('items');
+    }
+
+    if (csid) {
+      pathParts.push(csid);
+    }
+
+    const path = pathParts.join('/');
+
+    return getSession().delete(path)
+      .then((response) => {
+        dispatch(showNotification({
+          message: deleteMessages.deleted,
+          values: {
+            title,
+            hasTitle: title ? 'yes' : '',
+          },
+          date: new Date(),
+          status: STATUS_SUCCESS,
+          autoClose: true,
+        }, notificationID));
+
+        return dispatch({
+          type: RECORD_DELETE_FULFILLED,
+          payload: response,
+          meta: {
+            recordTypeConfig,
+            csid,
+            relatedSubjectCsid,
+          },
+        });
+      })
+      .catch((error) => {
+        dispatch(showNotification({
+          message: deleteMessages.errorDeleting,
+          values: {
+            title,
+            hasTitle: title ? 'yes' : '',
+            error: getErrorDescription(error),
+          },
+          date: new Date(),
+          status: STATUS_ERROR,
+        }, notificationID));
+
+        return dispatch({
+          type: RECORD_DELETE_REJECTED,
+          payload: {
+            code: ERR_API,
+            error,
+          },
+          meta: {
+            recordTypeConfig,
+            csid,
+          },
+        });
+      });
+  };
+
 export const transitionRecord = (
   recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
 ) =>
   (dispatch, getState) => {
     const data = getRecordData(getState(), csid);
-    const title = recordTypeConfig.title(getDocument(data));
+    const title = recordTypeConfig.title(data);
     const notificationID = getNotificationID();
 
     const messages = transitionMessages[transitionName];

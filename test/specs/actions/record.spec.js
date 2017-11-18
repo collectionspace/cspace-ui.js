@@ -43,6 +43,9 @@ import {
   FIELD_COMPUTE_FULFILLED,
   FIELD_COMPUTE_REJECTED,
   RECORD_CREATED,
+  RECORD_DELETE_STARTED,
+  RECORD_DELETE_FULFILLED,
+  RECORD_DELETE_REJECTED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
@@ -64,6 +67,7 @@ import {
   computeFieldValue,
   createNewRecord,
   createNewSubrecord,
+  deleteRecord,
   detachSubrecord,
   readRecord,
   saveRecord,
@@ -388,6 +392,11 @@ describe('record action creator', function suite() {
       const config = {};
 
       const recordTypeConfig = {
+        requestConfig: () => ({
+          params: {
+            customParam: 'hello',
+          },
+        }),
         serviceConfig: {
           servicePath,
         },
@@ -514,6 +523,24 @@ describe('record action creator', function suite() {
         store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid))
           .then(() => {
             store.getActions().should.have.lengthOf(0);
+          });
+      });
+
+      it('should merge request configuration from the record type config', function test() {
+        moxios.stubRequest(readRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.Map(),
+        });
+
+        return store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid))
+          .then(() => {
+            const request = moxios.requests.mostRecent();
+
+            request.url.should.contain('&customParam=hello');
           });
       });
     });
@@ -1314,10 +1341,12 @@ describe('record action creator', function suite() {
       });
 
       it('should merge in a request config contribution from the record type config', function test() {
+        let requestConfigRequestType = null;
         let requestConfigData = null;
 
         const recordTypeConfigWithRequestConfig = merge({}, recordTypeConfig, {
-          requestConfig: (dataArg) => {
+          requestConfig: (requestTypeArg, dataArg) => {
+            requestConfigRequestType = requestTypeArg;
             requestConfigData = dataArg;
 
             return {
@@ -1360,6 +1389,7 @@ describe('record action creator', function suite() {
           saveRecord(config, recordTypeConfigWithRequestConfig, undefined, csid)
         )
           .then(() => {
+            requestConfigRequestType.should.equal('save');
             requestConfigData.should.equal(data);
 
             moxios.requests.first().config.params.should.deep.equal({
@@ -3040,6 +3070,243 @@ describe('record action creator', function suite() {
 
           actions[9].meta.should.have.property('updatedTimestamp');
         });
+    });
+  });
+
+  describe('deleteRecord', function actionSuite() {
+    context('for an object/procedure', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordType = 'collectionobject';
+      const servicePath = 'collectionobjects';
+      const csid = '5678';
+      const deleteRecordUrl = new RegExp(`^/cspace-services/${servicePath}/${csid}`);
+
+      const recordTypeConfig = {
+        name: recordType,
+        serviceConfig: {
+          servicePath,
+        },
+        title: () => '',
+      };
+
+      before(() => {
+        const store = mockStore({
+          user: Immutable.Map(),
+        });
+
+        return store.dispatch(configureCSpace());
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should dispatch RECORD_DELETE_FULFILLED on success', function test() {
+        moxios.stubRequest(deleteRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(deleteRecord(recordTypeConfig, undefined, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(4);
+
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
+              type: RECORD_DELETE_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.have.property('type', RECORD_DELETE_FULFILLED);
+
+            actions[3].payload.should.deep.equal({
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            });
+
+            actions[3].meta.should.include({
+              csid,
+              recordTypeConfig,
+              relatedSubjectCsid: undefined,
+            });
+          });
+      });
+
+      it('should dispatch RECORD_DELETE_REJECTED on error', function test() {
+        moxios.stubRequest(deleteRecordUrl, {
+          status: 400,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(deleteRecord(recordTypeConfig, undefined, csid))
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(4);
+
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
+              type: RECORD_DELETE_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[3].should.have.property('type', RECORD_DELETE_REJECTED);
+            actions[3].should.have.property('meta')
+              .that.deep.equals({
+                csid,
+                recordTypeConfig,
+              });
+          });
+      });
+    });
+
+    context('for an authority', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordType = 'person';
+      const recordServicePath = 'personauthorities';
+      const vocabulary = 'ulan';
+      const vocabularyServicePath = 'urn:cspace:name(ulan)';
+      const csid = '5678';
+      const deleteRecordUrl = new RegExp(`^/cspace-services/${recordServicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}`);
+
+      const vocabularyConfig = {
+        name: vocabulary,
+        serviceConfig: {
+          servicePath: vocabularyServicePath,
+        },
+      };
+
+      const recordTypeConfig = {
+        name: recordType,
+        serviceConfig: {
+          servicePath: recordServicePath,
+        },
+        title: () => '',
+        vocabularies: {
+          [vocabulary]: vocabularyConfig,
+        },
+      };
+
+      before(() => {
+        const store = mockStore({
+          user: Immutable.Map(),
+        });
+
+        return store.dispatch(configureCSpace());
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should dispatch RECORD_DELETE_FULFILLED on success', function test() {
+        moxios.stubRequest(deleteRecordUrl, {
+          status: 200,
+          response: {},
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            [csid]: {
+              data: {
+                current: {
+                  document: {},
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(
+          deleteRecord(recordTypeConfig, vocabularyConfig, csid)
+        )
+          .then(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(4);
+
+            actions[0].should.have.property('type', SHOW_NOTIFICATION);
+            actions[0].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[1].should.deep.equal({
+              type: RECORD_DELETE_STARTED,
+              meta: {
+                csid,
+                recordTypeConfig,
+              },
+            });
+
+            actions[2].should.have.property('type', SHOW_NOTIFICATION);
+            actions[2].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[3].should.have.property('type', RECORD_DELETE_FULFILLED);
+
+            actions[3].payload.should.deep.equal({
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            });
+
+            actions[3].meta.should.include({
+              csid,
+              recordTypeConfig,
+              relatedSubjectCsid: undefined,
+            });
+          });
+      });
     });
   });
 

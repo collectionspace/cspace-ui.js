@@ -34,6 +34,9 @@ import {
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   RECORD_CREATED,
+  RECORD_DELETE_STARTED,
+  RECORD_DELETE_FULFILLED,
+  RECORD_DELETE_REJECTED,
   RECORD_READ_STARTED,
   RECORD_READ_FULFILLED,
   RECORD_READ_REJECTED,
@@ -509,6 +512,25 @@ const handleTransitionFulfilled = (state, action) => {
   return updatedState;
 };
 
+const handleDeleteFulfilled = (state, action) => {
+  const {
+    csid,
+    relatedSubjectCsid,
+    updatedTimestamp,
+  } = action.meta;
+
+  let updatedState = state.delete(csid);
+
+  if (relatedSubjectCsid) {
+    updatedState = updatedState.setIn(
+      [relatedSubjectCsid, 'relationUpdatedTime'],
+      updatedTimestamp
+    );
+  }
+
+  return updatedState;
+};
+
 const detachSubrecord = (state, action) =>
   createNewSubrecord(state, action);
 
@@ -566,6 +588,12 @@ export default (state = Immutable.Map(), action) => {
     case RECORD_TRANSITION_FULFILLED:
       return handleTransitionFulfilled(state, action);
     case RECORD_TRANSITION_REJECTED:
+      return state.deleteIn([action.meta.csid, 'isSavePending']);
+    case RECORD_DELETE_STARTED:
+      return state.setIn([action.meta.csid, 'isSavePending'], true);
+    case RECORD_DELETE_FULFILLED:
+      return handleDeleteFulfilled(state, action);
+    case RECORD_DELETE_REJECTED:
       return state.deleteIn([action.meta.csid, 'isSavePending']);
     case SUBRECORD_CREATED:
       return handleSubrecordCreated(state, action);

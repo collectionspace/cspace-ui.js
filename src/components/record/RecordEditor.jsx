@@ -8,8 +8,8 @@ import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
-import { getWorkflowState } from '../../helpers/recordDataHelpers';
-import { canCreate, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
+import { isLocked } from '../../helpers/recordDataHelpers';
+import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const propTypes = {
@@ -24,7 +24,9 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   isModified: PropTypes.bool,
+  isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  isHardDelete: PropTypes.bool,
   // The workflow state of the related subject (aka primary) record when we're in a secondary tab.
   relatedSubjectWorkflowState: PropTypes.string,
   openModalName: PropTypes.string,
@@ -34,6 +36,7 @@ const propTypes = {
   onSaveCancelled: PropTypes.func,
   closeModal: PropTypes.func,
   openModal: PropTypes.func,
+  deleteRecord: PropTypes.func,
   save: PropTypes.func,
   saveWithTransition: PropTypes.func,
   revert: PropTypes.func,
@@ -42,6 +45,7 @@ const propTypes = {
   removeValidationNotification: PropTypes.func,
   setForm: PropTypes.func,
   validateRecordData: PropTypes.func,
+  onRecordDeleted: PropTypes.func,
   onRecordTransitioned: PropTypes.func,
 };
 
@@ -190,23 +194,41 @@ export default class RecordEditor extends Component {
   handleConfirmDeleteButtonClick() {
     const {
       closeModal,
+      isHardDelete,
+      deleteRecord,
+      onRecordDeleted,
       transitionRecord,
       onRecordTransitioned,
     } = this.props;
 
-    const transitionName = 'delete';
+    if (isHardDelete) {
+      if (deleteRecord) {
+        deleteRecord()
+          .then(() => {
+            if (closeModal) {
+              closeModal(true);
+            }
 
-    if (transitionRecord) {
-      transitionRecord(transitionName)
-        .then(() => {
-          if (closeModal) {
-            closeModal(true);
-          }
+            if (onRecordDeleted) {
+              onRecordDeleted();
+            }
+          });
+      }
+    } else {
+      const transitionName = 'delete';
 
-          if (onRecordTransitioned) {
-            onRecordTransitioned(transitionName);
-          }
-        });
+      if (transitionRecord) {
+        transitionRecord(transitionName)
+          .then(() => {
+            if (closeModal) {
+              closeModal(true);
+            }
+
+            if (onRecordTransitioned) {
+              onRecordTransitioned(transitionName);
+            }
+          });
+      }
     }
   }
 
@@ -418,6 +440,7 @@ export default class RecordEditor extends Component {
       dockTop,
       formName,
       isModified,
+      isReadPending,
       isSavePending,
       perms,
       recordType,
@@ -433,10 +456,11 @@ export default class RecordEditor extends Component {
     }
 
     const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
-    const workflowState = getWorkflowState(data);
+    const locked = isLocked(data);
 
     const readOnly = (
-      workflowState === 'locked' ||
+      locked ||
+      isReadPending ||
       !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
     );
 
@@ -453,8 +477,9 @@ export default class RecordEditor extends Component {
 
     const isDeletable = (
       !!csid &&
-      workflowState !== 'locked' &&
-      canSoftDelete(recordType, perms)
+      !locked &&
+      // Security resources don't have soft-delete, so need to check both.
+      (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
     );
 
     return (
@@ -467,6 +492,7 @@ export default class RecordEditor extends Component {
           isCloneable={isCloneable}
           isDeletable={isDeletable}
           isModified={isModified}
+          isReadPending={isReadPending}
           isSavePending={isSavePending}
           readOnly={readOnly}
           recordType={recordType}
@@ -492,6 +518,7 @@ export default class RecordEditor extends Component {
             isCloneable={isCloneable}
             isDeletable={isDeletable}
             isModified={isModified}
+            isReadPending={isReadPending}
             isSavePending={isSavePending}
             readOnly={readOnly}
             validationErrors={validationErrors}

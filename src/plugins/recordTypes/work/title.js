@@ -1,14 +1,14 @@
-export default pluginContext => (cspaceDocument) => {
+export default pluginContext => (data) => {
   const {
     deepGet,
     getPart,
   } = pluginContext.recordDataHelpers;
 
-  if (!cspaceDocument) {
+  if (!data) {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'works_common');
+  const common = getPart(data, 'works_common');
 
   if (!common) {
     return '';

@@ -5,10 +5,11 @@ import { Redirect, Route, Switch } from 'react-router';
 import Immutable from 'immutable';
 import TermsPage from './TermsPage';
 import UsersPage from './UsersPage';
-import RolesPage from './RolesPage';
+import RolesPageContainer from '../../containers/pages/RolesPageContainer';
 import AdminNavBar from '../admin/AdminNavBar';
 import TitleBar from '../sections/TitleBar';
 import notifyMounted from '../../enhancers/notifyMounted';
+import withConfig from '../../enhancers/withConfig';
 import { canList } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/AdminPage.css';
 
@@ -25,8 +26,8 @@ const renderRoute = (basename, tab, onTabChange) => {
   return (
     <Route
       key={name}
-      path={`${basename}/${name}`}
-      component={notifyMounted(component, onTabChange, name)}
+      path={`${basename}/${name}/:csid?`}
+      component={notifyMounted(withConfig(component), onTabChange, name)}
     />
   );
 };
@@ -34,7 +35,7 @@ const renderRoute = (basename, tab, onTabChange) => {
 const tabs = [
   { name: 'vocabulary', component: TermsPage },
   { name: 'account', component: UsersPage },
-  { name: 'authrole', component: RolesPage },
+  { name: 'authrole', component: RolesPageContainer },
 ];
 
 const propTypes = {

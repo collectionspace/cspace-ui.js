@@ -7,14 +7,11 @@
   margin-left: 4px;
 }
 
-.common > *:last-child {
-  margin-right: 14px;
-}
-
 .common > a + * {
   margin-left: 10px;
 }
 
-footer > .common {
-  text-align: right;
+.loading {
+  composes: common;
+  visibility: hidden;
 }
