@@ -2,60 +2,14 @@
 /* eslint no-console: "off" */
 
 const webpack = require('webpack');
-
-const sauceLaunchers = {
-  'chrome-latest-mac': {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'latest',
-    platform: 'macOS 10.12',
-  },
-  'chrome-previous-mac': {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'latest-1',
-    platform: 'macOS 10.12',
-  },
-  'firefox-latest-mac': {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'latest',
-    platform: 'macOS 10.12',
-  },
-  'firefox-previous-mac': {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    version: 'latest-1',
-    platform: 'macOS 10.12',
-  },
-  // 'safari-latest-mac': {
-  //   base: 'SauceLabs',
-  //   browserName: 'safari',
-  //   version: 'latest',
-  //   platform: 'macOS 10.12',
-  // },
-  // 'edge-latest-win10': {
-  //   base: 'SauceLabs',
-  //   browserName: 'microsoftedge',
-  //   version: 'latest',
-  //   platform: 'Windows 10',
-  // },
-  // 'safari-ios-10.2': {
-  //   base: 'SauceLabs',
-  //   browserName: 'safari',
-  //   platformName: 'iOS',
-  //   platformVersion: '10.2',
-  //   deviceName: 'iPad Retina Simulator',
-  //   appiumVersion: '1.6',
-  // },
-};
+const sauceBrowsers = require('./sauceBrowsers.conf.js');
 
 const getTestFiles = (config) => {
   if (config.file) {
     return config.file.split(',');
   }
 
-  return ['test/index.js'];
+  return ['test/specs/index.js'];
 };
 
 module.exports = function karma(config) {
@@ -71,7 +25,7 @@ module.exports = function karma(config) {
 
       console.log('Running on Sauce Labs.');
 
-      customLaunchers = sauceLaunchers;
+      customLaunchers = sauceBrowsers;
       browsers = Object.keys(customLaunchers);
     } else {
       // We're on Travis, but Sauce Labs environment variables aren't available.

@@ -32,14 +32,15 @@
     "build-umd-dev": "webpack",
     "build-umd-prod": "cross-env NODE_ENV=production webpack",
     "check": "npm run lint && npm run test && npm run coverage",
-    "clean": "rimraf build lib dist coverage",
+    "clean": "rimraf build lib dist coverage errorShots",
     "coverage": "istanbul report --root coverage text && istanbul report --root coverage lcov",
-    "devserver": "webpack-dev-server --inline --content-base . --history-api-fallback",
+    "devserver": "webpack-dev-server",
     "doc": "npx babel-node generateDocs.js",
     "lint": "eslint --ext .jsx,.js *.js src test examples",
     "prepare": "npm run clean && npm run build",
     "start": "cross-env NODE_ENV=test karma start",
-    "test": "cross-env NODE_ENV=test karma start --singleRun=true"
+    "test": "cross-env NODE_ENV=test karma start --singleRun=true",
+    "test-selenium": "wdio wdio.conf.js"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -111,6 +112,11 @@
     "rimraf": "^2.6.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "wdio-dot-reporter": "0.0.9",
+    "wdio-mocha-framework": "^0.5.11",
+    "wdio-sauce-service": "^0.4.4",
+    "wdio-selenium-standalone-service": "0.0.9",
+    "webdriverio": "^4.9.9",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   },

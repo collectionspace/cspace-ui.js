@@ -75,7 +75,7 @@ describe('RecordHeader', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         resolve();
-      }, 100);
+      }, 200);
     })
       .then(() => {
         const scrolledRect = container.getBoundingClientRect();
@@ -87,7 +87,7 @@ describe('RecordHeader', function suite() {
         return new Promise((resolve) => {
           window.setTimeout(() => {
             resolve();
-          }, 100);
+          }, 200);
         });
       })
       .then(() => {
