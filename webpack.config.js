@@ -59,6 +59,11 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  devServer: {
+    contentBase: __dirname,
+    historyApiFallback: true,
+    inline: true,
+  },
 };
 
 if (isProduction) {

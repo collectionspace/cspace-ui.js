@@ -3,6 +3,7 @@
     "mocha": true
   },
   "globals": {
+    "browser": true,
     "chai": true
   },
   "rules": {
