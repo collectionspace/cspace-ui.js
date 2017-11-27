@@ -14,6 +14,7 @@ import DashboardPage from './DashboardPage';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
+import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
 import SearchPageContainer from '../../containers/pages/SearchPageContainer';
 import SearchResultPageContainer from '../../containers/pages/SearchResultPageContainer';
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
@@ -93,6 +94,12 @@ function RootPage(props) {
         <ProtectedRouteContainer
           path="/view/:contentPath+"
           component={ContentViewerPageContainer}
+          decorated={false}
+        />
+
+        <ProtectedRouteContainer
+          path="/report/:reportCsid"
+          component={ReportViewerPageContainer}
           decorated={false}
         />
       </Switch>

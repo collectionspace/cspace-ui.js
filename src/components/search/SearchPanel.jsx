@@ -39,6 +39,7 @@ const propTypes = {
   listType: PropTypes.string,
   title: PropTypes.node,
   showAddButton: PropTypes.bool,
+  showSearchButton: PropTypes.bool,
   showCheckboxColumn: PropTypes.bool,
   renderCheckbox: PropTypes.func,
   renderTableHeader: PropTypes.func,
@@ -51,6 +52,7 @@ const propTypes = {
 const defaultProps = {
   columnSetName: 'default',
   listType: 'common',
+  showSearchButton: true,
 };
 
 const contextTypes = {
@@ -218,16 +220,21 @@ export default class SearchPanel extends Component {
   renderButtons() {
     const {
       showAddButton,
+      showSearchButton,
     } = this.props;
 
-    const buttons = [
-      <Link
-        to={this.getSearchLocation()}
-        key="search"
-      >
-        <FormattedMessage {...messages.search} />
-      </Link>,
-    ];
+    const buttons = [];
+
+    if (showSearchButton) {
+      buttons.push(
+        <Link
+          to={this.getSearchLocation()}
+          key="search"
+        >
+          <FormattedMessage {...messages.search} />
+        </Link>
+      );
+    }
 
     if (showAddButton) {
       buttons.push(

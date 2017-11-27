@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPanelContainer';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
+import RecordReportPanelContainer from '../../containers/record/RecordReportPanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSideBar.css';
@@ -42,6 +43,7 @@ export default function RecordSideBar(props) {
   let relatedObjects = null;
   let relatedProcedures = null;
   let usedBy = null;
+  let reports = null;
 
   if (!isAuthority && !isUtility) {
     mediaSnapshot = (
@@ -81,6 +83,17 @@ export default function RecordSideBar(props) {
     );
   }
 
+  if (!isUtility) {
+    reports = (
+      <RecordReportPanelContainer
+        color={panelColor}
+        csid={csid}
+        config={config}
+        recordType={recordType}
+      />
+    );
+  }
+
   if (isAuthority) {
     usedBy = (
       <UsedByPanelContainer
@@ -108,6 +121,7 @@ export default function RecordSideBar(props) {
       {relatedObjects}
       {relatedProcedures}
       {usedBy}
+      {reports}
     </div>
   );
 }

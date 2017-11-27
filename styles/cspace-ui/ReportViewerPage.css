@@ -1,0 +1,6 @@
+.common {
+  padding: 10px;
+  min-height: 100px;
+  text-align: center;
+  background: url(../../images/spinner.svg) no-repeat center 32px;
+}

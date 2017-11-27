@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 
 const propTypes = {
+  location: PropTypes.object,
   match: PropTypes.object,
   readContent: PropTypes.func.isRequired,
+  renderLoading: PropTypes.func,
 };
 
 export default class ContentViewerPage extends Component {
@@ -53,31 +55,32 @@ export default class ContentViewerPage extends Component {
 
   readContent() {
     const {
+      location,
       match,
       readContent,
     } = this.props;
 
-    const contentPath = get(match, ['params', 'contentPath']);
-
-    if (contentPath) {
-      readContent(contentPath)
-        .then((response) => {
-          if (response.status === 200 && response.data && !this.isUnmounted) {
-            this.setState({
-              blobUrl: URL.createObjectURL(response.data),
-            });
-          }
-        });
-    }
+    readContent(location, match)
+      .then((response) => {
+        if (response.status === 200 && response.data && !this.isUnmounted) {
+          this.setState({
+            blobUrl: URL.createObjectURL(response.data),
+          });
+        }
+      });
   }
 
   render() {
+    const {
+      renderLoading,
+    } = this.props;
+
     const {
       blobUrl,
     } = this.state;
 
     if (!blobUrl) {
-      return null;
+      return (renderLoading ? renderLoading() : null);
     }
 
     const style = {
