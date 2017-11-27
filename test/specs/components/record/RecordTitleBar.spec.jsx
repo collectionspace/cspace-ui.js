@@ -105,7 +105,7 @@ describe('RecordTitleBar', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         resolve();
-      }, 100);
+      }, 500);
     })
     .then(() => {
       const scrolledRect = container.getBoundingClientRect();
@@ -117,7 +117,7 @@ describe('RecordTitleBar', function suite() {
       return new Promise((resolve) => {
         window.setTimeout(() => {
           resolve();
-        }, 100);
+        }, 500);
       });
     })
     .then(() => {
