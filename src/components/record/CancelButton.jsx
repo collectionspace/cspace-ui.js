@@ -15,14 +15,14 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  isSavePending: PropTypes.bool,
+  disabled: PropTypes.bool,
   label: PropTypes.node,
   onClick: PropTypes.func,
 };
 
 export default function CancelButton(props) {
   const {
-    isSavePending,
+    disabled,
     onClick,
   } = props;
 
@@ -37,7 +37,7 @@ export default function CancelButton(props) {
   return (
     <Button
       className={styles.common}
-      disabled={isSavePending}
+      disabled={disabled}
       icon
       name="cancel"
       onClick={onClick}

@@ -5,35 +5,36 @@ import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
 import CancelButton from '../record/CancelButton';
 import RunButton from '../record/RunButton';
-import runButtonStyles from '../../../styles/cspace-ui/RunReportButton.css';
+import runButtonStyles from '../../../styles/cspace-ui/RunBatchButton.css';
 
 const messages = defineMessages({
   prompt: {
-    id: 'reportModal.prompt',
-    description: 'The prompt shown to run a report.',
-    defaultMessage: 'Run this report?',
+    id: 'batchModal.prompt',
+    description: 'The prompt shown to run a batch jbob.',
+    defaultMessage: 'Run this batch job?',
   },
   cancel: {
-    id: 'reportModal.cancel',
-    description: 'Label of the cancel button in the report modal.',
+    id: 'batchModal.cancel',
+    description: 'Label of the cancel button in the batch job modal.',
     defaultMessage: 'Cancel',
   },
   run: {
-    id: 'reportModal.run',
-    description: 'Label of the save button in the report modal.',
+    id: 'batchModal.run',
+    description: 'Label of the save button in the batch job modal.',
     defaultMessage: 'Run',
   },
 });
 
 const propTypes = {
   isOpen: PropTypes.bool,
-  reportItem: PropTypes.instanceOf(Immutable.Map),
+  isRunning: PropTypes.bool,
+  batchItem: PropTypes.instanceOf(Immutable.Map),
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onRunButtonClick: PropTypes.func,
 };
 
-export default class ReportModal extends Component {
+export default class BatchModal extends Component {
   constructor() {
     super();
 
@@ -42,6 +43,7 @@ export default class ReportModal extends Component {
 
   renderButtonBar() {
     const {
+      isRunning,
       onCancelButtonClick,
       onRunButtonClick,
     } = this.props;
@@ -49,11 +51,13 @@ export default class ReportModal extends Component {
     return (
       <div>
         <CancelButton
+          disabled={isRunning}
           label={<FormattedMessage {...messages.cancel} />}
           onClick={onCancelButtonClick}
         />
         <RunButton
           className={runButtonStyles.common}
+          isRunning={isRunning}
           label={<FormattedMessage {...messages.run} />}
           onClick={onRunButtonClick}
         />
@@ -64,18 +68,18 @@ export default class ReportModal extends Component {
   render() {
     const {
       isOpen,
-      reportItem,
+      batchItem,
       onCloseButtonClick,
     } = this.props;
 
-    if (!isOpen || !reportItem) {
+    if (!isOpen || !batchItem) {
       return null;
     }
 
     return (
       <Modal
         isOpen={isOpen}
-        title={<h1>{reportItem.get('name')}</h1>}
+        title={<h1>{batchItem.get('name')}</h1>}
         closeButtonClassName="material-icons"
         closeButtonLabel="close"
         renderButtonBar={this.renderButtonBar}
@@ -87,5 +91,5 @@ export default class ReportModal extends Component {
   }
 }
 
-ReportModal.modalName = 'ReportModal';
-ReportModal.propTypes = propTypes;
+BatchModal.modalName = 'BatchModal';
+BatchModal.propTypes = propTypes;

@@ -55,7 +55,7 @@ export default class ConfirmRecordDeleteModal extends Component {
     return (
       <div>
         <CancelButton
-          isSavePending={isSavePending}
+          disabled={isSavePending}
           label={<FormattedMessage {...messages.cancel} />}
           onClick={onCancelButtonClick}
         />

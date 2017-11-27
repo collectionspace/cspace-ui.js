@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/RunButton.css';
 
 const { Button } = inputComponents;
 
@@ -15,17 +14,22 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  className: PropTypes.string,
+  isRunning: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 export default function RunButton(props) {
   const {
+    className,
+    isRunning,
     onClick,
   } = props;
 
   return (
     <Button
-      className={styles.common}
+      className={className}
+      disabled={isRunning}
       icon
       name="run"
       onClick={onClick}
