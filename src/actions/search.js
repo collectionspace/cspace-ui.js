@@ -186,6 +186,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
           recordTypeConfig.fields, searchQuery.get('as'), config.serverTimeZone
         ),
         csid: searchQuery.get('csid'),
+        doctype: searchQuery.get('doctype'),
         kw: searchQuery.get('kw'),
         mkRtSbj: searchQuery.get('mkRtSbj'),
         pgNum: searchQuery.get('p'),

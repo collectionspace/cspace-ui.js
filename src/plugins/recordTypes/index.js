@@ -25,6 +25,7 @@ import organization from './organization';
 import person from './person';
 import place from './place';
 import procedure from './procedure';
+import report from './report';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
 import work from './work';
@@ -58,6 +59,7 @@ export default [
   person,
   place,
   procedure,
+  report,
   // taxon,
   valuation,
   vocabulary,
