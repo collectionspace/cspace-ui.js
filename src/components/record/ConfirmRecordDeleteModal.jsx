@@ -61,6 +61,8 @@ export default class ConfirmRecordDeleteModal extends Component {
         />
         <DeleteButton
           csid={csid}
+          // Assume the record is deletable if this modal is being shown.
+          isDeletable
           isSavePending={isSavePending}
           label={<FormattedMessage {...messages.delete} />}
           onClick={onDeleteButtonClick}

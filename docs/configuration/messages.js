@@ -53,6 +53,24 @@ export default {
   // Label of the back button.
   "backButton.label": "Back",
 
+  // Notification message shown when a batch job has completed.
+  "batch.complete": "Completed {name}: {numAffected, plural, =0 {No records} one {# record} other {# records}} affected. {userNote}",
+
+  // Notification message shown when a batch job fails.
+  "batch.error": "Error running {name}: {error}",
+
+  // Notification message shown when a batch job is running.
+  "batch.running": "Running {name}…",
+
+  // Label of the cancel button in the batch job modal.
+  "batchModal.cancel": "Cancel",
+
+  // The prompt shown to run a batch jbob.
+  "batchModal.prompt": "Run this batch job?",
+
+  // Label of the save button in the batch job modal.
+  "batchModal.run": "Run",
+
   "booleanConditionInput.and.label": "and",
 
   "booleanConditionInput.and.opSelectorLabel": "All",
@@ -93,6 +111,8 @@ export default {
   "column.authority.default.updatedAt": "Updated",
 
   "column.authority.default.vocabulary": "Vocabulary",
+
+  "column.batch.default.name": "Name",
 
   "column.citation.default.termDisplayName": "Display name",
 
@@ -273,6 +293,8 @@ export default {
   "column.refs.narrow.docType": "Type",
 
   "column.refs.narrow.sourceField": "Field",
+
+  "column.report.default.name": "Name",
 
   "column.terms.itemDisplayName": "Term",
 
@@ -4215,6 +4237,8 @@ export default {
   // The name of the record type.
   "record.work.name": "Work",
 
+  "recordBatchPanel.title": "Batch Jobs",
+
   "recordBrowserNavBar.moreRelated": "+ Related",
 
   "recordBrowserNavBar.new": "New Record",
@@ -4232,6 +4256,8 @@ export default {
   "recordHistory.saving": "Saving",
 
   "recordHistory.updated": "{style, select, full {Updated {date} {time} by {user}} dateTime {Updated {date} {time}}}",
+
+  "recordReportPanel.title": "Reports",
 
   // For authority items, the record type and vocabulary displayed in the right side of the title bar.
   "recordTitleBar.authority": "{recordType} - {vocabulary}",
@@ -4254,11 +4280,26 @@ export default {
 
   "relationEditor.notFound": "Not Found",
 
+  // Label of the cancel button in the report modal.
+  "reportModal.cancel": "Cancel",
+
+  // The prompt shown to run a report.
+  "reportModal.prompt": "Run this report?",
+
+  // Label of the save button in the report modal.
+  "reportModal.run": "Run",
+
+  // Message displayed when a report is loading.
+  "reportViewerPage.loading": "Generating report…",
+
   // Label of the revert button.
   "revertButton.label": "Revert",
 
   // The title of the application, displayed in the browser tab.
   "rootPage.title": "CollectionSpace",
+
+  // Label of the run button.
+  "runButton.label": "Run",
 
   // Label of the save button.
   "saveButton.label": "Save",
