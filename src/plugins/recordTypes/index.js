@@ -3,6 +3,7 @@ import all from './all';
 import acquisition from './acquisition';
 import authority from './authority';
 import authrole from './authrole';
+import batch from './batch';
 import blob from './blob';
 import citation from './citation';
 import collectionobject from './collectionobject';
@@ -37,6 +38,7 @@ export default [
   acquisition,
   authority,
   authrole,
+  batch,
   blob,
   citation,
   collectionobject,

@@ -189,6 +189,10 @@ export const getRecordTypeNameByServiceObjectName = (config, objectName) => {
 };
 
 export const getRecordTypeConfigByServicePath = (config, servicePath) => {
+  if (!servicePath) {
+    return undefined;
+  }
+
   if (!config.recordTypesByServicePath) {
     const recordTypesByServicePath = {};
     const { recordTypes } = config;
@@ -224,6 +228,10 @@ export const getRecordTypeNameByUri = (config, uri) => {
 };
 
 export const getVocabularyConfigByShortID = (recordTypeConfig, shortID) => {
+  if (!shortID) {
+    return undefined;
+  }
+
   if (!recordTypeConfig.vocabulariesByShortID) {
     const vocabulariesByShortID = {};
     const { vocabularies } = recordTypeConfig;
@@ -251,6 +259,20 @@ export const getVocabularyConfigByShortID = (recordTypeConfig, shortID) => {
   }
 
   return recordTypeConfig.vocabulariesByShortID[shortID];
+};
+
+const vocabularyServicePathPattern = /^urn:cspace:name\((.*?)\)$/;
+
+export const getVocabularyConfigByServicePath = (recordTypeConfig, servicePath) => {
+  const match = vocabularyServicePathPattern.exec(servicePath);
+
+  if (!match) {
+    return undefined;
+  }
+
+  const shortID = match[1];
+
+  return getVocabularyConfigByShortID(recordTypeConfig, shortID);
 };
 
 export const getDefaultValue = (fieldDescriptor) => {

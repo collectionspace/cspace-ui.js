@@ -63,7 +63,7 @@ export default class LockRecordModal extends Component {
     return (
       <div>
         <CancelButton
-          isSavePending={isSavePending}
+          disabled={isSavePending}
           label={<FormattedMessage {...messages.cancel} />}
           onClick={onCancelButtonClick}
         />

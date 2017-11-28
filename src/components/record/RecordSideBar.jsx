@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPanelContainer';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
+import RecordBatchPanelContainer from '../../containers/record/RecordBatchPanelContainer';
 import RecordReportPanelContainer from '../../containers/record/RecordReportPanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
@@ -44,6 +45,7 @@ export default function RecordSideBar(props) {
   let relatedProcedures = null;
   let usedBy = null;
   let reports = null;
+  let batchJobs = null;
 
   if (!isAuthority && !isUtility) {
     mediaSnapshot = (
@@ -92,6 +94,16 @@ export default function RecordSideBar(props) {
         recordType={recordType}
       />
     );
+
+    batchJobs = (
+      <RecordBatchPanelContainer
+        color={panelColor}
+        csid={csid}
+        config={config}
+        history={history}
+        recordType={recordType}
+      />
+    );
   }
 
   if (isAuthority) {
@@ -122,6 +134,7 @@ export default function RecordSideBar(props) {
       {relatedProcedures}
       {usedBy}
       {reports}
+      {batchJobs}
     </div>
   );
 }

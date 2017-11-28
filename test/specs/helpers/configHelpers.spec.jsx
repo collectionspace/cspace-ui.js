@@ -23,6 +23,7 @@ import {
   getRecordTypeConfigByUri,
   getRecordTypeNameByUri,
   getVocabularyConfigByShortID,
+  getVocabularyConfigByServicePath,
   isFieldCloneable,
   isFieldRequired,
   isFieldRepeating,
@@ -454,6 +455,10 @@ describe('configHelpers', function moduleSuite() {
       getRecordTypeConfigByServicePath(config, 'collectionobjects').should
         .equal(config.recordTypes.collectionobject);
     });
+
+    it('should return undefined if no service path is supplied', function test() {
+      expect(getRecordTypeConfigByServicePath(config)).to.equal(undefined);
+    });
   });
 
   describe('getRecordTypeConfigByUri', function suite() {
@@ -525,6 +530,37 @@ describe('configHelpers', function moduleSuite() {
     it('should return the vocabulary type config with the given short id', function test() {
       getVocabularyConfigByShortID(recordTypeConfig, 'person').should
         .equal(recordTypeConfig.vocabularies.local);
+    });
+
+    it('should return undefined if no short id is supplied', function test() {
+      expect(getVocabularyConfigByShortID(recordTypeConfig)).to.equal(undefined);
+    });
+  });
+
+  describe('getVocabularyConfigByServicePath', function suite() {
+    const recordTypeConfig = {
+      vocabularies: {
+        local: {
+          messages: {
+            name: {
+              id: 'vocab.person.local.name',
+            },
+          },
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person)',
+          },
+        },
+      },
+    };
+
+    it('should return the vocabulary type config with the given service path', function test() {
+      getVocabularyConfigByServicePath(recordTypeConfig, 'urn:cspace:name(person)').should
+        .equal(recordTypeConfig.vocabularies.local);
+    });
+
+    it('should return undefined if the service path is not a valid cspace URN', function test() {
+      expect(getVocabularyConfigByServicePath(recordTypeConfig, 'something weird')).to
+        .equal(undefined);
     });
   });
 
