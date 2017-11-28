@@ -12,6 +12,14 @@ import {
   invoke,
 } from '../../../src/actions/report';
 
+import {
+  SHOW_NOTIFICATION,
+} from '../../../src/actions/notification';
+
+import {
+  STATUS_ERROR,
+} from '../../../src/constants/notificationStatusCodes';
+
 chai.use(chaiImmutable);
 chai.should();
 
@@ -33,22 +41,26 @@ describe('report action creator', function suite() {
       user: Immutable.Map(),
     });
 
-    before(() => store.dispatch(configureCSpace()));
+    before(() => {
+      store.dispatch(configureCSpace());
+      store.clearActions();
+    });
 
     beforeEach(() => {
       moxios.install();
-
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
     });
 
     afterEach(() => {
+      store.clearActions();
       moxios.uninstall();
     });
 
     it('should invoke a report for a single csid', function test() {
+      moxios.stubRequest(/./, {
+        status: 200,
+        response: {},
+      });
+
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
@@ -78,6 +90,11 @@ describe('report action creator', function suite() {
     });
 
     it('should invoke a report for list csids', function test() {
+      moxios.stubRequest(/./, {
+        status: 200,
+        response: {},
+      });
+
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
@@ -113,6 +130,11 @@ describe('report action creator', function suite() {
     });
 
     it('should invoke a report for no csid', function test() {
+      moxios.stubRequest(/./, {
+        status: 200,
+        response: {},
+      });
+
       const reportCsid = 'abcd';
       const recordType = 'group';
 
@@ -135,6 +157,27 @@ describe('report action creator', function suite() {
               mode: 'nocontext',
             },
           });
+        });
+    });
+
+    it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', function test() {
+      moxios.stubRequest(/./, {
+        status: 400,
+      });
+
+      const reportCsid = 'abcd';
+      const recordType = 'group';
+
+      const invocationDescriptor = {
+        recordType,
+      };
+
+      return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions[0].type.should.equal(SHOW_NOTIFICATION);
+          actions[0].payload.status.should.equal(STATUS_ERROR);
         });
     });
   });

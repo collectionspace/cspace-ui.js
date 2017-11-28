@@ -8,6 +8,7 @@ const propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   readContent: PropTypes.func.isRequired,
+  renderError: PropTypes.func,
   renderLoading: PropTypes.func,
 };
 
@@ -62,22 +63,33 @@ export default class ContentViewerPage extends Component {
 
     readContent(location, match)
       .then((response) => {
-        if (response.status === 200 && response.data && !this.isUnmounted) {
+        if (response && response.status === 200 && response.data && !this.isUnmounted) {
           this.setState({
             blobUrl: URL.createObjectURL(response.data),
           });
         }
+      })
+      .catch((error) => {
+        this.setState({
+          error,
+        });
       });
   }
 
   render() {
     const {
+      renderError,
       renderLoading,
     } = this.props;
 
     const {
       blobUrl,
+      error,
     } = this.state;
+
+    if (error) {
+      return (renderError ? renderError(error) : null);
+    }
 
     if (!blobUrl) {
       return (renderLoading ? renderLoading() : null);

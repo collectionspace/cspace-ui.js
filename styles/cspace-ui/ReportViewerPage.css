@@ -2,5 +2,18 @@
   padding: 10px;
   min-height: 100px;
   text-align: center;
-  background: url(../../images/spinner.svg) no-repeat center 32px;
+  background-repeat: no-repeat;
+  background-position: center 32px;
+  background-size: 24px;
+}
+
+.pending {
+  composes: common;
+  background-image: url(../../images/spinner.svg);
+}
+
+.error {
+  composes: common;
+  background-image: url(../../images/error.svg);
+  color: rgb(220, 0, 0);
 }

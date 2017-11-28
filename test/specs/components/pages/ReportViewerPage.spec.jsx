@@ -6,11 +6,13 @@ import ReportViewerPage from '../../../../src/components/pages/ReportViewerPage'
 chai.should();
 
 describe('ReportViewerPage', function suite() {
+  const readContent = () => {};
+
   it('should render a ContentViewerPage', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportViewerPage readContent={() => {}} />, this.container);
+      <ReportViewerPage readContent={readContent} />, this.container);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -21,10 +23,22 @@ describe('ReportViewerPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportViewerPage readContent={() => {}} />, this.container);
+      <ReportViewerPage readContent={readContent} />, this.container);
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.renderLoading().should.not.equal(null);
+  });
+
+  it('should render an error message', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ReportViewerPage readContent={readContent} />, this.container);
+
+    const result = shallowRenderer.getRenderOutput();
+    const error = {};
+
+    result.props.renderError(error).should.not.equal(null);
   });
 });

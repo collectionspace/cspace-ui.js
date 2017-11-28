@@ -125,4 +125,34 @@ describe('ContentViewerPage', function suite() {
       }, 0);
     });
   });
+
+  it('should call renderError to render an error when reading the content fails', function test() {
+    const failingReadContent = () => Promise.reject({});
+
+    const renderError = () => <div>renderError called</div>;
+
+    const match = {
+      params: {
+        contentPath: 'blobs/1234/content',
+      },
+    };
+
+    render(
+      <ContentViewerPage
+        match={match}
+        readContent={failingReadContent}
+        renderError={renderError}
+      />, this.container);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const div = this.container.firstElementChild;
+
+        div.nodeName.should.equal('DIV');
+        div.textContent.should.equal('renderError called');
+
+        resolve();
+      }, 0);
+    });
+  });
 });
