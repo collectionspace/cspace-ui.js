@@ -8,6 +8,7 @@ import getSession, {
   CSPACE_CONFIGURED,
   configureCSpace,
   createSession,
+  setSession,
 } from '../../../src/actions/cspace';
 
 import {
@@ -20,7 +21,7 @@ const mockStore = configureMockStore([thunk]);
 
 describe('cspace action creator', function suite() {
   describe('configureCSpace', function actionSuite() {
-    it('should create a CSpace session as a side effect', function test() {
+    it('should create a CSpace session and make it the active session', function test() {
       const store = mockStore({
         user: Immutable.Map(),
       });
@@ -71,26 +72,39 @@ describe('cspace action creator', function suite() {
   });
 
   describe('createSession', function actionSuite() {
-    it('should create a CSpace session as a side effect', function test() {
+    it('should return a cspace session', function test() {
       const username = 'user@collectionspace.org';
       const password = 'topsecret';
 
-      createSession(username, password);
-
-      const session = getSession();
+      const session = createSession(username, password);
 
       session.should.be.an('object');
       session.config().should.have.property('username', username);
     });
+  });
 
+  describe('setSession', function actionSuite() {
     it('should create a CSPACE_CONFIGURED action', function test() {
       const username = 'user@collectionspace.org';
       const password = 'topsecret';
 
-      createSession(username, password).should
+      const session = createSession(username, password);
+
+      setSession(session).should
         .include({ type: CSPACE_CONFIGURED })
         .and.have.property('payload')
           .that.has.property('username', username);
+    });
+
+    it('should update the active session', function test() {
+      const username = 'user@collectionspace.org';
+      const password = 'topsecret';
+
+      const session = createSession(username, password);
+
+      setSession(session);
+
+      getSession().should.equal(session);
     });
   });
 });

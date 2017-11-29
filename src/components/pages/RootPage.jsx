@@ -15,6 +15,7 @@ import LoginPageContainer from '../../containers/pages/LoginPageContainer';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
 import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
+import ResetPasswordPage from './ResetPasswordPage';
 import SearchPageContainer from '../../containers/pages/SearchPageContainer';
 import SearchResultPageContainer from '../../containers/pages/SearchResultPageContainer';
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
@@ -61,6 +62,7 @@ function RootPage(props) {
         <PublicRoute path="/login" component={LoginPageContainer} />
         <PublicRoute path="/logout" component={LogoutPageContainer} />
         <PublicRoute path="/config" component={ConfigPage} />
+        <PublicRoute path="/resetpw" component={ResetPasswordPage} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />

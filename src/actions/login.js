@@ -1,6 +1,5 @@
-import getSession, { createSession } from './cspace';
+import getSession, { createSession, setSession } from './cspace';
 import { loadPrefs } from './prefs';
-import { getUserUsername } from '../reducers';
 
 export const AUTH_RENEW_FULFILLED = 'AUTH_RENEW_FULFILLED';
 export const AUTH_RENEW_REJECTED = 'AUTH_RENEW_REJECTED';
@@ -16,16 +15,20 @@ export const resetLogin = () => ({
 });
 
 const renewAuth = (username, password) => (dispatch) => {
-  dispatch(createSession(username, password));
+  const session = createSession(username, password);
 
-  return getSession().login()
-    .then(response => dispatch({
-      type: AUTH_RENEW_FULFILLED,
-      payload: response,
-      meta: {
-        username,
-      },
-    }))
+  return session.login()
+    .then((response) => {
+      dispatch(setSession(session));
+
+      return dispatch({
+        type: AUTH_RENEW_FULFILLED,
+        payload: response,
+        meta: {
+          username,
+        },
+      });
+    })
     .catch((error) => {
       dispatch({
         type: AUTH_RENEW_REJECTED,
@@ -39,9 +42,7 @@ const renewAuth = (username, password) => (dispatch) => {
     });
 };
 
-export const readAccountPerms = config => (dispatch, getState) => {
-  const username = getUserUsername(getState());
-
+export const readAccountPerms = (config, username) => (dispatch) => {
   if (!username) {
     return Promise.resolve();
   }
@@ -73,8 +74,8 @@ export const login = (config, username, password) => (dispatch) => {
   });
 
   return dispatch(renewAuth(username, password))
-    .then(() => dispatch(readAccountPerms(config)))
-    .then(() => dispatch(loadPrefs()))
+    .then(() => dispatch(readAccountPerms(config, username)))
+    .then(() => dispatch(loadPrefs(username)))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,
       meta: {

@@ -93,11 +93,9 @@ export const setUploadType = type => ({
   payload: type,
 });
 
-export const loadPrefs = () => (dispatch, getState) => {
+export const loadPrefs = username => (dispatch) => {
   // TODO: Load prefs from server (requires adding services layer support).
   // For now, just load from local storage.
-
-  const username = getUserUsername(getState());
 
   let userPrefs = null;
 

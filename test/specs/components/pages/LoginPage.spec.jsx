@@ -4,6 +4,7 @@ import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
@@ -29,10 +30,12 @@ describe('LoginPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LoginPage
-            history={history}
-            location={{}}
-          />
+          <Router>
+            <LoginPage
+              history={history}
+              location={{}}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -49,11 +52,13 @@ describe('LoginPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LoginPage
-            history={history}
-            location={{}}
-            onMount={handleMount}
-          />
+          <Router>
+            <LoginPage
+              history={history}
+              location={{}}
+              onMount={handleMount}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -80,10 +85,12 @@ describe('LoginPage', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <LoginPage
-            history={stubbedHistory}
-            location={location}
-          />
+          <Router>
+            <LoginPage
+              history={stubbedHistory}
+              location={location}
+            />
+          </Router>
         </StoreProvider>
       </IntlProvider>, this.container);
 

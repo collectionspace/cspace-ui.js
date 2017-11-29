@@ -10,6 +10,7 @@ import {
   PREFS_LOADED,
   SET_ADMIN_TAB,
   SET_FORM,
+  SET_UPLOAD_TYPE,
   SET_QUICK_SEARCH_RECORD_TYPE,
   SET_QUICK_SEARCH_VOCABULARY,
   SET_RECORD_BROWSER_NAV_BAR_ITEMS,
@@ -24,6 +25,7 @@ import {
   savePrefs,
   setAdminTab,
   setForm,
+  setUploadType,
   setQuickSearchRecordType,
   setQuickSearchVocabulary,
   setRecordBrowserNavBarItems,
@@ -79,6 +81,17 @@ describe('prefs action creator', function suite() {
         meta: {
           recordType,
         },
+      });
+    });
+  });
+
+  describe('setUploadType', function actionSuite() {
+    it('should create a SET_UPLOAD_TYPE action', function test() {
+      const uploadType = 'file';
+
+      setUploadType(uploadType).should.deep.equal({
+        type: SET_UPLOAD_TYPE,
+        payload: uploadType,
       });
     });
   });
@@ -194,13 +207,9 @@ describe('prefs action creator', function suite() {
 
       window.localStorage.setItem(storageKey, JSON.stringify({ [username]: prefs }));
 
-      const store = mockStore({
-        user: Immutable.Map({
-          username,
-        }),
-      });
+      const store = mockStore();
 
-      store.dispatch(loadPrefs());
+      store.dispatch(loadPrefs(username));
 
       const actions = store.getActions();
 
@@ -217,13 +226,9 @@ describe('prefs action creator', function suite() {
 
       window.localStorage.setItem(storageKey, '{invalid json!');
 
-      const store = mockStore({
-        user: Immutable.Map({
-          username,
-        }),
-      });
+      const store = mockStore();
 
-      store.dispatch(loadPrefs());
+      store.dispatch(loadPrefs(username));
 
       const actions = store.getActions();
 
@@ -240,13 +245,9 @@ describe('prefs action creator', function suite() {
 
       window.localStorage.removeItem(storageKey);
 
-      const store = mockStore({
-        user: Immutable.Map({
-          username,
-        }),
-      });
+      const store = mockStore();
 
-      store.dispatch(loadPrefs());
+      store.dispatch(loadPrefs(username));
 
       const actions = store.getActions();
 
@@ -259,9 +260,7 @@ describe('prefs action creator', function suite() {
     });
 
     it('should return null prefs if there is no username', function test() {
-      const store = mockStore({
-        user: Immutable.Map(),
-      });
+      const store = mockStore();
 
       store.dispatch(loadPrefs());
 

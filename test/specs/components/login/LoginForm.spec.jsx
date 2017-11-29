@@ -1,7 +1,9 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
+import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
+import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import LoginForm from '../../../../src/components/login/LoginForm';
@@ -20,7 +22,9 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm />
+        <Router>
+          <LoginForm />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -31,7 +35,9 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm />
+        <Router>
+          <LoginForm />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
@@ -47,9 +53,11 @@ describe('LoginForm', function suite() {
         locale="en"
         messages={messages}
       >
-        <LoginForm
-          isPending
-        />
+        <Router>
+          <LoginForm
+            isPending
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should
@@ -66,7 +74,9 @@ describe('LoginForm', function suite() {
         locale="en"
         messages={messages}
       >
-        <LoginForm username="admin@core.collectionspace.org" />
+        <Router>
+          <LoginForm username="admin@core.collectionspace.org" />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should
@@ -85,9 +95,11 @@ describe('LoginForm', function suite() {
         locale="en"
         messages={messages}
       >
-        <LoginForm
-          error={error}
-        />
+        <Router>
+          <LoginForm
+            error={error}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should
@@ -112,9 +124,11 @@ describe('LoginForm', function suite() {
         locale="en"
         messages={messages}
       >
-        <LoginForm
-          error={error}
-        />
+        <Router>
+          <LoginForm
+            error={error}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should
@@ -134,9 +148,11 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          login={login}
-        />
+        <Router>
+          <LoginForm
+            login={login}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
@@ -152,12 +168,14 @@ describe('LoginForm', function suite() {
     loginPassword.should.equal(password);
   });
 
-  it('should do nothing when the form is submitted if onSubmit is not set', function test() {
+  it('should do nothing when the form is submitted if login is not set', function test() {
     render(
       <IntlProvider
         locale="en"
       >
-        <LoginForm />
+        <Router>
+          <LoginForm />
+        </Router>
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
@@ -178,10 +196,12 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          isPending
-          onSuccess={handleSuccess}
-        />
+        <Router>
+          <LoginForm
+            isPending
+            onSuccess={handleSuccess}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(false);
@@ -192,10 +212,12 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          error={Immutable.Map()}
-          onSuccess={handleSuccess}
-        />
+        <Router>
+          <LoginForm
+            error={Immutable.Map()}
+            onSuccess={handleSuccess}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(false);
@@ -206,10 +228,12 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          isPending
-          onSuccess={handleSuccess}
-        />
+        <Router>
+          <LoginForm
+            isPending
+            onSuccess={handleSuccess}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     // Change isPending to false, with no error - onSuccess should be called
@@ -218,9 +242,11 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          onSuccess={handleSuccess}
-        />
+        <Router>
+          <LoginForm
+            onSuccess={handleSuccess}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(true);
@@ -235,9 +261,11 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          onSuccess={handleSuccess}
-        />
+        <Router>
+          <LoginForm
+            onSuccess={handleSuccess}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(false);
@@ -248,10 +276,12 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm
-          isPending
-          onSuccess={handleSuccess}
-        />
+        <Router>
+          <LoginForm
+            isPending
+            onSuccess={handleSuccess}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(false);
@@ -262,9 +292,34 @@ describe('LoginForm', function suite() {
       <IntlProvider
         locale="en"
       >
-        <LoginForm />
+        <Router>
+          <LoginForm />
+        </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(false);
+  });
+
+  it('should update the location state of the reset password link when the username changes', function test() {
+    const username = 'admin@core.collectionspace.org';
+
+    const renderTree = render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm />
+        </Router>
+      </IntlProvider>, this.container);
+
+    const usernameInput = this.container.querySelector('input[name="username"]');
+
+    usernameInput.value = username;
+
+    Simulate.change(usernameInput);
+
+    const link = findRenderedComponentWithType(renderTree, Link);
+
+    link.props.to.state.username.should.equal(username);
   });
 });

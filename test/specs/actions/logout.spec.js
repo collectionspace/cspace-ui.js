@@ -1,3 +1,5 @@
+/* global localStorage */
+
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
@@ -27,6 +29,8 @@ describe('logout action creator', function suite() {
   describe('logout', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const tokenUrl = '/cspace-services/oauth/token';
+    const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
+    const config = {};
     const username = 'user@collectionspace.org';
     const password = 'pw';
 
@@ -54,6 +58,9 @@ describe('logout action creator', function suite() {
     afterEach(() => {
       store.clearActions();
       moxios.uninstall();
+
+      // Delete stored username/token from the test.
+      localStorage.removeItem('cspace-client');
     });
 
     it('should dispatch LOGOUT_FULFILLED on success', function test() {
@@ -62,7 +69,12 @@ describe('logout action creator', function suite() {
         response: tokenGrantPayload,
       });
 
-      return store.dispatch(login(username, password))
+      moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: {},
+      });
+
+      return store.dispatch(login(config, username, password))
         .then(() => {
           store.clearActions();
 

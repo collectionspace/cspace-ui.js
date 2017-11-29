@@ -1,7 +1,8 @@
+/* global localStorage */
+
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
-import Immutable from 'immutable';
 
 import getSession, {
   configureCSpace,
@@ -40,13 +41,12 @@ describe('login action creator', function suite() {
   describe('login', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
     const tokenUrl = '/cspace-services/oauth/token';
+    const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
     const config = {};
     const username = 'user@collectionspace.org';
     const password = 'pw';
 
-    const store = mockStore({
-      user: Immutable.Map(),
-    });
+    const store = mockStore();
 
     const tokenGrantPayload = {
       access_token: 'abcd',
@@ -68,12 +68,20 @@ describe('login action creator', function suite() {
     afterEach(() => {
       store.clearActions();
       moxios.uninstall();
+
+      // Delete stored username/token from the test.
+      localStorage.removeItem('cspace-client');
     });
 
-    it('should create a session as a side effect', function test() {
+    it('should update the active session', function test() {
       moxios.stubRequest(tokenUrl, {
         status: 200,
         response: tokenGrantPayload,
+      });
+
+      moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: {},
       });
 
       return store.dispatch(login(config, username, password))
@@ -89,11 +97,16 @@ describe('login action creator', function suite() {
         response: tokenGrantPayload,
       });
 
+      moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: {},
+      });
+
       return store.dispatch(login(config, username, password))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(5);
+          actions.should.have.lengthOf(6);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -117,9 +130,22 @@ describe('login action creator', function suite() {
             },
           });
 
-          actions[3].should.have.property('type', PREFS_LOADED);
+          actions[3].should.deep.equal({
+            type: ACCOUNT_PERMS_READ_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+            meta: {
+              config,
+            },
+          });
 
-          actions[4].should.deep.equal({
+          actions[4].should.have.property('type', PREFS_LOADED);
+
+          actions[5].should.deep.equal({
             type: LOGIN_FULFILLED,
             meta: {
               username,
@@ -137,7 +163,7 @@ describe('login action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(4);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -146,11 +172,10 @@ describe('login action creator', function suite() {
             },
           });
 
-          actions[1].should.have.property('type', CSPACE_CONFIGURED);
-          actions[2].should.have.property('type', AUTH_RENEW_REJECTED);
+          actions[1].should.have.property('type', AUTH_RENEW_REJECTED);
 
-          actions[3].should.have.property('type', LOGIN_REJECTED);
-          actions[3].should.have.deep.property('meta.username', username);
+          actions[2].should.have.property('type', LOGIN_REJECTED);
+          actions[2].should.have.deep.property('meta.username', username);
         });
     });
   });
@@ -161,9 +186,7 @@ describe('login action creator', function suite() {
     const username = 'admin@core.collectionspace.org';
     const config = {};
 
-    const store = mockStore({
-      user: Immutable.Map(),
-    });
+    const store = mockStore();
 
     const accountPermsPayload = {
       'ns2:account_permission': {
@@ -191,15 +214,9 @@ describe('login action creator', function suite() {
         response: accountPermsPayload,
       });
 
-      const usernameStore = mockStore({
-        user: Immutable.Map({
-          username,
-        }),
-      });
-
-      return usernameStore.dispatch(readAccountPerms(config))
+      return store.dispatch(readAccountPerms(config, username))
         .then(() => {
-          const actions = usernameStore.getActions();
+          const actions = store.getActions();
 
           actions.should.have.lengthOf(1);
 
@@ -224,15 +241,9 @@ describe('login action creator', function suite() {
         response: {},
       });
 
-      const usernameStore = mockStore({
-        user: Immutable.Map({
-          username,
-        }),
-      });
-
-      return usernameStore.dispatch(readAccountPerms(config))
+      return store.dispatch(readAccountPerms(config, username))
         .catch(() => {
-          const actions = usernameStore.getActions();
+          const actions = store.getActions();
 
           actions.should.have.lengthOf(1);
 
@@ -240,17 +251,10 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch nothing if there is no username in the store', function test() {
-      moxios.stubRequest(accountPermsUrl, {
-        status: 200,
-        response: accountPermsPayload,
-      });
-
+    it('should dispatch nothing if no username is supplied', function test() {
       return store.dispatch(readAccountPerms(config))
         .then(() => {
-          const actions = store.getActions();
-
-          actions.should.have.lengthOf(0);
+          store.getActions().should.have.lengthOf(0);
         });
     });
   });

@@ -135,3 +135,9 @@ serverUrl: string = ''
 The URL of the CollectionSpace services layer REST API. This should include the protocol, host, and port (if not 80), for example: `'http://demo.collectionspace.org:8180'`. If `serverUrl` is empty or unspecified, the REST API is assumed to be accessible at the same protocol, host, and port from which the HTML page containing the UI was retrieved. If the UI is served from a different host than the REST API, the services layer must be configured to accept CORS requests from the origin of the UI.
 
 ⚠️ Do not include the `/cspace-services` path in the `serverUrl` string.
+
+### tenantId
+```
+tenantId: string = ''
+```
+The ID of the tenant on the CollectionSpace server, normally a numeric string.
