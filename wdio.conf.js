@@ -33,7 +33,7 @@ let config = {
     'selenium-standalone',
   ],
   framework: 'mocha',
-  reporters: ['dot'],
+  reporters: ['spec'],
   mochaOpts: {
     ui: 'bdd',
     compilers: ['js:babel-register'],
@@ -43,7 +43,7 @@ let config = {
     server = new WebpackDevServer(webpack(webpackConfig), webpackConfig.devServer);
 
     server.listen(port, '127.0.0.1', () => {
-      console.log(`Starting server on http://localhost:${port}`);
+      console.log(`Starting webpack dev server on http://localhost:${port}`);
     });
   },
   before: () => {

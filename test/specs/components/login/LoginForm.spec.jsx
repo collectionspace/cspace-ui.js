@@ -2,9 +2,8 @@ import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { render } from 'react-dom';
-
+import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
-
 import LoginForm from '../../../../src/components/login/LoginForm';
 
 chai.should();
@@ -79,7 +78,7 @@ describe('LoginForm', function suite() {
       'loginForm.error': 'this is the error message',
     };
 
-    const error = {};
+    const error = Immutable.Map();
 
     render(
       <IntlProvider
@@ -100,13 +99,13 @@ describe('LoginForm', function suite() {
       'loginForm.error.badCredentials': 'this is the bad credentials error message',
     };
 
-    const error = {
+    const error = Immutable.fromJS({
       response: {
         data: {
           error_description: 'Bad credentials',
         },
       },
-    };
+    });
 
     render(
       <IntlProvider
@@ -194,7 +193,7 @@ describe('LoginForm', function suite() {
         locale="en"
       >
         <LoginForm
-          error={{}}
+          error={Immutable.Map()}
           onSuccess={handleSuccess}
         />
       </IntlProvider>, this.container);

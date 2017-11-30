@@ -1,9 +1,10 @@
-const url = '/search';
-const pageSelector = '.cspace-ui-SearchPage--common';
+import page from './page';
+import userMenu from './userMenu';
 
-export const isOpen = () => browser.$$(pageSelector).length > 0;
-
-export const open = () => {
-  browser.url(url);
-  browser.waitForExist(pageSelector, 5000);
-};
+export default Object.assign({},
+  page({
+    url: '/search',
+    selector: '.cspace-ui-SearchPage--common',
+  }),
+  userMenu(),
+);

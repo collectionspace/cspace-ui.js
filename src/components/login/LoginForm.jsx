@@ -35,7 +35,12 @@ const messages = defineMessages({
   badCredentialsError: {
     id: 'loginForm.error.badCredentials',
     description: 'Error message displayed when incorrect credentials were entered.',
-    defaultMessage: 'Incorrect username/password. Please try again.',
+    defaultMessage: 'Sign in failed. Incorrect username/password.',
+  },
+  networkError: {
+    id: 'loginForm.error.networkError',
+    description: 'Error message displayed when there is a network error during login.',
+    defaultMessage: 'Sign in failed. Unable to reach the CollectionSpace server.',
   },
   username: {
     id: 'loginForm.label.username',
@@ -59,6 +64,7 @@ const messages = defineMessages({
  */
 const errorMessageMap = {
   'Bad credentials': 'badCredentialsError',
+  'Network Error': 'networkError',
 };
 
 const contextTypes = {
@@ -129,12 +135,15 @@ class LoginForm extends Component {
     if (isPending) {
       messageKey = 'pending';
     } else if (error) {
-      messageKey = 'error';
+      const desc = error.getIn(['response', 'data', 'error_description']);
 
-      if (error.response && error.response.data) {
-        const desc = error.response.data.error_description;
+      if (desc) {
         messageKey = errorMessageMap[desc];
+      } else {
+        messageKey = errorMessageMap[error.get('message')];
       }
+
+      messageKey = messageKey || 'error';
     } else if (username) {
       messageKey = 'success';
     }

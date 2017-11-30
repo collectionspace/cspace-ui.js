@@ -1,19 +1,10 @@
-import * as loginForm from './loginForm';
+import page from './page';
+import loginForm from './loginForm';
 
-const url = '/login';
-const pageSelector = '.cspace-ui-LoginPage--common';
-
-export const getUsernameInput = () => loginForm.getUsernameInput();
-
-export const getPasswordInput = () => loginForm.getPasswordInput();
-
-export const getSubmitButton = () => loginForm.getSubmitButton();
-
-export const open = () => {
-  browser.url(url);
-  browser.waitForExist(pageSelector, 5000);
-};
-
-export const submit = () => {
-  getSubmitButton().click();
-};
+export default Object.assign({},
+  page({
+    url: '/login',
+    selector: '.cspace-ui-LoginPage--common',
+  }),
+  loginForm(),
+);
