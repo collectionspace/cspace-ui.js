@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "build": "npm run build-cjs && npm run build-umd",
-    "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib",
+    "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib && cross-env BABEL_ENV=cjs babel ./test/pageObjects -d lib/test/pageObjects",
     "build-umd": "npm run build-umd-dev && npm run build-umd-prod",
     "build-umd-dev": "webpack",
     "build-umd-prod": "cross-env NODE_ENV=production webpack",

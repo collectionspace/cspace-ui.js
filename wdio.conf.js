@@ -6,7 +6,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('./webpack.config.js');
 const sauceBrowsers = require('./sauceBrowsers.conf.js');
 
-const port = 8080;
+const port = 8888;
 
 let server;
 
