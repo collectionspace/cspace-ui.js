@@ -8,7 +8,7 @@ import RelationButtonBar from './RelationButtonBar';
 import WorkflowStateIcon from './WorkflowStateIcon';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
-import { DOCUMENT_PROPERTY_NAME, getWorkflowState } from '../../helpers/recordDataHelpers';
+import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
 const messages = defineMessages({
@@ -223,9 +223,7 @@ export default class RelationEditor extends Component {
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[object.recordType];
-
-    const cspaceDocument = objectData ? objectData.get(DOCUMENT_PROPERTY_NAME) : undefined;
-    const recordTitle = recordTypeConfig.title(cspaceDocument);
+    const recordTitle = recordTypeConfig.title(objectData);
 
     const recordTypeName = (
       <FormattedMessage

@@ -11,6 +11,7 @@ const propTypes = {
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isModified: PropTypes.bool,
+  isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
   readOnly: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
@@ -26,6 +27,7 @@ export default function RecordButtonBar(props) {
     isCloneable,
     isDeletable,
     isModified,
+    isReadPending,
     isSavePending,
     readOnly,
     validationErrors,
@@ -36,8 +38,10 @@ export default function RecordButtonBar(props) {
     onSaveButtonErrorBadgeClick,
   } = props;
 
+  const className = isReadPending ? styles.loading : styles.common;
+
   return (
-    <div className={styles.common}>
+    <div className={className}>
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import auth, * as fromAuth from './auth';
 import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
 import searchPage, * as fromSearchPage from './searchPage';
@@ -18,6 +19,7 @@ import user, * as fromUser from './user';
 import vocabulary, * as fromVocabulary from './vocabulary';
 
 export default combineReducers({
+  auth,
   cspace,
   idGenerator,
   searchPage,
@@ -36,6 +38,10 @@ export default combineReducers({
   user,
   vocabulary,
 });
+
+export const isAuthPermsReadPending = state => fromAuth.isPermsReadPending(state.auth);
+
+export const getAuthResourceNames = state => fromAuth.getResourceNames(state.auth);
 
 export const getUserScreenName = state => fromUser.getScreenName(state.user);
 
@@ -97,6 +103,8 @@ export const getSearchToRelatePageSize = state =>
 export const getForm = (state, recordType) => fromPrefs.getForm(state.prefs, recordType);
 
 export const getUploadType = state => fromPrefs.getUploadType(state.prefs);
+
+export const getAdminTab = state => fromPrefs.getAdminTab(state.prefs);
 
 export const getOptionList = (state, optionListName) =>
   fromOptionList.get(state.optionList, optionListName);

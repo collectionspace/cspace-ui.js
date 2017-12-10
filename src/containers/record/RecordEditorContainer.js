@@ -13,6 +13,7 @@ import {
 
 import {
   createNewRecord,
+  deleteRecord,
   readRecord,
   revertRecord,
   saveRecord,
@@ -28,6 +29,7 @@ import {
   getRecordValidationErrors,
   getUserPerms,
   isRecordModified,
+  isRecordReadPending,
   isRecordSavePending,
 } from '../../reducers';
 
@@ -36,16 +38,21 @@ import RecordEditor from '../../components/record/RecordEditor';
 const mapStateToProps = (state, ownProps) => {
   const {
     csid,
+    perms,
     recordType,
   } = ownProps;
+
+  // If perms are supplied in ownProps, use them instead of getting perms from state.
+  // This allows parent components to supply filtered perms.
 
   return {
     data: getRecordData(state, csid),
     formName: getForm(state, recordType),
     isModified: isRecordModified(state, csid),
+    isReadPending: isRecordReadPending(state, csid),
     isSavePending: isRecordSavePending(state, csid),
     openModalName: getOpenModalName(state),
-    perms: getUserPerms(state),
+    perms: perms || getUserPerms(state),
     validationErrors: getRecordValidationErrors(state, csid),
   };
 };
@@ -75,6 +82,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createNewRecord: (cloneCsid) => {
       dispatch(createNewRecord(config, recordTypeConfig, vocabularyConfig, cloneCsid));
     },
+    deleteRecord: () =>
+      dispatch(deleteRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid)),
     readRecord: () => {
       dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid));
     },

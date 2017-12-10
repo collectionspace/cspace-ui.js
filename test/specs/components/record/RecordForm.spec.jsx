@@ -30,6 +30,9 @@ const store = mockStore({
 const config = {
   recordTypes: {
     collectionobject: {
+      fields: {
+        document: {},
+      },
       forms: {
         default: {
           messages: {

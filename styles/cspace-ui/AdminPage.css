@@ -1,0 +1,7 @@
+.common {
+  background-color: #EEF4D7;
+}
+
+.common > :global(.cspace-ui-TitleBar--common) {
+  color: #73AA4F;
+}

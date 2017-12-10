@@ -1,0 +1,20 @@
+.common {
+  display: inline-block;
+  height: 31px;
+  box-sizing: border-box;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  padding: 6px 10px 3px 10px;
+  text-decoration: none;
+  color: #73AA4F;
+}
+
+.normal {
+  composes: common;
+  background-color: rgba(156, 185, 211, .2);
+}
+
+.active {
+  composes: common;
+  background-color: white;
+}

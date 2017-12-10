@@ -1,10 +1,11 @@
+import messages from './messages';
+import serviceConfig from './serviceConfig';
+
 export default () => () => ({
   recordTypes: {
     account: {
-      serviceConfig: {
-        servicePath: 'accounts',
-        serviceType: 'security',
-      },
+      messages,
+      serviceConfig,
     },
   },
 });

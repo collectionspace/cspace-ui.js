@@ -1,5 +1,11 @@
-import defaultListType from './default';
+import authRef from './authRef';
+import common from './common';
+import refDoc from './refDoc';
+import role from './role';
 
 export default [
-  defaultListType,
+  authRef,
+  common,
+  refDoc,
+  role,
 ];

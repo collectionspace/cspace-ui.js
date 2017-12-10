@@ -1,10 +1,11 @@
+import messages from './messages';
+import serviceConfig from './serviceConfig';
+
 export default () => () => ({
   recordTypes: {
     vocabulary: {
-      serviceConfig: {
-        servicePath: 'vocabularies',
-        serviceType: 'utility',
-      },
+      messages,
+      serviceConfig,
     },
   },
 });

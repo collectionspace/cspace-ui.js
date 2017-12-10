@@ -67,7 +67,7 @@ export const getPermissions = (config, accountPermsData) => {
             // to determine if the Admin navigation item should be shown.
 
             if (
-              (actionGroup.indexOf('C') >= 0 || actionGroup.indexOf('U') >= 0) &&
+              actionGroup.indexOf('L') >= 0 &&
               (
                 serviceType === 'security' ||
                 name === 'vocabulary'

@@ -1,0 +1,60 @@
+@value inputBg, textDark, textLight from '../colors.css';
+@value activeEdgeWidth, inputMargin from '../dimensions.css';
+
+.common {
+  position: relative;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.common > span {
+  position: absolute;
+  font-size: 1px;
+  opacity: 0;
+}
+
+.common > input {
+  position: absolute;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.common > div {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid;
+  border-radius: 8px;
+  background-repeat: no-repeat;
+}
+
+.common > input:checked + div {
+  background-image: url(../../images/circle.svg);
+}
+
+.common > input:focus + div {
+  outline: solid textDark;
+  outline-width: activeEdgeWidth;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > div {
+  border-color: textLight;
+  background-color: inputBg;
+}
+
+.readOnly {
+  composes: common;
+}
+
+.readOnly > div {
+  border-color: transparent;
+}

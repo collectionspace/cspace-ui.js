@@ -45,7 +45,7 @@ describe('blob record plugin', function suite() {
       const file = {};
       const data = Immutable.Map().setIn(['document', 'ns2:blobs_common', 'file'], [file]);
 
-      requestConfig(data).should.deep.equal({
+      requestConfig('save', data).should.deep.equal({
         type: 'multipart/form-data',
         data: {
           file,
@@ -58,7 +58,7 @@ describe('blob record plugin', function suite() {
       const url = 'http://foo.org';
       const data = Immutable.Map().setIn(['document', 'ns2:blobs_common', 'file'], url);
 
-      requestConfig(data).should.deep.equal({
+      requestConfig('save', data).should.deep.equal({
         params: {
           blobUri: url,
         },

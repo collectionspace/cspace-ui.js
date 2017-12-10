@@ -1,0 +1,76 @@
+.common {
+  min-width: 420px;
+}
+
+.common > section {
+  border: 1px solid rgb(220, 220, 220);
+}
+
+.common > section + section {
+  margin-top: 4px;
+}
+
+.common > section > header {
+  display: flex;
+  align-items: baseline;
+  border-bottom: 1px solid rgb(220, 220, 220);
+  background: rgb(240, 240, 240);
+  line-height: 22px;
+}
+
+.common > section > header > h3 {
+  flex: 1 0 auto;
+  margin: 0;
+  padding-left: 4px;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.common > section > header > ul {
+  flex: 0 0 auto;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgb(128, 128, 128);
+}
+
+.common > section > header > ul > li {
+  width: 50px;
+  text-align: center;
+}
+
+.common > section > div {
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+
+.common > section > div:nth-child(odd) {
+  background-color: #F0F5FB;
+}
+
+.common > section > div > div:first-child {
+  flex: 1 0 auto;
+  padding-left: 4px;
+}
+
+.common > section > div > div:last-child {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.readOnly {
+  composes: common;
+}
+
+.readOnly > section {
+  border-color: rgb(240, 240, 240);
+}
+
+.readOnly > section > header {
+  border-color: rgb(240, 240, 240);
+}

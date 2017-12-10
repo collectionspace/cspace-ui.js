@@ -9,6 +9,11 @@
   margin-bottom: 10px;
 }
 
+
+.common > footer > :global(.cspace-ui-ButtonBar--common) {
+  text-align: right;
+}
+
 :global(.cspace-layout-Panel--common) + :global(.cspace-input-Label--common) {
   margin-top: 10px;
 }

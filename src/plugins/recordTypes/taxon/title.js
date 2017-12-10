@@ -1,15 +1,14 @@
-// Just a test comment.  Please remove this comment.
-export default pluginContext => (cspaceDocument) => {
+export default pluginContext => (data) => {
   const {
     deepGet,
     getPart,
   } = pluginContext.recordDataHelpers;
 
-  if (!cspaceDocument) {
+  if (!data) {
     return '';
   }
 
-  const common = getPart(cspaceDocument, 'taxon_common');
+  const common = getPart(data, 'taxon_common');
 
   if (!common) {
     return '';

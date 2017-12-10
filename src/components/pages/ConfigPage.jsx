@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const contextTypes = {
   config: PropTypes.object.isRequired,
@@ -30,11 +31,11 @@ export default class ConfigPage extends Component {
 
   render() {
     return (
-      <p>
+      <div className={styles.common}>
         <a href={this.state.url} download="cspace-ui-config.json">
           Save configuration
         </a>
-      </p>
+      </div>
     );
   }
 }

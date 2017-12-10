@@ -2,7 +2,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import { defineMessages } from 'react-intl';
 
-import { components as inputComponents } from 'cspace-input';
+import { components as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
 import { Col, Cols, Row } from 'cspace-layout';
 import { getDisplayName } from 'cspace-refname';
 
@@ -14,6 +14,7 @@ import OptionPickerInputContainer from '../containers/input/OptionPickerInputCon
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
 import TermPickerInputContainer from '../containers/input/TermPickerInputContainer';
 import UploadInputContainer from '../containers/input/UploadInputContainer';
+import PermissionsInputContainer from '../containers/admin/PermissionsInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
@@ -53,6 +54,7 @@ const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;
 const IDGeneratorInput = IDGeneratorInputContainer;
 const OptionPickerInput = OptionPickerInputContainer;
+const PermissionsInput = inputEnhancers.labelable(PermissionsInputContainer);
 const StructuredDateInput = StructuredDateInputContainer;
 const TermPickerInput = TermPickerInputContainer;
 const UploadInput = UploadInputContainer;
@@ -74,6 +76,7 @@ export default () => ({
     HierarchyInput,
     IDGeneratorInput,
     OptionPickerInput,
+    PermissionsInput,
     StructuredDateInput,
     ReadOnlyInput,
     RichTextInput,

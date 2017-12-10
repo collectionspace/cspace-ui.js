@@ -9,67 +9,73 @@ describe('condition check record title', function suite() {
   const title = createTitleGetter(pluginContext);
 
   it('should concat the condition check number and the condition', function test() {
-    const cspaceDocument = Immutable.fromJS({
-      'ns2:conditionchecks_common': {
-        conditionCheckRefNumber: 'CC2017.1',
-        conditionCheckGroupList: {
-          conditionCheckGroup: [
-            {
-              condition: 'in-jeopardy',
-            },
-            {
-              condition: 'exhibitable-needs-work',
-            },
-          ],
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:conditionchecks_common': {
+          conditionCheckRefNumber: 'CC2017.1',
+          conditionCheckGroupList: {
+            conditionCheckGroup: [
+              {
+                condition: 'in-jeopardy',
+              },
+              {
+                condition: 'exhibitable-needs-work',
+              },
+            ],
+          },
         },
       },
     });
 
-    title(cspaceDocument).should.equal('CC2017.1 – in-jeopardy');
+    title(data).should.equal('CC2017.1 – in-jeopardy');
   });
 
   it('should return the condition check number when the condition is empty', function test() {
-    const cspaceDocument = Immutable.fromJS({
-      'ns2:conditionchecks_common': {
-        conditionCheckRefNumber: 'CC2017.1',
-        conditionCheckGroupList: {
-          conditionCheckGroup: [
-            {
-              conditionNote: 'note1',
-            },
-            {
-              conditionNote: 'note2',
-            },
-          ],
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:conditionchecks_common': {
+          conditionCheckRefNumber: 'CC2017.1',
+          conditionCheckGroupList: {
+            conditionCheckGroup: [
+              {
+                conditionNote: 'note1',
+              },
+              {
+                conditionNote: 'note2',
+              },
+            ],
+          },
         },
       },
     });
 
-    title(cspaceDocument).should.equal('CC2017.1');
+    title(data).should.equal('CC2017.1');
   });
 
-  it('should return empty string if no document is passed', function test() {
+  it('should return empty string if no data is passed', function test() {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
   it('should return empty string if the common part is not present', function test() {
-    const cspaceDocument = Immutable.fromJS({
-      'ns2:conditionchecks_extension': {
-        conditionCheckRefNumber: 'CC2017.1',
-        conditionCheckGroupList: {
-          conditionCheckGroup: [
-            {
-              condition: 'in-jeopardy',
-            },
-            {
-              condition: 'exhibitable-needs-work',
-            },
-          ],
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:conditionchecks_extension': {
+          conditionCheckRefNumber: 'CC2017.1',
+          conditionCheckGroupList: {
+            conditionCheckGroup: [
+              {
+                condition: 'in-jeopardy',
+              },
+              {
+                condition: 'exhibitable-needs-work',
+              },
+            ],
+          },
         },
       },
     });
 
-    title(cspaceDocument).should.equal('');
+    title(data).should.equal('');
   });
 });

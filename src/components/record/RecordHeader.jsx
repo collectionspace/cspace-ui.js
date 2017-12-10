@@ -16,6 +16,7 @@ const propTypes = {
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isModified: PropTypes.bool,
+  isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
@@ -82,6 +83,7 @@ export default class RecordHeader extends Component {
       isCloneable,
       isDeletable,
       isModified,
+      isReadPending,
       isSavePending,
       readOnly,
       recordType,
@@ -119,6 +121,7 @@ export default class RecordHeader extends Component {
             isCloneable={isCloneable}
             isDeletable={isDeletable}
             isModified={isModified}
+            isReadPending={isReadPending}
             isSavePending={isSavePending}
             readOnly={readOnly}
             validationErrors={validationErrors}

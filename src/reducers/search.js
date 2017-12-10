@@ -15,6 +15,7 @@ import {
 
 import {
   RECORD_CREATED,
+  RECORD_DELETE_FULFILLED,
   RECORD_TRANSITION_FULFILLED,
   SUBRECORD_CREATED,
 } from '../actions/record';
@@ -206,6 +207,38 @@ const computeIndexesByCsid = (listTypeConfig, result) => {
   return indexesByCsid;
 };
 
+// FIXME: Hack! The REST API fails to return pagination information for some list types.
+// Make some up so that things will sort of work.
+
+/* istanbul ignore next -- This function will be removed, so I'm not going to bother to test it. */
+const fixSearchResult = (result, searchDescriptor, listTypeConfig) => {
+  const {
+    itemNodeName,
+    listNodeName,
+  } = listTypeConfig;
+
+  if (result.hasIn([listNodeName, 'totalItems'])) {
+    return result;
+  }
+
+  const list = result.get(listNodeName);
+  const items = list.get(itemNodeName);
+
+  let size = 0;
+
+  if (items) {
+    size = Immutable.List.isList(items) ? items.size : 1;
+  }
+
+  const updatedList =
+    list.set('totalItems', size)
+      .set('itemsInPage', size)
+      .set('pageNum', searchDescriptor.getIn(['searchQuery', 'p']) || 0)
+      .set('pageSize', searchDescriptor.getIn(['searchQuery', 'size']) || 40);
+
+  return result.set(listNodeName, updatedList);
+};
+
 const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, result) => {
   const namedSearch = state.get(searchName);
   const key = searchKey(searchDescriptor);
@@ -213,10 +246,15 @@ const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, re
   if (namedSearch && namedSearch.hasIn(['byKey', key])) {
     const searchState = namedSearch.getIn(['byKey', key]);
 
+    // FIXME: Hack! The REST API fails to return pagination information for some list types.
+    // Make some up so that things will sort of work.
+
+    const fixedResult = fixSearchResult(result, searchDescriptor, listTypeConfig);
+
     const updatedSearchState =
       searchState
         .set('isPending', false)
-        .set('result', result)
+        .set('result', fixedResult)
         .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, result))
         .set('listNodeName', listTypeConfig.listNodeName)
         .set('itemNodeName', listTypeConfig.itemNodeName)
@@ -374,6 +412,8 @@ const clearNamedResults = (state, action) =>
 
 const clearAllResults = state => state.clear();
 
+const handleRecordDeleteFulfilled = state => clearAllResults(state);
+
 const handleRecordTransitionFulfilled = (state, action) => {
   const {
     transitionName,
@@ -412,6 +452,8 @@ export default (state = Immutable.Map(), action) => {
       return clearNamedResults(state, action);
     case RECORD_CREATED:
       return clearAllResults(state);
+    case RECORD_DELETE_FULFILLED:
+      return handleRecordDeleteFulfilled(state, action);
     case RECORD_TRANSITION_FULFILLED:
       return handleRecordTransitionFulfilled(state, action);
     case LOGIN_FULFILLED:

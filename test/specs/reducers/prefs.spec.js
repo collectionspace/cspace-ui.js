@@ -4,6 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   COLLAPSE_PANEL,
   PREFS_LOADED,
+  SET_ADMIN_TAB,
   SET_FORM,
   SET_RECORD_BROWSER_NAV_BAR_ITEMS,
   SET_SEARCH_PAGE_RECORD_TYPE,
@@ -17,6 +18,7 @@ import {
 } from '../../../src/actions/prefs';
 
 import reducer, {
+  getAdminTab,
   getForm,
   getRecordBrowserNavBarItems,
   getSearchPageRecordType,
@@ -63,6 +65,21 @@ describe('prefs reducer', function suite() {
     }));
 
     isPanelCollapsed(state, recordType, panelName).should.equal(collapsed);
+  });
+
+  it('should handle SET_ADMIN_TAB', function test() {
+    const tabName = 'account';
+
+    const state = reducer(undefined, {
+      type: SET_ADMIN_TAB,
+      payload: tabName,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      adminTab: tabName,
+    }));
+
+    getAdminTab(state).should.equal(tabName);
   });
 
   it('should handle SET_FORM', function test() {

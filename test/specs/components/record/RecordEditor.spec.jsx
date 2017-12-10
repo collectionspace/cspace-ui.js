@@ -39,6 +39,7 @@ const store = mockStore({
 const config = {
   recordTypes: {
     collectionobject: {
+      fields: {},
       forms: {
         default: {
           messages: {
@@ -104,6 +105,7 @@ const config = {
       title: () => 'Title',
     },
     movement: {
+      fields: {},
       forms: {
         default: {
           messages: {
@@ -136,6 +138,7 @@ const config = {
       title: () => 'Title',
     },
     loanin: {
+      fields: {},
       forms: {
         default: {
           messages: {
@@ -160,6 +163,7 @@ const config = {
     },
     loanout: {
       defaultForm: 'other',
+      fields: {},
       forms: {
         default: {
           messages: {
@@ -864,64 +868,130 @@ describe('RecordEditor', function suite() {
     closeModalCalled.should.equal(true);
   });
 
-  it('should call transitionRecord, closeModal, and onRecordTransitioned when the delete modal delete button is clicked', function test() {
-    let transitionRecordTransitionName = null;
+  context('when isHardDelete is true', function context() {
+    it('should call deleteRecord, closeModal, and onRecordDeleted when the delete modal delete button is clicked', function test() {
+      let deleteRecordCalled = false;
 
-    const transitionRecord = (transitionNameArg) => {
-      transitionRecordTransitionName = transitionNameArg;
+      const deleteRecord = () => {
+        deleteRecordCalled = true;
 
-      return Promise.resolve();
-    };
+        return Promise.resolve();
+      };
 
-    let recordTransitionedTransitionName = null;
+      let recordDeletedCalled = null;
 
-    const handleRecordTransitioned = (transitionNameArg) => {
-      recordTransitionedTransitionName = transitionNameArg;
-    };
+      const handleRecordDeleted = () => {
+        recordDeletedCalled = true;
+      };
 
-    let closeModalCalled = false;
+      let closeModalCalled = false;
 
-    const closeModal = () => {
-      closeModalCalled = true;
-    };
+      const closeModal = () => {
+        closeModalCalled = true;
+      };
 
-    const shallowRenderer = createRenderer();
+      const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <RecordEditor
-            config={config}
-            csid="1234"
-            recordType="collectionobject"
-            openModalName={ConfirmRecordDeleteModal.modalName}
-            transitionRecord={transitionRecord}
-            closeModal={closeModal}
-            onRecordTransitioned={handleRecordTransitioned}
-          />
-        </StoreProvider>
-      </IntlProvider>);
+      shallowRenderer.render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              isHardDelete
+              recordType="collectionobject"
+              openModalName={ConfirmRecordDeleteModal.modalName}
+              deleteRecord={deleteRecord}
+              closeModal={closeModal}
+              onRecordDeleted={handleRecordDeleted}
+            />
+          </StoreProvider>
+        </IntlProvider>);
 
-    const result = shallowRenderer.getRenderOutput();
-    const recordEditor = findWithType(result, RecordEditor);
-    const recordEditorRenderer = createRenderer();
+      const result = shallowRenderer.getRenderOutput();
+      const recordEditor = findWithType(result, RecordEditor);
+      const recordEditorRenderer = createRenderer();
 
-    recordEditorRenderer.render(recordEditor);
+      recordEditorRenderer.render(recordEditor);
 
-    const recordEditorResult = recordEditorRenderer.getRenderOutput();
-    const modal = findWithType(recordEditorResult, ConfirmRecordDeleteModal);
+      const recordEditorResult = recordEditorRenderer.getRenderOutput();
+      const modal = findWithType(recordEditorResult, ConfirmRecordDeleteModal);
 
-    modal.props.onDeleteButtonClick();
+      modal.props.onDeleteButtonClick();
 
-    transitionRecordTransitionName.should.equal('delete');
+      deleteRecordCalled.should.equal(true);
 
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        closeModalCalled.should.equal(true);
-        recordTransitionedTransitionName.should.equal('delete');
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          closeModalCalled.should.equal(true);
+          recordDeletedCalled.should.equal(true);
 
-        resolve();
-      }, 0);
+          resolve();
+        }, 0);
+      });
+    });
+  });
+
+  context('when isHardDelete is false', function context() {
+    it('should call transitionRecord, closeModal, and onRecordTransitioned when the delete modal delete button is clicked', function test() {
+      let transitionRecordTransitionName = null;
+
+      const transitionRecord = (transitionNameArg) => {
+        transitionRecordTransitionName = transitionNameArg;
+
+        return Promise.resolve();
+      };
+
+      let recordTransitionedTransitionName = null;
+
+      const handleRecordTransitioned = (transitionNameArg) => {
+        recordTransitionedTransitionName = transitionNameArg;
+      };
+
+      let closeModalCalled = false;
+
+      const closeModal = () => {
+        closeModalCalled = true;
+      };
+
+      const shallowRenderer = createRenderer();
+
+      shallowRenderer.render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="collectionobject"
+              openModalName={ConfirmRecordDeleteModal.modalName}
+              transitionRecord={transitionRecord}
+              closeModal={closeModal}
+              onRecordTransitioned={handleRecordTransitioned}
+            />
+          </StoreProvider>
+        </IntlProvider>);
+
+      const result = shallowRenderer.getRenderOutput();
+      const recordEditor = findWithType(result, RecordEditor);
+      const recordEditorRenderer = createRenderer();
+
+      recordEditorRenderer.render(recordEditor);
+
+      const recordEditorResult = recordEditorRenderer.getRenderOutput();
+      const modal = findWithType(recordEditorResult, ConfirmRecordDeleteModal);
+
+      modal.props.onDeleteButtonClick();
+
+      transitionRecordTransitionName.should.equal('delete');
+
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          closeModalCalled.should.equal(true);
+          recordTransitionedTransitionName.should.equal('delete');
+
+          resolve();
+        }, 0);
+      });
     });
   });
 
