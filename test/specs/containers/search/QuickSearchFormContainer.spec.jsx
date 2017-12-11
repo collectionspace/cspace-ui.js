@@ -55,7 +55,7 @@ describe('QuickSearchFormContainer', function suite() {
     result.props.onKeywordCommit.should.be.a('function');
     result.props.onRecordTypeCommit.should.be.a('function');
     result.props.onVocabularyCommit.should.be.a('function');
-    result.props.onSearch.should.be.a('function');
+    result.props.search.should.be.a('function');
   });
 
   it('should connect onKeywordCommit to setQuickSearchKeyword action creator', function test() {
@@ -157,7 +157,7 @@ describe('QuickSearchFormContainer', function suite() {
     action.should.have.deep.property('payload', 'ulan');
   });
 
-  it('should connect onSearch to initiateSearch action creator', function test() {
+  it('should connect search to initiateSearch action creator', function test() {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -190,7 +190,7 @@ describe('QuickSearchFormContainer', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onSearch();
+    result.props.search();
 
     pushedLocation.should.deep.equal({
       pathname: '/list/concept/material',

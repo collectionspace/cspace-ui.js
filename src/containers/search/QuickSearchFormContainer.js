@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onVocabularyCommit: (value) => {
     dispatch(setQuickSearchVocabulary(value));
   },
-  onSearch: () => {
+  search: () => {
     dispatch(initiateSearch(ownProps.history.push));
   },
 });

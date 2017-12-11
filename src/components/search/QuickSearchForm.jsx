@@ -10,9 +10,14 @@ import { canList } from '../../helpers/permissionHelpers';
 const { QuickSearchInput } = inputComponents;
 
 const messages = defineMessages({
-  quickSearchPlaceholder: {
+  placeholder: {
     id: 'quickSearchForm.placeholder',
     description: 'The placeholder text to display in the quick search input.',
+    defaultMessage: 'Search',
+  },
+  search: {
+    id: 'quickSearchForm.search',
+    description: 'The label of the search button in the quick search input.',
     defaultMessage: 'Search',
   },
 });
@@ -61,8 +66,9 @@ export default function QuickSearchForm(props) {
         {...remainingProps}
         formatRecordTypeLabel={formatRecordTypeLabel}
         formatVocabularyLabel={formatVocabularyLabel}
-        placeholder={intl.formatMessage(messages.quickSearchPlaceholder)}
+        placeholder={intl.formatMessage(messages.placeholder)}
         recordTypes={getRecordTypes(config, perms)}
+        searchButtonLabel={intl.formatMessage(messages.search)}
       />
     </fieldset>
   );
