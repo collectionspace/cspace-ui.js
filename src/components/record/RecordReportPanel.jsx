@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import ReportModal from './ReportModal';
+import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { getReportViewerPath, VIEWER_WINDOW_NAME } from '../../helpers/reportHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
@@ -30,6 +31,7 @@ const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
 };
@@ -125,6 +127,7 @@ export default class RecordReportPanel extends Component {
       color,
       config,
       csid,
+      perms,
       recordData,
       recordType,
     } = this.props;
@@ -141,6 +144,12 @@ export default class RecordReportPanel extends Component {
       return null;
     }
 
+    if (!canList('report', perms)) {
+      return null;
+    }
+
+    const canRun = canCreate('report', perms);
+
     return (
       <div>
         <SearchPanelContainer
@@ -153,7 +162,7 @@ export default class RecordReportPanel extends Component {
           recordType={recordType}
           showSearchButton={false}
           title={<FormattedMessage {...messages.title} />}
-          onItemClick={this.handleItemClick}
+          onItemClick={canRun ? this.handleItemClick : undefined}
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <ReportModal

@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import BatchModal from './BatchModal';
+import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import { serviceUriToLocation } from '../../helpers/uriHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
@@ -31,6 +32,7 @@ const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   history: PropTypes.object,
+  perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   run: PropTypes.func,
@@ -159,6 +161,7 @@ export default class RecordBatchPanel extends Component {
       color,
       config,
       csid,
+      perms,
       recordData,
       recordType,
     } = this.props;
@@ -176,6 +179,12 @@ export default class RecordBatchPanel extends Component {
       return null;
     }
 
+    if (!canList('batch', perms)) {
+      return null;
+    }
+
+    const canRun = canCreate('batch', perms);
+
     return (
       <div>
         <SearchPanelContainer
@@ -188,7 +197,7 @@ export default class RecordBatchPanel extends Component {
           recordType={recordType}
           showSearchButton={false}
           title={<FormattedMessage {...messages.title} />}
-          onItemClick={this.handleItemClick}
+          onItemClick={canRun ? this.handleItemClick : undefined}
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <BatchModal

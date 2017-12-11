@@ -64,6 +64,12 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  batch: {
+    data: 'CRUDL',
+  },
+});
+
 describe('RecordBatchPanel', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -81,6 +87,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -106,6 +113,25 @@ describe('RecordBatchPanel', function suite() {
     modal.should.not.equal(null);
   });
 
+  it('should render a nothing if list permission on batch does not exist', function test() {
+    const csid = '1234';
+    const recordType = 'group';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordBatchPanel
+        config={config}
+        csid={csid}
+        recordData={recordData}
+        recordType={recordType}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    expect(result).to.equal(null);
+  });
+
   it('should render a nothing if the record has not been saved', function test() {
     const csid = '1234';
     const recordType = 'group';
@@ -126,6 +152,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={unsavedRecordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -145,6 +172,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;
@@ -170,6 +198,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={newRecordType}
+        perms={perms}
       />);
 
     result = shallowRenderer.getRenderOutput();
@@ -197,6 +226,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;
@@ -236,6 +266,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;
@@ -287,6 +318,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
         run={run}
       />);
 
@@ -340,6 +372,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
         run={run}
       />);
 
@@ -400,6 +433,7 @@ describe('RecordBatchPanel', function suite() {
         history={history}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
         run={run}
       />);
 
@@ -449,6 +483,7 @@ describe('RecordBatchPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;

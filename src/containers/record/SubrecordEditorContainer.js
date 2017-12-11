@@ -7,6 +7,7 @@ import {
 import {
   getRecordData,
   getRecordSubrecordCsid,
+  getUserPerms,
 } from '../../reducers';
 
 import SubrecordEditor from '../../components/record/SubrecordEditor';
@@ -22,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     csid: subrecordCsid,
     data: getRecordData(state, subrecordCsid),
+    perms: getUserPerms(state),
   };
 };
 

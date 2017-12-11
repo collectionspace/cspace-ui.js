@@ -22,6 +22,12 @@ describe('SubrecordEditorContainer', function suite() {
     },
   });
 
+  const perms = Immutable.fromJS({
+    [subrecordName]: {
+      data: 'CRUDL',
+    },
+  });
+
   const store = mockStore({
     record: Immutable.fromJS({
       [containerCsid]: {
@@ -34,6 +40,9 @@ describe('SubrecordEditorContainer', function suite() {
           current: subrecordData,
         },
       },
+    }),
+    user: Immutable.fromJS({
+      perms,
     }),
   });
 
@@ -55,5 +64,6 @@ describe('SubrecordEditorContainer', function suite() {
     result.type.should.equal(SubrecordEditor);
     result.props.should.have.property('csid').that.equals(subrecordCsid);
     result.props.should.have.property('data').that.equals(subrecordData);
+    result.props.should.have.property('perms').that.equals(perms);
   });
 });

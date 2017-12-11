@@ -64,6 +64,12 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  report: {
+    data: 'CRUDL',
+  },
+});
+
 describe('RecordReportPanel', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -81,6 +87,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -126,6 +133,26 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={unsavedRecordData}
         recordType={recordType}
+        perms={perms}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    expect(result).to.equal(null);
+  });
+
+  it('should render nothing if list permission on report does not exist', function test() {
+    const csid = '1234';
+    const recordType = 'group';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordReportPanel
+        config={config}
+        csid={csid}
+        recordData={recordData}
+        recordType={recordType}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -145,6 +172,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;
@@ -170,6 +198,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={newRecordType}
+        perms={perms}
       />);
 
     result = shallowRenderer.getRenderOutput();
@@ -197,6 +226,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;
@@ -236,6 +266,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;
@@ -275,6 +306,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -314,6 +346,7 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        perms={perms}
       />);
 
     let result;

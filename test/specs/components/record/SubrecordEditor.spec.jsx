@@ -26,6 +26,59 @@ describe('SubrecordEditor', function suite() {
       vocabulary,
     };
 
+    const perms = Immutable.fromJS({
+      [recordType]: {
+        data: 'CRUDL',
+      },
+    });
+
+    const csid = '1234';
+
+    const data = Immutable.fromJS({
+      document: {},
+    });
+
+    const formName = 'default';
+
+    const shallowRenderer = createRenderer();
+
+    const result = shallowRenderer.render(
+      <SubrecordEditor
+        config={config}
+        subrecordConfig={subrecordConfig}
+        csid={csid}
+        data={data}
+        formName={formName}
+        perms={perms}
+      />);
+
+    const recordFormContainer = findWithType(result, RecordFormContainer);
+
+    recordFormContainer.should.not.equal(null);
+
+    recordFormContainer.props.config.should.equal(config);
+    recordFormContainer.props.recordType.should.equal(recordType);
+    recordFormContainer.props.vocabulary.should.equal(vocabulary);
+    recordFormContainer.props.csid.should.equal(csid);
+    recordFormContainer.props.data.should.equal(data);
+    recordFormContainer.props.formName.should.equal(formName);
+  });
+
+  it('should render nothing if read permission does not exist for the record type', function test() {
+    const config = {
+      recordTypes: {
+        person: {},
+      },
+    };
+
+    const recordType = 'contact';
+    const vocabulary = 'foo';
+
+    const subrecordConfig = {
+      recordType,
+      vocabulary,
+    };
+
     const csid = '1234';
 
     const data = Immutable.fromJS({
@@ -45,16 +98,9 @@ describe('SubrecordEditor', function suite() {
         formName={formName}
       />);
 
-    const recordFormContainer = findWithType(result, RecordFormContainer);
+    const recordFormContainer = findAllWithType(result, RecordFormContainer);
 
-    recordFormContainer.should.not.equal(null);
-
-    recordFormContainer.props.config.should.equal(config);
-    recordFormContainer.props.recordType.should.equal(recordType);
-    recordFormContainer.props.vocabulary.should.equal(vocabulary);
-    recordFormContainer.props.csid.should.equal(csid);
-    recordFormContainer.props.data.should.equal(data);
-    recordFormContainer.props.formName.should.equal(formName);
+    recordFormContainer.length.should.equal(0);
   });
 
   it('should render a SubrecordDetachButton when showDetachButton is true and the data represents an existing record', function test() {
@@ -71,6 +117,12 @@ describe('SubrecordEditor', function suite() {
       recordType,
       vocabulary,
     };
+
+    const perms = Immutable.fromJS({
+      [recordType]: {
+        data: 'CRUDL',
+      },
+    });
 
     const csid = '1234';
 
@@ -93,6 +145,7 @@ describe('SubrecordEditor', function suite() {
         csid={csid}
         data={data}
         formName={formName}
+        perms={perms}
         showDetachButton
       />);
 
@@ -116,6 +169,12 @@ describe('SubrecordEditor', function suite() {
       vocabulary,
     };
 
+    const perms = Immutable.fromJS({
+      [recordType]: {
+        data: 'CRUDL',
+      },
+    });
+
     const csid = '1234';
 
     const data = Immutable.fromJS({
@@ -137,6 +196,7 @@ describe('SubrecordEditor', function suite() {
         csid={csid}
         data={data}
         formName={formName}
+        perms={perms}
         showDetachButton
       />);
 
@@ -162,6 +222,12 @@ describe('SubrecordEditor', function suite() {
       recordType,
       vocabulary,
     };
+
+    const perms = Immutable.fromJS({
+      [recordType]: {
+        data: 'CRUDL',
+      },
+    });
 
     const subrecordName = 'contact';
     const csid = '1234';
@@ -202,6 +268,7 @@ describe('SubrecordEditor', function suite() {
         data={data}
         formName={formName}
         name={subrecordName}
+        perms={perms}
         showDetachButton
         detachSubrecord={detachSubrecord}
       />);

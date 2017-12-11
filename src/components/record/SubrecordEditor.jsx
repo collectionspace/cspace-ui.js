@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import SubrecordDetachButton from '../../components/record/SubrecordDetachButton';
+import { canRead, canCreate, canUpdate } from '../../helpers/permissionHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/SubrecordEditor.css';
 
@@ -15,6 +16,7 @@ const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   formName: PropTypes.string,
   name: PropTypes.string,
+  perms: PropTypes.instanceOf(Immutable.Map),
   showDetachButton: PropTypes.bool,
   detachSubrecord: PropTypes.func,
   readOnly: PropTypes.bool,
@@ -49,10 +51,25 @@ export default class SubrecordEditor extends Component {
       csid,
       data,
       formName,
+      perms,
       showDetachButton,
       subrecordConfig,
       readOnly,
     } = this.props;
+
+    const {
+      recordType,
+      vocabulary,
+    } = subrecordConfig;
+
+    if (!canRead(recordType, perms)) {
+      return null;
+    }
+
+    const subrecordReadOnly = (
+      readOnly ||
+      !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
+    );
 
     const detachButton = (showDetachButton && !readOnly && isExistingRecord(data))
       ? <SubrecordDetachButton onClick={this.handleDetachButtonClick} />
@@ -63,12 +80,12 @@ export default class SubrecordEditor extends Component {
         <div>
           <RecordFormContainer
             config={config}
-            recordType={subrecordConfig.recordType}
-            vocabulary={subrecordConfig.vocabulary}
+            recordType={recordType}
+            vocabulary={vocabulary}
             csid={csid}
             data={data}
             formName={formName}
-            readOnly={readOnly}
+            readOnly={subrecordReadOnly}
           />
         </div>
 
