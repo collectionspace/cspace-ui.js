@@ -1,21 +1,61 @@
-const loginFormSelector = '.cspace-ui-LoginForm--common';
+export default class LoginForm {
+  constructor() {
+    this.selector = '.cspace-ui-LoginForm--common';
+  }
 
-const getUsernameInput = () => browser.$(loginFormSelector).$('input[name="username"]');
-const getPasswordInput = () => browser.$(loginFormSelector).$('input[name="password"]');
-const getSubmitButton = () => browser.$(loginFormSelector).$('button[type="submit"]');
-const getPromptText = () => browser.$(loginFormSelector).$('p').getText();
-const isLoginFormVisible = () => browser.isVisible(loginFormSelector);
+  getUsernameInput() {
+    return browser.$(this.selector).$('input[name="username"]');
+  }
 
-const login = (username, password) => {
-  getUsernameInput().setValue(username);
-  getPasswordInput().setValue([password, 'Enter']);
-};
+  getPasswordInput() {
+    return browser.$(this.selector).$('input[name="password"]');
+  }
 
-export default () => ({
-  getUsernameInput,
-  getPasswordInput,
-  getSubmitButton,
-  getPromptText,
-  isLoginFormVisible,
-  login,
-});
+  getSubmitButton() {
+    return browser.$(this.selector).$('button[type="submit"]');
+  }
+
+  getPromptText() {
+    return browser.$(this.selector).$('p').getText();
+  }
+
+  isVisible() {
+    return browser.isVisible(this.selector);
+  }
+
+  setUsername(username) {
+    this.getUsernameInput().setValue(username);
+
+    return this;
+  }
+
+  setPassword(password) {
+    this.getPasswordInput().setValue(password);
+
+    return this;
+  }
+
+  clickSubmitButton() {
+    this.getSubmitButton().click();
+
+    return this;
+  }
+
+  enterUsernameInput() {
+    browser.elementIdValue(this.getUsernameInput().value.ELEMENT, 'Enter');
+
+    return this;
+  }
+
+  enterPasswordInput() {
+    browser.elementIdValue(this.getPasswordInput().value.ELEMENT, 'Enter');
+
+    return this;
+  }
+
+  login(username, password) {
+    this.setUsername(username).setPassword([password, 'Enter']);
+
+    return this;
+  }
+}

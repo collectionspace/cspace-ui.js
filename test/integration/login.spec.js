@@ -1,61 +1,70 @@
-import loginPage from '../pageObjects/loginPage';
-import searchPage from '../pageObjects/searchPage';
+import LoginPage from '../pageObjects/LoginPage';
+import ProtectedPage from '../pageObjects/ProtectedPage';
+import SearchPage from '../pageObjects/SearchPage';
 
-describe('on the login page', function suite() {
-  beforeEach(() => {
-    loginPage.open();
+describe('login', function suite() {
+  describe('from the login page', () => {
+    const loginPage = new LoginPage();
+    const protectedPage = new ProtectedPage();
+    const searchPage = new SearchPage();
 
-    browser.waitUntil(loginPage.isOpen);
-  });
-
-  context('when valid credentials are entered', () => {
     beforeEach(() => {
-      loginPage.getUsernameInput().setValue('admin@core.collectionspace.org');
-      loginPage.getPasswordInput().setValue('Administrator');
+      if (!loginPage.isVisible()) {
+        loginPage.open();
+      }
     });
 
     afterEach(() => {
-      searchPage.logout();
+      if (protectedPage.isVisible()) {
+        protectedPage.logout();
+
+        loginPage.becomesVisible();
+      }
     });
 
-    it('should open the search page when the submit button is clicked', () => {
-      loginPage.getSubmitButton().click();
+    context('when valid credentials are entered', function context() {
+      beforeEach(() => {
+        loginPage
+          .setUsername('admin@core.collectionspace.org')
+          .setPassword('Administrator');
+      });
 
-      browser.waitUntil(searchPage.isOpen);
+      it('should open the search page when the submit button is clicked', () => {
+        loginPage.clickSubmitButton();
 
-      searchPage.isUserMenuVisible().should.equal(true);
-      searchPage.getUserScreenName().should.equal('Administrator');
+        searchPage.becomesVisible().should.equal(true);
+        searchPage.isLoggedInAs('Administrator').should.equal(true);
+      });
+
+      it('should open the search page when enter is pressed on the username input', () => {
+        loginPage.enterUsernameInput();
+
+        searchPage.becomesVisible().should.equal(true);
+        searchPage.isLoggedInAs('Administrator').should.equal(true);
+      });
+
+      it('should open the search page when enter is pressed on the password input', () => {
+        loginPage.enterPasswordInput();
+
+        searchPage.becomesVisible().should.equal(true);
+        searchPage.isLoggedInAs('Administrator').should.equal(true);
+      });
     });
 
-    it('should open the search page when enter is pressed on the username input', () => {
-      browser.elementIdValue(loginPage.getUsernameInput().value.ELEMENT, 'Enter');
+    context('when invalid credentials are entered', () => {
+      beforeEach(() => {
+        loginPage
+          .setUsername('admin@core.collectionspace.org')
+          .setPassword('so wrong');
+      });
 
-      browser.waitUntil(searchPage.isOpen);
+      it('should stay on the login page and show an error message when the credentials are submitted', () => {
+        loginPage.submit();
 
-      searchPage.isUserMenuVisible().should.equal(true);
-      searchPage.getUserScreenName().should.equal('Administrator');
-    });
+        searchPage.becomesVisible().should.equal(false);
 
-    it('should open the search page when enter is pressed on the username input', () => {
-      browser.elementIdValue(loginPage.getPasswordInput().value.ELEMENT, 'Enter');
-
-      browser.waitUntil(searchPage.isOpen);
-
-      searchPage.isUserMenuVisible().should.equal(true);
-      searchPage.getUserScreenName().should.equal('Administrator');
-    });
-  });
-
-  context('when invalid credentials are entered', () => {
-    beforeEach(() => {
-      loginPage.getUsernameInput().setValue('admin@core.collectionspace.org');
-      loginPage.getPasswordInput().setValue('uh oh');
-    });
-
-    it('should stay on the login page and show an error message when the credentials are submitted', () => {
-      loginPage.getSubmitButton().click();
-
-      browser.waitUntil(() => loginPage.getPromptText().includes('Incorrect username/password'));
+        loginPage.getPromptText().should.contain('Incorrect username/password');
+      });
     });
   });
 });

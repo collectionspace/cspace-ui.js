@@ -1,22 +1,23 @@
-import loginPage from '../pageObjects/loginPage';
-import searchPage from '../pageObjects/searchPage';
+import LoginPage from '../pageObjects/LoginPage';
+import SearchPage from '../pageObjects/SearchPage';
 
 describe('when logged out', function suite() {
+  const loginPage = new LoginPage();
+  const searchPage = new SearchPage();
+
   beforeEach(() => {
     loginPage.open();
-
-    browser.waitUntil(loginPage.isOpen);
-
     loginPage.login('admin@core.collectionspace.org', 'Administrator');
 
-    browser.waitUntil(searchPage.isOpen);
-
+    searchPage.becomesVisible();
     searchPage.logout();
   });
 
   it('should open the login page when an attempt is made to open a protected page', () => {
     searchPage.open();
 
-    browser.waitUntil(loginPage.isOpen);
+    searchPage.becomesVisible().should.equal(false);
+
+    loginPage.becomesVisible().should.equal(true);
   });
 });

@@ -3,6 +3,7 @@
 
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
+const chaiAsPromised = require('chai-as-promised');
 const webpackConfig = require('./webpack.config.js');
 const sauceBrowsers = require('./sauceBrowsers.conf.js');
 
@@ -51,6 +52,7 @@ let config = {
     // eslint-disable-next-line global-require
     const chai = require('chai');
 
+    chai.use(chaiAsPromised);
     chai.should();
   },
   onComplete: () => {

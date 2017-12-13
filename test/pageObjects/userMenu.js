@@ -1,16 +1,39 @@
-const userMenuSelector = '.cspace-ui-UserMenu--common';
+export default class UserMenu {
+  constructor() {
+    this.selector = '.cspace-ui-UserMenu--common';
+  }
 
-const getUserScreenName = () => browser.$(userMenuSelector).getText().split('|', 1)[0].trim();
-const getLogoutLink = () => browser.$(userMenuSelector).$('a');
-const isUserMenuVisible = () => browser.isVisible(userMenuSelector);
+  getUserScreenName() {
+    const element = browser.$(this.selector);
 
-const logout = () => {
-  getLogoutLink().click();
-};
+    if (!element) {
+      return undefined;
+    }
 
-export default () => ({
-  getUserScreenName,
-  getLogoutLink,
-  isUserMenuVisible,
-  logout,
-});
+    const text = element.getText();
+
+    if (text && typeof text === 'string' && text.indexOf('|') >= 0) {
+      return text.split('|', 1)[0].trim();
+    }
+
+    return undefined;
+  }
+
+  getLogoutLink() {
+    return browser.$(this.selector).$('a');
+  }
+
+  isVisible() {
+    return browser.isVisible(this.selector);
+  }
+
+  isLoggedInAs(username) {
+    return this.isVisible() && this.getUserScreenName() === username;
+  }
+
+  logout() {
+    this.getLogoutLink().click();
+
+    return this;
+  }
+}

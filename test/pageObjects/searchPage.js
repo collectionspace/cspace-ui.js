@@ -1,10 +1,10 @@
-import page from './page';
-import userMenu from './userMenu';
+import ProtectedPage from './ProtectedPage';
 
-export default Object.assign({},
-  page({
-    url: '/search',
-    selector: '.cspace-ui-SearchPage--common',
-  }),
-  userMenu(),
-);
+export default class SearchPage extends ProtectedPage {
+  constructor() {
+    super();
+
+    this.url = '/search';
+    this.selector = '.cspace-ui-SearchPage--common';
+  }
+}
