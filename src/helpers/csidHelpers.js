@@ -19,6 +19,14 @@ export const isCsid = string => csidPattern.test(string);
 export const isUrnCsid = string => urnCsidPattern.test(string);
 
 /**
+ * Returns the short ID of a URN-style csid.
+ *
+ * @param {string} urnCsid
+ * @returns {string} The short ID.
+ */
+export const getUrnCsidShortId = urnCsid => urnCsid.substring(16, urnCsid.length - 1);
+
+/**
  * Creates a keyword search parameter that may be used to find the record with a given csid. A
  * search performed with the resulting keyword parameter will find the record, but may also find
  * false positives. The result set must be filtered by checking the actual csid of each item.

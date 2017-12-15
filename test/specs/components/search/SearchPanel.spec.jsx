@@ -89,7 +89,15 @@ const searchDescriptor = Immutable.fromJS({
 });
 
 const store = mockStore({
-  optionList: {},
+  optionList: Immutable.Map({
+    searchPanelPageSizes: {
+      values: [
+        '5',
+        '10',
+        '20',
+      ],
+    },
+  }),
   prefs: Immutable.Map(),
   search: Immutable.fromJS({
     [searchName]: {
@@ -371,7 +379,7 @@ describe('SearchPanel', function suite() {
       </IntlProvider>, this.container);
 
     const pageSizeInput = this.container.querySelector('.cspace-ui-PageSizeChooser--common input');
-    const newPageSize = 17;
+    const newPageSize = 10;
 
     pageSizeInput.value = newPageSize;
 

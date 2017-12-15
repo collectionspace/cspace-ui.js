@@ -4,7 +4,7 @@ import { findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import { components as inputComponents } from 'cspace-input';
-import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
+import MiniViewPopupAutocompleteInputContainer from '../../../../src/containers/record/MiniViewPopupAutocompleteInputContainer';
 import OptionPickerInputContainer from '../../../../src/containers/input/OptionPickerInputContainer';
 import { BaseTypedHierarchyEditor as TypedHierarchyEditor } from '../../../../src/components/record/TypedHierarchyEditor';
 
@@ -57,7 +57,7 @@ describe('TypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const refNameInputs = findAllWithType(result, AutocompleteInputContainer);
+    const refNameInputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     refNameInputs.should.have.lengthOf(2);
 
@@ -77,6 +77,65 @@ describe('TypedHierarchyEditor', function suite() {
     compoundInputs[1].props.repeating.should.equal(true);
   });
 
+  it('should render an input for the parent if showParent is false', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <TypedHierarchyEditor
+        intl={intl}
+        messages={messages}
+        value={hierarchy}
+        showParent={false}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const refNameInputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
+
+    refNameInputs.should.have.lengthOf(1);
+
+    const typeInputs = findAllWithType(result, OptionPickerInputContainer);
+
+    typeInputs.should.have.lengthOf(1);
+
+    const compoundInputs = findAllWithType(result, CompoundInput);
+
+    compoundInputs.should.have.lengthOf(2);
+
+    compoundInputs[0].props.value.should.equal(hierarchy.get('children'));
+    compoundInputs[1].props.repeating.should.equal(true);
+  });
+
+  it('should not render inputs for the children if showChildren is false', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <TypedHierarchyEditor
+        intl={intl}
+        messages={messages}
+        value={hierarchy}
+        showChildren={false}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const refNameInputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
+
+    refNameInputs.should.have.lengthOf(1);
+
+    refNameInputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'refName']));
+
+    const typeInputs = findAllWithType(result, OptionPickerInputContainer);
+
+    typeInputs.should.have.lengthOf(1);
+
+    typeInputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'type']));
+
+    const compoundInputs = findAllWithType(result, CompoundInput);
+
+    compoundInputs.should.have.lengthOf(0);
+  });
+
   it('should filter the current record out of term matches', function test() {
     const csid = '1111';
 
@@ -92,7 +151,7 @@ describe('TypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     inputs.should.have.lengthOf(2);
 
@@ -125,7 +184,7 @@ describe('TypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     const newValue = 'newValue';
     const newCsid = '1111';
@@ -192,7 +251,7 @@ describe('TypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     const newValue = 'newValue';
 

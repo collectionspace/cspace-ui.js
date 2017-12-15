@@ -28,6 +28,7 @@ const template = (pluginContext) => {
 
             <Field name="collection" />
           </div>
+
           <div>
             <Field name="briefDescriptions">
               <Field name="briefDescription" />
@@ -45,6 +46,7 @@ const template = (pluginContext) => {
                   <Field name="title" />
                   <Field name="titleLanguage" />
                 </div>
+
                 <div>
                   <Field name="titleType" />
 

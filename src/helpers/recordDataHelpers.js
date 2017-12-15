@@ -430,6 +430,16 @@ export const getCoreFieldValue = (data, fieldName) => {
   return undefined;
 };
 
+export const getCsid = (data) => {
+  if (!data) {
+    return undefined;
+  }
+
+  const uri = data.getIn(['document', 'ns2:collectionspace_core', 'uri']);
+
+  return (uri ? uri.substring(uri.lastIndexOf('/') + 1) : undefined);
+};
+
 export const getUpdatedTimestamp = (data) => {
   let updatedAt = getCoreFieldValue(data, 'updatedAt');
 

@@ -43,15 +43,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.citation.parent',
-                    defaultMessage: 'Broader',
+                    defaultMessage: 'Broader citation',
                   },
                   children: {
                     id: 'hierarchyInput.citation.children',
-                    defaultMessage: 'Narrower',
+                    defaultMessage: 'Narrower citations',
                   },
                   siblings: {
                     id: 'hierarchyInput.citation.siblings',
-                    defaultMessage: 'Adjacent',
+                    defaultMessage: 'Adjacent citations',
                   },
                 }),
               },

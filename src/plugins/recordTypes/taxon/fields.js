@@ -42,15 +42,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.taxon.parent',
-                    defaultMessage: 'Broader',
+                    defaultMessage: 'Broader taxon name',
                   },
                   children: {
                     id: 'hierarchyInput.taxon.children',
-                    defaultMessage: 'Narrower',
+                    defaultMessage: 'Narrower taxon names',
                   },
                   siblings: {
                     id: 'hierarchyInput.taxon.siblings',
-                    defaultMessage: 'Adjacent',
+                    defaultMessage: 'Adjacent taxon names',
                   },
                 }),
               },

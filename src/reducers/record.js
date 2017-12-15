@@ -26,6 +26,7 @@ import {
 
 import {
   ADD_FIELD_INSTANCE,
+  CLEAR_RECORD,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
   DELETE_FIELD_VALUE,
@@ -534,6 +535,25 @@ const handleDeleteFulfilled = (state, action) => {
 const detachSubrecord = (state, action) =>
   createNewSubrecord(state, action);
 
+const clear = (state, csid) => {
+  const recordState = state.get(csid);
+
+  if (!recordState) {
+    return state;
+  }
+
+  let updatedState = state;
+
+  const subrecord = recordState.get('subrecord');
+
+  if (subrecord) {
+    updatedState = subrecord.reduce((reducedState, subrecordCsid) =>
+      clear(reducedState, subrecordCsid), updatedState);
+  }
+
+  return updatedState.delete(csid);
+};
+
 const clearAll = state => state.clear();
 
 export default (state = Immutable.Map(), action) => {
@@ -609,6 +629,8 @@ export default (state = Immutable.Map(), action) => {
       return handleCreateIDFulfilled(state, action);
     case DETACH_SUBRECORD:
       return detachSubrecord(state, action);
+    case CLEAR_RECORD:
+      return clear(state, action.meta.csid);
     case LOGIN_FULFILLED:
       return clearAll(state);
     case LOGOUT_FULFILLED:

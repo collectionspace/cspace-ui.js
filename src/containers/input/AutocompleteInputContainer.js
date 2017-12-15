@@ -91,6 +91,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     config,
     source: sourceID,
+    onClose,
   } = ownProps;
 
   const sources = parseResourceID(sourceID);
@@ -123,6 +124,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onClose: () => {
       dispatch(clearMatchedTerms());
+
+      if (onClose) {
+        onClose();
+      }
     },
   };
 };
@@ -142,7 +147,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
   };
 };
-
 
 export const ConnectedAutocompleteInput = connect(
   mapStateToProps,

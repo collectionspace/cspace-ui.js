@@ -9,12 +9,12 @@ import { getDisplayName } from 'cspace-refname';
 import DateInputContainer from '../containers/input/DateInputContainer';
 import DateTimeInputContainer from '../containers/input/DateTimeInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
-import AutocompleteInputContainer from '../containers/input/AutocompleteInputContainer';
 import OptionPickerInputContainer from '../containers/input/OptionPickerInputContainer';
 import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
 import TermPickerInputContainer from '../containers/input/TermPickerInputContainer';
 import UploadInputContainer from '../containers/input/UploadInputContainer';
 import PermissionsInputContainer from '../containers/admin/PermissionsInputContainer';
+import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniViewPopupAutocompleteInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
@@ -49,13 +49,18 @@ const {
   TextInput,
 } = inputComponents;
 
-const AutocompleteInput = AutocompleteInputContainer;
+const {
+  labelable,
+  repeatable,
+} = inputEnhancers;
+
+const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputContainer));
 const CheckboxInput = withBooleanValue(BaseCheckboxInput);
 const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;
 const IDGeneratorInput = IDGeneratorInputContainer;
 const OptionPickerInput = OptionPickerInputContainer;
-const PermissionsInput = inputEnhancers.labelable(PermissionsInputContainer);
+const PermissionsInput = labelable(PermissionsInputContainer);
 const StructuredDateInput = StructuredDateInputContainer;
 const TermPickerInput = TermPickerInputContainer;
 const UploadInput = UploadInputContainer;

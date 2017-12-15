@@ -1,0 +1,19 @@
+.common {
+  position: relative;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > :global(.cspace-ui-MiniViewPopup--common) {
+  top: calc(100% - 8px);
+}
+
+.embedded {
+  composes: common;
+}
+
+.embedded > :global(.cspace-ui-MiniViewPopup--common) {
+  top: calc(100% + 2px);
+}

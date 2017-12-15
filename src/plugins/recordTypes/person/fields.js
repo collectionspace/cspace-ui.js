@@ -43,15 +43,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.person.parent',
-                    defaultMessage: 'Broader',
+                    defaultMessage: 'Broader person',
                   },
                   children: {
                     id: 'hierarchyInput.person.children',
-                    defaultMessage: 'Narrower',
+                    defaultMessage: 'Narrower persons',
                   },
                   siblings: {
                     id: 'hierarchyInput.person.siblings',
-                    defaultMessage: 'Adjacent',
+                    defaultMessage: 'Adjacent persons',
                   },
                 }),
               },

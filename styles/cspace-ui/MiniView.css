@@ -1,0 +1,20 @@
+.common {
+  padding: 10px 10px 0 10px;
+  width: 400px;
+}
+
+.common > h3 {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+
+.authority {
+  composes: common;
+  background-color: #F3EDF6;
+}
+
+.procedure {
+  composes: common;
+  background-color: #F0F5FB;
+}

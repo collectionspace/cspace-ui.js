@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
-import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
+import MiniViewPopupAutocompleteInputContainer from '../../containers/record/MiniViewPopupAutocompleteInputContainer';
 import OptionPickerInputContainer from '../../containers/input/OptionPickerInputContainer';
 
 const {
@@ -19,11 +19,18 @@ const propTypes = {
   vocabulary: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
+  showParent: PropTypes.bool,
+  showChildren: PropTypes.bool,
   parentTypeOptionListName: PropTypes.string,
   childTypeOptionListName: PropTypes.string,
   onCommit: PropTypes.func,
   onAddChild: PropTypes.func,
   onRemoveChild: PropTypes.func,
+};
+
+const defaultProps = {
+  showParent: true,
+  showChildren: true,
 };
 
 export class BaseTypedHierarchyEditor extends Component {
@@ -112,7 +119,7 @@ export class BaseTypedHierarchyEditor extends Component {
     }
   }
 
-  render() {
+  renderParent() {
     const {
       intl,
       messages,
@@ -120,70 +127,102 @@ export class BaseTypedHierarchyEditor extends Component {
       vocabulary,
       value,
       readOnly,
+      showParent,
       parentTypeOptionListName,
-      childTypeOptionListName,
     } = this.props;
+
+    if (!showParent) {
+      return undefined;
+    }
 
     const source = [recordType, vocabulary].filter(part => !!part).join('/');
     const parentRefName = value.getIn(['parent', 'refName']);
     const parentType = value.getIn(['parent', 'type']);
 
+    return (
+      <InputTable>
+        <MiniViewPopupAutocompleteInputContainer
+          label={intl.formatMessage(messages.parent)}
+          name="parentRefName"
+          source={source}
+          value={parentRefName}
+          readOnly={readOnly}
+          onCommit={this.handleParentRefNameCommit}
+          matchFilter={this.filterMatch}
+        />
+        <OptionPickerInputContainer
+          label={intl.formatMessage(messages.parentType)}
+          name="parentType"
+          source={parentTypeOptionListName}
+          value={parentType}
+          readOnly={readOnly}
+          onCommit={this.handleParentTypeCommit}
+        />
+      </InputTable>
+    );
+  }
+
+  renderChildren() {
+    const {
+      intl,
+      messages,
+      recordType,
+      vocabulary,
+      value,
+      readOnly,
+      showChildren,
+      childTypeOptionListName,
+    } = this.props;
+
+    if (!showChildren) {
+      return undefined;
+    }
+
+    const source = [recordType, vocabulary].filter(part => !!part).join('/');
     const children = value.get('children');
 
     return (
-      <div>
-        <InputTable>
-          <AutocompleteInputContainer
-            label={intl.formatMessage(messages.parent)}
-            name="parentRefName"
+      <CompoundInput
+        label={intl.formatMessage(messages.children)}
+        value={children}
+        readOnly={readOnly}
+      >
+        <CompoundInput
+          tabular
+          repeating
+          reorderable={false}
+          onAddInstance={this.handleAddChild}
+          onRemoveInstance={this.handleRemoveChild}
+        >
+          <MiniViewPopupAutocompleteInputContainer
+            label={intl.formatMessage(messages.child)}
+            name="refName"
             source={source}
-            value={parentRefName}
-            readOnly={readOnly}
-            onCommit={this.handleParentRefNameCommit}
             matchFilter={this.filterMatch}
+            onCommit={this.handleChildRefNameCommit}
           />
           <OptionPickerInputContainer
-            label={intl.formatMessage(messages.parentType)}
-            name="parentType"
-            source={parentTypeOptionListName}
-            value={parentType}
-            readOnly={readOnly}
-            onCommit={this.handleParentTypeCommit}
+            label={intl.formatMessage(messages.childType)}
+            name="type"
+            source={childTypeOptionListName}
+            onCommit={this.handleChildTypeCommit}
           />
-        </InputTable>
-
-        <CompoundInput
-          label={intl.formatMessage(messages.children)}
-          value={children}
-          readOnly={readOnly}
-        >
-          <CompoundInput
-            tabular
-            repeating
-            reorderable={false}
-            onAddInstance={this.handleAddChild}
-            onRemoveInstance={this.handleRemoveChild}
-          >
-            <AutocompleteInputContainer
-              label={intl.formatMessage(messages.child)}
-              name="refName"
-              source={source}
-              matchFilter={this.filterMatch}
-              onCommit={this.handleChildRefNameCommit}
-            />
-            <OptionPickerInputContainer
-              label={intl.formatMessage(messages.childType)}
-              name="type"
-              source={childTypeOptionListName}
-              onCommit={this.handleChildTypeCommit}
-            />
-          </CompoundInput>
         </CompoundInput>
+      </CompoundInput>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderParent()}
+        {this.renderChildren()}
       </div>
     );
   }
 }
 
 BaseTypedHierarchyEditor.propTypes = propTypes;
+BaseTypedHierarchyEditor.defaultProps = defaultProps;
 
 export default injectIntl(BaseTypedHierarchyEditor);

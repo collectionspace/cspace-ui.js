@@ -1,6 +1,8 @@
 import {
-  isCsid,
   asKeywords,
+  getUrnCsidShortId,
+  isCsid,
+  isUrnCsid,
 } from '../../../src/helpers/csidHelpers';
 
 describe('csidHelpers', function moduleSuite() {
@@ -19,6 +21,27 @@ describe('csidHelpers', function moduleSuite() {
 
       isCsid('urn:cspace:pahma.cspace.berkeley.edu:groups:id(4ece8f1a-8788-4853-921c)').should
         .equal(false);
+    });
+  });
+
+  describe('isUrnCsid', function suite() {
+    it('should recognize urn csids', function test() {
+      isUrnCsid('urn:cspace:name(OliviaOwner1484269000345)').should.equal(true);
+    });
+
+    it('should return false for non-urn csids', function test() {
+      isUrnCsid('4ece8f1a-8788-4853-921c').should.equal(false);
+    });
+
+    it('should return false for non-csids', function test() {
+      isUrnCsid('foo').should.equal(false);
+    });
+  });
+
+  describe('getUrnCsidShortId', function suite() {
+    it('should return the short id from a urn csid', function test() {
+      getUrnCsidShortId('urn:cspace:name(OliviaOwner1484269000345)').should
+        .equal('OliviaOwner1484269000345');
     });
   });
 

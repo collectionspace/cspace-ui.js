@@ -42,15 +42,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.concept.parent',
-                    defaultMessage: 'Broader',
+                    defaultMessage: 'Broader concept',
                   },
                   children: {
                     id: 'hierarchyInput.concept.children',
-                    defaultMessage: 'Narrower',
+                    defaultMessage: 'Narrower concepts',
                   },
                   siblings: {
                     id: 'hierarchyInput.concept.siblings',
-                    defaultMessage: 'Adjacent',
+                    defaultMessage: 'Adjacent concepts',
                   },
                 }),
               },

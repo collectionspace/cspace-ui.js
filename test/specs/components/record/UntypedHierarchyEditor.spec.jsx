@@ -3,8 +3,10 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import { findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
+import MiniViewPopupAutocompleteInputContainer from '../../../../src/containers/record/MiniViewPopupAutocompleteInputContainer';
 import { BaseUntypedHierarchyEditor as UntypedHierarchyEditor } from '../../../../src/components/record/UntypedHierarchyEditor';
+
+const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -50,12 +52,52 @@ describe('UntypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     inputs.should.have.lengthOf(2);
 
     inputs[0].props.value.should.equal(hierarchy.getIn(['parent', 'refName']));
     inputs[1].props.repeating.should.equal(true);
+  });
+
+  it('should not render an input for the parent if showParent is false', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <UntypedHierarchyEditor
+        intl={intl}
+        messages={messages}
+        value={hierarchy}
+        showParent={false}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
+
+    inputs.should.have.lengthOf(1);
+
+    inputs[0].props.repeating.should.equal(true);
+  });
+
+  it('should not render an input for the children if showChildren is false', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <UntypedHierarchyEditor
+        intl={intl}
+        messages={messages}
+        value={hierarchy}
+        showChildren={false}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
+
+    inputs.should.have.lengthOf(1);
+
+    expect(inputs[0].props.repeating).to.equal(undefined);
   });
 
   it('should filter the current record out of term matches', function test() {
@@ -73,7 +115,7 @@ describe('UntypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     inputs.should.have.lengthOf(2);
 
@@ -106,7 +148,7 @@ describe('UntypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     const newValue = 'newValue';
     const newCsid = '1111';
@@ -142,7 +184,7 @@ describe('UntypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     const newValue = 'newValue';
 
@@ -171,7 +213,7 @@ describe('UntypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     inputs[1].props.onAddInstance();
 
@@ -197,7 +239,7 @@ describe('UntypedHierarchyEditor', function suite() {
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, MiniViewPopupAutocompleteInputContainer);
 
     inputs[1].props.onRemoveInstance(['1']);
 

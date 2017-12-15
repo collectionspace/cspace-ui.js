@@ -11,6 +11,7 @@ import {
 
 import {
   ADD_FIELD_INSTANCE,
+  CLEAR_RECORD,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
   DELETE_FIELD_VALUE,
@@ -1898,6 +1899,79 @@ describe('record reducer', function suite() {
       }));
 
       expect(isSavePending(state, csid)).to.equal(undefined);
+    });
+  });
+
+  describe('on CLEAR_RECORD', function actionSuite() {
+    it('should delete record state for the csid', function test() {
+      const csid = '1234';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {
+            current: {},
+          },
+        },
+      }), {
+        type: CLEAR_RECORD,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({}));
+
+      expect(getData(state, csid)).to.equal(undefined);
+    });
+
+    it('should clear state for any subrecords', function test() {
+      const csid = '1234';
+      const subrecordCsid = 'abcd';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {
+            current: {},
+          },
+          subrecord: {
+            contact: subrecordCsid,
+          },
+        },
+        [subrecordCsid]: {
+          data: {
+            current: {},
+          },
+        },
+      }), {
+        type: CLEAR_RECORD,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({}));
+
+      expect(getData(state, csid)).to.equal(undefined);
+      expect(getData(state, subrecordCsid)).to.equal(undefined);
+    });
+
+    it('should do nothing if there is no state for the csid', function test() {
+      const csid = '1234';
+
+      const initialState = Immutable.fromJS({
+        5678: {
+          data: {},
+        },
+      });
+
+      const state = reducer(initialState, {
+        type: CLEAR_RECORD,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(initialState);
     });
   });
 });
