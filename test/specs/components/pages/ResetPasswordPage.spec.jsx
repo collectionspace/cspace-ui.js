@@ -20,10 +20,6 @@ describe('ResetPasswordPage', function suite() {
   });
 
   it('should render as a div', function test() {
-    const match = {
-      params: {},
-    };
-
     const location = {
       state: {},
     };
@@ -31,7 +27,7 @@ describe('ResetPasswordPage', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ResetPasswordPage location={location} match={match} />
+          <ResetPasswordPage location={location} />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -39,10 +35,6 @@ describe('ResetPasswordPage', function suite() {
   });
 
   it('should render a PasswordResetRequestForm if no token exists in params', function test() {
-    const match = {
-      params: {},
-    };
-
     const location = {
       state: {},
     };
@@ -50,28 +42,23 @@ describe('ResetPasswordPage', function suite() {
     const renderTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ResetPasswordPage location={location} match={match} />
+          <ResetPasswordPage location={location} />
         </StoreProvider>
       </IntlProvider>, this.container);
 
     findRenderedComponentWithType(renderTree, PasswordResetRequestForm).should.not.equal(null);
   });
 
-  it('should render a PasswordResetForm if a token exists in params', function test() {
-    const match = {
-      params: {
-        token: '1234',
-      },
-    };
-
+  it('should render a PasswordResetForm if a token exists in query parameters', function test() {
     const location = {
+      search: '?token=1234',
       state: {},
     };
 
     const renderTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <ResetPasswordPage location={location} match={match} />
+          <ResetPasswordPage location={location} />
         </StoreProvider>
       </IntlProvider>, this.container);
 

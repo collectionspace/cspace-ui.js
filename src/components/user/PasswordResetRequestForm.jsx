@@ -5,7 +5,6 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import Notification from '../notification/Notification';
 import getErrorDescription from '../../helpers/getErrorDescription';
-import styles from '../../../styles/cspace-ui/PasswordResetRequestForm.css';
 
 import {
   ERR_INVALID_EMAIL,
@@ -15,11 +14,6 @@ import {
 const { Button, LineInput } = inputComponents;
 
 const messages = defineMessages({
-  title: {
-    id: 'passwordResetRequestForm.title',
-    description: 'Title of the password reset request form.',
-    defaultMessage: 'Reset Password',
-  },
   prompt: {
     id: 'passwordResetRequestForm.prompt',
     description: 'The prompt displayed on the password reset request form.',
@@ -37,7 +31,7 @@ const messages = defineMessages({
   },
   error: {
     id: 'passwordResetRequestForm.error',
-    description: 'Generic message to display when a password reset request fails, and there no more specific message is available.',
+    description: 'Generic message to display when a password reset request fails, and no more specific message is available.',
     defaultMessage: 'An error occurred while attempting to request the password reset: {detail}',
   },
   errorNotFound: {
@@ -196,43 +190,37 @@ export default class PasswordResetRequestForm extends Component {
       email,
     } = this.state;
 
-    let content;
-
     if (isSuccess) {
-      content = (
+      return (
         <FormattedMessage {...messages.success} values={{ email }} />
-      );
-    } else {
-      const errorMessage = this.renderError();
-
-      content = (
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <label htmlFor="email">
-              <FormattedMessage {...messages.prompt} />
-            </label>
-          </p>
-          <div>
-            <LineInput
-              id="email"
-              name="email"
-              type="text"
-              value={email}
-              onCommit={this.handleUsernameCommit}
-            />
-          </div>
-          <Button type="submit" disabled={isPending}>
-            <FormattedMessage {...messages.submit} />
-          </Button>
-          {errorMessage}
-        </form>
       );
     }
 
     return (
-      <div className={styles.common}>
-        {content}
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <p>
+          <label htmlFor="email">
+            <FormattedMessage {...messages.prompt} />
+          </label>
+        </p>
+
+        <div>
+          <LineInput
+            autoComplete="email"
+            id="email"
+            name="email"
+            type="text"
+            value={email}
+            onCommit={this.handleUsernameCommit}
+          />
+        </div>
+
+        <Button type="submit" disabled={isPending}>
+          <FormattedMessage {...messages.submit} />
+        </Button>
+
+        {this.renderError()}
+      </form>
     );
   }
 }

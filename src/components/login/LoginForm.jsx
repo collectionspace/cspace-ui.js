@@ -193,6 +193,7 @@ class LoginForm extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <LineInput
+          autoComplete="username email"
           name="username"
           placeholder={intl.formatMessage(messages.username)}
           type="text"
@@ -200,9 +201,9 @@ class LoginForm extends Component {
           onChange={this.handleUsernameChange}
         />
         <PasswordInput
+          autoComplete="current-password"
           name="password"
           placeholder={intl.formatMessage(messages.password)}
-          type="password"
         />
         <div>
           <Button type="submit">

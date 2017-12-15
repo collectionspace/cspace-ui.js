@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import PasswordResetForm from '../user/PasswordResetForm';
+import get from 'lodash/get';
+import qs from 'qs';
+import PasswordResetFormContainer from '../../containers/user/PasswordResetFormContainer';
 import PasswordResetRequestFormContainer from '../../containers/user/PasswordResetRequestFormContainer';
 import styles from '../../../styles/cspace-ui/ResetPasswordPage.css';
 
@@ -15,28 +17,22 @@ const messages = defineMessages({
 
 const propTypes = {
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 export default function ResetPasswordPage(props) {
   const {
     location,
-    match,
   } = props;
 
-  let form;
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
 
-  if (match.params.token) {
-    form = (
-      <PasswordResetForm />
-    );
-  } else {
-    form = (
-      <PasswordResetRequestFormContainer
-        email={location.state.username}
-      />
-    );
-  }
+  const {
+    token,
+  } = query;
+
+  const form = token
+    ? <PasswordResetFormContainer token={token} />
+    : <PasswordResetRequestFormContainer email={get(location, ['state', 'username'])} />;
 
   return (
     <div className={styles.common}>

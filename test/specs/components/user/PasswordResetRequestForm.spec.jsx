@@ -16,7 +16,7 @@ describe('PasswordResetRequestForm', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a form', function test() {
     const requestReset = () => {};
 
     render(
@@ -24,18 +24,7 @@ describe('PasswordResetRequestForm', function suite() {
         <PasswordResetRequestForm requestReset={requestReset} />
       </IntlProvider>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
-  });
-
-  it('should render a form', function test() {
-    const requestReset = () => {};
-
-    render(
-      <IntlProvider locale="en">
-        <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
-
-    this.container.querySelector('form').should.not.equal(null);
+    this.container.firstElementChild.nodeName.should.equal('FORM');
   });
 
   it('should call requestReset when the form is submitted', function test() {
@@ -165,7 +154,7 @@ describe('PasswordResetRequestForm', function suite() {
     });
   });
 
-  it('should show a success message and not render a form when a reset request succeeds', function test() {
+  it('should render a success message instead of a form when a reset request succeeds', function test() {
     const requestReset = () => Promise.resolve();
 
     render(
