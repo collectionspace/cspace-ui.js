@@ -23,6 +23,11 @@ const contextTypes = {
 
 const recordType = 'authrole';
 
+const getSearchDescriptor = () => Immutable.fromJS({
+  recordType,
+  searchQuery: {},
+});
+
 export default class RolesPage extends Component {
   constructor() {
     super();
@@ -32,6 +37,11 @@ export default class RolesPage extends Component {
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
     this.handleRecordDeleted = this.handleRecordDeleted.bind(this);
+    this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
+
+    this.state = {
+      searchDescriptor: getSearchDescriptor(),
+    };
   }
 
   cloneRecord() {
@@ -82,6 +92,12 @@ export default class RolesPage extends Component {
     history.replace(`/admin/${recordType}`);
   }
 
+  handleSearchDescriptorChange(searchDescriptor) {
+    this.setState({
+      searchDescriptor,
+    });
+  }
+
   handleItemClick(item) {
     const {
       history,
@@ -112,6 +128,10 @@ export default class RolesPage extends Component {
     } = this.props;
 
     const {
+      searchDescriptor,
+    } = this.state;
+
+    const {
       csid,
     } = match.params;
 
@@ -120,11 +140,6 @@ export default class RolesPage extends Component {
     const normalizedCsid = (csid === 'new') ? '' : csid;
     const cloneCsid = query.clone;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
-
-    const searchDescriptor = Immutable.fromJS({
-      recordType,
-      searchQuery: {},
-    });
 
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
@@ -162,6 +177,7 @@ export default class RolesPage extends Component {
             recordType={recordType}
             showSearchButton={false}
             onItemClick={this.handleItemClick}
+            onSearchDescriptorChange={this.handleSearchDescriptorChange}
           />
         </div>
         {recordEditor}

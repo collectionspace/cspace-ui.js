@@ -207,38 +207,6 @@ const computeIndexesByCsid = (listTypeConfig, result) => {
   return indexesByCsid;
 };
 
-// FIXME: Hack! The REST API fails to return pagination information for some list types.
-// Make some up so that things will sort of work.
-
-/* istanbul ignore next -- This function will be removed, so I'm not going to bother to test it. */
-const fixSearchResult = (result, searchDescriptor, listTypeConfig) => {
-  const {
-    itemNodeName,
-    listNodeName,
-  } = listTypeConfig;
-
-  if (result.hasIn([listNodeName, 'totalItems'])) {
-    return result;
-  }
-
-  const list = result.get(listNodeName);
-  const items = list.get(itemNodeName);
-
-  let size = 0;
-
-  if (items) {
-    size = Immutable.List.isList(items) ? items.size : 1;
-  }
-
-  const updatedList =
-    list.set('totalItems', size)
-      .set('itemsInPage', size)
-      .set('pageNum', searchDescriptor.getIn(['searchQuery', 'p']) || 0)
-      .set('pageSize', searchDescriptor.getIn(['searchQuery', 'size']) || 40);
-
-  return result.set(listNodeName, updatedList);
-};
-
 const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, result) => {
   const namedSearch = state.get(searchName);
   const key = searchKey(searchDescriptor);
@@ -246,15 +214,10 @@ const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, re
   if (namedSearch && namedSearch.hasIn(['byKey', key])) {
     const searchState = namedSearch.getIn(['byKey', key]);
 
-    // FIXME: Hack! The REST API fails to return pagination information for some list types.
-    // Make some up so that things will sort of work.
-
-    const fixedResult = fixSearchResult(result, searchDescriptor, listTypeConfig);
-
     const updatedSearchState =
       searchState
         .set('isPending', false)
-        .set('result', fixedResult)
+        .set('result', result)
         .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, result))
         .set('listNodeName', listTypeConfig.listNodeName)
         .set('itemNodeName', listTypeConfig.itemNodeName)
