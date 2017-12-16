@@ -1,9 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
-
 import createTestContainer from '../../../helpers/createTestContainer';
-
 import PublicPage from '../../../../src/components/pages/PublicPage';
 
 chai.should();
@@ -16,7 +15,9 @@ describe('PublicPage', function suite() {
   it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
-        <PublicPage />
+        <Router>
+          <PublicPage />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -25,9 +26,11 @@ describe('PublicPage', function suite() {
   it('should render the content', function test() {
     render(
       <IntlProvider locale="en">
-        <PublicPage>
-          <div id="content">This is some content</div>
-        </PublicPage>
+        <Router>
+          <PublicPage>
+            <div id="content">This is some content</div>
+          </PublicPage>
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > div#content').textContent.should

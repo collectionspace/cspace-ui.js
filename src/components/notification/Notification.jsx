@@ -10,7 +10,10 @@ import styles from '../../../styles/cspace-ui/Notification.css';
 const propTypes = {
   id: PropTypes.string.isRequired,
   message: PropTypes.objectOf(PropTypes.string),
-  values: PropTypes.objectOf(PropTypes.string),
+  values: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ])),
   date: PropTypes.instanceOf(Date),
   status: PropTypes.string,
   autoClose: PropTypes.bool,

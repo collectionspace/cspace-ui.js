@@ -4,13 +4,12 @@
   width: 70%;
 }
 
-.common > a {
-  display: block;
+.common > :global(.cspace-ui-Logo--common) {
   flex: 0 1 auto;
   overflow: hidden;
 
   margin-right: 22px;
-  /* 
+  /*
    * margin-bottom is used here to vertically center the x-height of 'CollectionSpace' in its
    * container, since the ascenders of the font are taller than the descenders ('l' vs. 'p'). If
    * the logo is changed, this may need to be removed/changed to align the new logo nicely with the

@@ -10,13 +10,17 @@ let session;
 
 export const createSession = (username, password) => {
   if (typeof username === 'undefined' && typeof password === 'undefined') {
-    session = client.session();
-  } else {
-    session = client.session({
-      username,
-      password,
-    });
+    return client.session();
   }
+
+  return client.session({
+    username,
+    password,
+  });
+};
+
+export const setSession = (newSession) => {
+  session = newSession;
 
   return {
     type: CSPACE_CONFIGURED,
@@ -29,10 +33,14 @@ export const configureCSpace = config => (dispatch) => {
     url: get(config, 'serverUrl'),
   });
 
-  dispatch(createSession());
+  const newSession = createSession();
 
-  return dispatch(readAccountPerms(config))
-    .then(() => dispatch(loadPrefs()));
+  dispatch(setSession(newSession));
+
+  const { username } = newSession.config();
+
+  return dispatch(readAccountPerms(config, username))
+    .then(() => dispatch(loadPrefs(username)));
     // .catch(() => {
     //   // TODO: Expect a 401 here if the stored token has expired.
     // });

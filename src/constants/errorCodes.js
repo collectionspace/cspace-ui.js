@@ -24,3 +24,15 @@ export const ERR_MISSING_REQ_FIELD = 'ERR_MISSING_REQ_FIELD';
 
 // A field's value does not have the expected data type.
 export const ERR_DATA_TYPE = 'ERR_DATA_TYPE';
+
+/*
+ * Password reset errors
+ */
+
+export const ERR_MISSING_EMAIL = 'ERR_MISSING_EMAIL';
+export const ERR_INVALID_EMAIL = 'ERR_INVALID_EMAIL';
+export const ERR_MISSING_PW = 'ERR_MISSING_PW';
+export const ERR_MISSING_PW_CONFIRM = 'ERR_MISSING_PW_CONFIRM';
+export const ERR_INVALID_PW = 'ERR_INVALID_PW';
+export const ERR_PW_NOT_CONFIRMED = 'ERR_PW_NOT_CONFIRMED';
+

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { components as inputComponents } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/LoginForm.css';
 
@@ -29,12 +30,12 @@ const messages = defineMessages({
   },
   error: {
     id: 'loginForm.error',
-    description: 'Generic error message displayed when a more specific error message is not available.',
+    description: 'Generic login error message. Displayed when a more specific error message is not available.',
     defaultMessage: 'Sign in failed.',
   },
   badCredentialsError: {
     id: 'loginForm.error.badCredentials',
-    description: 'Error message displayed when incorrect credentials were entered.',
+    description: 'Error message displayed when incorrect credentials were entered during login.',
     defaultMessage: 'Sign in failed. Incorrect username/password.',
   },
   networkError: {
@@ -43,19 +44,24 @@ const messages = defineMessages({
     defaultMessage: 'Sign in failed. Unable to reach the CollectionSpace server.',
   },
   username: {
-    id: 'loginForm.label.username',
-    description: 'Label for the username field.',
+    id: 'loginForm.username',
+    description: 'Label for the login username field.',
     defaultMessage: 'Email',
   },
   password: {
-    id: 'loginForm.label.password',
-    description: 'Label for the password field.',
+    id: 'loginForm.password',
+    description: 'Label for the login password field.',
     defaultMessage: 'Password',
   },
   submit: {
-    id: 'loginForm.label.submit',
-    description: 'Label for the submit button.',
+    id: 'loginForm.submit',
+    description: 'Label for the login submit button.',
     defaultMessage: 'Sign in',
+  },
+  forgotPassword: {
+    id: 'loginForm.forgotPassword',
+    description: 'Text of the forgot password link.',
+    defaultMessage: 'Forgot password',
   },
 });
 
@@ -85,6 +91,17 @@ class LoginForm extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+
+    this.state = {
+      username: props.username,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      username: nextProps.username,
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -123,6 +140,12 @@ class LoginForm extends Component {
     }
   }
 
+  handleUsernameChange(value) {
+    this.setState({
+      username: value,
+    });
+  }
+
   renderMessage() {
     const {
       isPending,
@@ -157,29 +180,47 @@ class LoginForm extends Component {
     const {
       intl,
       isPending,
-      username,
     } = this.props;
 
     if (isPending) {
       return null;
     }
 
+    const {
+      username,
+    } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit}>
         <LineInput
+          autoComplete="username email"
           name="username"
           placeholder={intl.formatMessage(messages.username)}
           type="text"
           value={username}
+          onChange={this.handleUsernameChange}
         />
         <PasswordInput
+          autoComplete="current-password"
           name="password"
           placeholder={intl.formatMessage(messages.password)}
-          type="password"
         />
-        <Button type="submit">
-          <FormattedMessage {...messages.submit} />
-        </Button>
+        <div>
+          <Button type="submit">
+            <FormattedMessage {...messages.submit} />
+          </Button>
+
+          <Link
+            to={{
+              pathname: '/resetpw',
+              state: {
+                username,
+              },
+            }}
+          >
+            <FormattedMessage {...messages.forgotPassword} />
+          </Link>
+        </div>
       </form>
     );
   }

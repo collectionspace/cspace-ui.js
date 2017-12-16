@@ -31,6 +31,7 @@ const defaultConfig = mergeConfig({
   prettyUrls: false,
   serverUrl: '',
   serverTimeZone: 'UTC',
+  tenantId: '',
 }, {
   plugins: defaultPlugins.map(plugin => plugin()),
 }, pluginContext);

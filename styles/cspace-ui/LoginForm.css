@@ -4,7 +4,12 @@
   margin-bottom: 6px;
 }
 
+.common > form > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
 .pending {
   composes: common;
-  background: red;
 }
