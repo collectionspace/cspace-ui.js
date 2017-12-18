@@ -11,7 +11,11 @@ import {
   PERMS_READ_STARTED,
   PERMS_READ_FULFILLED,
   PERMS_READ_REJECTED,
+  ROLES_READ_STARTED,
+  ROLES_READ_FULFILLED,
+  ROLES_READ_REJECTED,
   readPerms,
+  readRoles,
 } from '../../../src/actions/auth';
 
 describe('auth action creator', function suite() {
@@ -116,6 +120,109 @@ describe('auth action creator', function suite() {
       return permsRetrievedStore.dispatch(readPerms(config))
         .then(() => {
           const actions = permsRetrievedStore.getActions();
+
+          actions.should.have.lengthOf(0);
+        });
+    });
+  });
+
+  describe('readRoles', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+
+    const store = mockStore({
+      auth: Immutable.Map(),
+      user: Immutable.Map(),
+    });
+
+    const readRolesUrl = '/cspace-services/authorization/roles?pgSz=0';
+
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      store.clearActions();
+      moxios.uninstall();
+    });
+
+    it('should dispatch ROLES_READ_FULFILLED on success', function test() {
+      moxios.stubRequest(readRolesUrl, {
+        status: 200,
+        response: {},
+      });
+
+      return store.dispatch(readRoles())
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: ROLES_READ_STARTED,
+          });
+
+          actions[1].should.deep.equal({
+            type: ROLES_READ_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+          });
+        });
+    });
+
+    it('should dispatch ROLES_READ_REJECTED on success', function test() {
+      moxios.stubRequest(readRolesUrl, {
+        status: 400,
+        response: {},
+      });
+
+      return store.dispatch(readRoles())
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: ROLES_READ_STARTED,
+          });
+
+          actions[1].should.have.property('type', ROLES_READ_REJECTED);
+        });
+    });
+
+    it('should not dispatch any action if a read is already pending', function test() {
+      const inProgressStore = mockStore({
+        auth: Immutable.Map({
+          isRolesReadPending: true,
+        }),
+      });
+
+      return inProgressStore.dispatch(readRoles())
+        .then(() => {
+          const actions = inProgressStore.getActions();
+
+          actions.should.have.lengthOf(0);
+        });
+    });
+
+    it('should not dispatch any action if roles have already been retrieved', function test() {
+      const rolesRetrievedStore = mockStore({
+        auth: Immutable.Map({
+          roles: Immutable.List(),
+        }),
+      });
+
+      return rolesRetrievedStore.dispatch(readRoles())
+        .then(() => {
+          const actions = rolesRetrievedStore.getActions();
 
           actions.should.have.lengthOf(0);
         });

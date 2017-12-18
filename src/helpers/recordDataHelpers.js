@@ -339,12 +339,22 @@ export const attributePropertiesToTop = (propertyNameA, propertyNameB) => {
  *   properly translate the payload to XML.
  */
 export const prepareForSending = (data, recordTypeConfig) => {
+  let preparedData = data;
+
+  // Execute the prepareForSending function configured for the record type, if any.
+
+  const customPrepareForSending = recordTypeConfig.prepareForSending;
+
+  if (typeof customPrepareForSending === 'function') {
+    preparedData = customPrepareForSending(preparedData, recordTypeConfig);
+  }
+
   let documentName = DOCUMENT_PROPERTY_NAME;
-  let cspaceDocument = data.get(documentName);
+  let cspaceDocument = preparedData.get(documentName);
 
   if (!cspaceDocument) {
-    documentName = data.keySeq().first();
-    cspaceDocument = data.get(documentName);
+    documentName = preparedData.keySeq().first();
+    cspaceDocument = preparedData.get(documentName);
   }
 
   // Filter out the core schema and account information parts.
@@ -379,8 +389,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
   // API will error. These will occur when hierarchy autocomplete fields are emptied, or new
   // child instances are created but not filled in.
 
-  // TODO: Move this to a computation in the HierarchyInput, when a computed field infrastructure
-  // exists.
+  // TODO: Move this to a computation in the HierarchyInput.
 
   const relations = cspaceDocument.getIn(['rel:relations-common-list', 'relation-list-item']);
 
@@ -395,7 +404,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
     );
   }
 
-  let updatedData = data.set(documentName, cspaceDocument);
+  preparedData = preparedData.set(documentName, cspaceDocument);
 
   // Set to null any subrecord csid fields that don't contain valid csids -- these are pointing to
   // new subrecords that haven't been saved.
@@ -407,16 +416,16 @@ export const prepareForSending = (data, recordTypeConfig) => {
       const { csidField } = subrecordConfig;
 
       if (csidField) {
-        const subrecordCsid = deepGet(updatedData, csidField);
+        const subrecordCsid = deepGet(preparedData, csidField);
 
         if (!isCsid(subrecordCsid)) {
-          updatedData = deepSet(updatedData, csidField, null);
+          preparedData = deepSet(preparedData, csidField, null);
         }
       }
     });
   }
 
-  return updatedData;
+  return preparedData;
 };
 
 export const getCoreFieldValue = (data, fieldName) => {
@@ -553,7 +562,7 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
 
   // Check required.
 
-  const required = isFieldRequired(fieldDescriptor);
+  const required = isFieldRequired(fieldDescriptor, recordData);
 
   // TODO: Does this make sense for compound fields?
 
@@ -771,7 +780,8 @@ export const isExistingRecord = data => !!(
   data &&
   (
     data.getIn(['document', 'ns2:collectionspace_core', 'uri']) ||
-    data.getIn(['ns2:role', '@csid'])
+    data.getIn(['ns2:role', '@csid']) ||
+    data.getIn(['ns3:accounts_common', '@csid'])
   )
 );
 
@@ -790,7 +800,13 @@ export const isLocked = (data) => {
   if (data) {
     const doc = data.first();
 
-    return (doc && doc.get('permsProtection') === 'immutable');
+    return (
+      doc &&
+      (
+        doc.get('permsProtection') === 'immutable' ||
+        doc.get('rolesProtection') === 'immutable'
+      )
+    );
   }
 
   return false;

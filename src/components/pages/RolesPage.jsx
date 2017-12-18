@@ -7,7 +7,7 @@ import qs from 'qs';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canCreate, canRead } from '../../helpers/permissionHelpers';
-import RolesButtonBar from '../admin/RolesButtonBar';
+import AdminTabButtonBar from '../admin/AdminTabButtonBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
@@ -74,6 +74,23 @@ export default class RolesPage extends Component {
     history.replace(`/admin/${recordType}/new`);
   }
 
+  handleItemClick(item) {
+    const {
+      history,
+      perms,
+    } = this.props;
+
+    if (canRead(recordType, perms)) {
+      const csid = item.get('@csid');
+
+      history.replace(`/admin/${recordType}/${csid}`);
+    }
+
+    // Prevent the default action.
+
+    return false;
+  }
+
   handleRecordCreated(newRecordCsid, isNavigating) {
     if (!isNavigating) {
       const {
@@ -96,23 +113,6 @@ export default class RolesPage extends Component {
     this.setState({
       searchDescriptor,
     });
-  }
-
-  handleItemClick(item) {
-    const {
-      history,
-      perms,
-    } = this.props;
-
-    if (canRead(recordType, perms)) {
-      const csid = item.get('@csid');
-
-      history.replace(`/admin/${recordType}/${csid}`);
-    }
-
-    // Prevent the default action.
-
-    return false;
   }
 
   render() {
@@ -151,7 +151,7 @@ export default class RolesPage extends Component {
           cloneCsid={cloneCsid}
           config={config}
           csid={normalizedCsid}
-          recordType="authrole"
+          recordType={recordType}
           isHardDelete
           onRecordCreated={this.handleRecordCreated}
           onRecordDeleted={this.handleRecordDeleted}
@@ -163,7 +163,7 @@ export default class RolesPage extends Component {
     return (
       <div className={styles.common}>
         <div>
-          <RolesButtonBar
+          <AdminTabButtonBar
             isCreatable={canCreate(recordType, perms)}
             onCreateButtonClick={this.handleCreateButtonClick}
           />

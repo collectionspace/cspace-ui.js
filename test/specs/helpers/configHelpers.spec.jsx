@@ -735,6 +735,24 @@ describe('configHelpers', function moduleSuite() {
       }).should.equal(true);
     });
 
+    it('should return the result of calling the required function, if it is a function', function test() {
+      const recordData = Immutable.Map();
+
+      let requiredRecordData = null;
+
+      isFieldRequired({
+        [configKey]: {
+          required: (recordDataArg) => {
+            requiredRecordData = recordDataArg;
+
+            return false;
+          },
+        },
+      }, recordData).should.equal(false);
+
+      requiredRecordData.should.equal(recordData);
+    });
+
     it('should default to false', function test() {
       isFieldRequired({}).should.equal(false);
 

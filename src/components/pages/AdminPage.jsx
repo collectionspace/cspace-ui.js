@@ -4,7 +4,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { Redirect, Route, Switch } from 'react-router';
 import Immutable from 'immutable';
 import TermsPage from './TermsPage';
-import UsersPage from './UsersPage';
+import UsersPageContainer from '../../containers/pages/UsersPageContainer';
 import RolesPageContainer from '../../containers/pages/RolesPageContainer';
 import AdminNavBar from '../admin/AdminNavBar';
 import TitleBar from '../sections/TitleBar';
@@ -34,7 +34,7 @@ const renderRoute = (basename, tab, onTabChange) => {
 
 const tabs = [
   { name: 'vocabulary', component: TermsPage },
-  { name: 'account', component: UsersPage },
+  { name: 'account', component: UsersPageContainer },
   { name: 'authrole', component: RolesPageContainer },
 ];
 

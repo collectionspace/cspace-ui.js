@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { IntlProvider } from 'react-intl';
+import Immutable from 'immutable';
 import { configKey } from '../../../../src/helpers/configHelpers';
 import Field from '../../../../src/components/record/Field';
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -272,6 +273,7 @@ describe('Field', function suite() {
   it('should set renderChildInputLabel on the base component if it is an accepted prop of the base component', function test() {
     const context = {
       config,
+      recordData: Immutable.Map(),
       recordType: 'collectionobject',
     };
 

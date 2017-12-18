@@ -43,6 +43,10 @@ export const isAuthPermsReadPending = state => fromAuth.isPermsReadPending(state
 
 export const getAuthResourceNames = state => fromAuth.getResourceNames(state.auth);
 
+export const isAuthRolesReadPending = state => fromAuth.isRolesReadPending(state.auth);
+
+export const getAuthRoles = state => fromAuth.getRoles(state.auth);
+
 export const getUserScreenName = state => fromUser.getScreenName(state.user);
 
 export const getUserUsername = state => fromUser.getUsername(state.user);

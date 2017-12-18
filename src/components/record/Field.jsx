@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
+import Immutable from 'immutable';
 import get from 'lodash/get';
 import warning from 'warning';
 
@@ -12,6 +13,7 @@ import {
 import {
   configKey,
   dataPathToFieldDescriptorPath,
+  isFieldRequired,
 } from '../../helpers/configHelpers';
 
 const { pathHelpers } = inputHelpers;
@@ -19,28 +21,29 @@ const { Label } = inputComponents;
 
 const defaultViewConfigKey = 'view';
 
-const renderLabel = (fieldConfig, props) => {
+const renderLabel = (fieldDescriptor, recordData, props) => {
+  const fieldConfig = fieldDescriptor[configKey];
   const message = get(fieldConfig, ['messages', 'name']);
+
+  if (!message) {
+    return null;
+  }
 
   const configuredProps = {};
 
   if ('required' in fieldConfig) {
-    configuredProps.required = fieldConfig.required;
+    configuredProps.required = isFieldRequired(fieldDescriptor, recordData);
   }
 
   if ('readOnly' in fieldConfig) {
     configuredProps.readOnly = fieldConfig.readOnly;
   }
 
-  if (message) {
-    return (
-      <Label {...props} {...configuredProps}>
-        <FormattedMessage {...message} />
-      </Label>
-    );
-  }
-
-  return null;
+  return (
+    <Label {...props} {...configuredProps}>
+      <FormattedMessage {...message} />
+    </Label>
+  );
 };
 
 const propTypes = {
@@ -69,6 +72,7 @@ const propTypes = {
 const contextTypes = {
   config: PropTypes.object,
   intl: intlShape,
+  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
 };
 
@@ -76,6 +80,7 @@ export default function Field(props, context) {
   const {
     config,
     intl,
+    recordData,
     recordType,
   } = context;
 
@@ -120,10 +125,14 @@ export default function Field(props, context) {
     }
   });
 
-  const computedProps = {};
+  const computedProps = {
+    repeating: fieldConfig.repeating,
+  };
 
   if ('label' in basePropTypes) {
-    computedProps.label = renderLabel(fieldConfig, { readOnly: providedProps.readOnly });
+    computedProps.label = renderLabel(field, recordData, {
+      readOnly: providedProps.readOnly,
+    });
   }
 
   if ('formatValue' in basePropTypes) {
@@ -134,16 +143,15 @@ export default function Field(props, context) {
     }
   }
 
-  if (fieldConfig.repeating) {
-    computedProps.repeating = true;
-  }
-
   if ('renderChildInputLabel' in basePropTypes) {
     computedProps.renderChildInputLabel = (childInput) => {
       const childName = childInput.props.name;
-      const childFieldConfig = get(field, [childName, configKey]);
+      const childField = field[childName];
 
-      return renderLabel(childFieldConfig, { key: childName, readOnly: providedProps.readOnly });
+      return renderLabel(childField, recordData, {
+        key: childName,
+        readOnly: providedProps.readOnly,
+      });
     };
   }
 

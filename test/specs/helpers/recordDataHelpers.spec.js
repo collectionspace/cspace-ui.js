@@ -930,6 +930,26 @@ describe('recordDataHelpers', function moduleSuite() {
       prepareForSending(roleRecordData, recordTypeConfig).get('ns2:role').keySeq()
         .toArray().should.deep.equal(['@csid', '@xmlns:ns2', 'createdAt', 'displayName']);
     });
+
+    it('should call a configured prepareForSending function', function test() {
+      let prepareForSendingData = null;
+      let prepareForSendingRecordTypeConfig = null;
+
+      const customRecordTypeConfig = Object.assign({}, recordTypeConfig, {
+        prepareForSending: (dataArg, recordTypeConfigArg) => {
+          prepareForSendingData = dataArg;
+          prepareForSendingRecordTypeConfig = recordTypeConfigArg;
+
+          return dataArg.setIn(['document', 'ns2:groups_common', 'prepared'], true);
+        },
+      });
+
+      prepareForSending(recordData, customRecordTypeConfig)
+        .getIn(['document', 'ns2:groups_common', 'prepared']).should.equal(true);
+
+      prepareForSendingData.should.equal(recordData);
+      prepareForSendingRecordTypeConfig.should.equal(customRecordTypeConfig);
+    });
   });
 
   describe('spreadDefaultValue', function suite() {

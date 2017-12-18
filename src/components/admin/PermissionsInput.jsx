@@ -110,24 +110,24 @@ export default class PermissionsInput extends Component {
 
     let permissionsList = this.props.value;
 
-    if (permissionsList) {
-      const perms = {};
-
-      if (!Immutable.List.isList(permissionsList)) {
-        permissionsList = Immutable.List.of(permissionsList);
-      }
-
-      permissionsList.forEach((permission) => {
-        const resourceName = permission.get('resourceName');
-        const actionGroup = permission.get('actionGroup');
-
-        perms[resourceName] = actionGroup;
-      });
-
-      return perms;
+    if (!permissionsList) {
+      return undefined;
     }
 
-    return undefined;
+    if (!Immutable.List.isList(permissionsList)) {
+      permissionsList = Immutable.List.of(permissionsList);
+    }
+
+    const perms = {};
+
+    permissionsList.forEach((permission) => {
+      const resourceName = permission.get('resourceName');
+      const actionGroup = permission.get('actionGroup');
+
+      perms[resourceName] = actionGroup;
+    });
+
+    return perms;
   }
 
   updatePerms(updates) {

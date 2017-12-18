@@ -2,13 +2,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import RolesButtonBar from '../../../../src/components/admin/RolesButtonBar';
+import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
 
 const expect = chai.expect;
 
 chai.should();
 
-describe('RolesButtonBar', function suite() {
+describe('AdminTabButtonBar', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -16,7 +16,7 @@ describe('RolesButtonBar', function suite() {
   it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
-        <RolesButtonBar isCreatable />
+        <AdminTabButtonBar isCreatable />
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -25,7 +25,7 @@ describe('RolesButtonBar', function suite() {
   it('should render nothing if isCreatable is not true', function test() {
     render(
       <IntlProvider locale="en">
-        <RolesButtonBar />
+        <AdminTabButtonBar />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
