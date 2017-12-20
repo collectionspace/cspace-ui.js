@@ -56,6 +56,8 @@ describe('RecordHeader', function suite() {
   });
 
   it('should dock and undock when scrolled', function test() {
+    this.timeout(3000);
+
     const dockTop = 0;
 
     render(

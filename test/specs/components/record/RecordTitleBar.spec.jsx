@@ -88,6 +88,8 @@ describe('RecordTitleBar', function suite() {
   });
 
   it('should dock and undock when scrolled', function test() {
+    this.timeout(3000);
+
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
