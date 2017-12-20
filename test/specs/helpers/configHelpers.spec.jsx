@@ -351,6 +351,37 @@ describe('configHelpers', function moduleSuite() {
         },
       });
     });
+
+    it('should delete disabled record types and vocabularies', function test() {
+      const config = {
+        recordTypes: {
+          collectionobject: {
+            disabled: true,
+          },
+          person: {
+            vocabularies: {
+              local: {},
+              ulan: {
+                disabled: true,
+              },
+            },
+          },
+        },
+      };
+
+      normalizeConfig(config).should.deep.equal({
+        recordTypes: {
+          person: {
+            name: 'person',
+            vocabularies: {
+              local: {
+                name: 'local',
+              },
+            },
+          },
+        },
+      });
+    });
   });
 
   describe('getRecordTypeConfigByServiceDocumentName', function suite() {

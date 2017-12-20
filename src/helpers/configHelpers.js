@@ -113,6 +113,7 @@ export const initConfig = (config, pluginContext) =>
 
 /*
  * Normalize a configuration object. This function mutates the argument configuration.
+ * - Delete any record type or vocabulary that is disabled
  * - Set the name property of each recordTypes entry to its key
  * - Set the name property of each vocabularies entry to its key
  */
@@ -121,14 +122,25 @@ export const normalizeConfig = (config) => {
 
   Object.keys(recordTypes).forEach((recordTypeName) => {
     const recordType = recordTypes[recordTypeName];
-    const vocabularies = recordType.vocabularies;
 
-    recordType.name = recordTypeName;
+    if (recordType.disabled) {
+      delete recordTypes[recordTypeName];
+    } else {
+      const vocabularies = recordType.vocabularies;
 
-    if (vocabularies) {
-      Object.keys(vocabularies).forEach((vocabularyName) => {
-        vocabularies[vocabularyName].name = vocabularyName;
-      });
+      recordType.name = recordTypeName;
+
+      if (vocabularies) {
+        Object.keys(vocabularies).forEach((vocabularyName) => {
+          const vocabulary = vocabularies[vocabularyName];
+
+          if (vocabulary.disabled) {
+            delete vocabularies[vocabularyName];
+          } else {
+            vocabularies[vocabularyName].name = vocabularyName;
+          }
+        });
+      }
     }
   });
 
