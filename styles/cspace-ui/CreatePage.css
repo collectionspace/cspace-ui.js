@@ -7,3 +7,9 @@
   display: flex;
   margin-bottom: 10px;
 }
+
+.common h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
