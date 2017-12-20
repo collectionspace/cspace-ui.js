@@ -1,5 +1,5 @@
-import LoginPage from '../pageObjects/LoginPage';
-import SearchPage from '../pageObjects/SearchPage';
+import LoginPage from './pageObjects/LoginPage';
+import SearchPage from './pageObjects/SearchPage';
 
 describe('when logged out', function suite() {
   const loginPage = new LoginPage();
@@ -7,7 +7,7 @@ describe('when logged out', function suite() {
 
   beforeEach(() => {
     loginPage.open();
-    loginPage.login('admin@core.collectionspace.org', 'Administrator');
+    loginPage.login(testParams.adminUser.username, testParams.adminUser.password);
 
     searchPage.becomesVisible();
     searchPage.logout();

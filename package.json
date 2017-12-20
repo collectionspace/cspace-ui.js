@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "0.13.8",
+  "version": "0.13.9",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "build": "npm run build-cjs && npm run build-umd",
-    "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib && cross-env BABEL_ENV=cjs babel ./test/pageObjects -d lib/test/pageObjects",
+    "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib && cross-env BABEL_ENV=cjs babel ./test/integration -d lib/test/integration",
     "build-umd": "npm run build-umd-dev && npm run build-umd-prod",
     "build-umd-dev": "webpack",
     "build-umd-prod": "cross-env NODE_ENV=production webpack",

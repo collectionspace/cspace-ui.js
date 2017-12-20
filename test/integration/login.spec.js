@@ -1,6 +1,6 @@
-import LoginPage from '../pageObjects/LoginPage';
-import ProtectedPage from '../pageObjects/ProtectedPage';
-import SearchPage from '../pageObjects/SearchPage';
+import LoginPage from './pageObjects/LoginPage';
+import ProtectedPage from './pageObjects/ProtectedPage';
+import SearchPage from './pageObjects/SearchPage';
 
 describe('login', function suite() {
   describe('from the login page', () => {
@@ -25,37 +25,37 @@ describe('login', function suite() {
     context('when valid credentials are entered', function context() {
       beforeEach(() => {
         loginPage
-          .setUsername('admin@core.collectionspace.org')
-          .setPassword('Administrator');
+          .setUsername(testParams.adminUser.username)
+          .setPassword(testParams.adminUser.password);
       });
 
       it('should open the search page when the submit button is clicked', () => {
         loginPage.clickSubmitButton();
 
         searchPage.becomesVisible().should.equal(true);
-        searchPage.isLoggedInAs('Administrator').should.equal(true);
+        searchPage.isLoggedInAs(testParams.adminUser.screenName).should.equal(true);
       });
 
       it('should open the search page when enter is pressed on the username input', () => {
         loginPage.enterUsernameInput();
 
         searchPage.becomesVisible().should.equal(true);
-        searchPage.isLoggedInAs('Administrator').should.equal(true);
+        searchPage.isLoggedInAs(testParams.adminUser.screenName).should.equal(true);
       });
 
       it('should open the search page when enter is pressed on the password input', () => {
         loginPage.enterPasswordInput();
 
         searchPage.becomesVisible().should.equal(true);
-        searchPage.isLoggedInAs('Administrator').should.equal(true);
+        searchPage.isLoggedInAs(testParams.adminUser.screenName).should.equal(true);
       });
     });
 
     context('when invalid credentials are entered', () => {
       beforeEach(() => {
         loginPage
-          .setUsername('admin@core.collectionspace.org')
-          .setPassword('so wrong');
+          .setUsername(testParams.adminUser.username)
+          .setPassword(`not ${testParams.adminUser.password}`);
       });
 
       it('should stay on the login page and show an error message when the credentials are submitted', () => {

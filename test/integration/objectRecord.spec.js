@@ -1,6 +1,6 @@
-import LoginPage from '../pageObjects/LoginPage';
-import ObjectRecordPage from '../pageObjects/ObjectRecordPage';
-import ProtectedPage from '../pageObjects/ProtectedPage';
+import LoginPage from './pageObjects/LoginPage';
+import ObjectRecordPage from './pageObjects/ObjectRecordPage';
+import ProtectedPage from './pageObjects/ProtectedPage';
 
 describe('object record page', function suite() {
   const loginPage = new LoginPage();
@@ -10,7 +10,7 @@ describe('object record page', function suite() {
   describe('when logged in as the admin user', () => {
     before(() => {
       loginPage.open();
-      loginPage.login('admin@core.collectionspace.org', 'Administrator');
+      loginPage.login(testParams.adminUser.username, testParams.adminUser.password);
 
       protectedPage.becomesVisible();
 

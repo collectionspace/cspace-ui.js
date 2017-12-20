@@ -6,6 +6,7 @@ export default class ProtectedPage extends Page {
     super();
 
     this.selector = '.cspace-ui-Banner--common';
+    this.navBarSelector = '.cspace-ui-NavBar--common';
 
     this.userMenu = new UserMenu();
   }
@@ -28,6 +29,10 @@ export default class ProtectedPage extends Page {
 
   isVisible() {
     return super.isVisible() && this.isUserMenuVisible();
+  }
+
+  clickCreateNewLink() {
+    browser.$(this.navBarSelector).$('a=Create New').click();
   }
 
   logout() {

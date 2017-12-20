@@ -13,7 +13,7 @@ let server;
 
 let config = {
   specs: [
-    './test/integration/**/*.js',
+    './test/integration/**/*.spec.js',
   ],
   maxInstances: 10,
   capabilities: [{
@@ -48,6 +48,9 @@ let config = {
     });
   },
   before: () => {
+    // eslint-disable-next-line global-require
+    require('./test/integration/testParams');
+
     // Set up chai here, so every test file doesn't have to do it.
     // eslint-disable-next-line global-require
     const chai = require('chai');
