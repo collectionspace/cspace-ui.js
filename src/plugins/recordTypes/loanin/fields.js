@@ -312,11 +312,11 @@ export default (pluginContext) => {
             },
           },
         },
-        specialConditionsOfLoan: {
+        loanInConditions: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.loansin_common.specialConditionsOfLoan.name',
+                id: 'field.loansin_common.loanInConditions.name',
                 defaultMessage: 'Conditions of loan',
               },
             }),

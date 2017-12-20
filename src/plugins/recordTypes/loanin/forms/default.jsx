@@ -47,7 +47,7 @@ const template = (pluginContext) => {
         </InputTable>
 
         <Row>
-          <Field name="specialConditionsOfLoan" />
+          <Field name="loanInConditions" />
           <Field name="loanInNote" />
         </Row>
 
