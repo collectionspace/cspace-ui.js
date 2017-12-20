@@ -27,7 +27,7 @@ export default class CreatePage extends Page {
       displayName,
     } = recordTypeDescriptor;
 
-    const container = serviceType
+    const container = (typeof serviceType !== 'undefined')
       ? browser.$(this.selector).$(`.cspace-ui-CreatePagePanel--${serviceType}`)
       : browser.$(this.selector);
 
@@ -35,8 +35,7 @@ export default class CreatePage extends Page {
       return null;
     }
 
-    const elementName = (serviceType === 'authority') ? 'h3' : 'a';
-    const links = container.$$(`${elementName}[id="${name}"]`);
+    const links = container.$$(`*[id="${name}"]`);
 
     if (links.length === 0) {
       return null;
@@ -48,7 +47,11 @@ export default class CreatePage extends Page {
       return null;
     }
 
-    if (typeof name !== 'undefined' && serviceType !== 'authority') {
+    if (
+      typeof name !== 'undefined' &&
+      typeof serviceType !== 'undefined' &&
+      serviceType !== 'authority'
+    ) {
       const url = `/record/${name}`;
       const href = link.getAttribute('href');
 

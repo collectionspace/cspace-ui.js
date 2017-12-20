@@ -48,10 +48,7 @@ describe('record types', function suite() {
     });
 
     testParams.hiddenRecordTypes.forEach((recordTypeDescriptor) => {
-      const [
-        serviceType, // eslint-disable-line no-unused-vars
-        name,
-      ] = recordTypeDescriptor;
+      const name = recordTypeDescriptor;
 
       it(`should not show a link for the record named "${name}"`, () => {
         createPage.hasRecordType({ name }).should.equal(false);
