@@ -1,3 +1,5 @@
+/* global btoa */
+
 import getSession, { createSession, setSession } from './cspace';
 import { loadPrefs } from './prefs';
 
@@ -15,7 +17,7 @@ export const resetLogin = () => ({
 });
 
 const renewAuth = (username, password) => (dispatch) => {
-  const session = createSession(username, password);
+  const session = createSession(username, btoa(password));
 
   return session.login()
     .then((response) => {
