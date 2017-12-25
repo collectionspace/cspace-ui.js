@@ -1,9 +1,23 @@
-import columns from '../../../../../src/plugins/recordTypes/concept/columns';
+import createColumns from '../../../../../src/plugins/recordTypes/concept/columns';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 describe('concept record columns', function suite() {
+  const pluginContext = createPluginContext();
+  const columns = createColumns(pluginContext);
+
   const config = {
+    optionLists: {
+      conceptTermStatuses: {
+        messages: {
+          value1: {
+            id: 'option.conceptTermStatuses.value1',
+            defaultMessage: 'Value 1',
+          },
+        },
+      },
+    },
     recordTypes: {
       concept: {
         serviceConfig: {
@@ -62,5 +76,14 @@ describe('concept record columns', function suite() {
 
     vocabularyColumn.formatValue(refName, { intl, config }).should
       .equal('formatted vocab.concept.associated.name');
+  });
+
+  it('should have term status column that is formatted as an option list value', function test() {
+    const termStatusColumn = columns.default.find(column => column.name === 'termStatus');
+
+    termStatusColumn.should.have.property('formatValue').that.is.a('function');
+
+    termStatusColumn.formatValue('value1', { intl, config }).should
+      .equal('formatted option.conceptTermStatuses.value1');
   });
 });

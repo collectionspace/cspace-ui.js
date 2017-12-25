@@ -1,4 +1,6 @@
-export default pluginContext => (data) => {
+import { formatOption } from '../../../helpers/formatHelpers';
+
+export default pluginContext => (data, formatterContext) => {
   const {
     getPart,
     deepGet,
@@ -16,6 +18,7 @@ export default pluginContext => (data) => {
 
   const conditioncheckRefNumber = common.get('conditionCheckRefNumber');
   const condition = deepGet(common, ['conditionCheckGroupList', 'conditionCheckGroup', 0, 'condition']);
+  const formattedCondition = formatOption('conditions', condition, formatterContext);
 
-  return [conditioncheckRefNumber, condition].filter(part => !!part).join(' – ');
+  return [conditioncheckRefNumber, formattedCondition].filter(part => !!part).join(' – ');
 };

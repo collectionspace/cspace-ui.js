@@ -1,9 +1,23 @@
-import columns from '../../../../../src/plugins/recordTypes/citation/columns';
+import createColumns from '../../../../../src/plugins/recordTypes/citation/columns';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 describe('citation record columns', function suite() {
+  const pluginContext = createPluginContext();
+  const columns = createColumns(pluginContext);
+
   const config = {
+    optionLists: {
+      citationTermStatuses: {
+        messages: {
+          value1: {
+            id: 'option.citationTermStatuses.value1',
+            defaultMessage: 'Value 1',
+          },
+        },
+      },
+    },
     recordTypes: {
       citation: {
         serviceConfig: {
@@ -52,5 +66,14 @@ describe('citation record columns', function suite() {
 
     vocabularyColumn.formatValue(refName, { intl, config }).should
       .equal('formatted vocab.citation.local.name');
+  });
+
+  it('should have term status column that is formatted as an option list value', function test() {
+    const termStatusColumn = columns.default.find(column => column.name === 'termStatus');
+
+    termStatusColumn.should.have.property('formatValue').that.is.a('function');
+
+    termStatusColumn.formatValue('value1', { intl, config }).should
+      .equal('formatted option.citationTermStatuses.value1');
   });
 });

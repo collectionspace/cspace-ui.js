@@ -5,7 +5,6 @@ import forms from './forms';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
-// import optionLists from './optionLists';
 import idGenerators from './idGenerators';
 
 export default () => pluginContext => ({
@@ -13,9 +12,9 @@ export default () => pluginContext => ({
   recordTypes: {
     loanin: {
       advancedSearch,
-      columns,
       messages,
       serviceConfig,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

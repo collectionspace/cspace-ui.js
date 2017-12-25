@@ -1,8 +1,12 @@
-import columns from '../../../../../src/plugins/recordTypes/conservation/columns';
+import createColumns from '../../../../../src/plugins/recordTypes/conservation/columns';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 describe('conservation record columns', function suite() {
+  const pluginContext = createPluginContext();
+  const columns = createColumns(pluginContext);
+
   it('should have the correct shape', function test() {
     columns.should.have.property('default').that.is.an('array');
   });

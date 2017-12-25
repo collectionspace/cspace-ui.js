@@ -8,9 +8,9 @@ import title from './title';
 export default () => pluginContext => ({
   recordTypes: {
     authrole: {
-      columns,
       messages,
       serviceConfig,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

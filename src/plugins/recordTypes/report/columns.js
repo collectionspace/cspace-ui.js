@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
-export default {
+export default () => ({
   default: [
     {
       name: 'name',
@@ -13,4 +13,4 @@ export default {
       width: 400,
     },
   ],
-};
+});

@@ -1,4 +1,6 @@
-export default pluginContext => (data) => {
+import { formatOption } from '../../../helpers/formatHelpers';
+
+export default pluginContext => (data, formatterContext) => {
   const {
     getPart,
   } = pluginContext.recordDataHelpers;
@@ -15,6 +17,7 @@ export default pluginContext => (data) => {
 
   const valuationcontrolReferenceNumber = common.get('valuationcontrolRefNumber');
   const valueType = common.get('valueType');
+  const formattedValueType = formatOption('valueTypes', valueType, formatterContext);
 
-  return [valuationcontrolReferenceNumber, valueType].filter(part => !!part).join(' – ');
+  return [valuationcontrolReferenceNumber, formattedValueType].filter(part => !!part).join(' – ');
 };

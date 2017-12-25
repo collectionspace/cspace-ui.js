@@ -13,10 +13,10 @@ export default () => pluginContext => ({
   recordTypes: {
     place: {
       advancedSearch,
-      columns,
       messages,
       serviceConfig,
       vocabularies,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

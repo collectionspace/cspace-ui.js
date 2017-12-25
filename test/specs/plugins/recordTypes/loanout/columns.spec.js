@@ -1,8 +1,12 @@
-import columns from '../../../../../src/plugins/recordTypes/loanout/columns';
+import createColumns from '../../../../../src/plugins/recordTypes/loanout/columns';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 describe('loanout record columns', function suite() {
+  const pluginContext = createPluginContext();
+  const columns = createColumns(pluginContext);
+
   it('should have correct shape', function test() {
     columns.should.have.property('default').that.is.an('array');
   });

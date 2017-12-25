@@ -5,6 +5,24 @@ import createPluginContext from '../../../../../src/helpers/createPluginContext'
 chai.should();
 
 describe('condition check record title', function suite() {
+  const formatterContext = {
+    config: {
+      optionLists: {
+        conditions: {
+          messages: {
+            injeopardy: {
+              id: 'option.conditions.injeopardy',
+              defaultMessage: 'in jeopardy',
+            },
+          },
+        },
+      },
+    },
+    intl: {
+      formatMessage: messageDescriptor => messageDescriptor.defaultMessage,
+    },
+  };
+
   const pluginContext = createPluginContext();
   const title = createTitleGetter(pluginContext);
 
@@ -16,10 +34,10 @@ describe('condition check record title', function suite() {
           conditionCheckGroupList: {
             conditionCheckGroup: [
               {
-                condition: 'in-jeopardy',
+                condition: 'injeopardy',
               },
               {
-                condition: 'exhibitable-needs-work',
+                condition: 'exhibitableneedswork',
               },
             ],
           },
@@ -27,7 +45,7 @@ describe('condition check record title', function suite() {
       },
     });
 
-    title(data).should.equal('CC2017.1 – in-jeopardy');
+    title(data, formatterContext).should.equal('CC2017.1 – in jeopardy');
   });
 
   it('should return the condition check number when the condition is empty', function test() {
@@ -49,7 +67,7 @@ describe('condition check record title', function suite() {
       },
     });
 
-    title(data).should.equal('CC2017.1');
+    title(data, formatterContext).should.equal('CC2017.1');
   });
 
   it('should return empty string if no data is passed', function test() {
@@ -65,10 +83,10 @@ describe('condition check record title', function suite() {
           conditionCheckGroupList: {
             conditionCheckGroup: [
               {
-                condition: 'in-jeopardy',
+                condition: 'injeopardy',
               },
               {
-                condition: 'exhibitable-needs-work',
+                condition: 'exhibitableneedswork',
               },
             ],
           },

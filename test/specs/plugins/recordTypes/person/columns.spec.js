@@ -1,8 +1,12 @@
-import columns from '../../../../../src/plugins/recordTypes/person/columns';
+import createColumns from '../../../../../src/plugins/recordTypes/person/columns';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 describe('person record columns', function suite() {
+  const pluginContext = createPluginContext();
+  const columns = createColumns(pluginContext);
+
   const config = {
     recordTypes: {
       person: {

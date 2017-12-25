@@ -14,9 +14,9 @@ export default () => pluginContext => ({
   recordTypes: {
     movement: {
       advancedSearch,
-      columns,
       messages,
       serviceConfig,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       lockOnSave: 'prompt', // or true/false boolean

@@ -10,9 +10,9 @@ export default () => pluginContext => ({
   recordTypes: {
     group: {
       advancedSearch,
-      columns,
       messages,
       serviceConfig,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

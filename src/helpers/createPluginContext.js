@@ -36,6 +36,7 @@ import {
   deepGet,
   getPart,
   getPartPropertyName,
+  isNewRecord,
 } from '../helpers/recordDataHelpers';
 
 import * as formatHelpers from '../helpers/formatHelpers';
@@ -104,6 +105,7 @@ export default () => ({
     deepGet,
     getPart,
     getPartPropertyName,
+    isNewRecord,
   },
   refNameHelpers: {
     getDisplayName,

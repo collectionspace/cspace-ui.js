@@ -5,6 +5,24 @@ import createPluginContext from '../../../../../src/helpers/createPluginContext'
 chai.should();
 
 describe('valuation record title', function suite() {
+  const formatterContext = {
+    config: {
+      optionLists: {
+        valueTypes: {
+          messages: {
+            'Current Value': {
+              id: 'option.valueTypes.Current Value',
+              defaultMessage: 'current value',
+            },
+          },
+        },
+      },
+    },
+    intl: {
+      formatMessage: messageDescriptor => messageDescriptor.defaultMessage,
+    },
+  };
+
   const pluginContext = createPluginContext();
   const title = createTitleGetter(pluginContext);
 
@@ -13,12 +31,12 @@ describe('valuation record title', function suite() {
       document: {
         'ns2:valuationcontrols_common': {
           valuationcontrolRefNumber: 'VAL2017.1',
-          valueType: 'current-value',
+          valueType: 'Current Value',
         },
       },
     });
 
-    title(data).should.equal('VAL2017.1 – current-value');
+    title(data, formatterContext).should.equal('VAL2017.1 – current value');
   });
 
   it('should return the valuation number when the value type is empty', function test() {
@@ -30,7 +48,7 @@ describe('valuation record title', function suite() {
       },
     });
 
-    title(data).should.equal('VAL2017.1');
+    title(data, formatterContext).should.equal('VAL2017.1');
   });
 
   it('should return empty string if no data is passed', function test() {

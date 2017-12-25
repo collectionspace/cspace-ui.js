@@ -1,4 +1,5 @@
 import React from 'react';
+import get from 'lodash/get';
 import { getDisplayName, getServicePath, getVocabularyShortID } from 'cspace-refname';
 import WorkflowStateIcon from '../components/record/WorkflowStateIcon';
 
@@ -96,3 +97,9 @@ export const formatForeignSourceField = (sourceField, formatterContext) => {
 };
 
 export const formatWorkflowStateIcon = workflowState => <WorkflowStateIcon state={workflowState} />;
+
+export const formatOption = (optionListName, value, { intl, config }) => {
+  const message = get(config, ['optionLists', optionListName, 'messages', value]);
+
+  return (message ? intl.formatMessage(message) : value);
+};

@@ -14,9 +14,9 @@ export default () => pluginContext => ({
   recordTypes: {
     conditioncheck: {
       advancedSearch,
-      columns,
       messages,
       serviceConfig,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

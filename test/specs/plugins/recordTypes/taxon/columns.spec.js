@@ -1,8 +1,12 @@
-import columns from '../../../../../src/plugins/recordTypes/taxon/columns';
+import createColumns from '../../../../../src/plugins/recordTypes/taxon/columns';
+import createPluginContext from '../../../../../src/helpers/createPluginContext';
 
 chai.should();
 
 describe('taxon record columns', function suite() {
+  const pluginContext = createPluginContext();
+  const columns = createColumns(pluginContext);
+
   const config = {
     recordTypes: {
       taxon: {

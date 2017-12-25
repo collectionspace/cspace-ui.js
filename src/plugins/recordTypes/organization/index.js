@@ -5,6 +5,7 @@ import forms from './forms';
 import messages from './messages';
 import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
+import subrecords from './subrecords';
 import title from './title';
 import vocabularies from './vocabularies';
 
@@ -13,20 +14,14 @@ export default () => pluginContext => ({
   recordTypes: {
     organization: {
       advancedSearch,
-      columns,
       messages,
       serviceConfig,
+      subrecords,
       vocabularies,
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),
-      subrecords: {
-        contact: {
-          recordType: 'contact',
-          subresource: 'contacts',
-          saveStage: 'after',
-        },
-      },
     },
   },
 });

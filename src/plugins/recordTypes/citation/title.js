@@ -15,7 +15,6 @@ export default pluginContext => (data) => {
   }
 
   const displayName = deepGet(common, ['citationTermGroupList', 'citationTermGroup', 0, 'termDisplayName']);
-  const termStatus = deepGet(common, ['citationTermGroupList', 'citationTermGroup', 0, 'termStatus']);
 
-  return [displayName, termStatus].filter(part => !!part).join(' – ');
+  return displayName;
 };
