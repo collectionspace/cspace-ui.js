@@ -12,22 +12,22 @@ export default (pluginContext) => {
         name: 'termDisplayName',
         messages: defineMessages({
           label: {
-            id: 'column.place.default.termDisplayName',
+            id: 'column.taxon.default.termDisplayName',
             defaultMessage: 'Display name',
           },
         }),
-        sortBy: 'places_common:placeTermGroupList/0/termDisplayName',
+        sortBy: 'taxon_common:taxonTermGroupList/0/termDisplayName',
         width: 250,
       },
       {
         name: 'termStatus',
         messages: defineMessages({
           label: {
-            id: 'column.place.default.termStatus',
+            id: 'column.taxon.default.termStatus',
             defaultMessage: 'Term status',
           },
         }),
-        sortBy: 'places_common:placeTermGroupList/0/termStatus',
+        sortBy: 'taxon_common:taxonTermGroupList/0/termStatus',
         width: 250,
       },
       {
@@ -35,19 +35,18 @@ export default (pluginContext) => {
         dataKey: 'refName',
         messages: defineMessages({
           label: {
-            id: 'column.place.default.vocabulary',
+            id: 'column.taxon.default.vocabulary',
             defaultMessage: 'Vocabulary',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatRefNameAsVocabularyName(value, formatterContext),
+        formatValue: formatRefNameAsVocabularyName,
         width: 150,
       },
       {
         name: 'updatedAt',
         messages: defineMessages({
           label: {
-            id: 'column.place.search.updatedAt',
+            id: 'column.taxon.search.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
