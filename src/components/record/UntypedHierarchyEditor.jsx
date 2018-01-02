@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
-import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
+import MiniViewPopupAutocompleteInputContainer from '../../containers/record/MiniViewPopupAutocompleteInputContainer';
 
 const {
   CompoundInput,
@@ -17,9 +17,16 @@ const propTypes = {
   vocabulary: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
+  showParent: PropTypes.bool,
+  showChildren: PropTypes.bool,
   onCommit: PropTypes.func,
   onAddChild: PropTypes.func,
   onRemoveChild: PropTypes.func,
+};
+
+const defaultProps = {
+  showParent: true,
+  showChildren: true,
 };
 
 export class BaseUntypedHierarchyEditor extends Component {
@@ -84,7 +91,7 @@ export class BaseUntypedHierarchyEditor extends Component {
     }
   }
 
-  render() {
+  renderParent() {
     const {
       intl,
       messages,
@@ -92,45 +99,79 @@ export class BaseUntypedHierarchyEditor extends Component {
       vocabulary,
       value,
       readOnly,
+      showParent,
     } = this.props;
+
+    if (!showParent) {
+      return undefined;
+    }
 
     const source = [recordType, vocabulary].join('/');
     const parentRefName = value.getIn(['parent', 'refName']);
+
+    return (
+      <MiniViewPopupAutocompleteInputContainer
+        label={intl.formatMessage(messages.parent)}
+        source={source}
+        value={parentRefName}
+        readOnly={readOnly}
+        onCommit={this.handleParentCommit}
+        matchFilter={this.filterMatch}
+      />
+    );
+  }
+
+  renderChildren() {
+    const {
+      intl,
+      messages,
+      recordType,
+      vocabulary,
+      value,
+      readOnly,
+      showChildren,
+    } = this.props;
+
+    if (!showChildren) {
+      return undefined;
+    }
+
+    const source = [recordType, vocabulary].join('/');
 
     const childRefNames =
       value.get('children').map(child => child.get('refName'));
 
     return (
-      <div>
-        <AutocompleteInputContainer
-          label={intl.formatMessage(messages.parent)}
+      <CompoundInput
+        label={intl.formatMessage(messages.children)}
+        value={{ childRefNames }}
+        readOnly={readOnly}
+      >
+        <MiniViewPopupAutocompleteInputContainer
+          name="childRefNames"
+          repeating
+          reorderable={false}
           source={source}
-          value={parentRefName}
-          readOnly={readOnly}
-          onCommit={this.handleParentCommit}
           matchFilter={this.filterMatch}
+          onCommit={this.handleChildCommit}
+          onAddInstance={this.handleAddChild}
+          onRemoveInstance={this.handleRemoveChild}
         />
-        <CompoundInput
-          label={intl.formatMessage(messages.children)}
-          value={{ childRefNames }}
-          readOnly={readOnly}
-        >
-          <AutocompleteInputContainer
-            name="childRefNames"
-            repeating
-            reorderable={false}
-            source={source}
-            matchFilter={this.filterMatch}
-            onCommit={this.handleChildCommit}
-            onAddInstance={this.handleAddChild}
-            onRemoveInstance={this.handleRemoveChild}
-          />
-        </CompoundInput>
+      </CompoundInput>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderParent()}
+        {this.renderChildren()}
       </div>
     );
   }
 }
 
 BaseUntypedHierarchyEditor.propTypes = propTypes;
+BaseUntypedHierarchyEditor.defaultProps = defaultProps;
 
 export default injectIntl(BaseUntypedHierarchyEditor);

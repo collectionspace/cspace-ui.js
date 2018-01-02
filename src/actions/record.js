@@ -163,6 +163,7 @@ const transitionMessages = {
   }),
 };
 
+export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const CREATE_NEW_RECORD = 'CREATE_NEW_RECORD';
 export const CREATE_NEW_SUBRECORD = 'CREATE_NEW_SUBRECORD';
 export const FIELD_COMPUTE_FULFILLED = 'FIELD_COMPUTE_FULFILLED';
@@ -1171,5 +1172,12 @@ export const detachSubrecord = (config, csid, csidField, subrecordName, subrecor
     csidField,
     subrecordName,
     subrecordTypeConfig,
+  },
+});
+
+export const clearRecord = csid => ({
+  type: CLEAR_RECORD,
+  meta: {
+    csid,
   },
 });

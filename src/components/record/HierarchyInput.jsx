@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import { getDisplayName } from 'cspace-refname';
+import { getDisplayName, getItemShortID } from 'cspace-refname';
 import { helpers as inputHelpers } from 'cspace-input';
 import { Row } from 'cspace-layout';
+import { getUrnCsidShortId, isUrnCsid } from '../../helpers/csidHelpers';
 import HierarchySiblingListContainer from '../../containers/record/HierarchySiblingListContainer';
 import UntypedHierarchyEditor from './UntypedHierarchyEditor';
 import TypedHierarchyEditor from './TypedHierarchyEditor';
@@ -39,6 +40,9 @@ const propTypes = {
   subpath: pathPropType,
   readOnly: PropTypes.bool,
   /* eslint-enable react/no-unused-prop-types */
+  showParent: PropTypes.bool,
+  showChildren: PropTypes.bool,
+  showSiblings: PropTypes.bool,
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(Immutable.List),
     PropTypes.instanceOf(Immutable.Map),
@@ -48,6 +52,12 @@ const propTypes = {
   parentTypeOptionListName: PropTypes.string,
   childTypeOptionListName: PropTypes.string,
   onCommit: PropTypes.func,
+};
+
+const defaultProps = {
+  showParent: true,
+  showChildren: true,
+  showSiblings: true,
 };
 
 const contextTypes = {
@@ -148,6 +158,16 @@ export default class HierarchyInput extends Component {
     const {
       csid,
     } = this.context;
+
+    if (isUrnCsid(csid)) {
+      const shortId = getUrnCsidShortId(csid);
+
+      return relations.find(
+        relation =>
+          relation.get('predicate') === 'hasBroader' &&
+          getItemShortID(relation.getIn(['subject', 'refName'])) === shortId
+      );
+    }
 
     return relations.find(
       relation =>
@@ -262,13 +282,19 @@ export default class HierarchyInput extends Component {
     }
   }
 
-  render() {
+  renderHierarchy() {
     const {
       messages,
       parentTypeOptionListName,
       childTypeOptionListName,
       readOnly,
+      showParent,
+      showChildren,
     } = this.props;
+
+    if (!showParent && !showChildren) {
+      return undefined;
+    }
 
     const {
       config,
@@ -288,31 +314,65 @@ export default class HierarchyInput extends Component {
       : UntypedHierarchyEditor;
 
     return (
+      <HierarchyEditor
+        csid={csid}
+        messages={messages}
+        parentTypeOptionListName={parentTypeOptionListName}
+        childTypeOptionListName={childTypeOptionListName}
+        recordType={recordType}
+        vocabulary={vocabulary}
+        value={hierarchy}
+        readOnly={readOnly}
+        showParent={showParent}
+        showChildren={showChildren}
+        onCommit={this.handleCommit}
+        onAddChild={this.handleAddChild}
+        onRemoveChild={this.handleRemoveChild}
+      />
+    );
+  }
+
+  renderSiblings() {
+    const {
+      messages,
+      showSiblings,
+    } = this.props;
+
+    if (!showSiblings) {
+      return undefined;
+    }
+
+    const {
+      config,
+      csid,
+      recordType,
+    } = this.context;
+
+    const {
+      hierarchy,
+    } = this.state;
+
+    return (
+      <HierarchySiblingListContainer
+        config={config}
+        csid={csid}
+        parentCsid={hierarchy.getIn(['parent', 'csid'])}
+        recordType={recordType}
+        title={<FormattedMessage {...messages.siblings} />}
+      />
+    );
+  }
+
+  render() {
+    return (
       <Row>
-        <HierarchyEditor
-          csid={csid}
-          messages={messages}
-          parentTypeOptionListName={parentTypeOptionListName}
-          childTypeOptionListName={childTypeOptionListName}
-          recordType={recordType}
-          vocabulary={vocabulary}
-          value={hierarchy}
-          readOnly={readOnly}
-          onCommit={this.handleCommit}
-          onAddChild={this.handleAddChild}
-          onRemoveChild={this.handleRemoveChild}
-        />
-        <HierarchySiblingListContainer
-          config={config}
-          csid={csid}
-          parentCsid={hierarchy.getIn(['parent', 'csid'])}
-          recordType={recordType}
-          title={<FormattedMessage {...messages.siblings} />}
-        />
+        {this.renderHierarchy()}
+        {this.renderSiblings()}
       </Row>
     );
   }
 }
 
 HierarchyInput.propTypes = propTypes;
+HierarchyInput.defaultProps = defaultProps;
 HierarchyInput.contextTypes = contextTypes;

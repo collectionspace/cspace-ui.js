@@ -37,6 +37,7 @@ import {
 } from '../../../src/actions/notification';
 
 import {
+  CLEAR_RECORD,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
   DETACH_SUBRECORD,
@@ -64,6 +65,7 @@ import {
   SET_FIELD_VALUE,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
+  clearRecord,
   computeFieldValue,
   createNewRecord,
   createNewSubrecord,
@@ -377,6 +379,20 @@ describe('record action creator', function suite() {
             csidField,
             subrecordName,
             subrecordTypeConfig,
+          },
+        });
+    });
+  });
+
+  describe('clearRecord', function actionSuite() {
+    it('should return a CLEAR_RECORD action', function test() {
+      const csid = '1234';
+
+      clearRecord(csid).should
+        .deep.equal({
+          type: CLEAR_RECORD,
+          meta: {
+            csid,
           },
         });
     });

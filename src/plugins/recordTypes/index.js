@@ -1,6 +1,6 @@
 import account from './account';
-import all from './all';
 import acquisition from './acquisition';
+import all from './all';
 import authority from './authority';
 import authrole from './authrole';
 import batch from './batch';
@@ -21,21 +21,21 @@ import media from './media';
 import movement from './movement';
 import object from './object';
 import objectexit from './objectexit';
-// import pottag from './pottag';
 import organization from './organization';
 import person from './person';
 import place from './place';
+// import pottag from './pottag';
 import procedure from './procedure';
 import report from './report';
+// import taxon from './taxon';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
 import work from './work';
-// import taxon from './taxon';
 
 export default [
   account,
-  all,
   acquisition,
+  all,
   authority,
   authrole,
   batch,
@@ -56,10 +56,10 @@ export default [
   movement,
   object,
   objectexit,
-  // pottag,
   organization,
   person,
   place,
+  // pottag,
   procedure,
   report,
   // taxon,

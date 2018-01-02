@@ -47,15 +47,15 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   parent: {
                     id: 'hierarchyInput.location.parent',
-                    defaultMessage: 'Broader',
+                    defaultMessage: 'Broader location',
                   },
                   children: {
                     id: 'hierarchyInput.location.children',
-                    defaultMessage: 'Narrower',
+                    defaultMessage: 'Narrower locations',
                   },
                   siblings: {
                     id: 'hierarchyInput.location.siblings',
-                    defaultMessage: 'Adjacent',
+                    defaultMessage: 'Adjacent locations',
                   },
                 }),
               },
