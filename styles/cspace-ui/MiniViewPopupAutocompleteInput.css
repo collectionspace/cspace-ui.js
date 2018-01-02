@@ -7,7 +7,8 @@
 }
 
 .normal > :global(.cspace-ui-MiniViewPopup--common) {
-  top: calc(100% - 8px);
+  left: 1px;
+  top: calc(100% - 11px);
 }
 
 .embedded {
@@ -15,5 +16,5 @@
 }
 
 .embedded > :global(.cspace-ui-MiniViewPopup--common) {
-  top: calc(100% + 2px);
+  top: 100%;
 }

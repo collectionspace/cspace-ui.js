@@ -1,13 +1,32 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import { findAllWithType } from 'react-shallow-testutils';
 import createTestContainer from '../../../helpers/createTestContainer';
-import AutocompleteInputContainer from '../../../../src/containers/input/AutocompleteInputContainer';
 import HierarchySiblingList from '../../../../src/components/record/HierarchySiblingList';
 
 chai.should();
+
+const config = {
+  recordTypes: {
+    person: {
+      name: 'person',
+      serviceConfig: {
+        servicePath: 'personauthorities',
+        serviceType: 'authority',
+      },
+      vocabularies: {
+        local: {
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(person)',
+          },
+        },
+      },
+    },
+  },
+};
 
 describe('HierarchySiblingList', function suite() {
   beforeEach(function before() {
@@ -43,7 +62,6 @@ describe('HierarchySiblingList', function suite() {
   });
 
   it('should call findRelations when mounted', function test() {
-    const config = {};
     const parentCsid = '1111';
     const recordType = 'person';
 
@@ -74,7 +92,6 @@ describe('HierarchySiblingList', function suite() {
   });
 
   it('should call findRelations when parentCsid is changed', function test() {
-    const config = {};
     const parentCsid = '1111';
     const recordType = 'person';
 
@@ -113,7 +130,7 @@ describe('HierarchySiblingList', function suite() {
     findPredicate.should.equal('hasBroader');
   });
 
-  it('should render a read only input for each item in the result set', function test() {
+  it('should render a link for each item in the result set', function test() {
     const findResult = Immutable.fromJS({
       'rel:relations-common-list': {
         'relation-list-item': [
@@ -146,22 +163,15 @@ describe('HierarchySiblingList', function suite() {
 
     shallowRenderer.render(
       <HierarchySiblingList
+        config={config}
         findResult={findResult}
       />
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, Link);
 
     inputs.should.have.lengthOf(3);
-
-    inputs.forEach((input, index) => {
-      inputs[index].props.readOnly.should.equal(true);
-
-      inputs[index].props.value.should.equal(findResult.getIn(
-        ['rel:relations-common-list', 'relation-list-item', index, 'subject', 'refName'])
-      );
-    });
   });
 
   it('should render one input for a single item (non-list) result set', function test() {
@@ -181,19 +191,14 @@ describe('HierarchySiblingList', function suite() {
 
     shallowRenderer.render(
       <HierarchySiblingList
+        config={config}
         findResult={findResult}
       />
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const inputs = findAllWithType(result, AutocompleteInputContainer);
+    const inputs = findAllWithType(result, Link);
 
     inputs.should.have.lengthOf(1);
-
-    inputs[0].props.readOnly.should.equal(true);
-
-    inputs[0].props.value.should.equal(findResult.getIn(
-      ['rel:relations-common-list', 'relation-list-item', 'subject', 'refName'])
-    );
   });
 });

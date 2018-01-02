@@ -13,8 +13,3 @@
 .common > ul > li {
   display: inline;
 }
-
-.common :global(.cspace-input-Input--common) {
-  display: inline;
-  margin-bottom: 0;
-}

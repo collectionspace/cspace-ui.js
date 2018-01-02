@@ -12,6 +12,12 @@ chai.should();
 describe('refNameHelpers', function moduleSuite() {
   const config = {
     recordTypes: {
+      collectionobject: {
+        name: 'collectionobject',
+        serviceConfig: {
+          servicePath: 'collectionobjects',
+        },
+      },
       person: {
         name: 'person',
         serviceConfig: {
@@ -88,6 +94,24 @@ describe('refNameHelpers', function moduleSuite() {
       const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       refNameToUrl(config, refName).should.equal('/record/person/local/urn:cspace:name(JaneDoe1484001439799)');
+    });
+
+    it('should return the url for a ref name that contains a csid', function test() {
+      const refName = 'urn:cspace:core.collectionspace.org:collectionobjects:id(34ef5de3-7120-4c80-bd31)\'An object\'';
+
+      refNameToUrl(config, refName).should.equal('/record/collectionobject/34ef5de3-7120-4c80-bd31');
+    });
+
+    it('should return null if the ref name contains an unknown record type', function test() {
+      const refName = 'urn:cspace:core.collectionspace.org:foobar:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
+
+      expect(refNameToUrl(config, refName)).to.equal(null);
+    });
+
+    it('should return null if the ref name contains an unknown vocabulary', function test() {
+      const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(foobar):item:name(JaneDoe1484001439799)\'Jane Doe\'';
+
+      expect(refNameToUrl(config, refName)).to.equal(null);
     });
 
     it('should return null if no ref name is supplied', function test() {

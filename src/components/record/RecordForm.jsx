@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import warning from 'warning';
+import { getCsid } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordForm.css';
 
 function renderTemplate(component, messages, handlers) {
@@ -62,17 +63,24 @@ export default class RecordForm extends Component {
     const {
       config,
       csid,
+      data,
       recordType,
       vocabulary,
       readOnly,
     } = this.props;
 
+    // Get the csid from the data. This may differ from the csid in props, for example if a
+    // urn-style csid was entered in the address bar. We always want to supply the guid-style csid
+    // in the context.
+
+    const dataCsid = getCsid(data);
+
     return {
       config,
-      csid,
       recordType,
       vocabulary,
       readOnly,
+      csid: dataCsid || csid,
     };
   }
 

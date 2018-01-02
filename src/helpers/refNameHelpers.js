@@ -49,14 +49,30 @@ export const refNameToUrl = (config, refName) => {
 
   const servicePath = getServicePath(refName);
   const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
+
+  if (!recordTypeConfig) {
+    return null;
+  }
+
   const recordType = recordTypeConfig.name;
 
-  const vocabularyShortID = getVocabularyShortID(refName);
-  const vocabularyConfig = getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
-  const vocabulary = vocabularyConfig.name;
+  if (recordTypeConfig.vocabularies) {
+    const vocabularyShortID = getVocabularyShortID(refName);
+    const vocabularyConfig = getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
 
-  const itemShortID = getItemShortID(refName);
-  const csid = `urn:cspace:name(${itemShortID})`;
+    if (!vocabularyConfig) {
+      return null;
+    }
 
-  return `/record/${recordType}/${vocabulary}/${csid}`;
+    const vocabulary = vocabularyConfig.name;
+
+    const itemShortID = getItemShortID(refName);
+    const csid = `urn:cspace:name(${itemShortID})`;
+
+    return `/record/${recordType}/${vocabulary}/${csid}`;
+  }
+
+  const csid = getCsid(refName);
+
+  return `/record/${recordType}/${csid}`;
 };

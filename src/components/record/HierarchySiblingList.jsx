@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
+import { Link } from 'react-router-dom';
+import { getDisplayName } from 'cspace-refname';
+import { refNameToUrl } from '../../helpers/refNameHelpers';
 import styles from '../../../styles/cspace-ui/HierarchySiblingList.css';
-
 
 const propTypes = {
   config: PropTypes.object,
@@ -58,6 +59,7 @@ export default class HierarchySiblingList extends Component {
 
   render() {
     const {
+      config,
       csid,
       findResult,
       title,
@@ -84,14 +86,13 @@ export default class HierarchySiblingList extends Component {
 
         siblings = items.map((item, index) => {
           const subject = item.get('subject');
+          const refName = subject.get('refName');
+          const displayName = getDisplayName(refName);
+          const url = refNameToUrl(config, refName);
 
           return (
             <li key={subject.get('csid')}>
-              <AutocompleteInputContainer
-                source=""
-                value={subject.get('refName')}
-                readOnly
-              />{index < lastIndex ? ', ' : ''}
+              <Link to={url}>{displayName}</Link>{index < lastIndex ? ', ' : ''}
             </li>
           );
         }).toJS();
