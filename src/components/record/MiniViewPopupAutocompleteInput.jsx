@@ -209,7 +209,7 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
       const itemRect = element.getBoundingClientRect();
 
       style = {
-        left: itemRect.right - 24,
+        left: itemRect.width,
         top: itemRect.top - inputRect.top - inputRect.height,
       };
     }

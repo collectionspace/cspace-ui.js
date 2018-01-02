@@ -17,7 +17,11 @@ const mapDispatchToProps = {
   clearRecord,
 };
 
-export default connect(
+const ConnectedMiniViewPopupAutocompleteInput = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(MiniViewPopupAutocompleteInput);
+
+ConnectedMiniViewPopupAutocompleteInput.propTypes = MiniViewPopupAutocompleteInput.propTypes;
+
+export default ConnectedMiniViewPopupAutocompleteInput;
