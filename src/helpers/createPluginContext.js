@@ -18,7 +18,7 @@ import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniVi
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
-import HierarchyInput from '../components/record/HierarchyInput';
+import BaseHierarchyInput from '../components/record/HierarchyInput';
 import InputTable from '../components/record/InputTable';
 import Subrecord from '../components/record/Subrecord';
 import ContentViewer from '../components/record/ContentViewer';
@@ -27,6 +27,7 @@ import * as dataTypes from '../constants/dataTypes';
 import * as searchOperators from '../constants/searchOperators';
 
 import withBooleanValue from '../enhancers/withBooleanValue';
+import withCsid from '../enhancers/withCsid';
 
 import {
   configKey,
@@ -58,6 +59,7 @@ const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputCon
 const CheckboxInput = withBooleanValue(BaseCheckboxInput);
 const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;
+const HierarchyInput = withCsid(BaseHierarchyInput);
 const IDGeneratorInput = IDGeneratorInputContainer;
 const OptionPickerInput = OptionPickerInputContainer;
 const PermissionsInput = labelable(PermissionsInputContainer);

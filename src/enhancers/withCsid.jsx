@@ -15,6 +15,8 @@ export default function withCsid(BaseComponent) {
     );
   }
 
+  WithCsid.propTypes = BaseComponent.propTypes;
+
   WithCsid.contextTypes = {
     csid: PropTypes.string,
   };

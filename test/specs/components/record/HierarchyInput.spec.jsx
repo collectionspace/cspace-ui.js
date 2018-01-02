@@ -17,10 +17,7 @@ const messages = {
   },
 };
 
-const context = {
-  csid: '1111',
-};
-
+const csid = '1111';
 const name = 'relation-list-item';
 
 describe('HierarchyInput', function suite() {
@@ -88,7 +85,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          csid: context.csid,
+          csid,
         },
         object: {
           csid: 'abcd',
@@ -101,7 +98,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -110,7 +107,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -119,7 +116,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
     ]);
@@ -128,9 +125,10 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         value={relations}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -146,9 +144,7 @@ describe('HierarchyInput', function suite() {
   });
 
   it('should find broader relations using a urn-style csid', function test() {
-    const urnCsidContext = {
-      csid: 'urn:cspace:name(1234)',
-    };
+    const urnCsid = 'urn:cspace:name(1234)';
 
     const relations = Immutable.fromJS([
       {
@@ -167,9 +163,10 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={urnCsid}
         messages={messages}
         value={relations}
-      />, urnCsidContext);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -184,7 +181,7 @@ describe('HierarchyInput', function suite() {
     const relations = Immutable.fromJS({
       predicate: 'hasBroader',
       subject: {
-        csid: context.csid,
+        csid,
       },
       object: {
         csid: 'abcd',
@@ -196,9 +193,10 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         value={relations}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -213,7 +211,7 @@ describe('HierarchyInput', function suite() {
     const relations = {
       predicate: 'hasBroader',
       subject: {
-        csid: context.csid,
+        csid,
       },
       object: {
         csid: 'abcd',
@@ -225,9 +223,10 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         value={relations}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -243,7 +242,7 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
-          csid: context.csid,
+          csid,
         },
         object: {
           csid: 'abcd',
@@ -256,7 +255,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
     ]);
@@ -265,9 +264,10 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         value={relations}
-      />, context);
+      />);
 
     let result;
     let hierarchyEditor;
@@ -289,7 +289,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(newChild1)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -298,16 +298,17 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(newChild2)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
     ]);
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         value={newRelations}
-      />, context);
+      />);
 
     result = shallowRenderer.getRenderOutput();
     hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -329,7 +330,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)\'Wilma\'',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -338,7 +339,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)\'Barney\'',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -347,7 +348,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -356,7 +357,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child4)\'Fred\'',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -365,7 +366,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child5)\'Betty\'',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -374,7 +375,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child6)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
     ]);
@@ -383,10 +384,11 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         name={name}
         value={relations}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -431,10 +433,11 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         name={name}
         onCommit={handleCommit}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -451,14 +454,14 @@ describe('HierarchyInput', function suite() {
           refName: hierarchy.getIn(['children', 0, 'refName']),
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
         predicate: 'hasBroader',
         relationshipMetaType: 'set',
         subject: {
-          csid: context.csid,
+          csid,
         },
         object: {
           csid: hierarchy.getIn(['parent', 'csid']),
@@ -485,7 +488,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -495,7 +498,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -505,14 +508,14 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
-          csid: context.csid,
+          csid,
         },
         object: {
           csid: 'abcd',
@@ -525,11 +528,12 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         name={name}
         value={relations}
         onCommit={handleCommit}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -559,7 +563,7 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
@@ -569,14 +573,14 @@ describe('HierarchyInput', function suite() {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)',
         },
         object: {
-          csid: context.csid,
+          csid,
         },
       },
       {
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
-          csid: context.csid,
+          csid,
         },
         object: {
           csid: 'abcd',
@@ -589,11 +593,12 @@ describe('HierarchyInput', function suite() {
 
     shallowRenderer.render(
       <HierarchyInput
+        csid={csid}
         messages={messages}
         name={name}
         value={relations}
         onCommit={handleCommit}
-      />, context);
+      />);
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -609,7 +614,7 @@ describe('HierarchyInput', function suite() {
         refName: undefined,
       },
       object: {
-        csid: context.csid,
+        csid,
       },
     })));
   });

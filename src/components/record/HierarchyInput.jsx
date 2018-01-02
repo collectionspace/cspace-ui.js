@@ -16,6 +16,10 @@ const {
   pathPropType,
 } = inputHelpers.pathHelpers;
 
+// The placeholder csid accepted by the services layer happens to look like a js template.
+// eslint-disable-next-line no-template-curly-in-string
+const placeholderCsid = '${itemCSID}';
+
 const normalizeValue = (value) => {
   if (!value) {
     return null;
@@ -32,7 +36,88 @@ const normalizeValue = (value) => {
   return null;
 };
 
+const findBroaderRelation = (csid, relations) => {
+  if (!relations) {
+    return null;
+  }
+
+  if (isUrnCsid(csid)) {
+    const shortId = getUrnCsidShortId(csid);
+
+    return relations.find(
+      relation =>
+        relation.get('predicate') === 'hasBroader' &&
+        getItemShortID(relation.getIn(['subject', 'refName'])) === shortId
+    );
+  }
+
+  const subjectCsid = csid || placeholderCsid;
+
+  return relations.find(
+    relation =>
+      relation.get('predicate') === 'hasBroader' &&
+      relation.getIn(['subject', 'csid']) === subjectCsid
+  );
+};
+
+const findNarrowerRelations = (csid, relations) => {
+  if (!relations) {
+    return Immutable.List();
+  }
+
+  const objectCsid = csid || placeholderCsid;
+
+  return relations.filter(
+    relation =>
+      (relation.get('predicate') === '') ||
+      (
+        relation.get('predicate') === 'hasBroader' &&
+        relation.getIn(['object', 'csid']) === objectCsid
+      )
+  );
+};
+
+const findParent = (csid, relations) => {
+  const broaderRelation = findBroaderRelation(csid, relations);
+
+  if (broaderRelation) {
+    return Immutable.Map({
+      csid: broaderRelation.getIn(['object', 'csid']),
+      refName: broaderRelation.getIn(['object', 'refName']),
+      type: broaderRelation.get('relationshipMetaType'),
+    });
+  }
+
+  return null;
+};
+
+const findChildren = (csid, relations) =>
+  findNarrowerRelations(csid, relations)
+    .sort((relationA, relationB) => {
+      const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName']));
+      const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName']));
+
+      if (displayNameA && displayNameB) {
+        return displayNameA.localeCompare(displayNameB);
+      }
+
+      if (!displayNameA && !displayNameB) {
+        return 0;
+      }
+
+      if (displayNameA) {
+        return -1;
+      }
+
+      return 1;
+    })
+    .map(relation => Immutable.Map({
+      refName: relation.getIn(['subject', 'refName']),
+      type: relation.get('relationshipMetaType'),
+    }));
+
 const propTypes = {
+  csid: PropTypes.string,
   messages: PropTypes.object,
   /* eslint-disable react/no-unused-prop-types */
   name: PropTypes.string,
@@ -62,7 +147,6 @@ const defaultProps = {
 
 const contextTypes = {
   config: PropTypes.object,
-  csid: PropTypes.string,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
 };
@@ -74,36 +158,37 @@ export default class HierarchyInput extends Component {
     this.handleAddChild = this.handleAddChild.bind(this);
     this.handleRemoveChild = this.handleRemoveChild.bind(this);
     this.handleCommit = this.handleCommit.bind(this);
-
-    this.state = {};
   }
 
   componentWillMount() {
     const {
+      csid,
       value,
     } = this.props;
 
-    this.initHierarchy(value);
+    this.initHierarchy(csid, value);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     const {
+      csid,
       value,
     } = this.props;
 
     const {
+      csid: nextCsid,
       value: nextValue,
     } = nextProps;
 
-    if (nextValue !== value) {
-      this.initHierarchy(nextValue);
+    if (nextCsid !== csid || nextValue !== value) {
+      this.initHierarchy(nextCsid, nextValue);
     }
   }
 
   getRelationItems(hierarchy) {
     const {
       csid,
-    } = this.context;
+    } = this.props;
 
     const children = hierarchy.get('children');
 
@@ -114,7 +199,7 @@ export default class HierarchyInput extends Component {
         refName: child.get('refName'),
       },
       object: {
-        csid,
+        csid: csid || placeholderCsid,
       },
     }));
 
@@ -124,7 +209,7 @@ export default class HierarchyInput extends Component {
       predicate: 'hasBroader',
       relationshipMetaType: parent.get('type'),
       subject: {
-        csid,
+        csid: csid || placeholderCsid,
       },
       object: {
         csid: parent.get('csid'),
@@ -135,101 +220,17 @@ export default class HierarchyInput extends Component {
     return childRelationItems.push(parentRelationItem);
   }
 
-  initHierarchy(value) {
+  initHierarchy(csid, value) {
     const relations = normalizeValue(value);
-    const parent = this.findParent(relations) || Immutable.Map();
-    const children = this.findChildren(relations);
 
     const hierarchy = Immutable.fromJS({
-      parent,
-      children,
+      parent: findParent(csid, relations) || Immutable.Map(),
+      children: findChildren(csid, relations),
     });
 
     this.setState({
       hierarchy,
     });
-  }
-
-  findBroaderRelation(relations) {
-    if (!relations) {
-      return null;
-    }
-
-    const {
-      csid,
-    } = this.context;
-
-    if (isUrnCsid(csid)) {
-      const shortId = getUrnCsidShortId(csid);
-
-      return relations.find(
-        relation =>
-          relation.get('predicate') === 'hasBroader' &&
-          getItemShortID(relation.getIn(['subject', 'refName'])) === shortId
-      );
-    }
-
-    return relations.find(
-      relation =>
-        relation.get('predicate') === 'hasBroader' &&
-        relation.getIn(['subject', 'csid']) === csid
-    );
-  }
-
-  findNarrowerRelations(relations) {
-    const {
-      csid,
-    } = this.context;
-
-    if (!relations) {
-      return Immutable.List();
-    }
-
-    return relations.filter(
-      relation =>
-        (relation.get('predicate') === '') ||
-        (relation.get('predicate') === 'hasBroader' && relation.getIn(['object', 'csid']) === csid)
-    );
-  }
-
-  findChildren(relations) {
-    return this.findNarrowerRelations(relations)
-      .sort((relationA, relationB) => {
-        const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName']));
-        const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName']));
-
-        if (displayNameA && displayNameB) {
-          return displayNameA.localeCompare(displayNameB);
-        }
-
-        if (!displayNameA && !displayNameB) {
-          return 0;
-        }
-
-        if (displayNameA) {
-          return -1;
-        }
-
-        return 1;
-      })
-      .map(relation => Immutable.Map({
-        refName: relation.getIn(['subject', 'refName']),
-        type: relation.get('relationshipMetaType'),
-      }));
-  }
-
-  findParent(relations) {
-    const broaderRelation = this.findBroaderRelation(relations);
-
-    if (broaderRelation) {
-      return Immutable.Map({
-        csid: broaderRelation.getIn(['object', 'csid']),
-        refName: broaderRelation.getIn(['object', 'refName']),
-        type: broaderRelation.get('relationshipMetaType'),
-      });
-    }
-
-    return null;
   }
 
   handleAddChild() {
@@ -284,6 +285,7 @@ export default class HierarchyInput extends Component {
 
   renderHierarchy() {
     const {
+      csid,
       messages,
       parentTypeOptionListName,
       childTypeOptionListName,
@@ -298,7 +300,6 @@ export default class HierarchyInput extends Component {
 
     const {
       config,
-      csid,
       recordType,
       vocabulary,
     } = this.context;
@@ -334,6 +335,7 @@ export default class HierarchyInput extends Component {
 
   renderSiblings() {
     const {
+      csid,
       messages,
       showSiblings,
     } = this.props;
@@ -344,7 +346,6 @@ export default class HierarchyInput extends Component {
 
     const {
       config,
-      csid,
       recordType,
     } = this.context;
 
