@@ -1,4 +1,5 @@
 import LoginForm from './LoginForm';
+import Notification from './Notification';
 import Page from './Page';
 
 export default class LoginPage extends Page {
@@ -9,6 +10,11 @@ export default class LoginPage extends Page {
     this.selector = '.cspace-ui-LoginPage--common';
 
     this.loginForm = new LoginForm();
+    this.notification = new Notification();
+  }
+
+  getNotificationText() {
+    return this.notification.getText();
   }
 
   getPromptText() {

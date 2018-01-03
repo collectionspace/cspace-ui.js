@@ -63,7 +63,7 @@ describe('login', function suite() {
 
         searchPage.becomesVisible().should.equal(false);
 
-        loginPage.getPromptText().should.contain('Incorrect username/password');
+        loginPage.getNotificationText().should.contain('Incorrect username/password');
       });
     });
   });
