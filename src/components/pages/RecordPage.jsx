@@ -72,7 +72,7 @@ export default class RecordPage extends Component {
     super();
 
     this.handleShowRelated = this.handleShowRelated.bind(this);
-    this.handleTitleBarOnDocked = this.handleTitleBarOnDocked.bind(this);
+    this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
 
     this.state = ({
       headerDockPosition: null,
@@ -148,7 +148,7 @@ export default class RecordPage extends Component {
     });
   }
 
-  handleTitleBarOnDocked(height) {
+  handleTitleBarDocked(height) {
     this.setState({
       headerDockPosition: height,
     });
@@ -228,7 +228,7 @@ export default class RecordPage extends Component {
           vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
-          onDocked={this.handleTitleBarOnDocked}
+          onDocked={this.handleTitleBarDocked}
         />
         <div className={pageBodyStyles.common}>
           <RecordBrowserContainer

@@ -29,6 +29,38 @@ const config = {
       },
       title: () => 'Title',
     },
+    loanin: {
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'This is really long to force the title bar to have more height',
+          },
+        },
+      },
+      title: () => 'The title is also really long so that the title will take up more than one line and the title bar will have to have more height, and now there is some more to make sure',
+    },
+    person: {
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'Person',
+          },
+        },
+      },
+      title: () => 'Title',
+      vocabularies: {
+        local: {
+          messages: {
+            name: {
+              id: 'name',
+              defaultMessage: 'Local',
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -74,6 +106,30 @@ describe('RecordTitleBar', function suite() {
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
+  });
+
+  it('should render the record title and record type name', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTitleBar data={data} recordType="collectionobject" />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('h1').textContent.should.equal('Title');
+    this.container.querySelector('h2').textContent.should.equal('Object');
+  });
+
+  it('should render the vocabulary name', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTitleBar data={data} recordType="person" vocabulary="local" />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('h1').textContent.should.equal('Title');
+    this.container.querySelector('h2').textContent.should.equal('Person - Local');
   });
 
   it('should render nothing if a plugin is not found for the record type', function test() {
@@ -129,6 +185,70 @@ describe('RecordTitleBar', function suite() {
     });
   });
 
+  it('should call onDock if the height changes while docked', function test() {
+    this.timeout(4000);
+
+    let handlerCalled = false;
+
+    const handleDocked = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTitleBar data={data} recordType="collectionobject" />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const container = this.container.firstElementChild.querySelector('div');
+    const initialRect = container.getBoundingClientRect();
+
+    initialRect.top.should.be.above(0);
+
+    window.scrollTo(0, initialRect.top + initialRect.height + 10);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 1000);
+    })
+    .then(() => {
+      const scrolledRect = container.getBoundingClientRect();
+
+      scrolledRect.top.should.equal(0);
+
+      render(
+        <IntlProvider locale="en">
+          <ConfigProvider config={config}>
+            <RecordTitleBar data={data} recordType="loanin" onDocked={handleDocked} />
+          </ConfigProvider>
+        </IntlProvider>, this.container);
+
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          resolve();
+        }, 1000);
+      });
+    })
+    .then(() => {
+      handlerCalled.should.equal(true);
+
+      window.scrollTo(0, 0);
+
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          resolve();
+        }, 1000);
+      });
+    })
+    .then(() => {
+      const scrolledRect = container.getBoundingClientRect();
+
+      scrolledRect.top.should.be.above(0);
+    });
+  });
+
   it('should render a search result traverser as the title bar navigation if a search descriptor is supplied', function test() {
     const searchName = 'searchName';
     const searchDescriptor = Immutable.Map();
@@ -162,9 +282,12 @@ describe('RecordTitleBar', function suite() {
     });
   });
 
-  // This test must be the last, since it replaces methods on the window object.
-
   it('should add and remove window scroll listeners when mounted and unmounted', function test() {
+    const saved = {
+      addEventListener: window.addEventListener,
+      removeEventListener: window.removeEventListener,
+    };
+
     let addEventListenerCalled = null;
 
     window.addEventListener = (eventName) => {
@@ -188,5 +311,8 @@ describe('RecordTitleBar', function suite() {
 
     addEventListenerCalled.should.equal('scroll');
     removeEventListenerCalled.should.equal('scroll');
+
+    window.addEventListener = saved.addEventListener;
+    window.removeEventListener = saved.removeEventListener;
   });
 });

@@ -32,6 +32,29 @@ export default class TitleBar extends Component {
     window.addEventListener('scroll', this.handleScroll, false);
   }
 
+  componentDidUpdate() {
+    // If the height of the title bar content changes while the title bar is docked, fire onDocked
+    // in order to notify listeners of the new height.
+
+    const node = this.domNode;
+
+    if (node && this.state.docked) {
+      const contentNode = node.firstElementChild;
+
+      if (contentNode.offsetHeight !== this.dockedHeight) {
+        this.dockedHeight = contentNode.offsetHeight;
+
+        const {
+          onDocked,
+        } = this.props;
+
+        if (onDocked) {
+          onDocked(this.dockedHeight);
+        }
+      }
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll, false);
   }
@@ -56,12 +79,14 @@ export default class TitleBar extends Component {
         });
       }
     } else if (window.scrollY >= node.offsetTop) {
+      this.dockedHeight = node.offsetHeight;
+
       this.setState({
         docked: true,
       });
 
       if (onDocked) {
-        onDocked(node.offsetHeight);
+        onDocked(this.dockedHeight);
       }
     }
   }
