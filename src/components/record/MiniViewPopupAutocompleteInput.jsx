@@ -57,6 +57,12 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
     };
   }
 
+  componentWillUpdate(newProps) {
+    if (newProps.value !== this.props.value) {
+      this.close();
+    }
+  }
+
   cancelClose() {
     if (this.closeTimer) {
       window.clearTimeout(this.closeTimer);

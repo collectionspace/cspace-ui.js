@@ -226,6 +226,58 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
     }));
   });
 
+  it('should close the popup when a new value is supplied via props', function test() {
+    const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe1514784052823)\'John Doe\'';
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <BaseMiniViewPopupAutocompleteInput
+                perms={perms}
+                source="person/local"
+                value={value}
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.firstElementChild;
+
+    Simulate.mouseEnter(input);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        this.container.querySelector('.cspace-ui-MiniViewPopup--common').should.not.equal(null);
+
+        resolve();
+      }, 700);
+    }).then(() => new Promise((resolve) => {
+      const newValue = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'';
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <Router>
+                <BaseMiniViewPopupAutocompleteInput
+                  perms={perms}
+                  source="person/local"
+                  value={newValue}
+                />
+              </Router>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, this.container);
+
+      expect(this.container.querySelector('.cspace-ui-MiniViewPopup--common')).to.equal(null);
+
+      resolve();
+    }));
+  });
+
   context('when the filtering dropdown is open', function context() {
     beforeEach(function beforeEach() {
       render(
