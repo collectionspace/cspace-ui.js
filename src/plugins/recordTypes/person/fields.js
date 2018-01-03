@@ -79,6 +79,13 @@ export default (pluginContext) => {
         },
         personTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              required: {
+                id: 'field.persons_common.personTermGroupList.required',
+                defaultMessage: 'At least one term display name is required. Please enter a value.',
+              },
+            }),
+            required: true,
             view: {
               type: CompoundInput,
             },

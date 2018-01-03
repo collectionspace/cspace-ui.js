@@ -1790,16 +1790,19 @@ describe('recordDataHelpers', function moduleSuite() {
         validateField('', [], Immutable.Map(), fieldDescriptor.id).should.eventually
           .have.property(ERROR_KEY, Immutable.Map({
             code: ERR_MISSING_REQ_FIELD,
+            message: undefined,
           })),
 
         validateField(null, [], Immutable.Map(), fieldDescriptor.id).should.eventually
           .have.property(ERROR_KEY, Immutable.Map({
             code: ERR_MISSING_REQ_FIELD,
+            message: undefined,
           })),
 
         validateField(undefined, [], Immutable.Map(), fieldDescriptor.id).should.eventually
           .have.property(ERROR_KEY, Immutable.Map({
             code: ERR_MISSING_REQ_FIELD,
+            message: undefined,
           })),
       ]);
     });

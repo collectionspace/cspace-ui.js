@@ -14,6 +14,7 @@ import {
   getFieldComputer,
   getFieldCustomValidator,
   getFieldDataType,
+  getRequiredMessage,
   isFieldCloneable,
   isFieldRepeating,
   isFieldRequired,
@@ -561,6 +562,7 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
       path,
       error: {
         code: ERR_MISSING_REQ_FIELD,
+        message: getRequiredMessage(fieldDescriptor),
       },
     };
   }
@@ -578,21 +580,21 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
         },
       };
     }
+  }
 
-    if (!result) {
-      // Custom validation.
+  if (!result) {
+    // Custom validation.
 
-      const customValidator = getFieldCustomValidator(fieldDescriptor);
+    const customValidator = getFieldCustomValidator(fieldDescriptor);
 
-      if (customValidator) {
-        const error = customValidator(data, path, recordData, fieldDescriptor);
+    if (customValidator) {
+      const error = customValidator(data, path, recordData, fieldDescriptor);
 
-        if (error) {
-          result = {
-            path,
-            error,
-          };
-        }
+      if (error) {
+        result = {
+          path,
+          error,
+        };
       }
     }
   }

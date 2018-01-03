@@ -84,6 +84,13 @@ export default (pluginContext) => {
         },
         placeTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              required: {
+                id: 'field.places_common.placeTermGroupList.required',
+                defaultMessage: 'At least one term display name is required. Please enter a value.',
+              },
+            }),
+            required: true,
             view: {
               type: CompoundInput,
             },

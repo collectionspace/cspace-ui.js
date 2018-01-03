@@ -983,7 +983,14 @@ describe('record action creator', function suite() {
             actions[0].type.should.equal(VALIDATION_FAILED);
 
             actions[0].payload.should.equal(
-              Immutable.Map().setIn(['objectNumber', ERROR_KEY, 'code'], ERR_MISSING_REQ_FIELD)
+              Immutable.fromJS({
+                objectNumber: {
+                  [ERROR_KEY]: {
+                    code: ERR_MISSING_REQ_FIELD,
+                    message: undefined,
+                  },
+                },
+              })
             );
 
             actions[0].meta.should.deep.equal({

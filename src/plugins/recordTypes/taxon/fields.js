@@ -78,6 +78,13 @@ export default (pluginContext) => {
         },
         taxonTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              required: {
+                id: 'field.taxon_common.taxonTermGroupList.required',
+                defaultMessage: 'At least one term display name is required. Please enter a value.',
+              },
+            }),
+            required: true,
             view: {
               type: CompoundInput,
             },

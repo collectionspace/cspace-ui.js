@@ -79,6 +79,13 @@ export default (pluginContext) => {
         },
         citationTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              required: {
+                id: 'field.citations_common.citationTermGroupList.required',
+                defaultMessage: 'At least one term display name is required. Please enter a value.',
+              },
+            }),
+            required: true,
             view: {
               type: CompoundInput,
             },

@@ -73,6 +73,13 @@ export default (pluginContext) => {
         },
         locTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              required: {
+                id: 'field.locations_common.locTermGroupList.required',
+                defaultMessage: 'At least one term display name is required. Please enter a value.',
+              },
+            }),
+            required: true,
             view: {
               type: CompoundInput,
             },

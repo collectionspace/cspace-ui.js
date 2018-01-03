@@ -79,6 +79,13 @@ export default (pluginContext) => {
         },
         orgTermGroupList: {
           [config]: {
+            messages: defineMessages({
+              required: {
+                id: 'field.organizations_common.orgTermGroupList.required',
+                defaultMessage: 'At least one term display name is required. Please enter a value.',
+              },
+            }),
+            required: true,
             view: {
               type: CompoundInput,
             },

@@ -415,6 +415,9 @@ export const getFieldComputer = (fieldDescriptor) => {
   return computer;
 };
 
+export const getRequiredMessage = fieldDescriptor =>
+  get(fieldDescriptor, [configKey, 'messages', 'required']);
+
 export const isAuthority = recordTypeConfig =>
   get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
 
