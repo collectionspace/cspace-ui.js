@@ -102,7 +102,7 @@ describe('LoginForm', function suite() {
         </Router>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('div > p').textContent.should
+    this.container.querySelector('.cspace-ui-Notification--common').textContent.should
       .equal(messages['loginForm.error']);
   });
 
@@ -131,7 +131,7 @@ describe('LoginForm', function suite() {
         </Router>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('div > p').textContent.should
+    this.container.querySelector('.cspace-ui-Notification--common').textContent.should
       .equal(messages['loginForm.error.badCredentials']);
   });
 

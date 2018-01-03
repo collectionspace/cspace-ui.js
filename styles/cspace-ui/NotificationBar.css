@@ -2,7 +2,7 @@
   position: fixed;
   left: 10px;
   bottom: 10px;
-  max-height: 100px;
+  max-height: 150px;
   width: calc(100% - 20px);
   z-index: 100;
   display: flex;
@@ -10,4 +10,12 @@
   border-radius: 3px;
   background-color: white;
   overflow-x: scroll;
+}
+
+.common > :global(.cspace-ui-Notification--common) {
+  box-shadow: 3px 0 4px rgba(220, 220, 220, .5);
+}
+
+.common > :global(.cspace-ui-Notification--common) > div {
+  padding: 10px 20px 10px 10px;
 }

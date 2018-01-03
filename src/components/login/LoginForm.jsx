@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { components as inputComponents } from 'cspace-input';
+import Notification from '../notification/Notification';
 import styles from '../../../styles/cspace-ui/LoginForm.css';
 
 const { Button, LineInput, PasswordInput } = inputComponents;
@@ -153,22 +154,14 @@ class LoginForm extends Component {
       username,
     } = this.props;
 
-    let messageKey = 'prompt';
+    let messageKey;
 
     if (isPending) {
       messageKey = 'pending';
-    } else if (error) {
-      const desc = error.getIn(['response', 'data', 'error_description']);
-
-      if (desc) {
-        messageKey = errorMessageMap[desc];
-      } else {
-        messageKey = errorMessageMap[error.get('message')];
-      }
-
-      messageKey = messageKey || 'error';
-    } else if (username) {
+    } else if (username && !error) {
       messageKey = 'success';
+    } else {
+      messageKey = 'prompt';
     }
 
     return (
@@ -225,12 +218,45 @@ class LoginForm extends Component {
     );
   }
 
+  renderError() {
+    const {
+      error,
+      isPending,
+    } = this.props;
+
+    if (isPending || !error) {
+      return undefined;
+    }
+
+    const desc = error.getIn(['response', 'data', 'error_description']);
+
+    let messageKey;
+
+    if (desc) {
+      messageKey = errorMessageMap[desc];
+    } else {
+      messageKey = errorMessageMap[error.get('message')];
+    }
+
+    messageKey = messageKey || 'error';
+
+    return (
+      <Notification
+        id="loginForm.error"
+        message={messages[messageKey]}
+        showCloseButton={false}
+        status="error"
+      />
+    );
+  }
+
   render() {
     return (
       <div className={styles.common}>
         <h2><FormattedMessage {...messages.title} /></h2>
         {this.renderMessage()}
         {this.renderForm()}
+        {this.renderError()}
       </div>
     );
   }
