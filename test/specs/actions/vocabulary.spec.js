@@ -44,7 +44,9 @@ describe('vocabulary action creator', function suite() {
         response: {},
       });
 
-      const store = mockStore({});
+      const store = mockStore({
+        vocabulary: {},
+      });
 
       return store.dispatch(readVocabularyItems(vocabulary))
         .then(() => {
@@ -80,7 +82,9 @@ describe('vocabulary action creator', function suite() {
         response: {},
       });
 
-      const store = mockStore({});
+      const store = mockStore({
+        vocabulary: {},
+      });
 
       return store.dispatch(readVocabularyItems(vocabulary))
         .then(() => {
@@ -100,6 +104,40 @@ describe('vocabulary action creator', function suite() {
             .that.deep.equals({
               vocabulary,
             });
+        });
+    });
+
+    it('should dispatch nothing if the vocabulary already has a pending read', function test() {
+      const store = mockStore({
+        vocabulary: {
+          [vocabulary]: {
+            isReadPending: true,
+          },
+        },
+      });
+
+      return store.dispatch(readVocabularyItems(vocabulary))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(0);
+        });
+    });
+
+    it('should dispatch nothing if the vocabulary already has items', function test() {
+      const store = mockStore({
+        vocabulary: {
+          [vocabulary]: {
+            items: [],
+          },
+        },
+      });
+
+      return store.dispatch(readVocabularyItems(vocabulary))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(0);
         });
     });
   });
