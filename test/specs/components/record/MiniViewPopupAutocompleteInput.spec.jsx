@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
@@ -224,48 +224,6 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
         resolve();
       }, 700);
     }));
-  });
-
-  it('should call clearRecord when unmounted', function test() {
-    let clearedCsid = null;
-
-    const clearRecord = (csidArg) => {
-      clearedCsid = csidArg;
-    };
-
-    const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe1514784052823)\'John Doe\'';
-
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <ConfigProvider config={config}>
-            <Router>
-              <BaseMiniViewPopupAutocompleteInput
-                perms={perms}
-                source="person/local"
-                value={value}
-                clearRecord={clearRecord}
-              />
-            </Router>
-          </ConfigProvider>
-        </StoreProvider>
-      </IntlProvider>, this.container);
-
-    const input = this.container.firstElementChild;
-
-    Simulate.mouseEnter(input);
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        this.container.querySelector('.cspace-ui-MiniViewPopup--common').should.not.equal(null);
-
-        unmountComponentAtNode(this.container);
-
-        clearedCsid.should.equal('urn:cspace:name(JohnDoe1514784052823)');
-
-        resolve();
-      }, 700);
-    });
   });
 
   context('when the filtering dropdown is open', function context() {

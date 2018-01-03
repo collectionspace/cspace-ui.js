@@ -55,18 +55,6 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
     this.state = {
       isOpen: false,
     };
-
-    this.openedCsids = new Set();
-  }
-
-  componentWillUnmount() {
-    const {
-      clearRecord,
-    } = this.props;
-
-    if (clearRecord) {
-      this.openedCsids.forEach(clearRecord);
-    }
   }
 
   cancelClose() {
@@ -213,8 +201,6 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
         top: itemRect.top - inputRect.top - inputRect.height,
       };
     }
-
-    this.openedCsids.add(csid);
 
     return (
       <MiniViewPopup
