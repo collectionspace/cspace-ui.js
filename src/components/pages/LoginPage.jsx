@@ -17,7 +17,7 @@ export default class LoginPage extends Component {
   constructor(props) {
     super(props);
 
-    this.onSuccess = this.onSuccess.bind(this);
+    this.handleSuccess = this.handleSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +30,7 @@ export default class LoginPage extends Component {
     }
   }
 
-  onSuccess() {
+  handleSuccess() {
     const {
       history,
       location,
@@ -52,7 +52,7 @@ export default class LoginPage extends Component {
     return (
       <div className={styles.common}>
         <div className={styles.about}><About /></div>
-        <div className={styles.login}><LoginFormContainer onSuccess={this.onSuccess} /></div>
+        <div className={styles.login}><LoginFormContainer onSuccess={this.handleSuccess} /></div>
       </div>
     );
   }

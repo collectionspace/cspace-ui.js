@@ -6,6 +6,7 @@ import TitleBar from '../sections/TitleBar';
 
 import {
   ERR_API,
+  ERR_NOT_ALLOWED,
   ERR_NOT_FOUND,
   ERR_MISSING_VOCABULARY,
   ERR_UNKNOWN_RECORD_TYPE,
@@ -18,13 +19,17 @@ import {
 import styles from '../../../styles/cspace-ui/ErrorPage.css';
 
 const messages = defineMessages({
-  notFound: {
-    id: 'errorPage.notFound',
-    defaultMessage: 'Not Found',
+  title: {
+    id: 'errorPage.title',
+    defaultMessage: 'Page Not Found',
   },
   error: {
     id: 'errorPage.error',
     defaultMessage: 'Error code: {code}',
+  },
+  [ERR_NOT_ALLOWED]: {
+    id: 'errorPage.ERR_NOT_ALLOWED',
+    defaultMessage: 'You\'re not allowed to view this type of record.',
   },
   [ERR_NOT_FOUND]: {
     id: 'errorPage.ERR_NOT_FOUND',
@@ -72,20 +77,23 @@ export default function ErrorPage(props) {
 
   let { code } = error;
 
-  if (
-    code === ERR_API &&
-    get(error, ['error', 'response', 'status']) === 404
-  ) {
-    // Convert 404 from the REST API into ERR_NOT_FOUND.
+  if (code === ERR_API) {
+    const status = get(error, ['error', 'response', 'status']);
 
-    code = ERR_NOT_FOUND;
+    if (status === 404) {
+      // Convert 404 from the REST API into ERR_NOT_FOUND.
+      code = ERR_NOT_FOUND;
+    } else if (status === 401) {
+      // Convert 401 to ERR_NOT_ALLOWED.
+      code = ERR_NOT_ALLOWED;
+    }
   }
 
   const message = messages[code] || messages.error;
 
   return (
     <div className={styles.common}>
-      <TitleBar title={<FormattedMessage {...messages.notFound} />} />
+      <TitleBar title={<FormattedMessage {...messages.title} />} />
       <p><FormattedMessage {...message} values={error} /></p>
     </div>
   );

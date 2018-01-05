@@ -10,11 +10,11 @@ import DateInputContainer from '../containers/input/DateInputContainer';
 import DateTimeInputContainer from '../containers/input/DateTimeInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
 import OptionPickerInputContainer from '../containers/input/OptionPickerInputContainer';
-import StructuredDateInputContainer from '../containers/input/StructuredDateInputContainer';
-import TermPickerInputContainer from '../containers/input/TermPickerInputContainer';
 import UploadInputContainer from '../containers/input/UploadInputContainer';
 import PermissionsInputContainer from '../containers/admin/PermissionsInputContainer';
 import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniViewPopupAutocompleteInputContainer';
+import StructuredDateInputContainer from '../containers/record/StructuredDateInputContainer';
+import TermPickerInputContainer from '../containers/record/TermPickerInputContainer';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';

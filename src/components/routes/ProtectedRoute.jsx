@@ -7,9 +7,11 @@ import ProtectedPage from '../pages/ProtectedPage';
 const propTypes = {
   component: PropTypes.func,
   decorated: PropTypes.bool,
+  openModalName: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   screenName: PropTypes.string,
   username: PropTypes.string,
+  closeModal: PropTypes.func,
   redirectLogin: PropTypes.func,
 };
 
@@ -17,9 +19,11 @@ export default function ProtectedRoute(props) {
   const {
     component: Component,
     decorated,
+    openModalName,
     perms,
     screenName,
     username,
+    closeModal,
     ...remainingProps
   } = props;
 
@@ -29,10 +33,12 @@ export default function ProtectedRoute(props) {
       render={routeProps => (
         username ? (
           <ProtectedPage
+            openModalName={openModalName}
             perms={perms}
             screenName={screenName}
             username={username}
             decorated={decorated}
+            closeModal={closeModal}
             {...routeProps}
           >
             <Component {...routeProps} />

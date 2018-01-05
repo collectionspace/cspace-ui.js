@@ -45,4 +45,22 @@ describe('ErrorPage', function suite() {
 
     this.container.querySelector('p').textContent.should.equal('The record you\'re looking for doesn\'t seem to exist.');
   });
+
+  it('should render a not allowed message for an http error with status 401', function test() {
+    const error = {
+      code: ERR_API,
+      error: {
+        response: {
+          status: 401,
+        },
+      },
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ErrorPage error={error} />
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('p').textContent.should.equal('You\'re not allowed to view this type of record.');
+  });
 });

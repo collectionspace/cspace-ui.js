@@ -104,15 +104,41 @@ describe('vocabulary reducer', function suite() {
     });
   });
 
-  it('should handle LOGIN_FULFILLED', function test() {
-    const state = reducer({
+  context('on LOGIN_FULFILLED', function context() {
+    const initialState = {
       vocab1: {},
       vocab2: {},
-    }, {
-      type: LOGIN_FULFILLED,
+    };
+
+    it('should clear vocabulary state if the user has changed', function test() {
+      const prevUsername = 'prevUser@collectionspace.org';
+      const username = 'newUser@collectionspace.org';
+
+      const state = reducer(initialState, {
+        type: LOGIN_FULFILLED,
+        meta: {
+          prevUsername,
+          username,
+        },
+      });
+
+      state.should.deep.equal({});
     });
 
-    state.should.deep.equal({});
+    it('should not clear vocabulary state if the user has not changed', function test() {
+      const prevUsername = 'user@collectionspace.org';
+      const username = 'user@collectionspace.org';
+
+      const state = reducer(initialState, {
+        type: LOGIN_FULFILLED,
+        meta: {
+          prevUsername,
+          username,
+        },
+      });
+
+      state.should.deep.equal(initialState);
+    });
   });
 
   it('should handle LOGOUT_FULFILLED', function test() {

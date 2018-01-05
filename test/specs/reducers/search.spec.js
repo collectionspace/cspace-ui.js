@@ -1165,17 +1165,38 @@ describe('search reducer', function suite() {
     state.should.equal(initialState);
   });
 
-  it('should handle LOGIN_FULFILLED', function test() {
-    const state = reducer(Immutable.fromJS({
+  context('on LOGIN_FULFILLED', function context() {
+    const initialState = Immutable.fromJS({
       searchName1: {},
       searchName2: {},
       searchName3: {},
-    }), {
-      type: LOGIN_FULFILLED,
     });
 
-    state.should.deep.equal(Immutable.Map({}));
+    it('should clear all search state when the previous username is not the same as the new username', function test() {
+      const state = reducer(initialState, {
+        type: LOGIN_FULFILLED,
+        meta: {
+          prevUsername: 'prevUser',
+          username: 'newUser',
+        },
+      });
+
+      state.should.equal(Immutable.Map({}));
+    });
+
+    it('should not clear search state if the previous username is the same as the new username', function test() {
+      const state = reducer(initialState, {
+        type: LOGIN_FULFILLED,
+        meta: {
+          prevUsername: 'user',
+          username: 'user',
+        },
+      });
+
+      state.should.equal(initialState);
+    });
   });
+
 
   it('should handle LOGOUT_FULFILLED', function test() {
     const state = reducer(Immutable.fromJS({

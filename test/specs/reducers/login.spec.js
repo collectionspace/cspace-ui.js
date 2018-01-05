@@ -12,6 +12,7 @@ import reducer, {
   getError,
   getUsername,
   isPending,
+  isSuccess,
 } from '../../../src/reducers/login';
 
 const expect = chai.expect;
@@ -25,11 +26,18 @@ describe('login reducer', function suite() {
   });
 
   it('should handle RESET_LOGIN', function test() {
+    const username = 'someone@collectionspace.org';
+
     const state = reducer(undefined, {
       type: RESET_LOGIN,
+      meta: {
+        username,
+      },
     });
 
-    state.should.deep.equal(Immutable.Map({}));
+    state.should.deep.equal(Immutable.Map({
+      username,
+    }));
 
     expect(isPending(state)).to.equal(undefined);
   });
@@ -64,10 +72,12 @@ describe('login reducer', function suite() {
     });
 
     state.should.deep.equal(Immutable.fromJS({
+      isSuccess: true,
       username: loginUsername,
     }));
 
     getUsername(state).should.equal(loginUsername);
+    isSuccess(state).should.equal(true);
     expect(isPending(state)).to.equal(undefined);
   });
 

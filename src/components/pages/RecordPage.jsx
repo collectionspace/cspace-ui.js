@@ -95,7 +95,15 @@ export default class RecordPage extends Component {
       csid: prevCsid,
     } = prevParams;
 
-    if (csid !== prevCsid) {
+    const {
+      perms,
+    } = this.props;
+
+    const {
+      perms: prevPerms,
+    } = prevProps;
+
+    if (csid !== prevCsid || perms !== prevPerms) {
       this.initRecord();
     }
   }

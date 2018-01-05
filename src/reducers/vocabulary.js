@@ -14,6 +14,22 @@ import {
 
 const clearAll = () => ({});
 
+const handleLoginFulfilled = (state, action) => {
+  const {
+    prevUsername,
+    username,
+  } = action.meta;
+
+  if (prevUsername !== username) {
+    // The logged in user has changed. Remove all vocabulary state, because the new user may not be
+    // permitted to read vocabularies.
+
+    return clearAll(state);
+  }
+
+  return state;
+};
+
 export default (state = {}, action) => {
   switch (action.type) {
     case READ_VOCABULARY_ITEMS_STARTED:
@@ -36,7 +52,7 @@ export default (state = {}, action) => {
         },
       });
     case LOGIN_FULFILLED:
-      return clearAll(state);
+      return handleLoginFulfilled(state, action);
     case LOGOUT_FULFILLED:
       return clearAll(state);
     default:

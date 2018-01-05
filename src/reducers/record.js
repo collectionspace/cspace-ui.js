@@ -270,7 +270,9 @@ const handleRecordReadFulfilled = (state, action) => {
 
   const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(action.payload.data));
 
-  let updatedState = state.deleteIn([csid, 'isReadPending']);
+  let updatedState = state
+    .deleteIn([csid, 'isReadPending'])
+    .deleteIn([csid, 'error']);
 
   updatedState = setBaselineData(updatedState, csid, data);
   updatedState = setCurrentData(updatedState, csid, data);
@@ -556,6 +558,22 @@ const clear = (state, csid) => {
 
 const clearAll = state => state.clear();
 
+const handleLoginFulfilled = (state, action) => {
+  const {
+    prevUsername,
+    username,
+  } = action.meta;
+
+  if (prevUsername !== username) {
+    // The logged in user has changed. Remove all record state, because the new user may not be
+    // permitted to read some records that the previous user could.
+
+    return clearAll(state);
+  }
+
+  return state;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case VALIDATION_FAILED:
@@ -632,7 +650,7 @@ export default (state = Immutable.Map(), action) => {
     case CLEAR_RECORD:
       return clear(state, action.meta.csid);
     case LOGIN_FULFILLED:
-      return clearAll(state);
+      return handleLoginFulfilled(state, action);
     case LOGOUT_FULFILLED:
       return clearAll(state);
     default:

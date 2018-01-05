@@ -3,11 +3,14 @@ import get from 'lodash/get';
 import { getPermissions } from '../helpers/permissionHelpers';
 
 import {
+  ACCOUNT_PERMS_READ_FULFILLED,
+} from '../actions/account';
+
+import {
   CSPACE_CONFIGURED,
 } from '../actions/cspace';
 
 import {
-  ACCOUNT_PERMS_READ_FULFILLED,
   LOGIN_FULFILLED,
 } from '../actions/login';
 
@@ -26,7 +29,6 @@ const handleAccountPermsReadFulfilled = (state, action) => {
   return (
     state
       .set('account', account)
-      // TODO: Process the payload into something usable.
       .set('perms', perms)
   );
 };

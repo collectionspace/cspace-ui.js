@@ -5,11 +5,13 @@ import { login } from '../../actions/login';
 import {
   getLoginUsername,
   isLoginPending,
+  isLoginSuccess,
   getLoginError,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
   isPending: isLoginPending(state),
+  isSuccess: isLoginSuccess(state),
   username: getLoginUsername(state),
   error: getLoginError(state),
 });

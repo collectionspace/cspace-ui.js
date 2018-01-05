@@ -389,6 +389,22 @@ const handleRecordTransitionFulfilled = (state, action) => {
   return state;
 };
 
+const handleLoginFulfilled = (state, action) => {
+  const {
+    prevUsername,
+    username,
+  } = action.meta;
+
+  if (prevUsername !== username) {
+    // The logged in user has changed. Remove all search state, because the new user may not be
+    // permitted to list some records that the previous user could.
+
+    return clearAllResults(state);
+  }
+
+  return state;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case CLEAR_SELECTED:
@@ -420,7 +436,7 @@ export default (state = Immutable.Map(), action) => {
     case RECORD_TRANSITION_FULFILLED:
       return handleRecordTransitionFulfilled(state, action);
     case LOGIN_FULFILLED:
-      return clearAllResults(state);
+      return handleLoginFulfilled(state, action);
     case LOGOUT_FULFILLED:
       return clearAllResults(state);
     default:
