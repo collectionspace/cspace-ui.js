@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import CancelButton from '../../../../src/components/record/CancelButton';
+import CancelButton from '../../../../src/components/navigation/CancelButton';
 
 chai.should();
 

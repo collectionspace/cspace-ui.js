@@ -12,7 +12,7 @@ import chaiImmutable from 'chai-immutable';
 import SearchToRelateModal, { BaseSearchToRelateModal, searchName } from '../../../../src/components/search/SearchToRelateModal';
 import RelateButton from '../../../../src/components/record/RelateButton';
 import SearchButton from '../../../../src/components/search/SearchButton';
-import CancelButton from '../../../../src/components/record/CancelButton';
+import CancelButton from '../../../../src/components/navigation/CancelButton';
 import SearchForm from '../../../../src/components/search/SearchForm';
 import Pager from '../../../../src/components/search/Pager';
 import SelectBar from '../../../../src/components/search/SelectBar';

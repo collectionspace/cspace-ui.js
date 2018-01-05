@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
-import CancelButton from '../record/CancelButton';
+import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
 import runButtonStyles from '../../../styles/cspace-ui/RunReportButton.css';
 

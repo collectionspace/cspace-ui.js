@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Modal } from 'cspace-layout';
-import CancelButton from '../record/CancelButton';
+import CancelButton from '../navigation/CancelButton';
 import SaveButton from '../record/SaveButton';
 import lockButtonStyles from '../../../styles/cspace-ui/LockButton.css';
 

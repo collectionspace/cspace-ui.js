@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import BackButton from '../../../../src/components/record/BackButton';
+import BackButton from '../../../../src/components/navigation/BackButton';
 
 chai.should();
 

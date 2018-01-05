@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Modal } from 'cspace-layout';
-import CancelButton from '../record/CancelButton';
+import CancelButton from '../navigation/CancelButton';
 import SaveButton from '../record/SaveButton';
 import RevertButton from '../record/RevertButton';
 
