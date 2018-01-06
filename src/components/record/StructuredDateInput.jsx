@@ -11,7 +11,7 @@ const {
 
 const BaseStructuredDateInput = repeatable(labelable(inputComponents.StructuredDateInput));
 
-const messages = defineMessages({
+const fieldMessages = defineMessages({
   earliestSingle: {
     id: 'field.structuredDate.earliestSingle',
     defaultMessage: 'Earliest/Single',
@@ -66,6 +66,13 @@ const messages = defineMessages({
   },
 });
 
+const messages = defineMessages({
+  parseFailed: {
+    id: 'structuredDateInput.parseFailed',
+    defaultMessage: 'Unrecognized display date format. Try a different format, or enter values in the fields below.',
+  },
+});
+
 export const optionListNames = ['dateQualifiers'];
 export const vocabNames = ['dateera', 'datecertainty', 'datequalifier'];
 
@@ -82,6 +89,7 @@ class StructuredDateInput extends Component {
 
     this.formatFieldLabel = this.formatFieldLabel.bind(this);
     this.formatOptionLabel = this.formatOptionLabel.bind(this);
+    this.formatParseFailedMessage = this.formatParseFailedMessage.bind(this);
   }
 
   componentDidMount() {
@@ -118,7 +126,7 @@ class StructuredDateInput extends Component {
       intl,
     } = this.props;
 
-    return intl.formatMessage(messages[name]);
+    return intl.formatMessage(fieldMessages[name]);
   }
 
   formatOptionLabel(option) {
@@ -127,6 +135,14 @@ class StructuredDateInput extends Component {
     } = this.props;
 
     return (option.message ? intl.formatMessage(option.message) : option.value);
+  }
+
+  formatParseFailedMessage() {
+    const {
+      intl,
+    } = this.props;
+
+    return intl.formatMessage(messages.parseFailed);
   }
 
   render() {
@@ -144,6 +160,7 @@ class StructuredDateInput extends Component {
         defaultValue={Immutable.Map()}
         formatFieldLabel={this.formatFieldLabel}
         formatOptionLabel={this.formatOptionLabel}
+        formatParseFailedMessage={this.formatParseFailedMessage}
         {...remainingProps}
       />
     );

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { parseDisplayDate } from '../../actions/structuredDate';
 import { readVocabularyItems } from '../../actions/vocabulary';
 import { getOptionList, getUserPerms, getVocabulary } from '../../reducers';
 
@@ -29,6 +30,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  parseDisplayDate,
   readTerms: readVocabularyItems,
 };
 
