@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { components as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
+import { baseComponents as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
 import MiniViewPopup from './MiniViewPopup';
 import AutocompleteInputContainer from '../../containers/input/AutocompleteInputContainer';
 import { canRead } from '../../helpers/permissionHelpers';
