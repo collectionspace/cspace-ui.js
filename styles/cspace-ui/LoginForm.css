@@ -4,6 +4,14 @@
   margin-bottom: 6px;
 }
 
+.common > p {
+  margin-top: 0;
+}
+
+.common > form {
+  margin: 0;
+}
+
 .common > form > div {
   display: flex;
   align-items: baseline;
@@ -11,7 +19,7 @@
 }
 
 .common :global(.cspace-ui-Notification--common) {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .pending {

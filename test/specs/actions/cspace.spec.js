@@ -2,7 +2,9 @@
 
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
+import chaiAsPromised from 'chai-as-promised';
 import thunk from 'redux-thunk';
+import LoginModal from '../../../src/components/login/LoginModal';
 
 import getSession, {
   CSPACE_CONFIGURED,
@@ -12,9 +14,18 @@ import getSession, {
 } from '../../../src/actions/cspace';
 
 import {
+  RESET_LOGIN,
+} from '../../../src/actions/login';
+
+import {
+  OPEN_MODAL,
+} from '../../../src/actions/notification';
+
+import {
   PREFS_LOADED,
 } from '../../../src/actions/prefs';
 
+chai.use(chaiAsPromised);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -67,6 +78,71 @@ describe('cspace action creator', function suite() {
 
           resolve();
         }, 0);
+      });
+    });
+
+    it('should configure an onError callback that is a function', function test() {
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      store.dispatch(configureCSpace());
+
+      const session = getSession();
+      const config = session.config();
+
+      config.onError.should.be.a('function');
+    });
+  });
+
+  describe('onError callback', function onErrorSuite() {
+    const store = mockStore({
+      notification: Immutable.Map(),
+      user: Immutable.Map(),
+    });
+
+    store.dispatch(configureCSpace());
+
+    const { onError } = getSession().config();
+
+    afterEach(() => {
+      store.clearActions();
+    });
+
+    it('should reject with the error', function test() {
+      const error = new Error();
+
+      onError(error).should.eventually.be.rejectedWith(error);
+    });
+
+    it('should dispatch RESET_LOGIN and OPEN_MODAL if the error is an invalid token 401 error', function test() {
+      const error = {
+        response: {
+          status: 401,
+          data: {
+            error: 'invalid_token',
+          },
+        },
+      };
+
+      onError(error);
+
+      const actions = store.getActions();
+
+      actions.length.should.equal(2);
+
+      actions[0].should.deep.equal({
+        type: RESET_LOGIN,
+        meta: {
+          username: '',
+        },
+      });
+
+      actions[1].should.deep.equal({
+        type: OPEN_MODAL,
+        meta: {
+          name: LoginModal.modalName,
+        },
       });
     });
   });

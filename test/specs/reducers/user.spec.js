@@ -7,6 +7,9 @@ import {
 
 import {
   ACCOUNT_PERMS_READ_FULFILLED,
+} from '../../../src/actions/account';
+
+import {
   LOGIN_FULFILLED,
 } from '../../../src/actions/login';
 
@@ -15,6 +18,7 @@ import {
 } from '../../../src/actions/logout';
 
 import reducer, {
+  getPerms,
   getScreenName,
   getUsername,
 } from '../../../src/reducers/user';
@@ -112,6 +116,7 @@ describe('user reducer', function suite() {
       },
     }));
 
+    getPerms(state).should.equal(state.get('perms'));
     getScreenName(state).should.equal(screenName);
   });
 

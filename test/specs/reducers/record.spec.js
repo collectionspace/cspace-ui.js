@@ -1674,16 +1674,36 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  it('should handle LOGIN_FULFILLED', function test() {
-    const state = reducer(Immutable.fromJS({
+  context('on LOGIN_FULFILLED', function context() {
+    const initialState = Immutable.fromJS({
       recordCsid1: {},
       recordCsid2: {},
       recordCsid3: {},
-    }), {
-      type: LOGIN_FULFILLED,
     });
 
-    state.should.deep.equal(Immutable.Map({}));
+    it('should clear all record state if the previous username is different than the new username', function test() {
+      const state = reducer(initialState, {
+        type: LOGIN_FULFILLED,
+        meta: {
+          prevUsername: 'prevUser',
+          username: 'newUser',
+        },
+      });
+
+      state.should.equal(Immutable.Map({}));
+    });
+
+    it('should not clear record state if the previous username is the same as the new username', function test() {
+      const state = reducer(initialState, {
+        type: LOGIN_FULFILLED,
+        meta: {
+          prevUsername: 'user',
+          username: 'user',
+        },
+      });
+
+      state.should.equal(initialState);
+    });
   });
 
   it('should handle LOGOUT_FULFILLED', function test() {
@@ -1695,7 +1715,7 @@ describe('record reducer', function suite() {
       type: LOGOUT_FULFILLED,
     });
 
-    state.should.deep.equal(Immutable.Map({}));
+    state.should.equal(Immutable.Map({}));
   });
 
   describe('on FIELD_COMPUTE_FULFILLED', function actionSuite() {

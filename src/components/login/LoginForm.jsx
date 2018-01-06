@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { components as inputComponents } from 'cspace-input';
+import LoginButton from './LoginButton';
 import Notification from '../notification/Notification';
 import styles from '../../../styles/cspace-ui/LoginForm.css';
 
-const { Button, LineInput, PasswordInput } = inputComponents;
+const { LineInput, PasswordInput } = inputComponents;
 
 const messages = defineMessages({
   title: {
@@ -16,8 +17,13 @@ const messages = defineMessages({
   },
   prompt: {
     id: 'loginForm.prompt',
-    description: 'The login prompt displayed when there are no errors.',
+    description: 'The prompt displayed on the login form when the user is not logged in.',
     defaultMessage: 'Please sign in to continue.',
+  },
+  expiredPrompt: {
+    id: 'loginForm.expiredPrompt',
+    description: 'The prompt displayed on the login form when the login session has expired.',
+    defaultMessage: 'Your session has expired. Please sign in again to continue.',
   },
   pending: {
     id: 'loginForm.pending',
@@ -54,11 +60,6 @@ const messages = defineMessages({
     description: 'Label for the login password field.',
     defaultMessage: 'Password',
   },
-  submit: {
-    id: 'loginForm.submit',
-    description: 'Label for the login submit button.',
-    defaultMessage: 'Sign in',
-  },
   forgotPassword: {
     id: 'loginForm.forgotPassword',
     description: 'Text of the forgot password link.',
@@ -79,12 +80,22 @@ const contextTypes = {
 };
 
 const propTypes = {
+  formId: PropTypes.string,
   intl: PropTypes.object.isRequired,
+  isExpired: PropTypes.bool,
   isPending: PropTypes.bool,
+  isSuccess: PropTypes.bool,
   username: PropTypes.string,
   error: PropTypes.object,
+  showForgotLink: PropTypes.bool,
+  showHeader: PropTypes.bool,
   login: PropTypes.func,
   onSuccess: PropTypes.func,
+};
+
+const defaultProps = {
+  showForgotLink: true,
+  showHeader: true,
 };
 
 class LoginForm extends Component {
@@ -107,17 +118,12 @@ class LoginForm extends Component {
 
   componentDidUpdate(prevProps) {
     const {
+      isSuccess,
       onSuccess,
-      isPending,
-      error,
     } = this.props;
 
-    if (onSuccess) {
-      const isSuccess = (prevProps.isPending && !isPending && !error);
-
-      if (isSuccess) {
-        onSuccess();
-      }
+    if (onSuccess && isSuccess && !prevProps.isSuccess) {
+      onSuccess();
     }
   }
 
@@ -147,19 +153,35 @@ class LoginForm extends Component {
     });
   }
 
-  renderMessage() {
+  renderHeader() {
     const {
+      showHeader,
+    } = this.props;
+
+    if (!showHeader) {
+      return null;
+    }
+
+    return (
+      <h2><FormattedMessage {...messages.title} /></h2>
+    );
+  }
+
+  renderPrompt() {
+    const {
+      isExpired,
       isPending,
-      error,
-      username,
+      isSuccess,
     } = this.props;
 
     let messageKey;
 
     if (isPending) {
       messageKey = 'pending';
-    } else if (username && !error) {
+    } else if (isSuccess) {
       messageKey = 'success';
+    } else if (isExpired) {
+      messageKey = 'expiredPrompt';
     } else {
       messageKey = 'prompt';
     }
@@ -169,8 +191,45 @@ class LoginForm extends Component {
     );
   }
 
+  renderButtonBar() {
+    const {
+      showForgotLink,
+    } = this.props;
+
+    const {
+      username,
+    } = this.state;
+
+    let forgotLink;
+
+    if (showForgotLink) {
+      forgotLink = (
+        <Link
+          to={{
+            pathname: '/resetpw',
+            state: {
+              username,
+            },
+          }}
+        >
+          <FormattedMessage {...messages.forgotPassword} />
+        </Link>
+      );
+    } else {
+      forgotLink = <div />;
+    }
+
+    return (
+      <div>
+        {forgotLink}
+        <LoginButton type="submit" />
+      </div>
+    );
+  }
+
   renderForm() {
     const {
+      formId,
       intl,
       isPending,
     } = this.props;
@@ -184,7 +243,7 @@ class LoginForm extends Component {
     } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form id={formId} onSubmit={this.handleSubmit}>
         <LineInput
           autoComplete="username email"
           name="username"
@@ -193,27 +252,14 @@ class LoginForm extends Component {
           value={username}
           onChange={this.handleUsernameChange}
         />
+
         <PasswordInput
           autoComplete="current-password"
           name="password"
           placeholder={intl.formatMessage(messages.password)}
         />
-        <div>
-          <Button type="submit">
-            <FormattedMessage {...messages.submit} />
-          </Button>
 
-          <Link
-            to={{
-              pathname: '/resetpw',
-              state: {
-                username,
-              },
-            }}
-          >
-            <FormattedMessage {...messages.forgotPassword} />
-          </Link>
-        </div>
+        {this.renderButtonBar()}
       </form>
     );
   }
@@ -253,8 +299,8 @@ class LoginForm extends Component {
   render() {
     return (
       <div className={styles.common}>
-        <h2><FormattedMessage {...messages.title} /></h2>
-        {this.renderMessage()}
+        {this.renderHeader()}
+        {this.renderPrompt()}
         {this.renderForm()}
         {this.renderError()}
       </div>
@@ -262,7 +308,8 @@ class LoginForm extends Component {
   }
 }
 
-LoginForm.contextTypes = contextTypes;
 LoginForm.propTypes = propTypes;
+LoginForm.defaultProps = defaultProps;
+LoginForm.contextTypes = contextTypes;
 
 export default injectIntl(LoginForm);

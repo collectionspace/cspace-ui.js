@@ -8,6 +8,8 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import LoginForm from '../../../../src/components/login/LoginForm';
 
+const expect = chai.expect;
+
 chai.should();
 
 const expectedClassName = 'cspace-ui-LoginForm--common';
@@ -43,6 +45,36 @@ describe('LoginForm', function suite() {
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
+  it('should show the header when showHeader is true', function test() {
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm
+            showHeader
+          />
+        </Router>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('h2').should.not.equal(null);
+  });
+
+  it('should not show the header when showHeader is false', function test() {
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm
+            showHeader={false}
+          />
+        </Router>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('h2')).to.equal(null);
+  });
+
   it('should show pending message when isPending is true', function test() {
     const messages = {
       'loginForm.pending': 'this is the pending message',
@@ -64,7 +96,7 @@ describe('LoginForm', function suite() {
       .equal(messages['loginForm.pending']);
   });
 
-  it('should show success message when isPending is false, no error is provided, and a username is present', function test() {
+  it('should show success message when isSuccess is true', function test() {
     const messages = {
       'loginForm.success': 'this is the success message',
     };
@@ -75,12 +107,31 @@ describe('LoginForm', function suite() {
         messages={messages}
       >
         <Router>
-          <LoginForm username="admin@core.collectionspace.org" />
+          <LoginForm isSuccess username="admin@core.collectionspace.org" />
         </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('div > p').textContent.should
       .equal(messages['loginForm.success']);
+  });
+
+  it('should show expired message when isExpired is true', function test() {
+    const messages = {
+      'loginForm.expiredPrompt': 'this is the expired message',
+    };
+
+    render(
+      <IntlProvider
+        locale="en"
+        messages={messages}
+      >
+        <Router>
+          <LoginForm isExpired username="admin@core.collectionspace.org" />
+        </Router>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('div > p').textContent.should
+      .equal(messages['loginForm.expiredPrompt']);
   });
 
   it('should show error message when error is provided', function test() {
@@ -183,7 +234,7 @@ describe('LoginForm', function suite() {
     Simulate.submit(form);
   });
 
-  it('should call onSuccess when isPending changes from true to false and there is no error', function test() {
+  it('should call onSuccess when isSuccess changes from false to true', function test() {
     let handlerCalled = false;
 
     const handleSuccess = () => {
@@ -198,7 +249,6 @@ describe('LoginForm', function suite() {
       >
         <Router>
           <LoginForm
-            isPending
             onSuccess={handleSuccess}
           />
         </Router>
@@ -206,98 +256,19 @@ describe('LoginForm', function suite() {
 
     handlerCalled.should.equal(false);
 
-    // Change isPending to false, but with an error - onSuccess should not be called
-
     render(
       <IntlProvider
         locale="en"
       >
         <Router>
           <LoginForm
-            error={Immutable.Map()}
-            onSuccess={handleSuccess}
-          />
-        </Router>
-      </IntlProvider>, this.container);
-
-    handlerCalled.should.equal(false);
-
-    // Change isPending from false to true - onSuccess should not be called
-
-    render(
-      <IntlProvider
-        locale="en"
-      >
-        <Router>
-          <LoginForm
-            isPending
-            onSuccess={handleSuccess}
-          />
-        </Router>
-      </IntlProvider>, this.container);
-
-    // Change isPending to false, with no error - onSuccess should be called
-
-    render(
-      <IntlProvider
-        locale="en"
-      >
-        <Router>
-          <LoginForm
+            isSuccess
             onSuccess={handleSuccess}
           />
         </Router>
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(true);
-
-    // Reset handler called flag
-
-    handlerCalled = false;
-
-    // isPending stays false - onSuccess should not be called
-
-    render(
-      <IntlProvider
-        locale="en"
-      >
-        <Router>
-          <LoginForm
-            onSuccess={handleSuccess}
-          />
-        </Router>
-      </IntlProvider>, this.container);
-
-    handlerCalled.should.equal(false);
-
-    // Change isPending from false to true - onSuccess should not be called
-
-    render(
-      <IntlProvider
-        locale="en"
-      >
-        <Router>
-          <LoginForm
-            isPending
-            onSuccess={handleSuccess}
-          />
-        </Router>
-      </IntlProvider>, this.container);
-
-    handlerCalled.should.equal(false);
-
-    // Change isPending to false, with no error, but no onSuccess - handler should not be called
-
-    render(
-      <IntlProvider
-        locale="en"
-      >
-        <Router>
-          <LoginForm />
-        </Router>
-      </IntlProvider>, this.container);
-
-    handlerCalled.should.equal(false);
   });
 
   it('should update the location state of the reset password link when the username changes', function test() {
@@ -321,5 +292,31 @@ describe('LoginForm', function suite() {
     const link = findRenderedComponentWithType(renderTree, Link);
 
     link.props.to.state.username.should.equal(username);
+  });
+
+  it('should show the forgot password link when showForgotLink is true', function test() {
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm showForgotLink username="admin@core.collectionspace.org" />
+        </Router>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('a').should.not.equal(null);
+  });
+
+  it('should not show the forgot password link when showForgotLink is false', function test() {
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm showForgotLink={false} username="admin@core.collectionspace.org" />
+        </Router>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('a')).to.equal(null);
   });
 });

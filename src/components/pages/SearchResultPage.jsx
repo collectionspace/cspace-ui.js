@@ -110,17 +110,20 @@ export default class SearchResultPage extends Component {
     const {
       location,
       match,
+      perms,
     } = this.props;
 
     const {
       location: prevLocation,
       match: prevMatch,
+      perms: prevPerms,
     } = prevProps;
 
     const { params } = match;
     const { params: prevParams } = prevMatch;
 
     if (
+      perms !== prevPerms ||
       params.recordType !== prevParams.recordType ||
       params.vocabulary !== prevParams.vocabulary ||
       params.csid !== prevParams.csid ||

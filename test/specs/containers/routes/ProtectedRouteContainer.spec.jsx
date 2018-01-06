@@ -12,6 +12,8 @@ const mockStore = configureMockStore();
 const username = 'admin@core.collectionspace.org';
 const screenName = 'Administrator';
 
+const openModalName = 'loginModal';
+
 const perms = Immutable.fromJS({
   collectionobject: {
     data: 'CRUDL',
@@ -22,6 +24,9 @@ const perms = Immutable.fromJS({
 });
 
 const store = mockStore({
+  notification: Immutable.Map({
+    modal: openModalName,
+  }),
   user: Immutable.fromJS({
     username: 'admin@core.collectionspace.org',
     account: {
@@ -42,6 +47,7 @@ describe('ProtectedRouteContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(ProtectedRoute);
+    result.props.should.have.property('openModalName', openModalName);
     result.props.should.have.property('perms', perms);
     result.props.should.have.property('username', username);
     result.props.should.have.property('screenName', screenName);

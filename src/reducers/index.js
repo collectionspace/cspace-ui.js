@@ -53,6 +53,8 @@ export const getLoginUsername = state => fromLogin.getUsername(state.login);
 
 export const isLoginPending = state => fromLogin.isPending(state.login);
 
+export const isLoginSuccess = state => fromLogin.isSuccess(state.login);
+
 export const getLoginError = state => fromLogin.getError(state.login);
 
 export const isLogoutPending = state => fromLogout.isPending(state.logout);

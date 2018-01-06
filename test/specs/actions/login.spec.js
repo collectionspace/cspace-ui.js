@@ -1,8 +1,14 @@
 /* global localStorage */
 
+import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+
+import {
+  ACCOUNT_PERMS_READ_FULFILLED,
+  readAccountPerms,
+} from '../../../src/actions/account';
 
 import getSession, {
   configureCSpace,
@@ -10,7 +16,6 @@ import getSession, {
 } from '../../../src/actions/cspace';
 
 import {
-  ACCOUNT_PERMS_READ_FULFILLED,
   ACCOUNT_PERMS_READ_REJECTED,
   AUTH_RENEW_FULFILLED,
   AUTH_RENEW_REJECTED,
@@ -18,10 +23,13 @@ import {
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
-  readAccountPerms,
   resetLogin,
   login,
 } from '../../../src/actions/login';
+
+import {
+  CLOSE_MODAL,
+} from '../../../src/actions/notification';
 
 import {
   PREFS_LOADED,
@@ -31,9 +39,14 @@ chai.should();
 
 describe('login action creator', function suite() {
   describe('resetLogin', function actionSuite() {
+    const username = 'user@collectionspace.org';
+
     it('should create a RESET_LOGIN action', function test() {
-      resetLogin().should.deep.equal({
+      resetLogin(username).should.deep.equal({
         type: RESET_LOGIN,
+        meta: {
+          username,
+        },
       });
     });
   });
@@ -43,10 +56,16 @@ describe('login action creator', function suite() {
     const tokenUrl = '/cspace-services/oauth/token';
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
     const config = {};
+    const prevUsername = 'prevuser@collectionspace.org';
     const username = 'user@collectionspace.org';
     const password = 'pw';
 
-    const store = mockStore();
+    const store = mockStore({
+      notification: Immutable.Map(),
+      user: Immutable.Map({
+        username: prevUsername,
+      }),
+    });
 
     const tokenGrantPayload = {
       access_token: 'abcd',
@@ -106,7 +125,7 @@ describe('login action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(6);
+          actions.should.have.lengthOf(7);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -146,8 +165,13 @@ describe('login action creator', function suite() {
           actions[4].should.have.property('type', PREFS_LOADED);
 
           actions[5].should.deep.equal({
+            type: CLOSE_MODAL,
+          });
+
+          actions[6].should.deep.equal({
             type: LOGIN_FULFILLED,
             meta: {
+              prevUsername,
               username,
             },
           });
