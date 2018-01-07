@@ -23,7 +23,7 @@ const TestInput = props => (
   <input
     name={props.name}
     defaultValue={props.value}
-    onBlur={event => props.onCommit([...props.parentPath, props.name], event.target.value)}
+    onBlur={event => props.onCommit([...props.parentPath, props.name, 0], event.target.value)}
   />
 );
 
@@ -251,7 +251,7 @@ describe('FieldConditionInput', function suite() {
     committedCondition.should.equal(Immutable.fromJS({
       op: OP_EQ,
       path: 'ns2:collectionobjects_common/objectNumber',
-      value: 'new val',
+      value: ['new val'],
     }));
   });
 });

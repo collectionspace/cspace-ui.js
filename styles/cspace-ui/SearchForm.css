@@ -8,3 +8,7 @@
 .common > footer {
   margin: 10px 0;
 }
+
+.common > footer > :global(.cspace-ui-ButtonBar--common) {
+  text-align: right;
+}

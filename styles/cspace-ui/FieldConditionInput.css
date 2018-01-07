@@ -5,25 +5,28 @@
 .normal {
   composes: common;
   display: flex;
-  align-items: baseline;
+  align-items: top;
+}
+
+.normal > div {
+  padding-top: 2px;
+  width: 80px;
 }
 
 .normal > div:first-child {
   width: 220px;
 }
 
-.normal > div {
-  width: 80px;
-}
-
 .normal > div:last-child {
+  padding-top: 0;
   width: 440px;
 }
 
-.normal :global(.cspace-input-TextInput--common),
-.normal :global(.cspace-input-DropdownInput--common) {
+.normal > div > :global(.cspace-input-TextInput--common),
+.normal > div > :global(.cspace-input-DropdownInput--common),
+.normal > div > :global(.cspace-input-RepeatingInput--common) {
   display: inline-block;
-  width: 200px;
+  width: 300px;
 }
 
 .inline {

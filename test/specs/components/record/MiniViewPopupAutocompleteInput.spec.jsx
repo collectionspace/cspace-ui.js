@@ -96,6 +96,31 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
+  it('should not render an input if asText is true', function test() {
+    const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe1514784052823)\'John Doe\'';
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <BaseMiniViewPopupAutocompleteInput
+                source="person/local"
+                value={value}
+                asText
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.firstElementChild;
+
+    input.nodeName.should.equal('DIV');
+    input.className.should.contain('cspace-input-LineInput--normal');
+    input.textContent.should.equal('John Doe');
+  });
+
   it('should open the popup when the mouse enters', function test() {
     const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe1514784052823)\'John Doe\'';
 
