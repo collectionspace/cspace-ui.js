@@ -144,7 +144,7 @@ describe('RecordTitleBar', function suite() {
   });
 
   it('should dock and undock when scrolled', function test() {
-    this.timeout(3000);
+    this.timeout(4000);
 
     render(
       <IntlProvider locale="en">
@@ -163,7 +163,7 @@ describe('RecordTitleBar', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         resolve();
-      }, 1000);
+      }, 2000);
     })
     .then(() => {
       const scrolledRect = container.getBoundingClientRect();
@@ -186,7 +186,7 @@ describe('RecordTitleBar', function suite() {
   });
 
   it('should call onDock if the height changes while docked', function test() {
-    this.timeout(4000);
+    this.timeout(5000);
 
     let handlerCalled = false;
 
@@ -211,7 +211,7 @@ describe('RecordTitleBar', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         resolve();
-      }, 1000);
+      }, 2000);
     })
     .then(() => {
       const scrolledRect = container.getBoundingClientRect();

@@ -56,7 +56,7 @@ describe('RecordHeader', function suite() {
   });
 
   it('should dock and undock when scrolled', function test() {
-    this.timeout(3000);
+    this.timeout(4000);
 
     const dockTop = 0;
 
@@ -77,7 +77,7 @@ describe('RecordHeader', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         resolve();
-      }, 1000);
+      }, 2000);
     })
       .then(() => {
         const scrolledRect = container.getBoundingClientRect();
