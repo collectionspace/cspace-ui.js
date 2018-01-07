@@ -228,7 +228,8 @@ export default class SearchPage extends Component {
 
     return (
       <div className={styles.common}>
-        <TitleBar title={title} />
+        <TitleBar title={title} updateDocumentTitle />
+
         <div className={pageBodyStyles.common}>
           <SearchForm
             advancedSearchCondition={advancedSearchCondition}

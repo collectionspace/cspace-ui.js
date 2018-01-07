@@ -217,7 +217,7 @@ export default function CreatePage(props, context) {
 
   return (
     <div className={styles.common}>
-      <TitleBar title={title} />
+      <TitleBar title={title} updateDocumentTitle />
 
       <div>
         {lists}

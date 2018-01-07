@@ -646,7 +646,9 @@ export default class SearchResultPage extends Component {
           config={config}
           searchDescriptor={searchDescriptor}
           searchName={searchName}
+          updateDocumentTitle
         />
+
         <div className={pageBodyStyles.common}>
           <SearchResultTableContainer
             config={config}
@@ -660,10 +662,11 @@ export default class SearchResultPage extends Component {
             renderHeader={this.renderHeader}
             renderFooter={this.renderFooter}
             onSortChange={this.handleSortChange}
-
           />
+
           <div className={searchResultSidebarStyles.common} />
         </div>
+
         {searchToRelateModal}
       </div>
     );

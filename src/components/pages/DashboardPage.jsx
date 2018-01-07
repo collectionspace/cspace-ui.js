@@ -1,7 +1,8 @@
 import React from 'react';
+import TitleBar from '../sections/TitleBar';
 
 export default () => (
   <div>
-    <h2>My CollectionSpace</h2>
+    <TitleBar title="My CollectionSpace" updateDocumentTitle />
   </div>
 );

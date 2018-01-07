@@ -33,6 +33,7 @@ export default function SearchResultTitleBar(props) {
     config,
     searchDescriptor,
     searchName,
+    ...remainingProps
   } = props;
 
   const recordType = searchDescriptor.get('recordType');
@@ -116,7 +117,12 @@ export default function SearchResultTitleBar(props) {
   );
 
   return (
-    <TitleBar title={title} aside={aside} subtitle={advancedTitle} />
+    <TitleBar
+      title={title}
+      aside={aside}
+      subtitle={advancedTitle}
+      {...remainingProps}
+    />
   );
 }
 

@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/TitleBar.css';
 import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';
@@ -13,6 +14,7 @@ const propTypes = {
   icon: PropTypes.node,
   nav: PropTypes.node,
   serviceType: PropTypes.string,
+  updateDocumentTitle: PropTypes.bool,
   onDocked: PropTypes.func,
 };
 
@@ -30,13 +32,43 @@ export default class TitleBar extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, false);
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({
+      documentTitle: this.getDocumentTitle(),
+    });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const node = this.domNode;
+
+    // Update the document title, if necessary.
+
+    const {
+      updateDocumentTitle,
+    } = this.props;
+
+    if (updateDocumentTitle) {
+      const {
+        title,
+        aside,
+      } = this.props;
+
+      const {
+        title: prevTitle,
+        aside: prevAside,
+      } = prevProps;
+
+      if (title !== prevTitle || aside !== prevAside) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          documentTitle: this.getDocumentTitle(),
+        });
+      }
+    }
+
     // If the height of the title bar content changes while the title bar is docked, fire onDocked
     // in order to notify listeners of the new height.
-
-    const node = this.domNode;
 
     if (node && this.state.docked) {
       const contentNode = node.firstElementChild;
@@ -57,6 +89,16 @@ export default class TitleBar extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll, false);
+  }
+
+  getDocumentTitle() {
+    const titleNode = this.domNode.querySelector('h1');
+    const titleText = titleNode ? titleNode.textContent : null;
+
+    const asideNode = this.domNode.querySelector('aside');
+    const asideText = asideNode ? asideNode.textContent : null;
+
+    return [titleText, asideText].filter(part => !!part).join(' | ');
   }
 
   setDomNode(ref) {
@@ -89,6 +131,26 @@ export default class TitleBar extends Component {
         onDocked(this.dockedHeight);
       }
     }
+  }
+
+  renderDocumentTitle() {
+    const {
+      updateDocumentTitle,
+    } = this.props;
+
+    if (!updateDocumentTitle) {
+      return null;
+    }
+
+    const {
+      documentTitle,
+    } = this.state;
+
+    return (
+      <Helmet>
+        <title>{documentTitle}</title>
+      </Helmet>
+    );
   }
 
   renderNav() {
@@ -156,6 +218,7 @@ export default class TitleBar extends Component {
         ref={this.setDomNode}
         style={inlineStyle}
       >
+        {this.renderDocumentTitle()}
         <div>
           {this.renderNav()}
           <div>

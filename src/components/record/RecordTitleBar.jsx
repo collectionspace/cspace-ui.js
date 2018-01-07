@@ -40,6 +40,7 @@ export default function RecordTitleBar(props, context) {
     searchName,
     searchDescriptor,
     onDocked,
+    ...remainingProps
   } = props;
 
   const {
@@ -92,6 +93,7 @@ export default function RecordTitleBar(props, context) {
       icon={workflowStateIcon}
       nav={nav}
       onDocked={onDocked}
+      {...remainingProps}
     />
   );
 }

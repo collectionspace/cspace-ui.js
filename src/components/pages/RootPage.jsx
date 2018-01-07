@@ -42,14 +42,14 @@ function RootPage(props) {
   } = props;
 
   const classes = classNames(styles.common, className);
+  const title = intl.formatMessage(messages.title);
 
   return (
     <div className={classes}>
-      <Helmet>
-        {/* TODO: Allow nested routes to push title parts that get prepended to the root title. */}
-
-        <title>{intl.formatMessage(messages.title)}</title>
-
+      <Helmet
+        defaultTitle={title}
+        titleTemplate={`%s | ${title}`}
+      >
         {/*
           * TODO: Generate a full set of icons to support a range of platforms (e.g. using
           * http://realfavicongenerator.net/)

@@ -236,6 +236,7 @@ export default class RecordPage extends Component {
           vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
+          updateDocumentTitle
           onDocked={this.handleTitleBarDocked}
         />
         <div className={pageBodyStyles.common}>

@@ -66,7 +66,7 @@ export default function AdminPage(props) {
 
   return (
     <div className={styles.common}>
-      <TitleBar title={title} />
+      <TitleBar title={title} updateDocumentTitle />
 
       <AdminNavBar basename={basename} tabs={permittedTabs} />
 
