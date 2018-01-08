@@ -102,12 +102,28 @@ class LoginForm extends Component {
   constructor(props) {
     super(props);
 
+    this.handlePasswordInputApi = this.handlePasswordInputApi.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleUsernameInputApi = this.handleUsernameInputApi.bind(this);
 
     this.state = {
       username: props.username,
     };
+  }
+
+  componentDidMount() {
+    const {
+      username,
+    } = this.props;
+
+    // If there is a username, focus the password input. Otherwise, focus the username input.
+
+    if (username && this.passwordInputApi) {
+      this.passwordInputApi.focus();
+    } else if (this.usernameInputApi) {
+      this.usernameInputApi.focus();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -118,13 +134,38 @@ class LoginForm extends Component {
 
   componentDidUpdate(prevProps) {
     const {
+      error,
       isSuccess,
+      username,
       onSuccess,
     } = this.props;
+
+    const {
+      error: prevError,
+      username: prevUsername,
+    } = prevProps;
+
+    if (this.passwordInputApi) {
+      // If the username has been set, focus the password.
+
+      if (username && !prevUsername) {
+        this.passwordInputApi.focus();
+      }
+
+      // If login fails, focus the password.
+
+      if (error && !prevError) {
+        this.passwordInputApi.focus();
+      }
+    }
 
     if (onSuccess && isSuccess && !prevProps.isSuccess) {
       onSuccess();
     }
+  }
+
+  handlePasswordInputApi(api) {
+    this.passwordInputApi = api;
   }
 
   handleSubmit(event) {
@@ -145,6 +186,10 @@ class LoginForm extends Component {
 
       login(config, username, password);
     }
+  }
+
+  handleUsernameInputApi(api) {
+    this.usernameInputApi = api;
   }
 
   handleUsernameChange(value) {
@@ -232,9 +277,10 @@ class LoginForm extends Component {
       formId,
       intl,
       isPending,
+      isSuccess,
     } = this.props;
 
-    if (isPending) {
+    if (isPending || isSuccess) {
       return null;
     }
 
@@ -250,6 +296,7 @@ class LoginForm extends Component {
           placeholder={intl.formatMessage(messages.username)}
           type="text"
           value={username}
+          api={this.handleUsernameInputApi}
           onChange={this.handleUsernameChange}
         />
 
@@ -257,6 +304,7 @@ class LoginForm extends Component {
           autoComplete="current-password"
           name="password"
           placeholder={intl.formatMessage(messages.password)}
+          api={this.handlePasswordInputApi}
         />
 
         {this.renderButtonBar()}

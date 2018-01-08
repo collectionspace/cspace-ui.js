@@ -73,10 +73,9 @@ describe('login reducer', function suite() {
 
     state.should.deep.equal(Immutable.fromJS({
       isSuccess: true,
-      username: loginUsername,
     }));
 
-    getUsername(state).should.equal(loginUsername);
+    expect(getUsername(state)).to.equal(undefined);
     isSuccess(state).should.equal(true);
     expect(isPending(state)).to.equal(undefined);
   });

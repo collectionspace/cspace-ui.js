@@ -10,15 +10,17 @@ const mockStore = configureMockStore([]);
 
 describe('LogoutPageContainer', function suite() {
   it('should set props on LogoutPage', function test() {
+    const history = {};
     const store = mockStore({});
     const context = { store };
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<LogoutPageContainer />, context);
+    shallowRenderer.render(<LogoutPageContainer history={history} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(LogoutPage);
-    result.props.should.have.property('onMount').that.is.a('function');
+    result.props.should.have.property('logout').that.is.a('function');
+    result.props.should.have.property('resetLogin').that.is.a('function');
   });
 });

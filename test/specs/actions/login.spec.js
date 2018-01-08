@@ -28,10 +28,6 @@ import {
 } from '../../../src/actions/login';
 
 import {
-  CLOSE_MODAL,
-} from '../../../src/actions/notification';
-
-import {
   PREFS_LOADED,
 } from '../../../src/actions/prefs';
 
@@ -125,7 +121,7 @@ describe('login action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(7);
+          actions.should.have.lengthOf(6);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -165,10 +161,6 @@ describe('login action creator', function suite() {
           actions[4].should.have.property('type', PREFS_LOADED);
 
           actions[5].should.deep.equal({
-            type: CLOSE_MODAL,
-          });
-
-          actions[6].should.deep.equal({
             type: LOGIN_FULFILLED,
             meta: {
               prevUsername,

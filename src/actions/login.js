@@ -1,6 +1,5 @@
 import { createSession, setSession } from './cspace';
 import { readAccountPerms } from './account';
-import { closeModal } from './notification';
 import { loadPrefs, savePrefs } from './prefs';
 import { getUserUsername } from '../reducers';
 
@@ -61,8 +60,6 @@ export const login = (config, username, password) => (dispatch, getState) => {
   return dispatch(renewAuth(username, password))
     .then(() => dispatch(readAccountPerms(config, username)))
     .then(() => dispatch(loadPrefs(username)))
-    // The login modal may be open. If login succeeds, close it.
-    .then(() => dispatch(closeModal()))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,
       meta: {

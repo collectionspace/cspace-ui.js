@@ -19,12 +19,14 @@ const messages = defineMessages({
 const propTypes = {
   isOpen: PropTypes.bool,
   onCloseButtonClick: PropTypes.func,
+  onSuccess: PropTypes.func,
 };
 
 export default function LoginModal(props) {
   const {
     isOpen,
     onCloseButtonClick,
+    onSuccess,
   } = props;
 
   if (!isOpen) {
@@ -45,6 +47,7 @@ export default function LoginModal(props) {
         isExpired
         showForgotLink={false}
         showHeader={false}
+        onSuccess={onSuccess}
       />
     </Modal>
   );

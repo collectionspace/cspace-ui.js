@@ -6,7 +6,8 @@ import styles from '../../../styles/cspace-ui/LoginPage.css';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
-  onMount: PropTypes.func,
+  logout: PropTypes.func,
+  resetLogin: PropTypes.func,
 };
 
 export default class LogoutPage extends Component {
@@ -18,18 +19,23 @@ export default class LogoutPage extends Component {
 
   componentDidMount() {
     const {
-      onMount,
+      logout,
     } = this.props;
 
-    if (onMount) {
-      onMount();
+    if (logout) {
+      logout();
     }
   }
 
   onSuccess() {
     const {
       history,
+      resetLogin,
     } = this.props;
+
+    if (resetLogin) {
+      resetLogin();
+    }
 
     history.replace('/login');
   }

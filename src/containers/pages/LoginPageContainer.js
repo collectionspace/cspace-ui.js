@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import LoginPage from '../../components/pages/LoginPage';
 import { resetLogin } from '../../actions/login';
+import { closeModal } from '../../actions/notification';
 
 const mapDispatchToProps = {
-  onMount: resetLogin,
+  closeModal,
+  resetLogin,
 };
 
 export default connect(

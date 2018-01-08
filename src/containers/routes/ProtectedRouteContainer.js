@@ -10,6 +10,7 @@ import {
 
 import {
   redirectLogin,
+  resetLogin,
 } from '../../actions/login';
 
 import {
@@ -26,6 +27,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   closeModal,
   redirectLogin,
+  resetLogin,
 };
 
 export default connect(

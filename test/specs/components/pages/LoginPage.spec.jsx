@@ -65,7 +65,7 @@ describe('LoginPage', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should replace history with continuation when login form is submitted', function test() {
+  it('should call closeModal and resetLogin, and replace history with continuation when login succeeds', function test() {
     const continuationUrl = '/foo';
 
     let replacementUrl = null;
@@ -82,6 +82,18 @@ describe('LoginPage', function suite() {
       },
     };
 
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    let resetLoginCalled = false;
+
+    const resetLogin = () => {
+      resetLoginCalled = true;
+    };
+
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -89,6 +101,8 @@ describe('LoginPage', function suite() {
             <LoginPage
               history={stubbedHistory}
               location={location}
+              closeModal={closeModal}
+              resetLogin={resetLogin}
             />
           </Router>
         </StoreProvider>
@@ -98,6 +112,8 @@ describe('LoginPage', function suite() {
 
     return loginFormContainer.props.onSuccess()
       .then(() => {
+        closeModalCalled.should.equal(true);
+        resetLoginCalled.should.equal(true);
         replacementUrl.should.equal(continuationUrl);
       });
   });

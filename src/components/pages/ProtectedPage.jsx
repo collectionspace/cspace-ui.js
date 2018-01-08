@@ -1,4 +1,6 @@
-import React from 'react';
+/* global window */
+
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import Header from '../sections/Header';
@@ -14,42 +16,69 @@ const propTypes = {
   username: PropTypes.string.isRequired,
   children: PropTypes.node,
   closeModal: PropTypes.func,
+  resetLogin: PropTypes.func,
 };
 
 const defaultProps = {
   decorated: true,
 };
 
-export default function ProtectedPage(props) {
-  const {
-    decorated,
-    history,
-    openModalName,
-    perms,
-    screenName,
-    username,
-    children,
-    closeModal,
-  } = props;
+export default class ProtectedPage extends Component {
+  constructor() {
+    super();
 
-  const header = decorated
-    ? <Header history={history} perms={perms} screenName={screenName || username} />
-    : null;
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+  }
 
-  const footer = decorated ? <Footer /> : null;
+  handleLoginSuccess() {
+    const {
+      closeModal,
+      resetLogin,
+    } = this.props;
 
-  return (
-    <div>
-      {header}
-      {children}
-      {footer}
+    window.setTimeout(() => {
+      if (resetLogin) {
+        resetLogin();
+      }
 
-      <LoginModal
-        isOpen={openModalName === LoginModal.modalName}
-        onCloseButtonClick={closeModal}
-      />
-    </div>
-  );
+      if (closeModal) {
+        closeModal();
+      }
+    }, 0);
+  }
+
+  render() {
+    const {
+      decorated,
+      history,
+      openModalName,
+      perms,
+      screenName,
+      username,
+      children,
+      closeModal,
+    } = this.props;
+
+    const header = decorated
+      ? <Header history={history} perms={perms} screenName={screenName || username} />
+      : null;
+
+    const footer = decorated ? <Footer /> : null;
+
+    return (
+      <div>
+        {header}
+        {children}
+        {footer}
+
+        <LoginModal
+          isOpen={openModalName === LoginModal.modalName}
+          onCloseButtonClick={closeModal}
+          onSuccess={this.handleLoginSuccess}
+        />
+      </div>
+    );
+  }
 }
 
 ProtectedPage.propTypes = propTypes;

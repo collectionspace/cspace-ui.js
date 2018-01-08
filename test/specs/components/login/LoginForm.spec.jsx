@@ -1,3 +1,5 @@
+/* global document */
+
 import React from 'react';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
@@ -269,6 +271,58 @@ describe('LoginForm', function suite() {
       </IntlProvider>, this.container);
 
     handlerCalled.should.equal(true);
+  });
+
+  it('should call focus the password input when the username changes from blank to non-blank', function test() {
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm />
+        </Router>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm
+            username="user@collectionspace.org"
+          />
+        </Router>
+      </IntlProvider>, this.container);
+
+    const passwordInput = this.container.querySelector('input[name="password"]');
+
+    document.activeElement.should.equal(passwordInput);
+  });
+
+  it('should call focus the password input when error changes from falsy to truthy', function test() {
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm />
+        </Router>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider
+        locale="en"
+      >
+        <Router>
+          <LoginForm
+            error={Immutable.Map()}
+          />
+        </Router>
+      </IntlProvider>, this.container);
+
+    const passwordInput = this.container.querySelector('input[name="password"]');
+
+    document.activeElement.should.equal(passwordInput);
   });
 
   it('should update the location state of the reset password link when the username changes', function test() {

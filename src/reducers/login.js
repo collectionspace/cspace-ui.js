@@ -21,7 +21,7 @@ export default (state = Immutable.Map(), action) => {
       return state
         .delete('isPending')
         .set('isSuccess', true)
-        .set('username', action.meta.username)
+        .delete('username')
         .delete('error');
     case LOGIN_REJECTED:
       return state

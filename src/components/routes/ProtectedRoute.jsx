@@ -13,6 +13,7 @@ const propTypes = {
   username: PropTypes.string,
   closeModal: PropTypes.func,
   redirectLogin: PropTypes.func,
+  resetLogin: PropTypes.func,
 };
 
 export default function ProtectedRoute(props) {
@@ -24,6 +25,7 @@ export default function ProtectedRoute(props) {
     screenName,
     username,
     closeModal,
+    resetLogin,
     ...remainingProps
   } = props;
 
@@ -39,6 +41,7 @@ export default function ProtectedRoute(props) {
             username={username}
             decorated={decorated}
             closeModal={closeModal}
+            resetLogin={resetLogin}
             {...routeProps}
           >
             <Component {...routeProps} />

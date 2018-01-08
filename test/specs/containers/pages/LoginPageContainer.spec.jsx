@@ -26,6 +26,7 @@ describe('LoginPageContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(LoginPage);
-    result.props.should.have.property('onMount').that.is.a('function');
+    result.props.should.have.property('closeModal').that.is.a('function');
+    result.props.should.have.property('resetLogin').that.is.a('function');
   });
 });

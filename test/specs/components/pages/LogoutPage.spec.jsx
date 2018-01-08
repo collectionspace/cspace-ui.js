@@ -35,11 +35,11 @@ describe('LogoutPage', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
-  it('should call onMount when mounted', function test() {
-    let handlerCalled = false;
+  it('should call logout when mounted', function test() {
+    let logoutCalled = false;
 
-    const handleMount = () => {
-      handlerCalled = true;
+    const logout = () => {
+      logoutCalled = true;
     };
 
     render(
@@ -47,15 +47,15 @@ describe('LogoutPage', function suite() {
         <StoreProvider store={store}>
           <LogoutPage
             history={history}
-            onMount={handleMount}
+            logout={logout}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    handlerCalled.should.equal(true);
+    logoutCalled.should.equal(true);
   });
 
-  it('should replace history with continuation when logout form is submitted', function test() {
+  it('should call resetLogin and replace history with continuation when logout succeeds', function test() {
     let replacementUrl = null;
 
     const stubbedHistory = mockHistory({
@@ -64,11 +64,18 @@ describe('LogoutPage', function suite() {
       },
     });
 
+    let resetLoginCalled = false;
+
+    const resetLogin = () => {
+      resetLoginCalled = true;
+    };
+
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <LogoutPage
             history={stubbedHistory}
+            resetLogin={resetLogin}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -77,6 +84,7 @@ describe('LogoutPage', function suite() {
 
     logoutIndicator.props.onSuccess();
 
+    resetLoginCalled.should.equal(true);
     replacementUrl.should.equal('/login');
   });
 });
