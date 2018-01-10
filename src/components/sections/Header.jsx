@@ -32,7 +32,8 @@ function Header(props) {
     <header>
       <div className={bannerStyles.common}>
         <div className={bannerMainStyles.common}>
-          <Logo />
+          <Logo config={config} />
+
           <QuickSearchFormContainer
             history={history}
             intl={intl}
@@ -40,10 +41,12 @@ function Header(props) {
             perms={perms}
           />
         </div>
+
         <div className={bannerRightStyles.common}>
           <UserMenu screenName={screenName} />
         </div>
       </div>
+
       <NavBar perms={perms} />
     </header>
   );

@@ -8,20 +8,31 @@ const propTypes = {
   children: PropTypes.node,
 };
 
-export default function PublicPage(props) {
+const contextTypes = {
+  config: PropTypes.object,
+};
+
+export default function PublicPage(props, context) {
   const {
     children,
   } = props;
 
+  const {
+    config,
+  } = context;
+
   return (
     <div className={styles.common}>
       <header>
-        <Logo />
+        <Logo config={config} />
       </header>
+
       {children}
+
       <Footer />
     </div>
   );
 }
 
 PublicPage.propTypes = propTypes;
+PublicPage.contextTypes = contextTypes;

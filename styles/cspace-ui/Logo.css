@@ -1,12 +1,7 @@
-.common > a {
-  display: block;
-  width: 273px;
+.common {
+  width: 270px;
 }
 
-.common > a > div {
-  height: 44px;
-  background-image: url(../../images/collectionspace.svg);
-  background-position: left top;
-  background-repeat: no-repeat;
-  background-size: contain;
+.common > a {
+  display: block;
 }

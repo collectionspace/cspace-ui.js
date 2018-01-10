@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
-
+import logoUrl from '../images/collectionspace.svg';
 import { configureCSpace } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
 import { addOptionLists } from './actions/optionList';
@@ -16,7 +16,6 @@ import defaultPlugins from './plugins';
 import reducer from './reducers';
 import AppContainer from './containers/AppContainer';
 import createPluginContext from './helpers/createPluginContext';
-
 import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
 
 const pluginContext = createPluginContext();
@@ -27,6 +26,7 @@ const defaultConfig = mergeConfig({
   container: '#cspace',
   index: '/search',
   locale: 'en',
+  logo: logoUrl,
   messages: undefined,
   prettyUrls: false,
   serverUrl: '',

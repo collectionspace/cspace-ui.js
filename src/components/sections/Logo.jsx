@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import styles from '../../../styles/cspace-ui/Logo.css';
@@ -12,11 +13,13 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  config: PropTypes.object,
   intl: intlShape,
 };
 
 function Logo(props) {
   const {
+    config,
     intl,
   } = props;
 
@@ -24,8 +27,8 @@ function Logo(props) {
 
   return (
     <div className={styles.common}>
-      <Link to="/" title={title}>
-        <div />
+      <Link to="/">
+        <img alt={title} src={config.logo} />
       </Link>
     </div>
   );
