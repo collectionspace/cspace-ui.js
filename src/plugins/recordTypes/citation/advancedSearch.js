@@ -1,7 +1,7 @@
 import {
   OP_OR,
   OP_EQ,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,7 +9,7 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termDisplayName',
     },
     {
@@ -29,15 +29,15 @@ export default {
       path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termLanguage',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termFullCitation',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:citations_common/citationTermGroupList/citationTermGroup/termTitle',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
     {

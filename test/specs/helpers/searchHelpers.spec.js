@@ -12,6 +12,7 @@ import {
 
 import {
   OP_AND,
+  OP_CONTAIN,
   OP_OR,
   OP_EQ,
   OP_LT,
@@ -701,6 +702,17 @@ describe('searchHelpers', function moduleSuite() {
 
       fieldConditionToNXQL(fields, condition).should
         .equal('part:foo <= "bar"');
+    });
+
+    it('should convert contain operation to match operation with wildcards on either end', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_CONTAIN,
+        path: 'ns2:part/foo',
+        value: 'bar',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:foo ILIKE "%bar%"');
     });
 
     it('should expand list values into multiple OR clauses', function test() {

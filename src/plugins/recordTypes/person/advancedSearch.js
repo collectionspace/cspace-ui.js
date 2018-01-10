@@ -1,7 +1,7 @@
 import {
   OP_OR,
   OP_EQ,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,7 +9,7 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:persons_common/personTermGroupList/personTermGroup/termDisplayName',
     },
     {
@@ -25,19 +25,19 @@ export default {
       path: 'ns2:persons_common/gender',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:persons_common/occupations/occupation',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:persons_common/schoolsOrStyles/schoolOrStyle',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:persons_common/groups/group',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:persons_common/nationalities/nationality',
     },
     // {
@@ -49,7 +49,7 @@ export default {
     //   path: 'ns2:persons_common/deathDateGroup',
     // },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
     {

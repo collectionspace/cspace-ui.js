@@ -1,7 +1,7 @@
 import {
   OP_OR,
   OP_EQ,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,7 +9,7 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:acquisitions_common/acquisitionReferenceNumber',
     },
     // {
@@ -33,11 +33,11 @@ export default {
       path: 'ns2:acquisitions_common/acquisitionFundingList/acquisitionFunding/acquisitionFundingSource',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:acquisitions_common/creditLine',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:acquisitions_common/fieldCollectionEventNames/fieldCollectionEventName',
     },
     {
@@ -45,7 +45,7 @@ export default {
       path: 'ns2:collectionspace_core/updatedAt',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
   ],

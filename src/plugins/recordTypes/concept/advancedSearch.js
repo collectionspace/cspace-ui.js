@@ -1,7 +1,7 @@
 import {
   OP_OR,
   OP_EQ,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,11 +9,11 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termDisplayName',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termName',
     },
     {
@@ -33,7 +33,7 @@ export default {
       path: 'ns2:concepts_common/conceptRecordTypes/conceptRecordType',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
     {

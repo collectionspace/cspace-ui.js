@@ -1,7 +1,7 @@
 import {
   OP_OR,
   OP_EQ,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,11 +9,11 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:organizations_common/orgTermGroupList/orgTermGroup/termDisplayName',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:organizations_common/orgTermGroupList/orgTermGroup/termName',
     },
     {
@@ -37,7 +37,7 @@ export default {
     //   path: 'ns2:organizations_common/foundingDateGroup',
     // },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:organizations_common/foundingPlace',
     },
     // {
@@ -45,15 +45,15 @@ export default {
     //   path: 'ns2:organizations_common/dissolutionDateGroup',
     // },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:organizations_common/groups/group',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:organizations_common/functions/function',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
     {

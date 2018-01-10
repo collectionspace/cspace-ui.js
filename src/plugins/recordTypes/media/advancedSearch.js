@@ -1,7 +1,7 @@
 import {
   OP_EQ,
   OP_OR,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,11 +9,11 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:media_common/identificationNumber',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:media_common/title',
     },
     {
@@ -37,11 +37,11 @@ export default {
     //   path: 'ns2:media_common/dateGroupList/dateGroup',
     // },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:media_common/source',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:media_common/subjectList/subject',
     },
     {
@@ -49,7 +49,7 @@ export default {
       path: 'ns2:media_common/rightsHolder',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
     {

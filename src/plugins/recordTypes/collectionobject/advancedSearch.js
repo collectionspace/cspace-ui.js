@@ -1,7 +1,7 @@
 import {
   OP_OR,
   OP_EQ,
-  OP_MATCH,
+  OP_CONTAIN,
   OP_RANGE,
 } from '../../../constants/searchOperators';
 
@@ -9,7 +9,7 @@ export default {
   op: OP_OR,
   value: [
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/objectNumber',
     },
     {
@@ -25,11 +25,11 @@ export default {
       path: 'ns2:collectionobjects_common/recordStatus',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/titleGroupList/titleGroup/title',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/objectNameList/objectNameGroup/objectName',
     },
     {
@@ -49,15 +49,15 @@ export default {
       path: 'ns2:collectionobjects_common/forms/form',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/editionNumber',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/styles/style',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/materialGroupList/materialGroup/material',
     },
     {
@@ -73,7 +73,7 @@ export default {
       path: 'ns2:collectionobjects_common/nonTextualInscriptionGroupList/nonTextualInscriptionGroup/inscriptionDescriptionInscriber',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/nonTextualInscriptionGroupList/nonTextualInscriptionGroup/inscriptionDescriptionMethod',
     },
     /* eslint-disable max-len */
@@ -83,15 +83,15 @@ export default {
     // },
     /* eslint-enable max-len */
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/techniqueGroupList/techniqueGroup/technique',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/objectProductionPlaceGroupList/objectProductionPlaceGroup/objectProductionPlace',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/objectProductionPeopleGroupList/objectProductionPeopleGroup/objectProductionPeople',
     },
     {
@@ -103,11 +103,11 @@ export default {
       path: 'ns2:collectionobjects_common/objectProductionOrganizationGroupList/objectProductionOrganizationGroup/objectProductionOrganization',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionobjects_common/fieldColEventNames/fieldColEventName',
     },
     {
-      op: OP_MATCH,
+      op: OP_CONTAIN,
       path: 'ns2:collectionspace_core/updatedBy',
     },
     {

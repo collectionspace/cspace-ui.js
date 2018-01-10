@@ -17,10 +17,6 @@
   width: 50px;
 }
 
-.common > ul > li {
-  padding-top: 8px;
-}
-
 .normal {
   composes: common;
 }
@@ -29,6 +25,7 @@
   display: flex;
   align-items: baseline;
   border-top: 1px solid rgb(220, 220, 220);
+  padding-top: 8px;
 }
 
 .normal > ul > li > *:first-child {

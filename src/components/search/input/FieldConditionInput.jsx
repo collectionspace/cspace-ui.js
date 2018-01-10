@@ -8,6 +8,7 @@ import RangeSearchField from '../RangeSearchField';
 import { configKey } from '../../../helpers/configHelpers';
 
 import {
+  OP_CONTAIN,
   OP_EQ,
   OP_GT,
   OP_GTE,
@@ -21,62 +22,70 @@ import styles from '../../../../styles/cspace-ui/FieldConditionInput.css';
 
 const operatorMessages = {
   full: defineMessages({
+    [OP_CONTAIN]: {
+      id: 'fieldConditionInput.OP_CONTAIN.full',
+      defaultMessage: 'contains',
+    },
     [OP_EQ]: {
-      id: 'fieldConditionInput.op.eq',
+      id: 'fieldConditionInput.OP_EQ.full',
       defaultMessage: 'is',
     },
     [OP_GT]: {
-      id: 'fieldConditionInput.op.gt',
+      id: 'fieldConditionInput.OP_GT.full',
       defaultMessage: 'is greater than',
     },
     [OP_GTE]: {
-      id: 'fieldConditionInput.op.gte',
+      id: 'fieldConditionInput.OP_GTE.full',
       defaultMessage: 'is greater than or equal to',
     },
     [OP_LT]: {
-      id: 'fieldConditionInput.op.lt',
+      id: 'fieldConditionInput.OP_LT.full',
       defaultMessage: 'is less than',
     },
     [OP_LTE]: {
-      id: 'fieldConditionInput.op.lte',
+      id: 'fieldConditionInput.OP_LTE.full',
       defaultMessage: 'is less than or equal to',
     },
     [OP_MATCH]: {
-      id: 'fieldConditionInput.op.match',
+      id: 'fieldConditionInput.OP_MATCH.full',
       defaultMessage: 'matches',
     },
     [OP_RANGE]: {
-      id: 'fieldConditionInput.op.range',
+      id: 'fieldConditionInput.OP_RANGE.full',
       defaultMessage: 'is between',
     },
   }),
   compact: defineMessages({
+    [OP_CONTAIN]: {
+      id: 'fieldConditionInput.OP_CONTAIN.compact',
+      defaultMessage: 'contains',
+    },
     [OP_EQ]: {
-      id: 'fieldConditionInput.op.eq.compact',
+      id: 'fieldConditionInput.OP_EQ.compact',
       defaultMessage: '=',
     },
     [OP_GT]: {
-      id: 'fieldConditionInput.op.gt.compact',
+      id: 'fieldConditionInput.OP_GT.compact',
       defaultMessage: '>',
     },
     [OP_GTE]: {
-      id: 'fieldConditionInput.op.gte.compact',
+      id: 'fieldConditionInput.OP_GTE.compact',
       defaultMessage: '≥',
     },
     [OP_LT]: {
-      id: 'fieldConditionInput.op.lt.compact',
+      id: 'fieldConditionInput.OP_LT.compact',
       defaultMessage: '<',
     },
     [OP_LTE]: {
-      id: 'fieldConditionInput.op.lte.compact',
+      id: 'fieldConditionInput.OP_LTE.compact',
       defaultMessage: '≤',
     },
     [OP_MATCH]: {
-      id: 'fieldConditionInput.op.match.compact',
+      id: 'fieldConditionInput.OP_MATCH.compact',
       defaultMessage: 'matches',
     },
     [OP_RANGE]: {
-      id: 'fieldConditionInput.op.range.compact',
+      id: 'fieldConditionInput.OP_RANGE.compact',
       defaultMessage: 'between',
     },
   }),

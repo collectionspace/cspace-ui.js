@@ -27,6 +27,7 @@ import {
   OP_GTE,
   OP_LT,
   OP_LTE,
+  OP_CONTAIN,
   OP_MATCH,
   OP_RANGE,
 } from '../constants/searchOperators';
@@ -295,9 +296,10 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, serverTime
 
 export const fieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone) => {
   const path = condition.get('path');
-  const operator = condition.get('op');
   const dataType = getDataType(fieldDescriptor, path);
-  const value = condition.get('value');
+
+  let operator = condition.get('op');
+  let value = condition.get('value');
 
   if (Immutable.List.isList(value)) {
     // Expand or'ed values.
@@ -305,6 +307,11 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone)
     return value.map(valueInstance =>
       fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance), serverTimeZone)
     ).join(' OR ');
+  }
+
+  if (operator === OP_CONTAIN) {
+    operator = OP_MATCH;
+    value = `%${value}%`;
   }
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
