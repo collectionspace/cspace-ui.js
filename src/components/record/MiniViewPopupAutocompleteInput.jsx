@@ -231,6 +231,14 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
       ...remainingProps
     } = this.props;
 
+    if (this.props.asText) {
+      return (
+        <AutocompleteInputContainer
+          {...remainingProps}
+        />
+      );
+    }
+
     const {
       isFiltering,
     } = this.state;

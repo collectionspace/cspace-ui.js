@@ -77,7 +77,15 @@ export const normalizeListFieldValue = (list) => {
       .filter(value => !!value);
   }
 
-  return ((filtered && filtered.size > 0) ? filtered : null);
+  if (!filtered || filtered.size === 0) {
+    return null;
+  }
+
+  if (filtered.size === 1) {
+    return filtered.first();
+  }
+
+  return filtered;
 };
 
 export const normalizeFieldValue = value => (
@@ -290,6 +298,14 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone)
   const operator = condition.get('op');
   const dataType = getDataType(fieldDescriptor, path);
   const value = condition.get('value');
+
+  if (Immutable.List.isList(value)) {
+    // Expand or'ed values.
+
+    return value.map(valueInstance =>
+      fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance), serverTimeZone)
+    ).join(' OR ');
+  }
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
   const nxqlOp = operatorToNXQL(operator);

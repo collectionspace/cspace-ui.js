@@ -150,6 +150,7 @@ export default class FieldConditionInput extends Component {
         {' '}
         <div>
           <SearchFieldComponent
+            inline={inline}
             parentPath={parentPath}
             name={name}
             readOnly={readOnly}

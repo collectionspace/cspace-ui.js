@@ -120,7 +120,9 @@ describe('RecordHistory', function suite() {
 
     const items = popover.querySelectorAll('li');
 
-    items[0].textContent.should.match(/^Saved .* ago$/);
+    items[0].textContent.should.match(/^Saved/);
+    items[0].textContent.should.not.contain('by');
+
     items[1].textContent.should.match(/^Created Jan \d{2}, 2017 \d\d?:12:33 (AM|PM)$/);
   });
 

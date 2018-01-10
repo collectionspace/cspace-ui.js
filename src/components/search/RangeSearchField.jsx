@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import SearchField from './SearchField';
+import styles from '../../../styles/cspace-ui/RangeSearchField.css';
 
 const messages = defineMessages({
   fields: {
@@ -16,6 +17,7 @@ const propTypes = {
   name: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.List),
   readOnly: PropTypes.bool,
+  inline: PropTypes.bool,
   onCommit: PropTypes.func,
 };
 
@@ -55,6 +57,7 @@ export default class RangeSearchField extends Component {
 
   render() {
     const {
+      inline,
       parentPath,
       name,
       value,
@@ -67,6 +70,7 @@ export default class RangeSearchField extends Component {
         name={name}
         value={value.get(0)}
         readOnly={readOnly}
+        repeating={false}
         onCommit={this.handleStartFieldCommit}
       />
     );
@@ -77,16 +81,21 @@ export default class RangeSearchField extends Component {
         name={name}
         value={value.get(1)}
         readOnly={readOnly}
+        repeating={false}
         onCommit={this.handleEndFieldCommit}
       />
     );
 
+    const className = inline ? styles.inline : styles.normal;
+
     return (
-      <FormattedMessage
-        {...messages.fields}
-        tagName="div"
-        values={{ startField, endField }}
-      />
+      <div className={className}>
+        <FormattedMessage
+          {...messages.fields}
+          tagName="div"
+          values={{ startField, endField }}
+        />
+      </div>
     );
   }
 }

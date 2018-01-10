@@ -24,7 +24,7 @@ const TestInput = props => (
   <input
     name={props.name}
     defaultValue={props.value}
-    onBlur={event => props.onCommit([...props.parentPath, props.name], event.target.value)}
+    onBlur={event => props.onCommit([...props.parentPath, props.name, 0], event.target.value)}
   />
 );
 
@@ -45,6 +45,9 @@ const config = {
               [configKey]: {
                 searchView: {
                   type: TestInput,
+                  props: {
+                    repeating: false,
+                  },
                 },
               },
             },
@@ -62,6 +65,9 @@ const config = {
                 },
                 searchView: {
                   type: TestInput,
+                  props: {
+                    repeating: false,
+                  },
                 },
               },
             },
@@ -75,6 +81,9 @@ const config = {
                 },
                 searchView: {
                   type: TestInput,
+                  props: {
+                    repeating: false,
+                  },
                 },
               },
             },
@@ -264,7 +273,7 @@ describe('BooleanConditionInput', function suite() {
         {
           op: OP_EQ,
           path: 'ns2:collectionobjects_common/objectNumber',
-          value: 'new val',
+          value: ['new val'],
         },
         {
           op: OP_EQ,

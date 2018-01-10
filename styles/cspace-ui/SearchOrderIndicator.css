@@ -1,0 +1,14 @@
+@value textMedium from '../colors.css';
+
+.common {
+  width: 20px;
+}
+
+.common > div {
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 22px;
+  background: white;
+  color: textMedium;
+}

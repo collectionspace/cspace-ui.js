@@ -48,6 +48,7 @@ import {
   getNextPageSearchDescriptor,
   getPreviousPageSearchDescriptor,
   getFirstItem,
+  getSubrecordSearchName,
 } from '../../../src/helpers/searchHelpers';
 
 const expect = chai.expect;
@@ -415,6 +416,10 @@ describe('searchHelpers', function moduleSuite() {
         '   ', '\t', null, undefined, '',
       ]))).to.equal(null);
     });
+
+    it('should return the item if the list contains only one item', function test() {
+      normalizeListFieldValue(Immutable.List(['foo'])).should.equal('foo');
+    });
   });
 
   describe('normalizeStringFieldValue', function suite() {
@@ -696,6 +701,17 @@ describe('searchHelpers', function moduleSuite() {
 
       fieldConditionToNXQL(fields, condition).should
         .equal('part:foo <= "bar"');
+    });
+
+    it('should expand list values into multiple OR clauses', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_LTE,
+        path: 'ns2:part/foo',
+        value: ['bar', 'baz'],
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:foo <= "bar" OR part:foo <= "baz"');
     });
   });
 
@@ -1049,6 +1065,15 @@ describe('searchHelpers', function moduleSuite() {
       };
 
       expect(getFirstItem(config)).to.equal(null);
+    });
+  });
+
+  describe('getSubrecordSearchName', function suite() {
+    it('should return the search name for the given csid and subrecord name', function test() {
+      const csid = '1234';
+      const subrecordName = 'contact';
+
+      getSubrecordSearchName(csid, subrecordName).should.equal(`subrecord/${csid}/${subrecordName}`);
     });
   });
 });

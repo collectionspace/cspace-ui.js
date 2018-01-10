@@ -180,11 +180,13 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       return Promise.resolve();
     }
 
+    const nxql = advancedSearchConditionToNXQL(
+      recordTypeConfig.fields, searchQuery.get('as'), config.serverTimeZone
+    );
+
     const requestConfig = {
       params: {
-        as: advancedSearchConditionToNXQL(
-          recordTypeConfig.fields, searchQuery.get('as'), config.serverTimeZone
-        ),
+        as: nxql ? `(${nxql})` : undefined,
         csid: searchQuery.get('csid'),
         doctype: searchQuery.get('doctype'),
         kw: searchQuery.get('kw'),
