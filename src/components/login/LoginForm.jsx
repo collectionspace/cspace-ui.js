@@ -40,15 +40,20 @@ const messages = defineMessages({
     description: 'Generic login error message. Displayed when a more specific error message is not available.',
     defaultMessage: 'Sign in failed.',
   },
-  badCredentialsError: {
-    id: 'loginForm.error.badCredentials',
+  ERR_INVALID_CREDENTIALS: {
+    id: 'loginForm.ERR_INVALID_CREDENTIALS',
     description: 'Error message displayed when incorrect credentials were entered during login.',
     defaultMessage: 'Sign in failed. Incorrect username/password.',
   },
-  networkError: {
-    id: 'loginForm.error.networkError',
+  ERR_NETWORK: {
+    id: 'loginForm.ERR_NETWORK',
     description: 'Error message displayed when there is a network error during login.',
     defaultMessage: 'Sign in failed. Unable to reach the CollectionSpace server.',
+  },
+  ERR_WRONG_TENANT: {
+    id: 'loginForm.ERR_WRONG_TENANT',
+    description: 'Error message displayed when the logged in user belongs to the wrong tenant.',
+    defaultMessage: 'Sign in failed. The user is not registered to this CollectionSpace tenant.',
   },
   username: {
     id: 'loginForm.username',
@@ -66,14 +71,6 @@ const messages = defineMessages({
     defaultMessage: 'Forgot password',
   },
 });
-
-/**
- * Map client error descriptions to keys in the above messages object.
- */
-const errorMessageMap = {
-  'Bad credentials': 'badCredentialsError',
-  'Network Error': 'networkError',
-};
 
 const contextTypes = {
   config: PropTypes.object,
@@ -322,17 +319,7 @@ class LoginForm extends Component {
       return undefined;
     }
 
-    const desc = error.getIn(['response', 'data', 'error_description']);
-
-    let messageKey;
-
-    if (desc) {
-      messageKey = errorMessageMap[desc];
-    } else {
-      messageKey = errorMessageMap[error.get('message')];
-    }
-
-    messageKey = messageKey || 'error';
+    const messageKey = error.get('code') || 'error';
 
     return (
       <Notification

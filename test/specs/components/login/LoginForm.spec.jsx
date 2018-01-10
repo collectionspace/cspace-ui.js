@@ -7,6 +7,7 @@ import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
+import { ERR_INVALID_CREDENTIALS } from '../../../../src/constants/errorCodes';
 import createTestContainer from '../../../helpers/createTestContainer';
 import LoginForm from '../../../../src/components/login/LoginForm';
 
@@ -161,15 +162,11 @@ describe('LoginForm', function suite() {
 
   it('should translate the bad credentials error', function test() {
     const messages = {
-      'loginForm.error.badCredentials': 'this is the bad credentials error message',
+      'loginForm.ERR_INVALID_CREDENTIALS': 'this is the bad credentials error message',
     };
 
     const error = Immutable.fromJS({
-      response: {
-        data: {
-          error_description: 'Bad credentials',
-        },
-      },
+      code: ERR_INVALID_CREDENTIALS,
     });
 
     render(
@@ -185,7 +182,7 @@ describe('LoginForm', function suite() {
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-ui-Notification--common').textContent.should
-      .equal(messages['loginForm.error.badCredentials']);
+      .equal(messages['loginForm.ERR_INVALID_CREDENTIALS']);
   });
 
   it('should call login when the form is submitted', function test() {

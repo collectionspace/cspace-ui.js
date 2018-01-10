@@ -23,6 +23,8 @@ export const readAccountPerms = (config, username) => (dispatch) => {
         type: ACCOUNT_PERMS_READ_REJECTED,
         payload: error,
       });
+
+      return Promise.reject(error);
     });
 };
 

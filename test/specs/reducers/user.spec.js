@@ -10,6 +10,7 @@ import {
 } from '../../../src/actions/account';
 
 import {
+  AUTH_RENEW_FULFILLED,
   LOGIN_FULFILLED,
 } from '../../../src/actions/login';
 
@@ -94,6 +95,76 @@ describe('user reducer', function suite() {
 
     const state = reducer(undefined, {
       type: ACCOUNT_PERMS_READ_FULFILLED,
+      payload: response,
+      meta: {
+        config,
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      account: {
+        screenName,
+      },
+      perms: {
+        collectionobject: {
+          data: 'CRUDL',
+        },
+        group: {
+          data: 'RL',
+        },
+        canCreateNew: true,
+        canAdmin: false,
+      },
+    }));
+
+    getPerms(state).should.equal(state.get('perms'));
+    getScreenName(state).should.equal(screenName);
+  });
+
+  it('should handle AUTH_RENEW_FULFILLED', function test() {
+    const config = {
+      recordTypes: {
+        collectionobject: {
+          name: 'collectionobject',
+          serviceConfig: {
+            serviceType: 'object',
+            servicePath: 'collectionobjects',
+          },
+        },
+        group: {
+          name: 'group',
+          serviceConfig: {
+            serviceType: 'procedure',
+            servicePath: 'groups',
+          },
+        },
+      },
+    };
+
+    const screenName = 'Screen Name';
+
+    const response = {
+      data: {
+        'ns2:account_permission': {
+          account: {
+            screenName,
+          },
+          permission: [
+            {
+              actionGroup: 'CRUDL',
+              resourceName: 'collectionobjects',
+            },
+            {
+              actionGroup: 'RL',
+              resourceName: 'groups',
+            },
+          ],
+        },
+      },
+    };
+
+    const state = reducer(undefined, {
+      type: AUTH_RENEW_FULFILLED,
       payload: response,
       meta: {
         config,

@@ -11,6 +11,7 @@ import {
 } from '../actions/cspace';
 
 import {
+  AUTH_RENEW_FULFILLED,
   LOGIN_FULFILLED,
 } from '../actions/login';
 
@@ -20,11 +21,19 @@ import {
 
 const handleAccountPermsReadFulfilled = (state, action) => {
   const {
+    config,
+  } = action.meta;
+
+  const {
     data,
   } = action.payload;
 
   const account = Immutable.fromJS(get(data, ['ns2:account_permission', 'account']));
-  const perms = getPermissions(action.meta.config, data);
+  const accountTenantId = account.get('tenantId');
+
+  const perms = (accountTenantId === config.tenantId)
+    ? getPermissions(action.meta.config, data)
+    : Immutable.Map();
 
   return (
     state
@@ -37,12 +46,14 @@ export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case ACCOUNT_PERMS_READ_FULFILLED:
       return handleAccountPermsReadFulfilled(state, action);
+    case AUTH_RENEW_FULFILLED:
+      return handleAccountPermsReadFulfilled(state, action);
     case CSPACE_CONFIGURED:
       return state.set('username', action.payload.username);
     case LOGIN_FULFILLED:
       return state.set('username', action.meta.username);
     case LOGOUT_FULFILLED:
-      return state.delete('username');
+      return state.clear();
     default:
       return state;
   }
