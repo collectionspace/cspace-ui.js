@@ -631,7 +631,7 @@ export const saveRecord =
     config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
     relatedSubjectCsid, onRecordCreated, showNotifications = true
   ) =>
-    (dispatch, getState) => {
+    (dispatch, getState, intl) => {
       let currentRecordTypeConfig;
       let currentVocabularyConfig;
       let currentCsid;
@@ -665,7 +665,8 @@ export const saveRecord =
           });
 
           const title = currentRecordTypeConfig.title
-            ? currentRecordTypeConfig.title(getRecordData(getState(), currentCsid))
+            ? currentRecordTypeConfig.title(
+                getRecordData(getState(), currentCsid), { config, intl })
             : null;
 
           const notificationID = getNotificationID();
@@ -938,11 +939,11 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
 };
 
 export const deleteRecord = (
-  recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid
+  config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid
 ) =>
-  (dispatch, getState) => {
+  (dispatch, getState, intl) => {
     const data = getRecordData(getState(), csid);
-    const title = recordTypeConfig.title(data);
+    const title = recordTypeConfig.title(data, { config, intl });
     const notificationID = getNotificationID();
 
     dispatch(showNotification({
@@ -1032,11 +1033,11 @@ export const deleteRecord = (
   };
 
 export const transitionRecord = (
-  recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
+  config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
 ) =>
-  (dispatch, getState) => {
+  (dispatch, getState, intl) => {
     const data = getRecordData(getState(), csid);
-    const title = recordTypeConfig.title(data);
+    const title = recordTypeConfig.title(data, { config, intl });
     const notificationID = getNotificationID();
 
     const messages = transitionMessages[transitionName];
@@ -1161,7 +1162,7 @@ export const saveRecordWithTransition =
       relatedSubjectCsid, onRecordCreated, showNotifications
     ))
     .then(savedCsid => dispatch(transitionRecord(
-      recordTypeConfig, vocabularyConfig, savedCsid, transitionName, relatedSubjectCsid
+      config, recordTypeConfig, vocabularyConfig, savedCsid, transitionName, relatedSubjectCsid
     )));
 
 export const detachSubrecord = (config, csid, csidField, subrecordName, subrecordTypeConfig) => ({

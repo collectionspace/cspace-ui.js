@@ -20,6 +20,20 @@ export const formatTimestamp = (timestamp, { intl }) =>
     // timeZoneName: 'short',
   });
 
+export const formatDate = (date) => {
+  if (!date) {
+    return null;
+  }
+
+  const index = date.indexOf('T');
+
+  if (index >= 0) {
+    return date.substring(0, index);
+  }
+
+  return date;
+};
+
 export const formatServiceObjectName = (serviceObjectName, { intl, config }) => {
   const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, serviceObjectName);
 

@@ -2714,6 +2714,12 @@ describe('record action creator', function suite() {
         title: () => '',
       };
 
+      const config = {
+        recordTypes: {
+          [recordType]: recordTypeConfig,
+        },
+      };
+
       before(() => {
         const store = mockStore({
           user: Immutable.Map(),
@@ -2748,7 +2754,9 @@ describe('record action creator', function suite() {
           }),
         });
 
-        return store.dispatch(transitionRecord(recordTypeConfig, undefined, csid, transitionName))
+        return store.dispatch(
+          transitionRecord(config, recordTypeConfig, undefined, csid, transitionName)
+        )
           .then(() => {
             const actions = store.getActions();
 
@@ -2807,7 +2815,9 @@ describe('record action creator', function suite() {
           }),
         });
 
-        return store.dispatch(transitionRecord(recordTypeConfig, undefined, csid, transitionName))
+        return store.dispatch(
+          transitionRecord(config, recordTypeConfig, undefined, csid, transitionName)
+        )
           .then(() => {
             const actions = store.getActions();
 
@@ -2867,6 +2877,12 @@ describe('record action creator', function suite() {
         },
       };
 
+      const config = {
+        recordTypes: {
+          [recordType]: recordTypeConfig,
+        },
+      };
+
       before(() => {
         const store = mockStore({
           user: Immutable.Map(),
@@ -2902,7 +2918,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          transitionRecord(recordTypeConfig, vocabularyConfig, csid, transitionName)
+          transitionRecord(config, recordTypeConfig, vocabularyConfig, csid, transitionName)
         )
           .then(() => {
             const actions = store.getActions();
@@ -3112,6 +3128,12 @@ describe('record action creator', function suite() {
         title: () => '',
       };
 
+      const config = {
+        recordTypes: {
+          [recordType]: recordTypeConfig,
+        },
+      };
+
       before(() => {
         const store = mockStore({
           user: Immutable.Map(),
@@ -3146,7 +3168,7 @@ describe('record action creator', function suite() {
           }),
         });
 
-        return store.dispatch(deleteRecord(recordTypeConfig, undefined, csid))
+        return store.dispatch(deleteRecord(config, recordTypeConfig, undefined, csid))
           .then(() => {
             const actions = store.getActions();
 
@@ -3201,7 +3223,7 @@ describe('record action creator', function suite() {
           }),
         });
 
-        return store.dispatch(deleteRecord(recordTypeConfig, undefined, csid))
+        return store.dispatch(deleteRecord(config, recordTypeConfig, undefined, csid))
           .then(() => {
             const actions = store.getActions();
 
@@ -3258,6 +3280,12 @@ describe('record action creator', function suite() {
         },
       };
 
+      const config = {
+        recordTypes: {
+          [recordType]: recordTypeConfig,
+        },
+      };
+
       before(() => {
         const store = mockStore({
           user: Immutable.Map(),
@@ -3293,7 +3321,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          deleteRecord(recordTypeConfig, vocabularyConfig, csid)
+          deleteRecord(config, recordTypeConfig, vocabularyConfig, csid)
         )
           .then(() => {
             const actions = store.getActions();

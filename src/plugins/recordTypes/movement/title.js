@@ -1,17 +1,3 @@
-const normalizeDate = (date) => {
-  if (!date) {
-    return null;
-  }
-
-  const index = date.indexOf('T');
-
-  if (index >= 0) {
-    return date.substring(0, index);
-  }
-
-  return date;
-};
-
 export default pluginContext => (data) => {
   const {
     getPart,
@@ -20,6 +6,10 @@ export default pluginContext => (data) => {
   const {
     getDisplayName,
   } = pluginContext.refNameHelpers;
+
+  const {
+    formatDate,
+  } = pluginContext.formatHelpers;
 
   if (!data) {
     return '';
@@ -32,7 +22,7 @@ export default pluginContext => (data) => {
   }
 
   const currentLocation = getDisplayName(common.get('currentLocation'));
-  const locationDate = normalizeDate(common.get('locationDate'));
+  const locationDate = formatDate(common.get('locationDate'));
 
   return [currentLocation, locationDate].filter(part => !!part).join(' – ');
 };

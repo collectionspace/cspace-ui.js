@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(createNewRecord(config, recordTypeConfig, vocabularyConfig, cloneCsid));
     },
     deleteRecord: () =>
-      dispatch(deleteRecord(recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid)),
+      dispatch(deleteRecord(config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid)),
     readRecord: () => {
       dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid));
     },
@@ -106,7 +106,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setForm(recordType, formName));
     },
     transitionRecord: transitionName => dispatch(transitionRecord(
-      recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
+      config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
     )),
     removeValidationNotification: () => {
       dispatch(removeValidationNotification());
