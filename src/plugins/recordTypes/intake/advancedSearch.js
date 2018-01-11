@@ -17,7 +17,7 @@ export default {
       path: 'ns2:intakes_common/entryDate',
     },
     {
-      op: OP_CONTAIN,
+      op: OP_EQ,
       path: 'ns2:intakes_common/entryReason',
     },
     {
