@@ -5,6 +5,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import Notification from '../notification/Notification';
 import getErrorDescription from '../../helpers/getErrorDescription';
+import { isValidEmail } from '../../helpers/validationHelpers';
 
 import {
   ERR_INVALID_EMAIL,
@@ -50,12 +51,6 @@ const messages = defineMessages({
     defaultMessage: '{email} is not a valid email address.',
   },
 });
-
-// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#Validation
-// eslint-disable-next-line max-len
-const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
-const isValidEmail = email => emailPattern.test(email);
 
 const propTypes = {
   email: PropTypes.string,

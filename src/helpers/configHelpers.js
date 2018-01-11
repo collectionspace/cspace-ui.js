@@ -350,14 +350,10 @@ export const isFieldRepeating = (fieldDescriptor) => {
   return false;
 };
 
-export const isFieldRequired = (fieldDescriptor) => {
-  const config = fieldDescriptor[configKey];
+export const isFieldRequired = (fieldDescriptor, recordData) => {
+  const required = get(fieldDescriptor, [configKey, 'required']);
 
-  if (config && 'required' in config) {
-    return config.required;
-  }
-
-  return false;
+  return !!((typeof required === 'function') ? required(recordData) : required);
 };
 
 export const getFieldDataType = (fieldDescriptor) => {

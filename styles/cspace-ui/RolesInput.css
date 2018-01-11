@@ -1,0 +1,35 @@
+.common {
+  list-style: none;
+  margin: 0;
+  border: 1px solid rgb(220, 220, 220);
+  padding: 0;
+}
+
+.common > li {
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+
+.common > li:nth-child(odd) {
+  background-color: #F0F5FB;
+}
+
+.common > li > *:first-child {
+  margin-left: 10px;
+}
+
+.common > li > *:last-child {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.readOnly {
+  composes: common;
+}
+
+.readOnly {
+  composes: common;
+  border-color: rgb(240, 240, 240);
+}
+

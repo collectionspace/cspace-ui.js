@@ -52,6 +52,7 @@ const defaultProps = {
 
 const childContextTypes = {
   config: PropTypes.object,
+  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -81,6 +82,7 @@ export default class RecordForm extends Component {
       vocabulary,
       readOnly,
       csid: dataCsid || csid,
+      recordData: data,
     };
   }
 

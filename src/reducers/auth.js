@@ -6,7 +6,15 @@ import {
   PERMS_READ_STARTED,
   PERMS_READ_FULFILLED,
   PERMS_READ_REJECTED,
+  ROLES_READ_STARTED,
+  ROLES_READ_FULFILLED,
+  ROLES_READ_REJECTED,
 } from '../actions/auth';
+
+import {
+  RECORD_CREATED,
+  RECORD_DELETE_FULFILLED,
+} from '../actions/record';
 
 const handlePermsReadFulfilled = (state, action) => {
   const {
@@ -30,6 +38,36 @@ const handlePermsReadFulfilled = (state, action) => {
   );
 };
 
+const handleRolesReadFulfilled = (state, action) => {
+  let roles = get(action.payload.data, ['ns2:roles_list', 'role']);
+
+  if (roles && !Array.isArray(roles)) {
+    roles = [roles];
+  }
+
+  return (
+    state
+      .set('roles', Immutable.fromJS(roles))
+      .delete('isRolesReadPending')
+  );
+};
+
+const handleRecordCreated = (state, action) => {
+  if (action.meta.recordTypeConfig.name === 'authrole') {
+    return state.delete('roles');
+  }
+
+  return state;
+};
+
+const handleRecordDeleteFulfilled = (state, action) => {
+  if (action.meta.recordTypeConfig.name === 'authrole') {
+    return state.delete('roles');
+  }
+
+  return state;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case PERMS_READ_STARTED:
@@ -38,6 +76,16 @@ export default (state = Immutable.Map(), action) => {
       return handlePermsReadFulfilled(state, action);
     case PERMS_READ_REJECTED:
       return state.delete('isPermsReadPending');
+    case ROLES_READ_STARTED:
+      return state.set('isRolesReadPending', true);
+    case ROLES_READ_FULFILLED:
+      return handleRolesReadFulfilled(state, action);
+    case ROLES_READ_REJECTED:
+      return state.delete('isRolesReadPending');
+    case RECORD_CREATED:
+      return handleRecordCreated(state, action);
+    case RECORD_DELETE_FULFILLED:
+      return handleRecordDeleteFulfilled(state, action);
     default:
       return state;
   }
@@ -45,3 +93,6 @@ export default (state = Immutable.Map(), action) => {
 
 export const isPermsReadPending = state => state.get('isPermsReadPending');
 export const getResourceNames = state => state.get('resourceNames');
+
+export const isRolesReadPending = state => state.get('isRolesReadPending');
+export const getRoles = state => state.get('roles');

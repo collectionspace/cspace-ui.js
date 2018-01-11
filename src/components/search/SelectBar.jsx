@@ -125,6 +125,7 @@ export default class SelectBar extends Component {
     return (
       <div className={styles.common}>
         <CheckboxInput
+          embedded
           readOnly={items.size === 0}
           tristate
           value={isPageSelected(items, selectedItems)}

@@ -195,6 +195,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
         pgSz: searchQuery.get('size'),
         rtSbj: searchQuery.get('rel'),
         rtPredicate: searchQuery.get('relType'),
+        sn: searchQuery.get('sn'), // accounts screen name
         wf_deleted: false,
       },
     };

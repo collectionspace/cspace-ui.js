@@ -199,6 +199,7 @@ export default class RelatedRecordPanel extends Component {
 
       return (
         <CheckboxInput
+          embedded
           name={`${rowIndex}`}
           value={selected}
           onCommit={this.handleCheckboxCommit}

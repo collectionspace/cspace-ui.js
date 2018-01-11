@@ -1336,6 +1336,7 @@ describe('record action creator', function suite() {
             actions[4].should.deep.equal({
               type: RECORD_CREATED,
               meta: {
+                recordTypeConfig,
                 currentCsid: '',
                 newRecordCsid: createdCsid,
               },
@@ -2301,6 +2302,7 @@ describe('record action creator', function suite() {
             actions[7].should.deep.equal({
               type: RECORD_CREATED,
               meta: {
+                recordTypeConfig: subrecordTypeConfig,
                 currentCsid: subrecordCsid,
                 newRecordCsid: createdSubrecordCsid,
               },

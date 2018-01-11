@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CreateButton from '../record/CreateButton';
-import styles from '../../../styles/cspace-ui/RolesButtonBar.css';
+import styles from '../../../styles/cspace-ui/AdminTabButtonBar.css';
 
 const propTypes = {
   isCreatable: PropTypes.bool,
   onCreateButtonClick: PropTypes.func,
 };
 
-export default function RolesButtonBar(props) {
+export default function AdminTabButtonBar(props) {
   const {
     isCreatable,
     onCreateButtonClick,
@@ -25,4 +25,4 @@ export default function RolesButtonBar(props) {
   );
 }
 
-RolesButtonBar.propTypes = propTypes;
+AdminTabButtonBar.propTypes = propTypes;

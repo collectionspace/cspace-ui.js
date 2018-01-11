@@ -88,6 +88,43 @@ const searchDescriptor = Immutable.fromJS({
   },
 });
 
+const searchResult = Immutable.fromJS({
+  'ns2:abstract-common-list': {
+    pageNum: '0',
+    pageSize: '5',
+    itemsInPage: '5',
+    totalItems: '20',
+    'list-item': [
+      {
+        csid: 'ea399d7a-7ea3-4670-930b',
+        updatedAt: '2017-01-06T02:28:53.269Z',
+        objectNumber: '4',
+        title: 'Title',
+      },
+      {
+        csid: '0abd85b5-46be-4a6c-aa14',
+        updatedAt: '2017-01-04T05:29:41.963Z',
+        objectNumber: '3',
+      },
+      {
+        csid: '325b3337-9db5-45ae-a0a9',
+        updatedAt: '2017-01-04T05:27:50.225Z',
+        objectNumber: '32',
+      },
+      {
+        csid: '12a6be7f-4ea8-49c1-b41c',
+        updatedAt: '2017-01-04T05:22:21.581Z',
+        objectNumber: '6.0221415',
+      },
+      {
+        csid: '080b1ce2-598b-4340-b23a',
+        updatedAt: '2017-01-04T05:22:21.288Z',
+        objectNumber: '6.0221415',
+      },
+    ],
+  },
+});
+
 const store = mockStore({
   optionList: Immutable.Map({
     searchPanelPageSizes: {
@@ -103,42 +140,7 @@ const store = mockStore({
     [searchName]: {
       byKey: {
         [searchKey(searchDescriptor)]: {
-          result: {
-            'ns2:abstract-common-list': {
-              pageNum: '0',
-              pageSize: '5',
-              itemsInPage: '5',
-              totalItems: '20',
-              'list-item': [
-                {
-                  csid: 'ea399d7a-7ea3-4670-930b',
-                  updatedAt: '2017-01-06T02:28:53.269Z',
-                  objectNumber: '4',
-                  title: 'Title',
-                },
-                {
-                  csid: '0abd85b5-46be-4a6c-aa14',
-                  updatedAt: '2017-01-04T05:29:41.963Z',
-                  objectNumber: '3',
-                },
-                {
-                  csid: '325b3337-9db5-45ae-a0a9',
-                  updatedAt: '2017-01-04T05:27:50.225Z',
-                  objectNumber: '32',
-                },
-                {
-                  csid: '12a6be7f-4ea8-49c1-b41c',
-                  updatedAt: '2017-01-04T05:22:21.581Z',
-                  objectNumber: '6.0221415',
-                },
-                {
-                  csid: '080b1ce2-598b-4340-b23a',
-                  updatedAt: '2017-01-04T05:22:21.288Z',
-                  objectNumber: '6.0221415',
-                },
-              ],
-            },
-          },
+          result: searchResult,
         },
       },
     },
@@ -314,6 +316,52 @@ describe('SearchPanel', function suite() {
     this.container.querySelector('footer > .cspace-ui-Pager--common').should.not.equal(null);
   });
 
+  it('should render an item count in the panel title if totalItems is present in the search result', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <SearchPanel
+                config={config}
+                listType="common"
+                recordType="collectionobject"
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                searchResult={searchResult}
+                title="SearchPanel title"
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('header > button').textContent.should.equal('SearchPanel title: 20');
+  });
+
+  it('should render a filtered notification the panel title if isFiltered is true', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <SearchPanel
+                config={config}
+                isFiltered
+                listType="common"
+                recordType="collectionobject"
+                name={searchName}
+                searchDescriptor={searchDescriptor}
+                searchResult={searchResult}
+                title="SearchPanel title"
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('header > button').textContent.should.equal('SearchPanel title: 20 (filtered)');
+  });
 
   it('should call onSearchDescriptorChange when a page is selected', function test() {
     let changedToSearchDescriptor = null;

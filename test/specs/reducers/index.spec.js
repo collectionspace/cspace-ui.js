@@ -3,7 +3,9 @@ import chaiImmutable from 'chai-immutable';
 
 import reducer, {
   getAuthResourceNames,
+  getAuthRoles,
   isAuthPermsReadPending,
+  isAuthRolesReadPending,
   getUserScreenName,
   getUserUsername,
   getUserPerms,
@@ -108,6 +110,31 @@ describe('reducer', function suite() {
       isAuthPermsReadPending({
         auth: Immutable.fromJS({
           isPermsReadPending: true,
+        }),
+      }).should.equal(true);
+    });
+  });
+
+  describe('getAuthRoles selector', function selectorSuite() {
+    it('should select from the auth key', function test() {
+      const roles = Immutable.fromJS([
+        { roleName: 'TENANT_ADMINISTRATOR' },
+        { roleName: 'TENANT_READER' },
+      ]);
+
+      getAuthRoles({
+        auth: Immutable.fromJS({
+          roles,
+        }),
+      }).should.equal(roles);
+    });
+  });
+
+  describe('isAuthRolesReadPending selector', function selectorSuite() {
+    it('should select from the auth key', function test() {
+      isAuthRolesReadPending({
+        auth: Immutable.fromJS({
+          isRolesReadPending: true,
         }),
       }).should.equal(true);
     });

@@ -1,0 +1,16 @@
+.common {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 10px;
+}
+
+.common > div:first-child {
+  flex: 1 1 auto;
+}
+
+.common > div:last-child {
+  flex: 0 0 auto;
+  margin-bottom: 10px;
+  border: solid rgb(220, 220, 220);
+  border-width: 1px 1px 1px 0;
+}

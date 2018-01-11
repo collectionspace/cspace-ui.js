@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { components as inputComponents } from 'cspace-input';
 import Notification from '../notification/Notification';
 import getErrorDescription from '../../helpers/getErrorDescription';
+import { isValidPassword } from '../../helpers/validationHelpers';
 
 import {
   ERR_MISSING_PW,
@@ -88,8 +89,6 @@ const messages = defineMessages({
     defaultMessage: 'The password reset request could not be validated. Please {newRequestLink} to reset your password.',
   },
 });
-
-const isValidPassword = password => (password.length >= 8 && password.length <= 24);
 
 const propTypes = {
   token: PropTypes.string.isRequired,

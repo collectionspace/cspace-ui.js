@@ -10,7 +10,7 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import RolesButtonBar from '../../../../src/components/admin/RolesButtonBar';
+import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RolesPage from '../../../../src/components/pages/RolesPage';
@@ -52,9 +52,7 @@ const store = mockStore({
   notification: Immutable.Map(),
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
-    1234: {
-
-    },
+    1234: {},
   }),
   search: Immutable.Map(),
   user: Immutable.Map(),
@@ -193,7 +191,7 @@ describe('RolesPage', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const buttonBar = findWithType(result, RolesButtonBar);
+    const buttonBar = findWithType(result, AdminTabButtonBar);
 
     buttonBar.should.not.equal(null);
     buttonBar.props.onCreateButtonClick();

@@ -781,6 +781,7 @@ export const saveRecord =
                     meta: {
                       currentCsid,
                       newRecordCsid,
+                      recordTypeConfig: currentRecordTypeConfig,
                     },
                   });
 

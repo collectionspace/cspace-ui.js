@@ -13,6 +13,7 @@ import OptionPickerInputContainer from '../containers/input/OptionPickerInputCon
 import UploadInputContainer from '../containers/input/UploadInputContainer';
 import PermissionsInputContainer from '../containers/admin/PermissionsInputContainer';
 import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniViewPopupAutocompleteInputContainer';
+import RolesInputContainer from '../containers/admin/RolesInputContainer';
 import StructuredDateInputContainer from '../containers/record/StructuredDateInputContainer';
 import TermPickerInputContainer from '../containers/record/TermPickerInputContainer';
 
@@ -45,6 +46,7 @@ import * as formatHelpers from '../helpers/formatHelpers';
 const {
   CheckboxInput: BaseCheckboxInput,
   CompoundInput,
+  PasswordInput,
   ReadOnlyInput,
   RichTextInput,
   TextInput,
@@ -63,6 +65,7 @@ const HierarchyInput = withCsid(BaseHierarchyInput);
 const IDGeneratorInput = IDGeneratorInputContainer;
 const OptionPickerInput = OptionPickerInputContainer;
 const PermissionsInput = labelable(PermissionsInputContainer);
+const RolesInput = labelable(RolesInputContainer);
 const StructuredDateInput = StructuredDateInputContainer;
 const TermPickerInput = TermPickerInputContainer;
 const UploadInput = UploadInputContainer;
@@ -84,7 +87,9 @@ export default () => ({
     HierarchyInput,
     IDGeneratorInput,
     OptionPickerInput,
+    PasswordInput,
     PermissionsInput,
+    RolesInput,
     StructuredDateInput,
     ReadOnlyInput,
     RichTextInput,

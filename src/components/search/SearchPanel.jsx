@@ -24,6 +24,10 @@ const messages = defineMessages({
     id: 'searchPanel.titleWithCount',
     defaultMessage: '{title}: {totalItems, number}',
   },
+  titleWithCountFiltered: {
+    id: 'searchPanel.titleWithCountFiltered',
+    defaultMessage: '{title}: {totalItems, number} (filtered)',
+  },
 });
 
 const propTypes = {
@@ -32,6 +36,7 @@ const propTypes = {
   columnSetName: PropTypes.string,
   config: PropTypes.object,
   history: PropTypes.object,
+  isFiltered: PropTypes.bool,
   name: PropTypes.string,
   recordType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -255,6 +260,7 @@ export default class SearchPanel extends Component {
   renderHeader() {
     const {
       config,
+      isFiltered,
       listType,
       searchResult,
       title,
@@ -266,9 +272,23 @@ export default class SearchPanel extends Component {
       ? searchResult.getIn([listTypeConfig.listNodeName, 'totalItems'])
       : null;
 
-    const headerContent = (typeof totalItems !== 'undefined' && totalItems !== null)
-      ? <FormattedMessage {...messages.titleWithCount} values={{ title, totalItems }} />
-      : title;
+    let headerContent;
+
+    if (typeof totalItems !== 'undefined' && totalItems !== null) {
+      const messageKey = isFiltered ? 'titleWithCountFiltered' : 'titleWithCount';
+
+      headerContent = (
+        <FormattedMessage
+          {...messages[messageKey]}
+          values={{
+            title,
+            totalItems,
+          }}
+        />
+      );
+    } else {
+      headerContent = title;
+    }
 
     return (
       <h3>{headerContent}</h3>
