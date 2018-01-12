@@ -16,6 +16,7 @@ const propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
+  setAdminTab: PropTypes.func,
 };
 
 const contextTypes = {
@@ -27,7 +28,9 @@ const screenNameSearchDescriptorPath = ['searchQuery', 'sn'];
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
-  searchQuery: {},
+  searchQuery: {
+    size: 20,
+  },
 });
 
 export default class UsersPage extends Component {
@@ -46,6 +49,16 @@ export default class UsersPage extends Component {
     this.state = {
       searchDescriptor: getSearchDescriptor(),
     };
+  }
+
+  componentDidMount() {
+    const {
+      setAdminTab,
+    } = this.props;
+
+    if (setAdminTab) {
+      setAdminTab(recordType);
+    }
   }
 
   cloneRecord() {

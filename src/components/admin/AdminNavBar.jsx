@@ -20,25 +20,21 @@ const messages = defineMessages({
   },
 });
 
-const renderLinkItem = (basename, tab) => {
-  const { name } = tab;
-
-  return (
-    <li key={name}>
-      <NavLink
-        to={`${basename}/${name}`}
-        className={itemStyles.normal}
-        activeClassName={itemStyles.active}
-      >
-        <FormattedMessage {...messages[name]} />
-      </NavLink>
-    </li>
-  );
-};
+const renderLinkItem = (basename, tab) => (
+  <li key={tab}>
+    <NavLink
+      to={`${basename}/${tab}`}
+      className={itemStyles.normal}
+      activeClassName={itemStyles.active}
+    >
+      <FormattedMessage {...messages[tab]} />
+    </NavLink>
+  </li>
+);
 
 const propTypes = {
   basename: PropTypes.string,
-  tabs: PropTypes.arrayOf(PropTypes.object),
+  tabs: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default function AdminNavBar(props) {

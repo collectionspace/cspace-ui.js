@@ -2,8 +2,8 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import RolesPage from '../../../../src/components/pages/RolesPage';
-import RolesPageContainer from '../../../../src/containers/pages/RolesPageContainer';
+import TermsPage from '../../../../src/components/pages/TermsPage';
+import TermsPageContainer from '../../../../src/containers/pages/TermsPageContainer';
 
 chai.should();
 
@@ -24,17 +24,17 @@ const store = mockStore({
   }),
 });
 
-describe('RolesPageContainer', function suite() {
-  it('should set props on RolesPage', function test() {
+describe('TermssPageContainer', function suite() {
+  it('should set props on TermsPage', function test() {
     const context = { store };
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<RolesPageContainer />, context);
+    shallowRenderer.render(<TermsPageContainer />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(RolesPage);
+    result.type.should.equal(TermsPage);
     result.props.should.have.property('perms', perms);
     result.props.should.have.property('setAdminTab').that.is.a('function');
   });

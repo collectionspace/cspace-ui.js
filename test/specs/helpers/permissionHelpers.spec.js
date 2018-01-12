@@ -12,6 +12,9 @@ import {
   getPermissions,
   canCreateNew,
   canAdmin,
+  disallowCreate,
+  disallowDelete,
+  disallowSoftDelete,
 } from '../../../src/helpers/permissionHelpers';
 
 chai.use(chaiImmutable);
@@ -449,6 +452,126 @@ describe('permissionHelpers', function moduleSuite() {
       });
 
       canAdmin(perms).should.equal(true);
+    });
+  });
+
+  describe('disallowCreate', function suite() {
+    it('should remove create permission on the specified record type', function test() {
+      const perms = Immutable.fromJS({
+        group: {
+          data: 'CRUDL',
+        },
+        person: {
+          data: 'CRUDL',
+        },
+      });
+
+      const updatedPerms = disallowCreate('group', perms);
+
+      updatedPerms.should.equal(Immutable.fromJS({
+        group: {
+          data: 'RUDL',
+        },
+        person: {
+          data: 'CRUDL',
+        },
+      }));
+
+      canCreate('group', updatedPerms).should.equal(false);
+    });
+
+    it('should have no effect if create permission does not exist on the specified record type', function test() {
+      const perms = Immutable.fromJS({
+        person: {
+          data: 'CRUDL',
+        },
+      });
+
+      const updatedPerms = disallowCreate('group', perms);
+
+      updatedPerms.should.equal(perms);
+    });
+  });
+
+  describe('disallowDelete', function suite() {
+    it('should remove delete permission on the specified record type', function test() {
+      const perms = Immutable.fromJS({
+        group: {
+          data: 'CRUDL',
+        },
+        person: {
+          data: 'CRUDL',
+        },
+      });
+
+      const updatedPerms = disallowDelete('group', perms);
+
+      updatedPerms.should.equal(Immutable.fromJS({
+        group: {
+          data: 'CRUL',
+        },
+        person: {
+          data: 'CRUDL',
+        },
+      }));
+
+      canDelete('group', updatedPerms).should.equal(false);
+    });
+
+    it('should have no effect if delete permission does not exist on the specified record type', function test() {
+      const perms = Immutable.fromJS({
+        person: {
+          data: 'CRUDL',
+        },
+      });
+
+      const updatedPerms = disallowDelete('group', perms);
+
+      updatedPerms.should.equal(perms);
+    });
+  });
+
+  describe('disallowSoftDelete', function suite() {
+    it('should remove permission to soft delete the specified record type', function test() {
+      const perms = Immutable.fromJS({
+        group: {
+          data: 'CRUDL',
+          transition: {
+            delete: 'CRUDL',
+          },
+        },
+        person: {
+          data: 'CRUDL',
+        },
+      });
+
+      const updatedPerms = disallowSoftDelete('group', perms);
+
+      updatedPerms.should.equal(Immutable.fromJS({
+        group: {
+          data: 'CRUDL',
+          transition: {
+            delete: 'CRDL',
+          },
+        },
+        person: {
+          data: 'CRUDL',
+        },
+      }));
+
+      canSoftDelete('group', updatedPerms).should.equal(false);
+    });
+
+    it('should have no effect if soft delete permission does not exist on the specified record type', function test() {
+      const perms = Immutable.fromJS({
+        person: {
+          data: 'CRUDL',
+        },
+      });
+
+      const updatedPerms = disallowSoftDelete('group', perms);
+
+      updatedPerms.should.equal(perms);
     });
   });
 });
