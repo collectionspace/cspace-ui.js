@@ -1,25 +1,23 @@
 import { connect } from 'react-redux';
-import AdminPage from '../../components/pages/AdminPage';
+import RolesPage from '../../components/pages/RolesPage';
 
 import {
   setAdminTab,
 } from '../../actions/prefs';
 
 import {
-  getAdminTab,
   getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
   perms: getUserPerms(state),
-  preferredTab: getAdminTab(state),
 });
 
 const mapDispatchToProps = {
-  onTabChange: setAdminTab,
+  setAdminTab,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AdminPage);
+)(RolesPage);

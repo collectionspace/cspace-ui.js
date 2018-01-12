@@ -97,6 +97,35 @@ describe('RolesPage', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
+  it('should call setAdminTab when mounted', function test() {
+    let setTabName = null;
+
+    const setAdminTab = (tabNameArg) => {
+      setTabName = tabNameArg;
+    };
+
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <RolesPage location={location} match={match} setAdminTab={setAdminTab} />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    setTabName.should.equal('authrole');
+  });
+
   it('should render a record editor when a csid param exists in the match', function test() {
     const location = {
       search: '',

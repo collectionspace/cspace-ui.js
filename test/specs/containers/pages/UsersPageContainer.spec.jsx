@@ -36,5 +36,6 @@ describe('UsersPageContainer', function suite() {
 
     result.type.should.equal(UsersPage);
     result.props.should.have.property('perms', perms);
+    result.props.should.have.property('setAdminTab').that.is.a('function');
   });
 });

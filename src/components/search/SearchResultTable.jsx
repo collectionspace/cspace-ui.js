@@ -97,7 +97,7 @@ export default class SearchResultTable extends Component {
 
         if (itemLocationPath) {
           // Push the item location onto history, along with enough state to reproduce this search.
-          // The search descriptor is converted to an objectin order to reliably store it in
+          // The search descriptor is converted to an object in order to reliably store it in
           // location state.
 
           history.push({

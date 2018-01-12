@@ -126,3 +126,28 @@ export const canCreateNew = permissions =>
 
 export const canAdmin = permissions =>
   permissions && !!permissions.get('canAdmin');
+
+const disallow = (recordType, permissions, actionCode) => {
+  if (can(recordType, permissions, actionCode)) {
+    const dataPerms = permissions.getIn([recordType, 'data']);
+
+    return permissions.setIn([recordType, 'data'], dataPerms.replace(actionCode, ''));
+  }
+
+  return permissions;
+};
+
+const disallowTransition = (recordType, permissions, transitionName) => {
+  if (canTransition(recordType, permissions, transitionName)) {
+    const transitionPerms = permissions.getIn([recordType, 'transition', transitionName]);
+
+    return permissions.setIn([recordType, 'transition', transitionName], transitionPerms.replace('U', ''));
+  }
+
+  return permissions;
+};
+
+export const disallowCreate = (recordType, permissions) => disallow(recordType, permissions, 'C');
+export const disallowDelete = (recordType, permissions) => disallow(recordType, permissions, 'D');
+
+export const disallowSoftDelete = (recordType, permissions) => disallowTransition(recordType, permissions, 'delete');
