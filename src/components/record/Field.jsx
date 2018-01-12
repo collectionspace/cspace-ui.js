@@ -125,9 +125,11 @@ export default function Field(props, context) {
     }
   });
 
-  const computedProps = {
-    repeating: fieldConfig.repeating,
-  };
+  const computedProps = {};
+
+  if (fieldConfig.repeating) {
+    computedProps.repeating = fieldConfig.repeating;
+  }
 
   if ('label' in basePropTypes) {
     computedProps.label = renderLabel(field, recordData, {
