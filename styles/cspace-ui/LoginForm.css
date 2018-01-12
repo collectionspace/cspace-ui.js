@@ -19,7 +19,7 @@
 }
 
 .common :global(.cspace-ui-Notification--common) {
-  margin-top: 10px;
+  margin-top: 16px;
 }
 
 .pending {

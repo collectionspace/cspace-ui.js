@@ -32,11 +32,11 @@ a:disabled {
 h1, h2 {
   font-size: 24px;
   font-weight: 400;
-  margin: 10px 0;
+  margin: 16px 0;
 }
 
 p {
-  margin: 10px 0;
+  margin: 16px 0;
 }
 
 input[type="checkbox"] {
