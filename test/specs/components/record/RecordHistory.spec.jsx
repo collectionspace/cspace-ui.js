@@ -40,7 +40,7 @@ describe('RecordHistory', function suite() {
 
     const items = popover.querySelectorAll('li');
 
-    items[0].textContent.should.match(/^Saved .* ago$/);
+    items[0].textContent.should.match(/^Saved .*$/);
 
     items[1].textContent.should
       .match(/^Updated Jan \d{2}, 2017 \d\d?:08:47 (AM|PM) by updater@collectionspace.org$/);
@@ -221,7 +221,7 @@ describe('RecordHistory', function suite() {
 
     const header = popover.querySelector('button');
 
-    header.textContent.should.match(/^Saved .* ago$/);
+    header.textContent.should.match(/^Saved .*$/);
 
     Simulate.click(header);
 
@@ -251,7 +251,7 @@ describe('RecordHistory', function suite() {
 
     const header = popover.querySelector('button');
 
-    header.textContent.should.match(/^Saved .* ago$/);
+    header.textContent.should.match(/^Saved .*$/);
 
     Simulate.click(header);
 
@@ -261,6 +261,6 @@ describe('RecordHistory', function suite() {
 
     Simulate.blur(popup);
 
-    header.textContent.should.match(/^Saved .* ago$/);
+    header.textContent.should.match(/^Saved .*$/);
   });
 });

@@ -36,6 +36,11 @@
   background-position: center;
 }
 
+.common > button:nth-of-type(2):hover {
+  background-image: url(../../images/closeTabCircle.svg);
+  background-size: 18px;
+}
+
 .common > button:only-child {
   padding-right: 10px;
 }
@@ -46,10 +51,8 @@
 
 .normal {
   composes: common;
-}
-
-.normal {
   background-color: rgba(156, 185, 211, .2);
+  box-shadow: inset 0px -1px rgba(172, 172, 172, .1);
 }
 
 .active {
@@ -62,22 +65,33 @@
 
 .selector {
   composes: common;
-  padding-left: 4px;
   background-color: inherit;
   overflow: visible;
   width: 90px;
 }
 
+.normal:hover,
+.selector:hover {
+  background-color: rgba(255, 255, 255, .5);
+}
+
 .selector :global(.cspace-input-DropdownMenuInput--common) > input {
   background-image: none;
+  height: 30px;
+}
+
+.selector :global(.cspace-input-DropdownMenuInput--common) > div {
+  top: 30px;
 }
 
 .selector :global(.cspace-input-TextInput--common) {
   display: inline-block;
   margin: 0;
   border: none;
+  padding-left: 6px;
   background-color: inherit;
   color: inherit;
+  cursor: default;
 }
 
 .selector :global(.cspace-input-TextInput--common):focus {

@@ -240,6 +240,7 @@ class RecordBrowserNavBar extends Component {
         relatedRecordTypeSelector = (
           <li className={itemStyles.selector}>
             <RecordTypeInput
+              filtering={false}
               indentItems={false}
               placeholder={placeholder}
               recordTypes={filteredRecordTypes}
