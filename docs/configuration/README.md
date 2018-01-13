@@ -42,6 +42,18 @@ A source configuration is merged into a target configuration as follows: First, 
 
 The configuration object may contain the following properties.
 
+### autocompleteFindDelay
+```
+autocompleteFindDelay: number = 500
+```
+The number of milliseconds to wait before initiating a partial term search in an autocomplete input field, once the partial term value changes (e.g., from the user typing). This delay is used to debounce requests to the server while the user is still typing.
+
+### autocompleteMinLength
+```
+autocompleteMinLength: number = 3
+```
+The minimum number of characters required in an autocomplete input field in order for a partial term search to be initiated. This is used to prevent partial term searches that would return an overwhelming number of results, which could impact system performance.
+
 ### basename
 ```
 basename: string = ''
@@ -81,10 +93,6 @@ cspaceUI({
 });
 ```
 
-TODO: Devise and document a way to easily identify a message ID by looking at the UI in a browser.
-
-TODO: Generate documentation of all message IDs and their descriptions.
-
 ### optionLists
 ```
 optionLists: OptionListMap = defaultOptionLists
@@ -95,7 +103,7 @@ An object containing definitions of option lists, which are used to populate dro
 ```
 plugins: Array<Plugin> = defaultPlugins
 ```
-An array of plugins to be loaded. Plugins are downloadable modules that customize the UI; they do configuration, so you don't have to. A number of plugins are packaged with cspace-ui, and are loaded by default, including ones that implement the core record types and configure the default option lists.
+An array of plugins to be loaded. Plugins are downloadable modules that customize the UI; they supply configuration, so you don't have to. A number of plugins are packaged with cspace-ui, and are loaded by default, including ones that implement the core record types and configure the default option lists.
 
 TODO: Create a plugin configuration page.
 
@@ -132,12 +140,12 @@ cspaceUI({
 ```
 serverUrl: string = ''
 ```
-The URL of the CollectionSpace services layer REST API. This should include the protocol, host, and port (if not 80), for example: `'http://demo.collectionspace.org:8180'`. If `serverUrl` is empty or unspecified, the REST API is assumed to be accessible at the same protocol, host, and port from which the HTML page containing the UI was retrieved. If the UI is served from a different host than the REST API, the services layer must be configured to accept CORS requests from the origin of the UI.
+The URL of the CollectionSpace services layer REST API. This should include the protocol, host, and port (if not 80), for example: `'http://demo.collectionspace.org:8180'` or `'https://nightly.collectionspace.org'`. If `serverUrl` is empty or unspecified, the REST API is assumed to be accessible at the same protocol, host, and port from which the HTML page containing the UI was retrieved. If the UI is served from a different host than the REST API, the services layer must be configured to accept CORS requests from the origin of the UI.
 
 ⚠️ Do not include the `/cspace-services` path in the `serverUrl` string.
 
 ### tenantId
 ```
-tenantId: string = ''
+tenantId: string = '1'
 ```
-The ID of the tenant on the CollectionSpace server, normally a numeric string.
+The ID of the tenant to access on the CollectionSpace server, normally a numeric string. The default value '1' corresponds to the core (default) CollectionSpace tenant. If this value is not set correctly, logins will fail with a message stating that the user is not registered to the expected tenant.

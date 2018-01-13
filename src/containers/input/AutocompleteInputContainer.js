@@ -74,6 +74,10 @@ const mapStateToProps = (state, ownProps) => {
   const perms = getUserPerms(state);
 
   return {
+    findDelay: config.autocompleteFindDelay,
+    minLength: config.autocompleteMinLength,
+    matches: getPartialTermSearchMatches(state),
+    recordTypes: getRecordTypes(config, perms),
     formatAddPrompt: displayName => intl.formatMessage(messages.addPrompt, { displayName }),
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
     formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
@@ -82,8 +86,6 @@ const mapStateToProps = (state, ownProps) => {
         ? get(recordTypeConfig, ['vocabularies', vocabulary, 'messages', 'collectionName'])
         : get(recordTypeConfig, ['messages', 'record', 'collectionName'])
     ),
-    matches: getPartialTermSearchMatches(state),
-    recordTypes: getRecordTypes(config, perms),
   };
 };
 

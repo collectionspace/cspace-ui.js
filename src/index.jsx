@@ -21,6 +21,8 @@ import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
 const pluginContext = createPluginContext();
 
 const defaultConfig = mergeConfig({
+  autocompleteFindDelay: 500,
+  autocompleteMinLength: 3,
   basename: '',
   className: '',
   container: '#cspace',
