@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -16,7 +18,12 @@ const propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
+  filterDelay: PropTypes.number,
   setAdminTab: PropTypes.func,
+};
+
+const defaultProps = {
+  filterDelay: 500,
 };
 
 const contextTypes = {
@@ -83,15 +90,7 @@ export default class UsersPage extends Component {
     });
   }
 
-  handleCreateButtonClick() {
-    const {
-      history,
-    } = this.props;
-
-    history.replace(`/admin/${recordType}/new`);
-  }
-
-  handleSearchBarChange(value) {
+  filter(value) {
     const {
       searchDescriptor,
     } = this.state;
@@ -103,6 +102,35 @@ export default class UsersPage extends Component {
     this.setState({
       searchDescriptor: updatedSearchDescriptor,
     });
+  }
+
+  handleCreateButtonClick() {
+    const {
+      history,
+    } = this.props;
+
+    history.replace(`/admin/${recordType}/new`);
+  }
+
+  handleSearchBarChange(value) {
+    if (this.filterTimer) {
+      window.clearTimeout(this.filterTimer);
+
+      this.filterTimer = null;
+    }
+
+    if (value) {
+      const {
+        filterDelay,
+      } = this.props;
+
+      this.filterTimer = window.setTimeout(() => {
+        this.filter(value);
+        this.filterTimer = null;
+      }, filterDelay);
+    } else {
+      this.filter(value);
+    }
   }
 
   handleItemClick(item) {
@@ -233,4 +261,5 @@ export default class UsersPage extends Component {
 }
 
 UsersPage.propTypes = propTypes;
+UsersPage.defaultProps = defaultProps;
 UsersPage.contextTypes = contextTypes;

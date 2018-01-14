@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
@@ -412,15 +414,151 @@ describe('UsersPage', function suite() {
 
     searchBar.props.onChange('searchval');
 
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'account',
+          searchQuery: {
+            sn: 'searchval',
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 600);
+    });
+  });
+
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <UsersPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
     result = shallowRenderer.getRenderOutput();
     searchPanel = findWithType(result, SearchPanelContainer);
 
-    searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-      recordType: 'account',
-      searchQuery: {
-        sn: 'searchval',
-        size: 20,
-      },
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        searchBar.props.onChange('another searchval');
+
+        resolve();
+      }, 200);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'account',
+          searchQuery: {
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }))
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'account',
+          searchQuery: {
+            sn: 'another searchval',
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 400);
     }));
+  });
+
+  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <UsersPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'account',
+          searchQuery: {
+            sn: 'searchval',
+            size: 20,
+          },
+        }));
+
+        searchBar.props.onChange('');
+
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'account',
+          searchQuery: {
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 600);
+    });
   });
 });
