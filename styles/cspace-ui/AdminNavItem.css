@@ -7,14 +7,18 @@
   padding: 6px 10px 3px 10px;
   text-decoration: none;
   color: #73AA4F;
+  cursor: default;
 }
 
-.normal {
-  composes: common;
+.common:not(.active) {
   background-color: rgba(156, 185, 211, .2);
+  box-shadow: inset 0px -1px rgba(172, 172, 172, .1);
+}
+
+.common:not(.active):hover {
+  background-color: rgba(255, 255, 255, .5);
 }
 
 .active {
-  composes: common;
   background-color: white;
 }

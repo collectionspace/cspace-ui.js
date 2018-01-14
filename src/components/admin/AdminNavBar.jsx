@@ -24,7 +24,7 @@ const renderLinkItem = (basename, tab) => (
   <li key={tab}>
     <NavLink
       to={`${basename}/${tab}`}
-      className={itemStyles.normal}
+      className={itemStyles.common}
       activeClassName={itemStyles.active}
     >
       <FormattedMessage {...messages[tab]} />
