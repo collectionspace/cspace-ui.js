@@ -330,6 +330,30 @@ export const attributePropertiesToTop = (propertyNameA, propertyNameB) => {
 };
 
 /**
+ * Set the XML namespace property on a document part if it is not set, using the URI defined in the
+ * field configuration. This is used in the rare case that a record retrieved from the REST API did
+ * not contain one of its expected parts; for example, when a schema extension is added to a record
+ * type, the new part will not appear on existing records. If a field in that part was set through
+ * the UI, the part will have been created, but without the namespace attribute, which is normally
+ * created through the createBlankRecord function. That function would not have been called,
+ * because this was not a new record. This function can be used before saving a record to ensure
+ * that any missing namespace attributes get filled in.
+ */
+export const setXmlNamespaceAttribute = (partData, partName, partDescriptor) => {
+  const [prefix] = partName.split(':', 1);
+
+  if (prefix && !partData.get(`@xmlns:${prefix}`)) {
+    const nsUri = get(partDescriptor, [configKey, 'service', 'ns']);
+
+    if (nsUri) {
+      return partData.set(`@xmlns:${prefix}`, nsUri);
+    }
+  }
+
+  return partData;
+};
+
+/**
  * Prepare record data for POST or PUT to the CollectionSpace REST API:
  *
  * - Document parts that may be present in data retrieved from the REST API, but that should not be
@@ -349,15 +373,11 @@ export const prepareForSending = (data, recordTypeConfig) => {
     preparedData = customPrepareForSending(preparedData, recordTypeConfig);
   }
 
-  let documentName = DOCUMENT_PROPERTY_NAME;
+  const documentName = preparedData.keySeq().first();
+
   let cspaceDocument = preparedData.get(documentName);
 
-  if (!cspaceDocument) {
-    documentName = preparedData.keySeq().first();
-    cspaceDocument = preparedData.get(documentName);
-  }
-
-  // Filter out the core schema and account information parts.
+  // Filter out parts that don't need to be sent.
   // TODO: Use field configuration to determine what should be removed.
 
   cspaceDocument = cspaceDocument.filter((value, key) => (
@@ -371,16 +391,18 @@ export const prepareForSending = (data, recordTypeConfig) => {
 
   cspaceDocument = cspaceDocument.sortBy((value, name) => name, attributePropertiesToTop);
 
-  // For each part, move XML attribute and namespace declaration properties to the top.
+  // For each part, ensure XML namespace declaration properties are set, and move XML attribute and
+  // namespace declaration properties to the top.
 
   for (const key of cspaceDocument.keys()) {
     if (key.charAt(0) !== '@') {
-      const part = cspaceDocument.get(key);
+      let part = cspaceDocument.get(key);
 
       if (Immutable.Map.isMap(part)) {
-        const sortedPart = part.sortBy((value, name) => name, attributePropertiesToTop);
+        part = setXmlNamespaceAttribute(part, key, get(recordTypeConfig, ['fields', documentName, key]));
+        part = part.sortBy((value, name) => name, attributePropertiesToTop);
 
-        cspaceDocument = cspaceDocument.set(key, sortedPart);
+        cspaceDocument = cspaceDocument.set(key, part);
       }
     }
   }

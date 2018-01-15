@@ -83,7 +83,7 @@ export default function RecordTitleBar(props, context) {
   }
 
   const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
-  const workflowStateIcon = <WorkflowStateIcon state={getWorkflowState(data)} />;
+  const workflowStateIcon = <WorkflowStateIcon value={getWorkflowState(data)} />;
 
   return (
     <TitleBar

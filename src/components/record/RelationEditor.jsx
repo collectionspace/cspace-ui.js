@@ -248,7 +248,7 @@ export default class RelationEditor extends Component {
       : <FormattedMessage {...messages.newTitle} values={values} />;
 
     const objectWorkflowState = getWorkflowState(objectData);
-    const objectWorkflowStateIcon = <WorkflowStateIcon state={objectWorkflowState} />;
+    const objectWorkflowStateIcon = <WorkflowStateIcon value={objectWorkflowState} />;
 
     const isUnrelatable = (
       subjectWorkflowState !== 'locked' &&

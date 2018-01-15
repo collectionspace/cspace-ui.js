@@ -21,6 +21,15 @@ const template = (pluginContext) => {
       </Row>
 
       <Field name="description" />
+
+      <Field name="list-item" subpath="jaxb:abstract-common-list">
+        <Field name="displayName" />
+        <Field name="description" />
+        <Field name="source" />
+        <Field name="sourcePage" />
+        <Field name="termStatus" />
+        <Field name="workflowState" flex="0 0 16px" />
+      </Field>
     </Field>
   );
 };

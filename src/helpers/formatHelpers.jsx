@@ -110,7 +110,8 @@ export const formatForeignSourceField = (sourceField, formatterContext) => {
   return formatRecordTypeSourceField(recordType, sourceField, formatterContext);
 };
 
-export const formatWorkflowStateIcon = workflowState => <WorkflowStateIcon state={workflowState} />;
+export const formatWorkflowStateIcon = workflowState =>
+  <WorkflowStateIcon value={workflowState} />;
 
 export const formatOption = (optionListName, value, { intl, config }) => {
   const message = get(config, ['optionLists', optionListName, 'messages', value]);

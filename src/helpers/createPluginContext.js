@@ -16,6 +16,7 @@ import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniVi
 import RolesInputContainer from '../containers/admin/RolesInputContainer';
 import StructuredDateInputContainer from '../containers/record/StructuredDateInputContainer';
 import TermPickerInputContainer from '../containers/record/TermPickerInputContainer';
+import WorkflowStateInput from '../components/record/WorkflowStateInput';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
@@ -96,6 +97,7 @@ export default () => ({
     TextInput,
     TermPickerInput,
     UploadInput,
+    WorkflowStateInput,
   },
   layoutComponents: {
     Col,

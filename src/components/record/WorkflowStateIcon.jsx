@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import lockedIcon from '../../../images/locked.svg';
 import styles from '../../../styles/cspace-ui/WorkflowStateIcon.css';
 
 const messages = defineMessages({
@@ -10,26 +11,32 @@ const messages = defineMessages({
   },
 });
 
+const images = {
+  locked: lockedIcon,
+};
+
 const propTypes = {
   intl: intlShape,
-  state: PropTypes.string,
+  value: PropTypes.string,
 };
 
 function WorkflowStateIcon(props) {
   const {
     intl,
-    state,
+    value,
   } = props;
 
-  if (!state || state === 'project' || state === 'replicated') {
+  const src = images[value];
+
+  if (!src) {
     return null;
   }
 
-  const message = messages[state];
-  const title = message ? intl.formatMessage(message) : undefined;
+  const message = messages[value];
+  const desc = message ? intl.formatMessage(message) : value;
 
   return (
-    <div className={styles[state]} title={title} />
+    <img alt={desc} className={styles.common} src={src} title={desc} />
   );
 }
 
