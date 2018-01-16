@@ -82,7 +82,7 @@ export default (pluginContext) => {
           },
         },
       },
-      'jaxb:abstract-common-list': {
+      'ns2:abstract-common-list': {
         [config]: {
           compute: (data) => {
             if (!data) {

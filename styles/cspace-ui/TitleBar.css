@@ -24,7 +24,7 @@
   margin: 0;
 }
 
-.common > div > div > img {
+.common > div > div > :global(.cspace-ui-WorkflowStateIcon--common) {
   margin-right: 4px;
 }
 

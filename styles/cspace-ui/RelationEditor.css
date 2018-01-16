@@ -18,7 +18,7 @@
   align-items: baseline;
 }
 
-.common > header > div > img {
+.common > header > div > :global(.cspace-ui-WorkflowStateIcon--common) {
   margin-right: 4px;
 }
 
