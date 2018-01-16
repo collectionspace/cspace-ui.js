@@ -24,6 +24,10 @@
   margin: 0;
 }
 
+.common > div > div > :global(.cspace-ui-WorkflowStateIcon--common) {
+  margin-right: 4px;
+}
+
 .common > div > div > h1 {
   flex: 1 1 auto;
   padding-right: 10px;

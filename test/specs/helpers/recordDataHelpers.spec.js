@@ -35,6 +35,7 @@ import {
   deepSet,
   deepDelete,
   getCoreFieldValue,
+  getCsid,
   getDocument,
   getPart,
   getPartPropertyName,
@@ -50,6 +51,7 @@ import {
   normalizeFieldValue,
   normalizeRecordData,
   prepareForSending,
+  setXmlNamespaceAttribute,
   spreadDefaultValue,
   validateField,
   validateRecordData,
@@ -1683,6 +1685,24 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
+  describe('getCsid', function suite() {
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: '/some/path/1234',
+        },
+      },
+    });
+
+    it('should return the csid extracted from the uri field in the core part', function test() {
+      getCsid(data).should.equal('1234');
+    });
+
+    it('should return undefined if the data does not exist', function test() {
+      expect(getCsid()).to.equal(undefined);
+    });
+  });
+
   describe('validateField', function suite() {
     const fieldDescriptor = {
       id: {
@@ -2642,6 +2662,25 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       getWorkflowState(data).should.equal(workflowState);
+    });
+  });
+
+  describe('setXmlNamespaceAttribute', function suite() {
+    it('should set the namespace uri attribute on parts', function test() {
+      const partData = Immutable.Map();
+      const partName = 'ns2:groups_botgarden';
+
+      const partDescriptor = {
+        [configKey]: {
+          service: {
+            ns: 'http://some.uri',
+          },
+        },
+      };
+
+      setXmlNamespaceAttribute(partData, partName, partDescriptor).should.equal(Immutable.Map({
+        '@xmlns:ns2': 'http://some.uri',
+      }));
     });
   });
 });

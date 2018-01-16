@@ -15,7 +15,11 @@
 
 .common > header > div {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+}
+
+.common > header > div > :global(.cspace-ui-WorkflowStateIcon--common) {
+  margin-right: 4px;
 }
 
 .common > header > div > h1 {
