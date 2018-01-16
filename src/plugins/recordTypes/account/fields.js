@@ -72,7 +72,7 @@ export default (pluginContext) => {
           cloneable: false,
         },
       },
-      permsProtection: {
+      rolesProtection: {
         [config]: {
           cloneable: false,
         },
