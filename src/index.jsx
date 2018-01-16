@@ -33,6 +33,7 @@ const defaultConfig = mergeConfig({
   prettyUrls: false,
   serverUrl: '',
   serverTimeZone: 'UTC',
+  showTermListStateIcon: false,
   tenantId: '1',
 }, {
   plugins: defaultPlugins.map(plugin => plugin()),

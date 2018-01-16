@@ -144,6 +144,12 @@ The URL of the CollectionSpace services layer REST API. This should include the 
 
 ⚠️ Do not include the `/cspace-services` path in the `serverUrl` string.
 
+### showTermListStateIcon
+```
+showTermListStateIcon: boolean = false
+```
+If true, show a column in the term editing table (on the Term Lists tab of the Administration screen) that contains icons indicating the workflow state of the term.
+
 ### tenantId
 ```
 tenantId: string = '1'

@@ -51,7 +51,7 @@ export const evaluatePlugin = (plugin, pluginContext) => {
   return (pluginType === 'object') ? plugin : plugin(pluginContext);
 };
 
-export const applyPlugin = (targetConfig, plugin, pluginContext) => {
+export const applyPlugin = (targetConfig, plugin, pluginContext = {}) => {
   const pluginConfigContribution = evaluatePlugin(plugin, pluginContext);
 
   /* Gotta do this mutual recursion */
@@ -60,7 +60,7 @@ export const applyPlugin = (targetConfig, plugin, pluginContext) => {
   /* eslint-enable no-use-before-define */
 };
 
-export const applyPlugins = (targetConfig, plugins, pluginContext) => {
+export const applyPlugins = (targetConfig, plugins, pluginContext = {}) => {
   const isArray = Array.isArray(plugins);
 
   warning(isArray, 'Plugins must be an array.');
@@ -92,8 +92,11 @@ const configMerger = (objValue, srcValue, key) => {
   return undefined;
 };
 
-export const mergeConfig = (targetConfig, sourceConfig, pluginContext) => {
-  const resolvedSourceConfig = typeof sourceConfig === 'function'
+export const mergeConfig = (targetConfig, sourceConfig, pluginContext = {}) => {
+  // eslint-disable-next-line no-param-reassign
+  pluginContext.config = targetConfig;
+
+  const resolvedSourceConfig = (typeof sourceConfig === 'function')
     ? sourceConfig(pluginContext)
     : sourceConfig;
 

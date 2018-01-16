@@ -8,7 +8,7 @@ import styles from '../../../styles/cspace-ui/RecordForm.css';
 
 function renderTemplate(component, messages, handlers) {
   const overrideProps = {};
-  const type = component.type;
+  const type = get(component, 'type');
 
   if (type) {
     const propTypes = type.propTypes;

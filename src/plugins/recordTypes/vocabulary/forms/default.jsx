@@ -13,6 +13,8 @@ const template = (pluginContext) => {
     Field,
   } = pluginContext.recordComponents;
 
+  const showIcon = pluginContext.config.showTermListStateIcon;
+
   return (
     <Field name="document">
       <Row>
@@ -28,7 +30,7 @@ const template = (pluginContext) => {
         <Field name="source" />
         <Field name="sourcePage" />
         <Field name="termStatus" />
-        <Field name="workflowState" flex="0 0 32px" />
+        {showIcon ? <Field name="workflowState" flex="0 0 32px" /> : undefined}
       </Field>
     </Field>
   );
