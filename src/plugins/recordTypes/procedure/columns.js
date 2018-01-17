@@ -13,7 +13,7 @@ export default (pluginContext) => {
       {
         name: 'workflowState',
         formatValue: formatWorkflowStateIcon,
-        width: 16,
+        width: 32,
         flexGrow: 0,
         flexShrink: 0,
       },

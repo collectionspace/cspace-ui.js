@@ -4,10 +4,18 @@ export default (pluginContext) => {
   const {
     formatRefNameAsVocabularyName,
     formatTimestamp,
+    formatWorkflowStateIcon,
   } = pluginContext.formatHelpers;
 
   return {
     default: [
+      {
+        name: 'workflowState',
+        formatValue: formatWorkflowStateIcon,
+        width: 32,
+        flexGrow: 0,
+        flexShrink: 0,
+      },
       {
         name: 'termDisplayName',
         messages: defineMessages({
