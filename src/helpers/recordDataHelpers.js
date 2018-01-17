@@ -812,12 +812,11 @@ export const isNewRecord = data => !isExistingRecord(data);
 export const getWorkflowState = data =>
   (data ? data.getIn(['document', 'ns2:collectionspace_core', 'workflowState']) : undefined);
 
-export const isLocked = (data) => {
-  if (getWorkflowState(data) === 'locked') {
-    return true;
-  }
+export const isLocked = data => getWorkflowState(data) === 'locked';
 
-  // Deal with roles
+export const isImmutable = (data) => {
+  // Permissions and roles have the concept of "immutability", which is basically the same as
+  // locked.
 
   if (data) {
     const doc = data.first();
@@ -832,4 +831,10 @@ export const isLocked = (data) => {
   }
 
   return false;
+};
+
+export const isReplicated = (data) => {
+  const state = getWorkflowState(data);
+
+  return state && state.includes('replicated');
 };

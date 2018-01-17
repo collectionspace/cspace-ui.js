@@ -47,7 +47,9 @@ import {
   getWorkflowState,
   isNewRecord,
   isExistingRecord,
+  isImmutable,
   isLocked,
+  isReplicated,
   normalizeFieldValue,
   normalizeRecordData,
   prepareForSending,
@@ -2468,6 +2470,36 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
+  describe('isImmutable', function suite() {
+    it('should return true if permsProtection is \'immutable\'', function test() {
+      const data = Immutable.fromJS({
+        'ns2:role': {
+          permsProtection: 'immutable',
+        },
+      });
+
+      isImmutable(data).should.equal(true);
+    });
+
+    it('should return true if rolesProtection is \'immutable\'', function test() {
+      const data = Immutable.fromJS({
+        'ns2:account': {
+          rolesProtection: 'immutable',
+        },
+      });
+
+      isImmutable(data).should.equal(true);
+    });
+
+    it('should return false if no data is supplied', function test() {
+      isImmutable().should.equal(false);
+    });
+
+    it('should return false if no data is supplied', function test() {
+      isImmutable().should.equal(false);
+    });
+  });
+
   describe('isLocked', function suite() {
     it('should return true if the workflow state is \'locked\'', function test() {
       const data = Immutable.fromJS({
@@ -2481,21 +2513,41 @@ describe('recordDataHelpers', function moduleSuite() {
       isLocked(data).should.equal(true);
     });
 
-    it('should return true if permsProtection is \'immutable\'', function test() {
-      const data = Immutable.fromJS({
-        'ns2:role': {
-          permsProtection: 'immutable',
+    it('should return false if no data is supplied', function test() {
+      isLocked().should.equal(false);
+    });
+  });
+
+  describe('isReplicated', function suite() {
+    it('should return true if the workflow state contains \'replicated\'', function test() {
+      let data;
+
+      data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'replicated',
+          },
         },
       });
 
-      isLocked(data).should.equal(true);
+      isReplicated(data).should.equal(true);
+
+
+      data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'replicated_deprecated',
+          },
+        },
+      });
+
+      isReplicated(data).should.equal(true);
     });
 
     it('should return false if no data is supplied', function test() {
       isLocked().should.equal(false);
     });
   });
-
   describe('normalizeFieldValue', function suite() {
     it('should return the value when the field descriptor is undefined', function test() {
       normalizeFieldValue(undefined, 'a').should.equal('a');

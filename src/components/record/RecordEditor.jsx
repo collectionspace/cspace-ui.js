@@ -8,7 +8,7 @@ import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
-import { isLocked } from '../../helpers/recordDataHelpers';
+import { isImmutable, isLocked, isReplicated } from '../../helpers/recordDataHelpers';
 import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
@@ -456,7 +456,7 @@ export default class RecordEditor extends Component {
     }
 
     const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
-    const locked = isLocked(data);
+    const locked = isLocked(data) || isReplicated(data) || isImmutable(data);
 
     const readOnly = (
       locked ||
@@ -478,7 +478,7 @@ export default class RecordEditor extends Component {
     const isDeletable = (
       !!csid &&
       !locked &&
-      // Security resources don't have soft-delete, so need to check both.
+      // Security resources don't have soft-delete, so also need to check hard delete.
       (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
     );
 
