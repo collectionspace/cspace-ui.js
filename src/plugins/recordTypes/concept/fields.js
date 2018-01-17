@@ -1,5 +1,4 @@
 import { defineMessages } from 'react-intl';
-import getCoreFields from '../../../helpers/coreFields';
 
 export default (pluginContext) => {
   const {
@@ -16,7 +15,7 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
-  const coreFields = getCoreFields(pluginContext);
+  const coreFields = pluginContext.config.fields.core;
 
   return {
     document: {
@@ -58,7 +57,6 @@ export default (pluginContext) => {
           },
         },
       },
-      // Define core fields
       ...coreFields,
       'ns2:concepts_common': {
         [config]: {

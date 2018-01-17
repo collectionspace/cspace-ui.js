@@ -1,5 +1,4 @@
 import { defineMessages } from 'react-intl';
-import getCoreFields from '../../../helpers/coreFields';
 
 export default (pluginContext) => {
   const {
@@ -24,7 +23,7 @@ export default (pluginContext) => {
     DATA_TYPE_DATE,
   } = pluginContext.dataTypes;
 
-  const coreFields = getCoreFields(pluginContext);
+  const coreFields = pluginContext.config.fields.core;
 
   return {
     document: {
@@ -36,7 +35,6 @@ export default (pluginContext) => {
           },
         },
       },
-      // Define core fields
       ...coreFields,
       'rel:relations-common-list': {
         [config]: {

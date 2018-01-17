@@ -75,6 +75,9 @@ export default () => ({
   dataTypes,
   formatHelpers,
   searchOperators,
+  config: {
+    fields: {},
+  },
   lib: {
     Immutable,
     React,
