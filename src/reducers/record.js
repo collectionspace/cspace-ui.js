@@ -77,6 +77,7 @@ const addFieldInstance = (state, action) => {
   const {
     csid,
     path,
+    position,
     recordTypeConfig,
   } = action.meta;
 
@@ -92,7 +93,11 @@ const addFieldInstance = (state, action) => {
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
   const defaultData = applyDefaults(fieldDescriptor);
 
-  const updatedData = deepSet(data, path, list.push(defaultData));
+  const updatedList = (typeof position === 'undefined' || position < 0 || position >= list.size)
+    ? list.push(defaultData)
+    : list.insert(position, defaultData);
+
+  const updatedData = deepSet(data, path, updatedList);
 
   return setCurrentData(state, csid, updatedData);
 };

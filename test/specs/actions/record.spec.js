@@ -2508,9 +2508,10 @@ describe('record action creator', function suite() {
 
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
+      const position = 1;
       const recordTypeConfig = {};
 
-      store.dispatch(addFieldInstance(recordTypeConfig, csid, path));
+      store.dispatch(addFieldInstance(recordTypeConfig, csid, path, position));
 
       return new Promise((resolve) => {
         window.setTimeout(() => {
@@ -2523,6 +2524,7 @@ describe('record action creator', function suite() {
             meta: {
               csid,
               path,
+              position,
               recordTypeConfig,
             },
           });

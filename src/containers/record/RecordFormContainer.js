@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
   return {
-    onAddInstance: (path) => {
-      dispatch(addFieldInstance(recordTypeConfig, csid, path));
+    onAddInstance: (path, position) => {
+      dispatch(addFieldInstance(recordTypeConfig, csid, path, position));
     },
     onCommit: (path, value) => {
       dispatch(setFieldValue(recordTypeConfig, csid, path, value));

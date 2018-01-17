@@ -861,12 +861,13 @@ export const saveRecord =
         });
     };
 
-export const addFieldInstance = (recordTypeConfig, csid, path) => (dispatch) => {
+export const addFieldInstance = (recordTypeConfig, csid, path, position) => (dispatch) => {
   dispatch({
     type: ADD_FIELD_INSTANCE,
     meta: {
       csid,
       path,
+      position,
       recordTypeConfig,
     },
   });
