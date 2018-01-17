@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
@@ -137,15 +137,28 @@ export default class RecordForm extends Component {
     }
 
     if (typeof formTemplate === 'function') {
-      const computedFormName = formTemplate(data);
+      const result = formTemplate(data, config);
 
-      if (!computedFormName) {
+      if (!result) {
         return null;
       }
 
-      formTemplate = forms[computedFormName].template;
+      if (typeof result === 'string') {
+        // The form template function returned a string. This will be the name of another form
+        // template to use.
 
-      warning(formTemplate, `No form template found for computed form name ${computedFormName} in record type ${recordType}. Check the record type plugin configuration.`);
+        formTemplate = get(forms, [result, 'template']);
+
+        warning(formTemplate, `No form template found for computed form name ${result} for form name ${formName} in record type ${recordType}. Check the record type plugin configuration.`);
+      } else {
+        if (isValidElement(result)) {
+          // The form template function returned a React element to use.
+
+          formTemplate = result;
+        }
+
+        warning(formTemplate, `The computed form template for form name ${formName} in record type ${recordType} did not return a string or a React element. Check the record type plugin configuration.`);
+      }
     }
 
     const rootPropertyName = Object.keys(fields)[0];

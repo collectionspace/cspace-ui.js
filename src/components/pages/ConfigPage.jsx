@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const contextTypes = {
   config: PropTypes.object.isRequired,
@@ -25,17 +24,26 @@ export default class ConfigPage extends Component {
     };
   }
 
+  componentDidMount() {
+    const {
+      config,
+    } = this.context;
+
+    // eslint-disable-next-line no-console
+    console.log(config);
+  }
+
   componentWillUnmount() {
     window.URL.revokeObjectURL(this.state.url);
   }
 
   render() {
     return (
-      <div className={styles.common}>
+      <p>
         <a href={this.state.url} download="cspace-ui-config.json">
           Save configuration
         </a>
-      </div>
+      </p>
     );
   }
 }

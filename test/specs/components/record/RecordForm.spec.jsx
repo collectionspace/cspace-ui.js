@@ -64,6 +64,9 @@ const config = {
         computed: {
           template: data => data.getIn(['foo', 'bar']),
         },
+        computed2: {
+          template: () => <div id="computedFormTemplate">Computed form template content</div>,
+        },
         photo: {
           messages: {
             name: {
@@ -186,6 +189,21 @@ describe('RecordForm', function suite() {
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
+  });
+
+  it('should render the element if a computed form returns a React element', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordForm
+            config={config}
+            recordType="collectionobject"
+            formName="computed2"
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('#computedFormTemplate').textContent.should.equal('Computed form template content');
   });
 
   it('should render the data into the form template', function test() {

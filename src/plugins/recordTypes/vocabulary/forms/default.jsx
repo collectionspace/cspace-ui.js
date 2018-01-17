@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
-const template = (pluginContext) => {
+const template = pluginContext => (data, config) => {
   const {
     React,
   } = pluginContext.lib;
@@ -13,7 +13,9 @@ const template = (pluginContext) => {
     Field,
   } = pluginContext.recordComponents;
 
-  const showIcon = pluginContext.config.showTermListStateIcon;
+  const workflowStateField = config.showTermListStateIcon
+    ? <Field name="workflowState" flex="0 0 32px" />
+    : null;
 
   return (
     <Field name="document">
@@ -30,7 +32,7 @@ const template = (pluginContext) => {
         <Field name="source" />
         <Field name="sourcePage" />
         <Field name="termStatus" />
-        {showIcon ? <Field name="workflowState" flex="0 0 32px" /> : undefined}
+        {workflowStateField}
       </Field>
     </Field>
   );
