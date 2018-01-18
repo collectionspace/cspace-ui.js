@@ -25,6 +25,7 @@ const config = {
           },
         },
       },
+      name: 'collectionobject',
       serviceConfig: {
         serviceType: 'object',
       },
@@ -38,6 +39,7 @@ const config = {
           },
         },
       },
+      name: 'group',
       serviceConfig: {
         serviceType: 'procedure',
       },
@@ -51,6 +53,7 @@ const config = {
           },
         },
       },
+      name: 'group',
       serviceConfig: {
         serviceType: 'procedure',
       },
@@ -64,6 +67,7 @@ const config = {
           },
         },
       },
+      name: 'person',
       serviceConfig: {
         serviceType: 'authority',
       },
@@ -113,6 +117,7 @@ const config = {
           },
         },
       },
+      name: 'exhibition',
       serviceConfig: {
         serviceType: 'procedure',
       },
@@ -126,6 +131,7 @@ const config = {
           },
         },
       },
+      name: 'work',
       serviceConfig: {
         serviceType: 'authority',
       },
@@ -262,6 +268,29 @@ describe('CreatePage', function suite() {
     links.should.have.lengthOf(5);
 
     Array.from(links).map(link => link.textContent).should.not.include('Disabled Vocab');
+  });
+
+  it('should not render links for locked vocabularies', function test() {
+    const getAuthorityVocabWorkflowState = (recordType, vocabulary) =>
+      (recordType === 'person' && vocabulary === 'ulan' ? 'locked' : null);
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <Router>
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
+          </Router>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const links = this.container.querySelectorAll('a');
+
+    links.should.have.lengthOf(4);
+
+    Array.from(links).map(link => link.textContent).should.not.include('ULAN');
   });
 
   it('should not render links for authority records whose vocabularies are all disabled', function test() {

@@ -2,15 +2,18 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import reducer, {
-  getAuthResourceNames,
-  getAuthRoles,
-  isAuthPermsReadPending,
-  isAuthRolesReadPending,
+  getAuthorityVocabCsid,
+  getAuthorityVocabWorkflowState,
+  getAuthzResourceNames,
+  getAuthzRoles,
+  isAuthzPermsReadPending,
+  isAuthzRolesReadPending,
   getUserScreenName,
   getUserUsername,
   getUserPerms,
   getLoginUsername,
   isLoginPending,
+  isLoginSuccess,
   getLoginError,
   isLogoutPending,
   getLogoutResponse,
@@ -69,7 +72,8 @@ describe('reducer', function suite() {
     const state = reducer(undefined, {});
 
     state.should.have.all.keys([
-      'auth',
+      'authority',
+      'authz',
       'searchPage',
       'cspace',
       'idGenerator',
@@ -90,50 +94,86 @@ describe('reducer', function suite() {
     ]);
   });
 
-  describe('getAuthResourceNames selector', function selectorSuite() {
-    it('should select from the auth key', function test() {
+  describe('getAuthorityVocabCsid selector', function selectorSuite() {
+    it('should select from the authority key', function test() {
+      const recordType = 'person';
+      const vocabulary = 'local';
+      const csid = '1234';
+
+      getAuthorityVocabCsid({
+        authority: Immutable.fromJS({
+          [recordType]: {
+            [vocabulary]: {
+              csid,
+            },
+          },
+        }),
+      }, recordType, vocabulary).should.equal(csid);
+    });
+  });
+
+  describe('getAuthorityVocabWorkflowState selector', function selectorSuite() {
+    it('should select from the authority key', function test() {
+      const recordType = 'person';
+      const vocabulary = 'local';
+      const workflowState = 'locked';
+
+      getAuthorityVocabWorkflowState({
+        authority: Immutable.fromJS({
+          [recordType]: {
+            [vocabulary]: {
+              workflowState,
+            },
+          },
+        }),
+      }, recordType, vocabulary).should.equal(workflowState);
+    });
+  });
+
+  describe('getAuthzResourceNames selector', function selectorSuite() {
+    it('should select from the authz key', function test() {
       const resourceNames = Immutable.List([
         'collectionobjects',
         'groups',
       ]);
 
-      getAuthResourceNames({
-        auth: Immutable.fromJS({
+      getAuthzResourceNames({
+        authz: Immutable.fromJS({
           resourceNames,
         }),
       }).should.equal(resourceNames);
     });
   });
 
-  describe('isAuthPermsReadPending selector', function selectorSuite() {
-    it('should select from the auth key', function test() {
-      isAuthPermsReadPending({
-        auth: Immutable.fromJS({
+  describe('isAuthzPermsReadPending selector', function selectorSuite() {
+    it('should select from the authz key', function test() {
+      isAuthzPermsReadPending({
+        authz: Immutable.fromJS({
           isPermsReadPending: true,
         }),
       }).should.equal(true);
     });
   });
 
-  describe('getAuthRoles selector', function selectorSuite() {
-    it('should select from the auth key', function test() {
+  describe('getAuthzRoles selector', function selectorSuite() {
+    it('should select from the authz key', function test() {
       const roles = Immutable.fromJS([
         { roleName: 'TENANT_ADMINISTRATOR' },
         { roleName: 'TENANT_READER' },
       ]);
 
-      getAuthRoles({
-        auth: Immutable.fromJS({
+      getAuthzRoles({
+        authz: Immutable.fromJS({
           roles,
         }),
       }).should.equal(roles);
     });
   });
 
-  describe('isAuthRolesReadPending selector', function selectorSuite() {
-    it('should select from the auth key', function test() {
-      isAuthRolesReadPending({
-        auth: Immutable.fromJS({
+  describe('isAuthzRolesReadPending selector', function selectorSuite() {
+    it('should select from the authz key', function test() {
+      isAuthzRolesReadPending({
+        authz: Immutable.fromJS({
           isRolesReadPending: true,
         }),
       }).should.equal(true);
@@ -207,6 +247,16 @@ describe('reducer', function suite() {
           error,
         }),
       }).should.equal(error);
+    });
+  });
+
+  describe('isLoginSuccess selector', function selectorSuite() {
+    it('should select from the login key', function test() {
+      isLoginSuccess({
+        login: Immutable.Map({
+          isSuccess: true,
+        }),
+      }).should.equal(true);
     });
   });
 

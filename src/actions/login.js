@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import { readAuthVocabs } from './authority';
 import { createSession, setSession } from './cspace';
 import { loadPrefs, savePrefs } from './prefs';
 import { getUserUsername } from '../reducers';
@@ -98,6 +99,7 @@ export const login = (config, username, password) => (dispatch, getState) => {
 
   return dispatch(renewAuth(config, username, password))
     .then(() => dispatch(loadPrefs(username)))
+    .then(() => dispatch(readAuthVocabs()))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,
       meta: {

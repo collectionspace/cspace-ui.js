@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import TitleBar from '../sections/TitleBar';
 import { canCreate } from '../../helpers/permissionHelpers';
+import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/CreatePage.css';
 import panelStyles from '../../../styles/cspace-ui/CreatePagePanel.css';
 
@@ -79,7 +80,8 @@ const getRecordTypesByServiceType = (recordTypes, perms, intl) => {
   return recordTypesByServiceType;
 };
 
-const getVocabularies = (recordTypeConfig, intl) => {
+const getVocabularies = (recordTypeConfig, intl, getAuthorityVocabWorkflowState) => {
+  const recordTypeName = recordTypeConfig.name;
   const { vocabularies } = recordTypeConfig;
 
   let vocabularyNames;
@@ -87,7 +89,11 @@ const getVocabularies = (recordTypeConfig, intl) => {
   if (vocabularies) {
     vocabularyNames = Object.keys(vocabularies)
       .filter(
-        vocabularyName => (vocabularyName !== 'all' && !vocabularies[vocabularyName].disabled)
+        vocabularyName => (
+          vocabularyName !== 'all' &&
+          !isLocked(getAuthorityVocabWorkflowState(recordTypeName, vocabularyName)) &&
+          !vocabularies[vocabularyName].disabled
+        )
       )
       .sort((nameA, nameB) => {
         const configA = vocabularies[nameA];
@@ -130,12 +136,18 @@ const contextTypes = {
 const propTypes = {
   intl: intlShape,
   perms: PropTypes.instanceOf(Immutable.Map),
+  getAuthorityVocabWorkflowState: PropTypes.func,
+};
+
+const defaultProps = {
+  getAuthorityVocabWorkflowState: () => null,
 };
 
 export default function CreatePage(props, context) {
   const {
     intl,
     perms,
+    getAuthorityVocabWorkflowState,
   } = props;
 
   const {
@@ -155,7 +167,10 @@ export default function CreatePage(props, context) {
     serviceTypes.forEach((serviceType) => {
       itemsByServiceType[serviceType] = recordTypesByServiceType[serviceType].map((recordType) => {
         const recordTypeConfig = recordTypes[recordType];
-        const vocabularies = getVocabularies(recordTypeConfig, intl);
+
+        const vocabularies = getVocabularies(
+          recordTypeConfig, intl, getAuthorityVocabWorkflowState
+        );
 
         let vocabularyList;
 
@@ -227,4 +242,5 @@ export default function CreatePage(props, context) {
 }
 
 CreatePage.propTypes = propTypes;
+CreatePage.defaultProps = defaultProps;
 CreatePage.contextTypes = contextTypes;

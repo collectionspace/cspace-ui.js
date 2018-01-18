@@ -47,9 +47,9 @@ import {
   getWorkflowState,
   isNewRecord,
   isExistingRecord,
-  isImmutable,
-  isLocked,
-  isReplicated,
+  isRecordImmutable,
+  isRecordLocked,
+  isRecordReplicated,
   normalizeFieldValue,
   normalizeRecordData,
   prepareForSending,
@@ -2470,7 +2470,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('isImmutable', function suite() {
+  describe('isRecordImmutable', function suite() {
     it('should return true if permsProtection is \'immutable\'', function test() {
       const data = Immutable.fromJS({
         'ns2:role': {
@@ -2478,7 +2478,7 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      isImmutable(data).should.equal(true);
+      isRecordImmutable(data).should.equal(true);
     });
 
     it('should return true if rolesProtection is \'immutable\'', function test() {
@@ -2488,19 +2488,19 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      isImmutable(data).should.equal(true);
+      isRecordImmutable(data).should.equal(true);
     });
 
     it('should return false if no data is supplied', function test() {
-      isImmutable().should.equal(false);
+      isRecordImmutable().should.equal(false);
     });
 
     it('should return false if no data is supplied', function test() {
-      isImmutable().should.equal(false);
+      isRecordImmutable().should.equal(false);
     });
   });
 
-  describe('isLocked', function suite() {
+  describe('isRecordLocked', function suite() {
     it('should return true if the workflow state is \'locked\'', function test() {
       const data = Immutable.fromJS({
         document: {
@@ -2510,15 +2510,15 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      isLocked(data).should.equal(true);
+      isRecordLocked(data).should.equal(true);
     });
 
     it('should return false if no data is supplied', function test() {
-      isLocked().should.equal(false);
+      isRecordLocked().should.equal(false);
     });
   });
 
-  describe('isReplicated', function suite() {
+  describe('isRecordReplicated', function suite() {
     it('should return true if the workflow state contains \'replicated\'', function test() {
       let data;
 
@@ -2530,7 +2530,7 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      isReplicated(data).should.equal(true);
+      isRecordReplicated(data).should.equal(true);
 
 
       data = Immutable.fromJS({
@@ -2541,11 +2541,11 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      isReplicated(data).should.equal(true);
+      isRecordReplicated(data).should.equal(true);
     });
 
     it('should return false if no data is supplied', function test() {
-      isLocked().should.equal(false);
+      isRecordLocked().should.equal(false);
     });
   });
   describe('normalizeFieldValue', function suite() {

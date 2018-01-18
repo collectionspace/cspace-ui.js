@@ -24,6 +24,7 @@ chai.should();
 const mockStore = configureMockStore([thunk]);
 
 const store = mockStore({
+  authority: Immutable.Map(),
   partialTermSearch: Immutable.Map().setIn(['sam', 'person', 'local', 'items'], [
     {
       refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamuelSmith)\'Samuel Smith\'',
@@ -35,7 +36,13 @@ const store = mockStore({
     },
   ]),
   record: Immutable.Map(),
-  user: Immutable.Map(),
+  user: Immutable.fromJS({
+    perms: {
+      person: {
+        data: 'CRUDL',
+      },
+    },
+  }),
 });
 
 const config = {
@@ -54,6 +61,12 @@ const config = {
       title: () => 'The computed title',
       vocabularies: {
         local: {
+          messages: {
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
+              defaultMessage: 'Local Persons',
+            },
+          },
           serviceConfig: {
             servicePath: 'urn:cspace:name(person)',
           },

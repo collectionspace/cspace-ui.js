@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
-import auth, * as fromAuth from './auth';
+import authz, * as fromAuthz from './authz';
+import authority, * as fromAuthority from './authority';
 import cspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
 import searchPage, * as fromSearchPage from './searchPage';
@@ -19,7 +20,8 @@ import user, * as fromUser from './user';
 import vocabulary, * as fromVocabulary from './vocabulary';
 
 export default combineReducers({
-  auth,
+  authz,
+  authority,
   cspace,
   idGenerator,
   searchPage,
@@ -39,13 +41,19 @@ export default combineReducers({
   vocabulary,
 });
 
-export const isAuthPermsReadPending = state => fromAuth.isPermsReadPending(state.auth);
+export const getAuthorityVocabCsid = (state, recordType, vocab) =>
+  fromAuthority.getVocabCsid(state.authority, recordType, vocab);
 
-export const getAuthResourceNames = state => fromAuth.getResourceNames(state.auth);
+export const getAuthorityVocabWorkflowState = (state, recordType, vocab) =>
+  fromAuthority.getVocabWorkflowState(state.authority, recordType, vocab);
 
-export const isAuthRolesReadPending = state => fromAuth.isRolesReadPending(state.auth);
+export const isAuthzPermsReadPending = state => fromAuthz.isPermsReadPending(state.authz);
 
-export const getAuthRoles = state => fromAuth.getRoles(state.auth);
+export const getAuthzResourceNames = state => fromAuthz.getResourceNames(state.authz);
+
+export const isAuthzRolesReadPending = state => fromAuthz.isRolesReadPending(state.authz);
+
+export const getAuthzRoles = state => fromAuthz.getRoles(state.authz);
 
 export const getUserScreenName = state => fromUser.getScreenName(state.user);
 

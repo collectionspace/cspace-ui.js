@@ -79,6 +79,7 @@ describe('RecordEditorContainer', function suite() {
   };
 
   const store = mockStore({
+    authority: Immutable.Map(),
     notification: Immutable.Map(),
     prefs: Immutable.Map(),
     record: Immutable.fromJS({

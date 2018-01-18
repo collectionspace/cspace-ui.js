@@ -16,14 +16,14 @@ import {
   ROLES_READ_REJECTED,
   readPerms,
   readRoles,
-} from '../../../src/actions/auth';
+} from '../../../src/actions/authz';
 
-describe('auth action creator', function suite() {
+describe('authz action creator', function suite() {
   describe('readPerms', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
 
     const store = mockStore({
-      auth: Immutable.Map(),
+      authz: Immutable.Map(),
       user: Immutable.Map(),
     });
 
@@ -97,7 +97,7 @@ describe('auth action creator', function suite() {
 
     it('should not dispatch any action if a read is already pending', function test() {
       const inProgressStore = mockStore({
-        auth: Immutable.Map({
+        authz: Immutable.Map({
           isPermsReadPending: true,
         }),
       });
@@ -112,7 +112,7 @@ describe('auth action creator', function suite() {
 
     it('should not dispatch any action if permissions have already been retrieved', function test() {
       const permsRetrievedStore = mockStore({
-        auth: Immutable.Map({
+        authz: Immutable.Map({
           resourceNames: Immutable.List(),
         }),
       });
@@ -130,7 +130,7 @@ describe('auth action creator', function suite() {
     const mockStore = configureMockStore([thunk]);
 
     const store = mockStore({
-      auth: Immutable.Map(),
+      authz: Immutable.Map(),
       user: Immutable.Map(),
     });
 
@@ -200,7 +200,7 @@ describe('auth action creator', function suite() {
 
     it('should not dispatch any action if a read is already pending', function test() {
       const inProgressStore = mockStore({
-        auth: Immutable.Map({
+        authz: Immutable.Map({
           isRolesReadPending: true,
         }),
       });
@@ -215,7 +215,7 @@ describe('auth action creator', function suite() {
 
     it('should not dispatch any action if roles have already been retrieved', function test() {
       const rolesRetrievedStore = mockStore({
-        auth: Immutable.Map({
+        authz: Immutable.Map({
           roles: Immutable.List(),
         }),
       });

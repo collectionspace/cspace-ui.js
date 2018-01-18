@@ -2,10 +2,10 @@ import getSession from './cspace';
 import { ERR_API } from '../constants/errorCodes';
 
 import {
-  getAuthResourceNames,
-  getAuthRoles,
-  isAuthPermsReadPending,
-  isAuthRolesReadPending,
+  getAuthzResourceNames,
+  getAuthzRoles,
+  isAuthzPermsReadPending,
+  isAuthzRolesReadPending,
 } from '../reducers';
 
 export const PERMS_READ_STARTED = 'PERMS_READ_STARTED';
@@ -17,8 +17,8 @@ export const ROLES_READ_REJECTED = 'ROLES_READ_REJECTED';
 
 export const readPerms = config => (dispatch, getState) => {
   if (
-    isAuthPermsReadPending(getState()) ||
-    getAuthResourceNames(getState())
+    isAuthzPermsReadPending(getState()) ||
+    getAuthzResourceNames(getState())
   ) {
     // We've already read the perms, or a request is already pending. Do nothing.
 
@@ -59,8 +59,8 @@ export const readPerms = config => (dispatch, getState) => {
 
 export const readRoles = () => (dispatch, getState) => {
   if (
-    isAuthRolesReadPending(getState()) ||
-    getAuthRoles(getState())
+    isAuthzRolesReadPending(getState()) ||
+    getAuthzRoles(getState())
   ) {
     // We've already read the perms, or a request is already pending. Do nothing.
 

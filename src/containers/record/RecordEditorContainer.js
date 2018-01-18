@@ -23,6 +23,7 @@ import {
 } from '../../actions/record';
 
 import {
+  getAuthorityVocabWorkflowState,
   getForm,
   getOpenModalName,
   getRecordData,
@@ -40,6 +41,7 @@ const mapStateToProps = (state, ownProps) => {
     csid,
     perms,
     recordType,
+    vocabulary,
   } = ownProps;
 
   // If perms are supplied in ownProps, use them instead of getting perms from state.
@@ -54,6 +56,7 @@ const mapStateToProps = (state, ownProps) => {
     openModalName: getOpenModalName(state),
     perms: perms || getUserPerms(state),
     validationErrors: getRecordValidationErrors(state, csid),
+    vocabularyWorkflowState: getAuthorityVocabWorkflowState(state, recordType, vocabulary),
   };
 };
 

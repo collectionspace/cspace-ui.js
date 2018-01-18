@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { resetLogin } from './login';
 import { loadPrefs } from './prefs';
 import { readAccountPerms } from './account';
+import { readAuthVocabs } from './authority';
 import { openModal } from './notification';
 import LoginModal from '../components/login/LoginModal';
 
@@ -60,7 +61,8 @@ export const configureCSpace = config => (dispatch) => {
   const { username } = newSession.config();
 
   return dispatch(readAccountPerms(config, username))
-    .then(() => dispatch(loadPrefs(username)));
+    .then(() => dispatch(loadPrefs(username)))
+    .then(() => dispatch(readAuthVocabs(config)));
 };
 
 export default () => session;

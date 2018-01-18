@@ -8,8 +8,9 @@ import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
-import { isImmutable, isLocked, isReplicated } from '../../helpers/recordDataHelpers';
+import { isRecordImmutable, isRecordLocked, isRecordReplicated } from '../../helpers/recordDataHelpers';
 import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
+import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
 const propTypes = {
@@ -23,6 +24,7 @@ const propTypes = {
   formName: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   validationErrors: PropTypes.instanceOf(Immutable.Map),
+  vocabularyWorkflowState: PropTypes.string,
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
@@ -447,6 +449,7 @@ export default class RecordEditor extends Component {
       relatedSubjectWorkflowState,
       validationErrors,
       vocabulary,
+      vocabularyWorkflowState,
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -456,21 +459,24 @@ export default class RecordEditor extends Component {
     }
 
     const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
-    const locked = isLocked(data) || isReplicated(data) || isImmutable(data);
+    const locked = isRecordLocked(data) || isRecordReplicated(data) || isRecordImmutable(data);
+    const relatedSubjectLocked = isLocked(relatedSubjectWorkflowState);
+    const vocabularyLocked = isLocked(vocabularyWorkflowState);
 
     const readOnly = (
-      locked ||
       isReadPending ||
+      locked ||
       !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
     );
 
     const isCloneable = (
       // The record must be saved.
       !!csid &&
+      !vocabularyLocked &&
       // If we're editing an object record in a secondary tab, and the primary record is locked,
       // a new cloned record would not be able to be related to the primary, so the clone
       // button should not appear.
-      relatedSubjectWorkflowState !== 'locked' &&
+      !relatedSubjectLocked &&
       // We must have permission to create a new record of the type.
       canCreate(recordType, perms)
     );
@@ -478,6 +484,7 @@ export default class RecordEditor extends Component {
     const isDeletable = (
       !!csid &&
       !locked &&
+      !vocabularyLocked &&
       // Security resources don't have soft-delete, so also need to check hard delete.
       (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
     );
