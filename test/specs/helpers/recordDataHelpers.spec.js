@@ -47,9 +47,11 @@ import {
   getWorkflowState,
   isNewRecord,
   isExistingRecord,
+  isRecordDeprecated,
   isRecordImmutable,
   isRecordLocked,
   isRecordReplicated,
+  isSecurityRecordImmutable,
   normalizeFieldValue,
   normalizeRecordData,
   prepareForSending,
@@ -2470,8 +2472,74 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
+  describe('isRecordDeprecated', function suite() {
+    it('should return true if the workflow state contains \'deprecated\'', function test() {
+      let data;
+
+      data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'deprecated',
+          },
+        },
+      });
+
+      isRecordDeprecated(data).should.equal(true);
+
+      data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'replicated_deprecated',
+          },
+        },
+      });
+
+      isRecordDeprecated(data).should.equal(true);
+    });
+
+    it('should return false if no data is supplied', function test() {
+      isRecordDeprecated().should.equal(false);
+    });
+  });
+
   describe('isRecordImmutable', function suite() {
-    it('should return true if permsProtection is \'immutable\'', function test() {
+    it('should return true if the record is locked', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'locked',
+          },
+        },
+      });
+
+      isRecordImmutable(data).should.equal(true);
+    });
+
+    it('should return true if the record is deprecated', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'deprecated',
+          },
+        },
+      });
+
+      isRecordImmutable(data).should.equal(true);
+    });
+
+    it('should return true if the record is replicated', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            workflowState: 'replicated',
+          },
+        },
+      });
+
+      isRecordImmutable(data).should.equal(true);
+    });
+
+    it('should return true if the record is an immutable security record', function test() {
       const data = Immutable.fromJS({
         'ns2:role': {
           permsProtection: 'immutable',
@@ -2479,24 +2547,6 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       isRecordImmutable(data).should.equal(true);
-    });
-
-    it('should return true if rolesProtection is \'immutable\'', function test() {
-      const data = Immutable.fromJS({
-        'ns2:account': {
-          rolesProtection: 'immutable',
-        },
-      });
-
-      isRecordImmutable(data).should.equal(true);
-    });
-
-    it('should return false if no data is supplied', function test() {
-      isRecordImmutable().should.equal(false);
-    });
-
-    it('should return false if no data is supplied', function test() {
-      isRecordImmutable().should.equal(false);
     });
   });
 
@@ -2532,7 +2582,6 @@ describe('recordDataHelpers', function moduleSuite() {
 
       isRecordReplicated(data).should.equal(true);
 
-
       data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -2545,9 +2594,40 @@ describe('recordDataHelpers', function moduleSuite() {
     });
 
     it('should return false if no data is supplied', function test() {
-      isRecordLocked().should.equal(false);
+      isRecordReplicated().should.equal(false);
     });
   });
+
+  describe('isSecurityRecordImmutable', function suite() {
+    it('should return true if permsProtection is \'immutable\'', function test() {
+      const data = Immutable.fromJS({
+        'ns2:role': {
+          permsProtection: 'immutable',
+        },
+      });
+
+      isSecurityRecordImmutable(data).should.equal(true);
+    });
+
+    it('should return true if rolesProtection is \'immutable\'', function test() {
+      const data = Immutable.fromJS({
+        'ns2:account': {
+          rolesProtection: 'immutable',
+        },
+      });
+
+      isSecurityRecordImmutable(data).should.equal(true);
+    });
+
+    it('should return false if no data is supplied', function test() {
+      isSecurityRecordImmutable().should.equal(false);
+    });
+
+    it('should return false if no data is supplied', function test() {
+      isSecurityRecordImmutable().should.equal(false);
+    });
+  });
+
   describe('normalizeFieldValue', function suite() {
     it('should return the value when the field descriptor is undefined', function test() {
       normalizeFieldValue(undefined, 'a').should.equal('a');

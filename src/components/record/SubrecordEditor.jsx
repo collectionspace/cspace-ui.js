@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import SubrecordDetachButton from '../../components/record/SubrecordDetachButton';
 import { canRead, canCreate, canUpdate } from '../../helpers/permissionHelpers';
-import { isExistingRecord } from '../../helpers/recordDataHelpers';
+import { isExistingRecord, isRecordImmutable } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/SubrecordEditor.css';
 
 const propTypes = {
@@ -68,7 +68,8 @@ export default class SubrecordEditor extends Component {
 
     const subrecordReadOnly = (
       readOnly ||
-      !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
+      !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms)) ||
+      isRecordImmutable(data)
     );
 
     const detachButton = (showDetachButton && !readOnly && isExistingRecord(data))

@@ -8,8 +8,8 @@ import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
-import { isRecordImmutable, isRecordLocked, isRecordReplicated } from '../../helpers/recordDataHelpers';
 import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
+import { isRecordImmutable } from '../../helpers/recordDataHelpers';
 import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
@@ -459,13 +459,13 @@ export default class RecordEditor extends Component {
     }
 
     const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
-    const locked = isRecordLocked(data) || isRecordReplicated(data) || isRecordImmutable(data);
     const relatedSubjectLocked = isLocked(relatedSubjectWorkflowState);
     const vocabularyLocked = isLocked(vocabularyWorkflowState);
+    const immutable = isRecordImmutable(data);
 
     const readOnly = (
       isReadPending ||
-      locked ||
+      immutable ||
       !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
     );
 
@@ -483,7 +483,7 @@ export default class RecordEditor extends Component {
 
     const isDeletable = (
       !!csid &&
-      !locked &&
+      !immutable &&
       !vocabularyLocked &&
       // Security resources don't have soft-delete, so also need to check hard delete.
       (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
