@@ -4,7 +4,15 @@ import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import chaiAsPromised from 'chai-as-promised';
 import thunk from 'redux-thunk';
+import moxios from 'moxios';
 import LoginModal from '../../../src/components/login/LoginModal';
+
+import { ACCOUNT_PERMS_READ_FULFILLED } from '../../../src/actions/account';
+
+import {
+  AUTH_VOCABS_READ_STARTED,
+  AUTH_VOCABS_READ_FULFILLED,
+} from '../../../src/actions/authority';
 
 import getSession, {
   CSPACE_CONFIGURED,
@@ -32,6 +40,14 @@ const mockStore = configureMockStore([thunk]);
 
 describe('cspace action creator', function suite() {
   describe('configureCSpace', function actionSuite() {
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
     it('should create a CSpace session and make it the active session', function test() {
       const store = mockStore({
         user: Immutable.Map(),
@@ -50,7 +66,12 @@ describe('cspace action creator', function suite() {
       session.config().should.have.property('url', 'http://something.org');
     });
 
-    it('should dispatch CSPACE_CONFIGURED followed by PREFS_LOADED', function test() {
+    it('should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED', function test() {
+      moxios.stubRequest(/.*/, {
+        status: 200,
+        response: {},
+      });
+
       const store = mockStore({
         user: Immutable.Map(),
       });
@@ -58,7 +79,25 @@ describe('cspace action creator', function suite() {
       const cspaceConfig = {
         foo: 'bar',
         serverUrl: 'http://something.org',
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+          },
+        },
       };
+
+      // Set a stored cspace-client username.
+
+      window.localStorage.setItem('cspace-client', JSON.stringify({
+        'cspace-ui': {
+          [cspaceConfig.serverUrl]: {
+            username: 'user@collectionspace.org',
+          },
+        },
+      }));
 
       store.dispatch(configureCSpace(cspaceConfig));
 
@@ -66,19 +105,97 @@ describe('cspace action creator', function suite() {
         window.setTimeout(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(5);
 
           actions[0].should
             .include({ type: CSPACE_CONFIGURED })
             .and.have.property('payload')
               .that.has.property('url', 'http://something.org');
 
-          actions[1].should
-            .include({ type: PREFS_LOADED });
+          actions[1].should.include({ type: ACCOUNT_PERMS_READ_FULFILLED });
+          actions[2].should.include({ type: PREFS_LOADED });
+          actions[3].should.include({ type: AUTH_VOCABS_READ_STARTED });
+          actions[4].should.include({ type: AUTH_VOCABS_READ_FULFILLED });
+
+          window.localStorage.removeItem('cspace-client');
 
           resolve();
         }, 0);
       });
+    });
+
+    it('should resolve if the readAccountPerms query returns a 401 error', function test() {
+      moxios.stubRequest(/\/accounts\/0\/accountperms/, {
+        status: 401,
+        response: {},
+      });
+
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      const cspaceConfig = {
+        foo: 'bar',
+        serverUrl: 'http://something.org',
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+          },
+        },
+      };
+
+      // Set a stored cspace-client username.
+
+      window.localStorage.setItem('cspace-client', JSON.stringify({
+        'cspace-ui': {
+          [cspaceConfig.serverUrl]: {
+            username: 'user@collectionspace.org',
+          },
+        },
+      }));
+
+      return store.dispatch(configureCSpace(cspaceConfig))
+        .then(() => Promise.resolve());
+    });
+
+    it('should reject if the readAccountPerms query returns an error other than 401', function test() {
+      moxios.stubRequest(/\/accounts\/0\/accountperms/, {
+        status: 500,
+        response: {},
+      });
+
+      const store = mockStore({
+        user: Immutable.Map(),
+      });
+
+      const cspaceConfig = {
+        foo: 'bar',
+        serverUrl: 'http://something.org',
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+          },
+        },
+      };
+
+      // Set a stored cspace-client username.
+
+      window.localStorage.setItem('cspace-client', JSON.stringify({
+        'cspace-ui': {
+          [cspaceConfig.serverUrl]: {
+            username: 'user@collectionspace.org',
+          },
+        },
+      }));
+
+      return store.dispatch(configureCSpace(cspaceConfig))
+        .catch(() => Promise.resolve());
     });
 
     it('should configure an onError callback that is a function', function test() {

@@ -356,12 +356,5 @@ describe('login action creator', function suite() {
           actions[0].should.have.property('type', ACCOUNT_PERMS_READ_REJECTED);
         });
     });
-
-    it('should dispatch nothing if no username is supplied', function test() {
-      return store.dispatch(readAccountPerms(config))
-        .then(() => {
-          store.getActions().should.have.lengthOf(0);
-        });
-    });
   });
 });

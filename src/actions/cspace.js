@@ -60,9 +60,25 @@ export const configureCSpace = config => (dispatch) => {
 
   const { username } = newSession.config();
 
+  if (!username) {
+    return Promise.resolve();
+  }
+
   return dispatch(readAccountPerms(config, username))
     .then(() => dispatch(loadPrefs(username)))
-    .then(() => dispatch(readAuthVocabs(config)));
+    .then(() => dispatch(readAuthVocabs(config)))
+    .catch((error) => {
+      // 401 is expected if the user's auth token has expired. The client onError handler will take
+      // care of showing a notification, so the error can be swallowed here.
+
+      const status = get(error, ['response', 'status']);
+
+      if (status === 401) {
+        return Promise.resolve();
+      }
+
+      return Promise.reject(error);
+    });
 };
 
 export default () => session;
