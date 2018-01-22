@@ -155,3 +155,9 @@ If true, show a column in the term editing table (on the Term Lists tab of the A
 tenantId: string = '1'
 ```
 The ID of the tenant to access on the CollectionSpace server, normally a numeric string. The default value '1' corresponds to the core (default) CollectionSpace tenant. If this value is not set correctly, logins will fail with a message stating that the user is not registered to the expected tenant.
+
+### termDeprecationEnabled
+```
+termDeprecationEnabled: boolean = false
+```
+If true, show deprecation buttons (Activate/Deactivate) on authority item record editors.

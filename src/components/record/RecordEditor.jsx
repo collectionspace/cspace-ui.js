@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import RecordButtonBar from './RecordButtonBar';
 import RecordHeader from './RecordHeader';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
@@ -9,7 +10,7 @@ import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
-import { isRecordImmutable } from '../../helpers/recordDataHelpers';
+import { isRecordDeprecated, isRecordImmutable } from '../../helpers/recordDataHelpers';
 import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
@@ -82,12 +83,14 @@ export default class RecordEditor extends Component {
 
     // Button bar handlers.
 
+    this.handleDeprecateButtonClick = this.handleDeprecateButtonClick.bind(this);
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
     this.handleSaveButtonErrorBadgeClick = this.handleSaveButtonErrorBadgeClick.bind(this);
     this.handleRevertButtonClick = this.handleRevertButtonClick.bind(this);
     this.handleCloneButtonClick = this.handleCloneButtonClick.bind(this);
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.handleRecordFormSelectorCommit = this.handleRecordFormSelectorCommit.bind(this);
+    this.handleUndeprecateButtonClick = this.handleUndeprecateButtonClick.bind(this);
   }
 
   componentDidMount() {
@@ -190,6 +193,42 @@ export default class RecordEditor extends Component {
 
     if (onSaveCancelled) {
       onSaveCancelled();
+    }
+  }
+
+  handleUndeprecateButtonClick() {
+    const {
+      transitionRecord,
+      onRecordTransitioned,
+    } = this.props;
+
+    const transitionName = 'undeprecate';
+
+    if (transitionRecord) {
+      transitionRecord(transitionName)
+        .then(() => {
+          if (onRecordTransitioned) {
+            onRecordTransitioned(transitionName);
+          }
+        });
+    }
+  }
+
+  handleDeprecateButtonClick() {
+    const {
+      transitionRecord,
+      onRecordTransitioned,
+    } = this.props;
+
+    const transitionName = 'deprecate';
+
+    if (transitionRecord) {
+      transitionRecord(transitionName)
+        .then(() => {
+          if (onRecordTransitioned) {
+            onRecordTransitioned(transitionName);
+          }
+        });
     }
   }
 
@@ -489,6 +528,10 @@ export default class RecordEditor extends Component {
       (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
     );
 
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+    const showDeprecationButtons = config.termDeprecationEnabled && serviceType === 'authority';
+    const isDeprecated = isRecordDeprecated(data);
+
     return (
       <form className={styles.common} autoComplete="off">
         <RecordHeader
@@ -498,19 +541,24 @@ export default class RecordEditor extends Component {
           formName={selectedFormName}
           isCloneable={isCloneable}
           isDeletable={isDeletable}
+          isDeprecated={isDeprecated}
           isModified={isModified}
           isReadPending={isReadPending}
           isSavePending={isSavePending}
           readOnly={readOnly}
           recordType={recordType}
+          showDeprecationButtons={showDeprecationButtons}
           validationErrors={validationErrors}
           onCloneButtonClick={this.handleCloneButtonClick}
           onCommit={this.handleRecordFormSelectorCommit}
+          onDeprecateButtonClick={this.handleDeprecateButtonClick}
           onDeleteButtonClick={this.handleDeleteButtonClick}
           onSaveButtonClick={this.handleSaveButtonClick}
           onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
           onRevertButtonClick={this.handleRevertButtonClick}
+          onUndeprecateButtonClick={this.handleUndeprecateButtonClick}
         />
+
         <RecordFormContainer
           config={config}
           csid={csid}
@@ -520,14 +568,17 @@ export default class RecordEditor extends Component {
           recordType={recordType}
           vocabulary={vocabulary}
         />
+
         <footer>
           <RecordButtonBar
             isCloneable={isCloneable}
             isDeletable={isDeletable}
+            isDeprecated={isDeprecated}
             isModified={isModified}
             isReadPending={isReadPending}
             isSavePending={isSavePending}
             readOnly={readOnly}
+            showDeprecationButtons={showDeprecationButtons}
             validationErrors={validationErrors}
             onSaveButtonClick={this.handleSaveButtonClick}
             onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
@@ -536,10 +587,12 @@ export default class RecordEditor extends Component {
             onDeleteButtonClick={this.handleDeleteButtonClick}
           />
         </footer>
+
         <Prompt
           when={isModified && !isSavePending}
           message={ConfirmRecordNavigationModal.modalName}
         />
+
         {this.renderConfirmNavigationModal()}
         {this.renderConfirmRecordDeleteModal()}
         {this.renderLockRecordModal()}

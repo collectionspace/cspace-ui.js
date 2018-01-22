@@ -16,6 +16,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
+import RecordHeader from '../../../../src/components/record/RecordHeader';
 import ConfirmRecordNavigationModal from '../../../../src/components/record/ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 import LockRecordModal from '../../../../src/components/record/LockRecordModal';
@@ -1128,6 +1129,110 @@ describe('RecordEditor', function suite() {
         saveWithTransitionCallback(newCsid);
 
         recordCreatedNewCsid.should.equal(newCsid);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call transitionRecord when the deprecate button is clicked', function test() {
+    let transitionRecordTransitionName = null;
+
+    const transitionRecord = (transitionNameArg) => {
+      transitionRecordTransitionName = transitionNameArg;
+
+      return Promise.resolve();
+    };
+
+    let recordTransitionedTransitionName = null;
+
+    const handleRecordTransitioned = (transitionNameArg) => {
+      recordTransitionedTransitionName = transitionNameArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordEditor
+            config={config}
+            csid="1234"
+            recordType="collectionobject"
+            transitionRecord={transitionRecord}
+            onRecordTransitioned={handleRecordTransitioned}
+          />
+        </StoreProvider>
+      </IntlProvider>);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
+    const recordEditorRenderer = createRenderer();
+
+    recordEditorRenderer.render(recordEditor);
+
+    const recordEditorResult = recordEditorRenderer.getRenderOutput();
+    const recordHeader = findWithType(recordEditorResult, RecordHeader);
+
+    recordHeader.props.onDeprecateButtonClick();
+
+    transitionRecordTransitionName.should.equal('deprecate');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        recordTransitionedTransitionName.should.equal('deprecate');
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call transitionRecord when the undeprecate button is clicked', function test() {
+    let transitionRecordTransitionName = null;
+
+    const transitionRecord = (transitionNameArg) => {
+      transitionRecordTransitionName = transitionNameArg;
+
+      return Promise.resolve();
+    };
+
+    let recordTransitionedTransitionName = null;
+
+    const handleRecordTransitioned = (transitionNameArg) => {
+      recordTransitionedTransitionName = transitionNameArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordEditor
+            config={config}
+            csid="1234"
+            recordType="collectionobject"
+            transitionRecord={transitionRecord}
+            onRecordTransitioned={handleRecordTransitioned}
+          />
+        </StoreProvider>
+      </IntlProvider>);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
+    const recordEditorRenderer = createRenderer();
+
+    recordEditorRenderer.render(recordEditor);
+
+    const recordEditorResult = recordEditorRenderer.getRenderOutput();
+    const recordHeader = findWithType(recordEditorResult, RecordHeader);
+
+    recordHeader.props.onUndeprecateButtonClick();
+
+    transitionRecordTransitionName.should.equal('undeprecate');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        recordTransitionedTransitionName.should.equal('undeprecate');
 
         resolve();
       }, 0);
