@@ -140,6 +140,8 @@ export default class SearchField extends Component {
         value={value}
         viewType="search"
         onCommit={this.handleCommit}
+        // Do not disable options in menus.
+        ignoreDisabledOptions
         // Do not show quick add on autocomplete inputs.
         showQuickAdd={false}
         {...repeatingProps}
