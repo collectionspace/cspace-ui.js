@@ -42,7 +42,9 @@ export const searchKey = (searchDescriptor) => {
   // ensures that the key is not sensitive to the order in which properties are iterated out of the
   // search descriptor object.
 
-  const pairs = asPairs(searchDescriptor.toJS());
+  const pairs = asPairs(
+    Immutable.Map.isMap(searchDescriptor) ? searchDescriptor.toJS() : searchDescriptor
+  );
 
   // Serialize the name/value pairs to JSON.
 

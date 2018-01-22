@@ -24,6 +24,12 @@ import {
   isCsid,
 } from './csidHelpers';
 
+import {
+  isDeprecated,
+  isLocked,
+  isReplicated,
+} from './workflowStateHelpers';
+
 const numericPattern = /^[0-9]$/;
 
 export const NS_PREFIX = 'ns2';
@@ -812,10 +818,14 @@ export const isNewRecord = data => !isExistingRecord(data);
 export const getWorkflowState = data =>
   (data ? data.getIn(['document', 'ns2:collectionspace_core', 'workflowState']) : undefined);
 
-export const isLocked = data => getWorkflowState(data) === 'locked';
+export const isRecordDeprecated = data => isDeprecated(getWorkflowState(data));
 
-export const isImmutable = (data) => {
-  // Permissions and roles have the concept of "immutability", which is basically the same as
+export const isRecordLocked = data => isLocked(getWorkflowState(data));
+
+export const isRecordReplicated = data => isReplicated(getWorkflowState(data));
+
+export const isSecurityRecordImmutable = (data) => {
+  // Accounts and roles have the concept of "immutability", which is basically the same as
   // locked.
 
   if (data) {
@@ -833,8 +843,9 @@ export const isImmutable = (data) => {
   return false;
 };
 
-export const isReplicated = (data) => {
-  const state = getWorkflowState(data);
-
-  return state && state.includes('replicated');
-};
+export const isRecordImmutable = data => (
+  isRecordLocked(data) ||
+  isRecordDeprecated(data) ||
+  isRecordReplicated(data) ||
+  isSecurityRecordImmutable(data)
+);

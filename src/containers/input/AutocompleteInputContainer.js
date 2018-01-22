@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 import get from 'lodash/get';
-import pickBy from 'lodash/pickBy';
 import { components as inputComponents } from 'cspace-input';
 import warning from 'warning';
-import { canCreate } from '../../helpers/permissionHelpers';
+import { canCreate, canList } from '../../helpers/permissionHelpers';
 import parseResourceID from '../../helpers/parseResourceID';
+import { isLocked } from '../../helpers/workflowStateHelpers';
 
 import {
   addTerm,
@@ -20,6 +20,7 @@ import {
 import withConfig from '../../enhancers/withConfig';
 
 import {
+  getAuthorityVocabWorkflowState,
   getPartialTermSearchMatches,
   getUserPerms,
 } from '../../reducers';
@@ -48,27 +49,50 @@ const messages = defineMessages({
   },
 });
 
-const getRecordTypes = (config, perms) => {
-  const { recordTypes } = config;
+const filterSource = (source, perms) => {
+  // Filter out sources for which we don't have list permission.
 
-  return pickBy(recordTypes, (recordTypeConfig, name) => {
-    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+  if (!source) {
+    return source;
+  }
 
-    return (
-      (
-        serviceType === 'object' ||
-        serviceType === 'procedure' ||
-        serviceType === 'authority'
-      ) &&
-      canCreate(name, perms)
-    );
-  });
+  const filtered = (
+    source
+      .split(',')
+      .filter(sourceID => canList(sourceID.split('/', 1)[0], perms))
+      .join(',')
+  );
+
+  return filtered;
+};
+
+const filterQuickAddTo = (source, perms, state) => {
+  // Filter out sources for which we don't have create permission, or are locked.
+
+  if (!source) {
+    return source;
+  }
+
+  return (
+    source
+      .split(',')
+      .filter((sourceID) => {
+        const [recordType, vocabulary] = sourceID.split('/');
+
+        return (
+          canCreate(recordType, perms) &&
+          !isLocked(getAuthorityVocabWorkflowState(state, recordType, vocabulary))
+        );
+      })
+      .join(',')
+  );
 };
 
 const mapStateToProps = (state, ownProps) => {
   const {
     intl,
     config,
+    source,
   } = ownProps;
 
   const perms = getUserPerms(state);
@@ -77,7 +101,9 @@ const mapStateToProps = (state, ownProps) => {
     findDelay: config.autocompleteFindDelay,
     minLength: config.autocompleteMinLength,
     matches: getPartialTermSearchMatches(state),
-    recordTypes: getRecordTypes(config, perms),
+    recordTypes: config.recordTypes,
+    source: filterSource(source, perms),
+    quickAddTo: filterQuickAddTo(source, perms, state),
     formatAddPrompt: displayName => intl.formatMessage(messages.addPrompt, { displayName }),
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
     formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
@@ -92,11 +118,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     config,
-    source: sourceID,
     onClose,
   } = ownProps;
 
-  const sources = parseResourceID(sourceID);
 
   return {
     addTerm: (recordType, vocabulary, displayName) => {
@@ -108,12 +132,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(addTerm(recordTypeConfig, vocabulary, displayName));
       }
     },
-    findMatchingTerms: (partialTerm) => {
-      sources.forEach((source) => {
+    findMatchingTerms: (source, partialTerm) => {
+      const sources = parseResourceID(source);
+
+      sources.forEach((sourceSpec) => {
         const {
           recordType,
           vocabulary,
-        } = source;
+        } = sourceSpec;
 
         const recordTypeConfig = config.recordTypes[recordType];
 

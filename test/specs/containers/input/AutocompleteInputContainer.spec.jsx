@@ -22,6 +22,7 @@ describe('AutocompleteInputContainer', function suite() {
     const matches = Immutable.Map({});
 
     const store = mockStore({
+      authority: Immutable.Map(),
       partialTermSearch: matches,
       user: Immutable.fromJS({
         perms: {
@@ -77,10 +78,61 @@ describe('AutocompleteInputContainer', function suite() {
     result.props.should.have.property('onClose').that.is.a('function');
   });
 
-  it('should remove record types that do not have create permissions', function test() {
+  it('should render if no source is provided', function test() {
     const matches = Immutable.Map({});
 
     const store = mockStore({
+      authority: Immutable.Map(),
+      partialTermSearch: matches,
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const config = {
+      recordTypes: {
+        person: {
+          serviceConfig: {
+            name: 'personauthorities',
+            serviceType: 'authority',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                servicePath: 'urn:cspace:name(person)',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedAutocompleteInput
+        config={config}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(AutocompleteInput);
+  });
+
+  it('should remove from source any record types for which there are not list permissions', function test() {
+    const matches = Immutable.Map();
+
+    const store = mockStore({
+      authority: Immutable.Map(),
       partialTermSearch: matches,
       user: Immutable.fromJS({
         perms: {
@@ -88,7 +140,7 @@ describe('AutocompleteInputContainer', function suite() {
             data: 'CRUDL',
           },
           organization: {
-            data: 'RL',
+            data: '',
           },
         },
       }),
@@ -141,15 +193,93 @@ describe('AutocompleteInputContainer', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.should.have.property('recordTypes').that.deep.equals({
-      person: config.recordTypes.person,
+    result.props.should.have.property('source').that.equals('person/local');
+  });
+
+  it('should set quickAddTo to contain source record types for which there are create permissions, and are not locked', function test() {
+    const matches = Immutable.Map();
+
+    const store = mockStore({
+      authority: Immutable.fromJS({
+        person: {
+          shared: {
+            workflowState: 'locked',
+          },
+        },
+      }),
+      partialTermSearch: matches,
+      user: Immutable.fromJS({
+        perms: {
+          person: {
+            data: 'CRUDL',
+          },
+          organization: {
+            data: 'RL',
+          },
+        },
+      }),
     });
+
+    const context = {
+      store,
+    };
+
+    const config = {
+      recordTypes: {
+        person: {
+          serviceConfig: {
+            name: 'personauthorities',
+            serviceType: 'authority',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                servicePath: 'urn:cspace:name(person)',
+              },
+            },
+            shared: {
+              serviceConfig: {
+                servicePath: 'urn:cspace:name(shared)',
+              },
+            },
+          },
+        },
+        organization: {
+          serviceConfig: {
+            name: 'orgauthorities',
+            serviceType: 'authority',
+            quickAddData: () => {},
+          },
+          vocabularies: {
+            local: {
+              serviceConfig: {
+                servicePath: 'urn:cspace:name(organization)',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedAutocompleteInput
+        source="person/local,person/shared,organization/local"
+        config={config}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.should.have.property('quickAddTo').that.equals('person/local');
   });
 
   it('should connect addTerm, findMatchingTerms, and onClose to action creators', function test() {
     const matches = Immutable.Map({});
 
     const store = mockStore({
+      authority: Immutable.Map(),
       partialTermSearch: matches,
       user: Immutable.fromJS({
         perms: {
@@ -214,7 +344,7 @@ describe('AutocompleteInputContainer', function suite() {
     // dispatches PARTIAL_TERM_SEARCH_STARTED.
 
     try {
-      result.props.findMatchingTerms('abcd');
+      result.props.findMatchingTerms('person/local', 'abcd');
     } catch (error) {
       const action = store.getActions()[1];
 
@@ -248,6 +378,7 @@ describe('AutocompleteInputContainer', function suite() {
     };
 
     const store = mockStore({
+      authority: Immutable.Map(),
       partialTermSearch: matches,
       user: Immutable.fromJS({
         perms: {

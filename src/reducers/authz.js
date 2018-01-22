@@ -9,7 +9,7 @@ import {
   ROLES_READ_STARTED,
   ROLES_READ_FULFILLED,
   ROLES_READ_REJECTED,
-} from '../actions/auth';
+} from '../actions/authz';
 
 import {
   RECORD_CREATED,

@@ -15,18 +15,22 @@ const propTypes = {
   formName: PropTypes.string,
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
+  isDeprecated: PropTypes.bool,
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
+  showDeprecationButtons: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
+  onCloneButtonClick: PropTypes.func,
   onCommit: PropTypes.func,
+  onDeprecateButtonClick: PropTypes.func,
+  onDeleteButtonClick: PropTypes.func,
+  onRevertButtonClick: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
-  onRevertButtonClick: PropTypes.func,
-  onCloneButtonClick: PropTypes.func,
-  onDeleteButtonClick: PropTypes.func,
+  onUndeprecateButtonClick: PropTypes.func,
 };
 
 export default class RecordHeader extends Component {
@@ -82,18 +86,22 @@ export default class RecordHeader extends Component {
       formName,
       isCloneable,
       isDeletable,
+      isDeprecated,
       isModified,
       isReadPending,
       isSavePending,
       readOnly,
       recordType,
+      showDeprecationButtons,
       validationErrors,
+      onCloneButtonClick,
       onCommit,
+      onDeprecateButtonClick,
+      onDeleteButtonClick,
+      onRevertButtonClick,
       onSaveButtonClick,
       onSaveButtonErrorBadgeClick,
-      onRevertButtonClick,
-      onCloneButtonClick,
-      onDeleteButtonClick,
+      onUndeprecateButtonClick,
     } = this.props;
 
     const {
@@ -120,16 +128,20 @@ export default class RecordHeader extends Component {
           <RecordButtonBar
             isCloneable={isCloneable}
             isDeletable={isDeletable}
+            isDeprecated={isDeprecated}
             isModified={isModified}
             isReadPending={isReadPending}
             isSavePending={isSavePending}
             readOnly={readOnly}
+            showDeprecationButtons={showDeprecationButtons}
             validationErrors={validationErrors}
+            onCloneButtonClick={onCloneButtonClick}
+            onDeprecateButtonClick={onDeprecateButtonClick}
+            onDeleteButtonClick={onDeleteButtonClick}
+            onRevertButtonClick={onRevertButtonClick}
             onSaveButtonClick={onSaveButtonClick}
             onSaveButtonErrorBadgeClick={onSaveButtonErrorBadgeClick}
-            onRevertButtonClick={onRevertButtonClick}
-            onCloneButtonClick={onCloneButtonClick}
-            onDeleteButtonClick={onDeleteButtonClick}
+            onUndeprecateButtonClick={onUndeprecateButtonClick}
           />
           <RecordFormSelector
             config={config}

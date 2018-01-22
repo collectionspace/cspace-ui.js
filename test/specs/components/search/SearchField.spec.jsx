@@ -57,6 +57,7 @@ describe('SearchField', function suite() {
     result.props.onRemoveInstance.should.be.a('function');
     result.props.viewType.should.equal('search');
     result.props.showQuickAdd.should.equal(false);
+    result.props.ignoreDisabledOptions.should.equal(true);
   });
 
   it('should append a null item and commit the new value when a repeating field instance is added', function test() {

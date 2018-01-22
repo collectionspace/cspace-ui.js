@@ -4,6 +4,7 @@ import getSession from './cspace';
 
 export const ACCOUNT_PERMS_READ_FULFILLED = 'ACCOUNT_PERMS_READ_FULFILLED';
 export const ACCOUNT_PERMS_READ_REJECTED = 'ACCOUNT_PERMS_READ_REJECTED';
+export const SET_ACCOUNT_PERMS = 'SET_ACCOUNT_PERMS';
 
 export const readAccountPerms = (config, username) => (dispatch) => {
   if (!username) {

@@ -31,6 +31,7 @@ const data = Immutable.fromJS({
 });
 
 const store = mockStore({
+  authority: Immutable.Map(),
   notification: Immutable.Map(),
   record: Immutable.fromJS({
     '': {

@@ -35,6 +35,7 @@ const defaultConfig = mergeConfig({
   serverTimeZone: 'UTC',
   showTermListStateIcon: false,
   tenantId: '1',
+  termDeprecationEnabled: false,
 }, {
   plugins: defaultPlugins.map(plugin => plugin()),
 }, pluginContext);

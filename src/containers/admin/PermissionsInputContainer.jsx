@@ -3,14 +3,14 @@ import PermissionsInput from '../../components/admin/PermissionsInput';
 
 import {
   readPerms,
-} from '../../actions/auth';
+} from '../../actions/authz';
 
 import {
-  getAuthResourceNames,
+  getAuthzResourceNames,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
-  resourceNames: getAuthResourceNames(state),
+  resourceNames: getAuthzResourceNames(state),
 });
 
 const mapDispatchToProps = {

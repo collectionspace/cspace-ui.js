@@ -11,7 +11,7 @@ const mockStore = configureMockStore();
 
 describe('RolesInputContainer', function suite() {
   const store = mockStore({
-    auth: Immutable.fromJS({
+    authz: Immutable.fromJS({
       roles: [],
     }),
   });

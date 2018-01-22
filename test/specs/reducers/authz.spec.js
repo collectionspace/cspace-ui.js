@@ -8,7 +8,7 @@ import {
   ROLES_READ_STARTED,
   ROLES_READ_FULFILLED,
   ROLES_READ_REJECTED,
-} from '../../../src/actions/auth';
+} from '../../../src/actions/authz';
 
 import {
   RECORD_CREATED,
@@ -20,14 +20,14 @@ import reducer, {
   getRoles,
   isPermsReadPending,
   isRolesReadPending,
-} from '../../../src/reducers/auth';
+} from '../../../src/reducers/authz';
 
 const expect = chai.expect;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('auth reducer', function suite() {
+describe('authz reducer', function suite() {
   it('should have an empty immutable initial state', function test() {
     reducer(undefined, {}).should.deep.equal(Immutable.Map({}));
   });

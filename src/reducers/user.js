@@ -4,6 +4,7 @@ import { getPermissions } from '../helpers/permissionHelpers';
 
 import {
   ACCOUNT_PERMS_READ_FULFILLED,
+  SET_ACCOUNT_PERMS,
 } from '../actions/account';
 
 import {
@@ -54,6 +55,11 @@ export default (state = Immutable.Map(), action) => {
       return state.set('username', action.meta.username);
     case LOGOUT_FULFILLED:
       return state.clear();
+    case SET_ACCOUNT_PERMS:
+      // There is no action creator that creates this action, but it's useful for testing via Redux
+      // dev tools.
+
+      return state.set('perms', state.get('perms').mergeDeep(Immutable.fromJS(action.payload)));
     default:
       return state;
   }

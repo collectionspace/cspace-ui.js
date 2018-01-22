@@ -19,6 +19,13 @@ const perms = Immutable.fromJS({
 });
 
 const store = mockStore({
+  authority: Immutable.fromJS({
+    person: {
+      local: {
+        workflowState: 'project',
+      },
+    },
+  }),
   user: Immutable.Map({
     perms,
   }),
@@ -36,5 +43,18 @@ describe('CreatePageContainer', function suite() {
 
     result.type.should.equal(CreatePage);
     result.props.should.have.property('perms', perms);
+    result.props.should.have.property('getAuthorityVocabWorkflowState').that.is.a('function');
+  });
+
+  it('should return the workflow state from the store when getAuthorityVocabWorkflowState is called', function test() {
+    const context = { store };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<CreatePageContainer />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.getAuthorityVocabWorkflowState('person', 'local').should.equal('project');
   });
 });

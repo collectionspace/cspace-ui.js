@@ -3,14 +3,14 @@ import RolesInput from '../../components/admin/RolesInput';
 
 import {
   readRoles,
-} from '../../actions/auth';
+} from '../../actions/authz';
 
 import {
-  getAuthRoles,
+  getAuthzRoles,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
-  roles: getAuthRoles(state),
+  roles: getAuthzRoles(state),
 });
 
 const mapDispatchToProps = {

@@ -27,12 +27,12 @@ const template = pluginContext => (data, config) => {
       <Field name="description" />
 
       <Field name="list-item" subpath="ns2:abstract-common-list">
+        {workflowStateField}
         <Field name="displayName" />
         <Field name="description" />
         <Field name="source" />
         <Field name="sourcePage" />
         <Field name="termStatus" />
-        {workflowStateField}
       </Field>
     </Field>
   );

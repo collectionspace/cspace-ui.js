@@ -111,6 +111,7 @@ const config = {
 };
 
 const store = mockStore({
+  authority: Immutable.Map(),
   user: Immutable.Map(),
   notification: Immutable.Map(),
   record: Immutable.fromJS({
@@ -444,6 +445,7 @@ describe('RecordPage', function suite() {
       };
 
       const noCsidStore = mockStore({
+        authority: Immutable.Map(),
         notification: Immutable.Map(),
         prefs: Immutable.Map(),
         record: Immutable.fromJS({

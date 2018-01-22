@@ -11,7 +11,7 @@ const mockStore = configureMockStore();
 
 describe('PermissionsInputContainer', function suite() {
   const store = mockStore({
-    auth: Immutable.fromJS({
+    authz: Immutable.fromJS({
       resourceNames: [],
     }),
   });

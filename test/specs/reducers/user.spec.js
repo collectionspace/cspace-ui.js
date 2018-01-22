@@ -7,6 +7,7 @@ import {
 
 import {
   ACCOUNT_PERMS_READ_FULFILLED,
+  SET_ACCOUNT_PERMS,
 } from '../../../src/actions/account';
 
 import {
@@ -216,5 +217,38 @@ describe('user reducer', function suite() {
     state.should.equal(Immutable.Map());
 
     expect(getUsername(state)).to.equal(undefined);
+  });
+
+  it('should handle SET_ACCOUNT_PERMS', function test() {
+    const initialState = Immutable.fromJS({
+      perms: {
+        group: {
+          data: 'CRUDL',
+        },
+        movement: {
+          data: 'CRUDL',
+        },
+      },
+    });
+
+    const state = reducer(initialState, {
+      type: SET_ACCOUNT_PERMS,
+      payload: {
+        movement: {
+          data: 'RL',
+        },
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      perms: {
+        group: {
+          data: 'CRUDL',
+        },
+        movement: {
+          data: 'RL',
+        },
+      },
+    }));
   });
 });
