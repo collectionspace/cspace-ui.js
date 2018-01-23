@@ -1,0 +1,8 @@
+.common {
+  background-color: white;
+}
+
+.common > div {
+  width: 70%;
+  margin-bottom: 10px;
+}
