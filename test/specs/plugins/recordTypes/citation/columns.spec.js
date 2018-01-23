@@ -54,11 +54,11 @@ describe('citation record columns', function suite() {
   };
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
-    const vocabularyColumn = columns.default.find(column => column.name === 'vocabulary');
+    const vocabularyColumn = columns.default.vocabulary;
 
     vocabularyColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -69,7 +69,7 @@ describe('citation record columns', function suite() {
   });
 
   it('should have term status column that is formatted as an option list value', function test() {
-    const termStatusColumn = columns.default.find(column => column.name === 'termStatus');
+    const termStatusColumn = columns.default.termStatus;
 
     termStatusColumn.should.have.property('formatValue').that.is.a('function');
 

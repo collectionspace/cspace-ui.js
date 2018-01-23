@@ -7,20 +7,20 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'title',
+    default: {
+      title: {
         messages: defineMessages({
           label: {
             id: 'column.group.default.title',
             defaultMessage: 'Title',
           },
         }),
+        name: 'title',
+        order: 10,
         sortBy: 'groups_common:title',
         width: 250,
       },
-      {
-        name: 'owner',
+      owner: {
         messages: defineMessages({
           label: {
             id: 'column.group.default.owner',
@@ -28,11 +28,12 @@ export default (pluginContext) => {
           },
         }),
         formatValue: formatRefName,
+        name: 'owner',
+        order: 20,
         sortBy: 'groups_common:owner',
         width: 400,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
         messages: defineMessages({
           label: {
             id: 'column.group.default.updatedAt',
@@ -40,9 +41,11 @@ export default (pluginContext) => {
           },
         }),
         formatValue: formatTimestamp,
+        name: 'updatedAt',
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

@@ -8,56 +8,56 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'taxonName',
+    default: {
+      taxonName: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.pottag.default.taxonName',
             defaultMessage: 'Taxon name',
           },
         }),
-        formatValue: formatRefName,
+        order: 10,
         sortBy: 'pottags_common:taxonName',
         width: 200,
       },
-      {
-        name: 'family',
+      family: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.pottag.default.family',
             defaultMessage: 'Family',
           },
         }),
-        formatValue: formatRefName,
+        order: 20,
         sortBy: 'pottags_common:family',
         width: 200,
       },
-      {
-        name: 'printLabels',
+      printLabels: {
+        formatValue: (data, formatterContext) =>
+          formatOption('printLabelOptions', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.pottag.default.printLabels',
             defaultMessage: 'Print labels',
           },
         }),
+        order: 30,
         sortBy: 'pottags_common:printLabels',
-        formatValue: (data, formatterContext) =>
-          formatOption('printLabelOptions', data, formatterContext),
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.pottag.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 40,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

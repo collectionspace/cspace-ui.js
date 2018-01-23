@@ -71,12 +71,11 @@ describe('search action creator', function suite() {
             },
           },
           columns: {
-            default: [
-              {
-                name: 'updatedAt',
+            default: {
+              updatedAt: {
                 sortBy: 'collectionspace_core:updatedAt',
               },
-            ],
+            },
           },
         },
       },

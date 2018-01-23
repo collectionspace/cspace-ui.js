@@ -73,13 +73,13 @@ describe('refs subresource columns', function suite() {
   };
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
-    columns.should.have.property('narrow').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
+    columns.should.have.property('narrow').that.is.an('object');
   });
 
   describe('default column set', function setTest() {
     it('should have docNumber column that is formatted as a refname display name', function test() {
-      const docNumberColumn = columns.default.find(column => column.name === 'docNumber');
+      const docNumberColumn = columns.default.docNumber;
 
       docNumberColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -88,7 +88,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should have docName column that is formatted as a refname display name', function test() {
-      const docNameColumn = columns.default.find(column => column.name === 'docName');
+      const docNameColumn = columns.default.docName;
 
       docNameColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -97,7 +97,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should have docType column that is formatted as a record type name from a service object name', function test() {
-      const docTypeColumn = columns.default.find(column => column.name === 'docType');
+      const docTypeColumn = columns.default.docType;
 
       docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -106,7 +106,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
-      const sourceFieldColumn = columns.default.find(column => column.name === 'sourceField');
+      const sourceFieldColumn = columns.default.sourceField;
 
       sourceFieldColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -121,7 +121,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should format the sourceField column with a fallback if no field is found with the id', function test() {
-      const sourceFieldColumn = columns.default.find(column => column.name === 'sourceField');
+      const sourceFieldColumn = columns.default.sourceField;
       const sourceField = 'collectionobjects_common:foobar';
 
       const rowData = Immutable.Map({
@@ -135,7 +135,7 @@ describe('refs subresource columns', function suite() {
 
   describe('narrow column set', function setTest() {
     it('should have docNumber column that is formatted as a refname display name', function test() {
-      const docNumberColumn = columns.narrow.find(column => column.name === 'docNumber');
+      const docNumberColumn = columns.narrow.docNumber;
 
       docNumberColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -144,7 +144,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should have docName column that is formatted as a refname display name', function test() {
-      const docNameColumn = columns.narrow.find(column => column.name === 'docName');
+      const docNameColumn = columns.narrow.docName;
 
       docNameColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -153,7 +153,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should have docType column that is formatted as a record type name from a service object name', function test() {
-      const docTypeColumn = columns.narrow.find(column => column.name === 'docType');
+      const docTypeColumn = columns.narrow.docType;
 
       docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -162,7 +162,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
-      const sourceFieldColumn = columns.narrow.find(column => column.name === 'sourceField');
+      const sourceFieldColumn = columns.narrow.sourceField;
 
       sourceFieldColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -177,7 +177,7 @@ describe('refs subresource columns', function suite() {
     });
 
     it('should format the sourceField column with a fallback if no field is found with the id', function test() {
-      const sourceFieldColumn = columns.narrow.find(column => column.name === 'sourceField');
+      const sourceFieldColumn = columns.narrow.sourceField;
       const sourceField = 'collectionobjects_common:foobar';
 
       const rowData = Immutable.Map({

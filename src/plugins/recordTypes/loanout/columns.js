@@ -7,42 +7,42 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'loanOutNumber',
+    default: {
+      loanOutNumber: {
         messages: defineMessages({
           label: {
             id: 'column.loanout.default.loanOutNumber',
             defaultMessage: 'Loan out number',
           },
         }),
+        order: 10,
         sortBy: 'loansout_common:loanOutNumber',
         width: 250,
       },
-      {
-        name: 'borrower',
+      borrower: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.loanout.default.borrower',
             defaultMessage: 'Borrower',
           },
         }),
-        formatValue: formatRefName,
+        order: 20,
         sortBy: 'loansout_common:borrower',
         width: 400,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.loanout.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

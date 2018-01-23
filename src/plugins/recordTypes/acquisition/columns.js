@@ -7,42 +7,42 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'acquisitionReferenceNumber',
+    default: {
+      acquisitionReferenceNumber: {
         messages: defineMessages({
           label: {
             id: 'column.acquisition.default.acquisitionReferenceNumber',
             defaultMessage: 'Reference number',
           },
         }),
+        order: 10,
         sortBy: 'acquisitions_common:acquisitionReferenceNumber',
         width: 250,
       },
-      {
-        name: 'acquisitionSource',
+      acquisitionSource: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.acquisition.default.acquisitionSource',
             defaultMessage: 'Acquisition source',
           },
         }),
-        formatValue: formatRefName,
-        sortBy: 'acquisitions_common:acquisitionSources/0/acquisitionSource',
+        order: 20,
+        sortBy: 'acquisitions_common:acquisitionSources/0',
         width: 400,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.acquisition.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

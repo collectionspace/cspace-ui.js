@@ -74,9 +74,8 @@ const config = {
         },
       },
       columns: {
-        default: [
-          {
-            name: 'objectNumber',
+        default: {
+          objectNumber: {
             messages: {
               label: {
                 id: 'column.collectionobject.objectNumber',
@@ -86,8 +85,7 @@ const config = {
             sortBy: 'collectionobjects_common:objectNumber',
             width: 200,
           },
-          {
-            name: 'title',
+          title: {
             messages: {
               label: {
                 id: 'column.collectionobject.title',
@@ -97,7 +95,7 @@ const config = {
             sortBy: 'collectionobjects_common:titleGroupList/0/title',
             width: 400,
           },
-        ],
+        },
       },
       serviceConfig: {
         serviceType: 'object',

@@ -21,20 +21,6 @@ export const SET_ALL_RESULT_ITEMS_SELECTED = 'SET_ALL_RESULT_ITEMS_SELECTED';
 export const SET_RESULT_ITEM_SELECTED = 'SET_RESULT_ITEM_SELECTED';
 export const DESELECT_RESULT_ITEM = 'DESELECT_RESULT_ITEM';
 
-const findColumnByName = (columns, columnName) => {
-  if (!columns) return null;
-
-  for (let i = 0; i < columns.length; i += 1) {
-    const column = columns[i];
-
-    if (column.name === columnName) {
-      return column;
-    }
-  }
-
-  return null;
-};
-
 const getSortParam = (config, searchDescriptor, columnSetName) => {
   const sortSpec = searchDescriptor.getIn(['searchQuery', 'sort']);
   const [sortColumnName, sortDir] = sortSpec.split(' ');
@@ -43,8 +29,8 @@ const getSortParam = (config, searchDescriptor, columnSetName) => {
     return null;
   }
 
-  const columns = get(config, ['recordTypes', searchDescriptor.get('recordType'), 'columns', columnSetName]);
-  const column = findColumnByName(columns, sortColumnName);
+  const column = get(config,
+    ['recordTypes', searchDescriptor.get('recordType'), 'columns', columnSetName, sortColumnName]);
 
   if (column && column.sortBy) {
     return (column.sortBy + (sortDir ? ' DESC' : ''));

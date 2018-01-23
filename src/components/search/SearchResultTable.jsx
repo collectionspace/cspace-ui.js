@@ -186,16 +186,28 @@ export default class SearchResultTable extends Component {
 
       const columnConfig = get(columnConfigurer, ['columns', columnSetName]) || [];
 
-      const columns = columnConfig.map(column => ({
-        cellDataGetter: ({ dataKey, rowData }) =>
-          formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
-        disableSort: !isSortable(column, searchDescriptor),
-        flexGrow: column.flexGrow,
-        flexShrink: column.flexShrink,
-        label: formatColumnLabel(column),
-        dataKey: column.dataKey || column.name,
-        width: column.width,
-      }));
+      const columns = Object.keys(columnConfig)
+        .filter(name => !columnConfig[name].disabled)
+        .sort((nameA, nameB) => {
+          const orderA = columnConfig[nameA].order;
+          const orderB = columnConfig[nameB].order;
+
+          return orderA - orderB;
+        })
+        .map((name) => {
+          const column = columnConfig[name];
+
+          return {
+            cellDataGetter: ({ dataKey, rowData }) =>
+              formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
+            disableSort: !isSortable(column, searchDescriptor),
+            flexGrow: column.flexGrow,
+            flexShrink: column.flexShrink,
+            label: formatColumnLabel(column),
+            dataKey: column.dataKey || name,
+            width: column.width,
+          };
+        });
 
       let heightBasis;
 

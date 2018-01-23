@@ -9,63 +9,62 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'workflowState',
-        formatValue: formatWorkflowStateIcon,
-        width: 32,
+    default: {
+      workflowState: {
         flexGrow: 0,
         flexShrink: 0,
+        formatValue: formatWorkflowStateIcon,
+        order: 10,
+        width: 32,
       },
-      {
-        name: 'termDisplayName',
+      termDisplayName: {
         messages: defineMessages({
           label: {
             id: 'column.place.default.termDisplayName',
             defaultMessage: 'Display name',
           },
         }),
+        order: 20,
         sortBy: 'places_common:placeTermGroupList/0/termDisplayName',
         width: 250,
       },
-      {
-        name: 'termStatus',
+      termStatus: {
+        formatValue: (data, formatterContext) =>
+          formatOption('placeTermStatuses', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.place.default.termStatus',
             defaultMessage: 'Term status',
           },
         }),
+        order: 30,
         sortBy: 'places_common:placeTermGroupList/0/termStatus',
-        formatValue: (data, formatterContext) =>
-          formatOption('placeTermStatuses', data, formatterContext),
         width: 250,
       },
-      {
-        name: 'vocabulary',
+      vocabulary: {
         dataKey: 'refName',
+        formatValue: formatRefNameAsVocabularyName,
         messages: defineMessages({
           label: {
             id: 'column.place.default.vocabulary',
             defaultMessage: 'Vocabulary',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatRefNameAsVocabularyName(value, formatterContext),
+        order: 40,
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.place.search.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 50,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

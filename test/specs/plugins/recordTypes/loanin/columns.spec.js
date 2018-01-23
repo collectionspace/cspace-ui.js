@@ -8,11 +8,11 @@ describe('loan-in record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have lender column that is formatted as a refname display name', function test() {
-    const lenderColumn = columns.default.find(column => column.name === 'lender');
+    const lenderColumn = columns.default.lender;
 
     lenderColumn.should.have.property('formatValue').that.is.a('function');
 

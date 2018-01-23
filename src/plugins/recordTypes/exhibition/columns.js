@@ -6,41 +6,41 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'exhibitionNumber',
+    default: {
+      exhibitionNumber: {
         messages: defineMessages({
           label: {
             id: 'column.exhibition.default.exhibitionNumber',
             defaultMessage: 'Exhibition number',
           },
         }),
+        order: 10,
         sortBy: 'exhibitions_common:exhibitionNumber',
         width: 200,
       },
-      {
-        name: 'title',
+      title: {
         messages: defineMessages({
           label: {
             id: 'column.exhibition.default.title',
             defaultMessage: 'Title',
           },
         }),
+        order: 20,
         sortBy: 'exhibitions_common:title',
         width: 450,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.exhibition.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

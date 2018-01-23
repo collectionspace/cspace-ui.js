@@ -8,11 +8,11 @@ describe('conservation record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have the correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have conservation status column that is formatted as a refname display name', function test() {
-    const conservationStatusColumn = columns.default.find(column => column.name === 'status');
+    const conservationStatusColumn = columns.default.status;
 
     conservationStatusColumn.should.have.property('formatValue').that.is.a('function');
 

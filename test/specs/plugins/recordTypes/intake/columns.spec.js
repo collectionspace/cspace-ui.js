@@ -8,11 +8,11 @@ describe('intake record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have the correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have current owner column that is formatted as a refname display name', function test() {
-    const currentOwnerColumn = columns.default.find(column => column.name === 'currentOwner');
+    const currentOwnerColumn = columns.default.currentOwner;
 
     currentOwnerColumn.should.have.property('formatValue').that.is.a('function');
 

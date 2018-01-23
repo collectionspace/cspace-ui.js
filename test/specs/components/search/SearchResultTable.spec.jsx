@@ -35,36 +35,39 @@ const config = {
         objectName: 'CollectionObject',
       },
       columns: {
-        default: [
-          {
-            name: 'objectNumber',
+        default: {
+          objectNumber: {
             messages: {
               label: {
                 defaultMessage: 'Identification number',
               },
             },
+            name: 'objectNumber',
+            order: 1,
             width: 200,
           },
-          {
-            name: 'title',
+          title: {
             messages: {
               label: {
                 defaultMessage: 'Title',
               },
             },
+            name: 'title',
+            order: 2,
             sortBy: 'collectionobjects_common:titleGroupList/0/title',
             width: 400,
           },
-          {
-            name: 'updatedAt',
+          updatedAt: {
             messages: {
               label: {
                 defaultMessage: 'Last modified',
               },
             },
+            name: 'updatedAt',
+            order: 3,
             width: 200,
           },
-        ],
+        },
       },
     },
   },
@@ -327,7 +330,7 @@ describe('SearchResultTable', function suite() {
       />, this.container);
 
     Object.keys(formatCellDataCalls).length.should
-      .equal(config.recordTypes.object.columns.default.length);
+      .equal(Object.keys(config.recordTypes.object.columns.default).length);
 
     Object.keys(formatCellDataCalls).forEach((colName) => {
       formatCellDataCalls[colName].length.should
@@ -361,13 +364,13 @@ describe('SearchResultTable', function suite() {
       />, this.container);
 
     Object.keys(formatColumnLabelCalls).length.should
-      .equal(config.recordTypes.object.columns.default.length);
+      .equal(Object.keys(config.recordTypes.object.columns.default).length);
 
     const headers = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
-    for (let i = 0; i < headers.length; i += 1) {
-      headers[i].textContent.should.equal(`*${config.recordTypes.object.columns.default[i].name}`);
-    }
+    headers[0].textContent.should.equal('*objectNumber');
+    headers[1].textContent.should.equal('*title');
+    headers[2].textContent.should.equal('*updatedAt');
   });
 
   it('should push the item location onto history when a row is clicked', function test() {

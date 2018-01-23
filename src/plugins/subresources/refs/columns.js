@@ -7,108 +7,104 @@ import {
 } from '../../../helpers/formatHelpers';
 
 export default {
-  default: [
-    {
-      name: 'docNumber',
+  default: {
+    docNumber: {
+      // The value -might- be a refname.
+      // FIXME: It could also be an option list value. How to tell?
+      formatValue: value => formatRefName(value) || value,
       messages: defineMessages({
         label: {
           id: 'column.refs.default.docNumber',
           defaultMessage: 'Record',
         },
       }),
+      order: 10,
+      width: 200,
+    },
+    docName: {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
       formatValue: value => formatRefName(value) || value,
-      width: 200,
-    },
-    {
-      name: 'docName',
       messages: defineMessages({
         label: {
           id: 'column.refs.default.docName',
           defaultMessage: 'Summary',
         },
       }),
-      // The value -might- be a refname.
-      // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => formatRefName(value) || value,
+      order: 20,
       width: 300,
     },
-    {
-      name: 'docType',
+    docType: {
+      formatValue: formatServiceObjectName,
       messages: defineMessages({
         label: {
           id: 'column.refs.default.docType',
           defaultMessage: 'Type',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatServiceObjectName(value, formatterContext),
+      order: 30,
       width: 150,
     },
-    {
-      name: 'sourceField',
+    sourceField: {
+      formatValue: formatForeignSourceField,
       messages: defineMessages({
         label: {
           id: 'column.refs.default.sourceField',
           defaultMessage: 'Field',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatForeignSourceField(value, formatterContext),
+      order: 40,
       width: 250,
     },
-  ],
-  narrow: [
-    {
-      name: 'docNumber',
+  },
+  narrow: {
+    docNumber: {
+      // The value -might- be a refname.
+      // FIXME: It could also be an option list value. How to tell?
+      formatValue: value => formatRefName(value) || value,
       messages: defineMessages({
         label: {
           id: 'column.refs.narrow.docNumber',
           defaultMessage: 'Record',
         },
       }),
+      order: 10,
+      width: 200,
+    },
+    docName: {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
       formatValue: value => formatRefName(value) || value,
-      width: 200,
-    },
-    {
-      name: 'docName',
       messages: defineMessages({
         label: {
           id: 'column.refs.narrow.docName',
           defaultMessage: 'Summary',
         },
       }),
-      // The value -might- be a refname.
-      // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => formatRefName(value) || value,
+      order: 20,
       width: 300,
     },
-    {
-      name: 'docType',
+    docType: {
+      formatValue: formatServiceObjectName,
       messages: defineMessages({
         label: {
           id: 'column.refs.narrow.docType',
           defaultMessage: 'Type',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatServiceObjectName(value, formatterContext),
+      order: 30,
       width: 150,
     },
-    {
-      name: 'sourceField',
+    sourceField: {
+      formatValue: formatForeignSourceField,
       messages: defineMessages({
         label: {
           id: 'column.refs.narrow.sourceField',
           defaultMessage: 'Field',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatForeignSourceField(value, formatterContext),
+      order: 40,
       width: 250,
     },
-  ],
+  },
 };

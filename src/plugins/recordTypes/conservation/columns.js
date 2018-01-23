@@ -7,42 +7,42 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'conservationNumber',
+    default: {
+      conservationNumber: {
         messages: defineMessages({
           label: {
             id: 'column.conservation.default.conservationNumber',
             defaultMessage: 'Reference number',
           },
         }),
+        order: 10,
         sortBy: 'conservation_common:conservationNumber',
         width: 250,
       },
-      {
-        name: 'status',
+      status: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.conservation.default.status',
             defaultMessage: 'Status',
           },
         }),
-        formatValue: formatRefName,
-        sortBy: 'conservation_common:conservationStatusGroupList/conservationStatusGroup/0',
+        order: 20,
+        sortBy: 'conservation_common:conservationStatusGroupList/0/status',
         width: 400,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.conservation.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

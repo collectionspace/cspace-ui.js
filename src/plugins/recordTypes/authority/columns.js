@@ -8,54 +8,52 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'docName',
+    default: {
+      docName: {
         messages: defineMessages({
           label: {
             id: 'column.authority.default.docName',
             defaultMessage: 'Item',
           },
         }),
+        order: 10,
         width: 200,
       },
-      {
-        name: 'docType',
+      docType: {
+        formatValue: formatServiceObjectName,
         messages: defineMessages({
           label: {
             id: 'column.authority.default.docType',
             defaultMessage: 'Type',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatServiceObjectName(value, formatterContext),
+        order: 20,
         width: 150,
       },
-      {
-        name: 'vocabulary',
+      vocabulary: {
         dataKey: 'refName',
+        formatValue: formatRefNameAsVocabularyName,
         messages: defineMessages({
           label: {
             id: 'column.authority.default.vocabulary',
             defaultMessage: 'Vocabulary',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatRefNameAsVocabularyName(value, formatterContext),
+        order: 30,
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.authority.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 40,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };
