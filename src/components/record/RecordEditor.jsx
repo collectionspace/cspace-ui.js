@@ -167,7 +167,7 @@ export default class RecordEditor extends Component {
     const { lockOnSave } = recordTypeConfig;
 
     if (lockOnSave === 'prompt' && openModal) {
-      openModal(LockRecordModal.name);
+      openModal(LockRecordModal.modalName);
 
       return false;
     }
