@@ -20,7 +20,9 @@ export default (pluginContext) => {
     DATA_TYPE_DATE,
   } = pluginContext.dataTypes;
 
-  const coreFields = pluginContext.config.fields.core;
+  const {
+    extensions,
+  } = pluginContext.config;
 
   return {
     document: {
@@ -62,7 +64,7 @@ export default (pluginContext) => {
           },
         },
       },
-      ...coreFields,
+      ...extensions.core.fields,
       'ns2:locations_common': {
         [config]: {
           service: {

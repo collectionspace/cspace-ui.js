@@ -13,7 +13,9 @@ export default (pluginContext) => {
     configKey: config,
   } = pluginContext.configHelpers;
 
-  const coreFields = pluginContext.config.fields.core;
+  const {
+    extensions,
+  } = pluginContext.config;
 
   return {
     document: {
@@ -25,7 +27,7 @@ export default (pluginContext) => {
           },
         },
       },
-      ...coreFields,
+      ...extensions.core.fields,
       'ns2:vocabularies_common': {
         [config]: {
           service: {

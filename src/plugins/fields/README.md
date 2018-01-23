@@ -1,1 +1,0 @@
-This directory contains plugins that implement shared field definitions that may be used by multiple record types. Fields that are only used by one record type are defined in the plugin for that record type.

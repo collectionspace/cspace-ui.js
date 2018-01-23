@@ -14,6 +14,10 @@ const template = (pluginContext) => {
     Field,
   } = pluginContext.recordComponents;
 
+  const {
+    extensions,
+  } = pluginContext.config;
+
   return (
     <Field name="document">
       <Panel name="id" collapsible>
@@ -113,30 +117,7 @@ const template = (pluginContext) => {
           <div />
         </Row>
 
-        {/* TODO: Break out measuredPartGroupList */}
-
-        <Field name="measuredPartGroupList">
-          <Field name="measuredPartGroup">
-            <Panel>
-              <Row>
-                <Field name="measuredPart" />
-                <Field name="dimensionSummary" />
-              </Row>
-
-              <Field name="dimensionSubGroupList">
-                <Field name="dimensionSubGroup">
-                  <Field name="dimension" />
-                  <Field name="measuredBy" />
-                  <Field name="measurementMethod" />
-                  <Field name="value" />
-                  <Field name="measurementUnit" />
-                  <Field name="valueQualifier" />
-                  <Field name="valueDate" />
-                </Field>
-              </Field>
-            </Panel>
-          </Field>
-        </Field>
+        {extensions.dimension.form}
 
         <Panel name="content" collapsible collapsed>
           <Field name="contentDescription" />

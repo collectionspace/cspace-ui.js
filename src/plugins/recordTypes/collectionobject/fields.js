@@ -20,10 +20,11 @@ export default (pluginContext) => {
   const {
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
-    DATA_TYPE_DATE,
   } = pluginContext.dataTypes;
 
-  const coreFields = pluginContext.config.fields.core;
+  const {
+    extensions,
+  } = pluginContext.config;
 
   return {
     document: {
@@ -35,7 +36,7 @@ export default (pluginContext) => {
           },
         },
       },
-      ...coreFields,
+      ...extensions.core.fields,
       'rel:relations-common-list': {
         [config]: {
           service: {
@@ -1014,193 +1015,7 @@ export default (pluginContext) => {
             },
           },
         },
-        measuredPartGroupList: {
-          [config]: {
-            view: {
-              type: CompoundInput,
-            },
-          },
-          measuredPartGroup: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.collectionobjects_common.measuredPartGroup.name',
-                  defaultMessage: 'Dimensions',
-                },
-              }),
-              repeating: true,
-              view: {
-                type: CompoundInput,
-              },
-            },
-            measuredPart: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.collectionobjects_common.measuredPart.name',
-                    defaultMessage: 'Part',
-                  },
-                }),
-                view: {
-                  type: OptionPickerInput,
-                  props: {
-                    source: 'measuredParts',
-                  },
-                },
-              },
-            },
-            dimensionSummary: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.collectionobjects_common.dimensionSummary.name',
-                    defaultMessage: 'Summary',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            dimensionSubGroupList: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              dimensionSubGroup: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.collectionobjects_common.dimensionSubGroup.name',
-                      defaultMessage: 'Measurement',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: CompoundInput,
-                    props: {
-                      tabular: true,
-                    },
-                  },
-                },
-                dimension: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.collectionobjects_common.dimension.name',
-                        defaultMessage: 'Dimension',
-                      },
-                    }),
-                    view: {
-                      type: OptionPickerInput,
-                      props: {
-                        source: 'dimensions',
-                      },
-                    },
-                  },
-                },
-                measuredBy: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.collectionobjects_common.measuredBy.name',
-                        defaultMessage: 'Measured by',
-                      },
-                    }),
-                    view: {
-                      type: AutocompleteInput,
-                      props: {
-                        source: 'person/local,person/shared,organization/local,organization/shared',
-                      },
-                    },
-                  },
-                },
-                measurementMethod: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.collectionobjects_common.measurementMethod.name',
-                        defaultMessage: 'Method',
-                      },
-                    }),
-                    view: {
-                      type: OptionPickerInput,
-                      props: {
-                        source: 'measurementMethods',
-                      },
-                    },
-                  },
-                },
-                value: {
-                  [config]: {
-                    dataType: DATA_TYPE_FLOAT,
-                    messages: defineMessages({
-                      fullName: {
-                        id: 'field.collectionobjects_common.value.fullName',
-                        defaultMessage: 'Measurement value',
-                      },
-                      name: {
-                        id: 'field.collectionobjects_common.value.name',
-                        defaultMessage: 'Value',
-                      },
-                    }),
-                    view: {
-                      type: TextInput,
-                    },
-                  },
-                },
-                measurementUnit: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.collectionobjects_common.measurementUnit.name',
-                        defaultMessage: 'Unit',
-                      },
-                    }),
-                    view: {
-                      type: OptionPickerInput,
-                      props: {
-                        source: 'measurementUnits',
-                      },
-                    },
-                  },
-                },
-                valueQualifier: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.collectionobjects_common.valueQualifier.name',
-                        defaultMessage: 'Qualifier',
-                      },
-                    }),
-                    view: {
-                      type: TextInput,
-                    },
-                  },
-                },
-                valueDate: {
-                  [config]: {
-                    dataType: DATA_TYPE_DATE,
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.collectionobjects_common.valueDate.name',
-                        defaultMessage: 'Date',
-                      },
-                      fullName: {
-                        id: 'field.collectionobjects_common.valueDate.fullName',
-                        defaultMessage: 'Measurement date',
-                      },
-                    }),
-                    view: {
-                      type: DateInput,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+        ...extensions.dimension.fields,
         contentDescription: {
           [config]: {
             messages: defineMessages({

@@ -4,7 +4,6 @@ export default (pluginContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
-    DateInput,
     IDGeneratorInput,
     TextInput,
     OptionPickerInput,
@@ -17,11 +16,8 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    DATA_TYPE_FLOAT,
-    DATA_TYPE_DATE,
-  } = pluginContext.dataTypes;
-
-  const coreFields = pluginContext.config.fields.core;
+    extensions,
+  } = pluginContext.config;
 
   return {
     document: {
@@ -33,7 +29,7 @@ export default (pluginContext) => {
           },
         },
       },
-      ...coreFields,
+      ...extensions.core.fields,
       'ns2:media_common': {
         [config]: {
           service: {
@@ -87,194 +83,7 @@ export default (pluginContext) => {
             },
           },
         },
-        // TODO: Define measuredPartGroupList in a shared file (also used in collectionobject).
-        measuredPartGroupList: {
-          [config]: {
-            view: {
-              type: CompoundInput,
-            },
-          },
-          measuredPartGroup: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.media_common.measuredPartGroup.name',
-                  defaultMessage: 'Dimensions',
-                },
-              }),
-              repeating: true,
-              view: {
-                type: CompoundInput,
-              },
-            },
-            measuredPart: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.media_common.measuredPart.name',
-                    defaultMessage: 'Part',
-                  },
-                }),
-                view: {
-                  type: OptionPickerInput,
-                  props: {
-                    source: 'measuredParts',
-                  },
-                },
-              },
-            },
-            dimensionSummary: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.media_common.dimensionSummary.name',
-                    defaultMessage: 'Summary',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            dimensionSubGroupList: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              dimensionSubGroup: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.media_common.dimensionSubGroup.name',
-                      defaultMessage: 'Measurements',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: CompoundInput,
-                    props: {
-                      tabular: true,
-                    },
-                  },
-                },
-                dimension: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.media_common.dimension.name',
-                        defaultMessage: 'Dimension',
-                      },
-                    }),
-                    view: {
-                      type: OptionPickerInput,
-                      props: {
-                        source: 'dimensions',
-                      },
-                    },
-                  },
-                },
-                measuredBy: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.media_common.measuredBy.name',
-                        defaultMessage: 'Measured by',
-                      },
-                    }),
-                    view: {
-                      type: AutocompleteInput,
-                      props: {
-                        source: 'person/local,person/shared,organization/local,organization/shared',
-                      },
-                    },
-                  },
-                },
-                measurementMethod: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.media_common.measurementMethod.name',
-                        defaultMessage: 'Method',
-                      },
-                    }),
-                    view: {
-                      type: OptionPickerInput,
-                      props: {
-                        source: 'measurementMethods',
-                      },
-                    },
-                  },
-                },
-                value: {
-                  [config]: {
-                    dataType: DATA_TYPE_FLOAT,
-                    messages: defineMessages({
-                      fullName: {
-                        id: 'field.media_common.value.fullName',
-                        defaultMessage: 'Measurement value',
-                      },
-                      name: {
-                        id: 'field.media_common.value.name',
-                        defaultMessage: 'Value',
-                      },
-                    }),
-                    view: {
-                      type: TextInput,
-                    },
-                  },
-                },
-                measurementUnit: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.media_common.measurementUnit.name',
-                        defaultMessage: 'Unit',
-                      },
-                    }),
-                    view: {
-                      type: OptionPickerInput,
-                      props: {
-                        source: 'measurementUnits',
-                      },
-                    },
-                  },
-                },
-                valueQualifier: {
-                  [config]: {
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.media_common.valueQualifier.name',
-                        defaultMessage: 'Qualifier',
-                      },
-                    }),
-                    view: {
-                      type: TextInput,
-                    },
-                  },
-                },
-                valueDate: {
-                  [config]: {
-                    dataType: DATA_TYPE_DATE,
-                    messages: defineMessages({
-                      name: {
-                        id: 'field.media_common.valueDate.name',
-                        defaultMessage: 'Date',
-                      },
-                      fullName: {
-                        id: 'field.media_common.valueDate.fullName',
-                        defaultMessage: 'Measurement date',
-                      },
-                    }),
-                    view: {
-                      type: DateInput,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+        ...extensions.dimension.fields,
         contributor: {
           [config]: {
             messages: defineMessages({

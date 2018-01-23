@@ -1,11 +1,11 @@
-import fields from './fields';
+import extensions from './extensions';
 import listTypes from './listTypes';
 import optionLists from './optionLists';
 import recordTypes from './recordTypes';
 import subresources from './subresources';
 
 export default [
-  ...fields,
+  ...extensions,
   ...listTypes,
   ...optionLists,
   ...recordTypes,
