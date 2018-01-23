@@ -7,43 +7,43 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'valuationcontrolRefNumber',
+    default: {
+      valuationcontrolRefNumber: {
         messages: defineMessages({
           label: {
             id: 'column.valuation.default.valuationcontrolRefNumber',
             defaultMessage: 'Reference number',
           },
         }),
+        order: 10,
         sortBy: 'valuationcontrols_common:valuationcontrolRefNumber',
         width: 250,
       },
-      {
-        name: 'valueType',
+      valueType: {
+        formatValue: (data, formatterContext) =>
+          formatOption('valueTypes', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.valuation.default.valueType',
             defaultMessage: 'Type',
           },
         }),
+        order: 20,
         sortBy: 'valuationcontrols_common:valueType',
-        formatValue: (data, formatterContext) =>
-          formatOption('valueTypes', data, formatterContext),
         width: 400,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.valuation.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

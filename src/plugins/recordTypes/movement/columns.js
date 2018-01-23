@@ -8,49 +8,49 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'workflowState',
-        formatValue: formatWorkflowStateIcon,
-        width: 32,
+    default: {
+      workflowState: {
         flexGrow: 0,
         flexShrink: 0,
+        formatValue: formatWorkflowStateIcon,
+        order: 10,
+        width: 32,
       },
-      {
-        name: 'movementReferenceNumber',
+      movementReferenceNumber: {
         messages: defineMessages({
           label: {
             id: 'column.movement.default.movementReferenceNumber',
             defaultMessage: 'Reference number',
           },
         }),
+        order: 20,
         sortBy: 'movements_common:movementReferenceNumber',
         width: 250,
       },
-      {
-        name: 'currentLocation',
+      currentLocation: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.movement.default.currentLocation',
             defaultMessage: 'Current location',
           },
         }),
-        formatValue: formatRefName,
+        order: 30,
         sortBy: 'movements_common:currentLocation',
         width: 380,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.movement.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 40,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

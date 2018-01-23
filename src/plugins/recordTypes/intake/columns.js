@@ -7,42 +7,42 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'entryNumber',
+    default: {
+      entryNumber: {
         messages: defineMessages({
           label: {
             id: 'column.intake.default.entryNumber',
             defaultMessage: 'Entry number',
           },
         }),
+        order: 10,
         sortBy: 'intakes_common:entryNumber',
         width: 200,
       },
-      {
-        name: 'currentOwner',
+      currentOwner: {
+        formatValue: formatRefName,
         messages: defineMessages({
           label: {
             id: 'column.intake.default.currentOwner',
             defaultMessage: 'Current owner',
           },
         }),
-        formatValue: formatRefName,
+        order: 20,
         sortBy: 'intakes_common:currentOwner',
         width: 450,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.intake.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

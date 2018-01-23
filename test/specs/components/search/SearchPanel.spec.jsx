@@ -35,9 +35,8 @@ const config = {
         objectName: 'CollectionObject',
       },
       columns: {
-        default: [
-          {
-            name: 'objectNumber',
+        default: {
+          objectNumber: {
             messages: {
               label: {
                 id: 'column.collectionobject.search.objectNumber',
@@ -46,8 +45,7 @@ const config = {
             },
             width: 200,
           },
-          {
-            name: 'title',
+          title: {
             messages: {
               label: {
                 id: 'column.collectionobject.search.title',
@@ -57,8 +55,7 @@ const config = {
             sortBy: 'collectionobjects_common:titleGroupList/0/title',
             width: 400,
           },
-          {
-            name: 'updatedAt',
+          updatedAt: {
             messages: {
               label: {
                 id: 'column.collectionobject.search.updatedAt',
@@ -67,7 +64,7 @@ const config = {
             },
             width: 200,
           },
-        ],
+        },
       },
     },
     procedure: {

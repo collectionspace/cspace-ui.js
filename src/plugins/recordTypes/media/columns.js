@@ -7,99 +7,99 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'blobCsid',
+    default: {
+      blobCsid: {
+        formatValue: thumbnailImage,
         messages: defineMessages({
           label: {
             id: 'column.media.default.blobCsid',
             defaultMessage: 'Thumbnail',
           },
         }),
-        formatValue: thumbnailImage,
+        order: 10,
         width: 70,
       },
-      {
-        name: 'identificationNumber',
+      identificationNumber: {
         messages: defineMessages({
           label: {
             id: 'column.media.default.identificationNumber',
             defaultMessage: 'Identification number',
           },
         }),
+        order: 20,
         sortBy: 'media_common:identificationNumber',
         width: 200,
       },
-      {
-        name: 'title',
+      title: {
         messages: defineMessages({
           label: {
             id: 'column.media.default.title',
             defaultMessage: 'Title',
           },
         }),
+        order: 30,
         sortBy: 'media_common:title',
         width: 380,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.media.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 40,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
-    narrow: [
-      {
-        name: 'blobCsid',
+    },
+    narrow: {
+      blobCsid: {
+        formatValue: thumbnailImage,
         messages: defineMessages({
           label: {
             id: 'column.media.narrow.blobCsid',
             defaultMessage: 'Thumb',
           },
         }),
-        formatValue: thumbnailImage,
+        order: 10,
         width: 70,
       },
-      {
-        name: 'identificationNumber',
+      identificationNumber: {
         messages: defineMessages({
           label: {
             id: 'column.media.narrow.identificationNumber',
             defaultMessage: 'ID',
           },
         }),
+        order: 20,
         sortBy: 'media_common:identificationNumber',
         width: 200,
       },
-      {
-        name: 'title',
+      title: {
         messages: defineMessages({
           label: {
             id: 'column.media.narrow.title',
             defaultMessage: 'Title',
           },
         }),
+        order: 30,
         sortBy: 'media_common:title',
         width: 380,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.media.narrow.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 40,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

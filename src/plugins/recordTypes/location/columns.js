@@ -9,63 +9,63 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'workflowState',
-        formatValue: formatWorkflowStateIcon,
-        width: 32,
+    default: {
+      workflowState: {
         flexGrow: 0,
         flexShrink: 0,
+        formatValue: formatWorkflowStateIcon,
+        order: 10,
+        width: 32,
       },
-      {
-        name: 'termDisplayName',
+      termDisplayName: {
         messages: defineMessages({
           label: {
             id: 'column.location.default.termDisplayName',
             defaultMessage: 'Display name',
           },
         }),
+        order: 20,
         sortBy: 'locations_common:locTermGroupList/0/termDisplayName',
         width: 250,
       },
-      {
-        name: 'termStatus',
+      termStatus: {
+        formatValue: (data, formatterContext) =>
+          formatOption('locationTermStatuses', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.location.default.termStatus',
             defaultMessage: 'Term status',
           },
         }),
+        order: 30,
         sortBy: 'locations_common:locTermGroupList/0/termStatus',
-        formatValue: (data, formatterContext) =>
-          formatOption('locationTermStatuses', data, formatterContext),
         width: 250,
       },
-      {
-        name: 'vocabulary',
+      vocabulary: {
         dataKey: 'refName',
+        formatValue: (value, formatterContext) =>
+          formatRefNameAsVocabularyName(value, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.location.default.vocabulary',
             defaultMessage: 'Vocabulary',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatRefNameAsVocabularyName(value, formatterContext),
+        order: 40,
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.location.search.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 50,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

@@ -9,64 +9,63 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'workflowState',
-        formatValue: formatWorkflowStateIcon,
-        width: 32,
+    default: {
+      workflowState: {
         flexGrow: 0,
         flexShrink: 0,
+        formatValue: formatWorkflowStateIcon,
+        order: 10,
+        width: 32,
       },
-      {
-        name: 'docNumber',
+      docNumber: {
+        // The value -might- be a refname.
+        // FIXME: It could also be an option list value. How to tell?
+        formatValue: value => formatRefName(value) || value,
         messages: defineMessages({
           label: {
             id: 'column.all.default.docNumber',
             defaultMessage: 'Record',
           },
         }),
+        order: 20,
+        width: 200,
+      },
+      docName: {
         // The value -might- be a refname.
         // FIXME: It could also be an option list value. How to tell?
         formatValue: value => formatRefName(value) || value,
-        width: 200,
-      },
-      {
-        name: 'docName',
         messages: defineMessages({
           label: {
             id: 'column.all.default.docName',
             defaultMessage: 'Summary',
           },
         }),
-        // The value -might- be a refname.
-        // FIXME: It could also be an option list value. How to tell?
-        formatValue: value => formatRefName(value) || value,
+        order: 30,
         width: 300,
       },
-      {
-        name: 'docType',
+      docType: {
+        formatValue: formatServiceObjectName,
         messages: defineMessages({
           label: {
             id: 'column.all.default.docType',
             defaultMessage: 'Type',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatServiceObjectName(value, formatterContext),
+        order: 40,
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.all.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 50,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

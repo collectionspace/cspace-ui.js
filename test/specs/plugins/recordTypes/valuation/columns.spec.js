@@ -25,11 +25,11 @@ describe('valuation record columns', function suite() {
   };
 
   it('should have the correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have value type that is formatted as an option list value', function test() {
-    const valueTypeColumn = columns.default.find(column => column.name === 'valueType');
+    const valueTypeColumn = columns.default.valueType;
 
     valueTypeColumn.should.have.property('formatValue').that.is.a('function');
 

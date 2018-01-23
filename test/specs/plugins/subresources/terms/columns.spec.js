@@ -64,13 +64,13 @@ describe('terms subresource columns', function suite() {
   };
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
-    columns.should.have.property('narrow').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
+    columns.should.have.property('narrow').that.is.an('object');
   });
 
   describe('default column set', function setTest() {
     it('should have type column that is formatted as a record type name from a service path in a ref name', function test() {
-      const typeColumn = columns.default.find(column => column.name === 'type');
+      const typeColumn = columns.default.type;
 
       typeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -81,7 +81,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should format the type column with a fallback if no record type is found with the service path', function test() {
-      const typeColumn = columns.default.find(column => column.name === 'type');
+      const typeColumn = columns.default.type;
       const refName = 'urn:cspace:core.collectionspace.org:foo:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       typeColumn.formatValue(refName, { intl, config }).should
@@ -89,7 +89,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
-      const vocabularyColumn = columns.default.find(column => column.name === 'vocabulary');
+      const vocabularyColumn = columns.default.vocabulary;
 
       vocabularyColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -100,7 +100,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should format the vocabulary column with a fallback if no record type is found with the service path', function test() {
-      const vocabularyColumn = columns.default.find(column => column.name === 'vocabulary');
+      const vocabularyColumn = columns.default.vocabulary;
       const refName = 'urn:cspace:core.collectionspace.org:foo:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       vocabularyColumn.formatValue(refName, { intl, config }).should
@@ -108,7 +108,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should format the vocabulary column with a fallback if no vocabulary is found with the short id', function test() {
-      const vocabularyColumn = columns.default.find(column => column.name === 'vocabulary');
+      const vocabularyColumn = columns.default.vocabulary;
       const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(bar):item:name(JaneDoe1484001439799)\'Jane Doe\'';
 
       vocabularyColumn.formatValue(refName, { intl, config }).should
@@ -116,7 +116,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
-      const sourceFieldColumn = columns.default.find(column => column.name === 'sourceField');
+      const sourceFieldColumn = columns.default.sourceField;
 
       sourceFieldColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -128,7 +128,7 @@ describe('terms subresource columns', function suite() {
   });
 
   it('should format the sourceField column with a fallback if no field is found with the id', function test() {
-    const sourceFieldColumn = columns.default.find(column => column.name === 'sourceField');
+    const sourceFieldColumn = columns.default.sourceField;
     const sourceField = 'collectionobjects_common:foobar';
 
     sourceFieldColumn.formatValue(sourceField, { intl, config, recordType: 'object' }).should
@@ -137,7 +137,7 @@ describe('terms subresource columns', function suite() {
 
   describe('narrow column set', function setTest() {
     it('should have type column that is formatted as a record type name from a service path in a ref name', function test() {
-      const typeColumn = columns.narrow.find(column => column.name === 'type');
+      const typeColumn = columns.narrow.type;
 
       typeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -148,7 +148,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
-      const vocabularyColumn = columns.narrow.find(column => column.name === 'vocabulary');
+      const vocabularyColumn = columns.narrow.vocabulary;
 
       vocabularyColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -159,7 +159,7 @@ describe('terms subresource columns', function suite() {
     });
 
     it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
-      const sourceFieldColumn = columns.narrow.find(column => column.name === 'sourceField');
+      const sourceFieldColumn = columns.narrow.sourceField;
 
       sourceFieldColumn.should.have.property('formatValue').that.is.a('function');
 

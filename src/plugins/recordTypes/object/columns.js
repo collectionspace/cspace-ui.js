@@ -8,57 +8,56 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'docNumber',
+    default: {
+      docNumber: {
+        // The value -might- be a refname.
+        // FIXME: It could also be an option list value. How to tell?
+        formatValue: value => formatRefName(value) || value,
         messages: defineMessages({
           label: {
             id: 'column.object.default.docNumber',
             defaultMessage: 'Record',
           },
         }),
+        order: 10,
+        width: 200,
+      },
+      docName: {
         // The value -might- be a refname.
         // FIXME: It could also be an option list value. How to tell?
         formatValue: value => formatRefName(value) || value,
-        width: 200,
-      },
-      {
-        name: 'docName',
         messages: defineMessages({
           label: {
             id: 'column.object.default.docName',
             defaultMessage: 'Summary',
           },
         }),
-        // The value -might- be a refname.
-        // FIXME: It could also be an option list value. How to tell?
-        formatValue: value => formatRefName(value) || value,
+        order: 20,
         width: 300,
       },
-      {
-        name: 'docType',
+      docType: {
+        formatValue: formatServiceObjectName,
         messages: defineMessages({
           label: {
             id: 'column.object.default.docType',
             defaultMessage: 'Type',
           },
         }),
-        formatValue: (value, formatterContext) =>
-          formatServiceObjectName(value, formatterContext),
+        order: 30,
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.object.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 40,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

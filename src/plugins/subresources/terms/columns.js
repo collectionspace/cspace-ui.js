@@ -7,104 +7,98 @@ import {
 } from '../../../helpers/formatHelpers';
 
 export default {
-  default: [
-    {
-      name: 'itemDisplayName',
+  default: {
+    itemDisplayName: {
       messages: defineMessages({
         label: {
           id: 'column.terms.itemDisplayName',
           defaultMessage: 'Term',
         },
       }),
+      order: 10,
       width: 250,
     },
-    {
-      name: 'type',
+    type: {
       dataKey: 'refName',
+      formatValue: formatRefNameAsRecordType,
       messages: defineMessages({
         label: {
           id: 'column.terms.type',
           defaultMessage: 'Type',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatRefNameAsRecordType(value, formatterContext),
+      order: 20,
       width: 150,
     },
-    {
-      name: 'vocabulary',
+    vocabulary: {
       dataKey: 'refName',
+      formatValue: formatRefNameAsVocabularyName,
       messages: defineMessages({
         label: {
           id: 'column.terms.vocabulary',
           defaultMessage: 'Vocabulary',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatRefNameAsVocabularyName(value, formatterContext),
+      order: 30,
       width: 150,
     },
-    {
-      name: 'sourceField',
+    sourceField: {
+      formatValue: formatSourceField,
       messages: defineMessages({
         label: {
           id: 'column.terms.sourceField',
           defaultMessage: 'Field',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatSourceField(value, formatterContext),
+      order: 40,
       width: 250,
     },
-  ],
-  narrow: [
-    {
-      name: 'itemDisplayName',
+  },
+  narrow: {
+    itemDisplayName: {
       messages: defineMessages({
         label: {
           id: 'column.terms.itemDisplayName',
           defaultMessage: 'Term',
         },
       }),
+      order: 10,
       width: 250,
     },
-    {
-      name: 'type',
+    type: {
       dataKey: 'refName',
+      formatValue: formatRefNameAsRecordType,
       messages: defineMessages({
         label: {
           id: 'column.terms.type',
           defaultMessage: 'Type',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatRefNameAsRecordType(value, formatterContext),
+      order: 20,
       width: 150,
     },
-    {
-      name: 'vocabulary',
+    vocabulary: {
       dataKey: 'refName',
+      formatValue: formatRefNameAsVocabularyName,
       messages: defineMessages({
         label: {
           id: 'column.terms.vocabulary',
           defaultMessage: 'Vocabulary',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatRefNameAsVocabularyName(value, formatterContext),
+      order: 30,
       width: 150,
     },
-    {
-      name: 'sourceField',
+    sourceField: {
+      formatValue: formatSourceField,
       messages: defineMessages({
         label: {
           id: 'column.terms.sourceField',
           defaultMessage: 'Field',
         },
       }),
-      formatValue: (value, formatterContext) =>
-        formatSourceField(value, formatterContext),
+      order: 40,
       width: 250,
     },
-  ],
+  },
 };

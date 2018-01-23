@@ -8,11 +8,11 @@ describe('authority record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have docType column that is formatted as a record type name from a service object name', function test() {
-    const docTypeColumn = columns.default.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -42,7 +42,7 @@ describe('authority record columns', function suite() {
   });
 
   it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
-    const docTypeColumn = columns.default.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -72,7 +72,7 @@ describe('authority record columns', function suite() {
   });
 
   it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
-    const vocabularyColumn = columns.default.find(column => column.name === 'vocabulary');
+    const vocabularyColumn = columns.default.vocabulary;
 
     vocabularyColumn.should.have.property('formatValue').that.is.a('function');
 

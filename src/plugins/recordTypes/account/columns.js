@@ -6,29 +6,29 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'screenName',
+    default: {
+      screenName: {
         messages: defineMessages({
           label: {
             id: 'column.account.default.screenName',
             defaultMessage: 'Full Name',
           },
         }),
+        order: 10,
         width: 250,
       },
-      {
-        name: 'status',
+      status: {
+        formatValue: (data, formatterContext) =>
+          formatOption('accountStatuses', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.account.default.status',
             defaultMessage: 'Status',
           },
         }),
-        formatValue: (data, formatterContext) =>
-          formatOption('accountStatuses', data, formatterContext),
+        order: 20,
         width: 50,
       },
-    ],
+    },
   };
 };

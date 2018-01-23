@@ -7,43 +7,43 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'conditionCheckRefNumber',
+    default: {
+      conditionCheckRefNumber: {
         messages: defineMessages({
           label: {
             id: 'column.conditioncheck.default.conditionCheckRefNumber',
             defaultMessage: 'Reference number',
           },
         }),
+        order: 10,
         sortBy: 'conditionchecks_common:conditionCheckRefNumber',
         width: 200,
       },
-      {
-        name: 'condition',
+      condition: {
+        formatValue: (data, formatterContext) =>
+          formatOption('conditions', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.conditioncheck.default.condition',
             defaultMessage: 'Condition',
           },
         }),
-        sortBy: 'conditionchecks_common:conditionCheckGroupList/conditionCheckGroup/0/condition',
-        formatValue: (data, formatterContext) =>
-          formatOption('conditions', data, formatterContext),
+        order: 20,
+        sortBy: 'conditionchecks_common:conditionCheckGroupList/0/condition',
         width: 450,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.conditioncheck.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

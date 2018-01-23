@@ -8,60 +8,60 @@ export default (pluginContext) => {
   } = pluginContext.formatHelpers;
 
   return {
-    default: [
-      {
-        name: 'workflowState',
-        formatValue: formatWorkflowStateIcon,
-        width: 32,
+    default: {
+      workflowState: {
         flexGrow: 0,
         flexShrink: 0,
+        formatValue: formatWorkflowStateIcon,
+        order: 10,
+        width: 32,
       },
-      {
-        name: 'termDisplayName',
+      termDisplayName: {
         messages: defineMessages({
           label: {
             id: 'column.taxon.default.termDisplayName',
             defaultMessage: 'Display name',
           },
         }),
+        order: 20,
         sortBy: 'taxon_common:taxonTermGroupList/0/termDisplayName',
         width: 250,
       },
-      {
-        name: 'termStatus',
+      termStatus: {
         messages: defineMessages({
           label: {
             id: 'column.taxon.default.termStatus',
             defaultMessage: 'Term status',
           },
         }),
+        order: 30,
         sortBy: 'taxon_common:taxonTermGroupList/0/termStatus',
         width: 250,
       },
-      {
-        name: 'vocabulary',
+      vocabulary: {
         dataKey: 'refName',
+        formatValue: formatRefNameAsVocabularyName,
         messages: defineMessages({
           label: {
             id: 'column.taxon.default.vocabulary',
             defaultMessage: 'Vocabulary',
           },
         }),
-        formatValue: formatRefNameAsVocabularyName,
+        order: 40,
         width: 150,
       },
-      {
-        name: 'updatedAt',
+      updatedAt: {
+        formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
             id: 'column.taxon.search.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
-        formatValue: formatTimestamp,
+        order: 50,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
-    ],
+    },
   };
 };

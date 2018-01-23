@@ -8,11 +8,11 @@ describe('all record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have docNumber column with the proper shape', function test() {
-    const docNumberColumn = columns.default.find(column => column.name === 'docType');
+    const docNumberColumn = columns.default.docType;
 
     docNumberColumn.should.have.property('messages').that.is.a('object');
     docNumberColumn.should.have.property('formatValue').that.is.a('function');
@@ -20,7 +20,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have docNumber column that is formatted as a refname display name', function test() {
-    const docNumberColumn = columns.default.find(column => column.name === 'docNumber');
+    const docNumberColumn = columns.default.docNumber;
 
     docNumberColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -29,7 +29,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have docType column with the proper shape', function test() {
-    const docTypeColumn = columns.default.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('messages').that.is.a('object');
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -37,7 +37,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have docName column that is formatted as a refname display name', function test() {
-    const docNameColumn = columns.default.find(column => column.name === 'docName');
+    const docNameColumn = columns.default.docName;
 
     docNameColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -46,7 +46,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have docType column that is formatted as a record type name from a service object name', function test() {
-    const docTypeColumn = columns.default.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -76,7 +76,7 @@ describe('all record columns', function suite() {
   });
 
   it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
-    const docTypeColumn = columns.default.find(column => column.name === 'docType');
+    const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
 
@@ -104,7 +104,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have updated column with the proper shape', function test() {
-    const updatedAtColumn = columns.default.find(column => column.name === 'updatedAt');
+    const updatedAtColumn = columns.default.updatedAt;
 
     updatedAtColumn.should.have.property('messages').that.is.a('object');
     updatedAtColumn.should.have.property('formatValue').that.is.a('function');
@@ -113,7 +113,7 @@ describe('all record columns', function suite() {
   });
 
   it('should have updatedAt column that is formatted as a date', function test() {
-    const updatedAtColumn = columns.default.find(column => column.name === 'updatedAt');
+    const updatedAtColumn = columns.default.updatedAt;
 
     const intl = {
       formatDate: value => `formatted ${value}`,

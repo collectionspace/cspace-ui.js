@@ -8,11 +8,11 @@ describe('loanout record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have borrower column that is formatted as a refname display name', function test() {
-    const borrowerColumn = columns.default.find(column => column.name === 'borrower');
+    const borrowerColumn = columns.default.borrower;
 
     borrowerColumn.should.have.property('formatValue').that.is.a('function');
 

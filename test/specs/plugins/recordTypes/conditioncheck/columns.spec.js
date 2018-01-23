@@ -25,11 +25,11 @@ describe('condition check record columns', function suite() {
   };
 
   it('should have the correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have condition column that is formatted as an option list value', function test() {
-    const conditionColumn = columns.default.find(column => column.name === 'condition');
+    const conditionColumn = columns.default.condition;
 
     conditionColumn.should.have.property('formatValue').that.is.a('function');
 

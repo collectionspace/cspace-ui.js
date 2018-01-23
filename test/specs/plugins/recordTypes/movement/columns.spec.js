@@ -8,11 +8,11 @@ describe('movement record columns', function suite() {
   const columns = createColumns(pluginContext);
 
   it('should have correct shape', function test() {
-    columns.should.have.property('default').that.is.an('array');
+    columns.should.have.property('default').that.is.an('object');
   });
 
   it('should have current location column that is formatted as a refname display name', function test() {
-    const currentLocationColumn = columns.default.find(column => column.name === 'currentLocation');
+    const currentLocationColumn = columns.default.currentLocation;
 
     currentLocationColumn.should.have.property('formatValue').that.is.a('function');
 
