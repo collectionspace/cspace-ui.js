@@ -7,11 +7,13 @@ import Immutable from 'immutable';
 import getSession from './cspace';
 import getNotificationID from '../helpers/notificationHelpers';
 import getErrorDescription from '../helpers/getErrorDescription';
+import HierarchyReparentNotifier from '../components/record/HierarchyReparentNotifier';
 
 import {
+  removeNotification,
+  removeValidationNotification,
   showNotification,
   showValidationNotification,
-  removeValidationNotification,
 } from './notification';
 
 import {
@@ -673,11 +675,13 @@ export const saveRecord =
 
           if (showNotifications) {
             dispatch(showNotification({
-              message: saveMessages.saving,
-              values: {
-                title,
-                hasTitle: title ? 'yes' : '',
-              },
+              items: [{
+                message: saveMessages.saving,
+                values: {
+                  title,
+                  hasTitle: title ? 'yes' : '',
+                },
+              }],
               date: new Date(),
               status: STATUS_PENDING,
             }, notificationID));
@@ -735,11 +739,13 @@ export const saveRecord =
                   .then(() => {
                     if (showNotifications) {
                       dispatch(showNotification({
-                        message: saveMessages.saved,
-                        values: {
-                          title,
-                          hasTitle: title ? 'yes' : '',
-                        },
+                        items: [{
+                          message: saveMessages.saved,
+                          values: {
+                            title,
+                            hasTitle: title ? 'yes' : '',
+                          },
+                        }],
                         date: new Date(),
                         status: STATUS_SUCCESS,
                         autoClose: true,
@@ -794,11 +800,13 @@ export const saveRecord =
                     .then((readResponse) => {
                       if (showNotifications) {
                         dispatch(showNotification({
-                          message: saveMessages.saved,
-                          values: {
-                            title,
-                            hasTitle: title ? 'yes' : '',
-                          },
+                          items: [{
+                            message: saveMessages.saved,
+                            values: {
+                              title,
+                              hasTitle: title ? 'yes' : '',
+                            },
+                          }],
                           date: new Date(),
                           status: STATUS_SUCCESS,
                           autoClose: true,
@@ -837,12 +845,14 @@ export const saveRecord =
           .catch((error) => {
             if (showNotifications) {
               dispatch(showNotification({
-                message: saveMessages.errorSaving,
-                values: {
-                  title,
-                  hasTitle: title ? 'yes' : '',
-                  error: getErrorDescription(error),
-                },
+                items: [{
+                  message: saveMessages.errorSaving,
+                  values: {
+                    title,
+                    hasTitle: title ? 'yes' : '',
+                    error: getErrorDescription(error),
+                  },
+                }],
                 date: new Date(),
                 status: STATUS_ERROR,
               }, notificationID));
@@ -938,6 +948,7 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
   });
 
   dispatch(removeValidationNotification());
+  dispatch(removeNotification(HierarchyReparentNotifier.notificationID));
 };
 
 export const deleteRecord = (
@@ -949,11 +960,13 @@ export const deleteRecord = (
     const notificationID = getNotificationID();
 
     dispatch(showNotification({
-      message: deleteMessages.deleting,
-      values: {
-        title,
-        hasTitle: title ? 'yes' : '',
-      },
+      items: [{
+        message: deleteMessages.deleting,
+        values: {
+          title,
+          hasTitle: title ? 'yes' : '',
+        },
+      }],
       date: new Date(),
       status: STATUS_PENDING,
     }, notificationID));
@@ -988,11 +1001,13 @@ export const deleteRecord = (
     return getSession().delete(path)
       .then((response) => {
         dispatch(showNotification({
-          message: deleteMessages.deleted,
-          values: {
-            title,
-            hasTitle: title ? 'yes' : '',
-          },
+          items: [{
+            message: deleteMessages.deleted,
+            values: {
+              title,
+              hasTitle: title ? 'yes' : '',
+            },
+          }],
           date: new Date(),
           status: STATUS_SUCCESS,
           autoClose: true,
@@ -1010,12 +1025,14 @@ export const deleteRecord = (
       })
       .catch((error) => {
         dispatch(showNotification({
-          message: deleteMessages.errorDeleting,
-          values: {
-            title,
-            hasTitle: title ? 'yes' : '',
-            error: getErrorDescription(error),
-          },
+          items: [{
+            message: deleteMessages.errorDeleting,
+            values: {
+              title,
+              hasTitle: title ? 'yes' : '',
+              error: getErrorDescription(error),
+            },
+          }],
           date: new Date(),
           status: STATUS_ERROR,
         }, notificationID));
@@ -1046,11 +1063,13 @@ export const transitionRecord = (
 
     if (messages) {
       dispatch(showNotification({
-        message: messages.transitioning,
-        values: {
-          title,
-          hasTitle: title ? 'yes' : '',
-        },
+        items: [{
+          message: messages.transitioning,
+          values: {
+            title,
+            hasTitle: title ? 'yes' : '',
+          },
+        }],
         date: new Date(),
         status: STATUS_PENDING,
       }, notificationID));
@@ -1098,12 +1117,14 @@ export const transitionRecord = (
       .then((response) => {
         if (messages) {
           dispatch(showNotification({
-            message: messages.transitioned,
-            values: {
-              transitionName,
-              title,
-              hasTitle: title ? 'yes' : '',
-            },
+            items: [{
+              message: messages.transitioned,
+              values: {
+                transitionName,
+                title,
+                hasTitle: title ? 'yes' : '',
+              },
+            }],
             date: new Date(),
             status: STATUS_SUCCESS,
             autoClose: true,
@@ -1127,13 +1148,15 @@ export const transitionRecord = (
       .catch((error) => {
         if (messages) {
           dispatch(showNotification({
-            message: messages.errorTransitioning,
-            values: {
-              transitionName,
-              title,
-              hasTitle: title ? 'yes' : '',
-              error: getErrorDescription(error),
-            },
+            items: [{
+              message: messages.errorTransitioning,
+              values: {
+                transitionName,
+                title,
+                hasTitle: title ? 'yes' : '',
+                error: getErrorDescription(error),
+              },
+            }],
             date: new Date(),
             status: STATUS_ERROR,
           }, notificationID));

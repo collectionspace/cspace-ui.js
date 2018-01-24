@@ -44,10 +44,12 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
   const notificationID = getNotificationID();
 
   dispatch(showNotification({
-    message: messages.running,
-    values: {
-      name,
-    },
+    items: [{
+      message: messages.running,
+      values: {
+        name,
+      },
+    }],
     date: new Date(),
     status: STATUS_PENDING,
   }, notificationID));
@@ -63,12 +65,14 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
       const userNote = get(data, ['ns2:invocationResults', 'userNote']);
 
       dispatch(showNotification({
-        message: messages.complete,
-        values: {
-          name,
-          numAffected,
-          userNote,
-        },
+        items: [{
+          message: messages.complete,
+          values: {
+            name,
+            numAffected,
+            userNote,
+          },
+        }],
         date: new Date(),
         status: STATUS_SUCCESS,
         autoClose: true,
@@ -78,11 +82,13 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
     })
     .catch((error) => {
       dispatch(showNotification({
-        message: messages.error,
-        values: {
-          name,
-          error: getErrorDescription(error),
-        },
+        items: [{
+          message: messages.error,
+          values: {
+            name,
+            error: getErrorDescription(error),
+          },
+        }],
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));

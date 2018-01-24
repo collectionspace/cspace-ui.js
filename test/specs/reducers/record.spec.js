@@ -795,7 +795,7 @@ describe('record reducer', function suite() {
     isSavePending(state, csid).should.equal(true);
   });
 
-  it('should handle RECORD_SAVE_FULFILLED', function test() {
+  describe('on RECORD_SAVE_FULFILLED', function actionSuite() {
     const recordTypeConfig = {};
     const csid = '1234';
     const updatedAt = '2017-03-23-08:34:21.000Z';
@@ -809,73 +809,123 @@ describe('record reducer', function suite() {
       },
     };
 
-    let state;
+    it('should set the record data from the payload when there is no existing record data', function test() {
+      const state = reducer(undefined, {
+        type: RECORD_SAVE_FULFILLED,
+        payload: {
+          data,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      });
 
-    // No existing record data
-
-    state = reducer(undefined, {
-      type: RECORD_SAVE_FULFILLED,
-      payload: {
-        data,
-      },
-      meta: {
-        recordTypeConfig,
-        csid,
-      },
+      getData(state, csid).should.equal(Immutable.fromJS(data));
+      isModified(state, csid).should.equal(false);
     });
 
-    getData(state, csid).should.equal(Immutable.fromJS(data));
-    isModified(state, csid).should.equal(false);
+    it('should set the record data from the payload when there is existing record data', function test() {
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {
+            current: {
+              foo: 1,
+            },
+          },
+          isSavePending: true,
+        },
+      }), {
+        type: RECORD_SAVE_FULFILLED,
+        payload: {
+          data,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      });
 
-    // Existing record data
+      getData(state, csid).should.equal(Immutable.fromJS(data));
+      expect(isSavePending(state, csid)).to.equal(undefined);
+      expect(isSavePending(state, '')).to.equal(undefined);
+      isModified(state, csid).should.equal(false);
+    });
 
-    state = reducer(Immutable.fromJS({
-      [csid]: {
-        data: {
-          current: {
-            foo: 1,
+    it('should update the relation updated timestamp of a related subject', function test() {
+      // With related subject csid
+
+      const relatedSubjectCsid = '5678';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {},
+          isSavePending: true,
+        },
+      }), {
+        type: RECORD_SAVE_FULFILLED,
+        payload: {
+          data,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+          relatedSubjectCsid,
+        },
+      });
+
+      getRelationUpdatedTimestamp(state, relatedSubjectCsid).should.equal(updatedAt);
+    });
+
+    it('should clear all record state except for the saved record, subrecords of the saved record, new unsaved records, and records with pending saves', function test() {
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          data: {},
+          isSavePending: true,
+          subrecord: {
+            blob: '5555',
           },
         },
-        isSavePending: true,
-      },
-    }), {
-      type: RECORD_SAVE_FULFILLED,
-      payload: {
-        data,
-      },
-      meta: {
-        recordTypeConfig,
-        csid,
-      },
+        1111: {},
+        2222: {
+          isSavePending: true,
+        },
+        3333: {},
+        4444: {},
+        5555: {},
+        '': {}, // new record
+        '/blob': {}, //new subrecord
+      });
+
+      const state = reducer(initialState, {
+        type: RECORD_SAVE_FULFILLED,
+        payload: {
+          data,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+          subrecord: {
+            blob: '5555',
+          },
+        },
+        2222: {
+          isSavePending: true,
+        },
+        5555: {},
+        '': {},
+        '/blob': {},
+      }));
     });
-
-    getData(state, csid).should.equal(Immutable.fromJS(data));
-    expect(isSavePending(state, csid)).to.equal(undefined);
-    expect(isSavePending(state, '')).to.equal(undefined);
-    isModified(state, csid).should.equal(false);
-
-    // With related subject csid
-
-    const relatedSubjectCsid = '5678';
-
-    state = reducer(Immutable.fromJS({
-      [csid]: {
-        data: {},
-        isSavePending: true,
-      },
-    }), {
-      type: RECORD_SAVE_FULFILLED,
-      payload: {
-        data,
-      },
-      meta: {
-        recordTypeConfig,
-        csid,
-        relatedSubjectCsid,
-      },
-    });
-
-    getRelationUpdatedTimestamp(state, relatedSubjectCsid).should.equal(updatedAt);
   });
 
   it('should handle RECORD_SAVE_REJECTED', function test() {

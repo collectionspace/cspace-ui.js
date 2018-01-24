@@ -8,6 +8,7 @@ import RecordHeader from './RecordHeader';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
+import HierarchyReparentNotifier from './HierarchyReparentNotifier';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
 import { isRecordDeprecated, isRecordImmutable } from '../../helpers/recordDataHelpers';
@@ -45,6 +46,7 @@ const propTypes = {
   revert: PropTypes.func,
   clone: PropTypes.func,
   transitionRecord: PropTypes.func,
+  removeNotification: PropTypes.func,
   removeValidationNotification: PropTypes.func,
   setForm: PropTypes.func,
   validateRecordData: PropTypes.func,
@@ -124,11 +126,16 @@ export default class RecordEditor extends Component {
 
   componentWillUnmount() {
     const {
+      removeNotification,
       removeValidationNotification,
     } = this.props;
 
     if (removeValidationNotification) {
       removeValidationNotification();
+    }
+
+    if (removeNotification) {
+      removeNotification(HierarchyReparentNotifier.notificationID);
     }
   }
 

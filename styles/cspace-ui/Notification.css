@@ -1,5 +1,6 @@
 .common {
   width: 100%;
+  min-height: 100px;
   position: relative;
   display: flex;
 }
@@ -37,6 +38,14 @@
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: 0 2px;
+}
+
+.warning {
+  composes: common;
+}
+
+.warning ul > li {
+  background-image: url(../../images/warning.svg);
 }
 
 .error {

@@ -324,7 +324,9 @@ class LoginForm extends Component {
     return (
       <Notification
         id="loginForm.error"
-        message={messages[messageKey]}
+        items={[{
+          message: messages[messageKey],
+        }]}
         showCloseButton={false}
         status="error"
       />

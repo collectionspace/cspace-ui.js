@@ -36,6 +36,7 @@ import {
   deepDelete,
   getCoreFieldValue,
   getCsid,
+  getRefName,
   getDocument,
   getPart,
   getPartPropertyName,
@@ -1704,6 +1705,26 @@ describe('recordDataHelpers', function moduleSuite() {
 
     it('should return undefined if the data does not exist', function test() {
       expect(getCsid()).to.equal(undefined);
+    });
+  });
+
+  describe('getRefName', function suite() {
+    const refName = 'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(California1514611983069)\'California\'';
+
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          refName,
+        },
+      },
+    });
+
+    it('should return the refName extracted from the core part', function test() {
+      getRefName(data).should.equal(refName);
+    });
+
+    it('should return undefined if the data does not exist', function test() {
+      expect(getRefName()).to.equal(undefined);
     });
   });
 
