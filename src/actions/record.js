@@ -375,7 +375,10 @@ const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) 
   };
 
 const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
-  const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+  const {
+    serviceType,
+    servicePath: recordServicePath,
+  } = recordTypeConfig.serviceConfig;
 
   const vocabularyServicePath = vocabularyConfig
     ? vocabularyConfig.serviceConfig.servicePath
@@ -394,10 +397,13 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
 
   const requestConfig = {
     params: {
-      showRelations: true,
       wf_deleted: false,
     },
   };
+
+  if (serviceType === 'authority' || serviceType === 'object') {
+    requestConfig.params.showRelations = true;
+  }
 
   if (recordTypeConfig.requestConfig) {
     merge(requestConfig, recordTypeConfig.requestConfig('read'));

@@ -20,6 +20,11 @@ const store = mockStore({
 
 const config = {
   recordTypes: {
+    account: {
+      serviceConfig: {
+        serviceType: 'security',
+      },
+    },
     collectionobject: {
       messages: {
         record: {

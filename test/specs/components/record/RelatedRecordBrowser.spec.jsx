@@ -98,6 +98,7 @@ const config = {
     group: {
       serviceConfig: {
         servicePath: 'groups',
+        serviceType: 'procedure',
       },
       fields: {},
       forms: {
@@ -354,7 +355,7 @@ describe('RelatedRecordBrowser', function suite() {
       },
     });
 
-    moxios.stubRequest(`/cspace-services/groups/${newCsid}?showRelations=true&wf_deleted=false`, {
+    moxios.stubRequest(`/cspace-services/groups/${newCsid}?wf_deleted=false`, {
       status: 200,
       headers: {
         data: {},

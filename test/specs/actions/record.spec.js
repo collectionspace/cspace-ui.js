@@ -656,7 +656,7 @@ describe('record action creator', function suite() {
       const subrecordCsid = 'abcd';
       const readRecordUrl = new RegExp(`^/cspace-services/${recordServicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}.*`);
       const searchSubrecordUrl = new RegExp(`^/cspace-services/${recordServicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}/${subrecordSubresourceServicePath}.*`);
-      const readSubrecordUrl = `/cspace-services/${subrecordServicePath}/${subrecordCsid}?showRelations=true&wf_deleted=false`;
+      const readSubrecordUrl = `/cspace-services/${subrecordServicePath}/${subrecordCsid}?wf_deleted=false`;
 
       const vocabularyConfig = {
         name: vocabulary,
@@ -669,6 +669,7 @@ describe('record action creator', function suite() {
         name: recordType,
         serviceConfig: {
           servicePath: recordServicePath,
+          serviceType: 'authority',
         },
         subrecords: {
           [subrecordName]: {
@@ -697,6 +698,7 @@ describe('record action creator', function suite() {
         name: subrecordType,
         serviceConfig: {
           servicePath: subrecordServicePath,
+          serviceType: 'utility',
         },
         title: () => '',
       };
@@ -925,6 +927,7 @@ describe('record action creator', function suite() {
         name: recordType,
         serviceConfig: {
           servicePath,
+          serviceType: 'object',
         },
         title: () => '',
       };
@@ -1284,7 +1287,7 @@ describe('record action creator', function suite() {
           },
         });
 
-        moxios.stubRequest(`${saveNewRecordUrl}/${createdCsid}?showRelations=true&wf_deleted=false`, {
+        moxios.stubRequest(`${saveNewRecordUrl}/${createdCsid}?wf_deleted=false&showRelations=true`, {
           status: 200,
           response: {},
         });
@@ -1549,7 +1552,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for a record with subrersource subrecords', function contextSuite() {
+    context('for a record with subresource subrecords', function contextSuite() {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -1577,6 +1580,7 @@ describe('record action creator', function suite() {
         name: recordType,
         serviceConfig: {
           servicePath: recordServicePath,
+          serviceType: 'authority',
         },
         subrecords: {
           [subrecordName]: {
@@ -1606,6 +1610,7 @@ describe('record action creator', function suite() {
         name: subrecordType,
         serviceConfig: {
           servicePath: subrecordServicePath,
+          serviceType: 'utility',
         },
         title: () => '',
       };
@@ -1900,7 +1905,7 @@ describe('record action creator', function suite() {
       it('should dispatch SUBRECORD_CREATED if a subrecord is created', function test() {
         const newRecordCsid = '8888';
         const saveNewRecordUrl = `/cspace-services/${recordServicePath}/${vocabularyServicePath}/items/${csid}/${subrecordSubresourceServicePath}`;
-        const readNewRecordUrl = `/cspace-services/${subrecordServicePath}/${newRecordCsid}?showRelations=true&wf_deleted=false`;
+        const readNewRecordUrl = `/cspace-services/${subrecordServicePath}/${newRecordCsid}?wf_deleted=false`;
         const expectedSubrecordSearchName = `subrecord/${csid}/${subrecordName}`;
 
         moxios.stubRequest(saveNewRecordUrl, {
@@ -2003,6 +2008,7 @@ describe('record action creator', function suite() {
         name: recordType,
         serviceConfig: {
           servicePath: recordServicePath,
+          serviceType: 'authority',
         },
         subrecords: {
           [subrecordName]: {
@@ -2022,6 +2028,7 @@ describe('record action creator', function suite() {
         name: subrecordType,
         serviceConfig: {
           servicePath: subrecordServicePath,
+          serviceType: 'utility',
         },
         title: () => '',
       };
@@ -2194,7 +2201,7 @@ describe('record action creator', function suite() {
       it('should dispatch SUBRECORD_CREATED if a new subrecord is created', function test() {
         const saveNewSubrecordUrl = `/cspace-services/${subrecordServicePath}`;
         const createdSubrecordCsid = '8888';
-        const readNewSubrecordUrl = `/cspace-services/${subrecordServicePath}/${createdSubrecordCsid}?showRelations=true&wf_deleted=false`;
+        const readNewSubrecordUrl = `/cspace-services/${subrecordServicePath}/${createdSubrecordCsid}?wf_deleted=false`;
 
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
