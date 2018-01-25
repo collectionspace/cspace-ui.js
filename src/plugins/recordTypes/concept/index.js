@@ -12,10 +12,10 @@ export default () => pluginContext => ({
   optionLists,
   recordTypes: {
     concept: {
-      advancedSearch,
       messages,
       serviceConfig,
       vocabularies,
+      advancedSearch: advancedSearch(pluginContext),
       columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),

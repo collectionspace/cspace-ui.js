@@ -9,9 +9,9 @@ import title from './title';
 export default () => pluginContext => ({
   recordTypes: {
     group: {
-      advancedSearch,
       messages,
       serviceConfig,
+      advancedSearch: advancedSearch(pluginContext),
       columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),

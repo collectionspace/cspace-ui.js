@@ -11,9 +11,9 @@ export default () => pluginContext => ({
   optionLists,
   recordTypes: {
     pottag: {
-      advancedSearch,
       messages,
       serviceConfig,
+      advancedSearch: advancedSearch(pluginContext),
       columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),

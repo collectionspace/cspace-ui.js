@@ -1,44 +1,46 @@
-import {
-  OP_OR,
-  OP_EQ,
-  OP_CONTAIN,
-  OP_RANGE,
-} from '../../../constants/searchOperators';
+export default (pluginContext) => {
+  const {
+    OP_OR,
+    OP_EQ,
+    OP_CONTAIN,
+    OP_RANGE,
+  } = pluginContext.searchOperators;
 
-export default {
-  op: OP_OR,
-  value: [
-    {
-      op: OP_CONTAIN,
-      path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termDisplayName',
-    },
-    {
-      op: OP_CONTAIN,
-      path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termName',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termStatus',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termFlag',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termLanguage',
-    },
-    {
-      op: OP_EQ,
-      path: 'ns2:concepts_common/conceptRecordTypes/conceptRecordType',
-    },
-    {
-      op: OP_CONTAIN,
-      path: 'ns2:collectionspace_core/updatedBy',
-    },
-    {
-      op: OP_RANGE,
-      path: 'ns2:collectionspace_core/updatedAt',
-    },
-  ],
+  return {
+    op: OP_OR,
+    value: [
+      {
+        op: OP_CONTAIN,
+        path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termDisplayName',
+      },
+      {
+        op: OP_CONTAIN,
+        path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termName',
+      },
+      {
+        op: OP_EQ,
+        path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termStatus',
+      },
+      {
+        op: OP_EQ,
+        path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termFlag',
+      },
+      {
+        op: OP_EQ,
+        path: 'ns2:concepts_common/conceptTermGroupList/conceptTermGroup/termLanguage',
+      },
+      {
+        op: OP_EQ,
+        path: 'ns2:concepts_common/conceptRecordTypes/conceptRecordType',
+      },
+      {
+        op: OP_CONTAIN,
+        path: 'ns2:collectionspace_core/updatedBy',
+      },
+      {
+        op: OP_RANGE,
+        path: 'ns2:collectionspace_core/updatedAt',
+      },
+    ],
+  };
 };

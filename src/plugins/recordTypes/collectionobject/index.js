@@ -13,9 +13,9 @@ export default () => pluginContext => ({
   optionLists,
   recordTypes: {
     collectionobject: {
-      advancedSearch,
       messages,
       serviceConfig,
+      advancedSearch: advancedSearch(pluginContext),
       columns: columns(pluginContext),
       defaultForSearch: true, // Is this the default in search dropdowns?
       fields: fields(pluginContext),

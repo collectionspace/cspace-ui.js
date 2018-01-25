@@ -13,9 +13,9 @@ export default () => pluginContext => ({
   optionLists,
   recordTypes: {
     acquisition: {
-      advancedSearch,
       messages,
       serviceConfig,
+      advancedSearch: advancedSearch(pluginContext),
       columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
