@@ -75,6 +75,7 @@ export default function RecordSideBar(props) {
       <RelatedRecordPanelContainer
         color={panelColor}
         csid={csid}
+        columnSetName="narrow"
         config={config}
         history={history}
         name="relatedProcedurePanel"
