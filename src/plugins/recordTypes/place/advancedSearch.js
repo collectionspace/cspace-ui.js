@@ -3,8 +3,11 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
-    OP_RANGE,
   } = pluginContext.searchOperators;
+
+  const {
+    extensions,
+  } = pluginContext.config;
 
   return {
     op: OP_OR,
@@ -41,14 +44,7 @@ export default (pluginContext) => {
         op: OP_CONTAIN,
         path: 'ns2:places_common/placeNote',
       },
-      {
-        op: OP_CONTAIN,
-        path: 'ns2:collectionspace_core/updatedBy',
-      },
-      {
-        op: OP_RANGE,
-        path: 'ns2:collectionspace_core/updatedAt',
-      },
+      ...extensions.core.advancedSearch,
     ],
   };
 };

@@ -6,6 +6,10 @@ export default (pluginContext) => {
     OP_RANGE,
   } = pluginContext.searchOperators;
 
+  const {
+    extensions,
+  } = pluginContext.config;
+
   return {
     op: OP_OR,
     value: [
@@ -41,14 +45,7 @@ export default (pluginContext) => {
         op: OP_RANGE,
         path: 'ns2:exhibitions_common/venueGroupList/venueGroup/venueClosingDate',
       },
-      {
-        op: OP_CONTAIN,
-        path: 'ns2:collectionspace_core/updatedBy',
-      },
-      {
-        op: OP_RANGE,
-        path: 'ns2:collectionspace_core/updatedAt',
-      },
+      ...extensions.core.advancedSearch,
     ],
   };
 };

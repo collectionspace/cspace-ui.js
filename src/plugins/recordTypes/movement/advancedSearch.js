@@ -6,6 +6,10 @@ export default (pluginContext) => {
     OP_RANGE,
   } = pluginContext.searchOperators;
 
+  const {
+    extensions,
+  } = pluginContext.config;
+
   return {
     op: OP_OR,
     value: [
@@ -69,14 +73,7 @@ export default (pluginContext) => {
         op: OP_CONTAIN,
         path: 'ns2:movements_common/inventoryNote',
       },
-      {
-        op: OP_CONTAIN,
-        path: 'ns2:collectionspace_core/updatedBy',
-      },
-      {
-        op: OP_RANGE,
-        path: 'ns2:collectionspace_core/updatedAt',
-      },
+      ...extensions.core.advancedSearch,
     ],
   };
 };
