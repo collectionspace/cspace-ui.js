@@ -181,7 +181,10 @@ export const unrelate = (config, subject, object, predicate) => dispatch =>
   dispatch(doUnrelate(config, subject, object, predicate))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});
 
@@ -194,7 +197,10 @@ export const batchUnrelate = (config, subject, objects, predicate) => dispatch =
   Promise.all(objects.map(object => dispatch(doUnrelate(config, subject, object, predicate))))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});
 
@@ -212,7 +218,10 @@ export const batchUnrelateBidirectional = (config, subject, objects, predicate) 
   ))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});
 
@@ -271,7 +280,10 @@ export const batchCreate = (subject, objects, predicate) => dispatch =>
   Promise.all(objects.map(object => dispatch(doCreate(subject, object, predicate))))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});
 
@@ -283,7 +295,10 @@ export const batchCreateBidirectional = (subject, objects, predicate) => dispatc
   ))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});
 
@@ -291,7 +306,10 @@ export const create = (subject, object, predicate) => dispatch =>
   dispatch(doCreate(subject, object, predicate))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});
 
@@ -300,6 +318,9 @@ export const createBidirectional = (subject, object, predicate) => dispatch =>
     .then(() => dispatch(doCreate(object, subject, predicate)))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+        updatedTime: (new Date()).toISOString(),
+      },
     }))
     .catch(() => {});

@@ -1117,6 +1117,7 @@ describe('record reducer', function suite() {
 
   it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
     const csid = '1234';
+    const updatedTime = (new Date()).toISOString();
 
     let state;
 
@@ -1125,7 +1126,10 @@ describe('record reducer', function suite() {
     state = reducer(undefined, {
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
-        csid,
+        updatedTime,
+        subject: {
+          csid,
+        },
       },
     });
 
@@ -1138,11 +1142,14 @@ describe('record reducer', function suite() {
     }), {
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
-        csid,
+        updatedTime,
+        subject: {
+          csid,
+        },
       },
     });
 
-    expect(Date.parse(getRelationUpdatedTimestamp(state, csid))).to.be.closeTo(Date.now(), 10);
+    getRelationUpdatedTimestamp(state, csid).should.equal(updatedTime);
   });
 
   it('should handle CREATE_ID_FULFILLED', function test() {

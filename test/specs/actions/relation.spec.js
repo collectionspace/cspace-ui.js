@@ -263,9 +263,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[2].should.deep.equal({
+          actions[2].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[2].meta.should.contain({
+            subject,
           });
         });
     });
@@ -393,9 +396,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[4].should.deep.equal({
+          actions[4].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[4].meta.should.contain({
+            subject,
           });
         });
     });
@@ -529,9 +535,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[6].should.deep.equal({
+          actions[6].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[6].meta.should.contain({
+            subject,
           });
         });
     });
@@ -687,9 +696,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[8].should.deep.equal({
+          actions[8].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[8].meta.should.contain({
+            subject,
           });
         });
     });
@@ -858,9 +870,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[2].should.deep.equal({
+          actions[2].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[2].meta.should.contain({
+            subject,
           });
         });
     });
@@ -1054,9 +1069,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[2].should.deep.equal({
+          actions[2].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[2].meta.should.contain({
+            subject,
           });
 
           actions[3].should.deep.equal({
@@ -1079,9 +1097,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[5].should.deep.equal({
+          actions[5].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: object,
+          });
+
+          actions[5].meta.should.contain({
+            subject: object,
           });
         });
     });
@@ -1188,9 +1209,12 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[4].should.deep.equal({
+          actions[4].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[4].meta.should.contain({
+            subject,
           });
         });
     });
@@ -1360,19 +1384,28 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[8].should.deep.equal({
+          actions[8].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: objects[0],
           });
 
-          actions[9].should.deep.equal({
-            type: SUBJECT_RELATIONS_UPDATED,
-            meta: objects[1],
+          actions[8].meta.should.contain({
+            subject: objects[0],
           });
 
-          actions[10].should.deep.equal({
+          actions[9].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-            meta: subject,
+          });
+
+          actions[9].meta.should.contain({
+            subject: objects[1],
+          });
+
+          actions[10].should.contain({
+            type: SUBJECT_RELATIONS_UPDATED,
+          });
+
+          actions[10].meta.should.contain({
+            subject,
           });
         });
     });

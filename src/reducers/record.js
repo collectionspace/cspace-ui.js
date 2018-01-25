@@ -491,16 +491,18 @@ const createNewSubrecord = (state, action) => {
 const handleSubjectRelationsUpdated = (state, action) => {
   // Currently relations are only ever created (not updated), and we don't bother to retrieve
   // the relation record after creation. Technically we should retrieve the new relation
-  // record and use its updatedAt value here, but that's an extra request. For now just use the
-  // current local time, at least until there's some additional reason to retrieve the full
-  // relation record.
+  // record and use its updatedAt value, but that's an extra request. For now the action creator
+  // sets the updated time as a meta field.
 
-  const subjectCsid = action.meta.csid;
-  // TODO: Move this into action creator. (This makes the reducer not pure).
-  const newUpdatedTime = (new Date()).toISOString();
+  const {
+    subject,
+    updatedTime,
+  } = action.meta;
+
+  const subjectCsid = subject.csid;
 
   if (state.has(subjectCsid)) {
-    return state.setIn([subjectCsid, 'relationUpdatedTime'], newUpdatedTime);
+    return state.setIn([subjectCsid, 'relationUpdatedTime'], updatedTime);
   }
 
   return state;

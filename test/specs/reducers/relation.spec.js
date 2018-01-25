@@ -109,7 +109,9 @@ describe('relation reducer', function suite() {
 
     const state = reducer(initialState, {
       type: SUBJECT_RELATIONS_UPDATED,
-      meta: subject,
+      meta: {
+        subject,
+      },
     });
 
     state.should.equal(Immutable.fromJS({

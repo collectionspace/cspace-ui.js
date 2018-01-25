@@ -19,12 +19,6 @@ const handleRelationFindFulfilled = (state, action) => {
   );
 };
 
-const handleSubjectRelationsUpdated = (state, action) => {
-  const subjectCsid = action.meta.csid;
-
-  return state.deleteIn(['find', subjectCsid]);
-};
-
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case CLEAR_RELATION_STATE:
@@ -32,7 +26,7 @@ export default (state = Immutable.Map(), action) => {
     case RELATION_FIND_FULFILLED:
       return handleRelationFindFulfilled(state, action);
     case SUBJECT_RELATIONS_UPDATED:
-      return handleSubjectRelationsUpdated(state, action);
+      return state.deleteIn(['find', action.meta.subject.csid]);
     default:
       return state;
   }
