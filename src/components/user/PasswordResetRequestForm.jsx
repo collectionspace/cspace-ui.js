@@ -170,8 +170,10 @@ export default class PasswordResetRequestForm extends Component {
     return (
       <Notification
         id="passwordResetRequestForm.error"
-        message={message}
-        values={values}
+        items={[{
+          message,
+          values,
+        }]}
         showCloseButton={false}
         status="error"
       />

@@ -478,6 +478,14 @@ export const getCsid = (data) => {
   return (uri ? uri.substring(uri.lastIndexOf('/') + 1) : undefined);
 };
 
+export const getRefName = (data) => {
+  if (!data) {
+    return undefined;
+  }
+
+  return data.getIn(['document', 'ns2:collectionspace_core', 'refName']);
+};
+
 export const getUpdatedTimestamp = (data) => {
   let updatedAt = getCoreFieldValue(data, 'updatedAt');
 

@@ -134,11 +134,28 @@ describe('HierarchyInput', function suite() {
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)', type: undefined },
+      parent: {
+        csid: 'abcd',
+        refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)',
+        relCsid: undefined,
+        type: undefined,
+      },
       children: [
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)', type: undefined },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)',
+          type: undefined,
+          relCsid: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
+          relCsid: undefined,
+          type: undefined,
+        },
       ],
     }));
   });
@@ -172,13 +189,21 @@ describe('HierarchyInput', function suite() {
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)', type: undefined },
+      parent: {
+        csid: 'abcd',
+        refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)',
+        relCsid: undefined,
+        type: undefined,
+      },
       children: [],
     }));
   });
 
   it('should accept a single-item (non-list) relation', function test() {
+    const relCsid = 'aaaa';
+
     const relations = Immutable.fromJS({
+      csid: relCsid,
       predicate: 'hasBroader',
       subject: {
         csid,
@@ -202,7 +227,12 @@ describe('HierarchyInput', function suite() {
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)', type: undefined },
+      parent: {
+        relCsid,
+        csid: 'abcd',
+        refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)',
+        type: undefined,
+      },
       children: [],
     }));
   });
@@ -276,9 +306,18 @@ describe('HierarchyInput', function suite() {
     hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
 
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
-      parent: { csid: 'abcd', refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)', type: undefined },
+      parent: {
+        csid: 'abcd',
+        refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)',
+        relCsid: undefined,
+        type: undefined,
+      },
       children: [
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)', type: undefined },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)',
+          relCsid: undefined,
+          type: undefined,
+        },
       ],
     }));
 
@@ -316,8 +355,16 @@ describe('HierarchyInput', function suite() {
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: {},
       children: [
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(newChild1)', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(newChild2)', type: undefined },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(newChild1)',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(newChild2)',
+          relCsid: undefined,
+          type: undefined,
+        },
       ],
     }));
   });
@@ -396,12 +443,36 @@ describe('HierarchyInput', function suite() {
     hierarchyEditor.props.value.should.equal(Immutable.fromJS({
       parent: {},
       children: [
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)\'Barney\'', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child5)\'Betty\'', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child4)\'Fred\'', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)\'Wilma\'', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)', type: undefined },
-        { refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child6)', type: undefined },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)\'Barney\'',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child5)\'Betty\'',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child4)\'Fred\'',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)\'Wilma\'',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
+          relCsid: undefined,
+          type: undefined,
+        },
+        {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child6)',
+          relCsid: undefined,
+          type: undefined,
+        },
       ],
     }));
   });
@@ -417,6 +488,7 @@ describe('HierarchyInput', function suite() {
 
     const hierarchy = Immutable.fromJS({
       parent: {
+        relCsid: 'aaaa',
         csid: 'abcd',
         refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)',
         type: 'set',
@@ -448,6 +520,7 @@ describe('HierarchyInput', function suite() {
 
     committedValue.should.equal(Immutable.fromJS([
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: 'recto',
         subject: {
@@ -458,6 +531,7 @@ describe('HierarchyInput', function suite() {
         },
       },
       {
+        csid: 'aaaa',
         predicate: 'hasBroader',
         relationshipMetaType: 'set',
         subject: {
@@ -482,6 +556,7 @@ describe('HierarchyInput', function suite() {
 
     const relations = Immutable.fromJS([
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -492,6 +567,7 @@ describe('HierarchyInput', function suite() {
         },
       },
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -502,6 +578,7 @@ describe('HierarchyInput', function suite() {
         },
       },
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -512,6 +589,7 @@ describe('HierarchyInput', function suite() {
         },
       },
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -557,6 +635,7 @@ describe('HierarchyInput', function suite() {
 
     const relations = Immutable.fromJS([
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -567,6 +646,7 @@ describe('HierarchyInput', function suite() {
         },
       },
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -577,6 +657,7 @@ describe('HierarchyInput', function suite() {
         },
       },
       {
+        csid: undefined,
         predicate: 'hasBroader',
         relationshipMetaType: undefined,
         subject: {
@@ -608,6 +689,7 @@ describe('HierarchyInput', function suite() {
     committedPath.should.deep.equal([name]);
 
     committedValue.should.equal(relations.insert(2, Immutable.fromJS({
+      csid: undefined,
       predicate: 'hasBroader',
       relationshipMetaType: undefined,
       subject: {

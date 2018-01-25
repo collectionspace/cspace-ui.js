@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import merge from 'lodash/merge';
 import { searchKey } from '../../../src/reducers/search';
+import HierarchyReparentNotifier from '../../../src/components/record/HierarchyReparentNotifier';
 
 import {
   ERR_MISSING_REQ_FIELD,
@@ -2471,7 +2472,7 @@ describe('record action creator', function suite() {
 
       const actions = store.getActions();
 
-      actions.should.have.lengthOf(3);
+      actions.should.have.lengthOf(4);
 
       actions[0].should.deep.equal({
         type: REVERT_RECORD,
@@ -2493,6 +2494,13 @@ describe('record action creator', function suite() {
         type: REMOVE_NOTIFICATION,
         meta: {
           notificationID: NOTIFICATION_ID_VALIDATION,
+        },
+      });
+
+      actions[3].should.deep.equal({
+        type: REMOVE_NOTIFICATION,
+        meta: {
+          notificationID: HierarchyReparentNotifier.notificationID,
         },
       });
     });

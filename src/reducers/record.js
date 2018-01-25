@@ -73,6 +73,37 @@ const setCurrentData = (state, csid, data) => state.setIn([csid, 'data', 'curren
 const getBaselineData = (state, csid) => state.getIn([csid, 'data', 'baseline']);
 const setBaselineData = (state, csid, data) => state.setIn([csid, 'data', 'baseline'], data);
 
+const clear = (state, csid) => {
+  const recordState = state.get(csid);
+
+  if (!recordState) {
+    return state;
+  }
+
+  let nextState = state;
+
+  const subrecord = recordState.get('subrecord');
+
+  if (subrecord) {
+    nextState = subrecord.reduce((reducedState, subrecordCsid) =>
+      clear(reducedState, subrecordCsid), nextState);
+  }
+
+  return nextState.delete(csid);
+};
+
+const clearAll = state => state.clear();
+
+const clearFiltered = (state, filter) => {
+  let nextState = state;
+
+  state.filter(filter).forEach((recordState, csid) => {
+    nextState = clear(nextState, csid);
+  });
+
+  return nextState;
+};
+
 const addFieldInstance = (state, action) => {
   const {
     csid,
@@ -115,7 +146,7 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
 
   const csid = unsavedRecordKey(subrecordName);
 
-  let updatedState = state.delete(csid);
+  let nextState = state.delete(csid);
 
   const { subrecords } = recordTypeConfig;
 
@@ -135,8 +166,8 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
         const subrecordTypeConfig = get(config, ['recordTypes', subrecordType]);
         const subrecordCsid = state.getIn([cloneCsid, 'subrecord', name]);
 
-        updatedState = doCreateNew(
-          updatedState,
+        nextState = doCreateNew(
+          nextState,
           config,
           subrecordTypeConfig,
           subrecordCsid,
@@ -150,16 +181,16 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
         }
       }
 
-      updatedState = updatedState.setIn(
+      nextState = nextState.setIn(
         [csid, 'subrecord', name], cloneSubrecordCsid
       );
     });
   }
 
-  updatedState = setBaselineData(updatedState, csid, data);
-  updatedState = setCurrentData(updatedState, csid, data);
+  nextState = setBaselineData(nextState, csid, data);
+  nextState = setCurrentData(nextState, csid, data);
 
-  return updatedState;
+  return nextState;
 };
 
 const createNewRecord = (state, action) => {
@@ -235,9 +266,9 @@ const setFieldValue = (state, action) => {
 
   const newValue = action.payload;
   const updatedData = deepSet(data, path, newValue);
-  const updatedState = setCurrentData(state, csid, updatedData);
+  const nextState = setCurrentData(state, csid, updatedData);
 
-  return updatedState;
+  return nextState;
 };
 
 const handleFieldComputeFulfilled = (state, action) => {
@@ -257,9 +288,9 @@ const handleFieldComputeFulfilled = (state, action) => {
 
     const computedData = action.payload;
     const updatedData = data.mergeDeep(computedData);
-    const updatedState = setCurrentData(state, csid, updatedData);
+    const nextState = setCurrentData(state, csid, updatedData);
 
-    return updatedState;
+    return nextState;
   }
 
   // TODO: Handle an individual field being computed.
@@ -275,14 +306,14 @@ const handleRecordReadFulfilled = (state, action) => {
 
   const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(action.payload.data));
 
-  let updatedState = state
+  let nextState = state
     .deleteIn([csid, 'isReadPending'])
     .deleteIn([csid, 'error']);
 
-  updatedState = setBaselineData(updatedState, csid, data);
-  updatedState = setCurrentData(updatedState, csid, data);
+  nextState = setBaselineData(nextState, csid, data);
+  nextState = setCurrentData(nextState, csid, data);
 
-  return updatedState;
+  return nextState;
 };
 
 const handleRecordSaveFulfilled = (state, action) => {
@@ -294,21 +325,49 @@ const handleRecordSaveFulfilled = (state, action) => {
 
   const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(action.payload.data));
 
-  let updatedState = state;
+  let nextState = state;
 
-  updatedState = updatedState.deleteIn([csid, 'isSavePending']);
+  nextState = nextState.deleteIn([csid, 'isSavePending']);
 
-  updatedState = setBaselineData(updatedState, csid, data);
-  updatedState = setCurrentData(updatedState, csid, data);
+  nextState = setBaselineData(nextState, csid, data);
+  nextState = setCurrentData(nextState, csid, data);
 
   if (relatedSubjectCsid) {
-    updatedState = updatedState.setIn(
+    nextState = nextState.setIn(
       [relatedSubjectCsid, 'relationUpdatedTime'],
       getUpdatedTimestamp(data)
     );
   }
 
-  return updatedState;
+  // Remove all record state besides the record that was just saved, any of its subrecords, and any
+  // related record. This isn't strictly necessary, but it's a good time to expire record data,
+  // since other records may have fields computed from this record via service layer handlers.
+
+  let persistCsids = [
+    csid,
+    relatedSubjectCsid,
+    BASE_NEW_RECORD_KEY, // Don't clear unsaved record data
+  ];
+
+  const subrecord = nextState.getIn([csid, 'subrecord']);
+
+  if (subrecord) {
+    subrecord.valueSeq().forEach((subrecordCsid) => {
+      persistCsids.push(subrecordCsid);
+    });
+  }
+
+  persistCsids = new Set(persistCsids.filter(
+    value => (value !== null && typeof value !== 'undefined'))
+  );
+
+  nextState = clearFiltered(nextState, (recordState, candidateCsid) =>
+    !persistCsids.has(candidateCsid) &&
+    !candidateCsid.startsWith(`${BASE_NEW_RECORD_KEY}/`) && // Don't clear unsaved subrecord data
+    !recordState.get('isSavePending') // Don't clear records that are being saved
+  );
+
+  return nextState;
 };
 
 const revertRecord = (state, action) => {
@@ -319,15 +378,15 @@ const revertRecord = (state, action) => {
 
   const baselineData = getBaselineData(state, csid);
 
-  let updatedState = setCurrentData(state, csid, baselineData);
+  let nextState = setCurrentData(state, csid, baselineData);
 
   // Revert subrecords.
 
-  const subrecords = updatedState.getIn([csid, 'subrecord']);
+  const subrecords = nextState.getIn([csid, 'subrecord']);
 
   if (subrecords) {
     subrecords.forEach((subrecordCsid) => {
-      updatedState = revertRecord(updatedState, {
+      nextState = revertRecord(nextState, {
         meta: {
           csid: subrecordCsid,
         },
@@ -350,13 +409,13 @@ const revertRecord = (state, action) => {
       if (csidField) {
         const revertedSubrecordCsid = deepGet(baselineData, csidField);
 
-        updatedState = updatedState.setIn(
+        nextState = nextState.setIn(
           [csid, 'subrecord', subrecordName], revertedSubrecordCsid
         );
 
         // Revert the reattached subrecord.
 
-        updatedState = revertRecord(updatedState, {
+        nextState = revertRecord(nextState, {
           meta: {
             csid: revertedSubrecordCsid,
           },
@@ -365,7 +424,7 @@ const revertRecord = (state, action) => {
     });
   }
 
-  return updatedState;
+  return nextState;
 };
 
 const handleSubrecordCreated = (state, action) => {
@@ -377,7 +436,7 @@ const handleSubrecordCreated = (state, action) => {
     isDefault,
   } = action.meta;
 
-  let updatedState = state.setIn([csid, 'subrecord', subrecordName], subrecordCsid);
+  let nextState = state.setIn([csid, 'subrecord', subrecordName], subrecordCsid);
 
   if (csidField) {
     const currentData = getCurrentData(state, csid);
@@ -389,16 +448,16 @@ const handleSubrecordCreated = (state, action) => {
 
       const updatedData = deepSet(baselineData, csidField, subrecordCsid);
 
-      updatedState = setBaselineData(updatedState, csid, updatedData);
-      updatedState = setCurrentData(updatedState, csid, updatedData);
+      nextState = setBaselineData(nextState, csid, updatedData);
+      nextState = setCurrentData(nextState, csid, updatedData);
     } else {
       const updatedData = deepSet(currentData, csidField, subrecordCsid);
 
-      updatedState = setCurrentData(updatedState, csid, updatedData);
+      nextState = setCurrentData(nextState, csid, updatedData);
     }
   }
 
-  return updatedState;
+  return nextState;
 };
 
 const createNewSubrecord = (state, action) => {
@@ -412,11 +471,11 @@ const createNewSubrecord = (state, action) => {
     isDefault,
   } = action.meta;
 
-  let updatedState = doCreateNew(state, config, subrecordTypeConfig, cloneCsid, subrecordName);
+  let nextState = doCreateNew(state, config, subrecordTypeConfig, cloneCsid, subrecordName);
 
   const subrecordCsid = unsavedRecordKey(subrecordName);
 
-  updatedState = handleSubrecordCreated(updatedState, {
+  nextState = handleSubrecordCreated(nextState, {
     meta: {
       csid,
       csidField,
@@ -426,7 +485,7 @@ const createNewSubrecord = (state, action) => {
     },
   });
 
-  return updatedState;
+  return nextState;
 };
 
 const handleSubjectRelationsUpdated = (state, action) => {
@@ -461,9 +520,9 @@ const handleCreateIDFulfilled = (state, action) => {
 
   const newValue = action.payload.data;
   const updatedData = deepSet(data, path, newValue);
-  const updatedState = setCurrentData(state, csid, updatedData);
+  const nextState = setCurrentData(state, csid, updatedData);
 
-  return updatedState;
+  return nextState;
 };
 
 const handleValidationFailed = (state, action) => {
@@ -495,29 +554,29 @@ const handleTransitionFulfilled = (state, action) => {
     updatedTimestamp,
   } = action.meta;
 
-  let updatedState = state.deleteIn([csid, 'isSavePending']);
+  let nextState = state.deleteIn([csid, 'isSavePending']);
 
   if (transitionName === 'delete') {
-    updatedState = updatedState.delete(csid);
+    nextState = nextState.delete(csid);
   } else {
     const newData = get(action, ['payload', 'data']);
 
     if (newData) {
       const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(newData));
 
-      updatedState = setBaselineData(updatedState, csid, data);
-      updatedState = setCurrentData(updatedState, csid, data);
+      nextState = setBaselineData(nextState, csid, data);
+      nextState = setCurrentData(nextState, csid, data);
     }
   }
 
   if (relatedSubjectCsid) {
-    updatedState = updatedState.setIn(
+    nextState = nextState.setIn(
       [relatedSubjectCsid, 'relationUpdatedTime'],
       updatedTimestamp
     );
   }
 
-  return updatedState;
+  return nextState;
 };
 
 const handleDeleteFulfilled = (state, action) => {
@@ -527,41 +586,20 @@ const handleDeleteFulfilled = (state, action) => {
     updatedTimestamp,
   } = action.meta;
 
-  let updatedState = state.delete(csid);
+  let nextState = state.delete(csid);
 
   if (relatedSubjectCsid) {
-    updatedState = updatedState.setIn(
+    nextState = nextState.setIn(
       [relatedSubjectCsid, 'relationUpdatedTime'],
       updatedTimestamp
     );
   }
 
-  return updatedState;
+  return nextState;
 };
 
 const detachSubrecord = (state, action) =>
   createNewSubrecord(state, action);
-
-const clear = (state, csid) => {
-  const recordState = state.get(csid);
-
-  if (!recordState) {
-    return state;
-  }
-
-  let updatedState = state;
-
-  const subrecord = recordState.get('subrecord');
-
-  if (subrecord) {
-    updatedState = subrecord.reduce((reducedState, subrecordCsid) =>
-      clear(reducedState, subrecordCsid), updatedState);
-  }
-
-  return updatedState.delete(csid);
-};
-
-const clearAll = state => state.clear();
 
 const handleLoginFulfilled = (state, action) => {
   const {

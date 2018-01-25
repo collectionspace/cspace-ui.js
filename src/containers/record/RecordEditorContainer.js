@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import {
   closeModal,
   openModal,
+  removeNotification,
   removeValidationNotification,
 } from '../../actions/notification';
 
@@ -111,6 +112,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     transitionRecord: transitionName => dispatch(transitionRecord(
       config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
     )),
+    removeNotification: (notificationID) => {
+      dispatch(removeNotification(notificationID));
+    },
     removeValidationNotification: () => {
       dispatch(removeValidationNotification());
     },

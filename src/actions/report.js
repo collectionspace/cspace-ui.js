@@ -31,10 +31,12 @@ export const invoke = (config, csid, invocationDescriptor) => (dispatch) => {
       const notificationID = getNotificationID();
 
       dispatch(showNotification({
-        message: messages.error,
-        values: {
-          error: getErrorDescription(error),
-        },
+        items: [{
+          message: messages.error,
+          values: {
+            error: getErrorDescription(error),
+          },
+        }],
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
