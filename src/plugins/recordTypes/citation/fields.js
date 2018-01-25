@@ -212,7 +212,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.citations_common.termPrefForLang.name',
-                    defaultMessage: 'Preferred for language',
+                    defaultMessage: 'Preferred for lang',
                   },
                 }),
                 view: {

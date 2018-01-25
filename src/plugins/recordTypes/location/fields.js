@@ -206,7 +206,7 @@ export default (pluginContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.locations_common.termPrefForLang.name',
-                    defaultMessage: 'Preferred for language',
+                    defaultMessage: 'Preferred for lang',
                   },
                 }),
                 view: {
