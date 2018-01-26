@@ -243,6 +243,7 @@ export default class UsersPage extends Component {
             config={config}
             history={history}
             isFiltered={!!filterValue}
+            linkItems={false}
             listType="account"
             name="usersPage"
             searchDescriptor={searchDescriptor}

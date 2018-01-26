@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
+import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import mockHistory from '../../../helpers/mockHistory';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 
 const expect = chai.expect;
@@ -26,6 +26,15 @@ const config = {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
       getItemLocationPath: item => `itemLocation: ${item.get('csid')}`,
+    },
+    foo: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+    },
+    bar: {
+      listNodeName: 'ns2:abstract-common-list',
+      itemNodeName: 'list-item',
+      getItemLocationPath: () => null,
     },
   },
   recordTypes: {
@@ -116,20 +125,80 @@ describe('SearchResultTable', function suite() {
   });
 
   it('should render as a div', function test() {
-    render(<SearchResultTable config={config} />, this.container);
+    render(
+      <Router>
+        <SearchResultTable config={config} />
+      </Router>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
   it('should render the search result', function test() {
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
 
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(5);
+  });
+
+  it('should render a link for each result', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    this.container.querySelectorAll('a').length.should.equal(5);
+  });
+
+  it('should not render links when linkItems is false', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          linkItems={false}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    this.container.querySelectorAll('a').length.should.equal(0);
+  });
+
+  it('should not render links when the list type does not have a configured getItemLocationPath function', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          listType="foo"
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    this.container.querySelectorAll('a').length.should.equal(0);
+  });
+
+  it('should not render links when the list type getItemLocationPath function returns a blank path', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          listType="bar"
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    this.container.querySelectorAll('a').length.should.equal(0);
   });
 
   it('should not render when the search result contains no items', function test() {
@@ -143,11 +212,13 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={emptySearchResult}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={emptySearchResult}
+        />
+      </Router>, this.container);
 
     expect(this.container.querySelector('.cspace-layout-Table--normal')).to.equal(null);
   });
@@ -164,12 +235,14 @@ describe('SearchResultTable', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchResultTable
-          config={config}
-          isSearchPending
-          searchDescriptor={searchDescriptor}
-          searchResult={emptySearchResult}
-        />
+        <Router>
+          <SearchResultTable
+            config={config}
+            isSearchPending
+            searchDescriptor={searchDescriptor}
+            searchResult={emptySearchResult}
+          />
+        </Router>
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-ui-SearchResultEmpty--common').textContent.should
@@ -193,11 +266,13 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={singleSearchResult}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={singleSearchResult}
+        />
+      </Router>, this.container);
 
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(1);
   });
@@ -213,22 +288,26 @@ describe('SearchResultTable', function suite() {
     });
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={singleSearchResult}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={singleSearchResult}
+        />
+      </Router>, this.container);
 
     this.container.querySelectorAll('.ReactVirtualized__Table__headerRow').length.should.equal(1);
   });
 
   it('should render the sorted column header specified in the search descriptor', function test() {
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -244,12 +323,14 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        onSortChange={handleSortChange}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          onSortChange={handleSortChange}
+        />
+      </Router>, this.container);
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -270,12 +351,14 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        renderHeader={renderHeader}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          renderHeader={renderHeader}
+        />
+      </Router>, this.container);
 
     renderHeaderSearchResult.should.equal(searchResult);
 
@@ -294,12 +377,14 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        renderFooter={renderFooter}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          renderFooter={renderFooter}
+        />
+      </Router>, this.container);
 
     renderFooterSearchResult.should.equal(searchResult);
 
@@ -322,12 +407,14 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        formatCellData={formatCellData}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          formatCellData={formatCellData}
+        />
+      </Router>, this.container);
 
     Object.keys(formatCellDataCalls).length.should
       .equal(Object.keys(config.recordTypes.object.columns.default).length);
@@ -356,12 +443,14 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <SearchResultTable
-        config={config}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        formatColumnLabel={formatColumnLabel}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          formatColumnLabel={formatColumnLabel}
+        />
+      </Router>, this.container);
 
     Object.keys(formatColumnLabelCalls).length.should
       .equal(Object.keys(config.recordTypes.object.columns.default).length);
@@ -373,48 +462,7 @@ describe('SearchResultTable', function suite() {
     headers[2].textContent.should.equal('*updatedAt');
   });
 
-  it('should push the item location onto history when a row is clicked', function test() {
-    let pushedLocation = null;
-
-    const history = mockHistory({
-      push: (location) => {
-        pushedLocation = location;
-      },
-    });
-
-    render(
-      <SearchResultTable
-        config={config}
-        history={history}
-        searchName={searchName}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-      />, this.container);
-
-    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
-
-    Simulate.click(rows[3]);
-
-    const csid = searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3', 'csid']);
-
-    pushedLocation.should.deep.equal({
-      pathname: `itemLocation: ${csid}`,
-      state: {
-        searchName: 'searchResultPage',
-        searchDescriptor: searchDescriptor.toJS(),
-      },
-    });
-  });
-
   it('should call onItemClick when a row is clicked', function test() {
-    let pushedLocation = null;
-
-    const history = mockHistory({
-      push: (location) => {
-        pushedLocation = location;
-      },
-    });
-
     let clickedItem = null;
 
     const handleItemClick = (itemArg) => {
@@ -424,64 +472,20 @@ describe('SearchResultTable', function suite() {
     };
 
     render(
-      <SearchResultTable
-        config={config}
-        history={history}
-        searchName={searchName}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        onItemClick={handleItemClick}
-      />, this.container);
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          onItemClick={handleItemClick}
+        />
+      </Router>, this.container);
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 
     Simulate.click(rows[3]);
 
     clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
-
-    const csid = searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3', 'csid']);
-
-    pushedLocation.should.deep.equal({
-      pathname: `itemLocation: ${csid}`,
-      state: {
-        searchName: 'searchResultPage',
-        searchDescriptor: searchDescriptor.toJS(),
-      },
-    });
-  });
-
-  it('should not navigate to the item location if onItemClick returns false', function test() {
-    let pushedLocation = null;
-
-    const history = mockHistory({
-      push: (location) => {
-        pushedLocation = location;
-      },
-    });
-
-    let clickedItem = null;
-
-    const handleItemClick = (itemArg) => {
-      clickedItem = itemArg;
-
-      return false;
-    };
-
-    render(
-      <SearchResultTable
-        config={config}
-        history={history}
-        searchDescriptor={searchDescriptor}
-        searchResult={searchResult}
-        onItemClick={handleItemClick}
-      />, this.container);
-
-    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
-
-    Simulate.click(rows[3]);
-
-    clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
-
-    expect(pushedLocation).to.equal(null);
   });
 });

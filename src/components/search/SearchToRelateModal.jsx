@@ -46,8 +46,6 @@ const listType = 'common';
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
 
-const handleItemClick = () => false;
-
 const isSingleSubject = subjects => (Array.isArray(subjects) && subjects.length === 1);
 
 const propTypes = {
@@ -611,6 +609,7 @@ export class BaseSearchToRelateModal extends Component {
     return (
       <SearchResultTableContainer
         config={config}
+        linkItems={false}
         listType={listType}
         recordType={recordTypeValue}
         searchName={searchName}
@@ -619,7 +618,6 @@ export class BaseSearchToRelateModal extends Component {
         renderCheckbox={this.renderCheckbox}
         renderHeader={this.renderSearchResultTableHeader}
         renderFooter={this.renderSearchResultTableFooter}
-        onItemClick={handleItemClick}
         onSortChange={this.handleSortChange}
       />
     );

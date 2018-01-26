@@ -50,6 +50,7 @@ const propTypes = {
   config: PropTypes.object,
   csid: PropTypes.string,
   history: PropTypes.object,
+  linkItems: PropTypes.bool,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
@@ -65,6 +66,7 @@ const propTypes = {
   clearSelected: PropTypes.func,
   setAllItemsSelected: PropTypes.func,
   unrelateRecords: PropTypes.func,
+  getItemLocation: PropTypes.func,
   onItemClick: PropTypes.func,
   onItemSelectChange: PropTypes.func,
   onUnrelated: PropTypes.func,
@@ -280,6 +282,7 @@ export default class RelatedRecordPanel extends Component {
       config,
       csid,
       history,
+      linkItems,
       name,
       perms,
       recordData,
@@ -287,6 +290,7 @@ export default class RelatedRecordPanel extends Component {
       relatedRecordType,
       showCheckboxColumn,
       showAddButton,
+      getItemLocation,
       onItemClick,
     } = this.props;
 
@@ -326,6 +330,7 @@ export default class RelatedRecordPanel extends Component {
         config={config}
         csid={csid}
         history={history}
+        linkItems={linkItems}
         name={name}
         searchDescriptor={searchDescriptor}
         recordType={recordType}
@@ -334,6 +339,7 @@ export default class RelatedRecordPanel extends Component {
         showCheckboxColumn={showCheckboxColumn}
         renderCheckbox={renderCheckbox}
         renderTableHeader={this.renderTableHeader}
+        getItemLocation={getItemLocation}
         onItemClick={onItemClick}
         onSearchDescriptorChange={this.handleSearchDescriptorChange}
       />

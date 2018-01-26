@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 
 const rowHeight = 22;
+const rowLinkStyle = {};
 
 const messages = defineMessages({
   searchPending: {
@@ -34,8 +36,8 @@ const propTypes = {
   config: PropTypes.object.isRequired,
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
-  history: PropTypes.object,
   isSearchPending: PropTypes.bool,
+  linkItems: PropTypes.bool,
   listType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
@@ -45,6 +47,7 @@ const propTypes = {
   renderHeader: PropTypes.func,
   renderFooter: PropTypes.func,
   renderSelectBar: PropTypes.func,
+  getItemLocation: PropTypes.func,
   onItemClick: PropTypes.func,
   onSortChange: PropTypes.func,
 };
@@ -53,6 +56,7 @@ const defaultProps = {
   columnSetName: 'default',
   formatCellData: (column, data) => data,
   formatColumnLabel: column => get(column, ['messages', 'label', 'defaultMessage']),
+  linkItems: true,
   listType: 'common',
   renderHeader: () => null,
   renderFooter: () => null,
@@ -63,54 +67,64 @@ export default class SearchResultTable extends Component {
   constructor() {
     super();
 
+    this.getItemLocation = this.getItemLocation.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.renderNoItems = this.renderNoItems.bind(this);
+    this.renderRow = this.renderRow.bind(this);
     this.sort = this.sort.bind(this);
+  }
+
+  getItemLocation(item) {
+    const {
+      config,
+      listType,
+      searchDescriptor,
+    } = this.props;
+
+    const getItemLocationPath = get(config, ['listTypes', listType, 'getItemLocationPath']);
+
+    if (!getItemLocationPath) {
+      return undefined;
+    }
+
+    const itemContext = { config, searchDescriptor };
+    const itemLocationPath = getItemLocationPath(item, itemContext);
+
+    if (!itemLocationPath) {
+      return undefined;
+    }
+
+    // Create a location with the item location path, along with enough state to reproduce this
+    // search. The search descriptor is converted to an object in order to reliably store it in
+    // location state.
+
+    return {
+      pathname: itemLocationPath,
+      state: {
+        searchDescriptor: searchDescriptor.toJS(),
+        // The search traverser on records will always link to the search result page, so use
+        // its search name.
+        searchName: 'searchResultPage',
+      },
+    };
   }
 
   handleRowClick(index) {
     const {
       config,
-      history,
       listType,
-      searchDescriptor,
       searchResult,
       onItemClick,
     } = this.props;
 
-    if (searchResult && (history || onItemClick)) {
+    if (onItemClick) {
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
       const items = searchResult.getIn([listNodeName, itemNodeName]);
       const item = Immutable.List.isList(items) ? items.get(index) : items;
 
-      let performDefault = true;
-
-      if (onItemClick) {
-        performDefault = onItemClick(item);
-      }
-
-      if (performDefault) {
-        const itemContext = { config, searchDescriptor };
-        const itemLocationPath = listTypeConfig.getItemLocationPath(item, itemContext);
-
-        if (itemLocationPath) {
-          // Push the item location onto history, along with enough state to reproduce this search.
-          // The search descriptor is converted to an object in order to reliably store it in
-          // location state.
-
-          history.push({
-            pathname: itemLocationPath,
-            state: {
-              searchDescriptor: searchDescriptor.toJS(),
-              // The search traverser on records will always link to the search result page, so use
-              // its search name.
-              searchName: 'searchResultPage',
-            },
-          });
-        }
-      }
+      onItemClick(item);
     }
   }
 
@@ -120,7 +134,7 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     if (onSortChange) {
-      onSortChange(sortBy + (sortDirection === Table.SORT_DESC ? ' desc' : ''));
+      onSortChange(sortBy + (sortDirection === Table.SortDirection.DESC ? ' desc' : ''));
     }
   }
 
@@ -134,12 +148,41 @@ export default class SearchResultTable extends Component {
     return <div className={emptyResultStyles.common}>{message}</div>;
   }
 
+  renderRow(params) {
+    const {
+      getItemLocation,
+    } = this.props;
+
+    const {
+      key,
+      rowData,
+    } = params;
+
+    const locationGetter = getItemLocation || this.getItemLocation;
+    const location = locationGetter(rowData);
+
+    if (!location) {
+      return Table.defaultRowRenderer(params);
+    }
+
+    const innerParams = Object.assign({}, params);
+
+    delete innerParams.key;
+
+    return (
+      <Link key={key} to={location} style={rowLinkStyle}>
+        {Table.defaultRowRenderer(innerParams)}
+      </Link>
+    );
+  }
+
   renderTable() {
     const {
       columnSetName,
       config,
       formatCellData,
       formatColumnLabel,
+      linkItems,
       listType,
       searchDescriptor,
       searchResult,
@@ -246,8 +289,9 @@ export default class SearchResultTable extends Component {
             renderCheckbox={renderCheckbox}
             sort={this.sort}
             sortBy={sortColumnName}
-            sortDirection={sortDir === 'desc' ? Table.SORT_DESC : Table.SORT_ASC}
+            sortDirection={sortDir === 'desc' ? Table.SortDirection.DESC : Table.SortDirection.ASC}
             noRowsRenderer={this.renderNoItems}
+            rowRenderer={linkItems ? this.renderRow : undefined}
           />
         </div>
       );

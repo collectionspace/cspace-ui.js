@@ -192,6 +192,7 @@ export default class RecordBatchPanel extends Component {
           color={color}
           config={config}
           csid={csid}
+          linkItems={false}
           name="recordBatchPanel"
           searchDescriptor={searchDescriptor}
           recordType={recordType}

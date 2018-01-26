@@ -124,6 +124,7 @@ export default class TermsPage extends Component {
           <SearchPanelContainer
             config={config}
             history={history}
+            linkItems={false}
             name="termsPage"
             searchDescriptor={searchDescriptor}
             title={title}

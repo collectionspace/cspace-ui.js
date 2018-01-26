@@ -37,6 +37,7 @@ const propTypes = {
   config: PropTypes.object,
   history: PropTypes.object,
   isFiltered: PropTypes.bool,
+  linkItems: PropTypes.bool,
   name: PropTypes.string,
   recordType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -50,6 +51,7 @@ const propTypes = {
   renderTableHeader: PropTypes.func,
   search: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
+  getItemLocation: PropTypes.func,
   onItemClick: PropTypes.func,
   onSearchDescriptorChange: PropTypes.func,
 };
@@ -335,6 +337,7 @@ export default class SearchPanel extends Component {
       columnSetName,
       config,
       history,
+      linkItems,
       listType,
       name,
       recordType,
@@ -343,6 +346,7 @@ export default class SearchPanel extends Component {
       showCheckboxColumn,
       renderCheckbox,
       renderTableHeader,
+      getItemLocation,
       onItemClick,
     } = this.props;
 
@@ -395,6 +399,7 @@ export default class SearchPanel extends Component {
             columnSetName={columnSetName}
             config={config}
             history={history}
+            linkItems={linkItems}
             listType={listType}
             recordType={recordType}
             searchName={name}
@@ -403,6 +408,7 @@ export default class SearchPanel extends Component {
             renderCheckbox={renderCheckbox}
             renderHeader={renderTableHeader}
             renderFooter={this.renderFooter}
+            getItemLocation={getItemLocation}
             onItemClick={onItemClick}
             onSortChange={this.handleSortChange}
           />

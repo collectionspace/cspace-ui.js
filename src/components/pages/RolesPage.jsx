@@ -183,6 +183,7 @@ export default class RolesPage extends Component {
           <SearchPanelContainer
             config={config}
             history={history}
+            linkItems={false}
             listType="role"
             name="rolesPage"
             searchDescriptor={searchDescriptor}

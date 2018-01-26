@@ -157,6 +157,7 @@ export default class RecordReportPanel extends Component {
           color={color}
           config={config}
           csid={csid}
+          linkItems={false}
           name="recordReportPanel"
           searchDescriptor={searchDescriptor}
           recordType={recordType}

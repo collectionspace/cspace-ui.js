@@ -345,6 +345,7 @@ export default class RelatedRecordBrowser extends Component {
           collapsed={false}
           csid={csid}
           config={config}
+          linkItems={false}
           name={this.getRelatedRecordPanelName()}
           perms={perms}
           recordType={recordType}
