@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
@@ -14,6 +16,7 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import TermsPage from '../../../../src/components/pages/TermsPage';
+import { OP_CONTAIN } from '../../../../src/constants/searchOperators';
 
 const expect = chai.expect;
 
@@ -228,45 +231,197 @@ describe('TermsPage', function suite() {
     expect(replacedLocation).to.equal(null);
   });
 
-  // it('should update the search descriptor when the search bar value changes', function test() {
-  //   const location = {
-  //     search: '',
-  //   };
+  it('should update the search descriptor when the search bar value changes', function test() {
+    const location = {
+      search: '',
+    };
 
-  //   const match = {
-  //     params: {},
-  //   };
+    const match = {
+      params: {},
+    };
 
-  //   const shallowRenderer = createRenderer();
+    const shallowRenderer = createRenderer();
 
-  //   shallowRenderer.render(
-  //     <UsersPage
-  //       location={location}
-  //       match={match}
-  //       perms={null}
-  //     />, context);
+    shallowRenderer.render(
+      <TermsPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
 
-  //   let result;
-  //   let searchPanel;
+    let result;
+    let searchPanel;
 
-  //   result = shallowRenderer.getRenderOutput();
-  //   searchPanel = findWithType(result, SearchPanelContainer);
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
 
-  //   searchPanel.should.not.equal(null);
+    searchPanel.should.not.equal(null);
 
-  //   const searchBar = searchPanel.props.renderTableHeader();
+    const searchBar = searchPanel.props.renderTableHeader();
 
-  //   searchBar.props.onChange('searchval');
+    searchBar.props.onChange('searchval');
 
-  //   result = shallowRenderer.getRenderOutput();
-  //   searchPanel = findWithType(result, SearchPanelContainer);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
 
-  //   searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-  //     recordType: 'account',
-  //     searchQuery: {
-  //       sn: 'searchval',
-  //       size: 20,
-  //     },
-  //   }));
-  // });
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'vocabulary',
+          searchQuery: {
+            p: 0,
+            size: 20,
+            as: {
+              value: 'searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:vocabularies_common/displayName',
+            },
+          },
+        }));
+
+        resolve();
+      }, 600);
+    });
+  });
+
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <TermsPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        searchBar.props.onChange('another searchval');
+
+        resolve();
+      }, 200);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'vocabulary',
+          searchQuery: {
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }))
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'vocabulary',
+          searchQuery: {
+            p: 0,
+            size: 20,
+            as: {
+              value: 'another searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:vocabularies_common/displayName',
+            },
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }));
+  });
+
+  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <TermsPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'vocabulary',
+          searchQuery: {
+            p: 0,
+            size: 20,
+            as: {
+              value: 'searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:vocabularies_common/displayName',
+            },
+          },
+        }));
+
+        searchBar.props.onChange('');
+
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'vocabulary',
+          searchQuery: {
+            size: 20,
+            p: 0,
+          },
+        }));
+
+        resolve();
+      }, 600);
+    });
+  });
 });

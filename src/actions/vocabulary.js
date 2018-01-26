@@ -23,6 +23,7 @@ export const readVocabularyItems = vocabularyName => (dispatch, getState) => {
     params: {
       pgSz: '0',
       wf_deleted: false,
+      sortBy: 'vocabularyitems_common:order, vocabularyitems_common:displayName',
     },
   };
 

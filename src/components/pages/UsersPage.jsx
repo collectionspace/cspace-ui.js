@@ -31,7 +31,6 @@ const contextTypes = {
 };
 
 const recordType = 'account';
-const screenNameSearchDescriptorPath = ['searchQuery', 'sn'];
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
@@ -95,12 +94,20 @@ export default class UsersPage extends Component {
       searchDescriptor,
     } = this.state;
 
-    const updatedSearchDescriptor = value
-      ? searchDescriptor.setIn(screenNameSearchDescriptorPath, value)
-      : searchDescriptor.deleteIn(screenNameSearchDescriptorPath);
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('sn', value);
+    } else {
+      updatedSearchQuery = searchQuery.delete('sn');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
 
     this.setState({
-      searchDescriptor: updatedSearchDescriptor,
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
     });
   }
 
@@ -179,7 +186,7 @@ export default class UsersPage extends Component {
       searchDescriptor,
     } = this.state;
 
-    const filterValue = searchDescriptor.getIn(screenNameSearchDescriptorPath);
+    const filterValue = searchDescriptor.getIn(['searchQuery', 'sn']);
 
     return (
       <UserSearchBar value={filterValue} onChange={this.handleSearchBarChange} />
@@ -212,7 +219,7 @@ export default class UsersPage extends Component {
     const cloneCsid = query.clone;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-    const filterValue = searchDescriptor.getIn(screenNameSearchDescriptorPath);
+    const filterValue = searchDescriptor.getIn(['searchQuery', 'sn']);
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;

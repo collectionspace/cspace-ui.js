@@ -31,19 +31,4 @@ describe('DateInputContainer', function suite() {
     result.type.should.equal(DateInput);
     result.props.locale.should.equal(intl.locale);
   });
-
-  it('should set DateInput labels using intl.formatMessage', function test() {
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <IntlAwareDateInput intl={intl} />);
-
-    const result = shallowRenderer.getRenderOutput();
-
-    result.type.should.equal(DateInput);
-    result.props.todayButtonLabel.should.equal('formatted field.date.today');
-    result.props.clearButtonLabel.should.equal('formatted field.date.clear');
-    result.props.okButtonLabel.should.equal('formatted field.date.ok');
-    result.props.cancelButtonLabel.should.equal('formatted field.date.cancel');
-  });
 });

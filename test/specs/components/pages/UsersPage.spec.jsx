@@ -423,6 +423,7 @@ describe('UsersPage', function suite() {
           recordType: 'account',
           searchQuery: {
             sn: 'searchval',
+            p: 0,
             size: 20,
           },
         }));
@@ -493,6 +494,7 @@ describe('UsersPage', function suite() {
           recordType: 'account',
           searchQuery: {
             sn: 'another searchval',
+            p: 0,
             size: 20,
           },
         }));
@@ -541,6 +543,7 @@ describe('UsersPage', function suite() {
           recordType: 'account',
           searchQuery: {
             sn: 'searchval',
+            p: 0,
             size: 20,
           },
         }));
@@ -553,6 +556,7 @@ describe('UsersPage', function suite() {
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
           recordType: 'account',
           searchQuery: {
+            p: 0,
             size: 20,
           },
         }));

@@ -1,4 +1,3 @@
-import Immutable from 'immutable';
 import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
@@ -84,24 +83,6 @@ export default (pluginContext) => {
       },
       'ns2:abstract-common-list': {
         [config]: {
-          compute: (data) => {
-            if (!data) {
-              return data;
-            }
-
-            let terms = data.get('list-item');
-
-            if (!terms) {
-              return data;
-            }
-
-            if (!Immutable.List.isList(terms)) {
-              terms = Immutable.List.of(terms);
-            }
-
-            return data.set('list-item', terms.map((term, index) =>
-              term.set('order', index.toString().padStart(4, '0'))));
-          },
           service: {
             ns: 'http://collectionspace.org/services/jaxb',
           },
@@ -122,6 +103,9 @@ export default (pluginContext) => {
               type: CompoundInput,
               props: {
                 tabular: true,
+                sortableFields: {
+                  displayName: true,
+                },
               },
             },
           },

@@ -8,13 +8,13 @@ const { LineInput, MiniButton } = inputComponents;
 
 const messages = defineMessages({
   filter: {
-    id: 'userSearchBar.filter',
-    description: 'Label of the input on the search bar of the users admin page.',
-    defaultMessage: 'Filter by full name',
+    id: 'vocabularySearchBarSearchBar.filter',
+    description: 'Label of the input on the search bar of the vocabulary (term list) admin page.',
+    defaultMessage: 'Filter by name',
   },
   clear: {
-    id: 'userSearchBar.clear',
-    description: 'Label of the clear button on the search bar of the users admin page.',
+    id: 'vocabularySearchBar.clear',
+    description: 'Label of the clear button on the search bar of the vocabulary (term list) admin page.',
     defaultMessage: 'Clear',
   },
 });
@@ -28,7 +28,7 @@ const contextTypes = {
   intl: intlShape,
 };
 
-export default class UserSearchBar extends Component {
+export default class VocabularySearchBar extends Component {
   constructor() {
     super();
 
@@ -85,5 +85,5 @@ export default class UserSearchBar extends Component {
   }
 }
 
-UserSearchBar.propTypes = propTypes;
-UserSearchBar.contextTypes = contextTypes;
+VocabularySearchBar.propTypes = propTypes;
+VocabularySearchBar.contextTypes = contextTypes;

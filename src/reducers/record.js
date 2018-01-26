@@ -48,6 +48,7 @@ import {
   RECORD_TRANSITION_FULFILLED,
   RECORD_TRANSITION_REJECTED,
   REVERT_RECORD,
+  SORT_FIELD_INSTANCES,
   SUBRECORD_CREATED,
   SUBRECORD_READ_FULFILLED,
   VALIDATION_FAILED,
@@ -129,6 +130,37 @@ const addFieldInstance = (state, action) => {
     : list.insert(position, defaultData);
 
   const updatedData = deepSet(data, path, updatedList);
+
+  return setCurrentData(state, csid, updatedData);
+};
+
+const sortFieldInstances = (state, action) => {
+  const {
+    csid,
+    path,
+    byField,
+    // recordTypeConfig,
+  } = action.meta;
+
+  const data = getCurrentData(state, csid);
+
+  if (!data) {
+    return state;
+  }
+
+  const value = deepGet(data, path);
+  const list = Immutable.List.isList(value) ? value : Immutable.List.of(value);
+
+  // TODO: Check for a custom sort comparator function in field config.
+  // For now just use the default.
+
+  const comparator = undefined;
+
+  const sortedList = byField
+    ? list.sortBy(item => item.get(byField), comparator)
+    : list.sort(comparator);
+
+  const updatedData = deepSet(data, path, sortedList);
 
   return setCurrentData(state, csid, updatedData);
 };
@@ -698,6 +730,8 @@ export default (state = Immutable.Map(), action) => {
       return handleLoginFulfilled(state, action);
     case LOGOUT_FULFILLED:
       return clearAll(state);
+    case SORT_FIELD_INSTANCES:
+      return sortFieldInstances(state, action);
     default:
       return state;
   }

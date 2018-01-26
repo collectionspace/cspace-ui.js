@@ -1,18 +1,28 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
+import { OP_CONTAIN } from '../../constants/searchOperators';
+import VocabularyUsedByPanelContainer from '../../containers/admin/VocabularyUsedByPanelContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canRead, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
+import VocabularySearchBar from '../admin/VocabularySearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
+  filterDelay: PropTypes.number,
   setAdminTab: PropTypes.func,
+};
+
+const defaultProps = {
+  filterDelay: 500,
 };
 
 const contextTypes = {
@@ -34,6 +44,8 @@ export default class TermsPage extends Component {
 
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
+    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+    this.renderSearchBar = this.renderSearchBar.bind(this);
 
     this.state = {
       searchDescriptor: getSearchDescriptor(),
@@ -48,6 +60,33 @@ export default class TermsPage extends Component {
     if (setAdminTab) {
       setAdminTab(recordType);
     }
+  }
+
+  filter(value) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+        value,
+        op: OP_CONTAIN,
+        path: 'ns2:vocabularies_common/displayName',
+      }));
+    } else {
+      updatedSearchQuery = searchQuery.delete('as');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
+
+    this.setState({
+      filterValue: value,
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
+    });
   }
 
   handleItemClick(item) {
@@ -67,10 +106,41 @@ export default class TermsPage extends Component {
     return false;
   }
 
+  handleSearchBarChange(value) {
+    if (this.filterTimer) {
+      window.clearTimeout(this.filterTimer);
+
+      this.filterTimer = null;
+    }
+
+    if (value) {
+      const {
+        filterDelay,
+      } = this.props;
+
+      this.filterTimer = window.setTimeout(() => {
+        this.filter(value);
+        this.filterTimer = null;
+      }, filterDelay);
+    } else {
+      this.filter(value);
+    }
+  }
+
   handleSearchDescriptorChange(searchDescriptor) {
     this.setState({
       searchDescriptor,
     });
+  }
+
+  renderSearchBar() {
+    const {
+      filterValue,
+    } = this.state;
+
+    return (
+      <VocabularySearchBar value={filterValue} onChange={this.handleSearchBarChange} />
+    );
   }
 
   render() {
@@ -85,6 +155,7 @@ export default class TermsPage extends Component {
     } = this.props;
 
     const {
+      filterValue,
       searchDescriptor,
     } = this.state;
 
@@ -98,24 +169,34 @@ export default class TermsPage extends Component {
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;
+    let usedBy;
 
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
       // Don't allow creating or deleting.
 
-      let filteredPerms = perms;
+      let restrictedPerms = perms;
 
-      filteredPerms = disallowCreate(recordType, filteredPerms);
-      filteredPerms = disallowDelete(recordType, filteredPerms);
-      filteredPerms = disallowSoftDelete(recordType, filteredPerms);
+      restrictedPerms = disallowCreate(recordType, restrictedPerms);
+      restrictedPerms = disallowDelete(recordType, restrictedPerms);
+      restrictedPerms = disallowSoftDelete(recordType, restrictedPerms);
 
       recordEditor = (
         <RecordEditorContainer
           config={config}
           csid={normalizedCsid}
           recordType={recordType}
-          perms={filteredPerms}
+          perms={restrictedPerms}
         />
       );
+
+      if (normalizedCsid) {
+        usedBy = (
+          <VocabularyUsedByPanelContainer
+            config={config}
+            csid={normalizedCsid}
+          />
+        );
+      }
     }
 
     return (
@@ -124,21 +205,27 @@ export default class TermsPage extends Component {
           <SearchPanelContainer
             config={config}
             history={history}
+            isFiltered={!!filterValue}
             linkItems={false}
             name="termsPage"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}
             showSearchButton={false}
+            renderTableHeader={this.renderSearchBar}
             onItemClick={this.handleItemClick}
             onSearchDescriptorChange={this.handleSearchDescriptorChange}
           />
         </div>
-        {recordEditor}
+        <div>
+          {recordEditor}
+          {usedBy}
+        </div>
       </div>
     );
   }
 }
 
 TermsPage.propTypes = propTypes;
+TermsPage.defaultProps = defaultProps;
 TermsPage.contextTypes = contextTypes;

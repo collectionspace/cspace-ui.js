@@ -3,13 +3,13 @@
   background-color: white;
 }
 
-.common > div {
+.common > div:first-child {
   width: 30%;
   margin: 10px 10px 10px 0;
   background-color: rgb(250, 250, 250);
   padding-right: 1px;
 }
 
-.common > :global(.cspace-ui-RecordEditor--common) {
+.common :global(.cspace-ui-RecordEditor--common) {
   padding-right: 0;
 }

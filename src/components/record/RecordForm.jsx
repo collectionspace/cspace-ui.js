@@ -44,6 +44,7 @@ const propTypes = {
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
+  onSortInstances: PropTypes.func,
 };
 
 const defaultProps = {
@@ -97,6 +98,7 @@ export default class RecordForm extends Component {
       onCommit,
       onMoveInstance,
       onRemoveInstance,
+      onSortInstances,
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -114,6 +116,7 @@ export default class RecordForm extends Component {
     const handlers = {
       onAddInstance,
       onCommit,
+      onSortInstances,
       onMoveInstance,
       onRemoveInstance,
     };
