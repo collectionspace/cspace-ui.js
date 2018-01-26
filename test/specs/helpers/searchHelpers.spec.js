@@ -570,13 +570,13 @@ describe('searchHelpers', function moduleSuite() {
       valueToNXQL(false, DATA_TYPE_BOOL).should.equal('0');
     });
 
-    it('should convert datetime typed values to quoted strings with preceded by \'TIMESTAMP\'', function test() {
-      valueToNXQL('2017-03-08T17:04:34.000Z', DATA_TYPE_DATETIME).should.equal('TIMESTAMP "2017-03-08T17:04:34.000"');
+    it('should convert datetime typed values to quoted strings preceded by \'TIMESTAMP\'', function test() {
+      valueToNXQL('2017-03-08T17:04:34.000Z', DATA_TYPE_DATETIME).should.equal('TIMESTAMP "2017-03-08T17:04:34.000Z"');
     });
 
-    it('should convert datetime typed values to the given time zone', function test() {
-      valueToNXQL('2017-03-08T17:04:34.000Z', DATA_TYPE_DATETIME, 'America/New_York').should
-        .equal('TIMESTAMP "2017-03-08T12:04:34.000"');
+    it('should convert datetime typed values to UTC', function test() {
+      valueToNXQL('2017-03-08T17:04:34.000-08:00', DATA_TYPE_DATETIME).should
+        .equal('TIMESTAMP "2017-03-09T01:04:34.000Z"');
     });
   });
 

@@ -121,21 +121,6 @@ recordTypes: RecordTypeMap = defaultRecordTypes
 ```
 An object containing definitions of the record types that are known to the UI. See the [record type configuration](./RecordTypeConfiguration.md) documentation for details. All record types required by the core application are defined by default.
 
-### serverTimeZone
-```
-serverTimeZone: string = 'UTC'
-```
-The time zone of the server specified in `serverUrl`, as a [time zone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). This must be set to the correct time zone in order for searches on date fields to work properly. For example:
-
-```JavaScript
-cspaceUI({
-  serverUrl: 'https://nightly.collectionspace.org',
-
-  // nightly.collectionspace.org is on east coast time
-  serverTimeZone: 'America/New_York',
-});
-```
-
 ### serverUrl
 ```
 serverUrl: string = ''

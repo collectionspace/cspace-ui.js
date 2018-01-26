@@ -166,9 +166,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       return Promise.resolve();
     }
 
-    const nxql = advancedSearchConditionToNXQL(
-      recordTypeConfig.fields, searchQuery.get('as'), config.serverTimeZone
-    );
+    const nxql = advancedSearchConditionToNXQL(recordTypeConfig.fields, searchQuery.get('as'));
 
     const requestConfig = {
       params: {

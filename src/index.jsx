@@ -32,7 +32,6 @@ const defaultConfig = mergeConfig({
   messages: undefined,
   prettyUrls: false,
   serverUrl: '',
-  serverTimeZone: 'UTC',
   showTermListStateIcon: false,
   tenantId: '1',
   termDeprecationEnabled: false,

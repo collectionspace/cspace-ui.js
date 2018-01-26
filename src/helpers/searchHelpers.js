@@ -1,6 +1,5 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import moment from 'moment-timezone';
 import qs from 'qs';
 
 import {
@@ -228,13 +227,13 @@ export const pathToNXQL = (fieldDescriptor, path) => {
 
 export const operatorToNXQL = operator => operatorToNXQLMap[operator];
 
-export const valueToNXQL = (value, dataType = DATA_TYPE_STRING, timeZone = 'UTC') => {
+export const valueToNXQL = (value, dataType = DATA_TYPE_STRING) => {
   let nxqlValue;
 
   if (dataType === DATA_TYPE_DATETIME) {
-    // Timestamp values in searches must be given in the server's time zone.
+    // Timestamp values in searches must be given in UTC.
 
-    nxqlValue = moment(value, moment.ISO_8601).tz(timeZone).format('YYYY-MM-DDTHH:mm:ss.SSS');
+    nxqlValue = (new Date(Date.parse(value))).toISOString();
 
     return `TIMESTAMP "${nxqlValue}"`;
   }
@@ -252,7 +251,7 @@ export const valueToNXQL = (value, dataType = DATA_TYPE_STRING, timeZone = 'UTC'
   return JSON.stringify(nxqlValue);
 };
 
-export const booleanConditionToNXQL = (fieldDescriptor, condition, serverTimeZone) => {
+export const booleanConditionToNXQL = (fieldDescriptor, condition) => {
   const operator = condition.get('op');
   const nxqlOp = operatorToNXQL(operator);
 
@@ -264,7 +263,7 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition, serverTimeZon
         .map(childCondition =>
           /* Gotta do this mutual recursion */
           /* eslint-disable no-use-before-define */
-          advancedSearchConditionToNXQL(fieldDescriptor, childCondition, serverTimeZone))
+          advancedSearchConditionToNXQL(fieldDescriptor, childCondition))
           /* eslint-enable no-use-before-define */
         .join(` ${nxqlOp} `);
 
@@ -274,7 +273,7 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition, serverTimeZon
   return '';
 };
 
-export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone) => {
+export const rangeFieldConditionToNXQL = (fieldDescriptor, condition) => {
   const path = condition.get('path');
   const operator = condition.get('op');
   const dataType = getDataType(fieldDescriptor, path);
@@ -288,13 +287,13 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, serverTime
 
   const nxqlValue =
     [startValue, endValue]
-      .map(value => valueToNXQL(value, dataType, serverTimeZone))
+      .map(value => valueToNXQL(value, dataType))
       .join(' AND ');
 
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
 
-export const fieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone) => {
+export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
   const path = condition.get('path');
   const dataType = getDataType(fieldDescriptor, path);
 
@@ -305,7 +304,7 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone)
     // Expand or'ed values.
 
     return value.map(valueInstance =>
-      fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance), serverTimeZone)
+      fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance))
     ).join(' OR ');
   }
 
@@ -316,23 +315,23 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, serverTimeZone)
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
   const nxqlOp = operatorToNXQL(operator);
-  const nxqlValue = valueToNXQL(value, dataType, serverTimeZone);
+  const nxqlValue = valueToNXQL(value, dataType);
 
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
 
-export const advancedSearchConditionToNXQL = (fieldDescriptor, condition, serverTimeZone) => {
+export const advancedSearchConditionToNXQL = (fieldDescriptor, condition) => {
   if (condition) {
     const operator = condition.get('op');
 
     switch (operator) {
       case OP_AND:
       case OP_OR:
-        return booleanConditionToNXQL(fieldDescriptor, condition, serverTimeZone);
+        return booleanConditionToNXQL(fieldDescriptor, condition);
       case OP_RANGE:
-        return rangeFieldConditionToNXQL(fieldDescriptor, condition, serverTimeZone);
+        return rangeFieldConditionToNXQL(fieldDescriptor, condition);
       default:
-        return fieldConditionToNXQL(fieldDescriptor, condition, serverTimeZone);
+        return fieldConditionToNXQL(fieldDescriptor, condition);
     }
   }
 
