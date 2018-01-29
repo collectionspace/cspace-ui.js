@@ -1,9 +1,11 @@
 import columns from './columns';
 import fields from './fields';
 import forms from './forms';
+import normalizeRecordData from './normalizeRecordData';
 import optionLists from './optionLists';
 import messages from './messages';
 import prepareForSending from './prepareForSending';
+import requestConfig from './requestConfig';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
@@ -12,9 +14,11 @@ export default () => pluginContext => ({
   recordTypes: {
     vocabulary: {
       messages,
+      normalizeRecordData,
       prepareForSending,
+      requestConfig,
       serviceConfig,
-      columns: columns(),
+      columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
       title: title(pluginContext),

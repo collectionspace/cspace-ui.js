@@ -57,6 +57,7 @@ import {
   RECORD_TRANSITION_STARTED,
   RECORD_TRANSITION_FULFILLED,
   RECORD_TRANSITION_REJECTED,
+  SORT_FIELD_INSTANCES,
   SUBRECORD_CREATED,
   SUBRECORD_READ_FULFILLED,
   REVERT_RECORD,
@@ -78,6 +79,7 @@ import {
   revertRecord,
   transitionRecord,
   addFieldInstance,
+  sortFieldInstances,
   deleteFieldValue,
   moveFieldValue,
   setFieldValue,
@@ -2540,6 +2542,58 @@ describe('record action creator', function suite() {
               csid,
               path,
               position,
+              recordTypeConfig,
+            },
+          });
+
+          actions[1].should.deep.equal({
+            type: VALIDATION_PASSED,
+            meta: {
+              csid,
+              path: [],
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: REMOVE_NOTIFICATION,
+            meta: {
+              notificationID: NOTIFICATION_ID_VALIDATION,
+            },
+          });
+
+          resolve();
+        }, 0);
+      });
+    });
+  });
+
+  describe('sortFieldInstances', function actionSuite() {
+    const mockStore = configureMockStore([thunk]);
+
+    it('should create a SORT_FIELD_INSTANCES action', function test() {
+      const store = mockStore({
+        record: Immutable.Map(),
+      });
+
+      const csid = '1234';
+      const path = ['path', 'to', 'a', 'field'];
+      const byField = 'subfield';
+      const recordTypeConfig = {};
+
+      store.dispatch(sortFieldInstances(recordTypeConfig, csid, path, byField));
+
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: SORT_FIELD_INSTANCES,
+            meta: {
+              csid,
+              path,
+              byField,
               recordTypeConfig,
             },
           });

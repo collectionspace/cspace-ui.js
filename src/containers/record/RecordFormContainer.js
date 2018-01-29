@@ -6,6 +6,7 @@ import {
   moveFieldValue,
   setFieldValue,
   deleteFieldValue,
+  sortFieldInstances,
 } from '../../actions/record';
 
 import RecordForm from '../../components/record/RecordForm';
@@ -31,6 +32,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onRemoveInstance: (path) => {
       dispatch(deleteFieldValue(recordTypeConfig, csid, path));
+    },
+    onSortInstances: (path, byField) => {
+      dispatch(sortFieldInstances(recordTypeConfig, csid, path, byField));
     },
   };
 };

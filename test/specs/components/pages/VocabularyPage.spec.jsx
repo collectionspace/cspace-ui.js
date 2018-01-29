@@ -13,10 +13,10 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
-import UsersPage from '../../../../src/components/pages/UsersPage';
+import VocabularyPage from '../../../../src/components/pages/VocabularyPage';
+import { OP_CONTAIN } from '../../../../src/constants/searchOperators';
 
 const expect = chai.expect;
 
@@ -27,13 +27,13 @@ const mockStore = configureMockStore([thunk]);
 
 const config = {
   listTypes: {
-    role: {
+    common: {
       listNodeName: 'ns3:accounts-common-list',
       itemNodeName: 'account-list-item',
     },
   },
   recordTypes: {
-    account: {
+    vocabulary: {
       fields: {},
       forms: {
         default: {
@@ -43,8 +43,8 @@ const config = {
       messages: {
         record: {
           collectionName: {
-            id: 'record.account.collectionName',
-            defaultMessage: 'Users',
+            id: 'record.vocabulary.collectionName',
+            defaultMessage: 'Term Lists',
           },
         },
       },
@@ -63,7 +63,7 @@ const store = mockStore({
 });
 
 const perms = Immutable.fromJS({
-  account: {
+  vocabulary: {
     data: 'CRUDL',
   },
 });
@@ -73,7 +73,7 @@ const context = {
   store,
 };
 
-describe('UsersPage', function suite() {
+describe('VocabularyPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -92,7 +92,7 @@ describe('UsersPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <UsersPage location={location} match={match} />
+              <VocabularyPage location={location} match={match} />
             </Router>
           </ConfigProvider>
         </StoreProvider>
@@ -121,13 +121,13 @@ describe('UsersPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <UsersPage location={location} match={match} setAdminTab={setAdminTab} />
+              <VocabularyPage location={location} match={match} setAdminTab={setAdminTab} />
             </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    setTabName.should.equal('account');
+    setTabName.should.equal('vocabulary');
   });
 
   it('should render a record editor when a csid param exists in the match', function test() {
@@ -146,166 +146,13 @@ describe('UsersPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <UsersPage location={location} match={match} />, context);
+      <VocabularyPage location={location} match={match} />, context);
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
 
     recordEditor.should.not.equal(null);
     recordEditor.props.csid.should.equal(csid);
-  });
-
-  it('should replace history with a new location to clone a record', function test() {
-    const location = {
-      search: '',
-    };
-
-    const csid = '1234';
-
-    const match = {
-      params: {
-        csid,
-      },
-    };
-
-    let replacedLocation = null;
-
-    const history = {
-      replace: (locationArg) => {
-        replacedLocation = locationArg;
-      },
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <UsersPage
-        history={history}
-        location={location}
-        match={match}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-    const recordEditor = findWithType(result, RecordEditorContainer);
-
-    recordEditor.should.not.equal(null);
-    recordEditor.props.clone();
-
-    replacedLocation.should.deep.equal({
-      pathname: '/admin/account/new',
-      search: `?clone=${csid}`,
-    });
-  });
-
-  it('should replace history with a new location when the create new button is clicked', function test() {
-    const location = {
-      search: '',
-    };
-
-    const match = {
-      params: {},
-    };
-
-    let replacedLocation = null;
-
-    const history = {
-      replace: (locationArg) => {
-        replacedLocation = locationArg;
-      },
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <UsersPage
-        history={history}
-        location={location}
-        match={match}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-    const buttonBar = findWithType(result, AdminTabButtonBar);
-
-    buttonBar.should.not.equal(null);
-    buttonBar.props.onCreateButtonClick();
-
-    replacedLocation.should.equal('/admin/account/new');
-  });
-
-  it('should replace history with a new location when a record is created', function test() {
-    const location = {
-      search: '',
-    };
-
-    const match = {
-      params: {
-        csid: 'new',
-      },
-    };
-
-    let replacedLocation = null;
-
-    const history = {
-      replace: (locationArg) => {
-        replacedLocation = locationArg;
-      },
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <UsersPage
-        history={history}
-        location={location}
-        match={match}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-    const recordEditor = findWithType(result, RecordEditorContainer);
-
-    const newRecordCsid = 'abcd';
-
-    recordEditor.should.not.equal(null);
-    recordEditor.props.onRecordCreated(newRecordCsid);
-
-    replacedLocation.should.equal(`/admin/account/${newRecordCsid}`);
-  });
-
-  it('should replace history with a new location when a user deletion completes', function test() {
-    const location = {
-      search: '',
-    };
-
-    const match = {
-      params: {
-        csid: '1234',
-      },
-    };
-
-    let replacedLocation = null;
-
-    const history = {
-      replace: (locationArg) => {
-        replacedLocation = locationArg;
-      },
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <UsersPage
-        history={history}
-        location={location}
-        match={match}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-    const recordEditor = findWithType(result, RecordEditorContainer);
-
-    recordEditor.should.not.equal(null);
-    recordEditor.props.onRecordDeleted();
-
-    replacedLocation.should.equal('/admin/account');
   });
 
   it('should replace history with a new location when an item is clicked in the search panel', function test() {
@@ -328,7 +175,7 @@ describe('UsersPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <UsersPage
+      <VocabularyPage
         history={history}
         location={location}
         match={match}
@@ -343,10 +190,10 @@ describe('UsersPage', function suite() {
     searchPanel.should.not.equal(null);
     searchPanel.props.onItemClick(Immutable.Map({ csid: itemCsid })).should.equal(false);
 
-    replacedLocation.should.equal(`/admin/account/${itemCsid}`);
+    replacedLocation.should.equal(`/admin/vocabulary/${itemCsid}`);
   });
 
-  it('should not replace history when an item is clicked in the search panel but there are not read permissions on accounts', function test() {
+  it('should not replace history when an item is clicked in the search panel but there are not read permissions on vocabularies', function test() {
     const location = {
       search: '',
     };
@@ -366,7 +213,7 @@ describe('UsersPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <UsersPage
+      <VocabularyPage
         history={history}
         location={location}
         match={match}
@@ -396,7 +243,7 @@ describe('UsersPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <UsersPage
+      <VocabularyPage
         location={location}
         match={match}
         perms={null}
@@ -420,10 +267,15 @@ describe('UsersPage', function suite() {
         searchPanel = findWithType(result, SearchPanelContainer);
 
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'account',
+          recordType: 'vocabulary',
           searchQuery: {
-            sn: 'searchval',
+            p: 0,
             size: 20,
+            as: {
+              value: 'searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:vocabularies_common/displayName',
+            },
           },
         }));
 
@@ -444,7 +296,7 @@ describe('UsersPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <UsersPage
+      <VocabularyPage
         location={location}
         match={match}
         perms={null}
@@ -475,7 +327,7 @@ describe('UsersPage', function suite() {
         searchPanel = findWithType(result, SearchPanelContainer);
 
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'account',
+          recordType: 'vocabulary',
           searchQuery: {
             size: 20,
           },
@@ -490,10 +342,15 @@ describe('UsersPage', function suite() {
         searchPanel = findWithType(result, SearchPanelContainer);
 
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'account',
+          recordType: 'vocabulary',
           searchQuery: {
-            sn: 'another searchval',
+            p: 0,
             size: 20,
+            as: {
+              value: 'another searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:vocabularies_common/displayName',
+            },
           },
         }));
 
@@ -514,7 +371,7 @@ describe('UsersPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <UsersPage
+      <VocabularyPage
         location={location}
         match={match}
         perms={null}
@@ -538,10 +395,15 @@ describe('UsersPage', function suite() {
         searchPanel = findWithType(result, SearchPanelContainer);
 
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'account',
+          recordType: 'vocabulary',
           searchQuery: {
-            sn: 'searchval',
+            p: 0,
             size: 20,
+            as: {
+              value: 'searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:vocabularies_common/displayName',
+            },
           },
         }));
 
@@ -551,9 +413,10 @@ describe('UsersPage', function suite() {
         searchPanel = findWithType(result, SearchPanelContainer);
 
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'account',
+          recordType: 'vocabulary',
           searchQuery: {
             size: 20,
+            p: 0,
           },
         }));
 

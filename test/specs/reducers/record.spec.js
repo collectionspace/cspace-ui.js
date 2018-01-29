@@ -37,6 +37,7 @@ import {
   SUBRECORD_READ_FULFILLED,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
+  SORT_FIELD_INSTANCES,
 } from '../../../src/actions/record';
 
 import {
@@ -174,6 +175,104 @@ describe('record reducer', function suite() {
     }));
 
     isModified(state, csid).should.equal(true);
+  });
+
+  context('on SORT_FIELD_INSTANCES', function context() {
+    const csid = '1234';
+
+    const data = Immutable.fromJS({
+      foo: {
+        bar: [
+          'Oakland',
+          'Berkeley',
+          'San Francisco',
+        ],
+      },
+      placeList: [
+        { name: 'United States', type: 'country' },
+        { name: 'California', type: 'state' },
+        { name: 'Alameda', type: 'city' },
+      ],
+    });
+
+    const initialState = Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: data,
+        },
+      },
+    });
+
+    it('should sort the list', function test() {
+      const state = reducer(initialState, {
+        type: SORT_FIELD_INSTANCES,
+        meta: {
+          csid,
+          path: ['foo', 'bar'],
+        },
+      });
+
+      getData(state, csid).should.equal(Immutable.fromJS({
+        foo: {
+          bar: [
+            'Berkeley',
+            'Oakland',
+            'San Francisco',
+          ],
+        },
+        placeList: [
+          { name: 'United States', type: 'country' },
+          { name: 'California', type: 'state' },
+          { name: 'Alameda', type: 'city' },
+        ],
+      }));
+    });
+
+    it('should sort the list by the specified subfield', function test() {
+      const state = reducer(initialState, {
+        type: SORT_FIELD_INSTANCES,
+        meta: {
+          csid,
+          path: ['placeList'],
+          byField: 'name',
+        },
+      });
+
+      getData(state, csid).should.equal(Immutable.fromJS({
+        foo: {
+          bar: [
+            'Oakland',
+            'Berkeley',
+            'San Francisco',
+          ],
+        },
+        placeList: [
+          { name: 'Alameda', type: 'city' },
+          { name: 'California', type: 'state' },
+          { name: 'United States', type: 'country' },
+        ],
+      }));
+    });
+
+    it('should not change state if there is no data', function test() {
+      const noDataInitialState = Immutable.fromJS({
+        [csid]: {
+          data: {},
+        },
+      });
+
+      const state = reducer(noDataInitialState, {
+        type: SORT_FIELD_INSTANCES,
+        meta: {
+          csid,
+          path: ['placeList'],
+          byField: 'name',
+        },
+      });
+
+      state.should.equal(noDataInitialState);
+    });
   });
 
   it('should handle CREATE_NEW_RECORD', function test() {

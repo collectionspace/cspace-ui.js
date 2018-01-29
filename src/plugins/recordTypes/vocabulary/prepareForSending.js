@@ -9,7 +9,17 @@ export default (data) => {
   }
 
   const updatedTerms = terms.filter(term => !!term).map((term, index) =>
-    term.set('order', index.toString().padStart(4, '0')));
+    term.set('order', index.toString().padStart(4, '0'))
+      // Remove fields that the services layer would ignore anyway.
+      .delete('rev')
+      .delete('sas')
+      .delete('proposed')
+      .delete('uri')
+      .delete('updatedAt')
+      .delete('workflowState')
+      .delete('refName')
+      .delete('deprecated')
+  );
 
   if (updatedTerms.size === 0) {
     return data.deleteIn(termsPath);

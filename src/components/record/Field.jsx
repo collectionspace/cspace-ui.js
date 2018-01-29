@@ -66,6 +66,7 @@ const propTypes = {
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
+  onSortInstances: PropTypes.func,
   /* eslint-enable react/no-unused-prop-types */
 };
 

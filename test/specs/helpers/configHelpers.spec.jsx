@@ -5,6 +5,7 @@ import {
   configKey,
   dataPathToFieldDescriptorPath,
   findFieldConfigInPart,
+  findVocabularyUses,
   getDefaults,
   getDefaultValue,
   getFieldCustomValidator,
@@ -1097,6 +1098,94 @@ describe('configHelpers', function moduleSuite() {
       };
 
       expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_MAP);
+    });
+  });
+
+  describe('findVocabularyUses', function suite() {
+    const shortId = 'shortId';
+
+    const config = {
+      recordTypes: {
+        group: {
+          name: 'group',
+          fields: {
+            field1: {
+              [configKey]: {
+                messages: {
+                  name: 'field1',
+                },
+                view: {
+                  props: {
+                    source: shortId,
+                  },
+                },
+              },
+            },
+            field2: {
+              [configKey]: {
+                view: {},
+              },
+            },
+          },
+        },
+        intake: {
+          name: 'intake',
+          fields: {
+            field3: {
+              field4: {
+                [configKey]: {
+                  messages: {
+                    name: 'field3/field4',
+                  },
+                  view: {
+                    props: {
+                      source: shortId,
+                    },
+                  },
+                },
+              },
+            },
+            field5: {
+              [configKey]: {
+                view: {},
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should find fields in config using the given shortId as a source', function test() {
+      findVocabularyUses(config, shortId).should.deep.equal({
+        group: [
+          {
+            messages: {
+              name: 'field1',
+            },
+            view: {
+              props: {
+                source: shortId,
+              },
+            },
+          },
+        ],
+        intake: [
+          {
+            messages: {
+              name: 'field3/field4',
+            },
+            view: {
+              props: {
+                source: shortId,
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    it('should return null if no short id is supplied', function test() {
+      expect(findVocabularyUses(config, undefined)).to.equal(null);
     });
   });
 });

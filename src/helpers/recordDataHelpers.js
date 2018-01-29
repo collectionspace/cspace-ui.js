@@ -161,8 +161,15 @@ export const normalizeFieldValue = (fieldDescriptor, fieldValue, expandRepeating
   return normalizedValue;
 };
 
-export const normalizeRecordData = (recordTypeConfig, data) =>
-  normalizeFieldValue(recordTypeConfig.fields, data);
+export const normalizeRecordData = (recordTypeConfig, data) => {
+  let normalizedData = normalizeFieldValue(recordTypeConfig.fields, data);
+
+  if (recordTypeConfig.normalizeRecordData) {
+    normalizedData = recordTypeConfig.normalizeRecordData(data);
+  }
+
+  return normalizedData;
+};
 
 /**
  * Create a blank data record for a given CollectionSpace record type.
@@ -857,3 +864,4 @@ export const isRecordImmutable = data => (
   isRecordReplicated(data) ||
   isSecurityRecordImmutable(data)
 );
+

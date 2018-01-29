@@ -1,6 +1,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 import mergeWith from 'lodash/mergeWith';
+import flatMap from 'lodash/flatMap';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import warning from 'warning';
@@ -614,4 +615,42 @@ export const findFieldConfigInPart = (recordTypeConfig, partName, fieldName) => 
   }
 
   return (fieldDescriptor ? fieldDescriptor[configKey] : null);
+};
+
+const findFieldsWithSource = (fieldDescriptor, shortId) => {
+  const fieldsWithSource = flatMap(Object.keys(fieldDescriptor).filter(key => key !== configKey),
+    childFieldName =>
+      findFieldsWithSource(fieldDescriptor[childFieldName], shortId)
+    );
+
+  const fieldConfig = fieldDescriptor[configKey];
+  const source = get(fieldConfig, ['view', 'props', 'source']);
+
+  if (source === shortId) {
+    fieldsWithSource.push(fieldConfig);
+  }
+
+  return fieldsWithSource;
+};
+
+export const findVocabularyUses = (config, shortId) => {
+  if (!shortId) {
+    return null;
+  }
+
+  const uses = {};
+
+  Object.values(config.recordTypes).forEach((recordTypeConfig) => {
+    const fieldDescriptor = recordTypeConfig.fields;
+
+    if (fieldDescriptor) {
+      const fields = findFieldsWithSource(recordTypeConfig.fields, shortId);
+
+      if (fields.length > 0) {
+        uses[recordTypeConfig.name] = fields;
+      }
+    }
+  });
+
+  return uses;
 };

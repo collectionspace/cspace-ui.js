@@ -4,7 +4,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { IntlProvider } from 'react-intl';
+import { addLocaleData, IntlProvider } from 'react-intl';
+import en from 'react-intl/locale-data/en';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
 import logoUrl from '../images/collectionspace.svg';
@@ -27,7 +28,7 @@ const defaultConfig = mergeConfig({
   className: '',
   container: '#cspace',
   index: '/search',
-  locale: 'en',
+  locale: 'en-US',
   logo: logoUrl,
   messages: undefined,
   prettyUrls: false,
@@ -56,6 +57,8 @@ module.exports = (uiConfig) => {
   if (mountNode) {
     warning(mountNode !== document.body,
       `The container element for the CollectionSpace UI found using the selector '${container}' is the document body. This may cause problems, and is not supported.`);
+
+    addLocaleData([...en]);
 
     const intlProvider = new IntlProvider({
       locale: config.locale,

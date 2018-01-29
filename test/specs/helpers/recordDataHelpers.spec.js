@@ -2800,6 +2800,22 @@ describe('recordDataHelpers', function moduleSuite() {
           },
         }));
     });
+
+    it('should call the configured record normalizer for the record type', function test() {
+      const recordTypeConfig = {
+        normalizeRecordData: () => Immutable.Map({
+          foo: 'bar',
+        }),
+        fields: {},
+      };
+
+      const data = Immutable.Map();
+
+      normalizeRecordData(recordTypeConfig, data).should
+        .equal(Immutable.fromJS({
+          foo: 'bar',
+        }));
+    });
   });
 
   describe('getWorkflowState', function suite() {

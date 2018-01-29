@@ -186,6 +186,7 @@ export const RECORD_TRANSITION_STARTED = 'RECORD_TRANSITION_STARTED';
 export const RECORD_TRANSITION_FULFILLED = 'RECORD_TRANSITION_FULFILLED';
 export const RECORD_TRANSITION_REJECTED = 'RECORD_TRANSITION_REJECTED';
 export const ADD_FIELD_INSTANCE = 'ADD_FIELD_INSTANCE';
+export const SORT_FIELD_INSTANCES = 'SORT_FIELD_INSTANCES';
 export const DELETE_FIELD_VALUE = 'DELETE_FIELD_VALUE';
 export const MOVE_FIELD_VALUE = 'MOVE_FIELD_VALUE';
 export const SET_FIELD_VALUE = 'SET_FIELD_VALUE';
@@ -884,6 +885,21 @@ export const addFieldInstance = (recordTypeConfig, csid, path, position) => (dis
       csid,
       path,
       position,
+      recordTypeConfig,
+    },
+  });
+
+  return dispatch(computeRecordData(recordTypeConfig, csid))
+    .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
+};
+
+export const sortFieldInstances = (recordTypeConfig, csid, path, byField) => (dispatch) => {
+  dispatch({
+    type: SORT_FIELD_INSTANCES,
+    meta: {
+      csid,
+      path,
+      byField,
       recordTypeConfig,
     },
   });

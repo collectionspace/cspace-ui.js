@@ -57,7 +57,7 @@ export default class App extends Component {
     }
 
     return (
-      <IntlProvider locale={locale} messages={messages}>
+      <IntlProvider locale={locale} defaultLocale="en-US" messages={messages}>
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router basename={basename} getUserConfirmation={this.showConfirmNavigationModal}>

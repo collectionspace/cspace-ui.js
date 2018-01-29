@@ -11,6 +11,7 @@ import {
   DELETE_FIELD_VALUE,
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
+  SORT_FIELD_INSTANCES,
 } from '../../../../src/actions/record';
 
 chai.should();
@@ -63,6 +64,7 @@ describe('RecordFormContainer', function suite() {
     result.props.should.have.property('onCommit').that.is.a('function');
     result.props.should.have.property('onMoveInstance').that.is.a('function');
     result.props.should.have.property('onRemoveInstance').that.is.a('function');
+    result.props.should.have.property('onSortInstances').that.is.a('function');
   });
 
   it('should connect onAddInstance to addFieldInstance action creator', function test() {
@@ -150,5 +152,27 @@ describe('RecordFormContainer', function suite() {
     action.should.have.property('type', DELETE_FIELD_VALUE);
     action.should.have.deep.property('meta.csid', csid);
     action.should.have.deep.property('meta.path', path);
+  });
+
+  it('should connect onSortInstances to sortInstances action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordFormContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.onSortInstances(path, 'byField');
+
+    const action = store.getActions()[0];
+
+    action.should.have.property('type', SORT_FIELD_INSTANCES);
+    action.should.have.deep.property('meta.csid', csid);
+    action.should.have.deep.property('meta.path', path);
+    action.should.have.deep.property('meta.byField', 'byField');
   });
 });
