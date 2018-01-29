@@ -15,7 +15,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
-import TermsPage from '../../../../src/components/pages/TermsPage';
+import VocabularyPage from '../../../../src/components/pages/VocabularyPage';
 import { OP_CONTAIN } from '../../../../src/constants/searchOperators';
 
 const expect = chai.expect;
@@ -73,7 +73,7 @@ const context = {
   store,
 };
 
-describe('TermsPage', function suite() {
+describe('VocabularyPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -92,7 +92,7 @@ describe('TermsPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <TermsPage location={location} match={match} />
+              <VocabularyPage location={location} match={match} />
             </Router>
           </ConfigProvider>
         </StoreProvider>
@@ -121,7 +121,7 @@ describe('TermsPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <TermsPage location={location} match={match} setAdminTab={setAdminTab} />
+              <VocabularyPage location={location} match={match} setAdminTab={setAdminTab} />
             </Router>
           </ConfigProvider>
         </StoreProvider>
@@ -146,7 +146,7 @@ describe('TermsPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermsPage location={location} match={match} />, context);
+      <VocabularyPage location={location} match={match} />, context);
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -175,7 +175,7 @@ describe('TermsPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermsPage
+      <VocabularyPage
         history={history}
         location={location}
         match={match}
@@ -213,7 +213,7 @@ describe('TermsPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermsPage
+      <VocabularyPage
         history={history}
         location={location}
         match={match}
@@ -243,7 +243,7 @@ describe('TermsPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermsPage
+      <VocabularyPage
         location={location}
         match={match}
         perms={null}
@@ -296,7 +296,7 @@ describe('TermsPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermsPage
+      <VocabularyPage
         location={location}
         match={match}
         perms={null}
@@ -371,7 +371,7 @@ describe('TermsPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermsPage
+      <VocabularyPage
         location={location}
         match={match}
         perms={null}

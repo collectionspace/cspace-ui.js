@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import TermsPage from '../../components/pages/TermsPage';
+import AccountPage from '../../components/pages/AccountPage';
 
 import {
   setAdminTab,
@@ -20,4 +20,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TermsPage);
+)(AccountPage);

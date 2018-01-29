@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -8,6 +10,7 @@ import RecordEditorContainer from '../../containers/record/RecordEditorContainer
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canCreate, canRead } from '../../helpers/permissionHelpers';
 import AdminTabButtonBar from '../admin/AdminTabButtonBar';
+import AccountSearchBar from '../admin/AccountSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
@@ -15,14 +18,19 @@ const propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
+  filterDelay: PropTypes.number,
   setAdminTab: PropTypes.func,
+};
+
+const defaultProps = {
+  filterDelay: 500,
 };
 
 const contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const recordType = 'authrole';
+const recordType = 'account';
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
@@ -31,7 +39,7 @@ const getSearchDescriptor = () => Immutable.fromJS({
   },
 });
 
-export default class RolesPage extends Component {
+export default class AccountPage extends Component {
   constructor() {
     super();
 
@@ -41,6 +49,8 @@ export default class RolesPage extends Component {
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
     this.handleRecordDeleted = this.handleRecordDeleted.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
+    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+    this.renderSearchBar = this.renderSearchBar.bind(this);
 
     this.state = {
       searchDescriptor: getSearchDescriptor(),
@@ -79,12 +89,55 @@ export default class RolesPage extends Component {
     });
   }
 
+  filter(value) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('sn', value);
+    } else {
+      updatedSearchQuery = searchQuery.delete('sn');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
+
+    this.setState({
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
+    });
+  }
+
   handleCreateButtonClick() {
     const {
       history,
     } = this.props;
 
     history.replace(`/admin/${recordType}/new`);
+  }
+
+  handleSearchBarChange(value) {
+    if (this.filterTimer) {
+      window.clearTimeout(this.filterTimer);
+
+      this.filterTimer = null;
+    }
+
+    if (value) {
+      const {
+        filterDelay,
+      } = this.props;
+
+      this.filterTimer = window.setTimeout(() => {
+        this.filter(value);
+        this.filterTimer = null;
+      }, filterDelay);
+    } else {
+      this.filter(value);
+    }
   }
 
   handleItemClick(item) {
@@ -94,7 +147,7 @@ export default class RolesPage extends Component {
     } = this.props;
 
     if (canRead(recordType, perms)) {
-      const csid = item.get('@csid');
+      const csid = item.get('csid');
 
       history.replace(`/admin/${recordType}/${csid}`);
     }
@@ -128,6 +181,18 @@ export default class RolesPage extends Component {
     });
   }
 
+  renderSearchBar() {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const filterValue = searchDescriptor.getIn(['searchQuery', 'sn']);
+
+    return (
+      <AccountSearchBar value={filterValue} onChange={this.handleSearchBarChange} />
+    );
+  }
+
   render() {
     const {
       config,
@@ -154,6 +219,7 @@ export default class RolesPage extends Component {
     const cloneCsid = query.clone;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
+    const filterValue = searchDescriptor.getIn(['searchQuery', 'sn']);
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;
@@ -183,13 +249,15 @@ export default class RolesPage extends Component {
           <SearchPanelContainer
             config={config}
             history={history}
+            isFiltered={!!filterValue}
             linkItems={false}
-            listType="role"
-            name="rolesPage"
+            listType="account"
+            name="accountPage"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}
             showSearchButton={false}
+            renderTableHeader={this.renderSearchBar}
             onItemClick={this.handleItemClick}
             onSearchDescriptorChange={this.handleSearchDescriptorChange}
           />
@@ -200,5 +268,6 @@ export default class RolesPage extends Component {
   }
 }
 
-RolesPage.propTypes = propTypes;
-RolesPage.contextTypes = contextTypes;
+AccountPage.propTypes = propTypes;
+AccountPage.defaultProps = defaultProps;
+AccountPage.contextTypes = contextTypes;

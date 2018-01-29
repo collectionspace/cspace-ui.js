@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Redirect, Route, Switch } from 'react-router';
 import Immutable from 'immutable';
-import TermsPageContainer from '../../containers/pages/TermsPageContainer';
-import UsersPageContainer from '../../containers/pages/UsersPageContainer';
-import RolesPageContainer from '../../containers/pages/RolesPageContainer';
+import VocabularyPageContainer from '../../containers/pages/VocabularyPageContainer';
+import AccountPageContainer from '../../containers/pages/AccountPageContainer';
+import AuthRolePageContainer from '../../containers/pages/AuthRolePageContainer';
 import AdminNavBar from '../admin/AdminNavBar';
 import TitleBar from '../sections/TitleBar';
 import { canList } from '../../helpers/permissionHelpers';
@@ -56,9 +56,9 @@ export default function AdminPage(props) {
       <Switch>
         <Redirect exact path={basename} to={`${basename}/${redirectTabName}`} />
 
-        <Route path={`${basename}/vocabulary/:csid?`} component={TermsPageContainer} />
-        <Route path={`${basename}/account/:csid?`} component={UsersPageContainer} />
-        <Route path={`${basename}/authrole/:csid?`} component={RolesPageContainer} />
+        <Route path={`${basename}/vocabulary/:csid?`} component={VocabularyPageContainer} />
+        <Route path={`${basename}/account/:csid?`} component={AccountPageContainer} />
+        <Route path={`${basename}/authrole/:csid?`} component={AuthRolePageContainer} />
       </Switch>
     </div>
   );

@@ -3,11 +3,11 @@ import { Simulate } from 'react-dom/test-utils';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import UserSearchBar from '../../../../src/components/admin/UserSearchBar';
+import AccountSearchBar from '../../../../src/components/admin/AccountSearchBar';
 
 chai.should();
 
-describe('UserSearchBar', function suite() {
+describe('AccountSearchBar', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -15,7 +15,7 @@ describe('UserSearchBar', function suite() {
   it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
-        <UserSearchBar />
+        <AccountSearchBar />
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -26,7 +26,7 @@ describe('UserSearchBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <UserSearchBar value={value} />
+        <AccountSearchBar value={value} />
       </IntlProvider>, this.container);
 
     this.container.querySelector('input[type="text"').value.should.equal(value);
@@ -41,7 +41,7 @@ describe('UserSearchBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <UserSearchBar onChange={handleChange} />
+        <AccountSearchBar onChange={handleChange} />
       </IntlProvider>, this.container);
 
     const input = this.container.querySelector('input[type="text"');
@@ -63,7 +63,7 @@ describe('UserSearchBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <UserSearchBar onChange={handleChange} value="some value" />
+        <AccountSearchBar onChange={handleChange} value="some value" />
       </IntlProvider>, this.container);
 
     const clearButton = this.container.querySelector('button');

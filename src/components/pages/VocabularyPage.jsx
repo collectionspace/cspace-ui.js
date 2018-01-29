@@ -5,17 +5,16 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
-import qs from 'qs';
+import { OP_CONTAIN } from '../../constants/searchOperators';
+import VocabularyUsedByPanelContainer from '../../containers/admin/VocabularyUsedByPanelContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { canCreate, canRead } from '../../helpers/permissionHelpers';
-import AdminTabButtonBar from '../admin/AdminTabButtonBar';
-import UserSearchBar from '../admin/UserSearchBar';
+import { canRead, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
+import VocabularySearchBar from '../admin/VocabularySearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
   history: PropTypes.object,
-  location: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
@@ -30,7 +29,7 @@ const contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const recordType = 'account';
+const recordType = 'vocabulary';
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
@@ -39,15 +38,11 @@ const getSearchDescriptor = () => Immutable.fromJS({
   },
 });
 
-export default class UsersPage extends Component {
+export default class VocabularyPage extends Component {
   constructor() {
     super();
 
-    this.cloneRecord = this.cloneRecord.bind(this);
-    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
-    this.handleRecordCreated = this.handleRecordCreated.bind(this);
-    this.handleRecordDeleted = this.handleRecordDeleted.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
@@ -67,28 +62,6 @@ export default class UsersPage extends Component {
     }
   }
 
-  cloneRecord() {
-    const {
-      history,
-      match,
-    } = this.props;
-
-    const {
-      csid,
-    } = match.params;
-
-    const query = {
-      clone: csid,
-    };
-
-    const queryString = qs.stringify(query);
-
-    history.replace({
-      pathname: `/admin/${recordType}/new`,
-      search: `?${queryString}`,
-    });
-  }
-
   filter(value) {
     const {
       searchDescriptor,
@@ -99,24 +72,38 @@ export default class UsersPage extends Component {
     let updatedSearchQuery;
 
     if (value) {
-      updatedSearchQuery = searchQuery.set('sn', value);
+      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+        value,
+        op: OP_CONTAIN,
+        path: 'ns2:vocabularies_common/displayName',
+      }));
     } else {
-      updatedSearchQuery = searchQuery.delete('sn');
+      updatedSearchQuery = searchQuery.delete('as');
     }
 
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
 
     this.setState({
+      filterValue: value,
       searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
     });
   }
 
-  handleCreateButtonClick() {
+  handleItemClick(item) {
     const {
       history,
+      perms,
     } = this.props;
 
-    history.replace(`/admin/${recordType}/new`);
+    if (canRead(recordType, perms)) {
+      const csid = item.get('csid');
+
+      history.replace(`/admin/${recordType}/${csid}`);
+    }
+
+    // Prevent the default action.
+
+    return false;
   }
 
   handleSearchBarChange(value) {
@@ -140,41 +127,6 @@ export default class UsersPage extends Component {
     }
   }
 
-  handleItemClick(item) {
-    const {
-      history,
-      perms,
-    } = this.props;
-
-    if (canRead(recordType, perms)) {
-      const csid = item.get('csid');
-
-      history.replace(`/admin/${recordType}/${csid}`);
-    }
-
-    // Prevent the default action.
-
-    return false;
-  }
-
-  handleRecordCreated(newRecordCsid, isNavigating) {
-    if (!isNavigating) {
-      const {
-        history,
-      } = this.props;
-
-      history.replace(`/admin/${recordType}/${newRecordCsid}`);
-    }
-  }
-
-  handleRecordDeleted() {
-    const {
-      history,
-    } = this.props;
-
-    history.replace(`/admin/${recordType}`);
-  }
-
   handleSearchDescriptorChange(searchDescriptor) {
     this.setState({
       searchDescriptor,
@@ -183,13 +135,11 @@ export default class UsersPage extends Component {
 
   renderSearchBar() {
     const {
-      searchDescriptor,
+      filterValue,
     } = this.state;
 
-    const filterValue = searchDescriptor.getIn(['searchQuery', 'sn']);
-
     return (
-      <UserSearchBar value={filterValue} onChange={this.handleSearchBarChange} />
+      <VocabularySearchBar value={filterValue} onChange={this.handleSearchBarChange} />
     );
   }
 
@@ -200,12 +150,12 @@ export default class UsersPage extends Component {
 
     const {
       history,
-      location,
       match,
       perms,
     } = this.props;
 
     const {
+      filterValue,
       searchDescriptor,
     } = this.state;
 
@@ -213,46 +163,51 @@ export default class UsersPage extends Component {
       csid,
     } = match.params;
 
-    const query = qs.parse(location.search.substring(1));
-
     const normalizedCsid = (csid === 'new') ? '' : csid;
-    const cloneCsid = query.clone;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-    const filterValue = searchDescriptor.getIn(['searchQuery', 'sn']);
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;
+    let usedBy;
 
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
+      // Don't allow creating or deleting.
+
+      let restrictedPerms = perms;
+
+      restrictedPerms = disallowCreate(recordType, restrictedPerms);
+      restrictedPerms = disallowDelete(recordType, restrictedPerms);
+      restrictedPerms = disallowSoftDelete(recordType, restrictedPerms);
+
       recordEditor = (
         <RecordEditorContainer
-          cloneCsid={cloneCsid}
           config={config}
           csid={normalizedCsid}
           recordType={recordType}
-          isHardDelete
-          onRecordCreated={this.handleRecordCreated}
-          onRecordDeleted={this.handleRecordDeleted}
-          clone={this.cloneRecord}
+          perms={restrictedPerms}
         />
       );
+
+      if (normalizedCsid) {
+        usedBy = (
+          <VocabularyUsedByPanelContainer
+            config={config}
+            csid={normalizedCsid}
+          />
+        );
+      }
     }
 
     return (
       <div className={styles.common}>
         <div>
-          <AdminTabButtonBar
-            isCreatable={canCreate(recordType, perms)}
-            onCreateButtonClick={this.handleCreateButtonClick}
-          />
           <SearchPanelContainer
             config={config}
             history={history}
             isFiltered={!!filterValue}
             linkItems={false}
-            listType="account"
-            name="usersPage"
+            name="vocabularyPage"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}
@@ -262,12 +217,15 @@ export default class UsersPage extends Component {
             onSearchDescriptorChange={this.handleSearchDescriptorChange}
           />
         </div>
-        {recordEditor}
+        <div>
+          {recordEditor}
+          {usedBy}
+        </div>
       </div>
     );
   }
 }
 
-UsersPage.propTypes = propTypes;
-UsersPage.defaultProps = defaultProps;
-UsersPage.contextTypes = contextTypes;
+VocabularyPage.propTypes = propTypes;
+VocabularyPage.defaultProps = defaultProps;
+VocabularyPage.contextTypes = contextTypes;
