@@ -158,6 +158,10 @@ export default (pluginContext) => {
             termFlag: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.taxon_common.termFlag.fullName',
+                    defaultMessage: 'Term flag',
+                  },
                   name: {
                     id: 'field.taxon_common.termFlag.name',
                     defaultMessage: 'Flag',
@@ -203,6 +207,10 @@ export default (pluginContext) => {
             termLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.taxon_common.termLanguage.fullName',
+                    defaultMessage: 'Term language',
+                  },
                   name: {
                     id: 'field.taxon_common.termLanguage.name',
                     defaultMessage: 'Language',
@@ -505,13 +513,13 @@ export default (pluginContext) => {
             commonName: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.taxon_common.commonName.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.taxon_common.commonName.fullName',
                     defaultMessage: 'Common name',
+                  },
+                  name: {
+                    id: 'field.taxon_common.commonName.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -522,6 +530,10 @@ export default (pluginContext) => {
             commonNameLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.taxon_common.commonNameLanguage.fullName',
+                    defaultMessage: 'Common name language',
+                  },
                   name: {
                     id: 'field.taxon_common.commonNameLanguage.name',
                     defaultMessage: 'Language',

@@ -517,6 +517,10 @@ export default (pluginContext) => {
             currentLocationFitness: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.currentLocationFitness.fullName',
+                    defaultMessage: 'Current location fitness',
+                  },
                   name: {
                     id: 'field.intakes_common.currentLocationFitness.name',
                     defaultMessage: 'Fitness',

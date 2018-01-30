@@ -158,6 +158,10 @@ export default (pluginContext) => {
             termFlag: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termFlag.fullName',
+                    defaultMessage: 'Term flag',
+                  },
                   name: {
                     id: 'field.concepts_common.termFlag.name',
                     defaultMessage: 'Flag',
@@ -219,6 +223,10 @@ export default (pluginContext) => {
             termLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termLanguage.fullName',
+                    defaultMessage: 'Term language',
+                  },
                   name: {
                     id: 'field.concepts_common.termLanguage.name',
                     defaultMessage: 'Language',

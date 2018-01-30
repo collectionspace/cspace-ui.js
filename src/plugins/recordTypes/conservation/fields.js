@@ -208,6 +208,10 @@ export default (pluginContext) => {
             otherPartyRole: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.otherPartyRole.fullName',
+                    defaultMessage: 'Other treatment party role',
+                  },
                   name: {
                     id: 'field.conservation_common.otherPartyRole.name',
                     defaultMessage: 'Role',

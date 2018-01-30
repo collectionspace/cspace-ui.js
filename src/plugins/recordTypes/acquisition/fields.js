@@ -96,13 +96,13 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.acquisitionAuthorizerDate.name',
-                defaultMessage: 'Date',
-              },
               fullName: {
                 id: 'field.acquisitions_common.acquisitionAuthorizerDate.fullName',
                 defaultMessage: 'Authorization date',
+              },
+              name: {
+                id: 'field.acquisitions_common.acquisitionAuthorizerDate.name',
+                defaultMessage: 'Date',
               },
             }),
             view: {
@@ -224,6 +224,10 @@ export default (pluginContext) => {
         groupPurchasePriceCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.acquisitions_common.groupPurchasePriceCurrency.fullName',
+                defaultMessage: 'Group purchase price currency',
+              },
               name: {
                 id: 'field.acquisitions_common.groupPurchasePriceCurrency.name',
                 defaultMessage: 'Currency',
@@ -241,13 +245,13 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.groupPurchasePriceValue.name',
-                defaultMessage: 'Value',
-              },
               fullName: {
                 id: 'field.acquisitions_common.groupPurchasePriceValue.fullName',
                 defaultMessage: 'Group purchase price value',
+              },
+              name: {
+                id: 'field.acquisitions_common.groupPurchasePriceValue.name',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -258,6 +262,10 @@ export default (pluginContext) => {
         objectOfferPriceCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.acquisitions_common.objectOfferPriceCurrency.fullName',
+                defaultMessage: 'Object offer price currency',
+              },
               name: {
                 id: 'field.acquisitions_common.objectOfferPriceCurrency.name',
                 defaultMessage: 'Currency',
@@ -275,13 +283,13 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.objectOfferPriceValue.name',
-                defaultMessage: 'Value',
-              },
               fullName: {
                 id: 'field.acquisitions_common.objectOfferPriceValue.fullName',
                 defaultMessage: 'Object offer price value',
+              },
+              name: {
+                id: 'field.acquisitions_common.objectOfferPriceValue.name',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -292,6 +300,10 @@ export default (pluginContext) => {
         objectPurchaseOfferPriceCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.acquisitions_common.objectPurchaseOfferPriceCurrency.fullName',
+                defaultMessage: 'Object purchaser offer price currency',
+              },
               name: {
                 id: 'field.acquisitions_common.objectPurchaseOfferPriceCurrency.name',
                 defaultMessage: 'Currency',
@@ -309,13 +321,13 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.objectPurchaseOfferPriceValue.name',
-                defaultMessage: 'Value',
-              },
               fullName: {
                 id: 'field.acquisitions_common.objectPurchaseOfferPriceValue.fullName',
                 defaultMessage: 'Object purchaser offer price value',
+              },
+              name: {
+                id: 'field.acquisitions_common.objectPurchaseOfferPriceValue.name',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -326,6 +338,10 @@ export default (pluginContext) => {
         objectPurchasePriceCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.acquisitions_common.objectPurchasePriceCurrency.fullName',
+                defaultMessage: 'Object purchase price currency',
+              },
               name: {
                 id: 'field.acquisitions_common.objectPurchasePriceCurrency.name',
                 defaultMessage: 'Currency',
@@ -343,13 +359,13 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.objectPurchasePriceValue.name',
-                defaultMessage: 'Value',
-              },
               fullName: {
                 id: 'field.acquisitions_common.objectPurchasePriceValue.fullName',
                 defaultMessage: 'Object purchase price value',
+              },
+              name: {
+                id: 'field.acquisitions_common.objectPurchasePriceValue.name',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -360,6 +376,10 @@ export default (pluginContext) => {
         originalObjectPurchasePriceCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.acquisitions_common.originalObjectPurchasePriceCurrency.fullName',
+                defaultMessage: 'Original object purchase price currency',
+              },
               name: {
                 id: 'field.acquisitions_common.originalObjectPurchasePriceCurrency.name',
                 defaultMessage: 'Currency',
@@ -377,13 +397,13 @@ export default (pluginContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
-              name: {
-                id: 'field.acquisitions_common.originalObjectPurchasePriceValue.name',
-                defaultMessage: 'Value',
-              },
               fullName: {
                 id: 'field.acquisitions_common.originalObjectPurchasePriceValue.fullName',
                 defaultMessage: 'Original object purchase price value',
+              },
+              name: {
+                id: 'field.acquisitions_common.originalObjectPurchasePriceValue.name',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -464,6 +484,10 @@ export default (pluginContext) => {
             acquisitionFundingCurrency: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.acquisitionFundingCurrency.fullName',
+                    defaultMessage: 'Funding currency',
+                  },
                   name: {
                     id: 'field.acquisitions_common.acquisitionFundingCurrency.name',
                     defaultMessage: 'Currency',
@@ -481,13 +505,13 @@ export default (pluginContext) => {
               [config]: {
                 dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.acquisitions_common.acquisitionFundingValue.name',
-                    defaultMessage: 'Value',
-                  },
                   fullName: {
                     id: 'field.acquisitions_common.acquisitionFundingValue.fullName',
                     defaultMessage: 'Funding value',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.acquisitionFundingValue.name',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {

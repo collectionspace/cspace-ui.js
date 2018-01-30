@@ -59,6 +59,8 @@ describe('Notification', function suite() {
   });
 
   it('should call close automatically after the autoCloseTime timeout when autoClose is true', function test() {
+    this.timeout(3000);
+
     let closedID = null;
 
     const close = (id) => {

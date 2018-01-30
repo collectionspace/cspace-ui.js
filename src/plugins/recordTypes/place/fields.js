@@ -164,6 +164,10 @@ export default (pluginContext) => {
             termFlag: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termFlag.fullName',
+                    defaultMessage: 'Term flag',
+                  },
                   name: {
                     id: 'field.places_common.termFlag.name',
                     defaultMessage: 'Flag',
@@ -209,6 +213,10 @@ export default (pluginContext) => {
             termLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termLanguage.fullName',
+                    defaultMessage: 'Term language',
+                  },
                   name: {
                     id: 'field.places_common.termLanguage.name',
                     defaultMessage: 'Language',
@@ -487,6 +495,10 @@ export default (pluginContext) => {
             addressType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.addressType.fullName',
+                    defaultMessage: 'Address type',
+                  },
                   name: {
                     id: 'field.places_common.addressType.name',
                     defaultMessage: 'Type',

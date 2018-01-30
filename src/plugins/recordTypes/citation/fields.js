@@ -143,6 +143,10 @@ export default (pluginContext) => {
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.citations_common.termType.name',
                     defaultMessage: 'Type',
@@ -159,6 +163,10 @@ export default (pluginContext) => {
             termFlag: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.termFlag.fullName',
+                    defaultMessage: 'Term flag',
+                  },
                   name: {
                     id: 'field.citations_common.termFlag.name',
                     defaultMessage: 'Flag',
@@ -204,6 +212,10 @@ export default (pluginContext) => {
             termLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.termLanguage.fullName',
+                    defaultMessage: 'Term language',
+                  },
                   name: {
                     id: 'field.citations_common.termLanguage.name',
                     defaultMessage: 'Language',
@@ -233,13 +245,13 @@ export default (pluginContext) => {
             termSource: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.citations_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.citations_common.termSource.fullName',
                     defaultMessage: 'Source name',
+                  },
+                  name: {
+                    id: 'field.citations_common.termSource.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -380,7 +392,7 @@ export default (pluginContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.citations_common.citationRecordType.name',
-                  defaultMessage: 'Type',
+                  defaultMessage: 'Citation type',
                 },
               }),
               repeating: true,
@@ -434,13 +446,13 @@ export default (pluginContext) => {
             publicationPlace: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.citations_common.publicationPlace.name',
-                    defaultMessage: 'Place',
-                  },
                   fullName: {
                     id: 'field.citations_common.publicationPlace.fullName',
                     defaultMessage: 'Publication place',
+                  },
+                  name: {
+                    id: 'field.citations_common.publicationPlace.name',
+                    defaultMessage: 'Place',
                   },
                 }),
                 view: {
@@ -517,13 +529,13 @@ export default (pluginContext) => {
             agent: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.citations_common.agent.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.citations_common.agent.fullName',
                     defaultMessage: 'Agent name',
+                  },
+                  name: {
+                    id: 'field.citations_common.agent.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -537,6 +549,10 @@ export default (pluginContext) => {
             role: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.role.fullName',
+                    defaultMessage: 'Agent role',
+                  },
                   name: {
                     id: 'field.citations_common.role.name',
                     defaultMessage: 'Role',
@@ -619,6 +635,10 @@ export default (pluginContext) => {
             type: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.type.fullName',
+                    defaultMessage: 'Resource identifier type',
+                  },
                   name: {
                     id: 'field.citations_common.type.name',
                     defaultMessage: 'Type',
@@ -672,13 +692,13 @@ export default (pluginContext) => {
             relatedTerm: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.citations_common.relatedTerm.name',
-                    defaultMessage: 'Term',
-                  },
                   fullName: {
                     id: 'field.citations_common.relatedTerm.fullName',
                     defaultMessage: 'Related term',
+                  },
+                  name: {
+                    id: 'field.citations_common.relatedTerm.name',
+                    defaultMessage: 'Term',
                   },
                 }),
                 view: {
@@ -692,6 +712,10 @@ export default (pluginContext) => {
             relationType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.relationType.fullName',
+                    defaultMessage: 'Related term type',
+                  },
                   name: {
                     id: 'field.citations_common.relationType.name',
                     defaultMessage: 'Type',

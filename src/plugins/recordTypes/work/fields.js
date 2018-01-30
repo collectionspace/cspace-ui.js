@@ -156,6 +156,10 @@ export default (pluginContext) => {
             termFlag: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termFlag.fullName',
+                    defaultMessage: 'Term flag',
+                  },
                   name: {
                     id: 'field.works_common.termFlag.name',
                     defaultMessage: 'Flag',
@@ -201,6 +205,10 @@ export default (pluginContext) => {
             termLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termLanguage.fullName',
+                    defaultMessage: 'Term language',
+                  },
                   name: {
                     id: 'field.works_common.termLanguage.name',
                     defaultMessage: 'Language',
@@ -386,6 +394,10 @@ export default (pluginContext) => {
             creatorType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.creatorType.fullName',
+                    defaultMessage: 'Creator type',
+                  },
                   name: {
                     id: 'field.works_common.creatorType.name',
                     defaultMessage: 'Type',
@@ -446,6 +458,10 @@ export default (pluginContext) => {
             publisherType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.publisherType.fullName',
+                    defaultMessage: 'Publisher type',
+                  },
                   name: {
                     id: 'field.works_common.publisherType.name',
                     defaultMessage: 'Type',
@@ -483,6 +499,10 @@ export default (pluginContext) => {
             addressType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.addressType.fullName',
+                    defaultMessage: 'Address type',
+                  },
                   name: {
                     id: 'field.works_common.addressType.name',
                     defaultMessage: 'Type',

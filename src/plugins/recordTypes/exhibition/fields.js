@@ -335,6 +335,10 @@ export default (pluginContext) => {
                 exhibitionPersonRole: {
                   [config]: {
                     messages: defineMessages({
+                      fullName: {
+                        id: 'field.exhibitions_common.exhibitionPersonRole.fullName',
+                        defaultMessage: 'Working group member role',
+                      },
                       name: {
                         id: 'field.exhibitions_common.exhibitionPersonRole.name',
                         defaultMessage: 'Role',
@@ -537,6 +541,10 @@ export default (pluginContext) => {
             exhibitionReferenceType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionReferenceType.fullName',
+                    defaultMessage: 'Bibliographic reference type',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionReferenceType.name',
                     defaultMessage: 'Type',

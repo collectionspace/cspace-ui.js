@@ -236,6 +236,10 @@ export default (pluginContext) => {
             deaccessionApprovalGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.objectexit_common.deaccessionApprovalGroup.fullName',
+                    defaultMessage: 'Deaccession approval group',
+                  },
                   name: {
                     id: 'field.objectexit_common.deaccessionApprovalGroup.name',
                     defaultMessage: 'Group',
@@ -252,6 +256,10 @@ export default (pluginContext) => {
             deaccessionApprovalStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.objectexit_common.deaccessionApprovalStatus.fullName',
+                    defaultMessage: 'Deaccession approval status',
+                  },
                   name: {
                     id: 'field.objectexit_common.deaccessionApprovalStatus.name',
                     defaultMessage: 'Status',
@@ -439,6 +447,10 @@ export default (pluginContext) => {
         disposalCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.objectexit_common.disposalCurrency.fullName',
+                defaultMessage: 'Disposal currency',
+              },
               name: {
                 id: 'field.objectexit_common.disposalCurrency.name',
                 defaultMessage: 'Currency',
@@ -473,6 +485,10 @@ export default (pluginContext) => {
         groupDisposalCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.objectexit_common.groupDisposalCurrency.fullName',
+                defaultMessage: 'Group disposal currency',
+              },
               name: {
                 id: 'field.objectexit_common.groupDisposalCurrency.name',
                 defaultMessage: 'Currency',

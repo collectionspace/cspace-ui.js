@@ -186,6 +186,10 @@ export default (pluginContext) => {
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.persons_common.termType.name',
                     defaultMessage: 'Type',
@@ -202,6 +206,10 @@ export default (pluginContext) => {
             termFlag: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termFlag.fullName',
+                    defaultMessage: 'Term flag',
+                  },
                   name: {
                     id: 'field.persons_common.termFlag.name',
                     defaultMessage: 'Flag',
@@ -218,6 +226,10 @@ export default (pluginContext) => {
             termLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termLanguage.fullName',
+                    defaultMessage: 'Term language',
+                  },
                   name: {
                     id: 'field.persons_common.termLanguage.name',
                     defaultMessage: 'Language',

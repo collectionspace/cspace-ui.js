@@ -349,6 +349,10 @@ export default (pluginContext) => {
             titleLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.titleLanguage.fullName',
+                    defaultMessage: 'Title language',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.titleLanguage.name',
                     defaultMessage: 'Language',
@@ -400,6 +404,10 @@ export default (pluginContext) => {
                 titleTranslationLanguage: {
                   [config]: {
                     messages: defineMessages({
+                      fullName: {
+                        id: 'field.collectionobjects_common.titleTranslationLanguage.fullName',
+                        defaultMessage: 'Title translation language',
+                      },
                       name: {
                         id: 'field.collectionobjects_common.titleTranslationLanguage.name',
                         defaultMessage: 'Language',
@@ -535,6 +543,10 @@ export default (pluginContext) => {
             objectNameLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameLanguage.fullName',
+                    defaultMessage: 'Object name language',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectNameLanguage.name',
                     defaultMessage: 'Language',
@@ -690,6 +702,10 @@ export default (pluginContext) => {
         ageQualifier: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ageQualifier.fullName',
+                defaultMessage: 'Age qualifier',
+              },
               name: {
                 id: 'field.collectionobjects_common.ageQualifier.name',
                 defaultMessage: 'Qualifier',
@@ -1041,6 +1057,10 @@ export default (pluginContext) => {
           contentLanguage: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentLanguage.fullName',
+                  defaultMessage: 'Content language',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentLanguage.name',
                   defaultMessage: 'Language',
@@ -1485,6 +1505,10 @@ export default (pluginContext) => {
             inscriptionContentLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentLanguage.fullName',
+                    defaultMessage: 'Textual inscription language',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentLanguage.name',
                     defaultMessage: 'Language',
@@ -2990,6 +3014,10 @@ export default (pluginContext) => {
         ownershipExchangePriceCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ownershipExchangePriceCurrency.fullName',
+                defaultMessage: 'Ownership exchange currency',
+              },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceCurrency.name',
                 defaultMessage: 'Currency',

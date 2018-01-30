@@ -87,6 +87,10 @@ export default (pluginContext) => {
             valueCurrency: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.valuationcontrols_common.valueCurrency.fullName',
+                    defaultMessage: 'Amount currency',
+                  },
                   name: {
                     id: 'field.valuationcontrols_common.valueCurrency.name',
                     defaultMessage: 'Currency',
