@@ -19,6 +19,7 @@ import {
   RELATION_SAVE_FULFILLED,
   RELATION_SAVE_REJECTED,
   SUBJECT_RELATIONS_UPDATED,
+  checkForRelations,
   clearState,
   find,
   create,
@@ -1408,6 +1409,59 @@ describe('relation action creator', function suite() {
             subject,
           });
         });
+    });
+  });
+
+  describe('checkForRelations', function actionSuite() {
+    const csid = '1234';
+    const checkUrl = `/cspace-services/relations?prd=${predicate}&sbj=${csid}&andReciprocal=true&wf_deleted=false&pgSz=1`;
+
+    before(() => {
+      const store = mockStore();
+
+      return store.dispatch(configureCSpace());
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should resolve to true if relations are found for the given csid and predicate', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '4',
+          },
+        },
+      });
+
+      return store.dispatch(checkForRelations(csid, predicate)).then((result) => {
+        result.should.equal(true);
+      });
+    });
+
+    it('should resolve to false if no relations are found for the given csid and predicate', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '0',
+          },
+        },
+      });
+
+      return store.dispatch(checkForRelations(csid, predicate)).then((result) => {
+        result.should.equal(false);
+      });
     });
   });
 });

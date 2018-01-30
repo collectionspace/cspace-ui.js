@@ -15,6 +15,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  disabled: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isSavePending: PropTypes.bool,
   onClick: PropTypes.func,
@@ -22,6 +23,7 @@ const propTypes = {
 
 export default function DeleteButton(props) {
   const {
+    disabled,
     isDeletable,
     isSavePending,
     onClick,
@@ -34,7 +36,7 @@ export default function DeleteButton(props) {
   return (
     <Button
       className={styles.common}
-      disabled={isSavePending}
+      disabled={disabled || isSavePending}
       icon
       name="delete"
       onClick={onClick}

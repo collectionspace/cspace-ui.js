@@ -34,6 +34,7 @@ const propTypes = {
   // The workflow state of the related subject (aka primary) record when we're in a secondary tab.
   relatedSubjectWorkflowState: PropTypes.string,
   openModalName: PropTypes.string,
+  checkForRelations: PropTypes.func,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
   onRecordCreated: PropTypes.func,
@@ -434,16 +435,24 @@ export default class RecordEditor extends Component {
 
   renderConfirmRecordDeleteModal() {
     const {
+      config,
       csid,
+      data,
       isSavePending,
       openModalName,
+      recordType,
+      checkForRelations,
     } = this.props;
 
     return (
       <ConfirmRecordDeleteModal
+        config={config}
         csid={csid}
+        data={data}
         isOpen={openModalName === ConfirmRecordDeleteModal.modalName}
         isSavePending={isSavePending}
+        recordType={recordType}
+        checkForRelations={checkForRelations}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
         onDeleteButtonClick={this.handleConfirmDeleteButtonClick}

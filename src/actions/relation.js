@@ -324,3 +324,25 @@ export const createBidirectional = (subject, object, predicate) => dispatch =>
       },
     }))
     .catch(() => {});
+
+/**
+ * Check if any relations exist for the given record csid and predicate. Resolves to true or false.
+ */
+export const checkForRelations = (csid, predicate) => () => {
+  const requestConfig = {
+    params: {
+      prd: predicate,
+      sbj: csid,
+      andReciprocal: 'true',
+      wf_deleted: 'false',
+      pgSz: '1',
+    },
+  };
+
+  return getSession().read('/relations', requestConfig)
+    .then((response) => {
+      const totalItems = get(response, ['data', 'rel:relations-common-list', 'totalItems']);
+
+      return (totalItems && parseInt(totalItems, 10) > 0);
+    });
+};

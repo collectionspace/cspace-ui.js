@@ -865,3 +865,8 @@ export const isRecordImmutable = data => (
   isSecurityRecordImmutable(data)
 );
 
+export const hasHierarchyRelations = (data) => {
+  const totalItems = data.getIn(['document', 'rel:relations-common-list', 'totalItems']);
+
+  return (!!totalItems && parseInt(totalItems, 10) > 0);
+};

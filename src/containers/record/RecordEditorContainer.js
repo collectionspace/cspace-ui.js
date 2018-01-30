@@ -24,6 +24,10 @@ import {
 } from '../../actions/record';
 
 import {
+  checkForRelations,
+} from '../../actions/relation';
+
+import {
   getAuthorityVocabWorkflowState,
   getForm,
   getOpenModalName,
@@ -121,6 +125,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     validateRecordData: () => {
       dispatch(validateRecordData(recordTypeConfig, csid));
     },
+    checkForRelations: predicate =>
+      dispatch(checkForRelations(csid, predicate)),
   };
 };
 

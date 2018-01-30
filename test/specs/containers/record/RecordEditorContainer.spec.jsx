@@ -4,6 +4,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
@@ -11,6 +12,10 @@ import RecordEditorContainer from '../../../../src/containers/record/RecordEdito
 import {
   STATUS_PENDING,
 } from '../../../../src/constants/notificationStatusCodes';
+
+import {
+  configureCSpace,
+} from '../../../../src/actions/cspace';
 
 import {
   REMOVE_NOTIFICATION,
@@ -114,8 +119,18 @@ describe('RecordEditorContainer', function suite() {
     store,
   };
 
+  before(() =>
+    store.dispatch(configureCSpace())
+      .then(() => store.clearActions())
+  );
+
+  beforeEach(() => {
+    moxios.install();
+  });
+
   afterEach(() => {
     store.clearActions();
+    moxios.uninstall();
   });
 
   it('should set props on RecordEditor', function test() {
@@ -136,6 +151,8 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('createNewRecord').that.is.a('function');
     result.props.should.have.property('deleteRecord').that.is.a('function');
     result.props.should.have.property('readRecord').that.is.a('function');
+    result.props.should.have.property('removeNotification').that.is.a('function');
+    result.props.should.have.property('checkForRelations').that.is.a('function');
   });
 
   it('should connect createNewRecord to createNewRecord action creator', function test() {
@@ -332,6 +349,27 @@ describe('RecordEditorContainer', function suite() {
     action.should.have.property('type', CLOSE_MODAL);
   });
 
+  it('should connect removeNotification to removeNotification action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const notificationID = 'foo';
+
+    result.props.removeNotification(notificationID);
+
+    const action = store.getActions()[0];
+
+    action.type.should.equal = REMOVE_NOTIFICATION;
+    action.meta.should.have.property('notificationID', notificationID);
+  });
+
   it('should connect removeValidationNotification to removeValidationNotification action creator', function test() {
     const shallowRenderer = createRenderer();
 
@@ -455,5 +493,29 @@ describe('RecordEditorContainer', function suite() {
 
     action.should.have.property('payload').that.equals(formName);
     action.meta.should.have.property('recordType').that.equals(recordType);
+  });
+
+  it('should connect checkForRelations to checkForRelations action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={recordType}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.checkForRelations('affects');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        moxios.requests.mostRecent().should.have.property('url').that
+          .matches(/^\/cspace-services\/relations\?prd=affects&sbj=1234.*/);
+
+        resolve();
+      }, 0);
+    });
   });
 });

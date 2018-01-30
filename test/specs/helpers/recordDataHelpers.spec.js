@@ -46,6 +46,7 @@ import {
   getUpdatedTimestamp,
   getUpdatedUser,
   getWorkflowState,
+  hasHierarchyRelations,
   isNewRecord,
   isExistingRecord,
   isRecordDeprecated,
@@ -2850,6 +2851,40 @@ describe('recordDataHelpers', function moduleSuite() {
       setXmlNamespaceAttribute(partData, partName, partDescriptor).should.equal(Immutable.Map({
         '@xmlns:ns2': 'http://some.uri',
       }));
+    });
+  });
+
+  describe('hasHierarchyRelations', function suite() {
+    it('should return true if the record data contains a relations list with more than zero total items', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            totalItems: '2',
+          },
+        },
+      });
+
+      hasHierarchyRelations(data).should.equal(true);
+    });
+
+    it('should return false if the record data contains a relations list with zero total items', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            totalItems: '0',
+          },
+        },
+      });
+
+      hasHierarchyRelations(data).should.equal(false);
+    });
+
+    it('should return false if the record data does not contain a relations list', function test() {
+      const data = Immutable.fromJS({
+        document: {},
+      });
+
+      hasHierarchyRelations(data).should.equal(false);
     });
   });
 });
