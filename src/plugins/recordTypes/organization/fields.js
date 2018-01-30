@@ -67,7 +67,17 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/organization',
           },
         },
+        csid: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        refName: {
           [config]: {
             cloneable: false,
           },

@@ -71,6 +71,26 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/location',
           },
         },
+        csid: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        refName: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        shortIdentifier: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         locTermGroupList: {
           [config]: {
             messages: defineMessages({

@@ -72,7 +72,17 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/place',
           },
         },
+        csid: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        refName: {
           [config]: {
             cloneable: false,
           },

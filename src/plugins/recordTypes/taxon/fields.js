@@ -66,7 +66,17 @@ export default (pluginContext) => {
             ns: 'http://collectionspace.org/services/taxonomy',
           },
         },
+        csid: {
+          [config]: {
+            cloneable: false,
+          },
+        },
         inAuthority: {
+          [config]: {
+            cloneable: false,
+          },
+        },
+        refName: {
           [config]: {
             cloneable: false,
           },
