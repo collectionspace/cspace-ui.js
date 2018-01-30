@@ -2,6 +2,11 @@ import { connect } from 'react-redux';
 import RelatedRecordPanel from '../../components/record/RelatedRecordPanel';
 
 import {
+  closeModal,
+  openModal,
+} from '../../actions/notification';
+
+import {
   batchUnrelateBidirectional,
 } from '../../actions/relation';
 
@@ -12,6 +17,7 @@ import {
 } from '../../actions/search';
 
 import {
+  getOpenModalName,
   getRecordData,
   getRecordRelationUpdatedTimestamp,
   getSearchSelectedItems,
@@ -25,6 +31,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
+    openModalName: getOpenModalName(state),
     perms: getUserPerms(state),
     recordData: getRecordData(state, csid),
     recordRelationUpdatedTimestamp: getRecordRelationUpdatedTimestamp(state, csid),
@@ -34,6 +41,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   clearSelected,
+  closeModal,
+  openModal,
   onItemSelectChange: setResultItemSelected,
   setAllItemsSelected: setAllResultItemsSelected,
   unrelateRecords: batchUnrelateBidirectional,

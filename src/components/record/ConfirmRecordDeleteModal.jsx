@@ -30,16 +30,6 @@ const messages = defineMessages({
     description: 'The message shown in the confirm delete modal when the record to be deleted has hierarchy (broader/narrower) relations.',
     defaultMessage: '{title} cannot be deleted because it belongs to a hierarchy. To delete this record, first remove its broader and narrower records.',
   },
-  cancel: {
-    id: 'confirmRecordDeleteModal.cancel',
-    description: 'Label of the cancel button in the confirm delete modal.',
-    defaultMessage: 'Cancel',
-  },
-  delete: {
-    id: 'confirmRecordDeleteModal.delete',
-    description: 'Label of the save button in the confirm delete modal.',
-    defaultMessage: 'Delete',
-  },
 });
 
 const propTypes = {
@@ -126,7 +116,6 @@ export default class ConfirmRecordDeleteModal extends Component {
           // Assume the record is deletable if this modal is being shown.
           isDeletable
           isSavePending={isSavePending}
-          label={<FormattedMessage {...messages.delete} />}
           onClick={onDeleteButtonClick}
         />
       );
@@ -136,7 +125,6 @@ export default class ConfirmRecordDeleteModal extends Component {
       <div>
         <CancelButton
           disabled={isSavePending}
-          label={<FormattedMessage {...messages.cancel} />}
           onClick={onCancelButtonClick}
         />
         {deleteButton}

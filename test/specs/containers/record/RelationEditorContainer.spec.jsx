@@ -36,6 +36,7 @@ describe('RelationEditorContainer', function suite() {
   });
 
   const store = mockStore({
+    notification: Immutable.Map(),
     relation: Immutable.fromJS({
       find: {
         [subject.csid]: {

@@ -86,6 +86,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
+
+    unmountComponentAtNode(this.container);
   });
 
   it('should render nothing if data is not supplied', function test() {
@@ -100,23 +102,6 @@ describe('ConfirmRecordDeleteModal', function suite() {
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
-  });
-
-  it('should render a prompt message containing the record title', function test() {
-    const data = Immutable.Map();
-
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container);
-
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
-      .equal('Delete Group Record Title?');
 
     unmountComponentAtNode(this.container);
   });
@@ -277,6 +262,6 @@ describe('ConfirmRecordDeleteModal', function suite() {
     expect(document.querySelector('.ReactModal__Content--after-open button[name="delete"]')).to
       .equal(null);
 
-    // unmountComponentAtNode(this.container);
+    unmountComponentAtNode(this.container);
   });
 });

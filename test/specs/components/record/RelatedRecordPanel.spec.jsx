@@ -10,6 +10,7 @@ import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
+import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 import UnrelateButton from '../../../../src/components/record/UnrelateButton';
 import SelectBar from '../../../../src/components/search/SelectBar';
 
@@ -46,6 +47,12 @@ const config = {
       },
       serviceConfig: {
         servicePath: 'groups',
+      },
+    },
+    intake: {
+      serviceConfig: {
+        servicePath: 'intakes',
+        serviceType: 'procedure',
       },
     },
   },
@@ -100,6 +107,29 @@ describe('RelatedRecordPanel', function suite() {
       },
       seqID: recordRelationUpdatedTimestamp,
     }));
+  });
+
+  it('should render nothing if list permission is not present for the related record type', function test() {
+    const csid = '1234';
+    const recordType = 'collectionobject';
+    const relatedRecordType = 'intake';
+    const recordRelationUpdatedTimestamp = '2017-03-06T12:05:34.000Z';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelatedRecordPanel
+        config={config}
+        csid={csid}
+        recordData={recordData}
+        recordType={recordType}
+        relatedRecordType={relatedRecordType}
+        recordRelationUpdatedTimestamp={recordRelationUpdatedTimestamp}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    expect(result).to.equal(null);
   });
 
   it('should render a select bar in the panel header if showCheckboxColumn is true', function test() {
@@ -442,7 +472,65 @@ describe('RelatedRecordPanel', function suite() {
     clickPropagated.should.equal(false);
   });
 
-  it('should call unrelateRecords followed by clearSelected and onUnrelated when the unrelate button is clicked', function test() {
+  it('should call openModal when the unrelate button is clicked', function test() {
+    const csid = '1234';
+    const recordType = 'collectionobject';
+    const relatedRecordType = 'group';
+    const panelName = 'testPanel';
+
+    const selectedItems = Immutable.fromJS({
+      1111: { csid: '1111', recordType: relatedRecordType },
+      2222: { csid: '2222', recordType: relatedRecordType },
+    });
+
+    let openModalName = null;
+
+    const openModal = (modalNameArg) => {
+      openModalName = modalNameArg;
+    };
+
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '5',
+        itemsInPage: '1',
+        totalItems: '1',
+        'list-item': [
+          {
+            csid: 'b0945c52-36f7-4c51-a72a',
+          },
+        ],
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelatedRecordPanel
+        config={config}
+        csid={csid}
+        name={panelName}
+        recordData={recordData}
+        recordType={recordType}
+        relatedRecordType={relatedRecordType}
+        selectedItems={selectedItems}
+        showCheckboxColumn
+        openModal={openModal}
+      />);
+
+    const searchPanel = shallowRenderer.getRenderOutput();
+    const header = searchPanel.props.renderTableHeader({ searchResult });
+
+    const selectBarRenderer = createRenderer();
+    const selectBar = selectBarRenderer.render(findWithType(header, SelectBar));
+    const unrelateButton = findWithType(selectBar, UnrelateButton);
+
+    unrelateButton.props.onClick();
+
+    openModalName.should.equal(ConfirmRecordUnrelateModal.modalName);
+  });
+
+  it('should call unrelateRecords followed by clearSelected, onUnrelated, and closeModal when the confirm unrelate button is clicked', function test() {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -479,6 +567,12 @@ describe('RelatedRecordPanel', function suite() {
       handleUnrelatedObjects = objectsArg;
     };
 
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
     const searchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',
@@ -508,16 +602,14 @@ describe('RelatedRecordPanel', function suite() {
         clearSelected={clearSelected}
         unrelateRecords={unrelateRecords}
         onUnrelated={handleUnrelated}
+        closeModal={closeModal}
       />);
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });
+    const confirmUnrelateModal = findWithType(header, ConfirmRecordUnrelateModal);
 
-    const selectBarRenderer = createRenderer();
-    const selectBar = selectBarRenderer.render(findWithType(header, SelectBar));
-    const unrelateButton = findWithType(selectBar, UnrelateButton);
-
-    unrelateButton.props.onClick();
+    confirmUnrelateModal.props.onUnrelateButtonClick();
 
     unrelatedConfig.should.equal(config);
 
@@ -539,8 +631,281 @@ describe('RelatedRecordPanel', function suite() {
 
         handleUnrelatedObjects.should.equal(unrelatedObjects);
 
+        closeModalCalled.should.equal(true);
+
         resolve();
       }, 0);
     });
+  });
+
+  it('should set unrelate modal isUnrelating prop to true while unrelating is in progress', function test() {
+    const csid = '1234';
+    const recordType = 'collectionobject';
+    const relatedRecordType = 'group';
+    const panelName = 'testPanel';
+
+    const selectedItems = Immutable.fromJS({
+      1111: { csid: '1111', recordType: relatedRecordType },
+      2222: { csid: '2222', recordType: relatedRecordType },
+    });
+
+    const unrelateRecords = () => new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 300);
+    });
+
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '5',
+        itemsInPage: '1',
+        totalItems: '1',
+        'list-item': [
+          {
+            csid: 'b0945c52-36f7-4c51-a72a',
+          },
+        ],
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelatedRecordPanel
+        config={config}
+        csid={csid}
+        name={panelName}
+        recordData={recordData}
+        recordType={recordType}
+        relatedRecordType={relatedRecordType}
+        selectedItems={selectedItems}
+        showCheckboxColumn
+        unrelateRecords={unrelateRecords}
+      />);
+
+    const searchPanel = shallowRenderer.getRenderOutput();
+    const header = searchPanel.props.renderTableHeader({ searchResult });
+    const confirmUnrelateModal = findWithType(header, ConfirmRecordUnrelateModal);
+
+    confirmUnrelateModal.props.isUnrelating.should.equal(false);
+
+    confirmUnrelateModal.props.onUnrelateButtonClick();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        // Re-render.
+
+        shallowRenderer.render(
+          <RelatedRecordPanel
+            config={config}
+            csid={csid}
+            name={panelName}
+            recordData={recordData}
+            recordType={recordType}
+            relatedRecordType={relatedRecordType}
+            selectedItems={selectedItems}
+            showCheckboxColumn
+            unrelateRecords={unrelateRecords}
+          />);
+
+        const nextSearchPanel = shallowRenderer.getRenderOutput();
+        const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
+        const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
+
+        nextConfirmUnrelateModal.props.isUnrelating.should.equal(true);
+
+        resolve();
+      }, 100);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        // Re-render.
+
+        shallowRenderer.render(
+          <RelatedRecordPanel
+            config={config}
+            csid={csid}
+            name={panelName}
+            recordData={recordData}
+            recordType={recordType}
+            relatedRecordType={relatedRecordType}
+            selectedItems={selectedItems}
+            showCheckboxColumn
+            unrelateRecords={unrelateRecords}
+          />);
+
+        const nextSearchPanel = shallowRenderer.getRenderOutput();
+        const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
+        const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
+
+        nextConfirmUnrelateModal.props.isUnrelating.should.equal(false);
+
+        resolve();
+      }, 300);
+    }));
+  });
+
+  it('should set unrelate modal isUnrelating prop back to false if unrelating fails', function test() {
+    const csid = '1234';
+    const recordType = 'collectionobject';
+    const relatedRecordType = 'group';
+    const panelName = 'testPanel';
+
+    const selectedItems = Immutable.fromJS({
+      1111: { csid: '1111', recordType: relatedRecordType },
+      2222: { csid: '2222', recordType: relatedRecordType },
+    });
+
+    const unrelateRecords = () => new Promise((resolve, reject) => {
+      window.setTimeout(() => {
+        reject();
+      }, 300);
+    });
+
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '5',
+        itemsInPage: '1',
+        totalItems: '1',
+        'list-item': [
+          {
+            csid: 'b0945c52-36f7-4c51-a72a',
+          },
+        ],
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelatedRecordPanel
+        config={config}
+        csid={csid}
+        name={panelName}
+        recordData={recordData}
+        recordType={recordType}
+        relatedRecordType={relatedRecordType}
+        selectedItems={selectedItems}
+        showCheckboxColumn
+        unrelateRecords={unrelateRecords}
+      />);
+
+    const searchPanel = shallowRenderer.getRenderOutput();
+    const header = searchPanel.props.renderTableHeader({ searchResult });
+    const confirmUnrelateModal = findWithType(header, ConfirmRecordUnrelateModal);
+
+    confirmUnrelateModal.props.isUnrelating.should.equal(false);
+
+    confirmUnrelateModal.props.onUnrelateButtonClick();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        // Re-render.
+
+        shallowRenderer.render(
+          <RelatedRecordPanel
+            config={config}
+            csid={csid}
+            name={panelName}
+            recordData={recordData}
+            recordType={recordType}
+            relatedRecordType={relatedRecordType}
+            selectedItems={selectedItems}
+            showCheckboxColumn
+            unrelateRecords={unrelateRecords}
+          />);
+
+        const nextSearchPanel = shallowRenderer.getRenderOutput();
+        const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
+        const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
+
+        nextConfirmUnrelateModal.props.isUnrelating.should.equal(true);
+
+        resolve();
+      }, 100);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        // Re-render.
+
+        shallowRenderer.render(
+          <RelatedRecordPanel
+            config={config}
+            csid={csid}
+            name={panelName}
+            recordData={recordData}
+            recordType={recordType}
+            relatedRecordType={relatedRecordType}
+            selectedItems={selectedItems}
+            showCheckboxColumn
+            unrelateRecords={unrelateRecords}
+          />);
+
+        const nextSearchPanel = shallowRenderer.getRenderOutput();
+        const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
+        const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
+
+        nextConfirmUnrelateModal.props.isUnrelating.should.equal(false);
+
+        resolve();
+      }, 300);
+    }));
+  });
+
+  it('should call closeModal when the cancel button is clicked in the confirm unrelate modal', function test() {
+    const csid = '1234';
+    const recordType = 'collectionobject';
+    const relatedRecordType = 'group';
+    const panelName = 'testPanel';
+
+    const selectedItems = Immutable.fromJS({
+      1111: { csid: '1111', recordType: relatedRecordType },
+      2222: { csid: '2222', recordType: relatedRecordType },
+    });
+
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        pageNum: '0',
+        pageSize: '5',
+        itemsInPage: '1',
+        totalItems: '1',
+        'list-item': [
+          {
+            csid: 'b0945c52-36f7-4c51-a72a',
+          },
+        ],
+      },
+    });
+
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelatedRecordPanel
+        config={config}
+        csid={csid}
+        name={panelName}
+        recordData={recordData}
+        recordType={recordType}
+        relatedRecordType={relatedRecordType}
+        selectedItems={selectedItems}
+        showCheckboxColumn
+        closeModal={closeModal}
+      />);
+
+    const searchPanel = shallowRenderer.getRenderOutput();
+    const header = searchPanel.props.renderTableHeader({ searchResult });
+    const confirmUnrelateModal = findWithType(header, ConfirmRecordUnrelateModal);
+
+    confirmUnrelateModal.props.onCancelButtonClick();
+
+    closeModalCalled.should.equal(true);
   });
 });

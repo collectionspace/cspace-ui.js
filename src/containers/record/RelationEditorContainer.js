@@ -1,6 +1,11 @@
 import { connect } from 'react-redux';
 
 import {
+  closeModal,
+  openModal,
+} from '../../actions/notification';
+
+import {
   clearState,
   createBidirectional,
   unrelateBidirectional,
@@ -8,6 +13,7 @@ import {
 } from '../../actions/relation';
 
 import {
+  getOpenModalName,
   getRecordData,
   getRecordError,
   getRelationFindResult,
@@ -26,10 +32,13 @@ const mapStateToProps = (state, ownProps) => {
     objectData: getRecordData(state, object.csid),
     objectError: getRecordError(state, object.csid),
     findResult: getRelationFindResult(state, subject, object, predicate),
+    openModalName: getOpenModalName(state),
   };
 };
 
 const mapDispatchToProps = {
+  closeModal,
+  openModal,
   createRelation: createBidirectional,
   findRelation: find,
   unrelate: unrelateBidirectional,

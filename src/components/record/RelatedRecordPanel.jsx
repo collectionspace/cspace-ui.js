@@ -8,6 +8,7 @@ import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
 import { canList, canRelate } from '../../helpers/permissionHelpers';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
+import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
 import SelectBar from '../search/SelectBar';
 import UnrelateButton from './UnrelateButton';
 
@@ -63,6 +64,9 @@ const propTypes = {
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   showCheckboxColumn: PropTypes.bool,
   showAddButton: PropTypes.bool,
+  openModalName: PropTypes.string,
+  closeModal: PropTypes.func,
+  openModal: PropTypes.func,
   clearSelected: PropTypes.func,
   setAllItemsSelected: PropTypes.func,
   unrelateRecords: PropTypes.func,
@@ -81,6 +85,8 @@ export default class RelatedRecordPanel extends Component {
     super(props);
 
     this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
+    this.handleConfirmUnrelateButtonClick = this.handleConfirmUnrelateButtonClick.bind(this);
+    this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
     this.renderCheckbox = this.renderCheckbox.bind(this);
@@ -88,6 +94,7 @@ export default class RelatedRecordPanel extends Component {
     this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
 
     this.state = {
+      isUnrelating: false,
       searchDescriptor: getSearchDescriptor(props),
     };
   }
@@ -147,13 +154,7 @@ export default class RelatedRecordPanel extends Component {
     }
   }
 
-  handleSearchDescriptorChange(searchDescriptor) {
-    this.setState({
-      searchDescriptor,
-    });
-  }
-
-  handleUnrelateButtonClick() {
+  handleConfirmUnrelateButtonClick() {
     const {
       config,
       csid,
@@ -162,11 +163,16 @@ export default class RelatedRecordPanel extends Component {
       relatedRecordType,
       selectedItems,
       clearSelected,
+      closeModal,
       unrelateRecords,
       onUnrelated,
     } = this.props;
 
     if (unrelateRecords) {
+      this.setState({
+        isUnrelating: true,
+      });
+
       const subject = {
         csid,
         recordType,
@@ -186,7 +192,46 @@ export default class RelatedRecordPanel extends Component {
           if (onUnrelated) {
             onUnrelated(objects);
           }
+
+          if (closeModal) {
+            closeModal(false);
+          }
+
+          this.setState({
+            isUnrelating: false,
+          });
+        })
+        .catch(() => {
+          this.setState({
+            isUnrelating: false,
+          });
         });
+    }
+  }
+
+  handleModalCancelButtonClick() {
+    const {
+      closeModal,
+    } = this.props;
+
+    if (closeModal) {
+      closeModal(false);
+    }
+  }
+
+  handleSearchDescriptorChange(searchDescriptor) {
+    this.setState({
+      searchDescriptor,
+    });
+  }
+
+  handleUnrelateButtonClick() {
+    const {
+      openModal,
+    } = this.props;
+
+    if (openModal) {
+      openModal(ConfirmRecordUnrelateModal.modalName);
     }
   }
 
@@ -213,6 +258,35 @@ export default class RelatedRecordPanel extends Component {
     }
 
     return null;
+  }
+
+  renderConfirmRecordUnrelateModal() {
+    const {
+      config,
+      openModalName,
+      relatedRecordType,
+      selectedItems,
+    } = this.props;
+
+    const {
+      isUnrelating,
+    } = this.state;
+
+    const recordCount = selectedItems ? selectedItems.size : 0;
+
+    return (
+      <ConfirmRecordUnrelateModal
+        config={config}
+        recordType={relatedRecordType}
+        isMultiSelect
+        isOpen={openModalName === ConfirmRecordUnrelateModal.modalName}
+        isUnrelating={isUnrelating}
+        recordCount={recordCount}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCancelButtonClick}
+        onUnrelateButtonClick={this.handleConfirmUnrelateButtonClick}
+      />
+    );
   }
 
   renderTableHeader({ searchError, searchResult }) {
@@ -256,6 +330,7 @@ export default class RelatedRecordPanel extends Component {
           setAllItemsSelected={setAllItemsSelected}
           showCheckboxFilter={this.shouldShowCheckbox}
         />
+        {this.renderConfirmRecordUnrelateModal()}
       </header>
     );
   }

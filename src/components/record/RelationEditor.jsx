@@ -7,6 +7,7 @@ import isEqual from 'lodash/isEqual';
 import RelationButtonBar from './RelationButtonBar';
 import WorkflowStateIcon from './WorkflowStateIcon';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
+import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
 import { canRelate } from '../../helpers/permissionHelpers';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
@@ -48,11 +49,14 @@ const propTypes = {
   /* eslint-enable react/no-unused-prop-types */
   objectData: PropTypes.instanceOf(Immutable.Map),
   objectError: PropTypes.instanceOf(Immutable.Map),
+  openModalName: PropTypes.string,
   predicate: PropTypes.string,
   findResult: PropTypes.instanceOf(Immutable.Map),
   cloneRecord: PropTypes.func,
   createRelation: PropTypes.func,
   findRelation: PropTypes.func,
+  closeModal: PropTypes.func,
+  openModal: PropTypes.func,
   unrelate: PropTypes.func,
   onClose: PropTypes.func,
   onRecordCreated: PropTypes.func,
@@ -71,7 +75,9 @@ export default class RelationEditor extends Component {
 
     this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this);
     this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
+    this.handleConfirmUnrelateButtonClick = this.handleConfirmUnrelateButtonClick.bind(this);
     this.handleUnrelateButtonClick = this.handleUnrelateButtonClick.bind(this);
+    this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
     this.handleRecordTransitioned = this.handleRecordTransitioned.bind(this);
     this.handleSaveCancelled = this.handleSaveCancelled.bind(this);
@@ -172,10 +178,38 @@ export default class RelationEditor extends Component {
     this.close();
   }
 
-  handleUnrelateButtonClick() {
+  handleConfirmUnrelateButtonClick() {
+    const {
+      closeModal,
+    } = this.props;
+
+    if (closeModal) {
+      closeModal(false);
+    }
+
     this.unrelateWhenUnmounted = true;
 
     this.close();
+  }
+
+  handleModalCancelButtonClick() {
+    const {
+      closeModal,
+    } = this.props;
+
+    if (closeModal) {
+      closeModal(false);
+    }
+  }
+
+  handleUnrelateButtonClick() {
+    const {
+      openModal,
+    } = this.props;
+
+    if (openModal) {
+      openModal(ConfirmRecordUnrelateModal.modalName);
+    }
   }
 
   handleRecordCreated(newRecordCsid, isNavigating) {
@@ -213,6 +247,9 @@ export default class RelationEditor extends Component {
   }
 
   handleSaveCancelled() {
+    // This handles unrelating an unsaved record. The confirm navigation dialog will be shown, and
+    // if it's cancelled, we shouldn't unrelate.
+
     this.unrelateWhenUnmounted = false;
   }
 
@@ -272,6 +309,27 @@ export default class RelationEditor extends Component {
           />
         </div>
       </header>
+    );
+  }
+
+  renderConfirmRecordUnrelateModal() {
+    const {
+      config,
+      object,
+      objectData,
+      openModalName,
+    } = this.props;
+
+    return (
+      <ConfirmRecordUnrelateModal
+        config={config}
+        recordType={object.recordType}
+        data={objectData}
+        isOpen={openModalName === ConfirmRecordUnrelateModal.modalName}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCancelButtonClick}
+        onUnrelateButtonClick={this.handleConfirmUnrelateButtonClick}
+      />
     );
   }
 
@@ -337,6 +395,7 @@ export default class RelationEditor extends Component {
           onRecordTransitioned={this.handleRecordTransitioned}
           onSaveCancelled={this.handleSaveCancelled}
         />
+        {this.renderConfirmRecordUnrelateModal()}
       </div>
     );
   }

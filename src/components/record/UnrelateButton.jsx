@@ -15,6 +15,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  isUnrelating: PropTypes.bool,
   isUnrelatable: PropTypes.bool,
   onClick: PropTypes.func,
 };
@@ -25,6 +26,7 @@ const defaultProps = {
 
 export default function UnrelateButton(props) {
   const {
+    isUnrelating,
     isUnrelatable,
     onClick,
     ...remainingProps
@@ -38,6 +40,7 @@ export default function UnrelateButton(props) {
     <Button
       {...remainingProps}
       className={styles.common}
+      disabled={isUnrelating}
       icon
       name="unrelate"
       onClick={onClick}

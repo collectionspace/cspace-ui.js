@@ -9,6 +9,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelationButtonBar from '../../../../src/components/record/RelationButtonBar';
+import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 
 const expect = chai.expect;
 
@@ -594,7 +595,7 @@ describe('RelationEditor', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should call onClose, then unrelate and onUnrelated when unmounted when the unrelate button is clicked in the button bar', function test() {
+  it('should call openModal when the unrelate button is clicked', function test() {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -612,6 +613,57 @@ describe('RelationEditor', function suite() {
         totalItems: '1',
       },
     });
+
+    let openModalName = null;
+
+    const openModal = (modalNameArg) => {
+      openModalName = modalNameArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        predicate={predicate}
+        findResult={findResult}
+        openModal={openModal}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const buttonBar = findWithType(result, RelationButtonBar);
+
+    buttonBar.props.onUnrelateButtonClick();
+
+    openModalName.should.equal(ConfirmRecordUnrelateModal.modalName);
+  });
+
+  it('should call closeModal and onClose, then unrelate and onUnrelated when unmounted when the confirm unrelate button is clicked', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const predicate = 'affects';
+
+    const findResult = Immutable.fromJS({
+      'rel:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
 
     let handleCloseCalled = false;
 
@@ -652,16 +704,18 @@ describe('RelationEditor', function suite() {
         object={object}
         predicate={predicate}
         findResult={findResult}
+        closeModal={closeModal}
         onClose={handleClose}
         unrelate={unrelate}
         onUnrelated={handleUnrelated}
       />);
 
     const result = shallowRenderer.getRenderOutput();
-    const buttonBar = findWithType(result, RelationButtonBar);
+    const confirmUnrelateModal = findWithType(result, ConfirmRecordUnrelateModal);
 
-    buttonBar.props.onUnrelateButtonClick();
+    confirmUnrelateModal.props.onUnrelateButtonClick();
 
+    closeModalCalled.should.equal(true);
     handleCloseCalled.should.equal(true);
 
     expect(unrelateConfig).to.equal(null);
@@ -735,5 +789,50 @@ describe('RelationEditor', function suite() {
     shallowRenderer.unmount();
 
     unrelateCalled.should.equal(false);
+  });
+
+  it('should call closeModal when the cancel button is clicked in the confirm unrelate modal', function test() {
+    const subject = {
+      csid: '1234',
+      recordType: 'collectionobject',
+    };
+
+    const object = {
+      csid: '5678',
+      recordType: 'group',
+    };
+
+    const predicate = 'affects';
+
+    const findResult = Immutable.fromJS({
+      'rel:relations-common-list': {
+        totalItems: '1',
+      },
+    });
+
+    let closeModalCalled = false;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RelationEditor
+        config={config}
+        subject={subject}
+        object={object}
+        predicate={predicate}
+        findResult={findResult}
+        closeModal={closeModal}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const confirmUnrelateModal = findWithType(result, ConfirmRecordUnrelateModal);
+
+    confirmUnrelateModal.props.onCancelButtonClick();
+
+    closeModalCalled.should.equal(true);
   });
 });

@@ -280,7 +280,7 @@ export default class RelatedRecordBrowser extends Component {
     }
   }
 
-  render() {
+  renderRelationEditor() {
     const {
       cloneCsid,
       config,
@@ -292,35 +292,67 @@ export default class RelatedRecordBrowser extends Component {
       workflowState,
     } = this.props;
 
+    if (typeof relatedCsid === 'undefined' || relatedCsid === null) {
+      return null;
+    }
+
+    return (
+      <RelationEditorContainer
+        cloneCsid={cloneCsid}
+        config={config}
+        perms={perms}
+        subject={{
+          csid,
+          recordType,
+        }}
+        subjectWorkflowState={workflowState}
+        object={{
+          csid: relatedCsid,
+          recordType: relatedRecordType,
+        }}
+        predicate="affects"
+        cloneRecord={this.cloneRelatedRecord}
+        onClose={this.handleRelationEditorClose}
+        onRecordCreated={this.handleRelatedRecordCreated}
+        onUnrelated={this.handleRelationEditorUnrelated}
+      />
+    );
+  }
+
+  renderSearchToRelateModal() {
+    const {
+      config,
+      recordType,
+      csid,
+      relatedRecordType,
+    } = this.props;
+
     const {
       isSearchToRelateModalOpen,
     } = this.state;
 
-    let relationEditor;
+    return (
+      <SearchToRelateModalContainer
+        subjects={[{ csid, recordType }]}
+        config={config}
+        isOpen={isSearchToRelateModalOpen}
+        defaultRecordTypeValue={relatedRecordType}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCloseButtonClick}
+        onRelationsCreated={this.handleRelationsCreated}
+      />
+    );
+  }
 
-    if (typeof relatedCsid !== 'undefined' && relatedCsid !== null) {
-      relationEditor = (
-        <RelationEditorContainer
-          cloneCsid={cloneCsid}
-          config={config}
-          perms={perms}
-          subject={{
-            csid,
-            recordType,
-          }}
-          subjectWorkflowState={workflowState}
-          object={{
-            csid: relatedCsid,
-            recordType: relatedRecordType,
-          }}
-          predicate="affects"
-          cloneRecord={this.cloneRelatedRecord}
-          onClose={this.handleRelationEditorClose}
-          onRecordCreated={this.handleRelatedRecordCreated}
-          onUnrelated={this.handleRelationEditorUnrelated}
-        />
-      );
-    }
+  render() {
+    const {
+      config,
+      recordType,
+      csid,
+      perms,
+      relatedRecordType,
+      workflowState,
+    } = this.props;
 
     const isRelatable = (
       workflowState !== 'locked' &&
@@ -354,16 +386,8 @@ export default class RelatedRecordBrowser extends Component {
           onItemClick={this.handleRelatedRecordClick}
           onUnrelated={this.handleRelatedRecordPanelUnrelated}
         />
-        {relationEditor}
-        <SearchToRelateModalContainer
-          subjects={[{ csid, recordType }]}
-          config={config}
-          isOpen={isSearchToRelateModalOpen}
-          defaultRecordTypeValue={relatedRecordType}
-          onCancelButtonClick={this.handleModalCancelButtonClick}
-          onCloseButtonClick={this.handleModalCloseButtonClick}
-          onRelationsCreated={this.handleRelationsCreated}
-        />
+        {this.renderRelationEditor()}
+        {this.renderSearchToRelateModal()}
       </div>
     );
   }
