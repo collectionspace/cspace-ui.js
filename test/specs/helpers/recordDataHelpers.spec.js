@@ -1799,8 +1799,8 @@ describe('recordDataHelpers', function moduleSuite() {
       negativeNumber: {
         [configKey]: {
           dataType: DATA_TYPE_INT,
-          validate: (value) => {
-            if (value >= 0) {
+          validate: ({ data }) => {
+            if (data >= 0) {
               return {
                 code: ERR_VALIDATION,
                 message: {
@@ -1816,11 +1816,11 @@ describe('recordDataHelpers', function moduleSuite() {
       },
       zipCode: {
         [configKey]: {
-          validate: value => new Promise((resolve) => {
+          validate: ({ data }) => new Promise((resolve) => {
             window.setTimeout(() => {
               let error = null;
 
-              if (!value.match(/^\d{5}$/)) {
+              if (!data.match(/^\d{5}$/)) {
                 error = {
                   code: ERR_VALIDATION,
                   message: {

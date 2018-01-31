@@ -35,7 +35,7 @@ export default (pluginContext) => {
         service: {
           ns: 'http://collectionspace.org/services/account',
         },
-        validate: (data, path, recordData, fieldDescriptor) => {
+        validate: ({ data, fieldDescriptor }) => {
           const password = data.get('password');
           const confirmPassword = data.get('confirmPassword');
 
@@ -110,7 +110,7 @@ export default (pluginContext) => {
             },
           }),
           required: true,
-          validate: (data, path, recordData, fieldDescriptor) => {
+          validate: ({ data, fieldDescriptor }) => {
             if (!isValidEmail(data)) {
               return {
                 code: ERR_INVALID_EMAIL,
@@ -141,7 +141,7 @@ export default (pluginContext) => {
             },
           }),
           required: recordData => isNewRecord(recordData),
-          validate: (data, path, recordData, fieldDescriptor) => {
+          validate: ({ data, fieldDescriptor }) => {
             if (data && !isValidPassword(data)) {
               return {
                 code: ERR_INVALID_PW,

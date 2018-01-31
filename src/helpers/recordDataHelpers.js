@@ -640,7 +640,7 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
     const customValidator = getFieldCustomValidator(fieldDescriptor);
 
     if (customValidator) {
-      const error = customValidator(data, path, recordData, fieldDescriptor);
+      const error = customValidator({ data, path, recordData, fieldDescriptor });
 
       if (error) {
         result = {
