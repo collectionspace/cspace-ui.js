@@ -84,6 +84,7 @@ export default () => ({
         advancedSearch: [],
       },
       dimension: {},
+      structuredDate: {},
     },
   },
   lib: {

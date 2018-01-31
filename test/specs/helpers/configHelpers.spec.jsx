@@ -11,12 +11,14 @@ import {
   getFieldCustomValidator,
   getFieldComputer,
   getFieldDataType,
+  getRequiredMessage,
   initConfig,
   mergeConfig,
   applyPlugins,
   applyPlugin,
   evaluatePlugin,
-  normalizeConfig,
+  initializeExtensions,
+  initializeRecordTypes,
   getRecordTypeConfigByServiceDocumentName,
   getRecordTypeConfigByServiceObjectName,
   getRecordTypeNameByServiceObjectName,
@@ -163,7 +165,9 @@ describe('configHelpers', function moduleSuite() {
           greeting: '*',
         },
         recordTypes: {
-          collectionobject: {},
+          collectionobject: {
+            name: 'collectionobject',
+          },
         },
         options: {
           languages: {},
@@ -318,8 +322,77 @@ describe('configHelpers', function moduleSuite() {
       });
     });
   });
+  describe('initializeExtensions', function suite() {
+    it('should set the extensionName property of each top level field in each extension to the extension name', function test() {
+      const config = {
+        extensions: {
+          core: {
+            fields: {
+              'ns2:collectionspace_core': {
+                [configKey]: {
+                  foo: 'bar',
+                },
+              },
+            },
+          },
+          structuredDate: {
+            fields: {
+              displayDate: {},
+              dateAssociation: {},
+            },
+          },
+          dimension: {
+            fields: {
+              measuredPartGroupList: {
+                measuredPartGroup: {},
+              },
+            },
+          },
+        },
+      };
 
-  describe('normalizeConfig', function suite() {
+      initializeExtensions(config).should.deep.equal({
+        extensions: {
+          core: {
+            fields: {
+              'ns2:collectionspace_core': {
+                [configKey]: {
+                  foo: 'bar',
+                  extensionName: 'core',
+                },
+              },
+            },
+          },
+          structuredDate: {
+            fields: {
+              displayDate: {
+                [configKey]: {
+                  extensionName: 'structuredDate',
+                },
+              },
+              dateAssociation: {
+                [configKey]: {
+                  extensionName: 'structuredDate',
+                },
+              },
+            },
+          },
+          dimension: {
+            fields: {
+              measuredPartGroupList: {
+                [configKey]: {
+                  extensionName: 'dimension',
+                },
+                measuredPartGroup: {},
+              },
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe('initializeRecordTypes', function suite() {
     it('should set the name properties on record types and vocabularies', function test() {
       const config = {
         recordTypes: {
@@ -333,7 +406,7 @@ describe('configHelpers', function moduleSuite() {
         },
       };
 
-      normalizeConfig(config).should.deep.equal({
+      initializeRecordTypes(config).should.deep.equal({
         recordTypes: {
           collectionobject: {
             name: 'collectionobject',
@@ -370,13 +443,110 @@ describe('configHelpers', function moduleSuite() {
         },
       };
 
-      normalizeConfig(config).should.deep.equal({
+      initializeRecordTypes(config).should.deep.equal({
         recordTypes: {
           person: {
             name: 'person',
             vocabularies: {
               local: {
                 name: 'local',
+              },
+            },
+          },
+        },
+      });
+    });
+
+    it('should set the extensionParentConfig field on extension fields', function test() {
+      const collectionobjectDocumentConfig = {
+        foo: 'bar',
+      };
+
+      const groupDocumentConfig = {
+        foo: 'baz',
+      };
+
+      const productionDateGroupConfig = {
+        something: 'else',
+      };
+
+      const config = {
+        recordTypes: {
+          collectionobject: {
+            fields: {
+              document: {
+                [configKey]: collectionobjectDocumentConfig,
+                'ns2:collectionspace_core': {
+                  [configKey]: {
+                    extensionName: 'core',
+                  },
+                },
+                'ns2:collectionobjects_common': {
+                  productionDateGroup: {
+                    [configKey]: productionDateGroupConfig,
+                    displayDate: {
+                      [configKey]: {
+                        extensionName: 'structuredDate',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          group: {
+            fields: {
+              document: {
+                [configKey]: groupDocumentConfig,
+                'ns2:collectionspace_core': {
+                  [configKey]: {
+                    extensionName: 'core',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      initializeRecordTypes(config).should.deep.equal({
+        recordTypes: {
+          collectionobject: {
+            name: 'collectionobject',
+            fields: {
+              document: {
+                [configKey]: collectionobjectDocumentConfig,
+                'ns2:collectionspace_core': {
+                  [configKey]: {
+                    extensionName: 'core',
+                    extensionParentConfig: collectionobjectDocumentConfig,
+                  },
+                },
+                'ns2:collectionobjects_common': {
+                  productionDateGroup: {
+                    [configKey]: productionDateGroupConfig,
+                    displayDate: {
+                      [configKey]: {
+                        extensionName: 'structuredDate',
+                        extensionParentConfig: productionDateGroupConfig,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          group: {
+            name: 'group',
+            fields: {
+              document: {
+                [configKey]: groupDocumentConfig,
+                'ns2:collectionspace_core': {
+                  [configKey]: {
+                    extensionName: 'core',
+                    extensionParentConfig: groupDocumentConfig,
+                  },
+                },
               },
             },
           },
@@ -1098,6 +1268,25 @@ describe('configHelpers', function moduleSuite() {
       };
 
       expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_MAP);
+    });
+  });
+
+  describe('getRequiredMessage', function suite() {
+    it('should return the required message descriptor', function test() {
+      const requiredMessageDescriptor = {
+        id: 'field.required',
+        defaultMessage: 'Field is required',
+      };
+
+      const fieldDescriptor = {
+        [configKey]: {
+          messages: {
+            required: requiredMessageDescriptor,
+          },
+        },
+      };
+
+      getRequiredMessage(fieldDescriptor).should.equal(requiredMessageDescriptor);
     });
   });
 

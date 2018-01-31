@@ -1128,6 +1128,10 @@ export default (pluginContext) => {
         contentDateGroup: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.contentDateGroup.fullName',
+                defaultMessage: 'Content date',
+              },
               name: {
                 id: 'field.collectionobjects_common.contentDateGroup.name',
                 defaultMessage: 'Date',
@@ -1137,6 +1141,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         contentPositions: {
           [config]: {
@@ -1525,6 +1530,10 @@ export default (pluginContext) => {
             inscriptionContentDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentDateGroup.fullName',
+                    defaultMessage: 'Textual inscription date',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentDateGroup.name',
                     defaultMessage: 'Date',
@@ -1534,6 +1543,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             inscriptionContentPosition: {
               [config]: {
@@ -1692,6 +1702,10 @@ export default (pluginContext) => {
             inscriptionDescriptionDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.fullName',
+                    defaultMessage: 'Non-textual inscription date',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.name',
                     defaultMessage: 'Date',
@@ -1701,6 +1715,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             inscriptionDescriptionPosition: {
               [config]: {
@@ -1791,6 +1806,7 @@ export default (pluginContext) => {
                 type: StructuredDateInput,
               },
             },
+            ...extensions.structuredDate.fields,
           },
         },
         techniqueGroupList: {
@@ -2788,6 +2804,10 @@ export default (pluginContext) => {
             assocStructuredDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocStructuredDateGroup.fullName',
+                    defaultMessage: 'Associated date',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocStructuredDateGroup.name',
                     defaultMessage: 'Date',
@@ -2797,6 +2817,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             assocDateType: {
               [config]: {
@@ -2935,6 +2956,7 @@ export default (pluginContext) => {
                 type: StructuredDateInput,
               },
             },
+            ...extensions.structuredDate.fields,
           },
         },
         ownershipAccess: {
@@ -3259,6 +3281,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         fieldCollectionMethods: {
           [config]: {

@@ -361,6 +361,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         dissolutionDateGroup: {
           [config]: {
@@ -374,6 +375,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         foundingPlace: {
           [config]: {

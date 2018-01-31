@@ -108,6 +108,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         exitMethods: {
           [config]: {

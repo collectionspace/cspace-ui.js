@@ -458,6 +458,10 @@ export default (pluginContext) => {
             galleryRotationStartDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.galleryRotationStartDateGroup.fullName',
+                    defaultMessage: 'Gallery rotation start date',
+                  },
                   name: {
                     id: 'field.exhibitions_common.galleryRotationStartDateGroup.name',
                     defaultMessage: 'Start date',
@@ -467,10 +471,15 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             galleryRotationEndDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.galleryRotationEndDateGroup.fullName',
+                    defaultMessage: 'Gallery rotation end date',
+                  },
                   name: {
                     id: 'field.exhibitions_common.galleryRotationEndDateGroup.name',
                     defaultMessage: 'End date',
@@ -480,6 +489,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             galleryRotationNote: {
               [config]: {

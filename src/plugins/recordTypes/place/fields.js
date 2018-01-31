@@ -347,6 +347,10 @@ export default (pluginContext) => {
             nameDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.nameDateGroup.fullName',
+                    defaultMessage: 'Name date',
+                  },
                   name: {
                     id: 'field.places_common.nameDateGroup.name',
                     defaultMessage: 'Date',
@@ -356,6 +360,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
           },
         },
@@ -448,6 +453,10 @@ export default (pluginContext) => {
             ownershipDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.ownershipDateGroup.fullName',
+                    defaultMessage: 'Ownership date',
+                  },
                   name: {
                     id: 'field.places_common.ownershipDateGroup.name',
                     defaultMessage: 'Date',
@@ -457,6 +466,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             ownershipNote: {
               [config]: {
@@ -992,6 +1002,10 @@ export default (pluginContext) => {
             geoRefDateGroup: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geoRefDateGroup.fullName',
+                    defaultMessage: 'Georeference date',
+                  },
                   name: {
                     id: 'field.places_common.geoRefDateGroup.name',
                     defaultMessage: 'Date',
@@ -1001,6 +1015,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             geoRefProtocol: {
               [config]: {

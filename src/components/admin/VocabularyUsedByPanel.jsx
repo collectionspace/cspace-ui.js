@@ -17,6 +17,21 @@ const messages = defineMessages({
   },
 });
 
+const formatFieldName = (fieldConfig, intl) => {
+  const formattedParentName = fieldConfig.extensionParentConfig
+    ? formatFieldName(fieldConfig.extensionParentConfig, intl)
+    : null;
+
+  const {
+    fullName,
+    name,
+  } = fieldConfig.messages;
+
+  const formattedName = intl.formatMessage(fullName || name);
+
+  return [formattedParentName, formattedName].filter(part => !!part).join(' - ');
+};
+
 const renderUses = (uses, config, intl) => {
   const usedByRecordTypes = uses ? Object.keys(uses) : null;
 
@@ -34,14 +49,7 @@ const renderUses = (uses, config, intl) => {
     const formattedRecordName = intl.formatMessage(recordTypes[recordType].messages.record.name);
 
     const formattedFieldNames = uses[recordType]
-      .map((fieldConfig) => {
-        const {
-          fullName,
-          name,
-        } = fieldConfig.messages;
-
-        return intl.formatMessage(fullName || name);
-      })
+      .map(fieldConfig => formatFieldName(fieldConfig, intl))
       .sort();
 
     formattedUses[formattedRecordName] = formattedFieldNames;

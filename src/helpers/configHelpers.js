@@ -37,6 +37,106 @@ export const configKey = '[config]';
 export const dataPathToFieldDescriptorPath = dataPath =>
   dataPath.filter(isNotNumeric);
 
+/*
+ * Initialize the extension configurations in a configuration object. This function mutates the
+ * argument configuration.
+ *
+ * - Set the extensionName property of each top level field in the extension to the extension name
+ */
+export const initializeExtensions = (config) => {
+  const { extensions } = config;
+
+  if (extensions) {
+    Object.keys(extensions).forEach((extensionName) => {
+      const extension = extensions[extensionName];
+      const { fields } = extension;
+
+      if (fields) {
+        Object.values(fields).forEach((fieldDescriptor) => {
+          set(fieldDescriptor, [configKey, 'extensionName'], extensionName);
+        });
+      }
+    });
+  }
+
+  return config;
+};
+
+export const initializeExtensionFieldParents = (fieldDescriptor) => {
+  if (fieldDescriptor) {
+    Object.keys(fieldDescriptor).filter(key => key !== configKey).forEach((key) => {
+      const childFieldDescriptor = fieldDescriptor[key];
+      const isExtensionField = get(childFieldDescriptor, [configKey, 'extensionName']);
+
+      if (isExtensionField) {
+        // Make a copy of this field descriptor and its configuration, so that different
+        // configuration can be applied to each use of the extension (really wishing I'd made the
+        // config an Immutable, so explicit copy wouldn't be necessary).
+
+        // Set the extension parent config in the extension field's config.
+
+        const childFieldDescriptorCopy = Object.assign({}, childFieldDescriptor, {
+          [configKey]: Object.assign({}, childFieldDescriptor[configKey], {
+            extensionParentConfig: fieldDescriptor[configKey],
+          }),
+        });
+
+        // eslint-disable-next-line no-param-reassign
+        fieldDescriptor[key] = childFieldDescriptorCopy;
+      } else {
+        initializeExtensionFieldParents(childFieldDescriptor);
+      }
+    });
+  }
+};
+
+/*
+ * Initialize the record type configurations in a configuration object. This function mutates the
+ * argument configuration.
+ *
+ * - Delete any record type or vocabulary that is disabled
+ * - Set the name property of each recordTypes entry to its key
+ * - Set the name property of each vocabularies entry to its key
+ * - Set the parent property of any extension fields
+ */
+export const initializeRecordTypes = (config) => {
+  const { recordTypes } = config;
+
+  if (recordTypes) {
+    Object.keys(recordTypes).forEach((recordTypeName) => {
+      const recordType = recordTypes[recordTypeName];
+
+      if (recordType.disabled) {
+        delete recordTypes[recordTypeName];
+      } else {
+        recordType.name = recordTypeName;
+
+        const { fields, vocabularies } = recordType;
+
+        if (fields) {
+          Object.values(fields).forEach((fieldDescriptor) => {
+            initializeExtensionFieldParents(fieldDescriptor);
+          });
+        }
+
+        if (vocabularies) {
+          Object.keys(vocabularies).forEach((vocabularyName) => {
+            const vocabulary = vocabularies[vocabularyName];
+
+            if (vocabulary.disabled) {
+              delete vocabularies[vocabularyName];
+            } else {
+              vocabularies[vocabularyName].name = vocabularyName;
+            }
+          });
+        }
+      }
+    });
+  }
+
+  return config;
+};
+
 export const evaluatePlugin = (plugin, pluginContext) => {
   const pluginType = typeof plugin;
 
@@ -49,7 +149,12 @@ export const evaluatePlugin = (plugin, pluginContext) => {
     return {};
   }
 
-  return (pluginType === 'object') ? plugin : plugin(pluginContext);
+  const config = (pluginType === 'object') ? plugin : plugin(pluginContext);
+
+  initializeExtensions(config);
+  initializeRecordTypes(config);
+
+  return config;
 };
 
 export const applyPlugin = (targetConfig, plugin, pluginContext = {}) => {
@@ -81,7 +186,7 @@ const configMerger = (objValue, srcValue, key) => {
   }
 
   if (key === 'advancedSearch') {
-    // Don't merge advanced serach config. Just override with the source value.
+    // Don't merge advanced search config. Just override with the source value.
     return srcValue;
   }
 
@@ -97,15 +202,11 @@ export const mergeConfig = (targetConfig, sourceConfig, pluginContext = {}) => {
   // eslint-disable-next-line no-param-reassign
   pluginContext.config = targetConfig;
 
-  const resolvedSourceConfig = (typeof sourceConfig === 'function')
-    ? sourceConfig(pluginContext)
-    : sourceConfig;
-
-  const pluginsAppliedConfig = (resolvedSourceConfig && ('plugins' in resolvedSourceConfig))
-    ? applyPlugins(targetConfig, resolvedSourceConfig.plugins, pluginContext)
+  const pluginsAppliedConfig = (sourceConfig && ('plugins' in sourceConfig))
+    ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
     : targetConfig;
 
-  const mergedConfig = mergeWith({}, pluginsAppliedConfig, resolvedSourceConfig, configMerger);
+  const mergedConfig = mergeWith({}, pluginsAppliedConfig, sourceConfig, configMerger);
 
   delete mergedConfig.plugins;
 
@@ -114,42 +215,6 @@ export const mergeConfig = (targetConfig, sourceConfig, pluginContext = {}) => {
 
 export const initConfig = (config, pluginContext) =>
   mergeConfig({}, config, pluginContext);
-
-/*
- * Normalize a configuration object. This function mutates the argument configuration.
- * - Delete any record type or vocabulary that is disabled
- * - Set the name property of each recordTypes entry to its key
- * - Set the name property of each vocabularies entry to its key
- */
-export const normalizeConfig = (config) => {
-  const recordTypes = config.recordTypes;
-
-  Object.keys(recordTypes).forEach((recordTypeName) => {
-    const recordType = recordTypes[recordTypeName];
-
-    if (recordType.disabled) {
-      delete recordTypes[recordTypeName];
-    } else {
-      const vocabularies = recordType.vocabularies;
-
-      recordType.name = recordTypeName;
-
-      if (vocabularies) {
-        Object.keys(vocabularies).forEach((vocabularyName) => {
-          const vocabulary = vocabularies[vocabularyName];
-
-          if (vocabulary.disabled) {
-            delete vocabularies[vocabularyName];
-          } else {
-            vocabularies[vocabularyName].name = vocabularyName;
-          }
-        });
-      }
-    }
-  });
-
-  return config;
-};
 
 export const getRecordTypeConfigByServiceDocumentName = (config, documentName) => {
   if (!documentName) {

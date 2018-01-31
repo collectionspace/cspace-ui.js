@@ -542,6 +542,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         birthPlace: {
           [config]: {
@@ -568,6 +569,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         deathPlace: {
           [config]: {

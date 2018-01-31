@@ -75,6 +75,7 @@ export default (pluginContext) => {
               type: StructuredDateInput,
             },
           },
+          ...extensions.structuredDate.fields,
         },
         acquisitionAuthorizer: {
           [config]: {
@@ -129,6 +130,7 @@ export default (pluginContext) => {
                 type: StructuredDateInput,
               },
             },
+            ...extensions.structuredDate.fields,
           },
         },
         acquisitionMethod: {

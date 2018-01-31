@@ -17,7 +17,7 @@ import defaultPlugins from './plugins';
 import reducer from './reducers';
 import AppContainer from './containers/AppContainer';
 import createPluginContext from './helpers/createPluginContext';
-import { mergeConfig, normalizeConfig } from './helpers/configHelpers';
+import { evaluatePlugin, mergeConfig } from './helpers/configHelpers';
 
 const pluginContext = createPluginContext();
 
@@ -41,7 +41,8 @@ const defaultConfig = mergeConfig({
 }, pluginContext);
 
 module.exports = (uiConfig) => {
-  const config = normalizeConfig(mergeConfig(defaultConfig, uiConfig, pluginContext));
+  const resolvedUiConfig = evaluatePlugin(uiConfig, pluginContext);
+  const config = mergeConfig(defaultConfig, resolvedUiConfig, pluginContext);
 
   const {
     container,

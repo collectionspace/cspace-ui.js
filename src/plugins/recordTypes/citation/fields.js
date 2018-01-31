@@ -466,6 +466,10 @@ export default (pluginContext) => {
             publicationDate: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.citations_common.publicationDate.fullName',
+                    defaultMessage: 'Publication date',
+                  },
                   name: {
                     id: 'field.citations_common.publicationDate.name',
                     defaultMessage: 'Date',
@@ -475,6 +479,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
             edition: {
               [config]: {
@@ -664,6 +669,7 @@ export default (pluginContext) => {
                   type: StructuredDateInput,
                 },
               },
+              ...extensions.structuredDate.fields,
             },
           },
         },
