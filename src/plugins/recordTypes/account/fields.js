@@ -198,15 +198,15 @@ export default (pluginContext) => {
       userId: {
         [config]: {
           cloneable: false,
-          compute: (value, path, data) => {
-            if (isExistingRecord(data)) {
+          compute: ({ recordData }) => {
+            if (isExistingRecord(recordData)) {
               // Don't compute a value if this is an existing record.
               return undefined;
             }
 
             // Set the value to the email address.
 
-            return data.getIn(['ns3:accounts_common', 'email']);
+            return recordData.getIn(['ns3:accounts_common', 'email']);
           },
           messages: defineMessages({
             name: {

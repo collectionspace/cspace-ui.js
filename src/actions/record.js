@@ -25,6 +25,7 @@ import {
   getRecordSubrecordCsid,
   getRecordValidationErrors,
   getSearchResult,
+  getSubrecordData,
   isRecordReadPending,
 } from '../reducers';
 
@@ -198,8 +199,9 @@ export const DETACH_SUBRECORD = 'DETACH_SUBRECORD';
 export const computeFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
   const recordData = getRecordData(getState(), csid);
+  const subrecordData = getSubrecordData(getState(), csid);
 
-  return computeField(value, [], recordData, fieldDescriptor, true)
+  return computeField(value, [], recordData, subrecordData, fieldDescriptor, true)
     .then((computedValue) => {
       if (typeof computedValue !== 'undefined') {
         dispatch({

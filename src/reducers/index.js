@@ -78,6 +78,8 @@ export const getRecordRelationUpdatedTimestamp = (state, csid) =>
 
 export const getRecordData = (state, csid) => fromRecord.getData(state.record, csid);
 
+export const getSubrecordData = (state, csid) => fromRecord.getSubrecordData(state.record, csid);
+
 export const getRecordError = (state, csid) => fromRecord.getError(state.record, csid);
 
 export const getRecordSubrecordCsid = (state, csid, subrecordName) =>

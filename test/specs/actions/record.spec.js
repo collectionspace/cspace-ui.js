@@ -3442,7 +3442,7 @@ describe('record action creator', function suite() {
         document: {
           sayHello: {
             [configKey]: {
-              compute: value => `Hello ${value}`,
+              compute: ({ data }) => `Hello ${data}`,
             },
           },
           badCompute: {

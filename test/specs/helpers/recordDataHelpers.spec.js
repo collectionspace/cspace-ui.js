@@ -2139,7 +2139,7 @@ describe('recordDataHelpers', function moduleSuite() {
     const fieldDescriptor = {
       sayHello: {
         [configKey]: {
-          compute: data => `hello ${data}`,
+          compute: ({ data }) => `hello ${data}`,
         },
       },
       throwError: {
@@ -2152,7 +2152,7 @@ describe('recordDataHelpers', function moduleSuite() {
       names: {
         name: {
           [configKey]: {
-            compute: (data, path) => {
+            compute: ({ data, path }) => {
               const index = path[path.length - 1];
 
               return `${index}. ${data}`;
@@ -2163,7 +2163,7 @@ describe('recordDataHelpers', function moduleSuite() {
       },
       colors: {
         [configKey]: {
-          compute: data => data.set(
+          compute: ({ data }) => data.set(
             'color', data.get('color').map((color, index) => `${index}. ${color}`)
           ),
         },
@@ -2176,7 +2176,7 @@ describe('recordDataHelpers', function moduleSuite() {
       measuredPartGroupList: {
         measuredPartGroup: {
           [configKey]: {
-            compute: (data) => {
+            compute: ({ data }) => {
               const part = data.get('measuredPart');
               const dim1 = data.getIn(['dimensionSubGroupList', 'dimensionSubGroup', 0, 'value']);
               const dim2 = data.getIn(['dimensionSubGroupList', 'dimensionSubGroup', 1, 'value']);
@@ -2203,22 +2203,22 @@ describe('recordDataHelpers', function moduleSuite() {
     };
 
     it('should resolve to undefined if no field descriptor is supplied', function test() {
-      return computeField('world', [], Immutable.Map(), undefined)
+      return computeField('world', [], Immutable.Map(), null, undefined)
         .then((computedValue) => {
           expect(computedValue).to.equal(undefined);
         });
     });
 
     it('should resolve a computed value for scalar fields', function test() {
-      return computeField('world', [], Immutable.Map(), fieldDescriptor.sayHello).should
+      return computeField('world', [], Immutable.Map(), null, fieldDescriptor.sayHello).should
         .eventually.equal('hello world');
     });
 
     it('should resolve a computed value for repeating field instances', function test() {
       return Promise.all([
-        computeField('Alvar Aalto', [0], Immutable.Map(), fieldDescriptor.names.name, false).should
+        computeField('Alvar Aalto', [0], Immutable.Map(), null, fieldDescriptor.names.name, false).should
           .eventually.equal('0. Alvar Aalto'),
-        computeField('Ray Eames', [1], Immutable.Map(), fieldDescriptor.names.name, false).should
+        computeField('Ray Eames', [1], Immutable.Map(), null, fieldDescriptor.names.name, false).should
           .eventually.equal('1. Ray Eames'),
       ]);
     });
@@ -2230,7 +2230,7 @@ describe('recordDataHelpers', function moduleSuite() {
         'Bruce Wayne',
       ]);
 
-      return computeField(value, [], Immutable.Map(), fieldDescriptor.names.name).should
+      return computeField(value, [], Immutable.Map(), null, fieldDescriptor.names.name).should
         .eventually.equal(Immutable.List([
           '0. Lois Lane',
           '1. Clark Kent',
@@ -2249,7 +2249,7 @@ describe('recordDataHelpers', function moduleSuite() {
         ],
       });
 
-      return computeField(value, [], Immutable.Map(), fieldDescriptor.colors).should
+      return computeField(value, [], Immutable.Map(), null, fieldDescriptor.colors).should
         .eventually.equal(Immutable.fromJS({
           color: [
             '0. blue',
@@ -2277,7 +2277,8 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       return computeField(
-        value, [0], Immutable.Map(), fieldDescriptor.measuredPartGroupList.measuredPartGroup, false
+        value, [0], Immutable.Map(), null,
+        fieldDescriptor.measuredPartGroupList.measuredPartGroup, false
       ).should.eventually.equal(value.set('dimensionSummary', 'base: 12 x 24'));
     });
 
@@ -2293,7 +2294,7 @@ describe('recordDataHelpers', function moduleSuite() {
               group: {
                 sayHello: {
                   [configKey]: {
-                    compute: data => `hello ${data}`,
+                    compute: ({ data }) => `hello ${data}`,
                   },
                 },
                 foo: {},
@@ -2323,7 +2324,7 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      return computeField(value, [], Immutable.Map(), docFieldDescriptor).should
+      return computeField(value, [], Immutable.Map(), null, docFieldDescriptor).should
         .eventually.equal(Immutable.fromJS({
           document: {
             'ns2:collectionobjects_common': {
@@ -2373,14 +2374,14 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      return computeField(value, [], Immutable.Map(), docFieldDescriptor)
+      return computeField(value, [], Immutable.Map(), null, docFieldDescriptor)
         .then((computedValue) => {
           expect(computedValue).to.equal(undefined);
         });
     });
 
     it('should reject if the compute function throws', function test() {
-      return computeField('', [], Immutable.Map(), fieldDescriptor.throwError)
+      return computeField('', [], Immutable.Map(), null, fieldDescriptor.throwError)
         .catch(error => error.message)
         .should.eventually.equal('test error');
     });
@@ -2400,7 +2401,7 @@ describe('recordDataHelpers', function moduleSuite() {
                 group: {
                   sayHello: {
                     [configKey]: {
-                      compute: data => `hello ${data}`,
+                      compute: ({ data }) => `hello ${data}`,
                     },
                   },
                   foo: {},
@@ -2431,7 +2432,7 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      return computeRecordData(data, recordTypeConfig).should
+      return computeRecordData(data, null, recordTypeConfig).should
         .eventually.equal(Immutable.fromJS({
           document: {
             'ns2:collectionobjects_common': {

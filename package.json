@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "0.13.25",
+  "version": "0.14.0",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",

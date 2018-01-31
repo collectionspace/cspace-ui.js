@@ -80,11 +80,11 @@ export default (pluginContext) => {
       },
       roleName: {
         [config]: {
-          compute: (value, path, data) => {
+          compute: ({ recordData }) => {
             // What should this do? REST API requires this field, but it seems like it just needs
             // to be something unique.
 
-            const displayName = data.getIn(['ns2:role', 'displayName']);
+            const displayName = recordData.getIn(['ns2:role', 'displayName']);
 
             return displayName
               .toUpperCase()

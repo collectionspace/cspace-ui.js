@@ -703,119 +703,128 @@ export const validateField = (data, path, recordData, fieldDescriptor, expandRep
 export const validateRecordData = (data, recordTypeConfig) =>
   validateField(data, [], data, get(recordTypeConfig, 'fields'));
 
-const doCompute = (data, path = [], recordData, fieldDescriptor, expandRepeating = true) => {
-  if (!fieldDescriptor) {
-    return undefined;
-  }
+const doCompute =
+  (data, path = [], recordData, subrecordData, fieldDescriptor, expandRepeating = true) => {
+    if (!fieldDescriptor) {
+      return undefined;
+    }
 
-  const results = [];
+    const results = [];
 
-  if (expandRepeating && isFieldRepeating(fieldDescriptor)) {
-    // This is a repeating field, and the expand flag is true. Compute each instance.
+    if (expandRepeating && isFieldRepeating(fieldDescriptor)) {
+      // This is a repeating field, and the expand flag is true. Compute each instance.
 
-    const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
+      const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
-    instances.forEach((instance, index) => {
-      const instanceData = instances.get(index);
-      const instancePath = [...path, index];
+      instances.forEach((instance, index) => {
+        const instanceData = instances.get(index);
+        const instancePath = [...path, index];
 
-      const instanceResults =
-        doCompute(instanceData, instancePath, recordData, fieldDescriptor, false);
+        const instanceResults =
+          doCompute(instanceData, instancePath, recordData, subrecordData, fieldDescriptor, false);
 
-      if (instanceResults) {
-        Array.prototype.push.apply(results, instanceResults);
+        if (instanceResults) {
+          Array.prototype.push.apply(results, instanceResults);
+        }
+      });
+
+      return (results.length > 0 ? results : undefined);
+    }
+
+    const dataType = getFieldDataType(fieldDescriptor);
+
+    if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
+      // Compute this field's children, and add any child results to the results array.
+
+      const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+
+      childKeys.forEach((childKey) => {
+        const childData = data ? data.get(childKey) : undefined;
+        const childPath = [...path, childKey];
+        const childFieldDescriptor = fieldDescriptor[childKey];
+
+        const childResults =
+          doCompute(childData, childPath, recordData, subrecordData, childFieldDescriptor);
+
+        if (childResults) {
+          Array.prototype.push.apply(results, childResults);
+        }
+      });
+    }
+
+    let result;
+
+    const computer = getFieldComputer(fieldDescriptor);
+
+    if (computer) {
+      let value;
+
+      try {
+        value = computer({ data, path, recordData, subrecordData, fieldDescriptor });
+      } catch (error) {
+        value = Promise.reject(error);
       }
-    });
+
+      if (typeof value !== 'undefined') {
+        result = {
+          path,
+          value,
+        };
+      }
+    }
+
+    if (result) {
+      results.push(result);
+    }
 
     return (results.length > 0 ? results : undefined);
-  }
+  };
 
-  const dataType = getFieldDataType(fieldDescriptor);
-
-  if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
-    // Compute this field's children, and add any child results to the results array.
-
-    const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
-
-    childKeys.forEach((childKey) => {
-      const childData = data ? data.get(childKey) : undefined;
-      const childPath = [...path, childKey];
-      const childFieldDescriptor = fieldDescriptor[childKey];
-
-      const childResults =
-        doCompute(childData, childPath, recordData, childFieldDescriptor);
-
-      if (childResults) {
-        Array.prototype.push.apply(results, childResults);
-      }
-    });
-  }
-
-  let result;
-
-  const computer = getFieldComputer(fieldDescriptor);
-
-  if (computer) {
-    let value;
-
-    try {
-      value = computer(data, path, recordData, fieldDescriptor);
-    } catch (error) {
-      value = Promise.reject(error);
-    }
-
-    if (typeof value !== 'undefined') {
-      result = {
-        path,
-        value,
-      };
-    }
-  }
-
-  if (result) {
-    results.push(result);
-  }
-
-  return (results.length > 0 ? results : undefined);
-};
-
-export const computeField = (data, path, recordData, fieldDescriptor, expandRepeating = true) => {
-  const computationResults = doCompute(data, path, recordData, fieldDescriptor, expandRepeating);
-
-  if (typeof computationResults !== 'undefined') {
-    // Computation results may either contain values, or promises that will resolve to values (when
-    // the computation function was async). Wait for all of the promises to resolve.
-
-    return (
-      Promise.all(computationResults.map(result => result.value))
-        .then((resolvedValues) => {
-          // Convert the resolved value array into a tree of values.
-
-          let valueTree = Immutable.Map();
-
-          resolvedValues.forEach((value, index) => {
-            if (value) {
-              const valuePath = computationResults[index].path;
-
-              if (valuePath && valuePath.length > 0 && expandRepeating) {
-                valueTree = deepSet(valueTree, valuePath, value);
-              } else {
-                valueTree = value;
-              }
-            }
-          });
-
-          return Promise.resolve(valueTree);
-        })
-        // Don't catch rejections, just let the caller handle them.
+export const computeField =
+  (data, path, recordData, subrecordData, fieldDescriptor, expandRepeating = true) => {
+    const computationResults = doCompute(
+      data,
+      path,
+      recordData,
+      subrecordData,
+      fieldDescriptor,
+      expandRepeating
     );
-  }
 
-  return Promise.resolve(undefined);
-};
+    if (typeof computationResults !== 'undefined') {
+      // Computation results may either contain values, or promises that will resolve to values
+      // (when the computation function was async). Wait for all of the promises to resolve.
 
-export const computeRecordData = (data, recordTypeConfig) =>
-  computeField(data, [], data, get(recordTypeConfig, 'fields'));
+      return (
+        Promise.all(computationResults.map(result => result.value))
+          .then((resolvedValues) => {
+            // Convert the resolved value array into a tree of values.
+
+            let valueTree = Immutable.Map();
+
+            resolvedValues.forEach((value, index) => {
+              if (value) {
+                const valuePath = computationResults[index].path;
+
+                if (valuePath && valuePath.length > 0 && expandRepeating) {
+                  valueTree = deepSet(valueTree, valuePath, value);
+                } else {
+                  valueTree = value;
+                }
+              }
+            });
+
+            return Promise.resolve(valueTree);
+          })
+          // Don't catch rejections, just let the caller handle them.
+      );
+    }
+
+    return Promise.resolve(undefined);
+  };
+
+export const computeRecordData = (data, subrecordData, recordTypeConfig) =>
+  computeField(data, [], data, subrecordData, get(recordTypeConfig, 'fields'));
 
 export const isExistingRecord = data => !!(
   // TODO: Move this into record type config.

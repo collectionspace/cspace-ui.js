@@ -743,6 +743,12 @@ export const getError = (state, csid) => state.getIn([csid, 'error']);
 
 export const getSubrecordCsid = (state, csid, subrecordName) => state.getIn([csid, 'subrecord', subrecordName]);
 
+export const getSubrecordData = (state, csid) => {
+  const subrecords = state.getIn([csid, 'subrecord']);
+
+  return (subrecords ? subrecords.map(subrecordCsid => getData(state, subrecordCsid)) : null);
+};
+
 export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);
 
 export const getNewData = state => getData(state, unsavedRecordKey());
