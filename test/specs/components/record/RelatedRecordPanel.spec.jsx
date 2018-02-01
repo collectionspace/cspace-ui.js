@@ -9,7 +9,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
-import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
+import RelatedRecordPanel, { confirmUnrelateModalName } from '../../../../src/components/record/RelatedRecordPanel';
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 import UnrelateButton from '../../../../src/components/record/UnrelateButton';
 import SelectBar from '../../../../src/components/search/SelectBar';
@@ -527,7 +527,7 @@ describe('RelatedRecordPanel', function suite() {
 
     unrelateButton.props.onClick();
 
-    openModalName.should.equal(ConfirmRecordUnrelateModal.modalName);
+    openModalName.should.equal(confirmUnrelateModalName);
   });
 
   it('should call unrelateRecords followed by clearSelected, onUnrelated, and closeModal when the confirm unrelate button is clicked', function test() {

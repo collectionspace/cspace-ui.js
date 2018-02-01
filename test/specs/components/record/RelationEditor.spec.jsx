@@ -7,7 +7,7 @@ import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
-import RelationEditor from '../../../../src/components/record/RelationEditor';
+import RelationEditor, { confirmUnrelateModalName } from '../../../../src/components/record/RelationEditor';
 import RelationButtonBar from '../../../../src/components/record/RelationButtonBar';
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 
@@ -637,7 +637,7 @@ describe('RelationEditor', function suite() {
 
     buttonBar.props.onUnrelateButtonClick();
 
-    openModalName.should.equal(ConfirmRecordUnrelateModal.modalName);
+    openModalName.should.equal(confirmUnrelateModalName);
   });
 
   it('should call closeModal and onClose, then unrelate and onUnrelated when unmounted when the confirm unrelate button is clicked', function test() {

@@ -12,6 +12,8 @@ import { canRelate } from '../../helpers/permissionHelpers';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
+export const confirmUnrelateModalName = `RelationEditor-${ConfirmRecordUnrelateModal.modalName}`;
+
 const messages = defineMessages({
   editTitle: {
     id: 'relationEditor.editTitle',
@@ -208,7 +210,7 @@ export default class RelationEditor extends Component {
     } = this.props;
 
     if (openModal) {
-      openModal(ConfirmRecordUnrelateModal.modalName);
+      openModal(confirmUnrelateModalName);
     }
   }
 
@@ -325,7 +327,7 @@ export default class RelationEditor extends Component {
         config={config}
         recordType={object.recordType}
         data={objectData}
-        isOpen={openModalName === ConfirmRecordUnrelateModal.modalName}
+        isOpen={openModalName === confirmUnrelateModalName}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
         onUnrelateButtonClick={this.handleConfirmUnrelateButtonClick}

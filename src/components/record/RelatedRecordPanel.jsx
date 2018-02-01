@@ -12,6 +12,8 @@ import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
 import SelectBar from '../search/SelectBar';
 import UnrelateButton from './UnrelateButton';
 
+export const confirmUnrelateModalName = `RelatedRecordPanel-${ConfirmRecordUnrelateModal.modalName}`;
+
 const messages = defineMessages({
   title: {
     id: 'relatedRecordPanel.title',
@@ -231,7 +233,7 @@ export default class RelatedRecordPanel extends Component {
     } = this.props;
 
     if (openModal) {
-      openModal(ConfirmRecordUnrelateModal.modalName);
+      openModal(confirmUnrelateModalName);
     }
   }
 
@@ -279,7 +281,7 @@ export default class RelatedRecordPanel extends Component {
         config={config}
         recordType={relatedRecordType}
         isMultiSelect
-        isOpen={openModalName === ConfirmRecordUnrelateModal.modalName}
+        isOpen={openModalName === confirmUnrelateModalName}
         isUnrelating={isUnrelating}
         recordCount={recordCount}
         onCancelButtonClick={this.handleModalCancelButtonClick}
