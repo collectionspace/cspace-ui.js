@@ -33,13 +33,7 @@ const template = (pluginContext) => {
           <Subrecord name="blob" showDetachButton />
         </Panel>
 
-        <Cols>
-          <Col>
-            <Field name="externalUrl" />
-          </Col>
-
-          <Col />
-        </Cols>
+        <Field name="externalUrl" />
 
         {extensions.dimension.form}
 

@@ -72,6 +72,20 @@ export default (pluginContext) => {
         },
         externalUrl: {
           [config]: {
+            // FIXME: Computed fields should recalculate when subrecord fields are committed.
+            compute: ({ subrecordData }) => {
+              const blobData = subrecordData.get('blob');
+
+              if (blobData) {
+                const file = blobData.getIn(['document', 'ns2:blobs_common', 'file']);
+
+                if (typeof file === 'string') {
+                  return file;
+                }
+              }
+
+              return undefined;
+            },
             messages: defineMessages({
               name: {
                 id: 'field.media_common.externalUrl.name',
