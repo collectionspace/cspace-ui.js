@@ -123,4 +123,19 @@ describe('StructuredDateInput', function suite() {
 
     structuredDateInput.props.formatOptionLabel(option).should.equal('option value');
   });
+
+  it('should call intl.formatMessage to format the parse failed message', function test() {
+    const messages = {
+      'structuredDateInput.parseFailed': 'formatted parseFailed',
+    };
+
+    const resultTree = render(
+      <IntlProvider locale="en" messages={messages}>
+        <StructuredDateInput />
+      </IntlProvider>, this.container);
+
+    const structuredDateInput = findRenderedComponentWithType(resultTree, BaseStructuredDateInput);
+
+    structuredDateInput.props.formatParseFailedMessage().should.equal('formatted parseFailed');
+  });
 });

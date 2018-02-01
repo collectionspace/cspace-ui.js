@@ -13,6 +13,8 @@ import {
   resetPassword,
 } from '../../../src/actions/account';
 
+chai.should();
+
 describe('account action creator', function suite() {
   describe('requestPasswordReset', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
