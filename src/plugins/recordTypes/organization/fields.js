@@ -4,6 +4,7 @@ export default (pluginContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
+    DateInput,
     HierarchyInput,
     OptionPickerInput,
     TextInput,
@@ -19,6 +20,10 @@ export default (pluginContext) => {
   const {
     extensions,
   } = pluginContext.config;
+
+  const {
+    DATA_TYPE_STRUCTURED_DATE,
+  } = pluginContext.dataTypes;
 
   return {
     document: {
@@ -351,12 +356,16 @@ export default (pluginContext) => {
         },
         foundingDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.organizations_common.foundingDateGroup.name',
                 defaultMessage: 'Foundation date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },
@@ -365,12 +374,16 @@ export default (pluginContext) => {
         },
         dissolutionDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.organizations_common.dissolutionDateGroup.name',
                 defaultMessage: 'Dissolution date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },

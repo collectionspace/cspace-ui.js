@@ -19,6 +19,7 @@ export default (pluginContext) => {
   const {
     DATA_TYPE_DATE,
     DATA_TYPE_FLOAT,
+    DATA_TYPE_STRUCTURED_DATE,
   } = pluginContext.dataTypes;
 
   const {
@@ -65,12 +66,16 @@ export default (pluginContext) => {
         },
         accessionDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.acquisitions_common.accessionDateGroup.name',
                 defaultMessage: 'Accession date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },
@@ -119,6 +124,7 @@ export default (pluginContext) => {
           },
           acquisitionDateGroup: {
             [config]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
               messages: defineMessages({
                 name: {
                   id: 'field.acquisitions_common.acquisitionDateGroup.name',
@@ -126,6 +132,9 @@ export default (pluginContext) => {
                 },
               }),
               repeating: true,
+              searchView: {
+                type: DateInput,
+              },
               view: {
                 type: StructuredDateInput,
               },

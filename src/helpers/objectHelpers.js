@@ -7,7 +7,7 @@ export const asPairs = (object) => {
   Object.keys(object).sort().forEach((key) => {
     const value = object[key];
 
-    array.push([key, (typeof value === 'object' ? asPairs(value) : value)]);
+    array.push([key, (((typeof value === 'object') && value) ? asPairs(value) : value)]);
   });
 
   return array;

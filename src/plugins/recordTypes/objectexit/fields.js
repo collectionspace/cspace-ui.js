@@ -20,6 +20,7 @@ export default (pluginContext) => {
     DATA_TYPE_DATE,
     DATA_TYPE_FLOAT,
     DATA_TYPE_INT,
+    DATA_TYPE_STRUCTURED_DATE,
   } = pluginContext.dataTypes;
 
   const {
@@ -98,12 +99,16 @@ export default (pluginContext) => {
         },
         exitDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.objectexit_common.exitDateGroup.name',
                 defaultMessage: 'Exit date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },

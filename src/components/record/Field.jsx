@@ -128,7 +128,7 @@ export default function Field(props, context) {
 
   const computedProps = {};
 
-  if (fieldConfig.repeating) {
+  if (fieldConfig.repeating && viewType !== 'search') {
     computedProps.repeating = fieldConfig.repeating;
   }
 

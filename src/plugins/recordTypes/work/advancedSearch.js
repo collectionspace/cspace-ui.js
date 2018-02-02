@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -36,10 +37,10 @@ export default (pluginContext) => {
         op: OP_EQ,
         path: 'ns2:works_common/workType',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:works_common/workDateGroupList/workDateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:works_common/workDateGroupList/workDateGroup',
+      },
       {
         op: OP_EQ,
         path: 'ns2:works_common/creatorGroupList/creatorGroup/creator',

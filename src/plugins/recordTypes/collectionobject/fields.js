@@ -20,6 +20,7 @@ export default (pluginContext) => {
   const {
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
+    DATA_TYPE_STRUCTURED_DATE,
   } = pluginContext.dataTypes;
 
   const {
@@ -1792,6 +1793,7 @@ export default (pluginContext) => {
           },
           objectProductionDateGroup: {
             [config]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.objectProductionDateGroup.name',

@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -44,14 +45,14 @@ export default (pluginContext) => {
         op: OP_CONTAIN,
         path: 'ns2:persons_common/nationalities/nationality',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:persons_common/birthDateGroup',
-      // },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:persons_common/deathDateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:persons_common/birthDateGroup',
+      },
+      {
+        op: OP_RANGE,
+        path: 'ns2:persons_common/deathDateGroup',
+      },
       ...extensions.core.advancedSearch,
     ],
   };

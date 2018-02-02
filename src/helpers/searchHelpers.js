@@ -1,6 +1,8 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import moment from 'moment';
 import qs from 'qs';
+import warning from 'warning';
 
 import {
   configKey,
@@ -12,10 +14,12 @@ import {
 
 import {
   DATA_TYPE_BOOL,
+  DATA_TYPE_DATE,
+  DATA_TYPE_DATETIME,
   DATA_TYPE_FLOAT,
   DATA_TYPE_INT,
   DATA_TYPE_STRING,
-  DATA_TYPE_DATETIME,
+  DATA_TYPE_STRUCTURED_DATE,
 } from '../constants/dataTypes';
 
 import {
@@ -230,7 +234,7 @@ export const operatorToNXQL = operator => operatorToNXQLMap[operator];
 export const valueToNXQL = (value, dataType = DATA_TYPE_STRING) => {
   let nxqlValue;
 
-  if (dataType === DATA_TYPE_DATETIME) {
+  if (dataType === DATA_TYPE_DATETIME || dataType === DATA_TYPE_DATE) {
     // Timestamp values in searches must be given in UTC.
 
     nxqlValue = (new Date(Date.parse(value))).toISOString();
@@ -273,10 +277,136 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition) => {
   return '';
 };
 
-export const rangeFieldConditionToNXQL = (fieldDescriptor, condition) => {
+export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) => {
+  // Convert structured date searches to searches on the earliest and latest scalar dates.
+
+  // The UI has historically added one day to the latest day when computing the latest scalar
+  // date. I don't know why. This has to be taken into account.
+
   const path = condition.get('path');
   const operator = condition.get('op');
+  const value = condition.get('value');
+
+  const earliestScalarDatePath = `${path}/dateEarliestScalarValue`;
+  const latestScalarDatePath = `${path}/dateLatestScalarValue`;
+
+  let convertedCondition;
+
+  if (operator === OP_RANGE) {
+    // The structured date range overlaps the value range.
+
+    const rangeStart = value.get(0);
+    const rangeEnd = value.get(1);
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_AND,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_LTE,
+          value: rangeEnd,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_GT,
+          value: rangeStart,
+        },
+      ],
+    });
+  } else if (operator === OP_CONTAIN) {
+    // The structured date range contains the value date.
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_AND,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_LTE,
+          value,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_GT, // Not GTE, because latest scalar date has one day added.
+          value,
+        },
+      ],
+    });
+  } else if (operator === OP_EQ) {
+    // The earliest and latest dates of the structured date are the same, and are equal to the
+    // value date.
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_AND,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_EQ,
+          value,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_EQ,
+          // GRRR. The latest scalar date has one day added.
+          value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
+        },
+      ],
+    });
+  } else if (operator === OP_LT) {
+    // The earliest date in the structured date is before the value date, i.e. some part of the
+    // structured date exists before the value.
+
+    convertedCondition = Immutable.fromJS({
+      path: earliestScalarDatePath,
+      op: OP_LT,
+      value,
+    });
+  } else if (operator === OP_LTE) {
+    // The earliest date in the structured date is before or equal to the value date.
+
+    convertedCondition = Immutable.fromJS({
+      path: earliestScalarDatePath,
+      op: OP_LTE,
+      value,
+    });
+  } else if (operator === OP_GT) {
+    // The latest date in the structured date is after the value date, i.e. some part of the
+    // structured date exists after the value.
+
+    convertedCondition = Immutable.fromJS({
+      path: latestScalarDatePath,
+      op: OP_GT,
+      // GRRR. The latest scalar date has one day added.
+      value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
+    });
+  } else if (operator === OP_GTE) {
+    // The latest date in the structured date is after or equal to the value date.
+
+    convertedCondition = Immutable.fromJS({
+      path: latestScalarDatePath,
+      op: OP_GT, // Not GTE, because latest scalar date has one day added.
+      value,
+    });
+  }
+
+  warning(convertedCondition, `The operator ${operator} is not supported for structured date fields. Search condition will be ignored.`);
+
+  return (
+    convertedCondition
+      // eslint-disable-next-line no-use-before-define
+      ? advancedSearchConditionToNXQL(fieldDescriptor, convertedCondition)
+      : null
+  );
+};
+
+export const rangeFieldConditionToNXQL = (fieldDescriptor, condition) => {
+  const path = condition.get('path');
   const dataType = getDataType(fieldDescriptor, path);
+
+  if (dataType === DATA_TYPE_STRUCTURED_DATE) {
+    return structuredDateFieldConditionToNXQL(fieldDescriptor, condition);
+  }
+
+  const operator = condition.get('op');
   const values = condition.get('value');
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
@@ -306,6 +436,10 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
     return value.map(valueInstance =>
       fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance))
     ).join(' OR ');
+  }
+
+  if (dataType === DATA_TYPE_STRUCTURED_DATE) {
+    return structuredDateFieldConditionToNXQL(fieldDescriptor, condition);
   }
 
   if (operator === OP_CONTAIN) {

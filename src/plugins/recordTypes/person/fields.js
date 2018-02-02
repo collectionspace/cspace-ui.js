@@ -5,6 +5,7 @@ export default (pluginContext) => {
     AutocompleteInput,
     CheckboxInput,
     CompoundInput,
+    DateInput,
     HierarchyInput,
     OptionPickerInput,
     StructuredDateInput,
@@ -19,6 +20,10 @@ export default (pluginContext) => {
   const {
     extensions,
   } = pluginContext.config;
+
+  const {
+    DATA_TYPE_STRUCTURED_DATE,
+  } = pluginContext.dataTypes;
 
   return {
     document: {
@@ -532,12 +537,16 @@ export default (pluginContext) => {
         },
         birthDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.persons_common.birthDateGroup.name',
                 defaultMessage: 'Birth date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },
@@ -559,12 +568,16 @@ export default (pluginContext) => {
         },
         deathDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.persons_common.deathDateGroup.name',
                 defaultMessage: 'Death date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },

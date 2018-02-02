@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -16,14 +17,14 @@ export default (pluginContext) => {
         op: OP_CONTAIN,
         path: 'ns2:acquisitions_common/acquisitionReferenceNumber',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:acquisitions_common/accessionDateGroup',
-      // },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:acquisitions_common/acquisitionDateGroupList/acquisitionDateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:acquisitions_common/accessionDateGroup',
+      },
+      {
+        op: OP_RANGE,
+        path: 'ns2:acquisitions_common/acquisitionDateGroupList/acquisitionDateGroup',
+      },
       {
         op: OP_EQ,
         path: 'ns2:acquisitions_common/acquisitionMethod',

@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -36,18 +37,18 @@ export default (pluginContext) => {
         op: OP_EQ,
         path: 'ns2:organizations_common/organizationRecordTypes/organizationRecordType',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:organizations_common/foundingDateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:organizations_common/foundingDateGroup',
+      },
       {
         op: OP_CONTAIN,
         path: 'ns2:organizations_common/foundingPlace',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:organizations_common/dissolutionDateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:organizations_common/dissolutionDateGroup',
+      },
       {
         op: OP_CONTAIN,
         path: 'ns2:organizations_common/groups/group',

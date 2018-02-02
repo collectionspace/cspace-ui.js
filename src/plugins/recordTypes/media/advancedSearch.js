@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_EQ,
     OP_OR,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -36,10 +37,10 @@ export default (pluginContext) => {
         op: OP_EQ,
         path: 'ns2:media_common/typeList/type',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:media_common/dateGroupList/dateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:media_common/dateGroupList/dateGroup',
+      },
       {
         op: OP_CONTAIN,
         path: 'ns2:media_common/source',

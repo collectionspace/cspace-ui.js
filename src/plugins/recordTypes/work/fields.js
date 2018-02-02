@@ -4,6 +4,7 @@ export default (pluginContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
+    DateInput,
     HierarchyInput,
     OptionPickerInput,
     TextInput,
@@ -19,6 +20,10 @@ export default (pluginContext) => {
   const {
     extensions,
   } = pluginContext.config;
+
+  const {
+    DATA_TYPE_STRUCTURED_DATE,
+  } = pluginContext.dataTypes;
 
   return {
     document: {
@@ -320,6 +325,7 @@ export default (pluginContext) => {
           },
           workDateGroup: {
             [config]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
               messages: defineMessages({
                 name: {
                   id: 'field.works_common.workDateGroup.name',
@@ -327,6 +333,9 @@ export default (pluginContext) => {
                 },
               }),
               repeating: true,
+              searchView: {
+                type: DateInput,
+              },
               view: {
                 type: StructuredDateInput,
               },

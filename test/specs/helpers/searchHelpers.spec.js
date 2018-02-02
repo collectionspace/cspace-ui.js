@@ -8,6 +8,8 @@ import {
   DATA_TYPE_FLOAT,
   DATA_TYPE_BOOL,
   DATA_TYPE_DATETIME,
+  DATA_TYPE_STRUCTURED_DATE,
+  DATA_TYPE_DATE,
 } from '../../../src/constants/dataTypes';
 
 import {
@@ -43,6 +45,7 @@ import {
   booleanConditionToNXQL,
   rangeFieldConditionToNXQL,
   fieldConditionToNXQL,
+  structuredDateFieldConditionToNXQL,
   advancedSearchConditionToNXQL,
   searchDescriptorToLocation,
   getListType,
@@ -676,7 +679,17 @@ describe('searchHelpers', function moduleSuite() {
   });
 
   describe('rangeFieldConditionToNXQL', function suite() {
-    const fields = {};
+    const fields = {
+      document: {
+        'ns2:part': {
+          date: {
+            [configKey]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
+            },
+          },
+        },
+      },
+    };
 
     it('should convert range conditions to NXQL', function test() {
       const condition = Immutable.fromJS({
@@ -688,10 +701,41 @@ describe('searchHelpers', function moduleSuite() {
       rangeFieldConditionToNXQL(fields, condition).should
         .equal('part:foo BETWEEN "c" AND "g"');
     });
+
+    it('should convert structured date range conditions to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/date',
+        value: ['2000-01-01', '2000-12-31'],
+      });
+
+      rangeFieldConditionToNXQL(fields, condition).should
+        .equal('(part:date/dateEarliestScalarValue <= "2000-12-31" AND part:date/dateLatestScalarValue > "2000-01-01")');
+    });
   });
 
   describe('fieldConditionToNXQL', function suite() {
-    const fields = {};
+    const fields = {
+      document: {
+        'ns2:part': {
+          date: {
+            [configKey]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
+            },
+            dateEarliestScalarValue: {
+              [configKey]: {
+                dataType: DATA_TYPE_DATE,
+              },
+            },
+            dateLatestScalarValue: {
+              [configKey]: {
+                dataType: DATA_TYPE_DATE,
+              },
+            },
+          },
+        },
+      },
+    };
 
     it('should convert field conditions to NXQL', function test() {
       const condition = Immutable.fromJS({
@@ -702,6 +746,17 @@ describe('searchHelpers', function moduleSuite() {
 
       fieldConditionToNXQL(fields, condition).should
         .equal('part:foo <= "bar"');
+    });
+
+    it('should convert structured date field conditions to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_LT,
+        path: 'ns2:part/date',
+        value: '2000-01-01',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:date/dateEarliestScalarValue < TIMESTAMP "2000-01-01T00:00:00.000Z"');
     });
 
     it('should convert contain operation to match operation with wildcards on either end', function test() {
@@ -775,6 +830,107 @@ describe('searchHelpers', function moduleSuite() {
 
     it('should return null for a null condition', function test() {
       expect(advancedSearchConditionToNXQL(fields, null)).to.equal(null);
+    });
+  });
+
+  describe('structuredDateFieldConditionToNXQL', function suite() {
+    const fields = {
+      document: {
+        'ns2:part': {
+          fuzzyDate: {
+            [configKey]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
+            },
+            dateEarliestScalarValue: {
+              [configKey]: {
+                dataType: DATA_TYPE_DATE,
+              },
+            },
+            dateLatestScalarValue: {
+              [configKey]: {
+                dataType: DATA_TYPE_DATE,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should convert range operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/fuzzyDate',
+        value: ['2000-01-01', '2000-12-31'],
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('(part:fuzzyDate/dateEarliestScalarValue <= TIMESTAMP "2000-12-31T00:00:00.000Z" AND part:fuzzyDate/dateLatestScalarValue > TIMESTAMP "2000-01-01T00:00:00.000Z")');
+    });
+
+    it('should convert contain operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_CONTAIN,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('(part:fuzzyDate/dateEarliestScalarValue <= TIMESTAMP "2000-01-01T00:00:00.000Z" AND part:fuzzyDate/dateLatestScalarValue > TIMESTAMP "2000-01-01T00:00:00.000Z")');
+    });
+
+    it('should convert = operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_EQ,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('(part:fuzzyDate/dateEarliestScalarValue = TIMESTAMP "2000-01-01T00:00:00.000Z" AND part:fuzzyDate/dateLatestScalarValue = TIMESTAMP "2000-01-02T00:00:00.000Z")');
+    });
+
+    it('should convert < operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_LT,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('part:fuzzyDate/dateEarliestScalarValue < TIMESTAMP "2000-01-01T00:00:00.000Z"');
+    });
+
+    it('should convert <= operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_LTE,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('part:fuzzyDate/dateEarliestScalarValue <= TIMESTAMP "2000-01-01T00:00:00.000Z"');
+    });
+
+    it('should convert > operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GT,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('part:fuzzyDate/dateLatestScalarValue > TIMESTAMP "2000-01-02T00:00:00.000Z"');
+    });
+
+    it('should convert >= operations to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GTE,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
+      });
+
+      structuredDateFieldConditionToNXQL(fields, condition).should
+        .equal('part:fuzzyDate/dateLatestScalarValue > TIMESTAMP "2000-01-01T00:00:00.000Z"');
     });
   });
 

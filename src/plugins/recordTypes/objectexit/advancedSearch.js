@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -16,10 +17,10 @@ export default (pluginContext) => {
         op: OP_CONTAIN,
         path: 'ns2:objectexit_common/exitNumber',
       },
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:objectexit_common/exitDateGroup',
-      // },
+      {
+        op: OP_RANGE,
+        path: 'ns2:objectexit_common/exitDateGroup',
+      },
       {
         op: OP_EQ,
         path: 'ns2:objectexit_common/exitReason',

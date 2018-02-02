@@ -4,6 +4,7 @@ export default (pluginContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
+    DateInput,
     IDGeneratorInput,
     TextInput,
     OptionPickerInput,
@@ -18,6 +19,10 @@ export default (pluginContext) => {
   const {
     extensions,
   } = pluginContext.config;
+
+  const {
+    DATA_TYPE_STRUCTURED_DATE,
+  } = pluginContext.dataTypes;
 
   return {
     document: {
@@ -249,6 +254,7 @@ export default (pluginContext) => {
           },
           dateGroup: {
             [config]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
               messages: defineMessages({
                 name: {
                   id: 'field.media_common.dateGroup.name',
@@ -256,6 +262,9 @@ export default (pluginContext) => {
                 },
               }),
               repeating: true,
+              searchView: {
+                type: DateInput,
+              },
               view: {
                 type: StructuredDateInput,
               },

@@ -3,6 +3,7 @@ export default (pluginContext) => {
     OP_OR,
     OP_EQ,
     OP_CONTAIN,
+    OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
@@ -80,12 +81,10 @@ export default (pluginContext) => {
         op: OP_CONTAIN,
         path: 'ns2:collectionobjects_common/nonTextualInscriptionGroupList/nonTextualInscriptionGroup/inscriptionDescriptionMethod',
       },
-      /* eslint-disable max-len */
-      // {
-      //   op: OP_RANGE,
-      //   path: 'ns2:collectionobjects_common/objectProductionDateGroupList/objectProductionDateGroup',
-      // },
-      /* eslint-enable max-len */
+      {
+        op: OP_RANGE,
+        path: 'ns2:collectionobjects_common/objectProductionDateGroupList/objectProductionDateGroup',
+      },
       {
         op: OP_CONTAIN,
         path: 'ns2:collectionobjects_common/techniqueGroupList/techniqueGroup/technique',

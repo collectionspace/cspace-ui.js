@@ -4,13 +4,18 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
+    DATA_TYPE_DATE,
+  } = pluginContext.dataTypes;
+
+  const {
     TermPickerInput,
   } = pluginContext.inputComponents;
 
   return {
-    dateAssociation: {},
     dateDisplayDate: {},
-    dateEarliestScalarValue: {},
+    dateAssociation: {},
+    datePeriod: {},
+    dateNote: {},
     dateEarliestSingleCertainty: {
       [config]: {
         messages: {
@@ -116,10 +121,17 @@ export default (pluginContext) => {
       },
     },
     dateLatestQualifierValue: {},
-    dateLatestScalarValue: {},
     dateLatestYear: {},
-    dateNote: {},
-    datePeriod: {},
+    dateEarliestScalarValue: {
+      [config]: {
+        dataType: DATA_TYPE_DATE,
+      },
+    },
+    dateLatestScalarValue: {
+      [config]: {
+        dataType: DATA_TYPE_DATE,
+      },
+    },
     scalarValuesComputed: {},
   };
 };
