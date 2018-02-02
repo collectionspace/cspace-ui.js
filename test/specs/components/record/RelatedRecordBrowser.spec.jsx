@@ -63,6 +63,7 @@ const store = mockStore({
       },
     },
   }),
+  recordPage: Immutable.Map(),
   relation: Immutable.fromJS({
     find: {
       [csid]: {

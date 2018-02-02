@@ -48,6 +48,7 @@ const store = mockStore({
       },
     },
   }),
+  recordPage: Immutable.Map(),
   prefs: Immutable.Map(),
   recordBrowser: Immutable.Map(),
   search: Immutable.Map(),
@@ -192,6 +193,7 @@ describe('RecordBrowser', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         replacementUrl.should.equal(`/record/collectionobject/${createdCsid}`);
+
         resolve();
       }, 0);
     });

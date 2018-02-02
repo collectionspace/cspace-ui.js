@@ -34,7 +34,7 @@ describe('media record fields', function suite() {
       externalUrlFieldConfig.compute({ subrecordData }).should.equal(fileUrl);
     });
 
-    it('should not set the value (return undefined) if there is no blob data', function test() {
+    it('should not set the value (should return undefined) if there is no blob data', function test() {
       const externalUrlFieldConfig =
         get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
 
@@ -45,7 +45,7 @@ describe('media record fields', function suite() {
       expect(externalUrlFieldConfig.compute({ subrecordData })).to.equal(undefined);
     });
 
-    it('should not set the value (return undefined) if the blob\'s file field is not a string', function test() {
+    it('should not set the value (should return undefined) if the blob\'s file field is not a string', function test() {
       const externalUrlFieldConfig =
         get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
 

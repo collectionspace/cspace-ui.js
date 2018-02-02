@@ -1034,6 +1034,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, undefined, csid))
@@ -1082,6 +1083,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
           });
@@ -1304,6 +1306,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
         });
 
         // Pass an empty csid and a replace function to saveRecord.
@@ -1363,6 +1366,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid: createdCsid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -1413,6 +1417,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
         });
 
         return store.dispatch(
@@ -1500,6 +1505,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -1548,6 +1554,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
           });
@@ -1688,6 +1695,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
           search: Immutable.Map(),
         });
 
@@ -1756,6 +1764,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig: subrecordTypeConfig,
                 csid: subrecordCsid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -1774,6 +1783,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -1962,6 +1972,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
           search: Immutable.Map(),
         });
 
@@ -2100,6 +2111,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
           search: Immutable.Map(),
         });
 
@@ -2168,6 +2180,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig: subrecordTypeConfig,
                 csid: subrecordCsid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -2186,6 +2199,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -2253,6 +2267,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
           search: Immutable.Map(),
         });
 
@@ -2330,6 +2345,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig: subrecordTypeConfig,
                 csid: createdSubrecordCsid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -2358,6 +2374,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
           });
@@ -2402,6 +2419,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
           search: Immutable.Map(),
         });
 
@@ -2450,6 +2468,7 @@ describe('record action creator', function suite() {
                 recordTypeConfig,
                 csid,
                 relatedSubjectCsid: undefined,
+                recordPagePrimaryCsid: undefined,
               },
             });
 
@@ -3094,6 +3113,7 @@ describe('record action creator', function suite() {
             },
           },
         }),
+        recordPage: Immutable.Map(),
       });
 
       const transitionName = 'lock';
@@ -3146,6 +3166,7 @@ describe('record action creator', function suite() {
               recordTypeConfig,
               csid,
               relatedSubjectCsid: undefined,
+              recordPagePrimaryCsid: undefined,
             },
           });
 

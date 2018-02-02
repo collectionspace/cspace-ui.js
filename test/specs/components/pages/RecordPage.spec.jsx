@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
@@ -290,6 +290,32 @@ describe('RecordPage', function suite() {
       readCsid.should.equal(csid);
     });
 
+    it('should call setRecordPagePrimaryCsid when mounted', function test() {
+      let setPrimaryCsid = null;
+
+      const setRecordPagePrimaryCsid = (csidArg) => {
+        setPrimaryCsid = csidArg;
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                  setRecordPagePrimaryCsid={setRecordPagePrimaryCsid}
+                />
+              </Router>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, this.container);
+
+      setPrimaryCsid.should.equal(csid);
+    });
+
     it('should not call readRecord if the record type is unknown', function test() {
       let readRecordCalled = false;
 
@@ -383,6 +409,88 @@ describe('RecordPage', function suite() {
       readRecordTypeConfig.should.equal(config.recordTypes[objectRecordType]);
       expect(readVocabularyConfig).to.equal(undefined);
       readCsid.should.equal(newCsid);
+    });
+
+    it('should call readRecord when new params are passed via props', function test() {
+      let setPrimaryCsid = null;
+
+      const setRecordPagePrimaryCsid = (csidArg) => {
+        setPrimaryCsid = csidArg;
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                />
+              </Router>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, this.container);
+
+      const newCsid = '1d075e7f-82b4-4ca9-9ab6';
+
+      const newLocation = Object.assign({}, location, {
+        pathname: `/record/${objectRecordType}/${newCsid}`,
+      });
+
+      const newMatch = {
+        params: {
+          recordType: objectRecordType,
+          path1: newCsid,
+        },
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={newLocation}
+                  match={newMatch}
+                  setRecordPagePrimaryCsid={setRecordPagePrimaryCsid}
+                />
+              </Router>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, this.container);
+
+      setPrimaryCsid.should.equal(newCsid);
+    });
+
+    it('should call setRecordPagePrimaryCsid with undefined csid when unmounted', function test() {
+      let setPrimaryCsid = null;
+
+      const setRecordPagePrimaryCsid = (csidArg) => {
+        setPrimaryCsid = csidArg;
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <ConfigProvider config={config}>
+              <Router>
+                <RecordPage
+                  config={config}
+                  location={location}
+                  match={match}
+                  setRecordPagePrimaryCsid={setRecordPagePrimaryCsid}
+                />
+              </Router>
+            </ConfigProvider>
+          </StoreProvider>
+        </IntlProvider>, this.container);
+
+      unmountComponentAtNode(this.container);
+
+      expect(setPrimaryCsid).to.equal(undefined);
     });
 
     it('should render a RecordTitleBarContainer with correct csid and recordType', function test() {

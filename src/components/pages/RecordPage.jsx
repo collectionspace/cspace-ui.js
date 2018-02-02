@@ -65,6 +65,7 @@ const propTypes = {
   match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
   perms: PropTypes.instanceOf(Immutable.Map),
   readRecord: PropTypes.func,
+  setRecordPagePrimaryCsid: PropTypes.func,
 };
 
 export default class RecordPage extends Component {
@@ -108,10 +109,21 @@ export default class RecordPage extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const {
+      setRecordPagePrimaryCsid,
+    } = this.props;
+
+    if (setRecordPagePrimaryCsid) {
+      setRecordPagePrimaryCsid(undefined);
+    }
+  }
+
   initRecord() {
     const {
       config,
       readRecord,
+      setRecordPagePrimaryCsid,
     } = this.props;
 
     const {
@@ -121,6 +133,10 @@ export default class RecordPage extends Component {
     } = getParams(this.props);
 
     const normalizedCsid = (csid === 'new') ? '' : csid;
+
+    if (setRecordPagePrimaryCsid) {
+      setRecordPagePrimaryCsid(csid);
+    }
 
     if (normalizedCsid && readRecord) {
       const recordTypeConfig = get(config, ['recordTypes', recordType]);

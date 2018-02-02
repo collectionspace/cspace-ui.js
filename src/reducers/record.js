@@ -353,6 +353,7 @@ const handleRecordSaveFulfilled = (state, action) => {
     csid,
     recordTypeConfig,
     relatedSubjectCsid,
+    recordPagePrimaryCsid,
   } = action.meta;
 
   const data = normalizeRecordData(recordTypeConfig, Immutable.fromJS(action.payload.data));
@@ -396,7 +397,8 @@ const handleRecordSaveFulfilled = (state, action) => {
   nextState = clearFiltered(nextState, (recordState, candidateCsid) =>
     !persistCsids.has(candidateCsid) &&
     !candidateCsid.startsWith(`${BASE_NEW_RECORD_KEY}/`) && // Don't clear unsaved subrecord data
-    !recordState.get('isSavePending') // Don't clear records that are being saved
+    !recordState.get('isSavePending') && // Don't clear records that are being saved
+    candidateCsid !== recordPagePrimaryCsid // Don't clear the primary record data
   );
 
   return nextState;

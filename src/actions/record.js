@@ -24,6 +24,7 @@ import {
   getRecordData,
   getRecordSubrecordCsid,
   getRecordValidationErrors,
+  getRecordPagePrimaryCsid,
   getSearchResult,
   getSubrecordData,
   isRecordReadPending,
@@ -765,9 +766,10 @@ export const saveRecord =
                       type: RECORD_SAVE_FULFILLED,
                       payload: response,
                       meta: {
+                        relatedSubjectCsid,
                         recordTypeConfig: currentRecordTypeConfig,
                         csid: currentCsid,
-                        relatedSubjectCsid,
+                        recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
                       },
                     });
                   })
@@ -829,6 +831,7 @@ export const saveRecord =
                           relatedSubjectCsid,
                           recordTypeConfig: currentRecordTypeConfig,
                           csid: newRecordCsid,
+                          recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
                         },
                       });
                     })

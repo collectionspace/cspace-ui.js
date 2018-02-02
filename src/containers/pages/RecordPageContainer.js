@@ -7,6 +7,10 @@ import {
 } from '../../actions/record';
 
 import {
+  setRecordPagePrimaryCsid,
+} from '../../actions/recordPage';
+
+import {
   getRecordData,
   getRecordError,
   getUserPerms,
@@ -26,6 +30,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   readRecord,
+  setRecordPagePrimaryCsid,
 };
 
 export const ConnectedRecordPage = connect(

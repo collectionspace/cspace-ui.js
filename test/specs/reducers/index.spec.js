@@ -86,6 +86,7 @@ describe('reducer', function suite() {
       'prefs',
       'record',
       'recordBrowser',
+      'recordPage',
       'relation',
       'search',
       'searchToRelate',
