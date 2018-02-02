@@ -2,10 +2,14 @@
   position: relative;
 }
 
-.common > button {
+/* .common > button {
   position: absolute;
   top: 0;
   right: 0;
+} */
+
+.common > header {
+  text-align: right;
 }
 
 .common + :global(.cspace-layout-Panel--common) {

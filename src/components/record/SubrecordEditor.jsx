@@ -78,6 +78,9 @@ export default class SubrecordEditor extends Component {
 
     return (
       <div className={styles.common}>
+        <header>
+          {detachButton}
+        </header>
         <div>
           <RecordFormContainer
             config={config}
@@ -89,8 +92,6 @@ export default class SubrecordEditor extends Component {
             readOnly={subrecordReadOnly}
           />
         </div>
-
-        {detachButton}
       </div>
     );
   }

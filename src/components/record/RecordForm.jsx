@@ -2,6 +2,7 @@ import React, { Component, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import classNames from 'classnames';
 import warning from 'warning';
 import { getCsid } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordForm.css';
@@ -175,8 +176,10 @@ export default class RecordForm extends Component {
         child => renderTemplate(child, messages, handlers)),
     });
 
+    const className = classNames(styles.common, `cspace-ui-RecordForm--${recordType}`);
+
     return (
-      <div className={styles.common}>
+      <div className={className}>
         {formContent}
       </div>
     );

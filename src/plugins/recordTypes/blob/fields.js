@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 export default (pluginContext) => {
   const {
     CompoundInput,
-    ReadOnlyInput,
+    TextInput,
     UploadInput,
   } = pluginContext.inputComponents;
 
@@ -48,9 +48,11 @@ export default (pluginContext) => {
                 defaultMessage: 'Name',
               },
             }),
-            readOnly: true,
             view: {
-              type: ReadOnlyInput,
+              type: TextInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -67,9 +69,11 @@ export default (pluginContext) => {
                 defaultMessage: '{value, number} bytes',
               },
             }),
-            readOnly: true,
             view: {
-              type: ReadOnlyInput,
+              type: TextInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -82,9 +86,11 @@ export default (pluginContext) => {
                 defaultMessage: 'Type',
               },
             }),
-            readOnly: true,
             view: {
-              type: ReadOnlyInput,
+              type: TextInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
