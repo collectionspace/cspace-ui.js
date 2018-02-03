@@ -38,6 +38,7 @@ const propTypes = {
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
   onRecordCreated: PropTypes.func,
+  onRecordSaved: PropTypes.func,
   onSaveCancelled: PropTypes.func,
   closeModal: PropTypes.func,
   openModal: PropTypes.func,
@@ -183,7 +184,16 @@ export default class RecordEditor extends Component {
     if (lockOnSave === true && saveWithTransition) {
       saveWithTransition('lock', onRecordCreated);
     } else if (save) {
-      save(onRecordCreated);
+      save(onRecordCreated)
+        .then(() => {
+          const {
+            onRecordSaved,
+          } = this.props;
+
+          if (onRecordSaved) {
+            onRecordSaved();
+          }
+        });
     }
 
     return true;

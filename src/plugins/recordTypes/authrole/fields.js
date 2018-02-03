@@ -1,4 +1,3 @@
-import Immutable from 'immutable';
 import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
@@ -11,6 +10,10 @@ export default (pluginContext) => {
   const {
     configKey: config,
   } = pluginContext.configHelpers;
+
+  const {
+    isNewRecord,
+  } = pluginContext.recordDataHelpers;
 
   return {
     'ns2:role': {
@@ -81,22 +84,27 @@ export default (pluginContext) => {
       roleName: {
         [config]: {
           compute: ({ recordData }) => {
-            // What should this do? REST API requires this field, but it seems like it just needs
-            // to be something unique.
+            // Compute a name if this is a new role.
 
-            const displayName = recordData.getIn(['ns2:role', 'displayName']);
+            if (isNewRecord(recordData)) {
+              // What should this do? REST API requires this field, but it seems like it just needs
+              // to be something unique.
 
-            return displayName
-              .toUpperCase()
-              .replace(/ /g, '_')
-              .replace(/[^A-Z0-9_]/g, '')
-              .replace(/__+/g, '_');
+              const displayName = recordData.getIn(['ns2:role', 'displayName']);
+
+              return displayName
+                .toUpperCase()
+                .replace(/ /g, '_')
+                .replace(/[^A-Z0-9_]/g, '')
+                .replace(/__+/g, '_');
+            }
+
+            return undefined;
           },
         },
       },
       permission: {
         [config]: {
-          defaultValue: Immutable.List(),
           messages: defineMessages({
             name: {
               id: 'field.authrole.permission.name',

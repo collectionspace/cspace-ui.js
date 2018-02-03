@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
@@ -378,5 +380,45 @@ describe('AuthRolePage', function suite() {
     searchPanel.props.onItemClick(Immutable.Map({ '@csid': itemCsid })).should.equal(false);
 
     expect(replacedLocation).to.equal(null);
+  });
+
+  it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', function test() {
+    const location = {
+      search: '',
+    };
+
+    const csid = '1234';
+
+    const match = {
+      params: {
+        csid,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <AuthRolePage location={location} match={match} />, context);
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const recordEditor = findWithType(result, RecordEditorContainer);
+
+    recordEditor.props.onRecordSaved();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+
+        const searchPanel = findWithType(result, SearchPanelContainer);
+        const seqId = searchPanel.props.searchDescriptor.get('seqId');
+
+        Date.parse(seqId).should.be.closeTo(Date.now(), 100);
+
+        resolve();
+      }, 0);
+    });
   });
 });

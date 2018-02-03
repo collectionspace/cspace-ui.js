@@ -3,5 +3,5 @@ export default () => (data) => {
     return '';
   }
 
-  return data.getIn(['ns3:accounts_common', 'screenName']);
+  return data.getIn(['ns2:accounts_common', 'screenName']);
 };

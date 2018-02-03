@@ -40,6 +40,7 @@ export default class AuthRolePage extends Component {
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
     this.handleRecordDeleted = this.handleRecordDeleted.bind(this);
+    this.handleRecordSaved = this.handleRecordSaved.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
     this.state = {
@@ -120,6 +121,24 @@ export default class AuthRolePage extends Component {
     } = this.props;
 
     history.replace(`/admin/${recordType}`);
+
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    this.setState({
+      searchDescriptor: searchDescriptor.set('seqId', (new Date()).toISOString()),
+    });
+  }
+
+  handleRecordSaved() {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    this.setState({
+      searchDescriptor: searchDescriptor.set('seqId', (new Date()).toISOString()),
+    });
   }
 
   handleSearchDescriptorChange(searchDescriptor) {
@@ -168,6 +187,7 @@ export default class AuthRolePage extends Component {
           isHardDelete
           onRecordCreated={this.handleRecordCreated}
           onRecordDeleted={this.handleRecordDeleted}
+          onRecordSaved={this.handleRecordSaved}
           clone={this.cloneRecord}
         />
       );

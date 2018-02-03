@@ -165,7 +165,7 @@ export const normalizeRecordData = (recordTypeConfig, data) => {
   let normalizedData = normalizeFieldValue(recordTypeConfig.fields, data);
 
   if (recordTypeConfig.normalizeRecordData) {
-    normalizedData = recordTypeConfig.normalizeRecordData(data);
+    normalizedData = recordTypeConfig.normalizeRecordData(data, recordTypeConfig);
   }
 
   return normalizedData;
@@ -833,7 +833,7 @@ export const isExistingRecord = data => !!(
   (
     data.getIn(['document', 'ns2:collectionspace_core', 'uri']) ||
     data.getIn(['ns2:role', '@csid']) ||
-    data.getIn(['ns3:accounts_common', '@csid'])
+    data.getIn(['ns2:accounts_common', '@csid'])
   )
 );
 

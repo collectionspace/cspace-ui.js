@@ -23,7 +23,7 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   return {
-    'ns3:accounts_common': {
+    'ns2:accounts_common': {
       [config]: {
         messages: defineMessages({
           errorNotConfirmed: {
@@ -206,7 +206,7 @@ export default (pluginContext) => {
 
             // Set the value to the email address.
 
-            return recordData.getIn(['ns3:accounts_common', 'email']);
+            return recordData.getIn(['ns2:accounts_common', 'email']);
           },
           messages: defineMessages({
             name: {

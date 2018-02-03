@@ -248,7 +248,7 @@ export default class PermissionsInput extends Component {
       resourceNames,
     } = this.props;
 
-    const perms = this.getPermsMap();
+    const perms = this.getPermsMap() || {};
 
     const recordTypeConfigs = resourceNames
       .map(resourceName => getRecordTypeConfigByServicePath(config, resourceName))

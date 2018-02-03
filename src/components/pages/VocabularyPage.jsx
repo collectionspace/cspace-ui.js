@@ -43,6 +43,7 @@ export default class VocabularyPage extends Component {
     super();
 
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleRecordSaved = this.handleRecordSaved.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
@@ -104,6 +105,16 @@ export default class VocabularyPage extends Component {
     // Prevent the default action.
 
     return false;
+  }
+
+  handleRecordSaved() {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    this.setState({
+      searchDescriptor: searchDescriptor.set('seqId', (new Date()).toISOString()),
+    });
   }
 
   handleSearchBarChange(value) {
@@ -186,6 +197,7 @@ export default class VocabularyPage extends Component {
           csid={normalizedCsid}
           recordType={recordType}
           perms={restrictedPerms}
+          onRecordSaved={this.handleRecordSaved}
         />
       );
 

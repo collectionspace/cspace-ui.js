@@ -61,9 +61,9 @@ export default class RolesInput extends Component {
     const roles = {};
 
     rolesList.forEach((role) => {
-      const roleName = role.get('roleName');
+      const roleId = role.get('roleId');
 
-      roles[roleName] = true;
+      roles[roleId] = true;
     });
 
     return roles;
@@ -88,8 +88,8 @@ export default class RolesInput extends Component {
         delete membership[id];
       }
 
-      const newValue = Immutable.List(Object.keys(membership).map(roleName => Immutable.Map({
-        roleName,
+      const newValue = Immutable.List(Object.keys(membership).map(roleId => Immutable.Map({
+        roleId,
       })));
 
       onCommit(getPath(this.props), newValue);
@@ -104,23 +104,30 @@ export default class RolesInput extends Component {
 
     const membership = this.getRolesMap() || {};
 
-    const rows = roles.map((role) => {
-      const displayName = role.get('displayName');
-      const name = role.get('roleName');
+    const rows = roles
+      .map((role) => {
+        const displayName = role.get('displayName');
+        const id = role.get('@csid');
+        const isMember = !!membership[id];
 
-      return (
-        <li key={name}>
-          <CheckboxInput
-            checked={!!membership[name]}
-            embedded
-            id={name}
-            readOnly={readOnly}
-            onChange={this.handleCheckboxChange}
-          />
-          <label htmlFor={name}>{displayName}</label>
-        </li>
-      );
-    });
+        if (readOnly && !isMember) {
+          return null;
+        }
+
+        return (
+          <li key={id}>
+            <CheckboxInput
+              checked={isMember}
+              embedded
+              id={id}
+              readOnly={readOnly}
+              onChange={this.handleCheckboxChange}
+            />
+            <label htmlFor={id}>{displayName}</label>
+          </li>
+        );
+      })
+      .filter(row => !!row);
 
     return rows.toJS();
   }
@@ -143,11 +150,17 @@ export default class RolesInput extends Component {
       value = Immutable.List.of(value);
     }
 
+    const rows = this.renderRoleRows();
+
+    if (rows.length === 0) {
+      return null;
+    }
+
     const className = readOnly ? styles.readOnly : styles.common;
 
     return (
       <ul className={className}>
-        {this.renderRoleRows()}
+        {rows}
       </ul>
     );
   }

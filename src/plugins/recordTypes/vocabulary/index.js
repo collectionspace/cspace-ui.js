@@ -14,13 +14,13 @@ export default () => pluginContext => ({
   recordTypes: {
     vocabulary: {
       messages,
-      normalizeRecordData,
       prepareForSending,
       requestConfig,
       serviceConfig,
       columns: columns(pluginContext),
       fields: fields(pluginContext),
       forms: forms(pluginContext),
+      normalizeRecordData: normalizeRecordData(pluginContext),
       title: title(pluginContext),
     },
   },

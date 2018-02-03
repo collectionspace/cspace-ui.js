@@ -1,6 +1,8 @@
-import Immutable from 'immutable';
+export default pluginContext => (data) => {
+  const {
+    Immutable,
+  } = pluginContext.lib;
 
-export default (data) => {
   // Sort items by the order field.
 
   const itemPath = ['document', 'ns2:abstract-common-list', 'list-item'];

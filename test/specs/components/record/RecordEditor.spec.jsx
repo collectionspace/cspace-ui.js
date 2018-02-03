@@ -20,6 +20,7 @@ import RecordHeader from '../../../../src/components/record/RecordHeader';
 import ConfirmRecordNavigationModal from '../../../../src/components/record/ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 import LockRecordModal from '../../../../src/components/record/LockRecordModal';
+import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 
 const expect = chai.expect;
 
@@ -381,11 +382,17 @@ describe('RecordEditor', function suite() {
     readRecordCalled.should.equal(true);
   });
 
-  it('should call removeValidationNotification when unmounted', function test() {
+  it('should call removeValidationNotification and removeNotification when unmounted', function test() {
     let removeValidationNotificationCalled = false;
 
     const removeValidationNotification = () => {
       removeValidationNotificationCalled = true;
+    };
+
+    let removeNotificationId = null;
+
+    const removeNotification = (notificationIdArg) => {
+      removeNotificationId = notificationIdArg;
     };
 
     render(
@@ -397,6 +404,7 @@ describe('RecordEditor', function suite() {
               csid="1234"
               recordType="collectionobject"
               removeValidationNotification={removeValidationNotification}
+              removeNotification={removeNotification}
             />
           </Router>
         </StoreProvider>
@@ -405,6 +413,7 @@ describe('RecordEditor', function suite() {
     unmountComponentAtNode(this.container);
 
     removeValidationNotificationCalled.should.equal(true);
+    removeNotificationId.should.equal(HierarchyReparentNotifier.notificationID);
   });
 
   it('should call removeValidationNotification when the csid is changed', function test() {
@@ -444,13 +453,21 @@ describe('RecordEditor', function suite() {
     removeValidationNotificationCalled.should.equal(true);
   });
 
-  it('should call save when the save button is clicked', function test() {
+  it('should call save followed by onRecordSaved when the save button is clicked', function test() {
     const handleRecordCreated = () => null;
 
     let saveCallback = null;
 
     const save = (callbackArg) => {
       saveCallback = callbackArg;
+
+      return Promise.resolve();
+    };
+
+    let handleRecordSavedCalled = false;
+
+    const handleRecordSaved = () => {
+      handleRecordSavedCalled = true;
     };
 
     render(
@@ -463,6 +480,7 @@ describe('RecordEditor', function suite() {
               recordType="collectionobject"
               save={save}
               onRecordCreated={handleRecordCreated}
+              onRecordSaved={handleRecordSaved}
             />
           </Router>
         </StoreProvider>
@@ -473,6 +491,14 @@ describe('RecordEditor', function suite() {
     Simulate.click(saveButton);
 
     saveCallback.should.equal(handleRecordCreated);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handleRecordSavedCalled.should.equal(true);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should call saveWithTransition when the save button is clicked if lockOnSave is true for the record type', function test() {
@@ -723,6 +749,8 @@ describe('RecordEditor', function suite() {
 
     const save = (callbackArg) => {
       saveCallback = callbackArg;
+
+      return Promise.resolve();
     };
 
     let recordCreatedNewCsid = null;

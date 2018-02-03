@@ -214,15 +214,25 @@ const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, re
   const key = searchKey(searchDescriptor);
 
   if (namedSearch && namedSearch.hasIn(['byKey', key])) {
+    const {
+      itemNodeName,
+      listNodeName,
+      normalizeListData,
+    } = listTypeConfig;
+
+    const normalizedResult = normalizeListData
+      ? normalizeListData(result, listTypeConfig)
+      : result;
+
     const searchState = namedSearch.getIn(['byKey', key]);
 
     const updatedSearchState =
       searchState
         .set('isPending', false)
-        .set('result', result)
-        .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, result))
-        .set('listNodeName', listTypeConfig.listNodeName)
-        .set('itemNodeName', listTypeConfig.itemNodeName)
+        .set('result', normalizedResult)
+        .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, normalizedResult))
+        .set('listNodeName', listNodeName)
+        .set('itemNodeName', itemNodeName)
         .delete('error');
 
     const updatedNamedSearch = namedSearch.setIn(['byKey', key], updatedSearchState);
