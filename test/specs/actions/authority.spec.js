@@ -11,13 +11,14 @@ import {
   AUTH_VOCABS_READ_STARTED,
   AUTH_VOCABS_READ_FULFILLED,
   AUTH_VOCABS_READ_REJECTED,
+  checkForUses,
   readAuthVocabs,
 } from '../../../src/actions/authority';
 
+const mockStore = configureMockStore([thunk]);
+
 describe('authority action creator', function suite() {
   describe('readAuthVocabs', function actionSuite() {
-    const mockStore = configureMockStore([thunk]);
-
     const store = mockStore({
       authority: Immutable.Map(),
       // user: Immutable.Map(),
@@ -120,6 +121,80 @@ describe('authority action creator', function suite() {
             type: AUTH_VOCABS_READ_REJECTED,
           });
         });
+    });
+  });
+
+  describe('checkForUses', function actionSuite() {
+    const recordType = 'person';
+    const recordTypeServicePath = 'personauthorities';
+    const vocabulary = 'local';
+    const vocabularyServicePath = 'urn:cspace:name(person)';
+    const csid = '1234';
+    const checkUrl = `/cspace-services/${recordTypeServicePath}/${vocabularyServicePath}/items/${csid}/refObjs?wf_deleted=false&pgSz=1`;
+
+    const config = {
+      recordTypes: {
+        [recordType]: {
+          serviceConfig: {
+            servicePath: recordTypeServicePath,
+          },
+          vocabularies: {
+            [vocabulary]: {
+              serviceConfig: {
+                servicePath: vocabularyServicePath,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    before(() => {
+      const store = mockStore();
+
+      return store.dispatch(configureCSpace());
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should resolve to true if uses are found for the given authority item', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'ns3:authority-ref-doc-list': {
+            totalItems: '2',
+          },
+        },
+      });
+
+      return store.dispatch(checkForUses(config, recordType, vocabulary, csid)).then((result) => {
+        result.should.equal(true);
+      });
+    });
+
+    it('should resolve to false if no relations are found for the given csid and predicate', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'ns3:authority-ref-doc-list': {
+            totalItems: '0',
+          },
+        },
+      });
+
+      return store.dispatch(checkForUses(config, recordType, vocabulary, csid)).then((result) => {
+        result.should.equal(false);
+      });
     });
   });
 });

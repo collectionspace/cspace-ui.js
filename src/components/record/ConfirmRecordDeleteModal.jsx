@@ -25,6 +25,12 @@ const messages = defineMessages({
     description: 'The message shown in the confirm delete modal when the record to be deleted is related to other records.',
     defaultMessage: 'This record is related to other records. Deleting this record will cause those relationships to be lost.',
   },
+  hasUses: {
+    id: 'confirmRecordDeleteModal.hasUses',
+    description: 'The message shown in the confirm delete modal when the record to be deleted is an authority item that is used by other records.',
+    defaultMessage: '{title} cannot be deleted because it is used by other records.',
+
+  },
   hasHierarchy: {
     id: 'confirmRecordDeleteModal.hasHierarchy',
     description: 'The message shown in the confirm delete modal when the record to be deleted has hierarchy (broader/narrower) relations.',
@@ -39,7 +45,11 @@ const propTypes = {
   isOpen: PropTypes.bool,
   isSavePending: PropTypes.bool,
   recordType: PropTypes.string,
+  /* eslint-disable react/no-unused-prop-types */
+  // These actually are used, but not detected by eslint.
   checkForRelations: PropTypes.func,
+  checkForUses: PropTypes.func,
+  /* eslint-enable react/no-unused-prop-types */
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onDeleteButtonClick: PropTypes.func,
@@ -55,40 +65,62 @@ export default class ConfirmRecordDeleteModal extends Component {
 
     this.renderButtonBar = this.renderButtonBar.bind(this);
 
+    this.state = {};
+  }
+
+  componentWillMount() {
+    if (this.props.isOpen) {
+      this.init(this.props);
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!this.props.isOpen && nextProps.isOpen) {
+      this.init(nextProps);
+    }
+  }
+
+  init(props) {
+    // On open check if the record has relations.
+
     const {
       config,
       recordType,
-    } = this.props;
+      checkForRelations,
+      checkForUses,
+    } = props;
 
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
 
-    this.state = {
-      hasRelations: (serviceType === 'procedure' || serviceType === 'object') ? undefined : false,
-    };
-  }
+    if ((serviceType === 'procedure' || serviceType === 'object') && checkForRelations) {
+      this.setState({
+        hasRelations: undefined,
+        hasUses: false,
+      });
 
-  componentDidUpdate(prevProps) {
-    if (this.props.isOpen && !prevProps.isOpen) {
-      // On open check if the record has relations.
+      checkForRelations('affects')
+        .then((hasRelations) => {
+          this.setState({
+            hasRelations,
+          });
+        });
+    } else if (serviceType === 'authority' && checkForUses) {
+      this.setState({
+        hasRelations: false,
+        hasUses: undefined,
+      });
 
-      const {
-        config,
-        recordType,
-        checkForRelations,
-      } = this.props;
-
-      if (checkForRelations) {
-        const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-        if (serviceType === 'procedure' || serviceType === 'object') {
-          checkForRelations('affects')
-            .then((hasRelations) => {
-              this.setState({
-                hasRelations,
-              });
-            });
-        }
-      }
+      checkForUses()
+        .then((hasUses) => {
+          this.setState({
+            hasUses,
+          });
+        });
+    } else {
+      this.setState({
+        hasRelations: false,
+        hasUses: false,
+      });
     }
   }
 
@@ -103,11 +135,12 @@ export default class ConfirmRecordDeleteModal extends Component {
 
     const {
       hasRelations,
+      hasUses,
     } = this.state;
 
     let deleteButton;
 
-    if (!hasHierarchyRelations(data)) {
+    if (!hasHierarchyRelations(data) && !hasUses) {
       deleteButton = (
         <DeleteButton
           csid={csid}
@@ -151,6 +184,7 @@ export default class ConfirmRecordDeleteModal extends Component {
 
     const {
       hasRelations,
+      hasUses,
     } = this.state;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -160,15 +194,20 @@ export default class ConfirmRecordDeleteModal extends Component {
     let prompt;
     let hasRelationsMessage;
     let hasHierarchyMessage;
+    let hasUsesMessage;
 
-    if (hasHierarchyRelations(data)) {
-      hasHierarchyMessage = <FormattedMessage {...messages.hasHierarchy} values={{ title }} />;
-    } else {
-      prompt = <FormattedMessage {...messages.prompt} values={{ title }} />;
+    if (typeof hasRelations !== 'undefined' && typeof hasUses !== 'undefined') {
+      if (hasHierarchyRelations(data)) {
+        hasHierarchyMessage = <FormattedMessage {...messages.hasHierarchy} values={{ title }} />;
+      } else if (hasUses) {
+        hasUsesMessage = <FormattedMessage {...messages.hasUses} values={{ title }} />;
+      } else {
+        prompt = <FormattedMessage {...messages.prompt} values={{ title }} />;
 
-      hasRelationsMessage = hasRelations
-        ? <div><br /><FormattedMessage {...messages.hasRelations} /></div>
-        : null;
+        hasRelationsMessage = hasRelations
+          ? <div><br /><FormattedMessage {...messages.hasRelations} /></div>
+          : null;
+      }
     }
 
     return (
@@ -184,6 +223,7 @@ export default class ConfirmRecordDeleteModal extends Component {
         {prompt}
         {hasRelationsMessage}
         {hasHierarchyMessage}
+        {hasUsesMessage}
       </Modal>
     );
   }

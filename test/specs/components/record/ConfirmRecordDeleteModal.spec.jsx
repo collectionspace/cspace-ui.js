@@ -39,7 +39,15 @@ const config = {
         },
       },
       serviceConfig: {
+        servicePath: 'placeauthorities',
         serviceType: 'authority',
+      },
+      vocabularies: {
+        local: {
+          serviceConfig: {
+            servicePath: 'urn:cspace:name(place)',
+          },
+        },
       },
       title: () => 'Place Record Title',
     },
@@ -125,90 +133,103 @@ describe('ConfirmRecordDeleteModal', function suite() {
     unmountComponentAtNode(this.container);
   });
 
-  it('should call checkForRelations when opened, and render a warning message if it resolves to true', function test() {
-    const data = Immutable.Map();
+  context('when the record type is a procedure or object', function context() {
+    it('should call checkForRelations when opened, and render a warning message if it resolves to true', function test() {
+      const data = Immutable.Map();
 
-    let checkedPredicate = null;
+      let checkedPredicate = null;
 
-    const checkForRelations = (predicateArg) => {
-      checkedPredicate = predicateArg;
+      const checkForRelations = (predicateArg) => {
+        checkedPredicate = predicateArg;
 
-      return Promise.resolve(true);
-    };
+        return Promise.resolve(true);
+      };
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen={false}
-          recordType="group"
-        />
-      </IntlProvider>, this.container);
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen={false}
+            recordType="group"
+          />
+        </IntlProvider>, this.container);
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-          checkForRelations={checkForRelations}
-        />
-      </IntlProvider>, this.container);
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+            checkForRelations={checkForRelations}
+          />
+        </IntlProvider>, this.container);
 
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        checkedPredicate.should.equal('affects');
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          checkedPredicate.should.equal('affects');
 
-        document.querySelector('.ReactModal__Content--after-open > div').textContent.should
-          .contain('This record is related to other records');
+          document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+            .contain('This record is related to other records');
 
-        unmountComponentAtNode(this.container);
+          unmountComponentAtNode(this.container);
 
-        resolve();
-      }, 0);
+          resolve();
+        }, 0);
+      });
     });
   });
 
-  it('should not call checkForRelations if the record is not a procedure or object', function test() {
-    const data = Immutable.Map();
+  context('when the record type is an authority', function context() {
+    it('should call checkForUses when opened, and render a message if it resolves to true', function test() {
+      const data = Immutable.Map();
 
-    let checkForRelationsCalled = false;
+      let checkForUsesCalled = false;
 
-    const checkForRelations = () => {
-      checkForRelationsCalled = true;
-    };
+      const checkForUses = () => {
+        checkForUsesCalled = true;
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen={false}
-          recordType="place"
-        />
-      </IntlProvider>, this.container);
+        return Promise.resolve(true);
+      };
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="place"
-          checkForRelations={checkForRelations}
-        />
-      </IntlProvider>, this.container);
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen={false}
+            recordType="place"
+            vocabulary="local"
+            csid="1234"
+          />
+        </IntlProvider>, this.container);
 
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        checkForRelationsCalled.should.equal(false);
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="place"
+            vocabulary="local"
+            csid="1234"
+            checkForUses={checkForUses}
+          />
+        </IntlProvider>, this.container);
 
-        unmountComponentAtNode(this.container);
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          checkForUsesCalled.should.equal(true);
 
-        resolve();
-      }, 0);
+          document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+            .contain('cannot be deleted because it is used by other records');
+
+          unmountComponentAtNode(this.container);
+
+          resolve();
+        }, 0);
+      });
     });
   });
 

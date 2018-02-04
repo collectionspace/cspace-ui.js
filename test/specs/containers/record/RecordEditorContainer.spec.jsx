@@ -61,7 +61,7 @@ describe('RecordEditorContainer', function suite() {
 
   const vocabularyConfig = {
     serviceConfig: {
-      servicePath: 'urn:cpace:name(ulan)',
+      servicePath: 'urn:cspace:name(ulan)',
     },
   };
 
@@ -513,6 +513,31 @@ describe('RecordEditorContainer', function suite() {
       window.setTimeout(() => {
         moxios.requests.mostRecent().should.have.property('url').that
           .matches(/^\/cspace-services\/relations\?prd=affects&sbj=1234.*/);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should connect checkForUses to checkForUses action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType={authRecordType}
+        vocabulary={vocabulary}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.checkForUses();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        moxios.requests.mostRecent().should.have.property('url').that
+          .contains(`/cspace-services/personauthorities/urn:cspace:name(ulan)/items/${csid}/refObjs`);
 
         resolve();
       }, 0);

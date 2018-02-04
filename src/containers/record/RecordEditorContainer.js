@@ -2,6 +2,10 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 import {
+  checkForUses,
+} from '../../actions/authority';
+
+import {
   closeModal,
   openModal,
   removeNotification,
@@ -127,6 +131,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     checkForRelations: predicate =>
       dispatch(checkForRelations(csid, predicate)),
+    checkForUses: () =>
+      dispatch(checkForUses(config, recordType, vocabulary, csid)),
   };
 };
 

@@ -42,3 +42,30 @@ export const readAuthVocabs = config => (dispatch) => {
       return Promise.reject(error);
     });
 };
+
+/**
+ * Check if any uses exist for the given authority item. Resolves to true or false.
+ */
+export const checkForUses = (config, recordType, vocabulary, csid) => () => {
+  const recordTypeConfig = get(config, ['recordTypes', recordType]);
+  const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
+
+  const recordServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
+  const vocabularyServicePath = get(vocabularyConfig, ['serviceConfig', 'servicePath']);
+  const pathParts = [recordServicePath, vocabularyServicePath, 'items', csid, 'refObjs'];
+  const path = pathParts.join('/');
+
+  const requestConfig = {
+    params: {
+      wf_deleted: 'false',
+      pgSz: '1',
+    },
+  };
+
+  return getSession().read(path, requestConfig)
+    .then((response) => {
+      const totalItems = get(response, ['data', 'ns3:authority-ref-doc-list', 'totalItems']);
+
+      return (totalItems && parseInt(totalItems, 10) > 0);
+    });
+};

@@ -35,6 +35,7 @@ const propTypes = {
   relatedSubjectWorkflowState: PropTypes.string,
   openModalName: PropTypes.string,
   checkForRelations: PropTypes.func,
+  checkForUses: PropTypes.func,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
   onRecordCreated: PropTypes.func,
@@ -451,7 +452,9 @@ export default class RecordEditor extends Component {
       isSavePending,
       openModalName,
       recordType,
+      vocabulary,
       checkForRelations,
+      checkForUses,
     } = this.props;
 
     return (
@@ -462,7 +465,9 @@ export default class RecordEditor extends Component {
         isOpen={openModalName === ConfirmRecordDeleteModal.modalName}
         isSavePending={isSavePending}
         recordType={recordType}
+        vocabulary={vocabulary}
         checkForRelations={checkForRelations}
+        checkForUses={checkForUses}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
         onDeleteButtonClick={this.handleConfirmDeleteButtonClick}
