@@ -2856,11 +2856,11 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('hasHierarchyRelations', function suite() {
-    it('should return true if the record data contains a relations list with more than zero total items', function test() {
+    it('should return true if the record data contains a relations list with a relation-list-item', function test() {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
-            totalItems: '2',
+            'relation-list-item': {},
           },
         },
       });
@@ -2868,12 +2868,25 @@ describe('recordDataHelpers', function moduleSuite() {
       hasHierarchyRelations(data).should.equal(true);
     });
 
-    it('should return false if the record data contains a relations list with zero total items', function test() {
+    it('should return true if the record data contains a relations list with multiple relation-list-items', function test() {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
-            totalItems: '0',
+            'relation-list-item': [
+              {},
+              {},
+            ],
           },
+        },
+      });
+
+      hasHierarchyRelations(data).should.equal(true);
+    });
+
+    it('should return false if the record data contains a relations list with no relation-list-item', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {},
         },
       });
 

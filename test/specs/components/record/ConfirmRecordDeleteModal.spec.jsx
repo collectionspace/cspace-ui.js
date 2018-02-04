@@ -216,7 +216,10 @@ describe('ConfirmRecordDeleteModal', function suite() {
     const data = Immutable.fromJS({
       document: {
         'rel:relations-common-list': {
-          totalItems: '2',
+          'relation-list-item': [
+            {},
+            {},
+          ],
         },
       },
     });
@@ -244,7 +247,10 @@ describe('ConfirmRecordDeleteModal', function suite() {
     const data = Immutable.fromJS({
       document: {
         'rel:relations-common-list': {
-          totalItems: '2',
+          'relation-list-item': [
+            {},
+            {},
+          ],
         },
       },
     });

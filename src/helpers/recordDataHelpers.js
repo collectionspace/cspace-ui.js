@@ -875,7 +875,7 @@ export const isRecordImmutable = data => (
 );
 
 export const hasHierarchyRelations = (data) => {
-  const totalItems = data.getIn(['document', 'rel:relations-common-list', 'totalItems']);
+  const items = data.getIn(['document', 'rel:relations-common-list', 'relation-list-item']);
 
-  return (!!totalItems && parseInt(totalItems, 10) > 0);
+  return (!!items && (!Immutable.List.isList(items) || items.size > 0));
 };
