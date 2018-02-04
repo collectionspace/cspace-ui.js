@@ -264,7 +264,7 @@ describe('VocabularyPage', function suite() {
         const searchPanel = findWithType(result, SearchPanelContainer);
         const seqId = searchPanel.props.searchDescriptor.get('seqId');
 
-        Date.parse(seqId).should.be.closeTo(Date.now(), 100);
+        Date.parse(seqId).should.be.closeTo(Date.now(), 500);
 
         resolve();
       }, 0);

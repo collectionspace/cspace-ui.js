@@ -9,7 +9,6 @@ import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 
 const rowHeight = 22;
-const rowLinkStyle = {};
 
 const messages = defineMessages({
   searchPending: {
@@ -29,6 +28,75 @@ const isSortable = (column, searchDescriptor) => {
   const { sortBy } = column;
 
   return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
+};
+
+const linkRowRenderer = (location, params) => {
+  // This is a fork of react-virtualized's default row renderer, which renders the row as a
+  // react-router Link instead of the default div.
+
+  // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
+
+  const {
+    className,
+    columns,
+    index,
+    key,
+    onRowClick,
+    // onRowDoubleClick,
+    // onRowMouseOut,
+    // onRowMouseOver,
+    // onRowRightClick,
+    rowData,
+    style,
+  } = params;
+
+  const a11yProps = {};
+
+  if (
+    onRowClick // ||
+    // onRowDoubleClick ||
+    // onRowMouseOut ||
+    // onRowMouseOver ||
+    // onRowRightClick
+  ) {
+    a11yProps['aria-label'] = 'row';
+    a11yProps.tabIndex = 0;
+
+    if (onRowClick) {
+      a11yProps.onClick = event => onRowClick({ event, index, rowData });
+    }
+
+    // if (onRowDoubleClick) {
+    //   a11yProps.onDoubleClick = event =>
+    //     onRowDoubleClick({ event, index, rowData });
+    // }
+
+    // if (onRowMouseOut) {
+    //   a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData });
+    // }
+
+    // if (onRowMouseOver) {
+    //   a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData });
+    // }
+
+    // if (onRowRightClick) {
+    //   a11yProps.onContextMenu = event =>
+    //     onRowRightClick({ event, index, rowData });
+    // }
+  }
+
+  return (
+    <Link
+      {...a11yProps}
+      className={className}
+      key={key}
+      role="row"
+      style={style}
+      to={location}
+    >
+      {columns}
+    </Link>
+  );
 };
 
 const propTypes = {
@@ -154,26 +222,17 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     const {
-      key,
       rowData,
     } = params;
 
     const locationGetter = getItemLocation || this.getItemLocation;
     const location = locationGetter(rowData);
 
-    if (!location) {
-      return Table.defaultRowRenderer(params);
+    if (location) {
+      return linkRowRenderer(location, params);
     }
 
-    const innerParams = Object.assign({}, params);
-
-    delete innerParams.key;
-
-    return (
-      <Link key={key} to={location} style={rowLinkStyle}>
-        {Table.defaultRowRenderer(innerParams)}
-      </Link>
-    );
+    return Table.defaultRowRenderer(params);
   }
 
   renderTable() {

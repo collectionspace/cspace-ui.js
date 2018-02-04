@@ -1,3 +1,7 @@
 .common {
   box-sizing: border-box;
 }
+
+.common :global(a.ReactVirtualized__Table__row) {
+  text-decoration: none;
+}
