@@ -56,6 +56,10 @@ export default (pluginContext) => {
                     id: 'hierarchyInput.collectionobject.parent',
                     defaultMessage: 'Broader object',
                   },
+                  parentName: {
+                    id: 'hierarchyInput.collectionobject.parentName',
+                    defaultMessage: 'Object',
+                  },
                   parentType: {
                     id: 'hierarchyInput.collectionobject.parentType',
                     defaultMessage: 'Type',
@@ -64,8 +68,8 @@ export default (pluginContext) => {
                     id: 'hierarchyInput.collectionobject.children',
                     defaultMessage: 'Component objects',
                   },
-                  child: {
-                    id: 'hierarchyInput.collectionobject.child',
+                  childName: {
+                    id: 'hierarchyInput.collectionobject.childName',
                     defaultMessage: 'Object',
                   },
                   childType: {

@@ -140,9 +140,9 @@ export class BaseTypedHierarchyEditor extends Component {
     const parentType = value.getIn(['parent', 'type']);
 
     return (
-      <InputTable>
+      <InputTable label={intl.formatMessage(messages.parent)}>
         <MiniViewPopupAutocompleteInputContainer
-          label={intl.formatMessage(messages.parent)}
+          label={intl.formatMessage(messages.parentName)}
           name="parentRefName"
           source={source}
           value={parentRefName}
@@ -195,7 +195,7 @@ export class BaseTypedHierarchyEditor extends Component {
           onRemoveInstance={this.handleRemoveChild}
         >
           <MiniViewPopupAutocompleteInputContainer
-            label={intl.formatMessage(messages.child)}
+            label={intl.formatMessage(messages.childName)}
             name="refName"
             source={source}
             matchFilter={this.filterMatch}
