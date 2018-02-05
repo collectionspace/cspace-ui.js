@@ -135,7 +135,7 @@ export class BaseTypedHierarchyEditor extends Component {
       return undefined;
     }
 
-    const source = [recordType, vocabulary].filter(part => !!part).join('/');
+    const source = [recordType, vocabulary].join('/');
     const parentRefName = value.getIn(['parent', 'refName']);
     const parentType = value.getIn(['parent', 'type']);
 
@@ -178,7 +178,7 @@ export class BaseTypedHierarchyEditor extends Component {
       return undefined;
     }
 
-    const source = [recordType, vocabulary].filter(part => !!part).join('/');
+    const source = [recordType, vocabulary].join('/');
     const children = value.get('children');
 
     return (
