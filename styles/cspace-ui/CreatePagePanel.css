@@ -38,17 +38,17 @@
 .object {
   composes: common;
   background-color: #F0F5FB;
-  color: #739CD2;
+  color: #305A8D;
 }
 
 .procedure {
   composes: common;
   background-color: #F0F5FB;
-  color: #739CD2;
+  color: #305A8D;
 }
 
 .authority {
   composes: common;
   background-color: #F3EDF6;
-  color: #78449A;
+  color: #734592;
 }

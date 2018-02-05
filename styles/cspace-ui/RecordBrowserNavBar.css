@@ -3,12 +3,12 @@
 
 .object, .procedure, .utility {
   composes: common;
-  color: #739CD2;
+  color: #305A8D;
 }
 
 .authority {
   composes: common;
-  color: #78449A;
+  color: #734592;
 }
 
 .common > ul {
