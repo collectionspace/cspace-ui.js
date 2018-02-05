@@ -193,7 +193,15 @@ export default class HierarchyInput extends Component {
         hierarchy,
       } = this.state;
 
-      const children = hierarchy.get('children');
+      let children = hierarchy.get('children');
+
+      if (children.size === 0) {
+        // The UI renders a single blank input event if there are no children, so adding a child
+        // should result in two children, not one.
+
+        children = children.push(Immutable.Map());
+      }
+
       const updatedHierarchy = hierarchy.set('children', children.push(Immutable.Map()));
 
       onCommit(getPath(this.props), this.getRelationItems(updatedHierarchy));

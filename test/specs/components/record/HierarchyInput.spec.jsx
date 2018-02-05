@@ -700,4 +700,73 @@ describe('HierarchyInput', function suite() {
       },
     })));
   });
+
+  it('should commit two children when a child instance is added in the hierarchy editor and there are no children', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
+
+    const relations = Immutable.fromJS([
+      {
+        csid: undefined,
+        predicate: 'hasBroader',
+        relationshipMetaType: undefined,
+        subject: {
+          csid,
+        },
+        object: {
+          csid: 'abcd',
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(parent)',
+        },
+      },
+    ]);
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <HierarchyInput
+        csid={csid}
+        messages={messages}
+        name={name}
+        value={relations}
+        onCommit={handleCommit}
+      />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
+
+    hierarchyEditor.props.onAddChild();
+
+    committedPath.should.deep.equal([name]);
+
+    committedValue.should.equal(
+      relations
+        .unshift(Immutable.fromJS({
+          csid: undefined,
+          predicate: 'hasBroader',
+          relationshipMetaType: undefined,
+          subject: {
+            refName: undefined,
+          },
+          object: {
+            csid,
+          },
+        }))
+        .unshift(Immutable.fromJS({
+          csid: undefined,
+          predicate: 'hasBroader',
+          relationshipMetaType: undefined,
+          subject: {
+            refName: undefined,
+          },
+          object: {
+            csid,
+          },
+        }))
+    );
+  });
 });
