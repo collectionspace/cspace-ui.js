@@ -31,6 +31,10 @@ const template = (pluginContext) => {
                 <Field name="numberType" />
               </Field>
             </Field>
+
+            <Field name="inventoryStatusList">
+              <Field name="inventoryStatus" />
+            </Field>
           </div>
 
           <div>

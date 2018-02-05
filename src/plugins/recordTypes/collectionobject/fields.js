@@ -233,6 +233,56 @@ export default (pluginContext) => {
             },
           },
         },
+        publishToList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          publishTo: {
+            [config]: {
+              defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(publishto):item:name(none)\'None\'',
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.publishTo.name',
+                  defaultMessage: 'Publish to',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'publishto',
+                },
+              },
+            },
+          },
+        },
+        inventoryStatusList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          inventoryStatus: {
+            [config]: {
+              defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(inventorystatus):item:name(unknown)\'unknown\'',
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.inventoryStatus.name',
+                  defaultMessage: 'Inventory status',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'inventorystatus',
+                },
+              },
+            },
+          },
+        },
         briefDescriptions: {
           [config]: {
             view: {

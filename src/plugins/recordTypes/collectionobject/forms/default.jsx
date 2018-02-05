@@ -40,6 +40,14 @@ const template = (pluginContext) => {
 
             <Field name="collection" />
             <Field name="recordStatus" />
+
+            <Field name="publishToList">
+              <Field name="publishTo" />
+            </Field>
+
+            <Field name="inventoryStatusList">
+              <Field name="inventoryStatus" />
+            </Field>
           </div>
 
           <div>
