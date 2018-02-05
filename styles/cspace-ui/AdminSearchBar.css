@@ -1,6 +1,7 @@
 .common {
   display: flex;
   align-items: flex-end;
+  margin-top: 10px;
   padding: 0 10px;
 }
 
