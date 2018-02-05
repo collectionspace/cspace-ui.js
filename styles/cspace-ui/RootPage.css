@@ -29,6 +29,10 @@ a:disabled {
   color: rgba(77, 77, 77, .4);
 }
 
+a:visited * {
+  border-color: currentColor;
+}
+
 h1, h2 {
   font-size: 24px;
   font-weight: 400;
