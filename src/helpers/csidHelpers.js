@@ -8,7 +8,7 @@ const urnCsidPattern = /^urn:cspace:name\(\w+\)$/;
  * @param {string} string - The string
  * @returns {boolean} True if the string is a valid csid, false otherwise.
  */
-export const isCsid = string => csidPattern.test(string);
+export const isCsid = string => string && csidPattern.test(string);
 
 /**
  * Determines if a given string is a valid URN-style csid. A URN-style csid may be substituted

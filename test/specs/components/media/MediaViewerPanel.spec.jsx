@@ -126,7 +126,7 @@ describe('MediaViewerPanel', function suite() {
     shallowRenderer.render(
       <MediaViewerPanel
         config={config}
-        ownBlobCsid="1234"
+        ownBlobCsid="84471689-9a99-4687-9c66"
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />
@@ -136,6 +136,24 @@ describe('MediaViewerPanel', function suite() {
     const headerMessage = findWithType(result.props.header, FormattedMessage);
 
     headerMessage.props.values.totalItems.should.equal(4);
+  });
+
+  it('should not add one to the count if ownBlobCsid is not a guid csid', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <MediaViewerPanel
+        config={config}
+        ownBlobCsid="/blob"
+        searchDescriptor={searchDescriptor}
+        searchResult={searchResult}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const headerMessage = findWithType(result.props.header, FormattedMessage);
+
+    headerMessage.props.values.totalItems.should.equal(3);
   });
 
   it('should call search when mounted', function test() {

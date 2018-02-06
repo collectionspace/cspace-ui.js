@@ -4,6 +4,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import MediaViewerContainer from '../../containers/media/MediaViewerContainer';
+import { isCsid } from '../../helpers/csidHelpers';
 
 const messages = defineMessages({
   titleWithCount: {
@@ -86,7 +87,10 @@ export default class MediaViewerPanel extends Component {
     if (typeof totalItems !== 'undefined' && totalItems !== null) {
       let count = parseInt(totalItems, 10);
 
-      if (ownBlobCsid) {
+      // ownBlobCsid might be a new record identifier (e.g. '/blob'), if there is no blob. Only
+      // increment the count if it's an actual csid.
+
+      if (isCsid(ownBlobCsid)) {
         count += 1;
       }
 
@@ -129,7 +133,7 @@ export default class MediaViewerPanel extends Component {
           columnSetName={columnSetName}
           config={config}
           listType={listType}
-          ownBlobCsid={ownBlobCsid}
+          ownBlobCsid={isCsid(ownBlobCsid) ? ownBlobCsid : undefined}
           recordType={recordType}
           searchName={name}
           searchDescriptor={searchDescriptor}

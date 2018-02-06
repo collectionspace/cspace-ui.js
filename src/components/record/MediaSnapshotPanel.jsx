@@ -18,8 +18,25 @@ const messages = defineMessages({
 const getSearchDescriptor = (props) => {
   const {
     csid,
+    recordData,
     recordRelationUpdatedTimestamp,
+    recordType,
   } = props;
+
+  // Update the media snapshot when relations have changed.
+
+  let updatedTimestamp = recordRelationUpdatedTimestamp;
+
+  if (recordType === 'media') {
+    // For a media record, the media snapshot needs to be updated when either the record data
+    // changes (because the blobCsid may have changed), or relations have changed.
+
+    const recordUpdatedTimestamp = getUpdatedTimestamp(recordData);
+
+    updatedTimestamp = (recordRelationUpdatedTimestamp > recordUpdatedTimestamp)
+      ? recordRelationUpdatedTimestamp
+      : recordUpdatedTimestamp;
+  }
 
   return Immutable.fromJS({
     recordType: 'media',
@@ -29,7 +46,7 @@ const getSearchDescriptor = (props) => {
       size: 2500,
       sort: 'title',
     },
-    seqID: recordRelationUpdatedTimestamp,
+    seqID: updatedTimestamp,
   });
 };
 
