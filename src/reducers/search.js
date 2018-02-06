@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import { asPairs, diff } from '../helpers/objectHelpers';
+import { RECORD_BATCH_PANEL_SEARCH_NAME, RECORD_REPORT_PANEL_SEARCH_NAME } from '../constants/searchNames';
 
 import {
   deepGet,
@@ -382,6 +383,16 @@ const handleSetResultItemSelected = (state, action) => {
   return state;
 };
 
+const clearFilteredResults = (state, filter) => {
+  let nextState = state;
+
+  state.filter(filter).forEach((searchState, searchName) => {
+    nextState = nextState.delete(searchName);
+  });
+
+  return nextState;
+};
+
 const clearNamedResults = (state, action) =>
   state.delete(action.meta.searchName);
 
@@ -442,7 +453,14 @@ export default (state = Immutable.Map(), action) => {
     case SUBRECORD_CREATED:
       return clearNamedResults(state, action);
     case RECORD_CREATED:
-      return clearAllResults(state);
+      // We don't really know which search results will be affected by a record being created, so
+      // clear them all -- except for the report and batch panels, which should not ever be
+      // affected by a record being created.
+
+      return clearFilteredResults(state, (searchState, searchName) => (
+        searchName !== RECORD_BATCH_PANEL_SEARCH_NAME &&
+        searchName !== RECORD_REPORT_PANEL_SEARCH_NAME
+      ));
     case RECORD_DELETE_FULFILLED:
       return handleRecordDeleteFulfilled(state, action);
     case RECORD_TRANSITION_FULFILLED:

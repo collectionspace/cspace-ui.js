@@ -10,6 +10,7 @@ import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { getReportViewerPath, VIEWER_WINDOW_NAME } from '../../helpers/reportHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
+import { RECORD_REPORT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 
 const messages = defineMessages({
   title: {
@@ -158,7 +159,7 @@ export default class RecordReportPanel extends Component {
           config={config}
           csid={csid}
           linkItems={false}
-          name="recordReportPanel"
+          name={RECORD_REPORT_PANEL_SEARCH_NAME}
           searchDescriptor={searchDescriptor}
           recordType={recordType}
           showSearchButton={false}

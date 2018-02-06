@@ -29,6 +29,11 @@ import {
   RECORD_TRANSITION_FULFILLED,
 } from '../../../src/actions/record';
 
+import {
+  RECORD_BATCH_PANEL_SEARCH_NAME,
+  RECORD_REPORT_PANEL_SEARCH_NAME,
+} from '../../../src/constants/searchNames';
+
 import reducer, {
   getError,
   getResult,
@@ -1105,18 +1110,25 @@ describe('search reducer', function suite() {
     }));
   });
 
-  it('should handle RECORD_CREATED', function test() {
-    const initialState = Immutable.fromJS({
-      searchName1: {},
-      searchName2: {},
-      searchName3: {},
-    });
+  context('on RECORD_CREATED', function context() {
+    it('should clear all search state except for report panel and batch panel', function test() {
+      const initialState = Immutable.fromJS({
+        searchName1: {},
+        searchName2: {},
+        searchName3: {},
+        [RECORD_BATCH_PANEL_SEARCH_NAME]: {},
+        [RECORD_REPORT_PANEL_SEARCH_NAME]: {},
+      });
 
-    const state = reducer(initialState, {
-      type: RECORD_CREATED,
-    });
+      const state = reducer(initialState, {
+        type: RECORD_CREATED,
+      });
 
-    state.should.equal(Immutable.Map());
+      state.should.equal(Immutable.fromJS({
+        [RECORD_BATCH_PANEL_SEARCH_NAME]: {},
+        [RECORD_REPORT_PANEL_SEARCH_NAME]: {},
+      }));
+    });
   });
 
   it('should handle RECORD_DELETE_FULFILLED', function test() {
