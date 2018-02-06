@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import get from 'lodash/get';
 import PageSizeChooser from './PageSizeChooser';
+import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
 
 const messages = defineMessages({
   error: {
     id: 'searchResultSummary.error',
-    defaultMessage: 'Error: {message}',
+    defaultMessage: 'Error: {code}',
+  },
+  [ERR_NOT_ALLOWED]: {
+    id: 'searchResultSummary.ERR_NOT_ALLOWED',
+    defaultMessage: 'You\'re not allowed to perform this search.',
   },
   editSearch: {
     id: 'searchResultSummary.editSearch',
@@ -67,12 +73,24 @@ export default function SearchResultSummary(props) {
   } = props;
 
   if (searchError) {
-    // FIXME: Make a proper error page
-    const message = searchError.get('code') || '';
+    const error = searchError.toJS();
+
+    let { code } = error;
+
+    if (code === ERR_API) {
+      const status = get(error, ['error', 'response', 'status']);
+
+      if (status === 401) {
+        // Convert 401 to ERR_NOT_ALLOWED.
+        code = ERR_NOT_ALLOWED;
+      }
+    }
+
+    const message = messages[code] || messages.error;
 
     return (
       <div className={styles.error}>
-        <FormattedMessage {...messages.error} values={{ message }} />
+        <FormattedMessage {...message} values={error} />
         <p>{renderEditLink(searchDescriptor, onEditSearchLinkClick)}</p>
       </div>
     );
