@@ -1,3 +1,6 @@
+/* global cspaceUI */
+/* The cspaceUI global variable is set by webpack (in non-test builds). See webpack.config.js. */
+
 import React from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/Footer.css';
@@ -7,10 +10,6 @@ const messages = defineMessages({
     id: 'footer.copyright',
     defaultMessage: 'Copyright © {startYear}–{endYear} CollectionSpace',
   },
-  release: {
-    id: 'footer.release',
-    defaultMessage: 'Release {version}',
-  },
   about: {
     id: 'footer.about',
     defaultMessage: 'About CollectionSpace',
@@ -18,6 +17,14 @@ const messages = defineMessages({
   feedback: {
     id: 'footer.feedback',
     defaultMessage: 'Leave Feedback',
+  },
+  release: {
+    id: 'footer.release',
+    defaultMessage: 'Release {version}',
+  },
+  uiInfo: {
+    id: 'footer.uiInfo',
+    defaultMessage: '{name} version {version}',
   },
 });
 
@@ -36,13 +43,6 @@ export default function Footer() {
             }}
           />
         </li>
-      </ul>
-      <ul>
-        <li>
-          <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.0">
-            <FormattedMessage {...messages.release} values={{ version: '5.0' }} />
-          </a>
-        </li>
         <li>
           <a href="http://www.collectionspace.org">
             <FormattedMessage {...messages.about} />
@@ -52,6 +52,23 @@ export default function Footer() {
           <a href="http://www.collectionspace.org/contact">
             <FormattedMessage {...messages.feedback} />
           </a>
+        </li>
+      </ul>
+
+      <ul>
+        <li>
+          <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.0">
+            <FormattedMessage {...messages.release} values={{ version: '5.0' }} />
+          </a>
+        </li>
+        <li>
+          <FormattedMessage
+            {...messages.uiInfo}
+            values={typeof cspaceUI !== 'undefined' && {
+              name: cspaceUI.packageName,
+              version: cspaceUI.packageVersion,
+            }}
+          />
         </li>
       </ul>
     </footer>

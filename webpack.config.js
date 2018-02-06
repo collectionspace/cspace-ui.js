@@ -55,6 +55,8 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      [`${library}.packageName`]: JSON.stringify(process.env.npm_package_name),
+      [`${library}.packageVersion`]: JSON.stringify(process.env.npm_package_version),
     }),
   ],
   resolve: {
