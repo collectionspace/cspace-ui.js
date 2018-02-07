@@ -17,7 +17,7 @@ export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case ADD_TERM_STARTED:
       return state.setIn([
-        action.meta.displayName,
+        action.meta.partialTerm,
         action.meta.recordType,
         action.meta.vocabulary,
       ], Immutable.Map({
@@ -25,7 +25,7 @@ export default (state = Immutable.Map(), action) => {
       }));
     case ADD_TERM_FULFILLED:
       return state.setIn([
-        action.meta.displayName,
+        action.meta.partialTerm,
         action.meta.recordType,
         action.meta.vocabulary,
       ], Immutable.Map({
@@ -33,7 +33,7 @@ export default (state = Immutable.Map(), action) => {
       }));
     case ADD_TERM_REJECTED:
       return state.setIn([
-        action.meta.displayName,
+        action.meta.partialTerm,
         action.meta.recordType,
         action.meta.vocabulary,
       ], Immutable.Map({

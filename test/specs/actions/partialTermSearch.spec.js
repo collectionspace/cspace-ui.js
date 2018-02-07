@@ -32,6 +32,7 @@ describe('partialTermSearch action creator', function suite() {
     const termAddUrl = `/cspace-services/${servicePath}/${vocabularyServicePath}/items`;
     const termReadUrl = '/cspace-services/new/url/csid';
     const displayName = 'abc';
+    const partialTerm = '^abc';
 
     const recordTypeConfig = {
       name: recordType,
@@ -79,7 +80,7 @@ describe('partialTermSearch action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName))
+      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName, partialTerm))
         .then(() => {
           const actions = store.getActions();
 
@@ -89,6 +90,7 @@ describe('partialTermSearch action creator', function suite() {
             type: ADD_TERM_STARTED,
             meta: {
               displayName,
+              partialTerm,
               recordType,
               vocabulary,
             },
@@ -104,6 +106,7 @@ describe('partialTermSearch action creator', function suite() {
             },
             meta: {
               displayName,
+              partialTerm,
               recordType,
               vocabulary,
             },
@@ -117,7 +120,7 @@ describe('partialTermSearch action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName))
+      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName, partialTerm))
         .then(() => {
           const actions = store.getActions();
 
@@ -127,6 +130,7 @@ describe('partialTermSearch action creator', function suite() {
             type: ADD_TERM_STARTED,
             meta: {
               displayName,
+              partialTerm,
               recordType,
               vocabulary,
             },
@@ -136,6 +140,7 @@ describe('partialTermSearch action creator', function suite() {
           actions[1].should.have.property('meta')
             .that.deep.equals({
               displayName,
+              partialTerm,
               recordType,
               vocabulary,
             });

@@ -33,11 +33,12 @@ describe('partialTermSearch reducer', function suite() {
       type: ADD_TERM_STARTED,
       meta: {
         displayName,
+        partialTerm,
         recordType,
         vocabulary,
       },
     }).should.equal(Immutable.fromJS({
-      [displayName]: {
+      [partialTerm]: {
         [recordType]: {
           [vocabulary]: {
             isAddPending: true,
@@ -59,11 +60,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: addTermResponse,
       meta: {
         displayName,
+        partialTerm,
         recordType,
         vocabulary,
       },
     }).should.equal(Immutable.fromJS({
-      [displayName]: {
+      [partialTerm]: {
         [recordType]: {
           [vocabulary]: {
             newTerm: newTermData,
@@ -81,11 +83,12 @@ describe('partialTermSearch reducer', function suite() {
       payload: error,
       meta: {
         displayName,
+        partialTerm,
         recordType,
         vocabulary,
       },
     }).should.equal(Immutable.fromJS({
-      [displayName]: {
+      [partialTerm]: {
         [recordType]: {
           [vocabulary]: {
             error,

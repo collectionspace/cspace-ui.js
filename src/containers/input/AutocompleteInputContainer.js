@@ -123,13 +123,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 
   return {
-    addTerm: (recordType, vocabulary, displayName) => {
+    addTerm: (recordType, vocabulary, displayName, partialTerm) => {
       const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
       warning(recordTypeConfig, `The record type '${recordType}' is not configured. Check the source prop of the input with name '${ownProps.name}'.`);
 
       if (recordTypeConfig) {
-        dispatch(addTerm(recordTypeConfig, vocabulary, displayName));
+        dispatch(addTerm(recordTypeConfig, vocabulary, displayName, partialTerm));
       }
     },
     findMatchingTerms: (source, partialTerm) => {

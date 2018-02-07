@@ -9,7 +9,7 @@ export const PARTIAL_TERM_SEARCH_FULFILLED = 'PARTIAL_TERM_SEARCH_FULFILLED';
 export const PARTIAL_TERM_SEARCH_REJECTED = 'PARTIAL_TERM_SEARCH_REJECTED';
 export const CLEAR_PARTIAL_TERM_SEARCH_RESULTS = 'CLEAR_PARTIAL_TERM_SEARCH_RESULTS';
 
-export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch) => {
+export const addTerm = (recordTypeConfig, vocabulary, displayName, partialTerm) => (dispatch) => {
   const recordType = get(recordTypeConfig, 'name');
   const serviceConfig = get(recordTypeConfig, 'serviceConfig');
   const servicePath = get(serviceConfig, 'servicePath');
@@ -22,6 +22,7 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch)
     type: ADD_TERM_STARTED,
     meta: {
       displayName,
+      partialTerm,
       recordType,
       vocabulary,
     },
@@ -54,6 +55,7 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch)
       payload: response,
       meta: {
         displayName,
+        partialTerm,
         recordType,
         vocabulary,
       },
@@ -63,6 +65,7 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName) => (dispatch)
       payload: error,
       meta: {
         displayName,
+        partialTerm,
         recordType,
         vocabulary,
       },

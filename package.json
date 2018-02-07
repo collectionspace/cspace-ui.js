@@ -45,7 +45,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "cspace-client": "^0.1.7",
-    "cspace-input": "^0.12.40",
+    "cspace-input": "^0.12.41",
     "cspace-layout": "^0.2.2",
     "cspace-refname": "^0.0.8",
     "history": "4.6.2",
