@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
@@ -27,12 +29,13 @@ import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import searchResultSidebarStyles from '../../../styles/cspace-ui/SearchResultSidebar.css';
 
 export const searchName = 'searchResultPage';
+
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
 
-const stopPropagation = (event) => {
-  event.stopPropagation();
-};
+// const stopPropagation = (event) => {
+//   event.stopPropagation();
+// };
 
 const messages = defineMessages({
   relate: {
@@ -66,6 +69,7 @@ export default class SearchResultPage extends Component {
     super();
 
     this.getSearchToRelateSubjects = this.getSearchToRelateSubjects.bind(this);
+    this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
     this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
@@ -320,6 +324,24 @@ export default class SearchResultPage extends Component {
     );
   }
 
+  handleCheckboxClick(event) {
+    // DRYD-252: Elaborate workaround for Firefox. When a checkbox is a child of an a, clicking on
+    // the checkbox navigates to the link. So we have to handle the checkbox click, and prevent the
+    // default. This prevents the navigation, but also prevents the checkbox state from changing.
+    // So we also have to manually commit the change. The Firefox bug has been open for 17 years
+    // now. https://bugzilla.mozilla.org/show_bug.cgi?id=62151
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
+    const index = checkbox.name;
+
+    window.setTimeout(() => {
+      this.handleCheckboxCommit([index], !checkbox.checked);
+    }, 0);
+  }
+
   handleCheckboxCommit(path, value) {
     const index = parseInt(path[0], 10);
     const selected = value;
@@ -489,10 +511,13 @@ export default class SearchResultPage extends Component {
           embedded
           name={`${rowIndex}`}
           value={selected}
-          onCommit={this.handleCheckboxCommit}
 
+          // DRYD-252: Elaborate workaround for Firefox, part II. Use this onClick instead of the
+          // onCommit and onClick below.
+          onClick={this.handleCheckboxClick}
+          // onCommit={this.handleCheckboxCommit}
           // Prevent clicking on the checkbox from selecting the record.
-          onClick={stopPropagation}
+          // onClick={stopPropagation}
         />
       );
     }

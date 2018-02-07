@@ -1,4 +1,4 @@
-/* global document */
+/* global window, document */
 
 import React from 'react';
 import { render } from 'react-dom';
@@ -1165,7 +1165,9 @@ describe('SearchResultPage', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should call onItemSelectChange when a checkbox value is committed', function test() {
+  // This test inntriduced due to workaround from DRYD-252.
+
+  it('should call onItemSelectChange when a checkbox is clicked', function test() {
     let changedConfig = null;
     let changedSearchName = null;
     let changedSearchDescriptor = null;
@@ -1216,15 +1218,93 @@ describe('SearchResultPage', function suite() {
       }),
     });
 
-    checkbox.props.onCommit([rowIndex.toString()], checked);
+    checkbox.props.onClick({
+      currentTarget: {
+        querySelector: () => ({
+          name: rowIndex.toString(),
+        }),
+      },
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    });
 
-    changedConfig.should.equal(config);
-    changedSearchName.should.equal(searchName);
-    changedSearchDescriptor.should.deep.equal(searchDescriptor);
-    changedListType.should.equal('common');
-    changedIndex.should.equal(1);
-    changedChecked.should.equal(checked);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        changedConfig.should.equal(config);
+        changedSearchName.should.equal(searchName);
+        changedSearchDescriptor.should.deep.equal(searchDescriptor);
+        changedListType.should.equal('common');
+        changedIndex.should.equal(1);
+        changedChecked.should.equal(checked);
+
+        resolve();
+      }, 0);
+    });
   });
+
+  // This test obsoleted due to the workaround from DRYD-252. I'm keeping it around in case we can
+  // ever remove that workaround.
+
+  // it('should call onItemSelectChange when a checkbox value is committed', function test() {
+  //   let changedConfig = null;
+  //   let changedSearchName = null;
+  //   let changedSearchDescriptor = null;
+  //   let changedListType = null;
+  //   let changedIndex = null;
+  //   let changedChecked = null;
+
+  //   const handleItemSelectChange =
+  //     (configArg, searchNameArg, searchDescriptorArg, listTypeArg, indexArg, checkedArg) => {
+  //       changedConfig = configArg;
+  //       changedSearchName = searchNameArg;
+  //       changedSearchDescriptor = searchDescriptorArg;
+  //       changedListType = listTypeArg;
+  //       changedIndex = indexArg;
+  //       changedChecked = checkedArg;
+  //     };
+
+  //   const shallowRenderer = createRenderer();
+
+  //   const context = {
+  //     config,
+  //     store,
+  //   };
+
+  //   shallowRenderer.render(
+  //     <SearchResultPage
+  //       location={location}
+  //       match={match}
+  //       onItemSelectChange={handleItemSelectChange}
+  //       perms={Immutable.fromJS({
+  //         collectionobject: {
+  //           data: 'CRUDL',
+  //         },
+  //       })}
+  //     />, context);
+
+  //   const result = shallowRenderer.getRenderOutput();
+
+  //   const rowIndex = 1;
+  //   const checked = true;
+
+  //   const table = findWithType(result, SearchResultTableContainer);
+
+  //   const checkbox = table.props.renderCheckbox({
+  //     rowIndex,
+  //     rowData: Immutable.Map({
+  //       uri: '/collectionobjects/1234',
+  //     }),
+  //   });
+
+  //   checkbox.props.onCommit([rowIndex.toString()], checked);
+
+  //   changedConfig.should.equal(config);
+  //   changedSearchName.should.equal(searchName);
+  //   changedSearchDescriptor.should.deep.equal(searchDescriptor);
+  //   changedListType.should.equal('common');
+  //   changedIndex.should.equal(1);
+  //   changedChecked.should.equal(checked);
+  // });
 
   it('should stop propagation of clicks on checkboxes', function test() {
     const shallowRenderer = createRenderer();
