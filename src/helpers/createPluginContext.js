@@ -23,6 +23,7 @@ import Field from '../components/record/Field';
 import BaseHierarchyInput from '../components/record/HierarchyInput';
 import InputTable from '../components/record/InputTable';
 import Subrecord from '../components/record/Subrecord';
+import URLInput from '../components/record/URLInput';
 import ContentViewer from '../components/record/ContentViewer';
 
 import * as dataTypes from '../constants/dataTypes';
@@ -99,6 +100,7 @@ export default () => ({
     DateTimeInput,
     HierarchyInput,
     IDGeneratorInput,
+    URLInput,
     OptionPickerInput,
     PasswordInput,
     PermissionsInput,

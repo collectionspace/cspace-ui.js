@@ -10,6 +10,7 @@ export default (pluginContext) => {
     OptionPickerInput,
     StructuredDateInput,
     TermPickerInput,
+    URLInput,
   } = pluginContext.inputComponents;
 
   const {
@@ -98,7 +99,7 @@ export default (pluginContext) => {
               },
             }),
             view: {
-              type: TextInput,
+              type: URLInput,
             },
           },
         },
