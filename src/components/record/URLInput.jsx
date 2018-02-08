@@ -8,7 +8,7 @@ const messages = defineMessages({
   link: {
     id: 'urlInput.link',
     description: 'Content of the link displayed alongside URL input fields.',
-    defaultMessage: 'Go',
+    defaultMessage: 'Open',
   },
 });
 

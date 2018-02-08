@@ -20,6 +20,6 @@ describe('URLInput', function suite() {
       </IntlProvider>, this.container);
 
     this.container.querySelector('.cspace-input-LineInput--normal').should.not.equal(null);
-    this.container.querySelector(`a[href="${url}"]`).textContent.should.equal('Go');
+    this.container.querySelector(`a[href="${url}"]`).textContent.should.equal('Open');
   });
 });
