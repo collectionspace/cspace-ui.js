@@ -17,10 +17,6 @@
   color: rgb(160, 160, 160);
 }
 
-.common > ul:first-of-type {
-  flex: 1 1 70%;
-}
-
 .common > ul:last-of-type {
-  flex: 1 1 30%;
+  text-align: right;
 }
