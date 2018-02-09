@@ -1908,6 +1908,9 @@ describe('recordDataHelpers', function moduleSuite() {
         validateField('1.00', [], Immutable.Map(), fieldDescriptor.price).should.eventually.equal(null),
         validateField('-14.12', [], Immutable.Map(), fieldDescriptor.price).should.eventually.equal(null),
         validateField('32', [], Immutable.Map(), fieldDescriptor.price).should.eventually.equal(null),
+        validateField('-1234', [], Immutable.Map(), fieldDescriptor.price).should.eventually.equal(null),
+        validateField('.56', [], Immutable.Map(), fieldDescriptor.price).should.eventually.equal(null),
+        validateField('-.2', [], Immutable.Map(), fieldDescriptor.price).should.eventually.equal(null),
       ]);
     });
 
@@ -1920,12 +1923,33 @@ describe('recordDataHelpers', function moduleSuite() {
             value: 'a',
           })),
 
+        validateField('1.00.0', [], Immutable.Map(), fieldDescriptor.price).should.eventually
+        .have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_FLOAT,
+          value: '1.00.0',
+        })),
+
         validateField('24.sd', [], Immutable.Map(), fieldDescriptor.price).should.eventually
           .have.property(ERROR_KEY, Immutable.Map({
             code: ERR_DATA_TYPE,
             dataType: DATA_TYPE_FLOAT,
             value: '24.sd',
           })),
+
+        validateField('-24.sd', [], Immutable.Map(), fieldDescriptor.price).should.eventually
+          .have.property(ERROR_KEY, Immutable.Map({
+            code: ERR_DATA_TYPE,
+            dataType: DATA_TYPE_FLOAT,
+            value: '-24.sd',
+          })),
+
+        validateField('-', [], Immutable.Map(), fieldDescriptor.price).should.eventually
+        .have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_FLOAT,
+          value: '-',
+        })),
       ]);
     });
 

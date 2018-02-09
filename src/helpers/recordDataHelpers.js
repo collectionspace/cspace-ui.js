@@ -532,7 +532,7 @@ export const getCreatedUser = data =>
   getCoreFieldValue(data, 'createdBy');
 
 const intPattern = /^-?\d+$/;
-const floatPattern = /^-?\d+(\.\d+)?$/;
+const floatPattern = /^-?(\d+(\.\d+)?|\.\d+)$/;
 const datePattern = /^\d{4}-\d{2}-\d{2}(T00:00:00.000Z)?$/;
 const dateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
