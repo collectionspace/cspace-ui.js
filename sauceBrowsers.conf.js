@@ -26,23 +26,23 @@ module.exports = {
     version: 'latest-1',
     platform: 'OS X 10.13',
   },
-  'safari-latest-osx': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    version: 'latest',
-    platform: 'OS X 10.13',
-  },
-  'edge-latest-win10': {
-    base: 'SauceLabs',
-    browserName: 'microsoftedge',
-    version: 'latest',
-    platform: 'Windows 10',
-  },
-  'safari-ios-11.2': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    platformName: 'iOS',
-    platformVersion: '11.2',
-    deviceName: 'iPad Simulator',
-  },
+  // 'safari-latest-osx': {
+  //   base: 'SauceLabs',
+  //   browserName: 'safari',
+  //   version: 'latest',
+  //   platform: 'OS X 10.13',
+  // },
+  // 'edge-latest-win10': {
+  //   base: 'SauceLabs',
+  //   browserName: 'microsoftedge',
+  //   version: 'latest',
+  //   platform: 'Windows 10',
+  // },
+  // 'safari-ios-11.2': {
+  //   base: 'SauceLabs',
+  //   browserName: 'safari',
+  //   platformName: 'iOS',
+  //   platformVersion: '11.2',
+  //   deviceName: 'iPad Simulator',
+  // },
 };
