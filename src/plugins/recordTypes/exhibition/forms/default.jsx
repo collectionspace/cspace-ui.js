@@ -44,8 +44,7 @@ const template = (pluginContext) => {
               <Field name="venueOpeningDate" />
               <Field name="venueClosingDate" />
               <Field name="venueAttendance" />
-              {/* TODO Add external URL input function  */}
-              <Field name="venueURL" />
+              <Field name="venueUrl" />
             </Field>
           </Field>
         </Row>

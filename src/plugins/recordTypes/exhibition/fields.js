@@ -2,14 +2,14 @@ import { defineMessages } from 'react-intl';
 
 export default (pluginContext) => {
   const {
+    AutocompleteInput,
     CompoundInput,
     DateInput,
-    OptionPickerInput,
-    TextInput,
-    AutocompleteInput,
     IDGeneratorInput,
-    TermPickerInput,
+    OptionPickerInput,
     StructuredDateInput,
+    TermPickerInput,
+    TextInput,
   } = pluginContext.inputComponents;
 
   const {
@@ -230,11 +230,11 @@ export default (pluginContext) => {
                 },
               },
             },
-            venueURL: {
+            venueUrl: {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.exhibitions_common.venueURL.name',
+                    id: 'field.exhibitions_common.venueUrl.name',
                     defaultMessage: 'Web address',
                   },
                 }),
