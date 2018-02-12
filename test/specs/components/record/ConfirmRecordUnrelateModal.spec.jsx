@@ -125,7 +125,7 @@ describe('ConfirmRecordUnrelateModal', function suite() {
         />
       </IntlProvider>, this.container);
 
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelate Group Record Title from the primary record?');
 
     unmountComponentAtNode(this.container);
@@ -146,7 +146,7 @@ describe('ConfirmRecordUnrelateModal', function suite() {
         />
       </IntlProvider>, this.container);
 
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelate 4 selected records from the primary record?');
 
     unmountComponentAtNode(this.container);
@@ -166,7 +166,7 @@ describe('ConfirmRecordUnrelateModal', function suite() {
         />
       </IntlProvider>, this.container);
 
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelating...');
 
     unmountComponentAtNode(this.container);

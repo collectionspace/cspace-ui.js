@@ -127,7 +127,7 @@ describe('ConfirmRecordDeleteModal', function suite() {
         />
       </IntlProvider>, this.container);
 
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Delete Group Record Title?');
 
     unmountComponentAtNode(this.container);
@@ -170,7 +170,7 @@ describe('ConfirmRecordDeleteModal', function suite() {
         window.setTimeout(() => {
           checkedPredicate.should.equal('affects');
 
-          document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+          document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
             .contain('This record is related to other records');
 
           unmountComponentAtNode(this.container);
@@ -222,7 +222,7 @@ describe('ConfirmRecordDeleteModal', function suite() {
         window.setTimeout(() => {
           checkForUsesCalled.should.equal(true);
 
-          document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+          document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
             .contain('cannot be deleted because it is used by other records');
 
           unmountComponentAtNode(this.container);
@@ -255,10 +255,10 @@ describe('ConfirmRecordDeleteModal', function suite() {
         />
       </IntlProvider>, this.container);
 
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .not.contain('Delete Group Record Title?');
 
-    document.querySelector('.ReactModal__Content--after-open > div').textContent.should
+    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .contain('Group Record Title cannot be deleted because it belongs to a hierarchy');
 
     unmountComponentAtNode(this.container);

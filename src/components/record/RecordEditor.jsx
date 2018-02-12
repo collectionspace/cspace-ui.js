@@ -200,13 +200,15 @@ export default class RecordEditor extends Component {
     return true;
   }
 
-  handleModalCancelButtonClick() {
+  handleModalCancelButtonClick(event) {
     const {
       closeModal,
       onSaveCancelled,
     } = this.props;
 
     if (closeModal) {
+      event.stopPropagation();
+
       closeModal(false);
     }
 

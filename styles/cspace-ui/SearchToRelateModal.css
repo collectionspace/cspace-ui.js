@@ -2,7 +2,7 @@
   width: 80%;
 }
 
-.common :global(.cspace-layout-Modal--common) > div {
+.common :global(.cspace-layout-Modal--common) > div > div {
   padding-top: 0;
   padding-bottom: 0;
 }

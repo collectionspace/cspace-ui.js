@@ -891,7 +891,9 @@ describe('RecordEditor', function suite() {
     const recordEditorResult = recordEditorRenderer.getRenderOutput();
     const modal = findWithType(recordEditorResult, ConfirmRecordNavigationModal);
 
-    modal.props.onCancelButtonClick();
+    modal.props.onCancelButtonClick({
+      stopPropagation: () => {},
+    });
 
     saveCancelledCalled.should.equal(true);
     closeModalCalled.should.equal(true);
