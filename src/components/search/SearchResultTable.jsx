@@ -30,10 +30,8 @@ const isSortable = (column, searchDescriptor) => {
   return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
 };
 
-const linkRowRenderer = (location, params) => {
-  // This is a fork of react-virtualized's default row renderer, which renders the row as a
-  // react-router Link instead of the default div.
-
+const rowRenderer = (params, location) => {
+  // This is a fork of react-virtualized's default row renderer:
   // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
 
   const {
@@ -85,17 +83,32 @@ const linkRowRenderer = (location, params) => {
     // }
   }
 
+  if (location) {
+    return (
+      <Link
+        {...a11yProps}
+        className={className}
+        key={key}
+        role="row"
+        style={style}
+        to={location}
+      >
+        {columns}
+      </Link>
+    );
+  }
+
   return (
-    <Link
+    <div
       {...a11yProps}
       className={className}
+      data-index={index}
       key={key}
       role="row"
       style={style}
-      to={location}
     >
       {columns}
-    </Link>
+    </div>
   );
 };
 
@@ -136,6 +149,7 @@ export default class SearchResultTable extends Component {
     super();
 
     this.getItemLocation = this.getItemLocation.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.renderNoItems = this.renderNoItems.bind(this);
     this.renderRow = this.renderRow.bind(this);
@@ -175,6 +189,16 @@ export default class SearchResultTable extends Component {
         searchName: 'searchResultPage',
       },
     };
+  }
+
+  handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      const index = get(event, ['target', 'dataset', 'index']);
+
+      if (typeof index !== 'undefined') {
+        this.handleRowClick(event.target.dataset.index);
+      }
+    }
   }
 
   handleRowClick(index) {
@@ -219,20 +243,22 @@ export default class SearchResultTable extends Component {
   renderRow(params) {
     const {
       getItemLocation,
+      linkItems,
     } = this.props;
 
     const {
       rowData,
     } = params;
 
-    const locationGetter = getItemLocation || this.getItemLocation;
-    const location = locationGetter(rowData);
+    let location;
 
-    if (location) {
-      return linkRowRenderer(location, params);
+    if (linkItems) {
+      const locationGetter = getItemLocation || this.getItemLocation;
+
+      location = locationGetter(rowData);
     }
 
-    return Table.defaultRowRenderer(params);
+    return rowRenderer(params, location);
   }
 
   renderTable() {
@@ -241,7 +267,6 @@ export default class SearchResultTable extends Component {
       config,
       formatCellData,
       formatColumnLabel,
-      linkItems,
       listType,
       searchDescriptor,
       searchResult,
@@ -350,7 +375,7 @@ export default class SearchResultTable extends Component {
             sortBy={sortColumnName}
             sortDirection={sortDir === 'desc' ? Table.SortDirection.DESC : Table.SortDirection.ASC}
             noRowsRenderer={this.renderNoItems}
-            rowRenderer={linkItems ? this.renderRow : undefined}
+            rowRenderer={this.renderRow}
           />
         </div>
       );
@@ -370,7 +395,12 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     return (
-      <div className={styles.common}>
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      <div
+        className={styles.common}
+        role="presentation"
+        onKeyDown={this.handleKeyDown}
+      >
         {renderHeader({ isSearchPending, searchError, searchResult })}
         {renderSelectBar()}
         {this.renderTable()}

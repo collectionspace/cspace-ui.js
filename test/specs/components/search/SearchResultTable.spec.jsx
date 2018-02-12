@@ -488,4 +488,32 @@ describe('SearchResultTable', function suite() {
 
     clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
   });
+
+  it('should call onItemClick when linkItems is false and enter is depressed on a row', function test() {
+    let clickedItem = null;
+
+    const handleItemClick = (itemArg) => {
+      clickedItem = itemArg;
+
+      return true;
+    };
+
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          onItemClick={handleItemClick}
+          linkItems={false}
+        />
+      </Router>, this.container);
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    Simulate.keyDown(rows[3], { key: 'Enter' });
+
+    clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
+  });
 });
