@@ -3,26 +3,22 @@ import get from 'lodash/get';
 import upperFirst from 'lodash/upperFirst';
 import getSession from './cspace';
 
-const transformDate = (input) => {
+const transformDate = (input = {}) => {
   const output = {};
 
-  if (input) {
-    output.dateDisplayDate = input.displayDate;
-    output.scalarValuesComputed = input.scalarValuesComputed;
+  output.dateDisplayDate = input.displayDate || null;
+  output.scalarValuesComputed = input.scalarValuesComputed || null;
 
-    ['earliestSingle', 'latest'].forEach((type) => {
-      const inputDate = input[`${type}Date`];
+  ['earliestSingle', 'latest'].forEach((type) => {
+    const inputDate = input[`${type}Date`] || {};
 
-      if (inputDate) {
-        [
-          'year', 'month', 'day', 'era',
-          'certainty', 'qualifier', 'qualifierValue', 'qualifierUnit',
-        ].forEach((field) => {
-          output[`date${upperFirst(type)}${upperFirst(field)}`] = inputDate[field];
-        });
-      }
+    [
+      'year', 'month', 'day', 'era',
+      'certainty', 'qualifier', 'qualifierValue', 'qualifierUnit',
+    ].forEach((field) => {
+      output[`date${upperFirst(type)}${upperFirst(field)}`] = inputDate[field] || null;
     });
-  }
+  });
 
   return Immutable.fromJS(output);
 };
@@ -30,7 +26,7 @@ const transformDate = (input) => {
 export const parseDisplayDate = displayDate => () => {
   if (!displayDate) {
     return Promise.resolve({
-      value: Immutable.Map(),
+      value: transformDate(),
     });
   }
 
