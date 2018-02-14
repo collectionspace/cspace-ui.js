@@ -37,6 +37,7 @@ import {
   normalizeFieldValue,
   normalizeListFieldValue,
   normalizeStringFieldValue,
+  normalizePatternValue,
   normalizeTimestampRangeStartValue,
   normalizeTimestampRangeEndValue,
   operatorToNXQL,
@@ -442,6 +443,27 @@ describe('searchHelpers', function moduleSuite() {
     it('should return null if the value contains only whitespace', function test() {
       expect(normalizeStringFieldValue(' ')).to.equal(null);
       expect(normalizeStringFieldValue('\t  \n')).to.equal(null);
+    });
+  });
+
+  describe('normalizePatternValue', function suite() {
+    it('should return the value if the value is undefined, null, or empty', function test() {
+      expect(normalizePatternValue(undefined)).to.equal(undefined);
+      expect(normalizePatternValue(null)).to.equal(null);
+      expect(normalizePatternValue('')).to.equal('');
+    });
+
+    it('should replace * not preceded by an odd number of backslashes with %', function test() {
+      expect(normalizePatternValue('foo*bar*baz')).to.equal('foo%bar%baz');
+      expect(normalizePatternValue('*foo')).to.equal('%foo');
+      expect(normalizePatternValue('foo*')).to.equal('foo%');
+      expect(normalizePatternValue('foo**bar')).to.equal('foo%bar');
+      expect(normalizePatternValue('foo*\\*bar')).to.equal('foo%\\*bar');
+      expect(normalizePatternValue('foo\\*\\*bar')).to.equal('foo\\*\\*bar');
+      expect(normalizePatternValue('foo\\*bar')).to.equal('foo\\*bar');
+      expect(normalizePatternValue('foo\\\\*bar')).to.equal('foo\\\\%bar');
+      expect(normalizePatternValue('\\*foo\\\\\\*bar')).to.equal('\\*foo\\\\\\%bar');
+      expect(normalizePatternValue('\\\\*foo\\***bar')).to.equal('\\\\%foo\\*%bar');
     });
   });
 

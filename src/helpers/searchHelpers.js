@@ -193,6 +193,14 @@ export const normalizeCondition = (fieldDescriptor, condition) => {
   return null;
 };
 
+export const normalizePatternValue = (value) => {
+  if (!value) {
+    return value;
+  }
+
+  return value.replace(/(^|(\\\\)+|[^\\])\*+/g, '$1%');
+};
+
 const operatorToNXQLMap = {
   [OP_AND]: 'AND',
   [OP_OR]: 'OR',
@@ -445,6 +453,10 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
   if (operator === OP_CONTAIN) {
     operator = OP_MATCH;
     value = `%${value}%`;
+  }
+
+  if (operator === OP_MATCH) {
+    value = normalizePatternValue(value);
   }
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
