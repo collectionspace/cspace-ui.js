@@ -803,7 +803,7 @@ export const computeField =
             let valueTree = Immutable.Map();
 
             resolvedValues.forEach((value, index) => {
-              if (value) {
+              if (typeof value !== 'undefined') {
                 const valuePath = computationResults[index].path;
 
                 if (valuePath && valuePath.length > 0 && expandRepeating) {
