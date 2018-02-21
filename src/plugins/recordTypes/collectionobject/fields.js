@@ -152,6 +152,10 @@ export default (pluginContext) => {
             numberValue: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.numberValue.fullName',
+                    defaultMessage: 'Other number',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.numberValue.name',
                     defaultMessage: 'Number',
@@ -360,6 +364,12 @@ export default (pluginContext) => {
                 defaultMessage: 'Computed current location',
               },
             }),
+            searchView: {
+              type: AutocompleteInput,
+              props: {
+                source: 'location/local,location/offsite,organization/local,organization/shared',
+              },
+            },
             view: {
               type: AutocompleteInput,
               props: {
@@ -945,6 +955,9 @@ export default (pluginContext) => {
                 defaultMessage: 'Physical description',
               },
             }),
+            searchView: {
+              type: TextInput,
+            },
             view: {
               type: TextInput,
               props: {
