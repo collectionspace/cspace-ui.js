@@ -15,6 +15,7 @@
 
 .normal > div:first-child {
   width: 220px;
+  margin-right: 10px;
 }
 
 .normal > div:last-child {
