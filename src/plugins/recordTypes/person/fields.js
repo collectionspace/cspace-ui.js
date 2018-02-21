@@ -22,6 +22,7 @@ export default (pluginContext) => {
   } = pluginContext.config;
 
   const {
+    DATA_TYPE_BOOL,
     DATA_TYPE_STRUCTURED_DATE,
   } = pluginContext.dataTypes;
 
@@ -250,6 +251,7 @@ export default (pluginContext) => {
             },
             termPrefForLang: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   name: {
                     id: 'field.persons_common.termPrefForLang.name',

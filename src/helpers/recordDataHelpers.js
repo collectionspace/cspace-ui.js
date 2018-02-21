@@ -541,7 +541,7 @@ const dataTypeValidators = {
   DATA_TYPE_STRING: () => true,
   DATA_TYPE_INT: value => intPattern.test(value),
   DATA_TYPE_FLOAT: value => floatPattern.test(value),
-  DATA_TYPE_BOOL: value => (typeof value === 'boolean'),
+  DATA_TYPE_BOOL: value => (typeof value === 'boolean' || value === 'true' || value === 'false'),
   DATA_TYPE_DATE: value => datePattern.test(value),
   DATA_TYPE_DATETIME: value => dateTimePattern.test(value),
 };

@@ -2006,30 +2006,22 @@ describe('recordDataHelpers', function moduleSuite() {
 
         validateField(false, [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
           .equal(null),
+
+        validateField('true', [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
+        .equal(null),
+
+        validateField('false', [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
+          .equal(null),
       ]);
     });
 
     it('should resolve to an error if a boolean field is invalid', function test() {
       return Promise.all([
-        validateField('a', [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
+        validateField('foo', [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
           .have.property(ERROR_KEY, Immutable.Map({
             code: ERR_DATA_TYPE,
             dataType: DATA_TYPE_BOOL,
-            value: 'a',
-          })),
-
-        validateField('true', [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_BOOL,
-            value: 'true',
-          })),
-
-        validateField('false', [], Immutable.Map(), fieldDescriptor.preferred).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_BOOL,
-            value: 'false',
+            value: 'foo',
           })),
       ]);
     });
