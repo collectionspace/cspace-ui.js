@@ -44,7 +44,7 @@ const template = (pluginContext) => {
 
       <Panel name="deaccessionDisposalInfo" collapsible collapsed>
         <Row>
-          <Field name="disposalNewObjectNumber" />
+          <Field name="displosalNewObjectNumber" />
           <Field name="deaccessionAuthorizer" />
           <Field name="authorizationDate" />
         </Row>
@@ -62,7 +62,7 @@ const template = (pluginContext) => {
             <Field name="deaccessionDate" />
             <Field name="disposalDate" />
             <Field name="disposalMethod" />
-            <Field name="disposalReason" />
+            <Field name="displosalReason" />
           </Col>
 
           <Col>
@@ -71,18 +71,18 @@ const template = (pluginContext) => {
 
             <InputTable name="disposal">
               <Field name="disposalCurrency" />
-              <Field name="disposalValue" />
+              <Field name="displosalValue" />
             </InputTable>
 
             <InputTable name="groupDisposal">
               <Field name="groupDisposalCurrency" />
-              <Field name="groupDisposalValue" />
+              <Field name="groupDisplosalValue" />
             </InputTable>
           </Col>
         </Cols>
 
-        <Field name="disposalProvisos" />
-        <Field name="disposalNote" />
+        <Field name="displosalProvisos" />
+        <Field name="displosalNote" />
       </Panel>
     </Field>
   );

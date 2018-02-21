@@ -204,11 +204,11 @@ export default (pluginContext) => {
             },
           },
         },
-        disposalNewObjectNumber: {
+        displosalNewObjectNumber: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.objectexit_common.disposalNewObjectNumber.name',
+                id: 'field.objectexit_common.displosalNewObjectNumber.name',
                 defaultMessage: 'Disposal new object number',
               },
             }),
@@ -227,7 +227,7 @@ export default (pluginContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.objectexit_common.deacApprovalGroupList.name',
+                  id: 'field.objectexit_common.deacApprovalGroup.name',
                   defaultMessage: 'Deaccession approval',
                 },
               }),
@@ -373,11 +373,11 @@ export default (pluginContext) => {
             },
           },
         },
-        disposalReason: {
+        displosalReason: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.objectexit_common.disposalReason.name',
+                id: 'field.objectexit_common.displosalReason.name',
                 defaultMessage: 'Disposal reason',
               },
             }),
@@ -386,11 +386,11 @@ export default (pluginContext) => {
             },
           },
         },
-        disposalProvisos: {
+        displosalProvisos: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.objectexit_common.disposalProvisos.name',
+                id: 'field.objectexit_common.displosalProvisos.name',
                 defaultMessage: 'Disposal provisos',
               },
             }),
@@ -434,11 +434,11 @@ export default (pluginContext) => {
             },
           },
         },
-        disposalNote: {
+        displosalNote: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.objectexit_common.disposalNote.name',
+                id: 'field.objectexit_common.displosalNote.name',
                 defaultMessage: 'Disposal note',
               },
             }),
@@ -470,16 +470,16 @@ export default (pluginContext) => {
             },
           },
         },
-        disposalValue: {
+        displosalValue: {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
-                id: 'field.objectexit_common.disposalValue.name',
+                id: 'field.objectexit_common.displosalValue.name',
                 defaultMessage: 'Value',
               },
               fullName: {
-                id: 'field.objectexit_common.disposalValue.fullName',
+                id: 'field.objectexit_common.displosalValue.fullName',
                 defaultMessage: 'Disposal value',
               },
             }),
@@ -508,12 +508,12 @@ export default (pluginContext) => {
             },
           },
         },
-        groupDisposalValue: {
+        groupDisplosalValue: {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
-                id: 'field.objectexit_common.groupDisposalValue.name',
+                id: 'field.objectexit_common.groupDisplosalValue.name',
                 defaultMessage: 'Value',
               },
               fullName: {
