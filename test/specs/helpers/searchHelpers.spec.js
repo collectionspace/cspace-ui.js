@@ -574,34 +574,74 @@ describe('searchHelpers', function moduleSuite() {
   });
 
   describe('valueToNXQL', function suite() {
+    const fields = {
+      document: {
+        stringField: {
+          [configKey]: {
+            dataType: DATA_TYPE_STRING,
+          },
+        },
+        anotherStringField: {},
+        intField: {
+          [configKey]: {
+            dataType: DATA_TYPE_INT,
+          },
+        },
+        floatField: {
+          [configKey]: {
+            dataType: DATA_TYPE_FLOAT,
+          },
+        },
+        boolField: {
+          [configKey]: {
+            dataType: DATA_TYPE_BOOL,
+          },
+        },
+        dateTimeField: {
+          [configKey]: {
+            dataType: DATA_TYPE_DATETIME,
+          },
+        },
+        transformedStringField: {
+          [configKey]: {
+            searchTransform: ({ data }) => `transformed ${data}`,
+          },
+        },
+      },
+    };
+
     it('should convert string typed values to quoted strings', function test() {
-      valueToNXQL('foo', DATA_TYPE_STRING).should.equal('"foo"');
+      valueToNXQL('foo', 'stringField', fields).should.equal('"foo"');
     });
 
     it('should escape quotes in strings that contain quotes', function test() {
-      valueToNXQL('"I\'m not here"', DATA_TYPE_STRING).should.equal('"\\"I\'m not here\\""');
+      valueToNXQL('"I\'m not here"', 'anotherStringField', fields).should.equal('"\\"I\'m not here\\""');
     });
 
     it('should convert int typed values to unquoted numeric strings', function test() {
-      valueToNXQL('3', DATA_TYPE_INT).should.equal('3');
+      valueToNXQL('3', 'intField', fields).should.equal('3');
     });
 
     it('should convert float typed values to unquoted numeric strings', function test() {
-      valueToNXQL('3.14', DATA_TYPE_FLOAT).should.equal('3.14');
+      valueToNXQL('3.14', 'floatField', fields).should.equal('3.14');
     });
 
     it('should convert bool typed values to unquoted 0 or 1', function test() {
-      valueToNXQL(true, DATA_TYPE_BOOL).should.equal('1');
-      valueToNXQL(false, DATA_TYPE_BOOL).should.equal('0');
+      valueToNXQL(true, 'boolField', fields).should.equal('1');
+      valueToNXQL(false, 'boolField', fields).should.equal('0');
     });
 
     it('should convert datetime typed values to quoted strings preceded by \'TIMESTAMP\'', function test() {
-      valueToNXQL('2017-03-08T17:04:34.000Z', DATA_TYPE_DATETIME).should.equal('TIMESTAMP "2017-03-08T17:04:34.000Z"');
+      valueToNXQL('2017-03-08T17:04:34.000Z', 'dateTimeField', fields).should.equal('TIMESTAMP "2017-03-08T17:04:34.000Z"');
     });
 
     it('should convert datetime typed values to UTC', function test() {
-      valueToNXQL('2017-03-08T17:04:34.000-08:00', DATA_TYPE_DATETIME).should
+      valueToNXQL('2017-03-08T17:04:34.000-08:00', 'dateTimeField', fields).should
         .equal('TIMESTAMP "2017-03-09T01:04:34.000Z"');
+    });
+
+    it('should transform the value using the configured searchTransform function, if present', function test() {
+      valueToNXQL('foo', 'transformedStringField', fields).should.equal('"transformed foo"');
     });
   });
 

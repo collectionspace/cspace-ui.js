@@ -38,6 +38,9 @@ import {
 const getDataType = (fieldDescriptor, path) =>
   get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'dataType']);
 
+const getSearchValueTransform = (fieldDescriptor, path) =>
+  get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'searchTransform']);
+
 export const normalizeTimestampRangeStartValue = (value) => {
   if (value) {
     const timestamp = value.trim();
@@ -239,25 +242,34 @@ export const pathToNXQL = (fieldDescriptor, path) => {
 
 export const operatorToNXQL = operator => operatorToNXQLMap[operator];
 
-export const valueToNXQL = (value, dataType = DATA_TYPE_STRING) => {
+export const valueToNXQL = (value, path, fieldDescriptor) => {
+  const dataType = getDataType(fieldDescriptor, path) || DATA_TYPE_STRING;
+  const searchValueTransform = getSearchValueTransform(fieldDescriptor, path);
+
+  let data = value;
+
+  if (searchValueTransform) {
+    data = searchValueTransform({ data: value });
+  }
+
   let nxqlValue;
 
   if (dataType === DATA_TYPE_DATETIME || dataType === DATA_TYPE_DATE) {
     // Timestamp values in searches must be given in UTC.
 
-    nxqlValue = (new Date(Date.parse(value))).toISOString();
+    nxqlValue = (new Date(Date.parse(data))).toISOString();
 
     return `TIMESTAMP "${nxqlValue}"`;
   }
 
   if (dataType === DATA_TYPE_INT) {
-    nxqlValue = parseInt(value, 10);
+    nxqlValue = parseInt(data, 10);
   } else if (dataType === DATA_TYPE_FLOAT) {
-    nxqlValue = parseFloat(value);
+    nxqlValue = parseFloat(data);
   } else if (dataType === DATA_TYPE_BOOL) {
-    nxqlValue = value ? 1 : 0;
+    nxqlValue = data ? 1 : 0;
   } else {
-    nxqlValue = value;
+    nxqlValue = data;
   }
 
   return JSON.stringify(nxqlValue);
@@ -425,7 +437,7 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition) => {
 
   const nxqlValue =
     [startValue, endValue]
-      .map(value => valueToNXQL(value, dataType))
+      .map(value => valueToNXQL(value, path, fieldDescriptor))
       .join(' AND ');
 
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
@@ -461,7 +473,7 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
   const nxqlOp = operatorToNXQL(operator);
-  const nxqlValue = valueToNXQL(value, dataType);
+  const nxqlValue = valueToNXQL(value, path, fieldDescriptor);
 
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
