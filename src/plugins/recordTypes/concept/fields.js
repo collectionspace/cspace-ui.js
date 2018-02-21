@@ -16,6 +16,10 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
+    DATA_TYPE_BOOL,
+  } = pluginContext.dataTypes;
+
+  const {
     extensions,
   } = pluginContext.config;
 
@@ -242,6 +246,7 @@ export default (pluginContext) => {
             },
             termPrefForLang: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   name: {
                     id: 'field.concepts_common.termPrefForLang.name',

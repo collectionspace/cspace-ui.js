@@ -17,6 +17,7 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
+    DATA_TYPE_BOOL,
     DATA_TYPE_FLOAT,
     DATA_TYPE_INT,
   } = pluginContext.dataTypes;
@@ -232,6 +233,7 @@ export default (pluginContext) => {
             },
             termPrefForLang: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   name: {
                     id: 'field.places_common.termPrefForLang.name',

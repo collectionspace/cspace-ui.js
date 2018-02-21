@@ -18,12 +18,13 @@ export default (pluginContext) => {
   } = pluginContext.configHelpers;
 
   const {
-    extensions,
-  } = pluginContext.config;
-
-  const {
+    DATA_TYPE_BOOL,
     DATA_TYPE_STRUCTURED_DATE,
   } = pluginContext.dataTypes;
+
+  const {
+    extensions,
+  } = pluginContext.config;
 
   return {
     document: {
@@ -232,6 +233,7 @@ export default (pluginContext) => {
             },
             termPrefForLang: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   name: {
                     id: 'field.organizations_common.termPrefForLang.name',
