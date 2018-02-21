@@ -807,7 +807,10 @@ export const computeField =
                 const valuePath = computationResults[index].path;
 
                 if (valuePath && valuePath.length > 0 && expandRepeating) {
-                  valueTree = deepSet(valueTree, valuePath, value);
+                  const prevValue = valueTree.getIn(valuePath);
+                  const nextValue = prevValue ? prevValue.mergeDeep(value) : value;
+
+                  valueTree = deepSet(valueTree, valuePath, nextValue);
                 } else {
                   valueTree = value;
                 }
