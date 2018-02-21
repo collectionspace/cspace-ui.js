@@ -6,6 +6,7 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -22,7 +23,7 @@ const template = (pluginContext) => {
     <Field name="document">
       <Panel name="id" collapsible>
         <Row>
-          <div>
+          <Col>
             <Field name="objectNumber" />
 
             <Field name="otherNumberList">
@@ -35,25 +36,25 @@ const template = (pluginContext) => {
             <Field name="inventoryStatusList">
               <Field name="inventoryStatus" />
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="briefDescriptions">
               <Field name="briefDescription" />
             </Field>
-          </div>
+          </Col>
         </Row>
 
         <Field name="titleGroupList">
           <Field name="titleGroup">
             <Panel>
               <Row>
-                <div>
+                <Col>
                   <Field name="title" />
                   <Field name="titleLanguage" />
-                </div>
+                </Col>
 
-                <div>
+                <Col>
                   <Field name="titleType" />
 
                   <Field name="titleTranslationSubGroupList">
@@ -62,7 +63,7 @@ const template = (pluginContext) => {
                       <Field name="titleTranslationLanguage" />
                     </Field>
                   </Field>
-                </div>
+                </Col>
               </Row>
             </Panel>
           </Field>
@@ -87,29 +88,27 @@ const template = (pluginContext) => {
 
       <Panel name="prod" collapsible collapsed>
         <Row>
-          <div>
+          <Col>
             <Field name="objectProductionDateGroupList">
               <Field name="objectProductionDateGroup" />
             </Field>
-          </div>
 
-          <div />
-        </Row>
-
-        <Row>
-          <Field name="objectProductionPersonGroupList">
-            <Field name="objectProductionPersonGroup">
-              <Field name="objectProductionPerson" />
-              <Field name="objectProductionPersonRole" />
+            <Field name="objectProductionPersonGroupList">
+              <Field name="objectProductionPersonGroup">
+                <Field name="objectProductionPerson" />
+                <Field name="objectProductionPersonRole" />
+              </Field>
             </Field>
-          </Field>
+          </Col>
 
-          <Field name="objectProductionOrganizationGroupList">
-            <Field name="objectProductionOrganizationGroup">
-              <Field name="objectProductionOrganization" />
-              <Field name="objectProductionOrganizationRole" />
+          <Col>
+            <Field name="objectProductionOrganizationGroupList">
+              <Field name="objectProductionOrganizationGroup">
+                <Field name="objectProductionOrganization" />
+                <Field name="objectProductionOrganizationRole" />
+              </Field>
             </Field>
-          </Field>
+          </Col>
         </Row>
       </Panel>
 

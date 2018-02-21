@@ -6,6 +6,7 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -23,7 +24,7 @@ const template = (pluginContext) => {
     <Field name="document">
       <Panel name="id" collapsible>
         <Row>
-          <div>
+          <Col>
             <Field name="objectNumber" />
             <Field name="numberOfObjects" />
 
@@ -48,9 +49,9 @@ const template = (pluginContext) => {
             <Field name="inventoryStatusList">
               <Field name="inventoryStatus" />
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="briefDescriptions">
               <Field name="briefDescription" />
             </Field>
@@ -60,21 +61,21 @@ const template = (pluginContext) => {
             <Field name="comments">
               <Field name="comment" />
             </Field>
-          </div>
-        </Row>
 
-        <Field name="computedCurrentLocation" />
+            <Field name="computedCurrentLocation" />
+          </Col>
+        </Row>
 
         <Field name="titleGroupList">
           <Field name="titleGroup">
             <Panel>
               <Row>
-                <div>
+                <Col>
                   <Field name="title" />
                   <Field name="titleLanguage" />
-                </div>
+                </Col>
 
-                <div>
+                <Col>
                   <Field name="titleType" />
 
                   <Field name="titleTranslationSubGroupList">
@@ -83,7 +84,7 @@ const template = (pluginContext) => {
                       <Field name="titleTranslationLanguage" />
                     </Field>
                   </Field>
-                </div>
+                </Col>
               </Row>
             </Panel>
           </Field>
@@ -104,7 +105,7 @@ const template = (pluginContext) => {
 
       <Panel name="desc" collapsible collapsed>
         <Row>
-          <div>
+          <Col>
             <Field name="copyNumber" />
 
             <Field name="objectStatusList">
@@ -117,9 +118,9 @@ const template = (pluginContext) => {
             <Field name="forms">
               <Field name="form" />
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="editionNumber" />
 
             <InputTable name="age">
@@ -135,7 +136,7 @@ const template = (pluginContext) => {
             <Field name="colors">
               <Field name="color" />
             </Field>
-          </div>
+          </Col>
         </Row>
 
         <Field name="materialGroupList">
@@ -151,16 +152,16 @@ const template = (pluginContext) => {
         <Field name="physicalDescription" />
 
         <Row>
-          <div>
+          <Col>
             <Field name="objectComponentGroupList">
               <Field name="objectComponentGroup">
                 <Field name="objectComponentName" />
                 <Field name="objectComponentInformation" />
               </Field>
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="technicalAttributeGroupList">
               <Field name="technicalAttributeGroup">
                 <Field name="technicalAttribute" />
@@ -168,7 +169,7 @@ const template = (pluginContext) => {
                 <Field name="technicalAttributeMeasurementUnit" />
               </Field>
             </Field>
-          </div>
+          </Col>
         </Row>
 
         {extensions.dimension.form}
@@ -177,7 +178,7 @@ const template = (pluginContext) => {
           <Field name="contentDescription" />
 
           <Row>
-            <div>
+            <Col>
               <Field name="contentLanguages">
                 <Field name="contentLanguage" />
               </Field>
@@ -202,9 +203,9 @@ const template = (pluginContext) => {
                   <Field name="contentObjectType" />
                 </Field>
               </Field>
-            </div>
+            </Col>
 
-            <div>
+            <Col>
               <Field name="contentPeoples">
                 <Field name="contentPeople" />
               </Field>
@@ -238,7 +239,7 @@ const template = (pluginContext) => {
                   <Field name="contentOtherType" />
                 </Field>
               </Field>
-            </div>
+            </Col>
           </Row>
 
           <Field name="contentNote" />
@@ -251,18 +252,18 @@ const template = (pluginContext) => {
                 <Field name="inscriptionContent" />
 
                 <Row>
-                  <div>
+                  <Col>
                     <Field name="inscriptionContentInscriber" />
                     <Field name="inscriptionContentLanguage" />
                     <Field name="inscriptionContentDateGroup" />
-                  </div>
+                  </Col>
 
-                  <div>
+                  <Col>
                     <Field name="inscriptionContentPosition" />
                     <Field name="inscriptionContentScript" />
                     <Field name="inscriptionContentType" />
                     <Field name="inscriptionContentMethod" />
-                  </div>
+                  </Col>
                 </Row>
 
                 <Field name="inscriptionContentInterpretation" />
@@ -280,16 +281,16 @@ const template = (pluginContext) => {
                 <Field name="inscriptionDescription" />
 
                 <Row>
-                  <div>
+                  <Col>
                     <Field name="inscriptionDescriptionInscriber" />
                     <Field name="inscriptionDescriptionDateGroup" />
-                  </div>
+                  </Col>
 
-                  <div>
+                  <Col>
                     <Field name="inscriptionDescriptionPosition" />
                     <Field name="inscriptionDescriptionType" />
                     <Field name="inscriptionDescriptionMethod" />
-                  </div>
+                  </Col>
                 </Row>
 
                 <Field name="inscriptionDescriptionInterpretation" />
@@ -301,7 +302,7 @@ const template = (pluginContext) => {
 
       <Panel name="prod" collapsible collapsed>
         <Row>
-          <div>
+          <Col>
             <Field name="objectProductionDateGroupList">
               <Field name="objectProductionDateGroup" />
             </Field>
@@ -323,9 +324,9 @@ const template = (pluginContext) => {
             <Field name="objectProductionReasons">
               <Field name="objectProductionReason" />
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="objectProductionPeopleGroupList">
               <Field name="objectProductionPeopleGroup">
                 <Field name="objectProductionPeople" />
@@ -348,14 +349,14 @@ const template = (pluginContext) => {
             </Field>
 
             <Field name="objectProductionNote" />
-          </div>
+          </Col>
         </Row>
       </Panel>
 
       <Panel name="hist" collapsible collapsed>
         <Panel name="assoc" collapsible collapsed>
           <Row>
-            <div>
+            <Col>
               <Field name="assocActivityGroupList">
                 <Field name="assocActivityGroup">
                   <Field name="assocActivity" />
@@ -419,9 +420,9 @@ const template = (pluginContext) => {
                   <Field name="assocPlaceNote" />
                 </Field>
               </Field>
-            </div>
+            </Col>
 
-            <div>
+            <Col>
               <InputTable name="assocEvent">
                 <Field name="assocEventName" />
                 <Field name="assocEventNameType" />
@@ -452,7 +453,7 @@ const template = (pluginContext) => {
                   <Field name="assocDateNote" />
                 </Field>
               </Field>
-            </div>
+            </Col>
           </Row>
         </Panel>
 
@@ -466,7 +467,7 @@ const template = (pluginContext) => {
         </Field>
 
         <Row>
-          <div>
+          <Col>
             <Field name="owners">
               <Field name="owner" />
             </Field>
@@ -474,16 +475,16 @@ const template = (pluginContext) => {
             <Field name="ownershipDateGroupList">
               <Field name="ownershipDateGroup" />
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Row>
               <Field name="ownershipAccess" />
               <Field name="ownershipCategory" />
             </Row>
 
             <Field name="ownershipPlace" />
-          </div>
+          </Col>
         </Row>
 
         <InputTable name="ownershipExchange">
@@ -528,7 +529,7 @@ const template = (pluginContext) => {
 
       <Panel name="collect" collapsible collapsed>
         <Row>
-          <div>
+          <Col>
             <Field name="fieldCollectionDateGroup" />
 
             <Field name="fieldCollectionMethods">
@@ -537,9 +538,9 @@ const template = (pluginContext) => {
 
             <Field name="fieldCollectionNote" />
             <Field name="fieldCollectionNumber" />
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="fieldCollectionPlace" />
 
             <Field name="fieldCollectionSources">
@@ -553,7 +554,7 @@ const template = (pluginContext) => {
             <Field name="fieldColEventNames">
               <Field name="fieldColEventName" />
             </Field>
-          </div>
+          </Col>
         </Row>
       </Panel>
 

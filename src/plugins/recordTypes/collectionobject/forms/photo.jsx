@@ -6,6 +6,7 @@ const template = (pluginContext) => {
   } = pluginContext.lib;
 
   const {
+    Col,
     Panel,
     Row,
   } = pluginContext.layoutComponents;
@@ -22,7 +23,7 @@ const template = (pluginContext) => {
     <Field name="document">
       <Panel name="id" collapsible>
         <Row>
-          <div>
+          <Col>
             <Field name="objectNumber" />
             <Field name="numberOfObjects" />
 
@@ -31,27 +32,27 @@ const template = (pluginContext) => {
             </Field>
 
             <Field name="collection" />
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="briefDescriptions">
               <Field name="briefDescription" />
             </Field>
 
             <Field name="distinguishingFeatures" />
-          </div>
+          </Col>
         </Row>
 
         <Field name="titleGroupList">
           <Field name="titleGroup">
             <Panel>
               <Row>
-                <div>
+                <Col>
                   <Field name="title" />
                   <Field name="titleLanguage" />
-                </div>
+                </Col>
 
-                <div>
+                <Col>
                   <Field name="titleType" />
 
                   <Field name="titleTranslationSubGroupList">
@@ -60,7 +61,7 @@ const template = (pluginContext) => {
                       <Field name="titleTranslationLanguage" />
                     </Field>
                   </Field>
-                </div>
+                </Col>
               </Row>
             </Panel>
           </Field>
@@ -81,17 +82,17 @@ const template = (pluginContext) => {
 
       <Panel name="desc" collapsible collapsed>
         <Row>
-          <div>
+          <Col>
             <Field name="copyNumber" />
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="editionNumber" />
 
             <Field name="colors">
               <Field name="color" />
             </Field>
-          </div>
+          </Col>
         </Row>
 
         <Field name="materialGroupList">
@@ -114,7 +115,8 @@ const template = (pluginContext) => {
               <Field name="technicalAttributeMeasurementUnit" />
             </Field>
           </Field>
-          <div />
+
+          <Col />
         </Row>
 
         {extensions.dimension.form}
@@ -123,7 +125,7 @@ const template = (pluginContext) => {
           <Field name="contentDescription" />
 
           <Row>
-            <div>
+            <Col>
               <Field name="contentLanguages">
                 <Field name="contentLanguage" />
               </Field>
@@ -148,9 +150,9 @@ const template = (pluginContext) => {
                   <Field name="contentObjectType" />
                 </Field>
               </Field>
-            </div>
+            </Col>
 
-            <div>
+            <Col>
               <Field name="contentPeoples">
                 <Field name="contentPeople" />
               </Field>
@@ -184,7 +186,7 @@ const template = (pluginContext) => {
                   <Field name="contentOtherType" />
                 </Field>
               </Field>
-            </div>
+            </Col>
           </Row>
 
           <Field name="contentNote" />
@@ -193,7 +195,7 @@ const template = (pluginContext) => {
 
       <Panel name="prod" collapsible collapsed>
         <Row>
-          <div>
+          <Col>
             <Field name="objectProductionDateGroupList">
               <Field name="objectProductionDateGroup" />
             </Field>
@@ -211,9 +213,9 @@ const template = (pluginContext) => {
                 <Field name="objectProductionPlaceRole" />
               </Field>
             </Field>
-          </div>
+          </Col>
 
-          <div>
+          <Col>
             <Field name="objectProductionPersonGroupList">
               <Field name="objectProductionPersonGroup">
                 <Field name="objectProductionPerson" />
@@ -229,7 +231,7 @@ const template = (pluginContext) => {
             </Field>
 
             <Field name="objectProductionNote" />
-          </div>
+          </Col>
         </Row>
       </Panel>
 
