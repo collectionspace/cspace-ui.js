@@ -7,6 +7,7 @@ import {
 
 import {
   batchCreateBidirectional,
+  showRelationNotification,
 } from '../../actions/relation';
 
 import {
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   clearSearchResults,
   search,
+  showRelationNotification,
   onAdvancedSearchConditionCommit: setSearchToRelateAdvanced,
   onKeywordCommit: setSearchToRelateKeyword,
   onRecordTypeCommit: setSearchToRelateRecordType,

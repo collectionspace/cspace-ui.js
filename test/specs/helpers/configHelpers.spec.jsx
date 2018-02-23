@@ -17,6 +17,7 @@ import {
   applyPlugins,
   applyPlugin,
   evaluatePlugin,
+  getFirstColumnName,
   initializeExtensions,
   initializeRecordTypes,
   getRecordTypeConfigByServiceDocumentName,
@@ -1375,6 +1376,40 @@ describe('configHelpers', function moduleSuite() {
 
     it('should return null if no short id is supplied', function test() {
       expect(findVocabularyUses(config, undefined)).to.equal(null);
+    });
+  });
+
+  describe('getFirstColumnName', function suite() {
+    const config = {
+      recordTypes: {
+        group: {
+          columns: {
+            default: {
+              title: {
+                order: 10,
+              },
+              owner: {
+                order: 20,
+              },
+              updatedAt: {
+                order: 30,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should return the field with the lowest order in the column set', function test() {
+      getFirstColumnName(config, 'group', 'default').should.equal('title');
+    });
+
+    it('should return undefined if no column config exists for the given column set name', function test() {
+      expect(getFirstColumnName(config, 'group', 'foo')).to.equal(undefined);
+    });
+
+    it('should use the column set named \'default\' if no column set is specified', function test() {
+      getFirstColumnName(config, 'group').should.equal('title');
     });
   });
 });

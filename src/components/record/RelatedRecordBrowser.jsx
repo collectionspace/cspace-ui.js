@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { intlShape } from 'react-intl';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import qs from 'qs';
 import RelatedRecordButtonBar from './RelatedRecordButtonBar';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
@@ -18,6 +20,7 @@ const propTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
+  primaryRecordData: PropTypes.instanceOf(Immutable.Map),
   preferredRelatedCsid: PropTypes.string,
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
@@ -25,6 +28,10 @@ const propTypes = {
   workflowState: PropTypes.string,
   setPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
+};
+
+const contextTypes = {
+  intl: intlShape,
 };
 
 export default class RelatedRecordBrowser extends Component {
@@ -325,15 +332,23 @@ export default class RelatedRecordBrowser extends Component {
       recordType,
       csid,
       relatedRecordType,
+      primaryRecordData,
     } = this.props;
+
+    const {
+      intl,
+    } = this.context;
 
     const {
       isSearchToRelateModalOpen,
     } = this.state;
 
+    const titleGetter = get(config, ['recordTypes', recordType, 'title']);
+    const title = titleGetter && titleGetter(primaryRecordData, { config, intl });
+
     return (
       <SearchToRelateModalContainer
-        subjects={[{ csid, recordType }]}
+        subjects={[{ csid, recordType, title }]}
         config={config}
         isOpen={isSearchToRelateModalOpen}
         defaultRecordTypeValue={relatedRecordType}
@@ -394,4 +409,4 @@ export default class RelatedRecordBrowser extends Component {
 }
 
 RelatedRecordBrowser.propTypes = propTypes;
-
+RelatedRecordBrowser.contextTypes = contextTypes;

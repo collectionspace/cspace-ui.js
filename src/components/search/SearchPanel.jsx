@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import get from 'lodash/get';
@@ -40,6 +40,7 @@ const propTypes = {
   linkItems: PropTypes.bool,
   name: PropTypes.string,
   recordType: PropTypes.string,
+  recordData: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
@@ -63,6 +64,7 @@ const defaultProps = {
 };
 
 const contextTypes = {
+  intl: intlShape,
   router: PropTypes.object,
 };
 
@@ -341,6 +343,7 @@ export default class SearchPanel extends Component {
       listType,
       name,
       recordType,
+      recordData,
       searchDescriptor,
       showAddButton,
       showCheckboxColumn,
@@ -349,6 +352,10 @@ export default class SearchPanel extends Component {
       getItemLocation,
       onItemClick,
     } = this.props;
+
+    const {
+      intl,
+    } = this.context;
 
     const {
       isSearchToRelateModalOpen,
@@ -368,10 +375,19 @@ export default class SearchPanel extends Component {
         allowedServiceTypes = [defaultRecordTypeValue];
       }
 
+      const titleGetter = get(config, ['recordTypes', recordType, 'title']);
+      const title = titleGetter && titleGetter(recordData, { config, intl });
+
       searchToRelateModal = (
         <SearchToRelateModalContainer
           allowedServiceTypes={allowedServiceTypes}
-          subjects={[{ csid: searchDescriptor.getIn(['searchQuery', 'rel']), recordType }]}
+          subjects={[
+            {
+              recordType,
+              title,
+              csid: searchDescriptor.getIn(['searchQuery', 'rel']),
+            },
+          ]}
           config={config}
           isOpen={isSearchToRelateModalOpen}
           defaultRecordTypeValue={defaultRecordTypeValue}

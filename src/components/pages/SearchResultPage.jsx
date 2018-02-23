@@ -19,6 +19,7 @@ import { canRelate } from '../../helpers/permissionHelpers';
 import { getListType } from '../../helpers/searchHelpers';
 
 import {
+  getFirstColumnName,
   getRecordTypeNameByServiceObjectName,
   getRecordTypeNameByUri,
   validateLocation,
@@ -232,9 +233,12 @@ export default class SearchResultPage extends Component {
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
     const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
 
+    const titleColumnName = getFirstColumnName(config, recordType);
+
     return selectedItems.valueSeq().map(item => ({
       csid: item.get('csid'),
       recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
+      title: item.get(titleColumnName),
     })).toJS();
   }
 

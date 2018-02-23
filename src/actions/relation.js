@@ -1,11 +1,17 @@
 import Immutable from 'immutable';
+import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
 import getSession from './cspace';
+import { showNotification } from './notification';
 import { getRelationFindResult } from '../reducers';
 
 import {
   ERR_API,
 } from '../constants/errorCodes';
+
+import {
+  STATUS_SUCCESS,
+} from '../constants/notificationStatusCodes';
 
 export const CLEAR_RELATION_STATE = 'CLEAR_RELATION_STATE';
 export const RELATION_DELETE_STARTED = 'RELATION_DELETE_STARTED';
@@ -22,6 +28,31 @@ export const SUBJECT_RELATIONS_UPDATED = 'SUBJECT_RELATIONS_UPDATED';
 export const clearState = () => ({
   type: CLEAR_RELATION_STATE,
 });
+
+const messages = defineMessages({
+  related: {
+    id: 'action.relation.related',
+    description: 'Notification message displayed when records are related successfully.',
+    defaultMessage: `{objectCount, plural,
+      =0 {No records}
+      one {# record}
+      other {# records}
+    } related to {subjectTitle}.`,
+  },
+});
+
+const notificationID = 'action.relation';
+
+export const showRelationNotification = (message, values) =>
+  showNotification({
+    items: [{
+      message,
+      values,
+    }],
+    date: new Date(),
+    status: STATUS_SUCCESS,
+    autoClose: true,
+  }, notificationID);
 
 /*
  * Find a relation, given at least the subject csid and object csid, and optionally the subject
@@ -293,13 +324,20 @@ export const batchCreateBidirectional = (subject, objects, predicate) => dispatc
       dispatch(doCreate(subject, object, predicate))
         .then(() => dispatch(doCreate(object, subject, predicate)))
   ))
-    .then(() => dispatch({
-      type: SUBJECT_RELATIONS_UPDATED,
-      meta: {
-        subject,
-        updatedTime: (new Date()).toISOString(),
-      },
-    }))
+    .then(() => {
+      dispatch(showRelationNotification(messages.related, {
+        objectCount: objects.length,
+        subjectTitle: subject.title,
+      }));
+
+      dispatch({
+        type: SUBJECT_RELATIONS_UPDATED,
+        meta: {
+          subject,
+          updatedTime: (new Date()).toISOString(),
+        },
+      });
+    })
     .catch(() => {});
 
 export const create = (subject, object, predicate) => dispatch =>

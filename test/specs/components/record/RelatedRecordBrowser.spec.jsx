@@ -144,7 +144,7 @@ describe('RelatedRecordBrowser', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RelatedRecordBrowser />
+          <RelatedRecordBrowser config={config} />
         </StoreProvider>
       </IntlProvider>, this.container);
 

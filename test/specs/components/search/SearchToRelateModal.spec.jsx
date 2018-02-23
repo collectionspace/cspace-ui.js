@@ -1089,6 +1089,80 @@ describe('SearchToRelateModal', function suite() {
     });
   });
 
+  it('should call showRelationNotification if multiple subjects are successfully related', function test() {
+    const recordTypeValue = 'collectionobject';
+
+    const subjects = [
+      {
+        csid: '1234',
+        recordType: 'group',
+      },
+      {
+        csid: '5678',
+        recordType: 'group',
+      },
+    ];
+
+    const selectedItems = Immutable.fromJS({
+      1111: { csid: '1111', recordType: recordTypeValue },
+      2222: { csid: '2222', recordType: recordTypeValue },
+    });
+
+    const search = () => {};
+    const createRelations = () => {};
+
+    let notificationValues = null;
+
+    const showRelationNotification = (messageArg, valuesArg) => {
+      notificationValues = valuesArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <BaseSearchToRelateModal
+        config={config}
+        intl={intl}
+        isOpen
+        isSearchInitiated
+        recordTypeValue={recordTypeValue}
+        subjects={subjects}
+        selectedItems={selectedItems}
+        search={search}
+        createRelations={createRelations}
+        showRelationNotification={showRelationNotification}
+      />
+    );
+
+    let result;
+    let buttonBar;
+
+    result = shallowRenderer.getRenderOutput();
+    buttonBar = result.props.renderButtonBar();
+
+    const searchButton = findWithType(buttonBar, SearchButton);
+
+    searchButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    buttonBar = result.props.renderButtonBar();
+
+    const relateButton = findWithType(buttonBar, RelateButton);
+
+    relateButton.props.onClick();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        notificationValues.should.deep.equal({
+          subjectCount: 2,
+          objectCount: 2,
+        });
+
+        resolve();
+      }, 0);
+    });
+  });
+
   it('should call subjects to retrieve subjects if it is a function', function test() {
     const recordTypeValue = 'collectionobject';
 
