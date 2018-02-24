@@ -719,3 +719,22 @@ export const findVocabularyUses = (config, shortId) => {
 
   return uses;
 };
+
+export const getFirstColumnName = (config, recordType, columnSetName = 'default') => {
+  const columnConfig = get(config, ['recordTypes', recordType, 'columns', columnSetName]);
+
+  if (!columnConfig) {
+    return undefined;
+  }
+
+  const orderedColumnNames = Object.keys(columnConfig)
+    .filter(name => !columnConfig[name].disabled)
+    .sort((nameA, nameB) => {
+      const orderA = columnConfig[nameA].order;
+      const orderB = columnConfig[nameB].order;
+
+      return orderA - orderB;
+    });
+
+  return orderedColumnNames[0];
+};

@@ -8,6 +8,10 @@ import {
 } from '../../../src/actions/cspace';
 
 import {
+  SHOW_NOTIFICATION,
+} from '../../../src/actions/notification';
+
+import {
   CLEAR_RELATION_STATE,
   RELATION_DELETE_STARTED,
   RELATION_DELETE_FULFILLED,
@@ -591,7 +595,7 @@ describe('relation action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(9);
+          actions.should.have.lengthOf(10);
 
           actions[0].should.deep.equal({
             type: RELATION_SAVE_STARTED,
@@ -698,10 +702,14 @@ describe('relation action creator', function suite() {
           });
 
           actions[8].should.contain({
+            type: SHOW_NOTIFICATION,
+          });
+
+          actions[9].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
           });
 
-          actions[8].meta.should.contain({
+          actions[9].meta.should.contain({
             subject,
           });
         });

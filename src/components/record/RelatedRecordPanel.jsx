@@ -411,6 +411,7 @@ export default class RelatedRecordPanel extends Component {
         name={name}
         searchDescriptor={searchDescriptor}
         recordType={recordType}
+        recordData={recordData}
         title={this.renderTitle()}
         showAddButton={showAddButton}
         showCheckboxColumn={showCheckboxColumn}

@@ -1024,8 +1024,8 @@ describe('SearchResultPage', function suite() {
     const subjects = modal.props.subjects();
 
     subjects.should.deep.equal([
-      { csid: '1111', recordType: 'collectionobject' },
-      { csid: '2222', recordType: 'collectionobject' },
+      { csid: '1111', recordType: 'collectionobject', title: undefined },
+      { csid: '2222', recordType: 'collectionobject', title: undefined },
     ]);
   });
 

@@ -38,6 +38,15 @@ const messages = defineMessages({
     id: 'searchToRelateModal.relating',
     defaultMessage: 'Relating...',
   },
+  multipleSubjectsRelated: {
+    id: 'searchToRelateModal.multipleSubjectsRelated',
+    description: 'Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.',
+    defaultMessage: `{objectCount, plural,
+      =0 {No records}
+      one {# record}
+      other {# records}
+    } records related to each of {subjectCount, number} records.`,
+  },
 });
 
 export const searchName = 'searchToRelate';
@@ -86,6 +95,7 @@ const propTypes = {
   search: PropTypes.func,
   setAllItemsSelected: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
+  showRelationNotification: PropTypes.func,
 };
 
 const defaultProps = {
@@ -301,6 +311,17 @@ export class BaseSearchToRelateModal extends Component {
 
         Promise.all(subjects.map(subject => createRelations(subject, objects, 'affects')))
           .then(() => {
+            if (subjects.length > 1) {
+              const { showRelationNotification } = this.props;
+
+              if (showRelationNotification) {
+                showRelationNotification(messages.multipleSubjectsRelated, {
+                  objectCount: objects.length,
+                  subjectCount: subjects.length,
+                });
+              }
+            }
+
             if (onRelationsCreated) {
               onRelationsCreated();
             }
