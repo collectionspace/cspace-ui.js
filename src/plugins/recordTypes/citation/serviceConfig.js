@@ -11,9 +11,11 @@ export default {
       'ns2:citations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/citation',
         citationTermGroupList: {
-          citationTermGroup: {
-            termDisplayName: values.displayName,
-          },
+          citationTermGroup: [
+            {
+              termDisplayName: values.displayName,
+            },
+          ],
         },
       },
     },

@@ -147,6 +147,7 @@ export class BaseTypedHierarchyEditor extends Component {
           source={source}
           value={parentRefName}
           readOnly={readOnly}
+          showQuickAddCloneOption
           onCommit={this.handleParentRefNameCommit}
           matchFilter={this.filterMatch}
         />
@@ -198,6 +199,7 @@ export class BaseTypedHierarchyEditor extends Component {
             label={intl.formatMessage(messages.childName)}
             name="refName"
             source={source}
+            showQuickAddCloneOption
             matchFilter={this.filterMatch}
             onCommit={this.handleChildRefNameCommit}
           />

@@ -115,6 +115,7 @@ export class BaseUntypedHierarchyEditor extends Component {
         source={source}
         value={parentRefName}
         readOnly={readOnly}
+        showQuickAddCloneOption
         onCommit={this.handleParentCommit}
         matchFilter={this.filterMatch}
       />
@@ -152,6 +153,7 @@ export class BaseUntypedHierarchyEditor extends Component {
           repeating
           reorderable={false}
           source={source}
+          showQuickAddCloneOption
           matchFilter={this.filterMatch}
           onCommit={this.handleChildCommit}
           onAddInstance={this.handleAddChild}

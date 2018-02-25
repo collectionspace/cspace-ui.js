@@ -45,7 +45,17 @@ const messages = defineMessages({
   addPrompt: {
     id: 'autocompleteInputContainer.addPrompt',
     description: 'Message displayed in the autocomplete input dropdown to prompt a user to add a new term.',
-    defaultMessage: 'Add {displayName} to',
+    defaultMessage: 'Add "{displayName}" to {destinationName}',
+  },
+  cloneOptionLabel: {
+    id: 'autocompleteInputContainer.cloneOptionLabel',
+    description: 'Label of the clone option shown in the autocomplete input dropdown.',
+    defaultMessage: 'Clone current record',
+  },
+  createNewOptionLabel: {
+    id: 'autocompleteInputContainer.createNewOptionLabel',
+    description: 'Label of the create new option shown in the autocomplete input dropdown.',
+    defaultMessage: 'Create new record',
   },
 });
 
@@ -104,7 +114,10 @@ const mapStateToProps = (state, ownProps) => {
     recordTypes: config.recordTypes,
     source: filterSource(source, perms),
     quickAddTo: filterQuickAddTo(source, perms, state),
-    formatAddPrompt: displayName => intl.formatMessage(messages.addPrompt, { displayName }),
+    formatAddPrompt: (displayName, destinationName = '') =>
+      intl.formatMessage(messages.addPrompt, { displayName, destinationName }),
+    formatCloneOptionLabel: () => intl.formatMessage(messages.cloneOptionLabel),
+    formatCreateNewOptionLabel: () => intl.formatMessage(messages.createNewOptionLabel),
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
     formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
     formatSourceName: (recordTypeConfig, vocabulary) => intl.formatMessage(
@@ -121,15 +134,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClose,
   } = ownProps;
 
-
   return {
-    addTerm: (recordType, vocabulary, displayName, partialTerm) => {
+    addTerm: (recordType, vocabulary, displayName, partialTerm, clone) => {
       const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
       warning(recordTypeConfig, `The record type '${recordType}' is not configured. Check the source prop of the input with name '${ownProps.name}'.`);
 
       if (recordTypeConfig) {
-        dispatch(addTerm(recordTypeConfig, vocabulary, displayName, partialTerm));
+        dispatch(addTerm(recordTypeConfig, vocabulary, displayName, partialTerm, clone));
       }
     },
     findMatchingTerms: (source, partialTerm) => {

@@ -11,9 +11,11 @@ export default {
       'ns2:organizations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/organization',
         orgTermGroupList: {
-          orgTermGroup: {
-            termDisplayName: values.displayName,
-          },
+          orgTermGroup: [
+            {
+              termDisplayName: values.displayName,
+            },
+          ],
         },
       },
     },

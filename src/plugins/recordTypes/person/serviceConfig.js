@@ -11,9 +11,11 @@ export default {
       'ns2:persons_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/person',
         personTermGroupList: {
-          personTermGroup: {
-            termDisplayName: values.displayName,
-          },
+          personTermGroup: [
+            {
+              termDisplayName: values.displayName,
+            },
+          ],
         },
       },
     },

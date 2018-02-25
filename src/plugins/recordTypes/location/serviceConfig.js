@@ -11,9 +11,11 @@ export default {
       'ns2:locations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/location',
         locTermGroupList: {
-          locTermGroup: {
-            termDisplayName: values.displayName,
-          },
+          locTermGroup: [
+            {
+              termDisplayName: values.displayName,
+            },
+          ],
         },
       },
     },

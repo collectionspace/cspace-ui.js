@@ -11,9 +11,11 @@ export default {
       'ns2:works_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/work',
         workTermGroupList: {
-          workTermGroup: {
-            termDisplayName: values.displayName,
-          },
+          workTermGroup: [
+            {
+              termDisplayName: values.displayName,
+            },
+          ],
         },
       },
     },

@@ -11,9 +11,11 @@ export default {
       'ns2:places_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/place',
         placeTermGroupList: {
-          placeTermGroup: {
-            termDisplayName: values.displayName,
-          },
+          placeTermGroup: [
+            {
+              termDisplayName: values.displayName,
+            },
+          ],
         },
       },
     },

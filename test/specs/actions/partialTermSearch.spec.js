@@ -33,12 +33,15 @@ describe('partialTermSearch action creator', function suite() {
     const termReadUrl = '/cspace-services/new/url/csid';
     const displayName = 'abc';
     const partialTerm = '^abc';
+    const primaryRecordCsid = '1111';
 
     const recordTypeConfig = {
       name: recordType,
       serviceConfig: {
         servicePath,
-        quickAddData: () => ({}),
+        quickAddData: () => ({
+          document: {},
+        }),
       },
       vocabularies: {
         [vocabulary]: {
@@ -50,6 +53,20 @@ describe('partialTermSearch action creator', function suite() {
     };
 
     const store = mockStore({
+      record: Immutable.fromJS({
+        [primaryRecordCsid]: {
+          data: {
+            current: {
+              document: {
+                foo: 'bar',
+              },
+            },
+          },
+        },
+      }),
+      recordPage: Immutable.Map({
+        primaryCsid: primaryRecordCsid,
+      }),
       user: Immutable.Map(),
     });
 
@@ -111,6 +128,31 @@ describe('partialTermSearch action creator', function suite() {
               vocabulary,
             },
           });
+        });
+    });
+
+    it('should clone the primary record data if clone is true', function test() {
+      moxios.stubRequest(termAddUrl, {
+        status: 201,
+        headers: {
+          location: termReadUrl,
+        },
+      });
+
+      moxios.stubRequest(termReadUrl, {
+        status: 200,
+        response: {},
+      });
+
+      return store.dispatch(addTerm(recordTypeConfig, vocabulary, displayName, partialTerm, true))
+        .then(() => {
+          const termAddRequest = moxios.requests.first();
+
+          termAddRequest.config.data.should.equal(JSON.stringify({
+            document: {
+              foo: 'bar',
+            },
+          }));
         });
     });
 

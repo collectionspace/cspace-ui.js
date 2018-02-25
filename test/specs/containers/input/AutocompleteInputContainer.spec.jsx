@@ -70,6 +70,8 @@ describe('AutocompleteInputContainer', function suite() {
     result.props.should.have.property('matches', matches);
     result.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
     result.props.should.have.property('formatAddPrompt').that.is.a('function');
+    result.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
+    result.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
     result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
     result.props.should.have.property('formatSearchResultMessage').that.is.a('function');
     result.props.should.have.property('formatSourceName').that.is.a('function');
@@ -359,7 +361,7 @@ describe('AutocompleteInputContainer', function suite() {
     store.getActions()[2].should.have.property('type', CLEAR_PARTIAL_TERM_SEARCH_RESULTS);
   });
 
-  it('should connect formatAddPrompt, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', function test() {
+  it('should connect formatAddPrompt, formatCloneOptionLabel, formatCreateNewOptionLabel, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', function test() {
     const matches = Immutable.Map({});
 
     let formatMessageCalledCount = 0;
@@ -427,16 +429,24 @@ describe('AutocompleteInputContainer', function suite() {
 
     formatMessageCalledCount.should.equal(1);
 
-    result.props.formatMoreCharsRequiredMessage();
+    result.props.formatCloneOptionLabel();
 
     formatMessageCalledCount.should.equal(2);
 
-    result.props.formatSearchResultMessage(1);
+    result.props.formatCreateNewOptionLabel();
 
     formatMessageCalledCount.should.equal(3);
 
-    result.props.formatSourceName({ messages: {} });
+    result.props.formatMoreCharsRequiredMessage();
 
     formatMessageCalledCount.should.equal(4);
+
+    result.props.formatSearchResultMessage(1);
+
+    formatMessageCalledCount.should.equal(5);
+
+    result.props.formatSourceName({ messages: {} });
+
+    formatMessageCalledCount.should.equal(6);
   });
 });
