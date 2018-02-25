@@ -4,6 +4,7 @@ import RecordReportPanel from '../../components/record/RecordReportPanel';
 import {
   getRecordData,
   getUserPerms,
+  isRecordModified,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -12,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
+    isRecordModified: isRecordModified(state, csid),
     perms: getUserPerms(state),
     recordData: getRecordData(state, csid),
   };

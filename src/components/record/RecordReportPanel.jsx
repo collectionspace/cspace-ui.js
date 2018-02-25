@@ -32,6 +32,7 @@ const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
   csid: PropTypes.string,
+  isRecordModified: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
@@ -128,6 +129,7 @@ export default class RecordReportPanel extends Component {
       color,
       config,
       csid,
+      isRecordModified,
       perms,
       recordData,
       recordType,
@@ -169,6 +171,7 @@ export default class RecordReportPanel extends Component {
         />
         <ReportModal
           isOpen={isModalOpen}
+          isRecordModified={isRecordModified}
           reportItem={selectedItem}
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}

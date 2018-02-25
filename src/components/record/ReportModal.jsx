@@ -13,6 +13,11 @@ const messages = defineMessages({
     description: 'The prompt shown to run a report.',
     defaultMessage: 'Run this report?',
   },
+  unsaved: {
+    id: 'reportModal.unsaved',
+    description: 'The message shown in the report modal when the record has unsaved changes.',
+    defaultMessage: 'This record has changes that have not been saved. The report will not include any unsaved data.',
+  },
   cancel: {
     id: 'reportModal.cancel',
     description: 'Label of the cancel button in the report modal.',
@@ -27,6 +32,7 @@ const messages = defineMessages({
 
 const propTypes = {
   isOpen: PropTypes.bool,
+  isRecordModified: PropTypes.bool,
   reportItem: PropTypes.instanceOf(Immutable.Map),
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
@@ -64,12 +70,19 @@ export default class ReportModal extends Component {
   render() {
     const {
       isOpen,
+      isRecordModified,
       reportItem,
       onCloseButtonClick,
     } = this.props;
 
     if (!isOpen || !reportItem) {
       return null;
+    }
+
+    let unsavedWarning;
+
+    if (isRecordModified) {
+      unsavedWarning = <p><FormattedMessage {...messages.unsaved} /></p>;
     }
 
     return (
@@ -82,6 +95,7 @@ export default class ReportModal extends Component {
         onCloseButtonClick={onCloseButtonClick}
       >
         <FormattedMessage {...messages.prompt} />
+        {unsavedWarning}
       </Modal>
     );
   }
