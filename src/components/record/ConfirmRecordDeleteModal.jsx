@@ -29,7 +29,11 @@ const messages = defineMessages({
     id: 'confirmRecordDeleteModal.hasUses',
     description: 'The message shown in the confirm delete modal when the record to be deleted is an authority item that is used by other records.',
     defaultMessage: '{title} cannot be deleted because it is used by other records.',
-
+  },
+  hasRoleUses: {
+    id: 'confirmRecordDeleteModal.hasRoleUses',
+    description: 'The message shown in the confirm delete modal when the record to be deleted is a role that is used by user accounts.',
+    defaultMessage: '{title} cannot be deleted because it is associated with user accounts.',
   },
   hasHierarchy: {
     id: 'confirmRecordDeleteModal.hasHierarchy',
@@ -88,6 +92,7 @@ export default class ConfirmRecordDeleteModal extends Component {
       recordType,
       checkForRelations,
       checkForUses,
+      checkForRoleUses,
     } = props;
 
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
@@ -111,6 +116,18 @@ export default class ConfirmRecordDeleteModal extends Component {
       });
 
       checkForUses()
+        .then((hasUses) => {
+          this.setState({
+            hasUses,
+          });
+        });
+    } else if (recordType === 'authrole' && checkForRoleUses) {
+      this.setState({
+        hasRelations: false,
+        hasUses: undefined,
+      });
+
+      checkForRoleUses()
         .then((hasUses) => {
           this.setState({
             hasUses,
@@ -200,7 +217,9 @@ export default class ConfirmRecordDeleteModal extends Component {
       if (hasHierarchyRelations(data)) {
         hasHierarchyMessage = <FormattedMessage {...messages.hasHierarchy} values={{ title }} />;
       } else if (hasUses) {
-        hasUsesMessage = <FormattedMessage {...messages.hasUses} values={{ title }} />;
+        hasUsesMessage = (recordType === 'authrole')
+          ? <FormattedMessage {...messages.hasRoleUses} values={{ title }} />
+          : <FormattedMessage {...messages.hasUses} values={{ title }} />;
       } else {
         prompt = <FormattedMessage {...messages.prompt} values={{ title }} />;
 

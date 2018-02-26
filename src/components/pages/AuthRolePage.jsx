@@ -185,10 +185,10 @@ export default class AuthRolePage extends Component {
           csid={normalizedCsid}
           recordType={recordType}
           isHardDelete
+          clone={this.cloneRecord}
           onRecordCreated={this.handleRecordCreated}
           onRecordDeleted={this.handleRecordDeleted}
           onRecordSaved={this.handleRecordSaved}
-          clone={this.cloneRecord}
         />
       );
     }

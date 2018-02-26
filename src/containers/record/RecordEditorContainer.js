@@ -2,6 +2,10 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 import {
+  checkForRoleUses,
+} from '../../actions/account';
+
+import {
   checkForUses,
 } from '../../actions/authority';
 
@@ -133,6 +137,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(checkForRelations(csid, predicate)),
     checkForUses: () =>
       dispatch(checkForUses(config, recordType, vocabulary, csid)),
+    checkForRoleUses: () =>
+      dispatch(checkForRoleUses(csid)),
   };
 };
 

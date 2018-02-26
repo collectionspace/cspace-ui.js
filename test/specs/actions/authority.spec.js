@@ -180,7 +180,7 @@ describe('authority action creator', function suite() {
       });
     });
 
-    it('should resolve to false if no relations are found for the given csid and predicate', function test() {
+    it('should resolve to false if no uses are found for the authority item', function test() {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {

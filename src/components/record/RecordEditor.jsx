@@ -37,6 +37,7 @@ const propTypes = {
   checkDeletable: PropTypes.func,
   checkForRelations: PropTypes.func,
   checkForUses: PropTypes.func,
+  checkForRoleUses: PropTypes.func,
   createNewRecord: PropTypes.func,
   readRecord: PropTypes.func,
   onRecordCreated: PropTypes.func,
@@ -458,6 +459,7 @@ export default class RecordEditor extends Component {
       vocabulary,
       checkForRelations,
       checkForUses,
+      checkForRoleUses,
     } = this.props;
 
     return (
@@ -471,6 +473,7 @@ export default class RecordEditor extends Component {
         vocabulary={vocabulary}
         checkForRelations={checkForRelations}
         checkForUses={checkForUses}
+        checkForRoleUses={checkForRoleUses}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
         onDeleteButtonClick={this.handleConfirmDeleteButtonClick}

@@ -1,10 +1,19 @@
 /* global btoa */
 
+import get from 'lodash/get';
 import getSession from './cspace';
 
 export const ACCOUNT_PERMS_READ_FULFILLED = 'ACCOUNT_PERMS_READ_FULFILLED';
 export const ACCOUNT_PERMS_READ_REJECTED = 'ACCOUNT_PERMS_READ_REJECTED';
 export const SET_ACCOUNT_PERMS = 'SET_ACCOUNT_PERMS';
+
+export const checkForRoleUses = csid => () =>
+  getSession().read(`authorization/roles/${csid}/accountroles`)
+    .then((response) => {
+      const account = get(response, ['data', 'ns2:account_role', 'account']);
+
+      return !!account;
+    });
 
 export const readAccountPerms = config => dispatch =>
   getSession().read('accounts/0/accountperms')

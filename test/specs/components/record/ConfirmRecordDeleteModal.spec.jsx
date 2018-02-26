@@ -15,6 +15,20 @@ chai.should();
 
 const config = {
   recordTypes: {
+    authrole: {
+      messages: {
+        record: {
+          name: {
+            id: 'record.authrole.name',
+            defaultMessage: 'Role',
+          },
+        },
+      },
+      serviceConfig: {
+        serviceType: 'security',
+      },
+      title: () => 'Role Title',
+    },
     group: {
       messages: {
         record: {
@@ -224,6 +238,56 @@ describe('ConfirmRecordDeleteModal', function suite() {
 
           document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
             .contain('cannot be deleted because it is used by other records');
+
+          unmountComponentAtNode(this.container);
+
+          resolve();
+        }, 0);
+      });
+    });
+  });
+
+  context('when the record type is authrole', function context() {
+    it('should call checkForRoleUses when opened, and render a message if it resolves to true', function test() {
+      const data = Immutable.Map();
+
+      let checkForRoleUsesCalled = false;
+
+      const checkForRoleUses = () => {
+        checkForRoleUsesCalled = true;
+
+        return Promise.resolve(true);
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen={false}
+            recordType="authrole"
+            csid="1234"
+          />
+        </IntlProvider>, this.container);
+
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="authrole"
+            csid="1234"
+            checkForRoleUses={checkForRoleUses}
+          />
+        </IntlProvider>, this.container);
+
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          checkForRoleUsesCalled.should.equal(true);
+
+          document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
+            .contain('cannot be deleted because it is associated with user accounts');
 
           unmountComponentAtNode(this.container);
 

@@ -9,6 +9,7 @@ import {
 } from '../../../src/actions/cspace';
 
 import {
+  checkForRoleUses,
   requestPasswordReset,
   resetPassword,
 } from '../../../src/actions/account';
@@ -16,8 +17,60 @@ import {
 chai.should();
 
 describe('account action creator', function suite() {
+  const mockStore = configureMockStore([thunk]);
+
+  describe('checkForRoleUses', function actionSuite() {
+    const csid = '1234';
+    const checkUrl = `/cspace-services/authorization/roles/${csid}/accountroles`;
+
+    before(() => {
+      const store = mockStore();
+
+      return store.dispatch(configureCSpace());
+    });
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should resolve to true if uses are found for the given role', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'ns2:account_role': {
+            account: [],
+          },
+        },
+      });
+
+      return store.dispatch(checkForRoleUses(csid)).then((result) => {
+        result.should.equal(true);
+      });
+    });
+
+    it('should resolve to false if no uses are found for the given role', function test() {
+      const store = mockStore();
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'ns2:account_role': {},
+        },
+      });
+
+      return store.dispatch(checkForRoleUses(csid)).then((result) => {
+        result.should.equal(false);
+      });
+    });
+  });
+
   describe('requestPasswordReset', function actionSuite() {
-    const mockStore = configureMockStore([thunk]);
     const store = mockStore();
 
     const requestPasswordResetUrl = /\/cspace-services\/accounts\/requestpasswordreset.*/;
@@ -56,7 +109,6 @@ describe('account action creator', function suite() {
   });
 
   describe('resetPassword', function actionSuite() {
-    const mockStore = configureMockStore([thunk]);
     const store = mockStore();
 
     const requestPasswordResetUrl = /\/cspace-services\/accounts\/processpasswordreset.*/;

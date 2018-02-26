@@ -153,6 +153,8 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('readRecord').that.is.a('function');
     result.props.should.have.property('removeNotification').that.is.a('function');
     result.props.should.have.property('checkForRelations').that.is.a('function');
+    result.props.should.have.property('checkForUses').that.is.a('function');
+    result.props.should.have.property('checkForRoleUses').that.is.a('function');
   });
 
   it('should connect createNewRecord to createNewRecord action creator', function test() {
@@ -538,6 +540,30 @@ describe('RecordEditorContainer', function suite() {
       window.setTimeout(() => {
         moxios.requests.mostRecent().should.have.property('url').that
           .contains(`/cspace-services/personauthorities/urn:cspace:name(ulan)/items/${csid}/refObjs`);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should connect checkForRoleUses to checkForRoleUses action creator', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid={csid}
+        recordType="authrole"
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.checkForRoleUses();
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        moxios.requests.mostRecent().should.have.property('url').that
+          .contains(`/cspace-services/authorization/roles/${csid}/accountroles`);
 
         resolve();
       }, 0);
