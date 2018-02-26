@@ -98,6 +98,21 @@ const config = {
       },
       sortOrder: 0,
     },
+    authrole: {
+      name: 'authrole',
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.authrole.collectionName',
+            defaultMessage: 'Role',
+          },
+        },
+      },
+      serviceConfig: {
+        servicePath: 'authorization/roles',
+        serviceType: 'security',
+      },
+    },
   },
 };
 
@@ -109,6 +124,7 @@ const resourceNames = Immutable.List([
   'movements',
   'locationauthorities',
   'personauthorities',
+  'authorization/roles',
 ]);
 
 describe('PermissionsInput', function suite() {
@@ -294,6 +310,35 @@ describe('PermissionsInput', function suite() {
       { resourceName: 'personauthorities', actionGroup: 'CRUL' },
       { resourceName: '/personauthorities/*/workflow/delete', actionGroup: 'RL' },
       { resourceName: 'persons', actionGroup: 'CRUL' },
+    ]));
+  });
+
+  it('should update permissions of the permissions resource when permissions of the roles resource change', function test() {
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            onCommit={handleCommit}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.querySelector('input[name="authrole"][value="CRUL"]');
+
+    input.checked = 'true';
+
+    Simulate.change(input);
+
+    committedValue.should.equal(Immutable.fromJS([
+      { resourceName: 'authorization/roles', actionGroup: 'CRUL' },
+      { resourceName: 'authorization/permissions', actionGroup: 'RL' },
     ]));
   });
 

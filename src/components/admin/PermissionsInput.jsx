@@ -201,6 +201,15 @@ export default class PermissionsInput extends Component {
         update[itemResourceName] = actionGroup;
       }
 
+      if (resourceName === 'authorization/roles') {
+        // If the authorization/roles resource can be read, allow permissions to be read and
+        // listed. This allows the permissions list to be displayed when viewing the role.
+
+        const permissionsResourceName = 'authorization/permissions';
+
+        update[permissionsResourceName] = actionGroup && actionGroup.includes('R') ? 'RL' : '';
+      }
+
       const updatedPerms = this.updatePerms(update);
 
       onCommit(getPath(this.props), updatedPerms);
