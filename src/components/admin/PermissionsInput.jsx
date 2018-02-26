@@ -179,7 +179,7 @@ export default class PermissionsInput extends Component {
         serviceType === 'object' ||
         serviceType === 'procedure' ||
         serviceType === 'authority' ||
-        serviceType === 'utility'
+        (serviceType === 'utility' && resourceName !== 'idgenerators')
       ) {
         // For object, procedure, authority, and utility types, also set permissions on the delete
         // workflow transition. (Security records do not have soft-delete).

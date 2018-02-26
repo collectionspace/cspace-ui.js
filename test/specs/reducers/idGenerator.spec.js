@@ -6,6 +6,10 @@ import {
   READ_ID_GENERATOR_FULFILLED,
 } from '../../../src/actions/idGenerator';
 
+import {
+  LOGOUT_FULFILLED,
+} from '../../../src/actions/logout';
+
 import reducer, {
   get,
 } from '../../../src/reducers/idGenerator';
@@ -45,10 +49,10 @@ describe('ID generator reducer', function suite() {
       payload: idGenerators,
     });
 
-    state.should.deep.equal(Immutable.fromJS(idGenerators));
+    state.should.equal(Immutable.fromJS(idGenerators));
 
-    get(state, 'accession').should.deep.equal(Immutable.fromJS(idGenerators.accession));
-    get(state, 'loanin').should.deep.equal(Immutable.fromJS(idGenerators.loanin));
+    get(state, 'accession').should.equal(Immutable.fromJS(idGenerators.accession));
+    get(state, 'loanin').should.equal(Immutable.fromJS(idGenerators.loanin));
 
     const moreIdGenerators = {
       intake: {
@@ -67,9 +71,9 @@ describe('ID generator reducer', function suite() {
       payload: moreIdGenerators,
     });
 
-    get(newState, 'accession').should.deep.equal(Immutable.fromJS(idGenerators.accession));
-    get(newState, 'loanin').should.deep.equal(Immutable.fromJS(idGenerators.loanin));
-    get(newState, 'intake').should.deep.equal(Immutable.fromJS(moreIdGenerators.intake));
+    get(newState, 'accession').should.equal(Immutable.fromJS(idGenerators.accession));
+    get(newState, 'loanin').should.equal(Immutable.fromJS(idGenerators.loanin));
+    get(newState, 'intake').should.equal(Immutable.fromJS(moreIdGenerators.intake));
   });
 
   it('should handle READ_ID_GENERATOR_FULFILLED', function test() {
@@ -108,6 +112,34 @@ describe('ID generator reducer', function suite() {
       },
     });
 
-    state.should.deep.equal(initialState.setIn(['accession', 'sample'], '2016.1.23'));
+    state.should.equal(initialState.setIn(['accession', 'sample'], '2016.1.23'));
+  });
+
+  context('on LOGOUT_FULFILLED', function context() {
+    it('should clear samples', function test() {
+      const initialState = Immutable.fromJS({
+        accession: {
+          csid: '9dd92952-c384-44dc-a736-95e435c1759c',
+          sample: '2016.1.23',
+        },
+        loanin: {
+          csid: 'ed87e7c6-0678-4f42-9d33-f671835586ef',
+          sample: 'LI 2018.2.23',
+        },
+      });
+
+      const state = reducer(initialState, {
+        type: LOGOUT_FULFILLED,
+      });
+
+      state.should.equal(Immutable.fromJS({
+        accession: {
+          csid: '9dd92952-c384-44dc-a736-95e435c1759c',
+        },
+        loanin: {
+          csid: 'ed87e7c6-0678-4f42-9d33-f671835586ef',
+        },
+      }));
+    });
   });
 });

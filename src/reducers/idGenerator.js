@@ -5,6 +5,10 @@ import {
   READ_ID_GENERATOR_FULFILLED,
 } from '../actions/idGenerator';
 
+import {
+  LOGOUT_FULFILLED,
+} from '../actions/logout';
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case ADD_ID_GENERATORS:
@@ -14,6 +18,8 @@ export default (state = Immutable.Map(), action) => {
         action.meta.idGeneratorName,
         'sample',
       ], action.payload.data.idgenerator.displayid);
+    case LOGOUT_FULFILLED:
+      return state.map(idGeneratorState => idGeneratorState.delete('sample'));
     default:
       return state;
   }

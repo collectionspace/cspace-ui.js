@@ -13,6 +13,7 @@ import conservation from './conservation';
 import contact from './contact';
 import exhibition from './exhibition';
 import group from './group';
+import idgenerator from './idgenerator';
 import intake from './intake';
 import loanin from './loanin';
 import loanout from './loanout';
@@ -48,6 +49,7 @@ export default [
   contact,
   exhibition,
   group,
+  idgenerator,
   intake,
   loanin,
   loanout,
