@@ -7,10 +7,12 @@ import {
 
 import {
   getUserPerms,
+  getUserUserId,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
   perms: getUserPerms(state),
+  userId: getUserUserId(state),
 });
 
 const mapDispatchToProps = {

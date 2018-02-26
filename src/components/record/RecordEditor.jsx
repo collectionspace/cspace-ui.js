@@ -34,6 +34,7 @@ const propTypes = {
   // The workflow state of the related subject (aka primary) record when we're in a secondary tab.
   relatedSubjectWorkflowState: PropTypes.string,
   openModalName: PropTypes.string,
+  checkDeletable: PropTypes.func,
   checkForRelations: PropTypes.func,
   checkForUses: PropTypes.func,
   createNewRecord: PropTypes.func,
@@ -522,6 +523,7 @@ export default class RecordEditor extends Component {
       validationErrors,
       vocabulary,
       vocabularyWorkflowState,
+      checkDeletable,
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -554,6 +556,7 @@ export default class RecordEditor extends Component {
     );
 
     const isDeletable = (
+      (checkDeletable ? checkDeletable(data) : true) &&
       !!csid &&
       !immutable &&
       !vocabularyLocked &&

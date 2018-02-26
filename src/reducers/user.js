@@ -67,4 +67,5 @@ export default (state = Immutable.Map(), action) => {
 
 export const getUsername = state => state.get('username');
 export const getScreenName = state => state.getIn(['account', 'screenName']);
+export const getUserId = state => state.getIn(['account', 'userId']);
 export const getPerms = state => state.get('perms');

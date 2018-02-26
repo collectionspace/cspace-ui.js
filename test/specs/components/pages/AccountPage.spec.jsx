@@ -605,4 +605,36 @@ describe('AccountPage', function suite() {
       }, 600);
     });
   });
+
+  it('should not show a record editor delete button if the open record is the currently logged in user', function test() {
+    const csid = '1234';
+    const userId = 'user@collectionspace.org';
+
+    const recordData = Immutable.fromJS({
+      'ns2:accounts_common': {
+        userId,
+      },
+    });
+
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {
+        csid,
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <AccountPage location={location} match={match} userId={userId} />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditorContainer);
+
+    recordEditor.should.not.equal(null);
+    recordEditor.props.checkDeletable(recordData).should.equal(false);
+  });
 });

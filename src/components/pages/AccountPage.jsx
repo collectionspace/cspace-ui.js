@@ -19,6 +19,7 @@ const propTypes = {
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
+  userId: PropTypes.string,
   setAdminTab: PropTypes.func,
 };
 
@@ -43,6 +44,7 @@ export default class AccountPage extends Component {
   constructor() {
     super();
 
+    this.checkRecordDeletable = this.checkRecordDeletable.bind(this);
     this.cloneRecord = this.cloneRecord.bind(this);
     this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
@@ -66,6 +68,16 @@ export default class AccountPage extends Component {
     if (setAdminTab) {
       setAdminTab(recordType);
     }
+  }
+
+  checkRecordDeletable(data) {
+    const {
+      userId,
+    } = this.props;
+
+    const recordUserId = data.getIn(['ns2:accounts_common', 'userId']);
+
+    return (userId !== recordUserId);
   }
 
   cloneRecord() {
@@ -254,6 +266,7 @@ export default class AccountPage extends Component {
           onRecordCreated={this.handleRecordCreated}
           onRecordDeleted={this.handleRecordDeleted}
           onRecordSaved={this.handleRecordSaved}
+          checkDeletable={this.checkRecordDeletable}
           clone={this.cloneRecord}
         />
       );
