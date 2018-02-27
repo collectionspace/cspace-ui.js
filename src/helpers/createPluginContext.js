@@ -8,6 +8,7 @@ import { getDisplayName } from 'cspace-refname';
 
 import DateInputContainer from '../containers/input/DateInputContainer';
 import DateTimeInputContainer from '../containers/input/DateTimeInputContainer';
+import HierarchyInputContainer from '../containers/record/HierarchyInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
 import OptionPickerInputContainer from '../containers/input/OptionPickerInputContainer';
 import UploadInputContainer from '../containers/input/UploadInputContainer';
@@ -20,7 +21,6 @@ import WorkflowStateInput from '../components/record/WorkflowStateInput';
 
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
-import BaseHierarchyInput from '../components/record/HierarchyInput';
 import InputTable from '../components/record/InputTable';
 import Subrecord from '../components/record/Subrecord';
 import URLInput from '../components/record/URLInput';
@@ -63,7 +63,7 @@ const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputCon
 const CheckboxInput = withBooleanValue(BaseCheckboxInput);
 const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;
-const HierarchyInput = withCsid(BaseHierarchyInput);
+const HierarchyInput = withCsid(HierarchyInputContainer);
 const IDGeneratorInput = IDGeneratorInputContainer;
 const OptionPickerInput = OptionPickerInputContainer;
 const PermissionsInput = labelable(PermissionsInputContainer);

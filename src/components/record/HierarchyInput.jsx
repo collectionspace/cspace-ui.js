@@ -73,6 +73,7 @@ const propTypes = {
   subpath: pathPropType,
   readOnly: PropTypes.bool,
   /* eslint-enable react/no-unused-prop-types */
+  isRecordModified: PropTypes.bool,
   showParent: PropTypes.bool,
   showChildren: PropTypes.bool,
   showSiblings: PropTypes.bool,
@@ -247,6 +248,7 @@ export default class HierarchyInput extends Component {
       messages,
       parentTypeOptionListName,
       childTypeOptionListName,
+      isRecordModified,
       readOnly,
       showParent,
       showChildren,
@@ -282,6 +284,7 @@ export default class HierarchyInput extends Component {
         vocabulary={vocabulary}
         value={hierarchy}
         readOnly={readOnly}
+        isRecordModified={isRecordModified}
         showParent={showParent}
         showChildren={showChildren}
         onCommit={this.handleCommit}

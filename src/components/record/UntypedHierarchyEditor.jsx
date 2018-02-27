@@ -17,6 +17,7 @@ const propTypes = {
   vocabulary: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
+  isRecordModified: PropTypes.bool,
   showParent: PropTypes.bool,
   showChildren: PropTypes.bool,
   onCommit: PropTypes.func,
@@ -99,6 +100,7 @@ export class BaseUntypedHierarchyEditor extends Component {
       vocabulary,
       value,
       readOnly,
+      isRecordModified,
       showParent,
     } = this.props;
 
@@ -116,6 +118,7 @@ export class BaseUntypedHierarchyEditor extends Component {
         value={parentRefName}
         readOnly={readOnly}
         showQuickAddCloneOption
+        quickAddCloneOptionDisabled={isRecordModified}
         onCommit={this.handleParentCommit}
         matchFilter={this.filterMatch}
       />
@@ -130,6 +133,7 @@ export class BaseUntypedHierarchyEditor extends Component {
       vocabulary,
       value,
       readOnly,
+      isRecordModified,
       showChildren,
     } = this.props;
 
@@ -154,6 +158,7 @@ export class BaseUntypedHierarchyEditor extends Component {
           reorderable={false}
           source={source}
           showQuickAddCloneOption
+          quickAddCloneOptionDisabled={isRecordModified}
           matchFilter={this.filterMatch}
           onCommit={this.handleChildCommit}
           onAddInstance={this.handleAddChild}
