@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import Header from '../sections/Header';
 import Footer from '../sections/Footer';
@@ -21,6 +22,10 @@ const propTypes = {
 
 const defaultProps = {
   decorated: true,
+};
+
+const contextTypes = {
+  intl: intlShape,
 };
 
 export default class ProtectedPage extends Component {
@@ -59,11 +64,15 @@ export default class ProtectedPage extends Component {
       closeModal,
     } = this.props;
 
+    const {
+      intl,
+    } = this.context;
+
     const header = decorated
       ? <Header history={history} perms={perms} screenName={screenName || username} />
       : null;
 
-    const footer = decorated ? <Footer /> : null;
+    const footer = decorated ? <Footer intl={intl} /> : null;
 
     return (
       <div>
@@ -83,3 +92,4 @@ export default class ProtectedPage extends Component {
 
 ProtectedPage.propTypes = propTypes;
 ProtectedPage.defaultProps = defaultProps;
+ProtectedPage.contextTypes = contextTypes;

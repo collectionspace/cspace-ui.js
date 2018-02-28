@@ -2,7 +2,7 @@
 /* The cspaceUI global variable is set by webpack (in non-test builds). See webpack.config.js. */
 
 import React from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/Footer.css';
 
 const messages = defineMessages({
@@ -18,6 +18,10 @@ const messages = defineMessages({
     id: 'footer.feedback',
     defaultMessage: 'Leave Feedback',
   },
+  feedbackUrl: {
+    id: 'footer.feedbackUrl',
+    defaultMessage: 'http://www.collectionspace.org/contact',
+  },
   release: {
     id: 'footer.release',
     defaultMessage: 'Release {version}',
@@ -28,7 +32,15 @@ const messages = defineMessages({
   },
 });
 
-export default function Footer() {
+const propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default function Footer(props) {
+  const {
+    intl,
+  } = props;
+
   const thisYear = (new Date()).getFullYear().toString();
 
   return (
@@ -43,13 +55,15 @@ export default function Footer() {
             }}
           />
         </li>
+
         <li>
           <a href="http://www.collectionspace.org">
             <FormattedMessage {...messages.about} />
           </a>
         </li>
+
         <li>
-          <a href="http://www.collectionspace.org/contact">
+          <a href={intl.formatMessage(messages.feedbackUrl)}>
             <FormattedMessage {...messages.feedback} />
           </a>
         </li>
@@ -61,6 +75,7 @@ export default function Footer() {
             <FormattedMessage {...messages.release} values={{ version: '5.0' }} />
           </a>
         </li>
+
         <li>
           <FormattedMessage
             {...messages.uiInfo}
@@ -74,3 +89,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+Footer.propTypes = propTypes;
