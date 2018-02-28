@@ -200,7 +200,43 @@ describe('AdvancedSearchBuilder', function suite() {
       .equal(Immutable.fromJS(config.recordTypes.collectionobject.advancedSearch));
   });
 
-  it('should merge the passed condition into the default condition for the record type', function test() {
+  it('should set the top-level op to the preferred boolean op if it is a different boolean op', function test() {
+    let committedCondition = null;
+
+    const handleConditionCommit = (conditionArg) => {
+      committedCondition = conditionArg;
+    };
+
+    const condition = Immutable.fromJS({
+      op: OP_AND,
+      value: [
+        {
+          op: OP_EQ,
+          path: 'ns2:collectionobjects_common/objectNumber',
+          value: 'hello',
+        },
+      ],
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <StoreProvider store={store}>
+            <AdvancedSearchBuilder
+              condition={condition}
+              config={config}
+              recordType="collectionobject"
+              preferredBooleanOp={OP_OR}
+              onConditionCommit={handleConditionCommit}
+            />
+          </StoreProvider>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    committedCondition.get('op').should.equal(OP_OR);
+  });
+
+  it('should merge the condition into the default condition for the record type', function test() {
     let committedCondition = null;
 
     const handleConditionCommit = (conditionArg) => {
@@ -253,7 +289,7 @@ describe('AdvancedSearchBuilder', function suite() {
       }));
   });
 
-  it('should merge a non-boolean passed condition into the child conditions of the default condition', function test() {
+  it('should merge a non-boolean condition into the child conditions of the default condition, and set the top-level op to the preferred boolean op', function test() {
     let committedCondition = null;
 
     const handleConditionCommit = (conditionArg) => {
@@ -274,6 +310,7 @@ describe('AdvancedSearchBuilder', function suite() {
               condition={condition}
               config={config}
               recordType="collectionobject"
+              preferredBooleanOp={OP_AND}
               onConditionCommit={handleConditionCommit}
             />
           </StoreProvider>
@@ -282,7 +319,7 @@ describe('AdvancedSearchBuilder', function suite() {
 
     committedCondition.should
       .equal(Immutable.fromJS({
-        op: OP_OR,
+        op: OP_AND,
         value: [
           {
             op: OP_EQ,

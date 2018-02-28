@@ -107,6 +107,9 @@ export const getRelatedRecordBrowserRelatedCsid = (state, recordType) =>
 
 export const getPrefs = state => state.prefs;
 
+export const getAdvancedSearchBooleanOp = state =>
+  fromPrefs.getAdvancedSearchBooleanOp(state.prefs);
+
 export const isPanelCollapsed = (state, recordType, name) =>
   fromPrefs.isPanelCollapsed(state.prefs, recordType, name);
 

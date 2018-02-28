@@ -24,6 +24,7 @@ const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
   config: PropTypes.object,
   inline: PropTypes.bool,
+  preferredBooleanOp: PropTypes.string,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
   onConditionCommit: PropTypes.func,
@@ -56,6 +57,7 @@ export default class AdvancedSearchBuilder extends Component {
     const {
       condition,
       config,
+      preferredBooleanOp,
       recordType,
       onConditionCommit,
     } = this.props;
@@ -75,24 +77,31 @@ export default class AdvancedSearchBuilder extends Component {
     // default, so that fields aren't unrecoverable after normalization.
 
     if (onConditionCommit) {
-      const defaultCondition = Immutable.fromJS(get(config, ['recordTypes', recordType, 'advancedSearch']));
+      const defaultCondition = Immutable.fromJS(
+        get(config, ['recordTypes', recordType, 'advancedSearch']));
 
-      if (defaultCondition && condition) {
+      const op = condition && condition.get('op');
+
+      if (preferredBooleanOp && (op === OP_AND || op === OP_OR) && (op !== preferredBooleanOp)) {
+        onConditionCommit(condition.set('op', preferredBooleanOp));
+      } else if (defaultCondition && condition) {
         if (
-          condition.get('op') !== defaultCondition.get('op') ||
+          op !== defaultCondition.get('op') ||
           !Immutable.List.isList(condition.get('value')) ||
           condition.get('value').size !== defaultCondition.get('value').size
         ) {
           let mergedCondition = defaultCondition;
           let clauses;
 
-          const op = condition.get('op');
-
           if (op === OP_AND || op === OP_OR) {
             mergedCondition = mergedCondition.set('op', op);
 
             clauses = condition.get('value');
           } else {
+            if (preferredBooleanOp) {
+              mergedCondition = mergedCondition.set('op', preferredBooleanOp);
+            }
+
             clauses = Immutable.List([condition]);
           }
 
@@ -123,7 +132,11 @@ export default class AdvancedSearchBuilder extends Component {
           }
         }
       } else {
-        onConditionCommit(defaultCondition);
+        onConditionCommit(
+          preferredBooleanOp
+            ? defaultCondition.set('op', preferredBooleanOp)
+            : defaultCondition
+        );
       }
     }
   }

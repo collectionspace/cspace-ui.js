@@ -1,17 +1,17 @@
 export default (pluginContext) => {
   const {
     OP_EQ,
-    OP_OR,
     OP_CONTAIN,
     OP_RANGE,
   } = pluginContext.searchOperators;
 
   const {
+    defaultAdvancedSearchBooleanOp,
     extensions,
   } = pluginContext.config;
 
   return {
-    op: OP_OR,
+    op: defaultAdvancedSearchBooleanOp,
     value: [
       {
         op: OP_CONTAIN,

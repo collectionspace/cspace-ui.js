@@ -47,6 +47,7 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.object,
+  preferredAdvancedSearchBooleanOp: PropTypes.string,
   recordTypeInputReadOnly: PropTypes.bool,
   recordTypeInputRootType: PropTypes.string,
   recordTypeInputServiceTypes: PropTypes.arrayOf(PropTypes.string),
@@ -192,6 +193,7 @@ export default class SearchForm extends Component {
       config,
       intl,
       keywordValue,
+      preferredAdvancedSearchBooleanOp,
       recordTypeValue,
       recordTypeInputReadOnly,
       recordTypeInputRootType,
@@ -250,6 +252,7 @@ export default class SearchForm extends Component {
           <AdvancedSearchBuilder
             condition={advancedSearchCondition}
             config={config}
+            preferredBooleanOp={preferredAdvancedSearchBooleanOp}
             recordType={recordTypeValue}
             onConditionCommit={onAdvancedSearchConditionCommit}
           />

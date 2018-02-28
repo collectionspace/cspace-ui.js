@@ -17,8 +17,17 @@ import {
   SET_UPLOAD_TYPE,
 } from '../../../src/actions/prefs';
 
+import {
+  SET_SEARCH_PAGE_ADVANCED,
+} from '../../../src/actions/searchPage';
+
+import {
+  SET_SEARCH_TO_RELATE_ADVANCED,
+} from '../../../src/actions/searchToRelate';
+
 import reducer, {
   getAdminTab,
+  getAdvancedSearchBooleanOp,
   getForm,
   getRecordBrowserNavBarItems,
   getSearchPageRecordType,
@@ -122,6 +131,40 @@ describe('prefs reducer', function suite() {
     }));
 
     getRecordBrowserNavBarItems(state, recordType).should.equal(navBarItems);
+  });
+
+  it('should handle SET_SEARCH_PAGE_ADVANCED', function test() {
+    const op = 'and';
+
+    const state = reducer(Immutable.Map(), {
+      type: SET_SEARCH_PAGE_ADVANCED,
+      payload: Immutable.fromJS({
+        op,
+      }),
+    });
+
+    state.should.equal(Immutable.fromJS({
+      advancedSearchBooleanOp: op,
+    }));
+
+    getAdvancedSearchBooleanOp(state).should.equal(op);
+  });
+
+  it('should handle SET_SEARCH_TO_RELATE_ADVANCED', function test() {
+    const op = 'and';
+
+    const state = reducer(Immutable.Map(), {
+      type: SET_SEARCH_TO_RELATE_ADVANCED,
+      payload: Immutable.fromJS({
+        op,
+      }),
+    });
+
+    state.should.equal(Immutable.fromJS({
+      advancedSearchBooleanOp: op,
+    }));
+
+    getAdvancedSearchBooleanOp(state).should.equal(op);
   });
 
   it('should handle SET_SEARCH_PAGE_RECORD_TYPE', function test() {

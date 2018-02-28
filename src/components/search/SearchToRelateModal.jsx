@@ -67,6 +67,7 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.object,
+  preferredAdvancedSearchBooleanOp: PropTypes.string,
   preferredPageSize: PropTypes.number,
   perms: PropTypes.instanceOf(Immutable.Map),
   selectedItems: PropTypes.instanceOf(Immutable.Map),
@@ -502,6 +503,7 @@ export class BaseSearchToRelateModal extends Component {
       recordTypeValue,
       vocabularyValue,
       perms,
+      preferredAdvancedSearchBooleanOp,
       advancedSearchCondition,
       onAdvancedSearchConditionCommit,
       onKeywordCommit,
@@ -531,6 +533,7 @@ export class BaseSearchToRelateModal extends Component {
         keywordValue={keywordValue}
         advancedSearchCondition={advancedSearchCondition}
         perms={perms}
+        preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
         recordTypeInputReadOnly={recordTypeInputReadOnly}
         recordTypeInputRootType={recordTypeInputRootType}
         recordTypeInputServiceTypes={allowedServiceTypes}

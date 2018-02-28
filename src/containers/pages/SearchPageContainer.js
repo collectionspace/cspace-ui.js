@@ -14,6 +14,7 @@ import {
 } from '../../actions/prefs';
 
 import {
+  getAdvancedSearchBooleanOp,
   getSearchPageAdvanced,
   getSearchPageKeyword,
   getSearchPageRecordType,
@@ -30,6 +31,7 @@ const mapStateToProps = (state) => {
     vocabularyValue: getSearchPageVocabulary(state, recordType),
     advancedSearchCondition: getSearchPageAdvanced(state),
     perms: getUserPerms(state),
+    preferredAdvancedSearchBooleanOp: getAdvancedSearchBooleanOp(state),
   };
 };
 

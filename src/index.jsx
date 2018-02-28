@@ -13,6 +13,7 @@ import { configureCSpace } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
 import { addOptionLists } from './actions/optionList';
 import { savePrefs } from './actions/prefs';
+import { OP_OR } from './constants/searchOperators';
 import defaultPlugins from './plugins';
 import reducer from './reducers';
 import AppContainer from './containers/AppContainer';
@@ -27,6 +28,7 @@ const defaultConfig = mergeConfig({
   basename: '',
   className: '',
   container: '#cspace',
+  defaultAdvancedSearchBooleanOp: OP_OR,
   index: '/search',
   locale: 'en-US',
   logo: logoUrl,

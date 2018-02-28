@@ -25,6 +25,7 @@ import {
 } from '../../actions/search';
 
 import {
+  getAdvancedSearchBooleanOp,
   getSearchToRelateAdvanced,
   getSearchToRelateKeyword,
   getSearchToRelateRecordType,
@@ -43,6 +44,7 @@ const mapStateToProps = (state) => {
     vocabularyValue: getSearchToRelateVocabulary(state, recordType),
     advancedSearchCondition: getSearchToRelateAdvanced(state),
     perms: getUserPerms(state),
+    preferredAdvancedSearchBooleanOp: getAdvancedSearchBooleanOp(state),
     preferredPageSize: getSearchToRelatePageSize(state),
     selectedItems: getSearchSelectedItems(state, searchName),
   };

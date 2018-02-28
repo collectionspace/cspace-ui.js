@@ -16,6 +16,25 @@ import {
   SET_UPLOAD_TYPE,
 } from '../actions/prefs';
 
+import {
+  SET_SEARCH_PAGE_ADVANCED,
+} from '../actions/searchPage';
+
+import {
+  SET_SEARCH_TO_RELATE_ADVANCED,
+} from '../actions/searchToRelate';
+
+import {
+  OP_AND,
+  OP_OR,
+} from '../constants/searchOperators';
+
+const handleAdvancedSearchConditionChange = (state, action) => {
+  const op = action.payload.get('op');
+
+  return ((op === OP_AND || op === OP_OR) ? state.set('advancedSearchBooleanOp', op) : state);
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case PREFS_LOADED:
@@ -56,10 +75,16 @@ export default (state = Immutable.Map(), action) => {
       return state.setIn(['form', action.meta.recordType], action.payload);
     case SET_UPLOAD_TYPE:
       return state.set('uploadType', action.payload);
+    case SET_SEARCH_PAGE_ADVANCED:
+    case SET_SEARCH_TO_RELATE_ADVANCED:
+      return handleAdvancedSearchConditionChange(state, action);
     default:
       return state;
   }
 };
+
+export const getAdvancedSearchBooleanOp = state =>
+  state.get('advancedSearchBooleanOp');
 
 export const getSearchPageRecordType = state =>
   state.getIn(['searchPage', 'recordType']);
