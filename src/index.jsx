@@ -30,6 +30,7 @@ const defaultConfig = mergeConfig({
   index: '/search',
   locale: 'en-US',
   logo: logoUrl,
+  mediaSnapshotSort: 'title',
   messages: undefined,
   prettyUrls: false,
   serverUrl: '',

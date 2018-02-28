@@ -13,14 +13,13 @@ const messages = defineMessages({
   },
 });
 
-// TODO: Make sort param configurable.
-
 const getSearchDescriptor = (props) => {
   const {
     csid,
     recordData,
     recordRelationUpdatedTimestamp,
     recordType,
+    sort,
   } = props;
 
   // Update the media snapshot when relations have changed.
@@ -41,10 +40,10 @@ const getSearchDescriptor = (props) => {
   return Immutable.fromJS({
     recordType: 'media',
     searchQuery: {
+      sort,
       rel: csid,
       p: 0,
       size: 2500,
-      sort: 'title',
     },
     seqID: updatedTimestamp,
   });
@@ -56,11 +55,16 @@ const propTypes = {
   csid: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
-  // This use isn't detected by eslint.
+  // These uses aren't detected by eslint.
   /* eslint-disable react/no-unused-prop-types */
+  sort: PropTypes.string,
   recordRelationUpdatedTimestamp: PropTypes.string,
   /* eslint-enable react/no-unused-prop-types */
   recordType: PropTypes.string,
+};
+
+const defaultProps = {
+  sort: 'title',
 };
 
 export default function MediaSnapshotPanel(props) {
@@ -95,7 +99,6 @@ export default function MediaSnapshotPanel(props) {
     <MediaViewerPanelContainer
       collapsed
       color={color}
-      columnSetName="narrow"
       config={config}
       csid={csid}
       name="mediaSnapshotPanel"
@@ -108,3 +111,4 @@ export default function MediaSnapshotPanel(props) {
 }
 
 MediaSnapshotPanel.propTypes = propTypes;
+MediaSnapshotPanel.defaultProps = defaultProps;

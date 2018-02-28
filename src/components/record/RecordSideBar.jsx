@@ -54,6 +54,7 @@ export default function RecordSideBar(props) {
         csid={csid}
         config={config}
         recordType={recordType}
+        sort={config.mediaSnapshotSort}
       />
     );
 
