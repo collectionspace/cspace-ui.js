@@ -39,11 +39,16 @@ export default class ConfigPage extends Component {
 
   render() {
     return (
-      <p>
-        <a href={this.state.url} download="cspace-ui-config.json">
-          Save configuration
-        </a>
-      </p>
+      <div>
+        <p>
+          UI configuration has been printed to the console.
+        </p>
+        <p>
+          <a href={this.state.url} download="cspace-ui-config.json">
+            Save configuration as JSON
+          </a>
+        </p>
+      </div>
     );
   }
 }

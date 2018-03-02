@@ -25,6 +25,7 @@ const defaultProps = {
 };
 
 const contextTypes = {
+  config: PropTypes.object,
   intl: intlShape,
 };
 
@@ -65,6 +66,7 @@ export default class ProtectedPage extends Component {
     } = this.props;
 
     const {
+      config,
       intl,
     } = this.context;
 
@@ -72,7 +74,7 @@ export default class ProtectedPage extends Component {
       ? <Header history={history} perms={perms} screenName={screenName || username} />
       : null;
 
-    const footer = decorated ? <Footer intl={intl} /> : null;
+    const footer = decorated ? <Footer config={config} intl={intl} /> : null;
 
     return (
       <div>

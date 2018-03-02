@@ -32,7 +32,7 @@ export default function PublicPage(props, context) {
 
       {children}
 
-      <Footer intl={intl} />
+      <Footer config={config} intl={intl} />
     </div>
   );
 }

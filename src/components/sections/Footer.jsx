@@ -2,6 +2,7 @@
 /* The cspaceUI global variable is set by webpack (in non-test builds). See webpack.config.js. */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/Footer.css';
 
@@ -26,18 +27,54 @@ const messages = defineMessages({
     id: 'footer.release',
     defaultMessage: 'Release {version}',
   },
-  uiInfo: {
-    id: 'footer.uiInfo',
+  appName: {
+    id: 'footer.appName',
+    description: 'The name of the application, displayed in the footer.',
+    defaultMessage: 'UI',
+  },
+  version: {
+    id: 'footer.version',
     defaultMessage: '{name} version {version}',
   },
 });
 
 const propTypes = {
+  config: PropTypes.object,
   intl: intlShape.isRequired,
+};
+
+const renderPluginInfo = (config, intl) => {
+  const {
+    pluginInfo,
+  } = config;
+
+  if (!pluginInfo) {
+    return null;
+  }
+
+  return Object.keys(pluginInfo).map((name) => {
+    const {
+      messages: pluginMessages,
+      version,
+    } = pluginInfo[name];
+
+    return (
+      <li key={name}>
+        <FormattedMessage
+          {...messages.version}
+          values={{
+            version,
+            name: intl.formatMessage(pluginMessages.name),
+          }}
+        />
+      </li>
+    );
+  });
 };
 
 export default function Footer(props) {
   const {
+    config,
     intl,
   } = props;
 
@@ -78,13 +115,15 @@ export default function Footer(props) {
 
         <li>
           <FormattedMessage
-            {...messages.uiInfo}
-            values={typeof cspaceUI !== 'undefined' && {
-              name: cspaceUI.packageName,
-              version: cspaceUI.packageVersion,
+            {...messages.version}
+            values={{
+              name: intl.formatMessage(messages.appName),
+              version: (typeof cspaceUI === 'undefined') ? '' : cspaceUI.packageVersion,
             }}
           />
         </li>
+
+        {renderPluginInfo(config, intl)}
       </ul>
     </footer>
   );
