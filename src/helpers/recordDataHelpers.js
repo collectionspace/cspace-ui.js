@@ -353,13 +353,14 @@ export const attributePropertiesToTop = (propertyNameA, propertyNameB) => {
  * that any missing namespace attributes get filled in.
  */
 export const setXmlNamespaceAttribute = (partData, partName, partDescriptor) => {
+  const nsUri = get(partDescriptor, [configKey, 'service', 'ns']);
   const [prefix] = partName.split(':', 1);
 
-  if (prefix && !partData.get(`@xmlns:${prefix}`)) {
-    const nsUri = get(partDescriptor, [configKey, 'service', 'ns']);
+  if (prefix && nsUri) {
+    const data = Immutable.Map.isMap(partData) ? partData : Immutable.Map();
 
-    if (nsUri) {
-      return partData.set(`@xmlns:${prefix}`, nsUri);
+    if (!data.get(`@xmlns:${prefix}`)) {
+      return data.set(`@xmlns:${prefix}`, nsUri);
     }
   }
 
@@ -407,13 +408,16 @@ export const prepareForSending = (data, recordTypeConfig) => {
   // For each part, ensure XML namespace declaration properties are set, and move XML attribute and
   // namespace declaration properties to the top.
 
-  for (const key of cspaceDocument.keys()) {
-    if (key.charAt(0) !== '@') {
-      let part = cspaceDocument.get(key);
+  if (documentName === 'document') {
+    for (const key of cspaceDocument.keys()) {
+      if (key.charAt(0) !== '@') {
+        let part = cspaceDocument.get(key);
 
-      if (Immutable.Map.isMap(part)) {
         part = setXmlNamespaceAttribute(part, key, get(recordTypeConfig, ['fields', documentName, key]));
-        part = part.sortBy((value, name) => name, attributePropertiesToTop);
+
+        if (Immutable.Map.isMap(part)) {
+          part = part.sortBy((value, name) => name, attributePropertiesToTop);
+        }
 
         cspaceDocument = cspaceDocument.set(key, part);
       }
