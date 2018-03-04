@@ -280,6 +280,7 @@ describe('PermissionsInput', function suite() {
     committedValue.should.equal(Immutable.fromJS([
       { resourceName: 'collectionobjects', actionGroup: 'RL' },
       { resourceName: '/collectionobjects/*/workflow/delete', actionGroup: 'RL' },
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
     ]));
   });
 
@@ -310,6 +311,7 @@ describe('PermissionsInput', function suite() {
       { resourceName: 'personauthorities', actionGroup: 'CRUL' },
       { resourceName: '/personauthorities/*/workflow/delete', actionGroup: 'RL' },
       { resourceName: 'persons', actionGroup: 'CRUL' },
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
     ]));
   });
 
@@ -339,6 +341,7 @@ describe('PermissionsInput', function suite() {
     committedValue.should.equal(Immutable.fromJS([
       { resourceName: 'authorization/roles', actionGroup: 'CRUL' },
       { resourceName: 'authorization/permissions', actionGroup: 'RL' },
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
     ]));
   });
 
@@ -371,6 +374,8 @@ describe('PermissionsInput', function suite() {
 
     Simulate.change(input);
 
-    committedValue.should.equal(Immutable.fromJS([]));
+    committedValue.should.equal(Immutable.fromJS([
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
+    ]));
   });
 });

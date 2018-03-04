@@ -210,6 +210,10 @@ export default class PermissionsInput extends Component {
         update[permissionsResourceName] = actionGroup && actionGroup.includes('R') ? 'RL' : '';
       }
 
+      // Always allow read and list on servicegroups.
+
+      update.servicegroups = 'RL';
+
       const updatedPerms = this.updatePerms(update);
 
       onCommit(getPath(this.props), updatedPerms);
