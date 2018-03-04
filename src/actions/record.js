@@ -96,7 +96,7 @@ const saveMessages = defineMessages({
   },
   errorSaving: {
     id: 'action.record.errorSaving',
-    description: 'Notification message displayed when a record save fails.',
+    description: 'Notification message displayed when a record save fails and there is no more specific message.',
     defaultMessage: `{hasTitle, select,
       yes {Error saving {title}: {error}}
       other {Error saving record: {error}}
@@ -109,6 +109,11 @@ const saveMessages = defineMessages({
       yes {Saved {title}}
       other {Saved record}
     }`,
+  },
+  errorDupRoleName: {
+    id: 'action.record.errorDupRoleName',
+    description: 'Notification message displayed when a role save fails because of a duplicate name.',
+    defaultMessage: 'Error saving {title}: A role already exists with this name. Please choose a different name.',
   },
 });
 
@@ -196,6 +201,31 @@ export const REVERT_RECORD = 'REVERT_RECORD';
 export const VALIDATION_FAILED = 'VALIDATION_FAILED';
 export const VALIDATION_PASSED = 'VALIDATION_PASSED';
 export const DETACH_SUBRECORD = 'DETACH_SUBRECORD';
+
+const getSaveErrorNotificationItem = (error, title) => {
+  const data = get(error, ['error', 'response', 'data']);
+
+  if (
+    typeof data === 'string' &&
+    data.includes('unique constraint "roles_rolename_tenant_id_key"')
+  ) {
+    return {
+      message: saveMessages.errorDupRoleName,
+      values: {
+        title,
+      },
+    };
+  }
+
+  return {
+    message: saveMessages.errorSaving,
+    values: {
+      title,
+      hasTitle: title ? 'yes' : '',
+      error: getErrorDescription(error),
+    },
+  };
+};
 
 export const computeFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
@@ -855,16 +885,11 @@ export const saveRecord =
               }));
           })
           .catch((error) => {
+            const notificationItem = getSaveErrorNotificationItem(error, title);
+
             if (showNotifications) {
               dispatch(showNotification({
-                items: [{
-                  message: saveMessages.errorSaving,
-                  values: {
-                    title,
-                    hasTitle: title ? 'yes' : '',
-                    error: getErrorDescription(error),
-                  },
-                }],
+                items: [notificationItem],
                 date: new Date(),
                 status: STATUS_ERROR,
               }, notificationID));

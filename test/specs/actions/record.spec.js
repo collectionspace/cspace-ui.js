@@ -2483,6 +2483,100 @@ describe('record action creator', function suite() {
           });
       });
     });
+
+    context('for a role', function contextSuite() {
+      const mockStore = configureMockStore([thunk]);
+      const recordType = 'authrole';
+      const servicePath = 'authorization/roles';
+      const saveNewRecordUrl = `/cspace-services/${servicePath}`;
+
+      const config = {};
+
+      const recordTypeConfig = {
+        name: recordType,
+        serviceConfig: {
+          servicePath,
+          serviceType: 'security',
+        },
+        title: () => '',
+      };
+
+      before(() => {
+        const store = mockStore({
+          user: Immutable.Map(),
+        });
+
+        return store.dispatch(configureCSpace());
+      });
+
+      beforeEach(() => {
+        moxios.install();
+      });
+
+      afterEach(() => {
+        moxios.uninstall();
+      });
+
+      it('should show a specific notification message for a duplicate role name error during a create', function test() {
+        moxios.stubRequest(saveNewRecordUrl, {
+          status: 400,
+          response: 'ERROR: duplicate key value violates unique constraint "roles_rolename_tenant_id_key"',
+        });
+
+        const store = mockStore({
+          record: Immutable.fromJS({
+            '': {
+              data: {
+                current: {
+                  document: {
+                    'n2:role': {
+                      displayName: 'Test',
+                      roleName: 'TEST',
+                    },
+                  },
+                },
+              },
+            },
+          }),
+        });
+
+        return store.dispatch(saveRecord(config, recordTypeConfig, undefined, ''))
+          .catch(() => {
+            const actions = store.getActions();
+
+            actions.should.have.lengthOf(6);
+
+            actions[0].should.deep.equal({
+              type: 'VALIDATION_PASSED',
+              meta: {
+                csid: '',
+                path: [],
+              },
+            });
+
+            actions[1].should.deep.equal({
+              type: REMOVE_NOTIFICATION,
+              meta: {
+                notificationID: NOTIFICATION_ID_VALIDATION,
+              },
+            });
+
+            actions[2].should.deep.equal({
+              type: RECORD_SAVE_STARTED,
+              meta: {
+                csid: '',
+              },
+            });
+
+            actions[3].should.have.property('type', SHOW_NOTIFICATION);
+            actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
+
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].should.have.property('type', SHOW_NOTIFICATION);
+            actions[4].payload.items[0].message.id.should.equal('action.record.errorDupRoleName');
+          });
+      });
+    });
   });
 
   describe('revertRecord', function actionSuite() {
