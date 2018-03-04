@@ -10,6 +10,10 @@
   padding-right: 1px;
 }
 
+.common > div:nth-child(2) {
+  flex: 1;
+}
+
 .common :global(.cspace-ui-RecordEditor--common) {
   padding-right: 0;
 }
