@@ -20,7 +20,15 @@ const template = (pluginContext) => {
         <Col>
           <Field name="displayName" />
           <Field name="description" />
+
+          {/*
+            * Add a hidden text input to prevent enter from submitting the form. Otherwise there
+            * would only be one text input, and forms with only one text input automatically
+            * submit when enter is pressed in that input.
+            */}
+          <input type="text" style={{ display: 'none' }} />
         </Col>
+
         <Field name="permission" />
       </Row>
     </Field>
