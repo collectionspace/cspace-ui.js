@@ -7,6 +7,10 @@ import {
 } from '../actions/logout';
 
 import {
+  RECORD_SAVE_FULFILLED,
+} from '../actions/record';
+
+import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
@@ -24,6 +28,18 @@ const handleLoginFulfilled = (state, action) => {
     // The logged in user has changed. Remove all vocabulary state, because the new user may not be
     // permitted to read vocabularies.
 
+    return clearAll(state);
+  }
+
+  return state;
+};
+
+const handleRecordSaveFulfilled = (state, action) => {
+  const {
+    recordTypeConfig,
+  } = action.meta;
+
+  if (recordTypeConfig.name === 'vocabulary') {
     return clearAll(state);
   }
 
@@ -51,6 +67,8 @@ export default (state = {}, action) => {
           error: action.payload,
         },
       });
+    case RECORD_SAVE_FULFILLED:
+      return handleRecordSaveFulfilled(state, action);
     case LOGIN_FULFILLED:
       return handleLoginFulfilled(state, action);
     case LOGOUT_FULFILLED:

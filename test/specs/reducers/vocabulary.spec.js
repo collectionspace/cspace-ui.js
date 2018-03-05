@@ -15,6 +15,7 @@ import {
 import reducer, {
   get,
 } from '../../../src/reducers/vocabulary';
+import { RECORD_SAVE_FULFILLED } from '../../../src/actions/record';
 
 chai.should();
 
@@ -101,6 +102,46 @@ describe('vocabulary reducer', function suite() {
 
     get(state, vocabulary).should.deep.equal({
       error,
+    });
+  });
+
+  context('on RECORD_SAVE_FULFILLED', function context() {
+    it('should clear all state if the saved record is a vocabulary', function test() {
+      const initialState = {
+        currency: {},
+        language: {},
+        era: {},
+      };
+
+      const state = reducer(initialState, {
+        type: RECORD_SAVE_FULFILLED,
+        meta: {
+          recordTypeConfig: {
+            name: 'vocabulary',
+          },
+        },
+      });
+
+      state.should.deep.equal({});
+    });
+
+    it('should not change the state if the saved record is not a vocabulary', function test() {
+      const initialState = {
+        currency: {},
+        language: {},
+        era: {},
+      };
+
+      const state = reducer(initialState, {
+        type: RECORD_SAVE_FULFILLED,
+        meta: {
+          recordTypeConfig: {
+            name: 'collectionobject',
+          },
+        },
+      });
+
+      state.should.deep.equal(initialState);
     });
   });
 
