@@ -33,6 +33,7 @@ const onlyDigitsPattern = /^\d+$/;
 const isNotNumeric = string => !onlyDigitsPattern.test(string);
 
 export const configKey = '[config]';
+export const mergeKey = '[merge]';
 
 export const dataPathToFieldDescriptorPath = dataPath =>
   dataPath.filter(isNotNumeric);
@@ -179,6 +180,12 @@ export const applyPlugins = (targetConfig, plugins, pluginContext = {}) => {
     applyPlugin(updatedConfig, plugin, pluginContext), targetConfig);
 };
 
+export const mergeStrategy = {
+  override: srcValue => Object.assign({}, srcValue, {
+    [mergeKey]: 'override',
+  }),
+};
+
 const configMerger = (objValue, srcValue, key) => {
   if (Array.isArray(objValue)) {
     // Don't merge arrays. Just override with the source value.
@@ -193,6 +200,14 @@ const configMerger = (objValue, srcValue, key) => {
   if (React.isValidElement(objValue)) {
     // Don't merge React elements, e.g. in form templates. Just override with the source value.
     return srcValue;
+  }
+
+  if (srcValue && typeof srcValue === 'object' && srcValue[mergeKey] === 'override') {
+    const srcValueCopy = Object.assign({}, srcValue);
+
+    delete srcValueCopy[mergeKey];
+
+    return srcValueCopy;
   }
 
   return undefined;

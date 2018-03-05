@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 
 import {
   configKey,
+  mergeKey,
   dataPathToFieldDescriptorPath,
   findFieldConfigInPart,
   findVocabularyUses,
@@ -14,6 +15,7 @@ import {
   getRequiredMessage,
   initConfig,
   mergeConfig,
+  mergeStrategy,
   applyPlugins,
   applyPlugin,
   evaluatePlugin,
@@ -285,6 +287,61 @@ describe('configHelpers', function moduleSuite() {
         template: sourceTemplate,
       }).should.deep.equal({
         template: sourceTemplate,
+      });
+    });
+
+    it('should overwrite objects in the target with the source value, instead of deeply merging them, when the \'override\' merge strategy is specified', function test() {
+      const sourceObject = {
+        foo: {
+          [mergeKey]: 'override',
+          bar: 3,
+        },
+      };
+
+      const targetObject = {
+        foo: {
+          bar: 1,
+          baz: 2,
+        },
+      };
+
+      mergeConfig({
+        obj: targetObject,
+      }, {
+        obj: sourceObject,
+      }).should.deep.equal({
+        obj: {
+          foo: {
+            bar: 3,
+          },
+        },
+      });
+    });
+
+    it('should overwrite objects in the target with the source value, instead of deeply merging them, when the \'override\' merge strategy is specified using the override function', function test() {
+      const sourceObject = {
+        foo: mergeStrategy.override({
+          bar: 3,
+        }),
+      };
+
+      const targetObject = {
+        foo: {
+          bar: 1,
+          baz: 2,
+        },
+      };
+
+      mergeConfig({
+        obj: targetObject,
+      }, {
+        obj: sourceObject,
+      }).should.deep.equal({
+        obj: {
+          foo: {
+            bar: 3,
+          },
+        },
       });
     });
   });

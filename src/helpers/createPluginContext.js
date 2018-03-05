@@ -34,6 +34,8 @@ import withCsid from '../enhancers/withCsid';
 
 import {
   configKey,
+  mergeKey,
+  mergeStrategy,
 } from '../helpers/configHelpers';
 
 import {
@@ -127,6 +129,8 @@ export default () => ({
   },
   configHelpers: {
     configKey,
+    mergeKey,
+    mergeStrategy,
     defineMessages,
   },
   recordDataHelpers: {
