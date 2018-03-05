@@ -22,6 +22,7 @@ import {
   getFirstColumnName,
   initializeExtensions,
   initializeRecordTypes,
+  finalizeRecordTypes,
   getRecordTypeConfigByServiceDocumentName,
   getRecordTypeConfigByServiceObjectName,
   getRecordTypeNameByServiceObjectName,
@@ -484,37 +485,6 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should delete disabled record types and vocabularies', function test() {
-      const config = {
-        recordTypes: {
-          collectionobject: {
-            disabled: true,
-          },
-          person: {
-            vocabularies: {
-              local: {},
-              ulan: {
-                disabled: true,
-              },
-            },
-          },
-        },
-      };
-
-      initializeRecordTypes(config).should.deep.equal({
-        recordTypes: {
-          person: {
-            name: 'person',
-            vocabularies: {
-              local: {
-                name: 'local',
-              },
-            },
-          },
-        },
-      });
-    });
-
     it('should set the extensionParentConfig field on extension fields', function test() {
       const collectionobjectDocumentConfig = {
         foo: 'bar',
@@ -606,6 +576,36 @@ describe('configHelpers', function moduleSuite() {
                   },
                 },
               },
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe('finalizeRecordTypes', function suite() {
+    it('should delete disabled record types and vocabularies', function test() {
+      const config = {
+        recordTypes: {
+          collectionobject: {
+            disabled: true,
+          },
+          person: {
+            vocabularies: {
+              local: {},
+              ulan: {
+                disabled: true,
+              },
+            },
+          },
+        },
+      };
+
+      finalizeRecordTypes(config).should.deep.equal({
+        recordTypes: {
+          person: {
+            vocabularies: {
+              local: {},
             },
           },
         },

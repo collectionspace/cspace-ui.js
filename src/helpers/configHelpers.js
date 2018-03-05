@@ -95,7 +95,6 @@ export const initializeExtensionFieldParents = (fieldDescriptor) => {
  * Initialize the record type configurations in a configuration object. This function mutates the
  * argument configuration.
  *
- * - Delete any record type or vocabulary that is disabled
  * - Set the name property of each recordTypes entry to its key
  * - Set the name property of each vocabularies entry to its key
  * - Set the parent property of any extension fields
@@ -107,18 +106,44 @@ export const initializeRecordTypes = (config) => {
     Object.keys(recordTypes).forEach((recordTypeName) => {
       const recordType = recordTypes[recordTypeName];
 
+      recordType.name = recordTypeName;
+
+      const { fields, vocabularies } = recordType;
+
+      if (fields) {
+        Object.values(fields).forEach((fieldDescriptor) => {
+          initializeExtensionFieldParents(fieldDescriptor);
+        });
+      }
+
+      if (vocabularies) {
+        Object.keys(vocabularies).forEach((vocabularyName) => {
+          vocabularies[vocabularyName].name = vocabularyName;
+        });
+      }
+    });
+  }
+
+  return config;
+};
+
+/*
+ * Finalize the record type configurations in a configuration object. This function mutates the
+ * argument configuration.
+ *
+ * - Delete any record type or vocabulary that is disabled
+ */
+export const finalizeRecordTypes = (config) => {
+  const { recordTypes } = config;
+
+  if (recordTypes) {
+    Object.keys(recordTypes).forEach((recordTypeName) => {
+      const recordType = recordTypes[recordTypeName];
+
       if (recordType.disabled) {
         delete recordTypes[recordTypeName];
       } else {
-        recordType.name = recordTypeName;
-
-        const { fields, vocabularies } = recordType;
-
-        if (fields) {
-          Object.values(fields).forEach((fieldDescriptor) => {
-            initializeExtensionFieldParents(fieldDescriptor);
-          });
-        }
+        const { vocabularies } = recordType;
 
         if (vocabularies) {
           Object.keys(vocabularies).forEach((vocabularyName) => {
@@ -126,8 +151,6 @@ export const initializeRecordTypes = (config) => {
 
             if (vocabulary.disabled) {
               delete vocabularies[vocabularyName];
-            } else {
-              vocabularies[vocabularyName].name = vocabularyName;
             }
           });
         }
