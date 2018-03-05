@@ -57,7 +57,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'exhibition',
+                source: 'exhibition',
               },
             },
           },

@@ -30,14 +30,11 @@ const columnMessages = defineMessages({
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    idGeneratorName: idGeneratorNameProp,
+    source,
     intl,
   } = ownProps;
 
-  const idGeneratorNames = Array.isArray(idGeneratorNameProp)
-    ? idGeneratorNameProp
-    : idGeneratorNameProp.split(',');
-
+  const idGeneratorNames = Array.isArray(source) ? source : source.split(',');
   const patterns = [];
 
   idGeneratorNames.forEach((idGeneratorName) => {
@@ -85,7 +82,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     /* eslint-disable no-unused-vars */
     config,
     csid,
-    idGeneratorName,
+    source,
     intl,
     recordType,
     /* eslint-enable no-unused-vars */

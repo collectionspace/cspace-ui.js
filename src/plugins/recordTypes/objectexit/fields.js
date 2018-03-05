@@ -60,7 +60,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'objectexit',
+                source: 'objectexit',
               },
             },
           },

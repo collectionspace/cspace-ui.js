@@ -56,7 +56,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'loanin',
+                source: 'loanin',
               },
             },
           },

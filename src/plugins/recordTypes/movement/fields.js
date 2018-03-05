@@ -53,7 +53,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'inventory,location,movement',
+                source: 'inventory,location,movement',
               },
             },
           },

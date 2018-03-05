@@ -59,7 +59,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'accession,archives,library',
+                source: 'accession,archives,library',
               },
             },
           },

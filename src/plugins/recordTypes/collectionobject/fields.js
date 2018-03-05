@@ -108,7 +108,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'accession,intake,loanin',
+                source: 'accession,intake,loanin',
               },
             },
           },

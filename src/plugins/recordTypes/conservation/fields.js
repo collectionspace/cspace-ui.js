@@ -56,7 +56,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'conservation',
+                source: 'conservation',
               },
             },
           },

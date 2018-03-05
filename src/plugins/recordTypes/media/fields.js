@@ -58,7 +58,7 @@ export default (pluginContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                idGeneratorName: 'media',
+                source: 'media',
               },
             },
           },

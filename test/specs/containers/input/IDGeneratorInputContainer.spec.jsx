@@ -65,8 +65,8 @@ describe('IDGeneratorInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        idGeneratorName="accession"
         intl={intl}
+        source="accession"
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -80,13 +80,13 @@ describe('IDGeneratorInputContainer', function suite() {
     }]);
   });
 
-  it('should accept multiple comma separated idGeneratorName values', function test() {
+  it('should accept multiple comma separated source values', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        idGeneratorName="accession,loanin"
         intl={intl}
+        source="accession,loanin"
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -107,13 +107,13 @@ describe('IDGeneratorInputContainer', function suite() {
     ]);
   });
 
-  it('should accept an array of idGeneratorName values', function test() {
+  it('should accept an array of source values', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        idGeneratorName={['accession', 'loanin']}
         intl={intl}
+        source={['accession', 'loanin']}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -139,8 +139,8 @@ describe('IDGeneratorInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        idGeneratorName="accession"
         intl={intl}
+        source="accession"
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -153,8 +153,8 @@ describe('IDGeneratorInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        idGeneratorName="accession"
         intl={intl}
+        source="accession"
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -167,8 +167,8 @@ describe('IDGeneratorInputContainer', function suite() {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        idGeneratorName="accession"
         intl={intl}
+        source="accession"
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -201,7 +201,7 @@ describe('IDGeneratorInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         csid={csid}
-        idGeneratorName={idGeneratorName}
+        source={idGeneratorName}
         intl={intl}
       />, context);
 
