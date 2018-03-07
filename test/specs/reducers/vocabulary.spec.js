@@ -7,6 +7,10 @@ import {
 } from '../../../src/actions/logout';
 
 import {
+  RECORD_SAVE_FULFILLED,
+} from '../../../src/actions/record';
+
+import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
@@ -15,7 +19,6 @@ import {
 import reducer, {
   get,
 } from '../../../src/reducers/vocabulary';
-import { RECORD_SAVE_FULFILLED } from '../../../src/actions/record';
 
 chai.should();
 

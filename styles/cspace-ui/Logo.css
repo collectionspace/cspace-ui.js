@@ -5,3 +5,7 @@
 .common > a {
   display: block;
 }
+
+.common > a > img {
+  width: 100%;
+}
