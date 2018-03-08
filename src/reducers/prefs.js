@@ -30,7 +30,8 @@ import {
 } from '../constants/searchOperators';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
-  const op = action.payload.get('op');
+  const condition = action.payload;
+  const op = condition ? condition.get('op') : null;
 
   return ((op === OP_AND || op === OP_OR) ? state.set('advancedSearchBooleanOp', op) : state);
 };
