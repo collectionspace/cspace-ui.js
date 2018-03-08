@@ -83,8 +83,8 @@ export default function ErrorPage(props) {
     if (status === 404) {
       // Convert 404 from the REST API into ERR_NOT_FOUND.
       code = ERR_NOT_FOUND;
-    } else if (status === 401) {
-      // Convert 401 to ERR_NOT_ALLOWED.
+    } else if (status === 401 || status === 403) {
+      // Convert 401 and 403 to ERR_NOT_ALLOWED.
       code = ERR_NOT_ALLOWED;
     }
   }
