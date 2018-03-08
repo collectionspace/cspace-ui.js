@@ -3,7 +3,7 @@ import serviceConfig from './serviceConfig';
 
 export default () => () => ({
   recordTypes: {
-    batch: {
+    idgenerator: {
       messages,
       serviceConfig,
     },
