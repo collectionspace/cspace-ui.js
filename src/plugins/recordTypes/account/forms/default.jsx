@@ -25,7 +25,12 @@ const template = (pluginContext) => {
           <Field name="status" />
           <Field name="userId" />
         </Col>
-        <Field name="role" />
+
+        <Col>
+          <Field name="roleList">
+            <Field name="role" />
+          </Field>
+        </Col>
       </Row>
     </Field>
   );

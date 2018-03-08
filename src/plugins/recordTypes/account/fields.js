@@ -223,17 +223,24 @@ export default (pluginContext) => {
           },
         },
       },
-      role: {
+      roleList: {
         [config]: {
-          defaultValue: Immutable.List(),
-          messages: defineMessages({
-            name: {
-              id: 'field.account.role.name',
-              defaultMessage: 'Roles',
-            },
-          }),
           view: {
-            type: RolesInput,
+            type: CompoundInput,
+          },
+        },
+        role: {
+          [config]: {
+            defaultValue: Immutable.List(),
+            messages: defineMessages({
+              name: {
+                id: 'field.account.role.name',
+                defaultMessage: 'Roles',
+              },
+            }),
+            view: {
+              type: RolesInput,
+            },
           },
         },
       },
