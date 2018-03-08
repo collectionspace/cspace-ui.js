@@ -102,6 +102,7 @@ export default (pluginContext) => {
             view: {
               type: CompoundInput,
               props: {
+                disableRemoveButton: data => (data && data.get('referenced') === 'true'),
                 tabular: true,
                 sortableFields: {
                   displayName: true,
