@@ -10,6 +10,10 @@ import {
   getVocabularyConfigByShortID,
 } from '../../helpers/configHelpers';
 
+import {
+  canRead,
+} from '../../helpers/permissionHelpers';
+
 export default () => ({
   listTypes: {
     authRef: {
@@ -31,22 +35,26 @@ export default () => ({
           defaultMessage: 'Finding terms...',
         },
       }),
-      getItemLocationPath: (item, { config }) => {
+      getItemLocationPath: (item, { config, perms }) => {
         const refName = item.get('refName');
         const servicePath = getServicePath(refName);
         const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
 
         if (recordTypeConfig) {
-          const vocabularyShortID = getVocabularyShortID(refName);
+          const recordType = recordTypeConfig.name;
 
-          const vocabularyConfig =
-            getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
+          if (canRead(recordType, perms)) {
+            const vocabularyShortID = getVocabularyShortID(refName);
 
-          if (vocabularyConfig) {
-            const csid = item.get('csid');
+            const vocabularyConfig =
+              getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
 
-            if (csid) {
-              return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/${csid}`;
+            if (vocabularyConfig) {
+              const csid = item.get('csid');
+
+              if (csid) {
+                return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/${csid}`;
+              }
             }
           }
         }

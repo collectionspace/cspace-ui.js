@@ -7,6 +7,7 @@ import {
   isSearchPending,
   getSearchResult,
   getSearchError,
+  getUserPerms,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -38,6 +39,7 @@ const mapStateToProps = (state, ownProps) => {
 
       return (message ? intl.formatMessage(message) : '');
     },
+    perms: getUserPerms(state),
     isSearchPending: isSearchPending(state, searchName, searchDescriptor),
     searchResult: getSearchResult(state, searchName, searchDescriptor),
     searchError: getSearchError(state, searchName, searchDescriptor),

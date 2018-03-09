@@ -35,6 +35,7 @@ describe('SearchResultTableContainer', function suite() {
           },
         },
       }),
+      user: Immutable.Map(),
     });
 
     const context = {
@@ -65,6 +66,7 @@ describe('SearchResultTableContainer', function suite() {
   it('should connect formatColumnLabel to intl.formatMessage', function test() {
     const store = mockStore({
       search: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
     const context = {
@@ -99,6 +101,7 @@ describe('SearchResultTableContainer', function suite() {
   it('should supply formatCellData with intl and config', function test() {
     const store = mockStore({
       search: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
     const context = {
@@ -137,6 +140,7 @@ describe('SearchResultTableContainer', function suite() {
   it('should have formatCellData return the data if the column config does not contain a formatValue function', function test() {
     const store = mockStore({
       search: Immutable.Map(),
+      user: Immutable.Map(),
     });
 
     const context = {

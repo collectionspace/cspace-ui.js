@@ -120,6 +120,7 @@ const propTypes = {
   isSearchPending: PropTypes.bool,
   linkItems: PropTypes.bool,
   listType: PropTypes.string,
+  perms: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
@@ -160,6 +161,7 @@ export default class SearchResultTable extends Component {
     const {
       config,
       listType,
+      perms,
       searchDescriptor,
     } = this.props;
 
@@ -169,7 +171,7 @@ export default class SearchResultTable extends Component {
       return undefined;
     }
 
-    const itemContext = { config, searchDescriptor };
+    const itemContext = { config, perms, searchDescriptor };
     const itemLocationPath = getItemLocationPath(item, itemContext);
 
     if (!itemLocationPath) {

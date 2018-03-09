@@ -39,6 +39,18 @@ const config = {
   },
 };
 
+const perms = Immutable.fromJS({
+  person: {
+    data: 'CRUDL',
+  },
+});
+
+const permsNone = Immutable.fromJS({
+  person: {
+    data: '',
+  },
+});
+
 describe('auth ref list type', function suite() {
   const configContribution = authRefListTypePlugin();
   const { listTypes } = configContribution;
@@ -49,7 +61,14 @@ describe('auth ref list type', function suite() {
       authRefList.getItemLocationPath(Immutable.fromJS({
         csid: '1234',
         refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
-      }), { config }).should.equal('/record/person/local/1234');
+      }), { config, perms }).should.equal('/record/person/local/1234');
+    });
+
+    it('should return null if read permission does not exist for the record type', function test() {
+      expect(authRefList.getItemLocationPath(Immutable.fromJS({
+        csid: '1234',
+        refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
+      }), { config, perms: permsNone })).to.equal(null);
     });
 
     it('should return null for an unknown record type', function test() {
