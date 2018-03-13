@@ -6,19 +6,19 @@
 
 The CollectionSpace user interface for web browsers.
 
-Release 4.5 (or later) of the CollectionSpace Services API is required. This application is not compatible with releases 4.4 and earlier.
+Release 4.5 or later of the CollectionSpace Services API is required. This application is not compatible with releases 4.4 and earlier.
 
 ## Installation
 
 ### For CollectionSpace Administrators
 
-See the [installation instructions](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/installation) to set up the CollectionSpace user interface for your users.
+The CollectionSpace UI is a JavaScript application that runs in a web browser. See the [installation instructions](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/installation) to make the application available to your CollectionSpace users.
 
 ### For CollectionSpace Developers
 
-Follow these instructions to download and install the source code of the application.
+[Node.js](https://nodejs.org/) 8 and npm 5 are required to build the application.
 
-Using git:
+To download and install the source code of the application for development:
 
 ```
 $ git clone https://github.com/collectionspace/cspace-ui.js.git
@@ -26,7 +26,7 @@ $ cd cspace-ui.js
 $ npm install
 ```
 
-See the [developer documentation](https://github.com/collectionspace/cspace-ui.js/tree/master/docs) for instructions on building, testing, and running the source code.
+See the [developer documentation](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/developer) for instructions on building, testing, and running the source code.
 
 ## About CollectionSpace
 
