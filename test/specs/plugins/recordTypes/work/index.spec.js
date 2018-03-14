@@ -1,15 +1,15 @@
 import workRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/work';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('work record plugin', function suite() {
   const config = {};
   const workRecordTypePlugin = workRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = workRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = workRecordTypePlugin(configContext);
 
     const {
       recordTypes,

@@ -1,15 +1,15 @@
 import taxonRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/taxon';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('taxon record plugin', function suite() {
   const config = {};
   const taxonRecordTypePlugin = taxonRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = taxonRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = taxonRecordTypePlugin(configContext);
 
     const {
       recordTypes,

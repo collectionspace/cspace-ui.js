@@ -1,15 +1,15 @@
 import conditionCheckRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/conditioncheck';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('condition check record plugin', function suite() {
   const config = {};
   const conditionCheckRecordTypePlugin = conditionCheckRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = conditionCheckRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = conditionCheckRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');
     pluginConfigContribution.should.have.property('optionLists').that.is.an('object');

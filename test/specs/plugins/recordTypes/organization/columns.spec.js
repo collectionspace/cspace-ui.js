@@ -1,11 +1,11 @@
 import createColumns from '../../../../../src/plugins/recordTypes/organization/columns';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('organization record columns', function suite() {
-  const pluginContext = createPluginContext();
-  const columns = createColumns(pluginContext);
+  const configContext = createConfigContext();
+  const columns = createColumns(configContext);
 
   const config = {
     optionLists: {

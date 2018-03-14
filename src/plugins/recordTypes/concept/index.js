@@ -8,18 +8,18 @@ import serviceConfig from './serviceConfig';
 import title from './title';
 import vocabularies from './vocabularies';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   optionLists,
   recordTypes: {
     concept: {
       messages,
       serviceConfig,
       vocabularies,
-      advancedSearch: advancedSearch(pluginContext),
-      columns: columns(pluginContext),
-      fields: fields(pluginContext),
-      forms: forms(pluginContext),
-      title: title(pluginContext),
+      advancedSearch: advancedSearch(configContext),
+      columns: columns(configContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
+      title: title(configContext),
     },
   },
 });

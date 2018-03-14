@@ -161,7 +161,7 @@ export const finalizeRecordTypes = (config) => {
   return config;
 };
 
-export const evaluatePlugin = (plugin, pluginContext) => {
+export const evaluatePlugin = (plugin, configContext) => {
   const pluginType = typeof plugin;
 
   const isValidType = plugin
@@ -173,7 +173,7 @@ export const evaluatePlugin = (plugin, pluginContext) => {
     return {};
   }
 
-  const config = (pluginType === 'object') ? plugin : plugin(pluginContext);
+  const config = (pluginType === 'object') ? plugin : plugin(configContext);
 
   initializeExtensions(config);
   initializeRecordTypes(config);
@@ -181,16 +181,16 @@ export const evaluatePlugin = (plugin, pluginContext) => {
   return config;
 };
 
-export const applyPlugin = (targetConfig, plugin, pluginContext = {}) => {
-  const pluginConfigContribution = evaluatePlugin(plugin, pluginContext);
+export const applyPlugin = (targetConfig, plugin, configContext = {}) => {
+  const pluginConfigContribution = evaluatePlugin(plugin, configContext);
 
   /* Gotta do this mutual recursion */
   /* eslint-disable no-use-before-define */
-  return mergeConfig(targetConfig, pluginConfigContribution, pluginContext);
+  return mergeConfig(targetConfig, pluginConfigContribution, configContext);
   /* eslint-enable no-use-before-define */
 };
 
-export const applyPlugins = (targetConfig, plugins, pluginContext = {}) => {
+export const applyPlugins = (targetConfig, plugins, configContext = {}) => {
   const isArray = Array.isArray(plugins);
 
   warning(isArray, 'Plugins must be an array.');
@@ -200,7 +200,7 @@ export const applyPlugins = (targetConfig, plugins, pluginContext = {}) => {
   }
 
   return plugins.reduce((updatedConfig, plugin) =>
-    applyPlugin(updatedConfig, plugin, pluginContext), targetConfig);
+    applyPlugin(updatedConfig, plugin, configContext), targetConfig);
 };
 
 export const mergeStrategy = {
@@ -236,12 +236,12 @@ const configMerger = (objValue, srcValue, key) => {
   return undefined;
 };
 
-export const mergeConfig = (targetConfig, sourceConfig, pluginContext = {}) => {
+export const mergeConfig = (targetConfig, sourceConfig, configContext = {}) => {
   // eslint-disable-next-line no-param-reassign
-  pluginContext.config = targetConfig;
+  configContext.config = targetConfig;
 
   const pluginsAppliedConfig = (sourceConfig && ('plugins' in sourceConfig))
-    ? applyPlugins(targetConfig, sourceConfig.plugins, pluginContext)
+    ? applyPlugins(targetConfig, sourceConfig.plugins, configContext)
     : targetConfig;
 
   const mergedConfig = mergeWith({}, pluginsAppliedConfig, sourceConfig, configMerger);
@@ -251,8 +251,8 @@ export const mergeConfig = (targetConfig, sourceConfig, pluginContext = {}) => {
   return mergedConfig;
 };
 
-export const initConfig = (config, pluginContext) =>
-  mergeConfig({}, config, pluginContext);
+export const initConfig = (config, configContext) =>
+  mergeConfig({}, config, configContext);
 
 export const getRecordTypeConfigByServiceDocumentName = (config, documentName) => {
   if (!documentName) {

@@ -1,7 +1,7 @@
-export default pluginContext => (data) => {
+export default configContext => (data) => {
   const {
     getPart,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   if (!data) {
     return '';

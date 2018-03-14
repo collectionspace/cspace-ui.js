@@ -13,13 +13,13 @@ cspaceUI({
 });
 ```
 
-A configuration function may be used instead of an object. The configuration function will be called by the cspace-ui framework at initialization time, and it should return a configuration object. The function will receive one parameter: a context object (pluginContext) that allows the function to access more of the cspace-ui API.
+A configuration function may be used instead of an object. The configuration function will be called by the cspace-ui framework at initialization time, and it should return a configuration object. The function will receive one parameter: a context object (configContext) that allows the function to access more of the cspace-ui API.
 
 For example:
 
 ```JavaScript
-cspaceUI((pluginContext) => {
-  // Can access pluginContext here.
+cspaceUI((configContext) => {
+  // Can access configContext here.
 
   return {
     basename: '/mymuseum',

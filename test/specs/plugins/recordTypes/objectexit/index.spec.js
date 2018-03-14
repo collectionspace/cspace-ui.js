@@ -1,15 +1,15 @@
 import objectexitRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/objectexit';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('object exit record plugin', function suite() {
   const config = {};
   const objectexitRecordTypePlugin = objectexitRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = objectexitRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = objectexitRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');
     pluginConfigContribution.should.have.property('optionLists').that.is.an('object');

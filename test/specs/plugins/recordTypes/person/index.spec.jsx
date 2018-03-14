@@ -1,15 +1,15 @@
 import personRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/person';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('person record plugin', function suite() {
   const config = {};
   const personRecordTypePlugin = personRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = personRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = personRecordTypePlugin(configContext);
 
     const {
       recordTypes,

@@ -1,13 +1,13 @@
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     OP_EQ,
     OP_CONTAIN,
-  } = pluginContext.searchOperators;
+  } = configContext.searchOperators;
 
   const {
     defaultAdvancedSearchBooleanOp,
     extensions,
-  } = pluginContext.config;
+  } = configContext.config;
 
   return {
     op: defaultAdvancedSearchBooleanOp,

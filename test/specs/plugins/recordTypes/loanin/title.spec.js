@@ -1,12 +1,12 @@
 import Immutable from 'immutable';
 import createTitleGetter from '../../../../../src/plugins/recordTypes/loanin/title';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('loan-in record title', function suite() {
-  const pluginContext = createPluginContext();
-  const title = createTitleGetter(pluginContext);
+  const configContext = createConfigContext();
+  const title = createTitleGetter(configContext);
 
   it('should concat the loan-in number and lender', function test() {
     const data = Immutable.fromJS({

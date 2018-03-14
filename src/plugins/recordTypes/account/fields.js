@@ -9,18 +9,18 @@ import {
   ERR_PW_NOT_CONFIRMED,
 } from '../../../constants/errorCodes';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     CompoundInput,
     OptionPickerInput,
     RolesInput,
     TextInput,
     PasswordInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   return {
     'ns2:accounts_common': {

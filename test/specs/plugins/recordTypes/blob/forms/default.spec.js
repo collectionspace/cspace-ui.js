@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import form from '../../../../../../src/plugins/recordTypes/blob/forms/default';
-import createPluginContext from '../../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../../src/helpers/createConfigContext';
 
 const expect = chai.expect;
 
@@ -8,16 +8,16 @@ chai.should();
 
 describe('blob record default form', function suite() {
   it('should have a template function', function test() {
-    const pluginContext = createPluginContext();
-    const { template } = form(pluginContext);
+    const configContext = createConfigContext();
+    const { template } = form(configContext);
 
     template.should.be.a('function');
   });
 
   context('template', () => {
     it('should return \'upload\' when the data represents a new record', () => {
-      const pluginContext = createPluginContext();
-      const { template } = form(pluginContext);
+      const configContext = createConfigContext();
+      const { template } = form(configContext);
 
       const data = Immutable.fromJS({
         document: {
@@ -33,8 +33,8 @@ describe('blob record default form', function suite() {
     });
 
     it('should return \'view\' when the data represents an existing record', () => {
-      const pluginContext = createPluginContext();
-      const { template } = form(pluginContext);
+      const configContext = createConfigContext();
+      const { template } = form(configContext);
 
       const data = Immutable.fromJS({
         document: {
@@ -50,8 +50,8 @@ describe('blob record default form', function suite() {
     });
 
     it('should return null when no data is supplied', () => {
-      const pluginContext = createPluginContext();
-      const { template } = form(pluginContext);
+      const configContext = createConfigContext();
+      const { template } = form(configContext);
 
       const templateName = template();
 
@@ -59,8 +59,8 @@ describe('blob record default form', function suite() {
     });
 
     it('should return null when the data does not contain a document', () => {
-      const pluginContext = createPluginContext();
-      const { template } = form(pluginContext);
+      const configContext = createConfigContext();
+      const { template } = form(configContext);
 
       const data = Immutable.fromJS({
         // No document

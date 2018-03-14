@@ -1,24 +1,24 @@
 import { defineMessages } from 'react-intl';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     CompoundInput,
     OptionPickerInput,
     TextInput,
     AutocompleteInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   const {
     DATA_TYPE_INT,
-  } = pluginContext.dataTypes;
+  } = configContext.dataTypes;
 
   const {
     extensions,
-  } = pluginContext.config;
+  } = configContext.config;
 
   return {
     document: {

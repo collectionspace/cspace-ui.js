@@ -1,15 +1,15 @@
 import placeRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/place';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('place record plugin', function suite() {
   const config = {};
   const placeRecordTypePlugin = placeRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = placeRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = placeRecordTypePlugin(configContext);
 
     const {
       recordTypes,

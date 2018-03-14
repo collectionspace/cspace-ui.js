@@ -1,15 +1,15 @@
 import collectionobjectRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/collectionobject';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('collectionobject record plugin', function suite() {
   const config = {};
   const collectionobjectRecordTypePlugin = collectionobjectRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = collectionobjectRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = collectionobjectRecordTypePlugin(configContext);
 
     const {
       optionLists,

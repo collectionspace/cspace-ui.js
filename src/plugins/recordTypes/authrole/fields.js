@@ -1,19 +1,19 @@
 import { defineMessages } from 'react-intl';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     CompoundInput,
     PermissionsInput,
     TextInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   const {
     isNewRecord,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   return {
     'ns2:role': {

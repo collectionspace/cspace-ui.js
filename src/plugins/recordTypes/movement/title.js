@@ -1,15 +1,15 @@
-export default pluginContext => (data) => {
+export default configContext => (data) => {
   const {
     getPart,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   const {
     getDisplayName,
-  } = pluginContext.refNameHelpers;
+  } = configContext.refNameHelpers;
 
   const {
     formatDate,
-  } = pluginContext.formatHelpers;
+  } = configContext.formatHelpers;
 
   if (!data) {
     return '';

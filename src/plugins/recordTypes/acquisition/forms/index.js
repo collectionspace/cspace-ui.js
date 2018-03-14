@@ -1,5 +1,5 @@
 import defaultForm from './default';
 
-export default pluginContext => ({
-  default: defaultForm(pluginContext),
+export default configContext => ({
+  default: defaultForm(configContext),
 });

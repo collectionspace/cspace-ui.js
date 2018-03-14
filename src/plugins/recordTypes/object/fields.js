@@ -1,7 +1,7 @@
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     extensions,
-  } = pluginContext.config;
+  } = configContext.config;
 
   return {
     document: {

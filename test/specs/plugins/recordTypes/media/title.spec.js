@@ -1,12 +1,12 @@
 import Immutable from 'immutable';
 import createTitleGetter from '../../../../../src/plugins/recordTypes/media/title';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('media record title', function suite() {
-  const pluginContext = createPluginContext();
-  const title = createTitleGetter(pluginContext);
+  const configContext = createConfigContext();
+  const title = createTitleGetter(configContext);
 
   it('should concat the identification number and title', function test() {
     const data = Immutable.fromJS({

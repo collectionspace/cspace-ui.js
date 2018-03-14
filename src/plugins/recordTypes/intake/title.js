@@ -1,11 +1,11 @@
-export default pluginContext => (data) => {
+export default configContext => (data) => {
   const {
     getPart,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   const {
     getDisplayName,
-  } = pluginContext.refNameHelpers;
+  } = configContext.refNameHelpers;
 
   if (!data) {
     return '';

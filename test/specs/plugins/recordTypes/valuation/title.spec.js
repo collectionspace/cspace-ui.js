@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import createTitleGetter from '../../../../../src/plugins/recordTypes/valuation/title';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
@@ -23,8 +23,8 @@ describe('valuation record title', function suite() {
     },
   };
 
-  const pluginContext = createPluginContext();
-  const title = createTitleGetter(pluginContext);
+  const configContext = createConfigContext();
+  const title = createTitleGetter(configContext);
 
   it('should concat the valuation number and the value type', function test() {
     const data = Immutable.fromJS({

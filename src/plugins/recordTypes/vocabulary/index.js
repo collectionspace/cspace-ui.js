@@ -9,7 +9,7 @@ import requestConfig from './requestConfig';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   optionLists,
   recordTypes: {
     vocabulary: {
@@ -17,11 +17,11 @@ export default () => pluginContext => ({
       prepareForSending,
       requestConfig,
       serviceConfig,
-      columns: columns(pluginContext),
-      fields: fields(pluginContext),
-      forms: forms(pluginContext),
-      normalizeRecordData: normalizeRecordData(pluginContext),
-      title: title(pluginContext),
+      columns: columns(configContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
+      normalizeRecordData: normalizeRecordData(configContext),
+      title: title(configContext),
     },
   },
 });

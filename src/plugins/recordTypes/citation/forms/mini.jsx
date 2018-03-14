@@ -1,13 +1,13 @@
 import { defineMessages } from 'react-intl';
 
-const template = (pluginContext) => {
+const template = (configContext) => {
   const {
     React,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   const {
     Field,
-  } = pluginContext.recordComponents;
+  } = configContext.recordComponents;
 
   return (
     <Field name="document">
@@ -29,7 +29,7 @@ const template = (pluginContext) => {
   );
 };
 
-export default pluginContext => ({
+export default configContext => ({
   disabled: true,
   messages: defineMessages({
     name: {
@@ -37,5 +37,5 @@ export default pluginContext => ({
       defaultMessage: 'Mini Template',
     },
   }),
-  template: template(pluginContext),
+  template: template(configContext),
 });

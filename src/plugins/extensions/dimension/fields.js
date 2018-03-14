@@ -1,22 +1,22 @@
 import { defineMessages } from 'react-intl';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
     DateInput,
     OptionPickerInput,
     TextInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   const {
     DATA_TYPE_FLOAT,
     DATA_TYPE_DATE,
-  } = pluginContext.dataTypes;
+  } = configContext.dataTypes;
 
   return {
     measuredPartGroupList: {

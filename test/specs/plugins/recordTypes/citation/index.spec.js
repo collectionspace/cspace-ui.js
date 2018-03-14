@@ -1,15 +1,15 @@
 import citationRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/citation';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('citation record plugin', function suite() {
   const config = {};
   const citationRecordTypePlugin = citationRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = citationRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = citationRecordTypePlugin(configContext);
 
     const {
       recordTypes,

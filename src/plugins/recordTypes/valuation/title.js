@@ -1,9 +1,9 @@
 import { formatOption } from '../../../helpers/formatHelpers';
 
-export default pluginContext => (data, formatterContext) => {
+export default configContext => (data, formatterContext) => {
   const {
     getPart,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   if (!data) {
     return '';

@@ -1,7 +1,7 @@
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     isNewRecord,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   return {
     blob: {

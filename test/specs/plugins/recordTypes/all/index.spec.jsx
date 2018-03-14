@@ -1,15 +1,15 @@
 import allRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/all';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('all record plugin', function suite() {
   const config = {};
   const allRecordTypePlugin = allRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = allRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = allRecordTypePlugin(configContext);
 
     const {
       recordTypes,

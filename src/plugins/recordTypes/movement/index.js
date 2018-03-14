@@ -8,19 +8,19 @@ import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   idGenerators,
   optionLists,
   recordTypes: {
     movement: {
       messages,
       serviceConfig,
-      advancedSearch: advancedSearch(pluginContext),
-      columns: columns(pluginContext),
-      fields: fields(pluginContext),
-      forms: forms(pluginContext),
+      advancedSearch: advancedSearch(configContext),
+      columns: columns(configContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
       lockOnSave: 'prompt', // or true/false boolean
-      title: title(pluginContext),
+      title: title(configContext),
     },
   },
 });

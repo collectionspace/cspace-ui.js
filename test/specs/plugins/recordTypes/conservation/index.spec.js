@@ -1,15 +1,15 @@
 import conservationRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/conservation';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('conservation record plugin', function suite() {
   const config = {};
   const conservationRecordTypePlugin = conservationRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = conservationRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = conservationRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');
 

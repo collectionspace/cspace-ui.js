@@ -4,14 +4,14 @@ import fields from './fields';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   recordTypes: {
     object: {
       messages,
       serviceConfig,
-      advancedSearch: advancedSearch(pluginContext),
-      columns: columns(pluginContext),
-      fields: fields(pluginContext),
+      advancedSearch: advancedSearch(configContext),
+      columns: columns(configContext),
+      fields: fields(configContext),
     },
   },
 });

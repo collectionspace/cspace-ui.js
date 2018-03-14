@@ -1,20 +1,20 @@
 import { defineMessages } from 'react-intl';
 
-const template = (pluginContext) => {
+const template = (configContext) => {
   const {
     React,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   const {
     Col,
     Cols,
     Panel,
     Row,
-  } = pluginContext.layoutComponents;
+  } = configContext.layoutComponents;
 
   const {
     Field,
-  } = pluginContext.recordComponents;
+  } = configContext.recordComponents;
 
   return (
     <Field name="document">
@@ -80,7 +80,7 @@ const template = (pluginContext) => {
   );
 };
 
-export default pluginContext => ({
+export default configContext => ({
   messages: defineMessages({
     name: {
       id: 'form.intake.doorstep.name',
@@ -88,5 +88,5 @@ export default pluginContext => ({
     },
   }),
   sortOrder: 1,
-  template: template(pluginContext),
+  template: template(configContext),
 });

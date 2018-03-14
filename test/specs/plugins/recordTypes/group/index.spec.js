@@ -1,15 +1,15 @@
 import groupRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/group';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('group record plugin', function suite() {
   const config = {};
   const groupRecordTypePlugin = groupRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = groupRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = groupRecordTypePlugin(configContext);
 
     const {
       recordTypes,

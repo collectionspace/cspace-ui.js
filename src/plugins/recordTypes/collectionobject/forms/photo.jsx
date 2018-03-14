@@ -1,23 +1,23 @@
 import { defineMessages } from 'react-intl';
 
-const template = (pluginContext) => {
+const template = (configContext) => {
   const {
     React,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   const {
     Col,
     Panel,
     Row,
-  } = pluginContext.layoutComponents;
+  } = configContext.layoutComponents;
 
   const {
     Field,
-  } = pluginContext.recordComponents;
+  } = configContext.recordComponents;
 
   const {
     extensions,
-  } = pluginContext.config;
+  } = configContext.config;
 
   return (
     <Field name="document">
@@ -251,7 +251,7 @@ const template = (pluginContext) => {
   );
 };
 
-export default pluginContext => ({
+export default configContext => ({
   messages: defineMessages({
     name: {
       id: 'form.collectionobject.photo.name',
@@ -259,5 +259,5 @@ export default pluginContext => ({
     },
   }),
   sortOrder: 2,
-  template: template(pluginContext),
+  template: template(configContext),
 });

@@ -14,6 +14,6 @@ The cspace-ui project is one of several related CollectionSpace JavaScript proje
 - [Contributing Code](Contributing.md)
 - [Architectural Overview](ArchitecturalOverview.md)
 - [File Directory](FileDirectory.md)
-- [Plugin Guide](PluginGuide)
+- [Plugins](Plugins.md)
 - [Cookbook](Cookbook)
   - [Adding support for a new record type](Cookbook/NewRecordType.md)

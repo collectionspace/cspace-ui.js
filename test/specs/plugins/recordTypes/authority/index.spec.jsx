@@ -1,15 +1,15 @@
 import authorityRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/authority';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('authority record plugin', function suite() {
   const config = {};
   const authorityRecordTypePlugin = authorityRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = authorityRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = authorityRecordTypePlugin(configContext);
 
     const {
       recordTypes,

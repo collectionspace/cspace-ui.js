@@ -1,15 +1,15 @@
 import loanoutRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/loanout';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('loan-out record plugin', function suite() {
   const config = {};
   const loanoutRecordTypePlugin = loanoutRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = loanoutRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = loanoutRecordTypePlugin(configContext);
 
     const {
       recordTypes,

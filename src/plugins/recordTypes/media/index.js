@@ -9,19 +9,19 @@ import serviceConfig from './serviceConfig';
 import subrecords from './subrecords';
 import title from './title';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   idGenerators,
   optionLists,
   recordTypes: {
     media: {
       messages,
       serviceConfig,
-      advancedSearch: advancedSearch(pluginContext),
-      columns: columns(pluginContext),
-      fields: fields(pluginContext),
-      forms: forms(pluginContext),
-      subrecords: subrecords(pluginContext),
-      title: title(pluginContext),
+      advancedSearch: advancedSearch(configContext),
+      columns: columns(configContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
+      subrecords: subrecords(configContext),
+      title: title(configContext),
     },
   },
 });

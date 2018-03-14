@@ -1,19 +1,19 @@
 import { defineMessages } from 'react-intl';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     DATA_TYPE_DATETIME,
-  } = pluginContext.dataTypes;
+  } = configContext.dataTypes;
 
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   const {
     TextInput,
     DateInput,
     DateTimeInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   return {
     'ns2:collectionspace_core': {

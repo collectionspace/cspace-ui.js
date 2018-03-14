@@ -1,15 +1,15 @@
 import intakeRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/intake';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('intake record plugin', function suite() {
   const config = {};
   const intakeRecordTypePlugin = intakeRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = intakeRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = intakeRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');
     pluginConfigContribution.should.have.property('optionLists').that.is.an('object');

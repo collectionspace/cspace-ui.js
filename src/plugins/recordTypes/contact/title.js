@@ -1,8 +1,8 @@
-export default pluginContext => (data) => {
+export default configContext => (data) => {
   const {
     deepGet,
     getPart,
-  } = pluginContext.recordDataHelpers;
+  } = configContext.recordDataHelpers;
 
   if (!data) {
     return '';

@@ -1,15 +1,15 @@
 import conceptRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/concept';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('concept record plugin', function suite() {
   const config = {};
   const conceptRecordTypePlugin = conceptRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = conceptRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = conceptRecordTypePlugin(configContext);
 
     const {
       recordTypes,

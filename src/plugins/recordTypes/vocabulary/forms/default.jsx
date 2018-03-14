@@ -1,17 +1,17 @@
 import { defineMessages } from 'react-intl';
 
-const template = pluginContext => (data, config) => {
+const template = configContext => (data, config) => {
   const {
     React,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   const {
     Row,
-  } = pluginContext.layoutComponents;
+  } = configContext.layoutComponents;
 
   const {
     Field,
-  } = pluginContext.recordComponents;
+  } = configContext.recordComponents;
 
   const workflowStateField = config.showTermListStateIcon
     ? <Field name="workflowState" flex="0 0 32px" />
@@ -38,12 +38,12 @@ const template = pluginContext => (data, config) => {
   );
 };
 
-export default pluginContext => ({
+export default configContext => ({
   messages: defineMessages({
     name: {
       id: 'form.vocabulary.default.name',
       defaultMessage: 'Standard Template',
     },
   }),
-  template: template(pluginContext),
+  template: template(configContext),
 });

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import blobRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/blob';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 const expect = chai.expect;
 
@@ -9,10 +9,10 @@ chai.should();
 describe('blob record plugin', function suite() {
   const config = {};
   const blobRecordTypePlugin = blobRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = blobRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = blobRecordTypePlugin(configContext);
 
     const {
       recordTypes,
@@ -30,7 +30,7 @@ describe('blob record plugin', function suite() {
   });
 
   context('requestConfig', () => {
-    const pluginConfigContribution = blobRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = blobRecordTypePlugin(configContext);
 
     const {
       recordTypes,

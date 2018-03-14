@@ -2,12 +2,12 @@ import columns from './columns';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   recordTypes: {
     batch: {
       messages,
       serviceConfig,
-      columns: columns(pluginContext),
+      columns: columns(configContext),
     },
   },
 });

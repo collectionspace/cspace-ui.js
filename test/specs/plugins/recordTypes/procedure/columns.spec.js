@@ -1,11 +1,11 @@
 import createColumns from '../../../../../src/plugins/recordTypes/procedure/columns';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('procedure record columns', function suite() {
-  const pluginContext = createPluginContext();
-  const columns = createColumns(pluginContext);
+  const configContext = createConfigContext();
+  const columns = createColumns(configContext);
 
   describe('default column set', function columnSetSuite() {
     it('should have correct shape', function test() {

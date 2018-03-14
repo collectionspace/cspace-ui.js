@@ -6,16 +6,16 @@ import requestConfig from './requestConfig';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   recordTypes: {
     authrole: {
       messages,
       requestConfig,
       serviceConfig,
-      columns: columns(pluginContext),
-      fields: fields(pluginContext),
-      forms: forms(pluginContext),
-      title: title(pluginContext),
+      columns: columns(configContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
+      title: title(configContext),
     },
   },
 });

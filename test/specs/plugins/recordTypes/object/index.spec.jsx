@@ -1,15 +1,15 @@
 import objectRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/object';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('object record plugin', function suite() {
   const config = {};
   const objectRecordTypePlugin = objectRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = objectRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = objectRecordTypePlugin(configContext);
 
     const {
       recordTypes,

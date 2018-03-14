@@ -1,22 +1,22 @@
 import { defineMessages } from 'react-intl';
 
-const template = (pluginContext) => {
+const template = (configContext) => {
   const {
     React,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   const {
     Panel,
     Row,
     Cols,
     Col,
-  } = pluginContext.layoutComponents;
+  } = configContext.layoutComponents;
 
   const {
     Field,
     InputTable,
     Subrecord,
-  } = pluginContext.recordComponents;
+  } = configContext.recordComponents;
 
   return (
     <Field name="document">
@@ -93,12 +93,12 @@ const template = (pluginContext) => {
   );
 };
 
-export default pluginContext => ({
+export default configContext => ({
   messages: defineMessages({
     name: {
       id: 'form.organization.default.name',
       defaultMessage: 'Standard Template',
     },
   }),
-  template: template(pluginContext),
+  template: template(configContext),
 });

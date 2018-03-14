@@ -1,8 +1,8 @@
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     OP_CONTAIN,
     OP_RANGE,
-  } = pluginContext.searchOperators;
+  } = configContext.searchOperators;
 
   return [
     {

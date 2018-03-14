@@ -1,15 +1,15 @@
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   const {
     DATA_TYPE_DATE,
-  } = pluginContext.dataTypes;
+  } = configContext.dataTypes;
 
   const {
     TermPickerInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   return {
     dateDisplayDate: {},

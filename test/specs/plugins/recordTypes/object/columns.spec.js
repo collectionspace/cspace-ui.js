@@ -1,11 +1,11 @@
 import createColumns from '../../../../../src/plugins/recordTypes/object/columns';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('object record columns', function suite() {
-  const pluginContext = createPluginContext();
-  const columns = createColumns(pluginContext);
+  const configContext = createConfigContext();
+  const columns = createColumns(configContext);
 
   it('should have correct shape', function test() {
     columns.should.have.property('default').that.is.an('object');

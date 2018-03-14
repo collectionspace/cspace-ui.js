@@ -1,15 +1,15 @@
 import pottagRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/pottag';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('pottag record plugin', function suite() {
   const config = {};
   const pottagRecordTypePlugin = pottagRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = pottagRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = pottagRecordTypePlugin(configContext);
 
     const {
 //      optionLists,

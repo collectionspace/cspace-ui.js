@@ -1,8 +1,8 @@
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     defaultAdvancedSearchBooleanOp,
     extensions,
-  } = pluginContext.config;
+  } = configContext.config;
 
   return {
     op: defaultAdvancedSearchBooleanOp,

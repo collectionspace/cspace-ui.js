@@ -5,7 +5,7 @@ import requestConfig from './requestConfig';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   recordTypes: {
     blob: {
       messages,
@@ -19,9 +19,9 @@ export default () => pluginContext => ({
           subresource: 'derivativeThumbnail',
         },
       },
-      fields: fields(pluginContext),
-      forms: forms(pluginContext),
-      title: title(pluginContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
+      title: title(configContext),
     },
   },
 });

@@ -1,12 +1,12 @@
 import { defineMessages } from 'react-intl';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     formatOption,
     formatRefNameAsVocabularyName,
     formatTimestamp,
     formatWorkflowStateIcon,
-  } = pluginContext.formatHelpers;
+  } = configContext.formatHelpers;
 
   return {
     default: {

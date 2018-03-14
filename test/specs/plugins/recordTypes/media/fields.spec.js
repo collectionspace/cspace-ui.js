@@ -2,15 +2,15 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import createFields from '../../../../../src/plugins/recordTypes/media/fields';
 import { configKey } from '../../../../../src/helpers/configHelpers';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 const expect = chai.expect;
 
 chai.should();
 
 describe('media record fields', function suite() {
-  const pluginContext = createPluginContext();
-  const fields = createFields(pluginContext);
+  const configContext = createConfigContext();
+  const fields = createFields(configContext);
 
   describe('externalUrl field computation', function fieldSuite() {
     it('should set the value to the value of the blob\'s file field', function test() {

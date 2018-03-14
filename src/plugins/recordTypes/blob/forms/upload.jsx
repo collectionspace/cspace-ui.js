@@ -1,13 +1,13 @@
 import { defineMessages } from 'react-intl';
 
-const template = (pluginContext) => {
+const template = (configContext) => {
   const {
     React,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   const {
     Field,
-  } = pluginContext.recordComponents;
+  } = configContext.recordComponents;
 
   return (
     <Field name="document">
@@ -16,7 +16,7 @@ const template = (pluginContext) => {
   );
 };
 
-export default pluginContext => ({
+export default configContext => ({
   messages: defineMessages({
     name: {
       id: 'form.blob.upload.name',
@@ -24,5 +24,5 @@ export default pluginContext => ({
     },
   }),
   sortOrder: 2,
-  template: template(pluginContext),
+  template: template(configContext),
 });

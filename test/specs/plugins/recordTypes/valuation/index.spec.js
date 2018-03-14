@@ -1,15 +1,15 @@
 import valuationRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/valuation';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('valuation record plugin', function suite() {
   const config = {};
   const valuationRecordTypePlugin = valuationRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
+  const configContext = createConfigContext();
 
   it('should have the correct shape', function test() {
-    const pluginConfigContribution = valuationRecordTypePlugin(pluginContext);
+    const pluginConfigContribution = valuationRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');
     pluginConfigContribution.should.have.property('optionLists').that.is.an('object');

@@ -76,15 +76,15 @@ describe('configHelpers', function moduleSuite() {
       evaluatePlugin(plugin).should.equal(plugin);
     });
 
-    it('should call the plugin with the pluginContext if it is a function', function test() {
-      const stubPluginContext = {};
+    it('should call the plugin with the configContext if it is a function', function test() {
+      const stubConfigContext = {};
 
-      const plugin = pluginContext => ({
-        calledWithPluginContext: pluginContext,
+      const plugin = configContext => ({
+        calledWithConfigContext: configContext,
       });
 
-      evaluatePlugin(plugin, stubPluginContext).should.deep.equal({
-        calledWithPluginContext: stubPluginContext,
+      evaluatePlugin(plugin, stubConfigContext).should.deep.equal({
+        calledWithConfigContext: stubConfigContext,
       });
     });
   });

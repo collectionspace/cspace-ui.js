@@ -2,12 +2,12 @@ import fields from './fields';
 import form from './form';
 import optionLists from './optionLists';
 
-export default () => pluginContext => ({
+export default () => configContext => ({
   optionLists,
   extensions: {
     dimension: {
-      fields: fields(pluginContext),
-      form: form(pluginContext),
+      fields: fields(configContext),
+      form: form(configContext),
     },
   },
 });

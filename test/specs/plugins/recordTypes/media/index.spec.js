@@ -1,14 +1,14 @@
 import Immutable from 'immutable';
 import mediaRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/media';
-import createPluginContext from '../../../../../src/helpers/createPluginContext';
+import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
 describe('media record plugin', function suite() {
   const config = {};
   const mediaRecordTypePlugin = mediaRecordTypePluginFactory(config);
-  const pluginContext = createPluginContext();
-  const pluginConfigContribution = mediaRecordTypePlugin(pluginContext);
+  const configContext = createConfigContext();
+  const pluginConfigContribution = mediaRecordTypePlugin(configContext);
 
   context('blob subrecord save condition', () => {
     const saveCondition = pluginConfigContribution.recordTypes.media.subrecords.blob.saveCondition;

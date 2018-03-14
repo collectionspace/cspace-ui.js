@@ -1,7 +1,7 @@
-export default pluginContext => (data) => {
+export default configContext => (data) => {
   const {
     Immutable,
-  } = pluginContext.lib;
+  } = configContext.lib;
 
   // Sort items by the order field.
 

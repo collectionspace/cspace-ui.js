@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
-export default (pluginContext) => {
+export default (configContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
@@ -11,21 +11,21 @@ export default (pluginContext) => {
     StructuredDateInput,
     TextInput,
     TermPickerInput,
-  } = pluginContext.inputComponents;
+  } = configContext.inputComponents;
 
   const {
     configKey: config,
-  } = pluginContext.configHelpers;
+  } = configContext.configHelpers;
 
   const {
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
     DATA_TYPE_STRUCTURED_DATE,
-  } = pluginContext.dataTypes;
+  } = configContext.dataTypes;
 
   const {
     extensions,
-  } = pluginContext.config;
+  } = configContext.config;
 
   return {
     document: {

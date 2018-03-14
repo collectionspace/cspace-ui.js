@@ -3,9 +3,9 @@ import inventoryForm from './inventory';
 import miniForm from './mini';
 import photoForm from './photo';
 
-export default pluginContext => ({
-  default: defaultForm(pluginContext),
-  inventory: inventoryForm(pluginContext),
-  mini: miniForm(pluginContext),
-  photo: photoForm(pluginContext),
+export default configContext => ({
+  default: defaultForm(configContext),
+  inventory: inventoryForm(configContext),
+  mini: miniForm(configContext),
+  photo: photoForm(configContext),
 });

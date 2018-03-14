@@ -1,7 +1,7 @@
 import defaultForm from './default';
 import miniForm from './mini';
 
-export default pluginContext => ({
-  default: defaultForm(pluginContext),
-  mini: miniForm(pluginContext),
+export default configContext => ({
+  default: defaultForm(configContext),
+  mini: miniForm(configContext),
 });

@@ -17,10 +17,10 @@ import { OP_OR } from './constants/searchOperators';
 import defaultPlugins from './plugins';
 import reducer from './reducers';
 import AppContainer from './containers/AppContainer';
-import createPluginContext from './helpers/createPluginContext';
+import createConfigContext from './helpers/createConfigContext';
 import { evaluatePlugin, finalizeRecordTypes, mergeConfig } from './helpers/configHelpers';
 
-const pluginContext = createPluginContext();
+const configContext = createConfigContext();
 
 const defaultConfig = mergeConfig({
   autocompleteFindDelay: 500,
@@ -41,11 +41,11 @@ const defaultConfig = mergeConfig({
   termDeprecationEnabled: false,
 }, {
   plugins: defaultPlugins.map(plugin => plugin()),
-}, pluginContext);
+}, configContext);
 
 module.exports = (uiConfig) => {
-  const resolvedUiConfig = evaluatePlugin(uiConfig, pluginContext);
-  const config = finalizeRecordTypes(mergeConfig(defaultConfig, resolvedUiConfig, pluginContext));
+  const resolvedUiConfig = evaluatePlugin(uiConfig, configContext);
+  const config = finalizeRecordTypes(mergeConfig(defaultConfig, resolvedUiConfig, configContext));
 
   const {
     container,
