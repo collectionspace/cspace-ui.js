@@ -1,6 +1,5 @@
 import React from 'react';
 import Immutable from 'immutable';
-import { defineMessages } from 'react-intl';
 
 import { components as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
 import { Col, Cols, Row } from 'cspace-layout';
@@ -131,7 +130,6 @@ export default () => ({
     configKey,
     mergeKey,
     mergeStrategy,
-    defineMessages,
   },
   recordDataHelpers: {
     deepGet,

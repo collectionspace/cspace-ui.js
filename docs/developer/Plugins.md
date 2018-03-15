@@ -22,7 +22,7 @@ The function has two possible return values: a configuration object, or a config
 
 If a configuration object is returned, it must be a [CollectionSpace UI configuration object](../../configuration). This configuration will be deeply merged into the pre-existing UI configuration.
 
-If a configurer function is returned, it will be executed with a configuration context object as its argument. The configuration context contains information about the runtime environment that may be useful to the plugin, and allows the plugin to implement more complex configurations. The configurer function must return a [CollectionSpace UI configuration object](../../configuration). The returned configuration will be deeply merged into the pre-existing UI configuration.
+If a configurer function is returned, it will be executed with a configuration context object as its argument. The configuration context contains information about the runtime environment that may be useful to the plugin, and provides access to cspace-ui APIs. This allows the plugin to implement more complex configurations. The configurer function must return a [CollectionSpace UI configuration object](../../configuration). The returned configuration will be deeply merged into the pre-existing UI configuration.
 
 Using an ES2015 [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) and the ES2015 [export statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export), a simple plugin that returns a configuration object might look like this:
 
@@ -46,7 +46,7 @@ export default pluginConfig => configContext => ({
 
 A plugin may configure anything that is configurable in the UI, so plugins are not limited to these categories. This list serves only as a guide to some common types.
 
-Common types of plugins include:
+Types of plugins include:
 
 - Language
   A language plugin translates the UI to a particular language.
@@ -66,13 +66,15 @@ Plugins may load other plugins by supplying the `plugins` configuration property
 Below is an example of a plugin that loads other plugins:
 
 ```JavaScript
-import myNewRecordPlugin from 'cspace-ui-plugin-record-claim';
-import anotherRecordPlugin from 'cspace-ui-plugin-record-transport';
+import claimRecordPlugin from 'cspace-ui-plugin-record-claim';
+import transportRecordPlugin from 'cspace-ui-plugin-record-transport';
 
 export default () => ({
   plugins: [
-    myNewRecordPlugin(),
-    anotherRecordPlugin(),
+    claimRecordPlugin(),
+    transportRecordPlugin(),
   ],
 });
 ```
+
+When a plugin is applied to a configuration, any plugins that it loads are first applied to the target configuration in order, and then the other remaining configuration properties are merged into the plugin-modified target configuration.

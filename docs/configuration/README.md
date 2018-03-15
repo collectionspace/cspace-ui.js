@@ -5,7 +5,6 @@ The CollectionSpace UI is configured by passing a configuration object to the `c
 ```JavaScript
 cspaceUI({
   basename: '/mymuseum',
-  container: 'div.cspaceUI',
   serverUrl: 'https://nightly.collectionspace.org',
   messages: {
     'about.title': 'Welcome to My Museum CollectionSpace',
@@ -13,7 +12,7 @@ cspaceUI({
 });
 ```
 
-A configuration function may be used instead of an object. The configuration function will be called by the cspace-ui framework at initialization time, and it should return a configuration object. The function will receive one parameter: a context object (configContext) that allows the function to access more of the cspace-ui API.
+Alternatively, a configurer function may be passed to `cspaceUI` instead of an object. The configurer function will be called by the cspace-ui framework at initialization time, and it should return a configuration object. The function will receive one parameter: a [configuration context](./ConfigurationContext.md) object that contains information about the runtime environment, and provides access to cspace-ui APIs. This allows for more complex configurations.
 
 For example:
 
@@ -23,7 +22,6 @@ cspaceUI((configContext) => {
 
   return {
     basename: '/mymuseum',
-    container: 'div.cspaceUI',
     serverUrl: 'https://nightly.collectionspace.org',
     messages: {
       'about.title': 'Welcome to My Museum CollectionSpace',
@@ -32,15 +30,59 @@ cspaceUI((configContext) => {
 });
 ```
 
-## Merging
+## Using Plugins
 
-The configuration object passed to `cspaceUI` (the *source* configuration) is merged into a default configuration (the *target* configuration). This allows the default value of any configuration property to be overridden.
+The CollectionSpace UI may be configured to use plugins. Plugins are modules that provide configuration settings.
 
-A source configuration is merged into a target configuration as follows: First, if any [plugins](../developer/PluginGuide) are specified in the source configuration (under the [`plugins`](#plugins) key), each plugin is applied in order. The first plugin amends or overrides the target configuration, then the next plugin modifies that modified configuration, and so on, until all plugins have been applied. Finally, the remaining source configuration options are deeply merged into the resulting plugin-modified target configuration. Any properties that are present in the source configuration will override properties with the same key in the target configuration.
+ℹ️ In a standard CollectionSpace server installation, plugins are placed in the `webapps/cspace-ui` folder under tomcat.
 
-## Properties
+To use a plugin, first load its JavaScript file into the HTML page that contains the CollectionSpace UI using a `<script>` tag. The plugin exports a JavaScript function (see the documentation for the plugin for the name of the function). Add a call to the function to the `plugins` configuration property.
+
+For example:
+
+```HTML
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <!-- Define a container element -->
+    <div id="cspace"></div>
+
+    <!-- Load the CollectionSpace UI -->
+    <script src="http://unpkg.com/cspace-ui@1.0.0/dist/cspaceUI.min.js"></script>
+
+    <!-- Load the plugin that provides configuration for the public art profile -->
+    <script src="http://unpkg.com/cspace-ui-plugin-profile-publicart@1.0.0/dist/cspaceUI.min.js"></script>
+
+    <!-- Initialize and configure the CollectionSpace UI -->
+    <script>
+      cspaceUI({
+        plugins: [
+          // Initialize the public art profile plugin
+          cspaceUIPluginProfilePublicArt(),
+        ],
+      });
+    </script>
+  </body>
+</html>
+```
+
+Instructions on [creating a plugin](../developer/Plugins.md) may be found in the developer documentation.
+
+## Configuration Merging
+
+The configuration object passed to `cspaceUI` (the *source* configuration) is merged into the application's default configuration (the *target* configuration). This allows the default value of any configuration property to be overridden.
+
+A source configuration is merged into a target configuration as follows: First, if any plugins are loaded by the source configuration (via the [`plugins`](#plugins) property), each plugin is applied to the target configuration in order. The configuration from the first plugin is merged into the target configuration, then the next plugin modifies that modified configuration, and so on, until all plugins have been applied. Finally, the remaining source configuration options are deeply merged into the resulting plugin-modified target configuration. Any properties that are present in the source configuration will override properties with the same key in the target configuration.
+
+## Configuration Property Reference
 
 The configuration object may contain the following properties.
+
+```
+{property name}: {type} = {default value}
+```
 
 ### autocompleteFindDelay
 ```
@@ -64,17 +106,29 @@ The path on the web server where the UI is located. For example, if the HTML pag
 ```
 container: string = '#cspace'
 ```
-The [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) used to locate the container element into which the UI will be rendered. If the selector matches more than one element, the first is used. The specified element should be empty, as its content will be overwritten.
+The [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) used to locate the container element into which the UI will be rendered. If the selector matches more than one element, the first is used. The content of the container element will be overwritten.
 
 ### locale
 ```
-locale: string = 'en'
+locale: string = 'en-US'
 ```
-The locale to use for formatting numbers, dates, and currency.
+The locale to use for formatting numbers, dates, and currency. Also used to determine the first day of the week in the date picker (calendar) input.
+
+### logo
+```
+logo: string = defaultLogoUrl
+```
+URL to the logo image for the application, displayed in the upper left corner of each screen. By default, the bundled CollectionSpace logo is used.
+
+### mediaSnapshotSort
+```
+mediaSnapshotSort: string = 'title'
+```
+The name of the column to use to sort images in the Media Snapshot panel (displayed in the right sidebar of object and procedure records). The value must be the name of a configured column in the media record's default column set [TODO: Link to column set configuration docs]. By default, the possible values are: `blobCsid`, `identificationNumber`, `title`, `updatedAt`. Other values may be possible if the media record column set configuration has been changed.
 
 ### messages
 ```
-messages: { [id: string]: string }
+messages: { [id: string]: string } = undefined
 ```
 An object containing messages to use to override the default messages. These may be translations, or any other customization. The keys are message IDs, and the values are strings to be displayed. For example:
 
@@ -93,6 +147,8 @@ cspaceUI({
 });
 ```
 
+See the [messages reference](./messages.js) for the IDs and default values of all messages in the application.
+
 ### optionLists
 ```
 optionLists: OptionListMap = defaultOptionLists
@@ -103,9 +159,7 @@ An object containing definitions of option lists, which are used to populate dro
 ```
 plugins: Array<Plugin> = defaultPlugins
 ```
-An array of plugins to be loaded. Plugins are downloadable modules that customize the UI; they supply configuration, so you don't have to. A number of plugins are packaged with cspace-ui, and are loaded by default, including ones that implement the core record types and configure the default option lists.
-
-TODO: Create a plugin configuration page.
+An array of plugins to be loaded. Plugins are modules that customize the UI. A number of plugins are packaged with cspace-ui, and are loaded by default, including ones that implement the core record types and configure the default option lists.
 
 ### prettyUrls
 ```
@@ -113,7 +167,9 @@ prettyUrls: boolean = false
 ```
 When `prettyUrls` is false (the default), the URLs of pages in the UI contain `#` and a generated hash string. For example, if the HTML page containing the UI is published to http://somehost.com/cspace, the URL of the Create New page would look something like http://somehost.com/cspace/#/create?_k=xu2oud. To make the URLs prettier, e.g. http://somehost.com/cspace/create, the web server must be configured so that any requests to http://somehost.com/cspace/** that are not found will fall back to the page at http://somehost.com/cspace. In apache, this may be done using the [`FallbackResource`](https://httpd.apache.org/docs/current/mod/mod_dir.html#fallbackresource) directive. Once the web server is configured with fallback support, `prettyUrls` may be set to true.
 
-⚠️ Certain CollectionSpace features do not work correctly when `prettyUrls` is set to `false`. This setting is intended only to get the UI up and running quickly. Before doing a full evaluation or running the UI in production, the web server should be configured with fallback support, and `prettyUrls` should be set to `true`.
+⚠️ Some CollectionSpace features do not work correctly when `prettyUrls` is set to `false`. This setting is intended only to get the UI up and running quickly. Before doing a full evaluation or running the UI in production, the web server should be configured with fallback support, and `prettyUrls` should be set to `true`.
+
+ℹ️ In a standard CollectionSpace server installation, the UI for each tenant is configured with `prettyUrls` set to `true`. A servlet filter with the class `org.collectionspace.services.common.filter.FallbackResourceFilter` is provided to implement the fallback behavior in Tomcat.
 
 ### recordTypes
 ```
@@ -125,7 +181,7 @@ An object containing definitions of the record types that are known to the UI. S
 ```
 serverUrl: string = ''
 ```
-The URL of the CollectionSpace services layer REST API. This should include the protocol, host, and port (if not 80), for example: `'http://demo.collectionspace.org:8180'` or `'https://nightly.collectionspace.org'`. If `serverUrl` is empty or unspecified, the REST API is assumed to be accessible at the same protocol, host, and port from which the HTML page containing the UI was retrieved. If the UI is served from a different host than the REST API, the services layer must be configured to accept CORS requests from the origin of the UI.
+The URL of the CollectionSpace services layer REST API. This should include the protocol, host, and port (if not 80), for example: `'http://demo.collectionspace.org:8180'` or `'https://nightly.collectionspace.org'`. If `serverUrl` is empty or unspecified, the REST API is assumed to be accessible at the same protocol, host, and port from which the HTML page containing the UI was retrieved. If the UI is served from a different host than the REST API, the services layer must be [configured to accept CORS requests](https://wiki.collectionspace.org/x/9gHPCQ#NewServicesLayerFeatures:JSON,OAuth2,andCORS-CORS) from the origin of the UI.
 
 ⚠️ Do not include the `/cspace-services` path in the `serverUrl` string.
 

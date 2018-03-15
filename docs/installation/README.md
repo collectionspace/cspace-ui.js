@@ -16,10 +16,17 @@ Below is an example HTML file:
     <meta charset="UTF-8">
   </head>
   <body>
+    <!-- Define a container element -->
     <div id="cspace"></div>
-    <script src="http://unpkg.com/cspace-ui@1.0.0-alpha.15/dist/cspaceUI.min.js"></script>
+
+    <!-- Load the CollectionSpace UI -->
+    <script src="http://unpkg.com/cspace-ui@1.0.0/dist/cspaceUI.min.js"></script>
+
+    <!-- Initialize and configure the CollectionSpace UI -->
     <script>
-      cspaceUI();
+      cspaceUI({
+        // Configuration properties...
+      });
     </script>
   </body>
 </html>
@@ -43,7 +50,7 @@ The CollectionSpace UI is distributed as a JavaScript file that is loaded onto t
 
 The above example loads the minified production bundle (cspaceUI.min.js) from the [UNPKG](https://unpkg.com) CDN. That CDN is not meant for production use. For production, the JavaScript file may be copied to a suitable server, and loaded from there. An unminified bundle (cspaceUI.js) is also available for development use. UNPKG hosts multiple versions of the application. This example loads a specific version by specifying the version number in the URL, following the `@` symbol. To see a list of available versions, visit https://unpkg.com/cspace-ui/, and open the dropdown menu in the upper-right corner.
 
-ℹ️ A standard CollectionSpace server installation will download a compatible version of the UI JavaScript bundle into the `webapps/ROOT` directory under Tomcat. This makes the bundle available at the root (`/`) path on the server.
+ℹ️ A standard CollectionSpace server installation will download a compatible version of the UI JavaScript bundle into the `webapps/cspace-ui` directory under Tomcat. This makes the bundle available at the (`/cspace-ui`) path on the server.
 
 ## 3. Initialize and Render the Application
 
