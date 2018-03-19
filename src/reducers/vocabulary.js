@@ -16,6 +16,8 @@ import {
   READ_VOCABULARY_ITEMS_REJECTED,
 } from '../actions/vocabulary';
 
+const normalizeItems = items => ((items && !Array.isArray(items)) ? [items] : items);
+
 const clearAll = () => ({});
 
 const handleLoginFulfilled = (state, action) => {
@@ -58,7 +60,7 @@ export default (state = {}, action) => {
     case READ_VOCABULARY_ITEMS_FULFILLED:
       return Object.assign({}, state, {
         [action.meta.vocabulary]: {
-          items: action.payload.data['ns2:abstract-common-list']['list-item'],
+          items: normalizeItems(action.payload.data['ns2:abstract-common-list']['list-item']),
         },
       });
     case READ_VOCABULARY_ITEMS_REJECTED:
