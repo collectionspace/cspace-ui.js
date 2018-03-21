@@ -12,7 +12,25 @@ export default {
   // Title of the about page.
   "about.title": "Welcome to the CollectionSpace Demo",
 
-  // Notification message displayed when a record save fails.
+  // Label of the clear button on the search bar of the account (user) admin page.
+  "accountSearchBar.clear": "Clear",
+
+  // Label of the input on the search bar of the account (user) admin page.
+  "accountSearchBar.filter": "Filter by full name",
+
+  // Notification message displayed when a record is deleted successfully.
+  "action.record.deleted": "{hasTitle, select, yes {Deleted {title}} other {Deleted record}}",
+
+  // Notification message displayed when a record is being deleted.
+  "action.record.deleting": "{hasTitle, select, yes {Deleting {title}…} other {Deleting record…}}",
+
+  // Notification message displayed when a record delete fails.
+  "action.record.errorDeleting": "{hasTitle, select, yes {Error deleting {title}: {error}} other {Error deleting record: {error}}}",
+
+  // Notification message displayed when a role save fails because of a duplicate name.
+  "action.record.errorDupRoleName": "Error saving {title}: A role already exists with this name. Please choose a different name.",
+
+  // Notification message displayed when a record save fails and there is no more specific message.
   "action.record.errorSaving": "{hasTitle, select, yes {Error saving {title}: {error}} other {Error saving record: {error}}}",
 
   // Notification message displayed when a record is saved successfully.
@@ -39,13 +57,30 @@ export default {
   // Notification message displayed when a lock workflow transition is in progress.
   "action.record.transition.lock.transitioning": "{hasTitle, select, yes {Locking {title}…} other {Locking record…}}",
 
+  // Notification message displayed when records are related successfully.
+  "action.relation.related": "{objectCount, plural, =0 {No records} one {# record} other {# records}} related to {subjectTitle}.",
+
+  "adminNavBar.account": "Users",
+
+  "adminNavBar.authrole": "Roles and Permissions",
+
+  "adminNavBar.vocabulary": "Term Lists",
+
+  "adminPage.title": "Administration",
+
   "advancedSearchBuilder.title": "Advanced Search",
 
   // Message displayed in the autocomplete input dropdown to prompt a user to add a new term.
-  "autocompleteInputContainer.addPrompt": "Add {displayName} to",
+  "autocompleteInputContainer.addPrompt": "Add \"{displayName}\" to {destinationName}",
+
+  // Label of the clone option shown in the autocomplete input dropdown.
+  "autocompleteInputContainer.cloneOptionLabel": "Clone current record",
 
   // Message displayed in the autocomplete input dropdown when filtering options.
   "autocompleteInputContainer.count": "{count, plural, =0 {No matching terms} one {# matching term} other {# matching terms}} found",
+
+  // Label of the create new option shown in the autocomplete input dropdown.
+  "autocompleteInputContainer.createNewOptionLabel": "Create new record",
 
   // Message displayed in the autocomplete input dropdown when more characters must be typed in order to begin matching.
   "autocompleteInputContainer.moreCharsRequired": "Continue typing to find matching terms",
@@ -90,6 +125,10 @@ export default {
   // Label of the close button.
   "closeButton.label": "Close",
 
+  "column.account.default.screenName": "Full Name",
+
+  "column.account.default.status": "Status",
+
   "column.acquisition.default.acquisitionReferenceNumber": "Reference number",
 
   "column.acquisition.default.acquisitionSource": "Acquisition source",
@@ -111,6 +150,8 @@ export default {
   "column.authority.default.updatedAt": "Updated",
 
   "column.authority.default.vocabulary": "Vocabulary",
+
+  "column.authRole.default.displayName": "Name",
 
   "column.batch.default.name": "Name",
 
@@ -200,14 +241,6 @@ export default {
 
   "column.media.default.updatedAt": "Updated",
 
-  "column.media.narrow.blobCsid": "Thumb",
-
-  "column.media.narrow.identificationNumber": "ID",
-
-  "column.media.narrow.title": "Title",
-
-  "column.media.narrow.updatedAt": "Updated",
-
   "column.movement.default.currentLocation": "Current location",
 
   "column.movement.default.movementReferenceNumber": "Reference number",
@@ -248,17 +281,9 @@ export default {
 
   "column.place.default.termDisplayName": "Display name",
 
-  "column.place.default.termDisplayName": "Display name",
-
-  "column.place.default.termStatus": "Term status",
-
   "column.place.default.termStatus": "Term status",
 
   "column.place.default.vocabulary": "Vocabulary",
-
-  "column.place.default.vocabulary": "Vocabulary",
-
-  "column.place.search.updatedAt": "Updated",
 
   "column.place.search.updatedAt": "Updated",
 
@@ -296,6 +321,14 @@ export default {
 
   "column.report.default.name": "Name",
 
+  "column.taxon.default.termDisplayName": "Display name",
+
+  "column.taxon.default.termStatus": "Term status",
+
+  "column.taxon.default.vocabulary": "Vocabulary",
+
+  "column.taxon.search.updatedAt": "Updated",
+
   "column.terms.itemDisplayName": "Term",
 
   "column.terms.sourceField": "Field",
@@ -310,6 +343,8 @@ export default {
 
   "column.valuation.default.valueType": "Type",
 
+  "column.vocabulary.default.displayName": "Name",
+
   "column.work.default.termDisplayName": "Display name",
 
   "column.work.default.termStatus": "Term status",
@@ -318,17 +353,23 @@ export default {
 
   "column.work.search.updatedAt": "Updated",
 
-  // Label of the cancel button in the confirm delete modal.
-  "confirmRecordDeleteModal.cancel": "Cancel",
+  // The message shown in the confirm delete modal when the record to be deleted has hierarchy (broader/narrower) relations.
+  "confirmRecordDeleteModal.hasHierarchy": "{title} cannot be deleted because it belongs to a hierarchy. To delete this record, first remove its broader and narrower records.",
 
-  // Label of the save button in the confirm delete modal.
-  "confirmRecordDeleteModal.delete": "Delete",
+  // The message shown in the confirm delete modal when the record to be deleted is related to other records.
+  "confirmRecordDeleteModal.hasRelations": "This record is related to other records. Deleting this record will cause those relationships to be lost.",
+
+  // The message shown in the confirm delete modal when the record to be deleted is a role that is used by user accounts.
+  "confirmRecordDeleteModal.hasRoleUses": "{title} cannot be deleted because it is associated with user accounts.",
+
+  // The message shown in the confirm delete modal when the record to be deleted is an authority item that is used by other records.
+  "confirmRecordDeleteModal.hasUses": "{title} cannot be deleted because it is used by other records.",
 
   // The prompt shown to confirm deletion of a record.
-  "confirmRecordDeleteModal.prompt": "Delete this record?",
+  "confirmRecordDeleteModal.prompt": "Delete {title}?",
 
   // Title of the modal shown to confirm deletion of a record.
-  "confirmRecordDeleteModal.title": "Delete",
+  "confirmRecordDeleteModal.title": "Delete {recordName}",
 
   // Label of the cancel button in the confirm navigation modal.
   "confirmRecordNavigationModal.cancel": "Don't leave",
@@ -344,6 +385,18 @@ export default {
 
   // Title of the modal shown to confirm navigation away from a record that has unsaved changes.
   "confirmRecordNavigationModal.title": "Leave Record?",
+
+  // The prompt shown to confirm unrelating a record.
+  "confirmRecordUnrelateModal.prompt": "Unrelate {title} from the primary record?",
+
+  // The prompt shown to confirm unrelating multiple selected records.
+  "confirmRecordUnrelateModal.promptMultiple": "Unrelate {recordCount, plural, one {the selected record} other {# selected records}} from the primary record?",
+
+  // Title of the modal shown to confirm unrelating a record.
+  "confirmRecordUnrelateModal.title": "Unrelate {recordName}",
+
+  // The message displayed in the unrelate modal when unrelating is in progress.
+  "confirmRecordUnrelateModal.unrelating": "Unrelating...",
 
   "contentViewer.error": "Preview not available",
 
@@ -362,17 +415,28 @@ export default {
 
   "createPage.title": "Create New",
 
+  // Title of the recent records panel on the dashboard page.
+  "dashboardPage.recentPanelTitle": "Recently Updated Records",
+
+  // Title of the dashboard page.
+  "dashboardPage.title": "My CollectionSpace",
+
   // The value of a datetime field.
   "dateTimeInputContainer.value": "{date} {time}",
 
   // Label of the delete button.
   "deleteButton.label": "Delete",
 
+  // Label of the deprecate button.
+  "deprecateButton.label": "Deactivate",
+
   "errorPage.ERR_INVALID_CSID": "\"{csid}\" is not a valid CSID.",
 
   "errorPage.ERR_INVALID_RELATED_TYPE": "The record type \"{recordType}\" does not have a related type \"{relatedRecordType}\".",
 
   "errorPage.ERR_MISSING_VOCABULARY": "A vocabulary must be specified for the authority record type \"{recordType}\".",
+
+  "errorPage.ERR_NOT_ALLOWED": "You're not allowed to view this type of record.",
 
   "errorPage.ERR_NOT_FOUND": "The record you're looking for doesn't seem to exist.",
 
@@ -384,7 +448,30 @@ export default {
 
   "errorPage.error": "Error code: {code}",
 
-  "errorPage.notFound": "Not Found",
+  "errorPage.title": "Page Not Found",
+
+  "field.account.role.name": "Roles",
+
+  // Message to display when the email is invalid on the user account form.
+  "field.accounts_common.email.errorInvalidEmail": "Email is not a valid address. Correct the value {value}.",
+
+  "field.accounts_common.email.name": "Email address",
+
+  // Message to display when the password confirmation does not match the password on a user account record.
+  "field.accounts_common.errorNotConfirmed": "Password and confirm password must be identical.",
+
+  // Message to display when the password is invalid on the user account form.
+  "field.accounts_common.password.errorInvalidPassword": "Password must be between 8 and 24 characters.",
+
+  "field.accounts_common.password.name": "Password",
+
+  "field.accounts_common.passwordConfirmation.name": "Confirm password",
+
+  "field.accounts_common.screenName.name": "Full name",
+
+  "field.accounts_common.status.name": "Status",
+
+  "field.accounts_common.userId.name": "User ID",
 
   "field.acquisitions_common.accessionDateGroup.name": "Accession date",
 
@@ -397,6 +484,8 @@ export default {
   "field.acquisitions_common.acquisitionDateGroup.name": "Acquisition date",
 
   "field.acquisitions_common.acquisitionFunding.name": "Funding",
+
+  "field.acquisitions_common.acquisitionFundingCurrency.fullName": "Funding currency",
 
   "field.acquisitions_common.acquisitionFundingCurrency.name": "Currency",
 
@@ -422,11 +511,15 @@ export default {
 
   "field.acquisitions_common.fieldCollectionEventName.name": "Field collection event name",
 
+  "field.acquisitions_common.groupPurchasePriceCurrency.fullName": "Group purchase price currency",
+
   "field.acquisitions_common.groupPurchasePriceCurrency.name": "Currency",
 
   "field.acquisitions_common.groupPurchasePriceValue.fullName": "Group purchase price value",
 
   "field.acquisitions_common.groupPurchasePriceValue.name": "Value",
+
+  "field.acquisitions_common.objectOfferPriceCurrency.fullName": "Object offer price currency",
 
   "field.acquisitions_common.objectOfferPriceCurrency.name": "Currency",
 
@@ -434,17 +527,23 @@ export default {
 
   "field.acquisitions_common.objectOfferPriceValue.name": "Value",
 
+  "field.acquisitions_common.objectPurchaseOfferPriceCurrency.fullName": "Object purchaser offer price currency",
+
   "field.acquisitions_common.objectPurchaseOfferPriceCurrency.name": "Currency",
 
   "field.acquisitions_common.objectPurchaseOfferPriceValue.fullName": "Object purchaser offer price value",
 
   "field.acquisitions_common.objectPurchaseOfferPriceValue.name": "Value",
 
+  "field.acquisitions_common.objectPurchasePriceCurrency.fullName": "Object purchase price currency",
+
   "field.acquisitions_common.objectPurchasePriceCurrency.name": "Currency",
 
   "field.acquisitions_common.objectPurchasePriceValue.fullName": "Object purchase price value",
 
   "field.acquisitions_common.objectPurchasePriceValue.name": "Value",
+
+  "field.acquisitions_common.originalObjectPurchasePriceCurrency.fullName": "Original object purchase price currency",
 
   "field.acquisitions_common.originalObjectPurchasePriceCurrency.name": "Currency",
 
@@ -457,6 +556,12 @@ export default {
   "field.acquisitions_common.transferOfTitleNumber.name": "Transfer of title number",
 
   "field.acquistions_common.acquisitionFundingSourceProvisos.name": "Source provisos",
+
+  "field.authrole.description.name": "Description",
+
+  "field.authrole.displayName.name": "Name",
+
+  "field.authrole.permission.name": "Permissions",
 
   "field.blobs_common.length.name": "Size",
 
@@ -478,7 +583,7 @@ export default {
 
   "field.citations_common.citationPublicationInfoGroup.name": "Publication",
 
-  "field.citations_common.citationRecordType.name": "Type",
+  "field.citations_common.citationRecordType.name": "Citation type",
 
   "field.citations_common.citationRelatedTermsGroup.name": "Related term",
 
@@ -486,11 +591,15 @@ export default {
 
   "field.citations_common.citationTermGroup.name": "Term",
 
+  "field.citations_common.citationTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.citations_common.edition.name": "Edition",
 
   "field.citations_common.note.name": "Note",
 
   "field.citations_common.pages.name": "Page(s)",
+
+  "field.citations_common.publicationDate.fullName": "Publication date",
 
   "field.citations_common.publicationDate.name": "Date",
 
@@ -504,13 +613,19 @@ export default {
 
   "field.citations_common.relatedTerm.name": "Term",
 
+  "field.citations_common.relationType.fullName": "Related term type",
+
   "field.citations_common.relationType.name": "Type",
 
   "field.citations_common.resourceIdent.name": "Identifier",
 
+  "field.citations_common.role.fullName": "Agent role",
+
   "field.citations_common.role.name": "Role",
 
   "field.citations_common.termDisplayName.name": "Display name",
+
+  "field.citations_common.termFlag.fullName": "Term flag",
 
   "field.citations_common.termFlag.name": "Flag",
 
@@ -518,11 +633,13 @@ export default {
 
   "field.citations_common.termIssue.name": "Issue",
 
+  "field.citations_common.termLanguage.fullName": "Term language",
+
   "field.citations_common.termLanguage.name": "Language",
 
   "field.citations_common.termName.name": "Name",
 
-  "field.citations_common.termPrefForLang.name": "Preferred for language",
+  "field.citations_common.termPrefForLang.name": "Preferred for lang",
 
   "field.citations_common.termQualifier.name": "Qualifier",
 
@@ -544,15 +661,21 @@ export default {
 
   "field.citations_common.termTitle.name": "Title",
 
+  "field.citations_common.termType.fullName": "Term type",
+
   "field.citations_common.termType.name": "Type",
 
   "field.citations_common.termVolume.name": "Volume",
+
+  "field.citations_common.type.fullName": "Resource identifier type",
 
   "field.citations_common.type.name": "Type",
 
   "field.collectionobjects_common.age.fullName": "Age value",
 
   "field.collectionobjects_common.age.name": "Value",
+
+  "field.collectionobjects_common.ageQualifier.fullName": "Age qualifier",
 
   "field.collectionobjects_common.ageQualifier.name": "Qualifier",
 
@@ -648,6 +771,8 @@ export default {
 
   "field.collectionobjects_common.assocPlaceType.name": "Type",
 
+  "field.collectionobjects_common.assocStructuredDateGroup.fullName": "Associated date",
+
   "field.collectionobjects_common.assocStructuredDateGroup.name": "Date",
 
   "field.collectionobjects_common.briefDescription.name": "Brief description",
@@ -666,6 +791,8 @@ export default {
 
   "field.collectionobjects_common.contentConcept.name": "Concept",
 
+  "field.collectionobjects_common.contentDateGroup.fullName": "Content date",
+
   "field.collectionobjects_common.contentDateGroup.name": "Date",
 
   "field.collectionobjects_common.contentDescription.name": "Description",
@@ -675,6 +802,8 @@ export default {
   "field.collectionobjects_common.contentEventNameGroup.name": "Event",
 
   "field.collectionobjects_common.contentEventNameType.name": "Type",
+
+  "field.collectionobjects_common.contentLanguage.fullName": "Content language",
 
   "field.collectionobjects_common.contentLanguage.name": "Language",
 
@@ -710,12 +839,6 @@ export default {
 
   "field.collectionobjects_common.copyNumber.name": "Copy number",
 
-  "field.collectionobjects_common.dimension.name": "Dimension",
-
-  "field.collectionobjects_common.dimensionSubGroup.name": "Measurement",
-
-  "field.collectionobjects_common.dimensionSummary.name": "Summary",
-
   "field.collectionobjects_common.distinguishingFeatures.name": "Distinguishing features",
 
   "field.collectionobjects_common.editionNumber.name": "Edition number",
@@ -740,6 +863,8 @@ export default {
 
   "field.collectionobjects_common.inscriptionContent.name": "Inscription content",
 
+  "field.collectionobjects_common.inscriptionContentDateGroup.fullName": "Textual inscription date",
+
   "field.collectionobjects_common.inscriptionContentDateGroup.name": "Date",
 
   "field.collectionobjects_common.inscriptionContentInscriber.fullName": "Textual inscription inscriber",
@@ -747,6 +872,8 @@ export default {
   "field.collectionobjects_common.inscriptionContentInscriber.name": "Inscriber",
 
   "field.collectionobjects_common.inscriptionContentInterpretation.name": "Interpretation",
+
+  "field.collectionobjects_common.inscriptionContentLanguage.fullName": "Textual inscription language",
 
   "field.collectionobjects_common.inscriptionContentLanguage.name": "Language",
 
@@ -764,6 +891,8 @@ export default {
 
   "field.collectionobjects_common.inscriptionDescription.name": "Inscription description",
 
+  "field.collectionobjects_common.inscriptionDescriptionDateGroup.fullName": "Non-textual inscription date",
+
   "field.collectionobjects_common.inscriptionDescriptionDateGroup.name": "Date",
 
   "field.collectionobjects_common.inscriptionDescriptionInscriber.fullName": "Non-textual inscription inscriber",
@@ -779,6 +908,8 @@ export default {
   "field.collectionobjects_common.inscriptionDescriptionPosition.name": "Position",
 
   "field.collectionobjects_common.inscriptionDescriptionType.name": "Type",
+
+  "field.collectionobjects_common.inventoryStatus.name": "Inventory status",
 
   "field.collectionobjects_common.material.name": "Material",
 
@@ -800,19 +931,11 @@ export default {
 
   "field.collectionobjects_common.materialSource.name": "Source",
 
-  "field.collectionobjects_common.measuredBy.name": "Measured by",
-
-  "field.collectionobjects_common.measuredPart.name": "Part",
-
-  "field.collectionobjects_common.measuredPartGroup.name": "Dimensions",
-
-  "field.collectionobjects_common.measurementMethod.name": "Method",
-
-  "field.collectionobjects_common.measurementUnit.name": "Unit",
-
   "field.collectionobjects_common.numberOfObjects.name": "Number of objects",
 
   "field.collectionobjects_common.numberType.name": "Type",
+
+  "field.collectionobjects_common.numberValue.fullName": "Other number",
 
   "field.collectionobjects_common.numberValue.name": "Number",
 
@@ -831,6 +954,8 @@ export default {
   "field.collectionobjects_common.objectNameCurrency.name": "Currency",
 
   "field.collectionobjects_common.objectNameGroup.name": "Object name",
+
+  "field.collectionobjects_common.objectNameLanguage.fullName": "Object name language",
 
   "field.collectionobjects_common.objectNameLanguage.name": "Language",
 
@@ -900,6 +1025,8 @@ export default {
 
   "field.collectionobjects_common.ownershipExchangeNote.name": "Note",
 
+  "field.collectionobjects_common.ownershipExchangePriceCurrency.fullName": "Ownership exchange currency",
+
   "field.collectionobjects_common.ownershipExchangePriceCurrency.name": "Currency",
 
   "field.collectionobjects_common.ownershipExchangePriceValue.fullName": "Ownership exchange price",
@@ -917,6 +1044,8 @@ export default {
   "field.collectionobjects_common.phase.name": "Phase",
 
   "field.collectionobjects_common.physicalDescription.name": "Physical description",
+
+  "field.collectionobjects_common.publishTo.name": "Publish to",
 
   "field.collectionobjects_common.recordStatus.name": "Record status",
 
@@ -952,9 +1081,13 @@ export default {
 
   "field.collectionobjects_common.titleGroup.name": "Title",
 
+  "field.collectionobjects_common.titleLanguage.fullName": "Title language",
+
   "field.collectionobjects_common.titleLanguage.name": "Language",
 
   "field.collectionobjects_common.titleTranslation.name": "Translation",
+
+  "field.collectionobjects_common.titleTranslationLanguage.fullName": "Title translation language",
 
   "field.collectionobjects_common.titleTranslationLanguage.name": "Language",
 
@@ -968,16 +1101,6 @@ export default {
 
   "field.collectionobjects_common.usageNote.name": "Note",
 
-  "field.collectionobjects_common.value.fullName": "Measurement value",
-
-  "field.collectionobjects_common.value.name": "Value",
-
-  "field.collectionobjects_common.valueDate.fullName": "Measurement date",
-
-  "field.collectionobjects_common.valueDate.name": "Date",
-
-  "field.collectionobjects_common.valueQualifier.name": "Qualifier",
-
   "field.collectionobjects_common.viewersContributionNote.name": "Viewer's contribution note",
 
   "field.collectionobjects_common.viewersPersonalExperience.name": "Viewer's personal experience",
@@ -987,12 +1110,6 @@ export default {
   "field.collectionobjects_common.viewersReference.name": "Viewer's reference",
 
   "field.collectionobjects_common.viewersRole.name": "Viewer's role",
-
-  "field.collectionspace_core.createdAt.name": "Created time",
-
-  "field.collectionspace_core.updatedAt.name": "Last updated time",
-
-  "field.collectionspace_core.updatedBy.name": "Last updated by",
 
   "field.concepts_common.additionalSource.name": "Name",
 
@@ -1014,6 +1131,8 @@ export default {
 
   "field.concepts_common.conceptTermGroup.name": "Term",
 
+  "field.concepts_common.conceptTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.concepts_common.historicalStatus.name": "Historical status",
 
   "field.concepts_common.scopeNote.name": "Note",
@@ -1024,7 +1143,11 @@ export default {
 
   "field.concepts_common.termDisplayName.name": "Display name",
 
+  "field.concepts_common.termFlag.fullName": "Term flag",
+
   "field.concepts_common.termFlag.name": "Flag",
+
+  "field.concepts_common.termLanguage.fullName": "Term language",
 
   "field.concepts_common.termLanguage.name": "Language",
 
@@ -1200,6 +1323,8 @@ export default {
 
   "field.conservation_common.otherPartyNote.name": "Note",
 
+  "field.conservation_common.otherPartyRole.fullName": "Other treatment party role",
+
   "field.conservation_common.otherPartyRole.name": "Role",
 
   "field.conservation_common.proposedAnalysis.name": "Proposed analysis",
@@ -1278,14 +1403,6 @@ export default {
 
   "field.contacts_common.webAddressTypeType.name": "Type",
 
-  "field.date.cancel": "Cancel",
-
-  "field.date.clear": "Clear",
-
-  "field.date.ok": "OK",
-
-  "field.date.today": "Today",
-
   "field.exhibitions_common.boilerplateText.name": "Boilerplate text",
 
   "field.exhibitions_common.curatorialNote.name": "Curatorial note",
@@ -1320,6 +1437,8 @@ export default {
 
   "field.exhibitions_common.exhibitionPersonGroup.name": "Member",
 
+  "field.exhibitions_common.exhibitionPersonRole.fullName": "Working group member role",
+
   "field.exhibitions_common.exhibitionPersonRole.name": "Role",
 
   "field.exhibitions_common.exhibitionReference.fullName": "Bibliographic reference",
@@ -1329,6 +1448,8 @@ export default {
   "field.exhibitions_common.exhibitionReferenceGroup.name": "Bibliographic reference",
 
   "field.exhibitions_common.exhibitionReferenceNote.name": "Note",
+
+  "field.exhibitions_common.exhibitionReferenceType.fullName": "Bibliographic reference type",
 
   "field.exhibitions_common.exhibitionReferenceType.name": "Type",
 
@@ -1352,6 +1473,8 @@ export default {
 
   "field.exhibitions_common.exhibitionStatusNote.name": "Note",
 
+  "field.exhibitions_common.galleryRotationEndDateGroup.fullName": "Gallery rotation end date",
+
   "field.exhibitions_common.galleryRotationEndDateGroup.name": "End date",
 
   "field.exhibitions_common.galleryRotationGroup.name": "Gallery rotation",
@@ -1359,6 +1482,8 @@ export default {
   "field.exhibitions_common.galleryRotationName.name": "Name",
 
   "field.exhibitions_common.galleryRotationNote.name": "Note",
+
+  "field.exhibitions_common.galleryRotationStartDateGroup.fullName": "Gallery rotation start date",
 
   "field.exhibitions_common.galleryRotationStartDateGroup.name": "Start date",
 
@@ -1390,13 +1515,45 @@ export default {
 
   "field.exhibitions_common.venueOpeningDate.name": "Opening date",
 
-  "field.exhibitions_common.venueURL.name": "Web address",
+  "field.exhibitions_common.venueUrl.name": "Web address",
 
   "field.exhibitions_common.workingGroup.name": "Working group",
 
   "field.exhibitions_common.workingGroupNote.name": "Note",
 
   "field.exhibitions_common.workingGroupTitle.name": "Title",
+
+  "field.ext.core.createdAt.name": "Created time",
+
+  "field.ext.core.updatedAt.name": "Last updated time",
+
+  "field.ext.core.updatedBy.name": "Last updated by",
+
+  "field.ext.dimension.dimension.name": "Dimension",
+
+  "field.ext.dimension.dimensionSubGroup.name": "Measurement",
+
+  "field.ext.dimension.dimensionSummary.name": "Summary",
+
+  "field.ext.dimension.measuredBy.name": "Measured by",
+
+  "field.ext.dimension.measuredPart.name": "Part",
+
+  "field.ext.dimension.measuredPartGroup.name": "Dimensions",
+
+  "field.ext.dimension.measurementMethod.name": "Method",
+
+  "field.ext.dimension.measurementUnit.name": "Unit",
+
+  "field.ext.dimension.value.fullName": "Measurement value",
+
+  "field.ext.dimension.value.name": "Value",
+
+  "field.ext.dimension.valueDate.fullName": "Measurement date",
+
+  "field.ext.dimension.valueDate.name": "Date",
+
+  "field.ext.dimension.valueQualifier.name": "Qualifier",
 
   "field.groups_common.owner.name": "Group owner",
 
@@ -1421,6 +1578,8 @@ export default {
   "field.intakes_common.currentLocation.fullName": "Current location",
 
   "field.intakes_common.currentLocation.name": "Location",
+
+  "field.intakes_common.currentLocationFitness.fullName": "Current location fitness",
 
   "field.intakes_common.currentLocationFitness.name": "Fitness",
 
@@ -1516,6 +1675,8 @@ export default {
 
   "field.loansin_common.lendersContact.name": "Contact",
 
+  "field.loansin_common.loanInConditions.name": "Conditions of loan",
+
   "field.loansin_common.loanInDate.name": "Loan in date",
 
   "field.loansin_common.loanInNote.name": "Note",
@@ -1539,8 +1700,6 @@ export default {
   "field.loansin_common.loanStatusGroup.name": "Loan status",
 
   "field.loansin_common.loanStatusNote.name": "Note",
-
-  "field.loansin_common.specialConditionsOfLoan.name": "Conditions of loan",
 
   "field.loansout_common.borrower.fullName": "Borrower name",
 
@@ -1612,17 +1771,23 @@ export default {
 
   "field.locations_common.locTermGroup.name": "Term",
 
+  "field.locations_common.locTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.locations_common.securityNote.name": "Security note",
 
   "field.locations_common.termDisplayName.name": "Display name",
 
+  "field.locations_common.termFlag.fullName": "Term flag",
+
   "field.locations_common.termFlag.name": "Flag",
+
+  "field.locations_common.termLanguage.fullName": "Term language",
 
   "field.locations_common.termLanguage.name": "Language",
 
   "field.locations_common.termName.name": "Name",
 
-  "field.locations_common.termPrefForLang.name": "Preferred for language",
+  "field.locations_common.termPrefForLang.name": "Preferred for lang",
 
   "field.locations_common.termQualifier.name": "Qualifier",
 
@@ -1652,27 +1817,11 @@ export default {
 
   "field.media_common.description.name": "Description",
 
-  "field.media_common.dimension.name": "Dimension",
-
-  "field.media_common.dimensionSubGroup.name": "Measurements",
-
-  "field.media_common.dimensionSummary.name": "Summary",
-
   "field.media_common.externalUrl.name": "External URL",
 
   "field.media_common.identificationNumber.name": "Identification number",
 
   "field.media_common.language.name": "Language",
-
-  "field.media_common.measuredBy.name": "Measured by",
-
-  "field.media_common.measuredPart.name": "Part",
-
-  "field.media_common.measuredPartGroup.name": "Dimensions",
-
-  "field.media_common.measurementMethod.name": "Method",
-
-  "field.media_common.measurementUnit.name": "Unit",
 
   "field.media_common.publisher.name": "Publisher",
 
@@ -1687,16 +1836,6 @@ export default {
   "field.media_common.title.name": "Title",
 
   "field.media_common.type.name": "Type",
-
-  "field.media_common.value.fullName": "Measurement value",
-
-  "field.media_common.value.name": "Value",
-
-  "field.media_common.valueDate.fullName": "Measurement date",
-
-  "field.media_common.valueDate.name": "Date",
-
-  "field.media_common.valueQualifier.name": "Qualifier",
 
   "field.movements_common.currentLocation.fullName": "Current location",
 
@@ -1746,13 +1885,17 @@ export default {
 
   "field.objectexit_common.currentOwner.name": "Current owner",
 
-  "field.objectexit_common.deacApprovalGroupList.name": "Deaccession approval",
+  "field.objectexit_common.deacApprovalGroup.name": "Deaccession approval",
 
   "field.objectexit_common.deaccessionApprovalDate.fullName": "Deaccession approval status date",
 
   "field.objectexit_common.deaccessionApprovalDate.name": "Date",
 
+  "field.objectexit_common.deaccessionApprovalGroup.fullName": "Deaccession approval group",
+
   "field.objectexit_common.deaccessionApprovalGroup.name": "Group",
+
+  "field.objectexit_common.deaccessionApprovalStatus.fullName": "Deaccession approval status",
 
   "field.objectexit_common.deaccessionApprovalStatus.name": "Status",
 
@@ -1762,27 +1905,29 @@ export default {
 
   "field.objectexit_common.depositor.name": "Depositor",
 
+  "field.objectexit_common.displosalNewObjectNumber.name": "Disposal new object number",
+
+  "field.objectexit_common.displosalNote.name": "Disposal note",
+
+  "field.objectexit_common.displosalProvisos.name": "Disposal provisos",
+
+  "field.objectexit_common.displosalReason.name": "Disposal reason",
+
+  "field.objectexit_common.displosalValue.fullName": "Disposal value",
+
+  "field.objectexit_common.displosalValue.name": "Value",
+
+  "field.objectexit_common.disposalCurrency.fullName": "Disposal currency",
+
   "field.objectexit_common.disposalCurrency.name": "Currency",
 
   "field.objectexit_common.disposalDate.name": "Disposal date",
 
   "field.objectexit_common.disposalMethod.name": "Disposal method",
 
-  "field.objectexit_common.disposalNewObjectNumber.name": "Disposal new object number",
-
-  "field.objectexit_common.disposalNote.name": "Disposal note",
-
   "field.objectexit_common.disposalProposedRecipient.name": "Disposal proposed recipient",
 
-  "field.objectexit_common.disposalProvisos.name": "Disposal provisos",
-
-  "field.objectexit_common.disposalReason.name": "Disposal reason",
-
   "field.objectexit_common.disposalRecipient.name": "Disposal recipient",
-
-  "field.objectexit_common.disposalValue.fullName": "Disposal value",
-
-  "field.objectexit_common.disposalValue.name": "Value",
 
   "field.objectexit_common.exitDateGroup.name": "Exit date",
 
@@ -1796,11 +1941,13 @@ export default {
 
   "field.objectexit_common.exitReason.name": "Exit reason",
 
+  "field.objectexit_common.groupDisplosalValue.name": "Value",
+
+  "field.objectexit_common.groupDisposalCurrency.fullName": "Group disposal currency",
+
   "field.objectexit_common.groupDisposalCurrency.name": "Currency",
 
   "field.objectexit_common.groupDisposalValue.fullName": "Group disposal value",
-
-  "field.objectexit_common.groupDisposalValue.name": "Value",
 
   "field.objectexit_common.packingNote.name": "Packing note",
 
@@ -1826,15 +1973,21 @@ export default {
 
   "field.organizations_common.orgTermGroup.name": "Term",
 
+  "field.organizations_common.orgTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.organizations_common.termDisplayName.name": "Display name",
 
+  "field.organizations_common.termFlag.fullName": "Term flag",
+
   "field.organizations_common.termFlag.name": "Flag",
+
+  "field.organizations_common.termLanguage.fullName": "Term language",
 
   "field.organizations_common.termLanguage.name": "Language",
 
   "field.organizations_common.termName.name": "Name",
 
-  "field.organizations_common.termPrefForLang.name": "Preferred for language",
+  "field.organizations_common.termPrefForLang.name": "Preferred for lang",
 
   "field.organizations_common.termQualifier.name": "Qualifier",
 
@@ -1884,6 +2037,8 @@ export default {
 
   "field.persons_common.personTermGroup.name": "Term",
 
+  "field.persons_common.personTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.persons_common.salutation.name": "Salutation",
 
   "field.persons_common.schoolOrStyle.name": "School/style",
@@ -1892,15 +2047,19 @@ export default {
 
   "field.persons_common.termDisplayName.name": "Display name",
 
+  "field.persons_common.termFlag.fullName": "Term flag",
+
   "field.persons_common.termFlag.name": "Flag",
 
   "field.persons_common.termFormattedDisplayName.name": "Formatted display name",
+
+  "field.persons_common.termLanguage.fullName": "Term language",
 
   "field.persons_common.termLanguage.name": "Language",
 
   "field.persons_common.termName.name": "Name",
 
-  "field.persons_common.termPrefForLang.name": "Preferred for language",
+  "field.persons_common.termPrefForLang.name": "Preferred for lang",
 
   "field.persons_common.termQualifier.name": "Qualifier",
 
@@ -1915,6 +2074,8 @@ export default {
   "field.persons_common.termSourceNote.name": "Note",
 
   "field.persons_common.termStatus.name": "Status",
+
+  "field.persons_common.termType.fullName": "Term type",
 
   "field.persons_common.termType.name": "Type",
 
@@ -1931,6 +2092,8 @@ export default {
   "field.places_common.addressPostCode.name": "Postal code",
 
   "field.places_common.addressStateOrProvince.name": "State/Province",
+
+  "field.places_common.addressType.fullName": "Address type",
 
   "field.places_common.addressType.name": "Type",
 
@@ -1951,6 +2114,8 @@ export default {
   "field.places_common.footprintWKT.name": "Footprint WKT",
 
   "field.places_common.geodeticDatum.name": "Datum",
+
+  "field.places_common.geoRefDateGroup.fullName": "Georeference date",
 
   "field.places_common.geoRefDateGroup.name": "Date",
 
@@ -1982,11 +2147,15 @@ export default {
 
   "field.places_common.nameAbbrev.name": "Abbreviation",
 
+  "field.places_common.nameDateGroup.fullName": "Name date",
+
   "field.places_common.nameDateGroup.name": "Date",
 
   "field.places_common.nameNote.name": "Note",
 
   "field.places_common.owner.name": "Owner",
+
+  "field.places_common.ownershipDateGroup.fullName": "Ownership date",
 
   "field.places_common.ownershipDateGroup.name": "Date",
 
@@ -2000,13 +2169,19 @@ export default {
 
   "field.places_common.placeTermGroup.name": "Term",
 
+  "field.places_common.placeTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.places_common.placeType.name": "Place type",
 
   "field.places_common.pointRadiusSpatialFit.name": "Point radius spatial fit",
 
   "field.places_common.termDisplayName.name": "Display name",
 
+  "field.places_common.termFlag.fullName": "Term flag",
+
   "field.places_common.termFlag.name": "Flag",
+
+  "field.places_common.termLanguage.fullName": "Term language",
 
   "field.places_common.termLanguage.name": "Language",
 
@@ -2098,6 +2273,8 @@ export default {
 
   "field.taxon_common.commonNameGroup.name": "Common name",
 
+  "field.taxon_common.commonNameLanguage.fullName": "Common name language",
+
   "field.taxon_common.commonNameLanguage.name": "Language",
 
   "field.taxon_common.commonNameSource.fullName": "Common name source",
@@ -2128,13 +2305,19 @@ export default {
 
   "field.taxon_common.taxonTermGroup.name": "Term",
 
+  "field.taxon_common.taxonTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.taxon_common.taxonYear.name": "Year",
 
   "field.taxon_common.termDisplayName.name": "Display name",
 
+  "field.taxon_common.termFlag.fullName": "Term flag",
+
   "field.taxon_common.termFlag.name": "Flag",
 
   "field.taxon_common.termFormattedDisplayName.name": "Formatted display name",
+
+  "field.taxon_common.termLanguage.fullName": "Term language",
 
   "field.taxon_common.termLanguage.name": "Language",
 
@@ -2166,6 +2349,8 @@ export default {
 
   "field.valuationcontrols_common.valueAmounts.name": "Amount",
 
+  "field.valuationcontrols_common.valueCurrency.fullName": "Amount currency",
+
   "field.valuationcontrols_common.valueCurrency.name": "Currency",
 
   "field.valuationcontrols_common.valueDate.name": "Date",
@@ -2177,6 +2362,26 @@ export default {
   "field.valuationcontrols_common.valueSource.name": "Source",
 
   "field.valuationcontrols_common.valueType.name": "Type",
+
+  "field.vocabularies_common.description.name": "Description",
+
+  "field.vocabularies_common.displayName.name": "Name",
+
+  "field.vocabularies_common.source.name": "Source",
+
+  "field.vocabularyitems_common.description.name": "Description",
+
+  "field.vocabularyitems_common.displayName.fullName": "Term name",
+
+  "field.vocabularyitems_common.displayName.name": "Name",
+
+  "field.vocabularyitems_common.list-item.name": "Terms",
+
+  "field.vocabularyitems_common.source.name": "Source",
+
+  "field.vocabularyitems_common.sourcePage.name": "Source page",
+
+  "field.vocabularyitems_common.termStatus.name": "Status",
 
   "field.works_common.addressCountry.name": "Country",
 
@@ -2190,6 +2395,8 @@ export default {
 
   "field.works_common.addressStateOrProvince.name": "State/Province",
 
+  "field.works_common.addressType.fullName": "Address type",
+
   "field.works_common.addressType.name": "Type",
 
   "field.works_common.addrGroup.name": "Address",
@@ -2200,6 +2407,8 @@ export default {
 
   "field.works_common.creatorGroup.name": "Creator",
 
+  "field.works_common.creatorType.fullName": "Creator type",
+
   "field.works_common.creatorType.name": "Type",
 
   "field.works_common.publisher.fullName": "Publisher name",
@@ -2208,17 +2417,23 @@ export default {
 
   "field.works_common.publisherGroup.name": "Publisher",
 
+  "field.works_common.publisherType.fullName": "Publisher type",
+
   "field.works_common.publisherType.name": "Type",
 
   "field.works_common.termDisplayName.name": "Display name",
 
+  "field.works_common.termFlag.fullName": "Term flag",
+
   "field.works_common.termFlag.name": "Flag",
+
+  "field.works_common.termLanguage.fullName": "Term language",
 
   "field.works_common.termLanguage.name": "Language",
 
   "field.works_common.termName.name": "Name",
 
-  "field.works_common.termPrefForLang.name": "Preferred for language",
+  "field.works_common.termPrefForLang.name": "Preferred for lang",
 
   "field.works_common.termQualifier.name": "Qualifier",
 
@@ -2242,45 +2457,62 @@ export default {
 
   "field.works_common.workTermGroup.name": "Term",
 
+  "field.works_common.workTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
   "field.works_common.workType.name": "Work type",
 
-  "fieldConditionInput.op.eq": "is",
+  "fieldConditionInput.OP_CONTAIN.compact": "contains",
 
-  "fieldConditionInput.op.eq.compact": "=",
+  "fieldConditionInput.OP_CONTAIN.full": "contains",
 
-  "fieldConditionInput.op.gt": "is greater than",
+  "fieldConditionInput.OP_EQ.compact": "=",
 
-  "fieldConditionInput.op.gt.compact": ">",
+  "fieldConditionInput.OP_EQ.full": "is",
 
-  "fieldConditionInput.op.gte": "is greater than or equal to",
+  "fieldConditionInput.OP_GT.compact": ">",
 
-  "fieldConditionInput.op.gte.compact": "≥",
+  "fieldConditionInput.OP_GT.full": "is greater than",
 
-  "fieldConditionInput.op.lt": "is less than",
+  "fieldConditionInput.OP_GTE.compact": "≥",
 
-  "fieldConditionInput.op.lt.compact": "<",
+  "fieldConditionInput.OP_GTE.full": "is greater than or equal to",
 
-  "fieldConditionInput.op.lte": "is less than or equal to",
+  "fieldConditionInput.OP_LT.compact": "<",
 
-  "fieldConditionInput.op.lte.compact": "≤",
+  "fieldConditionInput.OP_LT.full": "is less than",
 
-  "fieldConditionInput.op.match": "matches",
+  "fieldConditionInput.OP_LTE.compact": "≤",
 
-  "fieldConditionInput.op.match.compact": "matches",
+  "fieldConditionInput.OP_LTE.full": "is less than or equal to",
 
-  "fieldConditionInput.op.range": "is between",
+  "fieldConditionInput.OP_MATCH.compact": "matches",
 
-  "fieldConditionInput.op.range.compact": "between",
+  "fieldConditionInput.OP_MATCH.full": "matches",
+
+  "fieldConditionInput.OP_RANGE.compact": "between",
+
+  "fieldConditionInput.OP_RANGE.full": "is between",
 
   "footer.about": "About CollectionSpace",
+
+  // The name of the application, displayed in the footer.
+  "footer.appName": "UI",
 
   "footer.copyright": "Copyright © {startYear}–{endYear} CollectionSpace",
 
   "footer.feedback": "Leave Feedback",
 
+  "footer.feedbackUrl": "http://www.collectionspace.org/contact",
+
   "footer.release": "Release {version}",
 
+  "footer.version": "{name} version {version}",
+
+  "form.account.default.name": "Standard Template",
+
   "form.acquisition.default.name": "Standard Template",
+
+  "form.authrole.default.name": "Standard Template",
 
   "form.blob.default.name": "Standard Template",
 
@@ -2290,13 +2522,19 @@ export default {
 
   "form.citation.default.name": "Standard Template",
 
+  "form.citation.mini.name": "Mini Template",
+
   "form.collectionobject.default.name": "Standard Template",
 
   "form.collectionobject.inventory.name": "Inventory Template",
 
+  "form.collectionobject.mini.name": "Mini Template",
+
   "form.collectionobject.photo.name": "Photograph Template",
 
   "form.concept.default.name": "Standard Template",
+
+  "form.concept.mini.name": "Mini Template",
 
   "form.conditioncheck.default.name": "Standard Template",
 
@@ -2318,6 +2556,8 @@ export default {
 
   "form.location.default.name": "Standard Template",
 
+  "form.location.mini.name": "Mini Template",
+
   "form.media.default.name": "Standard Template",
 
   "form.movement.default.name": "Standard Template",
@@ -2326,24 +2566,35 @@ export default {
 
   "form.organization.default.name": "Standard Template",
 
+  "form.organization.mini.name": "Mini Template",
+
   "form.person.default.name": "Standard Template",
 
+  "form.person.mini.name": "Mini Template",
+
   "form.place.default.name": "Standard Template",
+
+  "form.place.mini.name": "Mini Template",
 
   "form.pottag.default.name": "Standard Template",
 
   "form.taxon.default.name": "Standard Template",
 
-  // The title (advisory text) of the application logo image.
-  "header.logoTitle": "CollectionSpace",
+  "form.taxon.mini.name": "Mini Template",
 
-  "hierarchyInput.citation.children": "Narrower",
+  "form.vocabulary.default.name": "Standard Template",
 
-  "hierarchyInput.citation.parent": "Broader",
+  "form.work.default.name": "Standard Template",
 
-  "hierarchyInput.citation.siblings": "Adjacent",
+  "form.work.mini.name": "Mini Template",
 
-  "hierarchyInput.collectionobject.child": "Object",
+  "hierarchyInput.citation.children": "Narrower citations",
+
+  "hierarchyInput.citation.parent": "Broader citation",
+
+  "hierarchyInput.citation.siblings": "Adjacent citations",
+
+  "hierarchyInput.collectionobject.childName": "Object",
 
   "hierarchyInput.collectionobject.children": "Component objects",
 
@@ -2351,51 +2602,55 @@ export default {
 
   "hierarchyInput.collectionobject.parent": "Broader object",
 
+  "hierarchyInput.collectionobject.parentName": "Object",
+
   "hierarchyInput.collectionobject.parentType": "Type",
 
   "hierarchyInput.collectionobject.siblings": "Adjacent objects",
 
-  "hierarchyInput.concept.children": "Narrower",
+  "hierarchyInput.concept.children": "Narrower concepts",
 
-  "hierarchyInput.concept.parent": "Broader",
+  "hierarchyInput.concept.parent": "Broader concept",
 
-  "hierarchyInput.concept.siblings": "Adjacent",
+  "hierarchyInput.concept.siblings": "Adjacent concepts",
 
-  "hierarchyInput.location.children": "Narrower",
+  "hierarchyInput.location.children": "Narrower locations",
 
-  "hierarchyInput.location.parent": "Broader",
+  "hierarchyInput.location.parent": "Broader location",
 
-  "hierarchyInput.location.siblings": "Adjacent",
+  "hierarchyInput.location.siblings": "Adjacent locations",
 
-  "hierarchyInput.organization.children": "Narrower",
+  "hierarchyInput.organization.children": "Narrower organizations",
 
-  "hierarchyInput.organization.parent": "Broader",
+  "hierarchyInput.organization.parent": "Broader organization",
 
-  "hierarchyInput.organization.siblings": "Adjacent",
+  "hierarchyInput.organization.siblings": "Adjacent organizations",
 
-  "hierarchyInput.person.children": "Narrower",
+  "hierarchyInput.person.children": "Narrower persons",
 
-  "hierarchyInput.person.parent": "Broader",
+  "hierarchyInput.person.parent": "Broader person",
 
-  "hierarchyInput.person.siblings": "Adjacent",
+  "hierarchyInput.person.siblings": "Adjacent persons",
 
-  "hierarchyInput.place.children": "Narrower",
+  "hierarchyInput.place.children": "Narrower places",
 
-  "hierarchyInput.place.parent": "Broader",
+  "hierarchyInput.place.parent": "Broader place",
 
-  "hierarchyInput.place.siblings": "Adjacent",
+  "hierarchyInput.place.siblings": "Adjacent places",
 
-  "hierarchyInput.taxon.children": "Narrower",
+  "hierarchyInput.taxon.children": "Narrower taxon names",
 
-  "hierarchyInput.taxon.parent": "Broader",
+  "hierarchyInput.taxon.parent": "Broader taxon name",
 
-  "hierarchyInput.taxon.siblings": "Adjacent",
+  "hierarchyInput.taxon.siblings": "Adjacent taxon names",
 
-  "hierarchyInput.work.children": "Narrower",
+  "hierarchyInput.work.children": "Narrower works",
 
-  "hierarchyInput.work.parent": "Broader",
+  "hierarchyInput.work.parent": "Broader work",
 
-  "hierarchyInput.work.siblings": "Adjacent",
+  "hierarchyInput.work.siblings": "Adjacent works",
+
+  "hierarchyReparentNotifier.reparentWarning": "{childName} currently has the broader record {parentName}. Its broader record will be changed when this record is saved.",
 
   "idGenerator.accession.type": "Accession",
 
@@ -2495,6 +2750,10 @@ export default {
 
   "inputTable.work.termSource": "Source",
 
+  "list.account.resultCount": "{totalItems, plural, =0 {No users} one {1 user} other {{startNum}–{endNum} of {totalItems} users}} found",
+
+  "list.account.searching": "Finding users...",
+
   "list.authRef.resultCount": "{totalItems, plural, =0 {No terms} one {1 term} other {{startNum}–{endNum} of {totalItems} terms}} found",
 
   "list.authRef.searching": "Finding terms...",
@@ -2506,6 +2765,10 @@ export default {
   "list.refDoc.resultCount": "{totalItems, plural, =0 {No uses} one {1 use} other {{startNum}–{endNum} of {totalItems} uses}} found",
 
   "list.refDoc.searching": "Finding uses...",
+
+  "list.role.resultCount": "{totalItems, plural, =0 {No roles} one {1 role} other {{startNum}–{endNum} of {totalItems} roles}} found",
+
+  "list.role.searching": "Finding roles...",
 
   // Label of the cancel button in the lock record modal.
   "lockRecordModal.cancel": "Cancel",
@@ -2522,25 +2785,34 @@ export default {
   // Title of the modal shown to optionally lock a record on save.
   "lockRecordModal.title": "Lock Record?",
 
-  // Generic error message displayed when a more specific error message is not available.
+  // Label of the login button.
+  "loginButton.label": "Sign in",
+
+  // Error message displayed when incorrect credentials were entered during login.
+  "loginForm.ERR_INVALID_CREDENTIALS": "Sign in failed. Incorrect username/password.",
+
+  // Error message displayed when there is a network error during login.
+  "loginForm.ERR_NETWORK": "Sign in failed. Unable to reach the CollectionSpace server.",
+
+  // Error message displayed when the logged in user belongs to the wrong tenant.
+  "loginForm.ERR_WRONG_TENANT": "Sign in failed. The user is not registered to this CollectionSpace tenant.",
+
+  // Generic login error message. Displayed when a more specific error message is not available.
   "loginForm.error": "Sign in failed.",
 
-  // Error message displayed when incorrect credentials were entered.
-  "loginForm.error.badCredentials": "Incorrect username/password. Please try again.",
+  // The prompt displayed on the login form when the login session has expired.
+  "loginForm.expiredPrompt": "Your session has expired. Please sign in again to continue.",
 
-  // Label for the password field.
-  "loginForm.label.password": "Password",
+  // Text of the forgot password link.
+  "loginForm.forgotPassword": "Forgot password",
 
-  // Label for the submit button.
-  "loginForm.label.submit": "Sign in",
-
-  // Label for the username field.
-  "loginForm.label.username": "Email",
+  // Label for the login password field.
+  "loginForm.password": "Password",
 
   // Message displayed while login is in progress.
   "loginForm.pending": "Signing in...",
 
-  // The login prompt displayed when there are no errors.
+  // The prompt displayed on the login form when the user is not logged in.
   "loginForm.prompt": "Please sign in to continue.",
 
   // Message displayed when login completes successfully.
@@ -2548,6 +2820,15 @@ export default {
 
   // Title displayed above the login form.
   "loginForm.title": "Sign In",
+
+  // Label for the login username field.
+  "loginForm.username": "Email",
+
+  // The title of the login modal.
+  "loginModal.title": "Sign In",
+
+  // The title (advisory text) of the application logo image.
+  "logo.title": "CollectionSpace",
 
   // Message displayed while logout is in progress.
   "logoutIndicator.pending": "Signing out...",
@@ -2559,8 +2840,20 @@ export default {
 
   "mediaViewerPanel.titleWithCount": "{title}: {totalItems, number}",
 
+  "navBar.admin": "Administration",
+
+  "navBar.create": "Create New",
+
+  "navBar.dashboard": "My CollectionSpace",
+
+  "navBar.search": "Search",
+
   // Label of the open button.
   "openButton.label": "Open",
+
+  "option.accountStatuses.active": "active",
+
+  "option.accountStatuses.inactive": "inactive",
 
   "option.acquisitionMethods.exchange": "exchange",
 
@@ -3918,6 +4211,10 @@ export default {
 
   "option.valueTypes.Replacement Value": "replacement value",
 
+  "option.vocabTermStatuses.active": "active",
+
+  "option.vocabTermStatuses.inactive": "inactive",
+
   "option.webAddressTypes.business": "business",
 
   "option.webAddressTypes.other": "other",
@@ -4064,10 +4361,104 @@ export default {
 
   "panel.work.info": "Work Information",
 
+  // Label for the confirm password field on the password reset form.
+  "passwordResetForm.confirmPassword": "Confirm password",
+
+  // Generic message to display when a password reset fails, and no more specific message is available.
+  "passwordResetForm.error": "An error occurred while attempting to reset the password: {detail}",
+
+  // Message to display when the password is invalid on the password reset form.
+  "passwordResetForm.errorInvalidPassword": "The password must be between 8 and 24 characters.",
+
+  // Message to display when no password confirmation is entered on the password reset form.
+  "passwordResetForm.errorMissingConfirmation": "Please confirm the new password.",
+
+  // Message to display when no password is entered on the password reset form.
+  "passwordResetForm.errorMissingPassword": "Please enter a new password.",
+
+  // Message to display when the password confirmation does not match the password on the password reset form.
+  "passwordResetForm.errorNotConfirmed": "The password was not correctly confirmed.",
+
+  // Message to display when the password reset token has expired on the password reset form.
+  "passwordResetForm.errorTokenExpired": "The password reset request has expired. Please {newRequestLink} to reset your password.",
+
+  // Message to display when the password reset token is invalid on the password reset form.
+  "passwordResetForm.errorTokenInvalid": "The password reset request could not be validated. Please {newRequestLink} to reset your password.",
+
+  // Text of the link to the login page displayed after a password has been reset.
+  "passwordResetForm.loginLink": "Sign in",
+
+  // Text of the link to make a new password reset request, displayed in the error message when a token is invalid or has expired.
+  "passwordResetForm.newRequestLink": "make a new request",
+
+  // Label for the password field on the password reset form.
+  "passwordResetForm.password": "Password",
+
+  // The prompt displayed on the password reset form.
+  "passwordResetForm.prompt": "Enter the new password for this account.",
+
+  // Label for the submit button on the password reset form.
+  "passwordResetForm.submit": "Submit",
+
+  // Message displayed when a password reset has been successfully completed.
+  "passwordResetForm.success": "Your password has been reset. {loginLink} to continue.",
+
+  // Generic message to display when a password reset request fails, and no more specific message is available.
+  "passwordResetRequestForm.error": "An error occurred while attempting to request the password reset: {detail}",
+
+  // Message to display when the email entered on the password reset request form is not a valid email address.
+  "passwordResetRequestForm.errorInvalidEmail": "{email} is not a valid email address.",
+
+  // Message to display when no email is entered on the password reset request form.
+  "passwordResetRequestForm.errorMissingEmail": "Please enter an email address.",
+
+  // Message to display when the email is not found for a password reset request.
+  "passwordResetRequestForm.errorNotFound": "Could not locate an account associated with the email {email}.",
+
+  // The prompt displayed on the password reset request form.
+  "passwordResetRequestForm.prompt": "Enter your email address to request a password reset.",
+
+  // Label for the submit button on the password reset request form.
+  "passwordResetRequestForm.submit": "Submit",
+
+  // Message displayed when a password reset has been successfully requested.
+  "passwordResetRequestForm.success": "An email has been sent to {email}. Follow the instructions in the email to finish resetting your password.",
+
+  // Label of the 'delete' permission level shown when editing permissions.
+  "permissionsInput.perm.delete": "Delete",
+
+  // Label of the 'none' permission level shown when editing permissions.
+  "permissionsInput.perm.none": "None",
+
+  // Label of the 'read' permission level shown when editing permissions.
+  "permissionsInput.perm.read": "Read",
+
+  // Label of the 'write' permission level shown when editing permissions.
+  "permissionsInput.perm.write": "Write",
+
+  "permissionsInput.serviceType.authority": "Authorities",
+
+  "permissionsInput.serviceType.object": "Objects",
+
+  "permissionsInput.serviceType.procedure": "Procedures",
+
+  "permissionsInput.serviceType.security": "Security Resources",
+
+  "permissionsInput.serviceType.utility": "Utility Resources",
+
   // The placeholder text to display in the quick search input.
   "quickSearchForm.placeholder": "Search",
 
+  // The label of the search button in the quick search input.
+  "quickSearchForm.search": "Search",
+
   "RangeSearchField.fields": "{startField} and {endField}",
+
+  // The name of a collection of records of the type.
+  "record.account.collectionName": "Users",
+
+  // The name of the record type.
+  "record.account.name": "User",
 
   // The name of a collection of records of the type.
   "record.acquisition.collectionName": "Acquisitions",
@@ -4086,6 +4477,18 @@ export default {
 
   // The name of the record type.
   "record.authority.name": "Authorities",
+
+  // The name of a collection of records of the type.
+  "record.authrole.collectionName": "Roles",
+
+  // The name of the record type.
+  "record.authrole.name": "Role",
+
+  // The name of a collection of records of the type.
+  "record.batch.collectionName": "Batch Jobs",
+
+  // The name of the record type.
+  "record.batch.name": "Batch Job",
 
   // The name of a collection of records of the type.
   "record.blob.collectionName": "Blobs",
@@ -4140,6 +4543,12 @@ export default {
 
   // The name of the record type.
   "record.group.name": "Group",
+
+  // The name of a collection of records of the type.
+  "record.idgenerator.collectionName": "ID Generators",
+
+  // The name of the record type.
+  "record.idgenerator.name": "ID Generator",
 
   // The name of a collection of records of the type.
   "record.intake.collectionName": "Intakes",
@@ -4220,6 +4629,12 @@ export default {
   "record.procedure.name": "Procedures",
 
   // The name of a collection of records of the type.
+  "record.report.collectionName": "Reports",
+
+  // The name of the record type.
+  "record.report.name": "Report",
+
+  // The name of a collection of records of the type.
   "record.taxon.collectionName": "Taxon names",
 
   // The name of the record type.
@@ -4230,6 +4645,12 @@ export default {
 
   // The name of the record type.
   "record.valuation.name": "Valuation Control",
+
+  // The name of a collection of records of the type.
+  "record.vocabulary.collectionName": "Term Lists",
+
+  // The name of the record type.
+  "record.vocabulary.name": "Term List",
 
   // The name of a collection of records of the type.
   "record.work.collectionName": "Works",
@@ -4280,6 +4701,9 @@ export default {
 
   "relationEditor.notFound": "Not Found",
 
+  // Notification message shown when a report fails.
+  "report.error": "Error running report: {error}",
+
   // Label of the cancel button in the report modal.
   "reportModal.cancel": "Cancel",
 
@@ -4289,8 +4713,17 @@ export default {
   // Label of the save button in the report modal.
   "reportModal.run": "Run",
 
+  // The message shown in the report modal when the record has unsaved changes.
+  "reportModal.unsaved": "This record has changes that have not been saved. The report will not include any unsaved data.",
+
+  // Message displayed when a report invocation fails.
+  "reportViewerPage.error": "Error running report: {error}",
+
   // Message displayed when a report is loading.
   "reportViewerPage.loading": "Generating report…",
+
+  // Title of the reset password page.
+  "resetPasswordPage.title": "Reset Password",
 
   // Label of the revert button.
   "revertButton.label": "Revert",
@@ -4310,6 +4743,9 @@ export default {
   // Label of the search button.
   "searchButton.label": "Search",
 
+  // The label used to indicate search terms that are or'ed together.
+  "searchField.or": "or",
+
   "searchForm.fullTextSearch": "Full Text Search",
 
   "searchForm.keyword": "Keywords",
@@ -4325,6 +4761,8 @@ export default {
 
   "searchPanel.titleWithCount": "{title}: {totalItems, number}",
 
+  "searchPanel.titleWithCountFiltered": "{title}: {totalItems, number} (filtered)",
+
   "searchResultLink.error": "...",
 
   "searchResultLink.label": "{recordNumber}",
@@ -4338,7 +4776,9 @@ export default {
 
   "searchResultSummary.editSearch": "Revise search",
 
-  "searchResultSummary.error": "Error: {message}",
+  "searchResultSummary.ERR_NOT_ALLOWED": "You're not allowed to perform this search.",
+
+  "searchResultSummary.error": "Error: {code}",
 
   "searchResultTable.searchPending": "⋯",
 
@@ -4367,6 +4807,9 @@ export default {
 
   "searchToRelateModal.label": "Relate",
 
+  // Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.
+  "searchToRelateModal.multipleSubjectsRelated": "{objectCount, plural, =0 {No records} one {# record} other {# records}} records related to each of {subjectCount, number} records.",
+
   "searchToRelateModal.relate": "Relate selected",
 
   "searchToRelateModal.relating": "Relating...",
@@ -4378,6 +4821,8 @@ export default {
   // Label showing the number of selected items.
   "selectBar.selected": "{selectedItemCount, plural, =0 {0 selected} other {# selected}}",
 
+  "structuredDateInput.parseFailed": "Unrecognized display date format. Try a different format, or enter values in the fields below.",
+
   // Default label of the subrecord detach button.
   "subrecordDetachButton.label": "Remove",
 
@@ -4388,9 +4833,12 @@ export default {
   "subresource.terms.collectionName": "Authority Terms Used by {record}",
 
   // Message displayed in the term picker input dropdown when filtering options.
-  "termPickerInputContainer.count": "{count, plural, =0 {No matching terms} one {# matching term} other {# matching terms}} found",
+  "termPickerInput.count": "{count, plural, =0 {No matching terms} one {# matching term} other {# matching terms}} found",
 
   "termsUsedPanel.title": "Terms Used",
+
+  // Label of the undeprecate button.
+  "undeprecateButton.label": "Activate",
 
   // Label of the unrelate button.
   "unrelateButton.label": "Unrelate",
@@ -4408,6 +4856,9 @@ export default {
   "UploadInputContainer.urlInputLabel": "URL",
 
   "UploadInputContainer.urlOptionLabel": "external media",
+
+  // Content of the link displayed alongside URL input fields.
+  "urlInput.link": "Open",
 
   "usedByPanel.title": "Used By",
 
@@ -4541,13 +4992,13 @@ export default {
   "vocab.place.tgn.name": "TGN",
 
   // The name of a collection of records from the vocabulary.
-  "vocab.taxon.all.collectionName": "All Taxonomies",
+  "vocab.taxon.all.collectionName": "All Taxonomic Names",
 
   // The name of the vocabulary.
   "vocab.taxon.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
-  "vocab.taxon.local.collectionName": "Local Taxonomy",
+  "vocab.taxon.local.collectionName": "Local Taxonomic Names",
 
   // The name of the vocabulary.
   "vocab.taxon.local.name": "Local",
@@ -4570,5 +5021,19 @@ export default {
   // The name of the vocabulary.
   "vocab.work.local.name": "Local",
 
+  // Label of the clear button on the search bar of the vocabulary (term list) admin page.
+  "vocabularySearchBar.clear": "Clear",
+
+  // Label of the input on the search bar of the vocabulary (term list) admin page.
+  "vocabularySearchBarSearchBar.filter": "Filter by name",
+
+  "vocabularyUsedByPanel.notUsed": "No uses found.",
+
+  "vocabularyUsedByPanel.title": "Used By",
+
+  "workflowStateIcon.deprecated": "Deprecated",
+
   "workflowStateIcon.locked": "Locked",
+
+  "workflowStateIcon.replicated": "Replicated",
 }
