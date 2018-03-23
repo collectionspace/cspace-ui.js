@@ -531,6 +531,10 @@ export default (configContext) => {
             objectName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectName.fullName',
+                    defaultMessage: 'Object name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectName.name',
                     defaultMessage: 'Name',
