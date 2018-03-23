@@ -199,8 +199,12 @@ export const applyPlugins = (targetConfig, plugins, configContext = {}) => {
     return targetConfig;
   }
 
-  return plugins.reduce((updatedConfig, plugin) =>
-    applyPlugin(updatedConfig, plugin, configContext), targetConfig);
+  return plugins.reduce((updatedConfig, plugin) => {
+    // eslint-disable-next-line no-param-reassign
+    configContext.config = updatedConfig;
+
+    return applyPlugin(updatedConfig, plugin, configContext);
+  }, targetConfig);
 };
 
 export const mergeStrategy = {
