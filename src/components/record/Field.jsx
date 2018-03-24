@@ -60,6 +60,7 @@ const propTypes = {
   value: PropTypes.any,
   parentPath: PropTypes.array,
   subpath: PropTypes.string,
+  tabular: PropTypes.bool,
   label: PropTypes.node,
   readOnly: PropTypes.bool,
   onAddInstance: PropTypes.func,
@@ -115,7 +116,7 @@ export default function Field(props, context) {
   const viewConfigKey = (viewType === 'search') ? 'searchView' : defaultViewConfigKey;
   const viewConfig = fieldConfig[viewConfigKey] || fieldConfig[defaultViewConfigKey];
   const BaseComponent = viewConfig.type;
-  const configuredProps = viewConfig.props;
+  const configuredProps = viewConfig.props || {};
   const providedProps = {};
 
   const basePropTypes = BaseComponent.propTypes;
@@ -126,6 +127,7 @@ export default function Field(props, context) {
     }
   });
 
+  const effectiveReadOnly = providedProps.readOnly || configuredProps.readOnly;
   const computedProps = {};
 
   if (fieldConfig.repeating && viewType !== 'search') {
@@ -134,7 +136,7 @@ export default function Field(props, context) {
 
   if ('label' in basePropTypes) {
     computedProps.label = renderLabel(field, recordData, {
-      readOnly: providedProps.readOnly,
+      readOnly: effectiveReadOnly,
     });
   }
 
@@ -153,17 +155,17 @@ export default function Field(props, context) {
 
       return renderLabel(childField, recordData, {
         key: childName,
-        readOnly: providedProps.readOnly,
+        readOnly: effectiveReadOnly,
       });
     };
   }
 
+  const effectiveProps = Object.assign({}, computedProps, configuredProps, providedProps, {
+    readOnly: effectiveReadOnly,
+  });
+
   return (
-    <BaseComponent
-      {...computedProps}
-      {...providedProps}
-      {...configuredProps}
-    />
+    <BaseComponent {...effectiveProps} />
   );
 }
 
