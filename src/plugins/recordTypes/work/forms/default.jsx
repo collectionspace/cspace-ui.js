@@ -17,6 +17,10 @@ const template = (configContext) => {
     InputTable,
   } = configContext.recordComponents;
 
+  const {
+    extensions,
+  } = configContext.config;
+
   return (
     <Field name="document">
       <Panel name="info" collapsible>
@@ -77,39 +81,7 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
-        {/* TODO: Break out address group */}
-
-        <Field name="addrGroupList">
-          <Field name="addrGroup">
-            <Panel>
-              <Cols>
-                <Col>
-                  <Field name="addressPlace1" />
-                  <Field name="addressPlace2" />
-                  <Field name="addressMunicipality" />
-
-                </Col>
-
-                <Col>
-                  <Row>
-                    <Field name="addressStateOrProvince" />
-                    <Field name="addressPostCode" />
-                  </Row>
-
-                  <Field name="addressCountry" />
-
-                  <Row>
-                    <Col>
-                      <Field name="addressType" />
-                    </Col>
-
-                    <Col />
-                  </Row>
-                </Col>
-              </Cols>
-            </Panel>
-          </Field>
-        </Field>
+        {extensions.address.form}
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>

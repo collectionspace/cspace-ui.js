@@ -82,6 +82,7 @@ export default () => ({
       // Initialize the default extensions. This makes testing easier, since the plugins that
       // implement these extensions won't necessarily be loaded for tests.
 
+      address: {},
       core: {
         advancedSearch: [],
       },
