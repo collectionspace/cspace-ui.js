@@ -13,7 +13,7 @@ To create a profile using the generator:
 On a server:
 
 - Install CollectionSpace 5.0.
-- Configure and enable a tenant on the CollectionSpace server to be used to demonstrate the profile. If the profile contains schema changes (e.g. new record types, adding extension fields to existing record types, changing the fields returned in list results for record types), these must be configured on the server, for the tenant. This is done by editing application layer XML files, and deploying the services layer.
+- Configure and enable a tenant on the CollectionSpace server to be used to demonstrate the profile. If the profile contains schema changes (e.g. new record types, adding extension fields to existing record types, changing the fields returned in list results for record types), these must be configured on the server, for the tenant. This is done by editing application layer XML files, and deploying the services layer -[see details here](https://wiki.collectionspace.org/display/UNRELEASED/Configuring+CollectionSpace).
 
 On a development workstation (could be the same or a different machine as the server):
 
