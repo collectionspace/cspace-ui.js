@@ -42,7 +42,7 @@ On the development workstation:
   Enter a display name for the profile. This should be title case, and may include spaces. Do not include the word "profile".
 
   - **What is the name of the profile?**
-  Enter the profile name, as configured in the application layer. This is typically a short lowercase string, with no spaces.
+  Enter the profile name, as configured in the application layer. This is typically a short lowercase string, with no spaces -e.g., core, bonsai, fcart, lhmc, etc.
 
   - **What is the tenant ID of the profile?**
   Enter the tenant ID of the profile, as configured in the application layer. This is typically a number.
