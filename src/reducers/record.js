@@ -554,8 +554,9 @@ const handleCreateIDFulfilled = (state, action) => {
     return state;
   }
 
-  const newValue = action.payload.data;
-  const updatedData = deepSet(data, path, newValue);
+  const value = action.payload.data;
+  const createdID = (typeof value === 'number') ? value.toString() : value;
+  const updatedData = deepSet(data, path, createdID);
   const nextState = setCurrentData(state, csid, updatedData);
 
   return nextState;
