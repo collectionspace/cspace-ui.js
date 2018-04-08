@@ -28,7 +28,6 @@ import place from './place';
 // import pottag from './pottag';
 import procedure from './procedure';
 import report from './report';
-// import taxon from './taxon';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
 import work from './work';
@@ -64,7 +63,6 @@ export default [
   // pottag,
   procedure,
   report,
-  // taxon,
   valuation,
   vocabulary,
   work,
