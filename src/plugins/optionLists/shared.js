@@ -20,6 +20,22 @@ export default () => ({
         '20',
       ],
     },
+    booleans: {
+      values: [
+        'true',
+        'false',
+      ],
+      messages: defineMessages({
+        true: {
+          id: 'option.booleans.true',
+          defaultMessage: 'yes',
+        },
+        false: {
+          id: 'option.booleans.false',
+          defaultMessage: 'no',
+        },
+      }),
+    },
     dateQualifiers: {
       values: [
         '+/-',
