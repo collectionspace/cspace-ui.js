@@ -127,7 +127,11 @@ export default class SelectBar extends Component {
         <CheckboxInput
           embedded
           readOnly={items.size === 0}
-          tristate
+          transition={{
+            null: false,
+            true: false,
+            false: true,
+          }}
           value={isPageSelected(items, selectedItems)}
           onCommit={this.handleCheckboxCommit}
         />

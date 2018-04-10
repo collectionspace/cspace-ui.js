@@ -8,6 +8,10 @@ import RangeSearchField from '../RangeSearchField';
 import { configKey } from '../../../helpers/configHelpers';
 
 import {
+  DATA_TYPE_BOOL,
+} from '../../../constants/dataTypes';
+
+import {
   OP_CONTAIN,
   OP_EQ,
   OP_GT,
@@ -141,7 +145,9 @@ export default class FieldConditionInput extends Component {
     const name = path[path.length - 1];
     const parentPath = path.slice(0, path.length - 1);
 
-    const messages = get(config, ['recordTypes', recordType, 'fields', ...path, configKey, 'messages']);
+    const fieldConfig = get(config, ['recordTypes', recordType, 'fields', ...path, configKey]);
+    const dataType = get(fieldConfig, 'dataType');
+    const messages = get(fieldConfig, 'messages');
 
     const label = messages
       ? <FormattedMessage {...(messages.fullName || messages.name)} />
@@ -163,6 +169,10 @@ export default class FieldConditionInput extends Component {
             parentPath={parentPath}
             name={name}
             readOnly={readOnly}
+            // Booleans only have two possible values, so null (don't care) or a single desired
+            // value is sufficient to describe all searches, and there's no need to allow multiple
+            // values.
+            repeating={dataType !== DATA_TYPE_BOOL}
             value={value}
             onCommit={this.handleValueCommit}
           />

@@ -57,6 +57,16 @@ export default class SearchField extends Component {
         updatedValue = updatedValue.set(index, value);
 
         onCommit(fieldPath, updatedValue);
+      } else if (typeof value === 'boolean') {
+        let stringValue;
+
+        if (value === true) {
+          stringValue = 'true';
+        } else if (value === false) {
+          stringValue = 'false';
+        }
+
+        onCommit(path, stringValue);
       } else {
         onCommit(path, value);
       }

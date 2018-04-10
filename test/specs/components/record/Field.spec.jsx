@@ -19,6 +19,7 @@ TestInput.propTypes = {
   bar: PropTypes.string,
   label: PropTypes.node,
   formatValue: PropTypes.func,
+  viewType: PropTypes.string,
 };
 
 const CompoundTestInput = () => <div />;
@@ -295,6 +296,23 @@ describe('Field', function suite() {
       </IntlProvider>, this.container);
 
     this.container.textContent.should.equal('message for field.title.name');
+  });
+
+  it('should set viewType on the base component if it is an accepted prop of the base component', function test() {
+    const context = {
+      config,
+      intl,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<Field name="updatedAt" viewType="foo" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(TestInput);
+    result.props.viewType.should.equal('foo');
   });
 
   it('should not pass props to the base component that it does not accept', function test() {

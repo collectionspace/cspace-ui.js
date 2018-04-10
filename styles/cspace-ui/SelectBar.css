@@ -14,3 +14,7 @@
 .common > :global(.cspace-ui-ButtonBar--common) {
   margin-left: 10px;
 }
+
+.common > :global(.cspace-input-CheckboxInput--indeterminate) > input + span {
+  background-image: url(../../images/unselect.svg);
+}

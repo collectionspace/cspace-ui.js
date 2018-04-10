@@ -22,6 +22,7 @@ import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
 import InputTable from '../components/record/InputTable';
 import Subrecord from '../components/record/Subrecord';
+import BaseCheckboxInput from '../components/record/CheckboxInput';
 import URLInput from '../components/record/URLInput';
 import ContentViewer from '../components/record/ContentViewer';
 
@@ -47,7 +48,6 @@ import {
 import * as formatHelpers from '../helpers/formatHelpers';
 
 const {
-  CheckboxInput: BaseCheckboxInput,
   CompoundInput,
   PasswordInput,
   ReadOnlyInput,

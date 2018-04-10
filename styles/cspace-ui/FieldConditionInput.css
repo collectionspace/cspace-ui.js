@@ -2,6 +2,10 @@
   font-size: 14px;
 }
 
+.common :global(.cspace-input-CheckboxInput--indeterminate) > input + span {
+  background-image: url(../../images/wildcard.svg);
+}
+
 .normal {
   composes: common;
   display: flex;

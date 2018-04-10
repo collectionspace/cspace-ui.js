@@ -267,7 +267,9 @@ export const valueToNXQL = (value, path, fieldDescriptor) => {
   } else if (dataType === DATA_TYPE_FLOAT) {
     nxqlValue = parseFloat(data);
   } else if (dataType === DATA_TYPE_BOOL) {
-    nxqlValue = data ? 1 : 0;
+    const boolData = (typeof data === 'string' && data === 'false' ? false : !!data);
+
+    nxqlValue = boolData ? 1 : 0;
   } else {
     nxqlValue = data;
   }

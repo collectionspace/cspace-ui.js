@@ -160,6 +160,10 @@ export default function Field(props, context) {
     };
   }
 
+  if ('viewType' in basePropTypes) {
+    computedProps.viewType = viewType;
+  }
+
   const effectiveProps = Object.assign({}, computedProps, configuredProps, providedProps, {
     readOnly: effectiveReadOnly,
   });

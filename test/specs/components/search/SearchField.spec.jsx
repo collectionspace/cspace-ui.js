@@ -180,6 +180,35 @@ describe('SearchField', function suite() {
     committedValue.should.equal('d');
   });
 
+  it('should call onCommit with a string value when a boolean value is committed', function test() {
+    const value = 'a';
+
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<SearchField repeating={false} value={value} onCommit={handleCommit} />);
+
+    const result = shallowRenderer.getRenderOutput();
+    const { onCommit } = result.props;
+
+    onCommit(['fieldName'], true);
+
+    committedPath.should.deep.equal(['fieldName']);
+    committedValue.should.equal('true');
+
+    onCommit(['fieldName'], false);
+
+    committedPath.should.deep.equal(['fieldName']);
+    committedValue.should.equal('false');
+  });
+
   it('should delete the item and commit the new value when a repeating field instance is removed', function test() {
     const value = Immutable.List(['a', 'b', 'c']);
 
