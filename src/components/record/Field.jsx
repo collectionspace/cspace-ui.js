@@ -6,8 +6,8 @@ import get from 'lodash/get';
 import warning from 'warning';
 
 import {
-    components as inputComponents,
-    helpers as inputHelpers,
+  components as inputComponents,
+  helpers as inputHelpers,
 } from 'cspace-input';
 
 import {
@@ -16,14 +16,18 @@ import {
   isFieldRequired,
 } from '../../helpers/configHelpers';
 
-const { pathHelpers } = inputHelpers;
+const {
+  getPath,
+  pathPropType,
+} = inputHelpers.pathHelpers;
+
 const { Label } = inputComponents;
 
 const defaultViewConfigKey = 'view';
 
-const renderLabel = (fieldDescriptor, recordData, props) => {
+const renderLabel = (fieldDescriptor, providedLabelMessage, recordData, props) => {
   const fieldConfig = fieldDescriptor[configKey];
-  const message = get(fieldConfig, ['messages', 'name']);
+  const message = providedLabelMessage || get(fieldConfig, ['messages', 'name']);
 
   if (!message) {
     return null;
@@ -47,6 +51,7 @@ const renderLabel = (fieldDescriptor, recordData, props) => {
 };
 
 const propTypes = {
+  labelMessage: PropTypes.object,
   viewType: PropTypes.string,
 
   // Code in this component doesn't use these props, but the propTypes need to exist, because
@@ -59,7 +64,7 @@ const propTypes = {
   // The value prop will be validated by the base component, so allow anything here.
   value: PropTypes.any,
   parentPath: PropTypes.array,
-  subpath: PropTypes.string,
+  subpath: pathPropType,
   tabular: PropTypes.bool,
   label: PropTypes.node,
   readOnly: PropTypes.bool,
@@ -87,10 +92,11 @@ export default function Field(props, context) {
   } = context;
 
   const {
+    labelMessage,
     viewType,
   } = props;
 
-  const fullPath = pathHelpers.getPath(props);
+  const fullPath = getPath(props);
 
   // Filter out numeric parts of the path, since they indicate repeating instances that won't be
   // present in the field descriptor.
@@ -135,7 +141,7 @@ export default function Field(props, context) {
   }
 
   if ('label' in basePropTypes) {
-    computedProps.label = renderLabel(field, recordData, {
+    computedProps.label = renderLabel(field, labelMessage, recordData, {
       readOnly: effectiveReadOnly,
     });
   }
@@ -151,9 +157,10 @@ export default function Field(props, context) {
   if ('renderChildInputLabel' in basePropTypes) {
     computedProps.renderChildInputLabel = (childInput) => {
       const childName = childInput.props.name;
+      const childLabelMessage = childInput.props.labelMessage;
       const childField = field[childName];
 
-      return renderLabel(childField, recordData, {
+      return renderLabel(childField, childLabelMessage, recordData, {
         key: childName,
         readOnly: effectiveReadOnly,
       });
