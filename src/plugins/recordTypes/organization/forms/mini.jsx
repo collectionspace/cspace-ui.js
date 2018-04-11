@@ -27,9 +27,11 @@ const template = (configContext) => {
         <Field name="dissolutionDateGroup" />
       </Row>
 
-      <Field name="historyNotes">
-        <Field name="historyNote" />
-      </Field>
+      <Field
+        name="0"
+        repeating={false}
+        subpath={['ns2:organizations_common', 'historyNotes', 'historyNote']}
+      />
     </Field>
   );
 };

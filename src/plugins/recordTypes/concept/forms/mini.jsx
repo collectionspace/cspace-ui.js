@@ -18,9 +18,11 @@ const template = (configContext) => {
         showSiblings={false}
       />
 
-      <Field name="conceptRecordTypes">
-        <Field name="conceptRecordType" />
-      </Field>
+      <Field
+        name="0"
+        repeating={false}
+        subpath={['ns2:concepts_common', 'conceptRecordTypes', 'conceptRecordType']}
+      />
     </Field>
   );
 };

@@ -18,13 +18,15 @@ const template = (configContext) => {
         showSiblings={false}
       />
 
-      <Field name="citationPublicationInfoGroupList">
-        <Field name="citationPublicationInfoGroup">
-          <Field name="publisher" />
-          <Field name="publicationPlace" />
-          <Field name="publicationDate" />
-        </Field>
-      </Field>
+      <Field
+        name="termFullCitation"
+        subpath={['ns2:citations_common', 'citationTermGroupList', 'citationTermGroup', 0]}
+      />
+
+      <Field
+        name="termTitle"
+        subpath={['ns2:citations_common', 'citationTermGroupList', 'citationTermGroup', 0]}
+      />
     </Field>
   );
 };

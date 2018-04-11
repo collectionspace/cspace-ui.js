@@ -25,11 +25,11 @@ const template = (configContext) => {
       <Row>
         <Field name="workType" />
 
-        <Field name="workDateGroupList">
-          <Field name="workDateGroup">
-            <Field name="workDate" />
-          </Field>
-        </Field>
+        <Field
+          name="0"
+          repeating={false}
+          subpath={['ns2:works_common', 'workDateGroupList', 'workDateGroup']}
+        />
       </Row>
 
       <Field name="workHistoryNote" />
