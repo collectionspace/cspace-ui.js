@@ -16,6 +16,7 @@ import {
 } from '../constants/errorCodes';
 
 import {
+  DATA_TYPE_BOOL,
   DATA_TYPE_MAP,
   DATA_TYPE_STRING,
 } from '../constants/dataTypes';
@@ -402,12 +403,19 @@ export const getDefaultValue = (fieldDescriptor) => {
   const config = fieldDescriptor[configKey];
 
   if (config) {
-    const { defaultValue } = config;
+    const {
+      dataType,
+      defaultValue,
+    } = config;
 
     if (typeof defaultValue === 'object' && !Immutable.Map.isMap(defaultValue)) {
       // If an object is supplied as a default value, convert it to an immutable map.
 
       return Immutable.fromJS(defaultValue);
+    } else if (typeof defaultValue === 'undefined' && dataType === DATA_TYPE_BOOL) {
+      // If no default value is configured for a boolean field, consider it to be false.
+
+      return false;
     }
 
     return defaultValue;

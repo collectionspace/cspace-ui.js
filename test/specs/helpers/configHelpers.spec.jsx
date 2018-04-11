@@ -42,6 +42,7 @@ import {
 } from '../../../src/helpers/configHelpers';
 
 import {
+  DATA_TYPE_BOOL,
   DATA_TYPE_INT,
   DATA_TYPE_MAP,
   DATA_TYPE_STRING,
@@ -891,6 +892,16 @@ describe('configHelpers', function moduleSuite() {
           bar: 'baz',
         },
       });
+    });
+
+    it('should return false if the field is a boolean and the default value is undefined', function test() {
+      const fieldDescriptor = {
+        [configKey]: {
+          dataType: DATA_TYPE_BOOL,
+        },
+      };
+
+      getDefaultValue(fieldDescriptor).should.equal(false);
     });
   });
 
