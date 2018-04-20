@@ -3,9 +3,12 @@ export default (requestType) => {
     return {
       params: {
         showItems: true,
+        markIfReferenced: true,
       },
     };
-  } else if (requestType === 'save') {
+  }
+
+  if (requestType === 'save') {
     return {
       params: {
         omittedItemAction: 'softdelete',
