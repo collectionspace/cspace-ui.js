@@ -13,6 +13,10 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   const {
+    DATA_TYPE_BOOL,
+  } = configContext.dataTypes;
+
+  const {
     extensions,
   } = configContext.config;
 
@@ -102,7 +106,15 @@ export default (configContext) => {
             view: {
               type: CompoundInput,
               props: {
-                disableRemoveButton: data => (data && data.get('referenced') === 'true'),
+                disableRemoveButton: (data) => {
+                  if (!data) {
+                    return true;
+                  }
+
+                  const referenced = data.get('referenced');
+
+                  return (typeof referenced === 'undefined' || referenced === 'true');
+                },
                 tabular: true,
                 sortableFields: {
                   displayName: true,
@@ -181,6 +193,12 @@ export default (configContext) => {
                   source: 'vocabTermStatuses',
                 },
               },
+            },
+          },
+          referenced: {
+            [config]: {
+              dataType: DATA_TYPE_BOOL,
+              defaultValue: true,
             },
           },
           workflowState: {

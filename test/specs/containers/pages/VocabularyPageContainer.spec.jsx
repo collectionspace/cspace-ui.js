@@ -18,7 +18,17 @@ const perms = Immutable.fromJS({
   },
 });
 
+const csid = '1234';
+const data = Immutable.Map();
+
 const store = mockStore({
+  record: Immutable.fromJS({
+    [csid]: {
+      data: {
+        current: data,
+      },
+    },
+  }),
   user: Immutable.Map({
     perms,
   }),
@@ -30,12 +40,21 @@ describe('VocabularyPageContainer', function suite() {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<VocabularyPageContainer />, context);
+    shallowRenderer.render(
+      <VocabularyPageContainer
+        match={{
+          params: {
+            csid,
+          },
+        }}
+      />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(VocabularyPage);
+    result.props.should.have.property('data', data);
     result.props.should.have.property('perms', perms);
+    result.props.should.have.property('readVocabularyItemRefs').that.is.a('function');
     result.props.should.have.property('setAdminTab').that.is.a('function');
   });
 });

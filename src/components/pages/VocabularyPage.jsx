@@ -14,10 +14,12 @@ import VocabularySearchBar from '../admin/VocabularySearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
+  data: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
+  readVocabularyItemRefs: PropTypes.func,
   setAdminTab: PropTypes.func,
 };
 
@@ -43,6 +45,7 @@ export default class VocabularyPage extends Component {
     super();
 
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleRecordReadComplete = this.handleRecordReadComplete.bind(this);
     this.handleRecordSaved = this.handleRecordSaved.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
@@ -90,6 +93,22 @@ export default class VocabularyPage extends Component {
     });
   }
 
+  readItemRefs() {
+    const {
+      data,
+      readVocabularyItemRefs,
+    } = this.props;
+
+    if (readVocabularyItemRefs && data) {
+      const csid = data.getIn(['document', 'ns2:vocabularies_common', 'csid']);
+      const vocabularyName = data.getIn(['document', 'ns2:vocabularies_common', 'shortIdentifier']);
+
+      if (csid && vocabularyName) {
+        readVocabularyItemRefs(csid, vocabularyName);
+      }
+    }
+  }
+
   handleItemClick(item) {
     const {
       history,
@@ -107,6 +126,10 @@ export default class VocabularyPage extends Component {
     return false;
   }
 
+  handleRecordReadComplete() {
+    this.readItemRefs();
+  }
+
   handleRecordSaved() {
     const {
       searchDescriptor,
@@ -115,6 +138,8 @@ export default class VocabularyPage extends Component {
     this.setState({
       searchDescriptor: searchDescriptor.set('seqId', (new Date()).toISOString()),
     });
+
+    this.readItemRefs();
   }
 
   handleSearchBarChange(value) {
@@ -197,6 +222,7 @@ export default class VocabularyPage extends Component {
           csid={normalizedCsid}
           recordType={recordType}
           perms={restrictedPerms}
+          onRecordReadComplete={this.handleRecordReadComplete}
           onRecordSaved={this.handleRecordSaved}
         />
       );

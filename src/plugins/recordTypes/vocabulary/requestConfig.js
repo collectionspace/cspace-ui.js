@@ -3,7 +3,6 @@ export default (requestType) => {
     return {
       params: {
         showItems: true,
-        markIfReferenced: true,
       },
     };
   }

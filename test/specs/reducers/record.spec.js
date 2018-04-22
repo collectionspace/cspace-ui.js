@@ -48,6 +48,12 @@ import {
   CREATE_ID_FULFILLED,
 } from '../../../src/actions/idGenerator';
 
+import {
+  READ_VOCABULARY_ITEM_REFS_STARTED,
+  READ_VOCABULARY_ITEM_REFS_FULFILLED,
+  READ_VOCABULARY_ITEM_REFS_REJECTED,
+} from '../../../src/actions/vocabulary';
+
 import reducer, {
   getData,
   getError,
@@ -59,6 +65,7 @@ import reducer, {
   isModified,
   isReadPending,
   isSavePending,
+  isReadVocabularyItemRefsPending,
 } from '../../../src/reducers/record';
 
 const expect = chai.expect;
@@ -2148,6 +2155,203 @@ describe('record reducer', function suite() {
       });
 
       state.should.equal(initialState);
+    });
+  });
+
+  describe('on READ_VOCABULARY_ITEM_REFS_STARTED', function actionSuite() {
+    it('should set isReadVocabularyItemRefsPending to true', function test() {
+      const csid = '1234';
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {},
+      }), {
+        type: READ_VOCABULARY_ITEM_REFS_STARTED,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          isReadVocabularyItemRefsPending: true,
+        },
+      }));
+
+      expect(isReadVocabularyItemRefsPending(state, csid)).to.equal(true);
+    });
+  });
+
+  describe('on READ_VOCABULARY_ITEM_REFS_REJECTED', function actionSuite() {
+    it('should delete isReadVocabularyItemRefsPending', function test() {
+      const csid = '1234';
+      const data = {};
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+          isReadVocabularyItemRefsPending: true,
+        },
+      }), {
+        type: READ_VOCABULARY_ITEM_REFS_FULFILLED,
+        payload: {},
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+        },
+      }));
+
+      expect(isReadVocabularyItemRefsPending(state, csid)).to.equal(undefined);
+    });
+
+    it('should merge referenced states into baseline and current data', function test() {
+      const csid = '1234';
+
+      const data = {
+        document: {
+          'ns2:abstract-common-list': {
+            'list-item': [
+              { csid: 'aaaa' },
+              { csid: 'bbbb' },
+            ],
+          },
+        },
+      };
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+          isReadVocabularyItemRefsPending: true,
+        },
+      }), {
+        type: READ_VOCABULARY_ITEM_REFS_FULFILLED,
+        payload: {
+          data: {
+            'ns2:abstract-common-list': {
+              'list-item': [
+                { csid: 'bbbb', referenced: 'false' },
+                { csid: 'aaaa', referenced: 'true' },
+              ],
+            },
+          },
+        },
+        meta: {
+          csid,
+        },
+      });
+
+      const expectedNextData = Immutable.fromJS({
+        document: {
+          'ns2:abstract-common-list': {
+            'list-item': [
+              { csid: 'aaaa', referenced: 'true' },
+              { csid: 'bbbb', referenced: 'false' },
+            ],
+          },
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: expectedNextData,
+            current: expectedNextData,
+          },
+        },
+      }));
+    });
+
+    it('should handle single (non-list) items', function test() {
+      const csid = '1234';
+
+      const data = {
+        document: {
+          'ns2:abstract-common-list': {
+            'list-item': { csid: 'aaaa' },
+          },
+        },
+      };
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+          isReadVocabularyItemRefsPending: true,
+        },
+      }), {
+        type: READ_VOCABULARY_ITEM_REFS_FULFILLED,
+        payload: {
+          data: {
+            'ns2:abstract-common-list': {
+              'list-item': { csid: 'aaaa', referenced: 'true' },
+            },
+          },
+        },
+        meta: {
+          csid,
+        },
+      });
+
+      const expectedNextData = Immutable.fromJS({
+        document: {
+          'ns2:abstract-common-list': {
+            'list-item': [
+              { csid: 'aaaa', referenced: 'true' },
+            ],
+          },
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: expectedNextData,
+            current: expectedNextData,
+          },
+        },
+      }));
+    });
+  });
+
+  describe('on READ_VOCABULARY_ITEM_REFS_REJECTED', function actionSuite() {
+    it('should delete isReadVocabularyItemRefsPending and set the error', function test() {
+      const csid = '1234';
+      const error = {};
+
+      const state = reducer(Immutable.fromJS({
+        [csid]: {
+          isReadVocabularyItemRefsPending: true,
+        },
+      }), {
+        type: READ_VOCABULARY_ITEM_REFS_REJECTED,
+        payload: error,
+        meta: {
+          csid,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          error,
+        },
+      }));
+
+      expect(isReadVocabularyItemRefsPending(state, csid)).to.equal(undefined);
     });
   });
 });

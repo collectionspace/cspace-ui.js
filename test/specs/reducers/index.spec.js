@@ -26,6 +26,7 @@ import reducer, {
   isRecordModified,
   isRecordReadPending,
   isRecordSavePending,
+  isRecordReadVocabularyItemRefsPending,
   getRelatedRecordBrowserRelatedCsid,
   getPrefs,
   isPanelCollapsed,
@@ -421,6 +422,20 @@ describe('reducer', function suite() {
         record: Immutable.fromJS({
           [csid]: {
             isSavePending: true,
+          },
+        }),
+      }, csid).should.equal(true);
+    });
+  });
+
+  describe('isRecordReadVocabularyItemRefsPending selector', function selectorSuite() {
+    it('should select from the record key', function test() {
+      const csid = '1234';
+
+      isRecordReadVocabularyItemRefsPending({
+        record: Immutable.fromJS({
+          [csid]: {
+            isReadVocabularyItemRefsPending: true,
           },
         }),
       }, csid).should.equal(true);

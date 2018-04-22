@@ -303,6 +303,8 @@ describe('RecordEditor', function suite() {
 
     const readRecord = () => {
       readRecordCalled = true;
+
+      return Promise.resolve();
     };
 
     render(
@@ -320,6 +322,39 @@ describe('RecordEditor', function suite() {
       </IntlProvider>, this.container);
 
     readRecordCalled.should.equal(true);
+  });
+
+  it('should call onRecordReadComplete when the record has been read', function test() {
+    const readRecord = () => Promise.resolve();
+
+    let handlerCalled = false;
+
+    const handleRecordReadComplete = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={config}
+              csid="1234"
+              recordType="collectionobject"
+              readRecord={readRecord}
+              onRecordReadComplete={handleRecordReadComplete}
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handlerCalled.should.equal(true);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should call createNewRecord when mounted if a csid is not provided', function test() {
@@ -350,6 +385,8 @@ describe('RecordEditor', function suite() {
 
     const readRecord = () => {
       readRecordCalled = true;
+
+      return Promise.resolve();
     };
 
     render(

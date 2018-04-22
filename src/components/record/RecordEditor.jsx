@@ -55,6 +55,7 @@ const propTypes = {
   removeValidationNotification: PropTypes.func,
   setForm: PropTypes.func,
   validateRecordData: PropTypes.func,
+  onRecordReadComplete: PropTypes.func,
   onRecordDeleted: PropTypes.func,
   onRecordTransitioned: PropTypes.func,
 };
@@ -151,6 +152,7 @@ export default class RecordEditor extends Component {
       createNewRecord,
       readRecord,
       removeValidationNotification,
+      onRecordReadComplete,
     } = this.props;
 
     if (removeValidationNotification) {
@@ -159,7 +161,11 @@ export default class RecordEditor extends Component {
 
     if (csid) {
       if (readRecord) {
-        readRecord();
+        readRecord().then(() => {
+          if (onRecordReadComplete) {
+            onRecordReadComplete();
+          }
+        });
       }
     } else if (createNewRecord) {
       createNewRecord(cloneCsid);

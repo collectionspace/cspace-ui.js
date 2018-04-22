@@ -1,9 +1,16 @@
 import getSession from './cspace';
-import { getVocabulary } from '../reducers';
+
+import {
+  getVocabulary,
+  isRecordReadVocabularyItemRefsPending,
+} from '../reducers';
 
 export const READ_VOCABULARY_ITEMS_STARTED = 'READ_VOCABULARY_ITEMS_STARTED';
 export const READ_VOCABULARY_ITEMS_FULFILLED = 'READ_VOCABULARY_ITEMS_FULFILLED';
 export const READ_VOCABULARY_ITEMS_REJECTED = 'READ_VOCABULARY_ITEMS_REJECTED';
+export const READ_VOCABULARY_ITEM_REFS_STARTED = 'READ_VOCABULARY_ITEM_REFS_STARTED';
+export const READ_VOCABULARY_ITEM_REFS_FULFILLED = 'READ_VOCABULARY_ITEM_REFS_FULFILLED';
+export const READ_VOCABULARY_ITEM_REFS_REJECTED = 'READ_VOCABULARY_ITEM_REFS_REJECTED';
 
 export const readVocabularyItems = vocabularyName => (dispatch, getState) => {
   const vocabulary = getVocabulary(getState(), vocabularyName);
@@ -39,6 +46,46 @@ export const readVocabularyItems = vocabularyName => (dispatch, getState) => {
       type: READ_VOCABULARY_ITEMS_REJECTED,
       payload: error,
       meta: {
+        vocabulary: vocabularyName,
+      },
+    }));
+};
+
+export const readVocabularyItemRefs = (csid, vocabularyName) => (dispatch, getState) => {
+  if (isRecordReadVocabularyItemRefsPending(getState(), csid)) {
+    return Promise.resolve();
+  }
+
+  dispatch({
+    type: READ_VOCABULARY_ITEM_REFS_STARTED,
+    meta: {
+      csid,
+      vocabulary: vocabularyName,
+    },
+  });
+
+  const config = {
+    params: {
+      pgSz: '0',
+      wf_deleted: false,
+      markIfReferenced: true,
+    },
+  };
+
+  return getSession().read(`vocabularies/urn:cspace:name(${vocabularyName})/items`, config)
+    .then(response => dispatch({
+      type: READ_VOCABULARY_ITEM_REFS_FULFILLED,
+      payload: response,
+      meta: {
+        csid,
+        vocabulary: vocabularyName,
+      },
+    }))
+    .catch(error => dispatch({
+      type: READ_VOCABULARY_ITEM_REFS_REJECTED,
+      payload: error,
+      meta: {
+        csid,
         vocabulary: vocabularyName,
       },
     }));

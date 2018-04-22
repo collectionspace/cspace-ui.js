@@ -100,9 +100,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     deleteRecord: () =>
       dispatch(deleteRecord(config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid)),
-    readRecord: () => {
-      dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid));
-    },
+    readRecord: () =>
+      dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid)),
     revert: () => {
       dispatch(revertRecord(recordTypeConfig, csid));
     },

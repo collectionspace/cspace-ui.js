@@ -98,6 +98,9 @@ export const isRecordReadPending = (state, csid) => fromRecord.isReadPending(sta
 
 export const isRecordSavePending = (state, csid) => fromRecord.isSavePending(state.record, csid);
 
+export const isRecordReadVocabularyItemRefsPending = (state, csid) =>
+  fromRecord.isReadVocabularyItemRefsPending(state.record, csid);
+
 export const isRecordModified = (state, csid) => fromRecord.isModified(state.record, csid);
 
 export const getRecordPagePrimaryCsid = state => fromRecordPage.getPrimaryCsid(state.recordPage);

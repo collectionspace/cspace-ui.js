@@ -63,6 +63,12 @@ import {
   CREATE_ID_FULFILLED,
 } from '../actions/idGenerator';
 
+import {
+  READ_VOCABULARY_ITEM_REFS_STARTED,
+  READ_VOCABULARY_ITEM_REFS_FULFILLED,
+  READ_VOCABULARY_ITEM_REFS_REJECTED,
+} from '../actions/vocabulary';
+
 const BASE_NEW_RECORD_KEY = '';
 
 const unsavedRecordKey = subrecordName =>
@@ -654,6 +660,69 @@ const handleLoginFulfilled = (state, action) => {
   return state;
 };
 
+const getRefMap = (data) => {
+  let items = get(data, ['ns2:abstract-common-list', 'list-item']) || [];
+
+  if (!Array.isArray(items)) {
+    items = [items];
+  }
+
+  const refMap = {};
+
+  items.forEach(({ csid, referenced }) => {
+    refMap[csid] = referenced;
+  });
+
+  return refMap;
+};
+
+const updateItemRefStates = (data, refMap) => {
+  let existingItems = data && data.getIn(['document', 'ns2:abstract-common-list', 'list-item']);
+
+  if (!existingItems) {
+    return data;
+  }
+
+  if (!Immutable.List.isList(existingItems)) {
+    existingItems = Immutable.List.of(existingItems);
+  }
+
+  const updatedItems = existingItems.map(item =>
+    item.set('referenced', refMap[item.get('csid')])
+  );
+
+  return data.setIn(['document', 'ns2:abstract-common-list', 'list-item'], updatedItems);
+};
+
+const handleReadVocabularyItemRefsFulfilled = (state, action) => {
+  const {
+    csid,
+  } = action.meta;
+
+  let nextState = state.deleteIn([csid, 'isReadVocabularyItemRefsPending']);
+
+  const refMap = getRefMap(action.payload.data);
+
+  const baselineData = getBaselineData(state, csid);
+  const currentData = getCurrentData(state, csid);
+
+  let nextBaselineData;
+  let nextCurrentData;
+
+  if (baselineData === currentData) {
+    nextBaselineData = updateItemRefStates(baselineData, refMap);
+    nextCurrentData = nextBaselineData;
+  } else {
+    nextBaselineData = updateItemRefStates(baselineData, refMap);
+    nextCurrentData = updateItemRefStates(currentData, refMap);
+  }
+
+  nextState = setBaselineData(nextState, csid, nextBaselineData);
+  nextState = setCurrentData(nextState, csid, nextCurrentData);
+
+  return nextState;
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case VALIDATION_FAILED:
@@ -735,6 +804,14 @@ export default (state = Immutable.Map(), action) => {
       return clearAll(state);
     case SORT_FIELD_INSTANCES:
       return sortFieldInstances(state, action);
+    case READ_VOCABULARY_ITEM_REFS_STARTED:
+      return state.setIn([action.meta.csid, 'isReadVocabularyItemRefsPending'], true);
+    case READ_VOCABULARY_ITEM_REFS_FULFILLED:
+      return handleReadVocabularyItemRefsFulfilled(state, action);
+    case READ_VOCABULARY_ITEM_REFS_REJECTED:
+      return state
+        .setIn([action.meta.csid, 'error'], Immutable.fromJS(action.payload))
+        .deleteIn([action.meta.csid, 'isReadVocabularyItemRefsPending']);
     default:
       return state;
   }
@@ -764,6 +841,8 @@ export const getValidationErrors = (state, csid) => state.getIn([csid, 'validati
 export const isReadPending = (state, csid) => state.getIn([csid, 'isReadPending']);
 
 export const isSavePending = (state, csid) => state.getIn([csid, 'isSavePending']);
+
+export const isReadVocabularyItemRefsPending = (state, csid) => state.getIn([csid, 'isReadVocabularyItemRefsPending']);
 
 export const isModified = (state, csid) => {
   // Do a reference equality test between the current and baseline data. This will not detect if

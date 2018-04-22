@@ -231,6 +231,58 @@ describe('VocabularyPage', function suite() {
     expect(replacedLocation).to.equal(null);
   });
 
+  it('should call readVocabularyItemRefs when a record read completes in the record editor', function test() {
+    const location = {
+      search: '',
+    };
+
+    const csid = '1234';
+
+    const match = {
+      params: {
+        csid,
+      },
+    };
+
+    const vocabularyCsid = 'aaaa';
+    const vocabularyName = 'vocabname';
+
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:vocabularies_common': {
+          csid: vocabularyCsid,
+          shortIdentifier: vocabularyName,
+        },
+      },
+    });
+
+    let calledCsid = null;
+    let calledVocabularyName = null;
+
+    const readVocabularyItemRefs = (csidArg, vocabularyNameArg) => {
+      calledCsid = csidArg;
+      calledVocabularyName = vocabularyNameArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <VocabularyPage
+        location={location}
+        match={match}
+        data={data}
+        readVocabularyItemRefs={readVocabularyItemRefs}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditorContainer);
+
+    recordEditor.props.onRecordReadComplete();
+
+    calledCsid.should.equal(vocabularyCsid);
+    calledVocabularyName.should.equal(calledVocabularyName);
+  });
+
   it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', function test() {
     const location = {
       search: '',
