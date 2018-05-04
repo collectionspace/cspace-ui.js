@@ -84,6 +84,12 @@ columns: ColumnSetMap
 ```
 A [column set map](./ColumnConfiguration.md) that describes columns to be displayed in search result tables for the record type.
 
+### content
+```
+content: ContentDescriptorMap
+```
+A [content descriptor map](./RecordContentConfiguration.md) that describes how to display binary content for the record type.
+
 ### disabled
 ```
 disabled: boolean
