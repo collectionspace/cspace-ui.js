@@ -32,10 +32,14 @@ const config = {
     },
   },
   recordTypes: {
-    object: {
-      name: 'media',
-      columns: {
+    blob: {
+      serviceConfig: {
+        servicePath: 'blobs',
       },
+    },
+    media: {
+      name: 'media',
+      columns: {},
     },
   },
 };
@@ -291,9 +295,15 @@ describe('MediaViewer', function suite() {
       },
     });
 
-    openedUrl.should.equal(`/view/blobs/${blobCsid}/content`);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        openedUrl.should.equal(`/view/blobs/${blobCsid}/content`);
 
-    window.open = savedOpenFunc;
+        window.open = savedOpenFunc;
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should render the own blobCsid image first', function test() {

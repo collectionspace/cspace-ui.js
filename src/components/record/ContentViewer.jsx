@@ -1,47 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import { defineMessages, intlShape } from 'react-intl';
 import get from 'lodash/get';
 import warning from 'warning';
 import ImageContainer from '../../containers/media/ImageContainer';
 import { VIEWER_WINDOW_NAME, getImageViewerPath } from '../../helpers/blobHelpers';
+import { getContentPath } from '../../helpers/contentHelpers';
 import styles from '../../../styles/cspace-ui/ContentViewer.css';
-
-const getContentPath = (config, recordType, vocabulary, csid, subresource) => {
-  if (!csid) {
-    return null;
-  }
-
-  const recordTypeConfig = get(config, ['recordTypes', recordType]);
-  const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
-  const subresourceConfig = get(config, ['subresources', subresource]);
-
-  const recordServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
-  const vocabularyServicePath = get(vocabularyConfig, ['serviceConfig', 'servicePath']);
-
-  const pathParts = [recordServicePath];
-
-  if (vocabularyServicePath) {
-    pathParts.push(vocabularyServicePath);
-    pathParts.push('items');
-  }
-
-  pathParts.push(csid);
-
-  if (subresourceConfig) {
-    const subresourceServicePath = get(subresourceConfig, ['serviceConfig', 'servicePath']);
-
-    if (subresourceServicePath) {
-      pathParts.push(subresourceServicePath);
-    }
-  }
-
-  pathParts.push('content');
-
-  const path = pathParts.join('/');
-
-  return path;
-};
 
 const messages = defineMessages({
   previewTitle: {
@@ -64,6 +30,7 @@ const contextTypes = {
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   intl: intlShape,
+  recordData: PropTypes.instanceOf(Immutable.Map),
 };
 
 export default function ContentViewer(props, context) {
@@ -73,6 +40,7 @@ export default function ContentViewer(props, context) {
     vocabulary,
     csid,
     intl,
+    recordData,
   } = context;
 
   const content = get(config, ['recordTypes', recordType, 'content']);
@@ -83,15 +51,16 @@ export default function ContentViewer(props, context) {
     return null;
   }
 
-  const fullSubresource = get(content, ['full', 'subresource']);
+  const popupSubresource = get(content, ['popup', 'subresource']);
   const previewSubresource = get(content, ['preview', 'subresource']);
 
-  const fullUrl = getImageViewerPath(
+  const popupUrl = getImageViewerPath(
     config,
-    getContentPath(config, recordType, vocabulary, csid, fullSubresource)
+    getContentPath(config, recordType, vocabulary, csid, popupSubresource, recordData)
   );
 
-  const previewUrl = getContentPath(config, recordType, vocabulary, csid, previewSubresource);
+  const previewUrl =
+    getContentPath(config, recordType, vocabulary, csid, previewSubresource, recordData);
 
   if (!previewUrl) {
     return null;
@@ -102,7 +71,7 @@ export default function ContentViewer(props, context) {
   const pendingMessage = intl.formatMessage(messages.pending);
 
   return (
-    <a className={styles.common} href={fullUrl} target={VIEWER_WINDOW_NAME}>
+    <a className={styles.common} href={popupUrl} target={VIEWER_WINDOW_NAME}>
       <ImageContainer
         src={previewUrl}
         alt={previewTitle}

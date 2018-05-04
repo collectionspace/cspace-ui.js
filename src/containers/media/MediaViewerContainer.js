@@ -2,6 +2,10 @@ import { connect } from 'react-redux';
 import MediaViewer from '../../components/media/MediaViewer';
 
 import {
+  readRecord,
+} from '../../actions/record';
+
+import {
   isSearchPending,
   getSearchResult,
   getSearchError,
@@ -20,6 +24,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = {
+  readRecord,
+};
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(MediaViewer);

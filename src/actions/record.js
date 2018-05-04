@@ -448,12 +448,13 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
 
 export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
   (dispatch, getState) => {
-    if (
-      isRecordReadPending(getState(), csid) ||
-      getRecordData(getState(), csid)
-    ) {
-      // We already have data for this record, or a request is already pending. Do nothing.
+    const existingData = getRecordData(getState(), csid);
 
+    if (existingData) {
+      return Promise.resolve(existingData);
+    }
+
+    if (isRecordReadPending(getState(), csid)) {
       return Promise.resolve();
     }
 
@@ -476,6 +477,7 @@ export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
         },
       }))
       .then(() => dispatch(initializeSubrecords(config, recordTypeConfig, vocabularyConfig, csid)))
+      .then(() => getRecordData(getState(), csid))
       .catch(error => dispatch({
         type: RECORD_READ_REJECTED,
         payload: {

@@ -3,16 +3,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import ImageGallery from 'react-image-gallery';
 import { baseComponents as inputComponents } from 'cspace-input';
 import ImageContainer from '../../containers/media/ImageContainer';
+import { getContentPath } from '../../helpers/contentHelpers';
 
 import {
   VIEWER_WINDOW_NAME,
-  DERIVATIVE_MEDIUM,
-  DERIVATIVE_ORIGINAL,
-  DERIVATIVE_THUMBNAIL,
-  getDerivativePath,
   getImageViewerPath,
 } from '../../helpers/blobHelpers';
 
@@ -27,11 +25,11 @@ const { MiniButton } = inputComponents;
 const renderItem = item => (
   <div className="image-gallery-image">
     <ImageContainer
-      src={item.original}
-      alt={item.originalAlt}
+      src={item.snapshot}
+      alt={item.snapshotAlt}
       srcSet={item.srcSet}
       sizes={item.sizes}
-      title={item.originalTitle}
+      title={item.snapshotTitle}
       data-csid={item.blobCsid}
     />
   </div>
@@ -59,21 +57,17 @@ const renderRightNav = (onClick, disabled) => (
 );
 
 const propTypes = {
-  carouselDerivative: PropTypes.string,
-  thumbnailDerivative: PropTypes.string,
-  popupDerivative: PropTypes.string,
   config: PropTypes.object.isRequired,
   isSearchPending: PropTypes.bool,
   listType: PropTypes.string,
   ownBlobCsid: PropTypes.string,
   searchResult: PropTypes.instanceOf(Immutable.Map),
+  readRecord: PropTypes.func,
 };
 
 const defaultProps = {
-  carouselDerivative: DERIVATIVE_MEDIUM,
-  thumbnailDerivative: DERIVATIVE_THUMBNAIL,
-  popupDerivative: DERIVATIVE_ORIGINAL,
   listType: 'common',
+  readRecord: () => Promise.resolve(),
 };
 
 export default class MediaViewer extends Component {
@@ -83,33 +77,45 @@ export default class MediaViewer extends Component {
     this.handleImageGalleryClick = this.handleImageGalleryClick.bind(this);
   }
 
+  getPopupImagePath(blobCsid) {
+    const {
+      config,
+      readRecord,
+    } = this.props;
+
+    const recordTypeConfig = get(config, ['recordTypes', 'blob']);
+    const popupSubresource = get(recordTypeConfig, ['content', 'popup', 'subresource']);
+
+    return readRecord(config, recordTypeConfig, undefined, blobCsid)
+      .then(blobData => getContentPath(config, 'blob', undefined, blobCsid, popupSubresource, blobData));
+  }
+
   handleImageGalleryClick(event) {
     const {
       target,
     } = event;
 
     if (target.nodeName === 'IMG') {
-      const {
-        config,
-        popupDerivative,
-      } = this.props;
-
-      const popupImagePath = getDerivativePath(target.dataset.csid, popupDerivative);
-
-      window.open(getImageViewerPath(config, popupImagePath), VIEWER_WINDOW_NAME);
+      this.getPopupImagePath(target.dataset.csid)
+        .then((popupImagePath) => {
+          window.open(getImageViewerPath(this.props.config, popupImagePath), VIEWER_WINDOW_NAME);
+        });
     }
   }
 
   createGalleryImage(blobCsid) {
     const {
-      carouselDerivative,
-      thumbnailDerivative,
+      config,
     } = this.props;
+
+    const content = get(config, ['recordTypes', 'blob', 'content']);
+    const snapshotSubresource = get(content, ['snapshot', 'subresource']);
+    const thumbnailSubresource = get(content, ['thumbnail', 'subresource']);
 
     return {
       blobCsid,
-      original: getDerivativePath(blobCsid, carouselDerivative),
-      thumbnail: getDerivativePath(blobCsid, thumbnailDerivative),
+      snapshot: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
+      thumbnail: getContentPath(config, 'blob', undefined, blobCsid, thumbnailSubresource),
     };
   }
 
