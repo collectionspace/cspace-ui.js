@@ -129,6 +129,12 @@ serviceConfig: ServiceDescriptor
 ```
 A [service descriptor](./RecordServiceConfiguration.md) that describes the service layer configuration of the record type.
 
+### sidebar
+```
+sidebar: SidebarDescriptor
+```
+A [sidebar descriptor](./RecordSidebarConfiguration.md) that describes the sidebar to be displayed when editing a record of the type.
+
 ### title
 ```
 title: (data: Immutable.Map) => string
