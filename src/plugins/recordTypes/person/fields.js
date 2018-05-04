@@ -421,6 +421,30 @@ export default (configContext) => {
             },
           },
         },
+        personRecordTypes: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          personRecordType: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.personRecordType.name',
+                  defaultMessage: 'Person type',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'persontermtype',
+                },
+              },
+            },
+          },
+        },
         gender: {
           [config]: {
             messages: defineMessages({

@@ -27,6 +27,27 @@ export default {
       },
     }),
   },
+  personTermTypes: {
+    values: [
+      'descriptor',
+      'alternate descriptor',
+      'used for term',
+    ],
+    messages: defineMessages({
+      descriptor: {
+        id: 'option.personTermTypes.descriptor',
+        defaultMessage: 'descriptor',
+      },
+      'alternate descriptor': {
+        id: 'option.personTermTypes.alternate descriptor',
+        defaultMessage: 'alternate descriptor',
+      },
+      'used for term': {
+        id: 'option.personTermTypes.used for term',
+        defaultMessage: 'used for term',
+      },
+    }),
+  },
   salutations: {
     values: [
       'dear',
