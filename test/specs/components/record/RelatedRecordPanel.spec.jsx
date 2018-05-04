@@ -77,6 +77,7 @@ describe('RelatedRecordPanel', function suite() {
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
     const recordRelationUpdatedTimestamp = '2017-03-06T12:05:34.000Z';
+    const sort = 'objectNumber';
 
     const shallowRenderer = createRenderer();
 
@@ -88,6 +89,7 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType={relatedRecordType}
         recordRelationUpdatedTimestamp={recordRelationUpdatedTimestamp}
+        initialSort={sort}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -100,6 +102,7 @@ describe('RelatedRecordPanel', function suite() {
     result.props.searchDescriptor.should.equal(Immutable.fromJS({
       recordType: relatedRecordType,
       searchQuery: {
+        sort,
         rel: csid,
         relType: 'affects',
         p: 0,

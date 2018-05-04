@@ -26,6 +26,7 @@ const listType = 'common';
 const getSearchDescriptor = (props) => {
   const {
     csid,
+    initialSort,
     recordRelationUpdatedTimestamp,
     relatedRecordType,
   } = props;
@@ -37,6 +38,7 @@ const getSearchDescriptor = (props) => {
       relType: 'affects',
       p: 0,
       size: 5,
+      sort: initialSort,
     },
     seqID: recordRelationUpdatedTimestamp,
   });
@@ -57,8 +59,9 @@ const propTypes = {
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
-  // This use isn't detected by eslint.
+  // These uses aren't detected by eslint.
   /* eslint-disable react/no-unused-prop-types */
+  initialSort: PropTypes.string,
   recordRelationUpdatedTimestamp: PropTypes.string,
   /* eslint-enable react/no-unused-prop-types */
   recordType: PropTypes.string,

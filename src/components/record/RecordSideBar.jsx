@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import upperFirst from 'lodash/upperFirst';
 import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPanelContainer';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RecordBatchPanelContainer from '../../containers/record/RecordBatchPanelContainer';
@@ -40,6 +42,9 @@ export default function RecordSideBar(props) {
   const isUtility = serviceType === 'utility';
   const panelColor = isAuthority ? 'purple' : 'blue';
 
+  const relatedProcedureDescriptors =
+    get(recordTypeConfig, ['sidebar', 'relatedProcedures']) || [{ recordType: 'procedure' }];
+
   let mediaSnapshot = null;
   let relatedObjects = null;
   let relatedProcedures = null;
@@ -72,19 +77,29 @@ export default function RecordSideBar(props) {
       />
     );
 
-    relatedProcedures = (
-      <RelatedRecordPanelContainer
-        color={panelColor}
-        csid={csid}
-        columnSetName="narrow"
-        config={config}
-        history={history}
-        name="relatedProcedurePanel"
-        recordType={recordType}
-        relatedRecordType="procedure"
-        showAddButton={isRelatable}
-      />
-    );
+    relatedProcedures = relatedProcedureDescriptors.map((relatedProcedureDescriptor) => {
+      const {
+        sort,
+        recordType: relatedProcedureType,
+        columnSet = 'narrow',
+      } = relatedProcedureDescriptor;
+
+      return (
+        <RelatedRecordPanelContainer
+          color={panelColor}
+          csid={csid}
+          columnSetName={columnSet}
+          config={config}
+          history={history}
+          initialSort={sort}
+          key={relatedProcedureType}
+          name={`related${upperFirst(relatedProcedureType)}Panel`}
+          recordType={recordType}
+          relatedRecordType={relatedProcedureType}
+          showAddButton={isRelatable}
+        />
+      );
+    });
   }
 
   if (!isUtility) {
