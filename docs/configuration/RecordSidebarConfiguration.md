@@ -2,15 +2,15 @@
 
 The sidebar that is displayed when viewing or editing a record may be configured by providing a sidebar descriptor object in the `sidebar` configuration property of each record type.
 
-Currently only the related procedures that are displayed may be configured, by supplying an array of related procedure descriptors. A related record panel will be displayed for each descriptor, in the order listed.
+Currently only the related records that are displayed may be configured, by supplying an array of related record descriptors. A related record panel will be displayed for each descriptor, in the order listed.
 
 ```
 type SidebarDescriptor = {
-  relatedProcedures: Array<RelatedProcedureDescriptor>,
+  relatedRecords: Array<RelatedRecordDescriptor>,
 };
 ```
 ```
-type RelatedProcedureDescriptor = {
+type RelatedRecordDescriptor = {
   recordType: string,
   columnSet: string,
   sort: string,
@@ -24,7 +24,8 @@ cspaceUI({
   recordTypes: {
     collectionobject: {
       sidebar: {
-        relatedProcedures: [
+        relatedRecords: [
+          { recordType: 'collectionobject' },
           { recordType: 'procedure' },
           { recordType: 'media', columnSet: 'narrow', sort: 'title' },
         ],
@@ -36,7 +37,7 @@ cspaceUI({
 
 ## Property Reference
 
-The related procedure descriptor has the following properties:
+The related record descriptor has the following properties:
 
 ### recordType
 ```

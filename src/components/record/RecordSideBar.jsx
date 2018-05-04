@@ -42,12 +42,12 @@ export default function RecordSideBar(props) {
   const isUtility = serviceType === 'utility';
   const panelColor = isAuthority ? 'purple' : 'blue';
 
-  const relatedProcedureDescriptors =
-    get(recordTypeConfig, ['sidebar', 'relatedProcedures']) || [{ recordType: 'procedure' }];
+  const relatedRecordDescriptors =
+    get(recordTypeConfig, ['sidebar', 'relatedRecords']) ||
+    [{ recordType: 'collectionobject' }, { recordType: 'procedure' }];
 
   let mediaSnapshot = null;
-  let relatedObjects = null;
-  let relatedProcedures = null;
+  let relatedRecords = null;
   let usedBy = null;
   let reports = null;
   let batchJobs = null;
@@ -63,26 +63,12 @@ export default function RecordSideBar(props) {
       />
     );
 
-    relatedObjects = (
-      <RelatedRecordPanelContainer
-        color={panelColor}
-        columnSetName="narrow"
-        csid={csid}
-        config={config}
-        history={history}
-        name="relatedObjectPanel"
-        recordType={recordType}
-        relatedRecordType="collectionobject"
-        showAddButton={isRelatable}
-      />
-    );
-
-    relatedProcedures = relatedProcedureDescriptors.map((relatedProcedureDescriptor) => {
+    relatedRecords = relatedRecordDescriptors.map((relatedRecordDescriptor) => {
       const {
         sort,
-        recordType: relatedProcedureType,
+        recordType: relatedRecordType,
         columnSet = 'narrow',
-      } = relatedProcedureDescriptor;
+      } = relatedRecordDescriptor;
 
       return (
         <RelatedRecordPanelContainer
@@ -92,10 +78,10 @@ export default function RecordSideBar(props) {
           config={config}
           history={history}
           initialSort={sort}
-          key={relatedProcedureType}
-          name={`related${upperFirst(relatedProcedureType)}Panel`}
+          key={relatedRecordType}
+          name={`related${upperFirst(relatedRecordType)}Panel`}
           recordType={recordType}
-          relatedRecordType={relatedProcedureType}
+          relatedRecordType={relatedRecordType}
           showAddButton={isRelatable}
         />
       );
@@ -147,8 +133,7 @@ export default function RecordSideBar(props) {
         recordType={recordType}
         vocabulary={vocabulary}
       />
-      {relatedObjects}
-      {relatedProcedures}
+      {relatedRecords}
       {usedBy}
       {reports}
       {batchJobs}
