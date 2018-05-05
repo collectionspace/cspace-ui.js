@@ -1,4 +1,4 @@
-# cspace-ui
+# cspace-ui plugin
 
 [![npm package](https://img.shields.io/npm/v/cspace-ui.svg)](https://www.npmjs.com/package/cspace-ui)
 [![build status](https://travis-ci.org/collectionspace/cspace-ui.js.svg?branch=master)](https://travis-ci.org/collectionspace/cspace-ui.js)
