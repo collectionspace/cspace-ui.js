@@ -8,7 +8,15 @@ import fs from 'fs';
 import glob from 'glob';
 import jsonFile from 'jsonfile';
 
-/*
+/**
+ * Remove newlines from multiline strings. These are backtick quoted HTML messages, where the
+ * newlines exist for source formatting, but don't matter for rendering. Since the message
+ * documentation will be output as JSON, with double quoted strings, the resulting "\n" escapes
+ * in the messages would make them less understandable.
+ */
+const cleanMessage = message => message.replace(/\n\s*/g, ' ');
+
+/**
  * Generate documentation for react-intl messages. This must be done after the npm build script has
  * executed, so that messages will have been extracted to build/messages.
  */
@@ -50,7 +58,7 @@ const generateMessagesDoc = () => {
   messages.forEach((message) => {
     const id = message.id;
     const desc = message.description;
-    const value = message.defaultMessage;
+    const value = cleanMessage(message.defaultMessage);
 
     docFile.write('\n');
 
