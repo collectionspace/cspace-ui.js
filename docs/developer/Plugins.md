@@ -1,6 +1,6 @@
 # Plugins
 
-This documentation is intended for developers who wish to author CollectionSpace UI plugins. For instructions on using an existing plugin, see the [configuration documentation](../../configuration).
+This documentation is intended for developers who wish to author CollectionSpace UI plugins. For instructions on using an existing plugin, see the [configuration documentation](../configuration).
 
 Plugins modify or extend the functionality of the CollectionSpace UI by supplying configuration to be merged into the default configuration. The cspace-ui project contains built-in plugins in its source tree (in the [src/plugins](../../../src/plugins) directory). These plugins are loaded by default. Plugins may also be authored as separate projects, and distributed as npm packages that CollectionSpace administrators may add to their installations.
 
@@ -20,9 +20,9 @@ The factory function accepts a plugin configuration object, whose shape is deter
 
 The function has two possible return values: a configuration object, or a configurer function.
 
-If a configuration object is returned, it must be a [CollectionSpace UI configuration object](../../configuration). This configuration will be deeply merged into the pre-existing UI configuration.
+If a configuration object is returned, it must be a [CollectionSpace UI configuration object](../configuration). This configuration will be deeply merged into the pre-existing UI configuration.
 
-If a configurer function is returned, it will be executed with a configuration context object as its argument. The configuration context contains information about the runtime environment that may be useful to the plugin, and provides access to cspace-ui APIs. This allows the plugin to implement more complex configurations. The configurer function must return a [CollectionSpace UI configuration object](../../configuration). The returned configuration will be deeply merged into the pre-existing UI configuration.
+If a configurer function is returned, it will be executed with a configuration context object as its argument. The configuration context contains information about the runtime environment that may be useful to the plugin, and provides access to cspace-ui APIs. This allows the plugin to implement more complex configurations. The configurer function must return a [CollectionSpace UI configuration object](../configuration). The returned configuration will be deeply merged into the pre-existing UI configuration.
 
 Using an ES2015 [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) and the ES2015 [export statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export), a simple plugin that returns a configuration object might look like this:
 
