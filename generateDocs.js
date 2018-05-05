@@ -9,10 +9,10 @@ import glob from 'glob';
 import jsonFile from 'jsonfile';
 
 /**
- * Remove newlines from multiline strings. These are backtick quoted HTML messages, where the
- * newlines exist for source formatting, but don't matter for rendering. Since the message
- * documentation will be output as JSON, with double quoted strings, the resulting "\n" escapes
- * in the messages would make them less understandable.
+ * Remove newlines from multiline strings. These are assumed to be backtick quoted HTML messages,
+ * where the newlines exist for source formatting, but don't matter for rendering. Since the
+ * message documentation will be output as JSON, with double quoted strings, the resulting "\n"
+ * escapes in the messages would make them less understandable.
  */
 const cleanMessage = message => message.replace(/\n\s*/g, ' ');
 
