@@ -2,7 +2,9 @@
  * This file contains all messages used in cspace-ui, to be used as a reference for customization
  * or translation. The default export is an object containing the default messages in the
  * application, keyed by message ID. Messages may be customized by supplying overrides via the
- * messages configuration option.
+ * messages configuration property.
+ *
+ * Messages should conform to the ICU Message syntax: https://formatjs.io/guides/message-syntax/
  */
 
 export default {

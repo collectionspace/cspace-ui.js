@@ -50,7 +50,9 @@ const generateMessagesDoc = () => {
   docFile.write(' * This file contains all messages used in cspace-ui, to be used as a reference for customization\n');
   docFile.write(' * or translation. The default export is an object containing the default messages in the\n');
   docFile.write(' * application, keyed by message ID. Messages may be customized by supplying overrides via the\n');
-  docFile.write(' * messages configuration option.\n');
+  docFile.write(' * messages configuration property.\n');
+  docFile.write(' *\n');
+  docFile.write(' * Messages should conform to the ICU Message syntax: https://formatjs.io/guides/message-syntax/\n');
   docFile.write(' */\n\n');
 
   docFile.write('export default {');
