@@ -2,12 +2,14 @@
  * This file contains all messages used in cspace-ui, to be used as a reference for customization
  * or translation. The default export is an object containing the default messages in the
  * application, keyed by message ID. Messages may be customized by supplying overrides via the
- * messages configuration option.
+ * messages configuration property.
+ *
+ * Messages should conform to the ICU Message syntax: https://formatjs.io/guides/message-syntax/
  */
 
 export default {
-  // HTML content of the about page.
-  "about.contentHTML": "<p>\n        CollectionSpace is a free, open-source collections management application for museums,\n        historical societies, natural science collections, and more.\n      </p>\n      <p>\n        This demo site is running the\n        <a href=\"http://www.collectionspace.org/current_release/\">current version</a> of the\n        <i>common</i> installation, which includes fields and procedures common to most collecting\n        organizations. If you’re interested in a version of CollectionSpace configured to meet the\n        needs of a specific domain, please visit our\n        <a href=\"http://demo.collectionspace.org\">demo landing page</a>\n        to view all available options. Examples include Anthropology, Botanical Garden, Fine Art,\n        Herbarium, and Local History &amp; Material Culture.\n      </p>\n      <p>\n        To log in, use the email <strong>admin@core.collectionspace.org</strong>, with the\n        case-sensitive password <strong>Administrator</strong>. To view in read-only mode, use the\n        email <strong>reader@core.collectionspace.org</strong> with the password\n        <strong>reader</strong>.\n      </p>\n      <p>\n        Not sure where to get started? Follow along with one of our quick-start guides:\n      </p>\n      <ul>\n        <li>\n          <span>Create a new object:</span>\n          <a href=\"http://bit.ly/newobjpdf\">PDF</a>\n          <a href=\"https://vimeo.com/112212895\">Screencast</a>\n        </li>\n        <li>\n          <span>Link to an image:</span>\n          <a href=\"http://bit.ly/linkimgpdf\">PDF</a>\n          <a href=\"https://vimeo.com/112214418\">Screencast</a>\n        </li>\n        <li>\n          <span>Add a storage location:</span>\n          <a href=\"http://bit.ly/storlocpdf\">PDF</a>\n          <a href=\"https://vimeo.com/112818120\">Screencast</a>\n        </li>\n      </ul>\n      <p>\n        We rebuild this demo site weekly so don't worry, you won't break it!\n      </p>",
+  // Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.
+  "about.contentHTML": "<p> CollectionSpace is a free, open-source collections management application for museums, historical societies, natural science collections, and more. </p> <p> This demo site is running the <a href=\"http://www.collectionspace.org/current_release/\">current version</a> of the <i>common</i> installation, which includes fields and procedures common to most collecting organizations. If you’re interested in a version of CollectionSpace configured to meet the needs of a specific domain, please visit our <a href=\"http://demo.collectionspace.org\">demo landing page</a> to view all available options. Examples include Anthropology, Botanical Garden, Fine Art, Herbarium, and Local History &amp; Material Culture. </p> <p> To log in, use the email <strong>admin@core.collectionspace.org</strong>, with the case-sensitive password <strong>Administrator</strong>. To view in read-only mode, use the email <strong>reader@core.collectionspace.org</strong> with the password <strong>reader</strong>. </p> <p> Not sure where to get started? Follow along with one of our quick-start guides: </p> <ul> <li> <span>Create a new object:</span> <a href=\"http://bit.ly/newobjpdf\">PDF</a> <a href=\"https://vimeo.com/112212895\">Screencast</a> </li> <li> <span>Link to an image:</span> <a href=\"http://bit.ly/linkimgpdf\">PDF</a> <a href=\"https://vimeo.com/112214418\">Screencast</a> </li> <li> <span>Add a storage location:</span> <a href=\"http://bit.ly/storlocpdf\">PDF</a> <a href=\"https://vimeo.com/112818120\">Screencast</a> </li> </ul> <p> We rebuild this demo site weekly so don't worry, you won't break it! </p>",
 
   // Title of the about page.
   "about.title": "Welcome to the CollectionSpace Demo",
@@ -118,6 +120,15 @@ export default {
 
   // Default label of the cancel button.
   "cancelButton.label": "Cancel",
+
+  // The textual label of a false (unchecked) value in a checkbox input. Used when search criteria are displayed in search results, for fields that were rendered as checkboxes on the search form.
+  "checkboxInput.false": "no",
+
+  // The textual label of an indeterminate value in a checkbox input. Currently not used anywhere, but may be in the future.
+  "checkboxInput.indeterminate": "indeterminate",
+
+  // The textual label of a true (checked) value in a checkbox input. Used when search criteria are displayed in search results, for fields that were rendered as checkboxes on the search form.
+  "checkboxInput.true": "yes",
 
   // Label of the clone button.
   "cloneButton.label": "Clone",
@@ -320,14 +331,6 @@ export default {
   "column.refs.narrow.sourceField": "Field",
 
   "column.report.default.name": "Name",
-
-  "column.taxon.default.termDisplayName": "Display name",
-
-  "column.taxon.default.termStatus": "Term status",
-
-  "column.taxon.default.vocabulary": "Vocabulary",
-
-  "column.taxon.search.updatedAt": "Updated",
 
   "column.terms.itemDisplayName": "Term",
 
@@ -949,6 +952,8 @@ export default {
 
   "field.collectionobjects_common.objectHistoryNote.name": "Object history note",
 
+  "field.collectionobjects_common.objectName.fullName": "Object name",
+
   "field.collectionobjects_common.objectName.name": "Name",
 
   "field.collectionobjects_common.objectNameCurrency.name": "Currency",
@@ -1523,6 +1528,24 @@ export default {
 
   "field.exhibitions_common.workingGroupTitle.name": "Title",
 
+  "field.ext.address.addressCountry.name": "Country",
+
+  "field.ext.address.addressMunicipality.name": "Municipality",
+
+  "field.ext.address.addressPlace1.name": "Line 1",
+
+  "field.ext.address.addressPlace2.name": "Line 2",
+
+  "field.ext.address.addressPostCode.name": "Postal code",
+
+  "field.ext.address.addressStateOrProvince.name": "State/Province",
+
+  "field.ext.address.addressType.fullName": "Address type",
+
+  "field.ext.address.addressType.name": "Type",
+
+  "field.ext.address.addrGroup.name": "Address",
+
   "field.ext.core.createdAt.name": "Created time",
 
   "field.ext.core.updatedAt.name": "Last updated time",
@@ -2035,6 +2058,8 @@ export default {
 
   "field.persons_common.occupation.name": "Occupation",
 
+  "field.persons_common.personRecordType.name": "Person type",
+
   "field.persons_common.personTermGroup.name": "Term",
 
   "field.persons_common.personTermGroupList.required": "At least one term display name is required. Please enter a value.",
@@ -2080,24 +2105,6 @@ export default {
   "field.persons_common.termType.name": "Type",
 
   "field.persons_common.title.name": "Title",
-
-  "field.places_common.addressCountry.name": "Country",
-
-  "field.places_common.addressMunicipality.name": "Municipality",
-
-  "field.places_common.addressPlace1.name": "Line 1",
-
-  "field.places_common.addressPlace2.name": "Line 2",
-
-  "field.places_common.addressPostCode.name": "Postal code",
-
-  "field.places_common.addressStateOrProvince.name": "State/Province",
-
-  "field.places_common.addressType.fullName": "Address type",
-
-  "field.places_common.addressType.name": "Type",
-
-  "field.places_common.addrGroup.name": "Address",
 
   "field.places_common.coordPrecision.name": "Precision",
 
@@ -2267,80 +2274,6 @@ export default {
 
   "field.structuredDate.latest": "Latest",
 
-  "field.taxon_common.commonName.fullName": "Common name",
-
-  "field.taxon_common.commonName.name": "Name",
-
-  "field.taxon_common.commonNameGroup.name": "Common name",
-
-  "field.taxon_common.commonNameLanguage.fullName": "Common name language",
-
-  "field.taxon_common.commonNameLanguage.name": "Language",
-
-  "field.taxon_common.commonNameSource.fullName": "Common name source",
-
-  "field.taxon_common.commonNameSource.name": "Source",
-
-  "field.taxon_common.commonNameSourceDetail.name": "Source detail",
-
-  "field.taxon_common.taxonAuthor.fullName": "Author name",
-
-  "field.taxon_common.taxonAuthor.name": "Name",
-
-  "field.taxon_common.taxonAuthorGroup.name": "Author",
-
-  "field.taxon_common.taxonAuthorType.name": "Type",
-
-  "field.taxon_common.taxonCitation.name": "Citation",
-
-  "field.taxon_common.taxonCurrency.name": "Currency",
-
-  "field.taxon_common.taxonIsNamedHybrid.name": "Is named hybrid",
-
-  "field.taxon_common.taxonNote.name": "Note",
-
-  "field.taxon_common.taxonomicStatus.name": "Taxonomic status",
-
-  "field.taxon_common.taxonRank.name": "Rank",
-
-  "field.taxon_common.taxonTermGroup.name": "Term",
-
-  "field.taxon_common.taxonTermGroupList.required": "At least one term display name is required. Please enter a value.",
-
-  "field.taxon_common.taxonYear.name": "Year",
-
-  "field.taxon_common.termDisplayName.name": "Display name",
-
-  "field.taxon_common.termFlag.fullName": "Term flag",
-
-  "field.taxon_common.termFlag.name": "Flag",
-
-  "field.taxon_common.termFormattedDisplayName.name": "Formatted display name",
-
-  "field.taxon_common.termLanguage.fullName": "Term language",
-
-  "field.taxon_common.termLanguage.name": "Language",
-
-  "field.taxon_common.termName.name": "Formatted Display Name",
-
-  "field.taxon_common.termPrefForLang.name": "Preferred for lang",
-
-  "field.taxon_common.termQualifier.name": "Qualifier",
-
-  "field.taxon_common.termSource.fullName": "Source name",
-
-  "field.taxon_common.termSource.name": "Name",
-
-  "field.taxon_common.termSourceDetail.name": "Detail",
-
-  "field.taxon_common.termSourceID.name": "ID",
-
-  "field.taxon_common.termSourceNote.name": "Note",
-
-  "field.taxon_common.termStatus.name": "Status",
-
-  "field.taxon_common.termType.name": "Type",
-
   "field.valuationcontrols_common.valuationcontrolRefNumber.name": "Reference number",
 
   "field.valuationcontrols_common.valueAmount.fullName": "Amount value",
@@ -2382,24 +2315,6 @@ export default {
   "field.vocabularyitems_common.sourcePage.name": "Source page",
 
   "field.vocabularyitems_common.termStatus.name": "Status",
-
-  "field.works_common.addressCountry.name": "Country",
-
-  "field.works_common.addressMunicipality.name": "Municipality",
-
-  "field.works_common.addressPlace1.name": "Line 1",
-
-  "field.works_common.addressPlace2.name": "Line 2",
-
-  "field.works_common.addressPostCode.name": "Postal code",
-
-  "field.works_common.addressStateOrProvince.name": "State/Province",
-
-  "field.works_common.addressType.fullName": "Address type",
-
-  "field.works_common.addressType.name": "Type",
-
-  "field.works_common.addrGroup.name": "Address",
 
   "field.works_common.creator.fullName": "Creator name",
 
@@ -2578,9 +2493,7 @@ export default {
 
   "form.pottag.default.name": "Standard Template",
 
-  "form.taxon.default.name": "Standard Template",
-
-  "form.taxon.mini.name": "Mini Template",
+  "form.valuation.default.name": "Standard Template",
 
   "form.vocabulary.default.name": "Standard Template",
 
@@ -2637,12 +2550,6 @@ export default {
   "hierarchyInput.place.parent": "Broader place",
 
   "hierarchyInput.place.siblings": "Adjacent places",
-
-  "hierarchyInput.taxon.children": "Narrower taxon names",
-
-  "hierarchyInput.taxon.parent": "Broader taxon name",
-
-  "hierarchyInput.taxon.siblings": "Adjacent taxon names",
 
   "hierarchyInput.work.children": "Narrower works",
 
@@ -2745,8 +2652,6 @@ export default {
   "inputTable.place.nameDetail": "Name detail",
 
   "inputTable.place.termSource": "Source",
-
-  "inputTable.taxon.termSource": "Source",
 
   "inputTable.work.termSource": "Source",
 
@@ -3377,6 +3282,10 @@ export default {
 
   "option.ageUnits.years": "years",
 
+  "option.booleans.false": "no",
+
+  "option.booleans.true": "yes",
+
   "option.citationTermStatuses.accepted": "accepted",
 
   "option.citationTermStatuses.provisional": "provisional",
@@ -3923,6 +3832,12 @@ export default {
 
   "option.personTermStatuses.under review": "under review",
 
+  "option.personTermTypes.alternate descriptor": "alternate descriptor",
+
+  "option.personTermTypes.descriptor": "descriptor",
+
+  "option.personTermTypes.used for term": "used for term",
+
   "option.personTitles.Baron": "Baron",
 
   "option.personTitles.Baroness": "Baroness",
@@ -4125,56 +4040,6 @@ export default {
 
   "option.spatialRefSystems.unknown": "unknown",
 
-  "option.taxonAuthorTypes.ascribed": "ascribed",
-
-  "option.taxonAuthorTypes.parenthetical": "parenthetical",
-
-  "option.taxonCurrencies.archaic": "archaic",
-
-  "option.taxonCurrencies.current": "current",
-
-  "option.taxonCurrencies.obsolete": "obsolete",
-
-  "option.taxonomicStatuses.accepted": "accepted",
-
-  "option.taxonomicStatuses.invalid": "invalid",
-
-  "option.taxonomicStatuses.misapplied name": "misapplied name",
-
-  "option.taxonomicStatuses.valid": "valid",
-
-  "option.taxonRanks.class": "class",
-
-  "option.taxonRanks.division": "division",
-
-  "option.taxonRanks.domain": "domain",
-
-  "option.taxonRanks.family": "family",
-
-  "option.taxonRanks.genus": "genus",
-
-  "option.taxonRanks.kingdom": "kingdom",
-
-  "option.taxonRanks.order": "order",
-
-  "option.taxonRanks.phylum": "phylum",
-
-  "option.taxonRanks.species": "species",
-
-  "option.taxonTermStatuses.accepted": "accepted",
-
-  "option.taxonTermStatuses.provisional": "provisional",
-
-  "option.taxonTermStatuses.rejected": "rejected",
-
-  "option.taxonTermStatuses.under review": "under review",
-
-  "option.taxonTermTypes.alternate descriptor": "alternate descriptor",
-
-  "option.taxonTermTypes.descriptor": "descriptor",
-
-  "option.taxonTermTypes.used for term": "used for term",
-
   "option.technicalAttributeMeasurements.78": "78",
 
   "option.technicalAttributeMeasurements.metal": "metal",
@@ -4350,10 +4215,6 @@ export default {
   "panel.place.localityInfo": "Locality Information",
 
   "panel.pottag.info": "Pot Tag Information",
-
-  "panel.taxon.hierarchy": "Hierarchy",
-
-  "panel.taxon.info": "Taxonomic Name Information",
 
   "panel.valuation.info": "Object Valuation Information",
 
@@ -4633,12 +4494,6 @@ export default {
 
   // The name of the record type.
   "record.report.name": "Report",
-
-  // The name of a collection of records of the type.
-  "record.taxon.collectionName": "Taxon names",
-
-  // The name of the record type.
-  "record.taxon.name": "Taxon",
 
   // The name of a collection of records of the type.
   "record.valuation.collectionName": "Valuation Controls",
@@ -4990,18 +4845,6 @@ export default {
 
   // The name of the vocabulary.
   "vocab.place.tgn.name": "TGN",
-
-  // The name of a collection of records from the vocabulary.
-  "vocab.taxon.all.collectionName": "All Taxonomic Names",
-
-  // The name of the vocabulary.
-  "vocab.taxon.all.name": "All",
-
-  // The name of a collection of records from the vocabulary.
-  "vocab.taxon.local.collectionName": "Local Taxonomic Names",
-
-  // The name of the vocabulary.
-  "vocab.taxon.local.name": "Local",
 
   // The name of a collection of records from the vocabulary.
   "vocab.work.all.collectionName": "All Works",

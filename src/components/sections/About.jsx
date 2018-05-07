@@ -10,7 +10,7 @@ const messages = defineMessages({
   },
   contentHTML: {
     id: 'about.contentHTML',
-    description: 'HTML content of the about page.',
+    description: 'Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.',
     defaultMessage: `
       <p>
         CollectionSpace is a free, open-source collections management application for museums,
