@@ -134,7 +134,7 @@ export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
     let startValue = value.get(0);
     let endValue = value.get(1);
 
-    if (dataType === DATA_TYPE_DATETIME) {
+    if (dataType === DATA_TYPE_DATETIME || dataType === DATA_TYPE_DATE) {
       startValue = normalizeTimestampRangeStartValue(startValue);
       endValue = normalizeTimestampRangeEndValue(endValue);
     } else {
@@ -254,10 +254,26 @@ export const valueToNXQL = (value, path, fieldDescriptor) => {
 
   let nxqlValue;
 
-  if (dataType === DATA_TYPE_DATETIME || dataType === DATA_TYPE_DATE) {
+  if (dataType === DATA_TYPE_DATETIME) {
     // Timestamp values in searches must be given in UTC.
+    // Assume timezoneless values are given in local time.
 
     nxqlValue = (new Date(Date.parse(data))).toISOString();
+
+    return `TIMESTAMP "${nxqlValue}"`;
+  }
+
+  if (dataType === DATA_TYPE_DATE) {
+    nxqlValue = data;
+
+    // Append zero time part to date-only timestamps.
+
+    nxqlValue = nxqlValue.includes('T') ? nxqlValue : `${nxqlValue}T00:00:00.000`;
+
+    // Timestamp values in searches must be given in UTC.
+    // Assume timezoneless values are given in UTC.
+
+    nxqlValue = nxqlValue.endsWith('Z') ? nxqlValue : `${nxqlValue}Z`;
 
     return `TIMESTAMP "${nxqlValue}"`;
   }

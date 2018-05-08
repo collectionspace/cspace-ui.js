@@ -1990,11 +1990,11 @@ describe('recordDataHelpers', function moduleSuite() {
             value: 'a',
           })),
 
-        validateField('1983-03-05', [], Immutable.Map(), fieldDescriptor.time).should.eventually
+        validateField('1983-03-05Z', [], Immutable.Map(), fieldDescriptor.time).should.eventually
           .have.property(ERROR_KEY, Immutable.Map({
             code: ERR_DATA_TYPE,
             dataType: DATA_TYPE_DATETIME,
-            value: '1983-03-05',
+            value: '1983-03-05Z',
           })),
       ]);
     });
