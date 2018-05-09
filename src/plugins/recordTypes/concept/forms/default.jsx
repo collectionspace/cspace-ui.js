@@ -54,6 +54,7 @@ const template = (configContext) => {
               <Field name="conceptRecordType" />
             </Field>
           </Col>
+
           <Col />
         </Cols>
 

@@ -27,6 +27,7 @@ import person from './person';
 import place from './place';
 // import pottag from './pottag';
 import procedure from './procedure';
+import relation from './relation';
 import report from './report';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
@@ -62,6 +63,7 @@ export default [
   place,
   // pottag,
   procedure,
+  relation,
   report,
   valuation,
   vocabulary,

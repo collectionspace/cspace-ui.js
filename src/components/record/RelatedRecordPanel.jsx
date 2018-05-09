@@ -5,7 +5,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
-import { canList, canRelate } from '../../helpers/permissionHelpers';
+import { canList, canUnrelate } from '../../helpers/permissionHelpers';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
@@ -134,9 +134,14 @@ export default class RelatedRecordPanel extends Component {
   }
 
   shouldShowCheckbox(item) {
+    const {
+      config,
+      perms,
+    } = this.props;
+
     return (
       item.get('workflowState') !== 'locked' &&
-      canRelate(getRecordTypeNameByUri(this.props.config, item.get('uri')), this.props.perms)
+      canUnrelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config)
     );
   }
 
@@ -298,6 +303,8 @@ export default class RelatedRecordPanel extends Component {
     const {
       config,
       name,
+      perms,
+      relatedRecordType,
       selectedItems,
       showCheckboxColumn,
       setAllItemsSelected,
@@ -307,7 +314,7 @@ export default class RelatedRecordPanel extends Component {
       searchDescriptor,
     } = this.state;
 
-    if (searchError || !showCheckboxColumn) {
+    if (searchError || !showCheckboxColumn || !canUnrelate(relatedRecordType, perms, config)) {
       return null;
     }
 

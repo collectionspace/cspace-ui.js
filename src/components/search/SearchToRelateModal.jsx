@@ -469,7 +469,7 @@ export class BaseSearchToRelateModal extends Component {
       return false;
     }
 
-    return canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms);
+    return canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config);
   }
 
   renderCheckbox({ rowData, rowIndex }) {

@@ -114,9 +114,27 @@ export const canUpdate = (recordType, permissions) => can(recordType, permission
 export const canDelete = (recordType, permissions) => can(recordType, permissions, 'D');
 export const canList = (recordType, permissions) => can(recordType, permissions, 'L');
 
-// The UI requires that a record be editable to create a relation with it. (This is not enforced
-// in the services layer).
-export const canRelate = (recordType, permissions) => can(recordType, permissions, 'U');
+// In order to create a relation, the UI requires that permissions of some level (by default,
+// update) exist on the member records. (This is not enforced in the services layer.)
+export const canRelate = (recordType, permissions, config) => {
+  if (!canCreate('relation', permissions)) {
+    return false;
+  }
+
+  const relationMemberPerm = (config && config.relationMemberPerm) || 'U';
+
+  return can(recordType, permissions, relationMemberPerm);
+};
+
+export const canUnrelate = (recordType, permissions, config) => {
+  if (!canDelete('relation', permissions)) {
+    return false;
+  }
+
+  const relationMemberPerm = (config && config.relationMemberPerm) || 'U';
+
+  return can(recordType, permissions, relationMemberPerm);
+};
 
 export const canSoftDelete = (recordType, permissions) =>
   canTransition(recordType, permissions, 'delete');

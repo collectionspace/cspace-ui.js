@@ -322,9 +322,17 @@ export default class SearchResultPage extends Component {
   }
 
   shouldShowCheckbox(item) {
+    const {
+      perms,
+    } = this.props;
+
+    const {
+      config,
+    } = this.context;
+
     return (
       item.get('workflowState') !== 'locked' &&
-      canRelate(getRecordTypeNameByUri(this.context.config, item.get('uri')), this.props.perms)
+      canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config)
     );
   }
 
