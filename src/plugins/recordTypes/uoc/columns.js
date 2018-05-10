@@ -12,7 +12,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.uoc.default.referenceNumber',
-            defaultMessage: 'Reference Number',
+            defaultMessage: 'Reference number',
           },
         }),
         order: 10,
@@ -35,7 +35,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.uoc.default.authorizedBy',
-            defaultMessage: 'Authorized By',
+            defaultMessage: 'Authorized by',
           },
         }),
         order: 30,
