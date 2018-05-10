@@ -96,10 +96,6 @@ export default (configContext) => {
         authorizedBy: {
           [config]: {
             messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.authorizedBy.fullName',
-                defaultMessage: 'Authorized by',
-              },
               name: {
                 id: 'field.uoc_common.authorizedBy.name',
                 defaultMessage: 'Authorized by',
@@ -117,10 +113,6 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.authorizationDate.fullName',
-                defaultMessage: 'Use of Collections authorization date',
-              },
               name: {
                 id: 'field.uoc_common.authorizationDate.name',
                 defaultMessage: 'Authorization date',
@@ -136,7 +128,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.uoc_common.authorizationNote.name',
-                defaultMessage: 'Authorization Note',
+                defaultMessage: 'Authorization note',
               },
             }),
             view: {
@@ -148,10 +140,6 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.startSingleDate.fullName',
-                defaultMessage: 'Use of Collections start/single date',
-              },
               name: {
                 id: 'field.uoc_common.startSingleDate.name',
                 defaultMessage: 'Start/single date',
@@ -166,10 +154,6 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.endDate.fullName',
-                defaultMessage: 'Use of Collections end date',
-              },
               name: {
                 id: 'field.uoc_common.endDate.name',
                 defaultMessage: 'End date',
@@ -209,10 +193,6 @@ export default (configContext) => {
                     id: 'field.uoc_common.user.name',
                     defaultMessage: 'Name',
                   },
-                  fullName: {
-                    id: 'field.uoc_common.user.fullName',
-                    defaultMessage: 'User name',
-                  },
                 }),
                 view: {
                   type: AutocompleteInput,
@@ -227,7 +207,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.uoc_common.userType.name',
-                    defaultMessage: 'User Type',
+                    defaultMessage: 'User type',
                   },
                 }),
                 view: {

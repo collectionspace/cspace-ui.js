@@ -25,7 +25,6 @@ import objectexit from './objectexit';
 import organization from './organization';
 import person from './person';
 import place from './place';
-// import pottag from './pottag';
 import procedure from './procedure';
 import relation from './relation';
 import report from './report';
@@ -62,7 +61,6 @@ export default [
   organization,
   person,
   place,
-  //pottag,
   uoc,
   procedure,
   relation,
