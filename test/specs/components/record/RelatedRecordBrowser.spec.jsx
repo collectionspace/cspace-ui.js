@@ -37,6 +37,9 @@ const perms = Immutable.fromJS({
   group: {
     data: 'CRUDL',
   },
+  relation: {
+    data: 'CRUDL',
+  },
 });
 
 const store = mockStore({

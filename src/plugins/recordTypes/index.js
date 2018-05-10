@@ -27,6 +27,7 @@ import person from './person';
 import place from './place';
 import pottag from './pottag';
 import procedure from './procedure';
+import relation from './relation';
 import report from './report';
 import uoc from './uoc';
 import valuation from './valuation';
@@ -64,6 +65,7 @@ export default [
   pottag,
   uoc,
   procedure,
+  relation,
   report,
   valuation,
   vocabulary,

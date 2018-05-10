@@ -1201,6 +1201,9 @@ describe('SearchResultPage', function suite() {
           collectionobject: {
             data: 'CRUDL',
           },
+          relation: {
+            data: 'CRUDL',
+          },
         })}
       />, context);
 
@@ -1320,6 +1323,9 @@ describe('SearchResultPage', function suite() {
         match={match}
         perms={Immutable.fromJS({
           collectionobject: {
+            data: 'CRUDL',
+          },
+          relation: {
             data: 'CRUDL',
           },
         })}

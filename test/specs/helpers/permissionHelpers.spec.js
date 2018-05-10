@@ -368,9 +368,23 @@ describe('permissionHelpers', function moduleSuite() {
   });
 
   describe('canRelate', function suite() {
-    it('should return true if update permission exists for the record type', function test() {
+    it('should return false create permissions do not exist for the relation record type', function test() {
       const perms = Immutable.fromJS({
         loanin: {
+          data: 'CRUDL',
+        },
+        relation: 'RL',
+      });
+
+      canRelate('loanin', perms).should.equal(false);
+    });
+
+    it('should return true if update permission exists for the member record type', function test() {
+      const perms = Immutable.fromJS({
+        loanin: {
+          data: 'CRUDL',
+        },
+        relation: {
           data: 'CRUDL',
         },
       });
@@ -378,10 +392,13 @@ describe('permissionHelpers', function moduleSuite() {
       canRelate('loanin', perms).should.equal(true);
     });
 
-    it('should return false if update permission does not exist for the record type', function test() {
+    it('should return false if update permission does not exist for the member record type', function test() {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRDL',
+        },
+        relation: {
+          data: 'CRUDL',
         },
       });
 
@@ -392,7 +409,7 @@ describe('permissionHelpers', function moduleSuite() {
       canRelate('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the record type', function test() {
+    it('should return false if data permissions do not exist for the member record type', function test() {
       const perms = Immutable.Map();
 
       canRelate('loanin', perms).should.equal(false);

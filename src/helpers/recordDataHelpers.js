@@ -537,8 +537,12 @@ export const getCreatedUser = data =>
 
 const intPattern = /^-?\d+$/;
 const floatPattern = /^-?(\d+(\.\d+)?|\.\d+)$/;
-const datePattern = /^\d{4}-\d{2}-\d{2}(T00:00:00.000Z)?$/;
-const dateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+const dateTimePattern = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z)?$/;
+// The pre-5.0 UI allowed non-zero times on date-typed fields, and the REST API still allows it,
+// so there may be data that contains non-zero times. This means the UI needs to support that,
+// even if the calendar picker always generates dates without times.
+// const datePattern = /^\d{4}-\d{2}-\d{2}(T00:00:00.000Z)?$/;
+const datePattern = dateTimePattern;
 
 const dataTypeValidators = {
   DATA_TYPE_MAP: value => Immutable.Map.isMap(value),

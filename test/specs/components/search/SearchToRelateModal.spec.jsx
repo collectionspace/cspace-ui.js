@@ -63,6 +63,9 @@ const perms = Immutable.fromJS({
   collectionobject: {
     data: 'CRUDL',
   },
+  relation: {
+    data: 'CRUDL',
+  },
 });
 
 const intl = {

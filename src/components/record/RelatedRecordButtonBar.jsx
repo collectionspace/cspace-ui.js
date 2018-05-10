@@ -5,6 +5,7 @@ import RelateButton from './RelateButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
 
 const propTypes = {
+  isCreatable: PropTypes.bool,
   isRelatable: PropTypes.bool,
   onCreateButtonClick: PropTypes.func,
   onRelateButtonClick: PropTypes.func,
@@ -16,6 +17,7 @@ const defaultProps = {
 
 export default function RelatedRecordButtonBar(props) {
   const {
+    isCreatable,
     isRelatable,
     onCreateButtonClick,
     onRelateButtonClick,
@@ -25,11 +27,13 @@ export default function RelatedRecordButtonBar(props) {
     return null;
   }
 
+  const createButton = isCreatable
+    ? <CreateButton onClick={onCreateButtonClick} />
+    : undefined;
+
   return (
     <div className={styles.common}>
-      <CreateButton
-        onClick={onCreateButtonClick}
-      />
+      {createButton}
       <RelateButton
         onClick={onRelateButtonClick}
       />

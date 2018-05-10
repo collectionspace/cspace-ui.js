@@ -177,6 +177,14 @@ recordTypes: RecordTypeMap = defaultRecordTypes
 ```
 An object containing definitions of the record types that are known to the UI. See the [record type configuration](./RecordTypeConfiguration.md) documentation for details. All record types required by the core application are defined by default.
 
+### relationMemberPerm
+```
+relationMemberPerm: string = 'U'
+```
+The permission required on a record in order to create or delete a relation that has the record as a member (subject or object). This permission is required in addition to create/delete permission on the relation record itself. The value must be one of the following: `L` (list), `R` (read), `C` (create), `U` (update), `D` (delete).
+
+⚠️ This property only affects the controls that are enabled in the user interface. It does not affect the permissions required to create or delete a relation via the services layer REST API, which only considers permissions on relation records, not permissions on the member records.
+
 ### serverUrl
 ```
 serverUrl: string = ''

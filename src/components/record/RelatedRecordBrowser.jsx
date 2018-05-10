@@ -8,7 +8,7 @@ import RelatedRecordButtonBar from './RelatedRecordButtonBar';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RelationEditorContainer from '../../containers/record/RelationEditorContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
-import { canRelate } from '../../helpers/permissionHelpers';
+import { canCreate, canRelate } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RelatedRecordBrowser.css';
 
 const propTypes = {
@@ -369,10 +369,12 @@ export default class RelatedRecordBrowser extends Component {
       workflowState,
     } = this.props;
 
+    const isCreatable = canCreate(relatedRecordType, perms);
+
     const isRelatable = (
       workflowState !== 'locked' &&
-      canRelate(recordType, perms) &&
-      canRelate(relatedRecordType, perms)
+      canRelate(recordType, perms, config) &&
+      canRelate(relatedRecordType, perms, config)
     );
 
     // TODO: Vary the name of the RelatedRecordPanelContainer depending on the object record type?
@@ -383,6 +385,7 @@ export default class RelatedRecordBrowser extends Component {
       <div className={styles.common}>
         <header>
           <RelatedRecordButtonBar
+            isCreatable={isCreatable}
             isRelatable={isRelatable}
             onCreateButtonClick={this.handleCreateButtonClick}
             onRelateButtonClick={this.handleRelateButtonClick}

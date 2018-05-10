@@ -241,7 +241,7 @@ export default class RecordPage extends Component {
 
     const isRelatable = (
       workflowState !== 'locked' &&
-      canRelate(recordType, perms)
+      canRelate(recordType, perms, config)
     );
 
     return (

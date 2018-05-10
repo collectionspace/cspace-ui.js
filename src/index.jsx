@@ -35,6 +35,7 @@ const defaultConfig = mergeConfig({
   mediaSnapshotSort: 'title',
   messages: undefined,
   prettyUrls: false,
+  relationMemberPerm: 'U',
   serverUrl: '',
   showTermListStateIcon: false,
   tenantId: '1',

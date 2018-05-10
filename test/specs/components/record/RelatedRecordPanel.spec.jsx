@@ -65,6 +65,9 @@ const perms = Immutable.fromJS({
   group: {
     data: 'CRUDL',
   },
+  relation: {
+    data: 'CRUDL',
+  },
 });
 
 describe('RelatedRecordPanel', function suite() {
@@ -146,6 +149,7 @@ describe('RelatedRecordPanel', function suite() {
       <RelatedRecordPanel
         config={config}
         csid={csid}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -513,6 +517,7 @@ describe('RelatedRecordPanel', function suite() {
         config={config}
         csid={csid}
         name={panelName}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -597,6 +602,7 @@ describe('RelatedRecordPanel', function suite() {
         config={config}
         csid={csid}
         name={panelName}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -679,6 +685,7 @@ describe('RelatedRecordPanel', function suite() {
         config={config}
         csid={csid}
         name={panelName}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -704,6 +711,7 @@ describe('RelatedRecordPanel', function suite() {
             config={config}
             csid={csid}
             name={panelName}
+            perms={perms}
             recordData={recordData}
             recordType={recordType}
             relatedRecordType={relatedRecordType}
@@ -730,6 +738,7 @@ describe('RelatedRecordPanel', function suite() {
             config={config}
             csid={csid}
             name={panelName}
+            perms={perms}
             recordData={recordData}
             recordType={recordType}
             relatedRecordType={relatedRecordType}
@@ -787,6 +796,7 @@ describe('RelatedRecordPanel', function suite() {
         config={config}
         csid={csid}
         name={panelName}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}
@@ -812,6 +822,7 @@ describe('RelatedRecordPanel', function suite() {
             config={config}
             csid={csid}
             name={panelName}
+            perms={perms}
             recordData={recordData}
             recordType={recordType}
             relatedRecordType={relatedRecordType}
@@ -838,6 +849,7 @@ describe('RelatedRecordPanel', function suite() {
             config={config}
             csid={csid}
             name={panelName}
+            perms={perms}
             recordData={recordData}
             recordType={recordType}
             relatedRecordType={relatedRecordType}
@@ -895,6 +907,7 @@ describe('RelatedRecordPanel', function suite() {
         config={config}
         csid={csid}
         name={panelName}
+        perms={perms}
         recordData={recordData}
         recordType={recordType}
         relatedRecordType={relatedRecordType}

@@ -8,7 +8,7 @@ import RelationButtonBar from './RelationButtonBar';
 import WorkflowStateIcon from './WorkflowStateIcon';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
-import { canRelate } from '../../helpers/permissionHelpers';
+import { canUnrelate } from '../../helpers/permissionHelpers';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
@@ -292,8 +292,8 @@ export default class RelationEditor extends Component {
     const isUnrelatable = (
       subjectWorkflowState !== 'locked' &&
       objectWorkflowState !== 'locked' &&
-      canRelate(subject.recordType, perms) &&
-      canRelate(object.recordType, perms)
+      canUnrelate(subject.recordType, perms, config) &&
+      canUnrelate(object.recordType, perms, config)
     );
 
     return (
