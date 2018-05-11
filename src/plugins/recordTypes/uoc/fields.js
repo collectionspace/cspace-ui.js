@@ -190,7 +190,7 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.uoc_common.user.name',
+                    id: 'field.uoc_common.user.fullName',
                     defaultMessage: 'User name',
                   },
                   name: {
@@ -210,7 +210,7 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.uoc_common.userType.name',
+                    id: 'field.uoc_common.userType.fullName',
                     defaultMessage: 'User type',
                   },
                   name: {
