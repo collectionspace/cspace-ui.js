@@ -25,10 +25,10 @@ import objectexit from './objectexit';
 import organization from './organization';
 import person from './person';
 import place from './place';
-// import pottag from './pottag';
 import procedure from './procedure';
 import relation from './relation';
 import report from './report';
+import uoc from './uoc';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
 import work from './work';
@@ -61,7 +61,7 @@ export default [
   organization,
   person,
   place,
-  // pottag,
+  uoc,
   procedure,
   relation,
   report,
