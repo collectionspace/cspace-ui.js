@@ -6,7 +6,7 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
-    // Col,
+    Col,
     // Cols,
     Panel,
     Row,
@@ -22,10 +22,14 @@ const template = (configContext) => {
       <Panel name="useOfCollections" collapsible>
 
         <Row>
-          <Field name="referenceNumber" />
-          <Field name="methodList">
-            <Field name="method" />
-          </Field>
+          <Col>
+            <Field name="referenceNumber" />
+          </Col>
+          <Col>
+            <Field name="methodList">
+              <Field name="method" />
+            </Field>
+          </Col>
         </Row>
 
         <Field name="title" />
