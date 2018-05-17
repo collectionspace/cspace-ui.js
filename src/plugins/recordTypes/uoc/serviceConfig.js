@@ -1,8 +1,8 @@
 export default {
-  serviceName: 'UOC',
+  serviceName: 'Uoc',
   servicePath: 'uoc',
   serviceType: 'procedure',
 
-  objectName: 'UOC',
+  objectName: 'Uoc',
   documentName: 'uoc',
 };

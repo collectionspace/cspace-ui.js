@@ -5,8 +5,10 @@ import forms from './forms';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
+import idGenerators from './idGenerators';
 
 export default () => configContext => ({
+  idGenerators,
   recordTypes: {
     uoc: {
       messages,

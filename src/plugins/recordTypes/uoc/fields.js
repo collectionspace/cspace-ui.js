@@ -7,7 +7,7 @@ export default (configContext) => {
     // OptionPickerInput,
     TextInput,
     AutocompleteInput,
-    // IDGeneratorInput,
+    IDGeneratorInput,
     TermPickerInput,
   } = configContext.inputComponents;
 
@@ -50,8 +50,14 @@ export default (configContext) => {
               },
             }),
             required: true,
-            view: {
+            searchView: {
               type: TextInput,
+            },
+            view: {
+              type: IDGeneratorInput,
+              props: {
+                source: 'uoc',
+              },
             },
           },
         },
