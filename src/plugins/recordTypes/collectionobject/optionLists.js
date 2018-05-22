@@ -770,17 +770,17 @@ export default {
   },
   sexes: {
     values: [
-      'male',
       'female',
+      'male',
     ],
     messages: defineMessages({
-      male: {
-        id: 'option.sexes.male',
-        defaultMessage: 'male',
-      },
       female: {
         id: 'option.sexes.female',
         defaultMessage: 'female',
+      },
+      male: {
+        id: 'option.sexes.male',
+        defaultMessage: 'male',
       },
     }),
   },

@@ -36,6 +36,22 @@ export default () => ({
         },
       }),
     },
+    yesNoValues: {
+      values: [
+        'yes',
+        'no',
+      ],
+      messages: defineMessages({
+        yes: {
+          id: 'option.yesNoValues.yes',
+          defaultMessage: 'yes',
+        },
+        no: {
+          id: 'option.yesNoValues.no',
+          defaultMessage: 'no',
+        },
+      }),
+    },
     dateQualifiers: {
       values: [
         '+/-',
