@@ -561,7 +561,12 @@ export default class RecordEditor extends Component {
       // button should not appear.
       !relatedSubjectLocked &&
       // We must have permission to create a new record of the type.
-      canCreate(recordType, perms)
+      canCreate(recordType, perms) &&
+      // FIXME: Prevent cloning seeded authroles, since they may contain permissions that are not
+      // normally creatable via the UI. Instead of hardcoding this, should be able to configure a
+      // normalizeCloneData function that will clean up cloned data for a record type, and/or
+      // a cloneable function that will determine if a record is cloneable based on its data.
+      !(recordType === 'authrole' && data.getIn(['ns2:role', 'permsProtection']) === 'immutable')
     );
 
     const isDeletable = (

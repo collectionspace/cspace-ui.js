@@ -237,6 +237,26 @@ describe('PermissionsInput', function suite() {
       .should.equal(true);
   });
 
+  it('should treat CRUDL on a delete workflow transition as D on the corresponding resource', function test() {
+    const value = Immutable.fromJS([
+      { resourceName: '/groups/*/workflow/delete', actionGroup: 'CRUDL' },
+      { resourceName: 'groups', actionGroup: 'CRUL' },
+    ]);
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            value={value}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('input[name="group"][value="CRUDL"]').checked
+      .should.equal(true);
+  });
+
   it('should allow a single (non-list) value', function test() {
     const value = Immutable.Map({ resourceName: 'collectionobjects', actionGroup: 'RL' });
 
@@ -280,6 +300,36 @@ describe('PermissionsInput', function suite() {
     committedValue.should.equal(Immutable.fromJS([
       { resourceName: 'collectionobjects', actionGroup: 'RL' },
       { resourceName: '/collectionobjects/*/workflow/delete', actionGroup: 'RL' },
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
+    ]));
+  });
+
+  it('should convert delete permission to CRUL on a resource and CRUDL on its corresonding delete workflow', function test() {
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            onCommit={handleCommit}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.querySelector('input[name="collectionobject"][value="CRUDL"]');
+
+    input.checked = 'true';
+
+    Simulate.change(input);
+
+    committedValue.should.equal(Immutable.fromJS([
+      { resourceName: 'collectionobjects', actionGroup: 'CRUL' },
+      { resourceName: '/collectionobjects/*/workflow/delete', actionGroup: 'CRUDL' },
       { resourceName: 'servicegroups', actionGroup: 'RL' },
     ]));
   });

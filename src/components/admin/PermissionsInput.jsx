@@ -181,13 +181,19 @@ export default class PermissionsInput extends Component {
         serviceType === 'authority' ||
         (serviceType === 'utility' && resourceName !== 'idgenerators')
       ) {
-        // For object, procedure, authority, and utility types, also set permissions on the delete
-        // workflow transition. (Security records do not have soft-delete).
+        // For object, procedure, authority, and utility types, replace delete permission with
+        // permissions on the delete workflow transition. (Security records do not have
+        // soft-delete).
 
         const workflowDeleteResourceName = `/${resourceName}/*/workflow/delete`;
 
         if (actionGroup) {
-          update[workflowDeleteResourceName] = actionGroup.includes('D') ? 'CRUDL' : 'RL';
+          if (actionGroup.includes('D')) {
+            update[workflowDeleteResourceName] = 'CRUDL';
+            update[resourceName] = actionGroup.replace('D', '');
+          } else {
+            update[workflowDeleteResourceName] = 'RL';
+          }
         } else {
           update[workflowDeleteResourceName] = '';
         }
@@ -230,7 +236,19 @@ export default class PermissionsInput extends Component {
     let checked = false;
 
     if (perms) {
-      checked = value ? perms[resourceName] === value : !perms[resourceName];
+      let effectivePerms = perms[resourceName];
+
+      if (effectivePerms === 'CRUL') {
+        // Check for soft-delete perm, and synthesize a delete perm if present.
+
+        const workflowDeleteResourceName = `/${resourceName}/*/workflow/delete`;
+
+        if (perms[workflowDeleteResourceName] === 'CRUDL') {
+          effectivePerms = 'CRUDL';
+        }
+      }
+
+      checked = value ? effectivePerms === value : !effectivePerms;
     }
 
     return (
