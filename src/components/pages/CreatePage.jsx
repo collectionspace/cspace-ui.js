@@ -177,7 +177,7 @@ export default function CreatePage(props, context) {
         if (vocabularies && vocabularies.length > 0) {
           const vocabularyItems = vocabularies.map(vocabulary =>
             <li key={vocabulary}>
-              <Link id={`${recordType}/${vocabulary}`} to={`record/${recordType}/${vocabulary}`}>
+              <Link id={`${recordType}/${vocabulary}`} to={`/record/${recordType}/${vocabulary}`}>
                 <FormattedMessage {...recordTypeConfig.vocabularies[vocabulary].messages.name} />
               </Link>
             </li>
@@ -200,7 +200,7 @@ export default function CreatePage(props, context) {
         if (vocabularyList) {
           recordLink = <h3 id={recordType}>{recordDisplayName}</h3>;
         } else {
-          recordLink = <Link id={recordType} to={`record/${recordType}`}>{recordDisplayName}</Link>;
+          recordLink = <Link id={recordType} to={`/record/${recordType}`}>{recordDisplayName}</Link>;
         }
 
         return (
