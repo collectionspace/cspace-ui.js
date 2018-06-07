@@ -11,7 +11,7 @@ export default () => ({
           defaultMessage: `{totalItems, plural,
             =0 {No roles}
             one {1 role}
-            other {{startNum}–{endNum} of {totalItems} roles}
+            other {{startNum, number}–{endNum, number} of {totalItems, number} roles}
           } found`,
         },
         searching: {

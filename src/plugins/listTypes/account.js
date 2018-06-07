@@ -11,7 +11,7 @@ export default () => ({
           defaultMessage: `{totalItems, plural,
             =0 {No users}
             one {1 user}
-            other {{startNum}–{endNum} of {totalItems} users}
+            other {{startNum, number}–{endNum, number} of {totalItems, number} users}
           } found`,
         },
         searching: {

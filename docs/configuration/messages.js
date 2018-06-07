@@ -212,6 +212,8 @@ export default {
 
   "column.exhibition.default.updatedAt": "Updated",
 
+  "column.exhibition.default.updatedAt": "Updated",
+
   "column.group.default.owner": "Owner",
 
   "column.group.default.title": "Title",
@@ -339,6 +341,12 @@ export default {
   "column.terms.type": "Type",
 
   "column.terms.vocabulary": "Vocabulary",
+
+  "column.uoc.default.authorizedBy": "Authorized by",
+
+  "column.uoc.default.referenceNumber": "Reference number",
+
+  "column.uoc.default.title": "Title",
 
   "column.valuation.default.updatedAt": "Updated",
 
@@ -2274,6 +2282,40 @@ export default {
 
   "field.structuredDate.latest": "Latest",
 
+  "field.uoc_common.authorizationDate.name": "Authorization date",
+
+  "field.uoc_common.authorizationNote.name": "Authorization note",
+
+  "field.uoc_common.authorizedBy.name": "Authorized by",
+
+  "field.uoc_common.endDate.name": "End date",
+
+  "field.uoc_common.location.name": "Location",
+
+  "field.uoc_common.method.name": "Method",
+
+  "field.uoc_common.note.name": "Note",
+
+  "field.uoc_common.provisos.name": "Provisos",
+
+  "field.uoc_common.referenceNumber.name": "Reference number",
+
+  "field.uoc_common.result.name": "Result",
+
+  "field.uoc_common.startSingleDate.name": "Start/single date",
+
+  "field.uoc_common.title.name": "Title",
+
+  "field.uoc_common.user.fullName": "User name",
+
+  "field.uoc_common.user.name": "Name",
+
+  "field.uoc_common.userGroup.name": "User",
+
+  "field.uoc_common.userType.fullName": "User type",
+
+  "field.uoc_common.userType.name": "Type",
+
   "field.valuationcontrols_common.valuationcontrolRefNumber.name": "Reference number",
 
   "field.valuationcontrols_common.valueAmount.fullName": "Amount value",
@@ -2493,6 +2535,8 @@ export default {
 
   "form.pottag.default.name": "Standard Template",
 
+  "form.uoc.default.name": "Standard Template",
+
   "form.valuation.default.name": "Standard Template",
 
   "form.vocabulary.default.name": "Standard Template",
@@ -2593,6 +2637,8 @@ export default {
 
   "idGenerator.study.type": "Study",
 
+  "idGenerator.uoc.type": "Use of Collections",
+
   "idGenerator.valuationcontrol.type": "Valuation Control",
 
   // Label of the number pattern sample column displayed in the ID generator dropdown.
@@ -2653,25 +2699,29 @@ export default {
 
   "inputTable.place.termSource": "Source",
 
+  "inputTable.uoc.authorizedBy": "Authorization",
+
+  "inputTable.uoc.user": "User",
+
   "inputTable.work.termSource": "Source",
 
-  "list.account.resultCount": "{totalItems, plural, =0 {No users} one {1 user} other {{startNum}–{endNum} of {totalItems} users}} found",
+  "list.account.resultCount": "{totalItems, plural, =0 {No users} one {1 user} other {{startNum, number}–{endNum, number} of {totalItems, number} users}} found",
 
   "list.account.searching": "Finding users...",
 
-  "list.authRef.resultCount": "{totalItems, plural, =0 {No terms} one {1 term} other {{startNum}–{endNum} of {totalItems} terms}} found",
+  "list.authRef.resultCount": "{totalItems, plural, =0 {No terms} one {1 term} other {{startNum, number}–{endNum, number} of {totalItems, number} terms}} found",
 
   "list.authRef.searching": "Finding terms...",
 
-  "list.common.resultCount": "{totalItems, plural, =0 {No records} one {1 record} other {{startNum}–{endNum} of {totalItems} records}} found",
+  "list.common.resultCount": "{totalItems, plural, =0 {No records} one {1 record} other {{startNum, number}–{endNum, number} of {totalItems, number} records}} found",
 
   "list.common.searching": "Finding records...",
 
-  "list.refDoc.resultCount": "{totalItems, plural, =0 {No uses} one {1 use} other {{startNum}–{endNum} of {totalItems} uses}} found",
+  "list.refDoc.resultCount": "{totalItems, plural, =0 {No uses} one {1 use} other {{startNum, number}–{endNum, number} of {totalItems, number} uses}} found",
 
   "list.refDoc.searching": "Finding uses...",
 
-  "list.role.resultCount": "{totalItems, plural, =0 {No roles} one {1 role} other {{startNum}–{endNum} of {totalItems} roles}} found",
+  "list.role.resultCount": "{totalItems, plural, =0 {No roles} one {1 role} other {{startNum, number}–{endNum, number} of {totalItems, number} roles}} found",
 
   "list.role.searching": "Finding roles...",
 
@@ -4092,6 +4142,10 @@ export default {
 
   "option.workTermStatuses.quickaddedneedsattention": "quick added, needs attention",
 
+  "option.yesNoValues.no": "no",
+
+  "option.yesNoValues.yes": "yes",
+
   // Message displayed in the option picker input dropdown when filtering options.
   "optionPickerInput.count": "{count, plural, =0 {No matching options} one {# matching option} other {# matching options}} found",
 
@@ -4215,6 +4269,8 @@ export default {
   "panel.place.localityInfo": "Locality Information",
 
   "panel.pottag.info": "Pot Tag Information",
+
+  "panel.uoc.useOfCollections": "Use of Collections Information",
 
   "panel.valuation.info": "Object Valuation Information",
 
@@ -4489,11 +4545,23 @@ export default {
   // The name of the record type.
   "record.procedure.name": "Procedures",
 
+  // The name of a collection of records of the relation type.
+  "record.relation.collectionName": "Relations",
+
+  // The name of the relation record type.
+  "record.relation.name": "Relation",
+
   // The name of a collection of records of the type.
   "record.report.collectionName": "Reports",
 
   // The name of the record type.
   "record.report.name": "Report",
+
+  // The name of a collection of records of the type.
+  "record.uoc.collectionName": "Use of Collections",
+
+  // The name of the record type.
+  "record.uoc.name": "Use of Collections",
 
   // The name of a collection of records of the type.
   "record.valuation.collectionName": "Valuation Controls",

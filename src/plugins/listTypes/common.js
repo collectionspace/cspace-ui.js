@@ -20,7 +20,7 @@ export default () => ({
           defaultMessage: `{totalItems, plural,
             =0 {No records}
             one {1 record}
-            other {{startNum}–{endNum} of {totalItems} records}
+            other {{startNum, number}–{endNum, number} of {totalItems, number} records}
           } found`,
         },
         searching: {
