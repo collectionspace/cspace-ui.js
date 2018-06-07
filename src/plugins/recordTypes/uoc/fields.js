@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     CompoundInput,
     DateInput,
-    // OptionPickerInput,
     TextInput,
     AutocompleteInput,
     IDGeneratorInput,
@@ -119,9 +118,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
+              fulName: {
+                id: 'field.uoc_common.authorizationDate.fulName',
+                defaultMessage: 'Authorization date',
+              },
               name: {
                 id: 'field.uoc_common.authorizationDate.name',
-                defaultMessage: 'Authorization date',
+                defaultMessage: 'Date',
               },
             }),
             view: {
@@ -132,9 +135,13 @@ export default (configContext) => {
         authorizationNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.uoc_common.authorizationNote.fullName',
+                defaultMessage: 'Authorization note',
+              },
               name: {
                 id: 'field.uoc_common.authorizationNote.name',
-                defaultMessage: 'Authorization note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
