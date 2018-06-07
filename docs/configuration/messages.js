@@ -427,7 +427,7 @@ export default {
   "createPage.title": "Create New",
 
   // Title of the recent records panel on the dashboard page.
-  "dashboardPage.recentPanelTitle": "Recently Updated Records",
+  "dashboardPage.recentPanelTitle": "Records Updated in Last 7 Days",
 
   // Title of the dashboard page.
   "dashboardPage.title": "My CollectionSpace",

@@ -16,7 +16,7 @@ const messages = defineMessages({
   recentPanelTitle: {
     id: 'dashboardPage.recentPanelTitle',
     description: 'Title of the recent records panel on the dashboard page.',
-    defaultMessage: 'Recently Updated Records',
+    defaultMessage: 'Records Updated in Last 7 Days',
   },
 });
 
