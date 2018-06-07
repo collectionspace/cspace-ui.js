@@ -2282,9 +2282,13 @@ export default {
 
   "field.structuredDate.latest": "Latest",
 
-  "field.uoc_common.authorizationDate.name": "Authorization date",
+  "field.uoc_common.authorizationDate.fulName": "Authorization date",
 
-  "field.uoc_common.authorizationNote.name": "Authorization note",
+  "field.uoc_common.authorizationDate.name": "Date",
+
+  "field.uoc_common.authorizationNote.fullName": "Authorization note",
+
+  "field.uoc_common.authorizationNote.name": "Note",
 
   "field.uoc_common.authorizedBy.name": "Authorized by",
 

@@ -4,6 +4,8 @@ This document contains guidelines to follow in order to maintain a consistent lo
 
 - [Panels](#panels)
 - [Fields](#fields)
+  - [Two Column Layout](#two-column-layout)
+  - [Row Oriented Layout](#row-oriented-layout)
   - [Repeating Fields](#repeating-fields)
   - [Repeating Field Groups](#repeating-field-groups)
   - [Input Tables](#input-tables)
@@ -22,7 +24,49 @@ This document contains guidelines to follow in order to maintain a consistent lo
 
 1. Field labels should be sentence case.
 
-1. Tab order: Down a column to the end, then to the top of the next column.
+1. "Note" vs. "Notes": Singular.
+
+   <img align="right" src="./images/notes.png">
+
+   ```JavaScript
+   // 🚫 BAD
+
+   planningNote: {
+     [config]: {
+       messages: defineMessages({
+         name: {
+           id: 'field.exhibitions_common.planningNote.name',
+           defaultMessage: 'Planning notes',
+         },
+       }),
+       // ...
+     },
+   },
+   ```
+
+   <img align="right" src="./images/note.png">
+
+   ```JavaScript
+   // ✅ GOOD
+
+   planningNote: {
+     [config]: {
+       messages: defineMessages({
+         name: {
+           id: 'field.exhibitions_common.planningNote.name',
+           defaultMessage: 'Planning note',
+         },
+       }),
+       // ...
+     },
+   },
+   ```
+
+### Two Column Layout
+
+1. The default. Use in most cases.
+
+1. Tab order: Down the left column to the end, then to the top of the right column.
 
    <img align="right" src="./images/tabOrderBad.png">
 
@@ -93,43 +137,13 @@ This document contains guidelines to follow in order to maintain a consistent lo
    </Panel>
    ```
 
-1. "Note" vs. "Notes": Singular.
+### Row Oriented Layout
 
-   <img align="right" src="./images/notes.png">
+1. Use when higher field density is required.
 
-   ```JavaScript
-   // 🚫 BAD
+1. Must have more than two fields per row.
 
-   planningNote: {
-     [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.exhibitions_common.planningNote.name',
-           defaultMessage: 'Planning notes',
-         },
-       }),
-       // ...
-     },
-   },
-   ```
-
-   <img align="right" src="./images/note.png">
-
-   ```JavaScript
-   // ✅ GOOD
-
-   planningNote: {
-     [config]: {
-       messages: defineMessages({
-         name: {
-           id: 'field.exhibitions_common.planningNote.name',
-           defaultMessage: 'Planning note',
-         },
-       }),
-       // ...
-     },
-   },
-   ```
+1. Tab order: Left to right along a row, then to the beginning of the next row.
 
 ### Repeating Fields
 
