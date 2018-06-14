@@ -6,7 +6,7 @@ export default {
     messages: defineMessages({
       type: {
         id: 'idGenerator.objectexit.type',
-        defaultMessage: 'Object exit',
+        defaultMessage: 'Object Exit',
       },
     }),
   },
