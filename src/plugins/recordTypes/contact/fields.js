@@ -29,18 +29,18 @@ export default (configContext) => {
         },
         emailGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.contacts_common.emailGroupList.name',
-                defaultMessage: 'Email',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           emailGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.contacts_common.emailGroup.name',
+                  defaultMessage: 'Email',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -82,18 +82,18 @@ export default (configContext) => {
         },
         telephoneNumberGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.contacts_common.telephoneNumberGroupList.name',
-                defaultMessage: 'Phone',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           telephoneNumberGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.contacts_common.telephoneNumberGroup.name',
+                  defaultMessage: 'Phone',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -135,18 +135,18 @@ export default (configContext) => {
         },
         faxNumberGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.contacts_common.faxNumberGroupList.name',
-                defaultMessage: 'Fax',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           faxNumberGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.contacts_common.faxNumberGroup.name',
+                  defaultMessage: 'Fax',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -188,18 +188,18 @@ export default (configContext) => {
         },
         webAddressGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.contacts_common.webAddressGroupList.name',
-                defaultMessage: 'Web site',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           webAddressGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.contacts_common.webAddressGroup.name',
+                  defaultMessage: 'Web site',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -241,18 +241,18 @@ export default (configContext) => {
         },
         addressGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.contacts_common.addressGroupList.name',
-                defaultMessage: 'Address',
-              },
-            }),
             view: {
               type: CompoundInput,
             },
           },
           addressGroup: {
             [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.contacts_common.addressGroup.name',
+                  defaultMessage: 'Address',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,

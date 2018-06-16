@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "1.0.0-rc.22",
+  "version": "1.0.0-rc.23",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -102,7 +102,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.13",
     "loglevel": "^1.6.1",
-    "mocha": "^3.5.3",
+    "mocha": "^5.2.0",
     "moxios": "^0.3.0",
     "nyc": "^11.5.0",
     "react-shallow-testutils": "^3.0.1",
