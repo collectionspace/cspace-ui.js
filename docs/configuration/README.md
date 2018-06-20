@@ -118,7 +118,7 @@ The locale to use for formatting numbers, dates, and currency. Also used to dete
 ```
 logo: string = defaultLogoUrl
 ```
-URL to the logo image for the application, displayed in the upper left corner of each screen. By default, the bundled CollectionSpace logo is used.
+URL to the logo image for the application, displayed in the upper left corner of each screen. By default, the bundled CollectionSpace logo is used. Any URL allowed in the `src` attribute of the HTML [`img`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) tag may be specified, including relative URLS, `http` URLs, and [`data` URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs).
 
 ### mediaSnapshotSort
 ```
