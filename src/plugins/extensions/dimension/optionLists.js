@@ -14,6 +14,7 @@ export default {
       'meters',
       'minutes',
       'pixels',
+      'pounds',
       'square-feet',
       'stories',
     ],
@@ -61,6 +62,10 @@ export default {
       pixels: {
         id: 'option.measurementUnits.pixels',
         defaultMessage: 'pixels',
+      },
+      pounds: {
+        id: 'option.measurementUnits.pounds',
+        defaultMessage: 'pounds',
       },
       'square-feet': {
         id: 'option.measurementUnits.square-feet',
