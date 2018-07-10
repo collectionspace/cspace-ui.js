@@ -411,7 +411,7 @@ describe('RecordBatchPanel', function suite() {
     const run = () => Promise.resolve({
       data: {
         'ns2:invocationResults': {
-          primaryURICreated: 'http://localhost/cspace-services/collectionobjects/8888',
+          primaryURICreated: '/collectionobjects/8888',
         },
       },
     });

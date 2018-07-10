@@ -3,7 +3,7 @@ import {
   getVocabularyConfigByServicePath,
 } from './configHelpers';
 
-const uriPattern = /\/cspace-services\/(.*?)\/(.*?)(\/items\/(.*?))?$/;
+const uriPattern = /^\/(.*?)\/(.*?)(\/items\/(.*?))?$/;
 
 export const serviceUriToLocation = (config, uri) => {
   if (!uri) {
