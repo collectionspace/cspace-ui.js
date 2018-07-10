@@ -52,7 +52,7 @@ An advanced search condition descriptor has the following properties:
 ```
 op: string
 ```
-The search operator. When the advanced search condition is defined in a configurer function, search operators are provided in the configuration context passed to the configurer, under the `searchOperators` property.
+The search operator. When the advanced search condition is defined in a [configurer function](./README.md#configurer-function), search operators are provided in the [configuration context](./ConfigurationContext.md) passed to the configurer, under the [`searchOperators`](./ConfigurationContext.md#searchoperators-object) property.
 
 The following search operators are available:
 

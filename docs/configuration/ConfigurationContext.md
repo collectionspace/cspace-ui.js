@@ -257,6 +257,6 @@ An object that contains functions for working with refnames.
   </tbody>
 </table>
 
-#### `searchOperators`
+#### `searchOperators`: Object
 
 An object that contains search operator constants used to define advanced search conditions. See the [advanced search configuration documentation](./AdvancedSearchConfiguration.md) for details.

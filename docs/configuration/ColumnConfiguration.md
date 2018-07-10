@@ -76,7 +76,7 @@ For each named column, a column descriptor must be provided to configure the col
 ```
 formatValue: (data: Immutable.Map | Immutable.List | string) => string
 ```
-A function to use to format values in the column. The function accepts the value, and returns a string, which will be displayed. When the advanced search condition is defined in a configurer function, useful formatting functions are provided in the configuration context passed to the configurer, under the `formatHelpers` property.
+A function to use to format values in the column. The function accepts the value, and returns a string, which will be displayed. When the column is defined in a [configurer function](./README.md#configurer-function), useful formatting functions are provided in the [configuration context](./ConfigurationContext.md) passed to the configurer, under the [`formatHelpers`](./ConfigurationContext.md#formathelpers-object) property.
 
 If `formatValue` is not defined, values in the column will be displayed as strings with no formatting applied.
 

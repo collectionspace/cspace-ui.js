@@ -1,5 +1,7 @@
 # Configuration
 
+## Configuration Object
+
 The CollectionSpace UI is configured by passing a configuration object to the `cspaceUI` function, as in the following example:
 
 ```JavaScript
@@ -11,6 +13,8 @@ cspaceUI({
   },
 });
 ```
+
+## Configurer Function
 
 Alternatively, a configurer function may be passed to `cspaceUI` instead of an object. The configurer function will be called by the cspace-ui framework at initialization time, and it should return a configuration object. The function will receive one parameter: a [configuration context](./ConfigurationContext.md) object that contains information about the runtime environment, and provides access to cspace-ui APIs. This allows for more complex configurations.
 
