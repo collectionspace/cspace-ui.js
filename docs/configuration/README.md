@@ -124,7 +124,7 @@ URL to the logo image for the application, displayed in the upper left corner of
 ```
 mediaSnapshotSort: string = 'title'
 ```
-The name of the column to use to sort images in the Media Snapshot panel (displayed in the right sidebar of object and procedure records). The value must be the name of a configured column in the media record's default column set [TODO: Link to column set configuration docs]. By default, the possible values are: `blobCsid`, `identificationNumber`, `title`, `updatedAt`. Other values may be possible if the media record column set configuration has been changed.
+The name of the column to use to sort images in the Media Snapshot panel (displayed in the right sidebar of object and procedure records). The value must be the name of a configured column in the media record's default [column set](./ColumnConfiguration.md). By default, the possible values are: `blobCsid`, `identificationNumber`, `title`, `updatedAt`. Other values may be possible if the media record's column configuration has been modified.
 
 ### messages
 ```
