@@ -774,12 +774,12 @@ export const saveRecord =
 
             if (isExisting) {
               return getSession().update(path, requestConfig)
-              .then(response => (
-                currentRecordTypeConfig.refetchAfterUpdate
-                  ? doRead(currentRecordTypeConfig, currentVocabularyConfig, currentCsid)
-                  : response
-              ))
-              .then(response =>
+                .then(response => (
+                  currentRecordTypeConfig.refetchAfterUpdate
+                    ? doRead(currentRecordTypeConfig, currentVocabularyConfig, currentCsid)
+                    : response
+                ))
+                .then(response =>
                   dispatch(saveSubrecords(
                     config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid, 'after'
                   ))

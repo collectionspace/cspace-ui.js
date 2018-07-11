@@ -175,10 +175,12 @@ export default class RecordEditor extends Component {
   save(onRecordCreated) {
     const {
       config,
+      data,
       recordType,
       openModal,
       save,
       saveWithTransition,
+      onRecordSaved,
     } = this.props;
 
     const recordTypeConfig = config.recordTypes[recordType];
@@ -190,22 +192,71 @@ export default class RecordEditor extends Component {
       return false;
     }
 
-    if (lockOnSave === true && saveWithTransition) {
-      saveWithTransition('lock', onRecordCreated);
-    } else if (save) {
-      save(onRecordCreated)
-        .then(() => {
-          const {
-            onRecordSaved,
-          } = this.props;
+    let savePromise;
 
-          if (onRecordSaved) {
-            onRecordSaved();
-          }
-        });
+    if (lockOnSave === true && saveWithTransition) {
+      savePromise = saveWithTransition('lock', onRecordCreated);
+    } else if (save) {
+      savePromise = save(onRecordCreated);
+    }
+
+    if (savePromise) {
+      savePromise.then(() => {
+        if (recordTypeConfig.onRecordSaved) {
+          // TODO: Pass in the post-save data (which could have been modified due to services layer
+          // event handlers) instead of the pre-save data. The save action would need to resolve
+          // with the data instead of a csid.
+          recordTypeConfig.onRecordSaved({ data, recordEditor: this });
+        }
+
+        if (onRecordSaved) {
+          onRecordSaved();
+        }
+      });
     }
 
     return true;
+  }
+
+  delete() {
+    const {
+      closeModal,
+      isHardDelete,
+      deleteRecord,
+      onRecordDeleted,
+      transitionRecord,
+      onRecordTransitioned,
+    } = this.props;
+
+    if (isHardDelete) {
+      if (deleteRecord) {
+        deleteRecord()
+          .then(() => {
+            if (closeModal) {
+              closeModal(true);
+            }
+
+            if (onRecordDeleted) {
+              onRecordDeleted();
+            }
+          });
+      }
+    } else {
+      const transitionName = 'delete';
+
+      if (transitionRecord) {
+        transitionRecord(transitionName)
+          .then(() => {
+            if (closeModal) {
+              closeModal(true);
+            }
+
+            if (onRecordTransitioned) {
+              onRecordTransitioned(transitionName);
+            }
+          });
+      }
+    }
   }
 
   handleModalCancelButtonClick(event) {
@@ -262,44 +313,7 @@ export default class RecordEditor extends Component {
   }
 
   handleConfirmDeleteButtonClick() {
-    const {
-      closeModal,
-      isHardDelete,
-      deleteRecord,
-      onRecordDeleted,
-      transitionRecord,
-      onRecordTransitioned,
-    } = this.props;
-
-    if (isHardDelete) {
-      if (deleteRecord) {
-        deleteRecord()
-          .then(() => {
-            if (closeModal) {
-              closeModal(true);
-            }
-
-            if (onRecordDeleted) {
-              onRecordDeleted();
-            }
-          });
-      }
-    } else {
-      const transitionName = 'delete';
-
-      if (transitionRecord) {
-        transitionRecord(transitionName)
-          .then(() => {
-            if (closeModal) {
-              closeModal(true);
-            }
-
-            if (onRecordTransitioned) {
-              onRecordTransitioned(transitionName);
-            }
-          });
-      }
-    }
+    this.delete();
   }
 
   handleConfirmNavigationSaveButtonClick() {

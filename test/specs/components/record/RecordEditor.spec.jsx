@@ -10,6 +10,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
+import merge from 'lodash/merge';
 import { components as inputComponents } from 'cspace-input';
 
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -528,6 +529,50 @@ describe('RecordEditor', function suite() {
     Simulate.click(saveButton);
 
     saveCallback.should.equal(handleRecordCreated);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handleRecordSavedCalled.should.equal(true);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call the record type\'s configured onRecordSaved handler following save', function test() {
+    const save = () => Promise.resolve();
+
+    let handleRecordSavedCalled = false;
+
+    const handleRecordSaved = () => {
+      handleRecordSavedCalled = true;
+    };
+
+    const updatedConfig = merge({}, config, {
+      recordTypes: {
+        collectionobject: {
+          onRecordSaved: handleRecordSaved,
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor
+              config={updatedConfig}
+              perms={perms}
+              recordType="collectionobject"
+              save={save}
+            />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const saveButton = this.container.querySelector('button[name=save]');
+
+    Simulate.click(saveButton);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
