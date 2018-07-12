@@ -1,6 +1,8 @@
+@value textLabel from '../colors.css';
+
 .common > header {
   font-size: 12px;
-  color: rgb(128, 128, 128);
+  color: textLabel;
   margin-bottom: 5px;
 }
 
