@@ -1,9 +1,11 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   font-size: 12px;
   background: rgb(240, 240, 240);
   box-sizing: border-box;
-  height: 22px;
-  line-height: 20px;
+  height: inputHeight;
+  line-height: calc(inputHeight - 2px);
   border: solid rgb(220, 220, 220);
   border-width: 1px 0;
   display: flex;
@@ -32,14 +34,14 @@
 .common > nav > ul > li > a {
   display: block;
   box-sizing: border-box;
-  min-width: 22px;
+  min-width: inputHeight;
   text-align: center;
   padding: 0 4px;
 }
 
 .common > nav :global(.cspace-input-MiniButton--common) {
   width: auto;
-  min-width: 22px;
+  min-width: inputHeight;
   padding: 0 4px;
 }
 

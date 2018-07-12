@@ -14,6 +14,15 @@
   flex: 1;
 }
 
+.common :global(.cspace-ui-SearchPanel--common) {
+  border: none;
+}
+
+.common :global(.cspace-ui-SearchPanel--common) > header > button:hover,
+.common :global(.cspace-ui-SearchPanel--common) > header > button:focus {
+  outline: none;
+}
+
 .common :global(.cspace-ui-RecordEditor--common) {
   padding-right: 0;
 }

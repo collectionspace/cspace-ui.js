@@ -5,10 +5,11 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
+import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 
-const rowHeight = 22;
+const rowHeight = parseInt(dimensions.inputHeight, 10);
 
 const messages = defineMessages({
   searchPending: {

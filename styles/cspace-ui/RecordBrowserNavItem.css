@@ -1,3 +1,5 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   position: relative;
   white-space: nowrap;
@@ -23,13 +25,13 @@
 }
 
 .common > button:nth-of-type(1) {
-  padding-right: 22px;
+  padding-right: inputHeight;
 }
 
 .common > button:nth-of-type(2) {
   position: absolute;
   right: 0;
-  width: 20px;
+  width: calc(inputHeight - 2px);
   background-image: url(../../images/closeTab.svg);
   background-repeat: no-repeat;
   background-size: 12px;
@@ -38,7 +40,7 @@
 
 .common > button:nth-of-type(2):hover {
   background-image: url(../../images/closeTabCircle.svg);
-  background-size: 18px;
+  background-size: calc(inputHeight - 4px);
 }
 
 .common > button:only-child {

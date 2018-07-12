@@ -1,3 +1,5 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   min-width: 420px;
 }
@@ -7,7 +9,7 @@
 }
 
 .common > section + section {
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .common > section > header {
@@ -15,7 +17,7 @@
   align-items: baseline;
   border-bottom: 1px solid rgb(220, 220, 220);
   background: rgb(240, 240, 240);
-  line-height: 22px;
+  line-height: calc(inputHeight - 2px);
 }
 
 .common > section > header > h3 {
@@ -34,7 +36,7 @@
   margin: 0;
   padding: 0;
   font-size: 12px;
-  line-height: 20px;
+  line-height: calc(inputHeight - 2px);
   color: rgb(128, 128, 128);
 }
 
@@ -46,7 +48,7 @@
 .common > section > div {
   display: flex;
   align-items: center;
-  height: 22px;
+  height: inputHeight;
 }
 
 .common > section > div:nth-child(odd) {

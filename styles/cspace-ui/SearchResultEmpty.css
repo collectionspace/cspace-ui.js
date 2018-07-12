@@ -1,5 +1,7 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
-  line-height: 22px;
+  line-height: inputHeight;
   margin-left: 10px;
   color: graytext;
 }

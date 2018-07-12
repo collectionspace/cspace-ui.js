@@ -1,3 +1,5 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   background: inherit;
 }
@@ -9,7 +11,7 @@
 }
 
 .common > div > nav {
-  height: 22px;
+  height: inputHeight;
   box-sizing: border-box;
   padding: 0 20px 0 10px;
 }
