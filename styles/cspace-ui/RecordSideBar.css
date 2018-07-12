@@ -5,12 +5,6 @@
 
 .common :global(.cspace-layout-Panel--common) {
   margin: 0;
-  border: none;
-}
-
-.common :global(.cspace-layout-Panel--common) > header > button:hover,
-.common :global(.cspace-layout-Panel--common) > header > button:focus {
-  outline: none;
 }
 
 .common :global(.cspace-layout-Panel--common) > div {

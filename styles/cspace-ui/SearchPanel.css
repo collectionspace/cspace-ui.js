@@ -1,3 +1,12 @@
+.common {
+  border: none;
+}
+
+.common > header > button:hover,
+.common > header > button:focus {
+  outline: none;
+}
+
 .common > div {
   padding: 0;
 }

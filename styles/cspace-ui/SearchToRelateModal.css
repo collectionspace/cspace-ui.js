@@ -2,11 +2,6 @@
   width: 80%;
 }
 
-.common :global(.cspace-layout-Modal--common) > div > div {
+.common :global(.cspace-ui-SearchResultSummary--common) {
   padding-top: 0;
-  padding-bottom: 0;
-}
-
-.common :global(.cspace-ui-SearchResultTable--common) {
-  padding-bottom: 10px;
 }

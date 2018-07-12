@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import MediaViewerContainer from '../../containers/media/MediaViewerContainer';
 import { isCsid } from '../../helpers/csidHelpers';
+import styles from '../../../styles/cspace-ui/SearchPanel.css';
 
 const messages = defineMessages({
   titleWithCount: {
@@ -121,6 +122,7 @@ export default class MediaViewerPanel extends Component {
 
     return (
       <Panel
+        className={styles.common}
         collapsible
         collapsed={collapsed}
         color={color}
