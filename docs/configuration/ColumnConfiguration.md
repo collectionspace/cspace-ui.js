@@ -1,6 +1,6 @@
 # Search Result Column Configuration
 
-The columns displayed in search result tables for each record type may be configured by providing an column set map in the record type's `columns` configuration property. A column set map is an object that contains column set descriptors, keyed by name. A column set descriptor is an object that contains column descriptors, keyed by name.
+The columns displayed in search result tables for each record type may be configured by providing a column set map in the record type's `columns` configuration property. A column set map is an object that contains column set descriptors, keyed by name. Each column set descriptor is an object that contains column descriptors, keyed by column name.
 
 ```
 type ColumnSetMap = {[columnSetName: string]: ColumnSetDescriptor};
@@ -10,6 +10,7 @@ type ColumnSetDescriptor = {[columnName: string]: ColumnDescriptor};
 ```
 ```
 type ColumnDescriptor = {
+  disabled: boolean,
   formatValue: (data: Immutable.Map | Immutable.List | string) => string,
   messages: MessageDescriptorMap,
   order: number,
@@ -66,11 +67,17 @@ cspaceUI((configContext) => {
 
 ## Description
 
-The column set map defines one or two column sets. A column set named `default` must be defined, and a column set named `narrow` may optionally be defined. The `narrow` column set is used when redering search result tables in the right sidebar, where there the available space is smaller. The `default` column set is used when rendering search result tables elsewhere. If the `narrow` column set is not defined, the `default` is used in the sidebar as well.
+The column set map defines one or two column sets. A column set named `default` must be defined, and optionally, a column set named `narrow` may also be defined. The `narrow` column set is used when redering search result tables in the right sidebar, where there the available space is smaller. The `default` column set is used when rendering search result tables elsewhere. If the `narrow` column set is not defined for a record type, the `default` column set is used in the sidebar.
 
-Each column set map contains one or more named columns. The column names used must correspond to the names of fields that have been configured to be returned as list results in REST API requests. This configuration is currently done in the application layer XML files, using the `mini` property on application layer field definitions.
+Each column set descriptor contains one or more named columns. The column names must correspond to the names of fields that have been configured to be returned as list results in REST API requests. This configuration is currently done in the application layer XML files, using the `mini` property on application layer field definitions.
 
 For each named column, a column descriptor must be provided to configure the column. A column descriptor contains the following properties:
+
+### disabled
+```
+disabled: boolean
+```
+If true, the column is not displayed.
 
 ### formatValue
 ```
