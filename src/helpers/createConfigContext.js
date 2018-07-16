@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
+import { FormattedMessage } from 'react-intl';
 
 import { components as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
 import { Col, Cols, Row } from 'cspace-layout';
@@ -91,8 +92,11 @@ export default () => ({
     },
   },
   lib: {
+    FormattedMessage,
     Immutable,
     React,
+    Component,
+    PropTypes,
   },
   inputComponents: {
     AutocompleteInput,
