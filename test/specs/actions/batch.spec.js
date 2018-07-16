@@ -9,6 +9,9 @@ import {
 } from '../../../src/actions/cspace';
 
 import {
+  BATCH_INVOKE_STARTED,
+  BATCH_INVOKE_FULFILLED,
+  BATCH_INVOKE_REJECTED,
   invoke,
 } from '../../../src/actions/batch';
 
@@ -177,7 +180,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION with STATUS_SUCCESS when an invocation completes successfully', function test() {
+    it('should dispatch BATCH_INVOKE_FULFILLED when an invocation completes successfully', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -200,16 +203,28 @@ describe('batch action creator', function suite() {
       return store.dispatch(invoke(config, batchItem, invocationDescriptor))
         .then(() => {
           const actions = store.getActions();
+          actions.should.have.lengthOf(4);
 
-          actions[0].type.should.equal(SHOW_NOTIFICATION);
-          actions[0].payload.status.should.equal(STATUS_PENDING);
+          actions[0].type.should.equal(BATCH_INVOKE_STARTED);
+          actions[0].meta.should.deep.equal({
+            csid: batchCsid,
+          });
 
           actions[1].type.should.equal(SHOW_NOTIFICATION);
-          actions[1].payload.status.should.equal(STATUS_SUCCESS);
+          actions[1].payload.status.should.equal(STATUS_PENDING);
+
+          actions[2].type.should.equal(BATCH_INVOKE_FULFILLED);
+          actions[2].meta.should.deep.equal({
+            csid: batchCsid,
+            numAffected: undefined,
+          });
+
+          actions[3].type.should.equal(SHOW_NOTIFICATION);
+          actions[3].payload.status.should.equal(STATUS_SUCCESS);
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', function test() {
+    it('should dispatch BATCH_INVOKE_REJECTED when an invocation fails', function test() {
       moxios.stubRequest(/./, {
         status: 400,
       });
@@ -231,12 +246,23 @@ describe('batch action creator', function suite() {
       return store.dispatch(invoke(config, batchItem, invocationDescriptor))
         .then(() => {
           const actions = store.getActions();
+          actions.should.have.lengthOf(4);
 
-          actions[0].type.should.equal(SHOW_NOTIFICATION);
-          actions[0].payload.status.should.equal(STATUS_PENDING);
+          actions[0].type.should.equal(BATCH_INVOKE_STARTED);
+          actions[0].meta.should.deep.equal({
+            csid: batchCsid,
+          });
 
           actions[1].type.should.equal(SHOW_NOTIFICATION);
-          actions[1].payload.status.should.equal(STATUS_ERROR);
+          actions[1].payload.status.should.equal(STATUS_PENDING);
+
+          actions[2].type.should.equal(BATCH_INVOKE_REJECTED);
+          actions[2].meta.should.deep.equal({
+            csid: batchCsid,
+          });
+
+          actions[3].type.should.equal(SHOW_NOTIFICATION);
+          actions[3].payload.status.should.equal(STATUS_ERROR);
         });
     });
   });

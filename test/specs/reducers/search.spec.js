@@ -2,6 +2,10 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  BATCH_INVOKE_FULFILLED,
+} from '../../../src/actions/batch';
+
+import {
   LOGIN_FULFILLED,
 } from '../../../src/actions/login';
 
@@ -1220,5 +1224,35 @@ describe('search reducer', function suite() {
     });
 
     state.should.deep.equal(Immutable.Map({}));
+  });
+
+  context('on BATCH_INVOKE_FULFILLED', function context() {
+    const initialState = Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    });
+
+    it('should clear all search state when any records were affected', function test() {
+      const state = reducer(initialState, {
+        type: BATCH_INVOKE_FULFILLED,
+        meta: {
+          numAffected: 1,
+        },
+      });
+
+      state.should.equal(Immutable.Map({}));
+    });
+
+    it('should not clear search state if no records were affected', function test() {
+      const state = reducer(initialState, {
+        type: BATCH_INVOKE_FULFILLED,
+        meta: {
+          numAffected: 0,
+        },
+      });
+
+      state.should.equal(initialState);
+    });
   });
 });

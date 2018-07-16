@@ -7,6 +7,10 @@ import {
 } from '../helpers/recordDataHelpers';
 
 import {
+  BATCH_INVOKE_FULFILLED,
+} from '../actions/batch';
+
+import {
   LOGIN_FULFILLED,
 } from '../actions/login';
 
@@ -430,6 +434,15 @@ const handleLoginFulfilled = (state, action) => {
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
+    case BATCH_INVOKE_FULFILLED:
+      if (action.meta.numAffected) {
+        // We don't really know which search results were affected by the batch job invocation, so
+        // clear them all.
+
+        return clearAllResults(state);
+      }
+
+      return state;
     case CLEAR_SELECTED:
       return state.deleteIn([action.meta.searchName, 'selected']);
     case CLEAR_SEARCH_RESULTS:
