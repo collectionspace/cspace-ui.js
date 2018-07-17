@@ -1,6 +1,11 @@
 import Immutable from 'immutable';
 import { asPairs, diff } from '../helpers/objectHelpers';
-import { RECORD_BATCH_PANEL_SEARCH_NAME, RECORD_REPORT_PANEL_SEARCH_NAME } from '../constants/searchNames';
+
+import {
+  SEARCH_RESULT_PAGE_SEARCH_NAME,
+  RECORD_BATCH_PANEL_SEARCH_NAME,
+  RECORD_REPORT_PANEL_SEARCH_NAME,
+} from '../constants/searchNames';
 
 import {
   deepGet,
@@ -19,7 +24,7 @@ import {
 } from '../actions/logout';
 
 import {
-  RECORD_CREATED,
+  RECORD_SAVE_FULFILLED,
   RECORD_DELETE_FULFILLED,
   RECORD_TRANSITION_FULFILLED,
   SUBRECORD_CREATED,
@@ -238,7 +243,8 @@ const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, re
         .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, normalizedResult))
         .set('listNodeName', listNodeName)
         .set('itemNodeName', itemNodeName)
-        .delete('error');
+        .delete('error')
+        .delete('isDirty');
 
     const updatedNamedSearch = namedSearch.setIn(['byKey', key], updatedSearchState);
 
@@ -300,6 +306,7 @@ const handleSearchRejected = (state, action) => {
       .set('isPending', false)
       .set('error', Immutable.fromJS(action.payload))
       .delete('result')
+      .delete('isDirty')
     );
 
     return state.set(searchName, updatedNamedSearch);
@@ -402,6 +409,34 @@ const clearNamedResults = (state, action) =>
 
 const clearAllResults = state => state.clear();
 
+const handleRecordSaveFulfilled = (state) => {
+  // We don't really know which search results will be affected by a record being created, so clear
+  // them all, with the following exceptions:
+  //  - The search result page. We want to keep those results so that if the current record has a
+  //    search context, it won't be lost. Instead, the search result page results are only marked
+  //    as dirty, so that the next time the page is viewed, the results can be cleared and
+  //    reloaded at that point.
+  //  - Report and batch panels. These probably won't be affected.
+
+  let nextState = state;
+
+  nextState = clearFilteredResults(nextState, (searchState, searchName) => (
+    searchName !== SEARCH_RESULT_PAGE_SEARCH_NAME &&
+    searchName !== RECORD_BATCH_PANEL_SEARCH_NAME &&
+    searchName !== RECORD_REPORT_PANEL_SEARCH_NAME
+  ));
+
+  const searchResultPageState = nextState.get(SEARCH_RESULT_PAGE_SEARCH_NAME);
+
+  if (searchResultPageState) {
+    nextState = nextState.set(
+      SEARCH_RESULT_PAGE_SEARCH_NAME, searchResultPageState.set('isDirty', true)
+    );
+  }
+
+  return nextState;
+};
+
 const handleRecordDeleteFulfilled = state => clearAllResults(state);
 
 const handleRecordTransitionFulfilled = (state, action) => {
@@ -465,15 +500,8 @@ export default (state = Immutable.Map(), action) => {
       return state.deleteIn([action.meta.searchName, 'selected', action.meta.csid]);
     case SUBRECORD_CREATED:
       return clearNamedResults(state, action);
-    case RECORD_CREATED:
-      // We don't really know which search results will be affected by a record being created, so
-      // clear them all -- except for the report and batch panels, which should not ever be
-      // affected by a record being created.
-
-      return clearFilteredResults(state, (searchState, searchName) => (
-        searchName !== RECORD_BATCH_PANEL_SEARCH_NAME &&
-        searchName !== RECORD_REPORT_PANEL_SEARCH_NAME
-      ));
+    case RECORD_SAVE_FULFILLED:
+      return handleRecordSaveFulfilled(state, action);
     case RECORD_DELETE_FULFILLED:
       return handleRecordDeleteFulfilled(state, action);
     case RECORD_TRANSITION_FULFILLED:
@@ -486,6 +514,8 @@ export default (state = Immutable.Map(), action) => {
       return state;
   }
 };
+
+export const isDirty = (state, searchName) => state.getIn([searchName, 'isDirty']);
 
 export const isPending = (state, searchName, searchDescriptor) =>
   state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);

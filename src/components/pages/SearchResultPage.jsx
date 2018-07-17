@@ -17,6 +17,7 @@ import SearchResultTableContainer from '../../containers/search/SearchResultTabl
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
 import { getListType } from '../../helpers/searchHelpers';
+import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
   getFirstColumnName,
@@ -28,8 +29,6 @@ import {
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import searchResultSidebarStyles from '../../../styles/cspace-ui/SearchResultSidebar.css';
-
-export const searchName = 'searchResultPage';
 
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
@@ -370,7 +369,8 @@ export default class SearchResultPage extends Component {
       const searchDescriptor = this.getSearchDescriptor();
       const listType = this.getListType(searchDescriptor);
 
-      onItemSelectChange(config, searchName, searchDescriptor, listType, index, selected);
+      onItemSelectChange(
+        config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, index, selected);
     }
   }
 
@@ -505,7 +505,7 @@ export default class SearchResultPage extends Component {
     const listType = this.getListType(searchDescriptor);
 
     if (search) {
-      search(config, searchName, searchDescriptor, listType);
+      search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType);
     }
   }
 
@@ -571,7 +571,7 @@ export default class SearchResultPage extends Component {
           config={config}
           listType={listType}
           searchDescriptor={searchDescriptor}
-          searchName={searchName}
+          searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
           searchResult={searchResult}
           selectedItems={selectedItems}
           setAllItemsSelected={setAllItemsSelected}
@@ -683,7 +683,7 @@ export default class SearchResultPage extends Component {
         <SearchResultTitleBar
           config={config}
           searchDescriptor={searchDescriptor}
-          searchName={searchName}
+          searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
           updateDocumentTitle
         />
 
@@ -692,7 +692,7 @@ export default class SearchResultPage extends Component {
             config={config}
             history={history}
             listType={listType}
-            searchName={searchName}
+            searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
             searchDescriptor={searchDescriptor}
             recordType={recordType}
             showCheckboxColumn={isResultRelatable}

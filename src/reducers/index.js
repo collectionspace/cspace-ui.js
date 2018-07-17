@@ -162,6 +162,9 @@ export const getQuickSearchRecordType = state => fromPrefs.getQuickSearchRecordT
 export const getQuickSearchVocabulary = (state, recordType) =>
   fromPrefs.getQuickSearchVocabulary(state.prefs, recordType);
 
+export const isSearchDirty = (state, searchName) =>
+  fromSearch.isDirty(state.search, searchName);
+
 export const isSearchPending = (state, searchName, searchDescriptor) =>
   fromSearch.isPending(state.search, searchName, searchDescriptor);
 

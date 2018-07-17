@@ -17,10 +17,11 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SelectBar from '../../../../src/components/search/SelectBar';
-import SearchResultPage, { searchName } from '../../../../src/components/pages/SearchResultPage';
+import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
 import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
 import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import { searchKey } from '../../../../src/reducers/search';
+import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../../src/constants/searchNames';
 
 const expect = chai.expect;
 
@@ -167,7 +168,7 @@ const store = mockStore({
   },
   prefs: Immutable.Map(),
   search: Immutable.fromJS({
-    [searchName]: {
+    [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
       byKey: {
         [searchKey(searchDescriptor)]: {
           result: searchResult,
@@ -387,7 +388,7 @@ describe('SearchResultPage', function suite() {
       </IntlProvider>, this.container);
 
     searchedConfig.should.equal(config);
-    searchedSearchName.should.equal(searchName);
+    searchedSearchName.should.equal(SEARCH_RESULT_PAGE_SEARCH_NAME);
 
     searchedSearchDescriptor.should.equal(Immutable.fromJS({
       recordType: match.params.recordType,
@@ -1234,7 +1235,7 @@ describe('SearchResultPage', function suite() {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         changedConfig.should.equal(config);
-        changedSearchName.should.equal(searchName);
+        changedSearchName.should.equal(SEARCH_RESULT_PAGE_SEARCH_NAME);
         changedSearchDescriptor.should.deep.equal(searchDescriptor);
         changedListType.should.equal('common');
         changedIndex.should.equal(1);
@@ -1302,7 +1303,7 @@ describe('SearchResultPage', function suite() {
   //   checkbox.props.onCommit([rowIndex.toString()], checked);
 
   //   changedConfig.should.equal(config);
-  //   changedSearchName.should.equal(searchName);
+  //   changedSearchName.should.equal(SEARCH_RESULT_PAGE_SEARCH_NAME);
   //   changedSearchDescriptor.should.deep.equal(searchDescriptor);
   //   changedListType.should.equal('common');
   //   changedIndex.should.equal(1);
