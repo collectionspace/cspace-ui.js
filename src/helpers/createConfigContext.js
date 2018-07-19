@@ -2,7 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 
-import { components as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
+import {
+  helpers as inputHelpers,
+  components as inputComponents,
+  enhancers as inputEnhancers,
+} from 'cspace-input';
+
 import { Col, Cols, Row } from 'cspace-layout';
 import { getDisplayName } from 'cspace-refname';
 
@@ -49,6 +54,7 @@ import {
 import * as formatHelpers from '../helpers/formatHelpers';
 
 const {
+  Button,
   CompoundInput,
   PasswordInput,
   ReadOnlyInput,
@@ -100,6 +106,7 @@ export default () => ({
   },
   inputComponents: {
     AutocompleteInput,
+    Button,
     CheckboxInput,
     CompoundInput,
     DateInput,
@@ -136,6 +143,7 @@ export default () => ({
     mergeKey,
     mergeStrategy,
   },
+  pathHelpers: inputHelpers.pathHelpers,
   recordDataHelpers: {
     deepGet,
     getPart,
