@@ -4,10 +4,14 @@ import { defineMessages, FormattedMessage, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import { Modal } from 'cspace-layout';
-import { hasHierarchyRelations } from '../../helpers/recordDataHelpers';
 import CancelButton from '../navigation/CancelButton';
 import DeleteButton from '../record/DeleteButton';
 import styles from '../../../styles/cspace-ui/ConfirmRecordDeleteModal.css';
+
+import {
+  hasHierarchyRelations,
+  hasNarrowerHierarchyRelations,
+} from '../../helpers/recordDataHelpers';
 
 const messages = defineMessages({
   title: {
@@ -37,8 +41,13 @@ const messages = defineMessages({
   },
   hasHierarchy: {
     id: 'confirmRecordDeleteModal.hasHierarchy',
-    description: 'The message shown in the confirm delete modal when the record to be deleted has hierarchy (broader/narrower) relations.',
+    description: 'The message shown in the confirm delete modal when the record to be deleted has broader or narrower relations.',
     defaultMessage: '{title} cannot be deleted because it belongs to a hierarchy. To delete this record, first remove its broader and narrower records.',
+  },
+  hasNarrowerHierarchy: {
+    id: 'confirmRecordDeleteModal.hasNarrowerHierarchy',
+    description: 'The message shown in the confirm delete modal when deletion of records with broader relations is allowed, but the record to be deleted has narrower relations.',
+    defaultMessage: '{title} cannot be deleted because it is a broader record in a hierarchy. To delete this record, first remove its narrower records.',
   },
 });
 
@@ -82,6 +91,26 @@ export default class ConfirmRecordDeleteModal extends Component {
     if (!this.props.isOpen && nextProps.isOpen) {
       this.init(nextProps);
     }
+  }
+
+  canDeleteFromHierarchy() {
+    const {
+      config,
+      csid,
+      data,
+    } = this.props;
+
+    const { allowDeleteHierarchyLeaves } = config;
+
+    // If allowDeleteHierarchyLeaves is true, only disallow deleting records that have narrower
+    // relations. Otherwise, disallow deleting records that have any (either broader or narrower)
+    // hierarchy relations.
+
+    return (
+      allowDeleteHierarchyLeaves
+        ? !hasNarrowerHierarchyRelations(csid, data)
+        : !hasHierarchyRelations(data)
+    );
   }
 
   init(props) {
@@ -144,7 +173,6 @@ export default class ConfirmRecordDeleteModal extends Component {
   renderButtonBar() {
     const {
       csid,
-      data,
       isSavePending,
       onCancelButtonClick,
       onDeleteButtonClick,
@@ -157,7 +185,7 @@ export default class ConfirmRecordDeleteModal extends Component {
 
     let deleteButton;
 
-    if (!hasHierarchyRelations(data) && !hasUses) {
+    if (!hasUses && this.canDeleteFromHierarchy()) {
       deleteButton = (
         <DeleteButton
           csid={csid}
@@ -204,7 +232,8 @@ export default class ConfirmRecordDeleteModal extends Component {
       hasUses,
     } = this.state;
 
-    const recordTypeConfig = config.recordTypes[recordType];
+    const { allowDeleteHierarchyLeaves, recordTypes } = config;
+    const recordTypeConfig = recordTypes[recordType];
     const recordName = intl.formatMessage(recordTypeConfig.messages.record.name);
     const title = recordTypeConfig.title(data, { config, intl });
 
@@ -214,8 +243,10 @@ export default class ConfirmRecordDeleteModal extends Component {
     let hasUsesMessage;
 
     if (typeof hasRelations !== 'undefined' && typeof hasUses !== 'undefined') {
-      if (hasHierarchyRelations(data)) {
-        hasHierarchyMessage = <FormattedMessage {...messages.hasHierarchy} values={{ title }} />;
+      if (!this.canDeleteFromHierarchy()) {
+        hasHierarchyMessage = allowDeleteHierarchyLeaves
+          ? <FormattedMessage {...messages.hasNarrowerHierarchy} values={{ title }} />
+          : <FormattedMessage {...messages.hasHierarchy} values={{ title }} />;
       } else if (hasUses) {
         hasUsesMessage = (recordType === 'authrole')
           ? <FormattedMessage {...messages.hasRoleUses} values={{ title }} />

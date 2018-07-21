@@ -47,6 +47,7 @@ import {
   getUpdatedUser,
   getWorkflowState,
   hasHierarchyRelations,
+  hasNarrowerHierarchyRelations,
   isNewRecord,
   isExistingRecord,
   isRecordDeprecated,
@@ -2915,6 +2916,70 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       hasHierarchyRelations(data).should.equal(false);
+    });
+  });
+
+  describe('hasNarrowerHierarchyRelations', function suite() {
+    const csid = '1234';
+
+    it('should return true if the record data contains a relations list with a single relation-list-item that is a narrower relation', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              predicate: 'hasBroader',
+              object: {
+                csid,
+              },
+            },
+          },
+        },
+      });
+
+      hasNarrowerHierarchyRelations(csid, data).should.equal(true);
+    });
+
+    it('should return true if the record data contains a relations list with multiple relation-list-items and at least one is a narrower relation', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid: 'something',
+                },
+              },
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid,
+                },
+              },
+            ],
+          },
+        },
+      });
+
+      hasNarrowerHierarchyRelations(csid, data).should.equal(true);
+    });
+
+    it('should return false if the record data contains a relations list with no relation-list-item', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {},
+        },
+      });
+
+      hasNarrowerHierarchyRelations(csid, data).should.equal(false);
+    });
+
+    it('should return false if the record data does not contain a relations list', function test() {
+      const data = Immutable.fromJS({
+        document: {},
+      });
+
+      hasNarrowerHierarchyRelations(csid, data).should.equal(false);
     });
   });
 });

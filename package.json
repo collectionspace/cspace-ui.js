@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "1.0.0-rc.33",
+  "version": "1.0.0-rc.34",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -45,8 +45,8 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "cspace-client": "^1.0.0-rc.2",
-    "cspace-input": "^1.0.0-rc.11",
-    "cspace-layout": "^1.0.0-rc.4",
+    "cspace-input": "^1.0.0-rc.12",
+    "cspace-layout": "^1.0.0-rc.5",
     "cspace-refname": "^1.0.0-rc.2",
     "history": "4.6.2",
     "immutable": "^3.8.2",

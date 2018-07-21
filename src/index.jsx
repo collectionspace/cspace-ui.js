@@ -23,6 +23,7 @@ import { evaluatePlugin, finalizeRecordTypes, mergeConfig } from './helpers/conf
 const configContext = createConfigContext();
 
 const defaultConfig = mergeConfig({
+  allowDeleteHierarchyLeaves: false,
   autocompleteFindDelay: 500,
   autocompleteMinLength: 3,
   basename: '',

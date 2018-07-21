@@ -890,3 +890,22 @@ export const hasHierarchyRelations = (data) => {
 
   return (!!items && (!Immutable.List.isList(items) || items.size > 0));
 };
+
+export const hasNarrowerHierarchyRelations = (csid, data) => {
+  let items = data.getIn(['document', 'rel:relations-common-list', 'relation-list-item']);
+
+  if (!items) {
+    return false;
+  }
+
+  if (!Immutable.List.isList(items)) {
+    items = Immutable.List.of(items);
+  }
+
+  return !!items.find(
+    relation => (
+      relation.get('predicate') === 'hasBroader' &&
+      relation.getIn(['object', 'csid']) === csid
+    )
+  );
+};

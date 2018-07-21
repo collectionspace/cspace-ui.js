@@ -88,6 +88,12 @@ The configuration object may contain the following properties.
 {property name}: {type} = {default value}
 ```
 
+### allowDeleteHierarchyLeaves
+```
+allowDeleteHierarchyLeaves: boolean = false
+```
+When false (the default), records belonging to a hierarchy (those with broader or narrower records) may not be deleted. If true, leaf records in a hierarchy (records with a broader relation, but no narrower relations) are allowed to be deleted.
+
 ### autocompleteFindDelay
 ```
 autocompleteFindDelay: number = 500
