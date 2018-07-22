@@ -314,7 +314,17 @@ export default class SearchResultTable extends Component {
         ? config.subresources[subresource]
         : config.recordTypes[recordType];
 
-      const columnConfig = get(columnConfigurer, ['columns', columnSetName]) || [];
+      let columnConfig = get(columnConfigurer, ['columns', columnSetName]);
+
+      if (!columnConfig && columnSetName !== defaultProps.columnSetName) {
+        // Fall back to the default column set if the named one doesn't exist.
+
+        columnConfig = get(columnConfigurer, ['columns', defaultProps.columnSetName]);
+      }
+
+      if (!columnConfig) {
+        columnConfig = [];
+      }
 
       const columns = Object.keys(columnConfig)
         .filter(name => !columnConfig[name].disabled)
