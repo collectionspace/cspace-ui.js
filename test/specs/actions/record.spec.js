@@ -2938,6 +2938,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
         });
 
         return store.dispatch(
@@ -3101,6 +3102,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          recordPage: Immutable.Map(),
         });
 
         return store.dispatch(
