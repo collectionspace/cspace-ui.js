@@ -16,9 +16,9 @@ const { MiniButton } = inputComponents;
 
 const messages = defineMessages({
   search: {
-    id: 'searchPanel.search',
-    description: 'Label of the search link in the search panel header.',
-    defaultMessage: 'Search',
+    id: 'searchPanel.openSearch',
+    description: 'Label of the open as search link in the search panel header.',
+    defaultMessage: 'Open',
   },
   titleWithCount: {
     id: 'searchPanel.titleWithCount',
