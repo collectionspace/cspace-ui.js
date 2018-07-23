@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 import SearchPage from '../../components/pages/SearchPage';
 import withConfig from '../../enhancers/withConfig';
 
@@ -22,7 +23,7 @@ import {
   getUserPerms,
 } from '../../reducers';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const recordType = getSearchPageRecordType(state);
 
   return {
@@ -31,7 +32,9 @@ const mapStateToProps = (state) => {
     vocabularyValue: getSearchPageVocabulary(state, recordType),
     advancedSearchCondition: getSearchPageAdvanced(state),
     perms: getUserPerms(state),
-    preferredAdvancedSearchBooleanOp: getAdvancedSearchBooleanOp(state),
+    preferredAdvancedSearchBooleanOp:
+      getAdvancedSearchBooleanOp(state) ||
+      get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
   };
 };
 
