@@ -73,11 +73,9 @@ const messages = defineMessages({
   },
 });
 
-export const optionListNames = ['dateQualifiers'];
-export const vocabNames = ['dateera', 'datecertainty', 'datequalifier'];
-
 const propTypes = {
   ...BaseStructuredDateInput.propTypes,
+  config: PropTypes.object,
   intl: intlShape,
   perms: PropTypes.instanceOf(Immutable.Map),
   readTerms: PropTypes.func,
@@ -94,11 +92,12 @@ class StructuredDateInput extends Component {
 
   componentDidMount() {
     const {
+      config,
       readTerms,
     } = this.props;
 
     if (readTerms) {
-      vocabNames.forEach((vocabName) => {
+      config.structDateVocabNames.forEach((vocabName) => {
         readTerms(vocabName);
       });
     }
@@ -106,6 +105,7 @@ class StructuredDateInput extends Component {
 
   componentDidUpdate(prevProps) {
     const {
+      config,
       perms,
       readTerms,
     } = this.props;
@@ -115,7 +115,7 @@ class StructuredDateInput extends Component {
     } = prevProps;
 
     if (readTerms && perms !== prevPerms) {
-      vocabNames.forEach((vocabName) => {
+      config.structDateVocabNames.forEach((vocabName) => {
         readTerms(vocabName);
       });
     }
@@ -148,6 +148,7 @@ class StructuredDateInput extends Component {
   render() {
     const {
       /* eslint-disable no-unused-vars */
+      config,
       intl,
       perms,
       readTerms,

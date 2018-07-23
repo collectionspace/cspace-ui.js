@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import StructuredDateInput from '../../../../src/components/record/StructuredDateInput';
-import StructuredDateInputContainer from '../../../../src/containers/record/StructuredDateInputContainer';
+import { ConnectedStructuredDateInput } from '../../../../src/containers/record/StructuredDateInputContainer';
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
@@ -15,6 +15,11 @@ chai.should();
 const mockStore = configureMockStore([thunk]);
 
 describe('StructuredDateInputContainer', function suite() {
+  const config = {
+    structDateOptionListNames: ['dateQualifiers'],
+    structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
+  };
+
   it('should set props on StructuredDateInput', function test() {
     const dateQualifiers = [
       { value: 'qual1', label: 'Qual 1' },
@@ -51,7 +56,7 @@ describe('StructuredDateInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <StructuredDateInputContainer />, context);
+      <ConnectedStructuredDateInput config={config} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -96,7 +101,7 @@ describe('StructuredDateInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <StructuredDateInputContainer />, context);
+      <ConnectedStructuredDateInput config={config} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

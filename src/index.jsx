@@ -39,6 +39,8 @@ const defaultConfig = mergeConfig({
   relationMemberPerm: 'U',
   serverUrl: '',
   showTermListStateIcon: false,
+  structDateOptionListNames: ['dateQualifiers'],
+  structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
   tenantId: '1',
   termDeprecationEnabled: false,
 }, {
