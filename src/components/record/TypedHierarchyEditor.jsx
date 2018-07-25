@@ -4,7 +4,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import MiniViewPopupAutocompleteInputContainer from '../../containers/record/MiniViewPopupAutocompleteInputContainer';
-import OptionPickerInputContainer from '../../containers/input/OptionPickerInputContainer';
+import OptionPickerInputContainer from '../../containers/record/OptionPickerInputContainer';
 
 const {
   CompoundInput,

@@ -30,6 +30,7 @@ const defaultConfig = mergeConfig({
   className: '',
   container: '#cspace',
   defaultAdvancedSearchBooleanOp: OP_OR,
+  defaultDropdownFilter: 'substring',
   index: '/search',
   locale: 'en-US',
   logo: logoUrl,

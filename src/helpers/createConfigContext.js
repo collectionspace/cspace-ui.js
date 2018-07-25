@@ -15,7 +15,7 @@ import DateInputContainer from '../containers/input/DateInputContainer';
 import DateTimeInputContainer from '../containers/input/DateTimeInputContainer';
 import HierarchyInputContainer from '../containers/record/HierarchyInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
-import OptionPickerInputContainer from '../containers/input/OptionPickerInputContainer';
+import OptionPickerInputContainer from '../containers/record/OptionPickerInputContainer';
 import UploadInputContainer from '../containers/input/UploadInputContainer';
 import PermissionsInputContainer from '../containers/admin/PermissionsInputContainer';
 import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniViewPopupAutocompleteInputContainer';

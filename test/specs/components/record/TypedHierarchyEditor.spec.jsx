@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import { components as inputComponents } from 'cspace-input';
 import MiniViewPopupAutocompleteInputContainer from '../../../../src/containers/record/MiniViewPopupAutocompleteInputContainer';
-import OptionPickerInputContainer from '../../../../src/containers/input/OptionPickerInputContainer';
+import OptionPickerInputContainer from '../../../../src/containers/record/OptionPickerInputContainer';
 import { BaseTypedHierarchyEditor as TypedHierarchyEditor } from '../../../../src/components/record/TypedHierarchyEditor';
 
 const {

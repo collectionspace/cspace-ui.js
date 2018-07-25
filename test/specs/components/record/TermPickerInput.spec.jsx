@@ -5,6 +5,7 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import { baseComponents as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
+import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import TermPickerInput from '../../../../src/components/record/TermPickerInput';
 
 chai.should();
@@ -12,6 +13,8 @@ chai.should();
 const { TermPickerInput: BaseTermPickerInput } = inputComponents;
 
 describe('TermPickerInput', function suite() {
+  const config = {};
+
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -19,7 +22,9 @@ describe('TermPickerInput', function suite() {
   it('should render a cspace-input TermPickerInput', function test() {
     const resultTree = render(
       <IntlProvider locale="en">
-        <TermPickerInput source="vocabName" />
+        <ConfigProvider config={config}>
+          <TermPickerInput source="vocabName" />
+        </ConfigProvider>
       </IntlProvider>, this.container);
 
     findRenderedComponentWithType(resultTree, BaseTermPickerInput).should.not.equal(null);
@@ -36,7 +41,9 @@ describe('TermPickerInput', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <TermPickerInput source={vocabName} readTerms={readTerms} />
+        <ConfigProvider config={config}>
+          <TermPickerInput source={vocabName} readTerms={readTerms} />
+        </ConfigProvider>
       </IntlProvider>, this.container);
 
     readTermsSource.should.equal(vocabName);
@@ -59,21 +66,25 @@ describe('TermPickerInput', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <TermPickerInput
-          perms={perms}
-          source={vocabName}
-        />
+        <ConfigProvider config={config}>
+          <TermPickerInput
+            perms={perms}
+            source={vocabName}
+          />
+        </ConfigProvider>
       </IntlProvider>, this.container);
 
     const newPerms = perms.setIn(['vocabulary', 'data'], 'CRUL');
 
     render(
       <IntlProvider locale="en">
-        <TermPickerInput
-          perms={newPerms}
-          source={vocabName}
-          readTerms={readTerms}
-        />
+        <ConfigProvider config={config}>
+          <TermPickerInput
+            perms={newPerms}
+            source={vocabName}
+            readTerms={readTerms}
+          />
+        </ConfigProvider>
       </IntlProvider>, this.container);
 
     readTermsSource.should.equal(vocabName);
@@ -86,7 +97,9 @@ describe('TermPickerInput', function suite() {
 
     const resultTree = render(
       <IntlProvider locale="en" messages={messages}>
-        <TermPickerInput source="vocabName" />
+        <ConfigProvider config={config}>
+          <TermPickerInput source="vocabName" />
+        </ConfigProvider>
       </IntlProvider>, this.container);
 
     const termPickerInput = findRenderedComponentWithType(resultTree, BaseTermPickerInput);
