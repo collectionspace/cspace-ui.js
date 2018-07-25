@@ -118,6 +118,18 @@ container: string = '#cspace'
 ```
 The [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) used to locate the container element into which the UI will be rendered. If the selector matches more than one element, the first is used. The content of the container element will be overwritten.
 
+### defaultAdvancedSearchBooleanOp
+```
+defaultAdvancedSearchBooleanOp: string = 'or'
+```
+The default boolean operator to use on advanced search forms, either `'and'` or `'or'`. Once the user makes a selection that changes the boolean operator, that selection is stored in the browser as a user preference. This default will only apply if there is no existing user preference.
+
+### defaultDropdownFilter
+```
+defaultDropdownFilter: string = 'substring'
+```
+Determines the default algorithm to use for filtering options in dropdown lists as the user types. The value may either be `'prefix'` or `'substring'`. If the value is `'prefix'`, filtered options must start with the value typed by the user. Otherwise, filtered options may contain the value typed by the user, anywhere in the string. The default filtering algorithm may be overridden for any individual field in [field configuration](./FieldConfiguration.md), by supplying the `filter` prop in the field's view configuration.
+
 ### locale
 ```
 locale: string = 'en-US'
@@ -134,7 +146,7 @@ URL to the logo image for the application, displayed in the upper left corner of
 ```
 mediaSnapshotSort: string = 'title'
 ```
-The name of the column to use to sort images in the Media Snapshot panel (displayed in the right sidebar of object and procedure records). The value must be the name of a configured column in the media record's default [column set](./ColumnConfiguration.md). By default, the possible values are: `blobCsid`, `identificationNumber`, `title`, `updatedAt`. Other values may be possible if the media record's column configuration has been modified.
+The name of the column to use to sort images in the Media Snapshot panel (displayed in the right sidebar of object and procedure records). The value must be the name of a configured column in the media record's default [column set](./ColumnConfiguration.md). By default, the possible values are: `'blobCsid'`, `'identificationNumber'`, `'title'`, `'updatedAt'`. Other values may be possible if the media record's column configuration has been modified. A descending sort order may be specified by appending `desc` to the column name, for example, `'title desc'`.
 
 ### messages
 ```
