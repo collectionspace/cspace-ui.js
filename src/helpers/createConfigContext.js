@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
+import lodash from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -98,6 +99,7 @@ export default () => ({
     },
   },
   lib: {
+    lodash,
     FormattedMessage,
     Immutable,
     React,
