@@ -338,8 +338,24 @@ export default class SearchResultTable extends Component {
           const column = columnConfig[name];
 
           return {
-            cellDataGetter: ({ dataKey, rowData }) =>
-              formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
+            cellDataGetter: ({ dataKey, rowData }) => {
+              let data = null;
+
+              if (rowData) {
+                const keys = dataKey.split('|');
+
+                for (let i = 0; i < keys.length; i += 1) {
+                  const candidateValue = rowData.get(keys[i]);
+
+                  if (candidateValue) {
+                    data = candidateValue;
+                    break;
+                  }
+                }
+              }
+
+              return formatCellData(column, data, rowData);
+            },
             disableSort: !isSortable(column, searchDescriptor),
             flexGrow: column.flexGrow,
             flexShrink: column.flexShrink,

@@ -69,7 +69,13 @@ cspaceUI((configContext) => {
 
 The column set map defines one or two column sets. A column set named `default` must be defined, and optionally, a column set named `narrow` may also be defined. The `narrow` column set is used when redering search result tables in the right sidebar, where there the available space is smaller. The `default` column set is used when rendering search result tables elsewhere. If the `narrow` column set is not defined for a record type, the `default` column set is used in the sidebar.
 
-Each column set descriptor contains one or more named columns. The column names must correspond to the names of fields that have been configured to be returned as list results in REST API requests. This configuration is currently done in the application layer XML files, using the `mini` property on application layer field definitions.
+Each column set descriptor contains one or more named columns. A column name must be one of the following:
+
+1. The name of a field that has been configured to be returned in list results of REST API requests. This configuration is currently done in the application layer XML files, using the `mini` property on application layer field definitions.
+
+1. A pipe (`|`) separated list of list result fields, for example `title|name`. This specifies that the column should fall back to the value of the first field in the list that is non-empty.
+
+⚠️ Defining a column with multiple (fallback) fields is not recommended. The column will not be sortable by the values displayed, since there is no single field in the services layer that contains the value. Also, the values displayed can not be shown in searches for multiple record types. A better option is to use a Nuxeo event handler to store the desired value in a computed field, and display that field in search results.
 
 For each named column, a column descriptor must be provided to configure the column. A column descriptor contains the following properties:
 
