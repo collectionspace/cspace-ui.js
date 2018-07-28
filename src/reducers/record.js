@@ -175,7 +175,7 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
   let data;
 
   if (cloneCsid) {
-    data = cloneRecordData(recordTypeConfig, getCurrentData(state, cloneCsid));
+    data = cloneRecordData(recordTypeConfig, cloneCsid, getCurrentData(state, cloneCsid));
   }
 
   if (!data) {

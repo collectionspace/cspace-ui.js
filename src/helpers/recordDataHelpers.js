@@ -25,6 +25,11 @@ import {
 } from './csidHelpers';
 
 import {
+  findBroaderRelation,
+  placeholderCsid,
+} from './relationListHelpers';
+
+import {
   isDeprecated,
   isLocked,
   isReplicated,
@@ -275,7 +280,11 @@ export const clearUncloneable = (fieldDescriptor, data) => {
     // the existing value with the default value if there is one, or undefined otherwise. The old
     // UI did not set uncloneable fields to the default value, but I think this was an oversight.
 
-    return getDefaultValue(fieldDescriptor);
+    return (
+      Immutable.Map.isMap(data)
+        ? applyDefaults(fieldDescriptor)
+        : getDefaultValue(fieldDescriptor)
+    );
   }
 
   if (Immutable.Map.isMap(data)) {
@@ -291,10 +300,37 @@ export const clearUncloneable = (fieldDescriptor, data) => {
   return data;
 };
 
+export const prepareClonedHierarchy = (fromCsid, data) => {
+  // Process hierarchy following a clone. Delete children, and use the new record placeholder
+  // csid in relations to parents.
+  // TODO: Move this into config?
+
+  let relations = data.getIn(['document', 'rel:relations-common-list', 'relation-list-item']);
+  const updatedData = data.deleteIn(['document', 'rel:relations-common-list']);
+
+  if (!relations) {
+    return updatedData;
+  }
+
+  if (!Immutable.List.isList(relations)) {
+    relations = Immutable.List.of(relations);
+  }
+
+  const broaderRelation = findBroaderRelation(fromCsid, relations);
+
+  if (!broaderRelation) {
+    return updatedData;
+  }
+
+  return updatedData.setIn(['document', 'rel:relations-common-list', 'relation-list-item'],
+    Immutable.List.of(broaderRelation.setIn(['subject', 'csid'], placeholderCsid))
+  );
+};
+
 /**
  * Create a new record as a clone of a given record.
  */
-export const cloneRecordData = (recordTypeConfig, data) => {
+export const cloneRecordData = (recordTypeConfig, csid, data) => {
   if (!data) {
     return data;
   }
@@ -309,6 +345,7 @@ export const cloneRecordData = (recordTypeConfig, data) => {
   // Reset fields that are configured as not cloneable.
 
   clone = clearUncloneable(recordTypeConfig.fields, clone);
+  clone = prepareClonedHierarchy(csid, clone);
 
   return clone;
 };

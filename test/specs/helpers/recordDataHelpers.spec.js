@@ -23,6 +23,10 @@ import {
 } from '../../../src/constants/dataTypes';
 
 import {
+  placeholderCsid,
+} from '../../../src/helpers/relationListHelpers';
+
+import {
   applyDefaults,
   attributePropertiesToTop,
   clearUncloneable,
@@ -57,6 +61,7 @@ import {
   isSecurityRecordImmutable,
   normalizeFieldValue,
   normalizeRecordData,
+  prepareClonedHierarchy,
   prepareForSending,
   setXmlNamespaceAttribute,
   spreadDefaultValue,
@@ -1533,6 +1538,8 @@ describe('recordDataHelpers', function moduleSuite() {
   });
 
   describe('cloneRecordData', function suite() {
+    const csid = '1234';
+
     const recordTypeConfig = {
       fields: {
         document: {
@@ -1558,7 +1565,7 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      cloneRecordData(recordTypeConfig, data).toJS().should.deep.equal({
+      cloneRecordData(recordTypeConfig, csid, data).toJS().should.deep.equal({
         document: {
           'ns2:groups_common': {
             owner: 'Owner',
@@ -1579,7 +1586,7 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      cloneRecordData(recordTypeConfig, data).toJS().should.deep.equal({
+      cloneRecordData(recordTypeConfig, csid, data).toJS().should.deep.equal({
         document: {
           'ns2:groups_common': {
             owner: 'Owner',
@@ -1589,8 +1596,159 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
+    it('should prepare the record\'s hierarchy relations', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                subject: {
+                  csid,
+                },
+              },
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid,
+                },
+              },
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid,
+                },
+              },
+            ],
+          },
+          'ns2:collectionobjects_common': {},
+        },
+      });
+
+      cloneRecordData(recordTypeConfig, csid, data).should.equal(Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                subject: {
+                  csid: placeholderCsid,
+                },
+              },
+            ],
+          },
+          'ns2:collectionobjects_common': {},
+        },
+      }));
+    });
+
     it('should return undefined for undefined data', function test() {
-      expect(cloneRecordData(recordTypeConfig, undefined)).to.equal(undefined);
+      expect(cloneRecordData(recordTypeConfig, csid, undefined)).to.equal(undefined);
+    });
+  });
+
+  describe('prepareClonedHierarchy', function suite() {
+    const fromCsid = '1234';
+
+    it('should retain only the relation to a broader record, and set the subject csid to the new record placeholder', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                subject: {
+                  csid: fromCsid,
+                },
+              },
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid: fromCsid,
+                },
+              },
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid: fromCsid,
+                },
+              },
+            ],
+          },
+        },
+      });
+
+      prepareClonedHierarchy(fromCsid, data).should.equal(Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                subject: {
+                  csid: placeholderCsid,
+                },
+              },
+            ],
+          },
+        },
+      }));
+    });
+
+    it('should delete all relations if there is no relation to a broader record', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              predicate: 'hasBroader',
+              subject: {
+                csid: fromCsid,
+              },
+            },
+          },
+        },
+      });
+
+      prepareClonedHierarchy(fromCsid, data).should.equal(Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                subject: {
+                  csid: placeholderCsid,
+                },
+              },
+            ],
+          },
+        },
+      }));
+    });
+
+    it('should handle a single (non-list) relation item', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'rel:relations-common-list': {
+            'relation-list-item': [
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid: fromCsid,
+                },
+              },
+              {
+                predicate: 'hasBroader',
+                object: {
+                  csid: fromCsid,
+                },
+              },
+            ],
+          },
+        },
+      });
+
+      prepareClonedHierarchy(fromCsid, data).should.equal(Immutable.fromJS({
+        document: {},
+      }));
     });
   });
 
