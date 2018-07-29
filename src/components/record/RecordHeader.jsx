@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import classNames from 'classnames';
 import RecordButtonBar from './RecordButtonBar';
 import RecordFormSelector from './RecordFormSelector';
 import RecordHistory from './RecordHistory';
@@ -19,6 +20,7 @@ const propTypes = {
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  isSidebarOpen: PropTypes.bool,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
   showDeprecationButtons: PropTypes.bool,
@@ -31,6 +33,10 @@ const propTypes = {
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
   onUndeprecateButtonClick: PropTypes.func,
+};
+
+const defaultProps = {
+  isSidebarOpen: true,
 };
 
 export default class RecordHeader extends Component {
@@ -90,6 +96,7 @@ export default class RecordHeader extends Component {
       isModified,
       isReadPending,
       isSavePending,
+      isSidebarOpen,
       readOnly,
       recordType,
       showDeprecationButtons,
@@ -108,7 +115,10 @@ export default class RecordHeader extends Component {
       docked,
     } = this.state;
 
-    const className = docked ? styles.docked : styles.common;
+    const className = classNames(
+      isSidebarOpen ? styles.normal : styles.full,
+      { [styles.docked]: docked }
+    );
 
     const inlineStyle = docked
       ? { height: this.domNode.offsetHeight }
@@ -161,3 +171,4 @@ export default class RecordHeader extends Component {
 }
 
 RecordHeader.propTypes = propTypes;
+RecordHeader.defaultProps = defaultProps;

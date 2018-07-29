@@ -16,6 +16,7 @@ export const SET_SEARCH_RESULT_PAGE_PAGE_SIZE = 'SET_SEARCH_RESULT_PAGE_PAGE_SIZ
 export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
 export const SET_FORM = 'SET_FORM';
 export const SET_UPLOAD_TYPE = 'SET_UPLOAD_TYPE';
+export const TOGGLE_RECORD_SIDEBAR = 'TOGGLE_RECORD_SIDEBAR';
 
 export const storageKey = 'cspace-ui';
 
@@ -91,6 +92,10 @@ export const setForm = (recordType, formName) => ({
 export const setUploadType = type => ({
   type: SET_UPLOAD_TYPE,
   payload: type,
+});
+
+export const toggleRecordSidebar = () => ({
+  type: TOGGLE_RECORD_SIDEBAR,
 });
 
 export const loadPrefs = username => (dispatch) => {

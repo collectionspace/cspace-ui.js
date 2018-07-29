@@ -1,4 +1,4 @@
-@value inputHeight from '../dimensions.css';
+@value inputHeight, tabHeight from '../dimensions.css';
 
 .common {
   position: relative;
@@ -9,7 +9,7 @@
 }
 
 .common > button {
-  height: 31px;
+  height: tabHeight;
   box-sizing: border-box;
   border: none;
   padding-left: 10px;

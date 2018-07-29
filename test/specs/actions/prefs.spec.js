@@ -19,6 +19,7 @@ import {
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  TOGGLE_RECORD_SIDEBAR,
   storageKey,
   collapsePanel,
   loadPrefs,
@@ -34,6 +35,7 @@ import {
   setSearchPanelPageSize,
   setSearchResultPagePageSize,
   setSearchToRelatePageSize,
+  toggleRecordSidebar,
 } from '../../../src/actions/prefs';
 
 chai.use(chaiImmutable);
@@ -190,6 +192,14 @@ describe('prefs action creator', function suite() {
           recordType,
           name,
         },
+      });
+    });
+  });
+
+  describe('toggleRecordSidebar', function actionSuite() {
+    it('should create a TOGGLE_RECORD_SIDEBAR action', function test() {
+      toggleRecordSidebar().should.deep.equal({
+        type: TOGGLE_RECORD_SIDEBAR,
       });
     });
   });

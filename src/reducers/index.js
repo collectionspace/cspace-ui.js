@@ -162,6 +162,8 @@ export const getQuickSearchRecordType = state => fromPrefs.getQuickSearchRecordT
 export const getQuickSearchVocabulary = (state, recordType) =>
   fromPrefs.getQuickSearchVocabulary(state.prefs, recordType);
 
+export const isRecordSidebarOpen = state => fromPrefs.isRecordSidebarOpen(state.prefs);
+
 export const isSearchDirty = (state, searchName) =>
   fromSearch.isDirty(state.search, searchName);
 

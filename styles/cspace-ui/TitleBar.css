@@ -13,7 +13,7 @@
 .common > div > nav {
   height: inputHeight;
   box-sizing: border-box;
-  padding: 0 20px 0 10px;
+  padding: 0 10px;
 }
 
 .common > div > div:first-of-type {
@@ -72,5 +72,5 @@
 }
 
 .docked > div > nav {
-  padding-right: 16px;
+  padding-right: 14px;
 }

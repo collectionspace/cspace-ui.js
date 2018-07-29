@@ -6,7 +6,8 @@ import get from 'lodash/get';
 import ErrorPage from './ErrorPage';
 import RecordTitleBarContainer from '../../containers/record/RecordTitleBarContainer';
 import RecordBrowserContainer from '../../containers/record/RecordBrowserContainer';
-import RecordSideBar from '../record/RecordSideBar';
+
+import RecordSidebar from '../record/RecordSidebar';
 import { validateLocation } from '../../helpers/configHelpers';
 import { canRelate } from '../../helpers/permissionHelpers';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
@@ -60,6 +61,7 @@ const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   error: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.object,
+  isSidebarOpen: PropTypes.bool,
   location: PropTypes.object,
   // Use of the match prop isn't being detected by eslint.
   match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
@@ -188,6 +190,7 @@ export default class RecordPage extends Component {
       data,
       error,
       history,
+      isSidebarOpen,
       location,
       perms,
     } = this.props;
@@ -270,12 +273,13 @@ export default class RecordPage extends Component {
             config={config}
             onShowRelated={this.handleShowRelated}
           />
-          <RecordSideBar
+          <RecordSidebar
             csid={normalizedCsid}
             recordType={recordType}
             vocabulary={vocabulary}
             config={config}
             history={history}
+            isOpen={isSidebarOpen}
             isRelatable={isRelatable}
           />
         </div>

@@ -14,6 +14,7 @@ import {
   getRecordData,
   getRecordError,
   getUserPerms,
+  isRecordSidebarOpen,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -24,6 +25,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     data: getRecordData(state, csid),
     error: getRecordError(state, csid),
+    isSidebarOpen: isRecordSidebarOpen(state),
     perms: getUserPerms(state),
   };
 };

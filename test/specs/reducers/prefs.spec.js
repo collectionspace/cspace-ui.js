@@ -15,6 +15,7 @@ import {
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
   SET_UPLOAD_TYPE,
+  TOGGLE_RECORD_SIDEBAR,
 } from '../../../src/actions/prefs';
 
 import {
@@ -340,5 +341,33 @@ describe('prefs reducer', function suite() {
     });
 
     state.should.deep.equal(prefs);
+  });
+
+  it('should handle TOGGLE_RECORD_SIDEBAR', function test() {
+    let state;
+
+    state = reducer(undefined, {
+      type: TOGGLE_RECORD_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      recordSidebarOpen: true,
+    }));
+
+    state = reducer(state, {
+      type: TOGGLE_RECORD_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      recordSidebarOpen: false,
+    }));
+
+    state = reducer(state, {
+      type: TOGGLE_RECORD_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      recordSidebarOpen: true,
+    }));
   });
 });

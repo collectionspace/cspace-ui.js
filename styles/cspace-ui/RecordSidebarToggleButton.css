@@ -1,0 +1,53 @@
+@value tabHeight from '../dimensions.css';
+
+.common {
+  position: absolute;
+  z-index: 1;
+  right: 10px;
+  height: tabHeight;
+  border: none;
+  border-top-left-radius: 3px;
+  padding: 0 10px;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 12px;
+}
+
+.common:focus {
+  outline: none;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal::after {
+  content: ' >';
+}
+
+.closed {
+  composes: common;
+}
+
+.closed::before {
+  content: '< ';
+}
+
+.blue {
+  background-color: rgba(156, 185, 211, .2);
+  color: #305A8D;
+}
+
+.blue:hover, .blue:focus {
+  background-color: #305A8D;
+  color: white;
+}
+
+.purple {
+  background-color: rgba(209, 157, 194, .2);
+  color: #734592;
+}
+
+.purple:hover, .purple:focus {
+  background-color: #734592;
+  color: white;
+}

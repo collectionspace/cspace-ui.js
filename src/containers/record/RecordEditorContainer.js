@@ -45,6 +45,7 @@ import {
   isRecordModified,
   isRecordReadPending,
   isRecordSavePending,
+  isRecordSidebarOpen,
 } from '../../reducers';
 
 import RecordEditor from '../../components/record/RecordEditor';
@@ -66,6 +67,7 @@ const mapStateToProps = (state, ownProps) => {
     isModified: isRecordModified(state, csid),
     isReadPending: isRecordReadPending(state, csid),
     isSavePending: isRecordSavePending(state, csid),
+    isSidebarOpen: isRecordSidebarOpen(state),
     openModalName: getOpenModalName(state),
     perms: perms || getUserPerms(state),
     validationErrors: getRecordValidationErrors(state, csid),
