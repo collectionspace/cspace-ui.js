@@ -219,7 +219,7 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore();
 
-      store.dispatch(loadPrefs(username));
+      store.dispatch(loadPrefs(null, username));
 
       const actions = store.getActions();
 
@@ -238,7 +238,7 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore();
 
-      store.dispatch(loadPrefs(username));
+      store.dispatch(loadPrefs(null, username));
 
       const actions = store.getActions();
 
@@ -257,7 +257,7 @@ describe('prefs action creator', function suite() {
 
       const store = mockStore();
 
-      store.dispatch(loadPrefs(username));
+      store.dispatch(loadPrefs(null, username));
 
       const actions = store.getActions();
 
@@ -282,6 +282,78 @@ describe('prefs action creator', function suite() {
         type: PREFS_LOADED,
         payload: null,
       });
+    });
+
+    it('should merge user prefs into default prefs, if present', function test() {
+      const config = {
+        defaultUserPrefs: {
+          foo: {
+            blat: 1,
+          },
+          baz: 'b',
+        },
+      };
+
+      const username = 'user@collectionspace.org';
+
+      const prefs = {
+        foo: {
+          bar: true,
+        },
+        baz: 'a',
+      };
+
+      window.localStorage.setItem(storageKey, JSON.stringify({ [username]: prefs }));
+
+      const store = mockStore();
+
+      store.dispatch(loadPrefs(config, username));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].type.should.equal(PREFS_LOADED);
+
+      actions[0].payload.should.equal(Immutable.fromJS({
+        foo: {
+          bar: true,
+          blat: 1,
+        },
+        baz: 'a',
+      }));
+    });
+
+    it('should return default prefs if present and no serialized prefs exist in local storage', function test() {
+      const config = {
+        defaultUserPrefs: {
+          foo: {
+            blat: 1,
+          },
+          baz: 'b',
+        },
+      };
+
+      const username = 'user@collectionspace.org';
+
+      window.localStorage.removeItem(storageKey);
+
+      const store = mockStore();
+
+      store.dispatch(loadPrefs(config, username));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].type.should.equal(PREFS_LOADED);
+
+      actions[0].payload.should.equal(Immutable.fromJS({
+        foo: {
+          blat: 1,
+        },
+        baz: 'b',
+      }));
     });
   });
 

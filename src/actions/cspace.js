@@ -65,7 +65,7 @@ export const configureCSpace = config => (dispatch) => {
   }
 
   return dispatch(readAccountPerms(config, username))
-    .then(() => dispatch(loadPrefs(username)))
+    .then(() => dispatch(loadPrefs(config, username)))
     .then(() => dispatch(readAuthVocabs(config)))
     .catch((error) => {
       // 401 is expected if the user's auth token has expired. The client onError handler will take

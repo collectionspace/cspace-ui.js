@@ -1,6 +1,7 @@
 /* global window */
 
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import { getUserUsername, getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
@@ -98,7 +99,7 @@ export const toggleRecordSidebar = () => ({
   type: TOGGLE_RECORD_SIDEBAR,
 });
 
-export const loadPrefs = username => (dispatch) => {
+export const loadPrefs = (config, username) => (dispatch) => {
   // TODO: Load prefs from server (requires adding services layer support).
   // For now, just load from local storage.
 
@@ -114,6 +115,12 @@ export const loadPrefs = username => (dispatch) => {
         userPrefs = null;
       }
     }
+  }
+
+  const defaultUserPrefs = get(config, 'defaultUserPrefs');
+
+  if (defaultUserPrefs) {
+    userPrefs = (Immutable.fromJS(defaultUserPrefs)).mergeDeep(userPrefs);
   }
 
   dispatch({
