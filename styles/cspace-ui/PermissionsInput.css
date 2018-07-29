@@ -42,7 +42,8 @@
 
 .common > section > header > ul > li {
   width: 50px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .common > section > div {

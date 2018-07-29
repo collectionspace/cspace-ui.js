@@ -428,4 +428,38 @@ describe('PermissionsInput', function suite() {
       { resourceName: 'servicegroups', actionGroup: 'RL' },
     ]));
   });
+
+  it('should call onCommit when a header button is clicked', function test() {
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            onCommit={handleCommit}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const button = this.container.querySelector('button[data-servicetype="procedure"][data-actiongroup="RL"]');
+
+    Simulate.click(button);
+
+    committedValue
+      .sortBy(perm => perm.get('resourceName'))
+      .should.equal(Immutable.fromJS([
+        { resourceName: '/groups/*/workflow/delete', actionGroup: 'RL' },
+        { resourceName: '/loansin/*/workflow/delete', actionGroup: 'RL' },
+        { resourceName: '/movements/*/workflow/delete', actionGroup: 'RL' },
+        { resourceName: 'groups', actionGroup: 'RL' },
+        { resourceName: 'loansin', actionGroup: 'RL' },
+        { resourceName: 'movements', actionGroup: 'RL' },
+        { resourceName: 'servicegroups', actionGroup: 'RL' },
+      ]));
+  });
 });
