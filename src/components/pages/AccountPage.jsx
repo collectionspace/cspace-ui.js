@@ -286,6 +286,7 @@ export default class AccountPage extends Component {
             linkItems={false}
             listType="account"
             name="accountPage"
+            pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}

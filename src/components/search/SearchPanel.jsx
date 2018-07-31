@@ -39,6 +39,7 @@ const propTypes = {
   isFiltered: PropTypes.bool,
   linkItems: PropTypes.bool,
   name: PropTypes.string,
+  pageSizeOptionListName: PropTypes.string,
   recordType: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -60,6 +61,7 @@ const propTypes = {
 const defaultProps = {
   columnSetName: 'default',
   listType: 'common',
+  pageSizeOptionListName: 'searchPanelPageSizes',
   showSearchButton: true,
 };
 
@@ -309,6 +311,7 @@ export default class SearchPanel extends Component {
     const {
       config,
       listType,
+      pageSizeOptionListName,
     } = this.props;
 
     if (searchResult) {
@@ -326,7 +329,7 @@ export default class SearchPanel extends Component {
             currentPage={pageNum}
             lastPage={lastPage}
             pageSize={pageSize}
-            pageSizeOptionListName="searchPanelPageSizes"
+            pageSizeOptionListName={pageSizeOptionListName}
             windowSize={3}
             onPageChange={this.handlePageChange}
             onPageSizeChange={this.handlePageSizeChange}

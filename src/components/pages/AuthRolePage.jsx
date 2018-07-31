@@ -206,6 +206,7 @@ export default class AuthRolePage extends Component {
             linkItems={false}
             listType="role"
             name="authRolePage"
+            pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}
