@@ -286,12 +286,17 @@ export default class PermissionsInput extends Component {
   }
 
   renderHeaderButton(serviceType, actionGroup) {
+    const {
+      readOnly,
+    } = this.props;
+
     return (
       <MiniButton
         autoWidth
         onClick={this.handleHeaderButtonClick}
         data-servicetype={serviceType}
         data-actiongroup={actionGroup}
+        disabled={readOnly}
       >
         <FormattedMessage {...permMessages[actionGroup]} />
       </MiniButton>
