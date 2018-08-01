@@ -53,6 +53,23 @@ export default {
       servicePath: 'urn:cspace:name(activity)',
     },
   },
+  ethculture: {
+    messages: defineMessages({
+      name: {
+        id: 'vocab.concept.ethculture.name',
+        description: 'The name of the ethculture concept vocabulary.',
+        defaultMessage: 'Ethnographic Culture',
+      },
+      collectionName: {
+        id: 'vocab.concept.ethculture.collectionName',
+        description: 'The name of a collection of records from the ethculture concept vocabulary.',
+        defaultMessage: 'Ethnographic Cultures',
+      },
+    }),
+    serviceConfig: {
+      servicePath: 'urn:cspace:name(ethculture)',
+    },
+  },
   material: {
     messages: defineMessages({
       name: {
