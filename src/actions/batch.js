@@ -15,6 +15,10 @@ import {
   STATUS_SUCCESS,
 } from '../constants/notificationStatusCodes';
 
+export const BATCH_INVOKE_STARTED = 'BATCH_INVOKE_STARTED';
+export const BATCH_INVOKE_FULFILLED = 'BATCH_INVOKE_FULFILLED';
+export const BATCH_INVOKE_REJECTED = 'BATCH_INVOKE_REJECTED';
+
 const messages = defineMessages({
   running: {
     id: 'batch.running',
@@ -43,6 +47,13 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
 
   const notificationID = getNotificationID();
 
+  dispatch({
+    type: BATCH_INVOKE_STARTED,
+    meta: {
+      csid,
+    },
+  });
+
   dispatch(showNotification({
     items: [{
       message: messages.running,
@@ -64,6 +75,22 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
       const numAffected = get(data, ['ns2:invocationResults', 'numAffected']);
       const userNote = get(data, ['ns2:invocationResults', 'userNote']);
 
+      let numAffectedInt;
+
+      numAffectedInt = parseInt(numAffected, 10);
+
+      if (isNaN(numAffectedInt)) {
+        numAffectedInt = undefined;
+      }
+
+      dispatch({
+        type: BATCH_INVOKE_FULFILLED,
+        meta: {
+          csid,
+          numAffected: numAffectedInt,
+        },
+      });
+
       dispatch(showNotification({
         items: [{
           message: messages.complete,
@@ -81,6 +108,13 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
       return response;
     })
     .catch((error) => {
+      dispatch({
+        type: BATCH_INVOKE_REJECTED,
+        meta: {
+          csid,
+        },
+      });
+
       dispatch(showNotification({
         items: [{
           message: messages.error,

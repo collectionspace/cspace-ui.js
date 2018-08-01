@@ -28,6 +28,7 @@ import place from './place';
 import procedure from './procedure';
 import relation from './relation';
 import report from './report';
+import structdateparser from './structdateparser';
 import uoc from './uoc';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
@@ -65,6 +66,7 @@ export default [
   procedure,
   relation,
   report,
+  structdateparser,
   valuation,
   vocabulary,
   work,

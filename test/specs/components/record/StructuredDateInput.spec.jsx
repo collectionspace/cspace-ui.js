@@ -5,13 +5,18 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import { baseComponents as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
-import StructuredDateInput, { vocabNames } from '../../../../src/components/record/StructuredDateInput';
+import StructuredDateInput from '../../../../src/components/record/StructuredDateInput';
 
 chai.should();
 
 const { StructuredDateInput: BaseStructuredDateInput } = inputComponents;
 
 describe('StructuredDateInput', function suite() {
+  const config = {
+    structDateOptionListNames: ['dateQualifiers'],
+    structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
+  };
+
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -34,10 +39,10 @@ describe('StructuredDateInput', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <StructuredDateInput readTerms={readTerms} />
+        <StructuredDateInput config={config} readTerms={readTerms} />
       </IntlProvider>, this.container);
 
-    readTermsSources.should.deep.equal(vocabNames);
+    readTermsSources.should.deep.equal(config.structDateVocabNames);
   });
 
   it('should call readTerms when new perms are supplied via props', function test() {
@@ -56,6 +61,7 @@ describe('StructuredDateInput', function suite() {
     render(
       <IntlProvider locale="en">
         <StructuredDateInput
+          config={config}
           perms={perms}
         />
       </IntlProvider>, this.container);
@@ -65,12 +71,13 @@ describe('StructuredDateInput', function suite() {
     render(
       <IntlProvider locale="en">
         <StructuredDateInput
+          config={config}
           perms={newPerms}
           readTerms={readTerms}
         />
       </IntlProvider>, this.container);
 
-    readTermsSources.should.deep.equal(vocabNames);
+    readTermsSources.should.deep.equal(config.structDateVocabNames);
   });
 
   it('should call intl.formatMessage to format field labels', function test() {

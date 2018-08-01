@@ -246,6 +246,7 @@ export default class VocabularyPage extends Component {
             isFiltered={!!filterValue}
             linkItems={false}
             name="vocabularyPage"
+            pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}

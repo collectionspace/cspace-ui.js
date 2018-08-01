@@ -30,6 +30,7 @@ const propTypes = {
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  isSidebarOpen: PropTypes.bool,
   isHardDelete: PropTypes.bool,
   // The workflow state of the related subject (aka primary) record when we're in a secondary tab.
   relatedSubjectWorkflowState: PropTypes.string,
@@ -62,6 +63,7 @@ const propTypes = {
 
 const defaultProps = {
   data: Immutable.Map(),
+  isSidebarOpen: true,
 };
 
 export default class RecordEditor extends Component {
@@ -540,6 +542,7 @@ export default class RecordEditor extends Component {
       isModified,
       isReadPending,
       isSavePending,
+      isSidebarOpen,
       perms,
       recordType,
       relatedSubjectWorkflowState,
@@ -595,9 +598,10 @@ export default class RecordEditor extends Component {
     const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
     const showDeprecationButtons = config.termDeprecationEnabled && serviceType === 'authority';
     const isDeprecated = isRecordDeprecated(data);
+    const className = isSidebarOpen ? styles.normal : styles.full;
 
     return (
-      <form className={styles.common} autoComplete="off">
+      <form className={className} autoComplete="off">
         <RecordHeader
           config={config}
           data={data}
@@ -609,6 +613,7 @@ export default class RecordEditor extends Component {
           isModified={isModified}
           isReadPending={isReadPending}
           isSavePending={isSavePending}
+          isSidebarOpen={isSidebarOpen}
           readOnly={readOnly}
           recordType={recordType}
           showDeprecationButtons={showDeprecationButtons}

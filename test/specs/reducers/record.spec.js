@@ -1394,97 +1394,149 @@ describe('record reducer', function suite() {
     isSavePending(state, csid).should.equal(true);
   });
 
-  it('should handle RECORD_TRANSITION_FULFILLED', function test() {
+  describe('on RECORD_TRANSITION_FULFILLED', function actionSuite() {
     const recordTypeConfig = {};
     const csid = '1234';
 
-    const initialState = Immutable.fromJS({
-      [csid]: {
-        isSavePending: true,
-      },
-    });
-
-    let state;
-
-    // Any transition should remove isSavePending.
-
-    state = reducer(initialState, {
-      type: RECORD_TRANSITION_FULFILLED,
-      meta: {
-        recordTypeConfig,
-        csid,
-      },
-    });
-
-    state.should.equal(Immutable.fromJS({
-      [csid]: {},
-    }));
-
-    expect(isSavePending(state, csid)).to.equal(undefined);
-
-    // Delete transition should remove entire record state for the csid.
-
-    state = reducer(initialState, {
-      type: RECORD_TRANSITION_FULFILLED,
-      meta: {
-        recordTypeConfig,
-        csid,
-        transitionName: 'delete',
-      },
-    });
-
-    state.should.equal(Immutable.Map());
-
-    // Non-delete transition should update data.
-
-    const data = {
-      foo: {
-        bar: 'baz',
-      },
-    };
-
-    state = reducer(initialState, {
-      type: RECORD_TRANSITION_FULFILLED,
-      payload: {
-        data,
-      },
-      meta: {
-        recordTypeConfig,
-        csid,
-        transitionName: 'lock',
-      },
-    });
-
-    state.should.equal(Immutable.fromJS({
-      [csid]: {
-        data: {
-          baseline: data,
-          current: data,
+    it('should delete isSavePending on any transition', function test() {
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
         },
-      },
-    }));
+      });
 
-    // Should update relationUpdatedTime if a relatedSubjectCsid is present.
+      const state = reducer(initialState, {
+        type: RECORD_TRANSITION_FULFILLED,
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      });
 
-    const relatedSubjectCsid = '8888';
-    const updatedTimestamp = '2000-01-01T12:00:00Z';
+      state.should.equal(Immutable.fromJS({
+        [csid]: {},
+      }));
 
-    state = reducer(initialState, {
-      type: RECORD_TRANSITION_FULFILLED,
-      meta: {
-        recordTypeConfig,
-        csid,
-        relatedSubjectCsid,
-        updatedTimestamp,
-      },
+      expect(isSavePending(state, csid)).to.equal(undefined);
     });
 
-    state.should.equal(Immutable.fromJS({
-      [csid]: {},
-      [relatedSubjectCsid]: {
-        relationUpdatedTime: updatedTimestamp,
-      },
-    }));
+    it('should remove the record state on a delete transition', function test() {
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
+        },
+      });
+
+      const state = reducer(initialState, {
+        type: RECORD_TRANSITION_FULFILLED,
+        meta: {
+          recordTypeConfig,
+          csid,
+          transitionName: 'delete',
+        },
+      });
+
+      state.should.equal(Immutable.Map());
+    });
+
+    it('should update the record data on a non-delete transition', function test() {
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
+        },
+      });
+
+      const data = {
+        foo: {
+          bar: 'baz',
+        },
+      };
+
+      const state = reducer(initialState, {
+        type: RECORD_TRANSITION_FULFILLED,
+        payload: {
+          data,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+          transitionName: 'lock',
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+        },
+      }));
+    });
+
+    it('should update relationUpdatedTime if a relatedSubjectCsid is present', function test() {
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          isSavePending: true,
+        },
+      });
+
+      const relatedSubjectCsid = '8888';
+      const updatedTimestamp = '2000-01-01T12:00:00Z';
+
+      const state = reducer(initialState, {
+        type: RECORD_TRANSITION_FULFILLED,
+        meta: {
+          recordTypeConfig,
+          csid,
+          relatedSubjectCsid,
+          updatedTimestamp,
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [csid]: {},
+        [relatedSubjectCsid]: {
+          relationUpdatedTime: updatedTimestamp,
+        },
+      }));
+    });
+
+    it('should clear all record state on a delete transition, except for records with pending saves', function test() {
+      const initialState = Immutable.fromJS({
+        [csid]: {
+          data: {},
+          isSavePending: true,
+          subrecord: {
+            blob: '5555',
+          },
+        },
+        1111: {},
+        2222: {
+          isSavePending: true,
+        },
+        3333: {},
+        4444: {},
+        5555: {},
+        '': {}, // new record
+        '/blob': {}, //new subrecord
+      });
+
+      const state = reducer(initialState, {
+        type: RECORD_TRANSITION_FULFILLED,
+        meta: {
+          recordTypeConfig,
+          csid,
+          transitionName: 'delete',
+        },
+      });
+
+      state.should.equal(Immutable.fromJS({
+        2222: {
+          isSavePending: true,
+        },
+      }));
+    });
   });
 
   it('should handle RECORD_TRANSITION_REJECTED', function test() {

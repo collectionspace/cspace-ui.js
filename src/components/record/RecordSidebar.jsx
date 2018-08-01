@@ -8,7 +8,7 @@ import RecordBatchPanelContainer from '../../containers/record/RecordBatchPanelC
 import RecordReportPanelContainer from '../../containers/record/RecordReportPanelContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
-import styles from '../../../styles/cspace-ui/RecordSideBar.css';
+import styles from '../../../styles/cspace-ui/RecordSidebar.css';
 
 const propTypes = {
   config: PropTypes.object,
@@ -16,18 +16,28 @@ const propTypes = {
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   history: PropTypes.object,
+  isOpen: PropTypes.bool,
   isRelatable: PropTypes.bool,
 };
 
-export default function RecordSideBar(props) {
+const defaultProps = {
+  isOpen: true,
+};
+
+export default function RecordSidebar(props) {
   const {
     config,
     csid,
     recordType,
     vocabulary,
     history,
+    isOpen,
     isRelatable,
   } = props;
+
+  if (!isOpen) {
+    return null;
+  }
 
   // TODO: Make sidebar components configurable based on service type/record type.
 
@@ -141,4 +151,5 @@ export default function RecordSideBar(props) {
   );
 }
 
-RecordSideBar.propTypes = propTypes;
+RecordSidebar.propTypes = propTypes;
+RecordSidebar.defaultProps = defaultProps;

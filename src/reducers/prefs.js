@@ -14,6 +14,7 @@ import {
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
+  TOGGLE_RECORD_SIDEBAR,
 } from '../actions/prefs';
 
 import {
@@ -79,6 +80,8 @@ export default (state = Immutable.Map(), action) => {
     case SET_SEARCH_PAGE_ADVANCED:
     case SET_SEARCH_TO_RELATE_ADVANCED:
       return handleAdvancedSearchConditionChange(state, action);
+    case TOGGLE_RECORD_SIDEBAR:
+      return state.set('recordSidebarOpen', !state.get('recordSidebarOpen'));
     default:
       return state;
   }
@@ -122,3 +125,5 @@ export const getUploadType = state =>
 
 export const getAdminTab = state =>
   state.get('adminTab');
+
+export const isRecordSidebarOpen = state => state.get('recordSidebarOpen');

@@ -1,22 +1,26 @@
 import { connect } from 'react-redux';
 import { parseDisplayDate } from '../../actions/structuredDate';
 import { readVocabularyItems } from '../../actions/vocabulary';
+import StructuredDateInput from '../../components/record/StructuredDateInput';
 import { getOptionList, getUserPerms, getVocabulary } from '../../reducers';
+import withConfig from '../../enhancers/withConfig';
 
-import StructuredDateInput, {
-  optionListNames,
-  vocabNames,
-} from '../../components/record/StructuredDateInput';
+const mapStateToProps = (state, ownProps) => {
+  const { config } = ownProps;
 
-const mapStateToProps = (state) => {
+  const {
+    structDateOptionListNames,
+    structDateVocabNames,
+  } = config;
+
   const optionLists = {};
   const terms = {};
 
-  optionListNames.forEach((optionListName) => {
+  structDateOptionListNames.forEach((optionListName) => {
     optionLists[optionListName] = getOptionList(state, optionListName);
   });
 
-  vocabNames.forEach((vocabName) => {
+  structDateVocabNames.forEach((vocabName) => {
     const vocab = getVocabulary(state, vocabName);
 
     terms[vocabName] = vocab ? vocab.items : null;
@@ -39,6 +43,8 @@ export const ConnectedStructuredDateInput = connect(
   mapDispatchToProps,
 )(StructuredDateInput);
 
-ConnectedStructuredDateInput.propTypes = StructuredDateInput.propTypes;
+const ConnectedStructuredDateInputWithConfig = withConfig(ConnectedStructuredDateInput);
 
-export default ConnectedStructuredDateInput;
+ConnectedStructuredDateInputWithConfig.propTypes = StructuredDateInput.propTypes;
+
+export default ConnectedStructuredDateInputWithConfig;

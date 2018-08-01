@@ -175,7 +175,7 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
   let data;
 
   if (cloneCsid) {
-    data = cloneRecordData(recordTypeConfig, getCurrentData(state, cloneCsid));
+    data = cloneRecordData(recordTypeConfig, cloneCsid, getCurrentData(state, cloneCsid));
   }
 
   if (!data) {
@@ -592,6 +592,7 @@ const handleTransitionFulfilled = (state, action) => {
   const {
     csid,
     transitionName,
+    recordPagePrimaryCsid,
     recordTypeConfig,
     relatedSubjectCsid,
     updatedTimestamp,
@@ -601,6 +602,15 @@ const handleTransitionFulfilled = (state, action) => {
 
   if (transitionName === 'delete') {
     nextState = nextState.delete(csid);
+
+    // Take this opportunity to expire other record data. This isn't strictly necessary, but it's a
+    // good time, since the deletion of a record may affect other records via service layer
+    // handlers.
+
+    nextState = clearFiltered(nextState, (recordState, candidateCsid) =>
+      !recordState.get('isSavePending') && // Don't clear records that are being saved
+      candidateCsid !== recordPagePrimaryCsid // Don't clear the primary record data
+    );
   } else {
     const newData = get(action, ['payload', 'data']);
 

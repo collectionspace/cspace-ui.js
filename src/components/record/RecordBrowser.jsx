@@ -4,6 +4,7 @@ import qs from 'qs';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import RecordBrowserNavBarContainer from '../../containers/record/RecordBrowserNavBarContainer';
+import RecordSidebarToggleButtonContainer from '../../containers/record/RecordSidebarToggleButtonContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import RelatedRecordBrowserContainer from '../../containers/record/RelatedRecordBrowserContainer';
 import { searchDescriptorToLocation } from '../../helpers/searchHelpers';
@@ -188,6 +189,10 @@ export default class RecordBrowser extends Component {
           recordType={recordType}
           relatedRecordType={relatedRecordType}
           onSelect={onShowRelated}
+        />
+        <RecordSidebarToggleButtonContainer
+          recordType={recordType}
+          config={config}
         />
         {content}
       </div>

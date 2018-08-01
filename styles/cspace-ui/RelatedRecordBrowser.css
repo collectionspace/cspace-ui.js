@@ -1,7 +1,6 @@
 .common {
   flex: 1;
   background: white;
-  padding: 0 10px 0 0;
 }
 
 .common > header {
@@ -18,4 +17,13 @@
 
 .common > div > :global(.cspace-ui-RecordEditor--common) {
   padding-right: 0;
+}
+
+.normal {
+  composes: common;
+  padding-right: 10px;
+}
+
+.full {
+  composes: common;
 }

@@ -16,9 +16,9 @@ const { MiniButton } = inputComponents;
 
 const messages = defineMessages({
   search: {
-    id: 'searchPanel.search',
-    description: 'Label of the search link in the search panel header.',
-    defaultMessage: 'Search',
+    id: 'searchPanel.openSearch',
+    description: 'Label of the open as search link in the search panel header.',
+    defaultMessage: 'Open',
   },
   titleWithCount: {
     id: 'searchPanel.titleWithCount',
@@ -39,6 +39,7 @@ const propTypes = {
   isFiltered: PropTypes.bool,
   linkItems: PropTypes.bool,
   name: PropTypes.string,
+  pageSizeOptionListName: PropTypes.string,
   recordType: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -60,6 +61,7 @@ const propTypes = {
 const defaultProps = {
   columnSetName: 'default',
   listType: 'common',
+  pageSizeOptionListName: 'searchPanelPageSizes',
   showSearchButton: true,
 };
 
@@ -103,14 +105,20 @@ export default class SearchPanel extends Component {
   componentDidUpdate(prevProps) {
     const {
       searchDescriptor: prevSearchDescriptor,
+      searchResult: prevSearchResult,
     } = prevProps;
 
     const {
       searchDescriptor,
+      searchResult,
       onSearchDescriptorChange,
     } = this.props;
 
-    if (!Immutable.is(prevSearchDescriptor, searchDescriptor)) {
+    if (
+      !Immutable.is(prevSearchDescriptor, searchDescriptor) ||
+      // If the search result was cleared from the store, redo the search.
+      (typeof searchResult === 'undefined' && prevSearchResult)
+    ) {
       this.search();
 
       if (onSearchDescriptorChange) {
@@ -303,6 +311,7 @@ export default class SearchPanel extends Component {
     const {
       config,
       listType,
+      pageSizeOptionListName,
     } = this.props;
 
     if (searchResult) {
@@ -320,7 +329,7 @@ export default class SearchPanel extends Component {
             currentPage={pageNum}
             lastPage={lastPage}
             pageSize={pageSize}
-            pageSizeOptionListName="searchPanelPageSizes"
+            pageSizeOptionListName={pageSizeOptionListName}
             windowSize={3}
             onPageChange={this.handlePageChange}
             onPageSizeChange={this.handlePageSizeChange}

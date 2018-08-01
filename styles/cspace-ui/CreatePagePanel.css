@@ -1,10 +1,10 @@
 .common {
-  padding: 10px 10px 20px 10px;
+  padding: 10px 20px 20px 10px;
   flex: 1 1 auto;
 }
 
 .common + .common {
-  margin-left: 2px;
+  margin-left: 6px;
 }
 
 .common > h2 {

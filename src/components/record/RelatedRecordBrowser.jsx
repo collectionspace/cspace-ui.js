@@ -16,6 +16,7 @@ const propTypes = {
   config: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
+  isSidebarOpen: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
@@ -28,6 +29,10 @@ const propTypes = {
   workflowState: PropTypes.string,
   setPreferredRelatedCsid: PropTypes.func,
   onShowRelated: PropTypes.func,
+};
+
+const defaultProps = {
+  isSidebarOpen: true,
 };
 
 const contextTypes = {
@@ -364,6 +369,7 @@ export default class RelatedRecordBrowser extends Component {
       config,
       recordType,
       csid,
+      isSidebarOpen,
       perms,
       relatedRecordType,
       workflowState,
@@ -377,12 +383,14 @@ export default class RelatedRecordBrowser extends Component {
       canRelate(relatedRecordType, perms, config)
     );
 
+    const className = isSidebarOpen ? styles.normal : styles.full;
+
     // TODO: Vary the name of the RelatedRecordPanelContainer depending on the object record type?
     // This would allow selected items to be remembered when switching back and forth between
     // secondary tabs, instead of being cleared.
 
     return (
-      <div className={styles.common}>
+      <div className={className}>
         <header>
           <RelatedRecordButtonBar
             isCreatable={isCreatable}
@@ -412,4 +420,5 @@ export default class RelatedRecordBrowser extends Component {
 }
 
 RelatedRecordBrowser.propTypes = propTypes;
+RelatedRecordBrowser.defaultProps = defaultProps;
 RelatedRecordBrowser.contextTypes = contextTypes;

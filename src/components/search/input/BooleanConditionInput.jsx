@@ -40,7 +40,10 @@ const messages = {
   opSelector: defineMessages({
     label: {
       id: 'booleanConditionInput.opSelector.label',
-      defaultMessage: '{opSelectorInput} of the following conditions must be satisfied:',
+      defaultMessage: `{opSelectorInput} of the following conditions { operator, select,
+        and {must}
+        or {may}
+      } be satisfied:`,
     },
   }),
 };
@@ -138,7 +141,7 @@ class BooleanConditionInput extends Component {
         <FormattedMessage
           {...messages.opSelector.label}
           tagName="div"
-          values={{ opSelectorInput }}
+          values={{ opSelectorInput, operator }}
         />
       );
     }

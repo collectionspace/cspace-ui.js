@@ -36,6 +36,7 @@ describe('RecordPageContainer', function suite() {
         },
       }),
       user: Immutable.Map(),
+      prefs: Immutable.Map(),
     });
 
     const match = {

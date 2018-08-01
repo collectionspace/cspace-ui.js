@@ -14,7 +14,14 @@ chai.should();
 const searchName = 'searchName';
 
 const searchDescriptor = Immutable.fromJS({
-  recordType: 'object',
+  recordType: 'collectionobject',
+  searchQuery: {
+    sort: 'title',
+  },
+});
+
+const groupSearchDescriptor = Immutable.fromJS({
+  recordType: 'group',
   searchQuery: {
     sort: 'title',
   },
@@ -38,8 +45,8 @@ const config = {
     },
   },
   recordTypes: {
-    object: {
-      name: 'object',
+    collectionobject: {
+      name: 'collectionobject',
       serviceConfig: {
         objectName: 'CollectionObject',
       },
@@ -77,7 +84,26 @@ const config = {
             width: 200,
           },
         },
+        narrow: {
+          objectNumber: {
+            messages: {
+              label: {
+                defaultMessage: 'ID',
+              },
+            },
+            name: 'objectNumber',
+            order: 1,
+            width: 200,
+          },
+        },
       },
+    },
+    group: {
+      name: 'group',
+      serviceConfig: {
+        objectName: 'Group',
+      },
+      columns: {},
     },
   },
 };
@@ -131,6 +157,54 @@ describe('SearchResultTable', function suite() {
       </Router>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
+  });
+
+  it('should render the specified column set', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          columnSetName="narrow"
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
+
+    cols[0].textContent.should.equal('ID');
+  });
+
+  it('should render the default column set if the specified column set does not exist', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          columnSetName="foobar"
+          config={config}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
+
+    cols[0].textContent.should.equal('Identification number');
+  });
+
+  it('should render no columns if the specified column set does not exist, and there is no default column set', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          columnSetName="foobar"
+          config={config}
+          searchDescriptor={groupSearchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container);
+
+    const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
+
+    cols.should.have.lengthOf(0);
   });
 
   it('should render the search result', function test() {
@@ -417,7 +491,7 @@ describe('SearchResultTable', function suite() {
       </Router>, this.container);
 
     Object.keys(formatCellDataCalls).length.should
-      .equal(Object.keys(config.recordTypes.object.columns.default).length);
+      .equal(Object.keys(config.recordTypes.collectionobject.columns.default).length);
 
     Object.keys(formatCellDataCalls).forEach((colName) => {
       formatCellDataCalls[colName].length.should
@@ -453,7 +527,7 @@ describe('SearchResultTable', function suite() {
       </Router>, this.container);
 
     Object.keys(formatColumnLabelCalls).length.should
-      .equal(Object.keys(config.recordTypes.object.columns.default).length);
+      .equal(Object.keys(config.recordTypes.collectionobject.columns.default).length);
 
     const headers = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 

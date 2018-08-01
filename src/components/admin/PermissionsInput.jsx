@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
-import { helpers as inputHelpers } from 'cspace-input';
+import { components as inputComponents, helpers as inputHelpers } from 'cspace-input';
 import { getRecordTypeConfigByServicePath } from '../../helpers/configHelpers';
 import permissionButtonStyles from '../../../styles/cspace-ui/PermissionButton.css';
 import styles from '../../../styles/cspace-ui/PermissionsInput.css';
+
+const {
+  MiniButton,
+} = inputComponents;
 
 const {
   getPath,
@@ -86,6 +90,7 @@ export default class PermissionsInput extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.handleHeaderButtonClick = this.handleHeaderButtonClick.bind(this);
     this.handleRadioChange = this.handleRadioChange.bind(this);
   }
 
@@ -130,6 +135,22 @@ export default class PermissionsInput extends Component {
     return perms;
   }
 
+  getRecordTypeConfigs() {
+    const {
+      config,
+    } = this.context;
+
+    const {
+      resourceNames,
+    } = this.props;
+
+    return (
+      resourceNames
+        .map(resourceName => getRecordTypeConfigByServicePath(config, resourceName))
+        .filter(recordTypeConfig => (recordTypeConfig && !recordTypeConfig.disabled))
+    );
+  }
+
   updatePerms(updates) {
     const perms = this.getPermsMap() || {};
 
@@ -145,6 +166,106 @@ export default class PermissionsInput extends Component {
     );
   }
 
+  stageUpdate(recordType, actionGroup, updates = {}) {
+    /* The updates arg is mutated by this method. */
+    /* eslint-disable no-param-reassign */
+
+    const {
+      config,
+    } = this.context;
+
+    const serviceConfig = get(config, ['recordTypes', recordType, 'serviceConfig']);
+
+    const {
+      documentName,
+      servicePath,
+      serviceType,
+    } = serviceConfig;
+
+    const resourceName = servicePath;
+
+    updates[resourceName] = actionGroup;
+
+    if (
+      serviceType === 'object' ||
+      serviceType === 'procedure' ||
+      serviceType === 'authority' ||
+      (
+        serviceType === 'utility' &&
+        // TODO: These utility records don't have soft delete. Make this configured, instead of
+        // hardcoded.
+        resourceName !== 'idgenerators' &&
+        resourceName !== 'structureddates'
+      )
+    ) {
+      // For object, procedure, authority, and utility types, replace delete permission with
+      // permissions on the delete workflow transition. (Security records do not have
+      // soft-delete).
+
+      const workflowDeleteResourceName = `/${resourceName}/*/workflow/delete`;
+
+      if (actionGroup) {
+        if (actionGroup.includes('D')) {
+          updates[workflowDeleteResourceName] = 'CRUDL';
+          updates[resourceName] = actionGroup.replace('D', '');
+        } else {
+          updates[workflowDeleteResourceName] = 'RL';
+        }
+      } else {
+        updates[workflowDeleteResourceName] = '';
+      }
+    }
+
+    if (serviceType === 'authority') {
+      // Permissions on authorities should be set on both the authorities and their items.
+
+      const itemResourceName = documentName;
+
+      updates[itemResourceName] = actionGroup;
+    }
+
+    if (resourceName === 'authorization/roles') {
+      // If the authorization/roles resource can be read, allow permissions to be read and
+      // listed. This allows the permissions list to be displayed when viewing the role.
+
+      const permissionsResourceName = 'authorization/permissions';
+
+      updates[permissionsResourceName] = actionGroup && actionGroup.includes('R') ? 'RL' : '';
+    }
+
+    // Always allow read and list on servicegroups.
+
+    updates.servicegroups = 'RL';
+
+    return updates;
+    /* eslint-enable no-param-reassign */
+  }
+
+  handleHeaderButtonClick(event) {
+    const {
+      servicetype: serviceType,
+      actiongroup: actionGroup,
+    } = event.currentTarget.dataset;
+
+    const {
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      const stagedUpdates = {};
+
+      this.getRecordTypeConfigs()
+        .filter(recordTypeConfig => recordTypeConfig.serviceConfig.serviceType === serviceType)
+        .forEach((recordTypeConfig) => {
+          this.stageUpdate(recordTypeConfig.name, actionGroup, stagedUpdates);
+        });
+
+      const updatedPerms = this.updatePerms(stagedUpdates);
+
+      onCommit(getPath(this.props), updatedPerms);
+    }
+  }
+
   handleRadioChange(event) {
     const {
       name: recordType,
@@ -157,73 +278,29 @@ export default class PermissionsInput extends Component {
     } = this.props;
 
     if (selected && onCommit) {
-      const {
-        config,
-      } = this.context;
-
-      const serviceConfig = get(config, ['recordTypes', recordType, 'serviceConfig']);
-
-      const {
-        documentName,
-        servicePath,
-        serviceType,
-      } = serviceConfig;
-
-      const resourceName = servicePath;
-
-      const update = {
-        [resourceName]: actionGroup,
-      };
-
-      if (
-        serviceType === 'object' ||
-        serviceType === 'procedure' ||
-        serviceType === 'authority' ||
-        (serviceType === 'utility' && resourceName !== 'idgenerators')
-      ) {
-        // For object, procedure, authority, and utility types, replace delete permission with
-        // permissions on the delete workflow transition. (Security records do not have
-        // soft-delete).
-
-        const workflowDeleteResourceName = `/${resourceName}/*/workflow/delete`;
-
-        if (actionGroup) {
-          if (actionGroup.includes('D')) {
-            update[workflowDeleteResourceName] = 'CRUDL';
-            update[resourceName] = actionGroup.replace('D', '');
-          } else {
-            update[workflowDeleteResourceName] = 'RL';
-          }
-        } else {
-          update[workflowDeleteResourceName] = '';
-        }
-      }
-
-      if (serviceType === 'authority') {
-        // Permissions on authorities should be set on both the authorities and their items.
-
-        const itemResourceName = documentName;
-
-        update[itemResourceName] = actionGroup;
-      }
-
-      if (resourceName === 'authorization/roles') {
-        // If the authorization/roles resource can be read, allow permissions to be read and
-        // listed. This allows the permissions list to be displayed when viewing the role.
-
-        const permissionsResourceName = 'authorization/permissions';
-
-        update[permissionsResourceName] = actionGroup && actionGroup.includes('R') ? 'RL' : '';
-      }
-
-      // Always allow read and list on servicegroups.
-
-      update.servicegroups = 'RL';
-
-      const updatedPerms = this.updatePerms(update);
+      const stagedUpdates = this.stageUpdate(recordType, actionGroup);
+      const updatedPerms = this.updatePerms(stagedUpdates);
 
       onCommit(getPath(this.props), updatedPerms);
     }
+  }
+
+  renderHeaderButton(serviceType, actionGroup) {
+    const {
+      readOnly,
+    } = this.props;
+
+    return (
+      <MiniButton
+        autoWidth
+        onClick={this.handleHeaderButtonClick}
+        data-servicetype={serviceType}
+        data-actiongroup={actionGroup}
+        disabled={readOnly}
+      >
+        <FormattedMessage {...permMessages[actionGroup]} />
+      </MiniButton>
+    );
   }
 
   renderRadioButton(perms, recordType, resourceName, value) {
@@ -271,26 +348,16 @@ export default class PermissionsInput extends Component {
 
   renderPermRows() {
     const {
-      config,
       intl,
     } = this.context;
 
-    const {
-      resourceNames,
-    } = this.props;
-
     const perms = this.getPermsMap() || {};
-
-    const recordTypeConfigs = resourceNames
-      .map(resourceName => getRecordTypeConfigByServicePath(config, resourceName))
-      .filter(recordTypeConfig => (recordTypeConfig && !recordTypeConfig.disabled));
-
     const sections = [];
 
     serviceTypes.forEach((serviceType) => {
       const rows = [];
 
-      recordTypeConfigs
+      this.getRecordTypeConfigs()
         .filter(recordTypeConfig => recordTypeConfig.serviceConfig.serviceType === serviceType)
         .sort((recordTypeConfigA, recordTypeConfigB) => {
           // Primary sort by sortOrder
@@ -345,10 +412,10 @@ export default class PermissionsInput extends Component {
           <header>
             <h3><FormattedMessage {...serviceTypeMessages[serviceType]} /></h3>
             <ul>
-              <li><FormattedMessage {...permMessages['']} /></li>
-              <li><FormattedMessage {...permMessages.RL} /></li>
-              <li><FormattedMessage {...permMessages.CRUL} /></li>
-              <li><FormattedMessage {...permMessages.CRUDL} /></li>
+              <li>{this.renderHeaderButton(serviceType, '')}</li>
+              <li>{this.renderHeaderButton(serviceType, 'RL')}</li>
+              <li>{this.renderHeaderButton(serviceType, 'CRUL')}</li>
+              <li>{this.renderHeaderButton(serviceType, 'CRUDL')}</li>
             </ul>
           </header>
           {rows}

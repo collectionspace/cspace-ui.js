@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
+import lodash from 'lodash';
+import { FormattedMessage } from 'react-intl';
 
-import { components as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
+import {
+  helpers as inputHelpers,
+  components as inputComponents,
+  enhancers as inputEnhancers,
+} from 'cspace-input';
+
 import { Col, Cols, Row } from 'cspace-layout';
 import { getDisplayName } from 'cspace-refname';
 
@@ -9,7 +16,7 @@ import DateInputContainer from '../containers/input/DateInputContainer';
 import DateTimeInputContainer from '../containers/input/DateTimeInputContainer';
 import HierarchyInputContainer from '../containers/record/HierarchyInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
-import OptionPickerInputContainer from '../containers/input/OptionPickerInputContainer';
+import OptionPickerInputContainer from '../containers/record/OptionPickerInputContainer';
 import UploadInputContainer from '../containers/input/UploadInputContainer';
 import PermissionsInputContainer from '../containers/admin/PermissionsInputContainer';
 import MiniViewPopupAutocompleteInputContainer from '../containers/record/MiniViewPopupAutocompleteInputContainer';
@@ -48,6 +55,7 @@ import {
 import * as formatHelpers from '../helpers/formatHelpers';
 
 const {
+  Button,
   CompoundInput,
   PasswordInput,
   ReadOnlyInput,
@@ -91,11 +99,16 @@ export default () => ({
     },
   },
   lib: {
+    lodash,
+    FormattedMessage,
     Immutable,
     React,
+    Component,
+    PropTypes,
   },
   inputComponents: {
     AutocompleteInput,
+    Button,
     CheckboxInput,
     CompoundInput,
     DateInput,
@@ -132,6 +145,7 @@ export default () => ({
     mergeKey,
     mergeStrategy,
   },
+  pathHelpers: inputHelpers.pathHelpers,
   recordDataHelpers: {
     deepGet,
     getPart,

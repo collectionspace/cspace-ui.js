@@ -1198,6 +1198,7 @@ export const transitionRecord = (
             csid,
             transitionName,
             relatedSubjectCsid,
+            recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
             // We don't get data back from the transition request. Rather than making a separate
             // request to get the actual updated time of the record, just make it the current time.
             updatedTimestamp: (new Date()).toISOString(),

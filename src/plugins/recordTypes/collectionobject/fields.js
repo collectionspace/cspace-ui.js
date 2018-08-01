@@ -2552,6 +2552,10 @@ export default (configContext) => {
             assocPeople: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPeople.fullName',
+                    defaultMessage: 'Associated people',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPeople.name',
                     defaultMessage: 'People',
@@ -2685,6 +2689,10 @@ export default (configContext) => {
             assocPlace: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPlace.fullName',
+                    defaultMessage: 'Associated place',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPlace.name',
                     defaultMessage: 'Place',

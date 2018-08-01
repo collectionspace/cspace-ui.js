@@ -4,6 +4,7 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import warning from 'warning';
 import { baseComponents as inputComponents, enhancers as inputEnhancers } from 'cspace-input';
+import withConfig from '../../enhancers/withConfig';
 
 const {
   labelable,
@@ -26,6 +27,7 @@ const messages = defineMessages({
 
 const propTypes = {
   ...BaseTermPickerInput.propTypes,
+  config: PropTypes.object,
   intl: intlShape,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -34,8 +36,8 @@ const propTypes = {
 };
 
 /**
- * A wrapper around TermPickerInput from cspace-input that implements some lifecycle methods
- * and supplies i18n.
+ * A wrapper around TermPickerInput from cspace-input that implements some lifecycle methods,
+ * applies default props from config, and supplies i18n.
  */
 class TermPickerInput extends Component {
   constructor() {
@@ -85,6 +87,7 @@ class TermPickerInput extends Component {
 
   render() {
     const {
+      config,
       /* eslint-disable no-unused-vars */
       intl,
       perms,
@@ -96,6 +99,7 @@ class TermPickerInput extends Component {
 
     return (
       <BaseTermPickerInput
+        filter={config.defaultDropdownFilter}
         formatStatusMessage={this.formatStatusMessage}
         {...remainingProps}
       />
@@ -105,7 +109,7 @@ class TermPickerInput extends Component {
 
 TermPickerInput.propTypes = propTypes;
 
-const IntlAwareTermPickerInput = injectIntl(TermPickerInput);
+const IntlAwareTermPickerInput = injectIntl(withConfig(TermPickerInput));
 
 IntlAwareTermPickerInput.propTypes = TermPickerInput.propTypes;
 

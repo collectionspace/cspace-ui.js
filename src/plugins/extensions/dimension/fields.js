@@ -202,6 +202,23 @@ export default (configContext) => {
                 },
               },
             },
+            dimensionNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.ext.dimension.dimensionNote.fullName',
+                    defaultMessage: 'Measurement note',
+                  },
+                  name: {
+                    id: 'field.ext.dimension.dimensionNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
           },
         },
       },

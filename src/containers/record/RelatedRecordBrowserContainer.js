@@ -13,6 +13,7 @@ import {
   getRecordData,
   getRelatedRecordBrowserRelatedCsid,
   getUserPerms,
+  isRecordSidebarOpen,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -22,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
+    isSidebarOpen: isRecordSidebarOpen(state),
     primaryRecordData: getRecordData(state, csid),
     perms: getUserPerms(state),
     preferredRelatedCsid: getRelatedRecordBrowserRelatedCsid(state, relatedRecordType),

@@ -2,6 +2,10 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  BATCH_INVOKE_FULFILLED,
+} from '../../../src/actions/batch';
+
+import {
   LOGIN_FULFILLED,
 } from '../../../src/actions/login';
 
@@ -24,12 +28,13 @@ import {
 
 import {
   SUBRECORD_CREATED,
-  RECORD_CREATED,
+  RECORD_SAVE_FULFILLED,
   RECORD_DELETE_FULFILLED,
   RECORD_TRANSITION_FULFILLED,
 } from '../../../src/actions/record';
 
 import {
+  SEARCH_RESULT_PAGE_SEARCH_NAME,
   RECORD_BATCH_PANEL_SEARCH_NAME,
   RECORD_REPORT_PANEL_SEARCH_NAME,
 } from '../../../src/constants/searchNames';
@@ -1110,23 +1115,43 @@ describe('search reducer', function suite() {
     }));
   });
 
-  context('on RECORD_CREATED', function context() {
-    it('should clear all search state except for report panel and batch panel', function test() {
+  context('on RECORD_SAVE_FULFILLED', function context() {
+    it('should clear all search state except for search result page, report panel, and batch panel', function test() {
       const initialState = Immutable.fromJS({
         searchName1: {},
         searchName2: {},
         searchName3: {},
+        [SEARCH_RESULT_PAGE_SEARCH_NAME]: {},
         [RECORD_BATCH_PANEL_SEARCH_NAME]: {},
         [RECORD_REPORT_PANEL_SEARCH_NAME]: {},
       });
 
       const state = reducer(initialState, {
-        type: RECORD_CREATED,
+        type: RECORD_SAVE_FULFILLED,
       });
 
       state.should.equal(Immutable.fromJS({
+        [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
+          isDirty: true,
+        },
         [RECORD_BATCH_PANEL_SEARCH_NAME]: {},
         [RECORD_REPORT_PANEL_SEARCH_NAME]: {},
+      }));
+    });
+
+    it('should mark search result page results as dirty', function test() {
+      const initialState = Immutable.fromJS({
+        [SEARCH_RESULT_PAGE_SEARCH_NAME]: {},
+      });
+
+      const state = reducer(initialState, {
+        type: RECORD_SAVE_FULFILLED,
+      });
+
+      state.should.equal(Immutable.fromJS({
+        [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
+          isDirty: true,
+        },
       }));
     });
   });
@@ -1220,5 +1245,35 @@ describe('search reducer', function suite() {
     });
 
     state.should.deep.equal(Immutable.Map({}));
+  });
+
+  context('on BATCH_INVOKE_FULFILLED', function context() {
+    const initialState = Immutable.fromJS({
+      searchName1: {},
+      searchName2: {},
+      searchName3: {},
+    });
+
+    it('should clear all search state when any records were affected', function test() {
+      const state = reducer(initialState, {
+        type: BATCH_INVOKE_FULFILLED,
+        meta: {
+          numAffected: 1,
+        },
+      });
+
+      state.should.equal(Immutable.Map({}));
+    });
+
+    it('should not clear search state if no records were affected', function test() {
+      const state = reducer(initialState, {
+        type: BATCH_INVOKE_FULFILLED,
+        meta: {
+          numAffected: 0,
+        },
+      });
+
+      state.should.equal(initialState);
+    });
   });
 });

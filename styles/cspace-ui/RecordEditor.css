@@ -1,7 +1,6 @@
 .common {
   flex: 1;
   margin: 0;
-  padding: 0 10px 0 0;
   background: white;
 }
 
@@ -16,4 +15,13 @@
 
 :global(.cspace-layout-Panel--common) + :global(.cspace-input-Label--common) {
   margin-top: 10px;
+}
+
+.normal {
+  composes: common;
+  padding-right: 10px;
+}
+
+.full {
+  composes: common;
 }

@@ -218,7 +218,7 @@ const perms = Immutable.fromJS({
   },
 });
 
-const expectedClassName = 'cspace-ui-RecordEditor--common';
+const expectedClassName = 'cspace-ui-RecordEditor--normal cspace-ui-RecordEditor--common';
 
 describe('RecordEditor', function suite() {
   beforeEach(function before() {

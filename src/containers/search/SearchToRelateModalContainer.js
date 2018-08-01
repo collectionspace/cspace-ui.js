@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 import SearchToRelateModal, { searchName } from '../../components/search/SearchToRelateModal';
 
 import {
@@ -35,7 +36,7 @@ import {
   getUserPerms,
 } from '../../reducers';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const recordType = getSearchToRelateRecordType(state);
 
   return {
@@ -44,7 +45,9 @@ const mapStateToProps = (state) => {
     vocabularyValue: getSearchToRelateVocabulary(state, recordType),
     advancedSearchCondition: getSearchToRelateAdvanced(state),
     perms: getUserPerms(state),
-    preferredAdvancedSearchBooleanOp: getAdvancedSearchBooleanOp(state),
+    preferredAdvancedSearchBooleanOp:
+      getAdvancedSearchBooleanOp(state) ||
+      get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
     preferredPageSize: getSearchToRelatePageSize(state),
     selectedItems: getSearchSelectedItems(state, searchName),
   };

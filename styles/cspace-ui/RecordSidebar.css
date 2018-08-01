@@ -1,6 +1,8 @@
+@value tabHeight from '../dimensions.css';
+
 .common {
   width: 30%;
-  padding: 31px 0 10px 1px;
+  padding: tabHeight 0 10px 1px;
 }
 
 .common :global(.cspace-layout-Panel--common) {

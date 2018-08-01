@@ -19,15 +19,22 @@
   margin-right: 14px;
 }
 
-.docked {
+.normal {
+  composes: common;
+}
+
+.full {
   composes: common;
 }
 
 .docked > div {
   position: fixed;
-  width: calc(calc(100% - 7px) * .7);
   left: 0;
   box-shadow: 0 3px 12px -6px rgba(0, 0, 0, 0.3);
   z-index: 99;
   padding: 10px;
+}
+
+.normal.docked > div {
+  width: calc(calc(100% - 7px) * .7);
 }

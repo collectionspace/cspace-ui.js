@@ -1,6 +1,7 @@
 /* global window */
 
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import { getUserUsername, getPrefs } from '../reducers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
@@ -16,6 +17,7 @@ export const SET_SEARCH_RESULT_PAGE_PAGE_SIZE = 'SET_SEARCH_RESULT_PAGE_PAGE_SIZ
 export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
 export const SET_FORM = 'SET_FORM';
 export const SET_UPLOAD_TYPE = 'SET_UPLOAD_TYPE';
+export const TOGGLE_RECORD_SIDEBAR = 'TOGGLE_RECORD_SIDEBAR';
 
 export const storageKey = 'cspace-ui';
 
@@ -93,7 +95,11 @@ export const setUploadType = type => ({
   payload: type,
 });
 
-export const loadPrefs = username => (dispatch) => {
+export const toggleRecordSidebar = () => ({
+  type: TOGGLE_RECORD_SIDEBAR,
+});
+
+export const loadPrefs = (config, username) => (dispatch) => {
   // TODO: Load prefs from server (requires adding services layer support).
   // For now, just load from local storage.
 
@@ -109,6 +115,12 @@ export const loadPrefs = username => (dispatch) => {
         userPrefs = null;
       }
     }
+  }
+
+  const defaultUserPrefs = get(config, 'defaultUserPrefs');
+
+  if (defaultUserPrefs) {
+    userPrefs = (Immutable.fromJS(defaultUserPrefs)).mergeDeep(userPrefs);
   }
 
   dispatch({

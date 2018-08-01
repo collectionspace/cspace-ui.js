@@ -5,10 +5,11 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
+import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 
-const rowHeight = 22;
+const rowHeight = parseInt(dimensions.inputHeight, 10);
 
 const messages = defineMessages({
   searchPending: {
@@ -313,7 +314,17 @@ export default class SearchResultTable extends Component {
         ? config.subresources[subresource]
         : config.recordTypes[recordType];
 
-      const columnConfig = get(columnConfigurer, ['columns', columnSetName]) || [];
+      let columnConfig = get(columnConfigurer, ['columns', columnSetName]);
+
+      if (!columnConfig && columnSetName !== defaultProps.columnSetName) {
+        // Fall back to the default column set if the named one doesn't exist.
+
+        columnConfig = get(columnConfigurer, ['columns', defaultProps.columnSetName]);
+      }
+
+      if (!columnConfig) {
+        columnConfig = [];
+      }
 
       const columns = Object.keys(columnConfig)
         .filter(name => !columnConfig[name].disabled)
@@ -327,8 +338,24 @@ export default class SearchResultTable extends Component {
           const column = columnConfig[name];
 
           return {
-            cellDataGetter: ({ dataKey, rowData }) =>
-              formatCellData(column, rowData ? rowData.get(dataKey) : null, rowData),
+            cellDataGetter: ({ dataKey, rowData }) => {
+              let data = null;
+
+              if (rowData) {
+                const keys = dataKey.split('|');
+
+                for (let i = 0; i < keys.length; i += 1) {
+                  const candidateValue = rowData.get(keys[i]);
+
+                  if (candidateValue) {
+                    data = candidateValue;
+                    break;
+                  }
+                }
+              }
+
+              return formatCellData(column, data, rowData);
+            },
             disableSort: !isSortable(column, searchDescriptor),
             flexGrow: column.flexGrow,
             flexShrink: column.flexShrink,

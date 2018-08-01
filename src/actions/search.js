@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { getSearchResult, isSearchPending } from '../reducers';
+import { getSearchResult, isSearchDirty, isSearchPending } from '../reducers';
 import getSession from './cspace';
 import { advancedSearchConditionToNXQL } from '../helpers/searchHelpers';
 
@@ -63,7 +63,10 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
 
     if (
       isSearchPending(getState(), searchName, searchDescriptor) ||
-      getSearchResult(getState(), searchName, searchDescriptor)
+      (
+        getSearchResult(getState(), searchName, searchDescriptor) &&
+        !isSearchDirty(getState(), searchName)
+      )
     ) {
       // There's already a result for this search. Just set this search to be the most recent.
 

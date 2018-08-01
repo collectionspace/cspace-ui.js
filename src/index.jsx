@@ -23,12 +23,14 @@ import { evaluatePlugin, finalizeRecordTypes, mergeConfig } from './helpers/conf
 const configContext = createConfigContext();
 
 const defaultConfig = mergeConfig({
+  allowDeleteHierarchyLeaves: false,
   autocompleteFindDelay: 500,
   autocompleteMinLength: 3,
   basename: '',
   className: '',
   container: '#cspace',
   defaultAdvancedSearchBooleanOp: OP_OR,
+  defaultDropdownFilter: 'substring',
   index: '/search',
   locale: 'en-US',
   logo: logoUrl,
@@ -38,6 +40,8 @@ const defaultConfig = mergeConfig({
   relationMemberPerm: 'U',
   serverUrl: '',
   showTermListStateIcon: false,
+  structDateOptionListNames: ['dateQualifiers'],
+  structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
   tenantId: '1',
   termDeprecationEnabled: false,
 }, {
