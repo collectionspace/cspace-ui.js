@@ -472,24 +472,6 @@ describe('relation action creator', function suite() {
           });
 
           actions[1].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject,
-              object: objects[1],
-              predicate,
-            },
-          });
-
-          actions[2].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject,
-              object: objects[2],
-              predicate,
-            },
-          });
-
-          actions[3].should.deep.equal({
             type: RELATION_SAVE_FULFILLED,
             payload: {
               status: 201,
@@ -506,7 +488,16 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[4].should.deep.equal({
+          actions[2].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[3].should.deep.equal({
             type: RELATION_SAVE_FULFILLED,
             payload: {
               status: 201,
@@ -519,6 +510,15 @@ describe('relation action creator', function suite() {
             meta: {
               subject,
               object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[2],
               predicate,
             },
           });
@@ -546,6 +546,55 @@ describe('relation action creator', function suite() {
 
           actions[6].meta.should.contain({
             subject,
+          });
+        });
+    });
+
+    it('should dispatch SHOW_NOTIFICATION on error', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(createUrl, {
+        status: 403,
+      });
+
+      const objects = [
+        {
+          csid: '1111',
+          recordType: 'group',
+        },
+        {
+          csid: '2222',
+          recordType: 'group',
+        },
+        {
+          csid: '3333',
+          recordType: 'group',
+        },
+      ];
+
+      return store.dispatch(batchCreate(subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[0],
+              predicate,
+            },
+          });
+
+          actions[1].should.contain({
+            type: RELATION_SAVE_REJECTED,
+          });
+
+          actions[2].should.contain({
+            type: SHOW_NOTIFICATION,
           });
         });
     });
@@ -607,15 +656,6 @@ describe('relation action creator', function suite() {
           });
 
           actions[1].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject,
-              object: objects[1],
-              predicate,
-            },
-          });
-
-          actions[2].should.deep.equal({
             type: RELATION_SAVE_FULFILLED,
             payload: {
               status: 201,
@@ -632,7 +672,42 @@ describe('relation action creator', function suite() {
             },
           });
 
+          actions[2].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject: objects[0],
+              object: subject,
+              predicate,
+            },
+          });
+
           actions[3].should.deep.equal({
+            type: RELATION_SAVE_FULFILLED,
+            payload: {
+              status: 201,
+              headers: {
+                location: 'some/new/url',
+              },
+              statusText: undefined,
+              data: undefined,
+            },
+            meta: {
+              subject: objects[0],
+              object: subject,
+              predicate,
+            },
+          });
+
+          actions[4].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[1],
+              predicate,
+            },
+          });
+
+          actions[5].should.deep.equal({
             type: RELATION_SAVE_FULFILLED,
             payload: {
               status: 201,
@@ -649,36 +724,10 @@ describe('relation action creator', function suite() {
             },
           });
 
-          actions[4].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject: objects[0],
-              object: subject,
-              predicate,
-            },
-          });
-
-          actions[5].should.deep.equal({
+          actions[6].should.deep.equal({
             type: RELATION_SAVE_STARTED,
             meta: {
               subject: objects[1],
-              object: subject,
-              predicate,
-            },
-          });
-
-          actions[6].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject: objects[0],
               object: subject,
               predicate,
             },
@@ -711,6 +760,51 @@ describe('relation action creator', function suite() {
 
           actions[9].meta.should.contain({
             subject,
+          });
+        });
+    });
+
+    it('should dispatch SHOW_NOTIFICATION on error', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(createUrl, {
+        status: 403,
+      });
+
+      const objects = [
+        {
+          csid: '1111',
+          recordType: 'group',
+        },
+        {
+          csid: '2222',
+          recordType: 'group',
+        },
+      ];
+
+      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RELATION_SAVE_STARTED,
+            meta: {
+              subject,
+              object: objects[0],
+              predicate,
+            },
+          });
+
+          actions[1].should.contain({
+            type: RELATION_SAVE_REJECTED,
+          });
+
+          actions[2].should.contain({
+            type: SHOW_NOTIFICATION,
           });
         });
     });
@@ -1186,13 +1280,6 @@ describe('relation action creator', function suite() {
           });
 
           actions[1].should.deep.equal({
-            type: RELATION_DELETE_STARTED,
-            meta: {
-              csid: relationCsids[1],
-            },
-          });
-
-          actions[2].should.deep.equal({
             type: RELATION_DELETE_FULFILLED,
             payload: {
               status: 200,
@@ -1202,6 +1289,13 @@ describe('relation action creator', function suite() {
             },
             meta: {
               csid: relationCsids[0],
+            },
+          });
+
+          actions[2].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsids[1],
             },
           });
 
@@ -1224,6 +1318,49 @@ describe('relation action creator', function suite() {
 
           actions[4].meta.should.contain({
             subject,
+          });
+        });
+    });
+
+    it('should dispatch SHOW_NOTIFICATION on error', function test() {
+      const relationState = objects.reduce((map, obj, index) =>
+        map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              csid: relationCsids[index],
+            },
+          },
+        })), Immutable.Map());
+
+      const store = mockStore({
+        relation: relationState,
+      });
+
+      deleteUrls.forEach((url) => {
+        moxios.stubRequest(url, {
+          status: 403,
+        });
+      });
+
+      return store.dispatch(batchUnrelate(config, subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: relationCsids[0],
+            },
+          });
+
+          actions[1].should.contain({
+            type: RELATION_DELETE_REJECTED,
+          });
+
+          actions[2].should.contain({
+            type: SHOW_NOTIFICATION,
           });
         });
     });
@@ -1321,13 +1458,6 @@ describe('relation action creator', function suite() {
           });
 
           actions[1].should.deep.equal({
-            type: RELATION_DELETE_STARTED,
-            meta: {
-              csid: forwardRelationCsids[1],
-            },
-          });
-
-          actions[2].should.deep.equal({
             type: RELATION_DELETE_FULFILLED,
             payload: {
               status: 200,
@@ -1340,6 +1470,13 @@ describe('relation action creator', function suite() {
             },
           });
 
+          actions[2].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: backwardRelationCsids[0],
+            },
+          });
+
           actions[3].should.deep.equal({
             type: RELATION_DELETE_FULFILLED,
             payload: {
@@ -1349,21 +1486,22 @@ describe('relation action creator', function suite() {
               data: undefined,
             },
             meta: {
-              csid: forwardRelationCsids[1],
+              csid: backwardRelationCsids[0],
             },
           });
 
-          actions[4].should.deep.equal({
-            type: RELATION_DELETE_STARTED,
-            meta: {
-              csid: backwardRelationCsids[0],
-            },
+          actions[4].should.contain({
+            type: SUBJECT_RELATIONS_UPDATED,
+          });
+
+          actions[4].meta.should.contain({
+            subject: objects[0],
           });
 
           actions[5].should.deep.equal({
             type: RELATION_DELETE_STARTED,
             meta: {
-              csid: backwardRelationCsids[1],
+              csid: forwardRelationCsids[1],
             },
           });
 
@@ -1376,11 +1514,18 @@ describe('relation action creator', function suite() {
               data: undefined,
             },
             meta: {
-              csid: backwardRelationCsids[0],
+              csid: forwardRelationCsids[1],
             },
           });
 
           actions[7].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: backwardRelationCsids[1],
+            },
+          });
+
+          actions[8].should.deep.equal({
             type: RELATION_DELETE_FULFILLED,
             payload: {
               status: 200,
@@ -1391,14 +1536,6 @@ describe('relation action creator', function suite() {
             meta: {
               csid: backwardRelationCsids[1],
             },
-          });
-
-          actions[8].should.contain({
-            type: SUBJECT_RELATIONS_UPDATED,
-          });
-
-          actions[8].meta.should.contain({
-            subject: objects[0],
           });
 
           actions[9].should.contain({
@@ -1415,6 +1552,63 @@ describe('relation action creator', function suite() {
 
           actions[10].meta.should.contain({
             subject,
+          });
+        });
+    });
+
+    it('should dispatch SHOW_NOTIFICATION on error', function test() {
+      const relationState = objects.reduce((map, obj, index) =>
+        map
+          .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+            'rel:relations-common-list': {
+              'relation-list-item': {
+                csid: forwardRelationCsids[index],
+              },
+            },
+          }))
+          .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
+            'rel:relations-common-list': {
+              'relation-list-item': {
+                csid: backwardRelationCsids[index],
+              },
+            },
+          })), Immutable.Map());
+
+      const store = mockStore({
+        relation: relationState,
+      });
+
+      forwardDeleteUrls.forEach((url) => {
+        moxios.stubRequest(url, {
+          status: 403,
+        });
+      });
+
+      backwardDeleteUrls.forEach((url) => {
+        moxios.stubRequest(url, {
+          status: 403,
+        });
+      });
+
+      return store.dispatch(batchUnrelateBidirectional(config, subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(3);
+
+          actions[0].should.deep.equal({
+            type: RELATION_DELETE_STARTED,
+            meta: {
+              csid: forwardRelationCsids[0],
+            },
+          });
+
+          actions[1].should.contain({
+            type: RELATION_DELETE_REJECTED,
+          });
+
+          actions[2].should.contain({
+            type: SHOW_NOTIFICATION,
           });
         });
     });

@@ -3,6 +3,7 @@ import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
 import getSession from './cspace';
 import { showNotification } from './notification';
+import getErrorDescription from '../helpers/getErrorDescription';
 import { getRelationFindResult } from '../reducers';
 
 import {
@@ -10,6 +11,7 @@ import {
 } from '../constants/errorCodes';
 
 import {
+  STATUS_ERROR,
   STATUS_SUCCESS,
 } from '../constants/notificationStatusCodes';
 
@@ -38,6 +40,16 @@ const messages = defineMessages({
       one {# record}
       other {# records}
     } related to {subjectTitle}.`,
+  },
+  batchCreateError: {
+    id: 'searchToRelateModal.batchCreateError',
+    description: 'Message shown when relating multiple records fails.',
+    defaultMessage: 'Some records could not be related: {error}',
+  },
+  batchUnrelateError: {
+    id: 'searchToRelateModal.batchUnrelateError',
+    description: 'Message shown when unrelating multiple records fails.',
+    defaultMessage: 'Some records could not be unrelated: {error}',
   },
 });
 
@@ -225,7 +237,10 @@ export const unrelateBidirectional = (config, subject, object, predicate) => dis
     .catch(() => {});
 
 export const batchUnrelate = (config, subject, objects, predicate) => dispatch =>
-  Promise.all(objects.map(object => dispatch(doUnrelate(config, subject, object, predicate))))
+  objects.reduce((promise, object) => promise
+    .then(() => dispatch(doUnrelate(config, subject, object, predicate)))
+    , Promise.resolve()
+  )
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
@@ -233,7 +248,18 @@ export const batchUnrelate = (config, subject, objects, predicate) => dispatch =
         updatedTime: (new Date()).toISOString(),
       },
     }))
-    .catch(() => {});
+    .catch((error) => {
+      dispatch(showNotification({
+        items: [{
+          message: messages.batchUnrelateError,
+          values: {
+            error: getErrorDescription(error),
+          },
+        }],
+        date: new Date(),
+        status: STATUS_ERROR,
+      }, notificationID));
+    });
 
 export const batchUnrelateBidirectional = (config, subject, objects, predicate) => dispatch =>
   // For the passed subject, we only want to dispatch SUBJECT_RELATIONS_UPDATED once at the end, so
@@ -241,12 +267,14 @@ export const batchUnrelateBidirectional = (config, subject, objects, predicate) 
   // object becomes the subject), SUBJECT_RELATIONS_UPDATED may be dispatched immediately, so
   // unrelate is used.
 
-  Promise.all(
-    objects.map(
-      object =>
-        dispatch(doUnrelate(config, subject, object, predicate))
-          .then(() => dispatch(unrelate(config, object, subject, predicate)))
-  ))
+  // Send these requests one at a time, to avoid DOSing the server.
+  objects.reduce((promise, object) => promise
+    .then(() => dispatch(doUnrelate(config, subject, object, predicate)))
+    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
+    .then(() => dispatch(unrelate(config, object, subject, predicate)))
+    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
+    , Promise.resolve()
+  )
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
@@ -254,7 +282,18 @@ export const batchUnrelateBidirectional = (config, subject, objects, predicate) 
         updatedTime: (new Date()).toISOString(),
       },
     }))
-    .catch(() => {});
+    .catch((error) => {
+      dispatch(showNotification({
+        items: [{
+          message: messages.batchUnrelateError,
+          values: {
+            error: getErrorDescription(error),
+          },
+        }],
+        date: new Date(),
+        status: STATUS_ERROR,
+      }, notificationID));
+    });
 
 const doCreate = (subject, object, predicate) => (dispatch) => {
   dispatch({
@@ -308,7 +347,10 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
 };
 
 export const batchCreate = (subject, objects, predicate) => dispatch =>
-  Promise.all(objects.map(object => dispatch(doCreate(subject, object, predicate))))
+  objects.reduce((promise, object) => promise
+    .then(() => dispatch(doCreate(subject, object, predicate)))
+    , Promise.resolve()
+  )
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
@@ -316,14 +358,28 @@ export const batchCreate = (subject, objects, predicate) => dispatch =>
         updatedTime: (new Date()).toISOString(),
       },
     }))
-    .catch(() => {});
+    .catch((error) => {
+      dispatch(showNotification({
+        items: [{
+          message: messages.batchCreateError,
+          values: {
+            error: getErrorDescription(error),
+          },
+        }],
+        date: new Date(),
+        status: STATUS_ERROR,
+      }, notificationID));
+    });
 
 export const batchCreateBidirectional = (subject, objects, predicate) => dispatch =>
-  Promise.all(objects.map(
-    object =>
-      dispatch(doCreate(subject, object, predicate))
-        .then(() => dispatch(doCreate(object, subject, predicate)))
-  ))
+  // Send these requests one at a time, to avoid DOSing the server.
+  objects.reduce((promise, object) => promise
+    .then(() => dispatch(doCreate(subject, object, predicate)))
+    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
+    .then(() => dispatch(doCreate(object, subject, predicate)))
+    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
+    , Promise.resolve()
+  )
     .then(() => {
       dispatch(showRelationNotification(messages.related, {
         objectCount: objects.length,
@@ -338,7 +394,18 @@ export const batchCreateBidirectional = (subject, objects, predicate) => dispatc
         },
       });
     })
-    .catch(() => {});
+    .catch((error) => {
+      dispatch(showNotification({
+        items: [{
+          message: messages.batchCreateError,
+          values: {
+            error: getErrorDescription(error),
+          },
+        }],
+        date: new Date(),
+        status: STATUS_ERROR,
+      }, notificationID));
+    });
 
 export const create = (subject, object, predicate) => dispatch =>
   dispatch(doCreate(subject, object, predicate))
