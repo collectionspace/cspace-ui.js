@@ -41,11 +41,11 @@ const template = (configContext) => {
                 <Field name="termPrefForLang" />
               </Row>
 
-              <InputTable name="nameDetail">
+              <Row>
                 <Field name="nameAbbrev" />
                 <Field name="nameNote" />
                 <Field name="nameDateGroup" />
-              </InputTable>
+              </Row>
 
               <InputTable name="termSource">
                 <Field name="termSource" />
@@ -103,8 +103,8 @@ const template = (configContext) => {
           </Col>
 
           <Col>
-            <Field name="minDistanceAboveSurfaceMeters" />
-            <Field name="maxDistanceAboveSurfaceMeters" />
+            <Field name="minDistanceAboveSurfaceInMeters" />
+            <Field name="maxDistanceAboveSurfaceInMeters" />
           </Col>
 
           <Col />

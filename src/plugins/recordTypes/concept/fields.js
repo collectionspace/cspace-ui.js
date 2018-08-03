@@ -480,11 +480,11 @@ export default (configContext) => {
                 },
               },
             },
-            additionalSourceUniqueID: {
+            additionalSourceID: {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.concepts_common.additionalSourceUniqueID.name',
+                    id: 'field.concepts_common.additionalSourceID.name',
                     defaultMessage: 'ID',
                   },
                 }),

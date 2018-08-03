@@ -75,7 +75,7 @@ const template = (configContext) => {
           <Field name="additionalSourceGroup">
             <Field name="additionalSource" />
             <Field name="additionalSourceDetail" />
-            <Field name="additionalSourceUniqueID" />
+            <Field name="additionalSourceID" />
             <Field name="additionalSourceNote" />
           </Field>
         </Field>

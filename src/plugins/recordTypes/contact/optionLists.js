@@ -93,7 +93,7 @@ export default {
   addressTypes: {
     values: [
       'business',
-      'personal',
+      'home',
       'other',
     ],
     messages: defineMessages({
@@ -101,9 +101,9 @@ export default {
         id: 'option.addressTypes.business',
         defaultMessage: 'business',
       },
-      personal: {
-        id: 'option.addressTypes.personal',
-        defaultMessage: 'personal',
+      home: {
+        id: 'option.addressTypes.home',
+        defaultMessage: 'home',
       },
       other: {
         id: 'option.addressTypes.other',

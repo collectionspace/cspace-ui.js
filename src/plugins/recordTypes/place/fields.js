@@ -694,12 +694,12 @@ export default (configContext) => {
             },
           },
         },
-        minDistanceAboveSurfaceMeters: {
+        minDistanceAboveSurfaceInMeters: {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
-                id: 'field.places_common.minDistanceAboveSurfaceMeters.name',
+                id: 'field.places_common.minDistanceAboveSurfaceInMeters.name',
                 defaultMessage: 'Min distance above surface (m)',
               },
             }),
@@ -708,12 +708,12 @@ export default (configContext) => {
             },
           },
         },
-        maxDistanceAboveSurfaceMeters: {
+        maxDistanceAboveSurfaceInMeters: {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               name: {
-                id: 'field.places_common.maxDistanceAboveSurfaceMeters.name',
+                id: 'field.places_common.maxDistanceAboveSurfaceInMeters.name',
                 defaultMessage: 'Max distance above surface (m)',
               },
             }),
