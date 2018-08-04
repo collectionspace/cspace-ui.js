@@ -160,10 +160,10 @@ export default function Field(props, context) {
       const childLabelMessage = childInput.props.labelMessage;
       const childField = field[childName];
 
-      return renderLabel(childField, childLabelMessage, recordData, {
+      return (childField && renderLabel(childField, childLabelMessage, recordData, {
         key: childName,
         readOnly: effectiveReadOnly,
-      });
+      }));
     };
   }
 

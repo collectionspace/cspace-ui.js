@@ -80,7 +80,7 @@ export default function InputTable(props, context) {
     const field = get(fields, path);
     const fieldConfig = get(field, configKey);
 
-    return renderFieldLabel(fieldConfig, input.props);
+    return (fieldConfig && renderFieldLabel(fieldConfig, input.props));
   };
 
   const tableLabel = renderTableLabel(recordTypeConfig, name);
