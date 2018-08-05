@@ -27,6 +27,7 @@ import {
 
 import {
   getAdvancedSearchBooleanOp,
+  getAuthorityVocabCsid,
   getSearchToRelateAdvanced,
   getSearchToRelateKeyword,
   getSearchToRelateRecordType,
@@ -37,12 +38,12 @@ import {
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
-  const recordType = getSearchToRelateRecordType(state);
+  const searchToRelateRecordType = getSearchToRelateRecordType(state);
 
   return {
     keywordValue: getSearchToRelateKeyword(state),
-    recordTypeValue: recordType,
-    vocabularyValue: getSearchToRelateVocabulary(state, recordType),
+    recordTypeValue: searchToRelateRecordType,
+    vocabularyValue: getSearchToRelateVocabulary(state, searchToRelateRecordType),
     advancedSearchCondition: getSearchToRelateAdvanced(state),
     perms: getUserPerms(state),
     preferredAdvancedSearchBooleanOp:
@@ -50,6 +51,8 @@ const mapStateToProps = (state, ownProps) => {
       get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
     preferredPageSize: getSearchToRelatePageSize(state),
     selectedItems: getSearchSelectedItems(state, searchName),
+    getAuthorityVocabCsid: (recordType, vocabulary) =>
+      getAuthorityVocabCsid(state, recordType, vocabulary),
   };
 };
 

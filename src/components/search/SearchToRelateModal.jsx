@@ -82,6 +82,7 @@ const propTypes = {
     ),
     PropTypes.func,
   ]),
+  getAuthorityVocabCsid: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -505,6 +506,7 @@ export class BaseSearchToRelateModal extends Component {
       perms,
       preferredAdvancedSearchBooleanOp,
       advancedSearchCondition,
+      getAuthorityVocabCsid,
       onAdvancedSearchConditionCommit,
       onKeywordCommit,
       onRecordTypeCommit,
@@ -537,6 +539,7 @@ export class BaseSearchToRelateModal extends Component {
         recordTypeInputReadOnly={recordTypeInputReadOnly}
         recordTypeInputRootType={recordTypeInputRootType}
         recordTypeInputServiceTypes={allowedServiceTypes}
+        getAuthorityVocabCsid={getAuthorityVocabCsid}
         onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
         onKeywordCommit={onKeywordCommit}
         onRecordTypeCommit={onRecordTypeCommit}
