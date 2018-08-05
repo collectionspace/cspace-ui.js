@@ -51,11 +51,47 @@ describe('QuickSearchFormContainer', function suite() {
     result.props.keywordValue.should.equal('hello world');
     result.props.recordTypeValue.should.equal('concept');
     result.props.vocabularyValue.should.equal('material');
+    result.props.getAuthorityVocabCsid.should.be.a('function');
 
     result.props.onKeywordCommit.should.be.a('function');
     result.props.onRecordTypeCommit.should.be.a('function');
     result.props.onVocabularyCommit.should.be.a('function');
     result.props.search.should.be.a('function');
+  });
+
+  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', function test() {
+    const store = mockStore({
+      quickSearch: Immutable.fromJS({
+        keyword: 'hello world',
+      }),
+      prefs: Immutable.fromJS({
+        quickSearch: {
+          recordType: 'concept',
+          vocabulary: {
+            concept: 'material',
+          },
+        },
+      }),
+      authority: Immutable.fromJS({
+        person: {
+          local: {
+            csid: '1234',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<QuickSearchFormContainer />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.getAuthorityVocabCsid('person', 'local').should.equal('1234');
   });
 
   it('should connect onKeywordCommit to setQuickSearchKeyword action creator', function test() {

@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
-import get from 'lodash/get';
-import pickBy from 'lodash/pickBy';
 import { components as inputComponents } from 'cspace-input';
 import { Panel } from 'cspace-layout';
 import SearchButtonBar from './SearchButtonBar';
 import AdvancedSearchBuilder from './AdvancedSearchBuilder';
-import { canList } from '../../helpers/permissionHelpers';
+import { getSearchableRecordTypes } from '../../helpers/searchHelpers';
 import { ConnectedPanel } from '../../containers/layout/PanelContainer';
 import styles from '../../../styles/cspace-ui/SearchForm.css';
 import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
@@ -53,6 +51,7 @@ const propTypes = {
   recordTypeInputServiceTypes: PropTypes.arrayOf(PropTypes.string),
   showButtons: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
+  getAuthorityVocabCsid: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -70,29 +69,6 @@ export default class SearchForm extends Component {
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
-  }
-
-  getRecordTypes() {
-    const {
-      config,
-      perms,
-    } = this.props;
-
-    const { recordTypes } = config;
-
-    return pickBy(recordTypes, (recordTypeConfig, name) => {
-      const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
-
-      if (
-        serviceType === 'object' ||
-        serviceType === 'procedure' ||
-        serviceType === 'authority'
-      ) {
-        return canList(name, perms);
-      }
-
-      return true;
-    });
   }
 
   formatRecordTypeLabel(name, config) {
@@ -153,17 +129,12 @@ export default class SearchForm extends Component {
     }
   }
 
-  renderVocabularyInput() {
+  renderVocabularyInput(recordTypes) {
     const {
-      config,
       intl,
       recordTypeValue,
       vocabularyValue,
     } = this.props;
-
-    const {
-      recordTypes,
-    } = config;
 
     if (
       !recordTypeValue ||
@@ -177,7 +148,7 @@ export default class SearchForm extends Component {
       <div className={vocabStyles.common}>
         <Label>{intl.formatMessage(messages.vocabulary)}</Label>
         <VocabularyInput
-          recordTypes={config.recordTypes}
+          recordTypes={recordTypes}
           recordType={recordTypeValue}
           value={vocabularyValue}
           formatVocabularyLabel={this.formatVocabularyLabel}
@@ -193,12 +164,14 @@ export default class SearchForm extends Component {
       config,
       intl,
       keywordValue,
+      perms,
       preferredAdvancedSearchBooleanOp,
       recordTypeValue,
       recordTypeInputReadOnly,
       recordTypeInputRootType,
       recordTypeInputServiceTypes,
       showButtons,
+      getAuthorityVocabCsid,
       onAdvancedSearchConditionCommit,
     } = this.props;
 
@@ -220,6 +193,8 @@ export default class SearchForm extends Component {
       ? <footer><SearchButtonBar /></footer>
       : null;
 
+    const searchableRecordTypes = getSearchableRecordTypes(getAuthorityVocabCsid, config, perms);
+
     return (
       <form autoComplete="off" className={styles.common} onSubmit={this.handleFormSubmit}>
         {header}
@@ -227,7 +202,7 @@ export default class SearchForm extends Component {
           <div className={recordTypeStyles.common}>
             <RecordTypeInput
               label={intl.formatMessage(messages.recordType)}
-              recordTypes={this.getRecordTypes()}
+              recordTypes={searchableRecordTypes}
               rootType={recordTypeInputRootType}
               serviceTypes={recordTypeInputServiceTypes}
               value={recordTypeValue}
@@ -235,7 +210,7 @@ export default class SearchForm extends Component {
               onCommit={this.handleRecordTypeDropdownCommit}
               readOnly={recordTypeInputReadOnly}
             />
-            {this.renderVocabularyInput()}
+            {this.renderVocabularyInput(searchableRecordTypes)}
           </div>
           <ConnectedPanel
             collapsible

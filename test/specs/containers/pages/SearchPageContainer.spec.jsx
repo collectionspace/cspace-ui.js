@@ -59,11 +59,54 @@ describe('SearchPageContainer', function suite() {
     result.props.should.have.property('keywordValue', 'foo');
     result.props.should.have.property('recordTypeValue', 'person');
     result.props.should.have.property('vocabularyValue', 'local');
+    result.props.should.have.property('getAuthorityVocabCsid').that.is.a('function');
     result.props.should.have.property('onAdvancedSearchConditionCommit').that.is.a('function');
     result.props.should.have.property('onKeywordCommit').that.is.a('function');
     result.props.should.have.property('onRecordTypeCommit').that.is.a('function');
     result.props.should.have.property('onVocabularyCommit').that.is.a('function');
     result.props.should.have.property('onSearch').that.is.a('function');
+  });
+
+  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', function test() {
+    const store = mockStore({
+      searchPage: Immutable.fromJS({
+        keyword: 'hello world',
+      }),
+      prefs: Immutable.fromJS({
+        searchPage: {
+          recordType: 'concept',
+          vocabulary: {
+            concept: 'material',
+          },
+        },
+      }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
+          },
+        },
+      }),
+      authority: Immutable.fromJS({
+        concept: {
+          material: {
+            csid: '1234',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<ConnectedSearchPage />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.getAuthorityVocabCsid('concept', 'material').should.equal('1234');
   });
 
   it('should connect onAdvancedSearchConditionCommit to setSearchPageAdvanced action creator', function test() {

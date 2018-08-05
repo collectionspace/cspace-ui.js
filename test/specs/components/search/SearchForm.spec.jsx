@@ -108,6 +108,8 @@ const intl = {
   now: () => null,
 };
 
+const getAuthorityVocabCsid = () => '1234';
+
 describe('SearchForm', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -123,6 +125,7 @@ describe('SearchForm', function suite() {
             recordTypeValue="person"
             vocabularyValue="local"
             perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -139,6 +142,7 @@ describe('SearchForm', function suite() {
             intl={intl}
             recordTypeValue="group"
             perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
@@ -161,6 +165,7 @@ describe('SearchForm', function suite() {
             intl={intl}
             recordTypeValue="group"
             perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
             onKeywordCommit={handleKeywordCommit}
           />
         </StoreProvider>
@@ -191,6 +196,7 @@ describe('SearchForm', function suite() {
             intl={intl}
             recordTypeValue="group"
             perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
             onRecordTypeCommit={handleRecordTypeCommit}
           />
         </StoreProvider>
@@ -222,6 +228,7 @@ describe('SearchForm', function suite() {
             recordTypeValue="person"
             vocabularyValue="local"
             perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
             onVocabularyCommit={handleVocabularyCommit}
           />
         </StoreProvider>
@@ -252,6 +259,7 @@ describe('SearchForm', function suite() {
             intl={intl}
             recordTypeValue="group"
             perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
             onSearch={handleSearch}
           />
         </StoreProvider>

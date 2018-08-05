@@ -16,6 +16,7 @@ import {
 
 import {
   getAdvancedSearchBooleanOp,
+  getAuthorityVocabCsid,
   getSearchPageAdvanced,
   getSearchPageKeyword,
   getSearchPageRecordType,
@@ -24,17 +25,19 @@ import {
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
-  const recordType = getSearchPageRecordType(state);
+  const searchPageRecordType = getSearchPageRecordType(state);
 
   return {
     keywordValue: getSearchPageKeyword(state),
-    recordTypeValue: recordType,
-    vocabularyValue: getSearchPageVocabulary(state, recordType),
+    recordTypeValue: searchPageRecordType,
+    vocabularyValue: getSearchPageVocabulary(state, searchPageRecordType),
     advancedSearchCondition: getSearchPageAdvanced(state),
     perms: getUserPerms(state),
     preferredAdvancedSearchBooleanOp:
       getAdvancedSearchBooleanOp(state) ||
       get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
+    getAuthorityVocabCsid: (recordType, vocabulary) =>
+      getAuthorityVocabCsid(state, recordType, vocabulary),
   };
 };
 

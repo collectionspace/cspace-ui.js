@@ -54,4 +54,21 @@ export default {
       servicePath: 'urn:cspace:name(ulan_pa)',
     },
   },
+  fulan: {
+    messages: defineMessages({
+      name: {
+        id: 'vocab.person.fulan.name',
+        description: 'The name of the vocabulary.',
+        defaultMessage: 'fULAN',
+      },
+      collectionName: {
+        id: 'vocab.person.fulan.collectionName',
+        description: 'The name of a collection of records from the vocabulary.',
+        defaultMessage: 'fULAN Persons',
+      },
+    }),
+    serviceConfig: {
+      servicePath: 'urn:cspace:name(fulan)',
+    },
+  },
 };

@@ -94,6 +94,8 @@ const perms = Immutable.fromJS({
   },
 });
 
+const getAuthorityVocabCsid = () => '1234';
+
 describe('SearchPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -302,6 +304,7 @@ describe('SearchPage', function suite() {
               match={match}
               history={history}
               perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -349,6 +352,7 @@ describe('SearchPage', function suite() {
               match={match}
               history={history}
               perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>
@@ -389,6 +393,8 @@ describe('SearchPage', function suite() {
             <SearchPage
               location={location}
               match={match}
+              perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>
@@ -410,6 +416,8 @@ describe('SearchPage', function suite() {
             <SearchPage
               location={newLocation}
               match={newMatch}
+              perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
               onRecordTypeCommit={handleRecordTypeCommit}
             />
           </ConfigProvider>
@@ -449,6 +457,8 @@ describe('SearchPage', function suite() {
               location={location}
               match={match}
               history={history}
+              perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
             />
           </ConfigProvider>
         </StoreProvider>
@@ -496,6 +506,8 @@ describe('SearchPage', function suite() {
               location={location}
               match={match}
               history={history}
+              perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
               onVocabularyCommit={handleVocabularyCommit}
             />
           </ConfigProvider>
@@ -538,6 +550,8 @@ describe('SearchPage', function suite() {
             <SearchPage
               location={location}
               match={match}
+              perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
               onVocabularyCommit={handleVocabularyCommit}
             />
           </ConfigProvider>
@@ -560,6 +574,8 @@ describe('SearchPage', function suite() {
             <SearchPage
               location={newLocation}
               match={newMatch}
+              perms={perms}
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
               onVocabularyCommit={handleVocabularyCommit}
             />
           </ConfigProvider>
