@@ -886,6 +886,11 @@ export const isModifiedExceptPart = (state, csid, exceptPart) => {
   // Check parts, except for the given exception.
 
   const data = state.getIn([csid, 'data']);
+
+  if (!data) {
+    return false;
+  }
+
   const baselineData = data.get('baseline');
   const currentData = data.get('current');
 

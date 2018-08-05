@@ -2412,6 +2412,14 @@ describe('record reducer', function suite() {
     const csid = '1234';
     const exceptPart = 'ns2:foo';
 
+    it('should return false if no data exists for the csid', function test() {
+      const state = Immutable.fromJS({
+        [csid]: {},
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
+    });
+
     it('should return false if current data is referentially equal to baseline data', function test() {
       const data = Immutable.fromJS({
         document: {
