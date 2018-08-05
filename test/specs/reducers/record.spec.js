@@ -63,6 +63,7 @@ import reducer, {
   getSubrecordCsid,
   getValidationErrors,
   isModified,
+  isModifiedExceptPart,
   isReadPending,
   isSavePending,
   isReadVocabularyItemRefsPending,
@@ -2404,6 +2405,159 @@ describe('record reducer', function suite() {
       }));
 
       expect(isReadVocabularyItemRefsPending(state, csid)).to.equal(undefined);
+    });
+  });
+
+  describe('isModifiedExceptPart', function actionSuite() {
+    const csid = '1234';
+    const exceptPart = 'ns2:foo';
+
+    it('should return false if current data is referentially equal to baseline data', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_common': {},
+        },
+      });
+
+      const state = Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+        },
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
+    });
+
+    it('should return false if current document is referentially equal to baseline document', function test() {
+      const document = Immutable.fromJS({
+        'ns2:collectionspace_common': {},
+      });
+
+      const state = Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: {
+              document,
+            },
+            current: {
+              document,
+            },
+          },
+        },
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
+    });
+
+    it('should return false if no part in the current document is referentially not equal to a part in the baseline document', function test() {
+      const commonPartData = Immutable.fromJS({
+        foo: '1',
+        bar: '2',
+      });
+
+      const state = Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: {
+              document: {
+                'ns2:collectionspace_common': commonPartData,
+              },
+            },
+            current: {
+              document: {
+                'ns2:collectionspace_common': commonPartData,
+              },
+            },
+          },
+        },
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
+    });
+
+    it('should return true if the a part other than the excepted part in the current document is referentially not equal to a part in the baseline document', function test() {
+      const state = Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: {
+              document: {
+                'ns2:collectionspace_common': {
+                  foo: '1',
+                },
+              },
+            },
+            current: {
+              document: {
+                'ns2:collectionspace_common': {
+                  foo: '2',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(true);
+    });
+
+    it('should return false if the only part in the current document is referentially not equal to a part in the baseline document is the excepted part', function test() {
+      const state = Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: {
+              document: {
+                [exceptPart]: {
+                  foo: '1',
+                },
+              },
+            },
+            current: {
+              document: {
+                [exceptPart]: {
+                  foo: '2',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
+    });
+
+    it('should return true if a subrecord has been modified', function test() {
+      const data = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_common': {},
+        },
+      });
+
+      const state = Immutable.fromJS({
+        [csid]: {
+          data: {
+            baseline: data,
+            current: data,
+          },
+          subrecord: {
+            blob: '5555',
+          },
+        },
+        5555: {
+          data: {
+            baseline: {
+              foo: '1',
+            },
+            current: {
+              bar: '2',
+            },
+          },
+        },
+      });
+
+      isModifiedExceptPart(state, csid, exceptPart).should.equal(true);
     });
   });
 });

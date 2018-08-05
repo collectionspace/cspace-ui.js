@@ -20,10 +20,14 @@ describe('HierarchyInputContainer', function suite() {
         [csid]: {
           data: {
             baseline: {
-              foo: 'bar',
+              document: {
+                foo: 'bar',
+              },
             },
             current: {
-              foo: 'baz',
+              document: {
+                foo: 'baz',
+              },
             },
           },
         },
