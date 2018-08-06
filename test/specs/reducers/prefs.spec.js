@@ -351,14 +351,6 @@ describe('prefs reducer', function suite() {
     });
 
     state.should.equal(Immutable.fromJS({
-      recordSidebarOpen: true,
-    }));
-
-    state = reducer(state, {
-      type: TOGGLE_RECORD_SIDEBAR,
-    });
-
-    state.should.equal(Immutable.fromJS({
       recordSidebarOpen: false,
     }));
 
@@ -368,6 +360,14 @@ describe('prefs reducer', function suite() {
 
     state.should.equal(Immutable.fromJS({
       recordSidebarOpen: true,
+    }));
+
+    state = reducer(state, {
+      type: TOGGLE_RECORD_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      recordSidebarOpen: false,
     }));
   });
 });
