@@ -99,7 +99,7 @@ export const login = (config, username, password) => (dispatch, getState) => {
 
   return dispatch(renewAuth(config, username, password))
     .then(() => dispatch(loadPrefs(config, username)))
-    .then(() => dispatch(readAuthVocabs()))
+    .then(() => dispatch(readAuthVocabs(config)))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,
       meta: {
