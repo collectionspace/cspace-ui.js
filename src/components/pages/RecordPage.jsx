@@ -10,7 +10,8 @@ import RecordBrowserContainer from '../../containers/record/RecordBrowserContain
 import RecordSidebar from '../record/RecordSidebar';
 import { validateLocation } from '../../helpers/configHelpers';
 import { canRelate } from '../../helpers/permissionHelpers';
-import { getWorkflowState } from '../../helpers/recordDataHelpers';
+import { refNameToUrl } from '../../helpers/refNameHelpers';
+import { getWorkflowState, getRefName, getCsid } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RecordPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
@@ -91,6 +92,8 @@ export default class RecordPage extends Component {
     const prevParams = getParams(prevProps);
 
     const {
+      recordType,
+      vocabulary,
       csid,
     } = params;
 
@@ -99,6 +102,9 @@ export default class RecordPage extends Component {
     } = prevParams;
 
     const {
+      config,
+      data,
+      history,
       perms,
     } = this.props;
 
@@ -108,6 +114,11 @@ export default class RecordPage extends Component {
 
     if (csid !== prevCsid || perms !== prevPerms) {
       this.initRecord();
+    } else if ((recordType === 'all' || vocabulary === 'all') && data) {
+      // If we got here via an 'all' record type or vocabulary, redirect to the correct record type
+      // and vocabulary page once we have data.
+
+      history.replace(refNameToUrl(config, getRefName(data), getCsid(data)));
     }
   }
 
@@ -141,9 +152,14 @@ export default class RecordPage extends Component {
     }
 
     if (normalizedCsid && readRecord) {
-      const recordTypeConfig = get(config, ['recordTypes', recordType]);
+      // If vocabulary is 'all', use the 'all' record type, since we can't get a record by csid in
+      // an authority without specifying a vocabulary, but we can get a record by csid without
+      // specifying any record type.
 
-      const vocabularyConfig = vocabulary
+      const recordTypeConfig =
+        get(config, ['recordTypes', vocabulary === 'all' ? 'all' : recordType]);
+
+      const vocabularyConfig = (vocabulary && vocabulary !== 'all')
         ? get(recordTypeConfig, ['vocabularies', vocabulary])
         : undefined;
 
@@ -208,6 +224,13 @@ export default class RecordPage extends Component {
       relatedRecordType,
       relatedCsid,
     } = getParams(this.props);
+
+    if (recordType === 'all' || vocabulary === 'all') {
+      // Render nothing for the 'all' record type/vocabulary. We'll redirect to the appropriate
+      // page once we've determined what the actual record type/vocabulary are.
+
+      return null;
+    }
 
     const query = qs.parse(location.search.substring(1));
 
