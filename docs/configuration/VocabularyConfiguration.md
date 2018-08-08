@@ -73,6 +73,12 @@ disabled: boolean
 ```
 If true, the vocabulary is not shown in the UI.
 
+### disableAltTerms
+```
+disableAltTerms: boolean
+```
+If true, alternate terms (aka non-preferred terms) are disabled (but remain visible when they match the partial term that the user has entered). The user may only select the preferred term.
+
 ### messages
 ```
 messages: MessageDescriptorMap,
