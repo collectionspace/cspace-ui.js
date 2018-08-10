@@ -5,11 +5,13 @@ export default (configContext) => {
     formatTimestamp,
     formatRefNameAsVocabularyName,
     formatServiceObjectName,
+    formatRefName,
   } = configContext.formatHelpers;
 
   return {
     default: {
       docName: {
+        formatValue: value => formatRefName(value) || value,
         messages: defineMessages({
           label: {
             id: 'column.authority.default.docName',
