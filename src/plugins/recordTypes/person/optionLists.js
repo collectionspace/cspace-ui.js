@@ -137,17 +137,17 @@ export default {
   },
   genders: {
     values: [
-      'male',
       'female',
+      'male',
     ],
     messages: defineMessages({
-      dear: {
-        id: 'option.genders.male',
-        defaultMessage: 'male',
-      },
-      hello: {
+      female: {
         id: 'option.genders.female',
         defaultMessage: 'female',
+      },
+      male: {
+        id: 'option.genders.male',
+        defaultMessage: 'male',
       },
     }),
   },
