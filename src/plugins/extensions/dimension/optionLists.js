@@ -1,6 +1,77 @@
 import { defineMessages } from 'react-intl';
 
 export default {
+  dimensions: {
+    values: [
+      'area',
+      'base',
+      'circumference',
+      'count',
+      'depth',
+      'diameter',
+      'height',
+      'length',
+      'running-time',
+      'target',
+      'volume',
+      'weight',
+      'width',
+    ],
+    messages: defineMessages({
+      area: {
+        id: 'option.dimensions.area',
+        defaultMessage: 'area',
+      },
+      base: {
+        id: 'option.dimensions.base',
+        defaultMessage: 'base',
+      },
+      circumference: {
+        id: 'option.dimensions.circumference',
+        defaultMessage: 'circumference',
+      },
+      count: {
+        id: 'option.dimensions.count',
+        defaultMessage: 'count',
+      },
+      depth: {
+        id: 'option.dimensions.depth',
+        defaultMessage: 'depth',
+      },
+      diameter: {
+        id: 'option.dimensions.diameter',
+        defaultMessage: 'diameter',
+      },
+      height: {
+        id: 'option.dimensions.height',
+        defaultMessage: 'height',
+      },
+      length: {
+        id: 'option.dimensions.length',
+        defaultMessage: 'length',
+      },
+      'running-time': {
+        id: 'option.dimensions.running-time',
+        defaultMessage: 'running time',
+      },
+      target: {
+        id: 'option.dimensions.target',
+        defaultMessage: 'target',
+      },
+      volume: {
+        id: 'option.dimensions.volume',
+        defaultMessage: 'volume',
+      },
+      weight: {
+        id: 'option.dimensions.weight',
+        defaultMessage: 'weight',
+      },
+      width: {
+        id: 'option.dimensions.width',
+        defaultMessage: 'width',
+      },
+    }),
+  },
   measurementUnits: {
     values: [
       'carats',
@@ -17,6 +88,7 @@ export default {
       'pounds',
       'square-feet',
       'stories',
+      'tons',
     ],
     messages: defineMessages({
       carats: {
@@ -74,6 +146,10 @@ export default {
       stories: {
         id: 'option.measurementUnits.stories',
         defaultMessage: 'stories',
+      },
+      tons: {
+        id: 'option.measurementUnits.tons',
+        defaultMessage: 'tons',
       },
     }),
   },
