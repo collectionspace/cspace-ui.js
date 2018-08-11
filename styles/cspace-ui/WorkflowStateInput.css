@@ -1,6 +1,8 @@
+@value inputBg from '../colors.css';
 @value inputHeight from '../dimensions.css';
 
 .common {
   display: flex;
   height: calc(inputHeight - 2px);
+  background-color: inputBg;
 }
