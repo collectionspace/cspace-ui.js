@@ -23,7 +23,15 @@ export const readAuthVocabs = config => (dispatch) => {
 
   const readPromises = Object.values(config.recordTypes)
     .filter(recordTypeConfig => recordTypeConfig.serviceConfig.serviceType === 'authority')
-    .map(recordTypeConfig => session.read(recordTypeConfig.serviceConfig.servicePath));
+    .map(recordTypeConfig =>
+      session.read(recordTypeConfig.serviceConfig.servicePath)
+        .catch(error => (
+          // 403 Forbidden might happen if the user doesn't have any permissions on an authority.
+          // Just swallow this, but reject other errors.
+
+          get(error, ['response', 'status']) === 403 ? undefined : Promise.reject(error)
+        ))
+    );
 
   return Promise.all(readPromises)
     .then(responses => dispatch({
