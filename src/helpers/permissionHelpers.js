@@ -3,6 +3,29 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import { getRecordTypeConfigByServicePath } from './configHelpers';
 
+export const mergeActionGroup = (perms, path, actionGroup) => {
+  const existingActionGroup = get(perms, path);
+
+  let mergedActionGroup;
+
+  if (existingActionGroup) {
+    const existingActionCodes = new Set(existingActionGroup.split(''));
+    const actionCodes = new Set(actionGroup.split(''));
+
+    mergedActionGroup = ['C', 'R', 'U', 'D', 'L'].reduce((merged, actionCode) => (
+      (existingActionCodes.has(actionCode) || actionCodes.has(actionCode))
+        ? `${merged}${actionCode}`
+        : merged
+    ), '');
+  } else {
+    mergedActionGroup = actionGroup;
+  }
+
+  set(perms, path, mergedActionGroup);
+
+  return mergedActionGroup;
+};
+
 export const getPermissions = (config, accountPermsData) => {
   const perms = {};
 
@@ -43,17 +66,16 @@ export const getPermissions = (config, accountPermsData) => {
           const { name } = recordTypeConfig;
 
           if (transitionName) {
-            set(perms, [name, 'transition', transitionName], actionGroup);
+            mergeActionGroup(perms, [name, 'transition', transitionName], actionGroup);
           } else {
-            set(perms, [name, 'data'], actionGroup);
-
+            const mergedActionGroup = mergeActionGroup(perms, [name, 'data'], actionGroup);
             const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
             // Track if any object, authority, or procedure record can be created. This is used to
             // determine if the Create New navigation item should be shown.
 
             if (
-              actionGroup.indexOf('C') >= 0 &&
+              mergedActionGroup.indexOf('C') >= 0 &&
               (
                 serviceType === 'object' ||
                 serviceType === 'authority' ||
@@ -67,7 +89,7 @@ export const getPermissions = (config, accountPermsData) => {
             // to determine if the Admin navigation item should be shown.
 
             if (
-              actionGroup.indexOf('L') >= 0 &&
+              mergedActionGroup.indexOf('L') >= 0 &&
               (
                 serviceType === 'security' ||
                 name === 'vocabulary'
