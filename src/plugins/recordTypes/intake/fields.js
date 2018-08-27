@@ -308,7 +308,7 @@ export default (configContext) => {
               view: {
                 type: AutocompleteInput,
                 props: {
-                  source: 'person/local,person/shared',
+                  source: 'person/local,person/shared,concept/ethculture',
                 },
               },
             },
@@ -509,7 +509,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'location/local',
+                    source: 'location/local,place/local',
                   },
                 },
               },
