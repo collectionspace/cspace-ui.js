@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import moment from 'moment';
 import qs from 'qs';
 import warning from 'warning';
+import { canList } from './permissionHelpers';
 
 import {
   configKey,
@@ -612,3 +613,68 @@ export const getFirstItem = (config, listData, listType = 'common') => {
  * Returns a name for a search for subrecords.
  */
 export const getSubrecordSearchName = (csid, subrecordName) => `subrecord/${csid}/${subrecordName}`;
+
+export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) => {
+  const { recordTypes } = config;
+  const filteredRecordTypes = {};
+
+  // Filter out record types for which the user doesn't have suffiencient permissions, and
+  // vocabularies that don't exist on the server.
+
+  Object.keys(recordTypes).forEach((recordType) => {
+    const recordTypeConfig = recordTypes[recordType];
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+    if (
+      serviceType === 'object' ||
+      serviceType === 'procedure'
+    ) {
+      // For objects and procedures, check if list permissions exist.
+
+      if (canList(recordType, perms)) {
+        filteredRecordTypes[recordType] = recordTypeConfig;
+      }
+    } else if (serviceType === 'authority') {
+      // For authorities, check if list permissions exist, and if so, filter the vocabularies.
+
+      if (canList(recordType, perms)) {
+        const vocabularies = recordTypeConfig.vocabularies;
+
+        if (vocabularies) {
+          const filteredVocabularies = {};
+
+          // Filter out vocabularies that are configured in the UI, but don't exist in the services
+          // layer. This will happen when a vocabulary has been configured in the UI, but hasn't
+          // been created/initialized through the REST API. This isn't necessarily a bug, because
+          // sometimes vocbularies are defined in the UI for convenience, but aren't expected to be
+          // created in all tenants.
+
+          Object.keys(vocabularies).forEach((vocabulary) => {
+            const vocabularyConfig = vocabularies[vocabulary];
+            const { type } = vocabularyConfig;
+
+            // The 'all' vocabulary always exists, so always let that through the filter. For
+            // others, check if a csid for the vocabulary was successfully retrieved from the
+            // services layer.
+
+            const exists = (type === 'all' || getAuthorityVocabCsid(recordType, vocabulary));
+
+            if (exists) {
+              filteredVocabularies[vocabulary] = vocabularyConfig;
+            }
+          });
+
+          filteredRecordTypes[recordType] = Object.assign({}, recordTypeConfig, {
+            vocabularies: filteredVocabularies,
+          });
+        }
+      }
+    } else {
+      // Allow other types. These may get filtered down further by child components.
+
+      filteredRecordTypes[recordType] = recordTypeConfig;
+    }
+  });
+
+  return filteredRecordTypes;
+};

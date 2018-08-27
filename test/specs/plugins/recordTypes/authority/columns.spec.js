@@ -11,6 +11,15 @@ describe('authority record columns', function suite() {
     columns.should.have.property('default').that.is.an('object');
   });
 
+  it('should have docName column that is formatted as a refname display name', function test() {
+    const docNameColumn = columns.default.docName;
+
+    docNameColumn.should.have.property('formatValue').that.is.a('function');
+
+    docNameColumn.formatValue('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(johndoe)\'John Doe\'').should
+      .equal('John Doe');
+  });
+
   it('should have docType column that is formatted as a record type name from a service object name', function test() {
     const docTypeColumn = columns.default.docType;
 

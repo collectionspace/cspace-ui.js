@@ -101,7 +101,29 @@ describe('authority action creator', function suite() {
         });
     });
 
-    it('should dispatch AUTH_VOCABS_READ_REJECTED on error', function test() {
+    it('should dispatch AUTH_VOCABS_READ_FULFILLED if there are errors, but they are all 403', function test() {
+      moxios.stubRequest(readAuthorityUrl, {
+        status: 403,
+        response: {},
+      });
+
+      return store.dispatch(readAuthVocabs(config))
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.deep.equal({
+            type: AUTH_VOCABS_READ_STARTED,
+          });
+
+          actions[1].should.contain({
+            type: AUTH_VOCABS_READ_FULFILLED,
+          });
+        });
+    });
+
+    it('should dispatch AUTH_VOCABS_READ_REJECTED on errors other than 403', function test() {
       moxios.stubRequest(readAuthorityUrl, {
         status: 400,
         response: {},

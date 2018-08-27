@@ -32,6 +32,19 @@ const config = {
         serviceType: 'utility',
       },
     },
+    collectionobject: {
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.collectionobject.collectionName',
+            defaultMessage: 'Objects',
+          },
+        },
+      },
+      serviceConfig: {
+        serviceType: 'object',
+      },
+    },
     person: {
       messages: {
         record: {
@@ -59,10 +72,15 @@ const config = {
 };
 
 const perms = Immutable.fromJS({
+  collectionobject: {
+    data: 'CRUDL',
+  },
   person: {
     data: 'CRUDL',
   },
 });
+
+const getAuthorityVocabCsid = () => '1234';
 
 describe('QuickSearchForm', function suite() {
   beforeEach(function before() {
@@ -70,7 +88,12 @@ describe('QuickSearchForm', function suite() {
   });
 
   it('should render as a fieldset', function test() {
-    render(<QuickSearchForm config={config} intl={intl} />, this.container);
+    render(
+      <QuickSearchForm
+        config={config}
+        intl={intl}
+        getAuthorityVocabCsid={getAuthorityVocabCsid}
+      />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
@@ -88,6 +111,7 @@ describe('QuickSearchForm', function suite() {
         intl={intl}
         recordTypeValue="person"
         perms={perms}
+        getAuthorityVocabCsid={getAuthorityVocabCsid}
       />, this.container);
 
     const [recordTypeInput, vocabularyInput] = this.container.querySelectorAll('input');

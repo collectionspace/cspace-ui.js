@@ -15,12 +15,43 @@ import {
   disallowCreate,
   disallowDelete,
   disallowSoftDelete,
+  mergeActionGroup,
 } from '../../../src/helpers/permissionHelpers';
 
 chai.use(chaiImmutable);
 chai.should();
 
 describe('permissionHelpers', function moduleSuite() {
+  describe('mergeActionGroup', function suite() {
+    it('should merge the given action group into existing permissions', function test() {
+      const perms = {
+        group: {
+          data: 'CL',
+        },
+      };
+
+      mergeActionGroup(perms, ['group', 'data'], 'RD').should.equal('CRDL');
+
+      perms.should.deep.equal({
+        group: {
+          data: 'CRDL',
+        },
+      });
+    });
+
+    it('should set the permissions if there are no existing permissions', function test() {
+      const perms = {};
+
+      mergeActionGroup(perms, ['group', 'data'], 'CR').should.equal('CR');
+
+      perms.should.deep.equal({
+        group: {
+          data: 'CR',
+        },
+      });
+    });
+  });
+
   describe('getPermissions', function suite() {
     const config = {
       recordTypes: {

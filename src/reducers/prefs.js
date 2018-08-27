@@ -37,6 +37,16 @@ const handleAdvancedSearchConditionChange = (state, action) => {
   return ((op === OP_AND || op === OP_OR) ? state.set('advancedSearchBooleanOp', op) : state);
 };
 
+const handleToggleRecordSidebar = (state) => {
+  let isOpen = state.get('recordSidebarOpen');
+
+  if (typeof isOpen === 'undefined') {
+    isOpen = true;
+  }
+
+  return state.set('recordSidebarOpen', !isOpen);
+};
+
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case PREFS_LOADED:
@@ -81,7 +91,7 @@ export default (state = Immutable.Map(), action) => {
     case SET_SEARCH_TO_RELATE_ADVANCED:
       return handleAdvancedSearchConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
-      return state.set('recordSidebarOpen', !state.get('recordSidebarOpen'));
+      return handleToggleRecordSidebar(state, action);
     default:
       return state;
   }

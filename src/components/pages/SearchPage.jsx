@@ -36,6 +36,7 @@ const propTypes = {
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
+  getAuthorityVocabCsid: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -205,6 +206,7 @@ export default class SearchPage extends Component {
       keywordValue,
       perms,
       preferredAdvancedSearchBooleanOp,
+      getAuthorityVocabCsid,
       onAdvancedSearchConditionCommit,
       onKeywordCommit,
       onSearch,
@@ -242,6 +244,7 @@ export default class SearchPage extends Component {
             perms={perms}
             preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
             showButtons
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
             onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}

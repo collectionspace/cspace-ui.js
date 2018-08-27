@@ -189,6 +189,8 @@ const perms = Immutable.fromJS({
 });
 
 describe('CreatePage', function suite() {
+  const getAuthorityVocabWorkflowState = () => 'project';
+
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -198,7 +200,9 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -211,7 +215,10 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -241,7 +248,10 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -258,7 +268,10 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -271,8 +284,8 @@ describe('CreatePage', function suite() {
   });
 
   it('should not render links for locked vocabularies', function test() {
-    const getAuthorityVocabWorkflowState = (recordType, vocabulary) =>
-      (recordType === 'person' && vocabulary === 'ulan' ? 'locked' : null);
+    const lockedULANVocabWorkflowState = (recordType, vocabulary) =>
+      (recordType === 'person' && vocabulary === 'ulan' ? 'locked' : 'project');
 
     render(
       <IntlProvider locale="en">
@@ -280,7 +293,30 @@ describe('CreatePage', function suite() {
           <Router>
             <CreatePage
               perms={perms}
-              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getAuthorityVocabWorkflowState={lockedULANVocabWorkflowState}
+            />
+          </Router>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const links = this.container.querySelectorAll('a');
+
+    links.should.have.lengthOf(4);
+
+    Array.from(links).map(link => link.textContent).should.not.include('ULAN');
+  });
+
+  it('should not render links for vocabularies with no workflow state', function test() {
+    const noULANVocabWorkflowState = (recordType, vocabulary) =>
+      (recordType === 'person' && vocabulary === 'ulan' ? undefined : 'project');
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <Router>
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={noULANVocabWorkflowState}
             />
           </Router>
         </ConfigProvider>
@@ -298,7 +334,10 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -336,7 +375,10 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={sortedConfig}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);
@@ -383,7 +425,10 @@ describe('CreatePage', function suite() {
       <IntlProvider locale="en">
         <ConfigProvider config={proceduresAndAuthoritiesDisabledConfig}>
           <Router>
-            <CreatePage perms={perms} />
+            <CreatePage
+              perms={perms}
+              getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+            />
           </Router>
         </ConfigProvider>
       </IntlProvider>, this.container);

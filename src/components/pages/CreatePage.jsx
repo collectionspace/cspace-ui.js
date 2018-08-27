@@ -88,13 +88,19 @@ const getVocabularies = (recordTypeConfig, intl, getAuthorityVocabWorkflowState)
 
   if (vocabularies) {
     vocabularyNames = Object.keys(vocabularies)
-      .filter(
-        vocabularyName => (
+      .filter((vocabularyName) => {
+        // Filter out vocabularies that don't exist in the services layer, vocabularies that are
+        // locked, and vocabularies that are disabled. Always include the 'all' vocabulary.
+
+        const workflowState = getAuthorityVocabWorkflowState(recordTypeName, vocabularyName);
+
+        return (
           vocabularyName !== 'all' &&
-          !isLocked(getAuthorityVocabWorkflowState(recordTypeName, vocabularyName)) &&
+          workflowState && // Empty workflow state means vocab doesn't exist.
+          !isLocked(workflowState) &&
           !vocabularies[vocabularyName].disabled
-        )
-      )
+        );
+      })
       .sort((nameA, nameB) => {
         const configA = vocabularies[nameA];
         const configB = vocabularies[nameB];

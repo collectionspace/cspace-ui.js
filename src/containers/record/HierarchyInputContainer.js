@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import {
-  isRecordModified,
+  isRecordModifiedExceptPart,
 } from '../../reducers';
 
 import HierarchyInput from '../../components/record/HierarchyInput';
@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
 
   return {
-    isRecordModified: isRecordModified(state, csid),
+    isRecordModified: isRecordModifiedExceptPart(state, csid, 'rel:relations-common-list'),
   };
 };
 

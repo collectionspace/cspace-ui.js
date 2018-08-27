@@ -103,6 +103,9 @@ export const isRecordReadVocabularyItemRefsPending = (state, csid) =>
 
 export const isRecordModified = (state, csid) => fromRecord.isModified(state.record, csid);
 
+export const isRecordModifiedExceptPart = (state, csid, part) =>
+  fromRecord.isModifiedExceptPart(state.record, csid, part);
+
 export const getRecordPagePrimaryCsid = state => fromRecordPage.getPrimaryCsid(state.recordPage);
 
 export const getRelatedRecordBrowserRelatedCsid = (state, recordType) =>

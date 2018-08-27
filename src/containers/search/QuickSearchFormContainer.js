@@ -12,18 +12,21 @@ import {
 } from '../../actions/prefs';
 
 import {
+  getAuthorityVocabCsid,
   getQuickSearchKeyword,
   getQuickSearchRecordType,
   getQuickSearchVocabulary,
 } from '../../reducers';
 
 const mapStateToProps = (state) => {
-  const recordType = getQuickSearchRecordType(state);
+  const quickSearchRecordType = getQuickSearchRecordType(state);
 
   return {
     keywordValue: getQuickSearchKeyword(state),
-    recordTypeValue: recordType,
-    vocabularyValue: getQuickSearchVocabulary(state, recordType),
+    recordTypeValue: quickSearchRecordType,
+    vocabularyValue: getQuickSearchVocabulary(state, quickSearchRecordType),
+    getAuthorityVocabCsid: (recordType, vocabulary) =>
+      getAuthorityVocabCsid(state, recordType, vocabulary),
   };
 };
 

@@ -169,6 +169,7 @@ export default class MediaViewer extends Component {
         <div className={styles.normal}>
           <ImageGallery
             items={images}
+            disableArrowKeys
             lazyLoad
             renderLeftNav={renderLeftNav}
             renderRightNav={renderRightNav}

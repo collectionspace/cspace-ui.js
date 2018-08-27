@@ -873,3 +873,41 @@ export const isModified = (state, csid) => {
 
   return false;
 };
+
+export const isModifiedExceptPart = (state, csid, exceptPart) => {
+  // Check subrecords.
+
+  const subrecords = state.getIn([csid, 'subrecord']);
+
+  if (subrecords && subrecords.find(subrecordCsid => isModified(state, subrecordCsid))) {
+    return true;
+  }
+
+  // Check parts, except for the given exception.
+
+  const data = state.getIn([csid, 'data']);
+
+  if (!data) {
+    return false;
+  }
+
+  const baselineData = data.get('baseline');
+  const currentData = data.get('current');
+
+  if (currentData === baselineData) {
+    return false;
+  }
+
+  const baselineDocument = baselineData.get('document');
+  const currentDocument = currentData.get('document');
+
+  if (currentDocument === baselineDocument) {
+    return false;
+  }
+
+  const modifiedPart = currentDocument.keySeq()
+    .filter(part => (part !== exceptPart && !part.startsWith('@')))
+    .find(part => currentDocument.get(part) !== baselineDocument.get(part));
+
+  return !!modifiedPart;
+};

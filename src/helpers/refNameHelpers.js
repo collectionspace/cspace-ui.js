@@ -42,7 +42,7 @@ export const getVocabulary = (config, refName) => {
   return vocabularyConfig ? vocabularyConfig.name : null;
 };
 
-export const refNameToUrl = (config, refName) => {
+export const refNameToUrl = (config, refName, csid) => {
   if (!refName) {
     return null;
   }
@@ -67,12 +67,10 @@ export const refNameToUrl = (config, refName) => {
     const vocabulary = vocabularyConfig.name;
 
     const itemShortID = getItemShortID(refName);
-    const csid = `urn:cspace:name(${itemShortID})`;
+    const csidOrURN = csid || `urn:cspace:name(${itemShortID})`;
 
-    return `/record/${recordType}/${vocabulary}/${csid}`;
+    return `/record/${recordType}/${vocabulary}/${csidOrURN}`;
   }
 
-  const csid = getCsid(refName);
-
-  return `/record/${recordType}/${csid}`;
+  return `/record/${recordType}/${csid || getCsid(refName)}`;
 };

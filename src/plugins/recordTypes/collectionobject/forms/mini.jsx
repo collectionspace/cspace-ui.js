@@ -18,9 +18,11 @@ const template = (configContext) => {
         showSiblings={false}
       />
 
-      <Field name="briefDescriptions">
-        <Field name="briefDescription" />
-      </Field>
+      <Field
+        name="0"
+        repeating={false}
+        subpath={['ns2:collectionobjects_common', 'briefDescriptions', 'briefDescription']}
+      />
     </Field>
   );
 };

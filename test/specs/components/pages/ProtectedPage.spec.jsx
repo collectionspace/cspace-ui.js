@@ -25,7 +25,9 @@ const store = mockStore({
   prefs: Immutable.Map(),
 });
 
-const config = {};
+const config = {
+  recordTypes: {},
+};
 
 describe('ProtectedPage', function suite() {
   beforeEach(function before() {

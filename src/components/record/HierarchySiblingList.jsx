@@ -82,9 +82,7 @@ export default class HierarchySiblingList extends Component {
           .sort((itemA, itemB) =>
             itemA.getIn(['subject', 'number']).localeCompare(itemB.getIn(['subject', 'number'])));
 
-        const lastIndex = items.size - 1;
-
-        siblings = items.map((item, index) => {
+        siblings = items.map((item) => {
           const subject = item.get('subject');
           const refName = subject.get('refName');
           const displayName = getDisplayName(refName);
@@ -92,7 +90,7 @@ export default class HierarchySiblingList extends Component {
 
           return (
             <li key={subject.get('csid')}>
-              <Link to={url}>{displayName}</Link>{index < lastIndex ? ', ' : ''}
+              <Link to={url}>{displayName}</Link>
             </li>
           );
         }).toJS();

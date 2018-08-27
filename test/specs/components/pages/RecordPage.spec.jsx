@@ -31,6 +31,7 @@ const config = {
   },
   recordTypes: {
     [objectRecordType]: {
+      name: objectRecordType,
       serviceConfig: {
         servicePath: 'collectionobjects',
         serviceType: 'object',
@@ -94,6 +95,11 @@ const config = {
       },
       title: () => '',
       vocabularies: {
+        all: {
+          serviceConfig: {
+            servicePath: '_ALL_',
+          },
+        },
         local: {
           messages: {
             name: {
@@ -201,6 +207,70 @@ describe('RecordPage', function suite() {
     this.container.firstElementChild.className.should.equal('cspace-ui-RecordPage--object');
   });
 
+  it('should render nothing if record type is \'all\'', function test() {
+    const location = {
+      action: '',
+      pathname: '/record/all',
+      search: '',
+    };
+
+    const match = {
+      params: {
+        recordType: 'all',
+      },
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <RecordPage
+                config={config}
+                location={location}
+                match={match}
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
+  });
+
+  it('should render nothing if vocabulary is \'all\'', function test() {
+    const location = {
+      action: '',
+      pathname: `/record/${authorityRecordType}/all/${csid}`,
+      search: '',
+    };
+
+    const match = {
+      params: {
+        recordType: authorityRecordType,
+        path1: 'all',
+        path2: csid,
+      },
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <RecordPage
+                config={config}
+                location={location}
+                match={match}
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
+  });
+
   it('should render an error page if an error is supplied', function test() {
     const location = {
       action: '',
@@ -235,6 +305,73 @@ describe('RecordPage', function suite() {
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.className.should.equal('cspace-ui-ErrorPage--common');
+  });
+
+  it('should replace history with the record type determined from data when the record type is \'all\', and data is supplied', function test() {
+    const location = {
+      action: '',
+      pathname: `/record/all/${csid}`,
+      search: '',
+    };
+
+    const match = {
+      params: {
+        recordType: 'all',
+        path1: csid,
+      },
+    };
+
+    let replacedLocation = null;
+
+    const history = mockHistory({
+      replace: (locationArg) => {
+        replacedLocation = locationArg;
+      },
+    });
+
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: `/collectionobjects/${csid}`,
+          refName: `urn:cspace:core.collectionspace.org:collectionobjects:id(${csid})`,
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <RecordPage
+                config={config}
+                location={location}
+                match={match}
+                history={history}
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <RecordPage
+                config={config}
+                data={data}
+                location={location}
+                match={match}
+                history={history}
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    replacedLocation.should.deep.equal(`/record/${objectRecordType}/${csid}`);
   });
 
   context('for an object/procedure record', function contextSuite() {
