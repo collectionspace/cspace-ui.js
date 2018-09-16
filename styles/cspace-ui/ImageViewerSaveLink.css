@@ -1,0 +1,11 @@
+.common {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-image: url(../../images/imageDownload.svg);
+  background-repeat: no-repeat;
+}
+
+.common:hover {
+  background-image: url(../../images/imageDownloadActive.svg);
+}

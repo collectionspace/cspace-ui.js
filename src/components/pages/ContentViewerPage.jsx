@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import get from 'lodash/get';
+import ImageViewer from '../media/ImageViewer';
 
 const propTypes = {
   location: PropTypes.object,
@@ -64,8 +66,16 @@ export default class ContentViewerPage extends Component {
     readContent(location, match)
       .then((response) => {
         if (response && response.status === 200 && response.data && !this.isUnmounted) {
+          const contentDisposition = response.headers['content-disposition'];
+
+          const filename = (contentDisposition && contentDisposition.match(/filename="(.*?)"/))
+            ? RegExp.$1
+            : null;
+
           this.setState({
+            filename,
             blobUrl: URL.createObjectURL(response.data),
+            contentType: response.headers['content-type'],
           });
         }
       })
@@ -76,24 +86,24 @@ export default class ContentViewerPage extends Component {
       });
   }
 
-  render() {
-    const {
-      renderError,
-      renderLoading,
-    } = this.props;
-
+  renderImageViewer() {
     const {
       blobUrl,
-      error,
+      filename,
     } = this.state;
 
-    if (error) {
-      return (renderError ? renderError(error) : null);
-    }
+    return (
+      <ImageViewer
+        blobUrl={blobUrl}
+        filename={filename}
+      />
+    );
+  }
 
-    if (!blobUrl) {
-      return (renderLoading ? renderLoading() : null);
-    }
+  renderBlobViewer() {
+    const {
+      blobUrl,
+    } = this.state;
 
     const style = {
       position: 'fixed',
@@ -104,8 +114,51 @@ export default class ContentViewerPage extends Component {
       border: 'none',
     };
 
+    // Load the blob into an iframe to get the default viewer.
+
     return (
       <iframe src={blobUrl} style={style} />
+    );
+  }
+
+  render() {
+    const {
+      renderError,
+      renderLoading,
+    } = this.props;
+
+    const {
+      blobUrl,
+      contentType,
+      error,
+      filename,
+    } = this.state;
+
+    if (error) {
+      return (renderError ? renderError(error) : null);
+    }
+
+    if (!blobUrl) {
+      return (renderLoading ? renderLoading() : null);
+    }
+
+    const title = filename
+      ? <Helmet><title>{filename}</title></Helmet>
+      : null;
+
+    let viewer;
+
+    if (contentType.startsWith('image/')) {
+      viewer = this.renderImageViewer();
+    } else {
+      viewer = this.renderBlobViewer();
+    }
+
+    return (
+      <div>
+        {title}
+        {viewer}
+      </div>
     );
   }
 }

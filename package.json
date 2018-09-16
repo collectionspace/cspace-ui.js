@@ -52,6 +52,7 @@
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
     "moment": "^2.21.0",
+    "openseadragon": "^2.4.0",
     "prop-types": "^15.6.2",
     "qs": "^6.5.1",
     "react": "^15.6.2",

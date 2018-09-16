@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
+import ImageViewer from '../../../../src/components/media/ImageViewer';
 import ContentViewerPage from '../../../../src/components/pages/ContentViewerPage';
 import createTestContainer from '../../../helpers/createTestContainer';
 
@@ -14,6 +16,17 @@ describe('ContentViewerPage', function suite() {
   const readContent = () => Promise.resolve({
     status: 200,
     data: new Blob(),
+    headers: {
+      'content-type': 'application/pdf',
+    },
+  });
+
+  const readImageContent = () => Promise.resolve({
+    status: 200,
+    data: new Blob(),
+    headers: {
+      'content-type': 'image/jpeg',
+    },
   });
 
   beforeEach(function before() {
@@ -37,10 +50,32 @@ describe('ContentViewerPage', function suite() {
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        const iframe = this.container.firstElementChild;
+        const iframe = this.container.querySelector('iframe');
 
         iframe.nodeName.should.equal('IFRAME');
         iframe.src.should.match(/^blob:/);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should render an ImageViewer if the content is an image', function test() {
+    const match = {
+      params: {
+        contentPath: 'blobs/1234/content',
+      },
+    };
+
+    const resultTree = render(
+      <ContentViewerPage
+        match={match}
+        readContent={readImageContent}
+      />, this.container);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        findRenderedComponentWithType(resultTree, ImageViewer).should.not.equal(null);
 
         resolve();
       }, 0);
@@ -76,7 +111,7 @@ describe('ContentViewerPage', function suite() {
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        const iframe = this.container.firstElementChild;
+        const iframe = this.container.querySelector('iframe');
 
         iframe.nodeName.should.equal('IFRAME');
         iframe.src.should.match(/^blob:/);
