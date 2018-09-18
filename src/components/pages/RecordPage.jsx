@@ -67,6 +67,7 @@ const propTypes = {
   // Use of the match prop isn't being detected by eslint.
   match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
   perms: PropTypes.instanceOf(Immutable.Map),
+  clearRecord: PropTypes.func,
   readRecord: PropTypes.func,
   setRecordPagePrimaryCsid: PropTypes.func,
 };
@@ -106,6 +107,7 @@ export default class RecordPage extends Component {
       data,
       history,
       perms,
+      clearRecord,
     } = this.props;
 
     const {
@@ -118,7 +120,19 @@ export default class RecordPage extends Component {
       // If we got here via an 'all' record type or vocabulary, redirect to the correct record type
       // and vocabulary page once we have data.
 
-      history.replace(refNameToUrl(config, getRefName(data), getCsid(data)));
+      const dataCsid = getCsid(data);
+
+      // TODO: This workaround for DRYD-487 can be removed when that issue is fixed. For now we
+      // need to clear the record data retrieved through servicegroups/common/items, since it
+      // won't have returned the hierarchy relations. Clearing the existing record data will cause
+      // it to be retrieved again through the specific record service, so that the hierarchy
+      // relations will be included.
+
+      if (clearRecord) {
+        clearRecord(dataCsid);
+      }
+
+      history.replace(refNameToUrl(config, getRefName(data), dataCsid));
     }
   }
 

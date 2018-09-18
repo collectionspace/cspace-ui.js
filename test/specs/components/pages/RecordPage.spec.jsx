@@ -338,6 +338,12 @@ describe('RecordPage', function suite() {
       },
     });
 
+    let clearedCsid = null;
+
+    const clearRecord = (csidArg) => {
+      clearedCsid = csidArg;
+    };
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -365,12 +371,14 @@ describe('RecordPage', function suite() {
                 location={location}
                 match={match}
                 history={history}
+                clearRecord={clearRecord}
               />
             </Router>
           </ConfigProvider>
         </StoreProvider>
       </IntlProvider>, this.container);
 
+    clearedCsid.should.equal(csid);
     replacedLocation.should.deep.equal(`/record/${objectRecordType}/${csid}`);
   });
 

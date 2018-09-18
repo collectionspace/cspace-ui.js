@@ -3,6 +3,7 @@ import withConfig from '../../enhancers/withConfig';
 import RecordPage, { getParams } from '../../components/pages/RecordPage';
 
 import {
+  clearRecord,
   readRecord,
 } from '../../actions/record';
 
@@ -31,6 +32,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
+  clearRecord,
   readRecord,
   setRecordPagePrimaryCsid,
 };
