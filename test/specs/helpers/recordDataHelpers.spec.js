@@ -52,6 +52,7 @@ import {
   getWorkflowState,
   hasHierarchyRelations,
   hasNarrowerHierarchyRelations,
+  initializeChildren,
   isNewRecord,
   isExistingRecord,
   isRecordDeprecated,
@@ -1375,6 +1376,47 @@ describe('recordDataHelpers', function moduleSuite() {
           },
         },
       });
+    });
+  });
+
+  describe('initializeChildren', function suite() {
+    it('should set undefined children to null', function test() {
+      const fieldDescriptor = {
+        [configKey]: {},
+        field1: {
+          [configKey]: {},
+        },
+        field2: {
+          [configKey]: {},
+        },
+        field3: {
+          [configKey]: {},
+        },
+      };
+
+      const data = Immutable.fromJS({
+        field3: 'foo',
+      });
+
+      const updatedData = initializeChildren(fieldDescriptor, data);
+
+      updatedData.toJS().should.deep.equal({
+        field1: null,
+        field2: null,
+        field3: 'foo',
+      });
+    });
+
+    it('should return the data if the field descriptor does not define child fields', function test() {
+      const fieldDescriptor = {
+        [configKey]: {},
+      };
+
+      const data = 'foo';
+
+      const updatedData = initializeChildren(fieldDescriptor, data);
+
+      updatedData.should.equal('foo');
     });
   });
 

@@ -9,6 +9,7 @@ import {
   deepSet,
   deepDelete,
   getUpdatedTimestamp,
+  initializeChildren,
   normalizeRecordData,
 } from '../helpers/recordDataHelpers';
 
@@ -129,7 +130,7 @@ const addFieldInstance = (state, action) => {
   const list = Immutable.List.isList(value) ? value : Immutable.List.of(value);
 
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
-  const defaultData = applyDefaults(fieldDescriptor);
+  const defaultData = initializeChildren(fieldDescriptor, applyDefaults(fieldDescriptor));
 
   const updatedList = (typeof position === 'undefined' || position < 0 || position >= list.size)
     ? list.push(defaultData)

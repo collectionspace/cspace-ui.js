@@ -261,6 +261,23 @@ export const applyDefaults = (fieldDescriptor, data) =>
     spreadDefaultValue(defaultDescriptor.value, defaultDescriptor.path, updatedData), data);
 
 /**
+ * Initialize the child fields of a complex field.
+ */
+export const initializeChildren = (fieldDescriptor, data, value = null) => {
+  const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+
+  if (childKeys.length === 0) {
+    return data;
+  }
+
+  const map = data || Immutable.Map();
+
+  return childKeys.reduce((updatedMap, key) => (
+    (typeof updatedMap.get(key) === 'undefined') ? updatedMap.set(key, value) : updatedMap
+  ), map);
+};
+
+/**
  * Create a skeletal data record for a given CollectionSpace service.
  */
 export const createRecordData = recordTypeConfig =>
