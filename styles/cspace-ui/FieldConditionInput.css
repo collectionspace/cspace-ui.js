@@ -49,4 +49,5 @@
 
 .inline :global(.cspace-input-Input--common) {
   width: auto;
+  border: none;
 }
