@@ -13,6 +13,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 
 import {
   OP_AND,
+  OP_CONTAIN,
   OP_OR,
   OP_EQ,
   OP_LTE,
@@ -54,6 +55,10 @@ const config = {
         value: [
           {
             op: OP_EQ,
+            path: 'ns2:collectionobjects_common/objectNumber',
+          },
+          {
+            op: OP_CONTAIN,
             path: 'ns2:collectionobjects_common/objectNumber',
           },
           {
@@ -278,6 +283,10 @@ describe('AdvancedSearchBuilder', function suite() {
             value: 'hello',
           },
           {
+            op: OP_CONTAIN,
+            path: 'ns2:collectionobjects_common/objectNumber',
+          },
+          {
             op: OP_EQ,
             path: 'ns2:collectionobjects_common/foo',
           },
@@ -327,6 +336,10 @@ describe('AdvancedSearchBuilder', function suite() {
             value: 'hello',
           },
           {
+            op: OP_CONTAIN,
+            path: 'ns2:collectionobjects_common/objectNumber',
+          },
+          {
             op: OP_EQ,
             path: 'ns2:collectionobjects_common/foo',
           },
@@ -371,6 +384,10 @@ describe('AdvancedSearchBuilder', function suite() {
         value: [
           {
             op: OP_EQ,
+            path: 'ns2:collectionobjects_common/objectNumber',
+          },
+          {
+            op: OP_CONTAIN,
             path: 'ns2:collectionobjects_common/objectNumber',
           },
           {
@@ -419,6 +436,10 @@ describe('AdvancedSearchBuilder', function suite() {
         value: [
           {
             op: OP_EQ,
+            path: 'ns2:collectionobjects_common/objectNumber',
+          },
+          {
+            op: OP_CONTAIN,
             path: 'ns2:collectionobjects_common/objectNumber',
           },
           {

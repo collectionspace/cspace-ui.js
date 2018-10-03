@@ -11,6 +11,7 @@ import {
   OP_OR,
   OP_RANGE,
   OP_GTE,
+  OP_LTE,
 } from '../../constants/searchOperators';
 
 const messages = defineMessages({
@@ -19,6 +20,28 @@ const messages = defineMessages({
     defaultMessage: 'Advanced Search',
   },
 });
+
+const findAdvancedSearchClause = (searchClauses, clause) => {
+  let index;
+
+  index = searchClauses.findKey(candidateClause =>
+    candidateClause.get('path') === clause.get('path') &&
+    candidateClause.get('op') === clause.get('op')
+  );
+
+  if (typeof index === 'undefined') {
+    if (clause.get('op') === OP_GTE || clause.get('op') === OP_LTE) {
+      // A one-sided range search might have been converted to a gte/lte search.
+
+      index = searchClauses.findKey(candidateClause =>
+        candidateClause.get('path') === clause.get('path') &&
+        candidateClause.get('op') === OP_RANGE
+      );
+    }
+  }
+
+  return index;
+};
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
@@ -105,12 +128,10 @@ export default class AdvancedSearchBuilder extends Component {
             clauses = Immutable.List([condition]);
           }
 
-          clauses.forEach((clause) => {
-            const targetClauses = mergedCondition.get('value');
+          const targetClauses = mergedCondition.get('value');
 
-            const index = targetClauses.findKey(targetClause =>
-              targetClause.get('path') === clause.get('path')
-            );
+          clauses.forEach((clause) => {
+            const index = findAdvancedSearchClause(targetClauses, clause);
 
             if (typeof index !== 'undefined') {
               const targetClause = targetClauses.get(index);
