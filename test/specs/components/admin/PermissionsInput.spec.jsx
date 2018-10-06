@@ -113,6 +113,21 @@ const config = {
         serviceType: 'security',
       },
     },
+    relation: {
+      name: 'relation',
+      messages: {
+        record: {
+          collectionName: {
+            id: 'record.relation.collectionName',
+            defaultMessage: 'Relations',
+          },
+        },
+      },
+      serviceConfig: {
+        servicePath: 'relations',
+        serviceType: 'utility',
+      },
+    },
   },
 };
 
@@ -125,6 +140,7 @@ const resourceNames = Immutable.List([
   'locationauthorities',
   'personauthorities',
   'authorization/roles',
+  'relations',
 ]);
 
 describe('PermissionsInput', function suite() {
@@ -332,6 +348,96 @@ describe('PermissionsInput', function suite() {
       { resourceName: '/collectionobjects/*/workflow/delete', actionGroup: 'CRUDL' },
       { resourceName: 'servicegroups', actionGroup: 'RL' },
     ]));
+  });
+
+  context('for relations', function relationSuite() {
+    it('should set delete permissions on the resource and the delete workflow when delete is selected', function test() {
+      let committedValue = null;
+
+      const handleCommit = (pathArg, valueArg) => {
+        committedValue = valueArg;
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <ConfigProvider config={config}>
+            <PermissionsInput
+              resourceNames={resourceNames}
+              onCommit={handleCommit}
+            />
+          </ConfigProvider>
+        </IntlProvider>, this.container);
+
+      const input = this.container.querySelector('input[name="relation"][value="CRUDL"]');
+
+      input.checked = 'true';
+
+      Simulate.change(input);
+
+      committedValue.should.equal(Immutable.fromJS([
+        { resourceName: 'relations', actionGroup: 'CRUDL' },
+        { resourceName: '/relations/*/workflow/delete', actionGroup: 'CRUDL' },
+        { resourceName: 'servicegroups', actionGroup: 'RL' },
+      ]));
+    });
+
+    it('should set delete workflow to read only when delete is not selected', function test() {
+      let committedValue = null;
+
+      const handleCommit = (pathArg, valueArg) => {
+        committedValue = valueArg;
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <ConfigProvider config={config}>
+            <PermissionsInput
+              resourceNames={resourceNames}
+              onCommit={handleCommit}
+            />
+          </ConfigProvider>
+        </IntlProvider>, this.container);
+
+      const input = this.container.querySelector('input[name="relation"][value="RL"]');
+
+      input.checked = 'true';
+
+      Simulate.change(input);
+
+      committedValue.should.equal(Immutable.fromJS([
+        { resourceName: 'relations', actionGroup: 'RL' },
+        { resourceName: '/relations/*/workflow/delete', actionGroup: 'RL' },
+        { resourceName: 'servicegroups', actionGroup: 'RL' },
+      ]));
+    });
+
+    it('should set no permissions on the resource and the delete workflow when none is selected', function test() {
+      let committedValue = null;
+
+      const handleCommit = (pathArg, valueArg) => {
+        committedValue = valueArg;
+      };
+
+      render(
+        <IntlProvider locale="en">
+          <ConfigProvider config={config}>
+            <PermissionsInput
+              resourceNames={resourceNames}
+              onCommit={handleCommit}
+            />
+          </ConfigProvider>
+        </IntlProvider>, this.container);
+
+      const input = this.container.querySelector('input[name="relation"][value=""]');
+
+      input.checked = 'true';
+
+      Simulate.change(input);
+
+      committedValue.should.equal(Immutable.fromJS([
+        { resourceName: 'servicegroups', actionGroup: 'RL' },
+      ]));
+    });
   });
 
   it('should update permissions of authority items when permissions of authorities change', function test() {
