@@ -413,6 +413,8 @@ describe('relation action creator', function suite() {
   });
 
   describe('batchCreate', function actionSuite() {
+    const checkUrl = new RegExp(`\\/cspace-services\\/relations\\?prd=${predicate}&sbj=${subject.csid}&andReciprocal=true&wf_deleted=false&pgSz=1&obj=.*`);
+
     before(() => {
       const store = mockStore({
         user: Immutable.Map(),
@@ -432,6 +434,15 @@ describe('relation action creator', function suite() {
     it('should dispatch RELATION_SAVE_FULFILLED once for each object', function test() {
       const store = mockStore({
         relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '0',
+          },
+        },
       });
 
       moxios.stubRequest(createUrl, {
@@ -555,6 +566,15 @@ describe('relation action creator', function suite() {
         relation: Immutable.Map(),
       });
 
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '0',
+          },
+        },
+      });
+
       moxios.stubRequest(createUrl, {
         status: 403,
       });
@@ -598,9 +618,56 @@ describe('relation action creator', function suite() {
           });
         });
     });
+
+    it('should dispatch nothing for each object that is already related to the subject', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '1',
+          },
+        },
+      });
+
+      const objects = [
+        {
+          csid: '1111',
+          recordType: 'group',
+        },
+        {
+          csid: '2222',
+          recordType: 'group',
+        },
+        {
+          csid: '3333',
+          recordType: 'group',
+        },
+      ];
+
+      return store.dispatch(batchCreate(subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.contain({
+            type: SUBJECT_RELATIONS_UPDATED,
+          });
+
+          actions[0].meta.should.contain({
+            subject,
+          });
+        });
+    });
   });
 
   describe('batchCreateBidirectional', function actionSuite() {
+    const checkUrl = new RegExp(`\\/cspace-services\\/relations\\?prd=${predicate}&sbj=${subject.csid}&andReciprocal=true&wf_deleted=false&pgSz=1&obj=.*`);
+
     before(() => {
       const store = mockStore({
         user: Immutable.Map(),
@@ -620,6 +687,15 @@ describe('relation action creator', function suite() {
     it('should dispatch RELATION_SAVE_FULFILLED twice for each object', function test() {
       const store = mockStore({
         relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '0',
+          },
+        },
       });
 
       moxios.stubRequest(createUrl, {
@@ -769,6 +845,15 @@ describe('relation action creator', function suite() {
         relation: Immutable.Map(),
       });
 
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '0',
+          },
+        },
+      });
+
       moxios.stubRequest(createUrl, {
         status: 403,
       });
@@ -805,6 +890,51 @@ describe('relation action creator', function suite() {
 
           actions[2].should.contain({
             type: SHOW_NOTIFICATION,
+          });
+        });
+    });
+
+    it('should dispatch nothing for each object that is already related to the subject', function test() {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      moxios.stubRequest(checkUrl, {
+        status: 200,
+        response: {
+          'rel:relations-common-list': {
+            totalItems: '1',
+          },
+        },
+      });
+
+      const objects = [
+        {
+          csid: '1111',
+          recordType: 'group',
+        },
+        {
+          csid: '2222',
+          recordType: 'group',
+        },
+      ];
+
+      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(2);
+
+          actions[0].should.contain({
+            type: SHOW_NOTIFICATION,
+          });
+
+          actions[1].should.contain({
+            type: SUBJECT_RELATIONS_UPDATED,
+          });
+
+          actions[1].meta.should.contain({
+            subject,
           });
         });
     });

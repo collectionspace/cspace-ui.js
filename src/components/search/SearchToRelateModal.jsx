@@ -45,7 +45,7 @@ const messages = defineMessages({
       =0 {No records}
       one {# record}
       other {# records}
-    } records related to each of {subjectCount, number} records.`,
+    } related to each of {subjectCount, number} search results.`,
   },
 });
 

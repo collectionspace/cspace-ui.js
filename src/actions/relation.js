@@ -152,6 +152,35 @@ export const find = (config, subject, object, predicate) => (dispatch, getState)
     }));
 };
 
+/**
+ * Check if any relations exist for a given record csid and predicate, and optionally, a related
+ * csid. Resolves to true or false.
+ */
+export const checkForRelations = (csid1, predicate, csid2) => () => {
+  const params = {
+    prd: predicate,
+    sbj: csid1,
+    andReciprocal: 'true',
+    wf_deleted: 'false',
+    pgSz: '1',
+  };
+
+  if (typeof csid2 !== 'undefined') {
+    params.obj = csid2;
+  }
+
+  const requestConfig = {
+    params,
+  };
+
+  return getSession().read('/relations', requestConfig)
+    .then((response) => {
+      const totalItems = get(response, ['data', 'rel:relations-common-list', 'totalItems']);
+
+      return (totalItems && parseInt(totalItems, 10) > 0);
+    });
+};
+
 export const deleteRelation = csid => (dispatch) => {
   if (!csid) {
     throw new Error('csid must be supplied');
@@ -348,8 +377,15 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
 
 export const batchCreate = (subject, objects, predicate) => dispatch =>
   objects.reduce((promise, object) => promise
-    .then(() => dispatch(doCreate(subject, object, predicate)))
-    , Promise.resolve()
+    .then(() => dispatch(checkForRelations(subject.csid, predicate, object.csid)))
+    .then((relationExists) => {
+      if (relationExists) {
+        return Promise.resolve();
+      }
+
+      return dispatch(doCreate(subject, object, predicate));
+    }),
+    Promise.resolve()
   )
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
@@ -374,11 +410,16 @@ export const batchCreate = (subject, objects, predicate) => dispatch =>
 export const batchCreateBidirectional = (subject, objects, predicate) => dispatch =>
   // Send these requests one at a time, to avoid DOSing the server.
   objects.reduce((promise, object) => promise
-    .then(() => dispatch(doCreate(subject, object, predicate)))
-    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
-    .then(() => dispatch(doCreate(object, subject, predicate)))
-    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
-    , Promise.resolve()
+    .then(() => dispatch(checkForRelations(subject.csid, predicate, object.csid)))
+    .then((relationExists) => {
+      if (relationExists) {
+        return Promise.resolve();
+      }
+
+      return dispatch(doCreate(subject, object, predicate))
+        .then(() => dispatch(doCreate(object, subject, predicate)));
+    }),
+    Promise.resolve()
   )
     .then(() => {
       dispatch(showRelationNotification(messages.related, {
@@ -429,25 +470,3 @@ export const createBidirectional = (subject, object, predicate) => dispatch =>
       },
     }))
     .catch(() => {});
-
-/**
- * Check if any relations exist for the given record csid and predicate. Resolves to true or false.
- */
-export const checkForRelations = (csid, predicate) => () => {
-  const requestConfig = {
-    params: {
-      prd: predicate,
-      sbj: csid,
-      andReciprocal: 'true',
-      wf_deleted: 'false',
-      pgSz: '1',
-    },
-  };
-
-  return getSession().read('/relations', requestConfig)
-    .then((response) => {
-      const totalItems = get(response, ['data', 'rel:relations-common-list', 'totalItems']);
-
-      return (totalItems && parseInt(totalItems, 10) > 0);
-    });
-};
