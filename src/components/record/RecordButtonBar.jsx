@@ -12,12 +12,12 @@ import styles from '../../../styles/cspace-ui/ButtonBar.css';
 const propTypes = {
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
-  isDeprecated: PropTypes.bool,
+  isDeprecatable: PropTypes.bool,
+  isUndeprecatable: PropTypes.bool,
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
   readOnly: PropTypes.bool,
-  showDeprecationButtons: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   onUndeprecateButtonClick: PropTypes.func,
   onCloneButtonClick: PropTypes.func,
@@ -32,12 +32,12 @@ export default function RecordButtonBar(props) {
   const {
     isCloneable,
     isDeletable,
-    isDeprecated,
+    isDeprecatable,
+    isUndeprecatable,
     isModified,
     isReadPending,
     isSavePending,
     readOnly,
-    showDeprecationButtons,
     validationErrors,
     onUndeprecateButtonClick,
     onCloneButtonClick,
@@ -73,19 +73,17 @@ export default function RecordButtonBar(props) {
         onClick={onRevertButtonClick}
       />
       <DeprecateButton
-        isDeprecated={isDeprecated}
+        isDeprecatable={isDeprecatable}
         isModified={isModified}
         isSavePending={isSavePending}
         readOnly={readOnly}
-        showDeprecationButtons={showDeprecationButtons}
         onClick={onDeprecateButtonClick}
       />
       <UndeprecateButton
-        isDeprecated={isDeprecated}
+        isUndeprecatable={isUndeprecatable}
         isModified={isModified}
         isSavePending={isSavePending}
         readOnly={readOnly}
-        showDeprecationButtons={showDeprecationButtons}
         onClick={onUndeprecateButtonClick}
       />
       <DeleteButton

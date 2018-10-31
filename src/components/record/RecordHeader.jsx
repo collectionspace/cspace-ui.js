@@ -16,7 +16,8 @@ const propTypes = {
   formName: PropTypes.string,
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
-  isDeprecated: PropTypes.bool,
+  isDeprecatable: PropTypes.bool,
+  isUndeprecatable: PropTypes.bool,
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
@@ -92,7 +93,8 @@ export default class RecordHeader extends Component {
       formName,
       isCloneable,
       isDeletable,
-      isDeprecated,
+      isDeprecatable,
+      isUndeprecatable,
       isModified,
       isReadPending,
       isSavePending,
@@ -138,7 +140,8 @@ export default class RecordHeader extends Component {
           <RecordButtonBar
             isCloneable={isCloneable}
             isDeletable={isDeletable}
-            isDeprecated={isDeprecated}
+            isDeprecatable={isDeprecatable}
+            isUndeprecatable={isUndeprecatable}
             isModified={isModified}
             isReadPending={isReadPending}
             isSavePending={isSavePending}

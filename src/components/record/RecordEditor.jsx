@@ -558,6 +558,8 @@ export default class RecordEditor extends Component {
       return null;
     }
 
+    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
     const selectedFormName = formName || recordTypeConfig.defaultForm || 'default';
     const relatedSubjectLocked = isLocked(relatedSubjectWorkflowState);
     const vocabularyLocked = isLocked(vocabularyWorkflowState);
@@ -595,9 +597,20 @@ export default class RecordEditor extends Component {
       (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
     );
 
-    const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
-    const showDeprecationButtons = config.termDeprecationEnabled && serviceType === 'authority';
-    const isDeprecated = isRecordDeprecated(data);
+    const isDeprecatable = (
+      !!csid &&
+      config.termDeprecationEnabled &&
+      serviceType === 'authority' &&
+      !isRecordDeprecated(data)
+    );
+
+    const isUndeprecatable = (
+      !!csid &&
+      config.termDeprecationEnabled &&
+      serviceType === 'authority' &&
+      isRecordDeprecated(data)
+    );
+
     const className = isSidebarOpen ? styles.normal : styles.full;
 
     return (
@@ -609,14 +622,14 @@ export default class RecordEditor extends Component {
           formName={selectedFormName}
           isCloneable={isCloneable}
           isDeletable={isDeletable}
-          isDeprecated={isDeprecated}
+          isDeprecatable={isDeprecatable}
+          isUndeprecatable={isUndeprecatable}
           isModified={isModified}
           isReadPending={isReadPending}
           isSavePending={isSavePending}
           isSidebarOpen={isSidebarOpen}
           readOnly={readOnly}
           recordType={recordType}
-          showDeprecationButtons={showDeprecationButtons}
           validationErrors={validationErrors}
           onCloneButtonClick={this.handleCloneButtonClick}
           onCommit={this.handleRecordFormSelectorCommit}
@@ -642,12 +655,12 @@ export default class RecordEditor extends Component {
           <RecordButtonBar
             isCloneable={isCloneable}
             isDeletable={isDeletable}
-            isDeprecated={isDeprecated}
+            isDeprecatable={isDeprecatable}
+            isUndeprecatable={isUndeprecatable}
             isModified={isModified}
             isReadPending={isReadPending}
             isSavePending={isSavePending}
             readOnly={readOnly}
-            showDeprecationButtons={showDeprecationButtons}
             validationErrors={validationErrors}
             onSaveButtonClick={this.handleSaveButtonClick}
             onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}

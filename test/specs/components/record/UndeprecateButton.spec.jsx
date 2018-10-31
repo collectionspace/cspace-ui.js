@@ -16,25 +16,16 @@ describe('UndeprecateButton', function suite() {
   it('should render a button', function test() {
     render(
       <IntlProvider locale="en">
-        <UndeprecateButton showDeprecationButtons isDeprecated />
+        <UndeprecateButton isUndeprecatable />
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
 
-  it('should render nothing if showDeprecationButtons is false', function test() {
+  it('should render nothing if isUndeprecatable is false', function test() {
     render(
       <IntlProvider locale="en">
-        <UndeprecateButton showDeprecationButtons={false} isDeprecated />
-      </IntlProvider>, this.container);
-
-    expect(this.container.firstElementChild).to.equal(null);
-  });
-
-  it('should render nothing if isDeprecated is false', function test() {
-    render(
-      <IntlProvider locale="en">
-        <UndeprecateButton showDeprecationButtons isDeprecated={false} />
+        <UndeprecateButton isUndeprecatable={false} />
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
@@ -43,7 +34,7 @@ describe('UndeprecateButton', function suite() {
   it('should be disabled if isModified is true', function test() {
     render(
       <IntlProvider locale="en">
-        <UndeprecateButton showDeprecationButtons isDeprecated isModified />
+        <UndeprecateButton isUndeprecatable isModified />
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.disabled.should.equal(true);
@@ -52,7 +43,7 @@ describe('UndeprecateButton', function suite() {
   it('should be disabled if isSavePending is true', function test() {
     render(
       <IntlProvider locale="en">
-        <UndeprecateButton showDeprecationButtons isDeprecated isSavePending />
+        <UndeprecateButton isUndeprecatable isSavePending />
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.disabled.should.equal(true);

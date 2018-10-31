@@ -15,23 +15,21 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  isDeprecated: PropTypes.bool,
+  isDeprecatable: PropTypes.bool,
   isModified: PropTypes.bool,
   isSavePending: PropTypes.bool,
-  showDeprecationButtons: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 export default function DeprecateButton(props) {
   const {
-    isDeprecated,
+    isDeprecatable,
     isModified,
     isSavePending,
-    showDeprecationButtons,
     onClick,
   } = props;
 
-  if (!showDeprecationButtons || isDeprecated) {
+  if (!isDeprecatable) {
     return null;
   }
 

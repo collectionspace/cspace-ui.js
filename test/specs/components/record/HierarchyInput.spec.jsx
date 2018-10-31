@@ -374,6 +374,15 @@ describe('HierarchyInput', function suite() {
       {
         predicate: 'hasBroader',
         subject: {
+          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
+        },
+        object: {
+          csid,
+        },
+      },
+      {
+        predicate: 'hasBroader',
+        subject: {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child1)\'Wilma\'',
         },
         object: {
@@ -384,15 +393,6 @@ describe('HierarchyInput', function suite() {
         predicate: 'hasBroader',
         subject: {
           refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child2)\'Barney\'',
-        },
-        object: {
-          csid,
-        },
-      },
-      {
-        predicate: 'hasBroader',
-        subject: {
-          refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(child3)',
         },
         object: {
           csid,
