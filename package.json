@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "1.0.0-rc.56",
+  "version": "1.0.0-rc.57",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -114,7 +114,7 @@
     "url-loader": "^1.0.1",
     "wdio-dot-reporter": "0.0.9",
     "wdio-mocha-framework": "^0.5.12",
-    "wdio-sauce-service": "^0.4.10",
+    "wdio-sauce-service": "^0.4.12",
     "wdio-selenium-standalone-service": "0.0.10",
     "wdio-spec-reporter": "^0.1.5",
     "webdriverio": "^4.13.1",
