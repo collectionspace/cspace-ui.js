@@ -31,6 +31,15 @@ const defaultConfig = mergeConfig({
   container: '#cspace',
   defaultAdvancedSearchBooleanOp: OP_OR,
   defaultDropdownFilter: 'substring',
+  defaultUserPrefs: {
+    panels: {
+      collectionobject: {
+        mediaSnapshotPanel: {
+          collapsed: false,
+        },
+      },
+    },
+  },
   index: '/search',
   locale: 'en-US',
   logo: logoUrl,
