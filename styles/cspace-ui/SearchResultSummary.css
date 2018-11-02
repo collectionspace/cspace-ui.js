@@ -32,6 +32,15 @@
   margin-bottom: 0;
 }
 
+.searching {
+  composes: normal;
+  padding-left: 30px;
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: 10px 12px;
+  background-image: url(../../images/spinner.svg);
+}
+
 .error {
   composes: common;
 }

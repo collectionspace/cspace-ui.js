@@ -96,6 +96,7 @@ export default function SearchResultSummary(props) {
     );
   }
 
+  let isSearching = false;
   let message = null;
   let pageSize = null;
 
@@ -107,6 +108,8 @@ export default function SearchResultSummary(props) {
     const totalItems = parseInt(list.get('totalItems'), 10);
 
     if (isNaN(totalItems)) {
+      isSearching = true;
+
       message = (
         <FormattedMessage {...listTypeConfig.messages.searching} />
       );
@@ -152,8 +155,10 @@ export default function SearchResultSummary(props) {
     />
   );
 
+  const className = isSearching ? styles.searching : styles.normal;
+
   return (
-    <div className={styles.normal}>
+    <div className={className}>
       {content}
       {pageSizeChooser}
     </div>
