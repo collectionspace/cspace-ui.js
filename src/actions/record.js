@@ -26,6 +26,7 @@ import {
   getRecordValidationErrors,
   getRecordPagePrimaryCsid,
   getSearchResult,
+  getStickyFields,
   getSubrecordData,
   isRecordReadPending,
 } from '../reducers';
@@ -57,6 +58,7 @@ import {
   STATUS_PENDING,
   STATUS_SUCCESS,
 } from '../constants/notificationStatusCodes';
+import { setStickyFields } from './prefs';
 
 const deleteMessages = defineMessages({
   deleting: {
@@ -523,6 +525,7 @@ export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, clon
           config,
           recordTypeConfig,
           cloneCsid,
+          stickyFields: getStickyFields(getState()),
         },
       }))
     );
@@ -568,6 +571,7 @@ export const createNewSubrecord = (
         subrecordTypeConfig,
         cloneCsid,
         isDefault,
+        stickyFields: getStickyFields(getState()),
       },
     }))
   );
@@ -732,6 +736,7 @@ export const saveRecord =
           return dispatch(saveSubrecords(
             config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid, 'before'
           ))
+          .then(() => dispatch(setStickyFields(currentRecordTypeConfig, currentCsid)))
           .then(() => {
             const data = getRecordData(getState(), currentCsid);
             const isExisting = isExistingRecord(data);

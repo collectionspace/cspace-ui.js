@@ -172,7 +172,13 @@ const sortFieldInstances = (state, action) => {
   return setCurrentData(state, csid, updatedData);
 };
 
-const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) => {
+const doCreateNew = (state, config, recordTypeConfig, options = {}) => {
+  const {
+    cloneCsid,
+    subrecordName,
+    stickyFields,
+  } = options;
+
   let data;
 
   if (cloneCsid) {
@@ -181,6 +187,16 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
 
   if (!data) {
     data = createRecordData(recordTypeConfig);
+
+    if (stickyFields) {
+      // Merge in the user's saved sticky fields for this record type, if any.
+
+      const fields = stickyFields.get(recordTypeConfig.name);
+
+      if (fields) {
+        data = data.mergeDeep(fields);
+      }
+    }
   }
 
   const csid = unsavedRecordKey(subrecordName);
@@ -209,8 +225,11 @@ const doCreateNew = (state, config, recordTypeConfig, cloneCsid, subrecordName) 
           nextState,
           config,
           subrecordTypeConfig,
-          subrecordCsid,
-          name
+          {
+            cloneCsid: subrecordCsid,
+            subrecordName: name,
+            stickyFields,
+          }
         );
 
         cloneSubrecordCsid = `${csid}/${name}`;
@@ -237,9 +256,13 @@ const createNewRecord = (state, action) => {
     config,
     recordTypeConfig,
     cloneCsid,
+    stickyFields,
   } = action.meta;
 
-  return doCreateNew(state, config, recordTypeConfig, cloneCsid);
+  return doCreateNew(state, config, recordTypeConfig, {
+    cloneCsid,
+    stickyFields,
+  });
 };
 
 const deleteFieldValue = (state, action) => {
@@ -510,9 +533,14 @@ const createNewSubrecord = (state, action) => {
     subrecordTypeConfig,
     cloneCsid,
     isDefault,
+    stickyFields,
   } = action.meta;
 
-  let nextState = doCreateNew(state, config, subrecordTypeConfig, cloneCsid, subrecordName);
+  let nextState = doCreateNew(state, config, subrecordTypeConfig, {
+    cloneCsid,
+    subrecordName,
+    stickyFields,
+  });
 
   const subrecordCsid = unsavedRecordKey(subrecordName);
 

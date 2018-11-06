@@ -2,7 +2,8 @@
 
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import { getUserUsername, getPrefs } from '../reducers';
+import { getUserUsername, getPrefs, getRecordData } from '../reducers';
+import { getStickyFieldValues } from '../helpers/recordDataHelpers';
 
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
@@ -18,6 +19,7 @@ export const SET_SEARCH_TO_RELATE_PAGE_SIZE = 'SET_SEARCH_TO_RELATE_PAGE_SIZE';
 export const SET_FORM = 'SET_FORM';
 export const SET_UPLOAD_TYPE = 'SET_UPLOAD_TYPE';
 export const TOGGLE_RECORD_SIDEBAR = 'TOGGLE_RECORD_SIDEBAR';
+export const SET_STICKY_FIELDS = 'SET_STICKY_FIELDS';
 
 export const storageKey = 'cspace-ui';
 
@@ -98,6 +100,22 @@ export const setUploadType = type => ({
 export const toggleRecordSidebar = () => ({
   type: TOGGLE_RECORD_SIDEBAR,
 });
+
+export const setStickyFields = (recordTypeConfig, csid) => (dispatch, getState) => {
+  const data = getRecordData(getState(), csid);
+
+  if (data) {
+    const stickyData = getStickyFieldValues(recordTypeConfig, data);
+
+    dispatch({
+      type: SET_STICKY_FIELDS,
+      payload: stickyData,
+      meta: {
+        recordTypeConfig,
+      },
+    });
+  }
+};
 
 export const loadPrefs = (config, username) => (dispatch) => {
   // TODO: Load prefs from server (requires adding services layer support).

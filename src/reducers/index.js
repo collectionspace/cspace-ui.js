@@ -167,6 +167,9 @@ export const getQuickSearchVocabulary = (state, recordType) =>
 
 export const isRecordSidebarOpen = state => fromPrefs.isRecordSidebarOpen(state.prefs);
 
+export const getStickyFields = (state, recordType) =>
+  fromPrefs.getStickyFields(state.prefs, recordType);
+
 export const isSearchDirty = (state, searchName) =>
   fromSearch.isDirty(state.search, searchName);
 

@@ -67,6 +67,7 @@ import reducer, {
   isReadPending,
   isSavePending,
   isReadVocabularyItemRefsPending,
+  getSubrecordData,
 } from '../../../src/reducers/record';
 
 const expect = chai.expect;
@@ -283,210 +284,262 @@ describe('record reducer', function suite() {
     });
   });
 
-  it('should handle CREATE_NEW_RECORD', function test() {
-    let state;
 
-    // No existing new record data
-
-    state = reducer(undefined, {
-      type: CREATE_NEW_RECORD,
-      meta: {
-        recordTypeConfig: {
-          serviceConfig: {
-            documentName: 'groups',
-          },
-          fields: {
-            document: {},
-          },
-        },
-      },
-    });
-
-    getNewData(state).should.equal(Immutable.fromJS({
-      document: {},
-    }));
-
-    isModified(state, '').should.equal(false);
-
-    // Existing new record data
-
-    state = reducer(state, {
-      type: CREATE_NEW_RECORD,
-      meta: {
-        recordTypeConfig: {
-          serviceConfig: {
-            documentName: 'collectionobjects',
-          },
-          fields: {
-            document: {},
-          },
-        },
-      },
-    });
-
-    getNewData(state).should.equal(Immutable.fromJS({
-      document: {},
-    }));
-
-    isModified(state, '').should.equal(false);
-
-    // Clone
-
-    const cloneData = Immutable.fromJS({
-      foo: {
-        bar: 'baz',
-      },
-    });
-
-    state = reducer(Immutable.fromJS({
-      1234: {
-        data: {
-          current: cloneData,
-        },
-      },
-    }), {
-      type: CREATE_NEW_RECORD,
-      meta: {
-        recordTypeConfig: {},
-        cloneCsid: '1234',
-      },
-    });
-
-    getNewData(state).should.equal(cloneData);
-
-    // Subrecord
-
-    state = reducer(undefined, {
-      type: CREATE_NEW_RECORD,
-      meta: {
-        config: {
-          recordTypes: {
-            contact: {
-              serviceConfig: {
-                documentName: 'contacts',
-              },
-              fields: {
-                document: {},
-              },
+  describe('on CREATE_NEW_RECORD', function actionSuite() {
+    it('should create new record data when there is no existing new record data', function test() {
+      const state = reducer(undefined, {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          recordTypeConfig: {
+            serviceConfig: {
+              documentName: 'groups',
+            },
+            fields: {
+              document: {},
             },
           },
         },
-        recordTypeConfig: {
-          serviceConfig: {
-            documentName: 'groups',
-          },
-          fields: {
-            document: {},
-          },
-          subrecords: {
-            contact: {
-              recordType: 'contact',
+      });
+
+      getNewData(state).should.equal(Immutable.fromJS({
+        document: {},
+      }));
+
+      isModified(state, '').should.equal(false);
+    });
+
+    it('should create new record data when there is existing new record data', function test() {
+      const state = reducer(Immutable.fromJS({
+        '': {
+          data: {
+            baseline: {},
+            current: {
+              foo: 'bar',
             },
           },
         },
-      },
+      }), {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          recordTypeConfig: {
+            serviceConfig: {
+              documentName: 'collectionobjects',
+            },
+            fields: {
+              document: {},
+            },
+          },
+        },
+      });
+
+      getNewData(state).should.equal(Immutable.fromJS({
+        document: {},
+      }));
+
+      isModified(state, '').should.equal(false);
     });
 
-    getNewData(state).should.equal(Immutable.fromJS({
-      document: {},
-    }));
+    it('should copy data from another record when a cloneCsid is supplied', function test() {
+      const cloneData = Immutable.fromJS({
+        foo: {
+          bar: 'baz',
+        },
+      });
 
-    const contactSubrecordCsid = getNewSubrecordCsid(state, 'contact');
+      const state = reducer(Immutable.fromJS({
+        1234: {
+          data: {
+            current: cloneData,
+          },
+        },
+      }), {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          recordTypeConfig: {},
+          cloneCsid: '1234',
+        },
+      });
 
-    getData(state, contactSubrecordCsid).should.equal(Immutable.fromJS({
-      document: {},
-    }));
+      getNewData(state).should.equal(cloneData);
+    });
 
-    getSubrecordCsid(state, '', 'contact').should.equal(contactSubrecordCsid);
-
-    // Subrecord referenced by a csid field
-
-    state = reducer(undefined, {
-      type: CREATE_NEW_RECORD,
-      meta: {
-        config: {
-          recordTypes: {
-            blob: {
-              serviceConfig: {
-                documentName: 'blobs',
+    it('should create new subrecord data', function test() {
+      const state = reducer(undefined, {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          config: {
+            recordTypes: {
+              contact: {
+                serviceConfig: {
+                  documentName: 'contacts',
+                },
+                fields: {
+                  document: {},
+                },
               },
-              fields: {
-                document: {},
+            },
+          },
+          recordTypeConfig: {
+            serviceConfig: {
+              documentName: 'groups',
+            },
+            fields: {
+              document: {},
+            },
+            subrecords: {
+              contact: {
+                recordType: 'contact',
               },
             },
           },
         },
-        recordTypeConfig: {
-          serviceConfig: {
-            documentName: 'media',
-          },
-          fields: {
-            document: {},
-          },
-          subrecords: {
-            blob: {
-              recordType: 'blob',
-              csidField: ['foo', 'blobCsid'],
-            },
-          },
+      });
+
+      getNewData(state).should.equal(Immutable.fromJS({
+        document: {},
+      }));
+
+      const contactSubrecordCsid = getNewSubrecordCsid(state, 'contact');
+
+      getData(state, contactSubrecordCsid).should.equal(Immutable.fromJS({
+        document: {},
+      }));
+
+      getSubrecordCsid(state, '', 'contact').should.equal(contactSubrecordCsid);
+
+      getSubrecordData(state, '').should.equal(Immutable.fromJS({
+        contact: {
+          document: {},
         },
-      },
+      }));
     });
 
-    const blobSubrecordCsid = getNewSubrecordCsid(state, 'blob');
-
-    getData(state, blobSubrecordCsid).should.equal(Immutable.fromJS({
-      document: {},
-    }));
-
-    getSubrecordCsid(state, '', 'blob').should.equal(blobSubrecordCsid);
-
-    // Subrecord referenced by a csid field, via clone
-
-    state = reducer(Immutable.fromJS({
-      1234: {
-        data: {
-          current: {
-            foo: {
-              blobCsid: '8888',
-            },
-          },
-        },
-      },
-    }), {
-      type: CREATE_NEW_RECORD,
-      meta: {
-        cloneCsid: '1234',
-        config: {
-          recordTypes: {
-            blob: {
-              serviceConfig: {
-                documentName: 'blobs',
-              },
-              fields: {
-                document: {},
+    it('should create new subrecord data for a subrecord referenced by a csid field', function test() {
+      const state = reducer(undefined, {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          config: {
+            recordTypes: {
+              blob: {
+                serviceConfig: {
+                  documentName: 'blobs',
+                },
+                fields: {
+                  document: {},
+                },
               },
             },
           },
-        },
-        recordTypeConfig: {
-          serviceConfig: {
-            documentName: 'media',
-          },
-          fields: {
-            document: {},
-          },
-          subrecords: {
-            blob: {
-              recordType: 'blob',
-              csidField: ['foo', 'blobCsid'],
+          recordTypeConfig: {
+            serviceConfig: {
+              documentName: 'media',
+            },
+            fields: {
+              document: {},
+            },
+            subrecords: {
+              blob: {
+                recordType: 'blob',
+                csidField: ['foo', 'blobCsid'],
+              },
             },
           },
         },
-      },
+      });
+
+      const blobSubrecordCsid = getNewSubrecordCsid(state, 'blob');
+
+      getData(state, blobSubrecordCsid).should.equal(Immutable.fromJS({
+        document: {},
+      }));
+
+      getSubrecordCsid(state, '', 'blob').should.equal(blobSubrecordCsid);
+
+      getSubrecordData(state, '').should.equal(Immutable.fromJS({
+        blob: {
+          document: {},
+        },
+      }));
     });
 
-    getSubrecordCsid(state, '', 'blob').should.equal('8888');
+    it('should copy the csid in a subrecord csid field from a cloned record', function test() {
+      const state = reducer(Immutable.fromJS({
+        1234: {
+          data: {
+            current: {
+              foo: {
+                blobCsid: '8888',
+              },
+            },
+          },
+        },
+      }), {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          cloneCsid: '1234',
+          config: {
+            recordTypes: {
+              blob: {
+                serviceConfig: {
+                  documentName: 'blobs',
+                },
+                fields: {
+                  document: {},
+                },
+              },
+            },
+          },
+          recordTypeConfig: {
+            serviceConfig: {
+              documentName: 'media',
+            },
+            fields: {
+              document: {},
+            },
+            subrecords: {
+              blob: {
+                recordType: 'blob',
+                csidField: ['foo', 'blobCsid'],
+              },
+            },
+          },
+        },
+      });
+
+      getSubrecordCsid(state, '', 'blob').should.equal('8888');
+    });
+
+    it('should copy sticky field values into new record data when supplied', function test() {
+      const state = reducer(undefined, {
+        type: CREATE_NEW_RECORD,
+        meta: {
+          recordTypeConfig: {
+            name: 'collectionobject',
+            serviceConfig: {
+              documentName: 'collectionobjects',
+            },
+            fields: {
+              document: {},
+            },
+          },
+          stickyFields: Immutable.fromJS({
+            collectionobject: {
+              document: {
+                foo: 'bar',
+              },
+            },
+          }),
+        },
+      });
+
+      getNewData(state).should.equal(Immutable.fromJS({
+        document: {
+          foo: 'bar',
+        },
+      }));
+
+      isModified(state, '').should.equal(false);
+    });
   });
 
   it('should handle DELETE_FIELD_VALUE', function test() {

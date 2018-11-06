@@ -14,6 +14,7 @@ import {
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_STICKY_FIELDS,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
 } from '../../../src/actions/prefs';
@@ -38,8 +39,10 @@ import reducer, {
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
   getSearchToRelatePageSize,
+  getStickyFields,
   getUploadType,
   isPanelCollapsed,
+  isRecordSidebarOpen,
 } from '../../../src/reducers/prefs';
 
 chai.use(chaiImmutable);
@@ -369,5 +372,37 @@ describe('prefs reducer', function suite() {
     state.should.equal(Immutable.fromJS({
       recordSidebarOpen: false,
     }));
+
+    isRecordSidebarOpen(state).should.equal(false);
+  });
+
+  it('should handle SET_STICKY_FIELDS', function test() {
+    const recordType = 'media';
+
+    const stickyFields = Immutable.fromJS({
+      foo: 'bar',
+    });
+
+    const state = reducer(undefined, {
+      type: SET_STICKY_FIELDS,
+      payload: stickyFields,
+      meta: {
+        recordTypeConfig: {
+          name: recordType,
+        },
+      },
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      stickyFields: {
+        [recordType]: stickyFields,
+      },
+    }));
+
+    getStickyFields(state).should.equal(Immutable.fromJS({
+      [recordType]: stickyFields,
+    }));
+
+    getStickyFields(state, recordType).should.equal(stickyFields);
   });
 });

@@ -18,6 +18,7 @@ import {
   isFieldCloneable,
   isFieldRepeating,
   isFieldRequired,
+  getStickyFields,
 } from './configHelpers';
 
 import {
@@ -218,6 +219,39 @@ export const createBlankRecord = (recordTypeConfig) => {
   return Immutable.fromJS({
     [documentKey]: document,
   });
+};
+
+/**
+ * Deeply copy the value at a given path in a source record into a destination record.
+ */
+export const copyValue = (fieldDescriptorPath, sourceData, destData) => {
+  if (
+    !fieldDescriptorPath ||
+    fieldDescriptorPath.length === 0 ||
+    !Immutable.Map.isMap(sourceData)
+  ) {
+    return sourceData;
+  }
+
+  const [key, ...rest] = fieldDescriptorPath;
+  const sourceChild = sourceData.get(key);
+
+  let destChild = destData.get(key);
+
+  if (!Immutable.Map.isMap(destChild)) {
+    destChild = Immutable.Map();
+  }
+
+  if (Immutable.List.isList(sourceChild)) {
+    return (
+      sourceChild.reduce((updatedDestData, instance, index) =>
+        updatedDestData.setIn([key, index], copyValue(rest, instance, destChild)),
+        destData.set(key, Immutable.List())
+      )
+    );
+  }
+
+  return destData.set(key, copyValue(rest, sourceChild, destChild));
 };
 
 /**
@@ -962,4 +996,13 @@ export const hasNarrowerHierarchyRelations = (csid, data) => {
       relation.getIn(['object', 'csid']) === csid
     )
   );
+};
+
+export const getStickyFieldValues = (recordTypeConfig, data) => {
+  const stickyFields = getStickyFields(recordTypeConfig.fields);
+
+  const stickyData = stickyFields.reduce((updatedData, path) =>
+    copyValue(path, data, updatedData), Immutable.Map());
+
+  return stickyData;
 };

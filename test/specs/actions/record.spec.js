@@ -38,6 +38,10 @@ import {
 } from '../../../src/actions/notification';
 
 import {
+  SET_STICKY_FIELDS,
+} from '../../../src/actions/prefs';
+
+import {
   CLEAR_RECORD,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
@@ -115,7 +119,9 @@ describe('record action creator', function suite() {
     });
 
     it('should dispatch CREATE_NEW_RECORD', function test() {
-      const store = mockStore({});
+      const store = mockStore({
+        prefs: Immutable.Map(),
+      });
 
       const config = {
         foo: 'abc',
@@ -143,6 +149,7 @@ describe('record action creator', function suite() {
               config,
               recordTypeConfig,
               cloneCsid,
+              stickyFields: undefined,
             },
           });
         });
@@ -171,6 +178,7 @@ describe('record action creator', function suite() {
       });
 
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
       });
 
@@ -209,6 +217,7 @@ describe('record action creator', function suite() {
               config,
               recordTypeConfig,
               cloneCsid,
+              stickyFields: undefined,
             },
           });
         });
@@ -235,7 +244,9 @@ describe('record action creator', function suite() {
     });
 
     it('should dispatch CREATE_NEW_SUBRECORD', function test() {
-      const store = mockStore({});
+      const store = mockStore({
+        prefs: Immutable.Map(),
+      });
 
       const config = {
         foo: 'abc',
@@ -275,6 +286,7 @@ describe('record action creator', function suite() {
               subrecordTypeConfig,
               cloneCsid,
               isDefault,
+              stickyFields: undefined,
             },
           });
         });
@@ -282,6 +294,7 @@ describe('record action creator', function suite() {
 
     it('should read the record to be cloned', function test() {
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
       });
 
@@ -353,6 +366,7 @@ describe('record action creator', function suite() {
               subrecordTypeConfig,
               cloneCsid,
               isDefault,
+              stickyFields: undefined,
             },
           });
         });
@@ -766,6 +780,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.Map(),
           search: Immutable.Map(
             // No subrecord search results, so a subrecord search should be initiated.
@@ -1021,6 +1036,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1041,7 +1057,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(6);
+            actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1068,10 +1084,18 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
 
-            actions[5].should.deep.equal({
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[6].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -1115,7 +1139,7 @@ describe('record action creator', function suite() {
           .catch(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(6);
+            actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1142,11 +1166,19 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
 
-            actions[5].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[5].should.have.property('meta')
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[6].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[6].should.have.property('meta')
               .that.deep.equals({
                 csid,
               });
@@ -1175,7 +1207,7 @@ describe('record action creator', function suite() {
           .catch(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(6);
+            actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1202,11 +1234,19 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
 
-            actions[5].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[5].should.have.property('meta')
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[6].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[6].should.have.property('meta')
               .that.deep.equals({
                 csid: '',
               });
@@ -1235,7 +1275,7 @@ describe('record action creator', function suite() {
           .catch(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(6);
+            actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1262,11 +1302,19 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
 
-            actions[5].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[5].should.have.property('meta')
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.deep.property('payload.status', STATUS_ERROR);
+
+            actions[6].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[6].should.have.property('meta')
               .that.deep.equals({
                 csid: '',
               });
@@ -1315,7 +1363,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(7);
+            actions.should.have.lengthOf(8);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1343,6 +1391,14 @@ describe('record action creator', function suite() {
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[5].should.deep.equal({
               type: RECORD_CREATED,
               meta: {
                 recordTypeConfig,
@@ -1351,10 +1407,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[5].should.have.property('type', SHOW_NOTIFICATION);
-            actions[5].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[6].should.have.property('type', SHOW_NOTIFICATION);
+            actions[6].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[6].should.deep.equal({
+            actions[7].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -1512,7 +1568,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(6);
+            actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1539,10 +1595,18 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
 
-            actions[5].should.deep.equal({
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[6].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -1668,6 +1732,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1703,7 +1768,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(13);
+            actions.should.have.lengthOf(15);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1731,6 +1796,14 @@ describe('record action creator', function suite() {
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[5].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid: subrecordCsid,
@@ -1738,21 +1811,29 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[5].should.deep.equal({
+            actions[6].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
               },
             });
 
-            actions[6].should.deep.equal({
+            actions[7].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: subrecordCsid,
               },
             });
 
-            actions[7].should.deep.equal({
+            actions[8].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig: subrecordTypeConfig,
+              },
+            });
+
+            actions[9].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -1768,10 +1849,10 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[8].should.have.property('type', SHOW_NOTIFICATION);
-            actions[8].should.have.deep.property('payload.status', STATUS_SUCCESS);
+            actions[10].should.have.property('type', SHOW_NOTIFICATION);
+            actions[10].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-            actions[9].should.deep.equal({
+            actions[11].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -1791,9 +1872,9 @@ describe('record action creator', function suite() {
             // though it was just saved), because the search result won't exist in the mocked
             // store.
 
-            actions[10].should.have.property('type', SEARCH_STARTED);
-            actions[11].should.have.property('type', SEARCH_FULFILLED);
-            actions[12].should.have.property('type', CREATE_NEW_SUBRECORD);
+            actions[12].should.have.property('type', SEARCH_STARTED);
+            actions[13].should.have.property('type', SEARCH_FULFILLED);
+            actions[14].should.have.property('type', CREATE_NEW_SUBRECORD);
           });
       });
 
@@ -1848,7 +1929,7 @@ describe('record action creator', function suite() {
           .catch(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(10);
+            actions.should.have.lengthOf(12);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -1876,6 +1957,14 @@ describe('record action creator', function suite() {
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
             actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[5].should.deep.equal({
               type: 'VALIDATION_PASSED',
               meta: {
                 csid: subrecordCsid,
@@ -1883,31 +1972,39 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[5].should.deep.equal({
+            actions[6].should.deep.equal({
               type: REMOVE_NOTIFICATION,
               meta: {
                 notificationID: NOTIFICATION_ID_VALIDATION,
               },
             });
 
-            actions[6].should.deep.equal({
+            actions[7].should.deep.equal({
               type: RECORD_SAVE_STARTED,
               meta: {
                 csid: subrecordCsid,
               },
             });
 
-            actions[7].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[7].should.have.property('meta')
+            actions[8].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig: subrecordTypeConfig,
+              },
+            });
+
+            actions[9].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[9].should.have.property('meta')
               .that.deep.equals({
                 csid: subrecordCsid,
               });
 
-            actions[8].should.have.property('type', SHOW_NOTIFICATION);
-            actions[8].should.have.deep.property('payload.status', STATUS_ERROR);
+            actions[10].should.have.property('type', SHOW_NOTIFICATION);
+            actions[10].should.have.deep.property('payload.status', STATUS_ERROR);
 
-            actions[9].should.have.property('type', RECORD_SAVE_REJECTED);
-            actions[9].should.have.property('meta')
+            actions[11].should.have.property('type', RECORD_SAVE_REJECTED);
+            actions[11].should.have.property('meta')
               .that.deep.equals({
                 csid,
               });
@@ -1945,6 +2042,7 @@ describe('record action creator', function suite() {
         const newSubrecordCsid = 'new';
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1980,9 +2078,9 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(15);
+            actions.should.have.lengthOf(17);
 
-            actions[9].should.deep.equal({
+            actions[11].should.deep.equal({
               type: SUBRECORD_CREATED,
               meta: {
                 csid,
@@ -2119,7 +2217,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(11);
+            actions.should.have.lengthOf(13);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -2169,6 +2267,14 @@ describe('record action creator', function suite() {
             });
 
             actions[7].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig: subrecordTypeConfig,
+              },
+            });
+
+            actions[8].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -2184,10 +2290,18 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[8].should.have.property('type', SHOW_NOTIFICATION);
-            actions[8].should.have.deep.property('payload.status', STATUS_SUCCESS);
-
             actions[9].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[10].should.have.property('type', SHOW_NOTIFICATION);
+            actions[10].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[11].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -2203,7 +2317,7 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[10].should.deep.equal({
+            actions[12].should.deep.equal({
               type: SUBRECORD_READ_FULFILLED,
               meta: {
                 csid,
@@ -2275,7 +2389,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(13);
+            actions.should.have.lengthOf(15);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -2325,6 +2439,14 @@ describe('record action creator', function suite() {
             });
 
             actions[7].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig: subrecordTypeConfig,
+              },
+            });
+
+            actions[8].should.deep.equal({
               type: RECORD_CREATED,
               meta: {
                 recordTypeConfig: subrecordTypeConfig,
@@ -2333,7 +2455,7 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[8].should.deep.equal({
+            actions[9].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -2349,7 +2471,7 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[9].should.deep.equal({
+            actions[10].should.deep.equal({
               type: SUBRECORD_CREATED,
               meta: {
                 csid,
@@ -2359,10 +2481,18 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[10].should.have.property('type', SHOW_NOTIFICATION);
-            actions[10].should.have.deep.property('payload.status', STATUS_SUCCESS);
-
             actions[11].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[12].should.have.property('type', SHOW_NOTIFICATION);
+            actions[12].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[13].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -2427,7 +2557,7 @@ describe('record action creator', function suite() {
           .then(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(7);
+            actions.should.have.lengthOf(8);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -2454,9 +2584,18 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
-            actions[5].should.deep.equal({
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+            actions[6].should.deep.equal({
               type: RECORD_SAVE_FULFILLED,
               payload: {
                 status: 200,
@@ -2472,7 +2611,7 @@ describe('record action creator', function suite() {
               },
             });
 
-            actions[6].should.deep.equal({
+            actions[7].should.deep.equal({
               type: SUBRECORD_READ_FULFILLED,
               meta: {
                 csid,
@@ -2544,7 +2683,7 @@ describe('record action creator', function suite() {
           .catch(() => {
             const actions = store.getActions();
 
-            actions.should.have.lengthOf(6);
+            actions.should.have.lengthOf(7);
 
             actions[0].should.deep.equal({
               type: 'VALIDATION_PASSED',
@@ -2571,9 +2710,17 @@ describe('record action creator', function suite() {
             actions[3].should.have.property('type', SHOW_NOTIFICATION);
             actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].should.have.property('type', SHOW_NOTIFICATION);
-            actions[4].payload.items[0].message.id.should.equal('action.record.errorDupRoleName');
+            actions[4].should.deep.equal({
+              type: SET_STICKY_FIELDS,
+              payload: Immutable.Map(),
+              meta: {
+                recordTypeConfig,
+              },
+            });
+
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].should.have.property('type', SHOW_NOTIFICATION);
+            actions[5].payload.items[0].message.id.should.equal('action.record.errorDupRoleName');
           });
       });
     });
@@ -3220,7 +3367,7 @@ describe('record action creator', function suite() {
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(10);
+          actions.should.have.lengthOf(11);
 
           actions[0].should.deep.equal({
             type: 'VALIDATION_PASSED',
@@ -3247,10 +3394,18 @@ describe('record action creator', function suite() {
           actions[3].should.have.property('type', SHOW_NOTIFICATION);
           actions[3].should.have.deep.property('payload.status', STATUS_PENDING);
 
-          actions[4].should.have.property('type', SHOW_NOTIFICATION);
-          actions[4].should.have.deep.property('payload.status', STATUS_SUCCESS);
+          actions[4].should.deep.equal({
+            type: SET_STICKY_FIELDS,
+            payload: Immutable.Map(),
+            meta: {
+              recordTypeConfig,
+            },
+          });
 
-          actions[5].should.deep.equal({
+          actions[5].should.have.property('type', SHOW_NOTIFICATION);
+          actions[5].should.have.deep.property('payload.status', STATUS_SUCCESS);
+
+          actions[6].should.deep.equal({
             type: RECORD_SAVE_FULFILLED,
             payload: {
               status: 200,
@@ -3266,10 +3421,10 @@ describe('record action creator', function suite() {
             },
           });
 
-          actions[6].should.have.property('type', SHOW_NOTIFICATION);
-          actions[6].should.have.deep.property('payload.status', STATUS_PENDING);
+          actions[7].should.have.property('type', SHOW_NOTIFICATION);
+          actions[7].should.have.deep.property('payload.status', STATUS_PENDING);
 
-          actions[7].should.deep.equal({
+          actions[8].should.deep.equal({
             type: RECORD_TRANSITION_STARTED,
             meta: {
               csid,
@@ -3278,26 +3433,26 @@ describe('record action creator', function suite() {
             },
           });
 
-          actions[8].should.have.property('type', SHOW_NOTIFICATION);
-          actions[8].should.have.deep.property('payload.status', STATUS_SUCCESS);
+          actions[9].should.have.property('type', SHOW_NOTIFICATION);
+          actions[9].should.have.deep.property('payload.status', STATUS_SUCCESS);
 
-          actions[9].should.have.property('type', RECORD_TRANSITION_FULFILLED);
+          actions[10].should.have.property('type', RECORD_TRANSITION_FULFILLED);
 
-          actions[9].payload.should.deep.equal({
+          actions[10].payload.should.deep.equal({
             status: 200,
             statusText: undefined,
             headers: undefined,
             data: {},
           });
 
-          actions[9].meta.should.include({
+          actions[10].meta.should.include({
             csid,
             recordTypeConfig,
             transitionName,
             relatedSubjectCsid: undefined,
           });
 
-          actions[9].meta.should.have.property('updatedTimestamp');
+          actions[10].meta.should.have.property('updatedTimestamp');
         });
     });
   });

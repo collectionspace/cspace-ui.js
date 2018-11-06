@@ -13,6 +13,7 @@ import {
   getFieldComputer,
   getFieldDataType,
   getRequiredMessage,
+  getStickyFields,
   initConfig,
   mergeConfig,
   mergeStrategy,
@@ -858,6 +859,40 @@ describe('configHelpers', function moduleSuite() {
           value: 'English',
         },
       ]);
+    });
+  });
+
+  describe('getStickyFields', function suite() {
+    const fieldDescriptor = {
+      document: {
+        common: {
+          recordStatus: {
+            [configKey]: {
+              sticky: true,
+            },
+          },
+          titleGroupList: {
+            titleGroup: {
+              titleLanguage: {
+                [configKey]: {
+                  sticky: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should return the paths of fields that are sticky', function test() {
+      getStickyFields(fieldDescriptor).should.deep.equal([
+        ['document', 'common', 'recordStatus'],
+        ['document', 'common', 'titleGroupList', 'titleGroup', 'titleLanguage'],
+      ]);
+    });
+
+    it('should return an empty array if no field descriptor is supplied', function test() {
+      getStickyFields().should.deep.equal([]);
     });
   });
 

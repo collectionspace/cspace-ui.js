@@ -1,4 +1,7 @@
 import Immutable from 'immutable';
+import { SET_SEARCH_PAGE_ADVANCED } from '../actions/searchPage';
+import { SET_SEARCH_TO_RELATE_ADVANCED } from '../actions/searchToRelate';
+import { OP_AND, OP_OR } from '../constants/searchOperators';
 
 import {
   PREFS_LOADED,
@@ -15,20 +18,8 @@ import {
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
+  SET_STICKY_FIELDS,
 } from '../actions/prefs';
-
-import {
-  SET_SEARCH_PAGE_ADVANCED,
-} from '../actions/searchPage';
-
-import {
-  SET_SEARCH_TO_RELATE_ADVANCED,
-} from '../actions/searchToRelate';
-
-import {
-  OP_AND,
-  OP_OR,
-} from '../constants/searchOperators';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
   const condition = action.payload;
@@ -45,6 +36,13 @@ const handleToggleRecordSidebar = (state) => {
   }
 
   return state.set('recordSidebarOpen', !isOpen);
+};
+
+const setStickyFields = (state, action) => {
+  const data = action.payload;
+  const { recordTypeConfig } = action.meta;
+
+  return state.setIn(['stickyFields', recordTypeConfig.name], data);
 };
 
 export default (state = Immutable.Map(), action) => {
@@ -92,6 +90,8 @@ export default (state = Immutable.Map(), action) => {
       return handleAdvancedSearchConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
       return handleToggleRecordSidebar(state, action);
+    case SET_STICKY_FIELDS:
+      return setStickyFields(state, action);
     default:
       return state;
   }
@@ -137,3 +137,11 @@ export const getAdminTab = state =>
   state.get('adminTab');
 
 export const isRecordSidebarOpen = state => state.get('recordSidebarOpen');
+
+export const getStickyFields = (state, recordType) => {
+  if (typeof recordType === 'undefined') {
+    return state.get('stickyFields');
+  }
+
+  return state.getIn(['stickyFields', recordType]);
+};

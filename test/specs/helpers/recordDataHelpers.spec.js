@@ -33,6 +33,7 @@ import {
   cloneRecordData,
   computeField,
   computeRecordData,
+  copyValue,
   createBlankRecord,
   createRecordData,
   deepGet,
@@ -47,6 +48,7 @@ import {
   getPartNSPropertyName,
   getCreatedTimestamp,
   getCreatedUser,
+  getStickyFieldValues,
   getUpdatedTimestamp,
   getUpdatedUser,
   getWorkflowState,
@@ -964,6 +966,176 @@ describe('recordDataHelpers', function moduleSuite() {
 
       prepareForSendingData.should.equal(recordData);
       prepareForSendingRecordTypeConfig.should.equal(customRecordTypeConfig);
+    });
+  });
+
+  describe('copyValue', function suite() {
+    it('should copy a scalar value from the source to the destination', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: 'abc',
+      });
+
+      const destData = Immutable.fromJS({
+        bar: 'xyz',
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: 'abc',
+        bar: 'xyz',
+      }));
+    });
+
+    it('should overwrite existing destination values', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: 'abc',
+      });
+
+      const destData = Immutable.fromJS({
+        foo: 'xyz',
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: 'abc',
+      }));
+    });
+
+    it('should copy a list value from the source to the destination', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: ['value 1', 'value 2', 'value 3'],
+      });
+
+      const destData = Immutable.fromJS({
+        bar: 'xyz',
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: ['value 1', 'value 2', 'value 3'],
+        bar: 'xyz',
+      }));
+    });
+
+    it('should overwrite an existing scalar value with a list value copied from the source', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: ['value 1', 'value 2', 'value 3'],
+      });
+
+      const destData = Immutable.fromJS({
+        foo: 'xyz',
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: ['value 1', 'value 2', 'value 3'],
+      }));
+    });
+
+    it('should overwrite an existing list value with a list value copied from the source', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: ['value 1', 'value 2', 'value 3'],
+      });
+
+      const destData = Immutable.fromJS({
+        foo: ['a', 'b'],
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: ['value 1', 'value 2', 'value 3'],
+      }));
+    });
+
+    it('should recursively copy a complex value from the source to the destination', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: {
+          child1: {
+            child2: {
+              child3: 'abc',
+            },
+            child4: 'def',
+          },
+        },
+      });
+
+      const destData = Immutable.fromJS({
+        bar: 'xyz',
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: {
+          child1: {
+            child2: {
+              child3: 'abc',
+            },
+            child4: 'def',
+          },
+        },
+        bar: 'xyz',
+      }));
+    });
+
+    it('should recursively copy lists of complex values from the source to the destination', function test() {
+      const sourceData = Immutable.fromJS({
+        foo: {
+          child1: [
+            {
+              child2: {
+                child3: 'abc',
+              },
+            },
+            {
+              child2: {
+                child3: 'ghi',
+              },
+              child4: 'jkl',
+            },
+            {
+              child2: {
+                child3: 'mno',
+              },
+              child4: 'pqr',
+            },
+          ],
+          baz: '123',
+        },
+      });
+
+      const destData = Immutable.fromJS({
+        foo: {
+          child1: [
+            {
+              child2: {
+                child3: 'xyz',
+              },
+              child4: 'def',
+            },
+          ],
+        },
+        bar: 'xyz',
+      });
+
+      copyValue(['foo'], sourceData, destData).should.equal(Immutable.fromJS({
+        foo: {
+          child1: [
+            {
+              child2: {
+                child3: 'abc',
+              },
+            },
+            {
+              child2: {
+                child3: 'ghi',
+              },
+              child4: 'jkl',
+            },
+            {
+              child2: {
+                child3: 'mno',
+              },
+              child4: 'pqr',
+            },
+          ],
+          baz: '123',
+        },
+        bar: 'xyz',
+      }));
     });
   });
 
@@ -3180,6 +3352,61 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       hasNarrowerHierarchyRelations(csid, data).should.equal(false);
+    });
+  });
+
+  describe('getStickyFieldValues', function suite() {
+    it('should return a map containing the values of sticky fields in the given record data', function test() {
+      const recordTypeConfig = {
+        fields: {
+          document: {
+            common: {
+              recordStatus: {
+                [configKey]: {
+                  sticky: true,
+                },
+              },
+              titleGroupList: {
+                titleGroup: {
+                  titleLanguage: {
+                    [configKey]: {
+                      sticky: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const data = Immutable.fromJS({
+        document: {
+          common: {
+            identificationNumber: '1234',
+            recordStatus: 'new',
+            titleGroupList: {
+              titleGroup: {
+                title: 'something',
+                titleLanguage: 'english',
+              },
+            },
+          },
+        },
+      });
+
+      getStickyFieldValues(recordTypeConfig, data).should.equal(Immutable.fromJS({
+        document: {
+          common: {
+            recordStatus: 'new',
+            titleGroupList: {
+              titleGroup: {
+                titleLanguage: 'english',
+              },
+            },
+          },
+        },
+      }));
     });
   });
 });
