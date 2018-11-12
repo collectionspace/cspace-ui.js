@@ -289,7 +289,7 @@ class LoginForm extends Component {
       <form id={formId} onSubmit={this.handleSubmit}>
         <LineInput
           autoComplete="username email"
-          name="username"
+          id="username"
           placeholder={intl.formatMessage(messages.username)}
           type="text"
           value={username}
@@ -299,7 +299,7 @@ class LoginForm extends Component {
 
         <PasswordInput
           autoComplete="current-password"
-          name="password"
+          id="password"
           placeholder={intl.formatMessage(messages.password)}
           api={this.handlePasswordInputApi}
         />

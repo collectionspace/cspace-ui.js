@@ -226,6 +226,6 @@ describe('RecordForm', function suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('input[name="objectNumber"]').value.should.equal(objectNumber);
+    this.container.querySelector('input[data-name="objectNumber"]').value.should.equal(objectNumber);
   });
 });

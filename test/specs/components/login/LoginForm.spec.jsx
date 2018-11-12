@@ -209,8 +209,8 @@ describe('LoginForm', function suite() {
     const username = 'user@collectionspace.org';
     const password = 'topsecret';
 
-    this.container.querySelector('input[name="username"]').value = username;
-    this.container.querySelector('input[name="password"]').value = password;
+    this.container.querySelector('#username').value = username;
+    this.container.querySelector('#password').value = password;
 
     Simulate.submit(form);
 
@@ -291,7 +291,7 @@ describe('LoginForm', function suite() {
         </Router>
       </IntlProvider>, this.container);
 
-    const passwordInput = this.container.querySelector('input[name="password"]');
+    const passwordInput = this.container.querySelector('#password');
 
     document.activeElement.should.equal(passwordInput);
   });
@@ -317,7 +317,7 @@ describe('LoginForm', function suite() {
         </Router>
       </IntlProvider>, this.container);
 
-    const passwordInput = this.container.querySelector('input[name="password"]');
+    const passwordInput = this.container.querySelector('#password');
 
     document.activeElement.should.equal(passwordInput);
   });
@@ -334,7 +334,7 @@ describe('LoginForm', function suite() {
         </Router>
       </IntlProvider>, this.container);
 
-    const usernameInput = this.container.querySelector('input[name="username"]');
+    const usernameInput = this.container.querySelector('#username');
 
     usernameInput.value = username;
 

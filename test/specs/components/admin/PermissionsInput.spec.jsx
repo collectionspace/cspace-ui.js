@@ -190,9 +190,9 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelectorAll('input[name="collectionobject"][type="radio"]').length.should.equal(4);
-    this.container.querySelectorAll('input[name="group"][type="radio"]').length.should.equal(4);
-    this.container.querySelectorAll('input[name="other"][type="radio"]').length.should.equal(0);
+    this.container.querySelectorAll('input[data-name="collectionobject"][type="radio"]').length.should.equal(4);
+    this.container.querySelectorAll('input[data-name="group"][type="radio"]').length.should.equal(4);
+    this.container.querySelectorAll('input[data-name="other"][type="radio"]').length.should.equal(0);
   });
 
   it('should sort record types by the configured sort order', function test() {
@@ -208,8 +208,8 @@ describe('PermissionsInput', function suite() {
     const authoritySection = this.container.querySelectorAll('section')[2];
     const inputs = authoritySection.querySelectorAll('div > label:first-child > input');
 
-    inputs[0].name.should.equal('person');
-    inputs[1].name.should.equal('location');
+    inputs[0].dataset.name.should.equal('person');
+    inputs[1].dataset.name.should.equal('location');
   });
 
   it('should sort record types by label when there is no sort order configured', function test() {
@@ -225,9 +225,9 @@ describe('PermissionsInput', function suite() {
     const procedureSection = this.container.querySelectorAll('section')[1];
     const inputs = procedureSection.querySelectorAll('div > label:first-child > input');
 
-    inputs[0].name.should.equal('group');
-    inputs[1].name.should.equal('loanin');
-    inputs[2].name.should.equal('movement');
+    inputs[0].dataset.name.should.equal('group');
+    inputs[1].dataset.name.should.equal('loanin');
+    inputs[2].dataset.name.should.equal('movement');
   });
 
   it('should check radio buttons corresponding to the supplied value', function test() {
@@ -246,10 +246,10 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('input[name="collectionobject"][value="RL"]').checked
+    this.container.querySelector('input[data-name="collectionobject"][value="RL"]').checked
       .should.equal(true);
 
-    this.container.querySelector('input[name="group"][value="CRUDL"]').checked
+    this.container.querySelector('input[data-name="group"][value="CRUDL"]').checked
       .should.equal(true);
   });
 
@@ -269,7 +269,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('input[name="group"][value="CRUDL"]').checked
+    this.container.querySelector('input[data-name="group"][value="CRUDL"]').checked
       .should.equal(true);
   });
 
@@ -286,7 +286,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('input[name="collectionobject"][value="RL"]').checked
+    this.container.querySelector('input[data-name="collectionobject"][value="RL"]').checked
       .should.equal(true);
   });
 
@@ -307,7 +307,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input[name="collectionobject"][value="RL"]');
+    const input = this.container.querySelector('input[data-name="collectionobject"][value="RL"]');
 
     input.checked = 'true';
 
@@ -337,7 +337,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input[name="collectionobject"][value="CRUDL"]');
+    const input = this.container.querySelector('input[data-name="collectionobject"][value="CRUDL"]');
 
     input.checked = 'true';
 
@@ -368,7 +368,7 @@ describe('PermissionsInput', function suite() {
           </ConfigProvider>
         </IntlProvider>, this.container);
 
-      const input = this.container.querySelector('input[name="relation"][value="CRUDL"]');
+      const input = this.container.querySelector('input[data-name="relation"][value="CRUDL"]');
 
       input.checked = 'true';
 
@@ -398,7 +398,7 @@ describe('PermissionsInput', function suite() {
           </ConfigProvider>
         </IntlProvider>, this.container);
 
-      const input = this.container.querySelector('input[name="relation"][value="RL"]');
+      const input = this.container.querySelector('input[data-name="relation"][value="RL"]');
 
       input.checked = 'true';
 
@@ -428,7 +428,7 @@ describe('PermissionsInput', function suite() {
           </ConfigProvider>
         </IntlProvider>, this.container);
 
-      const input = this.container.querySelector('input[name="relation"][value=""]');
+      const input = this.container.querySelector('input[data-name="relation"][value=""]');
 
       input.checked = 'true';
 
@@ -457,7 +457,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input[name="person"][value="CRUL"]');
+    const input = this.container.querySelector('input[data-name="person"][value="CRUL"]');
 
     input.checked = 'true';
 
@@ -488,7 +488,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input[name="authrole"][value="CRUL"]');
+    const input = this.container.querySelector('input[data-name="authrole"][value="CRUL"]');
 
     input.checked = 'true';
 
@@ -524,7 +524,7 @@ describe('PermissionsInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input[name="group"][value=""]');
+    const input = this.container.querySelector('input[data-name="group"][value=""]');
 
     input.checked = 'true';
 

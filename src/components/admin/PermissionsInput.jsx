@@ -286,10 +286,13 @@ export default class PermissionsInput extends Component {
 
   handleRadioChange(event) {
     const {
-      name: recordType,
       value: actionGroup,
       checked: selected,
     } = event.target;
+
+    const {
+      name: recordType,
+    } = event.target.dataset;
 
     const {
       onCommit,
@@ -353,7 +356,7 @@ export default class PermissionsInput extends Component {
         <FormattedMessage {...permMessages[value]} />
         <input
           checked={checked}
-          name={recordType}
+          data-name={recordType}
           type="radio"
           value={value}
           disabled={readOnly}

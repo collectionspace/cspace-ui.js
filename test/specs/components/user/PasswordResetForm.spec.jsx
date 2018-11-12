@@ -47,8 +47,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'topsecret';
 
@@ -94,7 +94,7 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
 
     passwordInput.value = 'topsecret';
 
@@ -117,8 +117,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     passwordInput.value = 'topsecret';
 
@@ -145,8 +145,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'nope';
 
@@ -175,8 +175,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'this is a very long password that exceeds the length limit';
 
@@ -210,8 +210,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'topsecret';
 
@@ -251,8 +251,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'topsecret';
 
@@ -292,8 +292,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'topsecret';
 
@@ -328,8 +328,8 @@ describe('PasswordResetForm', function suite() {
       </IntlProvider>, this.container);
 
     const form = this.container.querySelector('form');
-    const passwordInput = this.container.querySelector('input[name="password"]');
-    const confirmPasswordInput = this.container.querySelector('input[name="confirmPassword"]');
+    const passwordInput = this.container.querySelector('input[data-name="password"]');
+    const confirmPasswordInput = this.container.querySelector('input[data-name="confirmPassword"]');
 
     const password = 'topsecret';
 
