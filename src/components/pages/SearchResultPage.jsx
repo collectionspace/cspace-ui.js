@@ -346,7 +346,7 @@ export default class SearchResultPage extends Component {
     event.stopPropagation();
 
     const checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
-    const index = checkbox.name;
+    const index = checkbox.dataset.name;
 
     window.setTimeout(() => {
       this.handleCheckboxCommit([index], !checkbox.checked);

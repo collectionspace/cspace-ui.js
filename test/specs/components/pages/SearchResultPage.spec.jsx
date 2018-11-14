@@ -1225,7 +1225,9 @@ describe('SearchResultPage', function suite() {
     checkbox.props.onClick({
       currentTarget: {
         querySelector: () => ({
-          name: rowIndex.toString(),
+          dataset: {
+            name: rowIndex.toString(),
+          },
         }),
       },
       preventDefault: () => {},
