@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 
 import {
+  CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
 } from '../actions/searchPage';
@@ -17,6 +18,8 @@ export default (state = Immutable.Map(), action) => {
       return state.set('keyword', action.payload);
     case SET_SEARCH_PAGE_RECORD_TYPE:
       return state.delete('advanced');
+    case CLEAR_SEARCH_PAGE:
+      return state.clear();
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import SearchPage from '../../../../src/components/pages/SearchPage';
 import { ConnectedSearchPage } from '../../../../src/containers/pages/SearchPageContainer';
 
 import {
+  CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
 } from '../../../../src/actions/searchPage';
@@ -61,6 +62,7 @@ describe('SearchPageContainer', function suite() {
     result.props.should.have.property('vocabularyValue', 'local');
     result.props.should.have.property('getAuthorityVocabCsid').that.is.a('function');
     result.props.should.have.property('onAdvancedSearchConditionCommit').that.is.a('function');
+    result.props.should.have.property('onClearButtonClick').that.is.a('function');
     result.props.should.have.property('onKeywordCommit').that.is.a('function');
     result.props.should.have.property('onRecordTypeCommit').that.is.a('function');
     result.props.should.have.property('onVocabularyCommit').that.is.a('function');
@@ -320,5 +322,44 @@ describe('SearchPageContainer', function suite() {
       pathname: '/list/concept/material',
       search: '?kw=hello%20world',
     });
+  });
+
+  it('should connect onClearButtonClick to clearSearchPage action creator', function test() {
+    const store = mockStore({
+      searchPage: Immutable.fromJS({
+        keyword: 'hello world',
+      }),
+      prefs: Immutable.fromJS({
+        searchPage: {
+          recordType: 'concept',
+          vocabulary: {
+            concept: 'material',
+          },
+        },
+      }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<ConnectedSearchPage />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.onClearButtonClick();
+
+    const action = store.getActions()[0];
+
+    action.should.have.property('type', CLEAR_SEARCH_PAGE);
   });
 });

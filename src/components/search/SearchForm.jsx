@@ -53,6 +53,7 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   getAuthorityVocabCsid: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
+  onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
@@ -173,6 +174,7 @@ export default class SearchForm extends Component {
       showButtons,
       getAuthorityVocabCsid,
       onAdvancedSearchConditionCommit,
+      onClearButtonClick,
     } = this.props;
 
     const fullTextPanelHeader = (
@@ -187,11 +189,21 @@ export default class SearchForm extends Component {
       ? null
       : { height: '0', overflow: 'hidden', margin: '0' };
 
-    const header = <header style={headerStyle}><SearchButtonBar /></header>;
+    const header = (
+      <header style={headerStyle}>
+        <SearchButtonBar onClearButtonClick={onClearButtonClick} />
+      </header>
+    );
 
-    const footer = showButtons
-      ? <footer><SearchButtonBar /></footer>
-      : null;
+    let footer;
+
+    if (showButtons) {
+      footer = (
+        <footer>
+          <SearchButtonBar onClearButtonClick={onClearButtonClick} />
+        </footer>
+      );
+    }
 
     const searchableRecordTypes = getSearchableRecordTypes(getAuthorityVocabCsid, config, perms);
 

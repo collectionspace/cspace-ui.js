@@ -38,6 +38,7 @@ const propTypes = {
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   getAuthorityVocabCsid: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
+  onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
@@ -208,6 +209,7 @@ export default class SearchPage extends Component {
       preferredAdvancedSearchBooleanOp,
       getAuthorityVocabCsid,
       onAdvancedSearchConditionCommit,
+      onClearButtonClick,
       onKeywordCommit,
       onSearch,
     } = this.props;
@@ -246,6 +248,7 @@ export default class SearchPage extends Component {
             showButtons
             getAuthorityVocabCsid={getAuthorityVocabCsid}
             onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+            onClearButtonClick={onClearButtonClick}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
             onVocabularyCommit={this.handleVocabularyCommit}

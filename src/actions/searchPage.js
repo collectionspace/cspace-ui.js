@@ -10,8 +10,13 @@ import {
 
 import { normalizeCondition } from '../helpers/searchHelpers';
 
+export const CLEAR_SEARCH_PAGE = 'CLEAR_SEARCH_PAGE';
 export const SET_SEARCH_PAGE_KEYWORD = 'SET_SEARCH_PAGE_KEYWORD';
 export const SET_SEARCH_PAGE_ADVANCED = 'SET_SEARCH_PAGE_ADVANCED';
+
+export const clearSearchPage = () => ({
+  type: CLEAR_SEARCH_PAGE,
+});
 
 export const setSearchPageKeyword = value => ({
   type: SET_SEARCH_PAGE_KEYWORD,

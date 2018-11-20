@@ -4,6 +4,7 @@ import SearchPage from '../../components/pages/SearchPage';
 import withConfig from '../../enhancers/withConfig';
 
 import {
+  clearSearchPage,
   setSearchPageAdvanced,
   setSearchPageKeyword,
   initiateSearch,
@@ -44,6 +45,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onAdvancedSearchConditionCommit: (value) => {
     dispatch(setSearchPageAdvanced(value));
+  },
+  onClearButtonClick: () => {
+    dispatch(clearSearchPage());
   },
   onKeywordCommit: (value) => {
     dispatch(setSearchPageKeyword(value));

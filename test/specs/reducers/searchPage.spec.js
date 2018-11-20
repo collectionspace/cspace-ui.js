@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
 } from '../../../src/actions/searchPage';
@@ -73,5 +74,16 @@ describe('search page reducer', function suite() {
     }));
 
     expect(getAdvanced(state)).to.equal(undefined);
+  });
+
+  it('should handle CLEAR_SEARCH_PAGE', function test() {
+    const state = reducer(Immutable.Map({
+      advanced: Immutable.Map(),
+      keyword: 'foo',
+    }), {
+      type: CLEAR_SEARCH_PAGE,
+    });
+
+    state.should.equal(Immutable.Map());
   });
 });
