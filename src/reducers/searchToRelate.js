@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 
 import {
+  CLEAR_SEARCH_TO_RELATE,
   SET_SEARCH_TO_RELATE_ADVANCED,
   SET_SEARCH_TO_RELATE_KEYWORD,
   SET_SEARCH_TO_RELATE_RECORD_TYPE,
@@ -17,6 +18,8 @@ export default (state = Immutable.Map(), action) => {
       return state.set('recordType', action.payload).delete('advanced');
     case SET_SEARCH_TO_RELATE_VOCABULARY:
       return state.setIn(['vocabulary', state.get('recordType')], action.payload);
+    case CLEAR_SEARCH_TO_RELATE:
+      return state.delete('advanced').delete('keyword');
     default:
       return state;
   }

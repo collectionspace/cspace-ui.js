@@ -12,6 +12,7 @@ import BackButton from '../navigation/BackButton';
 import CancelButton from '../navigation/CancelButton';
 import RelateButton from '../record/RelateButton';
 import SearchButton from './SearchButton';
+import SearchClearButton from './SearchClearButton';
 import SearchResultSummary from './SearchResultSummary';
 import SearchToRelateTitleBar from './SearchToRelateTitleBar';
 import SelectBar from './SelectBar';
@@ -89,6 +90,7 @@ const propTypes = {
   onVocabularyCommit: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onCancelButtonClick: PropTypes.func,
+  onClearButtonClick: PropTypes.func,
   onItemSelectChange: PropTypes.func,
   onRelationsCreated: PropTypes.func,
   clearSearchResults: PropTypes.func,
@@ -653,6 +655,7 @@ export class BaseSearchToRelateModal extends Component {
   renderModalButtonBar() {
     const {
       selectedItems,
+      onClearButtonClick,
     } = this.props;
 
     const {
@@ -669,6 +672,7 @@ export class BaseSearchToRelateModal extends Component {
 
     let acceptButton;
     let backButton;
+    let clearButton;
 
     if (isSearchInitiated) {
       acceptButton = (
@@ -694,11 +698,16 @@ export class BaseSearchToRelateModal extends Component {
           onClick={this.handleAcceptButtonClick}
         />
       );
+
+      clearButton = (
+        <SearchClearButton onClick={onClearButtonClick} />
+      );
     }
 
     return (
       <div>
         {cancelButton}
+        {clearButton}
         {backButton}
         {acceptButton}
       </div>

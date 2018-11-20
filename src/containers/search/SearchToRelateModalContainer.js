@@ -12,6 +12,7 @@ import {
 } from '../../actions/relation';
 
 import {
+  clearSearchToRelate,
   setSearchToRelateAdvanced,
   setSearchToRelateKeyword,
   setSearchToRelateRecordType,
@@ -61,6 +62,7 @@ const mapDispatchToProps = {
   search,
   showRelationNotification,
   onAdvancedSearchConditionCommit: setSearchToRelateAdvanced,
+  onClearButtonClick: clearSearchToRelate,
   onKeywordCommit: setSearchToRelateKeyword,
   onRecordTypeCommit: setSearchToRelateRecordType,
   onVocabularyCommit: setSearchToRelateVocabulary,

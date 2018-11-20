@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
+  CLEAR_SEARCH_TO_RELATE,
   SET_SEARCH_TO_RELATE_ADVANCED,
   SET_SEARCH_TO_RELATE_KEYWORD,
   SET_SEARCH_TO_RELATE_RECORD_TYPE,
@@ -91,5 +92,29 @@ describe('search to relate reducer', function suite() {
     }));
 
     getKeyword(state).should.equal(keyword);
+  });
+
+  it('should handle CLEAR_SEARCH_TO_RELATE', function test() {
+    const state = reducer(Immutable.fromJS({
+      recordType: 'person',
+      vocabulary: {
+        person: 'ulan',
+      },
+      keyword: 'abc',
+      advanced: Immutable.Map({
+        op: 'eq',
+        path: '',
+        value: '',
+      }),
+    }), {
+      type: CLEAR_SEARCH_TO_RELATE,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      recordType: 'person',
+      vocabulary: {
+        person: 'ulan',
+      },
+    }));
   });
 });
