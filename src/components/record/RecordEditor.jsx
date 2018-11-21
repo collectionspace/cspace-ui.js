@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router';
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import Dock from '../sections/Dock';
 import RecordButtonBar from './RecordButtonBar';
 import RecordHeader from './RecordHeader';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
@@ -615,31 +616,34 @@ export default class RecordEditor extends Component {
 
     return (
       <form className={className} autoComplete="off">
-        <RecordHeader
-          config={config}
-          data={data}
+        <Dock
           dockTop={dockTop}
-          formName={selectedFormName}
-          isCloneable={isCloneable}
-          isDeletable={isDeletable}
-          isDeprecatable={isDeprecatable}
-          isUndeprecatable={isUndeprecatable}
-          isModified={isModified}
-          isReadPending={isReadPending}
-          isSavePending={isSavePending}
           isSidebarOpen={isSidebarOpen}
-          readOnly={readOnly}
-          recordType={recordType}
-          validationErrors={validationErrors}
-          onCloneButtonClick={this.handleCloneButtonClick}
-          onCommit={this.handleRecordFormSelectorCommit}
-          onDeprecateButtonClick={this.handleDeprecateButtonClick}
-          onDeleteButtonClick={this.handleDeleteButtonClick}
-          onSaveButtonClick={this.handleSaveButtonClick}
-          onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
-          onRevertButtonClick={this.handleRevertButtonClick}
-          onUndeprecateButtonClick={this.handleUndeprecateButtonClick}
-        />
+        >
+          <RecordHeader
+            config={config}
+            data={data}
+            formName={selectedFormName}
+            isCloneable={isCloneable}
+            isDeletable={isDeletable}
+            isDeprecatable={isDeprecatable}
+            isUndeprecatable={isUndeprecatable}
+            isModified={isModified}
+            isReadPending={isReadPending}
+            isSavePending={isSavePending}
+            readOnly={readOnly}
+            recordType={recordType}
+            validationErrors={validationErrors}
+            onCloneButtonClick={this.handleCloneButtonClick}
+            onCommit={this.handleRecordFormSelectorCommit}
+            onDeprecateButtonClick={this.handleDeprecateButtonClick}
+            onDeleteButtonClick={this.handleDeleteButtonClick}
+            onSaveButtonClick={this.handleSaveButtonClick}
+            onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
+            onRevertButtonClick={this.handleRevertButtonClick}
+            onUndeprecateButtonClick={this.handleUndeprecateButtonClick}
+          />
+        </Dock>
 
         <RecordFormContainer
           config={config}

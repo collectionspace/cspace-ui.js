@@ -55,6 +55,11 @@ export default class SearchPage extends Component {
 
     this.handleRecordTypeCommit = this.handleRecordTypeCommit.bind(this);
     this.handleVocabularyCommit = this.handleVocabularyCommit.bind(this);
+    this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
+
+    this.state = ({
+      headerDockPosition: null,
+    });
   }
 
   componentDidMount() {
@@ -183,6 +188,12 @@ export default class SearchPage extends Component {
     });
   }
 
+  handleTitleBarDocked(height) {
+    this.setState({
+      headerDockPosition: height,
+    });
+  }
+
   handleVocabularyCommit(value) {
     const {
       history,
@@ -215,6 +226,10 @@ export default class SearchPage extends Component {
     } = this.props;
 
     const {
+      headerDockPosition,
+    } = this.state;
+
+    const {
       config,
     } = this.context;
 
@@ -234,12 +249,17 @@ export default class SearchPage extends Component {
 
     return (
       <div className={styles.common}>
-        <TitleBar title={title} updateDocumentTitle />
+        <TitleBar
+          title={title}
+          updateDocumentTitle
+          onDocked={this.handleTitleBarDocked}
+        />
 
         <div className={pageBodyStyles.common}>
           <SearchForm
             advancedSearchCondition={advancedSearchCondition}
             config={config}
+            dockTop={headerDockPosition}
             keywordValue={keywordValue}
             recordTypeValue={recordType}
             vocabularyValue={vocabulary}

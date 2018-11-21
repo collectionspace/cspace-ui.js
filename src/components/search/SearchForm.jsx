@@ -4,6 +4,7 @@ import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import { Panel } from 'cspace-layout';
+import Dock from '../sections/Dock';
 import SearchButtonBar from './SearchButtonBar';
 import AdvancedSearchBuilder from './AdvancedSearchBuilder';
 import { getSearchableRecordTypes } from '../../helpers/searchHelpers';
@@ -40,6 +41,7 @@ const messages = defineMessages({
 
 const propTypes = {
   config: PropTypes.object,
+  dockTop: PropTypes.number,
   intl: intlShape,
   keywordValue: PropTypes.string,
   recordTypeValue: PropTypes.string,
@@ -163,6 +165,7 @@ export default class SearchForm extends Component {
     const {
       advancedSearchCondition,
       config,
+      dockTop,
       intl,
       keywordValue,
       perms,
@@ -185,15 +188,21 @@ export default class SearchForm extends Component {
     // button will exist on the page, invisibly. This allows pressing enter on fields to submit the
     // form.
 
-    const headerStyle = showButtons
-      ? null
-      : { height: '0', overflow: 'hidden', margin: '0' };
-
-    const header = (
-      <header style={headerStyle}>
-        <SearchButtonBar onClearButtonClick={onClearButtonClick} />
-      </header>
+    const topButtonBar = (
+      <SearchButtonBar onClearButtonClick={onClearButtonClick} />
     );
+
+    let header;
+
+    if (showButtons) {
+      header = (
+        <Dock dockTop={dockTop} isSidebarOpen={false}>{topButtonBar}</Dock>
+      );
+    } else {
+      header = (
+        <div style={{ height: '0', overflow: 'hidden', margin: '0' }}>{topButtonBar}</div>
+      );
+    }
 
     let footer;
 

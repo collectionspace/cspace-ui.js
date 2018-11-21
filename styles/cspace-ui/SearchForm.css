@@ -4,7 +4,10 @@
   margin: 0;
 }
 
-.common > header,
+.common > header + section {
+  margin-top: 10px;
+}
+
 .common > footer {
   margin: 10px 0;
 }
