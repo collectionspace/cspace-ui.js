@@ -178,6 +178,125 @@ export default (configContext) => {
             },
           },
         },
+        approvalGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          approvalGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.intakes_common.approvalGroup.name',
+                  defaultMessage: 'Approval',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            approvalGroup: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.approvalGroup.fullName',
+                    defaultMessage: 'Approval group',
+                  },
+                  name: {
+                    id: 'field.approvalGroupField.approvalGroup.name',
+                    defaultMessage: 'Group',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
+                },
+              },
+            },
+            approvalIndividual: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.approvalIndividual.fullName',
+                    defaultMessage: 'Approval individual',
+                  },
+                  name: {
+                    id: 'field.intakes_common.approvalIndividual.name',
+                    defaultMessage: 'Individual',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared',
+                  },
+                },
+              },
+            },
+            approvalStatus: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.approvalStatus.fullName',
+                    defaultMessage: 'Approval status',
+                  },
+                  name: {
+                    id: 'field.intakes_common.approvalStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalstatus',
+                  },
+                },
+              },
+            },
+            approvalDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  name: {
+                    id: 'field.intakes_common.approvalDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.intakes_common.approvalDate.fullName',
+                    defaultMessage: 'Approval status date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            approvalNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.intakes_common.approvalNote.name',
+                    defaultMessage: 'Note',
+                  },
+                  fullName: {
+                    id: 'field.intakes_common.approvalNote.fullName',
+                    defaultMessage: 'Approval note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
         entryNote: {
           [config]: {
             messages: defineMessages({
