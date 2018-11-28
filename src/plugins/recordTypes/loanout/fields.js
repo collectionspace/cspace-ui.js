@@ -40,6 +40,125 @@ export default (configContext) => {
             ns: 'http://collectionspace.org/services/loanout',
           },
         },
+        approvalGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          approvalGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.loansout_common.approvalGroup.name',
+                  defaultMessage: 'Approval',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            approvalGroup: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.loansout_common.approvalGroup.fullName',
+                    defaultMessage: 'Approval group',
+                  },
+                  name: {
+                    id: 'field.approvalGroupField.approvalGroup.name',
+                    defaultMessage: 'Group',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
+                },
+              },
+            },
+            approvalIndividual: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.loansout_common.approvalIndividual.fullName',
+                    defaultMessage: 'Approval individual',
+                  },
+                  name: {
+                    id: 'field.loansout_common.approvalIndividual.name',
+                    defaultMessage: 'Individual',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local',
+                  },
+                },
+              },
+            },
+            approvalStatus: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.loansout_common.approvalStatus.fullName',
+                    defaultMessage: 'Approval status',
+                  },
+                  name: {
+                    id: 'field.loansout_common.approvalStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalstatus',
+                  },
+                },
+              },
+            },
+            approvalDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansout_common.approvalDate.name',
+                    defaultMessage: 'Date',
+                  },
+                  fullName: {
+                    id: 'field.loansout_common.approvalDate.fullName',
+                    defaultMessage: 'Approval status date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            approvalNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansout_common.approvalNote.name',
+                    defaultMessage: 'Note',
+                  },
+                  fullName: {
+                    id: 'field.loansout_common.approvalNote.fullName',
+                    defaultMessage: 'Approval note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
         loanOutNumber: {
           [config]: {
             cloneable: false,
