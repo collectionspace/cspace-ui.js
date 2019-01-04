@@ -4,7 +4,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
-import BatchModal from '../../../../src/components/record/BatchModal';
+import BatchModal from '../../../../src/components/invocable/BatchModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 const expect = chai.expect;

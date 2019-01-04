@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import ReportModal from './ReportModal';
+import ReportModal from '../invocable/ReportModal';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { getReportViewerPath, VIEWER_WINDOW_NAME } from '../../helpers/reportHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';

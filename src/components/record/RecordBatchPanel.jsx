@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import BatchModal from './BatchModal';
+import BatchModal from '../invocable/BatchModal';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import { serviceUriToLocation } from '../../helpers/uriHelpers';

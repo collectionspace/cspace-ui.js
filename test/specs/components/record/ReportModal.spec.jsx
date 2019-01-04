@@ -4,7 +4,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
-import ReportModal from '../../../../src/components/record/ReportModal';
+import ReportModal from '../../../../src/components/invocable/ReportModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 const expect = chai.expect;

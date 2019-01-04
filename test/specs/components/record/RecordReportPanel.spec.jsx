@@ -8,7 +8,7 @@ import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RecordReportPanel from '../../../../src/components/record/RecordReportPanel';
-import ReportModal from '../../../../src/components/record/ReportModal';
+import ReportModal from '../../../../src/components/invocable/ReportModal';
 
 const expect = chai.expect;
 

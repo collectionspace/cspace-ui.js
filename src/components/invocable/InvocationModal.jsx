@@ -1,45 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
 import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
-import runButtonStyles from '../../../styles/cspace-ui/RunReportButton.css';
-
-const messages = defineMessages({
-  prompt: {
-    id: 'reportModal.prompt',
-    description: 'The prompt shown to run a report.',
-    defaultMessage: 'Run this report?',
-  },
-  unsaved: {
-    id: 'reportModal.unsaved',
-    description: 'The message shown in the report modal when the record has unsaved changes.',
-    defaultMessage: 'This record has changes that have not been saved. The report will not include any unsaved data.',
-  },
-  cancel: {
-    id: 'reportModal.cancel',
-    description: 'Label of the cancel button in the report modal.',
-    defaultMessage: 'Cancel',
-  },
-  run: {
-    id: 'reportModal.run',
-    description: 'Label of the save button in the report modal.',
-    defaultMessage: 'Run',
-  },
-});
 
 const propTypes = {
   isOpen: PropTypes.bool,
   isRecordModified: PropTypes.bool,
-  reportItem: PropTypes.instanceOf(Immutable.Map),
+  invocationItem: PropTypes.instanceOf(Immutable.Map),
+  messages: PropTypes.objectOf(PropTypes.object),
+  runButtonClassName: PropTypes.string,
+  // type: PropTypes.oneOf(['report', 'batch']),
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onRunButtonClick: PropTypes.func,
 };
 
-export default class ReportModal extends Component {
+export default class InvocationModal extends Component {
   constructor() {
     super();
 
@@ -48,6 +27,8 @@ export default class ReportModal extends Component {
 
   renderButtonBar() {
     const {
+      messages,
+      runButtonClassName,
       onCancelButtonClick,
       onRunButtonClick,
     } = this.props;
@@ -59,7 +40,7 @@ export default class ReportModal extends Component {
           onClick={onCancelButtonClick}
         />
         <RunButton
-          className={runButtonStyles.common}
+          className={runButtonClassName}
           label={<FormattedMessage {...messages.run} />}
           onClick={onRunButtonClick}
         />
@@ -71,11 +52,12 @@ export default class ReportModal extends Component {
     const {
       isOpen,
       isRecordModified,
-      reportItem,
+      invocationItem,
+      messages,
       onCloseButtonClick,
     } = this.props;
 
-    if (!isOpen || !reportItem) {
+    if (!isOpen || !invocationItem) {
       return null;
     }
 
@@ -88,7 +70,7 @@ export default class ReportModal extends Component {
     return (
       <Modal
         isOpen={isOpen}
-        title={<h1>{reportItem.get('name')}</h1>}
+        title={<h1>{invocationItem.get('name')}</h1>}
         closeButtonClassName="material-icons"
         closeButtonLabel="close"
         renderButtonBar={this.renderButtonBar}
@@ -101,5 +83,5 @@ export default class ReportModal extends Component {
   }
 }
 
-ReportModal.modalName = 'ReportModal';
-ReportModal.propTypes = propTypes;
+InvocationModal.modalName = 'InvocationModal';
+InvocationModal.propTypes = propTypes;

@@ -8,7 +8,7 @@ import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RecordBatchPanel from '../../../../src/components/record/RecordBatchPanel';
-import BatchModal from '../../../../src/components/record/BatchModal';
+import BatchModal from '../../../../src/components/invocable/BatchModal';
 
 const expect = chai.expect;
 
