@@ -112,7 +112,7 @@ export default {
 
   "booleanConditionInput.and.opSelectorLabel": "All",
 
-  "booleanConditionInput.opSelector.label": "{opSelectorInput} of the following conditions {operator, select, and {must} or {may}} be satisfied:",
+  "booleanConditionInput.opSelector.label": "{opSelectorInput} of the following conditions must be satisfied:",
 
   "booleanConditionInput.or.label": "or",
 
@@ -364,11 +364,8 @@ export default {
 
   "column.work.search.updatedAt": "Updated",
 
-  // The message shown in the confirm delete modal when the record to be deleted has broader or narrower relations.
+  // The message shown in the confirm delete modal when the record to be deleted has hierarchy (broader/narrower) relations.
   "confirmRecordDeleteModal.hasHierarchy": "{title} cannot be deleted because it belongs to a hierarchy. To delete this record, first remove its broader and narrower records.",
-
-  // The message shown in the confirm delete modal when deletion of records with broader relations is allowed, but the record to be deleted has narrower relations.
-  "confirmRecordDeleteModal.hasNarrowerHierarchy": "{title} cannot be deleted because it is a broader record in a hierarchy. To delete this record, first remove its narrower records.",
 
   // The message shown in the confirm delete modal when the record to be deleted is related to other records.
   "confirmRecordDeleteModal.hasRelations": "This record is related to other records. Deleting this record will cause those relationships to be lost.",
@@ -759,8 +756,6 @@ export default {
 
   "field.collectionobjects_common.assocOrganizationType.name": "Type",
 
-  "field.collectionobjects_common.assocPeople.fullName": "Associated people",
-
   "field.collectionobjects_common.assocPeople.name": "People",
 
   "field.collectionobjects_common.assocPeopleGroup.name": "Associated people",
@@ -778,8 +773,6 @@ export default {
   "field.collectionobjects_common.assocPersonNote.name": "Note",
 
   "field.collectionobjects_common.assocPersonType.name": "Type",
-
-  "field.collectionobjects_common.assocPlace.fullName": "Associated place",
 
   "field.collectionobjects_common.assocPlace.name": "Place",
 
@@ -1137,9 +1130,9 @@ export default {
 
   "field.concepts_common.additionalSourceGroup.name": "Additional source",
 
-  "field.concepts_common.additionalSourceID.name": "ID",
-
   "field.concepts_common.additionalSourceNote.name": "Note",
+
+  "field.concepts_common.additionalSourceUniqueID.name": "ID",
 
   "field.concepts_common.citationGroup.name": "Citation",
 
@@ -1385,7 +1378,7 @@ export default {
 
   "field.contacts_common.addressCountry.name": "Country",
 
-  "field.contacts_common.addressGroup.name": "Address",
+  "field.contacts_common.addressGroupList.name": "Address",
 
   "field.contacts_common.addressMunicipality.name": "Municipality",
 
@@ -1401,25 +1394,25 @@ export default {
 
   "field.contacts_common.email.name": "Address",
 
-  "field.contacts_common.emailGroup.name": "Email",
+  "field.contacts_common.emailGroupList.name": "Email",
 
   "field.contacts_common.emailType.name": "Type",
 
   "field.contacts_common.faxNumber.name": "Number",
 
-  "field.contacts_common.faxNumberGroup.name": "Fax",
+  "field.contacts_common.faxNumberGroupList.name": "Fax",
 
   "field.contacts_common.faxNumberType.name": "Type",
 
   "field.contacts_common.telephoneNumber.name": "Number",
 
-  "field.contacts_common.telephoneNumberGroup.name": "Phone",
+  "field.contacts_common.telephoneNumberGroupList.name": "Phone",
 
   "field.contacts_common.telephoneNumberType.name": "Type",
 
   "field.contacts_common.webAddress.name": "URL",
 
-  "field.contacts_common.webAddressGroup.name": "Web site",
+  "field.contacts_common.webAddressGroupList.name": "Web site",
 
   "field.contacts_common.webAddressTypeType.name": "Type",
 
@@ -1568,10 +1561,6 @@ export default {
   "field.ext.core.updatedBy.name": "Last updated by",
 
   "field.ext.dimension.dimension.name": "Dimension",
-
-  "field.ext.dimension.dimensionNote.fullName": "Measurement note",
-
-  "field.ext.dimension.dimensionNote.name": "Note",
 
   "field.ext.dimension.dimensionSubGroup.name": "Measurement",
 
@@ -2161,13 +2150,13 @@ export default {
 
   "field.places_common.maxDepthInMeters.name": "Max depth (m)",
 
-  "field.places_common.maxDistanceAboveSurfaceInMeters.name": "Max distance above surface (m)",
+  "field.places_common.maxDistanceAboveSurfaceMeters.name": "Max distance above surface (m)",
 
   "field.places_common.maxElevationInMeters.name": "Max elevation (m)",
 
   "field.places_common.minDepthInMeters.name": "Min depth (m)",
 
-  "field.places_common.minDistanceAboveSurfaceInMeters.name": "Min distance above surface (m)",
+  "field.places_common.minDistanceAboveSurfaceMeters.name": "Min distance above surface (m)",
 
   "field.places_common.minElevationInMeters.name": "Min elevation (m)",
 
@@ -2648,7 +2637,7 @@ export default {
 
   "idGenerator.movement.type": "Movement",
 
-  "idGenerator.objectexit.type": "Object Exit",
+  "idGenerator.objectexit.type": "Object exit",
 
   "idGenerator.study.type": "Study",
 
@@ -3335,9 +3324,9 @@ export default {
 
   "option.addressTypes.business": "business",
 
-  "option.addressTypes.home": "home",
-
   "option.addressTypes.other": "other",
+
+  "option.addressTypes.personal": "personal",
 
   "option.ageUnits.days": "days",
 
@@ -3735,13 +3724,9 @@ export default {
 
   "option.measurementUnits.pixels": "pixels",
 
-  "option.measurementUnits.pounds": "pounds",
-
   "option.measurementUnits.square-feet": "square feet",
 
   "option.measurementUnits.stories": "stories",
-
-  "option.measurementUnits.tons": "tons",
 
   "option.mediaTypes.dataset": "dataset",
 
@@ -4577,12 +4562,6 @@ export default {
   "record.report.name": "Report",
 
   // The name of a collection of records of the type.
-  "record.structureddates.collectionName": "Structured Date Parser",
-
-  // The name of the record type.
-  "record.structureddates.name": "Structured Date Parser",
-
-  // The name of a collection of records of the type.
   "record.uoc.collectionName": "Use of Collections",
 
   // The name of the record type.
@@ -4627,12 +4606,6 @@ export default {
   "recordHistory.updated": "{style, select, full {Updated {date} {time} by {user}} dateTime {Updated {date} {time}}}",
 
   "recordReportPanel.title": "Reports",
-
-  // Label of the button to hide the sidebar.
-  "recordSidebarToggleButton.hide": "Hide sidebar",
-
-  // Label of the button to show the sidebar.
-  "recordSidebarToggleButton.show": "Show sidebar",
 
   // For authority items, the record type and vocabulary displayed in the right side of the title bar.
   "recordTitleBar.authority": "{recordType} - {vocabulary}",
@@ -4697,9 +4670,6 @@ export default {
   // Label of the search button.
   "searchButton.label": "Search",
 
-  // Label of the search clear button.
-  "searchClearButton.label": "Clear",
-
   // The label used to indicate search terms that are or'ed together.
   "searchField.or": "or",
 
@@ -4713,8 +4683,8 @@ export default {
 
   "searchPage.title": "Search",
 
-  // Label of the open as search link in the search panel header.
-  "searchPanel.openSearch": "Open",
+  // Label of the search link in the search panel header.
+  "searchPanel.search": "Search",
 
   "searchPanel.titleWithCount": "{title}: {totalItems, number}",
 
@@ -4760,18 +4730,12 @@ export default {
   // Label of the search save button.
   "searchSaveButton.label": "Save",
 
-  // Message shown when relating multiple records fails.
-  "searchToRelateModal.batchCreateError": "Some records could not be related: {error}",
-
-  // Message shown when unrelating multiple records fails.
-  "searchToRelateModal.batchUnrelateError": "Some records could not be unrelated: {error}",
-
   "searchToRelateModal.editSearch": "Revise search",
 
   "searchToRelateModal.label": "Relate",
 
   // Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.
-  "searchToRelateModal.multipleSubjectsRelated": "{objectCount, plural, =0 {No records} one {# record} other {# records}} related to each of {subjectCount, number} search results.",
+  "searchToRelateModal.multipleSubjectsRelated": "{objectCount, plural, =0 {No records} one {# record} other {# records}} records related to each of {subjectCount, number} records.",
 
   "searchToRelateModal.relate": "Relate selected",
 
@@ -4875,12 +4839,6 @@ export default {
 
   // The name of the vocabulary.
   "vocab.concept.associated.name": "Associated",
-
-  // The name of a collection of records from the ethculture concept vocabulary.
-  "vocab.concept.ethculture.collectionName": "Ethnographic Cultures",
-
-  // The name of the ethculture concept vocabulary.
-  "vocab.concept.ethculture.name": "Ethnographic Culture",
 
   // The name of a collection of records from the vocabulary.
   "vocab.concept.material.collectionName": "Material Concepts",
