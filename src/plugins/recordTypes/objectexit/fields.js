@@ -259,6 +259,26 @@ export default (configContext) => {
                 },
               },
             },
+            deaccessionApprovalIndividual: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.objectexit_common.deaccessionApprovalIndividual.fullName',
+                    defaultMessage: 'Deaccession approval individual',
+                  },
+                  name: {
+                    id: 'field.objectexit_common.deaccessionApprovalIndividual.name',
+                    defaultMessage: 'Individual',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local',
+                  },
+                },
+              },
+            },
             deaccessionApprovalStatus: {
               [config]: {
                 messages: defineMessages({
@@ -294,6 +314,23 @@ export default (configContext) => {
                 }),
                 view: {
                   type: DateInput,
+                },
+              },
+            },
+            deaccessionApprovalNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.objectexit_common.deaccessionApprovalNote.name',
+                    defaultMessage: 'Note',
+                  },
+                  fullName: {
+                    id: 'field.objectexit_common.deaccessionApprovalNote.fullName',
+                    defaultMessage: 'Deaccession approval note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
                 },
               },
             },

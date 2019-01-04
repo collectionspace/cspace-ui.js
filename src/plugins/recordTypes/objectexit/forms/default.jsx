@@ -52,8 +52,10 @@ const template = (configContext) => {
         <Field name="deacApprovalGroupList">
           <Field name="deacApprovalGroup">
             <Field name="deaccessionApprovalGroup" />
+            <Field name="deaccessionApprovalIndividual" />
             <Field name="deaccessionApprovalStatus" />
             <Field name="deaccessionApprovalDate" />
+            <Field name="deaccessionApprovalNote" />
           </Field>
         </Field>
 
