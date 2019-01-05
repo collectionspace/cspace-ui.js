@@ -35,6 +35,7 @@ function renderTemplate(component, messages, handlers) {
 
 const propTypes = {
   config: PropTypes.object,
+  recordTypeConfig: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -54,6 +55,7 @@ const defaultProps = {
 
 const childContextTypes = {
   config: PropTypes.object,
+  fields: PropTypes.object,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
@@ -68,6 +70,7 @@ export default class RecordForm extends Component {
       csid,
       data,
       recordType,
+      recordTypeConfig,
       vocabulary,
       readOnly,
     } = this.props;
@@ -77,9 +80,11 @@ export default class RecordForm extends Component {
     // in the context.
 
     const dataCsid = getCsid(data);
+    const fields = recordTypeConfig.fields;
 
     return {
       config,
+      fields,
       recordType,
       vocabulary,
       readOnly,
@@ -95,14 +100,13 @@ export default class RecordForm extends Component {
       formName,
       readOnly,
       recordType,
+      recordTypeConfig,
       onAddInstance,
       onCommit,
       onMoveInstance,
       onRemoveInstance,
       onSortInstances,
     } = this.props;
-
-    const recordTypeConfig = config.recordTypes[recordType];
 
     if (!recordTypeConfig) {
       return null;

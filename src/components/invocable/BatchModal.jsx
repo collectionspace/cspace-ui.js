@@ -24,6 +24,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  config: PropTypes.object,
   isOpen: PropTypes.bool,
   isRunning: PropTypes.bool,
   batchItem: PropTypes.instanceOf(Immutable.Map),

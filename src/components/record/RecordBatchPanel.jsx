@@ -203,6 +203,7 @@ export default class RecordBatchPanel extends Component {
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <BatchModal
+          config={config}
           isOpen={isModalOpen}
           isRunning={isRunning}
           batchItem={selectedItem}

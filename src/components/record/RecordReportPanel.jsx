@@ -170,6 +170,7 @@ export default class RecordReportPanel extends Component {
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <ReportModal
+          config={config}
           isOpen={isModalOpen}
           isRecordModified={isRecordModified}
           reportItem={selectedItem}
