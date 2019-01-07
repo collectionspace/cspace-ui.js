@@ -12,4 +12,4 @@ Each of the following how-to guides shows configuration settings that may be add
 - [Changing the logo](Logo.md)
 - [Modifying sign in screen text](SignInText.md)
 - [Changing a field label](FieldLabel.md)
-- [Reordering fields]
+- [Reordering fields](ReorderingFields.md)
