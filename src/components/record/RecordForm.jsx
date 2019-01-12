@@ -55,9 +55,9 @@ const defaultProps = {
 
 const childContextTypes = {
   config: PropTypes.object,
-  fields: PropTypes.object,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
+  recordTypeConfig: PropTypes.object,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   readOnly: PropTypes.bool,
@@ -80,12 +80,11 @@ export default class RecordForm extends Component {
     // in the context.
 
     const dataCsid = getCsid(data);
-    const fields = recordTypeConfig.fields;
 
     return {
       config,
-      fields,
       recordType,
+      recordTypeConfig,
       vocabulary,
       readOnly,
       csid: dataCsid || csid,

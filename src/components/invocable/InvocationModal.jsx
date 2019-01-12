@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
-import InvocationEditor from './InvocationEditor';
+import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
 import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
 
@@ -82,7 +82,7 @@ export default class InvocationModal extends Component {
       >
         {unsavedWarning}
 
-        <InvocationEditor
+        <InvocationEditorContainer
           config={config}
           invocationItem={invocationItem}
           promptMessage={messages.prompt}

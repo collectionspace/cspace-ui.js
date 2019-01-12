@@ -78,15 +78,15 @@ const propTypes = {
 
 const contextTypes = {
   config: PropTypes.object,
-  fields: PropTypes.object,
   intl: intlShape,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
+  recordTypeConfig: PropTypes.object,
 };
 
 export default function Field(props, context) {
   const {
-    fields,
+    config,
     intl,
     recordData,
     recordType,
@@ -97,12 +97,14 @@ export default function Field(props, context) {
     viewType,
   } = props;
 
+  const recordTypeConfig = context.recordTypeConfig || get(config, ['recordTypes', recordType]);
   const fullPath = getPath(props);
 
   // Filter out numeric parts of the path, since they indicate repeating instances that won't be
   // present in the field descriptor.
 
   const path = dataPathToFieldDescriptorPath(fullPath);
+  const fields = recordTypeConfig.fields;
 
   warning(fields, `No field descriptor found for the record type ${recordType}. The field with path ${path} will not be rendered.`);
 

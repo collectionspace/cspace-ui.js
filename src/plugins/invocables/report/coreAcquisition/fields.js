@@ -11,7 +11,7 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   return {
-    document: {
+    params: {
       [config]: {
         view: {
           type: CompoundInput,

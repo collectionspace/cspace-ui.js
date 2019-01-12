@@ -9,10 +9,6 @@ const template = (configContext) => {
     Field,
   } = configContext.recordComponents;
 
-  const {
-    extensions,
-  } = configContext.config;
-
   return (
     <Field name="document">
       <Field name="objectNumber" />

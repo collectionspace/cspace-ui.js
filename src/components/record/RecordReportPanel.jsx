@@ -7,7 +7,6 @@ import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import ReportModal from '../invocable/ReportModal';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
-import { getReportViewerPath, VIEWER_WINDOW_NAME } from '../../helpers/reportHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { RECORD_REPORT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
@@ -36,6 +35,7 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
+  openReport: PropTypes.func,
 };
 
 export default class RecordReportPanel extends Component {
@@ -103,19 +103,20 @@ export default class RecordReportPanel extends Component {
       config,
       csid,
       recordType,
+      openReport,
     } = this.props;
 
     const {
       selectedItem,
     } = this.state;
 
-    const viewerPath = getReportViewerPath(selectedItem, config, recordType, csid);
-
-    window.open(viewerPath, VIEWER_WINDOW_NAME);
-
-    this.setState({
-      isModalOpen: false,
-    });
+    openReport(selectedItem, config, recordType, csid)
+      .then(() => {
+        this.setState({
+          isModalOpen: false,
+        });
+      })
+      .catch(() => {});
   }
 
   handleSearchDescriptorChange(searchDescriptor) {

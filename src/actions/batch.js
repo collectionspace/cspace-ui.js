@@ -66,7 +66,7 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
   }, notificationID));
 
   const requestConfig = {
-    data: createInvocationData(config, invocationDescriptor),
+    data: createInvocationData(config, invocationDescriptor, 'batch'),
   };
 
   return getSession().create(`batch/${csid}`, requestConfig)
