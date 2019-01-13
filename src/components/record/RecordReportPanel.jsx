@@ -110,13 +110,15 @@ export default class RecordReportPanel extends Component {
       selectedItem,
     } = this.state;
 
-    openReport(selectedItem, config, recordType, csid)
-      .then(() => {
-        this.setState({
-          isModalOpen: false,
-        });
-      })
-      .catch(() => {});
+    if (openReport) {
+      openReport(selectedItem, config, recordType, csid)
+        .then(() => {
+          this.setState({
+            isModalOpen: false,
+          });
+        })
+        .catch(() => {});
+    }
   }
 
   handleSearchDescriptorChange(searchDescriptor) {

@@ -23,7 +23,7 @@ export const createInvocationData = (config, invocationDescriptor, type, name) =
     params: paramsJson,
   } = invocationDescriptor;
 
-  const params = JSON.parse(paramsJson);
+  const params = paramsJson && JSON.parse(paramsJson);
   const docType = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
 
   let invocationContext = {

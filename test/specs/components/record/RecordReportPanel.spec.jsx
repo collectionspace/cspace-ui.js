@@ -294,9 +294,23 @@ describe('RecordReportPanel', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should open a report viewer window when the run button is clicked in the report modal', function test() {
+  it('should call openReport when the run button is clicked in the report modal', function test() {
     const csid = '1234';
     const recordType = 'group';
+
+    let openedItem = null;
+    let openedConfig = null;
+    let openedRecordType = null;
+    let openedCsid = null;
+
+    const openReport = (selectedItemArg, configArg, recordTypeArg, csidArg) => {
+      openedItem = selectedItemArg;
+      openedConfig = configArg;
+      openedRecordType = recordTypeArg;
+      openedCsid = csidArg;
+
+      return Promise.resolve();
+    };
 
     const shallowRenderer = createRenderer();
 
@@ -307,6 +321,7 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
+        openReport={openReport}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -319,19 +334,15 @@ describe('RecordReportPanel', function suite() {
       csid: selectedReportCsid,
     }));
 
-    const savedOpenFunc = window.open;
-
-    let openedUrl = null;
-
-    window.open = (urlParam) => {
-      openedUrl = urlParam;
-    };
-
     modal.props.onRunButtonClick();
 
-    openedUrl.should.equal(`/report/${selectedReportCsid}?csid=${csid}&recordType=${recordType}`);
+    openedItem.should.equal(Immutable.Map({
+      csid: selectedReportCsid,
+    }));
 
-    window.open = savedOpenFunc;
+    openedConfig.should.equal(config);
+    openedRecordType.should.equal(recordType);
+    openedCsid.should.equal(csid);
   });
 
   it('should update the search panel when it changes the search descriptor', function test() {

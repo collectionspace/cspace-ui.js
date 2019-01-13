@@ -161,8 +161,15 @@ describe('report action creator', function suite() {
     });
 
     it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', function test() {
-      moxios.stubRequest(/./, {
-        status: 400,
+      moxios.wait(() => {
+        moxios.requests.mostRecent().respondWith({
+          status: 200,
+          response: {},
+        }).then(() => {
+          moxios.requests.mostRecent().respondWith({
+            status: 400,
+          });
+        });
       });
 
       const reportCsid = 'abcd';

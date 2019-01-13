@@ -114,7 +114,11 @@ describe('RecordForm', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordForm config={config} recordType="collectionobject" />
+          <RecordForm
+            config={config}
+            recordType="collectionobject"
+            recordTypeConfig={config.recordTypes.collectionobject}
+          />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -125,7 +129,11 @@ describe('RecordForm', function suite() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
-          <RecordForm config={config} recordType="foo" />
+          <RecordForm
+            config={config}
+            recordType="foo"
+            recordTypeConfig={config.recordTypes.foo}
+          />
         </StoreProvider>
       </IntlProvider>, this.container);
 
@@ -139,6 +147,7 @@ describe('RecordForm', function suite() {
           <RecordForm
             config={config}
             recordType="collectionobject"
+            recordTypeConfig={config.recordTypes.collectionobject}
             formName="inventory"
           />
         </StoreProvider>
@@ -161,6 +170,7 @@ describe('RecordForm', function suite() {
             config={config}
             data={data}
             recordType="collectionobject"
+            recordTypeConfig={config.recordTypes.collectionobject}
             formName="computed"
           />
         </StoreProvider>
@@ -183,6 +193,7 @@ describe('RecordForm', function suite() {
             config={config}
             data={data}
             recordType="collectionobject"
+            recordTypeConfig={config.recordTypes.collectionobject}
             formName="computed"
           />
         </StoreProvider>
@@ -198,6 +209,7 @@ describe('RecordForm', function suite() {
           <RecordForm
             config={config}
             recordType="collectionobject"
+            recordTypeConfig={config.recordTypes.collectionobject}
             formName="computed2"
           />
         </StoreProvider>
@@ -222,6 +234,7 @@ describe('RecordForm', function suite() {
             config={config}
             data={data}
             recordType="collectionobject"
+            recordTypeConfig={config.recordTypes.collectionobject}
           />
         </StoreProvider>
       </IntlProvider>, this.container);

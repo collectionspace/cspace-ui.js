@@ -104,7 +104,7 @@ export default function Field(props, context) {
   // present in the field descriptor.
 
   const path = dataPathToFieldDescriptorPath(fullPath);
-  const fields = recordTypeConfig.fields;
+  const fields = get(recordTypeConfig, 'fields');
 
   warning(fields, `No field descriptor found for the record type ${recordType}. The field with path ${path} will not be rendered.`);
 

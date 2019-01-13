@@ -56,7 +56,7 @@ export const invoke = (config, csid, invocationDescriptor) => dispatch =>
   getSession().read(`reports/${csid}`)
     .then((response) => {
       const filename = get(response, ['data', 'document', 'ns2:reports_common', 'filename']);
-      const reportName = filename.substring(0, filename.lastIndexOf('.'));
+      const reportName = filename && filename.substring(0, filename.lastIndexOf('.'));
 
       const requestConfig = {
         data: createInvocationData(config, invocationDescriptor, 'report', reportName),
