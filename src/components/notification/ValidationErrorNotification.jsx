@@ -28,7 +28,12 @@ export default function ValidationErrorNotification(props, context) {
     config,
   } = context;
 
-  const fieldDescriptor = get(config, ['recordTypes', recordType, 'fields']);
+  const recordTypeConfig =
+    get(config, ['recordTypes', recordType])
+    || get(config, ['invocables', 'report', recordType])
+    || get(config, ['invocables', 'batch', recordType]);
+
+  const fieldDescriptor = get(recordTypeConfig, 'fields');
 
   return (
     <Notification {...props}>

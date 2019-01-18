@@ -8,7 +8,7 @@ export const getReportViewerPath = (reportItem, config, recordType, csid, report
   } = config;
 
   const reportCsid = reportItem.get('csid');
-  const reportParamsJson = JSON.stringify(reportParams);
+  const reportParamsJson = reportParams && JSON.stringify(reportParams);
 
   const params = {
     csid,

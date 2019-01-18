@@ -1,30 +1,44 @@
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { getBatchName, getReportName } from '../../helpers/invocationHelpers';
 
 import {
   createNewRecord,
 } from '../../actions/record';
 
+import {
+  getRecordData,
+} from '../../reducers';
+
 import InvocationEditor from '../../components/invocable/InvocationEditor';
+
+const mapStateToProps = state => ({
+  data: getRecordData(state, ''),
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     config,
-    // invocationItem,
+    invocationItem,
     type,
   } = ownProps;
 
-  const invocableName = 'coreAcquisition'; // TODO: invocationItem.get('filename');
-  const recordTypeConfig = get(config, ['invocables', type, invocableName]);
-
   return {
     createNewRecord: () => {
-      dispatch(createNewRecord(config, recordTypeConfig));
+      const invocableName = (type === 'report')
+        ? getReportName(invocationItem)
+        : getBatchName(invocationItem);
+
+      const recordTypeConfig = get(config, ['invocables', type, invocableName]);
+
+      if (recordTypeConfig) {
+        dispatch(createNewRecord(config, recordTypeConfig));
+      }
     },
   };
 };
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(InvocationEditor);

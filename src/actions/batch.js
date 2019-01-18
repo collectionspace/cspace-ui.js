@@ -2,12 +2,11 @@ import get from 'lodash/get';
 import { defineMessages } from 'react-intl';
 import getSession from './cspace';
 import getErrorDescription from '../helpers/getErrorDescription';
-import { createInvocationData } from '../helpers/invocationHelpers';
+import { createInvocationData, getBatchName } from '../helpers/invocationHelpers';
 import getNotificationID from '../helpers/notificationHelpers';
-
-import {
-  showNotification,
-} from './notification';
+import { getNewRecordData, getRecordValidationErrors } from '../reducers';
+import { showNotification } from './notification';
+import { validateRecordData } from './record';
 
 import {
   STATUS_ERROR,
@@ -41,75 +40,46 @@ const messages = defineMessages({
   },
 });
 
-export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) => {
-  const csid = batchItem.get('csid');
-  const name = batchItem.get('name');
+export const invoke = (config, batchItem, invocationDescriptor, onValidationSuccess) =>
+  (dispatch, getState) => {
+    const batchName = getBatchName(batchItem);
+    const recordTypeConfig = get(config, ['invocables', 'batch', batchName]);
+    const paramsRecordCsid = '';
 
-  const notificationID = getNotificationID();
+    let params;
+    let validateParams;
 
-  dispatch({
-    type: BATCH_INVOKE_STARTED,
-    meta: {
-      csid,
-    },
-  });
+    if (recordTypeConfig) {
+      validateParams = dispatch(validateRecordData(recordTypeConfig, paramsRecordCsid))
+        .then(() => {
+          if (getRecordValidationErrors(getState(), paramsRecordCsid)) {
+            return Promise.reject();
+          }
 
-  dispatch(showNotification({
-    items: [{
-      message: messages.running,
-      values: {
-        name,
-      },
-    }],
-    date: new Date(),
-    status: STATUS_PENDING,
-  }, notificationID));
+          const data = getNewRecordData(getState());
 
-  const requestConfig = {
-    data: createInvocationData(config, invocationDescriptor, 'batch'),
-  };
+          params = data && data.first().toJS();
 
-  return getSession().create(`batch/${csid}`, requestConfig)
-    .then((response) => {
-      const { data } = response;
-      const numAffected = get(data, ['ns2:invocationResults', 'numAffected']);
-      const userNote = get(data, ['ns2:invocationResults', 'userNote']);
+          return Promise.resolve();
+        });
+    } else {
+      validateParams = Promise.resolve();
+    }
 
-      let numAffectedInt;
-
-      numAffectedInt = parseInt(numAffected, 10);
-
-      if (isNaN(numAffectedInt)) {
-        numAffectedInt = undefined;
+    return validateParams.then(() => {
+      if (onValidationSuccess) {
+        onValidationSuccess();
       }
 
-      dispatch({
-        type: BATCH_INVOKE_FULFILLED,
-        meta: {
-          csid,
-          numAffected: numAffectedInt,
-        },
-      });
+      const invocationDescriptorWithParams = Object.assign({}, invocationDescriptor, { params });
 
-      dispatch(showNotification({
-        items: [{
-          message: messages.complete,
-          values: {
-            name,
-            numAffected,
-            userNote,
-          },
-        }],
-        date: new Date(),
-        status: STATUS_SUCCESS,
-        autoClose: true,
-      }, notificationID));
+      const csid = batchItem.get('csid');
+      const name = batchItem.get('name');
 
-      return response;
-    })
-    .catch((error) => {
+      const notificationID = getNotificationID();
+
       dispatch({
-        type: BATCH_INVOKE_REJECTED,
+        type: BATCH_INVOKE_STARTED,
         meta: {
           csid,
         },
@@ -117,16 +87,78 @@ export const invoke = (config, batchItem, invocationDescriptor) => (dispatch) =>
 
       dispatch(showNotification({
         items: [{
-          message: messages.error,
+          message: messages.running,
           values: {
             name,
-            error: getErrorDescription(error),
           },
         }],
         date: new Date(),
-        status: STATUS_ERROR,
+        status: STATUS_PENDING,
       }, notificationID));
+
+      const requestConfig = {
+        data: createInvocationData(config, invocationDescriptorWithParams, 'batch'),
+      };
+
+      return getSession().create(`batch/${csid}`, requestConfig)
+        .then((response) => {
+          const { data } = response;
+          const numAffected = get(data, ['ns2:invocationResults', 'numAffected']);
+          const userNote = get(data, ['ns2:invocationResults', 'userNote']);
+
+          let numAffectedInt;
+
+          numAffectedInt = parseInt(numAffected, 10);
+
+          if (isNaN(numAffectedInt)) {
+            numAffectedInt = undefined;
+          }
+
+          dispatch({
+            type: BATCH_INVOKE_FULFILLED,
+            meta: {
+              csid,
+              numAffected: numAffectedInt,
+            },
+          });
+
+          dispatch(showNotification({
+            items: [{
+              message: messages.complete,
+              values: {
+                name,
+                numAffected,
+                userNote,
+              },
+            }],
+            date: new Date(),
+            status: STATUS_SUCCESS,
+            autoClose: true,
+          }, notificationID));
+
+          return response;
+        })
+        .catch((error) => {
+          dispatch({
+            type: BATCH_INVOKE_REJECTED,
+            meta: {
+              csid,
+            },
+          });
+
+          dispatch(showNotification({
+            items: [{
+              message: messages.error,
+              values: {
+                name,
+                error: getErrorDescription(error),
+              },
+            }],
+            date: new Date(),
+            status: STATUS_ERROR,
+          }, notificationID));
+        });
     });
-};
+  };
 
 export default {};

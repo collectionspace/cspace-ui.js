@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import Immutable from 'immutable';
+import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
+import { getBatchName, getReportName } from '../../helpers/invocationHelpers';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 
 const propTypes = {
   config: PropTypes.object,
-  // invocationItem: PropTypes.instanceOf(Immutable.Map),
+  data: PropTypes.instanceOf(Immutable.Map),
+  invocationItem: PropTypes.instanceOf(Immutable.Map),
   promptMessage: PropTypes.object,
   type: PropTypes.string,
   createNewRecord: PropTypes.func,
@@ -29,12 +31,16 @@ export default class InvocationEditor extends Component {
   render() {
     const {
       config,
-      // invocationItem,
+      data,
+      invocationItem,
       promptMessage,
       type,
     } = this.props;
 
-    const invocableName = 'coreAcquisition'; // TODO: invocationItem.get('filename');
+    const invocableName = (type === 'report')
+      ? getReportName(invocationItem)
+      : getBatchName(invocationItem);
+
     const recordTypeConfig = get(config, ['invocables', type, invocableName]);
 
     if (!recordTypeConfig) {
@@ -48,6 +54,7 @@ export default class InvocationEditor extends Component {
         <RecordFormContainer
           config={config}
           csid=""
+          data={data}
           recordTypeConfig={recordTypeConfig}
           recordType="invocable"
         />

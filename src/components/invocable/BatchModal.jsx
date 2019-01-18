@@ -44,7 +44,7 @@ export default function BatchModal(props) {
       invocationItem={batchItem}
       messages={messages}
       runButtonClassName={runButtonStyles.common}
-      type="report"
+      type="batch"
       {...remainingProps}
     />
   );

@@ -18,12 +18,11 @@ const prepareInvocationContext = (invocationContext, params) => {
 
 export const createInvocationData = (config, invocationDescriptor, type, name) => {
   const {
+    params,
     recordType,
     csid: invocationCsid,
-    params: paramsJson,
   } = invocationDescriptor;
 
-  const params = paramsJson && JSON.parse(paramsJson);
   const docType = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
 
   let invocationContext = {
@@ -54,4 +53,11 @@ export const createInvocationData = (config, invocationDescriptor, type, name) =
   };
 };
 
-export default {};
+export const getReportName = (reportItem) => {
+  const filename = reportItem && reportItem.get('filename');
+  const name = filename ? filename.substring(0, filename.lastIndexOf('.')) : undefined;
+
+  return name;
+};
+
+export const getBatchName = batchItem => batchItem && batchItem.get('name');
