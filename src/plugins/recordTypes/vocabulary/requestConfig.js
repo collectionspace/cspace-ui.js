@@ -12,6 +12,7 @@ export default (requestType) => {
       params: {
         omittedItemAction: 'softdelete',
         wf_deleted: false,
+        pgSz: 0,
       },
     };
   }
