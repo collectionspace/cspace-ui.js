@@ -79,6 +79,15 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
+        <Field name="approvalGroupList">
+          <Field name="approvalGroup">
+            <Field name="approvalGroup" />
+            <Field name="approvalIndividual" />
+            <Field name="approvalStatus" />
+            <Field name="approvalDate" />
+            <Field name="approvalNote" />
+          </Field>
+        </Field>
         <Field name="acquisitionNote" />
         <Field name="acquisitionProvisos" />
 
