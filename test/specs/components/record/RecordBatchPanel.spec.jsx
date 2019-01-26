@@ -302,10 +302,12 @@ describe('RecordBatchPanel', function suite() {
     let runBatchItem = null;
     let runInvocationDescriptor = null;
 
-    const run = (configArg, batchItemArg, invocationDescriptorArg) => {
+    const run = (configArg, batchItemArg, invocationDescriptorArg, onValidationSuccess) => {
       runConfig = configArg;
       runBatchItem = batchItemArg;
       runInvocationDescriptor = invocationDescriptorArg;
+
+      onValidationSuccess();
 
       return Promise.resolve();
     };
@@ -338,33 +340,47 @@ describe('RecordBatchPanel', function suite() {
 
     modal.props.onRunButtonClick();
 
-    runConfig.should.equal(config);
-    runBatchItem.should.equal(selectedBatchItem);
-    runInvocationDescriptor.should.deep.equal({ csid, recordType });
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        runConfig.should.equal(config);
+        runBatchItem.should.equal(selectedBatchItem);
+        runInvocationDescriptor.should.deep.equal({ csid, recordType });
 
-    result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+        result = shallowRenderer.getRenderOutput();
+        modal = findWithType(result, BatchModal);
 
-    modal.props.isOpen.should.equal(false);
+        modal.props.isOpen.should.equal(false);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should call run and set isRunning to true when the run button is clicked in the batch modal and the selected batch job creates new focus', function test() {
     const csid = '1234';
     const recordType = 'group';
 
+    const shallowRenderer = createRenderer();
+
     let runConfig = null;
     let runBatchItem = null;
     let runInvocationDescriptor = null;
 
-    const run = (configArg, batchItemArg, invocationDescriptorArg) => {
+    const run = (configArg, batchItemArg, invocationDescriptorArg, onValidationSuccess) => {
       runConfig = configArg;
       runBatchItem = batchItemArg;
       runInvocationDescriptor = invocationDescriptorArg;
 
+      onValidationSuccess();
+
+      const result = shallowRenderer.getRenderOutput();
+      const modal = findWithType(result, BatchModal);
+
+      modal.props.isOpen.should.equal(true);
+      modal.props.isRunning.should.equal(true);
+
       return Promise.resolve();
     };
-
-    const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RecordBatchPanel
@@ -393,15 +409,21 @@ describe('RecordBatchPanel', function suite() {
 
     modal.props.onRunButtonClick();
 
-    runConfig.should.equal(config);
-    runBatchItem.should.equal(selectedBatchItem);
-    runInvocationDescriptor.should.deep.equal({ csid, recordType });
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        runConfig.should.equal(config);
+        runBatchItem.should.equal(selectedBatchItem);
+        runInvocationDescriptor.should.deep.equal({ csid, recordType });
 
-    result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+        result = shallowRenderer.getRenderOutput();
+        modal = findWithType(result, BatchModal);
 
-    modal.props.isOpen.should.equal(true);
-    modal.props.isRunning.should.equal(true);
+        modal.props.isOpen.should.equal(false);
+        modal.props.isRunning.should.equal(false);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should close the modal, set isRunning to false, and navigate to the new focus when a batch job that creates new focus completes', function test() {

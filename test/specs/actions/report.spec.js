@@ -1,8 +1,11 @@
+/* global window */
+
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import qs from 'qs';
 
 import {
   configureCSpace,
@@ -10,6 +13,7 @@ import {
 
 import {
   invoke,
+  openReport,
 } from '../../../src/actions/report';
 
 import {
@@ -20,10 +24,18 @@ import {
   STATUS_ERROR,
 } from '../../../src/constants/notificationStatusCodes';
 
+const assert = chai.assert;
+const expect = chai.expect;
+
 chai.use(chaiImmutable);
 chai.should();
 
 const config = {
+  invocables: {
+    report: {
+      paramReport: {},
+    },
+  },
   recordTypes: {
     group: {
       serviceConfig: {
@@ -185,6 +197,145 @@ describe('report action creator', function suite() {
 
           actions[0].type.should.equal(SHOW_NOTIFICATION);
           actions[0].payload.status.should.equal(STATUS_ERROR);
+        });
+    });
+  });
+
+  describe('openReport', function actionSuite() {
+    const params = {
+      foo: 'abc',
+      bar: 'def',
+    };
+
+    const store = mockStore({
+      record: Immutable.fromJS({
+        '': {
+          data: {
+            current: {
+              params,
+            },
+          },
+        },
+      }),
+      user: Immutable.Map(),
+    });
+
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
+
+    beforeEach(() => {
+    });
+
+    afterEach(() => {
+      store.clearActions();
+    });
+
+    it('should open a window with the URL of the report', function test() {
+      const reportCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+
+      const reportItem = Immutable.Map({
+        filename: 'report.jrxml',
+        csid: reportCsid,
+      });
+
+      const savedWindowOpen = window.open;
+
+      let openedPath = null;
+
+      window.open = (path) => {
+        openedPath = path;
+      };
+
+      return store.dispatch(openReport(reportItem, config, recordType, recordCsid))
+        .then(() => {
+          openedPath.should.equal(`/report/${reportCsid}?csid=${recordCsid}&recordType=${recordType}`);
+
+          window.open = savedWindowOpen;
+        });
+    });
+
+    it('should include parameters', function test() {
+      const reportCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+
+      const reportItem = Immutable.Map({
+        filename: 'paramReport',
+        csid: reportCsid,
+      });
+
+      const savedWindowOpen = window.open;
+
+      let openedPath = null;
+
+      window.open = (path) => {
+        openedPath = path;
+      };
+
+      return store.dispatch(openReport(reportItem, config, recordType, recordCsid))
+        .then(() => {
+          const expectedParams = qs.stringify({
+            params: JSON.stringify(params),
+          });
+
+          openedPath.should.equal(`/report/${reportCsid}?csid=${recordCsid}&recordType=${recordType}&${expectedParams}`);
+
+          window.open = savedWindowOpen;
+        });
+    });
+
+    it('should not call window.open if parameter validation fails', function test() {
+      const invalidDataStore = mockStore({
+        record: Immutable.fromJS({
+          '': {
+            validation: {
+              params: {
+                baz: {
+                  '[error]': {
+                    code: 'ERR_MISSING_REQ_FIELD',
+                  },
+                },
+              },
+            },
+            data: {
+              current: {
+                params,
+              },
+            },
+          },
+        }),
+        user: Immutable.Map(),
+      });
+
+      const reportCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+
+      const reportItem = Immutable.Map({
+        filename: 'paramReport',
+        csid: reportCsid,
+      });
+
+      const savedWindowOpen = window.open;
+
+      let openedPath = null;
+
+      window.open = (path) => {
+        openedPath = path;
+      };
+
+      return invalidDataStore.dispatch(openReport(reportItem, config, recordType, recordCsid))
+        .then(() => {
+          assert.fail('dispatch should be rejected');
+        })
+        .catch(() => {
+          expect(openedPath).to.equal(null);
+
+          window.open = savedWindowOpen;
         });
     });
   });

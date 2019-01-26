@@ -25,10 +25,18 @@ import {
   STATUS_SUCCESS,
 } from '../../../src/constants/notificationStatusCodes';
 
+const expect = chai.expect;
+const assert = chai.assert;
+
 chai.use(chaiImmutable);
 chai.should();
 
 const config = {
+  invocables: {
+    batch: {
+      paramBatch: {},
+    },
+  },
   recordTypes: {
     group: {
       serviceConfig: {
@@ -43,6 +51,18 @@ const mockStore = configureMockStore([thunk]);
 describe('batch action creator', function suite() {
   describe('invoke', function actionSuite() {
     const store = mockStore({
+      record: Immutable.fromJS({
+        '': {
+          data: {
+            current: {
+              params: {
+                foo: 'abc',
+                bar: 'def',
+              },
+            },
+          },
+        },
+      }),
       user: Immutable.Map(),
     });
 
@@ -177,6 +197,145 @@ describe('batch action creator', function suite() {
               mode: 'nocontext',
             },
           });
+        });
+    });
+
+    it('should send parameters', function test() {
+      moxios.stubRequest(/./, {
+        status: 200,
+        response: {},
+      });
+
+      const batchCsid = 'abcd';
+
+      const batchItem = Immutable.Map({
+        name: 'paramBatch',
+        csid: batchCsid,
+      });
+
+      const recordCsid = '1234';
+      const recordType = 'group';
+
+      const invocationDescriptor = {
+        recordType,
+        csid: recordCsid,
+      };
+
+      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+        .then(() => {
+          const request = moxios.requests.mostRecent();
+
+          request.url.should.equal(`/cspace-services/batch/${batchCsid}`);
+
+          const data = JSON.parse(request.config.data);
+
+          data.should.deep.equal({
+            'ns2:invocationContext': {
+              '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+              docType: 'Group',
+              mode: 'single',
+              singleCSID: recordCsid,
+              params: {
+                param: [
+                  { key: 'foo', value: 'abc' },
+                  { key: 'bar', value: 'def' },
+                ],
+              },
+            },
+          });
+        });
+    });
+
+    it('should call the onValidationSuccess callback if parameter validation succeeds', function test() {
+      moxios.stubRequest(/./, {
+        status: 200,
+        response: {},
+      });
+
+      const batchCsid = 'abcd';
+
+      const batchItem = Immutable.Map({
+        name: 'paramBatch',
+        csid: batchCsid,
+      });
+
+      const recordCsid = '1234';
+      const recordType = 'group';
+
+      const invocationDescriptor = {
+        recordType,
+        csid: recordCsid,
+      };
+
+      let onValidationSuccessCalled = false;
+
+      const handleValidationSuccess = () => {
+        onValidationSuccessCalled = true;
+      };
+
+      return store.dispatch(
+        invoke(config, batchItem, invocationDescriptor, handleValidationSuccess)
+      )
+        .then(() => {
+          onValidationSuccessCalled.should.equal(true);
+        });
+    });
+
+    it('should not dispatch any actions when parameter validation fails', function test() {
+      const invalidDataStore = mockStore({
+        notification: Immutable.Map(),
+        record: Immutable.fromJS({
+          '': {
+            validation: {
+              params: {
+                baz: {
+                  '[error]': {
+                    code: 'ERR_MISSING_REQ_FIELD',
+                  },
+                },
+              },
+            },
+            data: {
+              current: {
+                params: {
+                  foo: 'abc',
+                  bar: 'def',
+                },
+              },
+            },
+          },
+        }),
+        user: Immutable.Map(),
+      });
+
+      moxios.stubRequest(/./, {
+        status: 200,
+        response: {},
+      });
+
+      const batchCsid = 'abcd';
+
+      const batchItem = Immutable.Map({
+        name: 'paramBatch',
+        csid: batchCsid,
+      });
+
+      const recordCsid = '1234';
+      const recordType = 'group';
+
+      const invocationDescriptor = {
+        recordType,
+        csid: recordCsid,
+      };
+
+      return invalidDataStore.dispatch(invoke(config, batchItem, invocationDescriptor))
+        .then(() => {
+          assert.fail('action should be rejected');
+        })
+        .catch(() => {
+          const request = moxios.requests.mostRecent();
+
+          expect(request).to.equal(undefined);
         });
     });
 

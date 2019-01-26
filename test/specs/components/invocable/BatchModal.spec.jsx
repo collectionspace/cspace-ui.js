@@ -15,7 +15,10 @@ const expect = chai.expect;
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
-const store = mockStore();
+
+const store = mockStore({
+  record: Immutable.Map(),
+});
 
 describe('BatchModal', function suite() {
   beforeEach(function before() {

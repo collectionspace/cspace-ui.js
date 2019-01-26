@@ -55,7 +55,15 @@ export const createInvocationData = (config, invocationDescriptor, type, name) =
 
 export const getReportName = (reportItem) => {
   const filename = reportItem && reportItem.get('filename');
-  const name = filename ? filename.substring(0, filename.lastIndexOf('.')) : undefined;
+  let name = filename;
+
+  if (filename) {
+    const dotIndex = filename.lastIndexOf('.');
+
+    if (dotIndex >= 0) {
+      name = filename.substring(0, dotIndex);
+    }
+  }
 
   return name;
 };
