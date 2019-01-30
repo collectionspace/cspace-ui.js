@@ -108,8 +108,8 @@ export default function Footer(props) {
 
       <ul>
         <li>
-          <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.0">
-            <FormattedMessage {...messages.release} values={{ version: '5.0' }} />
+          <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.1">
+            <FormattedMessage {...messages.release} values={{ version: '5.1' }} />
           </a>
         </li>
 
