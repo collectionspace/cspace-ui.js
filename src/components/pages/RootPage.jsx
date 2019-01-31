@@ -21,6 +21,7 @@ import SearchResultPageContainer from '../../containers/pages/SearchResultPageCo
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
 import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
+import ReportingPage from './ReportingPage';
 
 const messages = defineMessages({
   title: {
@@ -66,6 +67,7 @@ function RootPage(props) {
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
+        <ProtectedRouteContainer path="/reporting" component={ReportingPage}/>
         <ProtectedRouteContainer path="/admin" component={AdminPageContainer} />
 
         <ProtectedRouteContainer

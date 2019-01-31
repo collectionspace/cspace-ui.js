@@ -1,5 +1,3 @@
-/* global window */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -9,8 +7,8 @@ import { OP_CONTAIN } from '../../constants/searchOperators';
 import VocabularyUsedByPanelContainer from '../../containers/admin/VocabularyUsedByPanelContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { canRead, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
-import VocabularySearchBar from '../admin/VocabularySearchBar';
+import { canCreate, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
+import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
@@ -19,8 +17,6 @@ const propTypes = {
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
-  readVocabularyItemRefs: PropTypes.func,
-  setAdminTab: PropTypes.func,
 };
 
 const defaultProps = {
@@ -31,83 +27,61 @@ const contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const recordType = 'vocabulary';
+const recordType = 'report';
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
   searchQuery: {
+      // as: {
+      //   path: 'ns2:reports_common/forDocTypes',
+      //   op: 'match', //
+      //   value: 'null',
+      // },
     size: 20,
   },
 });
 
-export default class VocabularyPage extends Component {
+export default class ReportingPage extends Component {
   constructor() {
     super();
 
-    this.handleItemClick = this.handleItemClick.bind(this);
-    this.handleRecordReadComplete = this.handleRecordReadComplete.bind(this);
-    this.handleRecordSaved = this.handleRecordSaved.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
-    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
+    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
 
     this.state = {
       searchDescriptor: getSearchDescriptor(),
-    };
-  }
-
-  componentDidMount() {
-    const {
-      setAdminTab,
-    } = this.props;
-
-    if (setAdminTab) {
-      setAdminTab(recordType);
     }
   }
 
   filter(value) {
+    // Implement logic where we change what the search bar searches for
     const {
       searchDescriptor,
     } = this.state;
 
     const searchQuery = searchDescriptor.get('searchQuery');
-    // console.log(searchQuery);
+    
     let updatedSearchQuery;
 
     if (value) {
+      // If the value isn't null, look for those that have this specific value in the field we're looking for...
       updatedSearchQuery = searchQuery.set('as', Immutable.Map({
         value,
         op: OP_CONTAIN,
-        path: 'ns2:vocabularies_common/displayName',
+        path: 'ns2:reports_common/name',
       }));
     } else {
       updatedSearchQuery = searchQuery.delete('as');
     }
-    console.log(updatedSearchQuery);
+    // Start at page 0
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
-    console.log(updatedSearchQuery);
 
     this.setState({
       filterValue: value,
       searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
     });
-  }
-
-  readItemRefs() {
-    const {
-      data,
-      readVocabularyItemRefs,
-    } = this.props;
-
-    if (readVocabularyItemRefs && data) {
-      const csid = data.getIn(['document', 'ns2:vocabularies_common', 'csid']);
-      const vocabularyName = data.getIn(['document', 'ns2:vocabularies_common', 'shortIdentifier']);
-
-      if (csid && vocabularyName) {
-        readVocabularyItemRefs(csid, vocabularyName);
-      }
-    }
   }
 
   handleItemClick(item) {
@@ -116,37 +90,20 @@ export default class VocabularyPage extends Component {
       perms,
     } = this.props;
 
-    if (canRead(recordType, perms)) {
+    // if (canCreate(recordType, perms)) {
       const csid = item.get('csid');
 
-      history.replace(`/admin/${recordType}/${csid}`);
-    }
+      history.replace(`/reporting/${recordType}/${csid}`);
+    // }
 
     // Prevent the default action.
 
     return false;
   }
 
-  handleRecordReadComplete() {
-    this.readItemRefs();
-  }
-
-  handleRecordSaved() {
-    const {
-      searchDescriptor,
-    } = this.state;
-
-    this.setState({
-      searchDescriptor: searchDescriptor.set('seqId', (new Date()).toISOString()),
-    });
-
-    this.readItemRefs();
-  }
-
   handleSearchBarChange(value) {
     if (this.filterTimer) {
       window.clearTimeout(this.filterTimer);
-
       this.filterTimer = null;
     }
 
@@ -160,6 +117,7 @@ export default class VocabularyPage extends Component {
         this.filterTimer = null;
       }, filterDelay);
     } else {
+      // if there is no filter
       this.filter(value);
     }
   }
@@ -176,8 +134,8 @@ export default class VocabularyPage extends Component {
     } = this.state;
 
     return (
-      <VocabularySearchBar value={filterValue} onChange={this.handleSearchBarChange} />
-    );
+      <ReportingSearchBar value={filterValue} onChange={this.handleSearchBarChange}/>
+    )
   }
 
   render() {
@@ -186,19 +144,21 @@ export default class VocabularyPage extends Component {
     } = this.context;
 
     const {
+      filterValue,
+      searchDescriptor,
+    } = this.state;
+
+    const {
       history,
       match,
       perms,
     } = this.props;
 
     const {
-      filterValue,
-      searchDescriptor,
-    } = this.state;
-
-    const {
       csid,
     } = match.params;
+
+    console.log(this.props);
 
     const normalizedCsid = (csid === 'new') ? '' : csid;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
@@ -208,6 +168,7 @@ export default class VocabularyPage extends Component {
     let recordEditor;
     let usedBy;
 
+    console.log(normalizedCsid);
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
       // Don't allow creating or deleting.
 
@@ -223,19 +184,10 @@ export default class VocabularyPage extends Component {
           csid={normalizedCsid}
           recordType={recordType}
           perms={restrictedPerms}
-          onRecordReadComplete={this.handleRecordReadComplete}
-          onRecordSaved={this.handleRecordSaved}
+          // onRecordReadComplete={this.handleRecordReadComplete}
+          // onRecordSaved={this.handleRecordSaved}
         />
       );
-
-      if (normalizedCsid) {
-        usedBy = (
-          <VocabularyUsedByPanelContainer
-            config={config}
-            csid={normalizedCsid}
-          />
-        );
-      }
     }
 
     return (
@@ -246,8 +198,7 @@ export default class VocabularyPage extends Component {
             history={history}
             isFiltered={!!filterValue}
             linkItems={false}
-            name="vocabularyPage"
-            pageSizeOptionListName="searchResultPagePageSizes"
+            name="ReportingPage"
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}
@@ -259,13 +210,12 @@ export default class VocabularyPage extends Component {
         </div>
         <div>
           {recordEditor}
-          {usedBy}
         </div>
       </div>
     );
   }
 }
 
-VocabularyPage.propTypes = propTypes;
-VocabularyPage.defaultProps = defaultProps;
-VocabularyPage.contextTypes = contextTypes;
+ReportingPage.propTypes = propTypes;
+ReportingPage.defaultProps = defaultProps;
+ReportingPage.contextTypes = contextTypes;
