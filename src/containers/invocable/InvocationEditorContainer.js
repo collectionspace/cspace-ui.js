@@ -32,8 +32,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const recordTypeConfig = get(config, ['invocables', type, invocableName]);
 
       if (recordTypeConfig) {
-        dispatch(createNewRecord(config, recordTypeConfig));
+        return dispatch(createNewRecord(config, recordTypeConfig));
       }
+
+      return undefined;
     },
   };
 };

@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import moxios from 'moxios';
+import get from 'lodash/get';
 import ReportViewerPage from '../../../../src/components/pages/ReportViewerPage';
 import { ConnectedReportViewerPage } from '../../../../src/containers/pages/ReportViewerPageContainer';
 
@@ -64,8 +65,15 @@ describe('ReportViewerPageContainer', function suite() {
     const recordCsid = '1234';
     const recordType = 'collectionobject';
 
+    const reportParams = {
+      foo: 'abc',
+      bar: 'def',
+    };
+
+    const jsonReportParams = JSON.stringify(reportParams);
+
     const location = {
-      search: `?csid=${recordCsid}&recordType=${recordType}`,
+      search: `?csid=${recordCsid}&recordType=${recordType}&params=${jsonReportParams}`,
     };
 
     const match = {
@@ -80,6 +88,21 @@ describe('ReportViewerPageContainer', function suite() {
 
         request.url.should.equal(`/cspace-services/reports/${reportCsid}`);
         request.responseType.should.equal('blob');
+
+        const jsonData = request.config.data;
+        const data = JSON.parse(jsonData);
+        const params = get(data, ['ns2:invocationContext', 'params', 'param']);
+
+        params.should.deep.equal([
+          {
+            key: 'foo',
+            value: 'abc',
+          },
+          {
+            key: 'bar',
+            value: 'def',
+          },
+        ]);
       });
   });
 });
