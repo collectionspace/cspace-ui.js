@@ -8,6 +8,7 @@ import RecordButtonBar from './RecordButtonBar';
 import RecordHeader from './RecordHeader';
 import ConfirmRecordNavigationModal from './ConfirmRecordNavigationModal';
 import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
+import ReportModal from '../invocable/ReportModal';
 import LockRecordModal from './LockRecordModal';
 import HierarchyReparentNotifier from './HierarchyReparentNotifier';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
@@ -19,6 +20,7 @@ import styles from '../../../styles/cspace-ui/RecordEditor.css';
 const propTypes = {
   config: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  reportItem: PropTypes.instanceOf(Immutable.Map),
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   cloneCsid: PropTypes.string,
@@ -60,6 +62,7 @@ const propTypes = {
   onRecordReadComplete: PropTypes.func,
   onRecordDeleted: PropTypes.func,
   onRecordTransitioned: PropTypes.func,
+  openReport: PropTypes.func,
 };
 
 const defaultProps = {
@@ -102,6 +105,10 @@ export default class RecordEditor extends Component {
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.handleRecordFormSelectorCommit = this.handleRecordFormSelectorCommit.bind(this);
     this.handleUndeprecateButtonClick = this.handleUndeprecateButtonClick.bind(this);
+    this.handleModalRunButtonClick = this.handleModalRunButtonClick.bind(this);
+
+    // Run button handler
+    this.handleRunButtonClick = this.handleRunButtonClick.bind(this);
   }
 
   componentDidMount() {
@@ -319,6 +326,37 @@ export default class RecordEditor extends Component {
     this.delete();
   }
 
+  handleModalRunButtonClick() {
+    const {
+      config,
+      recordType,
+      openReport,
+      reportItem,
+      closeModal,
+      csid,
+    } = this.props;
+
+    if (openReport) {
+      openReport(reportItem, config, recordType, csid)
+        .then(() => {
+          if (closeModal) {
+            closeModal(ReportModal.modalName);
+          }
+        })
+        .catch(() => {});
+    }
+  }
+
+  handleRunButtonClick() {
+    const {
+      openModal,
+    } = this.props;
+
+    if (openModal) {
+      openModal(ReportModal.modalName);
+    }
+  }
+
   handleConfirmNavigationSaveButtonClick() {
     const {
       closeModal,
@@ -533,6 +571,27 @@ export default class RecordEditor extends Component {
     );
   }
 
+  renderReportModal() {
+    const {
+      config,
+      isModified,
+      reportItem,
+      openModalName,
+    } = this.props;
+
+    return (
+      <ReportModal
+        config={config}
+        isOpen={openModalName === ReportModal.modalName}
+        isRecordModified={isModified}
+        reportItem={reportItem}
+        onCancelButtonClick={this.handleModalCancelButtonClick}
+        onCloseButtonClick={this.handleModalCancelButtonClick}
+        onRunButtonClick={this.handleModalRunButtonClick}
+      />
+    );
+  }
+
   render() {
     const {
       config,
@@ -572,6 +631,11 @@ export default class RecordEditor extends Component {
       !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
     );
 
+    const isRunnable = (
+      recordType === 'report' ||
+      recordType === 'batch'
+    );
+
     const isCloneable = (
       // The record must be saved.
       !!csid &&
@@ -586,7 +650,9 @@ export default class RecordEditor extends Component {
       // normally creatable via the UI. Instead of hardcoding this, should be able to configure a
       // normalizeCloneData function that will clean up cloned data for a record type, and/or
       // a cloneable function that will determine if a record is cloneable based on its data.
-      !(recordType === 'authrole' && data.getIn(['ns2:role', 'permsProtection']) === 'immutable')
+      !(recordType === 'authrole' && data.getIn(['ns2:role', 'permsProtection']) === 'immutable') &&
+      // We want to disallow cloning of reports
+      !(recordType === 'report')
     );
 
     const isDeletable = (
@@ -624,6 +690,7 @@ export default class RecordEditor extends Component {
             config={config}
             data={data}
             formName={selectedFormName}
+            isRunnable={isRunnable} // Render invocable button?
             isCloneable={isCloneable}
             isDeletable={isDeletable}
             isDeprecatable={isDeprecatable}
@@ -642,6 +709,7 @@ export default class RecordEditor extends Component {
             onSaveButtonErrorBadgeClick={this.handleSaveButtonErrorBadgeClick}
             onRevertButtonClick={this.handleRevertButtonClick}
             onUndeprecateButtonClick={this.handleUndeprecateButtonClick}
+            onRunButtonClick={this.handleRunButtonClick}
           />
         </Dock>
 
@@ -658,6 +726,7 @@ export default class RecordEditor extends Component {
 
         <footer>
           <RecordButtonBar
+            isRunnable={isRunnable} // Render invocable button?
             isCloneable={isCloneable}
             isDeletable={isDeletable}
             isDeprecatable={isDeprecatable}
@@ -672,6 +741,7 @@ export default class RecordEditor extends Component {
             onRevertButtonClick={this.handleRevertButtonClick}
             onCloneButtonClick={this.handleCloneButtonClick}
             onDeleteButtonClick={this.handleDeleteButtonClick}
+            onRunButtonClick={this.handleRunButtonClick}
           />
         </footer>
 
@@ -683,6 +753,7 @@ export default class RecordEditor extends Component {
         {this.renderConfirmNavigationModal()}
         {this.renderConfirmRecordDeleteModal()}
         {this.renderLockRecordModal()}
+        {this.renderReportModal()}
       </form>
     );
   }

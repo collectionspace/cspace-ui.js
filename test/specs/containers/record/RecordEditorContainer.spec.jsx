@@ -50,6 +50,7 @@ describe('RecordEditorContainer', function suite() {
   const authRecordType = 'person';
   const vocabulary = 'ulan';
   const data = Immutable.Map();
+  const reportRecordType = 'report';
 
   const recordTypeConfig = {
     serviceConfig: {
@@ -63,6 +64,14 @@ describe('RecordEditorContainer', function suite() {
     serviceConfig: {
       servicePath: 'urn:cspace:name(ulan)',
     },
+  };
+
+  const reportConfig = {
+    serviceConfig: {
+      servicePath: 'reports',
+    },
+    fields: {},
+    title: () => '',
   };
 
   const authRecordTypeConfig = {
@@ -80,6 +89,7 @@ describe('RecordEditorContainer', function suite() {
     recordTypes: {
       [recordType]: recordTypeConfig,
       [authRecordType]: authRecordTypeConfig,
+      [reportRecordType]: reportConfig,
     },
   };
 
@@ -155,6 +165,7 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('checkForRelations').that.is.a('function');
     result.props.should.have.property('checkForUses').that.is.a('function');
     result.props.should.have.property('checkForRoleUses').that.is.a('function');
+    result.props.should.have.property('openReport').that.is.a('function');
   });
 
   it('should connect createNewRecord to createNewRecord action creator', function test() {

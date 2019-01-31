@@ -56,3 +56,4 @@ export default function ReportModal(props) {
 }
 
 ReportModal.propTypes = propTypes;
+ReportModal.modalName = 'ReportModal';

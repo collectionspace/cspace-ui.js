@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import { getBatchName, getReportName } from '../../helpers/invocationHelpers';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
+import styles from '../../../styles/cspace-ui/InvocationModal.css';
 
 const propTypes = {
   config: PropTypes.object,
@@ -52,6 +53,7 @@ export default class InvocationEditor extends Component {
     return (
       <div>
         <RecordFormContainer
+          className={styles.common}
           config={config}
           csid=""
           data={data}

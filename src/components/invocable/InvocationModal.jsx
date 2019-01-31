@@ -6,6 +6,7 @@ import { Modal } from 'cspace-layout';
 import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
 import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
+import styles from '../../../styles/cspace-ui/InvocationModal.css';
 
 const propTypes = {
   config: PropTypes.object,
@@ -33,7 +34,10 @@ export default class InvocationModal extends Component {
       runButtonClassName,
       onCancelButtonClick,
       onRunButtonClick,
+      type,
     } = this.props;
+
+    const isRunnable = type === 'report' || type === 'batch';
 
     return (
       <div>
@@ -43,6 +47,7 @@ export default class InvocationModal extends Component {
         />
         <RunButton
           className={runButtonClassName}
+          isRunnable={isRunnable}
           label={<FormattedMessage {...messages.run} />}
           onClick={onRunButtonClick}
         />
@@ -61,6 +66,7 @@ export default class InvocationModal extends Component {
       onCloseButtonClick,
     } = this.props;
 
+
     if (!isOpen || !invocationItem) {
       return null;
     }
@@ -73,6 +79,7 @@ export default class InvocationModal extends Component {
 
     return (
       <Modal
+        className={styles.common}
         isOpen={isOpen}
         title={<h1>{invocationItem.get('name')}</h1>}
         closeButtonClassName="material-icons"

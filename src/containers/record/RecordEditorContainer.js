@@ -32,6 +32,11 @@ import {
 } from '../../actions/record';
 
 import {
+  openReport,
+} from '../../actions/report';
+
+
+import {
   checkForRelations,
 } from '../../actions/relation';
 
@@ -82,6 +87,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     relatedSubjectCsid,
     recordType,
     vocabulary,
+    reportItem,
   } = ownProps;
 
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
@@ -140,6 +146,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(checkForUses(config, recordType, vocabulary, csid)),
     checkForRoleUses: () =>
       dispatch(checkForRoleUses(csid)),
+    openReport: () =>
+      dispatch(openReport(reportItem, config, recordType, csid)),
   };
 };
 

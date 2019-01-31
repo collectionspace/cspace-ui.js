@@ -1,0 +1,3155 @@
+
+> cspace-ui@1.0.0-rc.63 test /Users/cesarv.h/Documents/cspace/plugins/cspace-ui.js
+> cross-env NODE_ENV=test karma start
+
+Running locally.
+ℹ ｢wdm｣: Hash: bfcc616d8c37f805c6aa
+Version: webpack 3.12.0
+Time: 44ms
+ℹ ｢wdm｣: Compiled successfully.
+ℹ ｢wdm｣: Compiling...
+[33m26 03 2019 10:47:43.442:WARN [karma]: [39mNo captured browser, open http://localhost:9876/
+ℹ ｢wdm｣: Hash: da9f563dbd971853c834
+Version: webpack 3.12.0
+Time: 29106ms
+              Asset     Size  Chunks                    Chunk Names
+test/specs/index.js  30.7 MB       0  [emitted]  [big]  test/specs/index
+[1025] ./test/specs/index.js 109 bytes {0} [built]
+[1026] ./test/specs \.spec\.jsx?$ 19.7 kB {0} [built]
+[1027] ./test/specs/actions/account.spec.js 3.9 kB {0} [optional] [built]
+[1909] ./test/specs/actions/authority.spec.js 5.84 kB {0} [optional] [built]
+[1910] ./test/specs/actions/authz.spec.js 6.12 kB {0} [optional] [built]
+[1911] ./test/specs/actions/batch.spec.js 11 kB {0} [optional] [built]
+[1912] ./test/specs/actions/cspace.spec.js 8.47 kB {0} [optional] [built]
+[1913] ./test/specs/actions/idGenerator.spec.js 7.42 kB {0} [optional] [built]
+[1914] ./test/specs/actions/login.spec.js 9.8 kB {0} [optional] [built]
+[1915] ./test/specs/actions/logout.spec.js 2.69 kB {0} [optional] [built]
+[1916] ./test/specs/actions/notification.spec.js 7.33 kB {0} [optional] [built]
+[1917] ./test/specs/actions/optionList.spec.js 1.11 kB {0} [optional] [built]
+[1918] ./test/specs/actions/partialTermSearch.spec.js 8.61 kB {0} [optional] [built]
+[1919] ./test/specs/actions/prefs.spec.js 12.2 kB {0} [optional] [built]
+[1920] ./test/specs/actions/quickSearch.spec.js 3.09 kB {0} [optional] [built]
+    + 2759 hidden modules
+ℹ ｢wdm｣: Compiled successfully.
+[32m26 03 2019 10:47:43.455:INFO [karma-server]: [39mKarma v3.1.4 server started at http://0.0.0.0:9876/
+[32m26 03 2019 10:47:43.455:INFO [launcher]: [39mLaunching browsers Chrome with concurrency unlimited
+[32m26 03 2019 10:47:43.564:INFO [launcher]: [39mStarting browser Chrome
+[32m26 03 2019 10:47:45.276:INFO [Chrome 73.0.3683 (Mac OS X 10.14.0)]: [39mConnected on socket gPoVTCY-9oIu3NHkAAAA with id 25196476
+
+START:
+  account action creator
+    checkForRoleUses
+      ✔ should resolve to true if uses are found for the given role
+      ✔ should resolve to false if no uses are found for the given role
+    requestPasswordReset
+      ✔ should request a password reset
+    resetPassword
+      ✔ should reset the password
+  authority action creator
+    readAuthVocabs
+      ✔ should dispatch AUTH_VOCABS_READ_FULFILLED on success
+      ✔ should dispatch AUTH_VOCABS_READ_FULFILLED if there are errors, but they are all 403
+      ✔ should dispatch AUTH_VOCABS_READ_REJECTED on errors other than 403
+    checkForUses
+      ✔ should resolve to true if uses are found for the given authority item
+      ✔ should resolve to false if no uses are found for the authority item
+  authz action creator
+    readPerms
+      ✔ should dispatch PERMS_READ_FULFILLED on success
+      ✔ should dispatch PERMS_READ_REJECTED on success
+      ✔ should not dispatch any action if a read is already pending
+      ✔ should not dispatch any action if permissions have already been retrieved
+    readRoles
+      ✔ should dispatch ROLES_READ_FULFILLED on success
+      ✔ should dispatch ROLES_READ_REJECTED on success
+      ✔ should not dispatch any action if a read is already pending
+      ✔ should not dispatch any action if roles have already been retrieved
+  batch action creator
+    invoke
+      ✔ should invoke a batch job for a single csid
+      ✔ should invoke a batch job for list csids
+      ✔ should invoke a batch job for no csid
+      ✔ should send parameters
+      ✔ should call the onValidationSuccess callback if parameter validation succeeds
+      ✔ should not dispatch any actions when parameter validation fails
+      ✔ should dispatch BATCH_INVOKE_FULFILLED when an invocation completes successfully
+      ✔ should dispatch BATCH_INVOKE_REJECTED when an invocation fails
+  cspace action creator
+    configureCSpace
+      ✔ should create a CSpace session and make it the active session
+      ✔ should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED
+      ✔ should resolve if the readAccountPerms query returns a 401 error
+      ✔ should reject if the readAccountPerms query returns an error other than 401
+      ✔ should configure an onError callback that is a function
+    onError callback
+      ✔ should reject with the error
+      ✔ should dispatch RESET_LOGIN and OPEN_MODAL if the error is an invalid token 401 error
+    createSession
+      ✔ should return a cspace session
+    setSession
+      ✔ should create a CSPACE_CONFIGURED action
+      ✔ should update the active session
+  ID generator action creator
+    addIDGenerators
+      ✔ should create an ADD_ID_GENERATORS action
+    readIDGenerator
+      ✔ should dispatch READ_ID_GENERATOR_FULFILLED on success
+      ✔ should dispatch READ_ID_GENERATOR_REJECTED on error
+      ✔ should dispatch no action (null) when no csid is found for the ID generator name
+    createID
+      ✔ should dispatch CREATE_ID_FULFILLED on success
+      ✔ should dispatch CREATE_ID_REJECTED on error
+      ✔ should dispatch no action (null) when no csid is found for the ID generator name
+  login action creator
+    resetLogin
+      ✔ should create a RESET_LOGIN action
+    login
+      ✔ should update the active session
+      ✔ should dispatch LOGIN_FULFILLED on success
+      ✔ should dispatch LOGIN_REJECTED on error
+      ✔ should dispatch AUTH_RENEW_REJECTED with error code ERR_INVALID_CREDENTIALS when an invalid credentials error response is received
+      ✔ should dispatch AUTH_RENEW_REJECTED with error code ERR_NETWORK when a network error occurs
+      ✔ should dispatch AUTH_RENEW_REJECTED with error code ERR_WRONG_TENANT when the account tenant id is not the tenant id configured for the ui
+    readAccountPerms
+      ✔ should dispatch ACCOUNT_PERMS_READ_FULFILLED on success
+      ✔ should dispatch ACCOUNT_PERMS_READ_REJECTED on error
+  logout action creator
+    logout
+      ✔ should dispatch LOGOUT_FULFILLED on success
+  notification action creator
+    ✔ should open a new modal if a previous one has not been closed
+    ✔ should still call the close callback of a modal that is replaced without closing
+    ✔ should chain the onClose callback of a previously opened modal that has not been closed
+    showNotification
+      ✔ should create a SHOW_NOTIFICATION action
+    removeNotification
+      ✔ should create a REMOVE_NOTIFICATION action
+    showValidationNotification
+      ✔ should create a SHOW_NOTIFICATION action
+    removeValidationNotification
+      ✔ should create a REMOVE_NOTIFICATION action
+    openModal
+      ✔ should dispatch an OPEN_MODAL action
+    closeModal
+      ✔ should dispatch an CLOSE_MODAL action
+      ✔ should call the callback specified in the last OPEN_MODAL call
+  optionList action creator
+    addOptionLists
+      ✔ should create an ADD_OPTION_LISTS action
+  partialTermSearch action creator
+    addTerm
+      ✔ should dispatch ADD_TERM_FULFILLED on success
+      ✔ should clone the primary record data if clone is true
+      ✔ should dispatch ADD_TERM_REJECTED on error
+    findMatchingTerms
+      ✔ should dispatch PARTIAL_TERM_SEARCH_FULFILLED on success
+      ✔ should dispatch PARTIAL_TERM_SEARCH_REJECTED on error
+      ✔ should dispatch no action if the vocabulary does not have a service path
+    clearMatchedTerms
+      ✔ should create a CLEAR_PARTIAL_TERM_SEARCH_RESULTS action
+  prefs action creator
+    collapsePanel
+      ✔ should create a COLLAPSE_PANEL action
+    setAdminTab
+      ✔ should create a SET_ADMIN_TAB action
+    setForm
+      ✔ should create a SET_FORM action
+    setUploadType
+      ✔ should create a SET_UPLOAD_TYPE action
+    setQuickSearchRecordType
+      ✔ should create a SET_QUICK_SEARCH_RECORD_TYPE action
+    setQuickSearchVocabulary
+      ✔ should create a SET_QUICK_SEARCH_VOCABULARY action
+    setRecordBrowserNavBarItems
+      ✔ should create a SET_RECORD_BROWSER_NAV_BAR_ITEMS action
+    setSearchPageRecordType
+      ✔ should create a SET_SEARCH_PAGE_RECORD_TYPE action
+    setSearchPageVocabulary
+      ✔ should create a SET_SEARCH_PAGE_VOCABULARY action
+    setSearchResultPagePageSize
+      ✔ should create a SET_SEARCH_RESULT_PAGE_PAGE_SIZE action
+    setSearchToRelatePagePageSize
+      ✔ should create a SET_SEARCH_TO_RELATE_PAGE_SIZE action
+    setSearchPanelPageSize
+      ✔ should create a SET_SEARCH_PANEL_PAGE_SIZE action
+    toggleRecordSidebar
+      ✔ should create a TOGGLE_RECORD_SIDEBAR action
+    loadPrefs
+      ✔ should dispatch a PREFS_LOADED action
+      ✔ should return null prefs if serialized prefs are not valid JSON
+      ✔ should return null prefs if no serialized prefs exist in local storage
+      ✔ should return null prefs if there is no username
+      ✔ should merge user prefs into default prefs, if present
+      ✔ should return default prefs if present and no serialized prefs exist in local storage
+    savePrefs
+      ✔ should save prefs to local storage
+      ✔ should not save prefs if there is no username
+      ✔ should not affect prefs for other users
+      ✔ should overwrite existing prefs that are not valid JSON
+  quick search action creator
+    setQuickSearchKeyword
+      ✔ should create a SET_QUICK_SEARCH_KEYWORD action
+    initiateSearch
+      ✔ should push a search result location onto history for authority records
+      ✔ should push a search result location onto history for procedure records
+      ✔ should push a record location onto history when a csid is entered as a keyword
+  record action creator
+    createNewRecord
+      ✔ should dispatch CREATE_NEW_RECORD
+      ✔ should read the record to be cloned
+    createNewSubrecord
+      ✔ should dispatch CREATE_NEW_SUBRECORD
+      ✔ should read the record to be cloned
+    detachSubrecord
+      ✔ should return a DETACH_SUBRECORD action
+    clearRecord
+      ✔ should return a CLEAR_RECORD action
+    readRecord
+      for an object/procedure
+        ✔ should dispatch RECORD_READ_FULFILLED on success
+        ✔ should dispatch RECORD_READ_REJECTED on error
+        ✔ should dispatch no actions if a read is already pending for the given csid
+        ✔ should dispatch no actions if data is already available for the given csid
+        ✔ should merge request configuration from the record type config
+      for an authority
+        ✔ should dispatch RECORD_READ_FULFILLED on success
+      for a record with subrecords
+        ✔ should dispatch SEARCH_STARTED and SEARCH_FULFILLED when a subrecord search is needed
+        ✔ should dispatch SUBRECORD_READ_FULFILLED after reading the container record and subrecord
+    saveRecord
+      for an object/procedure
+        ✔ should dispatch VALIDATION_FAILED if there are validation errors
+        ✔ should dispatch RECORD_SAVE_FULFILLED on success
+        ✔ should dispatch RECORD_SAVE_REJECTED on an update error
+        ✔ should dispatch RECORD_SAVE_REJECTED on a create error
+        ✔ should dispatch RECORD_SAVE_REJECTED if a create request does not return a 201 with a location
+        ✔ should call the passed callback when a new record is saved
+        ✔ should merge in a request config contribution from the record type config
+      for an authority
+        ✔ should dispatch RECORD_SAVE_FULFILLED on success
+      for a record with subresource subrecords
+        ✔ should dispatch RECORD_SAVE_FULFILLED on success
+        ✔ should dispatch RECORD_SAVE_REJECTED if the subrecord save fails
+        ✔ should dispatch SUBRECORD_CREATED if a subrecord is created
+      for a record with field-referenced subrecords
+        ✔ should dispatch RECORD_SAVE_FULFILLED on success
+        ✔ should dispatch SUBRECORD_CREATED if a new subrecord is created
+        ✔ should not save the subrecord if the configured save condition function returns false
+      for a role
+        ✔ should show a specific notification message for a duplicate role name error during a create
+    revertRecord
+      ✔ should dispatch REVERT_RECORD
+    addFieldInstance
+      ✔ should create an ADD_FIELD_INSTANCE action
+    sortFieldInstances
+      ✔ should create a SORT_FIELD_INSTANCES action
+    deleteFieldValue
+      ✔ should dispatch DELETE_FIELD_VALUE
+    moveFieldValue
+      ✔ should dispatch MOVE_FIELD_VALUE
+    setFieldValue
+      ✔ should dispatch SET_FIELD_VALUE
+    transitionRecord
+      for an object/procedure
+        ✔ should dispatch RECORD_TRANSITION_FULFILLED on success
+        ✔ should dispatch RECORD_TRANSITION_REJECTED on error
+      for an authority
+        ✔ should dispatch RECORD_SAVE_FULFILLED on success
+    saveRecordWithTransition
+      ✔ should dispatch saveRecord actions followed by transitionRecord actions
+    deleteRecord
+      for an object/procedure
+        ✔ should dispatch RECORD_DELETE_FULFILLED on success
+        ✔ should dispatch RECORD_DELETE_REJECTED on error
+      for an authority
+        ✔ should dispatch RECORD_DELETE_FULFILLED on success
+    computeFieldValue
+      ✔ should dispatch FIELD_COMPUTE_FULFILLED when field values are computed
+      ✔ should dispatch FIELD_COMPUTE_REJECTED when there is an error computing field values
+  record browser action creator
+    clearRelatedRecordBrowserRelatedCsid
+      ✔ should create a CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID action
+    setRelatedRecordBrowserRelatedCsid
+      ✔ should create a SET_RELATED_RECORD_BROWSER_RELATED_CSID action
+  record page action creator
+    setRecordPagePrimaryCsid
+      ✔ should create a SET_RECORD_PAGE_PRIMARY_CSID action
+  relation action creator
+    clearState
+      ✔ should create a CLEAR_RELATION_STATE action
+    find
+      ✔ should dispatch RELATION_FIND_FULFILLED on success
+      ✔ should dispatch RELATION_FIND_REJECTED on error
+      ✔ should return null if a find result already exists for the descriptor
+      ✔ should throw if neither object csid nor subject csid are supplied
+    create
+      ✔ should dispatch RELATION_SAVE_FULFILLED on success
+      ✔ should dispatch RELATION_SAVE_REJECTED on error
+    createBidirectional
+      ✔ should dispatch RELATION_SAVE_FULFILLED twice, once in each direction
+    batchCreate
+      ✔ should dispatch RELATION_SAVE_FULFILLED once for each object
+      ✔ should dispatch SHOW_NOTIFICATION on error
+      ✔ should dispatch nothing for each object that is already related to the subject
+    batchCreateBidirectional
+      ✔ should dispatch RELATION_SAVE_FULFILLED twice for each object
+      ✔ should dispatch SHOW_NOTIFICATION on error
+      ✔ should dispatch nothing for each object that is already related to the subject
+    deleteRelation
+      ✔ should dispatch RELATION_DELETE_FULFILLED on success
+      ✔ should dispatch RELATION_DELETE_REJECTED on error
+      ✔ should throw if no csid is supplied
+    unrelate
+      ✔ should dispatch RELATION_DELETE_FULFILLED on success
+      ✔ should dispatch RELATION_DELETE_REJECTED on error
+      ✔ should find the relation if it is not already in the store
+      ✔ should throw if object csid and subject csid are not both supplied
+    unrelateBidirectional
+      ✔ should dispatch RELATION_DELETE_FULFILLED twice, once for each direction
+    batchUnrelate
+      ✔ should dispatch RELATION_DELETE_FULFILLED once for each object
+      ✔ should dispatch SHOW_NOTIFICATION on error
+    batchUnrelateBidirectional
+      ✔ should dispatch RELATION_DELETE_FULFILLED once for each object
+      ✔ should dispatch SHOW_NOTIFICATION on error
+    checkForRelations
+      ✔ should resolve to true if relations are found for the given csid and predicate
+      ✔ should resolve to false if no relations are found for the given csid and predicate
+  report action creator
+    invoke
+      ✔ should invoke a report for a single csid
+      ✔ should invoke a report for list csids
+      ✔ should invoke a report for no csid
+      ✔ should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails
+    openReport
+      ✔ should open a window with the URL of the report
+      ✔ should include parameters
+      ✔ should not call window.open if parameter validation fails
+  search action creator
+    search
+      ✔ should dispatch SEARCH_FULFILLED on success
+      ✔ should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor is already pending
+      ✔ should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor already has a result
+      ✔ should dispatch CREATE_EMPTY_SEARCH_RESULT on a related record query with empty csid
+      ✔ should accept null/undefined vocabulary name
+      ✔ should accept searches for subresources
+      ✔ should generate the sort parameter
+      ✔ should generate the sort parameter for descending searches
+      ✔ should dispatch SEARCH_REJECTED when an unknown search column is specified
+      ✔ should dispatch SEARCH_REJECTED when an invalid search order is specified
+      ✔ should dispatch SEARCH_REJECTED on API error
+      ✔ should dispatch SEARCH_REJECTED if the record type is unknown
+      ✔ should dispatch SEARCH_REJECTED if the record type does not have a service path
+      ✔ should dispatch SEARCH_REJECTED if the vocabulary does not have a service path
+    setResultItemSelected
+      ✔ should dispatch SET_RESULT_ITEM_SELECTED
+    clearSearchResults
+      ✔ should dispatch CLEAR_SEARCH_RESULTS
+    setAllResultItemsSelected
+      ✔ should dispatch SET_ALL_RESULT_ITEMS_SELECTED
+    clearSelected
+      ✔ should dispatch CLEAR_SELECTED
+    deselectResultItem
+      ✔ should dispatch DESELECT_RESULT_ITEM
+  search page action creator
+    setSearchPageAdvanced
+      ✔ should create a SET_SEARCH_PAGE_ADVANCED action
+    setSearchPageKeyword
+      ✔ should create a SET_SEARCH_PAGE_KEYWORD action
+    initiateSearch
+      ✔ should push a search result location onto history for authority records
+      ✔ should push a search result location onto history for procedure records
+  search to relate action creator
+    setSearchToRelateKeyword
+      ✔ should create a SET_SEARCH_TO_RELATE_KEYWORD action
+    setSearchToRelateAdvanced
+      ✔ should create a SET_SEARCH_TO_RELATE_ADVANCED action
+    setSearchToRelateRecordType
+      ✔ should create a SET_SEARCH_TO_RELATE_RECORD_TYPE action
+    setSearchToRelateVocabulary
+      ✔ should create a SET_SEARCH_TO_RELATE_VOCABULARY action
+  structured date action creator
+    parseDisplayDate
+      ✔ should resolve to an object containing a parsed structured date value
+      ✔ should resolve to an object with isError set to true when the display date is not parseable
+      ✔ should resolve to a structured date with all fields set to null when the display date is blank
+  vocabulary action creator
+    readVocabularyItems
+      ✔ should dispatch READ_VOCABULARY_ITEMS_FULFILLED on success
+      ✔ should dispatch READ_VOCABULARY_ITEMS_REJECTED on error
+      ✔ should dispatch nothing if the vocabulary already has a pending read
+      ✔ should dispatch nothing if the vocabulary already has items
+    readVocabularyItemRefs
+      ✔ should dispatch READ_VOCABULARY_ITEM_REFS_FULFILLED on success
+      ✔ should dispatch READ_VOCABULARY_ITEM_REFS_REJECTED on error
+      ✔ should dispatch nothing if the vocabulary already has a pending read
+ERROR: '[React Intl] Missing message: "rootPage.title" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "logo.title" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "about.title" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "about.contentHTML" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "loginForm.username" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "loginForm.password" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "loginForm.title" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "loginForm.prompt" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "loginForm.forgotPassword" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "loginButton.label" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.feedbackUrl" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.appName" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.copyright" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.about" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.feedback" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.release" for locale: "en", using default message as fallback.'
+ERROR: '[React Intl] Missing message: "footer.version" for locale: "en", using default message as fallback.'
+  App
+    ✔ should render
+    ✔ should render a BrowserRouter if no router prop is supplied and prettyUrls is true
+    ✔ should render a HashRouter if no router prop is supplied and prettyUrls is true
+    ✔ should call openModal to confirm router navigation
+  AccountSearchBar
+    ✔ should render as a div
+    ✔ should render an input containing the value
+    ✔ should call onChange when the input value changes
+    ✔ should set the value to empty string when the clear button is clicked
+  AdminTabButtonBar
+    ✔ should render as a div
+    ✔ should render nothing if isCreatable is not true
+  PermissionsInput
+    ✔ should render as a div
+    ✔ should call readPerms when mounted if resourceNames is not supplied
+    ✔ should render a row of radio buttons for each resource name that is a known record type
+    ✔ should sort record types by the configured sort order
+    ✔ should sort record types by label when there is no sort order configured
+    ✔ should check radio buttons corresponding to the supplied value
+    ✔ should treat CRUDL on a delete workflow transition as D on the corresponding resource
+    ✔ should allow a single (non-list) value
+    ✔ should call onCommit when a radio button changes
+    ✔ should convert delete permission to CRUL on a resource and CRUDL on its corresonding delete workflow
+    ✔ should update permissions of authority items when permissions of authorities change
+    ✔ should update permissions of the permissions resource when permissions of the roles resource change
+    ✔ should remove permissions that are set to none
+    ✔ should call onCommit when a header button is clicked
+    for relations
+      ✔ should set delete permissions on the resource and the delete workflow when delete is selected
+      ✔ should set delete workflow to read only when delete is not selected
+      ✔ should set no permissions on the resource and the delete workflow when none is selected
+  RolesInput
+    ✔ should render as a ul
+    ✔ should call readRoles when mounted if roles is not supplied
+    ✔ should render a checkbox for each role
+    ✔ should check checkboxes for roles that appear in value
+    ✔ should allow a single (non-list) value
+    ✔ should not show roles that do not appear in the value if readOnly is true
+    ✔ should render nothing if readOnly is true and no roles appear in the value
+    ✔ should call onCommit when a checkbox changes
+    ✔ should remove roles that are unchecked from the committed value
+  VocabularySearchBar
+    ✔ should render as a div
+    ✔ should render an input containing the value
+    ✔ should call onChange when the input value changes
+    ✔ should set the value to empty string when the clear button is clicked
+  VocabularyUsedByPanel
+    ✔ should render a panel
+    ✔ should render a list of uses
+    ✔ should render a not used message if no uses are found
+    ✔ should render nothing if no data is provided
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+  BatchModal
+    ✔ should render a modal
+    ✔ should render nothing if isOpen is false
+    ✔ should render nothing if batchItem is not supplied
+  InvocationEditor
+    ✔ should render a RecordFormContainer if the invocable has a record type config
+    ✔ should render a message if the invocable does not have a record type config
+    ✔ should call createNewRecord when mounted
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+  ReportModal
+    ✔ should render a modal
+    ✔ should render nothing if isOpen is false
+    ✔ should render nothing if reportItem is not supplied
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+    ✔ should render an unsaved warning if isRecordModified is true
+  ReportingSearchBar
+    ✔ should render as a div
+    ✔ should render an input containing the value
+    ✔ should call onChange when the input value changes
+    ✔ should set the value to empty string when the clear button is clicked
+  LoginForm
+    ✔ should render as a div
+    ✔ should render with correct class
+    ✔ should show the header when showHeader is true
+    ✔ should not show the header when showHeader is false
+    ✔ should show pending message when isPending is true
+    ✔ should show success message when isSuccess is true
+    ✔ should show expired message when isExpired is true
+    ✔ should show error message when error is provided
+    ✔ should translate the bad credentials error
+    ✔ should call login when the form is submitted
+    ✔ should do nothing when the form is submitted if login is not set
+    ✔ should call onSuccess when isSuccess changes from false to true
+    ✔ should call focus the password input when the username changes from blank to non-blank
+    ✔ should call focus the password input when error changes from falsy to truthy
+    ✔ should update the location state of the reset password link when the username changes
+    ✔ should show the forgot password link when showForgotLink is true
+    ✔ should not show the forgot password link when showForgotLink is false
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+ERROR: 'Warning: react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`. This is needed so screen readers don't see main content when modal is opened. It is not recommended, but you can opt-out by setting `ariaHideApp={false}`.'
+  LoginModal
+    ✔ should render a modal
+    ✔ should render nothing if isOpen is false
+  LogoutIndicator
+    ✔ should call onSuccess when isPending changes from true to false and a response exists
+    when isPending is true
+      ✔ should render as a div
+      ✔ should show pending message
+    when response exists
+      ✔ should render as a div
+      ✔ should show success message
+    when error exists
+      ✔ should render as a div
+      ✔ should show error message
+  BlobImage
+    ✔ should render as an ImageContainer
+    ✔ should insert the csid and derivative name into the img src url
+  Image
+    ✔ should render a div when mounted, then an img once the content has been read
+    ✔ should retry reading the image when a 404 is received if retry is true
+    ✔ should render a div when there is an error reading the image
+    ✔ should clear previous content when the content path changes
+    ✔ should render nothing if unmounted before the content is read
+    ✔ should stop retrying reading the image if unmounted
+  ImageViewer
+    ✔ should render an OpenSeadragon viewer
+[33m26 03 2019 10:47:56.902:WARN [web-server]: [39m404: /1234
+    ✔ should destroy the OpenSeadragon viewer when unmounted
+  MediaViewer
+    ✔ should render a div
+    ✔ should render an ImageGallery when there is a search result
+    ✔ should render with empty class when the search result contains no items
+    ✔ should render an ImageContainer for each carousel image
+    ✔ should render an ImageContainer for each thumbnail image
+    ✔ should render a MiniButton for each nav button
+    ✔ should render nothing when the search is pending
+    ✔ should not render thumbnails for a single search result
+    ✔ should open a window when the carousel image is clicked
+    ✔ should render the own blobCsid image first
+  MediaViewerPanel
+    ✔ should render as a Panel
+[33m26 03 2019 10:47:56.952:WARN [web-server]: [39m404: /cspace-services/03794600-d98f-44a6-8985/content
+[33m26 03 2019 10:47:56.954:WARN [web-server]: [39m404: /cspace-services/42e46bf9-f09d-49ec-8334/content
+[33m26 03 2019 10:47:56.955:WARN [web-server]: [39m404: /cspace-services/8fdd5910-c579-4ed4-b52b/content
+[33m26 03 2019 10:47:56.956:WARN [web-server]: [39m404: /cspace-services/03794600-d98f-44a6-8985/content
+[33m26 03 2019 10:47:56.958:WARN [web-server]: [39m404: /cspace-services/42e46bf9-f09d-49ec-8334/content
+[33m26 03 2019 10:47:56.959:WARN [web-server]: [39m404: /cspace-services/8fdd5910-c579-4ed4-b52b/content
+[33m26 03 2019 10:47:56.960:WARN [web-server]: [39m404: /cspace-services/03794600-d98f-44a6-8985/content
+[33m26 03 2019 10:47:56.962:WARN [web-server]: [39m404: /cspace-services/42e46bf9-f09d-49ec-8334/content
+[33m26 03 2019 10:47:56.963:WARN [web-server]: [39m404: /cspace-services/8fdd5910-c579-4ed4-b52b/content
+[33m26 03 2019 10:47:56.965:WARN [web-server]: [39m404: /cspace-services/03794600-d98f-44a6-8985/content
+[33m26 03 2019 10:47:56.966:WARN [web-server]: [39m404: /cspace-services/42e46bf9-f09d-49ec-8334/content
+[33m26 03 2019 10:47:56.968:WARN [web-server]: [39m404: /cspace-services/8fdd5910-c579-4ed4-b52b/content
+    ✔ should include the number of related media records in the header
+    ✔ should add one to the count if ownBlobCsid is provided
+    ✔ should not add one to the count if ownBlobCsid is not a guid csid
+    ✔ should call search when mounted
+    ✔ should call search when a new search descriptor is supplied
+  BackButton
+    ✔ should render a button
+  CancelButton
+    ✔ should render a button
+  CsidLink
+    ✔ should render as a SearchResultLink
+  NavBar
+    ✔ should render as a nav
+    ✔ should render with correct class
+  NavLink
+    ✔ should render as an a
+    ✔ should render with correct class
+  Notification
+    ✔ should render as a div
+    ✔ should call close when the close button is clicked
+    ✔ should call close automatically after the autoCloseTime timeout when autoClose is true
+    ✔ should call close automatically after the autoCloseTime timeout when autoClose is changed from false to true
+    ✔ should cancel auto close when the close button is focused
+    ✔ should cancel auto close when the mouse is depressed on the notification
+    ✔ should render a timestamp if date is provided
+    ✔ should render children prop as the content if provided
+  NotificationBar
+    ✔ should render as a div
+    ✔ should render a notification for each supplied notification descriptor
+  ValidationErrorMessage
+    ✔ should render as a ul
+    ✔ should render the full name of a field if present
+    ✔ should fall back to the name of a field if full name is not present
+    ✔ should fall back to the id of a field if neither full name nor name are present
+    ✔ should render a list item for each error
+    ✔ should render nothing if there are no errors
+  ValidationErrorNotification
+    ✔ should render as a Notification containing a ValidationErrorMessage child
+    ✔ should render nothing if no errors are provided
+  AccountPage
+    ✔ should render as a div
+    ✔ should call setAdminTab when mounted
+    ✔ should render a record editor when a csid param exists in the match
+    ✔ should replace history with a new location to clone a record
+    ✔ should replace history with a new location when the create new button is clicked
+    ✔ should replace history with a new location when a record is created
+    ✔ should replace history with a new location when a user deletion completes
+    ✔ should replace history with a new location when an item is clicked in the search panel
+    ✔ should not replace history when an item is clicked in the search panel but there are not read permissions on accounts
+    ✔ should update the search descriptor's sequence ID when a record is saved in the record editor
+    ✔ should update the search descriptor when the search bar value changes
+    ✔ should only update the search descriptor once when the search bar value changes twice within the filter delay
+    ✔ should update the search descriptor immediately when the search bar value is blanked
+    ✔ should not show a record editor delete button if the open record is the currently logged in user
+  AdminPage
+    ✔ should render as a div
+    ✔ should render nothing if no tabs are permitted
+    ✔ should not render tabs for which list permissions do not exist
+  AuthRolePage
+    ✔ should render as a div
+    ✔ should call setAdminTab when mounted
+    ✔ should render a record editor when a csid param exists in the match
+    ✔ should replace history with a new location to clone a record
+    ✔ should replace history with a new location when the create new button is clicked
+    ✔ should replace history with a new location when a record is created
+    ✔ should replace history with a new location when a role deletion completes
+    ✔ should replace history with a new location when an item is clicked in the search panel
+    ✔ should not replace history when an item is clicked in the search panel but there are not read permissions on roles
+    ✔ should update the search descriptor's sequence ID when a record is saved in the record editor
+LOG: Object{}
+  ConfigPage
+    ✔ should render a link to a blob
+LOG: Object{}
+    ✔ should revoke the blob url when unmounted
+  ContentViewerPage
+    ✔ should render nothing when mounted, then an iframe once the content has been read
+    ✔ should render an ImageViewer if the content is an image
+    ✔ should render nothing if imagePath is not present in match params
+    ✔ should clear previous content when the content path changes
+    ✔ should render nothing if unmounted before the content is read
+    ✔ should call renderError to render an error when reading the content fails
+  CreatePage
+    ✔ should render as a div
+    ✔ should render a link for each object/procedure record, and for each vocabulary
+    ✔ should not render links for disabled procedures
+    ✔ should not render links for disabled vocabularies
+    ✔ should not render links for locked vocabularies
+    ✔ should not render links for vocabularies with no workflow state
+    ✔ should not render links for authority records whose vocabularies are all disabled
+    ✔ should sort procedures/vocabularies by sortOrder if present
+    ✔ should not render service types whose record types are all disabled
+  DashboardPage
+    ✔ should render as a div
+    ✔ should render a search panel
+    ✔ should update the search descriptor when it is changed by the search panel
+  ErrorPage
+    ✔ should render as a div
+    ✔ should render a not found message for an http error with status 404
+    ✔ should render a not allowed message for an http error with status 401
+  LoginPage
+    ✔ should render as a div
+    ✔ should call onMount when mounted
+    ✔ should call closeModal and resetLogin, and replace history with continuation when login succeeds
+  LogoutPage
+    ✔ should render as a div
+    ✔ should call logout when mounted
+    ✔ should call resetLogin and replace history with continuation when logout succeeds
+  ProtectedPage
+    ✔ should render as a div
+    ✔ should render the content
+    ✔ should render a header containing a user menu
+ERROR: 'Warning: Failed prop type: The prop `intl` is marked as required in `Footer`, but its value is `undefined`.
+    in Footer'
+    ✔ should render a login modal
+    ✔ should render a login modal 
+    ✔ should when login succeeds
+  PublicPage
+    ✔ should render as a div
+    ✔ should render the content
+  RecordPage
+    ✔ should render as a div
+[33m26 03 2019 10:48:04.078:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.079:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.080:WARN [web-server]: [39m404: /cspace-services/collectionobjects/1d075e7f-82b4-4ca9-9ab6?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.082:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.082:WARN [web-server]: [39m404: /cspace-services/collectionobjects/1d075e7f-82b4-4ca9-9ab6?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.084:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.085:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.086:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.087:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+    ✔ should render with correct class
+    ✔ should render nothing if record type is 'all'
+    ✔ should render nothing if vocabulary is 'all'
+    ✔ should render an error page if an error is supplied
+    ✔ should replace history with the record type determined from data when the record type is 'all', and data is supplied
+    for an object/procedure record
+      ✔ should call readRecord when mounted if a csid is provided
+      ✔ should call setRecordPagePrimaryCsid when mounted
+      ✔ should not call readRecord if the record type is unknown
+      ✔ should call readRecord when new params are passed via props
+      ✔ should call readRecord when new params are passed via props 
+      ✔ should call setRecordPagePrimaryCsid with undefined csid when unmounted
+      ✔ should render a RecordTitleBarContainer with correct csid and recordType
+      ✔ should render a RecordBrowser with correct csid and recordType
+      ✔ should use empty csid if csid is null
+[33m26 03 2019 10:48:04.136:WARN [web-server]: [39m404: /cspace-services/collectionobjects/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+[33m26 03 2019 10:48:04.137:WARN [web-server]: [39m404: /cspace-services/authorities/local/items/b09295cf-ff56-4018-be16?wf_deleted=false&showRelations=true
+      ✔ should replace history with a related record URL when a related record tab is clicked
+    for an authority record
+      ✔ should call readRecord when mounted if a csid is provided
+      ✔ should not call readRecord if the vocabulary is unknown
+  ReportViewerPage
+    ✔ should render a ContentViewerPage
+    ✔ should render a loading message
+    ✔ should render an error message
+  ReportingPage
+    ✔ should render as a div
+    ✔ should render a record editor when a csid param exists in the match
+    ✔ should replace history with a new location when an item is clicked in the search panel
+    ✔ should not render any reports if the user has no permission to run reports
+    ✖ should update the search descriptor's sequence ID when a record is saved in the record editor
+LOG: '-=====s====>'
+LOG: Map{size: 2, _root: ArrayMapNode{ownerID: undefined, entries: [..., ...]}, __ownerID: undefined, __hash: undefined, __altered: false}
+LOG: '-====e=====>'
+    ✔ should update the search descriptor when the search bar value changes
+  ResetPasswordPage
+    ✔ should render as a div
+    ✔ should render a PasswordResetRequestForm if no token exists in params
+    ✔ should render a PasswordResetForm if a token exists in query parameters
+  RootPage
+    ✔ should render as a div
+  SearchPage
+    ✔ should render as a div
+    ✔ should render an error page if the record type is unknown
+    ✔ should replace history with the recordTypeValue prop if no record type is supplied in params
+    ✔ should replace history with the recordTypeValue prop if no record type is supplied in updated params
+    ✔ should replace history with the vocabularyValue prop if no vocabulary is supplied in params
+    ✔ should replace history when the record type is committed
+    ✔ should call onRecordTypeCommit when the record type is committed
+    ✔ should call onRecordTypeCommit when a new record type is selected via params
+    ✔ should replace history when the vocabulary is committed
+    ✔ should call onVocabularyCommit when the vocabulary is committed
+    ✔ should call onVocabularyCommit when a new vocabulary is selected via params
+  SearchResultPage
+    ✔ should render as a div
+    ✔ should not render a result table if the record type is unknown
+    ✔ should not render a result table if the vocabulary is unknown
+    ✔ should not render a result table if the subresource is unknown
+    ✔ should normalize query parameters
+    ✔ should call setPreferredPageSize with the normalized page size
+    ✔ should call search to perform a search
+    ✔ should handle table sort changes
+    ✔ should render a related query title
+    ✔ should render a vocabulary title
+    ✔ should render a subresource title
+    ✔ should render a search to relate modal if the search record type is object an object or procedure
+    ✔ should generate search to relate subjects from selected items
+    ✔ should return null subjects if selected items is undefined
+    ✔ should close the search to relate modal when relations have been created
+    ✔ should close the search to relate modal when the close button is clicked
+    ✔ should close the search to relate modal when the cancel button is clicked
+    ✔ should call onItemSelectChange when a checkbox is clicked
+    ✔ should stop propagation of clicks on checkboxes
+    ✔ should not render checkboxes on items that are locked
+    renderHeader
+      ✔ should render the search result header
+      ✔ should render a pending message if the search result does not have a total items count
+      ✔ should render an error message if the search has an error
+      ✔ should connect page size change events to a handler
+      ✔ should call setSearchPageKeyword when the edit link is clicked
+ERROR: 'Warning: No field descriptor found for the record type collectionobject. The field with path document,ns2:path,foo will not be rendered.'
+      ✔ should call setSearchPageAdvanced when the edit link is clicked
+    renderFooter
+      ✔ should render the search result footer
+      ✔ should connect page select events to a handler
+  VocabularyPage
+    ✔ should render as a div
+    ✔ should call setAdminTab when mounted
+    ✔ should render a record editor when a csid param exists in the match
+    ✔ should replace history with a new location when an item is clicked in the search panel
+    ✔ should not replace history when an item is clicked in the search panel but there are not read permissions on vocabularies
+    ✔ should call readVocabularyItemRefs when a record read completes in the record editor
+    ✔ should update the search descriptor's sequence ID when a record is saved in the record editor
+    ✔ should update the search descriptor when the search bar value changes
+    ✔ should only update the search descriptor once when the search bar value changes twice within the filter delay
+    ✔ should update the search descriptor immediately when the search bar value is blanked
+  CheckboxInput
+    ✔ should render a cspace-input CheckboxInput
+    ✔ should supply labels to the base component
+    ✔ should supply a custom transition map to the base input of viewType is 'search'
+  CloneButton
+    ✔ should render a button
+    ✔ should render nothing if isCloneable is false
+  ConfirmRecordDeleteModal
+    ✔ should render a modal
+    ✔ should render nothing if isOpen is false
+    ✔ should render nothing if data is not supplied
+    ✔ should render a prompt message containing the record title
+    ✔ should render a warning message and no prompt when the record data contains hierarchy relations
+    ✔ should not render a delete button when the record data contains hierarchy relations
+    when the record type is a procedure or object
+      ✔ should call checkForRelations when opened, and render a warning message if it resolves to true
+    when the record type is an authority
+      ✔ should call checkForUses when opened, and render a message if it resolves to true
+    when the record type is authrole
+      ✔ should call checkForRoleUses when opened, and render a message if it resolves to true
+  ConfirmRecordUnrelateModal
+    ✔ should render a modal
+    ✔ should render nothing if isOpen is false
+    ✔ should render nothing if isMultiSelect is false and data is not supplied
+    ✔ should render nothing if isMultiSelect is true and recordCount is zero
+    ✔ should render a prompt message containing the record title
+    ✔ should render a prompt message containing the record count if isMultiSelect is true
+    ✔ should render an unrelating message if isUnrelating is true
+  ContentViewer
+    ✔ should render a link containing an img
+    ✔ should render a link containing an img for an authority record type
+ERROR: 'Warning: No content descriptor found for the record type foo. The content viewer will not be rendered.'
+    ✔ should render nothing if content is not configured for the record type
+    ✔ should render nothing if no csid is present in context
+ERROR: 'Warning: No content descriptor found for the record type oh no. The content viewer will not be rendered.'
+    ✔ should render nothing for an unknown record type
+  DeprecateButton
+    ✔ should render a button
+    ✔ should render nothing if isDeprecatable is false
+    ✔ should be disabled if isModified is true
+    ✔ should be disabled if isSavePending is true
+  ErrorBadge
+    ✔ should render a button
+    ✔ should pass provided props to the button
+  Field
+    ✔ should render an element with type and props specified in config
+    ✔ should pass props to the base component
+    ✔ should set repeating on the base component if the field is repeating
+    ✔ should set label on the base component if it is an accepted prop of the base component
+    ✔ should set readOnly prop of the label if the field is configured to be read only
+    ✔ should set required prop of the label if the field is configured to be required
+    ✔ should set label to null on the base component if no message is found
+    ✔ should set formatValue on the base component if it is an accepted prop of the base component and a value message is present
+    ✔ should set renderChildInputLabel on the base component if it is an accepted prop of the base component
+    ✔ should set viewType on the base component if it is an accepted prop of the base component
+    ✔ should not pass props to the base component that it does not accept
+ERROR: 'Warning: No field descriptor found for the record type oops. The field with path color will not be rendered.'
+    ✔ should render nothing if the record type is not configured
+ERROR: 'Warning: The path oops is not present in the field descriptors for the record type collectionobject. The field will not be rendered.'
+    ✔ should render nothing if the field is not configured
+  HierarchyInput
+    ✔ should render a hierarchy editor
+    ✔ should not render a hierarchy editor if both showParent and showChildren are false
+    ✔ should render a hierarchy sibling list
+    ✔ should not render a hierarchy sibling list if showSiblings is false
+    ✔ should convert a relation list to a hierarchy descriptor, and pass it to the hierarchy editor
+    ✔ should find broader relations using a urn-style csid
+    ✔ should accept a single-item (non-list) relation
+    ✔ should render no hierarchy when non-immutable relations are supplied
+    ✔ should pass a new hierarchy descriptor to the hierarchy editor when a new relation list is received via props
+    ✔ should sort children by display name, with nulls at the end
+    ✔ should call onCommit when a value is committed in the hierarchy editor
+    ✔ should call onCommit when a child instance is removed in the hierarchy editor
+    ✔ should call onCommit when a child instance is added in the hierarchy editor
+    ✔ should commit two children when a child instance is added in the hierarchy editor and there are no children
+  HierarchyReparentNotifier
+    ✔ should render nothing
+    when mounted
+      ✔ should call readRecord for each non-blank refName in childData
+      ✔ should not call readRecord for children whose ref names do not map to known record types and vocabularies
+      ✔ should call showNotification with an item for each child that is being reparented
+    when props are updated
+      ✔ should call readRecord for each new non-blank refName in childData
+      ✔ should call removeNotification if no items are being reparented
+  HierarchySiblingList
+    ✔ should render as a div
+    ✔ should render a header with the supplied title
+    ✔ should render a header with the supplied title 
+    ✔ should call findRelations when mounted
+    ✔ should call findRelations when parentCsid is changed
+    ✔ should render a link for each item in the result set
+    ✔ should render one input for a single item (non-list) result set
+  InputTable
+    ✔ should render a cspace-input InputTable
+    ✔ should set the label prop on the base InputTable
+    ✔ should set the renderLabel prop on the base InputTable
+    ✔ should set readOnly to true on field labels for child inputs that are configured as read only
+    ✔ should set required to true on field labels for child inputs that configured as required
+  MediaSnapshotPanel
+    ✔ should render a media viewer panel
+    ✔ should rerender with a new search descriptor when a new csid is supplied via props
+    ✔ should render nothing if the record data has not been saved
+    ✔ should set the ownBlobCsid prop when the record is a media record
+  MiniView
+    ✔ should render as a div
+    ✔ should call readRecord when mounted if a csid is supplied
+    ✔ should call readRecord when when a new csid is supplied via props
+    ✔ should render a RecordForm
+    ✔ should render a read only RecordForm using the 'mini' form
+    ✔ should render the record title, linked to the record page
+    ✔ should render a <br> for the title if the computed title is empty
+  MiniViewPopup
+    ✔ should render a Popup containing a MiniView
+  MiniViewPopupAutocompleteInput
+    ✔ should render as a div
+    ✔ should not render an input if asText is true
+[33m26 03 2019 10:48:08.712:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(JohnDoe1514784052823)?wf_deleted=false
+    ✔ should open the popup when the mouse enters
+    ✔ should not open the popup if the value not parseable as a ref name
+    ✔ should not open the popup if read permissions do not exist for the record type
+[33m26 03 2019 10:48:10.844:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(JohnDoe1514784052823)?wf_deleted=false
+    ✔ should close the popup when the mouse leaves
+[33m26 03 2019 10:48:12.256:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(JohnDoe1514784052823)?wf_deleted=false
+    ✔ should close the popup when a new value is supplied via props
+[33m26 03 2019 10:48:12.978:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(SamuelSmith)?wf_deleted=false
+    when the filtering dropdown is open
+      ✔ should open the popup when the mouse enters a menu item
+[33m26 03 2019 10:48:13.696:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(SamuelSmith)?wf_deleted=false
+      ✔ should close the popup when the mouse leaves a menu item
+[33m26 03 2019 10:48:15.108:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(SamuelSmith)?wf_deleted=false
+      ✔ should close the popup if the mouse enters the popup immediately after it leaves a menu item
+[33m26 03 2019 10:48:16.529:WARN [web-server]: [39m404: /cspace-services/personauthorities/urn:cspace:name(SamuelSmith)?wf_deleted=false
+      ✔ should close the popup when the filtering dropdown closes
+  OptionPickerInput
+    ✔ should render a DropdownMenuInput
+    ✔ should call intl.formatMessage to format the status message
+    ✔ should call intl.formatMessage to format option labels
+  RecordBatchPanel
+    ✔ should render a div containing a search panel and a batch modal
+    ✔ should render a nothing if list permission on batch does not exist
+    ✔ should render a nothing if the record has not been saved
+    ✔ should update the search panel's search descriptor when the record type changes
+    ✔ should close the batch modal when the cancel button is clicked
+    ✔ should close the batch modal when the close button is clicked
+    ✔ should call run and close the modal when the run button is clicked in the batch modal and the selected batch job does not create new focus
+    ✔ should call run and set isRunning to true when the run button is clicked in the batch modal and the selected batch job creates new focus
+    ✔ should close the modal, set isRunning to false, and navigate to the new focus when a batch job that creates new focus completes
+    ✔ should update the search panel when it changes the search descriptor
+  RecordBrowser
+    ✔ should render as a div
+    ✔ should render a RecordBrowserNavBar
+    ✔ should render a RecordEditor if a relatedRecordType prop is not supplied
+    ✔ should replace history after a new record has been created
+    ✔ should push a location onto history to clone a record
+    ✔ should render a RelatedRecordBrowser if a relatedRecordType prop is supplied
+    ✔ should call clearPreferredRelatedCsid when unmounted
+    ✔ should call clearPreferredRelatedCsid when a new csid is supplied via props
+    ✔ should replace the history location with the index location when a record is soft-deleted and there is no search state
+    ✔ should replace the history location with a search result page location when a record is soft-deleted and there is a search state
+  RecordBrowserNavBar
+    ✔ should render as a nav
+    ✔ should render a primary item and a related record selector
+    ✔ should render a list item for each entry in items
+    ✔ should not show related items when no csid is supplied
+    ✔ should not show related items when the supplied record type is an authority
+    ✔ should call setItems when the selected related record type is not in items
+    ✔ should call onSelect when a related record item button is clicked
+    ✔ should call setItems when a related record item close button is clicked
+    ✔ should call onSelect with the following item when the close button is clicked on the active related record item
+    ✔ should call onSelect with the preceding item when the close button is clicked on the active related record item, and it is the last related record item
+    ✔ should call setItems when a selection is made in the related record selector
+    ✔ should call onSelect when a selection is made in the related record selector
+  RecordButtonBar
+    ✔ should render as a div
+    ✔ should render with correct class
+    ✔ should vary the save button class depending on isModified prop
+    ✔ should disable the save button when isSavePending is true
+    ✔ should call onSaveButtonClick when the save button is clicked
+    ✔ should show the clone button when a csid is provided
+  RecordEditor
+    ✔ should render as a form
+    ✔ should render with correct class
+    ✔ should render nothing for an unknown record type
+    ✔ should render the 'default' form if no formName is supplied, and no default form is configured
+    ✔ should render the configured default form if no formName is supplied
+    ✔ should call readRecord when mounted if a csid is provided
+    ✔ should call onRecordReadComplete when the record has been read
+    ✔ should call createNewRecord when mounted if a csid is not provided
+    ✔ should call readRecord when the csid is changed
+    ✔ should call removeValidationNotification and removeNotification when unmounted
+    ✔ should call removeValidationNotification when the csid is changed
+    ✔ should call save followed by onRecordSaved when the save button is clicked
+    ✔ should call the record type's configured onRecordSaved handler following save
+    ✔ should call saveWithTransition when the save button is clicked if lockOnSave is true for the record type
+    ✔ should call revert when the revert button is clicked
+    ✔ should call clone when the clone button is clicked
+    ✔ should call openModal when the delete button is clicked
+    ✔ should call openModal when the save button is clicked on a locking record
+    ✔ should call validateRecordData when the save button error badge is clicked
+    ✔ should call validateRecordData when the save button error badge is clicked 
+    ✔ should call setForm when a value is committed in the form selector
+    ✔ should call save and closeModal when the confirmation modal save button is clicked
+    ✔ should call revert and closeModal when the confirmation modal revert button is clicked
+    ✔ should call closeModal and onSaveCancelled when the confirmation modal cancel button is clicked
+    ✔ should call save and closeModal when the lock modal save button is clicked
+    ✔ should call saveWithTransition and closeModal when the lock modal save and lock button is clicked
+    ✔ should call transitionRecord when the deprecate button is clicked
+    ✔ should call transitionRecord when the undeprecate button is clicked
+    when isHardDelete is true
+      ✔ should call deleteRecord, closeModal, and onRecordDeleted when the delete modal delete button is clicked
+    when isHardDelete is false
+      ✔ should call transitionRecord, closeModal, and onRecordTransitioned when the delete modal delete button is clicked
+  RecordForm
+    ✔ should render a div
+    ✔ should render nothing for an unknown record type
+    ✔ should render the specified form template
+    ✔ should resolve a computed form template
+    ✔ should render nothing if a computed form returns no form name
+    ✔ should render the element if a computed form returns a React element
+    ✔ should render the data into the form template
+  RecordFormSelector
+    ✔ should render as a div
+    ✔ should render with correct class
+    ✔ should render nothing if there are no forms configured for the record type
+    ✔ should render nothing if only one form is enabled for the record type
+    ✔ should render a dropdown menu with an option for each form
+    ✔ should sort options by sortOrder
+  RecordHeader
+    ✔ should render as a div
+  RecordHistory
+    ✔ should render a popover when both updated and created information are supplied
+    ✔ should render no content when neither created nor updated information is supplied
+    ✔ should render a span if isModified is true, and neither updated nor created times are supplied
+    ✔ should render a span if isSavePending is true, and neither updated nor created times are supplied
+    ✔ should omit 'by...' if no user is supplied
+    ✔ should include a save pending message when isSavePending is true
+    ✔ should include a record modified message when isModified is true
+    ✔ should not render the header content when opened
+    ✔ should rerender the header content when closed
+  RecordReportPanel
+    ✔ should render a div containing a search panel and a report modal
+    ✔ should render a nothing if the record has not been saved
+    ✔ should render nothing if list permission on report does not exist
+    ✔ should update the search panel's search descriptor when the record type changes
+    ✔ should close the report modal when the cancel button is clicked
+    ✔ should close the report modal when the close button is clicked
+    ✔ should call openReport when the run button is clicked in the report modal
+    ✔ should update the search panel when it changes the search descriptor
+  RecordSidebar
+    ✔ should render nothing if the record type is unknown
+    ✔ should render nothing if isOpen is false
+  RecordTitleBar
+    ✔ should render as a header
+    ✔ should render with correct class
+    ✔ should render the record title and record type name
+    ✔ should render the vocabulary name
+    ✔ should render nothing if a plugin is not found for the record type
+    ✔ should dock and undock when scrolled
+    ✔ should call onDock if the height changes while docked
+    ✔ should render a search result traverser as the title bar navigation if a search descriptor is supplied
+    ✔ should add and remove window scroll listeners when mounted and unmounted
+  RecordTypesProvider
+    ✔ should provide record plugins in context
+  RelatedRecordBrowser
+    ✔ should render as a div
+    ✔ should render a relation editor if a related csid is provided
+    ✔ should replace history when a related csid is not provided but a preferred related csid is provided
+    ✔ should replace history when the clone button is clicked
+    ✔ should replace history when the create new button is clicked
+    ✔ should call onShowRelated when a related record list item is clicked
+    ✔ should replace history when a new related record is created
+    ✔ should show the search to relate modal when the relate button is clicked
+    ✔ should close the search to relate modal when the close button is clicked
+    ✔ should close the search to relate modal when the cancel button is clicked
+    ✔ should close the search to relate modal when relations have been created
+    ✔ should replace history when the related record is unrelated in the related record panel
+    ✔ should call deselect when a record is unrelated in the relation editor
+    ✔ should replace history when the relation editor is closed
+    ✔ should call setPreferredRelatedCsid when the related csid is changed via props
+    ✔ should call setPreferredRelatedCsid when the relation editor is closed
+  RelatedRecordButtonBar
+    ✔ should render as a div
+    ✔ should render nothing when isRelatable is false
+  RelatedRecordPanel
+    ✔ should render a search panel
+    ✔ should render nothing if list permission is not present for the related record type
+    ✔ should render a select bar in the panel header if showCheckboxColumn is true
+    ✔ should not render a select bar in the panel header if showCheckboxColumn is false
+    ✔ should render nothing if the record data does not contain updatedAt
+    ✔ should rerender with the new search descriptor when it is changed within the search panel
+    ✔ should rerender with a new search descriptor when a new csid is supplied via props
+    ✔ should maintain the page number, size, and sort when only recordRelationUpdatedTimestamp is changed
+    ✔ should render checkboxes as checked for selected items
+    ✔ should not render checkboxes for locked items
+    ✔ should call onItemSelectChange when a checkbox value is changed
+    ✔ should stop event propagation when a checkbox is clicked
+    ✔ should call openModal when the unrelate button is clicked
+    ✔ should call unrelateRecords followed by clearSelected, onUnrelated, and closeModal when the confirm unrelate button is clicked
+    ✔ should set unrelate modal isUnrelating prop to true while unrelating is in progress
+    ✔ should set unrelate modal isUnrelating prop back to false if unrelating fails
+    ✔ should call closeModal when the cancel button is clicked in the confirm unrelate modal
+  RelationEditor
+    ✔ should render a record editor if the relation is found
+    ✔ should render nothing if there is no relation find result
+    ✔ should render an error message div if the relation find result contains no items
+    ✔ should render an error message div if an object error is provided
+    ✔ should call createRelation followed by onRecordCreated when a record is created
+    ✔ should return null when a record create is attempted but no createRelation prop is supplied
+    ✔ should call onRecordTransitioned when a record is transitioned
+    ✔ should call onClose when a record is transitioned with transition name 'delete'
+    ✔ should call findRelation when mounted
+    ✔ should call findRelation when subject, object, or predicate changes
+    ✔ should call onUnmount when unmounted
+    ✔ should call onClose when the cancel button is clicked in the button bar
+    ✔ should call onClose when the close button is clicked in the button bar
+    ✔ should call openModal when the unrelate button is clicked
+    ✔ should call closeModal and onClose, then unrelate and onUnrelated when unmounted when the confirm unrelate button is clicked
+    ✔ should not call unrelate when unmounted if navigation is cancelled following the unrelate button being clicked
+    ✔ should call closeModal when the cancel button is clicked in the confirm unrelate modal
+  RevertButton
+    ✔ should render a button
+    ✔ should render nothing if readOnly is true
+    ✔ should render the supplied label
+    ✔ should be disabled if isModified is false
+    ✔ should be disabled if isSavePending is true
+  RunButton
+    ✔ should render a button only when the record type is an invocable
+    ✔ should not render a button if the record type is not an invocable
+  SaveButton
+    ✔ should render nothing when readOnly is true
+    without validation errors
+      ✔ should render a button
+      ✔ should apply the pending class if isSavePending is true
+      ✔ should apply the pending class if isSavePending is true 
+      ✔ should apply the normal class if isSavePending is true
+      ✔ should apply the done class if isSavePending and isModified are both false
+    with validation errors
+      ✔ should render a div with a save button and an error badge
+      ✔ should render a disabled save button
+  StructuredDateInput
+    ✔ should render a cspace-input StructuredDateInput
+    ✔ should call readTerms when mounted
+    ✔ should call readTerms when new perms are supplied via props
+    ✔ should call intl.formatMessage to format field labels
+    ✔ should call intl.formatMessage to format option labels
+    ✔ should use the option value as the label for an option that does not have a message
+    ✔ should call intl.formatMessage to format the parse failed message
+  Subrecord
+    ✔ should render a SubrecordEditorContainer
+ERROR: 'Warning: No subrecord is configured with name badName for the record type person.'
+    ✔ should render nothing if the named subrecord is not configured for the record type
+  SubrecordDetachButton
+    ✔ should render a button
+  SubrecordEditor
+    ✔ should render a RecordFormContainer
+    ✔ should render nothing if read permission does not exist for the record type
+    ✔ should render a SubrecordDetachButton when showDetachButton is true and the data represents an existing record
+    ✔ should not render a SubrecordDetachButton when the data represents a new record
+    ✔ should call detachSubrecord when the subrecord detach button is clicked
+  TermPickerInput
+    ✔ should render a cspace-input TermPickerInput
+    ✔ should call readTerms when mounted
+    ✔ should call readTerms when new perms are supplied via props
+    ✔ should call intl.formatMessage to format the status message
+  TermsUsedPanel
+    ✔ should render a search panel
+    ✔ should render nothing if the record data has not been saved
+    ✔ should rerender with the new search descriptor when it is changed by the search panel
+    ✔ should rerender with a new search descriptor when a new csid is supplied via props
+    ✔ should retain the same page number and page size when only the last updated timestamp is changed
+  TypedHierarchyEditor
+    ✔ should render inputs for the parent and nested repeating inputs for the children
+    ✔ should render an input for the parent if showParent is false
+    ✔ should not render inputs for the children if showChildren is false
+    ✔ should filter the current record out of term matches
+    ✔ should call onCommit when a parent ref name value is committed
+    ✔ should call onCommit when a parent type value is committed
+    ✔ should call onCommit when a child ref name value is committed
+    ✔ should call onCommit when a child type value is committed
+    ✔ should call onAddChild when a child value is added
+    ✔ should call onRemoveChild when a child value is removed
+  URLInput
+    ✔ should render a LineInput with a link and formatted link content
+  UndeprecateButton
+    ✔ should render a button
+    ✔ should render nothing if isUndeprecatable is false
+    ✔ should be disabled if isModified is true
+    ✔ should be disabled if isSavePending is true
+  UnrelateButton
+    ✔ should render a button
+    ✔ should render nothing if isUnrelatable is false
+  UntypedHierarchyEditor
+    ✔ should render an input for the parent and a repeating input for the children
+    ✔ should not render an input for the parent if showParent is false
+    ✔ should not render an input for the children if showChildren is false
+    ✔ should filter the current record out of term matches
+    ✔ should call onCommit when a parent value is committed
+    ✔ should call onCommit when a child value is committed
+    ✔ should call onAddChild when a child value is added
+    ✔ should call onRemoveChild when a child value is removed
+  UsedByPanel
+    ✔ should render a search panel
+    ✔ should render nothing if the record data has not been saved
+    ✔ should rerender with the new search descriptor when it is changed by the search panel
+    ✔ should rerender with a new search descriptor when a new csid is supplied via props
+    ✔ should retain the same page number and page size when only the last updated timestamp is changed
+  WorkflowStateIcon
+    ✔ should render as a div
+    ✔ should render the locked icon image if value contains 'locked'
+    ✔ should render the replicated icon image if value contains 'replicated'
+    ✔ should render the replicated icon image if value contains 'deprecated'
+    ✔ should render nothing if the value is empty
+    ✔ should render nothing if the value does not contain a known workflow state
+  WorkflowStateInput
+    ✔ should render as a div
+    ✔ should render a workflow state icon
+  ProtectedRoute
+    ✔ should render a route to a Redirect if no username is supplied
+    ✔ should render a route to a ProtectedPage if a username is supplied
+  AdvancedSearchBuilder
+    ✔ should render as a Panel
+    ✔ should call onConditionCommit when mounted
+    ✔ should call onConditionCommit when updated
+    ✔ should set the top-level op to the preferred boolean op if it is a different boolean op
+    ✔ should merge the condition into the default condition for the record type
+    ✔ should merge a non-boolean condition into the child conditions of the default condition, and set the top-level op to the preferred boolean op
+    ✔ should merge <= operations into range operations
+    ✔ should merge >= operations into range operations
+  PageSizeChooser
+    ✔ should render as a div
+    ✔ should show the page size as the input value
+    ✔ should show page size options in the dropdown menu
+    ✔ should call onPageSizeChange when a page size is selected in the menu
+    ✔ should call onPageSizeChange when a page size is entered in the input
+    ✔ should not call onPageSizeChange when an invalid page size is entered in the input
+    ✔ should not call onPageSizeChange when the current page size is selected
+  Pager
+    ✔ should render as a div
+    ✔ should show a window of pages around the current page
+    ✔ should offset the window when it overflows the beginning or end of the page range
+    ✔ should always show the first and last pages
+    ✔ should show an ellipsis between the first page and the beginning of the window
+    ✔ should show an ellipsis between the last page and the end of the window
+    ✔ should show the page number instead of an ellipsis when the gap between the first page and the beginning of the window is only one page
+    ✔ should show the page number instead of an ellipsis when the gap between the last page and the end of the window is only one page
+    ✔ should call onPageChange when a page button is clicked
+    ✔ should call onPageChange when the previous page button is clicked
+    ✔ should call onPageChange when the next page button is clicked
+  QuickSearchForm
+    ✔ should render as a fieldset
+    ✔ should render a QuickSearchInput
+    ✔ should use intl to format the record type and vocabulary names
+  RangeSearchField
+    ✔ should render as a div
+    ✔ should render a start field and an end field
+    ✔ should call onCommit when the start field is committed
+    ✔ should call onCommit when the end field is committed
+  SearchField
+    ✔ should render a Field
+    ✔ should pass parentPath, name, and value props to the base Field
+    ✔ should override props on the base Field
+    ✔ should append a null item and commit the new value when a repeating field instance is added
+    ✔ should convert a scalar value to a list when a repeating field instance is committed
+    ✔ should set the item and commit the value when a repeating field instance is committed
+    ✔ should convert a scalar value to a list when a repeating field instance is added
+    ✔ should call onCommit when the field is committed and repeating is false
+    ✔ should call onCommit with a string value when a boolean value is committed
+    ✔ should delete the item and commit the new value when a repeating field instance is removed
+    ✔ should render 'or' as the repeating field order indicator on values after the first
+    ✔ should render '/' as the repeating field order indicator on values after the first if readOnly is true
+  SearchForm
+    ✔ should render as a form
+    ✔ should not render a vocabulary input for non-authority record types
+    ✔ should call onKeywordCommit when a keyword is committed
+    ✔ should call onRecordTypeCommit when the record type is committed
+    ✔ should call onVocabularyCommit when the vocabulary is committed
+    ✔ should call onSearch when the form is submitted
+  SearchPanel
+    ✔ should render as a div
+    ✔ should call search and onSearchDescriptorChange when mounted
+    ✔ should call search and onSearchDescriptorChange when a new search descriptor is supplied
+    ✔ should render a header, footer, and search result table
+    ✔ should render an item count in the panel title if totalItems is present in the search result
+    ✔ should render a filtered notification the panel title if isFiltered is true
+    ✔ should call onSearchDescriptorChange when a page is selected
+    ✔ should call onSearchDescriptorChange when the page size changes
+    ✔ should call setPreferredPageSize when the page size changes
+    ✔ should call onSearchDescriptorChange when a column is sorted
+    ✔ should render a search link
+    ✔ should render an add button when showAddButton is true
+    ✔ should open the search to relate modal when the add button is clicked
+    ✔ should close the search to relate modal after relations have been created
+    ✔ should close the search to relate modal when its close button is clicked
+    ✔ should close the search to relate modal when its cancel button is clicked
+    ✔ should set allowedServiceTypes on the search to relate modal when the searched record type is a utility type
+  SearchResultLink
+    ✔ should render a pending message if search is pending
+    ✔ should render an error message if there is a search error
+    ✔ should render a not found message if the record is not found
+    ✔ should render a link from the search result
+    ✔ should render a link for an authority item result
+    ✔ should render nothing if no search props are supplied
+    ✔ should call search when mounted
+    ✔ should call search when a new searchName is supplied via props
+  SearchResultSummary
+    ✔ should render as a div
+    ✔ should render a not allowed message if a 401 search error is supplied
+  SearchResultTable
+    ✔ should render as a div
+    ✔ should render the specified column set
+    ✔ should render the default column set if the specified column set does not exist
+    ✔ should render no columns if the specified column set does not exist, and there is no default column set
+    ✔ should render the search result
+    ✔ should render a link for each result
+    ✔ should not render links when linkItems is false
+    ✔ should not render links when the list type does not have a configured getItemLocationPath function
+    ✔ should not render links when the list type getItemLocationPath function returns a blank path
+    ✔ should not render when the search result contains no items
+    ✔ should render a loading indicator when the search is pending and the search result has unknown total items count
+    ✔ should properly render a single (non-list) search result
+    ✔ should allow a search result to have no items, even if totalItems is non-zero
+    ✔ should render the sorted column header specified in the search descriptor
+    ✔ should call onSortChange when a sortable column header is clicked
+    ✔ should call renderHeader to render the table header
+    ✔ should call renderFooter to render the table header
+    ✔ should call formatCellData to render the table header
+    ✔ should call formatColumnLabel to render the column headers
+    ✔ should call onItemClick when a row is clicked
+    ✔ should call onItemClick when linkItems is false and enter is depressed on a row
+  SearchResultTraverser
+    ✔ should render a nav
+    ✔ should render a pending message if no search state is provided
+    ✔ should render a pending message if the search is pending
+    ✔ should render a pending message if the search has an error
+    ✔ should render nothing if no search descriptor is provided
+    ✔ should render the current item number and the total item count
+    ✔ should handle a result with a single (non-list) item
+    ✔ should render a link to the previous item
+    ✔ should render a link to the next item
+    ✔ should render a link to the first item on the next page when the current item is the last on its page, and the next page has been loaded
+    ✔ should render a placeholder link to the first item on the next page when the current item is the last on its page, and the next page is pending
+    ✔ should render a placeholder next link when the current item is the last item of all pages
+    ✔ should handle a next page result set with a single (non-list) item
+    ✔ should render a link to the last item on the previous page when the current item is the first on its page, and the previous page has been loaded
+    ✔ should render a placeholder link to the last item on the previous page when the current item is the first on its page, and the previous page is pending
+    ✔ should render a placeholder previous link when the current item is the first item of all pages
+    ✔ should handle a previous page result set with a single (non-list) item
+    ✔ should call search when mounted if a search state is not provided
+    ✔ should call search when updated if a search state is not provided
+    ✔ should call search when mounted if a previous page search state is not provided, and the current item is the first on its page
+    ✔ should call search when mounted if a next page search state is not provided, and the current item is the last on its page
+    ✔ should handle a single item (non-list) search result when deciding if the next page should be retrieved
+  SearchToRelateModal
+    ✔ should render a modal
+    ✔ should call onRecordTypeCommit with the default record type when opened
+    ✔ should call clearSearchResults and onRecordTypeCommit with empty value when closed
+    ✔ should render a search form
+    ✔ should render a record type dropdown without the "all" option when allowedServiceTypes is supplied
+    ✔ should call onCloseButtonClick when the cancel button is clicked
+    ✔ should call onCancelButtonClick when the cancel button is clicked
+    ✔ should call search and render a search result table when the search button is clicked
+    ✔ should call search when the search form is submitted
+    ✔ should render a table header containing a summary with an edit button and select bar when there is a search result
+    ✔ should not render a table header when there is a search error
+    ✔ should render a table footer containing a pager when there is a search result
+    ✔ should call setPreferredPageSize when the page size is changed in a pager
+    ✔ should update the page number on future searches when the page is changed in a pager
+    ✔ should not render a table footer when there is no search result
+    ✔ should render a checkbox for items that are not already related and not locked
+    ✔ should call onItemSelectChange when a checkbox value is committed
+    ✔ should not render a checkbox for the subject result item, if there is only one subject
+    ✔ should update the sort direction of future searches when the sort direction is changed in the result table
+    ✔ should render a relating message and call createRelations followed by onRelationsCreated when the relate button is clicked
+    ✔ should call showRelationNotification if multiple subjects are successfully related
+    ✔ should call subjects to retrieve subjects if it is a function
+  SearchToRelateTitleBar
+    ✔ should render as a header
+    ✔ should render nothing for an unknown record type
+    ✔ should render the vocabulary name if a vocabulary is supplied
+    ✔ should show the keyword and advanced search condition after a search is initiated
+    ✔ should render the vocabulary name if a vocabulary is supplied after a search is initiated
+  SelectBar
+    ✔ should render a checkbox and a message
+    ✔ should render nothing if no search result is supplied
+    ✔ should render nothing if search result contains no items
+    ✔ should render buttons supplied via props
+    ✔ should render the checkbox as checked when all items are selected
+    ✔ should render the checkbox as unchecked when no items are selected
+    ✔ should render the checkbox as indeterminate when some but not all items are selected
+    ✔ should render the checkbox correctly when there is a single (non-list) result item
+    ✔ should use showCheckboxFilter to determine the items to consider when calculating the checkbox state
+    ✔ should call setAllItemsSelected when the checkbox value is committed
+  BooleanConditionInput
+    ✔ should render as a div
+    ✔ should have 'All' selected in the boolean operator dropdown when an AND condition is supplied
+    ✔ should have 'Any' selected in the boolean operator dropdown when an OR condition is supplied
+    ✔ should render a field condition input for each child condition
+    ✔ should call onCommit when the boolean operator is committed
+    ✔ should call onCommit when a child condition is committed
+  FieldConditionInput
+    ✔ should render as a div
+    ✔ should render a field, operation, and value
+    ✔ should prefer the fullName message for the field label
+    ✔ should fall back to the name message if fullName is not provided
+    ✔ should fall back to the field name if neither fullName nor name are provided
+    ✔ should render a range input for range conditions
+    ✔ should call onCommit when the search field is committed
+  SearchConditionInput
+    ✔ should render a BooleanConditionInput for AND conditions
+    ✔ should render a BooleanConditionInput for OR conditions
+    ✔ should render a FieldConditionInput for other conditions
+    ✔ should pass condition, fields, and onCommit props to the base component
+  About
+    ✔ should render as a div
+    ✔ should render with correct class
+  Dock
+    ✔ should render as a header
+    ✔ should dock and undock when scrolled
+  Footer
+    ✔ should render as a footer
+    ✔ should render plugin info from config
+ERROR: 'Warning: Failed prop type: The prop `screenName` is marked as required in `Header`, but its value is `undefined`.
+    in Header (created by WithConfig)
+    in WithConfig (created by InjectIntl(WithConfig))
+    in InjectIntl(WithConfig)
+    in Router (created by MemoryRouter)
+    in MemoryRouter
+    in ConfigProvider
+    in Provider
+    in IntlProvider'
+ERROR: 'Warning: Failed prop type: The prop `screenName` is marked as required in `UserMenu`, but its value is `undefined`.
+    in UserMenu (created by Header)
+    in Header (created by WithConfig)
+    in WithConfig (created by InjectIntl(WithConfig))
+    in InjectIntl(WithConfig)
+    in Router (created by MemoryRouter)
+    in MemoryRouter
+    in ConfigProvider
+    in Provider
+    in IntlProvider'
+  Header
+    ✔ should render as a header
+  AccountLabel
+    ✔ should render the user id if account is not supplied
+    ✔ should render the screen name if account is supplied
+    ✔ should render nothing if neither user id nor screen name are present
+    ✔ should call findAccount when mounted
+    ✔ should call findAccount when a new user id is supplied via props
+  PasswordResetForm
+    ✔ should render as a form
+    ✔ should call reset when the form is submitted
+    ✔ should show an error notification when no password is supplied
+    ✔ should show an error notification when no password confirmation is supplied
+    ✔ should show an error notification when the password differs from the password confirmation
+    ✔ should show an error notification when the password is too short
+    ✔ should show an error notification when the password is too long
+    ✔ should show an error notification when the token is invalid
+    ✔ should show an error notification when the token is expired
+    ✔ should show a generic error notification when an error occurs that is not specifically handled
+    ✔ should render a success message instead of a form when a reset request succeeds
+  PasswordResetRequestForm
+    ✔ should render as a form
+    ✔ should call requestReset when the form is submitted
+    ✔ should show an error notification when no email is supplied
+    ✔ should show an error notification when the email is not a valid email address
+    ✔ should show an error notification when no account is found with the email address
+    ✔ should show a generic error notification when an error occurs that is not specifically handled
+    ✔ should render a success message instead of a form when a reset request succeeds
+  UserMenu
+    ✔ should render as a div
+[33m26 03 2019 10:48:30.809:WARN [web-server]: [39m404: /cspace-services/undefined/urn:cspace:name(person)/items?pt=abcd&wf_deleted=false
+[33m26 03 2019 10:48:30.809:WARN [web-server]: [39m404: /cspace-services/idgenerators/9dd92952-c384-44dc-a736-95e435c1759c?wf_deleted=false
+[33m26 03 2019 10:48:30.811:WARN [web-server]: [39m404: /cspace-services/idgenerators/9dd92952-c384-44dc-a736-95e435c1759c/ids
+    ✔ should render with correct class
+  PermissionsInputContainer
+    ✔ should set props on PermissionsInput
+  RolesInputContainer
+    ✔ should set props on RolesInput
+  VocabularyUsedByPanelContainer
+    ✔ should set props on VocabularyUsedByPanel
+  AutocompleteInputContainer
+    ✔ should set props on AutocompleteInput
+    ✔ should render if no source is provided
+    ✔ should remove from source any record types for which there are not list permissions
+    ✔ should set quickAddTo to contain source record types for which there are create permissions, and are not locked
+    ✔ should connect addTerm, findMatchingTerms, and onClose to action creators
+    ✔ should connect formatAddPrompt, formatCloneOptionLabel, formatCreateNewOptionLabel, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage
+  ComboBoxInputContainer
+    ✔ should set props on ComboBoxInput
+    ✔ should connect formatOptionLabel to intl.formatMessage
+  DateInputContainer
+    ✔ should set DateInput locale from intl
+  DateTimeInputContainer
+    ✔ should set props on DateTimeInput
+    ✔ should use intl to format the value
+  IDGeneratorInputContainer
+    ✔ should set pattern on IDGeneratorInput
+    ✔ should accept multiple comma separated source values
+    ✔ should accept an array of source values
+    ✔ should set sampleColumnLabel from intl
+    ✔ should set typeColumnLabel from intl
+    ✔ should connect onOpen to readIDGenerator action creator
+    ✔ should connect generateID to createID action creator
+  UploadInputContainer
+    ✔ should set props on UploadInput
+    ✔ should use intl to format the file info
+    ✔ should connect onTypeChanged to setUploadType action creator
+  InvocationEditorContainer
+    ✔ should set props on InvocationEditor
+    ✔ should connect createNewRecord to createNewRecord action creator
+  PanelContainer
+    ✔ should set props on Panel
+    ✔ should set collapsed from own props if state is not present in the store
+    ✔ should set header content using the message descriptor keyed by panel name
+    ✔ should set header content using the message descriptor keyed by msgkey prop if supplied
+    ✔ should render no header content if no message is found
+  LoginFormContainer
+    ✔ should set props on LoginForm
+  LogoutIndicatorContainer
+    ✔ should set props on LogoutIndicator
+  MediaViewerContainer
+    ✔ should set props on MediaViewer
+  MediaViewerPanelContainer
+    ✔ should set props on MediaViewerPanel
+  ValidationErrorNotificationContainer
+    ✔ should set props on ValidationErrorNotification
+  AccountPageContainer
+    ✔ should set props on AccountPage
+  AdminPageContainer
+    ✔ should set props on AdminPage
+  AuthRolePageContainer
+    ✔ should set props on AuthRolePage
+  ContentViewerPageContainer
+    ✔ should set props on ContentViewerPage
+    ✔ should connect readContent to an action that fetches the content as a blob
+  CreatePageContainer
+    ✔ should set props on CreatePage
+    ✔ should return the workflow state from the store when getAuthorityVocabWorkflowState is called
+  LoginPageContainer
+    ✔ should set props on LoginPage
+  LogoutPageContainer
+    ✔ should set props on LogoutPage
+  RecordPageContainer
+    ✔ should set props on RecordPage
+  ReportViewerPageContainer
+    ✔ should set props on ReportViewerPage
+    ✔ should connect readContent to an action that invokes the report
+  SearchPageContainer
+    ✔ should set props on SearchPage
+    ✔ should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector
+[33m26 03 2019 10:48:30.864:WARN [web-server]: [39m404: /cspace-services/relations?prd=hasBroader&wf_deleted=false&pgSz=0&obj=1234
+    ✔ should connect onAdvancedSearchConditionCommit to setSearchPageAdvanced action creator
+    ✔ should connect onKeywordCommit to setSearchPageKeyword action creator
+    ✔ should connect onRecordTypeCommit to setSearchPageRecordType action creator
+    ✔ should connect onVocabularyCommit to setSearchPageVocabulary action creator
+    ✔ should connect onSearch to initiateSearch action creator
+    ✔ should connect onClearButtonClick to clearSearchPage action creator
+  SearchResultPageContainer
+    ✔ should set props on SearchResultPage
+  VocabularyPageContainer
+    ✔ should set props on VocabularyPage
+  HierarchyInputContainer
+    ✔ should set props on HierarchyInput
+  HierarchyReparentNotifierContainer
+    ✔ should set props on HierarchyReparentNotifier
+  HierarchySiblingListContainer
+    ✔ should set props on HierarchySiblingList
+    ✔ should connect findRelations to find action creator
+  MiniViewPopupAutoCompleteInput
+    ✔ should set props on MiniViewPopupAutocompleteInput
+  OptionPickerInputContainer
+    ✔ should set props on OptionPickerInput
+  RecordEditorContainer
+    ✔ should set props on RecordEditor
+    ✔ should connect createNewRecord to createNewRecord action creator
+    ✔ should connect deleteRecord to deleteRecord action creator
+    ✔ should connect readRecord to readRecord action creator
+    ✔ should connect revert to revertRecord action creator
+    ✔ should connect save to saveRecord action creator
+    ✔ should connect saveWithTransition to saveRecordWithTransition action creator
+    ✔ should connect closeModal to closeModal action creator
+    ✔ should connect removeNotification to removeNotification action creator
+    ✔ should connect removeValidationNotification to removeValidationNotification action creator
+    ✔ should connect validateRecordData to validateRecordData action creator
+    ✔ should connect transitionRecord to transitionRecord action creator
+    ✔ should connect openModal to openModal action creator
+    ✔ should connect setForm to setForm action creator
+    ✔ should connect checkForRelations to checkForRelations action creator
+    ✔ should connect checkForUses to checkForUses action creator
+    ✔ should connect checkForRoleUses to checkForRoleUses action creator
+  RecordFormContainer
+    ✔ should set props on RecordForm
+[33m26 03 2019 10:48:30.986:WARN [web-server]: [39m404: /cspace-services/relations
+    ✔ should connect onAddInstance to addFieldInstance action creator
+    ✔ should connect onCommit to setFieldValue action creator
+    ✔ should connect onMoveInstance to moveFieldValue action creator
+    ✔ should connect onRemoveInstance to deleteFieldValue action creator
+    ✔ should connect onSortInstances to sortInstances action creator
+  RecordTitleBarContainer
+    ✔ should set props on RecordTitleBar
+  RelationEditorContainer
+    ✔ should set props on RelationEditor
+    ✔ should connect createRelation to createBidirectional action creator
+    ✔ should connect findRelation to find action creator
+    ✔ should connect onUnmount to clearState action creator
+  StructuredDateInputContainer
+    ✔ should set props on StructuredDateInput
+    ✔ should connect readTerms to readVocabularyItems action creator
+  SubrecordEditorContainer
+    ✔ should set props on SubrecordEditor
+  TermPickerInputContainer
+    ✔ should set props on TermPickerInput
+    ✔ should set terms to null if the source vocabulary does not exist
+    ✔ should connect readTerms to readVocabularyItems action creator
+  ProtectedRouteContainer
+    ✔ should set props on ProtectedRoute
+  QuickSearchFormContainer
+    ✔ should set props on QuickSearchForm
+[33m26 03 2019 10:48:30.995:WARN [web-server]: [39m404: /cspace-services/relations?prd=affects&wf_deleted=false&pgSz=0&sbj=1234&obj=8888
+    ✔ should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector
+    ✔ should connect onKeywordCommit to setQuickSearchKeyword action creator
+    ✔ should connect onRecordTypeCommit to setQuickSearchRecordType action creator
+    ✔ should connect onVocabularyCommit to setQuickSearchVocabulary action creator
+    ✔ should connect search to initiateSearch action creator
+  SearchPanelContainer
+    ✔ should set props on SearchPanel
+    ✔ should override the page size in the provided search descriptor with the preferred page size
+  SearchResultLinkContainer
+    ✔ should set props on SearchResultLink
+  SearchResultTableContainer
+    ✔ should set props on SearchResultTable
+    ✔ should connect formatColumnLabel to intl.formatMessage
+    ✔ should supply formatCellData with intl and config
+    ✔ should have formatCellData return the data if the column config does not contain a formatValue function
+  SearchResultTraverserContainer
+    ✔ should set props on SearchResultTraverser
+    ✔ should set prevPageSearchState to undefined if the search descriptor is on page 0
+  SearchToRelateModalContainer
+    ✔ should set props on SearchToRelateModal
+    ✔ should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector
+  PasswordResetRequestFormContainer
+    ✔ should set props on PasswordResetRequestForm
+    ✔ should connect requestReset to requestReset action creator
+  withBooleanValue
+    ✔ should convert a 'true' value to boolean true
+    ✔ should convert a 'false' value to boolean false
+    ✔ should pass a boolean true value to the base component
+    ✔ should pass a boolean false value to the base comoponent
+    ✔ should pass a null value to the base comoponent
+    ✔ should pass an undefined value to the base comoponent
+    ✔ should pass other string values to the base comoponent
+  withCsid
+    ✔ should set csid prop on the base component with csid from context
+  withListType
+    ✔ should set listType prop on the base component with the given value
+  withRecordType
+    ✔ should set recordType prop on the base component with recordType from context
+  blobHelpers
+    getDerivativePath
+      ✔ should return the url of a derivative
+      ✔ should return the url of the original image
+      ✔ should return a relative url if there is no services url
+    getImageViewerPath
+      ✔ should prepend the basename and '/view' to the image path
+      ✔ should not prepend the basename if it is falsy
+    derivativeImage
+      ✔ should return a BlobImage with the given csid and derivative
+      ✔ should return null if no csid is supplied
+    thumbnailImage
+      ✔ should return a BlobImage with the given csid and the thumbnail derivative
+    smallImage
+      ✔ should return a BlobImage with the given csid and the small derivative
+    mediumImage
+      ✔ should return a BlobImage with the given csid and the medium derivative
+    originalJpegImage
+      ✔ should return a BlobImage with the given csid and the original jpeg derivative
+    originalImage
+      ✔ should return a BlobImage with the given csid and the original derivative
+ERROR: 'Warning: A plugin must be an object or a function.'
+ERROR: 'Warning: A plugin must be an object or a function.'
+ERROR: 'Warning: A plugin must be an object or a function.'
+ERROR: 'Warning: A plugin must be an object or a function.'
+ERROR: 'Warning: A plugin must be an object or a function.'
+  configHelpers
+    evaluatePlugin
+      ✔ should return empty object if the plugin is not an object or function
+      ✔ should return the plugin if it is an object
+      ✔ should call the plugin with the configContext if it is a function
+    applyPlugin
+      ✔ should deeply merge the config contribution from the plugin with the target config
+ERROR: 'Warning: Plugins must be an array.'
+ERROR: 'Warning: Plugins must be an array.'
+ERROR: 'Warning: Plugins must be an array.'
+ERROR: 'Warning: Plugins must be an array.'
+ERROR: 'Warning: Plugins must be an array.'
+    applyPlugins
+      ✔ should return the target config if plugins is not an array
+      ✔ should apply each plugin to the target config in order
+    mergeConfig
+      ✔ should not retain the plugins config option after merge
+      ✔ should apply plugins from the source config, then merge in the source config
+      ✔ should overwrite arrays in the target with the source value, instead of deeply merging them
+      ✔ should overwrite the 'advancedSearch' key in the target with the source value, instead of deeply merging them
+      ✔ should overwrite React elements in the target with the source value, instead of deeply merging them
+      ✔ should overwrite objects in the target with the source value, instead of deeply merging them, when the 'override' merge strategy is specified
+      ✔ should overwrite objects in the target with the source value, instead of deeply merging them, when the 'override' merge strategy is specified using the override function
+    initConfig
+      ✔ should apply the plugins
+    initializeExtensions
+      ✔ should set the extensionName property of each top level field in each extension to the extension name
+    initializeRecordTypes
+      ✔ should set the name properties on record types and vocabularies
+      ✔ should set the extensionParentConfig field on extension fields
+    finalizeRecordTypes
+      ✔ should delete disabled record types and vocabularies
+    getRecordTypeConfigByServiceDocumentName
+      ✔ should return the record type config with the given service object name
+      ✔ should return undefined if the service object name is undefined
+    getRecordTypeConfigByServiceObjectName
+      ✔ should return the record type config with the given service object name
+      ✔ should return undefined if the service object name is undefined
+    getRecordTypeNameByServiceObjectName
+      ✔ should return the record type config with the given service object name
+      ✔ should return undefined if the service object name is undefined
+    getRecordTypeConfigByServicePath
+      ✔ should return the record type config with the given service path
+      ✔ should return undefined if no service path is supplied
+    getRecordTypeConfigByUri
+      ✔ should return the record type config with the given URI
+    getRecordTypeNameByUri
+      ✔ should return the record type config with the given URI
+      ✔ should return undefined if the URI is undefined
+    getVocabularyConfigByShortID
+      ✔ should return the vocabulary type config with the given short id
+      ✔ should return undefined if no short id is supplied
+    getVocabularyConfigByServicePath
+      ✔ should return the vocabulary type config with the given service path
+      ✔ should return undefined if the service path is not a valid cspace URN
+    getDefaults
+      ✔ should return the paths and default values of fields that have defaults
+    getStickyFields
+      ✔ should return the paths of fields that are sticky
+      ✔ should return an empty array if no field descriptor is supplied
+    getDefaultValue
+      ✔ should return the default value from a field descriptor
+      ✔ should convert an object to an immutable map
+      ✔ should return false if the field is a boolean and the default value is undefined
+    dataPathToFieldDescriptorPath
+      ✔ should remove numeric path components from the data path
+    isFieldCloneable
+      ✔ should return the cloneable configuration setting
+      ✔ should default to true
+    isFieldRepeating
+      ✔ should return the repeating configuration setting
+      ✔ should default to false
+    isFieldRequired
+      ✔ should return the required configuration setting
+      ✔ should return the result of calling the required function, if it is a function
+      ✔ should default to false
+    validateLocation
+      ✔ should return ERR_UNKNOWN_RECORD_TYPE error if the record type is unknown
+      ✔ should return ERR_MISSING_VOCABULARY error if an authority record type is passed with no vocabulary
+      ✔ should return ERR_UNKNOWN_VOCABULARY error if an unknown vocabulary is passed
+      ✔ should return ERR_UNKNOWN_VOCABULARY error if a vocabulary is passed with a non-authority record type
+      ✔ should return ERR_UNKNOWN_SUBRESOURCE error if an unknown subresource is passed
+      ✔ should return ERR_INVALID_CSID error if an invalid csid is passed
+      ✔ should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed that is not a procedure or object
+      ✔ should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed and the recordType is not a procedure or object
+      ✔ should return ERR_INVALID_CSID error if an invalid related csid is passed
+      ✔ should return object with no error property if valid arguments are passed
+    getDefaultSearchRecordType
+      ✔ should return the record type with defaultForSearch set to true
+      ✔ should return the first record type if none have defaultForSearch set to true
+    getDefaultSearchVocabulary
+      ✔ should return the vocabulary with defaultForSearch set to true
+      ✔ should return the first record type if none have defaultForSearch set to true
+    findFieldConfigInPart
+      ✔ should find the field config given a part name and field name
+      ✔ should find nested fields
+      ✔ should return null if an unknown part name is supplied
+      ✔ should return null if an unknown field name is supplied
+    isAuthority
+      ✔ should return true if the service type is 'authority'
+      ✔ should return true if the service type is not 'authority'
+    isUtility
+      ✔ should return true if the service type is 'utility'
+      ✔ should return true if the service type is not 'utility'
+    getFieldCustomValidator
+      ✔ should return the validator from a field descriptor
+      ✔ should return undefined if there is no field configuration
+    getFieldComputer
+      ✔ should return the compute function from a field descriptor
+      ✔ should return undefined if there is no field configuration
+    getFieldDataType
+      ✔ should return the data type from a field descriptor
+      ✔ should default to string if there is no field configuration
+      ✔ should default to string if there is no data type specified in configuration
+      ✔ should default to map if there is no data type specified in configuration and child fields are defined
+    getRequiredMessage
+      ✔ should return the required message descriptor
+    findVocabularyUses
+      ✔ should find fields in config using the given shortId as a source
+      ✔ should return null if no short id is supplied
+    getFirstColumnName
+      ✔ should return the field with the lowest order in the column set
+      ✔ should return undefined if no column config exists for the given column set name
+      ✔ should use the column set named 'default' if no column set is specified
+  csidHelpers
+    isCsid
+      ✔ should recognize short csids
+      ✔ should recognize long csids
+      ✔ should return false for non-csids
+    isUrnCsid
+      ✔ should recognize urn csids
+      ✔ should return false for non-urn csids
+      ✔ should return false for non-csids
+    getUrnCsidShortId
+      ✔ should return the short id from a urn csid
+    asKeywords
+      ✔ should convert dashes to spaces and add quotes
+  formatHelpers
+    formatTimestamp
+      ✔ should return a formatted timestamp
+    formatServiceObjectName
+      ✔ should return a formatted record type name
+      ✔ should return a placeholder if the record type is unknown
+    formatRefNameAsRecordType
+      ✔ should return a formatted record type name
+      ✔ should return a placeholder if the record type is unknown
+    formatRefNameAsVocabularyName
+      ✔ should return a formatted vocabulary name
+      ✔ should return a placeholder if the record type is unknown
+      ✔ should return a placeholder if the vocabulary is unknown
+    formatRecordTypeSourceField
+      ✔ should return a formatted field name
+    formatSourceField
+      ✔ should return a formatted field name
+    formatForeignSourceField
+      ✔ should return a formatted field name
+    formatWorkflowStateIcon
+      ✔ should return a WorkflowStateIcon
+  objectHelpers
+    flatten
+      ✔ should flatten deeply nested objects
+      ✔ should flatten to the given maximum depth
+    diff
+      ✔ should return a map of paths that differ
+      ✔ should compare to the given maximum depth
+  parseResourceID
+    ✔ should parse a string into an array of objects
+    ✔ should return an empty array for a falsy input
+  permissionHelpers
+    mergeActionGroup
+      ✔ should merge the given action group into existing permissions
+      ✔ should set the permissions if there are no existing permissions
+    getPermissions
+      ✔ should retrieve data permissions for configured record types
+      ✔ should set canCreateNew to false if no object/procedure/authority can be created
+      ✔ should set canAdmin to true if vocabularies or security records can be updated or created
+      ✔ should retrieve permissions when there is a single (non-list) permission
+      ✔ should return empty permissions if there are no permissions in the data
+      ✔ should retrieve transition permissions for configured record types
+      ✔ should ignore unrecognized resource names
+    canCreate
+      ✔ should return true if create permission exists for the record type
+      ✔ should return false if create permission does not exist for the record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if data permissions do not exist for the record type
+    canRead
+      ✔ should return true if read permission exists for the record type
+      ✔ should return false if read permission does not exist for the record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if data permissions do not exist for the record type
+    canUpdate
+      ✔ should return true if update permission exists for the record type
+      ✔ should return false if update permission does not exist for the record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if data permissions do not exist for the record type
+    canDelete
+      ✔ should return true if delete permission exists for the record type
+      ✔ should return false if delete permission does not exist for the record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if data permissions do not exist for the record type
+    canList
+      ✔ should return true if list permission exists for the record type
+      ✔ should return false if list permission does not exist for the record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if data permissions do not exist for the record type
+    canRelate
+      ✔ should return false create permissions do not exist for the relation record type
+      ✔ should return true if update permission exists for the member record type
+      ✔ should return false if update permission does not exist for the member record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if data permissions do not exist for the member record type
+    canSoftDelete
+      ✔ should return true if update permission for the delete transition exists for the record type
+      ✔ should return false if update permission for the delete transition does not exist for the record type
+      ✔ should return false if permissions do not exist
+      ✔ should return false if transition permissions do not exist for the record type
+    canCreateNew
+      ✔ should return true if canCreateNew is true in the permissions
+    canAdmin
+      ✔ should return true if canAdmin is true in the permissions
+    disallowCreate
+      ✔ should remove create permission on the specified record type
+      ✔ should have no effect if create permission does not exist on the specified record type
+    disallowDelete
+      ✔ should remove delete permission on the specified record type
+      ✔ should have no effect if delete permission does not exist on the specified record type
+    disallowSoftDelete
+      ✔ should remove permission to soft delete the specified record type
+      ✔ should have no effect if soft delete permission does not exist on the specified record type
+  recordDataHelpers
+    getPartPropertyName
+      ✔ should return the part name prepended with the namespace prefix
+    getPartNSPropertyName
+      ✔ should return the suppplied namespace prefix prepended with '@xmlns:'
+    getPart
+      ✔ should return the named part from the given data
+    deepGet
+      ✔ should throw when path is not an array
+      ✔ should throw when path is an empty array
+      ✔ should return undefined when data is null or undefined
+      ✔ should get a child value
+      ✔ should get a nested Map value
+      ✔ should get a deeply nested Map value
+      ✔ should return undefined for a non-existent path
+      ✔ should get a nested list value
+      ✔ should set a deeply nested list value
+      ✔ should treat a single (non-list) value as a list when it is keyed by '0'
+    deepSet
+      ✔ should throw when path is not an array
+      ✔ should throw when path is an empty array
+      ✔ should set a child value
+      ✔ should set a nested Map value
+      ✔ should set a deeply nested Map value
+      ✔ should set a nested list value
+      ✔ should set a deeply nested list value
+      ✔ should create missing Maps
+      ✔ should create missing Lists
+      ✔ should promote non-list values to lists when keyed with a numeric key
+    deepDelete
+      ✔ should throw when path is not an array
+      ✔ should throw when path is an empty array
+      ✔ should delete a child value
+      ✔ should delete a nested Map value
+      ✔ should delete a deeply nested Map value
+      ✔ should delete a nested list value
+      ✔ should delete a deeply nested list value
+      ✔ should create missing Maps
+      ✔ should create missing Lists
+      ✔ should promote non-list values to lists when keyed with a numeric key
+    createBlankRecord
+      ✔ should return an Immutable.Map
+      ✔ should create properties for the document
+      ✔ should create properties for each part
+    createRecordData
+      ✔ should return an Immutable.Map
+      ✔ should have a document property
+    getDocument
+      ✔ should return the document object from the record data
+    attributePropertiesToTop
+      ✔ should return -1 if the first argument starts with '@' and the second does not
+      ✔ should return 1 if the second argument starts with '@' and the first does not
+      ✔ should return 0 if both arguments start with '@'
+      ✔ should return 0 if neither argument starts with '@'
+    prepareForSending
+      ✔ should remove the collectionspace_core part
+      ✔ should remove the account_permission part
+      ✔ should sort attribute and namespace declaration properties to the top of each part
+      ✔ should filter out incomplete relation items
+      ✔ should filter out incomplete relation items 
+      ✔ should set subrecord csid fields that don't contain valid csids to null
+      ✔ should sort attribute and namespace properties of the root to the top
+      ✔ should call a configured prepareForSending function
+    copyValue
+      ✔ should copy a scalar value from the source to the destination
+      ✔ should overwrite existing destination values
+      ✔ should copy a list value from the source to the destination
+      ✔ should overwrite an existing scalar value with a list value copied from the source
+      ✔ should overwrite an existing list value with a list value copied from the source
+      ✔ should recursively copy a complex value from the source to the destination
+      ✔ should recursively copy lists of complex values from the source to the destination
+    spreadDefaultValue
+      ✔ should set the value if the path does not exist
+      ✔ should set the value if the current value is undefined
+      ✔ should not set the value if the current value is not undefined
+      ✔ should return the data unchanged if it is an unexpected type
+      ✔ should set the value in all existing undefined instances of a repeating field
+      ✔ should set the value in all existing instances of a field in a repeating group
+      ✔ should set the value in all existing instances of a field in a nested repeating group
+      ✔ should set the value in undefined instances of a repeating group
+    applyDefaults
+      ✔ should set all default values from config into the data
+    initializeChildren
+      ✔ should set undefined children to null
+      ✔ should return the data if the field descriptor does not define child fields
+    clearUncloneable
+      ✔ should set uncloneable fields with no default to undefined
+      ✔ should set uncloneable fields with a default to the default
+      ✔ should do nothing to fields that are cloneable
+      ✔ should clear all instances of a repeating field
+      ✔ should clear all instances of a field in a repeating group
+    cloneRecordData
+      ✔ should omit the collectionspace_core and account_permission parts
+      ✔ should clear uncloneable fields
+      ✔ should prepare the record's hierarchy relations
+      ✔ should return undefined for undefined data
+    prepareClonedHierarchy
+      ✔ should retain only the relation to a broader record, and set the subject csid to the new record placeholder
+      ✔ should delete all relations if there is no relation to a broader record
+      ✔ should handle a single (non-list) relation item
+    getCreatedTimestamp
+      ✔ should return a core schema createdAt value
+      ✔ should return a top level createdAt value  
+    getCreatedUser
+      ✔ should return the created timestamp
+    getUpdatedTimestamp
+      ✔ should return a core schema updatedAt value
+      ✔ should return a top level updatedAt value
+    getUpdatedUser
+      ✔ should return the updated timestamp
+    getCoreFieldValue
+      ✔ should return the specified field from the core part
+      ✔ should return undefined if the field does not exist
+      ✔ should return undefined if the data does not exist
+    getCsid
+      ✔ should return the csid extracted from the uri field in the core part
+      ✔ should return undefined if the data does not exist
+    getRefName
+      ✔ should return the refName extracted from the core part
+      ✔ should return undefined if the data does not exist
+    validateField
+      ✔ should resolve to null if the value is valid
+      ✔ should resolve to an error if a required field is empty, null, or undefined
+      ✔ should resolve to null if an integer field is valid
+      ✔ should resolve to an error if an integer field is invalid
+      ✔ should resolve to null when no field descriptor is supplied
+      ✔ should resolve to null if a float field is valid
+      ✔ should resolve to an error if a float field is invalid
+      ✔ should resolve to null if a date field is valid
+      ✔ should resolve to an error if a date field is invalid
+      ✔ should resolve to null if a datetime field is valid
+      ✔ should resolve to an error if a datetime field is invalid
+      ✔ should resolve to null if a boolean field is valid
+      ✔ should resolve to an error if a boolean field is invalid
+      ✔ should resolve to null if a map field is valid
+      ✔ should resolve to an error if a map field is invalid
+      ✔ should validate nested fields recursively
+      ✔ should validate repeating instances when the expand repeating flag is true
+      ✔ should not validate repeating instances when the expand repeating flag is false
+      ✔ should run a custom validator
+      ✔ should run an asynchronous custom validator
+      ✔ should resolve to an error on the document when an asynchronous custom validator rejects
+    validateRecordData
+      ✔ should validate the data against the field descriptor in the record type config
+    computeField
+      ✔ should resolve to undefined if no field descriptor is supplied
+      ✔ should resolve a computed value for scalar fields
+      ✔ should resolve a computed value for repeating field instances
+      ✔ should resolve a computed value for repeating fields
+      ✔ should resolve a computed value for repeating field containers
+      ✔ should resolve a computed value for complex fields
+      ✔ should resolve a sparse tree of computed values for complex fields that have computed descendent fields
+      ✔ should resolve to undefined if there are no computed fields
+      ✔ should reject if the compute function throws
+    computeRecordData
+      ✔ should resolve a sparse tree of computed values for the record data
+    isNewRecord
+      ✔ should return false if the data contains a uri
+      ✔ should return true if the data does not contain a uri
+    isExistingRecord
+      ✔ should return true if the data contains a uri
+      ✔ should return false if the data does not contain a uri
+    isRecordDeprecated
+      ✔ should return true if the workflow state contains 'deprecated'
+      ✔ should return false if no data is supplied
+    isRecordImmutable
+      ✔ should return true if the record is locked
+      ✔ should return true if the record is deprecated
+      ✔ should return true if the record is replicated
+      ✔ should return true if the record is an immutable security record
+    isRecordLocked
+      ✔ should return true if the workflow state is 'locked'
+      ✔ should return false if no data is supplied
+    isRecordReplicated
+      ✔ should return true if the workflow state contains 'replicated'
+      ✔ should return false if no data is supplied
+    isSecurityRecordImmutable
+      ✔ should return true if permsProtection is 'immutable'
+      ✔ should return true if rolesProtection is 'immutable'
+      ✔ should return false if no data is supplied
+      ✔ should return false if no data is supplied 
+    normalizeFieldValue
+      ✔ should return the value when the field descriptor is undefined
+      ✔ should wrap the field value in a list when the field is repeating and the value is not a list
+      ✔ should return the value when a repeating field value is already a list
+      ✔ should deeply normalize maps
+    normalizeRecordData
+      ✔ should deeply normalize the data
+      ✔ should call the configured record normalizer for the record type
+    getWorkflowState
+      ✔ should return the workflow state of the record
+    setXmlNamespaceAttribute
+      ✔ should set the namespace uri attribute on parts
+    hasHierarchyRelations
+      ✔ should return true if the record data contains a relations list with a relation-list-item
+      ✔ should return true if the record data contains a relations list with multiple relation-list-items
+      ✔ should return false if the record data contains a relations list with no relation-list-item
+      ✔ should return false if the record data does not contain a relations list
+    hasNarrowerHierarchyRelations
+      ✔ should return true if the record data contains a relations list with a single relation-list-item that is a narrower relation
+      ✔ should return true if the record data contains a relations list with multiple relation-list-items and at least one is a narrower relation
+      ✔ should return false if the record data contains a relations list with no relation-list-item
+      ✔ should return false if the record data does not contain a relations list
+    getStickyFieldValues
+      ✔ should return a map containing the values of sticky fields in the given record data
+  refNameHelpers
+    getRecordType
+      ✔ should return the record type name from the ref name
+      ✔ should return null if no known record type is found in the ref name
+      ✔ should return null if no ref name is supplied
+    getVocablary
+      ✔ should return the vocabulary name from the ref name
+      ✔ should return null if no known vocabulary is found in the ref name
+      ✔ should return null if no ref name is supplied
+    refNameToCsid
+      ✔ should return a csid for a ref name that contains a short id
+      ✔ should return the csid for a ref name that contains a csid
+      ✔ should return null if no short id or csid are found in the ref name
+      ✔ should return null if no ref name is supplied
+    refNameToUrl
+      ✔ should return the url to the record described by the ref name
+      ✔ should return the url for a ref name that contains a csid
+      ✔ should return null if the ref name contains an unknown record type
+      ✔ should return null if the ref name contains an unknown vocabulary
+      ✔ should return null if no ref name is supplied
+  reportHelpers
+    getReportViewerPath
+      ✔ should prepend the basename and 'report' to the report csid, and add query parameters
+      ✔ should not prepend the basename if it is falsy
+  searchHelpers
+    normalizeBooleanCondition
+      ✔ should normalize the child conditions
+      ✔ should remove child conditions that normalize to null
+      ✔ should return the child condition if only one child condition remains after normalization
+      ✔ should return null if no child conditions remain after normalization
+    normalizeFieldCondition
+      ✔ should normalize the value of the condition
+      ✔ should return null if the normalized value is null
+    normalizeRangeFieldCondition
+      ✔ should normalize the value of the condition
+      ✔ should add start/end times to timestamps
+      ✔ should return null if the value normalizes to null
+      ✔ should return null if the condition has no value
+      ✔ should return a >= condition if the end of range is omitted
+      ✔ should return a <= condition if the end of range is omitted
+    normalizeCondition
+      ✔ should return null for null input
+      ✔ should normalize OP_AND conditions
+      ✔ should normalize OP_OR conditions
+      ✔ should normalize OP_MATCH conditions
+      ✔ should normalize OP_RANGE conditions
+    normalizeListFieldValue
+      ✔ should return null if the list is undefined, null, or empty
+      ✔ should remove empty and whitespace-only list items
+      ✔ should normalize items
+      ✔ should return null if the list is empty after normalizing items
+      ✔ should return the item if the list contains only one item
+    normalizeStringFieldValue
+      ✔ should return null if the value is undefined, null, or empty
+      ✔ should trim the value
+      ✔ should return null if the value contains only whitespace
+    normalizePatternValue
+      ✔ should return the value if the value is undefined, null, or empty
+      ✔ should replace * not preceded by an odd number of backslashes with %
+    normalizeTimestampRangeStartValue
+      ✔ should return null if the value is undefined, null, or empty
+      ✔ should trim the value
+      ✔ should add a time if the value does not have one
+    normalizeTimestampRangeEndValue
+      ✔ should return null if the value is undefined, null, or empty
+      ✔ should trim the value
+      ✔ should add a time if the value does not have one
+    normalizeFieldValue
+      ✔ should normalize list values
+      ✔ should normalize string values
+    operatorToNXQL
+      ✔ should return an NXQL operator
+    pathToNXQL
+      ✔ should remove ns prefix from the part name
+      ✔ should separate the part and the rest of the path with :
+      ✔ should replace repeating items with *
+    valueToNXQL
+      ✔ should convert string typed values to quoted strings
+      ✔ should escape quotes in strings that contain quotes
+      ✔ should convert int typed values to unquoted numeric strings
+      ✔ should convert float typed values to unquoted numeric strings
+      ✔ should convert bool typed values to unquoted 0 or 1
+      ✔ should convert datetime typed values to quoted strings preceded by 'TIMESTAMP'
+      ✔ should convert datetime typed values to UTC
+      ✔ should transform the value using the configured searchTransform function, if present
+    booleanConditionToNXQL
+      ✔ should convert AND conditions to NXQL
+      ✔ should convert OR conditions to NXQL
+      ✔ should convert nested AND/OR conditions to NXQL
+      ✔ should return '' for an unknown operator
+    rangeFieldConditionToNXQL
+      ✔ should convert range conditions to NXQL
+      ✔ should convert structured date range conditions to NXQL
+    fieldConditionToNXQL
+      ✔ should convert field conditions to NXQL
+      ✔ should convert structured date field conditions to NXQL
+      ✔ should convert contain operation to match operation with wildcards on either end
+      ✔ should expand list values into multiple OR clauses
+    advancedSearchConditionToNXQL
+      ✔ should convert boolean conditions to NXQL
+      ✔ should convert range conditions to NXQL
+      ✔ should convert field conditions to NXQL
+      ✔ should return null for a null condition
+    structuredDateFieldConditionToNXQL
+      ✔ should convert range operations to NXQL
+      ✔ should convert contain operations to NXQL
+      ✔ should convert = operations to NXQL
+      ✔ should convert < operations to NXQL
+      ✔ should convert <= operations to NXQL
+      ✔ should convert > operations to NXQL
+      ✔ should convert >= operations to NXQL
+    searchDescriptorToLocation
+      ✔ should put the record type, vocabulary, csid, and subresource into the location's pathname
+      ✔ should stringify the searchQuery, and put it into the location's search
+      ✔ should increment the page number by one (to make it human readable)
+    getListType
+      ✔ should return the list type of the given search descriptor's subresource, if it has one
+      ✔ should return 'common' if the given search desriptor does not have a subresource
+    getNextPageSearchDescriptor
+      ✔ should increment the page number of the given search descriptor
+      ✔ should treat the given search descriptor as having page 0 if it has no page
+    getPreviousPageSearchDescriptor
+      ✔ should decrement the page number of the given search descriptor
+      ✔ should return null if the given search descriptor is on page 0
+      ✔ should treat the given search descriptor as having page 0 if it has no page
+    getFirstItem
+      ✔ should return the first item of a list result
+      ✔ should return undefined if there are no items in the list result
+      ✔ should return the item in a single (non-array) list result
+      ✔ should default to the 'common' list type if no list type is supplied
+      ✔ should return null if the specified list type is not found in the configuration
+      ✔ should return null if no list data is supplied
+    getSubrecordSearchName
+      ✔ should return the search name for the given csid and subrecord name
+  uriHelpers
+    serviceUriToLocation
+      ✔ should translate an object/procedure URL to a UI location
+      ✔ should translate an authority URL to a UI location
+      ✔ should return undefined if no URI is supplied
+      ✔ should return undefined if the URI is not a URL from the  REST API
+      ✔ should return undefined if the record service path is unknown
+      ✔ should return undefined if the vocabulary service path is unknown
+  auth ref list type
+    getItemLocationPath
+      ✔ should compute the location from the refName and csid
+      ✔ should return null if read permission does not exist for the record type
+      ✔ should return null for an unknown record type
+  common list type
+    getItemLocationPath
+      ✔ should compute the location from the docType and csid
+      ✔ should include the vocabulary path
+      ✔ should fall back to the record type from the search descriptor if there is no docType
+      ✔ should return null for an unknown record type
+  ref doc list type
+    getItemLocationPath
+      ✔ should compute the location from the refName and docId
+      ✔ should compute the location for authority items
+      ✔ should return null for an unknown record type
+  acquisition record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  acquisition record columns
+    ✔ should have the correct shape
+    ✔ should have acquisition source column that is formatted as a refname display name
+  acquisition record default form
+    ✔ should be a Field
+  acquisition record plugin
+    ✔ should have the correct shape
+  acquisition record messages
+    ✔ should contain properties with id and defaultMessage properties
+  acquisition record optionLists
+    ✔ should export an object
+  acquisition record serviceConfig
+    ✔ should have servicePath property
+  acquisition record title
+    ✔ should concat the acquisition reference number and acquisition source
+    ✔ should return the acquisition reference number when acquisition source is empty
+    ✔ should return the acquisition source when the acquisition reference number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  all record columns
+    ✔ should have correct shape
+    ✔ should have docNumber column with the proper shape
+    ✔ should have docNumber column that is formatted as a refname display name
+    ✔ should have docType column with the proper shape
+    ✔ should have docName column that is formatted as a refname display name
+    ✔ should have docType column that is formatted as a record type name from a service object name
+    ✔ should format the docType column with a fallback if no record type is found for the service object name
+    ✔ should have updated column with the proper shape
+    ✔ should have updatedAt column that is formatted as a date
+  all record plugin
+    ✔ should have the correct shape
+  authority record columns
+    ✔ should have correct shape
+    ✔ should have docName column that is formatted as a refname display name
+    ✔ should have docType column that is formatted as a record type name from a service object name
+    ✔ should format the docType column with a fallback if no record type is found for the service object name
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+  authority record plugin
+    ✔ should have the correct shape
+  blob record default form
+    ✔ should have a template function
+    template
+      ✔ should return 'upload' when the data represents a new record
+      ✔ should return 'view' when the data represents an existing record
+      ✔ should return null when no data is supplied
+      ✔ should return null when the data does not contain a document
+  blob record plugin
+    ✔ should have the correct shape
+    requestConfig
+      ✔ should return a multipart/form-data config when the file field contains an array of files
+      ✔ should return a blobUri param when the file field contains a string
+      ✔ should return undefined when the file field contains an empty array
+      ✔ should return undefined when the file field contains another type of value
+  blob record title
+    ✔ should return the name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  citation record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  citation record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+    ✔ should have term status column that is formatted as an option list value
+  citation record default form
+    ✔ should be a Field
+  citation record plugin
+    ✔ should have the correct shape
+  citation record messages
+    ✔ should contain properties with id and defaultMessage properties
+  citation record optionLists
+    ✔ should contain properties values and messages
+  citation record serviceConfig
+    ✔ should have servicePath property
+  citation record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no document is passed
+    ✔ should return empty string if the common part is not present
+  collectionobject record default form
+    ✔ should be a Field
+  collectionobject record plugin
+    ✔ should have the correct shape
+  collectionobject record messages
+    ✔ should contain properties with id and defaultMessage properties
+  collectionobject record optionLists
+    ✔ should export an object
+  collectionobject prepareForSending
+    ✔ should remove the computedCurrentLocation field
+  collectionobject record serviceConfig
+    ✔ should have servicePath property
+    ✔ should have a quickAddData function that returns an object
+  collectionobject record title
+    ✔ should concat the object number and primary title
+    ✔ should return the object number when primary title is empty
+    ✔ should return the primary title when object number is empty
+    ✔ should work when titleGroupList is not present
+    ✔ should work when titleGroup is an object (not an array)
+    ✔ should work when titleGroup is not present
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  concept record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  concept record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+    ✔ should have term status column that is formatted as an option list value
+  concept record default form
+    ✔ should be a Field
+  concept record plugin
+    ✔ should have the correct shape
+  concept record messages
+    ✔ should contain properties with id and defaultMessage properties
+  concept record optionLists
+    ✔ should contain properties values and messages
+  concept record serviceConfig
+    ✔ should have servicePath property
+  concept record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  condition check record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  condition check record columns
+    ✔ should have the correct shape
+    ✔ should have condition column that is formatted as an option list value
+  condition check record default form
+    ✔ should be a Field
+  condition check record plugin
+    ✔ should have the correct shape
+  condition check record messages
+    ✔ should contain properties with id and defaultMessage properties
+  condition check record optionLists
+    ✔ should contain properties values and messages
+  condition check record serviceConfig
+    ✔ should have servicePath property
+  condition check record title
+    ✔ should concat the condition check number and the condition
+    ✔ should return the condition check number when the condition is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  conservation record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  conservation record columns
+    ✔ should have the correct shape
+    ✔ should have conservation status column that is formatted as a refname display name
+  conservation record default form
+    ✔ should be a Field
+  conservation record plugin
+    ✔ should have the correct shape
+  conservation record messages
+    ✔ should contain properties with id and defaultMessage properties
+  conservation record serviceConfig
+    ✔ should have servicePath property
+  conservation record title
+    ✔ should concat the conservation number and the status
+    ✔ should return the conservation number when the status is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  contact record title
+    ✔ should return the primary email
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  exhibition record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  exhibition record columns
+    ✔ should have the correct shape
+  exhibition record default form
+    ✔ should be a Field
+  exhibition record plugin
+    ✔ should have the correct shape
+  exhibition record messages
+    ✔ should contain properties with id and defaultMessage properties
+  exhibition record optionLists
+    ✔ should contain properties values and messages
+  exhibition record serviceConfig
+    ✔ should have servicePath property
+  exhibition record title
+    ✔ should concat the exhibition number and the title
+    ✔ should return the exhibition number when the title is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  group record columns
+    ✔ should have correct shape
+    ✔ should have owner column that is formatted as a refname display name
+  group record default form
+    ✔ should be a Field
+  group record plugin
+    ✔ should have the correct shape
+  group record messages
+    ✔ should contain properties with id and defaultMessage properties
+  group record serviceConfig
+    ✔ should have servicePath property
+  group record title
+    ✔ should concat the title and owner
+    ✔ should return the title when owner is empty
+    ✔ should return the owner when title is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  intake record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  intake record columns
+    ✔ should have the correct shape
+    ✔ should have current owner column that is formatted as a refname display name
+  intake record default form
+    ✔ should be a Field
+  intake record plugin
+    ✔ should have the correct shape
+  intake record messages
+    ✔ should contain properties with id and defaultMessage properties
+  intake record optionLists
+    ✔ should contain properties values and messages
+  intake record serviceConfig
+    ✔ should have servicePath property
+  intake record title
+    ✔ should concat the intake entry number and current owner
+    ✔ should return the intake entry number when current owner is empty
+    ✔ should return the current owner when intake entry number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  loan-in record columns
+    ✔ should have correct shape
+    ✔ should have lender column that is formatted as a refname display name
+  loan-in record default form
+    ✔ should be a Field
+  loan-in record plugin
+    ✔ should have the correct shape
+  loan-in record messages
+    ✔ should contain properties with id and defaultMessage properties
+  loan-in record serviceConfig
+    ✔ should have servicePath property
+  loan-in record title
+    ✔ should concat the loan-in number and lender
+    ✔ should return the loan-in number when lender is empty
+    ✔ should return the lender when loan-in number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  loanout record columns
+    ✔ should have correct shape
+    ✔ should have borrower column that is formatted as a refname display name
+  loanout record default form
+    ✔ should be a Field
+  loan-out record plugin
+    ✔ should have the correct shape
+  loan-out record messages
+    ✔ should contain properties with id and defaultMessage properties
+  loan-out record serviceConfig
+    ✔ should have servicePath property
+  loanout record title
+    ✔ should concat the loan-out number and borrower
+    ✔ should return the loan-out number when borrower is empty
+    ✔ should return the borrower when loan-out number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  location record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  location record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+    ✔ should have term status column that is formatted as an option list value
+  location record default form
+    ✔ should be a Field
+  location record plugin
+    ✔ should have the correct shape
+  location record messages
+    ✔ should contain properties with id and defaultMessage properties
+  location record optionLists
+    ✔ should contain properties values and messages
+  location record serviceConfig
+    ✔ should have servicePath property
+  location record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  media record fields
+    externalUrl field computation
+      ✔ should set the value to the value of the blob's file field
+      ✔ should not set the value (should return undefined) if there is no blob data
+      ✔ should not set the value (should return undefined) if the blob's file field is not a string
+  media record plugin
+    blob subrecord save condition
+      ✔ should return false for existing records
+      ✔ should return true for new records that have a file
+      ✔ should return false for new records that do not have a file
+      ✔ should return false for new records that have an empty file array
+  media record title
+    ✔ should concat the identification number and title
+    ✔ should return the identificatino number when title is empty
+    ✔ should return the title when identification number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  movement record columns
+    ✔ should have correct shape
+    ✔ should have current location column that is formatted as a refname display name
+  movement record title
+    ✔ should concat the current location and location date
+    ✔ should return the current location when location date is empty
+    ✔ should return the location date when current location is empty
+    ✔ should return the location date when it does not have a time part
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  object record columns
+    ✔ should have correct shape
+    ✔ should have docNumber column with the proper shape
+    ✔ should have docNumber column that is formatted as a refname display name
+    ✔ should have docType column with the proper shape
+    ✔ should have docName column that is formatted as a refname display name
+    ✔ should have docType column that is formatted as a record type name from a service object name
+    ✔ should format the docType column with a fallback if no record type is found for the service object name
+    ✔ should have updated column with the proper shape
+    ✔ should have updatedAt column that is formatted as a date
+  object record plugin
+    ✔ should have the correct shape
+  object exit record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  object exit record columns
+    ✔ should have the correct shape
+    ✔ should have current owner column that is formatted as a refname display name
+  object exit record default form
+    ✔ should be a Field
+  object exit record plugin
+    ✔ should have the correct shape
+  object exit record messages
+    ✔ should contain properties with id and defaultMessage properties
+  object exit record optionLists
+    ✔ should contain properties values and messages
+  object exit record serviceConfig
+    ✔ should have servicePath property
+  object exit record title
+    ✔ should concat the exit number and current owner
+    ✔ should return the exit number when current owner is empty
+    ✔ should return the current owner when exit number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  organization record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  organization record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+    ✔ should have term status column that is formatted as an option list value
+  organization record default form
+    ✔ should be a Field
+  organization record plugin
+    ✔ should have the correct shape
+  organization record messages
+    ✔ should contain properties with id and defaultMessage properties
+  place record optionLists
+    ✔ should contain properties values and messages
+  organization record serviceConfig
+    ✔ should have servicePath property
+  organization record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  person record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+  person record plugin
+    ✔ should have the correct shape
+  person record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  place record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  place record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+    ✔ should have term status column that is formatted as an option list value
+  place record default form
+    ✔ should be a Field
+  place record plugin
+    ✔ should have the correct shape
+  place record messages
+    ✔ should contain properties with id and defaultMessage properties
+    ✔ should contain properties values and messages 
+  place record serviceConfig
+    ✔ should have servicePath property
+  place record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  pot tag record columns
+    ✔ should have the correct shape
+    ✔ should have family column that is formatted as a refname display name
+    ✔ should have taxonName column that is formatted as a refname display name
+    ✔ should have print labels column that is formatted as an option list value
+  pottag record default form
+    ✔ should be a Field
+  pottag record plugin
+    ✔ should have the correct shape
+  pottag record messages
+    ✔ should contain properties with id and defaultMessage properties
+  pottag record serviceConfig
+    ✔ should have servicePath property
+  pot tag record title
+    ✔ should concat the common name and family
+    ✔ should return the common name when family field is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  procedure record columns
+    default column set
+      ✔ should have correct shape
+      ✔ should have docNumber column with the proper shape
+      ✔ should have docNumber column that is formatted as a refname display name
+      ✔ should have docName column that is formatted as a refname display name
+      ✔ should have docType column with the proper shape
+      ✔ should have docType column that is formatted as a record type name from a service object name
+      ✔ should format the docType column with a fallback if no record type is found for the service object name
+      ✔ should have updatedAt column with the proper shape
+      ✔ should have updatedAt column that is formatted as a date
+    narrow column set
+      ✔ should have docNumber column that is formatted as a refname display name
+      ✔ should have docName column that is formatted as a refname display name
+  uoc record columns
+    ✔ should have correct shape
+    ✔ should have authorizedBy column that is formatted as a refname display name
+  uoc record default form
+    ✔ should be a Field
+  uoc record plugin
+    ✔ should have the correct shape
+  uoc record messages
+    ✔ should contain properties with id and defaultMessage properties
+  uoc record serviceConfig
+    ✔ should have servicePath property
+  uoc record title
+    ✔ should concat the reference number and title
+    ✔ should return the reference number when title is empty
+    ✔ should return the title when reference number is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  valuation record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  valuation record columns
+    ✔ should have the correct shape
+    ✔ should have value type that is formatted as an option list value
+  valuation record default form
+    ✔ should be a Field
+  valuation record plugin
+    ✔ should have the correct shape
+  valuation record messages
+    ✔ should contain properties with id and defaultMessage properties
+  valuation record optionLists
+    ✔ should contain properties values and messages
+  valuation record serviceConfig
+    ✔ should have servicePath property
+  valuation record title
+    ✔ should concat the valuation number and the value type
+    ✔ should return the valuation number when the value type is empty
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  work record advanced search
+    ✔ should contain a top level property `op`
+    ✔ should contain a top level property `value` that is an array
+  work record columns
+    ✔ should have correct shape
+    ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+    ✔ should have term status column that is formatted as an option list value
+  work record default form
+    ✔ should be a Field
+  work record plugin
+    ✔ should have the correct shape
+  work record messages
+    ✔ should contain properties with id and defaultMessage properties
+  work record optionLists
+    ✔ should contain properties values and messages
+  work record serviceConfig
+    ✔ should have servicePath property
+  work record title
+    ✔ should return the primary display name
+    ✔ should return empty string if no data is passed
+    ✔ should return empty string if the common part is not present
+  refs subresource columns
+    ✔ should have correct shape
+    default column set
+      ✔ should have docNumber column that is formatted as a refname display name
+      ✔ should have docName column that is formatted as a refname display name
+      ✔ should have docType column that is formatted as a record type name from a service object name
+      ✔ should have sourceField column that is formatted as a field name from a part and field ids
+      ✔ should format the sourceField column with a fallback if no field is found with the id
+    narrow column set
+      ✔ should have docNumber column that is formatted as a refname display name
+      ✔ should have docName column that is formatted as a refname display name
+      ✔ should have docType column that is formatted as a record type name from a service object name
+      ✔ should have sourceField column that is formatted as a field name from a part and field ids
+      ✔ should format the sourceField column with a fallback if no field is found with the id
+  terms subresource columns
+    ✔ should have correct shape
+    ✔ should format the sourceField column with a fallback if no field is found with the id
+    default column set
+      ✔ should have type column that is formatted as a record type name from a service path in a ref name
+      ✔ should format the type column with a fallback if no record type is found with the service path
+      ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+      ✔ should format the vocabulary column with a fallback if no record type is found with the service path
+      ✔ should format the vocabulary column with a fallback if no vocabulary is found with the short id
+      ✔ should have sourceField column that is formatted as a field name from a part and field ids
+    narrow column set
+      ✔ should have type column that is formatted as a record type name from a service path in a ref name
+      ✔ should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name
+      ✔ should have sourceField column that is formatted as a field name from a part and field ids
+  authority reducer
+    ✔ should have an empty immutable initial state
+    on AUTH_VOCABS_READ_FULFILLED
+      ✔ should set the csid and workflowState for each vocabulary in the payload
+      ✔ should do nothing if a response contains no items
+    on LOGOUT_FULFILLED
+      ✔ should clear all state
+    on SET_AUTH_VOCAB_WORKFLOW_STATE
+      ✔ should set the workflow state for the given vocabulary
+  authz reducer
+    ✔ should have an empty immutable initial state
+    on PERMS_READ_STARTED
+      ✔ should set isPermsReadPending to true
+    on PERMS_READ_FULFILLED
+      ✔ should set resourceNames to contain known records in the response
+      ✔ should unset isPermsReadPending
+      ✔ should handle a single (non-list) permission
+    on PERMS_READ_REJECTED
+      ✔ should unset isPermsReadPending
+    on ROLES_READ_STARTED
+      ✔ should set isRolesReadPending to true
+    on ROLES_READ_FULFILLED
+      ✔ should set roles to the roles in the response
+      ✔ should unset isRolesReadPending
+      ✔ should handle a single (non-list) role
+    on ROLES_READ_REJECTED
+      ✔ should unset isRolesReadPending
+    on RECORD_DELETE_FULFILLED
+      ✔ should delete roles if the record type is authrole
+      ✔ should not delete roles if the record type is not authrole
+    on RECORD_CREATED
+      ✔ should delete roles if the record type is authrole
+      ✔ should not delete roles if the record type is not authrole
+  cspace reducer
+    ✔ should have an empty initial state
+    ✔ should handle CSPACE_CONFIGURED
+  ID generator reducer
+    ✔ should have empty immutable initial state
+    ✔ should handle ADD_ID_GENERATORS
+    ✔ should handle READ_ID_GENERATOR_FULFILLED
+    on LOGOUT_FULFILLED
+      ✔ should clear samples
+  reducer
+    ✔ should compose other reducers
+    getAuthorityVocabCsid selector
+      ✔ should select from the authority key
+    getAuthorityVocabWorkflowState selector
+      ✔ should select from the authority key
+    getAuthzResourceNames selector
+      ✔ should select from the authz key
+    isAuthzPermsReadPending selector
+      ✔ should select from the authz key
+    getAuthzRoles selector
+      ✔ should select from the authz key
+    isAuthzRolesReadPending selector
+      ✔ should select from the authz key
+    getUserScreenName selector
+      ✔ should select from the user key
+    getUserPerms selector
+      ✔ should select from the user key
+    getUserUsername selector
+      ✔ should select from the user key
+    getLoginUsername selector
+      ✔ should select from the login key
+    isLoginPending selector
+      ✔ should select from the login key
+    getLoginError selector
+      ✔ should select from the login key
+    isLoginSuccess selector
+      ✔ should select from the login key
+    isLogoutPending selector
+      ✔ should select from the logout key
+    getLogoutResponse selector
+      ✔ should select from the logout key
+    getRecordRelationUpdatedTimestamp selector
+      ✔ should select from the record key
+    getRecordData selector
+      ✔ should select from the record key
+    getRecordError selector
+      ✔ should select from the record key
+    getRecordSubrecordCsid selector
+      ✔ should select from the record key
+    getRecordValidationErrors selector
+      ✔ should select from the record key
+    getNewRecordData selector
+      ✔ should select from the record key
+    isRecordModified selector
+      ✔ should select from the record key
+    isRecordReadPending selector
+      ✔ should select from the record key
+    isRecordSavePending selector
+      ✔ should select from the record key
+    isRecordReadVocabularyItemRefsPending selector
+      ✔ should select from the record key
+    getRelatedRecordBrowserRelatedCsid selector
+      ✔ should select from the recordBrowser key
+    getPrefs selector
+      ✔ should return the prefs key
+    isPanelCollapsed selector
+      ✔ should select from the prefs key
+    getRecordBrowserNavBarItems selector
+      ✔ should select from the prefs key
+    getSearchPanelPageSize selector
+      ✔ should select from the prefs key
+    getSearchPageRecordType selector
+      ✔ should select from the prefs key
+    getSearchPageVocabulary selector
+      ✔ should select from the prefs key
+    getSearchResultPagePageSize selector
+      ✔ should select from the prefs key
+    getSearchToRelatePageSize selector
+      ✔ should select from the prefs key
+    getUploadType selector
+      ✔ should select from the prefs key
+    getForm selector
+      ✔ should select from the prefs key
+    getAdminTab selector
+      ✔ should select from the prefs key
+    getOptionList selector
+      ✔ should select from the optionList key
+    getVocabulary selector
+      ✔ should select from the vocabulary key
+    getPartialTermSearchMatches selector
+      ✔ should select from the partialTermSearch key
+    getIDGenerator selector
+      ✔ should select from the idGenerator key
+    getSearchPageAdvanced selector
+      ✔ should select from the searchPage key
+    getSearchPageKeyword selector
+      ✔ should select from the searchPage key
+    getQuickSearchKeyword selector
+      ✔ should select from the quickSearch key
+    getQuickSearchRecordType selector
+      ✔ should select from the prefs key
+    getQuickSearchVocabulary selector
+      ✔ should select from the prefs key
+    isSearchPending selector
+      ✔ should select from the search key
+    getSearchState selector
+      ✔ should select from the search key
+    getMostRecentSearchDescriptor selector
+      ✔ should select from the search key
+    getSearchResult selector
+      ✔ should select from the search key
+    getSearchError selector
+      ✔ should select from the search key
+    getSearchSelectedItems selector
+      ✔ should select from the search key
+    getRelationFindResult selector
+      ✔ should select from the relation key
+    getSearchToRelateAdvanced selector
+      ✔ should select from the searchToRelate key
+    getSearchToRelateKeyword selector
+      ✔ should select from the searchToRelate key
+    getSearchToRelateRecordType selector
+      ✔ should select from the searchToRelate key
+    getSearchToRelateVocabulary selector
+      ✔ should select from the searchToRelate key
+    getNotifications selector
+      ✔ should select from the notification key
+    getOpenModalName selector
+      ✔ should select from the notification key
+  login reducer
+    ✔ should have an empty immutable initial state
+    ✔ should handle RESET_LOGIN
+    ✔ should handle LOGIN_STARTED
+    ✔ should handle LOGIN_FULFILLED
+    ✔ should handle LOGIN_REJECTED
+  logout reducer
+    ✔ should have an empty initial state
+    ✔ should handle LOGOUT_STARTED
+    ✔ should handle LOGOUT_FULFILLED
+  notification reducer
+    ✔ should have immutable map initial state with notifications key
+    ✔ should handle SHOW_NOTIFICATION
+    ✔ should generate a notification ID when a SHOW_NOTIFICATION action does not provide one
+    ✔ should handle REMOVE_NOTIFICATION
+    ✔ should handle OPEN_MODAL
+    ✔ should handle CLOSE_MODAL
+  optionList reducer
+    ✔ should have an empty initial state
+    ✔ should handle ADD_OPTION_LISTS
+  partialTermSearch reducer
+    ✔ should have an empty Immutable initial state
+    ✔ should handle ADD_TERM_STARTED
+    ✔ should handle ADD_TERM_FULFILLED
+    ✔ should handle ADD_TERM_REJECTED
+    ✔ should handle PARTIAL_TERM_SEARCH_STARTED
+    ✔ should handle PARTIAL_TERM_SEARCH_FULFILLED
+    ✔ should set items to empty array if search result count is zero
+    ✔ should set items to an array if one list item is returned
+    ✔ should handle PARTIAL_TERM_SEARCH_REJECTED
+    ✔ should handle CLEAR_PARTIAL_TERM_SEARCH_RESULTS
+  prefs reducer
+    ✔ should have empty immutable initial state
+    ✔ should handle COLLAPSE_PANEL
+    ✔ should handle SET_ADMIN_TAB
+    ✔ should handle SET_FORM
+    ✔ should handle SET_RECORD_BROWSER_NAV_BAR_ITEMS
+    ✔ should handle SET_SEARCH_PAGE_ADVANCED
+    ✔ should handle SET_SEARCH_TO_RELATE_ADVANCED
+    ✔ should handle SET_SEARCH_PAGE_RECORD_TYPE
+    ✔ should handle SET_SEARCH_PAGE_VOCABULARY
+    ✔ should handle SET_QUICK_SEARCH_RECORD_TYPE
+    ✔ should handle SET_QUICK_SEARCH_VOCABULARY
+    ✔ should handle SET_SEARCH_RESULT_PAGE_PAGE_SIZE
+    ✔ should handle SET_SEARCH_PANEL_PAGE_SIZE
+    ✔ should handle SET_SEARCH_TO_RELATE_PAGE_SIZE
+    ✔ should handle SET_UPLOAD_TYPE
+    ✔ should handle PREFS_LOADED
+    ✔ should handle TOGGLE_RECORD_SIDEBAR
+    ✔ should handle SET_STICKY_FIELDS
+  quick search reducer
+    ✔ should have an empty immutable initial state
+    ✔ should handle SET_QUICK_SEARCH_KEYWORD
+  record reducer
+    ✔ should have empty immutable initial state
+    ✔ should handle ADD_FIELD_INSTANCE
+    ✔ should handle DELETE_FIELD_VALUE
+    ✔ should handle MOVE_FIELD_VALUE
+    ✔ should handle SET_FIELD_VALUE
+    ✔ should handle RECORD_READ_STARTED
+    ✔ should handle RECORD_READ_FULFILLED
+    ✔ should handle RECORD_READ_REJECTED
+    ✔ should handle RECORD_SAVE_STARTED
+    ✔ should handle RECORD_SAVE_REJECTED
+    ✔ should handle REVERT_RECORD
+    ✔ should handle REVERT_RECORD when subrecord csid fields are present
+    ✔ should handle SUBJECT_RELATIONS_UPDATED
+    ✔ should handle CREATE_ID_FULFILLED
+    ✔ should handle VALIDATION_PASSED
+    ✔ should handle VALIDATION_FAILED
+    ✔ should handle RECORD_TRANSITION_STARTED
+    ✔ should handle RECORD_TRANSITION_REJECTED
+    ✔ should handle RECORD_CREATED
+    ✔ should handle CREATE_NEW_SUBRECORD
+    ✔ should handle DETACH_SUBRECORD
+    ✔ should handle SUBRECORD_CREATED
+    ✔ should handle SUBRECORD_CREATED with a csidField
+    ✔ should handle SUBRECORD_CREATED with a csidField where isDefault is true
+    ✔ should handle SUBRECORD_READ_FULFILLED
+    ✔ should detect subrecord modifications
+    ✔ should handle LOGOUT_FULFILLED
+    on SORT_FIELD_INSTANCES
+      ✔ should sort the list
+      ✔ should sort the list by the specified subfield
+      ✔ should not change state if there is no data
+    on CREATE_NEW_RECORD
+      ✔ should create new record data when there is no existing new record data
+      ✔ should create new record data when there is existing new record data
+      ✔ should copy data from another record when a cloneCsid is supplied
+      ✔ should create new subrecord data
+      ✔ should create new subrecord data for a subrecord referenced by a csid field
+      ✔ should copy the csid in a subrecord csid field from a cloned record
+      ✔ should copy sticky field values into new record data when supplied
+    on RECORD_SAVE_FULFILLED
+      ✔ should set the record data from the payload when there is no existing record data
+      ✔ should set the record data from the payload when there is existing record data
+      ✔ should update the relation updated timestamp of a related subject
+      ✔ should clear all record state except for the saved record, subrecords of the saved record, new unsaved records, and records with pending saves
+    on RECORD_TRANSITION_FULFILLED
+      ✔ should delete isSavePending on any transition
+      ✔ should remove the record state on a delete transition
+      ✔ should update the record data on a non-delete transition
+      ✔ should update relationUpdatedTime if a relatedSubjectCsid is present
+      ✔ should clear all record state on a delete transition, except for records with pending saves
+    on LOGIN_FULFILLED
+      ✔ should clear all record state if the previous username is different than the new username
+      ✔ should not clear record state if the previous username is the same as the new username
+    on FIELD_COMPUTE_FULFILLED
+      ✔ should merge the computed data into the current data
+      ✔ should do nothing if there is no current data
+      ✔ should do nothing if the computed value path is not empty
+    on RECORD_DELETE_STARTED
+      ✔ should set isSavePending to true
+    on RECORD_DELETE_FULFILLED
+      ✔ should remove state associated with the deleted csid
+      ✔ should update relationUpdatedTime of a related record
+    on RECORD_DELETE_REJECTED
+      ✔ should unset isSavePending
+    on CLEAR_RECORD
+      ✔ should delete record state for the csid
+      ✔ should clear state for any subrecords
+      ✔ should do nothing if there is no state for the csid
+    on READ_VOCABULARY_ITEM_REFS_STARTED
+      ✔ should set isReadVocabularyItemRefsPending to true
+    on READ_VOCABULARY_ITEM_REFS_REJECTED
+      ✔ should delete isReadVocabularyItemRefsPending
+      ✔ should merge referenced states into baseline and current data
+      ✔ should handle single (non-list) items
+      ✔ should delete isReadVocabularyItemRefsPending and set the error
+    isModifiedExceptPart
+      ✔ should return false if no data exists for the csid
+      ✔ should return false if current data is referentially equal to baseline data
+      ✔ should return false if current document is referentially equal to baseline document
+      ✔ should return false if no part in the current document is referentially not equal to a part in the baseline document
+      ✔ should return true if the a part other than the excepted part in the current document is referentially not equal to a part in the baseline document
+      ✔ should return false if the only part in the current document is referentially not equal to a part in the baseline document is the excepted part
+      ✔ should return true if a subrecord has been modified
+  record browser reducer
+    ✔ should have an empty immutable initial state
+    ✔ should handle SET_RELATED_RECORD_BROWSER_RELATED_CSID
+    ✔ should handle CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID
+  record page reducer
+    ✔ should have an empty immutable initial state
+    ✔ should handle SET_RECORD_PAGE_PRIMARY_CSID
+  relation reducer
+    ✔ should have an empty immutable initial state
+    ✔ should handle CLEAR_RELATION_STATE
+    ✔ should handle RELATION_FIND_FULFILLED
+    ✔ should handle SUBJECT_RELATIONS_UPDATED
+  search reducer
+    ✔ should have immutable initial state
+    ✔ should handle SEARCH_STARTED
+    ✔ should clear all search states on SEARCH_STARTED when the new search is not only a page change
+    ✔ should seed the search result on SEARCH_STARTED when the new search is only a page change
+    ✔ should seed the search result on SEARCH_STARTED when the new search is only a sort change
+    ✔ should seed the search result on SEARCH_STARTED when the new search is only a seq id change
+    ✔ should handle SET_MOST_RECENT_SEARCH
+    ✔ should not change state on SET_MOST_RECENT_SEARCH if the specified key does not exist
+    ✔ should handle SEARCH_FULFILLED
+    ✔ should handle SEARCH_FULFILLED when a single item is found
+    ✔ should not change state on SEARCH_FULFILLED for an unknown search descriptor
+    ✔ should handle SEARCH_REJECTED
+    ✔ should not change state on SEARCH_REJECTED for an unknown search descriptor
+    ✔ should handle CLEAR_SEARCH_RESULTS
+    ✔ should handle CREATE_EMPTY_SEARCH_RESULT
+    ✔ should handle SET_RESULT_ITEM_SELECTED
+    ✔ should handle CLEAR_SELECTED
+    ✔ should handle DESELECT_RESULT_ITEM
+    ✔ should handle SET_ALL_RESULT_ITEMS_SELECTED
+    ✔ should handle SUBRECORD_CREATED
+    ✔ should handle RECORD_DELETE_FULFILLED
+    ✔ should handle RECORD_TRANSITION_FULFILLED
+    ✔ should handle LOGOUT_FULFILLED
+    on RECORD_SAVE_FULFILLED
+      ✔ should clear all search state except for search result page, report panel, and batch panel
+      ✔ should mark search result page results as dirty
+    on LOGIN_FULFILLED
+      ✔ should clear all search state when the previous username is not the same as the new username
+      ✔ should not clear search state if the previous username is the same as the new username
+    on BATCH_INVOKE_FULFILLED
+      ✔ should clear all search state when any records were affected
+      ✔ should not clear search state if no records were affected
+  search page reducer
+    ✔ should have an empty immutable initial state
+    ✔ should handle SET_SEARCH_PAGE_ADVANCED
+    ✔ should handle SET_SEARCH_PAGE_KEYWORD
+    ✔ should delete advanced search condition on SET_SEARCH_PAGE_RECORD_TYPE
+    ✔ should handle CLEAR_SEARCH_PAGE
+  search to relate reducer
+    ✔ should have empty immutable initial state
+    ✔ should handle SET_SEARCH_TO_RELATE_RECORD_TYPE
+    ✔ should handle SET_SEARCH_TO_RELATE_VOCABULARY
+    ✔ should handle SET_SEARCH_TO_RELATE_ADVANCED
+    ✔ should handle SET_SEARCH_TO_RELATE_KEYWORD
+    ✔ should handle CLEAR_SEARCH_TO_RELATE
+  user reducer
+    ✔ should have empty immutable initial state
+    ✔ should handle CSPACE_CONFIGURED
+    ✔ should handle ACCOUNT_PERMS_READ_FULFILLED
+    ✔ should handle AUTH_RENEW_FULFILLED
+    ✔ should handle LOGIN_FULFILLED
+    ✔ should handle LOGOUT_FULFILLED
+    ✔ should handle SET_ACCOUNT_PERMS
+  vocabulary reducer
+    ✔ should have an empty initial state
+    ✔ should handle READ_VOCABULARY_ITEMS_STARTED
+    ✔ should handle READ_VOCABULARY_ITEMS_FULFILLED
+    ✔ should handle READ_VOCABULARY_ITEMS_REJECTED
+    ✔ should handle LOGOUT_FULFILLED
+    on RECORD_SAVE_FULFILLED
+      ✔ should clear all state if the saved record is a vocabulary
+      ✔ should not change the state if the saved record is not a vocabulary
+    on LOGIN_FULFILLED
+      ✔ should clear vocabulary state if the user has changed
+      ✔ should not clear vocabulary state if the user has not changed
+
+Finished in 45.224 secs / 42.025 secs @ 10:48:31 GMT-0700 (Pacific Daylight Time)
+
+SUMMARY:
+✔ 2229 tests completed
+✖ 1 test failed
+
+FAILED TESTS:
+  ReportingPage
+    ✖ should update the search descriptor's sequence ID when a record is saved in the record editor
+      Chrome 73.0.3683 (Mac OS X 10.14.0)
+    TypeError: recordEditor.props.onRecordSaved is not a function
+        at Context.test (webpack:///test/specs/components/pages/ReportingPage.spec.jsx:227 <- test/specs/index.js:475483:24)
+
