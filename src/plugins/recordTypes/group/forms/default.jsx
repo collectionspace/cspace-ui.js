@@ -1,4 +1,5 @@
 import { defineMessages } from 'react-intl';
+import { cpus } from 'os';
 
 const template = (configContext) => {
   const {
@@ -6,6 +7,8 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -19,10 +22,17 @@ const template = (configContext) => {
       <Panel name="info" collapsible>
         <Field name="title" />
 
-        <Row>
-          <Field name="responsibleDepartment" />
-          <Field name="owner" />
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="responsibleDepartment" />
+            <Field name="owner" />
+          </Col>
+
+          <Col>
+            <Field name="groupEarliestSingleDate" />
+            <Field name="groupLatestDate" />
+          </Col>
+        </Cols>
 
         <Field name="scopeNote" />
       </Panel>
