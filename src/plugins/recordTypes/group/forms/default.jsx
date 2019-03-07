@@ -1,5 +1,4 @@
 import { defineMessages } from 'react-intl';
-import { cpus } from 'os';
 
 const template = (configContext) => {
   const {
@@ -10,7 +9,6 @@ const template = (configContext) => {
     Col,
     Cols,
     Panel,
-    Row,
   } = configContext.layoutComponents;
 
   const {
