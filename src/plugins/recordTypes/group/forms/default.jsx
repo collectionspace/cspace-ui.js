@@ -6,9 +6,8 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
-    Col,
-    Cols,
     Panel,
+    Row,
   } = configContext.layoutComponents;
 
   const {
@@ -20,17 +19,10 @@ const template = (configContext) => {
       <Panel name="info" collapsible>
         <Field name="title" />
 
-        <Cols>
-          <Col>
-            <Field name="responsibleDepartment" />
-            <Field name="owner" />
-          </Col>
-
-          <Col>
-            <Field name="groupEarliestSingleDate" />
-            <Field name="groupLatestDate" />
-          </Col>
-        </Cols>
+        <Row>
+          <Field name="responsibleDepartment" />
+          <Field name="owner" />
+        </Row>
 
         <Field name="scopeNote" />
       </Panel>

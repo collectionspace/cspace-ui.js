@@ -99,38 +99,6 @@ export default (configContext) => {
                 },
               },
             },
-            loanApproverGroup: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanApproverGroup.name',
-                    defaultMessage: 'Approval group',
-                  },
-                }),
-                view: {
-                  type: TermPickerInput,
-                  props: {
-                    source: 'loanapprovergroup',
-                  },
-                },
-              },
-            },
-            loanApprover: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanApprover.name',
-                    defaultMessage: 'Approval individual',
-                  },
-                }),
-                view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'person/local,person/shared',
-                  },
-                },
-              },
-            },
             loanStatus: {
               [config]: {
                 messages: defineMessages({

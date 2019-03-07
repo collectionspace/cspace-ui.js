@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
-    DateInput,
     OptionPickerInput,
     TextInput,
   } = configContext.inputComponents;
@@ -77,32 +76,6 @@ export default (configContext) => {
               props: {
                 source: 'person/local',
               },
-            },
-          },
-        },
-        groupEarliestSingleDate: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.groups_common.groupEarliestSingleDate.name',
-                defaultMessage: 'Earliest/single date',
-              },
-            }),
-            view: {
-              type: DateInput,
-            },
-          },
-        },
-        groupLatestDate: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.groups_common.groupLatestDate.name',
-                defaultMessage: 'Latest date',
-              },
-            }),
-            view: {
-              type: DateInput,
             },
           },
         },
