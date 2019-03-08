@@ -7,7 +7,7 @@ const template = (configContext) => {
 
   const {
     Col,
-    // Cols,
+    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -25,6 +25,7 @@ const template = (configContext) => {
           <Col>
             <Field name="referenceNumber" />
           </Col>
+
           <Col>
             <Field name="methodList">
               <Field name="method" />
@@ -40,28 +41,28 @@ const template = (configContext) => {
           <Field name="authorizationNote" />
         </InputTable>
 
-        <Row>
-          <Field name="startSingleDate" />
-          <Field name="endDate" />
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="startSingleDate" />
+            <Field name="endDate" />
 
-        <Row>
-          <Field name="userGroupList">
-            <Field name="userGroup">
-              <Field name="user" />
-              <Field name="userType" />
+            <Field name="userGroupList">
+              <Field name="userGroup">
+                <Field name="user" />
+                <Field name="userType" />
+              </Field>
             </Field>
-          </Field>
-          <Field name="location" />
-        </Row>
 
-        <Row>
-          <Field name="note" />
-          <Field name="provisos" />
-        </Row>
+            <Field name="location" />
+          </Col>
+
+          <Col>
+            <Field name="note" />
+            <Field name="provisos" />
+          </Col>
+        </Cols>
 
         <Field name="result" />
-
       </Panel>
     </Field>
   );
