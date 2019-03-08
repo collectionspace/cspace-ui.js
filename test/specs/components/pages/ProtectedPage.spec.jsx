@@ -17,9 +17,10 @@ import ProtectedPage from '../../../../src/components/pages/ProtectedPage';
 
 chai.should();
 
-const mockStore = configureMockStore([]);
+const mockStore = configureMockStore();
 
 const store = mockStore({
+  cspace: Immutable.Map(),
   login: Immutable.Map(),
   quickSearch: Immutable.Map(),
   prefs: Immutable.Map(),

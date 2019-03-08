@@ -8,6 +8,8 @@ import { openModal } from './notification';
 import LoginModal from '../components/login/LoginModal';
 
 export const CSPACE_CONFIGURED = 'CSPACE_CONFIGURED';
+export const READ_SYSTEM_INFO_FULFILLED = 'READ_SYSTEM_INFO_FULFILLED';
+export const READ_SYSTEM_INFO_REJECTED = 'READ_SYSTEM_INFO_REJECTED';
 
 let client;
 let session;
@@ -23,6 +25,8 @@ export const createSession = (username, password) => {
   });
 };
 
+const getSession = () => session;
+
 export const setSession = (newSession) => {
   session = newSession;
 
@@ -31,6 +35,17 @@ export const setSession = (newSession) => {
     payload: session.config(),
   };
 };
+
+export const readSystemInfo = () => dispatch =>
+  getSession().read('systeminfo')
+    .then(response => dispatch({
+      type: READ_SYSTEM_INFO_FULFILLED,
+      payload: response,
+    }))
+    .catch(error => dispatch({
+      type: READ_SYSTEM_INFO_REJECTED,
+      payload: error,
+    }));
 
 export const configureCSpace = config => (dispatch) => {
   client = cspaceClient({
@@ -81,4 +96,4 @@ export const configureCSpace = config => (dispatch) => {
     });
 };
 
-export default () => session;
+export default getSession;

@@ -17,6 +17,7 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
+  cspace: Immutable.Map(),
   user: {},
   login: Immutable.Map(),
   notification: Immutable.Map({

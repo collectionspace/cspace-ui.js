@@ -16,9 +16,12 @@ import {
 
 import getSession, {
   CSPACE_CONFIGURED,
+  READ_SYSTEM_INFO_FULFILLED,
+  READ_SYSTEM_INFO_REJECTED,
   configureCSpace,
   createSession,
   setSession,
+  readSystemInfo,
 } from '../../../src/actions/cspace';
 
 import {
@@ -298,6 +301,83 @@ describe('cspace action creator', function suite() {
       setSession(session);
 
       getSession().should.equal(session);
+    });
+  });
+
+  describe('readSystemInfo', function actionSuite() {
+    const store = mockStore({
+      cspace: Immutable.Map(),
+      // user: Immutable.Map(),
+    });
+
+    const systemInfoUrl = '/cspace-services/systeminfo';
+
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      store.clearActions();
+      moxios.uninstall();
+    });
+
+    it('should dispatch READ_SYSTEM_INFO_FULFILLED on success', function test() {
+      moxios.stubRequest(systemInfoUrl, {
+        status: 200,
+        response: {
+          'ns2:system_info_common': {
+            version: {
+              major: '5',
+              minor: '1',
+            },
+          },
+        },
+      });
+
+      return store.dispatch(readSystemInfo())
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: READ_SYSTEM_INFO_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {
+                'ns2:system_info_common': {
+                  version: {
+                    major: '5',
+                    minor: '1',
+                  },
+                },
+              },
+            },
+          });
+        });
+    });
+
+    it('should dispatch READ_SYSTEM_INFO_REJECTED on error', function test() {
+      moxios.stubRequest(systemInfoUrl, {
+        status: 404,
+        response: {},
+      });
+
+      return store.dispatch(readSystemInfo())
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].type.should.equal(READ_SYSTEM_INFO_REJECTED);
+        });
     });
   });
 });

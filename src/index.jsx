@@ -9,7 +9,7 @@ import en from 'react-intl/locale-data/en';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
 import logoUrl from '../images/collectionspace.svg';
-import { configureCSpace } from './actions/cspace';
+import { configureCSpace, readSystemInfo } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
 import { addOptionLists } from './actions/optionList';
 import { savePrefs } from './actions/prefs';
@@ -99,6 +99,7 @@ module.exports = (uiConfig) => {
     store.dispatch(configureCSpace(config));
     store.dispatch(addOptionLists(optionLists));
     store.dispatch(addIDGenerators(idGenerators));
+    store.dispatch(readSystemInfo());
 
     const props = {
       config,

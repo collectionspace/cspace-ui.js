@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/Footer.css';
 
@@ -41,6 +42,20 @@ const messages = defineMessages({
 const propTypes = {
   config: PropTypes.object,
   intl: intlShape.isRequired,
+  systemInfo: PropTypes.instanceOf(Immutable.Map),
+};
+
+const formatReleaseVersion = (systemInfo) => {
+  const version = systemInfo && systemInfo.getIn(['ns2:system_info_common', 'version']);
+
+  if (!version) {
+    return '';
+  }
+
+  const major = version.get('major');
+  const minor = version.get('minor');
+
+  return `${major}.${minor}`;
 };
 
 const renderPluginInfo = (config, intl) => {
@@ -76,9 +91,15 @@ export default function Footer(props) {
   const {
     config,
     intl,
+    systemInfo,
   } = props;
 
   const thisYear = (new Date()).getFullYear().toString();
+  const releaseVersion = formatReleaseVersion(systemInfo);
+
+  const releaseInfoUrl = releaseVersion
+    ? `https://wiki.collectionspace.org/display/collectionspace/Release+${releaseVersion}`
+    : 'https://wiki.collectionspace.org';
 
   return (
     <footer className={styles.common}>
@@ -108,8 +129,8 @@ export default function Footer(props) {
 
       <ul>
         <li>
-          <a href="https://wiki.collectionspace.org/display/collectionspace/Release+5.1">
-            <FormattedMessage {...messages.release} values={{ version: '5.1' }} />
+          <a href={releaseInfoUrl}>
+            <FormattedMessage {...messages.release} values={{ version: releaseVersion }} />
           </a>
         </li>
 

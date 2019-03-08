@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import authz, * as fromAuthz from './authz';
 import authority, * as fromAuthority from './authority';
-import cspace from './cspace';
+import cspace, * as fromCspace from './cspace';
 import idGenerator, * as fromIDGenerator from './idGenerator';
 import searchPage, * as fromSearchPage from './searchPage';
 import quickSearch, * as fromQuickSearch from './quickSearch';
@@ -211,3 +211,5 @@ export const getNotifications = state =>
 
 export const getOpenModalName = state =>
   fromNotification.getModal(state.notification);
+
+export const getCSpaceSystemInfo = state => fromCspace.getSystemInfo(state.cspace);

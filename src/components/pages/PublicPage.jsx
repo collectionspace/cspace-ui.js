@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
-import Footer from '../sections/Footer';
+import FooterContainer from '../../containers/sections/FooterContainer';
 import Logo from '../sections/Logo';
 import styles from '../../../styles/cspace-ui/PublicPage.css';
 
@@ -32,7 +32,7 @@ export default function PublicPage(props, context) {
 
       {children}
 
-      <Footer config={config} intl={intl} />
+      <FooterContainer config={config} intl={intl} />
     </div>
   );
 }

@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Immutable from 'immutable';
+import FooterContainer from '../../containers/sections/FooterContainer';
 import Header from '../sections/Header';
-import Footer from '../sections/Footer';
 import LoginModal from '../login/LoginModal';
 
 const propTypes = {
@@ -74,7 +74,7 @@ export default class ProtectedPage extends Component {
       ? <Header history={history} perms={perms} screenName={screenName || username} />
       : null;
 
-    const footer = decorated ? <Footer config={config} intl={intl} /> : null;
+    const footer = decorated ? <FooterContainer config={config} intl={intl} /> : null;
 
     return (
       <div>
