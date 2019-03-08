@@ -4,12 +4,21 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider as StoreProvider } from 'react-redux';
 import BatchModal from '../../../../src/components/invocable/BatchModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 const expect = chai.expect;
 
 chai.should();
+
+const mockStore = configureMockStore([thunk]);
+
+const store = mockStore({
+  record: Immutable.Map(),
+});
 
 describe('BatchModal', function suite() {
   beforeEach(function before() {
@@ -23,10 +32,12 @@ describe('BatchModal', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <BatchModal
-          isOpen
-          batchItem={batchItem}
-        />
+        <StoreProvider store={store}>
+          <BatchModal
+            isOpen
+            batchItem={batchItem}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
@@ -41,10 +52,12 @@ describe('BatchModal', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <BatchModal
-          isOpen={false}
-          batchItem={batchItem}
-        />
+        <StoreProvider store={store}>
+          <BatchModal
+            isOpen={false}
+            batchItem={batchItem}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
@@ -54,9 +67,11 @@ describe('BatchModal', function suite() {
   it('should render nothing if batchItem is not supplied', function test() {
     render(
       <IntlProvider locale="en">
-        <BatchModal
-          isOpen={false}
-        />
+        <StoreProvider store={store}>
+          <BatchModal
+            isOpen={false}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);

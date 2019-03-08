@@ -4,12 +4,21 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { Provider as StoreProvider } from 'react-redux';
 import ReportModal from '../../../../src/components/invocable/ReportModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
 const expect = chai.expect;
 
 chai.should();
+
+const mockStore = configureMockStore([thunk]);
+
+const store = mockStore({
+  record: Immutable.Map(),
+});
 
 describe('ReportModal', function suite() {
   beforeEach(function before() {
@@ -23,10 +32,12 @@ describe('ReportModal', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ReportModal
-          isOpen
-          reportItem={reportItem}
-        />
+        <StoreProvider store={store}>
+          <ReportModal
+            isOpen
+            reportItem={reportItem}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
@@ -41,10 +52,12 @@ describe('ReportModal', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ReportModal
-          isOpen={false}
-          reportItem={reportItem}
-        />
+        <StoreProvider store={store}>
+          <ReportModal
+            isOpen={false}
+            reportItem={reportItem}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
@@ -54,9 +67,11 @@ describe('ReportModal', function suite() {
   it('should render nothing if reportItem is not supplied', function test() {
     render(
       <IntlProvider locale="en">
-        <ReportModal
-          isOpen={false}
-        />
+        <StoreProvider store={store}>
+          <ReportModal
+            isOpen={false}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     expect(this.container.firstElementChild).to.equal(null);
@@ -70,11 +85,13 @@ describe('ReportModal', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ReportModal
-          isOpen
-          isRecordModified
-          reportItem={reportItem}
-        />
+        <StoreProvider store={store}>
+          <ReportModal
+            isOpen
+            isRecordModified
+            reportItem={reportItem}
+          />
+        </StoreProvider>
       </IntlProvider>, this.container);
 
     const modal = document.querySelector('.ReactModal__Content--after-open');

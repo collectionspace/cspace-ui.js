@@ -114,40 +114,43 @@ export default class RecordBatchPanel extends Component {
 
     const createsNewFocus = (selectedItem.get('createsNewFocus') === 'true');
 
+    const handleValidationSuccess = () => {
+      if (createsNewFocus) {
+        // If the batch job is going to direct us to a different record, keep the modal in place
+        // until it completes, so the user won't be surprised by a new record opening.
+
+        this.setState({
+          isRunning: true,
+        });
+      } else {
+        this.setState({
+          isModalOpen: false,
+        });
+      }
+    };
+
     if (run) {
       run(config, selectedItem, {
         csid,
         recordType,
-      }).then((response) => {
-        if (createsNewFocus) {
-          this.setState({
-            isModalOpen: false,
-            isRunning: false,
-          });
+      }, handleValidationSuccess)
+        .then((response) => {
+          if (createsNewFocus) {
+            this.setState({
+              isModalOpen: false,
+              isRunning: false,
+            });
 
-          // Open the record indicated by the invocation result.
+            // Open the record indicated by the invocation result.
 
-          const uri = get(response.data, ['ns2:invocationResults', 'primaryURICreated']);
-          const location = serviceUriToLocation(config, uri);
+            const uri = get(response.data, ['ns2:invocationResults', 'primaryURICreated']);
+            const location = serviceUriToLocation(config, uri);
 
-          if (location) {
-            history.push(location);
+            if (location) {
+              history.push(location);
+            }
           }
-        }
-      });
-    }
-
-    if (createsNewFocus) {
-      // If the batch job is going to direct us to a different record, keep the modal in place until
-      // it completes, so the user won't be surprised by a new record opening.
-
-      this.setState({
-        isRunning: true,
-      });
-    } else {
-      this.setState({
-        isModalOpen: false,
-      });
+        });
     }
   }
 
@@ -203,6 +206,7 @@ export default class RecordBatchPanel extends Component {
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <BatchModal
+          config={config}
           isOpen={isModalOpen}
           isRunning={isRunning}
           batchItem={selectedItem}

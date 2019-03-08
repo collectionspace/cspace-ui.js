@@ -2,6 +2,10 @@ import { connect } from 'react-redux';
 import RecordReportPanel from '../../components/record/RecordReportPanel';
 
 import {
+  openReport,
+} from '../../actions/report';
+
+import {
   getRecordData,
   getUserPerms,
   isRecordModified,
@@ -19,6 +23,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = {
+  openReport,
+};
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(RecordReportPanel);

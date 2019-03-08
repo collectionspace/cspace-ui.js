@@ -101,29 +101,37 @@ export const initializeExtensionFieldParents = (fieldDescriptor) => {
  * - Set the parent property of any extension fields
  */
 export const initializeRecordTypes = (config) => {
-  const { recordTypes } = config;
+  const keys = [
+    'recordTypes',
+    ['invocables', 'report'],
+    ['invocables', 'batch'],
+  ];
 
-  if (recordTypes) {
-    Object.keys(recordTypes).forEach((recordTypeName) => {
-      const recordType = recordTypes[recordTypeName];
+  keys.forEach((key) => {
+    const recordTypesConfig = get(config, key);
 
-      recordType.name = recordTypeName;
+    if (recordTypesConfig) {
+      Object.keys(recordTypesConfig).forEach((recordTypeName) => {
+        const recordType = recordTypesConfig[recordTypeName];
 
-      const { fields, vocabularies } = recordType;
+        recordType.name = recordTypeName;
 
-      if (fields) {
-        Object.values(fields).forEach((fieldDescriptor) => {
-          initializeExtensionFieldParents(fieldDescriptor);
-        });
-      }
+        const { fields, vocabularies } = recordType;
 
-      if (vocabularies) {
-        Object.keys(vocabularies).forEach((vocabularyName) => {
-          vocabularies[vocabularyName].name = vocabularyName;
-        });
-      }
-    });
-  }
+        if (fields) {
+          Object.values(fields).forEach((fieldDescriptor) => {
+            initializeExtensionFieldParents(fieldDescriptor);
+          });
+        }
+
+        if (vocabularies) {
+          Object.keys(vocabularies).forEach((vocabularyName) => {
+            vocabularies[vocabularyName].name = vocabularyName;
+          });
+        }
+      });
+    }
+  });
 
   return config;
 };

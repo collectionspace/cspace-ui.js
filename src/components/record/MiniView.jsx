@@ -77,7 +77,13 @@ export default class MiniView extends Component {
       ...remainingProps
     } = this.props;
 
+    const {
+      config,
+      recordType,
+    } = this.props;
+
     const className = vocabulary ? styles.authority : styles.procedure;
+    const recordTypeConfig = config.recordTypes[recordType];
 
     return (
       <div className={className}>
@@ -85,6 +91,7 @@ export default class MiniView extends Component {
         <RecordForm
           readOnly
           formName="mini"
+          recordTypeConfig={recordTypeConfig}
           vocabulary={vocabulary}
           {...remainingProps}
         />

@@ -24,6 +24,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  config: PropTypes.object,
   isOpen: PropTypes.bool,
   isRunning: PropTypes.bool,
   batchItem: PropTypes.instanceOf(Immutable.Map),
@@ -43,7 +44,7 @@ export default function BatchModal(props) {
       invocationItem={batchItem}
       messages={messages}
       runButtonClassName={runButtonStyles.common}
-      type="report"
+      type="batch"
       {...remainingProps}
     />
   );

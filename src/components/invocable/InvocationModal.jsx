@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
+import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
 import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
 
 const propTypes = {
+  config: PropTypes.object,
   isOpen: PropTypes.bool,
   isRecordModified: PropTypes.bool,
   invocationItem: PropTypes.instanceOf(Immutable.Map),
   messages: PropTypes.objectOf(PropTypes.object),
   runButtonClassName: PropTypes.string,
-  // type: PropTypes.oneOf(['report', 'batch']),
+  type: PropTypes.oneOf(['report', 'batch']),
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onRunButtonClick: PropTypes.func,
@@ -50,10 +52,12 @@ export default class InvocationModal extends Component {
 
   render() {
     const {
+      config,
       isOpen,
       isRecordModified,
       invocationItem,
       messages,
+      type,
       onCloseButtonClick,
     } = this.props;
 
@@ -76,8 +80,14 @@ export default class InvocationModal extends Component {
         renderButtonBar={this.renderButtonBar}
         onCloseButtonClick={onCloseButtonClick}
       >
-        <FormattedMessage {...messages.prompt} />
         {unsavedWarning}
+
+        <InvocationEditorContainer
+          config={config}
+          invocationItem={invocationItem}
+          promptMessage={messages.prompt}
+          type={type}
+        />
       </Modal>
     );
   }

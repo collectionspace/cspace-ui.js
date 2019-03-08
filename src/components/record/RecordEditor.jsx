@@ -652,6 +652,7 @@ export default class RecordEditor extends Component {
           formName={selectedFormName}
           readOnly={readOnly}
           recordType={recordType}
+          recordTypeConfig={recordTypeConfig}
           vocabulary={vocabulary}
         />
 

@@ -29,6 +29,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  config: PropTypes.object,
   isOpen: PropTypes.bool,
   isRecordModified: PropTypes.bool,
   reportItem: PropTypes.instanceOf(Immutable.Map),

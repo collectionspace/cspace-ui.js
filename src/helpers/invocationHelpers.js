@@ -1,14 +1,31 @@
 import get from 'lodash/get';
+import set from 'lodash/set';
 
-export const createInvocationData = (config, invocationDescriptor) => {
+const prepareInvocationContext = (invocationContext, params) => {
+  if (params) {
+    const paramPairs = Object.keys(params).map(key => ({
+      key,
+      value: params[key],
+    }));
+
+    if (paramPairs.length > 0) {
+      set(invocationContext, ['params', 'param'], paramPairs);
+    }
+  }
+
+  return invocationContext;
+};
+
+export const createInvocationData = (config, invocationDescriptor, type, name) => {
   const {
+    params,
     recordType,
     csid: invocationCsid,
   } = invocationDescriptor;
 
   const docType = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
 
-  const invocationContext = {
+  let invocationContext = {
     docType,
   };
 
@@ -22,6 +39,12 @@ export const createInvocationData = (config, invocationDescriptor) => {
     invocationContext.singleCSID = invocationCsid;
   }
 
+  const prepare =
+    get(config, ['invocables', type, name, 'prepareInvocationContext'])
+    || prepareInvocationContext;
+
+  invocationContext = prepare(invocationContext, params);
+
   return {
     'ns2:invocationContext': {
       '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
@@ -30,4 +53,19 @@ export const createInvocationData = (config, invocationDescriptor) => {
   };
 };
 
-export default {};
+export const getReportName = (reportItem) => {
+  const filename = reportItem && reportItem.get('filename');
+  let name = filename;
+
+  if (filename) {
+    const dotIndex = filename.lastIndexOf('.');
+
+    if (dotIndex >= 0) {
+      name = filename.substring(0, dotIndex);
+    }
+  }
+
+  return name;
+};
+
+export const getBatchName = batchItem => batchItem && batchItem.get('name');
