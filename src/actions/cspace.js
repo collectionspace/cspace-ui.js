@@ -37,7 +37,7 @@ export const setSession = (newSession) => {
 };
 
 export const readSystemInfo = () => dispatch =>
-  getSession().read('systeminfo')
+  getSession().read('systeminfo', { auth: false })
     .then(response => dispatch({
       type: READ_SYSTEM_INFO_FULFILLED,
       payload: response,
