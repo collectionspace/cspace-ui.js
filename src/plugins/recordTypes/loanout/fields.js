@@ -267,6 +267,46 @@ export default (configContext) => {
                 },
               },
             },
+            loanGroup: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansout_common.loanGroup.name',
+                    defaultMessage: 'Group',
+                  },
+                  fullName: {
+                    id: 'field.loansout_common.loanGroup.fullName',
+                    defaultMessage: 'Loan status group',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
+                },
+              },
+            },
+            loanIndividual: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.loansout_common.loanIndividual.name',
+                    defaultMessage: 'Individual',
+                  },
+                  fullName: {
+                    id: 'field.loansout_common.loanIndividual.fullName',
+                    defaultMessage: 'Loan status individual',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared',
+                  },
+                },
+              },
+            },
             loanStatus: {
               [config]: {
                 messages: defineMessages({
