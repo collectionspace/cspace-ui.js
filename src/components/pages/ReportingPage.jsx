@@ -166,7 +166,6 @@ export default class ReportingPage extends Component {
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;
-    let usedBy;
 
     console.log(normalizedCsid);
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
