@@ -14,6 +14,7 @@ describe('SubrecordEditor', function suite() {
   it('should render a RecordFormContainer', function test() {
     const config = {
       recordTypes: {
+        contact: {},
         person: {},
       },
     };
@@ -64,9 +65,50 @@ describe('SubrecordEditor', function suite() {
     recordFormContainer.props.formName.should.equal(formName);
   });
 
+  it('should render nothing if there is no config for the record type', function test() {
+    const config = {
+      recordTypes: {
+        contact: {},
+        person: {},
+      },
+    };
+
+    const recordType = 'foobar';
+    const vocabulary = 'foo';
+
+    const subrecordConfig = {
+      recordType,
+      vocabulary,
+    };
+
+    const csid = '1234';
+
+    const data = Immutable.fromJS({
+      document: {},
+    });
+
+    const formName = 'default';
+
+    const shallowRenderer = createRenderer();
+
+    const result = shallowRenderer.render(
+      <SubrecordEditor
+        config={config}
+        subrecordConfig={subrecordConfig}
+        csid={csid}
+        data={data}
+        formName={formName}
+      />);
+
+    const recordFormContainer = findAllWithType(result, RecordFormContainer);
+
+    recordFormContainer.length.should.equal(0);
+  });
+
   it('should render nothing if read permission does not exist for the record type', function test() {
     const config = {
       recordTypes: {
+        contact: {},
         person: {},
       },
     };
@@ -106,6 +148,7 @@ describe('SubrecordEditor', function suite() {
   it('should render a SubrecordDetachButton when showDetachButton is true and the data represents an existing record', function test() {
     const config = {
       recordTypes: {
+        contact: {},
         person: {},
       },
     };
@@ -157,6 +200,7 @@ describe('SubrecordEditor', function suite() {
   it('should not render a SubrecordDetachButton when the data represents a new record', function test() {
     const config = {
       recordTypes: {
+        contact: {},
         person: {},
       },
     };
