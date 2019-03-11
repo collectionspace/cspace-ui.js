@@ -62,13 +62,13 @@ export default class SubrecordEditor extends Component {
       vocabulary,
     } = subrecordConfig;
 
-    if (!canRead(recordType, perms)) {
-      return null;
-    }
-
     const recordTypeConfig = config.recordTypes[recordType];
 
     if (!recordTypeConfig) {
+      return null;
+    }
+
+    if (!canRead(recordType, perms)) {
       return null;
     }
 
