@@ -10,6 +10,8 @@ import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canCreate, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
+import InvocationEditor from '../invocable/InvocationEditor';
+
 
 const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
@@ -52,8 +54,10 @@ export default class ReportingPage extends Component {
 
     this.state = {
       searchDescriptor: getSearchDescriptor(),
+      currentItem: new Map(),
     }
   }
+
 
   filter(value) {
     // Implement logic where we change what the search bar searches for
@@ -90,14 +94,15 @@ export default class ReportingPage extends Component {
       perms,
     } = this.props;
 
-    // if (canCreate(recordType, perms)) {
-      const csid = item.get('csid');
 
-      history.replace(`/reporting/${recordType}/${csid}`);
-    // }
+    // TO DO: Add permission checks
+    const csid = item.get('csid');
+    history.replace(`/reporting/${recordType}/${csid}`);
 
-    // Prevent the default action.
-
+    // Change the state of the page so that we can access the item outside of this function
+    this.setState({
+      currentItem: item,
+    });
     return false;
   }
 
@@ -146,6 +151,7 @@ export default class ReportingPage extends Component {
     const {
       filterValue,
       searchDescriptor,
+      currentItem,
     } = this.state;
 
     const {
@@ -158,7 +164,7 @@ export default class ReportingPage extends Component {
       csid,
     } = match.params;
 
-    console.log(this.props);
+    // console.log(this.props);
 
     const normalizedCsid = (csid === 'new') ? '' : csid;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
@@ -167,7 +173,7 @@ export default class ReportingPage extends Component {
 
     let recordEditor;
 
-    console.log(normalizedCsid);
+    // console.log(config);
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
       // Don't allow creating or deleting.
 
@@ -189,6 +195,27 @@ export default class ReportingPage extends Component {
       );
     }
 
+    const messageId = 'message.id';
+
+    const message = {
+      id: messageId,
+      defaultMessage: 'Hello',
+    };
+
+    console.log("========");
+    console.log(this.state);
+    console.log("========");
+    let invocationEditor = ( 
+      <InvocationEditor
+        config={config}
+        // data={}
+        invocationItem={currentItem}
+        promptMessage={message}
+        type={recordType}
+        // createNewRecord={}
+      />
+      );
+
     return (
       <div className={styles.common}>
         <div>
@@ -209,6 +236,7 @@ export default class ReportingPage extends Component {
         </div>
         <div>
           {recordEditor}
+          {invocationEditor}
         </div>
       </div>
     );

@@ -67,7 +67,7 @@ function RootPage(props) {
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
-        <ProtectedRouteContainer path="/reporting" component={ReportingPage}/>
+        <ProtectedRouteContainer path="/reporting/:recordType?/:csid?" component={ReportingPage}/>
         <ProtectedRouteContainer path="/admin" component={AdminPageContainer} />
 
         <ProtectedRouteContainer
