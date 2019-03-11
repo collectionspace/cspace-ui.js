@@ -66,6 +66,12 @@ export default class SubrecordEditor extends Component {
       return null;
     }
 
+    const recordTypeConfig = config.recordTypes[recordType];
+
+    if (!recordTypeConfig) {
+      return null;
+    }
+
     const subrecordReadOnly = (
       readOnly ||
       !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms)) ||
@@ -85,6 +91,7 @@ export default class SubrecordEditor extends Component {
           <RecordFormContainer
             config={config}
             recordType={recordType}
+            recordTypeConfig={recordTypeConfig}
             vocabulary={vocabulary}
             csid={csid}
             data={data}
