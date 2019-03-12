@@ -6,7 +6,9 @@
 
 The CollectionSpace user interface for web browsers.
 
-Release 4.5 or later of the CollectionSpace Services API is required. This application is not compatible with releases 4.4 and earlier.
+Release 5.0 or later of the CollectionSpace server is required. This application is not compatible with releases 4.5 and earlier.
+
+Release 5.1 or later of the CollectionSpace server is recommended. See the release notes to use this application with earlier releases.
 
 ## Installation
 
