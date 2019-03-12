@@ -11,6 +11,7 @@ import { canCreate, disallowCreate, disallowDelete, disallowSoftDelete } from '.
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 import InvocationEditor from '../invocable/InvocationEditor';
+import ReportModal from '../invocable/ReportModal';
 
 
 const propTypes = {
@@ -34,11 +35,6 @@ const recordType = 'report';
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
   searchQuery: {
-      // as: {
-      //   path: 'ns2:reports_common/forDocTypes',
-      //   op: 'match', //
-      //   value: 'null',
-      // },
     size: 20,
   },
 });
@@ -191,31 +187,10 @@ export default class ReportingPage extends Component {
           perms={restrictedPerms}
           // onRecordReadComplete={this.handleRecordReadComplete}
           // onRecordSaved={this.handleRecordSaved}
+          invocationItem={currentItem}
         />
       );
     }
-
-    const messageId = 'message.id';
-
-    const message = {
-      id: messageId,
-      defaultMessage: 'Hello',
-    };
-
-    console.log("========");
-    console.log(this.state);
-    console.log("========");
-    let invocationEditor = ( 
-      <InvocationEditor
-        config={config}
-        // data={}
-        invocationItem={currentItem}
-        promptMessage={message}
-        type={recordType}
-        // createNewRecord={}
-      />
-      );
-
     return (
       <div className={styles.common}>
         <div>
@@ -231,12 +206,11 @@ export default class ReportingPage extends Component {
             showSearchButton={false}
             renderTableHeader={this.renderSearchBar}
             onItemClick={this.handleItemClick}
-            onSearchDescriptorChange={this.handleSearchDescriptorChange}
+            onSearchDescriptorChange={this.handleSearchDescriptorChange}          
           />
         </div>
         <div>
           {recordEditor}
-          {invocationEditor}
         </div>
       </div>
     );

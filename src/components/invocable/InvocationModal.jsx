@@ -33,7 +33,10 @@ export default class InvocationModal extends Component {
       runButtonClassName,
       onCancelButtonClick,
       onRunButtonClick,
+      type,
     } = this.props;
+
+    const isRunnable = type === 'report' || type === 'batch';
 
     return (
       <div>
@@ -43,6 +46,7 @@ export default class InvocationModal extends Component {
         />
         <RunButton
           className={runButtonClassName}
+          isRunnable={isRunnable}
           label={<FormattedMessage {...messages.run} />}
           onClick={onRunButtonClick}
         />
@@ -50,7 +54,7 @@ export default class InvocationModal extends Component {
     );
   }
 
-  render() {
+  render() {  
     const {
       config,
       isOpen,
@@ -60,6 +64,7 @@ export default class InvocationModal extends Component {
       type,
       onCloseButtonClick,
     } = this.props;
+
 
     if (!isOpen || !invocationItem) {
       return null;

@@ -17,6 +17,7 @@ const propTypes = {
   className: PropTypes.string,
   isRunning: PropTypes.bool,
   onClick: PropTypes.func,
+  isRunnable: PropTypes.bool,
 };
 
 export default function RunButton(props) {
@@ -24,7 +25,12 @@ export default function RunButton(props) {
     className,
     isRunning,
     onClick,
+    isRunnable,
   } = props;
+
+  if (!isRunnable) {
+    return null;
+  }
 
   return (
     <Button

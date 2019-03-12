@@ -8,8 +8,10 @@ import SaveButton from './SaveButton';
 import RevertButton from './RevertButton';
 import UndeprecateButton from './UndeprecateButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
+import RunButton from './RunButton';
 
 const propTypes = {
+  isRunnable: PropTypes.bool,
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isDeprecatable: PropTypes.bool,
@@ -26,10 +28,12 @@ const propTypes = {
   onRevertButtonClick: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
+  onRunButtonClick: PropTypes.func,
 };
 
 export default function RecordButtonBar(props) {
   const {
+    isRunnable,
     isCloneable,
     isDeletable,
     isDeprecatable,
@@ -46,12 +50,19 @@ export default function RecordButtonBar(props) {
     onRevertButtonClick,
     onSaveButtonClick,
     onSaveButtonErrorBadgeClick,
+    onRunButtonClick,
   } = props;
 
   const className = isReadPending ? styles.loading : styles.common;
 
   return (
     <div className={className}>
+      <RunButton
+        // className={}
+        isRunnable={isRunnable}
+        isRunning={false} // FIX ME: Currently hard coded
+        onClick={onRunButtonClick}
+      />
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}

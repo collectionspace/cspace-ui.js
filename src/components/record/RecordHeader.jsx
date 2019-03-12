@@ -38,6 +38,7 @@ export default function RecordHeader(props) {
     formName,
     isCloneable,
     isDeletable,
+    isRunnable,
     isDeprecatable,
     isUndeprecatable,
     isModified,
@@ -55,11 +56,13 @@ export default function RecordHeader(props) {
     onSaveButtonClick,
     onSaveButtonErrorBadgeClick,
     onUndeprecateButtonClick,
+    onRunButtonClick,
   } = props;
 
   return (
     <div className={styles.common}>
       <RecordButtonBar
+        isRunnable={isRunnable}
         isCloneable={isCloneable}
         isDeletable={isDeletable}
         isDeprecatable={isDeprecatable}
@@ -77,6 +80,7 @@ export default function RecordHeader(props) {
         onSaveButtonClick={onSaveButtonClick}
         onSaveButtonErrorBadgeClick={onSaveButtonErrorBadgeClick}
         onUndeprecateButtonClick={onUndeprecateButtonClick}
+        onRunButtonClick={onRunButtonClick}
       />
       <RecordFormSelector
         config={config}
