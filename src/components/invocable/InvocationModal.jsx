@@ -12,8 +12,8 @@ const propTypes = {
   isOpen: PropTypes.bool,
   isRecordModified: PropTypes.bool,
   invocationItem: PropTypes.instanceOf(Immutable.Map),
-  messages: PropTypes.objectOf(PropTypes.object),
-  runButtonClassName: PropTypes.string,
+  messages: PropTypes.objectOf(PropTypes.object), //
+  runButtonClassName: PropTypes.string, //
   type: PropTypes.oneOf(['report', 'batch']),
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
@@ -55,6 +55,8 @@ export default class InvocationModal extends Component {
   }
 
   render() {  
+
+
     const {
       config,
       isOpen,

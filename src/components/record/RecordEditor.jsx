@@ -19,6 +19,9 @@ import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 import InvocationEditor from '../invocable/InvocationEditor';
 // import ReportModal from '../invocable/ReportModal';
+import {
+  openReport,
+} from '../../actions/report';
 
 const propTypes = {
   config: PropTypes.object,
@@ -107,6 +110,7 @@ export default class RecordEditor extends Component {
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
     this.handleRecordFormSelectorCommit = this.handleRecordFormSelectorCommit.bind(this);
     this.handleUndeprecateButtonClick = this.handleUndeprecateButtonClick.bind(this);
+    this.handleModalRunButtonClick = this.handleModalRunButtonClick.bind(this);
     
     // Run button handler
     this.handleRunButtonClick = this.handleRunButtonClick.bind(this);
@@ -329,10 +333,26 @@ export default class RecordEditor extends Component {
 
   handleModalRunButtonClick() {
     // What to actually do when we click that button in the run button on the modal
-    console.log("Clicked the run button on the modal");
-    console.log("At this point, the report should actually be invoked and run");
-    console.log("but how to not repeat code...");
 
+    const recordType = 'report'; // TO DO: Fix me into the props
+    const {
+      config,
+      // recordType,
+      invocationItem,
+    } = this.props;
+
+    const csid = invocationItem.get('csid');
+    console.log(openReport);
+    if (openReport) {
+      openReport(invocationItem, config, recordType, csid)
+        .then(() => {
+          this.setState({
+            isModalOpen: false,
+          });
+        })
+        .catch(() => {});
+    }
+  
   }
 
   handleRunButtonClick() {
@@ -576,6 +596,7 @@ export default class RecordEditor extends Component {
         reportItem={invocationItem}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
+        onRunButtonClick={this.handleModalRunButtonClick}
       />
     );
   }

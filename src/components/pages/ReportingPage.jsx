@@ -10,8 +10,6 @@ import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canCreate, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
-import InvocationEditor from '../invocable/InvocationEditor';
-import ReportModal from '../invocable/ReportModal';
 
 
 const propTypes = {
@@ -50,7 +48,7 @@ export default class ReportingPage extends Component {
 
     this.state = {
       searchDescriptor: getSearchDescriptor(),
-      currentItem: new Map(),
+      isModalOpen: false,
     }
   }
 

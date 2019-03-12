@@ -106,9 +106,15 @@ export default class RecordReportPanel extends Component {
       openReport,
     } = this.props;
 
+    console.log(this.props);
+
     const {
       selectedItem,
     } = this.state;
+
+    console.log("======");
+    console.log(openReport);
+    console.log("======");
 
     if (openReport) {
       openReport(selectedItem, config, recordType, csid)
