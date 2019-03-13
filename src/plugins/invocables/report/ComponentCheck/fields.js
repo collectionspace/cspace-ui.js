@@ -21,16 +21,13 @@ export default (configContext) => {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.report.SystematicInventoryUI.Start Location.name',
+              id: 'field.report.ComponentCheck.Start Location.name',
               defaultMessage: 'Start location',
             },
           }),
           required: true,
           view: {
             type: TextInput,
-            // props: {
-            //   source: 'location/local',
-            // },
           },
         },
       },
@@ -38,16 +35,13 @@ export default (configContext) => {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.report.SystematicInventoryUI.End Location.name',
+              id: 'field.report.ComponentCheck.End Location.name',
               defaultMessage: 'End location',
             },
           }),
           required: true,
           view: {
             type: TextInput,
-            // props: {
-            //   source: 'location/local',
-            // },
           },
         },
       },

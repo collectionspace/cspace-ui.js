@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default (configContext) => {
   const {
+    // DatePickerInput
     CompoundInput,
     TextInput,
   } = configContext.inputComponents;
@@ -17,37 +18,33 @@ export default (configContext) => {
           type: CompoundInput,
         },
       },
-      'Start Location': {
+      'startdate-yyyy-mm-dd': {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.report.SystematicInventoryUI.Start Location.name',
-              defaultMessage: 'Start location',
+              id: 'field.report.ucbgDeadReportRange.startdate-yyyy-mm-dd.name',
+              defaultMessage: 'Start date',
             },
           }),
           required: true,
           view: {
             type: TextInput,
-            // props: {
-            //   source: 'location/local',
-            // },
+            // type: DatePickerInput
           },
         },
       },
-      'End Location': {
+      'enddate-yyyy-mm-dd': {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.report.SystematicInventoryUI.End Location.name',
-              defaultMessage: 'End location',
+              id: 'field.report.ucbgDeadReportRange.enddate-yyyy-mm-dd.name',
+              defaultMessage: 'End date',
             },
           }),
           required: true,
           view: {
             type: TextInput,
-            // props: {
-            //   source: 'location/local',
-            // },
+            // type: DatePickerInput
           },
         },
       },

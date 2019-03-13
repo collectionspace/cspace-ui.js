@@ -17,29 +17,12 @@ export default (configContext) => {
           type: CompoundInput,
         },
       },
-      'Start Location': {
+      genus: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.report.SystematicInventoryUI.Start Location.name',
-              defaultMessage: 'Start location',
-            },
-          }),
-          required: true,
-          view: {
-            type: TextInput,
-            // props: {
-            //   source: 'location/local',
-            // },
-          },
-        },
-      },
-      'End Location': {
-        [config]: {
-          messages: defineMessages({
-            name: {
-              id: 'field.report.SystematicInventoryUI.End Location.name',
-              defaultMessage: 'End location',
+              id: 'field.report.ucbgVoucherFamily.genus.name',
+              defaultMessage: 'Genus',
             },
           }),
           required: true,
