@@ -1,11 +1,8 @@
-.common {
-  width: 270px;
-}
-
 .common > a {
-  display: block;
+  display: inline-block;
 }
 
 .common > a > img {
+  max-height: 66px;
   max-width: 100%;
 }

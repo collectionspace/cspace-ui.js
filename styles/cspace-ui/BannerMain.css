@@ -18,6 +18,11 @@
   margin-bottom: 6px;
 }
 
+.common > :global(.cspace-ui-Logo--common) > a > img {
+  max-height: 44px;
+  object-fit: scale-down;
+}
+
 .common > fieldset {
   flex: 1 0 auto;
   margin: 0;
