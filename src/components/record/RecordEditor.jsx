@@ -18,7 +18,7 @@ import { isRecordDeprecated, isRecordImmutable } from '../../helpers/recordDataH
 import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 import InvocationEditor from '../invocable/InvocationEditor';
-// import ReportModal from '../invocable/ReportModal';
+
 import {
   openReport,
 } from '../../actions/report';
@@ -26,7 +26,7 @@ import {
 const propTypes = {
   config: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  invocationItem: PropTypes.instanceOf(Immutable.Map),
+  reportItem: PropTypes.instanceOf(Immutable.Map),
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   cloneCsid: PropTypes.string,
@@ -338,13 +338,13 @@ export default class RecordEditor extends Component {
     const {
       config,
       // recordType,
-      invocationItem,
+      reportItem,
     } = this.props;
 
-    const csid = invocationItem.get('csid');
+    const csid = reportItem.get('csid');
     console.log(openReport);
     if (openReport) {
-      openReport(invocationItem, config, recordType, csid)
+      openReport(reportItem, config, recordType, csid)
         .then(() => {
           this.setState({
             isModalOpen: false,
@@ -584,7 +584,7 @@ export default class RecordEditor extends Component {
     const {
       config,
       isModified,
-      invocationItem,
+      reportItem,
       openModalName,
     } = this.props;
 
@@ -593,7 +593,7 @@ export default class RecordEditor extends Component {
         config={config}
         isOpen={openModalName === ReportModal.modalName}
         isRecordModified={isModified}
-        reportItem={invocationItem}
+        reportItem={reportItem}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
         onRunButtonClick={this.handleModalRunButtonClick}

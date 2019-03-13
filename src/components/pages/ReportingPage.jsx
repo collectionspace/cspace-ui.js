@@ -185,7 +185,7 @@ export default class ReportingPage extends Component {
           perms={restrictedPerms}
           // onRecordReadComplete={this.handleRecordReadComplete}
           // onRecordSaved={this.handleRecordSaved}
-          invocationItem={currentItem}
+          reportItem={currentItem}
         />
       );
     }
