@@ -68,6 +68,7 @@ const propTypes = {
   onRecordReadComplete: PropTypes.func,
   onRecordDeleted: PropTypes.func,
   onRecordTransitioned: PropTypes.func,
+  openReport: PropTypes.func,
 };
 
 const defaultProps = {
@@ -332,27 +333,24 @@ export default class RecordEditor extends Component {
   }
 
   handleModalRunButtonClick() {
-    // What to actually do when we click that button in the run button on the modal
-
-    const recordType = 'report'; // TO DO: Fix me into the props
     const {
       config,
-      // recordType,
+      recordType,
+      openReport,
       reportItem,
+      closeModal,
+      csid,
     } = this.props;
 
-    const csid = reportItem.get('csid');
-    console.log(openReport);
     if (openReport) {
       openReport(reportItem, config, recordType, csid)
         .then(() => {
-          this.setState({
-            isModalOpen: false,
-          });
+          if (closeModal) {
+            closeModal(ReportModal.modalName)
+          }
         })
         .catch(() => {});
     }
-  
   }
 
   handleRunButtonClick() {

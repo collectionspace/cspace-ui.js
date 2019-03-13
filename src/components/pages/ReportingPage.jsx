@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
+import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
 import { OP_CONTAIN } from '../../constants/searchOperators';
-import VocabularyUsedByPanelContainer from '../../containers/admin/VocabularyUsedByPanelContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canCreate, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
+import TitleBar from '../sections/TitleBar';
 
+const messages = defineMessages({
+  title: {
+    id: 'adminPage.title',
+    defaultMessage: 'Reporting',
+  },
+});
 
 const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
@@ -158,16 +165,14 @@ export default class ReportingPage extends Component {
       csid,
     } = match.params;
 
-    // console.log(this.props);
-
     const normalizedCsid = (csid === 'new') ? '' : csid;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-    const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
+    const panelTitle = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
+    const title = <FormattedMessage {...messages.title} />;
 
     let recordEditor;
 
-    // console.log(config);
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
       // Don't allow creating or deleting.
 
@@ -183,14 +188,14 @@ export default class ReportingPage extends Component {
           csid={normalizedCsid}
           recordType={recordType}
           perms={restrictedPerms}
-          // onRecordReadComplete={this.handleRecordReadComplete}
-          // onRecordSaved={this.handleRecordSaved}
           reportItem={currentItem}
         />
       );
     }
     return (
-      <div className={styles.common}>
+      <div>
+        <TitleBar title={title} updateDocumentTitle/>
+        <div className={styles.common}>
         <div>
           <SearchPanelContainer
             config={config}
@@ -199,7 +204,7 @@ export default class ReportingPage extends Component {
             linkItems={false}
             name="ReportingPage"
             searchDescriptor={searchDescriptor}
-            title={title}
+            title={panelTitle}
             recordType={recordType}
             showSearchButton={false}
             renderTableHeader={this.renderSearchBar}
@@ -210,6 +215,7 @@ export default class ReportingPage extends Component {
         <div>
           {recordEditor}
         </div>
+      </div>
       </div>
     );
   }

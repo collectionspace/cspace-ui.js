@@ -43,7 +43,7 @@ export default function ReportModal(props) {
     reportItem,
     ...remainingProps
   } = props;
-  console.log(props);
+
   return (
     <InvocationModal
       invocationItem={reportItem}

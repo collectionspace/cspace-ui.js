@@ -9,6 +9,7 @@ import RevertButton from './RevertButton';
 import UndeprecateButton from './UndeprecateButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
 import RunButton from './RunButton';
+import runButtonStyles from '../../../styles/cspace-ui/RunReportButton.css';
 
 const propTypes = {
   isRunnable: PropTypes.bool,
@@ -58,9 +59,8 @@ export default function RecordButtonBar(props) {
   return (
     <div className={className}>
       <RunButton
-        // className={}
+        className={runButtonStyles.common}
         isRunnable={isRunnable}
-        isRunning={false} // FIX ME: Currently hard coded
         onClick={onRunButtonClick}
       />
       <SaveButton
