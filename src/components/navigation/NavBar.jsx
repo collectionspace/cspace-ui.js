@@ -52,7 +52,7 @@ export default function NavBar(props) {
         <li><NavLink to="/dashboard"><FormattedMessage {...messages.dashboard} /></NavLink></li>
         {createLink}
         <li><NavLink to="/search"><FormattedMessage {...messages.search} /></NavLink></li>
-        <li><NavLink to="/reporting"><FormattedMessage {...messages.reporting}/></NavLink></li>
+        <li><NavLink to="/reporting"><FormattedMessage {...messages.reporting} /></NavLink></li>
         {adminLink}
       </ul>
     </nav>

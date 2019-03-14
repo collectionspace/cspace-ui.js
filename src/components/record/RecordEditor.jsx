@@ -106,7 +106,7 @@ export default class RecordEditor extends Component {
     this.handleRecordFormSelectorCommit = this.handleRecordFormSelectorCommit.bind(this);
     this.handleUndeprecateButtonClick = this.handleUndeprecateButtonClick.bind(this);
     this.handleModalRunButtonClick = this.handleModalRunButtonClick.bind(this);
-    
+
     // Run button handler
     this.handleRunButtonClick = this.handleRunButtonClick.bind(this);
   }
@@ -340,7 +340,7 @@ export default class RecordEditor extends Component {
       openReport(reportItem, config, recordType, csid)
         .then(() => {
           if (closeModal) {
-            closeModal(ReportModal.modalName)
+            closeModal(ReportModal.modalName);
           }
         })
         .catch(() => {});
@@ -353,7 +353,7 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     if (openModal) {
-      openModal(ReportModal.modalName)
+      openModal(ReportModal.modalName);
     }
   }
 
@@ -510,7 +510,6 @@ export default class RecordEditor extends Component {
   }
 
   renderConfirmRecordDeleteModal() {
-    console.log("sup")
     const {
       config,
       csid,
@@ -682,7 +681,7 @@ export default class RecordEditor extends Component {
     const className = isSidebarOpen ? styles.normal : styles.full;
 
     return (
-      <form className={className} autoComplete="off">
+      <form className={className} autoComplete='off'>
         <Dock
           dockTop={dockTop}
           isSidebarOpen={isSidebarOpen}

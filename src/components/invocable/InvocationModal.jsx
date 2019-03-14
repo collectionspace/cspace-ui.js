@@ -6,7 +6,7 @@ import { Modal } from 'cspace-layout';
 import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
 import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
-import styles from 'import styles from ../../../styles/cspace-ui/InvocationModal.css';
+import styles from '../../../styles/cspace-ui/InvocationModal.css';
 
 const propTypes = {
   config: PropTypes.object,
@@ -37,8 +37,6 @@ export default class InvocationModal extends Component {
       type,
     } = this.props;
 
-    console.log(runButtonClassName);
-
     const isRunnable = type === 'report' || type === 'batch';
 
     return (
@@ -57,9 +55,7 @@ export default class InvocationModal extends Component {
     );
   }
 
-  render() {  
-
-
+  render() {
     const {
       config,
       isOpen,

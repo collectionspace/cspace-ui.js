@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { FormattedMessage } from 'react-intl';
-import { defineMessages } from 'react-intl';
+import { FormattedMessage, defineMessages } from 'react-intl';
 import get from 'lodash/get';
 import { OP_CONTAIN } from '../../constants/searchOperators';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { canCreate, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
+import { disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 import TitleBar from '../sections/TitleBar';
@@ -20,10 +19,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  data: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.object,
   match: PropTypes.object,
-  perms: PropTypes.instanceOf(Immutable.Map),
+  perms: PropTypes.instanceOf(Immutable.Mp),
   filterDelay: PropTypes.number,
 };
 
@@ -56,7 +54,7 @@ export default class ReportingPage extends Component {
     this.state = {
       searchDescriptor: getSearchDescriptor(),
       isModalOpen: false,
-    }
+    };
   }
 
 
@@ -67,7 +65,6 @@ export default class ReportingPage extends Component {
     } = this.state;
 
     const searchQuery = searchDescriptor.get('searchQuery');
-    
     let updatedSearchQuery;
 
     if (value) {
@@ -92,15 +89,12 @@ export default class ReportingPage extends Component {
   handleItemClick(item) {
     const {
       history,
-      perms,
     } = this.props;
 
-
-    // TO DO: Add permission checks
+    // Permissions are already handled, so we don't need to check if they can run this report
     const csid = item.get('csid');
     history.replace(`/reporting/${recordType}/${csid}`);
 
-    // Change the state of the page so that we can access the item outside of this function
     this.setState({
       currentItem: item,
     });
@@ -140,7 +134,10 @@ export default class ReportingPage extends Component {
     } = this.state;
 
     return (
-      <ReportingSearchBar value={filterValue} onChange={this.handleSearchBarChange}/>
+      <ReportingSearchBar
+        value={filterValue}
+        onChange={this.handleSearchBarChange}
+      />
     )
   }
 
@@ -195,7 +192,7 @@ export default class ReportingPage extends Component {
     }
     return (
       <div>
-        <TitleBar title={title} updateDocumentTitle/>
+        <TitleBar title={title} updateDocumentTitle />
         <div className={styles.common}>
         <div>
           <SearchPanelContainer

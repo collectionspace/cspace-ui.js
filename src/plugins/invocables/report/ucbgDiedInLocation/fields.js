@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     CompoundInput,
     AutocompleteInput,
-    TextInput,
   } = configContext.inputComponents;
 
   const {
@@ -32,7 +31,6 @@ export default (configContext) => {
             props: {
               source: 'location/local',
             },
-            // type: TextInput,
           },
         },
       },

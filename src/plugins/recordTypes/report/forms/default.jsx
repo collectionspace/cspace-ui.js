@@ -1,6 +1,5 @@
 import { defineMessages } from 'react-intl';
 
-
 const template = (configContext) => {
   const {
     React,
@@ -17,8 +16,8 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Col>
-        <Field name="name"/> 
-        <Field name="filename"/>
+        <Field name="name" />
+        <Field name="filename" />
       </Col>
     </Field>
   );

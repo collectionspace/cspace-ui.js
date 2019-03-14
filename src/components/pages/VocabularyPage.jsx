@@ -84,9 +84,7 @@ export default class VocabularyPage extends Component {
     } else {
       updatedSearchQuery = searchQuery.delete('as');
     }
-    console.log(updatedSearchQuery);
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
-    console.log(updatedSearchQuery);
 
     this.setState({
       filterValue: value,
