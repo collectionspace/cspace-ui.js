@@ -105,7 +105,7 @@
     "loglevel": "^1.6.1",
     "mocha": "^5.2.0",
     "moxios": "^0.3.0",
-    "nyc": "^11.5.0",
+    "nyc": "^13.3.0",
     "react-shallow-testutils": "^3.0.1",
     "react-test-renderer": "^15.6.2",
     "redux-mock-store": "^1.5.1",
