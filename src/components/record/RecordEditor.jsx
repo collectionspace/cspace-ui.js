@@ -681,7 +681,7 @@ export default class RecordEditor extends Component {
     const className = isSidebarOpen ? styles.normal : styles.full;
 
     return (
-      <form className={className} autoComplete='off'>
+      <form className={className} autoComplete="off">
         <Dock
           dockTop={dockTop}
           isSidebarOpen={isSidebarOpen}

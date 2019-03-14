@@ -39,25 +39,22 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
-              props: {
-                readOnly: true,
-              },
             },
           },
         },
-        filename: {
+        notes: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.reports_common.filename.name',
-                defaultMessage: 'File name',
+                id: 'field.reports_common.notes.name',
+                defaultMessage: 'Description',
               },
             }),
             view: {
               type: TextInput,
-              // props: {
-              //   readOnly: true,
-              // },
+              props: {
+                multiline: true,
+              },
             },
           },
         },
