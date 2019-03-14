@@ -323,6 +323,10 @@ export default (configContext) => {
                 }),
                 view: {
                   type: TextInput,
+                  props: {
+                    // Suppress Chrome autofill
+                    autoComplete: 'cspace-state',
+                  },
                 },
               },
             },
@@ -336,6 +340,10 @@ export default (configContext) => {
                 }),
                 view: {
                   type: TextInput,
+                  props: {
+                    // Suppress Chrome autofill
+                    autoComplete: 'cspace-postcode',
+                  },
                 },
               },
             },
@@ -350,6 +358,8 @@ export default (configContext) => {
                 view: {
                   type: OptionPickerInput,
                   props: {
+                    // Suppress Chrome autofill
+                    autoComplete: 'cspace-country',
                     source: 'addressCountries',
                   },
                 },

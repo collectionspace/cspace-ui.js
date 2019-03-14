@@ -105,6 +105,8 @@ export default (configContext) => {
             view: {
               type: AutocompleteInput,
               props: {
+                // Suppress Chrome autofill
+                autoComplete: 'cspace-state',
                 source: 'place/local,place/tgn',
               },
             },
@@ -120,6 +122,10 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
+              props: {
+                // Suppress Chrome autofill
+                autoComplete: 'cspace-postcode',
+              },
             },
           },
         },
@@ -134,6 +140,8 @@ export default (configContext) => {
             view: {
               type: AutocompleteInput,
               props: {
+                // Suppress Chrome autofill
+                autoComplete: 'cspace-country',
                 source: 'place/local,place/tgn',
               },
             },
