@@ -1,0 +1,7 @@
+.common :global(.cspace-layout-Modal--common) {
+  overflow: visible;
+}
+
+.common :global(.cspace-layout-Modal--common > div > div) {
+  overflow: visible;
+}

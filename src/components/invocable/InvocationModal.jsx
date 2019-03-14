@@ -6,6 +6,7 @@ import { Modal } from 'cspace-layout';
 import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
 import CancelButton from '../navigation/CancelButton';
 import RunButton from '../record/RunButton';
+import styles from 'import styles from ../../../styles/cspace-ui/InvocationModal.css';
 
 const propTypes = {
   config: PropTypes.object,
@@ -82,6 +83,7 @@ export default class InvocationModal extends Component {
 
     return (
       <Modal
+        className={styles.common}
         isOpen={isOpen}
         title={<h1>{invocationItem.get('name')}</h1>}
         closeButtonClassName="material-icons"

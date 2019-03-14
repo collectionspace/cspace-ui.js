@@ -55,9 +55,9 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
-              props: {
-                readOnly: true,
-              },
+              // props: {
+              //   readOnly: true,
+              // },
             },
           },
         },

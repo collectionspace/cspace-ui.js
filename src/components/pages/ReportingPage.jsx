@@ -178,6 +178,7 @@ export default class ReportingPage extends Component {
 
       let restrictedPerms = perms;
 
+      // Temporarily disallow deleting or creating records.
       restrictedPerms = disallowCreate(recordType, restrictedPerms);
       restrictedPerms = disallowDelete(recordType, restrictedPerms);
       restrictedPerms = disallowSoftDelete(recordType, restrictedPerms);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { defineMessages } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Prompt } from 'react-router';
 import Immutable from 'immutable';
@@ -17,11 +16,6 @@ import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/pe
 import { isRecordDeprecated, isRecordImmutable } from '../../helpers/recordDataHelpers';
 import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
-import InvocationEditor from '../invocable/InvocationEditor';
-
-import {
-  openReport,
-} from '../../actions/report';
 
 const propTypes = {
   config: PropTypes.object,
