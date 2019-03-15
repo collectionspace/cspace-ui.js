@@ -26,7 +26,7 @@
         [
           "istanbul", {
             "include": [
-              "src/**/*.(js|jsx)"
+              "src/**/*.+(js|jsx)"
             ]
           }
         ]
