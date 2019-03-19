@@ -135,7 +135,7 @@ const template = (configContext) => {
               </Field>
 
               <Field name="contentConcepts">
-                <Field name="contentConcept" label="" />
+                <Field name="contentConcept" />
               </Field>
 
               <Field name="contentDateGroup" />
@@ -158,7 +158,7 @@ const template = (configContext) => {
               </Field>
 
               <Field name="contentPersons">
-                <Field name="contentPerson" label="" />
+                <Field name="contentPerson" />
               </Field>
 
               <Field name="contentPlaces">
@@ -170,7 +170,7 @@ const template = (configContext) => {
               </Field>
 
               <Field name="contentOrganizations">
-                <Field name="contentOrganization" label="" />
+                <Field name="contentOrganization" />
               </Field>
 
               <Field name="contentEventNameGroupList">
