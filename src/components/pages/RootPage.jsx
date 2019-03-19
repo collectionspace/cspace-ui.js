@@ -14,6 +14,7 @@ import DashboardPage from './DashboardPage';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
+import ReportingPageContainer from '../../containers/pages/ReportingPageContainer'
 import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
 import ResetPasswordPage from './ResetPasswordPage';
 import SearchPageContainer from '../../containers/pages/SearchPageContainer';
@@ -21,7 +22,7 @@ import SearchResultPageContainer from '../../containers/pages/SearchResultPageCo
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
 import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
-import ReportingPage from './ReportingPage';
+
 
 const messages = defineMessages({
   title: {
@@ -67,7 +68,7 @@ function RootPage(props) {
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
-        <ProtectedRouteContainer path="/reporting/:recordType?/:csid?" component={ReportingPage}/>
+        <ProtectedRouteContainer path="/reporting/:recordType?/:csid?" component={ReportingPageContainer}/>
         <ProtectedRouteContainer path="/admin" component={AdminPageContainer} />
 
         <ProtectedRouteContainer

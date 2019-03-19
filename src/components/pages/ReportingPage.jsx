@@ -59,7 +59,6 @@ export default class ReportingPage extends Component {
 
 
   filter(value) {
-    // Implement logic where we change what the search bar searches for
     const {
       searchDescriptor,
     } = this.state;
@@ -68,7 +67,6 @@ export default class ReportingPage extends Component {
     let updatedSearchQuery;
 
     if (value) {
-      // If the value isn't null, look for those that have this specific value in the field we're looking for...
       updatedSearchQuery = searchQuery.set('as', Immutable.Map({
         value,
         op: OP_CONTAIN,
@@ -77,7 +75,7 @@ export default class ReportingPage extends Component {
     } else {
       updatedSearchQuery = searchQuery.delete('as');
     }
-    // Start at page 0
+
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
 
     this.setState({
@@ -162,6 +160,8 @@ export default class ReportingPage extends Component {
       csid,
     } = match.params;
 
+    console.log(this.props);
+
     const normalizedCsid = (csid === 'new') ? '' : csid;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
@@ -174,6 +174,9 @@ export default class ReportingPage extends Component {
       // Don't allow creating or deleting.
 
       let restrictedPerms = perms;
+
+      console.log(restrictedPerms);
+
 
       // Temporarily disallow deleting or creating records.
       restrictedPerms = disallowCreate(recordType, restrictedPerms);
