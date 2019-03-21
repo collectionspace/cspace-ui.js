@@ -571,7 +571,7 @@ export default class RecordEditor extends Component {
     );
   }
 
-  renderReportModal() {    
+  renderReportModal() {
     const {
       config,
       isModified,
@@ -580,7 +580,7 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     return (
-      <ReportModal 
+      <ReportModal
         config={config}
         isOpen={openModalName === ReportModal.modalName}
         isRecordModified={isModified}
@@ -611,7 +611,7 @@ export default class RecordEditor extends Component {
       vocabularyWorkflowState,
       checkDeletable,
     } = this.props;
-  
+
     const recordTypeConfig = config.recordTypes[recordType];
 
     if (!recordTypeConfig) {

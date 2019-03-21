@@ -10,6 +10,7 @@ const propTypes = {
   config: PropTypes.object,
   data: PropTypes.instanceOf(Immutable.Map),
   formName: PropTypes.string,
+  isRunnable: PropTypes.bool,
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isDeprecatable: PropTypes.bool,
@@ -29,6 +30,7 @@ const propTypes = {
   onSaveButtonClick: PropTypes.func,
   onSaveButtonErrorBadgeClick: PropTypes.func,
   onUndeprecateButtonClick: PropTypes.func,
+  onRunButtonClick: PropTypes.func,
 };
 
 export default function RecordHeader(props) {

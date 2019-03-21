@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -10,11 +12,10 @@ import { disallowCreate, disallowDelete, disallowSoftDelete } from '../../helper
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 import TitleBar from '../sections/TitleBar';
-import search from '../../reducers/search';
 
 const messages = defineMessages({
   title: {
-    id: 'adminPage.title',
+    id: 'reportingPage.title',
     defaultMessage: 'Reporting',
   },
 });
@@ -39,7 +40,7 @@ const recordType = 'report';
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
   searchQuery: {
-    'as': {
+    as: {
       value: 1,
       op: OP_EQ,
       path: 'reports_common/supportsParams',
@@ -73,20 +74,18 @@ export default class ReportingPage extends Component {
     let updatedSearchQuery;
 
     if (value) {
-      let asParameter = searchQuery.get('as');
-      let valueFilter = new Immutable.Map({
+      const baseReportFilter = searchQuery.get('as');
+      const valueFilter = new Immutable.Map({
         value,
         op: OP_CONTAIN,
         path: 'ns2:reports_common/name',
       });
 
       updatedSearchQuery = searchQuery.set('as', Immutable.Map({
-        value: [asParameter, valueFilter],
+        value: [baseReportFilter, valueFilter],
         op: OP_AND,
       }));
-
     } else {
-      // Only filter the parameter reports
       updatedSearchQuery = searchQuery.set('as', Immutable.Map({
         value: 1,
         op: OP_EQ,
@@ -134,7 +133,7 @@ export default class ReportingPage extends Component {
       }, filterDelay);
     } else {
       // if there is no filter
-      // only filter by the 
+      // only filter by the
       this.filter(value);
     }
   }
@@ -155,7 +154,7 @@ export default class ReportingPage extends Component {
         value={filterValue}
         onChange={this.handleSearchBarChange}
       />
-    )
+    );
   }
 
   render() {
@@ -179,8 +178,6 @@ export default class ReportingPage extends Component {
       csid,
     } = match.params;
 
-    console.log(this.props);
-
     const normalizedCsid = (csid === 'new') ? '' : csid;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
@@ -193,9 +190,6 @@ export default class ReportingPage extends Component {
       // Don't allow creating or deleting.
 
       let restrictedPerms = perms;
-
-      console.log(restrictedPerms);
-
 
       // Temporarily disallow deleting or creating records.
       restrictedPerms = disallowCreate(recordType, restrictedPerms);
@@ -216,7 +210,6 @@ export default class ReportingPage extends Component {
       <div>
         <TitleBar title={title} updateDocumentTitle />
         <div className={styles.common}>
-        <div>
           <SearchPanelContainer
             config={config}
             history={history}
@@ -229,13 +222,10 @@ export default class ReportingPage extends Component {
             showSearchButton={false}
             renderTableHeader={this.renderSearchBar}
             onItemClick={this.handleItemClick}
-            onSearchDescriptorChange={this.handleSearchDescriptorChange}          
+            onSearchDescriptorChange={this.handleSearchDescriptorChange}
           />
-        </div>
-        <div>
           {recordEditor}
         </div>
-      </div>
       </div>
     );
   }

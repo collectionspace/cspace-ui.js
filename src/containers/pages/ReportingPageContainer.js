@@ -19,7 +19,7 @@ const mapStateToProps = (state, ownProps) => {
     data,
     perms: getUserPerms(state),
   };
-}
+};
 
 export default connect(
   mapStateToProps,

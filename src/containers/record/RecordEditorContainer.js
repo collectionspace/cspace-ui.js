@@ -146,7 +146,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(checkForUses(config, recordType, vocabulary, csid)),
     checkForRoleUses: () =>
       dispatch(checkForRoleUses(csid)),
-    openReport: () => 
+    openReport: () =>
       dispatch(openReport(reportItem, config, recordType, csid)),
   };
 };

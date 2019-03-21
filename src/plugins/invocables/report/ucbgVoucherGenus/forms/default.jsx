@@ -11,8 +11,7 @@ const template = (configContext) => {
 
   return (
     <Field name="params">
-      <Field name="Start Location" />
-      <Field name="End Location" />
+      <Field name="genus" />
     </Field>
   );
 };

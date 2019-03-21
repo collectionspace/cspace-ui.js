@@ -14,7 +14,7 @@ import DashboardPage from './DashboardPage';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
-import ReportingPageContainer from '../../containers/pages/ReportingPageContainer'
+import ReportingPageContainer from '../../containers/pages/ReportingPageContainer';
 import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
 import ResetPasswordPage from './ResetPasswordPage';
 import SearchPageContainer from '../../containers/pages/SearchPageContainer';
@@ -68,7 +68,10 @@ function RootPage(props) {
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
-        <ProtectedRouteContainer path="/reporting/:recordType?/:csid?" component={ReportingPageContainer}/>
+        <ProtectedRouteContainer
+          path="/reporting/:recordType?/:csid?"
+          component={ReportingPageContainer}
+        />
         <ProtectedRouteContainer path="/admin" component={AdminPageContainer} />
 
         <ProtectedRouteContainer

@@ -10,7 +10,7 @@ const template = (configContext) => {
   } = configContext.recordComponents;
 
   return (
-    <Field name="document">
+    <Field name="params">
       <Field name="genus" />
     </Field>
   );

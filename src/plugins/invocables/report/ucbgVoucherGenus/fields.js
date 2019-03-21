@@ -17,12 +17,12 @@ export default (configContext) => {
           type: CompoundInput,
         },
       },
-      family: {
+      genus: {
         [config]: {
           messages: defineMessages({
             name: {
               id: 'field.report.ucbgVoucherGenus.family.name',
-              defaultMessage: 'Family',
+              defaultMessage: 'Genus',
             },
           }),
           required: true,
