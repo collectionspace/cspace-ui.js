@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { FormattedMessage, defineMessages } from 'react-intl';
 import get from 'lodash/get';
-import { OP_CONTAIN } from '../../constants/searchOperators';
+import { OP_CONTAIN, OP_EQ, OP_AND } from '../../constants/searchOperators';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
 import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 import TitleBar from '../sections/TitleBar';
+import search from '../../reducers/search';
 
 const messages = defineMessages({
   title: {
@@ -21,7 +22,7 @@ const messages = defineMessages({
 const propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
-  perms: PropTypes.instanceOf(Immutable.Mp),
+  perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
 };
 
@@ -38,6 +39,11 @@ const recordType = 'report';
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
   searchQuery: {
+    'as': {
+      value: 1,
+      op: OP_EQ,
+      path: 'reports_common/supportsParams',
+    },
     size: 20,
   },
 });
@@ -67,13 +73,25 @@ export default class ReportingPage extends Component {
     let updatedSearchQuery;
 
     if (value) {
-      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+      let asParameter = searchQuery.get('as');
+      let valueFilter = new Immutable.Map({
         value,
         op: OP_CONTAIN,
         path: 'ns2:reports_common/name',
+      });
+
+      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+        value: [asParameter, valueFilter],
+        op: OP_AND,
       }));
+
     } else {
-      updatedSearchQuery = searchQuery.delete('as');
+      // Only filter the parameter reports
+      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+        value: 1,
+        op: OP_EQ,
+        path: 'ns2:reports_common/supportsParams',
+      }));
     }
 
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
@@ -116,6 +134,7 @@ export default class ReportingPage extends Component {
       }, filterDelay);
     } else {
       // if there is no filter
+      // only filter by the 
       this.filter(value);
     }
   }
