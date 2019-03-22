@@ -9,9 +9,10 @@ import { OP_CONTAIN, OP_EQ, OP_AND } from '../../constants/searchOperators';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
-import ReportingSearchBar from '../reporting/ReportingSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 import TitleBar from '../sections/TitleBar';
+import ReportingSearchBar from '../invocable/ReportingSearchBar';
+
 
 const messages = defineMessages({
   title: {

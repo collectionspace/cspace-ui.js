@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, intlShape } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/AdminSearchBar.css';
+import styles from '../../../styles/cspace-ui/AdminSearchBar.css'; // FIX ME
 
 const { LineInput, MiniButton } = inputComponents;
 
