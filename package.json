@@ -39,7 +39,7 @@
     "lint": "eslint --ext .jsx,.js *.js src test examples",
     "prepare": "npm run clean && npm run build",
     "start": "cross-env NODE_ENV=test karma start",
-    "test": "cross-env NODE_ENV=test karma start --singleRun=true",
+    "test": "cross-env NODE_ENV=test karma start",
     "test-selenium": "wdio wdio.conf.js"
   },
   "dependencies": {

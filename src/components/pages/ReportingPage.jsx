@@ -76,18 +76,21 @@ export default class ReportingPage extends Component {
 
     if (value) {
       const baseReportFilter = searchQuery.get('as');
-      const valueFilter = new Immutable.Map({
+      const valueFilter = {
         value,
         op: OP_CONTAIN,
         path: 'ns2:reports_common/name',
-      });
+      };
 
-      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
-        value: [baseReportFilter, valueFilter],
+      updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
+        value: {
+          baseReportFilter, 
+          valueFilter
+        },
         op: OP_AND,
       }));
     } else {
-      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+      updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
         value: 1,
         op: OP_EQ,
         path: 'ns2:reports_common/supportsParams',

@@ -50,6 +50,7 @@ describe('RecordEditorContainer', function suite() {
   const authRecordType = 'person';
   const vocabulary = 'ulan';
   const data = Immutable.Map();
+  const reportRecordType = 'report';
 
   const recordTypeConfig = {
     serviceConfig: {
@@ -63,6 +64,14 @@ describe('RecordEditorContainer', function suite() {
     serviceConfig: {
       servicePath: 'urn:cspace:name(ulan)',
     },
+  };
+
+  const reportConfig = {
+    serviceConfig: {
+      servicePath: 'reports',
+    },
+    fields: {},
+    title: () => '',
   };
 
   const authRecordTypeConfig = {
@@ -80,6 +89,7 @@ describe('RecordEditorContainer', function suite() {
     recordTypes: {
       [recordType]: recordTypeConfig,
       [authRecordType]: authRecordTypeConfig,
+      [reportRecordType]: reportConfig,
     },
   };
 
@@ -569,4 +579,31 @@ describe('RecordEditorContainer', function suite() {
       }, 0);
     });
   });
+
+  // it('should connect openReport to openReport action creator', function test() {
+  //   const shallowRenderer = createRenderer();
+  //   const modalName = 'modalName';
+
+  //   shallowRenderer.render(
+  //     <RecordEditorContainer
+  //       config={config}
+  //       csid={csid}
+  //       recordType={recordType}
+  //     />, context);
+
+  //     const result = shallowRenderer.getRenderOutput();
+
+  //     result.props.openModal(modalName);
+
+  //     result.props.handleModalRunButtonClick();
+      
+  //     console.log();
+  //     actions[0].type.should.equal = OPEN_REPORT;
+
+
+
+
+      
+
+  // })
 });
