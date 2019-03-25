@@ -36,6 +36,7 @@ describe('RunButton', function suite() {
         />
       </IntlProvider>, this.container);
 
-    expect(this.container.firstElementChild).to.not.exist
+    // no-unused-expressions
+    chai.expect(this.container.firstElementChild).to.not.exist;
   });
 });
