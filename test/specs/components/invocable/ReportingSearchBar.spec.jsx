@@ -12,12 +12,12 @@ describe('ReportingSearchBar', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it ('should render as a div', function test() {
+  it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
         <ReportingSearchBar />
       </IntlProvider>, this.container);
-    
+
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
