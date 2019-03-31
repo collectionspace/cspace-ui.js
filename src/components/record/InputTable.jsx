@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import get from 'lodash/get';
 
 import {
-    components as inputComponents,
-    helpers as inputHelpers,
+  components as inputComponents,
+  helpers as inputHelpers,
 } from 'cspace-input';
 
 import {
@@ -58,6 +58,7 @@ const propTypes = {
 
 const contextTypes = {
   config: PropTypes.object,
+  intl: intlShape,
   recordType: PropTypes.string,
 };
 
@@ -69,6 +70,7 @@ export default function InputTable(props, context) {
 
   const {
     config,
+    intl,
     recordType,
   } = context;
 
@@ -83,10 +85,23 @@ export default function InputTable(props, context) {
     return (fieldConfig && renderFieldLabel(fieldConfig, input.props));
   };
 
+  const renderAriaLabel = (input) => {
+    const path = dataPathToFieldDescriptorPath(pathHelpers.getPath(input.props));
+    const field = get(fields, path);
+    const messages = get(field, [configKey, 'messages']);
+    const message = messages && (messages.fullName || messages.name);
+
+    return (message && intl.formatMessage(message));
+  };
+
   const tableLabel = renderTableLabel(recordTypeConfig, name);
 
   return (
-    <BaseInputTable label={tableLabel} renderLabel={renderLabel}>
+    <BaseInputTable
+      label={tableLabel}
+      renderLabel={renderLabel}
+      renderAriaLabel={renderAriaLabel}
+    >
       {children}
     </BaseInputTable>
   );

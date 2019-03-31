@@ -137,6 +137,39 @@ describe('InputTable', function suite() {
     this.container.textContent.should.equal('message for field.ageValue.name');
   });
 
+  it('should set the renderAriaLabel prop on the base InputTable', function test() {
+    const intl = {
+      formatDate: () => null,
+      formatTime: () => null,
+      formatRelative: () => null,
+      formatNumber: () => null,
+      formatPlural: () => null,
+      formatMessage: message => `formatted ${message.id}`,
+      formatHTMLMessage: () => null,
+      now: () => null,
+    };
+
+    const context = {
+      config,
+      intl,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InputTable name="age" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(BaseInputTable);
+    result.props.renderAriaLabel.should.be.a('function');
+
+    const childInput = <TestInput name="ageValue" />;
+
+    result.props.renderAriaLabel(childInput).should.equal('formatted field.ageValue.name');
+  });
+
   it('should set readOnly to true on field labels for child inputs that are configured as read only', function test() {
     const context = {
       config,
