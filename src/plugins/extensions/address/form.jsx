@@ -23,7 +23,6 @@ export default (configContext) => {
               <Field name="addressPlace1" />
               <Field name="addressPlace2" />
               <Field name="addressMunicipality" />
-
             </Col>
 
             <Col>

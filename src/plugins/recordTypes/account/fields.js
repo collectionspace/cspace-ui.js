@@ -90,7 +90,8 @@ export default (configContext) => {
           view: {
             type: TextInput,
             props: {
-              autoComplete: 'off',
+              // Suppress Chrome autofill
+              autoComplete: 'cspace-name',
             },
           },
         },
@@ -123,6 +124,10 @@ export default (configContext) => {
           },
           view: {
             type: TextInput,
+            props: {
+              // Suppress Chrome autofill
+              autoComplete: 'cspace-email',
+            },
           },
         },
       },
