@@ -64,7 +64,7 @@ const store = mockStore({
 });
 
 const perms = Immutable.fromJS({
-  vocabulary: {
+  report: {
     data: 'RUL',
   },
 });
@@ -200,46 +200,6 @@ describe('ReportingPage', function  suite() {
     // FIX ME: somehow check whether this exists? 
   });
 
-  it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', function test() {
-    const location = {
-      search: '',
-    };
-
-    const csid = '1234';
-
-    const match = {
-      params: {
-        csid,
-      },
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <ReportingPage location={location} match={match} />, context);
-
-    let result;
-
-    result = shallowRenderer.getRenderOutput();
-
-    const recordEditor = findWithType(result, RecordEditorContainer);
-
-    recordEditor.props.onRecordSaved();
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-
-        const searchPanel = findWithType(result, SearchPanelContainer);
-        const seqId = searchPanel.props.searchDescriptor.get('seqId');
-
-        Date.parse(seqId).should.be.closeTo(Date.now(), 500);
-
-        resolve();
-      }, 0);
-    });
-  });
-
   it('should only initially filter by whether the report allows parameters', function test() {
     const location = {
       search: '',
@@ -272,7 +232,7 @@ describe('ReportingPage', function  suite() {
         as: {
             value: 1,
             op: OP_EQ,
-            path: 'reports_common/supportsParams',
+            path: 'ns2:reports_common/supportsParams',
         },
         size: 20,
       },
@@ -314,7 +274,7 @@ describe('ReportingPage', function  suite() {
         as: {
             value: 1,
             op: OP_EQ,
-            path: 'reports_common/supportsParams',
+            path: 'ns2:reports_common/supportsParams',
         },
         size: 20,
       },
@@ -327,44 +287,25 @@ describe('ReportingPage', function  suite() {
         result = shallowRenderer.getRenderOutput();
         searchPanel = findWithType(result, SearchPanelContainer);
 
-        console.log("=========>v");
         searchPanel.should.not.equal(null);
-
-        console.log(searchPanel.props.searchDescriptor);
-
-        // const filterMap = Immutable.fromJS(searchPanel.props.searchDescriptor.getIn(['searchQuery', 'as', 'value'] ));
-
-        // const filterMapIter = filterMap.values();
-
-        // console.log(filterMap[0]);
-        // console.log(filterMap[1]);
-
-        // console.log(Array(filterMapIter.next())[0][0]);
-        // console.log(filterMapIter.next().get('value').get('value'));
-        // console.log(filterMapIter.next());
-
-
-        // LOG: [Map{size: 3, _root: ArrayMapNode{ownerID: ..., entries: ...}, __ownerID: undefined, __hash: undefined, __altered: false}, Map{size: 3, _root: ArrayMapNode{ownerID: ..., entries: ...}, __ownerID: undefined, __hash: undefined, __altered: false}]
-
-        // console.log(filterMap);
 
         const newDescriptor = Immutable.fromJS({
           recordType: 'report',
           searchQuery: {
             as: {
-              value: [
-                {
+              value: {
+                baseReportFilter: {
+                  value: 1,
+                  op: 'eq',
+                  path: 'ns2:reports_common/supportsParams',
+                },
+                valueFilter: {
                   value: 'searchval',
                   op: 'cont',
                   path: 'ns2:reports_common/name',
                 },
-                {
-                  value: 1,
-                  op: 'eq',
-                  path: 'reports_common/supportsParams',
-                },
-              ],
-              OP: OP_AND,
+              },
+              op: OP_AND,
             },
             size: 20,
             p: 0,
@@ -372,6 +313,190 @@ describe('ReportingPage', function  suite() {
         });
 
         newDescriptor.should.equal(searchPanel.props.searchDescriptor)
+        resolve();
+      }, 600);
+    });
+  });
+
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ReportingPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    // Check that initially the only filter is on supportsParams
+    searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+      recordType: 'report',
+      searchQuery: {
+        as: {
+            value: 1,
+            op: OP_EQ,
+            path: 'ns2:reports_common/supportsParams',
+        },
+        size: 20,
+      },
+    }));
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        searchBar.props.onChange('another searchval');
+
+        resolve();
+      }, 200);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'report',
+          searchQuery: {
+            as: {
+              value: 1,
+              op: OP_EQ,
+              path: 'ns2:reports_common/supportsParams',
+            },
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }))
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'report',
+          searchQuery: {
+            as: {
+              value: {
+                baseReportFilter: {
+                  value: 1,
+                  op: 'eq',
+                  path: 'ns2:reports_common/supportsParams',
+                },
+                valueFilter: {
+                  value: 'another searchval',
+                  op: 'cont',
+                  path: 'ns2:reports_common/name',
+                },
+              },
+              op: OP_AND,
+            },
+            size: 20,
+            p: 0,
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }));
+  });
+
+  it('should only filter by the supportsParams filter when the clear button is clicked', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ReportingPage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'report',
+          searchQuery: {
+            as: {
+              value: {
+                baseReportFilter: {
+                  value: 1,
+                  op: 'eq',
+                  path: 'ns2:reports_common/supportsParams',
+                },
+                valueFilter: {
+                  value: 'searchval',
+                  op: 'cont',
+                  path: 'ns2:reports_common/name',
+                },
+              },
+              op: OP_AND,
+            },
+            size: 20,
+            p: 0,
+          },
+        }));
+        
+        searchBar.props.onChange('');
+
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'report',
+          searchQuery: {
+            as: {
+                value: 1,
+                op: OP_EQ,
+                path: 'ns2:reports_common/supportsParams',
+            },
+            size: 20,
+            p: 0,
+          },
+        }));
+
         resolve();
       }, 600);
     });

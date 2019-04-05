@@ -44,7 +44,7 @@ const getSearchDescriptor = () => Immutable.fromJS({
     as: {
       value: 1,
       op: OP_EQ,
-      path: 'reports_common/supportsParams',
+      path: 'ns2:reports_common/supportsParams',
     },
     size: 20,
   },
@@ -136,8 +136,6 @@ export default class ReportingPage extends Component {
         this.filterTimer = null;
       }, filterDelay);
     } else {
-      // if there is no filter
-      // only filter by the
       this.filter(value);
     }
   }
