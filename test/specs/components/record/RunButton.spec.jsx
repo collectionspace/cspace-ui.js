@@ -26,7 +26,7 @@ describe('RunButton', function suite() {
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
 
-  it('should not render a button if the record type is not an invocable', function test() {
+  it('should not render a run button if the record type is not an invocable', function test() {
     const recordType = 'group';
 
     render(
@@ -36,7 +36,8 @@ describe('RunButton', function suite() {
         />
       </IntlProvider>, this.container);
 
-    // no-unused-expressions
+    /* eslint-disable */
     chai.expect(this.container.firstElementChild).to.not.exist;
+    /* eslint-enable */
   });
 });

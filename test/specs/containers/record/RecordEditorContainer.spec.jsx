@@ -580,25 +580,4 @@ describe('RecordEditorContainer', function suite() {
       }, 0);
     });
   });
-
-  it('should connect openReport to openReport action creator', function test() {
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <RecordEditorContainer
-        config={config}
-        csid="1234"
-        recordType={'report'}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-
-    try {
-      result.props.openReport();
-    } catch (error) {
-      const actions = store.getActions();
-
-      actions[0].should.have.property('type', OPEN_REPORT);
-    }
-  });
 });

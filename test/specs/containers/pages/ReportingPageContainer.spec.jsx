@@ -3,9 +3,9 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import ReportingPage from '../../../../src/components/pages/ReportingPage';
-import ReportingPageContainer from '../../../../src/containers/pages/ReportingPageContainer'
+import ReportingPageContainer from '../../../../src/containers/pages/ReportingPageContainer';
 
-chai.should()
+chai.should();
 
 const mockStore = configureMockStore();
 
@@ -46,10 +46,10 @@ describe('ReportingPageContainer', function suite() {
         }}
       />, context);
 
-      const result = shallowRenderer.getRenderOutput();
+    const result = shallowRenderer.getRenderOutput();
 
-      result.type.should.equal(ReportingPage);
-      result.props.should.have.property('data', data);
-      result.props.should.have.property('perms', perms);
+    result.type.should.equal(ReportingPage);
+    result.props.should.have.property('data', data);
+    result.props.should.have.property('perms', perms);
   });
 });

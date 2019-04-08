@@ -72,7 +72,7 @@ export default class VocabularyPage extends Component {
     } = this.state;
 
     const searchQuery = searchDescriptor.get('searchQuery');
-    // console.log(searchQuery);
+
     let updatedSearchQuery;
 
     if (value) {
@@ -84,6 +84,7 @@ export default class VocabularyPage extends Component {
     } else {
       updatedSearchQuery = searchQuery.delete('as');
     }
+
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
 
     this.setState({

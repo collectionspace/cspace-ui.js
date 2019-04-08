@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import { OP_CONTAIN, OP_EQ, OP_AND } from '../../constants/searchOperators';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
+import { disallowCreate, disallowDelete, disallowSoftDelete, canRead } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 import TitleBar from '../sections/TitleBar';
 import ReportingSearchBar from '../invocable/ReportingSearchBar';
@@ -84,8 +84,8 @@ export default class ReportingPage extends Component {
 
       updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
         value: {
-          baseReportFilter, 
-          valueFilter
+          baseReportFilter,
+          valueFilter,
         },
         op: OP_AND,
       }));
@@ -108,15 +108,19 @@ export default class ReportingPage extends Component {
   handleItemClick(item) {
     const {
       history,
+      perms,
     } = this.props;
 
     // Permissions are already handled, so we don't need to check if they can run this report
-    const csid = item.get('csid');
-    history.replace(`/reporting/${recordType}/${csid}`);
+    if (canRead(recordType, perms)) {
+      const csid = item.get('csid');
+      history.replace(`/reporting/${recordType}/${csid}`);
 
-    this.setState({
-      currentItem: item,
-    });
+      this.setState({
+        currentItem: item,
+      });
+    }
+
     return false;
   }
 

@@ -12,9 +12,7 @@ import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import { components as inputComponents } from 'cspace-input';
-
 import createTestContainer from '../../../helpers/createTestContainer';
-
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import RecordHeader from '../../../../src/components/record/RecordHeader';
@@ -23,7 +21,6 @@ import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmR
 import LockRecordModal from '../../../../src/components/record/LockRecordModal';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 import ReportModal from '../../../../src/components/invocable/ReportModal';
-ReportModal;
 
 const expect = chai.expect;
 
@@ -1414,5 +1411,6 @@ describe('RecordEditor', function suite() {
     const runButton = this.container.querySelector('button[name=run]');
 
     Simulate.click(runButton);
+    openModalName.should.equal(ReportModal.modalName);
   });
 });

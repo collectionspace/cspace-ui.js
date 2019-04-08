@@ -16,11 +16,8 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import ReportingPage from '../../../../src/components/pages/ReportingPage';
-import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
-import { OP_CONTAIN, OP_AND, OP_EQ } from '../../../../src/constants/searchOperators';
-OP_CONTAIN;
+import { OP_AND, OP_EQ } from '../../../../src/constants/searchOperators';
 
-SearchResultTableContainer
 const expect = chai.expect;
 
 chai.use(chaiImmutable);
@@ -38,7 +35,7 @@ const config = {
   recordTypes: {
     report: {
       forms: {
-        default: <div />
+        default: <div />,
       },
       fields: {},
       messages: {
@@ -75,7 +72,7 @@ const context = {
 };
 
 
-describe('ReportingPage', function  suite() {
+describe('ReportingPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -100,7 +97,7 @@ describe('ReportingPage', function  suite() {
         </StoreProvider>
       </IntlProvider>, this.container);
 
-  this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
   it('should render a record editor when a csid param exists in the match', function test() {
@@ -120,7 +117,7 @@ describe('ReportingPage', function  suite() {
 
     shallowRenderer.render(
       <ReportingPage location={location} match={match} />, context);
-    
+
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
 
@@ -196,8 +193,12 @@ describe('ReportingPage', function  suite() {
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
 
+    const itemCsid = 'abcd';
+
     searchPanel.should.not.equal(null);
-    // FIX ME: somehow check whether this exists? 
+    searchPanel.props.onItemClick(Immutable.Map({ csid: itemCsid })).should.equal(false);
+
+    expect(replacedLocation).to.equal(null);
   });
 
   it('should only initially filter by whether the report allows parameters', function test() {
@@ -218,11 +219,8 @@ describe('ReportingPage', function  suite() {
         perms={null}
       />, context);
 
-    let result;
-    let searchPanel;
-
-    result = shallowRenderer.getRenderOutput();
-    searchPanel = findWithType(result, SearchPanelContainer);
+    const result = shallowRenderer.getRenderOutput();
+    const searchPanel = findWithType(result, SearchPanelContainer);
 
     searchPanel.should.not.equal(null);
 
@@ -230,16 +228,16 @@ describe('ReportingPage', function  suite() {
       recordType: 'report',
       searchQuery: {
         as: {
-            value: 1,
-            op: OP_EQ,
-            path: 'ns2:reports_common/supportsParams',
+          value: 1,
+          op: OP_EQ,
+          path: 'ns2:reports_common/supportsParams',
         },
         size: 20,
       },
     }));
   });
 
-  it('should update the search descriptor when the search bar value is changed', function test()  {
+  it('should update the search descriptor when the search bar value is changed', function test() {
     const location = {
       search: '',
     };
@@ -272,9 +270,9 @@ describe('ReportingPage', function  suite() {
       recordType: 'report',
       searchQuery: {
         as: {
-            value: 1,
-            op: OP_EQ,
-            path: 'ns2:reports_common/supportsParams',
+          value: 1,
+          op: OP_EQ,
+          path: 'ns2:reports_common/supportsParams',
         },
         size: 20,
       },
@@ -312,7 +310,7 @@ describe('ReportingPage', function  suite() {
           },
         });
 
-        newDescriptor.should.equal(searchPanel.props.searchDescriptor)
+        newDescriptor.should.equal(searchPanel.props.searchDescriptor);
         resolve();
       }, 600);
     });
@@ -351,9 +349,9 @@ describe('ReportingPage', function  suite() {
       recordType: 'report',
       searchQuery: {
         as: {
-            value: 1,
-            op: OP_EQ,
-            path: 'ns2:reports_common/supportsParams',
+          value: 1,
+          op: OP_EQ,
+          path: 'ns2:reports_common/supportsParams',
         },
         size: 20,
       },
@@ -478,7 +476,7 @@ describe('ReportingPage', function  suite() {
             p: 0,
           },
         }));
-        
+
         searchBar.props.onChange('');
 
         result = shallowRenderer.getRenderOutput();
@@ -488,9 +486,9 @@ describe('ReportingPage', function  suite() {
           recordType: 'report',
           searchQuery: {
             as: {
-                value: 1,
-                op: OP_EQ,
-                path: 'ns2:reports_common/supportsParams',
+              value: 1,
+              op: OP_EQ,
+              path: 'ns2:reports_common/supportsParams',
             },
             size: 20,
             p: 0,
@@ -501,5 +499,4 @@ describe('ReportingPage', function  suite() {
       }, 600);
     });
   });
-
 });
