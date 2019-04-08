@@ -165,6 +165,7 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('checkForRelations').that.is.a('function');
     result.props.should.have.property('checkForUses').that.is.a('function');
     result.props.should.have.property('checkForRoleUses').that.is.a('function');
+    result.props.should.have.property('openReport').that.is.a('function');
   });
 
   it('should connect createNewRecord to createNewRecord action creator', function test() {
@@ -580,30 +581,24 @@ describe('RecordEditorContainer', function suite() {
     });
   });
 
-  // it('should connect openReport to openReport action creator', function test() {
-  //   const shallowRenderer = createRenderer();
-  //   const modalName = 'modalName';
+  it('should connect openReport to openReport action creator', function test() {
+    const shallowRenderer = createRenderer();
 
-  //   shallowRenderer.render(
-  //     <RecordEditorContainer
-  //       config={config}
-  //       csid={csid}
-  //       recordType={recordType}
-  //     />, context);
+    shallowRenderer.render(
+      <RecordEditorContainer
+        config={config}
+        csid="1234"
+        recordType={'report'}
+      />, context);
 
-  //     const result = shallowRenderer.getRenderOutput();
+    const result = shallowRenderer.getRenderOutput();
 
-  //     result.props.openModal(modalName);
+    try {
+      result.props.openReport();
+    } catch (error) {
+      const actions = store.getActions();
 
-  //     result.props.handleModalRunButtonClick();
-      
-  //     console.log();
-  //     actions[0].type.should.equal = OPEN_REPORT;
-
-
-
-
-      
-
-  // })
+      actions[0].should.have.property('type', OPEN_REPORT);
+    }
+  });
 });
