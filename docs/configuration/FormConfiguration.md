@@ -102,6 +102,6 @@ template: Object
 ```
 A React element that describes the form's rendering. This may be created with [JSX](https://reactjs.org/docs/introducing-jsx.html), or by writing the [equivalent JavaScript](https://reactjs.org/docs/introducing-jsx.html#jsx-represents-objects).
 
-The rendering for individual fields is described in (field configuration)[./FieldConfiguration.md]. The form template only determines the layout of fields: the order in which they appear, and how they're grouped into rows, columns, and panels. When the form is defined in a configurer function, React components are provided in the configuration context, under the `layoutComponents` and `recordComponents`. These components may be used to lay out the form:
+The rendering for individual fields is described in (field configuration)[./FieldConfiguration.md]. The form template only determines the layout of fields: the order in which they appear, and how they're grouped into rows, columns, and panels. When the form is defined in a configurer function, React components are provided in the configuration context, under the `layoutComponents` and `recordComponents`. These components may be used to lay out the form.
 
 Use a `Field` component to indicate that a field should be rendered, according to its view configuration. The `name` prop must correspond to the field name, as defined in the record type's field descriptor. `Field` tags must be nested in the same way as their corresponding field descriptors are nested in the record type's field descriptor.

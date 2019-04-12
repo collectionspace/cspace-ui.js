@@ -1,4 +1,4 @@
-# Adding support for a new record type
+# Adding a new core record type
 
 Support for a new record type may be added by implementing a record type plugin. The built-in record type plugins are located in the [src/plugins/recordTypes](../../../src/plugins/recordTypes) directory. Each subdirectory contains the code implementing a plugin for a record type.
 
