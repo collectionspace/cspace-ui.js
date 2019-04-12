@@ -13,3 +13,4 @@ Each of the following how-to guides shows configuration settings that may be add
 - [Modifying sign in screen text](SignInText.md)
 - [Changing a field label](FieldLabel.md)
 - [Reordering fields](ReorderingFields.md)
+- [Adding form templates](AddingTemplates.md)
