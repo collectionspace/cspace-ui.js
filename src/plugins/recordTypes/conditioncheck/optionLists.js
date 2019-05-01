@@ -126,6 +126,7 @@ export default {
     values: [
       'conservation',
       'damagedintransit',
+      'exhibition',
       'loanin',
       'newacquisition',
     ],
@@ -137,6 +138,10 @@ export default {
       damagedintransit: {
         id: 'option.conditionCheckReasons.damagedintransit',
         defaultMessage: 'damaged in transit',
+      },
+      exhibition: {
+        id: 'option.conditionCheckReasons.exhibition',
+        defaultMessage: 'exhibition',
       },
       loanin: {
         id: 'option.conditionCheckReasons.loanin',
