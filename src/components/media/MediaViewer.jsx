@@ -23,6 +23,15 @@ import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery-no
 const { MiniButton } = inputComponents;
 
 const renderItem = item => {
+  // item.imageSet.map((source, index) => (
+  //   <source
+  //     key={index}
+  //     media={source.media}
+  //     srcSet={source.srcSet}
+  //     type={source.type}
+  //   />
+  // ))
+  console.log('hi');
   return(
   <div className="image-gallery-image">
     <ImageContainer
@@ -36,45 +45,6 @@ const renderItem = item => {
   </div>
 )};
 
-const renderThumbInner = item => {
-  console.log(item.thumbnail);
-  // let onThumbnailError = this.props.onThumbnailError || this._handleImageError;
-
-  // return (
-  //   <div className='image-gallery-thumbnail-inner'>
-  //     <img
-  //       src={item.thumbnail}
-  //       alt={item.thumbnailAlt}
-  //       title={item.thumbnailTitle}
-  //       onError={onThumbnailError}
-  //     />
-  //     {item.thumbnailLabel &&
-  //       <div className='image-gallery-thumbnail-label'>
-  //         {item.thumbnailLabel}
-  //       </div>
-  //     }
-  //   </div>
-  // );
-  // console.log(this.getCurrentIndex());
-  // console.log("no here");
-  // console.log("====v");
-  // console.log(item);
-  // console.log("====^");
-return (
-
-  <div>
-    <ImageContainer
-      src={item.thumbnail}
-      alt={item.thumbnailAlt}
-      title={item.thumbnailTitle}
-      // onError={onThumbnailError}
-    />
-    <div className="image-gallery-thumbnail-label">
-      {item.thumbnailLabel}
-    </div>
-  </div>
-)
-};
 
 const renderLeftNav = (onClick, disabled) => (
   <MiniButton name="mediaViewerPrev" disabled={disabled} onClick={onClick}>&lt;</MiniButton>
@@ -104,6 +74,7 @@ export default class MediaViewer extends Component {
 
     this.handleImageGalleryClick = this.handleImageGalleryClick.bind(this);
     this.handleThumbnailClick = this.handleThumbnailClick.bind(this);
+    this.handleRenderThumbInner = this.handleRenderThumbInner.bind(this);
   }
 
   getPopupImagePath(blobCsid) {
@@ -120,6 +91,7 @@ export default class MediaViewer extends Component {
   }
 
   handleImageGalleryClick(event) {
+    console.log("HELLLOOO");
     const {
       target,
     } = event;
@@ -131,6 +103,48 @@ export default class MediaViewer extends Component {
         });
     }
   }
+
+  handleRenderThumbInner(item) {
+    console.log(item.thumbnail);
+    // console.log(this.props);
+    // console.log(index);
+    // let onThumbnailError = this.props.onThumbnailError;
+  
+    // return (
+    //   <div className='image-gallery-thumbnail-inner'>
+    //     <img
+    //       src={item.thumbnail}
+    //       alt={item.thumbnailAlt}
+    //       title={item.thumbnailTitle}
+    //       onError={onThumbnailError}
+    //     />
+    //     {item.thumbnailLabel &&
+    //       <div className='image-gallery-thumbnail-label'>
+    //         {item.thumbnailLabel}
+    //       </div>
+    //     }
+    //   </div>
+    // );
+    // console.log(this.getCurrentIndex());
+    // console.log("no here");
+    // console.log("====v");
+    // console.log(item);
+    // console.log("====^");
+    return (
+    
+      <div>
+        <ImageContainer
+          src={item.thumbnail}
+          alt={item.thumbnailAlt}
+          title={item.thumbnailTitle}
+          // onError={onThumbnailError}
+        />
+        <div className="image-gallery-thumbnail-label">
+          {item.thumbnailLabel}
+        </div>
+      </div>
+    )
+  };
 
   createGalleryImage(blobCsid) {
     const {
@@ -149,9 +163,13 @@ export default class MediaViewer extends Component {
   }
 
   handleThumbnailClick(event, index) {
-
+    // this.slideToIndex(index, event);
+    console.log(this);
+    console.log("here we gooo");
     console.log(event);
     console.log(index);
+    console.log("ther we went");
+    // renderThumbInner();
     // const getCurrentIndex()
     // ??
   }
@@ -216,7 +234,7 @@ export default class MediaViewer extends Component {
             showPlayButton={false}
             onClick={this.handleImageGalleryClick}
             renderItem={renderItem}
-            renderThumbInner={renderThumbInner}
+            renderThumbInner={this.handleRenderThumbInner}
             onThumbnailClick={this.handleThumbnailClick}
           />
         </div>
