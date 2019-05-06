@@ -73,7 +73,7 @@ export default class MediaViewer extends Component {
     super();
 
     this.handleImageGalleryClick = this.handleImageGalleryClick.bind(this);
-    this.handleThumbnailClick = this.handleThumbnailClick.bind(this);
+    // this.handleThumbnailClick = this.handleThumbnailClick.bind(this);
     this.handleRenderThumbInner = this.handleRenderThumbInner.bind(this);
   }
 
@@ -105,41 +105,15 @@ export default class MediaViewer extends Component {
   }
 
   handleRenderThumbInner(item) {
-    console.log(item.thumbnail);
-    // console.log(this.props);
-    // console.log(index);
-    // let onThumbnailError = this.props.onThumbnailError;
-  
-    // return (
-    //   <div className='image-gallery-thumbnail-inner'>
-    //     <img
-    //       src={item.thumbnail}
-    //       alt={item.thumbnailAlt}
-    //       title={item.thumbnailTitle}
-    //       onError={onThumbnailError}
-    //     />
-    //     {item.thumbnailLabel &&
-    //       <div className='image-gallery-thumbnail-label'>
-    //         {item.thumbnailLabel}
-    //       </div>
-    //     }
-    //   </div>
-    // );
-    // console.log(this.getCurrentIndex());
-    // console.log("no here");
-    // console.log("====v");
-    // console.log(item);
-    // console.log("====^");
     return (
-    
       <div>
         <ImageContainer
           src={item.thumbnail}
           alt={item.thumbnailAlt}
           title={item.thumbnailTitle}
-          // onError={onThumbnailError}
         />
-        <div className="image-gallery-thumbnail-label">
+        <div className="image-gallery-thumbnail-label" 
+             hidden={item.thumbnailLabel !== null} >
           {item.thumbnailLabel}
         </div>
       </div>
@@ -162,17 +136,17 @@ export default class MediaViewer extends Component {
     };
   }
 
-  handleThumbnailClick(event, index) {
-    // this.slideToIndex(index, event);
-    console.log(this);
-    console.log("here we gooo");
-    console.log(event);
-    console.log(index);
-    console.log("ther we went");
-    // renderThumbInner();
-    // const getCurrentIndex()
-    // ??
-  }
+  // handleThumbnailClick(event, index) {
+  //   // this.slideToIndex(index, event);
+  //   console.log(this);
+  //   console.log("here we gooo");
+  //   console.log(event);
+  //   console.log(index);
+  //   console.log("ther we went");
+  //   // renderThumbInner();
+  //   // const getCurrentIndex()
+  //   // ??
+  // }
 
   render() {
     const {
@@ -235,7 +209,7 @@ export default class MediaViewer extends Component {
             onClick={this.handleImageGalleryClick}
             renderItem={renderItem}
             renderThumbInner={this.handleRenderThumbInner}
-            onThumbnailClick={this.handleThumbnailClick}
+            // onThumbnailClick={this.handleThumbnailClick}
           />
         </div>
       );
