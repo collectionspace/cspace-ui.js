@@ -22,17 +22,7 @@ import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery-no
 
 const { MiniButton } = inputComponents;
 
-const renderItem = item => {
-  // item.imageSet.map((source, index) => (
-  //   <source
-  //     key={index}
-  //     media={source.media}
-  //     srcSet={source.srcSet}
-  //     type={source.type}
-  //   />
-  // ))
-  console.log('hi');
-  return(
+const renderItem = item => (
   <div className="image-gallery-image">
     <ImageContainer
       src={item.snapshot}
@@ -43,8 +33,21 @@ const renderItem = item => {
       data-csid={item.blobCsid}
     />
   </div>
-)};
+);
 
+const renderThumbInner = item => (
+  <div>
+    <ImageContainer
+      src={item.thumbnail}
+      alt={item.thumbnailAlt}
+      title={item.thumbnailTitle}
+    />
+    <div className="image-gallery-thumbnail-label" 
+         hidden={item.thumbnailLabel === undefined ? true : false}>
+      {item.thumbnailLabel}
+    </div>
+  </div>
+);
 
 const renderLeftNav = (onClick, disabled) => (
   <MiniButton name="mediaViewerPrev" disabled={disabled} onClick={onClick}>&lt;</MiniButton>
@@ -73,8 +76,6 @@ export default class MediaViewer extends Component {
     super();
 
     this.handleImageGalleryClick = this.handleImageGalleryClick.bind(this);
-    // this.handleThumbnailClick = this.handleThumbnailClick.bind(this);
-    this.handleRenderThumbInner = this.handleRenderThumbInner.bind(this);
   }
 
   getPopupImagePath(blobCsid) {
@@ -91,7 +92,6 @@ export default class MediaViewer extends Component {
   }
 
   handleImageGalleryClick(event) {
-    console.log("HELLLOOO");
     const {
       target,
     } = event;
@@ -103,22 +103,6 @@ export default class MediaViewer extends Component {
         });
     }
   }
-
-  handleRenderThumbInner(item) {
-    return (
-      <div>
-        <ImageContainer
-          src={item.thumbnail}
-          alt={item.thumbnailAlt}
-          title={item.thumbnailTitle}
-        />
-        <div className="image-gallery-thumbnail-label" 
-             hidden={item.thumbnailLabel !== null} >
-          {item.thumbnailLabel}
-        </div>
-      </div>
-    )
-  };
 
   createGalleryImage(blobCsid) {
     const {
@@ -135,18 +119,6 @@ export default class MediaViewer extends Component {
       thumbnail: getContentPath(config, 'blob', undefined, blobCsid, thumbnailSubresource),
     };
   }
-
-  // handleThumbnailClick(event, index) {
-  //   // this.slideToIndex(index, event);
-  //   console.log(this);
-  //   console.log("here we gooo");
-  //   console.log(event);
-  //   console.log(index);
-  //   console.log("ther we went");
-  //   // renderThumbInner();
-  //   // const getCurrentIndex()
-  //   // ??
-  // }
 
   render() {
     const {
@@ -198,9 +170,8 @@ export default class MediaViewer extends Component {
         <div className={styles.normal}>
           <ImageGallery
             items={images}
-            disableArrowKeys={false}
+            disableArrowKeys
             lazyLoad
-            autoPlay={false}
             renderLeftNav={renderLeftNav}
             renderRightNav={renderRightNav}
             showThumbnails={images.length > 1}
@@ -208,8 +179,7 @@ export default class MediaViewer extends Component {
             showPlayButton={false}
             onClick={this.handleImageGalleryClick}
             renderItem={renderItem}
-            renderThumbInner={this.handleRenderThumbInner}
-            // onThumbnailClick={this.handleThumbnailClick}
+            renderThumbInner={renderThumbInner}
           />
         </div>
       );
