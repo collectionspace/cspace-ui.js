@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(deleteFieldValue(recordTypeConfig, csid, path));
     },
     onSortInstances: (path, byField) => {
-      dispatch(sortFieldInstances(recordTypeConfig, csid, path, byField));
+      dispatch(sortFieldInstances(config, recordTypeConfig, csid, path, byField));
     },
   };
 };

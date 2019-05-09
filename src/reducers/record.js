@@ -143,10 +143,10 @@ const addFieldInstance = (state, action) => {
 
 const sortFieldInstances = (state, action) => {
   const {
+    config,
     csid,
     path,
     byField,
-    // recordTypeConfig,
   } = action.meta;
 
   const data = getCurrentData(state, csid);
@@ -161,7 +161,7 @@ const sortFieldInstances = (state, action) => {
   // TODO: Check for a custom sort comparator function in field config.
   // For now just use the default.
 
-  const comparator = undefined;
+  const comparator = (str1, str2) => str1.localeCompare(str2, config.locale);
 
   const sortedList = byField
     ? list.sortBy(item => item.get(byField), comparator)

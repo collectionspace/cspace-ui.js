@@ -935,10 +935,11 @@ export const addFieldInstance = (recordTypeConfig, csid, path, position) => (dis
     .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
 };
 
-export const sortFieldInstances = (recordTypeConfig, csid, path, byField) => (dispatch) => {
+export const sortFieldInstances = (config, recordTypeConfig, csid, path, byField) => (dispatch) => {
   dispatch({
     type: SORT_FIELD_INSTANCES,
     meta: {
+      config,
       csid,
       path,
       byField,

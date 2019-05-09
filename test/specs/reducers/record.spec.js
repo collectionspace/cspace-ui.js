@@ -218,6 +218,7 @@ describe('record reducer', function suite() {
         type: SORT_FIELD_INSTANCES,
         meta: {
           csid,
+          config: { locale: 'en-US' },
           path: ['foo', 'bar'],
         },
       });
@@ -243,6 +244,7 @@ describe('record reducer', function suite() {
         type: SORT_FIELD_INSTANCES,
         meta: {
           csid,
+          config: { locale: 'en-US' },
           path: ['placeList'],
           byField: 'name',
         },

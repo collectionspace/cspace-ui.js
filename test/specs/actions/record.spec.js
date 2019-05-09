@@ -2835,12 +2835,13 @@ describe('record action creator', function suite() {
         record: Immutable.Map(),
       });
 
+      const config = { locale: 'en-US' };
       const csid = '1234';
       const path = ['path', 'to', 'a', 'field'];
       const byField = 'subfield';
       const recordTypeConfig = {};
 
-      store.dispatch(sortFieldInstances(recordTypeConfig, csid, path, byField));
+      store.dispatch(sortFieldInstances(config, recordTypeConfig, csid, path, byField));
 
       return new Promise((resolve) => {
         window.setTimeout(() => {
@@ -2851,6 +2852,7 @@ describe('record action creator', function suite() {
           actions[0].should.deep.equal({
             type: SORT_FIELD_INSTANCES,
             meta: {
+              config,
               csid,
               path,
               byField,
