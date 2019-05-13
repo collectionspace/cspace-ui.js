@@ -35,7 +35,7 @@ const messages = defineMessages({
   },
   version: {
     id: 'footer.version',
-    defaultMessage: '{name} version {version}',
+    defaultMessage: 'UC Berkeley {name} version {version}',
   },
   notConnected: {
     id: 'footer.notConnected',
