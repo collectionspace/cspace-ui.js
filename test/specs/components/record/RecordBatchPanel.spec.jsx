@@ -6,9 +6,10 @@ import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import InvocationModalContainer
+  from '../../../../src/containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RecordBatchPanel from '../../../../src/components/record/RecordBatchPanel';
-import BatchModal from '../../../../src/components/invocable/BatchModal';
 
 const expect = chai.expect;
 
@@ -75,7 +76,7 @@ describe('RecordBatchPanel', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a div containing a search panel and a batch modal', function test() {
+  it('should render a div containing a search panel and an invocation modal', function test() {
     const csid = '1234';
     const recordType = 'group';
 
@@ -108,7 +109,7 @@ describe('RecordBatchPanel', function suite() {
       },
     }));
 
-    const modal = findWithType(result, BatchModal);
+    const modal = findWithType(result, InvocationModalContainer);
 
     modal.should.not.equal(null);
   });
@@ -214,7 +215,7 @@ describe('RecordBatchPanel', function suite() {
     }));
   });
 
-  it('should close the batch modal when the cancel button is clicked', function test() {
+  it('should close the invocation modal when the cancel button is clicked', function test() {
     const csid = '1234';
     const recordType = 'group';
 
@@ -242,19 +243,19 @@ describe('RecordBatchPanel', function suite() {
     }));
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(true);
 
     modal.props.onCancelButtonClick();
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should close the batch modal when the close button is clicked', function test() {
+  it('should close the invocation modal when the close button is clicked', function test() {
     const csid = '1234';
     const recordType = 'group';
 
@@ -282,30 +283,30 @@ describe('RecordBatchPanel', function suite() {
     }));
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(true);
 
     modal.props.onCloseButtonClick();
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should call run and close the modal when the run button is clicked in the batch modal and the selected batch job does not create new focus', function test() {
+  it('should call invoke and close the modal when the invoke button is clicked in the invocation modal and the selected batch job does not create new focus', function test() {
     const csid = '1234';
     const recordType = 'group';
 
-    let runConfig = null;
-    let runBatchItem = null;
-    let runInvocationDescriptor = null;
+    let invokeConfig = null;
+    let invokeBatchMetadata = null;
+    let invokeInvocationDescriptor = null;
 
-    const run = (configArg, batchItemArg, invocationDescriptorArg, onValidationSuccess) => {
-      runConfig = configArg;
-      runBatchItem = batchItemArg;
-      runInvocationDescriptor = invocationDescriptorArg;
+    const invoke = (configArg, batchMetadataArg, invocationDescriptorArg, onValidationSuccess) => {
+      invokeConfig = configArg;
+      invokeBatchMetadata = batchMetadataArg;
+      invokeInvocationDescriptor = invocationDescriptorArg;
 
       onValidationSuccess();
 
@@ -321,33 +322,42 @@ describe('RecordBatchPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-        run={run}
+        invoke={invoke}
       />);
 
     let result;
     let modal;
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     const searchPanel = findWithType(result, SearchPanelContainer);
 
-    const selectedBatchItem = Immutable.Map({
-      csid: 'abcd',
+    searchPanel.props.onItemClick();
+
+    const batchMetadata = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: '/batch/abcd',
+        },
+      },
     });
 
-    searchPanel.props.onItemClick(selectedBatchItem);
+    const invocationDescriptor = {
+      csid,
+      recordType,
+    };
 
-    modal.props.onRunButtonClick();
+    modal.props.onInvokeButtonClick(batchMetadata, invocationDescriptor);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        runConfig.should.equal(config);
-        runBatchItem.should.equal(selectedBatchItem);
-        runInvocationDescriptor.should.deep.equal({ csid, recordType });
+        invokeConfig.should.equal(config);
+        invokeBatchMetadata.should.equal(batchMetadata);
+        invokeInvocationDescriptor.should.equal(invocationDescriptor);
 
         result = shallowRenderer.getRenderOutput();
-        modal = findWithType(result, BatchModal);
+        modal = findWithType(result, InvocationModalContainer);
 
         modal.props.isOpen.should.equal(false);
 
@@ -356,25 +366,25 @@ describe('RecordBatchPanel', function suite() {
     });
   });
 
-  it('should call run and set isRunning to true when the run button is clicked in the batch modal and the selected batch job creates new focus', function test() {
+  it('should call invoke and set isRunning to true when the invoke button is clicked in the invocation modal and the selected batch job creates new focus', function test() {
     const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
-    let runConfig = null;
-    let runBatchItem = null;
-    let runInvocationDescriptor = null;
+    let invokeConfig = null;
+    let invokeBatchMetadata = null;
+    let invokeInvocationDescriptor = null;
 
-    const run = (configArg, batchItemArg, invocationDescriptorArg, onValidationSuccess) => {
-      runConfig = configArg;
-      runBatchItem = batchItemArg;
-      runInvocationDescriptor = invocationDescriptorArg;
+    const invoke = (configArg, batchMetadataArg, invocationDescriptorArg, onValidationSuccess) => {
+      invokeConfig = configArg;
+      invokeBatchMetadata = batchMetadataArg;
+      invokeInvocationDescriptor = invocationDescriptorArg;
 
       onValidationSuccess();
 
       const result = shallowRenderer.getRenderOutput();
-      const modal = findWithType(result, BatchModal);
+      const modal = findWithType(result, InvocationModalContainer);
 
       modal.props.isOpen.should.equal(true);
       modal.props.isRunning.should.equal(true);
@@ -389,34 +399,45 @@ describe('RecordBatchPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-        run={run}
+        invoke={invoke}
       />);
 
     let result;
     let modal;
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     const searchPanel = findWithType(result, SearchPanelContainer);
 
-    const selectedBatchItem = Immutable.Map({
-      csid: 'abcd',
-      createsNewFocus: 'true',
+    const batchMetadata = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: '/batch/abcd',
+        },
+        'ns2:batch_common': {
+          createsNewFocus: 'true',
+        },
+      },
     });
 
-    searchPanel.props.onItemClick(selectedBatchItem);
+    const invocationDescriptor = {
+      csid,
+      recordType,
+    };
 
-    modal.props.onRunButtonClick();
+    searchPanel.props.onItemClick();
+
+    modal.props.onInvokeButtonClick(batchMetadata, invocationDescriptor);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        runConfig.should.equal(config);
-        runBatchItem.should.equal(selectedBatchItem);
-        runInvocationDescriptor.should.deep.equal({ csid, recordType });
+        invokeConfig.should.equal(config);
+        invokeBatchMetadata.should.equal(batchMetadata);
+        invokeInvocationDescriptor.should.equal(invocationDescriptor);
 
         result = shallowRenderer.getRenderOutput();
-        modal = findWithType(result, BatchModal);
+        modal = findWithType(result, InvocationModalContainer);
 
         modal.props.isOpen.should.equal(false);
         modal.props.isRunning.should.equal(false);
@@ -430,7 +451,7 @@ describe('RecordBatchPanel', function suite() {
     const csid = '1234';
     const recordType = 'group';
 
-    const run = () => Promise.resolve({
+    const invoke = () => Promise.resolve({
       data: {
         'ns2:invocationResults': {
           primaryURICreated: '/collectionobjects/8888',
@@ -456,30 +477,41 @@ describe('RecordBatchPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-        run={run}
+        invoke={invoke}
       />);
 
     let result;
     let modal;
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, BatchModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     const searchPanel = findWithType(result, SearchPanelContainer);
 
-    const selectedBatchItem = Immutable.Map({
-      csid: 'abcd',
-      createsNewFocus: 'true',
+    const batchMetadata = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: '/batch/abcd',
+        },
+        'ns2:batch_common': {
+          createsNewFocus: 'true',
+        },
+      },
     });
 
-    searchPanel.props.onItemClick(selectedBatchItem);
+    const invocationDescriptor = {
+      csid,
+      recordType,
+    };
 
-    modal.props.onRunButtonClick();
+    searchPanel.props.onItemClick();
+
+    modal.props.onInvokeButtonClick(batchMetadata, invocationDescriptor);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
         result = shallowRenderer.getRenderOutput();
-        modal = findWithType(result, BatchModal);
+        modal = findWithType(result, InvocationModalContainer);
 
         modal.props.isOpen.should.equal(false);
         modal.props.isRunning.should.equal(false);

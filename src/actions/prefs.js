@@ -8,6 +8,7 @@ import { getStickyFieldValues } from '../helpers/recordDataHelpers';
 export const PREFS_LOADED = 'PREFS_LOADED';
 export const COLLAPSE_PANEL = 'COLLAPSE_PANEL';
 export const SET_ADMIN_TAB = 'SET_ADMIN_TAB';
+export const SET_TOOL_TAB = 'SET_TOOL_TAB';
 export const SET_RECORD_BROWSER_NAV_BAR_ITEMS = 'SET_RECORD_BROWSER_NAV_BAR_ITEMS';
 export const SET_SEARCH_PAGE_RECORD_TYPE = 'SET_SEARCH_PAGE_RECORD_TYPE';
 export const SET_SEARCH_PAGE_VOCABULARY = 'SET_SEARCH_PAGE_VOCABULARY';
@@ -34,6 +35,11 @@ export const collapsePanel = (recordType, name, collapsed) => ({
 
 export const setAdminTab = tabName => ({
   type: SET_ADMIN_TAB,
+  payload: tabName,
+});
+
+export const setToolTab = tabName => ({
+  type: SET_TOOL_TAB,
   payload: tabName,
 });
 

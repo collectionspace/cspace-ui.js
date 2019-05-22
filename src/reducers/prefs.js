@@ -7,6 +7,7 @@ import {
   PREFS_LOADED,
   COLLAPSE_PANEL,
   SET_ADMIN_TAB,
+  SET_TOOL_TAB,
   SET_RECORD_BROWSER_NAV_BAR_ITEMS,
   SET_SEARCH_PAGE_RECORD_TYPE,
   SET_SEARCH_PAGE_VOCABULARY,
@@ -55,6 +56,8 @@ export default (state = Immutable.Map(), action) => {
       );
     case SET_ADMIN_TAB:
       return state.set('adminTab', action.payload);
+    case SET_TOOL_TAB:
+      return state.set('toolTab', action.payload);
     case SET_RECORD_BROWSER_NAV_BAR_ITEMS:
       return state.setIn(
         ['recordBrowserNavBarItems', action.meta.recordType], action.payload
@@ -135,6 +138,9 @@ export const getUploadType = state =>
 
 export const getAdminTab = state =>
   state.get('adminTab');
+
+export const getToolTab = state =>
+  state.get('toolTab');
 
 export const isRecordSidebarOpen = state => state.get('recordSidebarOpen');
 

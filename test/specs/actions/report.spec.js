@@ -42,6 +42,10 @@ const config = {
         objectName: 'Group',
       },
     },
+    report: {
+      invocableName: data =>
+        data.getIn(['document', 'ns2:reports_common', 'filename']),
+    },
   },
 };
 
@@ -67,7 +71,7 @@ describe('report action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should invoke a report for a single csid', function test() {
+    it('should invoke a report in single mode', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -80,6 +84,7 @@ describe('report action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
@@ -101,7 +106,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should invoke a report for list csids', function test() {
+    it('should invoke a report in list mode', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -116,6 +121,7 @@ describe('report action creator', function suite() {
         csid: [
           recordCsid,
         ],
+        mode: 'list',
       };
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
@@ -141,7 +147,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should invoke a report for no csid', function test() {
+    it('should invoke a report in nocontext mode', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -152,6 +158,7 @@ describe('report action creator', function suite() {
 
       const invocationDescriptor = {
         recordType,
+        mode: 'nocontext',
       };
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
@@ -175,12 +182,8 @@ describe('report action creator', function suite() {
     it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', function test() {
       moxios.wait(() => {
         moxios.requests.mostRecent().respondWith({
-          status: 200,
+          status: 400,
           response: {},
-        }).then(() => {
-          moxios.requests.mostRecent().respondWith({
-            status: 400,
-          });
         });
       });
 
@@ -189,6 +192,7 @@ describe('report action creator', function suite() {
 
       const invocationDescriptor = {
         recordType,
+        mode: 'nocontext',
       };
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
@@ -237,10 +241,22 @@ describe('report action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const reportItem = Immutable.Map({
-        filename: 'report.jrxml',
-        csid: reportCsid,
+      const reportMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/report/${reportCsid}`,
+          },
+          'ns2:reports_common': {
+            filename: 'report',
+          },
+        },
       });
+
+      const invocationDescriptor = {
+        recordType,
+        csid: recordCsid,
+        mode: 'single',
+      };
 
       const savedWindowOpen = window.open;
 
@@ -250,9 +266,9 @@ describe('report action creator', function suite() {
         openedPath = path;
       };
 
-      return store.dispatch(openReport(reportItem, config, recordType, recordCsid))
+      return store.dispatch(openReport(config, reportMetadata, invocationDescriptor))
         .then(() => {
-          openedPath.should.equal(`/report/${reportCsid}?csid=${recordCsid}&recordType=${recordType}`);
+          openedPath.should.equal(`/report/${reportCsid}?mode=single&csid=${recordCsid}&recordType=${recordType}`);
 
           window.open = savedWindowOpen;
         });
@@ -263,10 +279,22 @@ describe('report action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const reportItem = Immutable.Map({
-        filename: 'paramReport',
-        csid: reportCsid,
+      const reportMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/report/${reportCsid}`,
+          },
+          'ns2:reports_common': {
+            filename: 'paramReport',
+          },
+        },
       });
+
+      const invocationDescriptor = {
+        recordType,
+        csid: recordCsid,
+        mode: 'single',
+      };
 
       const savedWindowOpen = window.open;
 
@@ -276,13 +304,13 @@ describe('report action creator', function suite() {
         openedPath = path;
       };
 
-      return store.dispatch(openReport(reportItem, config, recordType, recordCsid))
+      return store.dispatch(openReport(config, reportMetadata, invocationDescriptor))
         .then(() => {
           const expectedParams = qs.stringify({
             params: JSON.stringify(params),
           });
 
-          openedPath.should.equal(`/report/${reportCsid}?csid=${recordCsid}&recordType=${recordType}&${expectedParams}`);
+          openedPath.should.equal(`/report/${reportCsid}?mode=single&csid=${recordCsid}&recordType=${recordType}&${expectedParams}`);
 
           window.open = savedWindowOpen;
         });
@@ -315,10 +343,22 @@ describe('report action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const reportItem = Immutable.Map({
-        filename: 'paramReport',
-        csid: reportCsid,
+      const reportMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/report/${reportCsid}`,
+          },
+          'ns2:reports_common': {
+            filename: 'paramReport',
+          },
+        },
       });
+
+      const invocationDescriptor = {
+        recordType,
+        csid: recordCsid,
+        mode: 'single',
+      };
 
       const savedWindowOpen = window.open;
 
@@ -328,7 +368,7 @@ describe('report action creator', function suite() {
         openedPath = path;
       };
 
-      return invalidDataStore.dispatch(openReport(reportItem, config, recordType, recordCsid))
+      return invalidDataStore.dispatch(openReport(config, reportMetadata, invocationDescriptor))
         .then(() => {
           assert.fail('dispatch should be rejected');
         })

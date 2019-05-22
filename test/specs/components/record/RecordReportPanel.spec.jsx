@@ -6,9 +6,9 @@ import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RecordReportPanel from '../../../../src/components/record/RecordReportPanel';
-import ReportModal from '../../../../src/components/invocable/ReportModal';
 
 const expect = chai.expect;
 
@@ -75,7 +75,7 @@ describe('RecordReportPanel', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a div containing a search panel and a report modal', function test() {
+  it('should render a div containing a search panel and an invocation modal', function test() {
     const csid = '1234';
     const recordType = 'group';
 
@@ -108,7 +108,7 @@ describe('RecordReportPanel', function suite() {
       },
     }));
 
-    const modal = findWithType(result, ReportModal);
+    const modal = findWithType(result, InvocationModalContainer);
 
     modal.should.not.equal(null);
   });
@@ -214,7 +214,7 @@ describe('RecordReportPanel', function suite() {
     }));
   });
 
-  it('should close the report modal when the cancel button is clicked', function test() {
+  it('should close the invocation modal when the cancel button is clicked', function test() {
     const csid = '1234';
     const recordType = 'group';
 
@@ -242,19 +242,19 @@ describe('RecordReportPanel', function suite() {
     }));
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, ReportModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(true);
 
     modal.props.onCancelButtonClick();
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, ReportModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should close the report modal when the close button is clicked', function test() {
+  it('should close the invocation modal when the close button is clicked', function test() {
     const csid = '1234';
     const recordType = 'group';
 
@@ -282,32 +282,30 @@ describe('RecordReportPanel', function suite() {
     }));
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, ReportModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(true);
 
     modal.props.onCloseButtonClick();
 
     result = shallowRenderer.getRenderOutput();
-    modal = findWithType(result, ReportModal);
+    modal = findWithType(result, InvocationModalContainer);
 
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should call openReport when the run button is clicked in the report modal', function test() {
+  it('should call openReport when the invoke button is clicked in the invocation modal', function test() {
     const csid = '1234';
     const recordType = 'group';
 
-    let openedItem = null;
     let openedConfig = null;
-    let openedRecordType = null;
-    let openedCsid = null;
+    let openedReportMetadata = null;
+    let openedInvocationDescriptor = null;
 
-    const openReport = (selectedItemArg, configArg, recordTypeArg, csidArg) => {
-      openedItem = selectedItemArg;
+    const openReport = (configArg, reportMetadataArg, invocationDescriptorArg) => {
       openedConfig = configArg;
-      openedRecordType = recordTypeArg;
-      openedCsid = csidArg;
+      openedReportMetadata = reportMetadataArg;
+      openedInvocationDescriptor = invocationDescriptorArg;
 
       return Promise.resolve();
     };
@@ -326,7 +324,7 @@ describe('RecordReportPanel', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
-    const modal = findWithType(result, ReportModal);
+    const modal = findWithType(result, InvocationModalContainer);
 
     const selectedReportCsid = 'abcd';
 
@@ -334,15 +332,25 @@ describe('RecordReportPanel', function suite() {
       csid: selectedReportCsid,
     }));
 
-    modal.props.onRunButtonClick();
+    const reportMetadata = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: `/reports/${selectedReportCsid}`,
+        },
+      },
+    });
 
-    openedItem.should.equal(Immutable.Map({
-      csid: selectedReportCsid,
-    }));
+    const invocationDescriptor = {
+      csid,
+      recordType,
+      mode: 'single',
+    };
+
+    modal.props.onInvokeButtonClick(reportMetadata, invocationDescriptor);
 
     openedConfig.should.equal(config);
-    openedRecordType.should.equal(recordType);
-    openedCsid.should.equal(csid);
+    openedReportMetadata.should.equal(reportMetadata);
+    openedInvocationDescriptor.should.equal(invocationDescriptor);
   });
 
   it('should update the search panel when it changes the search descriptor', function test() {

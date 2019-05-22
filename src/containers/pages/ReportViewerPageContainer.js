@@ -9,14 +9,16 @@ import {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   readContent: (location, match) => {
-    const invocationDescriptor = qs.parse(location.search, { ignoreQueryPrefix: true });
-    const { params } = invocationDescriptor;
+    const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
 
-    if (params) {
-      invocationDescriptor.params = JSON.parse(params);
-    }
+    const {
+      params: paramsJson,
+      ...invocationDescriptor
+    } = queryParams;
 
-    return dispatch(invoke(ownProps.config, match.params.reportCsid, invocationDescriptor));
+    const params = paramsJson && JSON.parse(paramsJson);
+
+    return dispatch(invoke(ownProps.config, match.params.reportCsid, invocationDescriptor, params));
   },
 });
 

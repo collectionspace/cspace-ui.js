@@ -567,6 +567,23 @@ export const getCoreFieldValue = (data, fieldName) => {
   return undefined;
 };
 
+export const getCommonFieldValue = (data, fieldName) => {
+  if (!data) {
+    return undefined;
+  }
+
+  const document = data.get('document');
+
+  if (!document) {
+    return undefined;
+  }
+
+  const partName = document.keySeq().find(key => key.endsWith('_common'));
+  const commonPart = document.get(partName);
+
+  return commonPart.get(fieldName);
+};
+
 export const getCsid = (data) => {
   if (!data) {
     return undefined;

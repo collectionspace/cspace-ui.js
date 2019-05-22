@@ -6,13 +6,11 @@ import DeleteButton from './DeleteButton';
 import DeprecateButton from './DeprecateButton';
 import SaveButton from './SaveButton';
 import RevertButton from './RevertButton';
+import RunButton from './RunButton';
 import UndeprecateButton from './UndeprecateButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
-import RunButton from './RunButton';
-import runButtonStyles from '../../../styles/cspace-ui/RunReportButton.css';
 
 const propTypes = {
-  isRunnable: PropTypes.bool,
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isDeprecatable: PropTypes.bool,
@@ -20,6 +18,7 @@ const propTypes = {
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  isRunnable: PropTypes.bool,
   readOnly: PropTypes.bool,
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   onUndeprecateButtonClick: PropTypes.func,
@@ -34,7 +33,6 @@ const propTypes = {
 
 export default function RecordButtonBar(props) {
   const {
-    isRunnable,
     isCloneable,
     isDeletable,
     isDeprecatable,
@@ -42,6 +40,7 @@ export default function RecordButtonBar(props) {
     isModified,
     isReadPending,
     isSavePending,
+    isRunnable,
     readOnly,
     validationErrors,
     onUndeprecateButtonClick,
@@ -59,10 +58,11 @@ export default function RecordButtonBar(props) {
   return (
     <div className={className}>
       <RunButton
-        className={runButtonStyles.common}
+        isModified={isModified}
         isRunnable={isRunnable}
         onClick={onRunButtonClick}
       />
+
       <SaveButton
         isModified={isModified}
         isSavePending={isSavePending}
@@ -71,18 +71,21 @@ export default function RecordButtonBar(props) {
         onClick={onSaveButtonClick}
         onErrorBadgeClick={onSaveButtonErrorBadgeClick}
       />
+
       <CloneButton
         isCloneable={isCloneable}
         isModified={isModified}
         isSavePending={isSavePending}
         onClick={onCloneButtonClick}
       />
+
       <RevertButton
         isModified={isModified}
         isSavePending={isSavePending}
         readOnly={readOnly}
         onClick={onRevertButtonClick}
       />
+
       <DeprecateButton
         isDeprecatable={isDeprecatable}
         isModified={isModified}
@@ -90,6 +93,7 @@ export default function RecordButtonBar(props) {
         readOnly={readOnly}
         onClick={onDeprecateButtonClick}
       />
+
       <UndeprecateButton
         isUndeprecatable={isUndeprecatable}
         isModified={isModified}
@@ -97,6 +101,7 @@ export default function RecordButtonBar(props) {
         readOnly={readOnly}
         onClick={onUndeprecateButtonClick}
       />
+
       <DeleteButton
         isDeletable={isDeletable}
         isSavePending={isSavePending}

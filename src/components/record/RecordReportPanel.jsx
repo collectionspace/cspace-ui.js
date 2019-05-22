@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import ReportModal from '../invocable/ReportModal';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
+import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { RECORD_REPORT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 
@@ -45,7 +45,7 @@ export default class RecordReportPanel extends Component {
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
-    this.handleModalRunButtonClick = this.handleModalRunButtonClick.bind(this);
+    this.handleModalInvokeButtonClick = this.handleModalInvokeButtonClick.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
     const {
@@ -98,20 +98,14 @@ export default class RecordReportPanel extends Component {
     });
   }
 
-  handleModalRunButtonClick() {
+  handleModalInvokeButtonClick(reportMetadata, invocationDescriptor) {
     const {
       config,
-      csid,
-      recordType,
       openReport,
     } = this.props;
 
-    const {
-      selectedItem,
-    } = this.state;
-
     if (openReport) {
-      openReport(selectedItem, config, recordType, csid)
+      openReport(config, reportMetadata, invocationDescriptor)
         .then(() => {
           this.setState({
             isModalOpen: false,
@@ -172,14 +166,20 @@ export default class RecordReportPanel extends Component {
           onItemClick={canRun ? this.handleItemClick : undefined}
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
-        <ReportModal
+        <InvocationModalContainer
           config={config}
+          csid={selectedItem && selectedItem.get('csid')}
+          initialInvocationDescriptor={{
+            csid,
+            recordType,
+            mode: 'single',
+          }}
           isOpen={isModalOpen}
           isRecordModified={isRecordModified}
-          reportItem={selectedItem}
+          recordType="report"
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
-          onRunButtonClick={this.handleModalRunButtonClick}
+          onInvokeButtonClick={this.handleModalInvokeButtonClick}
         />
       </div>
     );

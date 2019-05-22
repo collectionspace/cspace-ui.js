@@ -15,6 +15,7 @@ import {
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   SET_SEARCH_TO_RELATE_PAGE_SIZE,
   SET_STICKY_FIELDS,
+  SET_TOOL_TAB,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
 } from '../../../src/actions/prefs';
@@ -40,6 +41,7 @@ import reducer, {
   getSearchResultPagePageSize,
   getSearchToRelatePageSize,
   getStickyFields,
+  getToolTab,
   getUploadType,
   isPanelCollapsed,
   isRecordSidebarOpen,
@@ -93,6 +95,21 @@ describe('prefs reducer', function suite() {
     }));
 
     getAdminTab(state).should.equal(tabName);
+  });
+
+  it('should handle SET_TOOL_TAB', function test() {
+    const tabName = 'report';
+
+    const state = reducer(undefined, {
+      type: SET_TOOL_TAB,
+      payload: tabName,
+    });
+
+    state.should.deep.equal(Immutable.fromJS({
+      toolTab: tabName,
+    }));
+
+    getToolTab(state).should.equal(tabName);
   });
 
   it('should handle SET_FORM', function test() {

@@ -10,7 +10,6 @@ const propTypes = {
   config: PropTypes.object,
   data: PropTypes.instanceOf(Immutable.Map),
   formName: PropTypes.string,
-  isRunnable: PropTypes.bool,
   isCloneable: PropTypes.bool,
   isDeletable: PropTypes.bool,
   isDeprecatable: PropTypes.bool,
@@ -18,6 +17,7 @@ const propTypes = {
   isModified: PropTypes.bool,
   isReadPending: PropTypes.bool,
   isSavePending: PropTypes.bool,
+  isRunnable: PropTypes.bool,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
   showDeprecationButtons: PropTypes.bool,
@@ -40,12 +40,12 @@ export default function RecordHeader(props) {
     formName,
     isCloneable,
     isDeletable,
-    isRunnable,
     isDeprecatable,
     isUndeprecatable,
     isModified,
     isReadPending,
     isSavePending,
+    isRunnable,
     readOnly,
     recordType,
     showDeprecationButtons,
@@ -64,10 +64,10 @@ export default function RecordHeader(props) {
   return (
     <div className={styles.common}>
       <RecordButtonBar
-        isRunnable={isRunnable}
         isCloneable={isCloneable}
         isDeletable={isDeletable}
         isDeprecatable={isDeprecatable}
+        isRunnable={isRunnable}
         isUndeprecatable={isUndeprecatable}
         isModified={isModified}
         isReadPending={isReadPending}

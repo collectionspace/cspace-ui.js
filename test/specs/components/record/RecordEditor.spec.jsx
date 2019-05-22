@@ -20,7 +20,6 @@ import ConfirmRecordNavigationModal from '../../../../src/components/record/Conf
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 import LockRecordModal from '../../../../src/components/record/LockRecordModal';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
-import ReportModal from '../../../../src/components/invocable/ReportModal';
 
 const expect = chai.expect;
 
@@ -1384,33 +1383,5 @@ describe('RecordEditor', function suite() {
         resolve();
       }, 0);
     });
-  });
-
-  it('should call openModal when the run button is clicked', function test() {
-    let openModalName = null;
-
-    const openModal = (modalNameArg) => {
-      openModalName = modalNameArg;
-    };
-
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <Router>
-            <RecordEditor
-              config={config}
-              csid="1234"
-              perms={perms}
-              recordType="report"
-              openModal={openModal}
-            />
-          </Router>
-        </StoreProvider>
-      </IntlProvider>, this.container);
-
-    const runButton = this.container.querySelector('button[name=run]');
-
-    Simulate.click(runButton);
-    openModalName.should.equal(ReportModal.modalName);
   });
 });

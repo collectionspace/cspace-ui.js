@@ -188,6 +188,7 @@ const disallowTransition = (recordType, permissions, transitionName) => {
 };
 
 export const disallowCreate = (recordType, permissions) => disallow(recordType, permissions, 'C');
+export const disallowUpdate = (recordType, permissions) => disallow(recordType, permissions, 'U');
 export const disallowDelete = (recordType, permissions) => disallow(recordType, permissions, 'D');
 
 export const disallowSoftDelete = (recordType, permissions) => disallowTransition(recordType, permissions, 'delete');

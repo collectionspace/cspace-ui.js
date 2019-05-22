@@ -73,7 +73,7 @@ describe('ReportViewerPageContainer', function suite() {
     const jsonReportParams = JSON.stringify(reportParams);
 
     const location = {
-      search: `?csid=${recordCsid}&recordType=${recordType}&params=${jsonReportParams}`,
+      search: `?mode=single&csid=${recordCsid}&recordType=${recordType}&params=${jsonReportParams}`,
     };
 
     const match = {

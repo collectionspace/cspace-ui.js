@@ -3,14 +3,12 @@ import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import InvocationEditor from '../../../../src/components/invocable/InvocationEditor';
 import RecordFormContainer from '../../../../src/containers/record/RecordFormContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
-
-const expect = chai.expect;
 
 chai.should();
 
@@ -35,25 +33,35 @@ describe('InvocationEditor', function suite() {
     const config = {
       invocables: {
         report: {
-          testReport: reportRecordTypeConfig,
+          [reportName]: reportRecordTypeConfig,
+        },
+      },
+      recordTypes: {
+        report: {
+          invocableName: data =>
+            data.getIn(['document', 'ns2:reports_common', 'filename']),
         },
       },
     };
 
-    const invocationItem = Immutable.Map({
-      filename: `${reportName}.jrxml`,
+    const reportMetadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: reportName,
+        },
+      },
     });
 
-    const data = Immutable.Map();
+    const paramData = Immutable.Map();
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <InvocationEditor
         config={config}
-        data={data}
-        invocationItem={invocationItem}
-        type="report"
+        metadata={reportMetadata}
+        paramData={paramData}
+        recordType="report"
       />
     );
 
@@ -64,48 +72,9 @@ describe('InvocationEditor', function suite() {
 
     recordFormContainer.props.config.should.equal(config);
     recordFormContainer.props.csid.should.equal('');
-    recordFormContainer.props.data.should.equal(data);
+    recordFormContainer.props.data.should.equal(paramData);
     recordFormContainer.props.recordTypeConfig.should.equal(reportRecordTypeConfig);
     recordFormContainer.props.recordType.should.equal('invocable');
-  });
-
-  it('should render a message if the invocable does not have a record type config', function test() {
-    const reportName = 'testReport';
-
-    const config = {
-      invocables: {},
-    };
-
-    const invocationItem = Immutable.Map({
-      filename: `${reportName}.jrxml`,
-    });
-
-    const messageId = 'message.id';
-
-    const message = {
-      id: messageId,
-      defaultMessage: 'Hello',
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <InvocationEditor
-        config={config}
-        invocationItem={invocationItem}
-        promptMessage={message}
-        type="report"
-      />
-    );
-
-    const result = shallowRenderer.getRenderOutput();
-
-    expect(() => { findWithType(result, RecordFormContainer); }).to.throw();
-
-    const formattedMessage = findWithType(result, FormattedMessage);
-
-    formattedMessage.should.not.equal(null);
-    formattedMessage.props.id.should.equal(messageId);
   });
 
   it('should call createNewRecord when mounted', function test() {
@@ -115,14 +84,13 @@ describe('InvocationEditor', function suite() {
       invocables: {},
     };
 
-    const invocationItem = Immutable.Map({
-      filename: `${reportName}.jrxml`,
+    const reportMetadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: reportName,
+        },
+      },
     });
-
-    const message = {
-      id: 'message.id',
-      defaultMessage: 'Hello',
-    };
 
     let createNewRecordCalled = false;
 
@@ -135,14 +103,82 @@ describe('InvocationEditor', function suite() {
         <StoreProvider store={store}>
           <InvocationEditor
             config={config}
-            invocationItem={invocationItem}
-            promptMessage={message}
-            type="report"
+            metadata={reportMetadata}
+            recordType="report"
             createNewRecord={createNewRecord}
           />
         </StoreProvider>
       </IntlProvider>, this.container);
 
     createNewRecordCalled.should.equal(true);
+  });
+
+  it('should call createNewRecord when metadata changes', function test() {
+    const reportName = 'testReport';
+
+    const config = {
+      invocables: {},
+    };
+
+    const reportMetadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: reportName,
+        },
+      },
+    });
+
+    let createNewRecordCalled = false;
+
+    const createNewRecord = () => {
+      createNewRecordCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <InvocationEditor
+            config={config}
+            metadata={reportMetadata}
+            recordType="report"
+            createNewRecord={createNewRecord}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const newReportMetadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: `${reportName}2`,
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <InvocationEditor
+            config={config}
+            metadata={newReportMetadata}
+            recordType="report"
+            createNewRecord={createNewRecord}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    createNewRecordCalled.should.equal(true);
+  });
+
+  it('should render a loading message if no metadata is supplied', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <InvocationEditor
+            createNewRecord={() => undefined}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.textContent.should.contain('Loading');
   });
 });

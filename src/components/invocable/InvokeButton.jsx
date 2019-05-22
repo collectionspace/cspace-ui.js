@@ -2,43 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/RunButton.css';
+import styles from '../../../styles/cspace-ui/InvokeButton.css';
 
 const { Button } = inputComponents;
 
 const messages = defineMessages({
   label: {
-    id: 'runButton.label',
-    description: 'Label of the run button.',
-    defaultMessage: 'Run…',
+    id: 'invokeButton.label',
+    description: 'Label of the invoke button.',
+    defaultMessage: 'Run',
   },
 });
 
 const propTypes = {
-  isRunnable: PropTypes.bool,
-  isModified: PropTypes.bool,
   isRunning: PropTypes.bool,
+  recordType: PropTypes.string,
   onClick: PropTypes.func,
 };
 
-export default function RunButton(props) {
+export default function InvokeButton(props) {
   const {
-    isRunnable,
-    isModified,
     isRunning,
+    recordType,
     onClick,
   } = props;
 
-  if (!isRunnable) {
-    return null;
-  }
-
   return (
     <Button
-      className={styles.common}
-      disabled={isRunning || isModified}
+      className={styles[recordType]}
+      disabled={isRunning}
       icon
-      name="run"
+      name="invoke"
       onClick={onClick}
     >
       <FormattedMessage {...messages.label} />
@@ -46,4 +40,4 @@ export default function RunButton(props) {
   );
 }
 
-RunButton.propTypes = propTypes;
+InvokeButton.propTypes = propTypes;

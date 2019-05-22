@@ -5,7 +5,8 @@ import get from 'lodash/get';
 import getSession from './cspace';
 import getErrorDescription from '../helpers/getErrorDescription';
 import getNotificationID from '../helpers/notificationHelpers';
-import { createInvocationData, getReportName } from '../helpers/invocationHelpers';
+import { createInvocationData } from '../helpers/invocationHelpers';
+import { getCsid } from '../helpers/recordDataHelpers';
 import { getReportViewerPath, VIEWER_WINDOW_NAME } from '../helpers/reportHelpers';
 
 import {
@@ -33,66 +34,64 @@ const messages = defineMessages({
   },
 });
 
-export const openReport = (reportItem, config, recordType, csid) => (dispatch, getState) => {
-  const reportName = getReportName(reportItem);
-  const recordTypeConfig = get(config, ['invocables', 'report', reportName]);
-  const paramsRecordCsid = '';
+export const openReport = (config, reportMetadata, invocationDescriptor) =>
+  (dispatch, getState) => {
+    const reportCsid = getCsid(reportMetadata);
+    const reportNameGetter = get(config, ['recordTypes', 'report', 'invocableName']);
+    const reportName = reportNameGetter && reportNameGetter(reportMetadata);
 
-  let params;
-  let validateParams;
+    const paramRecordTypeConfig = get(config, ['invocables', 'report', reportName]);
+    const paramRecordCsid = '';
 
-  if (recordTypeConfig) {
-    validateParams = dispatch(validateRecordData(recordTypeConfig, paramsRecordCsid))
-      .then(() => {
-        if (getRecordValidationErrors(getState(), paramsRecordCsid)) {
-          return Promise.reject();
-        }
+    let params;
+    let validateParams;
 
-        const data = getNewRecordData(getState());
+    if (paramRecordTypeConfig) {
+      validateParams = dispatch(validateRecordData(paramRecordTypeConfig, paramRecordCsid))
+        .then(() => {
+          if (getRecordValidationErrors(getState(), paramRecordCsid)) {
+            return Promise.reject();
+          }
 
-        params = data && data.first().toJS();
+          const data = getNewRecordData(getState());
 
-        return Promise.resolve();
-      });
-  } else {
-    validateParams = Promise.resolve();
-  }
+          params = data && data.first().toJS();
 
-  return validateParams.then(() => {
-    const viewerPath = getReportViewerPath(reportItem, config, recordType, csid, params);
-
-    window.open(viewerPath, VIEWER_WINDOW_NAME);
-  });
-};
-
-export const invoke = (config, csid, invocationDescriptor) => dispatch =>
-  getSession().read(`reports/${csid}`)
-    .then((response) => {
-      const filename = get(response, ['data', 'document', 'ns2:reports_common', 'filename']);
-      const reportName = filename && filename.substring(0, filename.lastIndexOf('.'));
-
-      const requestConfig = {
-        data: createInvocationData(config, invocationDescriptor, 'report', reportName),
-        responseType: 'blob',
-      };
-
-      return getSession().create(`reports/${csid}`, requestConfig)
-        .catch((error) => {
-          const notificationID = getNotificationID();
-
-          dispatch(showNotification({
-            items: [{
-              message: messages.error,
-              values: {
-                error: getErrorDescription(error),
-              },
-            }],
-            date: new Date(),
-            status: STATUS_ERROR,
-          }, notificationID));
-
-          throw error;
+          return Promise.resolve();
         });
-    });
+    } else {
+      validateParams = Promise.resolve();
+    }
 
-export default {};
+    return validateParams.then(() => {
+      const viewerPath =
+        getReportViewerPath(config, reportCsid, invocationDescriptor, params);
+
+      window.open(viewerPath, VIEWER_WINDOW_NAME);
+    });
+  };
+
+export const invoke = (config, csid, invocationDescriptor, params) => (dispatch) => {
+  const requestConfig = {
+    data: createInvocationData(config, invocationDescriptor, params),
+    responseType: 'blob',
+  };
+
+  return getSession().create(`reports/${csid}`, requestConfig)
+    .catch((error) => {
+      const notificationID = getNotificationID();
+
+      dispatch(showNotification({
+        items: [{
+          message: messages.error,
+          values: {
+            error: getErrorDescription(error),
+          },
+        }],
+        date: new Date(),
+        status: STATUS_ERROR,
+      }, notificationID));
+
+      throw error;
+    });
+};

@@ -2,7 +2,8 @@ import get from 'lodash/get';
 import { defineMessages } from 'react-intl';
 import getSession from './cspace';
 import getErrorDescription from '../helpers/getErrorDescription';
-import { createInvocationData, getBatchName } from '../helpers/invocationHelpers';
+import { createInvocationData } from '../helpers/invocationHelpers';
+import { getCsid } from '../helpers/recordDataHelpers';
 import getNotificationID from '../helpers/notificationHelpers';
 import { getNewRecordData, getRecordValidationErrors } from '../reducers';
 import { showNotification } from './notification';
@@ -40,19 +41,22 @@ const messages = defineMessages({
   },
 });
 
-export const invoke = (config, batchItem, invocationDescriptor, onValidationSuccess) =>
+export const invoke = (config, batchMetadata, invocationDescriptor, onValidationSuccess) =>
   (dispatch, getState) => {
-    const batchName = getBatchName(batchItem);
-    const recordTypeConfig = get(config, ['invocables', 'batch', batchName]);
-    const paramsRecordCsid = '';
+    const batchCsid = getCsid(batchMetadata);
+    const batchNameGetter = get(config, ['recordTypes', 'batch', 'invocableName']);
+    const batchName = batchNameGetter && batchNameGetter(batchMetadata);
+
+    const paramRecordTypeConfig = get(config, ['invocables', 'batch', batchName]);
+    const paramRecordCsid = '';
 
     let params;
     let validateParams;
 
-    if (recordTypeConfig) {
-      validateParams = dispatch(validateRecordData(recordTypeConfig, paramsRecordCsid))
+    if (paramRecordTypeConfig) {
+      validateParams = dispatch(validateRecordData(paramRecordTypeConfig, paramRecordCsid))
         .then(() => {
-          if (getRecordValidationErrors(getState(), paramsRecordCsid)) {
+          if (getRecordValidationErrors(getState(), paramRecordCsid)) {
             return Promise.reject();
           }
 
@@ -71,17 +75,12 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
         onValidationSuccess();
       }
 
-      const invocationDescriptorWithParams = Object.assign({}, invocationDescriptor, { params });
-
-      const csid = batchItem.get('csid');
-      const name = batchItem.get('name');
-
       const notificationID = getNotificationID();
 
       dispatch({
         type: BATCH_INVOKE_STARTED,
         meta: {
-          csid,
+          csid: batchCsid,
         },
       });
 
@@ -89,7 +88,7 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
         items: [{
           message: messages.running,
           values: {
-            name,
+            name: batchName,
           },
         }],
         date: new Date(),
@@ -97,10 +96,10 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
       }, notificationID));
 
       const requestConfig = {
-        data: createInvocationData(config, invocationDescriptorWithParams, 'batch'),
+        data: createInvocationData(config, invocationDescriptor, params),
       };
 
-      return getSession().create(`batch/${csid}`, requestConfig)
+      return getSession().create(`batch/${batchCsid}`, requestConfig)
         .then((response) => {
           const { data } = response;
           const numAffected = get(data, ['ns2:invocationResults', 'numAffected']);
@@ -117,7 +116,7 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
           dispatch({
             type: BATCH_INVOKE_FULFILLED,
             meta: {
-              csid,
+              csid: batchCsid,
               numAffected: numAffectedInt,
             },
           });
@@ -126,9 +125,9 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
             items: [{
               message: messages.complete,
               values: {
-                name,
                 numAffected,
                 userNote,
+                name: batchName,
               },
             }],
             date: new Date(),
@@ -142,7 +141,7 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
           dispatch({
             type: BATCH_INVOKE_REJECTED,
             meta: {
-              csid,
+              csid: batchCsid,
             },
           });
 
@@ -150,7 +149,7 @@ export const invoke = (config, batchItem, invocationDescriptor, onValidationSucc
             items: [{
               message: messages.error,
               values: {
-                name,
+                name: batchName,
                 error: getErrorDescription(error),
               },
             }],

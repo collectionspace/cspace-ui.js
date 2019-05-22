@@ -1,7 +1,6 @@
 import get from 'lodash/get';
-import set from 'lodash/set';
 
-const prepareInvocationContext = (invocationContext, params) => {
+const prepareParams = (params) => {
   if (params) {
     const paramPairs = Object.keys(params).map(key => ({
       key,
@@ -9,41 +8,33 @@ const prepareInvocationContext = (invocationContext, params) => {
     }));
 
     if (paramPairs.length > 0) {
-      set(invocationContext, ['params', 'param'], paramPairs);
+      return { param: paramPairs };
     }
   }
 
-  return invocationContext;
+  return undefined;
 };
 
-export const createInvocationData = (config, invocationDescriptor, type, name) => {
+export const createInvocationData = (config, invocationDescriptor, params) => {
   const {
-    params,
-    recordType,
+    mode,
+    recordType: invocationRecordType,
     csid: invocationCsid,
   } = invocationDescriptor;
 
-  const docType = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
-
-  let invocationContext = {
-    docType,
+  const invocationContext = {
+    mode,
+    params: prepareParams(params),
+    docType: get(config, ['recordTypes', invocationRecordType, 'serviceConfig', 'objectName']),
   };
 
-  if (invocationCsid === null || typeof invocationCsid === 'undefined') {
-    invocationContext.mode = 'nocontext';
-  } else if (Array.isArray(invocationCsid)) {
-    invocationContext.mode = 'list';
-    invocationContext.listCSIDs = { csid: invocationCsid };
-  } else {
-    invocationContext.mode = 'single';
+  if (mode === 'single') {
     invocationContext.singleCSID = invocationCsid;
+  } else if (mode === 'list') {
+    invocationContext.listCSIDs = { csid: invocationCsid };
+  } else if (mode === 'group') {
+    invocationContext.groupCSID = invocationCsid;
   }
-
-  const prepare =
-    get(config, ['invocables', type, name, 'prepareInvocationContext'])
-    || prepareInvocationContext;
-
-  invocationContext = prepare(invocationContext, params);
 
   return {
     'ns2:invocationContext': {
@@ -53,19 +44,4 @@ export const createInvocationData = (config, invocationDescriptor, type, name) =
   };
 };
 
-export const getReportName = (reportItem) => {
-  const filename = reportItem && reportItem.get('filename');
-  let name = filename;
-
-  if (filename) {
-    const dotIndex = filename.lastIndexOf('.');
-
-    if (dotIndex >= 0) {
-      name = filename.substring(0, dotIndex);
-    }
-  }
-
-  return name;
-};
-
-export const getBatchName = batchItem => batchItem && batchItem.get('name');
+export default {};

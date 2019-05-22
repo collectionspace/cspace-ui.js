@@ -11,12 +11,15 @@ import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { configureCSpace } from '../../../../src/actions/cspace';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
+import InvocationModal from '../../../../src/components/invocable/InvocationModal';
+import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
-import ReportingPage from '../../../../src/components/pages/ReportingPage';
-import { OP_AND, OP_EQ } from '../../../../src/constants/searchOperators';
+import ReportPage from '../../../../src/components/pages/ReportPage';
+import { OP_AND, OP_CONTAIN, OP_EQ } from '../../../../src/constants/searchOperators';
 
 const expect = chai.expect;
 
@@ -35,7 +38,9 @@ const config = {
   recordTypes: {
     report: {
       forms: {
-        default: <div />,
+        default: {
+          template: <div />,
+        },
       },
       fields: {},
       messages: {
@@ -46,15 +51,20 @@ const config = {
           },
         },
       },
+      serviceConfig: {
+        servicePath: 'reports',
+      },
     },
   },
 };
 
 const store = mockStore({
+  authority: Immutable.Map(),
   notification: Immutable.Map(),
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
-    1234: {},
+    1234: {
+    },
   }),
   search: Immutable.Map(),
   user: Immutable.Map(),
@@ -71,17 +81,17 @@ const context = {
   store,
 };
 
+describe('ReportPage', function suite() {
+  before(() =>
+    store.dispatch(configureCSpace())
+      .then(() => store.clearActions())
+  );
 
-describe('ReportingPage', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should render as a div', function test() {
-    const location = {
-      search: '',
-    };
-
     const match = {
       params: {},
     };
@@ -91,7 +101,7 @@ describe('ReportingPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <ReportingPage location={location} match={match} />
+              <ReportPage match={match} />
             </Router>
           </ConfigProvider>
         </StoreProvider>
@@ -100,11 +110,32 @@ describe('ReportingPage', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
-  it('should render a record editor when a csid param exists in the match', function test() {
-    const location = {
-      search: '',
+  it('should call setToolTab when mounted', function test() {
+    const match = {
+      params: {},
     };
 
+    let toolTabRecordType = null;
+
+    const setToolTab = (recordTypeArg) => {
+      toolTabRecordType = recordTypeArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <ReportPage match={match} setToolTab={setToolTab} />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    toolTabRecordType.should.equal('report');
+  });
+
+  it('should render a record editor when a csid param exists in the match', function test() {
     const csid = '1234';
 
     const match = {
@@ -116,7 +147,7 @@ describe('ReportingPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportingPage location={location} match={match} />, context);
+      <ReportPage match={match} />, context);
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -126,10 +157,6 @@ describe('ReportingPage', function suite() {
   });
 
   it('should replace history with a new location when an item is clicked in the search panel', function test() {
-    const location = {
-      search: '',
-    };
-
     const match = {
       params: {},
     };
@@ -145,9 +172,8 @@ describe('ReportingPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportingPage
+      <ReportPage
         history={history}
-        location={location}
         match={match}
         perms={perms}
       />, context);
@@ -160,14 +186,10 @@ describe('ReportingPage', function suite() {
     searchPanel.should.not.equal(null);
     searchPanel.props.onItemClick(Immutable.Map({ csid: itemCsid })).should.equal(false);
 
-    replacedLocation.should.equal(`/reporting/report/${itemCsid}`);
+    replacedLocation.should.equal(`/tool/report/${itemCsid}`);
   });
 
-  it('should not render any reports if the user has no permission to run reports', function test() {
-    const location = {
-      search: '',
-    };
-
+  it('should not replace history when an item is clicked in the search panel if the user does not have read permission on reports', function test() {
     const match = {
       params: {},
     };
@@ -183,9 +205,8 @@ describe('ReportingPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportingPage
+      <ReportPage
         history={history}
-        location={location}
         match={match}
         perms={null}
       />, context);
@@ -201,47 +222,7 @@ describe('ReportingPage', function suite() {
     expect(replacedLocation).to.equal(null);
   });
 
-  it('should only initially filter by whether the report allows parameters', function test() {
-    const location = {
-      search: '',
-    };
-
-    const match = {
-      params: {},
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <ReportingPage
-        location={location}
-        match={match}
-        perms={null}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-    const searchPanel = findWithType(result, SearchPanelContainer);
-
-    searchPanel.should.not.equal(null);
-
-    searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-      recordType: 'report',
-      searchQuery: {
-        as: {
-          value: 1,
-          op: OP_EQ,
-          path: 'ns2:reports_common/supportsParams',
-        },
-        size: 20,
-      },
-    }));
-  });
-
   it('should update the search descriptor when the search bar value is changed', function test() {
-    const location = {
-      search: '',
-    };
-
     const match = {
       params: {},
     };
@@ -249,8 +230,7 @@ describe('ReportingPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportingPage
-        location={location}
+      <ReportPage
         match={match}
         perms={perms}
       />, context);
@@ -265,19 +245,6 @@ describe('ReportingPage', function suite() {
 
     const searchBar = searchPanel.props.renderTableHeader();
 
-    // Check that initially the only filter is on supportsParams
-    searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-      recordType: 'report',
-      searchQuery: {
-        as: {
-          value: 1,
-          op: OP_EQ,
-          path: 'ns2:reports_common/supportsParams',
-        },
-        size: 20,
-      },
-    }));
-
     searchBar.props.onChange('searchval');
 
     return new Promise((resolve) => {
@@ -287,40 +254,35 @@ describe('ReportingPage', function suite() {
 
         searchPanel.should.not.equal(null);
 
-        const newDescriptor = Immutable.fromJS({
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
           recordType: 'report',
           searchQuery: {
             as: {
-              value: {
-                baseReportFilter: {
-                  value: 1,
-                  op: 'eq',
-                  path: 'ns2:reports_common/supportsParams',
-                },
-                valueFilter: {
+              op: OP_AND,
+              value: [
+                {
                   value: 'searchval',
-                  op: 'cont',
+                  op: OP_CONTAIN,
                   path: 'ns2:reports_common/name',
                 },
-              },
-              op: OP_AND,
+                {
+                  op: OP_EQ,
+                  path: 'ns2:reports_common/supportsNoContext',
+                  value: 1,
+                },
+              ],
             },
             size: 20,
             p: 0,
           },
-        });
+        }));
 
-        newDescriptor.should.equal(searchPanel.props.searchDescriptor);
         resolve();
       }, 600);
     });
   });
 
   it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
-    const location = {
-      search: '',
-    };
-
     const match = {
       params: {},
     };
@@ -328,8 +290,7 @@ describe('ReportingPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportingPage
-        location={location}
+      <ReportPage
         match={match}
         perms={null}
       />, context);
@@ -343,19 +304,6 @@ describe('ReportingPage', function suite() {
     searchPanel.should.not.equal(null);
 
     const searchBar = searchPanel.props.renderTableHeader();
-
-    // Check that initially the only filter is on supportsParams
-    searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-      recordType: 'report',
-      searchQuery: {
-        as: {
-          value: 1,
-          op: OP_EQ,
-          path: 'ns2:reports_common/supportsParams',
-        },
-        size: 20,
-      },
-    }));
 
     searchBar.props.onChange('searchval');
 
@@ -374,12 +322,12 @@ describe('ReportingPage', function suite() {
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
           recordType: 'report',
           searchQuery: {
-            as: {
-              value: 1,
-              op: OP_EQ,
-              path: 'ns2:reports_common/supportsParams',
-            },
             size: 20,
+            as: {
+              op: OP_EQ,
+              path: 'ns2:reports_common/supportsNoContext',
+              value: 1,
+            },
           },
         }));
 
@@ -394,23 +342,23 @@ describe('ReportingPage', function suite() {
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
           recordType: 'report',
           searchQuery: {
+            p: 0,
+            size: 20,
             as: {
-              value: {
-                baseReportFilter: {
-                  value: 1,
-                  op: 'eq',
-                  path: 'ns2:reports_common/supportsParams',
-                },
-                valueFilter: {
+              op: OP_AND,
+              value: [
+                {
                   value: 'another searchval',
-                  op: 'cont',
+                  op: OP_CONTAIN,
                   path: 'ns2:reports_common/name',
                 },
-              },
-              op: OP_AND,
+                {
+                  op: OP_EQ,
+                  path: 'ns2:reports_common/supportsNoContext',
+                  value: 1,
+                },
+              ],
             },
-            size: 20,
-            p: 0,
           },
         }));
 
@@ -419,11 +367,7 @@ describe('ReportingPage', function suite() {
     }));
   });
 
-  it('should only filter by the supportsParams filter when the clear button is clicked', function test() {
-    const location = {
-      search: '',
-    };
-
+  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
     const match = {
       params: {},
     };
@@ -431,8 +375,7 @@ describe('ReportingPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportingPage
-        location={location}
+      <ReportPage
         match={match}
         perms={null}
       />, context);
@@ -458,19 +401,19 @@ describe('ReportingPage', function suite() {
           recordType: 'report',
           searchQuery: {
             as: {
-              value: {
-                baseReportFilter: {
-                  value: 1,
-                  op: 'eq',
-                  path: 'ns2:reports_common/supportsParams',
-                },
-                valueFilter: {
+              op: OP_AND,
+              value: [
+                {
                   value: 'searchval',
-                  op: 'cont',
+                  op: OP_CONTAIN,
                   path: 'ns2:reports_common/name',
                 },
-              },
-              op: OP_AND,
+                {
+                  op: OP_EQ,
+                  path: 'ns2:reports_common/supportsNoContext',
+                  value: 1,
+                },
+              ],
             },
             size: 20,
             p: 0,
@@ -486,9 +429,9 @@ describe('ReportingPage', function suite() {
           recordType: 'report',
           searchQuery: {
             as: {
-              value: 1,
               op: OP_EQ,
-              path: 'ns2:reports_common/supportsParams',
+              path: 'ns2:reports_common/supportsNoContext',
+              value: 1,
             },
             size: 20,
             p: 0,
@@ -498,5 +441,147 @@ describe('ReportingPage', function suite() {
         resolve();
       }, 600);
     });
+  });
+
+  it('should call openModal when the run button is clicked in the record editor', function test() {
+    const csid = '1234';
+
+    const match = {
+      params: {
+        csid,
+      },
+    };
+
+    let openedModalName = null;
+
+    const openModal = (modalNameArg) => {
+      openedModalName = modalNameArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ReportPage match={match} openModal={openModal} />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditorContainer);
+
+    recordEditor.should.not.equal(null);
+    recordEditor.props.onRunButtonClick();
+
+    openedModalName.should.equal(InvocationModal.modalName);
+  });
+
+  it('should call openReport followed by closeModal when the invoke button is clicked in the invocation modal', function test() {
+    const csid = '1234';
+
+    const match = {
+      params: {
+        csid,
+      },
+    };
+
+    let openedConfig = null;
+    let openedReportMetadata = null;
+    let openedInvocationDescriptor = null;
+
+    const openReport = (configArg, reportMetadataArg, invocationDescriptorArg) => {
+      openedConfig = configArg;
+      openedReportMetadata = reportMetadataArg;
+      openedInvocationDescriptor = invocationDescriptorArg;
+
+      return Promise.resolve();
+    };
+
+    let closeModalCalled;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ReportPage
+        match={match}
+        openModalName={InvocationModal.modalName}
+        openReport={openReport}
+        closeModal={closeModal}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModalContainer);
+
+    modal.should.not.equal(null);
+
+    const reportMetadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: 'foo',
+        },
+      },
+    });
+
+    const invocationDescriptor = {
+      mode: 'single',
+    };
+
+    modal.props.onInvokeButtonClick(reportMetadata, invocationDescriptor);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        openedConfig.should.equal(config);
+        openedReportMetadata.should.equal(reportMetadata);
+        openedInvocationDescriptor.should.equal(invocationDescriptor);
+
+        closeModalCalled.should.equal(true);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call closeModal when the close button or the cancel button is clicked in the invocation modal', function test() {
+    const csid = '1234';
+
+    const match = {
+      params: {
+        csid,
+      },
+    };
+
+    let closeModalCalled;
+
+    const closeModal = () => {
+      closeModalCalled = true;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ReportPage
+        match={match}
+        openModalName={InvocationModal.modalName}
+        closeModal={closeModal}
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModalContainer);
+
+    modal.should.not.equal(null);
+
+    const event = {
+      stopPropagation: () => undefined,
+    };
+
+    modal.props.onCloseButtonClick(event);
+
+    closeModalCalled.should.equal(true);
+
+    closeModalCalled = false;
+
+    modal.props.onCancelButtonClick(event);
+
+    closeModalCalled.should.equal(true);
   });
 });

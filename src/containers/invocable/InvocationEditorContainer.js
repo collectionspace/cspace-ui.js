@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { getBatchName, getReportName } from '../../helpers/invocationHelpers';
 
 import {
   createNewRecord,
@@ -13,26 +12,27 @@ import {
 import InvocationEditor from '../../components/invocable/InvocationEditor';
 
 const mapStateToProps = state => ({
-  data: getRecordData(state, ''),
+  paramData: getRecordData(state, ''),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     config,
-    invocationItem,
-    type,
+    metadata,
+    recordType,
   } = ownProps;
 
   return {
     createNewRecord: () => {
-      const invocableName = (type === 'report')
-        ? getReportName(invocationItem)
-        : getBatchName(invocationItem);
+      const invocableNameGetter = get(config, ['recordTypes', recordType, 'invocableName']);
+      const invocableName = invocableNameGetter && invocableNameGetter(metadata);
 
-      const recordTypeConfig = get(config, ['invocables', type, invocableName]);
+      const paramRecordTypeConfig = invocableName
+        ? get(config, ['invocables', recordType, invocableName])
+        : undefined;
 
-      if (recordTypeConfig) {
-        return dispatch(createNewRecord(config, recordTypeConfig));
+      if (paramRecordTypeConfig) {
+        return dispatch(createNewRecord(config, paramRecordTypeConfig));
       }
 
       return undefined;

@@ -38,6 +38,10 @@ const config = {
     },
   },
   recordTypes: {
+    batch: {
+      invocableName: data =>
+        data.getIn(['document', 'ns2:batch_common', 'name']),
+    },
     group: {
       serviceConfig: {
         objectName: 'Group',
@@ -80,7 +84,7 @@ describe('batch action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should invoke a batch job for a single csid', function test() {
+    it('should invoke a batch job in single mode', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -88,8 +92,12 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -98,9 +106,10 @@ describe('batch action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
-      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           const request = moxios.requests.mostRecent();
 
@@ -119,7 +128,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should invoke a batch job for list csids', function test() {
+    it('should invoke a batch job in list mode', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -127,8 +136,12 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -139,9 +152,10 @@ describe('batch action creator', function suite() {
         csid: [
           recordCsid,
         ],
+        mode: 'list',
       };
 
-      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           const request = moxios.requests.mostRecent();
 
@@ -164,7 +178,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should invoke a batch job for no csid', function test() {
+    it('should invoke a batch job in nocontext mode', function test() {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -172,17 +186,22 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+        },
       });
 
       const recordType = 'group';
 
       const invocationDescriptor = {
         recordType,
+        mode: 'nocontext',
       };
 
-      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           const request = moxios.requests.mostRecent();
 
@@ -208,9 +227,15 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        name: 'paramBatch',
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+          'ns2:batch_common': {
+            name: 'paramBatch',
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -219,9 +244,10 @@ describe('batch action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
-      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           const request = moxios.requests.mostRecent();
 
@@ -254,9 +280,15 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        name: 'paramBatch',
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+          'ns2:batch_common': {
+            name: 'paramBatch',
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -265,6 +297,7 @@ describe('batch action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
       let onValidationSuccessCalled = false;
@@ -274,7 +307,7 @@ describe('batch action creator', function suite() {
       };
 
       return store.dispatch(
-        invoke(config, batchItem, invocationDescriptor, handleValidationSuccess)
+        invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
       )
         .then(() => {
           onValidationSuccessCalled.should.equal(true);
@@ -315,9 +348,15 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        name: 'paramBatch',
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+          'ns2:batch_common': {
+            name: 'paramBatch',
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -326,9 +365,10 @@ describe('batch action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
-      return invalidDataStore.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return invalidDataStore.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           assert.fail('action should be rejected');
         })
@@ -347,8 +387,12 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -357,9 +401,10 @@ describe('batch action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
-      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           const actions = store.getActions();
           actions.should.have.lengthOf(4);
@@ -390,8 +435,12 @@ describe('batch action creator', function suite() {
 
       const batchCsid = 'abcd';
 
-      const batchItem = Immutable.Map({
-        csid: batchCsid,
+      const batchMetadata = Immutable.fromJS({
+        document: {
+          'ns2:collectionspace_core': {
+            uri: `/batch/${batchCsid}`,
+          },
+        },
       });
 
       const recordCsid = '1234';
@@ -400,9 +449,10 @@ describe('batch action creator', function suite() {
       const invocationDescriptor = {
         recordType,
         csid: recordCsid,
+        mode: 'single',
       };
 
-      return store.dispatch(invoke(config, batchItem, invocationDescriptor))
+      return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
           const actions = store.getActions();
           actions.should.have.lengthOf(4);

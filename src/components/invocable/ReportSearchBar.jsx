@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, intlShape } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/AdminSearchBar.css'; // FIX ME
+import styles from '../../../styles/cspace-ui/AdminSearchBar.css';
 
 const { LineInput, MiniButton } = inputComponents;
 
 const messages = defineMessages({
   filter: {
-    id: 'reportingSearchBar.filter',
-    description: 'Label of the input on the search bar of the reporting page.',
+    id: 'reportSearchBar.filter',
+    description: 'Label of the input on the search bar of the report page.',
     defaultMessage: 'Filter by name',
   },
   clear: {
-    id: 'reportingSearchBar.clear',
-    description: 'Label of the clear button on the search bar of the reporting page.',
+    id: 'reportSearchBar.clear',
+    description: 'Label of the clear button on the search bar of the report page.',
     defaultMessage: 'Clear',
   },
 });
@@ -28,7 +28,7 @@ const contextTypes = {
   intl: intlShape,
 };
 
-export default class ReportingSearchBar extends Component {
+export default class ReportSearchBar extends Component {
   constructor() {
     super();
 
@@ -85,5 +85,5 @@ export default class ReportingSearchBar extends Component {
   }
 }
 
-ReportingSearchBar.propTypes = propTypes;
-ReportingSearchBar.contextTypes = contextTypes;
+ReportSearchBar.propTypes = propTypes;
+ReportSearchBar.contextTypes = contextTypes;

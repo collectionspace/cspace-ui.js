@@ -14,17 +14,21 @@ import {
   CREATE_NEW_RECORD,
 } from '../../../../src/actions/record';
 
+const expect = chai.expect;
+
+chai.should();
+
 const mockStore = configureMockStore([thunk]);
 
-const data = Immutable.Map();
+const paramData = Immutable.Map();
 
 const store = mockStore({
   prefs: Immutable.Map(),
   record: Immutable.fromJS({
     '': {
       data: {
-        baseline: data,
-        current: data,
+        baseline: paramData,
+        current: paramData,
       },
     },
   }),
@@ -53,7 +57,7 @@ describe('InvocationEditorContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(InvocationEditor);
-    result.props.should.have.property('data', data);
+    result.props.should.have.property('paramData', paramData);
     result.props.should.have.property('createNewRecord').that.is.a('function');
   });
 
@@ -70,10 +74,19 @@ describe('InvocationEditorContainer', function suite() {
           [reportName]: reportRecordTypeConfig,
         },
       },
+      recordTypes: {
+        report: {
+          invocableName: data => data.getIn(['document', 'ns2:reports_common', 'filename']),
+        },
+      },
     };
 
-    const invocationItem = Immutable.Map({
-      filename: `${reportName}.jrxml`,
+    const metadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: reportName,
+        },
+      },
     });
 
     const shallowRenderer = createRenderer();
@@ -81,8 +94,8 @@ describe('InvocationEditorContainer', function suite() {
     shallowRenderer.render(
       <InvocationEditorContainer
         config={config}
-        invocationItem={invocationItem}
-        type="report"
+        metadata={metadata}
+        recordType="report"
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -96,5 +109,41 @@ describe('InvocationEditorContainer', function suite() {
       .catch((err) => {
         throw err;
       });
+  });
+
+  it('should connect createNewRecord to a no-op if there is no field config for the invocable', function test() {
+    const reportName = 'testReport';
+
+    const config = {
+      invocables: {
+        report: {},
+      },
+      recordTypes: {
+        report: {
+          invocableName: data => data.getIn(['document', 'ns2:reports_common', 'filename']),
+        },
+      },
+    };
+
+    const metadata = Immutable.fromJS({
+      document: {
+        'ns2:reports_common': {
+          filename: reportName,
+        },
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InvocationEditorContainer
+        config={config}
+        metadata={metadata}
+        recordType="report"
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    expect(result.props.createNewRecord()).to.equal(undefined);
   });
 });

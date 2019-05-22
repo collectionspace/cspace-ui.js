@@ -165,7 +165,6 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('checkForRelations').that.is.a('function');
     result.props.should.have.property('checkForUses').that.is.a('function');
     result.props.should.have.property('checkForRoleUses').that.is.a('function');
-    result.props.should.have.property('openReport').that.is.a('function');
   });
 
   it('should connect createNewRecord to createNewRecord action creator', function test() {

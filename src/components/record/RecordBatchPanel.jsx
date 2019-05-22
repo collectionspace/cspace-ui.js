@@ -5,17 +5,17 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import BatchModal from '../invocable/BatchModal';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
 import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import { serviceUriToLocation } from '../../helpers/uriHelpers';
+import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { RECORD_BATCH_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 
 const messages = defineMessages({
   title: {
     id: 'recordBatchPanel.title',
-    defaultMessage: 'Batch Jobs',
+    defaultMessage: 'Data Updates',
   },
 });
 
@@ -36,7 +36,7 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
-  run: PropTypes.func,
+  invoke: PropTypes.func,
 };
 
 export default class RecordBatchPanel extends Component {
@@ -46,7 +46,7 @@ export default class RecordBatchPanel extends Component {
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
-    this.handleModalRunButtonClick = this.handleModalRunButtonClick.bind(this);
+    this.handleModalInvokeButtonClick = this.handleModalInvokeButtonClick.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
     const {
@@ -99,41 +99,33 @@ export default class RecordBatchPanel extends Component {
     });
   }
 
-  handleModalRunButtonClick() {
+  handleModalInvokeButtonClick(batchMetadata, invocationDescriptor) {
     const {
       config,
-      csid,
       history,
-      recordType,
-      run,
+      invoke,
     } = this.props;
 
-    const {
-      selectedItem,
-    } = this.state;
+    if (invoke) {
+      const createsNewFocus =
+        (batchMetadata.getIn(['document', 'ns2:batch_common', 'createsNewFocus']) === 'true');
 
-    const createsNewFocus = (selectedItem.get('createsNewFocus') === 'true');
+      const handleValidationSuccess = () => {
+        if (createsNewFocus) {
+          // If the batch job is going to direct us to a different record, keep the modal in place
+          // until it completes, so the user won't be surprised by a new record opening.
 
-    const handleValidationSuccess = () => {
-      if (createsNewFocus) {
-        // If the batch job is going to direct us to a different record, keep the modal in place
-        // until it completes, so the user won't be surprised by a new record opening.
+          this.setState({
+            isRunning: true,
+          });
+        } else {
+          this.setState({
+            isModalOpen: false,
+          });
+        }
+      };
 
-        this.setState({
-          isRunning: true,
-        });
-      } else {
-        this.setState({
-          isModalOpen: false,
-        });
-      }
-    };
-
-    if (run) {
-      run(config, selectedItem, {
-        csid,
-        recordType,
-      }, handleValidationSuccess)
+      invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
         .then((response) => {
           if (createsNewFocus) {
             this.setState({
@@ -205,14 +197,20 @@ export default class RecordBatchPanel extends Component {
           onItemClick={canRun ? this.handleItemClick : undefined}
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
-        <BatchModal
+        <InvocationModalContainer
           config={config}
+          csid={selectedItem && selectedItem.get('csid')}
+          initialInvocationDescriptor={{
+            csid,
+            recordType,
+            mode: 'single',
+          }}
           isOpen={isModalOpen}
           isRunning={isRunning}
-          batchItem={selectedItem}
+          recordType="batch"
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
-          onRunButtonClick={this.handleModalRunButtonClick}
+          onInvokeButtonClick={this.handleModalInvokeButtonClick}
         />
       </div>
     );

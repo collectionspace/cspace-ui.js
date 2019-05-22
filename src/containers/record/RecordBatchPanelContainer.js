@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-  run: invoke,
+  invoke,
 };
 
 export default connect(

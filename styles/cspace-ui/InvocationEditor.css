@@ -1,0 +1,15 @@
+.common > p:first-child {
+  margin-top: 0;
+}
+
+.common > p:last-child {
+  margin-bottom: 0;
+}
+
+.pending {
+  background-image: url(../../images/spinner.svg);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 0 2px;
+  padding-left: 20px;
+}

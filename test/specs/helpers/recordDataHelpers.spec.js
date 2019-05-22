@@ -39,6 +39,7 @@ import {
   deepGet,
   deepSet,
   deepDelete,
+  getCommonFieldValue,
   getCoreFieldValue,
   getCsid,
   getRefName,
@@ -2039,6 +2040,32 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       getUpdatedUser(data).should.equal('user');
+    });
+  });
+
+  describe('getCommonFieldValue', function suite() {
+    const data = Immutable.fromJS({
+      document: {
+        'ns2:groups_common': {
+          foo: 'bar',
+        },
+      },
+    });
+
+    it('should return the specified field from the common part', function test() {
+      getCommonFieldValue(data, 'foo').should.equal('bar');
+    });
+
+    it('should return undefined if the field does not exist', function test() {
+      expect(getCommonFieldValue(data, 'baz')).to.equal(undefined);
+    });
+
+    it('should return undefined if the document key does not exist', function test() {
+      expect(getCommonFieldValue(Immutable.Map(), 'foo')).to.equal(undefined);
+    });
+
+    it('should return undefined if the data does not exist', function test() {
+      expect(getCommonFieldValue(null, 'foo')).to.equal(undefined);
     });
   });
 
