@@ -3,7 +3,7 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   SET_QUICK_SEARCH_KEYWORD,
-} from '../../../src/actions/quickSearch';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getKeyword,

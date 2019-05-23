@@ -5,11 +5,8 @@ import {
   CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
-} from '../../../src/actions/searchPage';
-
-import {
   SET_SEARCH_PAGE_RECORD_TYPE,
-} from '../../../src/actions/prefs';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getAdvanced,

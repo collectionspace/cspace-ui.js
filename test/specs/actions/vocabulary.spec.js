@@ -4,16 +4,19 @@ import moxios from 'moxios';
 import Immutable from 'immutable';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
   READ_VOCABULARY_ITEM_REFS_STARTED,
   READ_VOCABULARY_ITEM_REFS_FULFILLED,
   READ_VOCABULARY_ITEM_REFS_REJECTED,
+} from '../../../src/constants/actionCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   readVocabularyItems,
   readVocabularyItemRefs,
 } from '../../../src/actions/vocabulary';

@@ -9,12 +9,9 @@ import QuickSearchFormContainer from '../../../../src/containers/search/QuickSea
 
 import {
   SET_QUICK_SEARCH_KEYWORD,
-} from '../../../../src/actions/quickSearch';
-
-import {
   SET_QUICK_SEARCH_RECORD_TYPE,
   SET_QUICK_SEARCH_VOCABULARY,
-} from '../../../../src/actions/prefs';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 

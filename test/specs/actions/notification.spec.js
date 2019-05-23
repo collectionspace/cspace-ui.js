@@ -5,14 +5,17 @@ import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 
 import {
-  STATUS_ERROR,
-} from '../../../src/constants/notificationStatusCodes';
-
-import {
   SHOW_NOTIFICATION,
   REMOVE_NOTIFICATION,
   OPEN_MODAL,
   CLOSE_MODAL,
+} from '../../../src/constants/actionCodes';
+
+import {
+  STATUS_ERROR,
+} from '../../../src/constants/notificationStatusCodes';
+
+import {
   showNotification,
   removeNotification,
   showValidationNotification,

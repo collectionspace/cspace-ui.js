@@ -1,20 +1,11 @@
 import {
   LOGIN_FULFILLED,
-} from '../../../src/actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
-
-import {
   RECORD_SAVE_FULFILLED,
-} from '../../../src/actions/record';
-
-import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
-} from '../../../src/actions/vocabulary';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   get,

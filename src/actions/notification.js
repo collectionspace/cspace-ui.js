@@ -8,10 +8,12 @@ import {
   STATUS_ERROR,
 } from '../constants/notificationStatusCodes';
 
-export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
-export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
-export const CLOSE_MODAL = 'CLOSE_MODAL';
-export const OPEN_MODAL = 'OPEN_MODAL';
+import {
+  SHOW_NOTIFICATION,
+  REMOVE_NOTIFICATION,
+  CLOSE_MODAL,
+  OPEN_MODAL,
+} from '../constants/actionCodes';
 
 export const NOTIFICATION_ID_VALIDATION = 'NOTIFICATION_ID_VALIDATION';
 

@@ -3,9 +3,10 @@
 import get from 'lodash/get';
 import getSession from './cspace';
 
-export const ACCOUNT_PERMS_READ_FULFILLED = 'ACCOUNT_PERMS_READ_FULFILLED';
-export const ACCOUNT_PERMS_READ_REJECTED = 'ACCOUNT_PERMS_READ_REJECTED';
-export const SET_ACCOUNT_PERMS = 'SET_ACCOUNT_PERMS';
+import {
+  ACCOUNT_PERMS_READ_FULFILLED,
+  ACCOUNT_PERMS_READ_REJECTED,
+} from '../constants/actionCodes';
 
 export const checkForRoleUses = csid => () =>
   getSession().read(`authorization/roles/${csid}/accountroles`)

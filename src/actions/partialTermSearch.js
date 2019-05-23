@@ -4,13 +4,15 @@ import getSession from './cspace';
 import { getRecordData, getRecordPagePrimaryCsid } from '../reducers';
 import { cloneRecordData, prepareForSending } from '../helpers/recordDataHelpers';
 
-export const ADD_TERM_STARTED = 'ADD_TERM_STARTED';
-export const ADD_TERM_FULFILLED = 'ADD_TERM_FULFILLED';
-export const ADD_TERM_REJECTED = 'ADD_TERM_REJECTED';
-export const PARTIAL_TERM_SEARCH_STARTED = 'PARTIAL_TERM_SEARCH_STARTED';
-export const PARTIAL_TERM_SEARCH_FULFILLED = 'PARTIAL_TERM_SEARCH_FULFILLED';
-export const PARTIAL_TERM_SEARCH_REJECTED = 'PARTIAL_TERM_SEARCH_REJECTED';
-export const CLEAR_PARTIAL_TERM_SEARCH_RESULTS = 'CLEAR_PARTIAL_TERM_SEARCH_RESULTS';
+import {
+  ADD_TERM_STARTED,
+  ADD_TERM_FULFILLED,
+  ADD_TERM_REJECTED,
+  PARTIAL_TERM_SEARCH_STARTED,
+  PARTIAL_TERM_SEARCH_FULFILLED,
+  PARTIAL_TERM_SEARCH_REJECTED,
+  CLEAR_PARTIAL_TERM_SEARCH_RESULTS,
+} from '../constants/actionCodes';
 
 export const addTerm = (recordTypeConfig, vocabulary, displayName, partialTerm, clone) =>
   (dispatch, getState) => {

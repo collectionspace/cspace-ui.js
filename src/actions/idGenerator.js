@@ -2,13 +2,15 @@ import getSession from './cspace';
 import { computeRecordData, validateRecordData } from './record';
 import { getIDGenerator } from '../reducers';
 
-export const ADD_ID_GENERATORS = 'ADD_ID_GENERATORS';
-export const READ_ID_GENERATOR_STARTED = 'READ_ID_GENERATOR_STARTED';
-export const READ_ID_GENERATOR_FULFILLED = 'READ_ID_GENERATOR_FULFILLED';
-export const READ_ID_GENERATOR_REJECTED = 'READ_ID_GENERATOR_REJECTED';
-export const CREATE_ID_STARTED = 'CREATE_ID_STARTED';
-export const CREATE_ID_FULFILLED = 'CREATE_ID_FULFILLED';
-export const CREATE_ID_REJECTED = 'CREATE_ID_REJECTED';
+import {
+  ADD_ID_GENERATORS,
+  READ_ID_GENERATOR_STARTED,
+  READ_ID_GENERATOR_FULFILLED,
+  READ_ID_GENERATOR_REJECTED,
+  CREATE_ID_STARTED,
+  CREATE_ID_FULFILLED,
+  CREATE_ID_REJECTED,
+} from '../constants/actionCodes';
 
 export const addIDGenerators = idGenerators => ({
   type: ADD_ID_GENERATORS,

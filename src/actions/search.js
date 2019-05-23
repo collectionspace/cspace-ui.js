@@ -10,16 +10,18 @@ import {
   ERR_API,
 } from '../constants/errorCodes';
 
-export const CLEAR_SELECTED = 'CLEAR_SELECTED';
-export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
-export const SET_MOST_RECENT_SEARCH = 'SET_MOST_RECENT_SEARCH';
-export const CREATE_EMPTY_SEARCH_RESULT = 'CREATE_EMPTY_SEARCH_RESULT';
-export const SEARCH_STARTED = 'SEARCH_STARTED';
-export const SEARCH_FULFILLED = 'SEARCH_FULFILLED';
-export const SEARCH_REJECTED = 'SEARCH_REJECTED';
-export const SET_ALL_RESULT_ITEMS_SELECTED = 'SET_ALL_RESULT_ITEMS_SELECTED';
-export const SET_RESULT_ITEM_SELECTED = 'SET_RESULT_ITEM_SELECTED';
-export const DESELECT_RESULT_ITEM = 'DESELECT_RESULT_ITEM';
+import {
+  CLEAR_SELECTED,
+  CLEAR_SEARCH_RESULTS,
+  SET_MOST_RECENT_SEARCH,
+  CREATE_EMPTY_SEARCH_RESULT,
+  SEARCH_STARTED,
+  SEARCH_FULFILLED,
+  SEARCH_REJECTED,
+  SET_ALL_RESULT_ITEMS_SELECTED,
+  SET_RESULT_ITEM_SELECTED,
+  DESELECT_RESULT_ITEM,
+} from '../constants/actionCodes';
 
 const getSortParam = (config, searchDescriptor, columnSetName) => {
   const sortSpec = searchDescriptor.getIn(['searchQuery', 'sort']);

@@ -12,7 +12,7 @@ import {
   MOVE_FIELD_VALUE,
   SET_FIELD_VALUE,
   SORT_FIELD_INSTANCES,
-} from '../../../../src/actions/record';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 

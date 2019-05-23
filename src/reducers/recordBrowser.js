@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import {
   CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID,
   SET_RELATED_RECORD_BROWSER_RELATED_CSID,
-} from '../actions/recordBrowser';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

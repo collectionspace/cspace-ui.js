@@ -4,9 +4,9 @@
  * Generate cspace-ui documentation.
  */
 
-import fs from 'fs';
-import glob from 'glob';
-import jsonFile from 'jsonfile';
+const fs = require('fs');
+const glob = require('glob');
+const jsonFile = require('jsonfile');
 
 /**
  * Remove newlines from multiline strings. These are assumed to be backtick quoted HTML messages,

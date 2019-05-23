@@ -8,12 +8,14 @@ import {
   isAuthzRolesReadPending,
 } from '../reducers';
 
-export const PERMS_READ_STARTED = 'PERMS_READ_STARTED';
-export const PERMS_READ_FULFILLED = 'PERMS_READ_FULFILLED';
-export const PERMS_READ_REJECTED = 'PERMS_READ_REJECTED';
-export const ROLES_READ_STARTED = 'ROLES_READ_STARTED';
-export const ROLES_READ_FULFILLED = 'ROLES_READ_FULFILLED';
-export const ROLES_READ_REJECTED = 'ROLES_READ_REJECTED';
+import {
+  PERMS_READ_STARTED,
+  PERMS_READ_FULFILLED,
+  PERMS_READ_REJECTED,
+  ROLES_READ_STARTED,
+  ROLES_READ_FULFILLED,
+  ROLES_READ_REJECTED,
+} from '../constants/actionCodes';
 
 export const readPerms = config => (dispatch, getState) => {
   if (

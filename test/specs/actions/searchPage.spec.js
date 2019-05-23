@@ -6,6 +6,9 @@ import qs from 'qs';
 import {
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
+} from '../../../src/constants/actionCodes';
+
+import {
   setSearchPageAdvanced,
   setSearchPageKeyword,
   initiateSearch,

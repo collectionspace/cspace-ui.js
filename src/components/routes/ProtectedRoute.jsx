@@ -12,7 +12,6 @@ const propTypes = {
   screenName: PropTypes.string,
   username: PropTypes.string,
   closeModal: PropTypes.func,
-  redirectLogin: PropTypes.func,
   resetLogin: PropTypes.func,
 };
 

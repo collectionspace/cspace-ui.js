@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 
 import {
   SET_QUICK_SEARCH_KEYWORD,
-} from '../actions/quickSearch';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

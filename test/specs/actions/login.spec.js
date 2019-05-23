@@ -6,36 +6,36 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
 import {
-  ERR_INVALID_CREDENTIALS,
-  ERR_NETWORK,
-  ERR_WRONG_TENANT,
-} from '../../../src/constants/errorCodes';
-
-import {
-  ACCOUNT_PERMS_READ_FULFILLED,
-  ACCOUNT_PERMS_READ_REJECTED,
-  readAccountPerms,
-} from '../../../src/actions/account';
-
-import getSession, {
-  configureCSpace,
   CSPACE_CONFIGURED,
-} from '../../../src/actions/cspace';
-
-import {
+  PREFS_LOADED,
   AUTH_RENEW_FULFILLED,
   AUTH_RENEW_REJECTED,
   RESET_LOGIN,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
+  ACCOUNT_PERMS_READ_FULFILLED,
+  ACCOUNT_PERMS_READ_REJECTED,
+} from '../../../src/constants/actionCodes';
+
+import {
+  ERR_INVALID_CREDENTIALS,
+  ERR_NETWORK,
+  ERR_WRONG_TENANT,
+} from '../../../src/constants/errorCodes';
+
+import {
+  readAccountPerms,
+} from '../../../src/actions/account';
+
+import getSession, {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   resetLogin,
   login,
 } from '../../../src/actions/login';
-
-import {
-  PREFS_LOADED,
-} from '../../../src/actions/prefs';
 
 chai.should();
 

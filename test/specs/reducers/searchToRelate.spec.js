@@ -7,7 +7,7 @@ import {
   SET_SEARCH_TO_RELATE_KEYWORD,
   SET_SEARCH_TO_RELATE_RECORD_TYPE,
   SET_SEARCH_TO_RELATE_VOCABULARY,
-} from '../../../src/actions/searchToRelate';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getAdvanced,

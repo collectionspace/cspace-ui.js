@@ -1,5 +1,8 @@
 import {
   SET_RECORD_PAGE_PRIMARY_CSID,
+} from '../../../src/constants/actionCodes';
+
+import {
   setRecordPagePrimaryCsid,
 } from '../../../src/actions/recordPage';
 

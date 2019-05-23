@@ -4,11 +4,8 @@ import chaiImmutable from 'chai-immutable';
 import {
   AUTH_VOCABS_READ_FULFILLED,
   SET_AUTH_VOCAB_WORKFLOW_STATE,
-} from '../../../src/actions/authority';
-
-import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getVocabCsid,

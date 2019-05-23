@@ -1,6 +1,6 @@
 import {
   ADD_OPTION_LISTS,
-} from '../../../src/actions/optionList';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   get,

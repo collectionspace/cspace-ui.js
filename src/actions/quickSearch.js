@@ -7,7 +7,9 @@ import {
   getQuickSearchVocabulary,
 } from '../reducers';
 
-export const SET_QUICK_SEARCH_KEYWORD = 'SET_QUICK_SEARCH_KEYWORD';
+import {
+  SET_QUICK_SEARCH_KEYWORD,
+} from '../constants/actionCodes';
 
 export const setQuickSearchKeyword = value => ({
   type: SET_QUICK_SEARCH_KEYWORD,

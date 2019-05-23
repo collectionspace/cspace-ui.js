@@ -10,12 +10,14 @@ import {
   ERR_WRONG_TENANT,
 } from '../constants/errorCodes';
 
-export const AUTH_RENEW_FULFILLED = 'AUTH_RENEW_FULFILLED';
-export const AUTH_RENEW_REJECTED = 'AUTH_RENEW_REJECTED';
-export const RESET_LOGIN = 'RESET_LOGIN';
-export const LOGIN_STARTED = 'LOGIN_STARTED';
-export const LOGIN_FULFILLED = 'LOGIN_FULFILLED';
-export const LOGIN_REJECTED = 'LOGIN_REJECTED';
+import {
+  AUTH_RENEW_FULFILLED,
+  AUTH_RENEW_REJECTED,
+  RESET_LOGIN,
+  LOGIN_STARTED,
+  LOGIN_FULFILLED,
+  LOGIN_REJECTED,
+} from '../constants/actionCodes';
 
 export const resetLogin = username => ({
   type: RESET_LOGIN,

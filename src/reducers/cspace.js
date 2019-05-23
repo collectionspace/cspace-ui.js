@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import {
   CSPACE_CONFIGURED,
   READ_SYSTEM_INFO_FULFILLED,
-} from '../actions/cspace';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

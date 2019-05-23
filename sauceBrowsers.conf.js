@@ -2,12 +2,12 @@
 // See karma.conf.js and wdio.conf.js.
 
 module.exports = {
-  // 'chrome-latest-macos': {
-  //   base: 'SauceLabs',
-  //   browserName: 'chrome',
-  //   version: 'latest',
-  //   platform: 'macOS 10.13',
-  // },
+  'chrome-latest-macos': {
+    base: 'SauceLabs',
+    browserName: 'chrome',
+    version: 'latest',
+    platform: 'macOS 10.13',
+  },
   'chrome-previous-macos': {
     base: 'SauceLabs',
     browserName: 'chrome',
@@ -26,12 +26,12 @@ module.exports = {
     version: 'latest-1',
     platform: 'macOS 10.13',
   },
-  // 'safari-latest-macos': {
-  //   base: 'SauceLabs',
-  //   browserName: 'safari',
-  //   version: 'latest',
-  //   platform: 'macOS 10.13',
-  // },
+  'safari-latest-macos': {
+    base: 'SauceLabs',
+    browserName: 'safari',
+    version: 'latest',
+    platform: 'macOS 10.13',
+  },
   // 'edge-latest-win10': {
   //   base: 'SauceLabs',
   //   browserName: 'microsoftedge',

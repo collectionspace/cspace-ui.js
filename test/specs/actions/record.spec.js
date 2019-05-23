@@ -10,38 +10,9 @@ import { searchKey } from '../../../src/reducers/search';
 import HierarchyReparentNotifier from '../../../src/components/record/HierarchyReparentNotifier';
 
 import {
-  ERR_MISSING_REQ_FIELD,
-} from '../../../src/constants/errorCodes';
-
-import {
-  STATUS_ERROR,
-  STATUS_PENDING,
-  STATUS_SUCCESS,
-} from '../../../src/constants/notificationStatusCodes';
-
-import {
-  configKey,
-} from '../../../src/helpers/configHelpers';
-
-import {
-  ERROR_KEY,
-} from '../../../src/helpers/recordDataHelpers';
-
-import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   SHOW_NOTIFICATION,
   REMOVE_NOTIFICATION,
-  NOTIFICATION_ID_VALIDATION,
-} from '../../../src/actions/notification';
-
-import {
   SET_STICKY_FIELDS,
-} from '../../../src/actions/prefs';
-
-import {
   CLEAR_RECORD,
   CREATE_NEW_RECORD,
   CREATE_NEW_SUBRECORD,
@@ -71,6 +42,38 @@ import {
   SET_FIELD_VALUE,
   VALIDATION_FAILED,
   VALIDATION_PASSED,
+  SEARCH_STARTED,
+  SEARCH_FULFILLED,
+  SET_MOST_RECENT_SEARCH,
+} from '../../../src/constants/actionCodes';
+
+import {
+  ERR_MISSING_REQ_FIELD,
+} from '../../../src/constants/errorCodes';
+
+import {
+  STATUS_ERROR,
+  STATUS_PENDING,
+  STATUS_SUCCESS,
+} from '../../../src/constants/notificationStatusCodes';
+
+import {
+  configKey,
+} from '../../../src/helpers/configHelpers';
+
+import {
+  ERROR_KEY,
+} from '../../../src/helpers/recordDataHelpers';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
+  NOTIFICATION_ID_VALIDATION,
+} from '../../../src/actions/notification';
+
+import {
   clearRecord,
   computeFieldValue,
   createNewRecord,
@@ -88,12 +91,6 @@ import {
   moveFieldValue,
   setFieldValue,
 } from '../../../src/actions/record';
-
-import {
-  SEARCH_STARTED,
-  SEARCH_FULFILLED,
-  SET_MOST_RECENT_SEARCH,
-} from '../../../src/actions/search';
 
 chai.use(chaiImmutable);
 chai.should();

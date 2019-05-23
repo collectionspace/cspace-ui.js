@@ -4,11 +4,8 @@ import {
   CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
-} from '../actions/searchPage';
-
-import {
   SET_SEARCH_PAGE_RECORD_TYPE,
-} from '../actions/prefs';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

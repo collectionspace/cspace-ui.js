@@ -7,9 +7,11 @@ import { readAuthVocabs } from './authority';
 import { openModal } from './notification';
 import LoginModal from '../components/login/LoginModal';
 
-export const CSPACE_CONFIGURED = 'CSPACE_CONFIGURED';
-export const READ_SYSTEM_INFO_FULFILLED = 'READ_SYSTEM_INFO_FULFILLED';
-export const READ_SYSTEM_INFO_REJECTED = 'READ_SYSTEM_INFO_REJECTED';
+import {
+  CSPACE_CONFIGURED,
+  READ_SYSTEM_INFO_FULFILLED,
+  READ_SYSTEM_INFO_REJECTED,
+} from '../constants/actionCodes';
 
 let client;
 let session;

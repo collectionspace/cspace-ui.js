@@ -9,7 +9,7 @@ import {
   PARTIAL_TERM_SEARCH_FULFILLED,
   PARTIAL_TERM_SEARCH_REJECTED,
   CLEAR_PARTIAL_TERM_SEARCH_RESULTS,
-} from '../../../src/actions/partialTermSearch';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getMatches,

@@ -3,7 +3,7 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   SET_RECORD_PAGE_PRIMARY_CSID,
-} from '../../../src/actions/recordPage';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getPrimaryCsid,

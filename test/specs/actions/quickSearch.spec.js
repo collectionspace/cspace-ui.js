@@ -4,6 +4,9 @@ import Immutable from 'immutable';
 
 import {
   SET_QUICK_SEARCH_KEYWORD,
+} from '../../../src/constants/actionCodes';
+
+import {
   setQuickSearchKeyword,
   initiateSearch,
 } from '../../../src/actions/quickSearch';

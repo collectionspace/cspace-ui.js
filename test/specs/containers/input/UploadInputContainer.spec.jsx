@@ -8,7 +8,7 @@ import { ConnectedUploadInput } from '../../../../src/containers/input/UploadInp
 
 import {
   SET_UPLOAD_TYPE,
-} from '../../../../src/actions/prefs';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 

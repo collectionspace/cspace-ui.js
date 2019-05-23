@@ -1,4 +1,6 @@
-export const ADD_OPTION_LISTS = 'ADD_OPTION_LISTS';
+import {
+  ADD_OPTION_LISTS,
+} from '../constants/actionCodes';
 
 export const addOptionLists = (optionLists) => {
   const mergedOptionLists = {};
@@ -27,3 +29,5 @@ export const addOptionLists = (optionLists) => {
     payload: mergedOptionLists,
   };
 };
+
+export default {};

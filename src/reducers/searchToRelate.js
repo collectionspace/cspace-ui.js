@@ -6,7 +6,7 @@ import {
   SET_SEARCH_TO_RELATE_KEYWORD,
   SET_SEARCH_TO_RELATE_RECORD_TYPE,
   SET_SEARCH_TO_RELATE_VOCABULARY,
-} from '../actions/searchToRelate';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

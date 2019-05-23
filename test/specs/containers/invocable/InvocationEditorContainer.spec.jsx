@@ -12,7 +12,7 @@ import {
 
 import {
   CREATE_NEW_RECORD,
-} from '../../../../src/actions/record';
+} from '../../../../src/constants/actionCodes';
 
 const expect = chai.expect;
 

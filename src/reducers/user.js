@@ -3,22 +3,13 @@ import get from 'lodash/get';
 import { getPermissions } from '../helpers/permissionHelpers';
 
 import {
+  CSPACE_CONFIGURED,
   ACCOUNT_PERMS_READ_FULFILLED,
   SET_ACCOUNT_PERMS,
-} from '../actions/account';
-
-import {
-  CSPACE_CONFIGURED,
-} from '../actions/cspace';
-
-import {
   AUTH_RENEW_FULFILLED,
   LOGIN_FULFILLED,
-} from '../actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../actions/logout';
+} from '../constants/actionCodes';
 
 const handleAccountPermsReadFulfilled = (state, action) => {
   const {

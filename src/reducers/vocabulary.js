@@ -1,20 +1,11 @@
 import {
   LOGIN_FULFILLED,
-} from '../actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../actions/logout';
-
-import {
   RECORD_SAVE_FULFILLED,
-} from '../actions/record';
-
-import {
   READ_VOCABULARY_ITEMS_STARTED,
   READ_VOCABULARY_ITEMS_FULFILLED,
   READ_VOCABULARY_ITEMS_REJECTED,
-} from '../actions/vocabulary';
+} from '../constants/actionCodes';
 
 const normalizeItems = items => ((items && !Array.isArray(items)) ? [items] : items);
 

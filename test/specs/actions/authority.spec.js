@@ -4,13 +4,16 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
 import {
+  AUTH_VOCABS_READ_STARTED,
+  AUTH_VOCABS_READ_FULFILLED,
+  AUTH_VOCABS_READ_REJECTED,
+} from '../../../src/constants/actionCodes';
+
+import {
   configureCSpace,
 } from '../../../src/actions/cspace';
 
 import {
-  AUTH_VOCABS_READ_STARTED,
-  AUTH_VOCABS_READ_FULFILLED,
-  AUTH_VOCABS_READ_REJECTED,
   checkForUses,
   readAuthVocabs,
 } from '../../../src/actions/authority';

@@ -4,10 +4,6 @@ import moxios from 'moxios';
 import Immutable from 'immutable';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   ADD_TERM_STARTED,
   ADD_TERM_FULFILLED,
   ADD_TERM_REJECTED,
@@ -15,6 +11,13 @@ import {
   PARTIAL_TERM_SEARCH_FULFILLED,
   PARTIAL_TERM_SEARCH_REJECTED,
   CLEAR_PARTIAL_TERM_SEARCH_RESULTS,
+} from '../../../src/constants/actionCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   addTerm,
   findMatchingTerms,
   clearMatchedTerms,

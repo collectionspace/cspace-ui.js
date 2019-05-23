@@ -9,12 +9,9 @@ import {
   ROLES_READ_STARTED,
   ROLES_READ_FULFILLED,
   ROLES_READ_REJECTED,
-} from '../actions/authz';
-
-import {
   RECORD_CREATED,
   RECORD_DELETE_FULFILLED,
-} from '../actions/record';
+} from '../constants/actionCodes';
 
 const handlePermsReadFulfilled = (state, action) => {
   const {

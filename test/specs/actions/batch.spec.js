@@ -5,25 +5,25 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   BATCH_INVOKE_STARTED,
   BATCH_INVOKE_FULFILLED,
   BATCH_INVOKE_REJECTED,
-  invoke,
-} from '../../../src/actions/batch';
-
-import {
   SHOW_NOTIFICATION,
-} from '../../../src/actions/notification';
+} from '../../../src/constants/actionCodes';
 
 import {
   STATUS_ERROR,
   STATUS_PENDING,
   STATUS_SUCCESS,
 } from '../../../src/constants/notificationStatusCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
+  invoke,
+} from '../../../src/actions/batch';
 
 const expect = chai.expect;
 const assert = chai.assert;

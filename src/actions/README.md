@@ -2,7 +2,7 @@
 
 This directory contains definitions of [Redux](http://redux.js.org) [action](http://redux.js.org/docs/basics/Actions.html) [creators](http://redux.js.org/docs/basics/Actions.html#action-creators). You should have a good understanding of Redux before making modifications to these files.
 
-The actions dispatched in the cspace-ui application are divided into functionally related groups. Each group of action creators is defined in a separate file. All of the actions are [Flux Standard Actions](https://github.com/acdlite/flux-standard-action), and action type constants are defined in the files where they are used.
+The actions dispatched in the cspace-ui application are divided into functionally related groups. Each group of action creators is defined in a separate file. All of the actions are [Flux Standard Actions](https://github.com/acdlite/flux-standard-action). Action type constants are defined in [constants/actionCodes.js](../constants/actionCodes.js).
 
 ## Synchronous Actions
 

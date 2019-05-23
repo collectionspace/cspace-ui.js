@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
       "targets": {
         "browsers": [
           "last 2 Chrome versions",
@@ -10,14 +10,13 @@
           "last 2 iOS versions",
           "last 2 ChromeAndroid versions"
         ],
-        "node": "8.9"
+        "node": "10.15"
       }
     }],
-    "react"
+    "@babel/react"
   ],
   "plugins": [
     "dev-expression",
-    ["transform-object-rest-spread", { "useBuiltIns": true }],
     ["react-intl", { "messagesDir": "./build/messages/" }]
   ],
   "env": {

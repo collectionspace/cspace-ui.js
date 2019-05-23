@@ -2,35 +2,13 @@ import Immutable from 'immutable';
 import { asPairs, diff } from '../helpers/objectHelpers';
 
 import {
-  SEARCH_RESULT_PAGE_SEARCH_NAME,
-  RECORD_BATCH_PANEL_SEARCH_NAME,
-  RECORD_REPORT_PANEL_SEARCH_NAME,
-} from '../constants/searchNames';
-
-import {
-  deepGet,
-} from '../helpers/recordDataHelpers';
-
-import {
   BATCH_INVOKE_FULFILLED,
-} from '../actions/batch';
-
-import {
   LOGIN_FULFILLED,
-} from '../actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../actions/logout';
-
-import {
   RECORD_SAVE_FULFILLED,
   RECORD_DELETE_FULFILLED,
   RECORD_TRANSITION_FULFILLED,
   SUBRECORD_CREATED,
-} from '../actions/record';
-
-import {
   CLEAR_SELECTED,
   CLEAR_SEARCH_RESULTS,
   SET_MOST_RECENT_SEARCH,
@@ -41,7 +19,17 @@ import {
   SET_ALL_RESULT_ITEMS_SELECTED,
   SET_RESULT_ITEM_SELECTED,
   DESELECT_RESULT_ITEM,
-} from '../actions/search';
+} from '../constants/actionCodes';
+
+import {
+  SEARCH_RESULT_PAGE_SEARCH_NAME,
+  RECORD_BATCH_PANEL_SEARCH_NAME,
+  RECORD_REPORT_PANEL_SEARCH_NAME,
+} from '../constants/searchNames';
+
+import {
+  deepGet,
+} from '../helpers/recordDataHelpers';
 
 /**
  * Generates a search key for a given search descriptor. All search descriptors that represent the

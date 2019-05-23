@@ -6,7 +6,7 @@ import {
   REMOVE_NOTIFICATION,
   OPEN_MODAL,
   CLOSE_MODAL,
-} from '../actions/notification';
+} from '../constants/actionCodes';
 
 const showNotification = (state, action) => {
   const notificationDescriptor = action.payload;

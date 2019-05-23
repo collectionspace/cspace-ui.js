@@ -2,18 +2,19 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const library = 'cspaceUI';
 const isProduction = process.env.NODE_ENV === 'production';
 const filename = `${library}${isProduction ? '.min' : ''}.js`;
 
 const config = {
+  mode: isProduction ? 'production' : 'development',
   entry: './src/index.jsx',
   output: {
     filename,
     library,
     libraryTarget: 'umd',
+    libraryExport: 'default',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -54,11 +55,9 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       [`${library}.packageName`]: JSON.stringify(process.env.npm_package_name),
       [`${library}.packageVersion`]: JSON.stringify(process.env.npm_package_version),
     }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -69,9 +68,5 @@ const config = {
     inline: true,
   },
 };
-
-if (isProduction) {
-  config.plugins.push(new UglifyJsPlugin());
-}
 
 module.exports = config;

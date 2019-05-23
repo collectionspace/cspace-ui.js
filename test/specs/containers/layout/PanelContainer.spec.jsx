@@ -10,7 +10,7 @@ import {
 
 import {
   COLLAPSE_PANEL,
-} from '../../../../src/actions/prefs';
+} from '../../../../src/constants/actionCodes';
 
 const expect = chai.expect;
 

@@ -6,7 +6,7 @@ import {
   REMOVE_NOTIFICATION,
   OPEN_MODAL,
   CLOSE_MODAL,
-} from '../../../src/actions/notification';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getModal,

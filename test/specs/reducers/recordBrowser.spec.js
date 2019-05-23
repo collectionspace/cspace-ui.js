@@ -4,7 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID,
   SET_RELATED_RECORD_BROWSER_RELATED_CSID,
-} from '../../../src/actions/recordBrowser';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getRelatedRecordBrowserRelatedCsid,

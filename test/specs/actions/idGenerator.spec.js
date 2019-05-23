@@ -4,10 +4,6 @@ import moxios from 'moxios';
 import Immutable from 'immutable';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   ADD_ID_GENERATORS,
   READ_ID_GENERATOR_STARTED,
   READ_ID_GENERATOR_FULFILLED,
@@ -15,19 +11,23 @@ import {
   CREATE_ID_STARTED,
   CREATE_ID_FULFILLED,
   CREATE_ID_REJECTED,
+  REMOVE_NOTIFICATION,
+  VALIDATION_PASSED,
+} from '../../../src/constants/actionCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   addIDGenerators,
   readIDGenerator,
   createID,
 } from '../../../src/actions/idGenerator';
 
 import {
-  REMOVE_NOTIFICATION,
   NOTIFICATION_ID_VALIDATION,
 } from '../../../src/actions/notification';
-
-import {
-  VALIDATION_PASSED,
-} from '../../../src/actions/record';
 
 const expect = chai.expect;
 

@@ -57,7 +57,7 @@ const defaultConfig = mergeConfig({
   plugins: defaultPlugins.map(plugin => plugin()),
 }, configContext);
 
-module.exports = (uiConfig) => {
+export default (uiConfig) => {
   const resolvedUiConfig = evaluatePlugin(uiConfig, configContext);
   const config = finalizeRecordTypes(mergeConfig(defaultConfig, resolvedUiConfig, configContext));
 

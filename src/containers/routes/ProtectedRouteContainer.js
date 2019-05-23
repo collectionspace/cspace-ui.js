@@ -9,7 +9,6 @@ import {
 } from '../../reducers';
 
 import {
-  redirectLogin,
   resetLogin,
 } from '../../actions/login';
 
@@ -26,7 +25,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   closeModal,
-  redirectLogin,
   resetLogin,
 };
 

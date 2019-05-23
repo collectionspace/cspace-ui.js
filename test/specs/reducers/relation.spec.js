@@ -5,7 +5,7 @@ import {
   CLEAR_RELATION_STATE,
   RELATION_FIND_FULFILLED,
   SUBJECT_RELATIONS_UPDATED,
-} from '../../../src/actions/relation';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getFindResult,

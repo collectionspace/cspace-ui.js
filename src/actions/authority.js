@@ -1,10 +1,11 @@
 import get from 'lodash/get';
 import getSession from './cspace';
 
-export const AUTH_VOCABS_READ_STARTED = 'AUTH_VOCABS_READ_STARTED';
-export const AUTH_VOCABS_READ_FULFILLED = 'AUTH_VOCABS_READ_FULFILLED';
-export const AUTH_VOCABS_READ_REJECTED = 'AUTH_VOCABS_READ_REJECTED';
-export const SET_AUTH_VOCAB_WORKFLOW_STATE = 'SET_AUTH_VOCAB_WORKFLOW_STATE';
+import {
+  AUTH_VOCABS_READ_STARTED,
+  AUTH_VOCABS_READ_FULFILLED,
+  AUTH_VOCABS_READ_REJECTED,
+} from '../constants/actionCodes';
 
 export const readAuthVocabs = config => (dispatch) => {
   const recordTypes = get(config, 'recordTypes');

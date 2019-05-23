@@ -4,14 +4,7 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   SHOW_NOTIFICATION,
-} from '../../../src/actions/notification';
-
-import {
   CLEAR_RELATION_STATE,
   RELATION_DELETE_STARTED,
   RELATION_DELETE_FULFILLED,
@@ -23,6 +16,13 @@ import {
   RELATION_SAVE_FULFILLED,
   RELATION_SAVE_REJECTED,
   SUBJECT_RELATIONS_UPDATED,
+} from '../../../src/constants/actionCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   checkForRelations,
   clearState,
   find,

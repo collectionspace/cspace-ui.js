@@ -4,10 +4,6 @@ import moxios from 'moxios';
 import Immutable from 'immutable';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   CLEAR_SEARCH_RESULTS,
   CLEAR_SELECTED,
   CREATE_EMPTY_SEARCH_RESULT,
@@ -18,6 +14,13 @@ import {
   SEARCH_FULFILLED,
   SEARCH_REJECTED,
   SET_ALL_RESULT_ITEMS_SELECTED,
+} from '../../../src/constants/actionCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   clearSelected,
   clearSearchResults,
   deselectResultItem,

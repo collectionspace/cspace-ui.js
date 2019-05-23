@@ -3,11 +3,8 @@ import Immutable from 'immutable';
 import {
   ADD_ID_GENERATORS,
   READ_ID_GENERATOR_FULFILLED,
-} from '../actions/idGenerator';
-
-import {
   LOGOUT_FULFILLED,
-} from '../actions/logout';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

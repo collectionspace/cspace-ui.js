@@ -1,6 +1,4 @@
 import Immutable from 'immutable';
-import { SET_SEARCH_PAGE_ADVANCED } from '../actions/searchPage';
-import { SET_SEARCH_TO_RELATE_ADVANCED } from '../actions/searchToRelate';
 import { OP_AND, OP_OR } from '../constants/searchOperators';
 
 import {
@@ -20,7 +18,9 @@ import {
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
   SET_STICKY_FIELDS,
-} from '../actions/prefs';
+  SET_SEARCH_PAGE_ADVANCED,
+  SET_SEARCH_TO_RELATE_ADVANCED,
+} from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
   const condition = action.payload;

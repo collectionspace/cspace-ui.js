@@ -5,11 +5,8 @@ import { getRecordTypeConfigByUri, getVocabularyConfigByShortID } from '../helpe
 import {
   AUTH_VOCABS_READ_FULFILLED,
   SET_AUTH_VOCAB_WORKFLOW_STATE,
-} from '../actions/authority';
-
-import {
   LOGOUT_FULFILLED,
-} from '../actions/logout';
+} from '../constants/actionCodes';
 
 const handleAuthVocabsReadFulfilled = (state, action) => {
   const responses = action.payload;

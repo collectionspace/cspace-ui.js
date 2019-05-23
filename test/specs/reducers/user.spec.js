@@ -3,21 +3,12 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   CSPACE_CONFIGURED,
-} from '../../../src/actions/cspace';
-
-import {
   ACCOUNT_PERMS_READ_FULFILLED,
   SET_ACCOUNT_PERMS,
-} from '../../../src/actions/account';
-
-import {
   AUTH_RENEW_FULFILLED,
   LOGIN_FULFILLED,
-} from '../../../src/actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getPerms,

@@ -4,11 +4,8 @@ import chaiImmutable from 'chai-immutable';
 import {
   ADD_ID_GENERATORS,
   READ_ID_GENERATOR_FULFILLED,
-} from '../../../src/actions/idGenerator';
-
-import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   get,

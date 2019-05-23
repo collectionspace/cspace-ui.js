@@ -3,17 +3,8 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   BATCH_INVOKE_FULFILLED,
-} from '../../../src/actions/batch';
-
-import {
   LOGIN_FULFILLED,
-} from '../../../src/actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
-
-import {
   CLEAR_SEARCH_RESULTS,
   CREATE_EMPTY_SEARCH_RESULT,
   SET_MOST_RECENT_SEARCH,
@@ -24,14 +15,11 @@ import {
   CLEAR_SELECTED,
   DESELECT_RESULT_ITEM,
   SET_ALL_RESULT_ITEMS_SELECTED,
-} from '../../../src/actions/search';
-
-import {
   SUBRECORD_CREATED,
   RECORD_SAVE_FULFILLED,
   RECORD_DELETE_FULFILLED,
   RECORD_TRANSITION_FULFILLED,
-} from '../../../src/actions/record';
+} from '../../../src/constants/actionCodes';
 
 import {
   SEARCH_RESULT_PAGE_SEARCH_NAME,

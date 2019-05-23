@@ -99,15 +99,6 @@ export default {
   // Notification message shown when a batch job is running.
   "batch.running": "Running {name}…",
 
-  // Label of the cancel button in the batch job modal.
-  "batchModal.cancel": "Cancel",
-
-  // The prompt shown to run a batch jbob.
-  "batchModal.prompt": "Run this batch job?",
-
-  // Label of the save button in the batch job modal.
-  "batchModal.run": "Run",
-
   "booleanConditionInput.and.label": "and",
 
   "booleanConditionInput.and.opSelectorLabel": "All",
@@ -521,6 +512,26 @@ export default {
 
   "field.acquisitions_common.acquisitionSource.name": "Acquisition source",
 
+  "field.acquisitions_common.approvalDate.fullName": "Approval status date",
+
+  "field.acquisitions_common.approvalDate.name": "Date",
+
+  "field.acquisitions_common.approvalGroup.fullName": "Approval group",
+
+  "field.acquisitions_common.approvalGroup.name": "Approval",
+
+  "field.acquisitions_common.approvalIndividual.fullName": "Approval individual",
+
+  "field.acquisitions_common.approvalIndividual.name": "Individual",
+
+  "field.acquisitions_common.approvalNote.fullName": "Approval note",
+
+  "field.acquisitions_common.approvalNote.name": "Note",
+
+  "field.acquisitions_common.approvalStatus.fullName": "Approval status",
+
+  "field.acquisitions_common.approvalStatus.name": "Status",
+
   "field.acquisitions_common.creditLine.name": "Credit line",
 
   "field.acquisitions_common.fieldCollectionEventName.name": "Field collection event name",
@@ -570,6 +581,10 @@ export default {
   "field.acquisitions_common.transferOfTitleNumber.name": "Transfer of title number",
 
   "field.acquistions_common.acquisitionFundingSourceProvisos.name": "Source provisos",
+
+  "field.approvalGroupField.approvalGroup.name": "Group",
+
+  "field.approvalGroupField.approvalGroup.name": "Group",
 
   "field.authrole.description.name": "Description",
 
@@ -1597,6 +1612,10 @@ export default {
 
   "field.ext.dimension.valueQualifier.name": "Qualifier",
 
+  "field.groups_common.groupEarliestSingleDate.name": "Earliest/single date",
+
+  "field.groups_common.groupLatestDate.name": "Latest date",
+
   "field.groups_common.owner.name": "Group owner",
 
   "field.groups_common.responsibleDepartment.name": "Responsible department",
@@ -1604,6 +1623,26 @@ export default {
   "field.groups_common.scopeNote.name": "Scope note",
 
   "field.groups_common.title.name": "Title",
+
+  "field.intakes_common.approvalDate.fullName": "Approval status date",
+
+  "field.intakes_common.approvalDate.name": "Date",
+
+  "field.intakes_common.approvalGroup.fullName": "Approval group",
+
+  "field.intakes_common.approvalGroup.name": "Approval",
+
+  "field.intakes_common.approvalIndividual.fullName": "Approval individual",
+
+  "field.intakes_common.approvalIndividual.name": "Individual",
+
+  "field.intakes_common.approvalNote.fullName": "Approval note",
+
+  "field.intakes_common.approvalNote.name": "Note",
+
+  "field.intakes_common.approvalStatus.fullName": "Approval status",
+
+  "field.intakes_common.approvalStatus.name": "Status",
 
   "field.intakes_common.conditionCheckDate.name": "Condition check date",
 
@@ -1717,9 +1756,17 @@ export default {
 
   "field.loansin_common.lendersContact.name": "Contact",
 
+  "field.loansin_common.loanGroup.fullName": "Loan status group",
+
+  "field.loansin_common.loanGroup.name": "Group",
+
   "field.loansin_common.loanInConditions.name": "Conditions of loan",
 
   "field.loansin_common.loanInDate.name": "Loan in date",
+
+  "field.loansin_common.loanIndividual.fullName": "Loan status individual",
+
+  "field.loansin_common.loanIndividual.name": "Individual",
 
   "field.loansin_common.loanInNote.name": "Note",
 
@@ -1770,6 +1817,14 @@ export default {
   "field.loansout_common.lendersContact.fullName": "Lender contact",
 
   "field.loansout_common.lendersContact.name": "Contact",
+
+  "field.loansout_common.loanGroup.fullName": "Loan status group",
+
+  "field.loansout_common.loanGroup.name": "Group",
+
+  "field.loansout_common.loanIndividual.fullName": "Loan status individual",
+
+  "field.loansout_common.loanIndividual.name": "Individual",
 
   "field.loansout_common.loanOutDate.name": "Loan out date",
 
@@ -1936,6 +1991,14 @@ export default {
   "field.objectexit_common.deaccessionApprovalGroup.fullName": "Deaccession approval group",
 
   "field.objectexit_common.deaccessionApprovalGroup.name": "Group",
+
+  "field.objectexit_common.deaccessionApprovalIndividual.fullName": "Deaccession approval individual",
+
+  "field.objectexit_common.deaccessionApprovalIndividual.name": "Individual",
+
+  "field.objectexit_common.deaccessionApprovalNote.fullName": "Deaccession approval note",
+
+  "field.objectexit_common.deaccessionApprovalNote.name": "Note",
 
   "field.objectexit_common.deaccessionApprovalStatus.fullName": "Deaccession approval status",
 
@@ -2267,6 +2330,10 @@ export default {
 
   "field.pottags_common.taxonName.name": "Taxon name",
 
+  "field.reports_common.name.name": "Name",
+
+  "field.reports_common.notes.name": "Description",
+
   "field.structuredDate.dateAssociation": "Association",
 
   "field.structuredDate.dateCertainty": "Certainty",
@@ -2550,6 +2617,8 @@ export default {
 
   "form.pottag.default.name": "Standard Template",
 
+  "form.report.default.name": "Standard Template",
+
   "form.uoc.default.name": "Standard Template",
 
   "form.valuation.default.name": "Standard Template",
@@ -2720,6 +2789,21 @@ export default {
 
   "inputTable.work.termSource": "Source",
 
+  // Message displayed when invocable metadata is loading.
+  "invocationEditor.loading": "Loading…",
+
+  // Message displayed when an invocable has no description.
+  "invocationEditor.noDescription": "Description not provided.",
+
+  // Label of the cancel button in the invocation modal.
+  "invocationModal.cancel": "Cancel",
+
+  // Label of the invoke button in the invocation modal.
+  "invocationModal.run": "Run",
+
+  // Label of the invoke button.
+  "invokeButton.label": "Run",
+
   "list.account.resultCount": "{totalItems, plural, =0 {No users} one {1 user} other {{startNum, number}–{endNum, number} of {totalItems, number} users}} found",
 
   "list.account.searching": "Finding users...",
@@ -2817,6 +2901,8 @@ export default {
   "navBar.dashboard": "My CollectionSpace",
 
   "navBar.search": "Search",
+
+  "navBar.tool": "Tools",
 
   // Label of the open button.
   "openButton.label": "Open",
@@ -3402,6 +3488,8 @@ export default {
   "option.conditionCheckReasons.conservation": "conservation",
 
   "option.conditionCheckReasons.damagedintransit": "damaged in transit",
+
+  "option.conditionCheckReasons.exhibition": "exhibition",
 
   "option.conditionCheckReasons.loanin": "loan in",
 
@@ -4421,10 +4509,13 @@ export default {
   "record.authrole.name": "Role",
 
   // The name of a collection of records of the type.
-  "record.batch.collectionName": "Batch Jobs",
+  "record.batch.collectionName": "Data Updates",
+
+  // The message shown when a record of the type is invoked, and the context record has unsaved changes.
+  "record.batch.invokeUnsaved": "This record has changes that have not been saved. The data update will not include any unsaved data.",
 
   // The name of the record type.
-  "record.batch.name": "Batch Job",
+  "record.batch.name": "Data Update",
 
   // The name of a collection of records of the type.
   "record.blob.collectionName": "Blobs",
@@ -4573,6 +4664,9 @@ export default {
   // The name of a collection of records of the type.
   "record.report.collectionName": "Reports",
 
+  // The message shown when a record of the type is invoked, and the context record has unsaved changes.
+  "record.report.invokeUnsaved": "This record has changes that have not been saved. The report will not include any unsaved data.",
+
   // The name of the record type.
   "record.report.name": "Report",
 
@@ -4606,7 +4700,7 @@ export default {
   // The name of the record type.
   "record.work.name": "Work",
 
-  "recordBatchPanel.title": "Batch Jobs",
+  "recordBatchPanel.title": "Data Updates",
 
   "recordBrowserNavBar.moreRelated": "+ Related",
 
@@ -4658,17 +4752,11 @@ export default {
   // Notification message shown when a report fails.
   "report.error": "Error running report: {error}",
 
-  // Label of the cancel button in the report modal.
-  "reportModal.cancel": "Cancel",
+  // Label of the clear button on the search bar of the report page.
+  "reportSearchBar.clear": "Clear",
 
-  // The prompt shown to run a report.
-  "reportModal.prompt": "Run this report?",
-
-  // Label of the save button in the report modal.
-  "reportModal.run": "Run",
-
-  // The message shown in the report modal when the record has unsaved changes.
-  "reportModal.unsaved": "This record has changes that have not been saved. The report will not include any unsaved data.",
+  // Label of the input on the search bar of the report page.
+  "reportSearchBar.filter": "Filter by name",
 
   // Message displayed when a report invocation fails.
   "reportViewerPage.error": "Error running report: {error}",
@@ -4686,7 +4774,7 @@ export default {
   "rootPage.title": "CollectionSpace",
 
   // Label of the run button.
-  "runButton.label": "Run",
+  "runButton.label": "Run…",
 
   // Label of the save button.
   "saveButton.label": "Save",
@@ -4799,6 +4887,12 @@ export default {
   "termPickerInput.count": "{count, plural, =0 {No matching terms} one {# matching term} other {# matching terms}} found",
 
   "termsUsedPanel.title": "Terms Used",
+
+  "toolNavBar.batch": "Data Updates",
+
+  "toolNavBar.report": "Reports",
+
+  "toolPage.title": "Tools",
 
   // Label of the undeprecate button.
   "undeprecateButton.label": "Activate",

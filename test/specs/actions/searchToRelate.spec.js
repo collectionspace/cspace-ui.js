@@ -3,6 +3,9 @@ import {
   SET_SEARCH_TO_RELATE_ADVANCED,
   SET_SEARCH_TO_RELATE_RECORD_TYPE,
   SET_SEARCH_TO_RELATE_VOCABULARY,
+} from '../../../src/constants/actionCodes';
+
+import {
   setSearchToRelateKeyword,
   setSearchToRelateAdvanced,
   setSearchToRelateRecordType,

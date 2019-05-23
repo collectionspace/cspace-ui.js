@@ -1,7 +1,7 @@
 import {
   LOGOUT_STARTED,
   LOGOUT_FULFILLED,
-} from '../actions/logout';
+} from '../constants/actionCodes';
 
 export default (state = {}, action) => {
   switch (action.type) {

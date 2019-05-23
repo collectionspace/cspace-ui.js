@@ -2,7 +2,6 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
-  DATA_TYPE_LIST,
   DATA_TYPE_STRING,
   DATA_TYPE_INT,
   DATA_TYPE_FLOAT,
@@ -538,9 +537,6 @@ describe('searchHelpers', function moduleSuite() {
               },
               title: {},
               titleTranslationSubGroupList: {
-                [configKey]: {
-                  dataType: DATA_TYPE_LIST,
-                },
                 titleTranslationSubGroup: {
                   [configKey]: {
                     repeating: true,

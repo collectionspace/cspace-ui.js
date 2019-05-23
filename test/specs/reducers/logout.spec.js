@@ -1,7 +1,7 @@
 import {
   LOGOUT_STARTED,
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getResponse,

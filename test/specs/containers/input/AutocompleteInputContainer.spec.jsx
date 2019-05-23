@@ -10,7 +10,7 @@ import {
   ADD_TERM_STARTED,
   PARTIAL_TERM_SEARCH_STARTED,
   CLEAR_PARTIAL_TERM_SEARCH_RESULTS,
-} from '../../../../src/actions/partialTermSearch';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 

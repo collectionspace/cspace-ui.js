@@ -4,7 +4,7 @@ import {
   CLEAR_RELATION_STATE,
   RELATION_FIND_FULFILLED,
   SUBJECT_RELATIONS_UPDATED,
-} from '../actions/relation';
+} from '../constants/actionCodes';
 
 const handleRelationFindFulfilled = (state, action) => {
   const {

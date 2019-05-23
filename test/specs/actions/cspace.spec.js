@@ -7,34 +7,24 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import LoginModal from '../../../src/components/login/LoginModal';
 
-import { ACCOUNT_PERMS_READ_FULFILLED } from '../../../src/actions/account';
-
 import {
-  AUTH_VOCABS_READ_STARTED,
-  AUTH_VOCABS_READ_FULFILLED,
-} from '../../../src/actions/authority';
-
-import getSession, {
   CSPACE_CONFIGURED,
+  PREFS_LOADED,
   READ_SYSTEM_INFO_FULFILLED,
   READ_SYSTEM_INFO_REJECTED,
+  ACCOUNT_PERMS_READ_FULFILLED,
+  AUTH_VOCABS_READ_STARTED,
+  AUTH_VOCABS_READ_FULFILLED,
+  RESET_LOGIN,
+  OPEN_MODAL,
+} from '../../../src/constants/actionCodes';
+
+import getSession, {
   configureCSpace,
   createSession,
   setSession,
   readSystemInfo,
 } from '../../../src/actions/cspace';
-
-import {
-  RESET_LOGIN,
-} from '../../../src/actions/login';
-
-import {
-  OPEN_MODAL,
-} from '../../../src/actions/notification';
-
-import {
-  PREFS_LOADED,
-} from '../../../src/actions/prefs';
 
 chai.use(chaiAsPromised);
 chai.should();

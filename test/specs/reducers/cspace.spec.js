@@ -1,7 +1,11 @@
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import { CSPACE_CONFIGURED, READ_SYSTEM_INFO_FULFILLED } from '../../../src/actions/cspace';
 import reducer, { getConfig, getSystemInfo } from '../../../src/reducers/cspace';
+
+import {
+  CSPACE_CONFIGURED,
+  READ_SYSTEM_INFO_FULFILLED,
+} from '../../../src/constants/actionCodes';
 
 chai.use(chaiImmutable);
 chai.should();

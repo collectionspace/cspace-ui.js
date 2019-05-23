@@ -8,6 +8,10 @@ import moxios from 'moxios';
 import qs from 'qs';
 
 import {
+  SHOW_NOTIFICATION,
+} from '../../../src/constants/actionCodes';
+
+import {
   configureCSpace,
 } from '../../../src/actions/cspace';
 
@@ -15,10 +19,6 @@ import {
   invoke,
   openReport,
 } from '../../../src/actions/report';
-
-import {
-  SHOW_NOTIFICATION,
-} from '../../../src/actions/notification';
 
 import {
   STATUS_ERROR,

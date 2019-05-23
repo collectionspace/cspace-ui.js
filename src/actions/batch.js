@@ -15,9 +15,11 @@ import {
   STATUS_SUCCESS,
 } from '../constants/notificationStatusCodes';
 
-export const BATCH_INVOKE_STARTED = 'BATCH_INVOKE_STARTED';
-export const BATCH_INVOKE_FULFILLED = 'BATCH_INVOKE_FULFILLED';
-export const BATCH_INVOKE_REJECTED = 'BATCH_INVOKE_REJECTED';
+import {
+  BATCH_INVOKE_STARTED,
+  BATCH_INVOKE_FULFILLED,
+  BATCH_INVOKE_REJECTED,
+} from '../constants/actionCodes';
 
 const messages = defineMessages({
   running: {

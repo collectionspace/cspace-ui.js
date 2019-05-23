@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 
 import {
   SET_RECORD_PAGE_PRIMARY_CSID,
-} from '../actions/recordPage';
+} from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {

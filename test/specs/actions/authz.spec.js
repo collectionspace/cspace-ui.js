@@ -4,16 +4,19 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 
 import {
-  configureCSpace,
-} from '../../../src/actions/cspace';
-
-import {
   PERMS_READ_STARTED,
   PERMS_READ_FULFILLED,
   PERMS_READ_REJECTED,
   ROLES_READ_STARTED,
   ROLES_READ_FULFILLED,
   ROLES_READ_REJECTED,
+} from '../../../src/constants/actionCodes';
+
+import {
+  configureCSpace,
+} from '../../../src/actions/cspace';
+
+import {
   readPerms,
   readRoles,
 } from '../../../src/actions/authz';

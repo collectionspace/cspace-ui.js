@@ -1,8 +1,10 @@
 import getSession from './cspace';
 import { loadPrefs, savePrefs } from './prefs';
 
-export const LOGOUT_STARTED = 'LOGOUT_STARTED';
-export const LOGOUT_FULFILLED = 'LOGOUT_FULFILLED';
+import {
+  LOGOUT_STARTED,
+  LOGOUT_FULFILLED,
+} from '../constants/actionCodes';
 
 export const logout = () => (dispatch) => {
   dispatch({
@@ -18,3 +20,5 @@ export const logout = () => (dispatch) => {
     }))
     .then(() => dispatch(loadPrefs()));
 };
+
+export default {};

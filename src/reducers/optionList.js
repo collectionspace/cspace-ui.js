@@ -1,6 +1,6 @@
 import {
   ADD_OPTION_LISTS,
-} from '../actions/optionList';
+} from '../constants/actionCodes';
 
 export default (state = {}, action) => {
   switch (action.type) {

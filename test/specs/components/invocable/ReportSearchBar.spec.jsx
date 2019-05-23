@@ -29,7 +29,7 @@ describe('ReportSearchBar', function suite() {
         <ReportSearchBar value={value} />
       </IntlProvider>, this.container);
 
-    this.container.querySelector('input[type="text"').value.should.equal(value);
+    this.container.querySelector('input[type="text"]').value.should.equal(value);
   });
 
   it('should call onChange when the input value changes', function test() {
@@ -44,7 +44,7 @@ describe('ReportSearchBar', function suite() {
         <ReportSearchBar onChange={handleChange} />
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input[type="text"');
+    const input = this.container.querySelector('input[type="text"]');
     const newValue = 'new value';
 
     input.value = newValue;

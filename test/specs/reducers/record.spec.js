@@ -3,13 +3,7 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   LOGIN_FULFILLED,
-} from '../../../src/actions/login';
-
-import {
   LOGOUT_FULFILLED,
-} from '../../../src/actions/logout';
-
-import {
   ADD_FIELD_INSTANCE,
   CLEAR_RECORD,
   CREATE_NEW_RECORD,
@@ -38,21 +32,12 @@ import {
   VALIDATION_FAILED,
   VALIDATION_PASSED,
   SORT_FIELD_INSTANCES,
-} from '../../../src/actions/record';
-
-import {
   SUBJECT_RELATIONS_UPDATED,
-} from '../../../src/actions/relation';
-
-import {
   CREATE_ID_FULFILLED,
-} from '../../../src/actions/idGenerator';
-
-import {
   READ_VOCABULARY_ITEM_REFS_STARTED,
   READ_VOCABULARY_ITEM_REFS_FULFILLED,
   READ_VOCABULARY_ITEM_REFS_REJECTED,
-} from '../../../src/actions/vocabulary';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getData,

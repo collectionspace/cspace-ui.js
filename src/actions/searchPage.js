@@ -10,9 +10,11 @@ import {
 
 import { normalizeCondition } from '../helpers/searchHelpers';
 
-export const CLEAR_SEARCH_PAGE = 'CLEAR_SEARCH_PAGE';
-export const SET_SEARCH_PAGE_KEYWORD = 'SET_SEARCH_PAGE_KEYWORD';
-export const SET_SEARCH_PAGE_ADVANCED = 'SET_SEARCH_PAGE_ADVANCED';
+import {
+  CLEAR_SEARCH_PAGE,
+  SET_SEARCH_PAGE_KEYWORD,
+  SET_SEARCH_PAGE_ADVANCED,
+} from '../constants/actionCodes';
 
 export const clearSearchPage = () => ({
   type: CLEAR_SEARCH_PAGE,

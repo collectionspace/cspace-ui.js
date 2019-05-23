@@ -6,6 +6,12 @@ import moxios from 'moxios';
 import Immutable from 'immutable';
 
 import {
+  PREFS_LOADED,
+  LOGOUT_STARTED,
+  LOGOUT_FULFILLED,
+} from '../../../src/constants/actionCodes';
+
+import {
   configureCSpace,
 } from '../../../src/actions/cspace';
 
@@ -14,14 +20,8 @@ import {
 } from '../../../src/actions/login';
 
 import {
-  LOGOUT_STARTED,
-  LOGOUT_FULFILLED,
   logout,
 } from '../../../src/actions/logout';
-
-import {
-  PREFS_LOADED,
-} from '../../../src/actions/prefs';
 
 chai.should();
 

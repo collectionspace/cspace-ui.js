@@ -1,6 +1,9 @@
 import {
   CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID,
   SET_RELATED_RECORD_BROWSER_RELATED_CSID,
+} from '../../../src/constants/actionCodes';
+
+import {
   clearRelatedRecordBrowserRelatedCsid,
   setRelatedRecordBrowserRelatedCsid,
 } from '../../../src/actions/recordBrowser';

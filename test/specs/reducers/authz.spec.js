@@ -8,12 +8,9 @@ import {
   ROLES_READ_STARTED,
   ROLES_READ_FULFILLED,
   ROLES_READ_REJECTED,
-} from '../../../src/actions/authz';
-
-import {
   RECORD_CREATED,
   RECORD_DELETE_FULFILLED,
-} from '../../../src/actions/record';
+} from '../../../src/constants/actionCodes';
 
 import reducer, {
   getResourceNames,
