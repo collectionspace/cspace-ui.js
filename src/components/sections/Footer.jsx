@@ -37,6 +37,11 @@ const messages = defineMessages({
     id: 'footer.version',
     defaultMessage: '{name} version {version}',
   },
+  notConnected: {
+    id: 'footer.notConnected',
+    description: 'Message shown in the footer when a connection to the CollectionSpace server can not be established.',
+    defaultMessage: 'Not connected to {serverUrl}',
+  },
 });
 
 const propTypes = {
@@ -95,11 +100,27 @@ export default function Footer(props) {
   } = props;
 
   const thisYear = (new Date()).getFullYear().toString();
-  const releaseVersion = formatReleaseVersion(systemInfo);
 
-  const releaseInfoUrl = releaseVersion
-    ? `https://wiki.collectionspace.org/display/collectionspace/Release+${releaseVersion}`
-    : 'https://wiki.collectionspace.org';
+  let statusItem;
+
+  if (systemInfo) {
+    if (systemInfo.get('error')) {
+      statusItem = (
+        <FormattedMessage {...messages.notConnected} values={{ serverUrl: config.serverUrl }} />
+      );
+    } else {
+      const releaseVersion = formatReleaseVersion(systemInfo);
+
+      if (releaseVersion) {
+        statusItem = (
+          // TODO: Make release pages in the new wiki.
+          // <a href={`https://wiki.collectionspace.org/display/collectionspace/Release+${releaseVersion}`}>
+          <FormattedMessage {...messages.release} values={{ version: releaseVersion }} />
+          // </a>
+        );
+      }
+    }
+  }
 
   return (
     <footer className={styles.common}>
@@ -129,9 +150,7 @@ export default function Footer(props) {
 
       <ul>
         <li>
-          <a href={releaseInfoUrl}>
-            <FormattedMessage {...messages.release} values={{ version: releaseVersion }} />
-          </a>
+          {statusItem}
         </li>
 
         <li>

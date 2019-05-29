@@ -5,6 +5,7 @@ import reducer, { getConfig, getSystemInfo } from '../../../src/reducers/cspace'
 import {
   CSPACE_CONFIGURED,
   READ_SYSTEM_INFO_FULFILLED,
+  READ_SYSTEM_INFO_REJECTED,
 } from '../../../src/constants/actionCodes';
 
 chai.use(chaiImmutable);
@@ -91,6 +92,32 @@ describe('cspace reducer', function suite() {
           major: '5',
           minor: '1',
         },
+      },
+    }));
+  });
+
+  it('should handle READ_SYSTEM_INFO_REJECTED', function test() {
+    const state = reducer(undefined, {
+      type: READ_SYSTEM_INFO_REJECTED,
+      payload: {
+        data: 'Error',
+        message: 'Network Error',
+      },
+    });
+
+    state.should.equal(Immutable.fromJS({
+      systemInfo: {
+        error: {
+          data: 'Error',
+          message: 'Network Error',
+        },
+      },
+    }));
+
+    getSystemInfo(state).should.equal(Immutable.fromJS({
+      error: {
+        data: 'Error',
+        message: 'Network Error',
       },
     }));
   });

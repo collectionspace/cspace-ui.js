@@ -34,7 +34,7 @@ describe('Footer', function suite() {
     this.container.firstElementChild.nodeName.should.equal('FOOTER');
   });
 
-  it('should render the version number from systemInfo', function test() {
+  it('should render the version number from system info', function test() {
     const systemInfo = Immutable.fromJS({
       'ns2:system_info_common': {
         version: {
@@ -55,6 +55,41 @@ describe('Footer', function suite() {
     const items = lists[1].querySelectorAll('li');
 
     items[0].textContent.should.equal('Release 5.1');
+  });
+
+  it('should render no version number if it is not present in system info', function test() {
+    const systemInfo = Immutable.fromJS({
+      'ns2:system_info_common': {},
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <Footer config={{}} intl={intl} systemInfo={systemInfo} />
+      </IntlProvider>, this.container);
+
+    const lists = this.container.querySelectorAll('ul');
+    const items = lists[1].querySelectorAll('li');
+
+    items[0].textContent.should.equal('');
+  });
+
+  it('should render a not connected message if there is an error retrieving system info', function test() {
+    const systemInfo = Immutable.fromJS({
+      error: {
+        name: 'Error',
+        message: 'Network Error',
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <Footer config={{}} intl={intl} systemInfo={systemInfo} />
+      </IntlProvider>, this.container);
+
+    const lists = this.container.querySelectorAll('ul');
+    const items = lists[1].querySelectorAll('li');
+
+    items[0].textContent.should.contain('Not connected');
   });
 
   it('should render plugin info from config', function test() {
