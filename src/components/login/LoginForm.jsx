@@ -334,8 +334,23 @@ class LoginForm extends Component {
   }
 
   render() {
+    const {
+      isPending,
+      isSuccess,
+    } = this.props;
+
+    let className;
+
+    if (isPending) {
+      className = styles.pending;
+    } else if (isSuccess) {
+      className = styles.success;
+    } else {
+      className = styles.common;
+    }
+
     return (
-      <div className={styles.common}>
+      <div className={className}>
         {this.renderHeader()}
         {this.renderPrompt()}
         {this.renderForm()}
