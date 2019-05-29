@@ -442,6 +442,7 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
 
   if (serviceType === 'authority' || serviceType === 'object') {
     requestConfig.params.showRelations = true;
+    requestConfig.params.pgSz = 0;
   }
 
   if (recordTypeConfig.requestConfig) {

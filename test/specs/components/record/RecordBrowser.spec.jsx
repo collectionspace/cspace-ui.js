@@ -159,7 +159,7 @@ describe('RecordBrowser', function suite() {
       },
     });
 
-    moxios.stubRequest(`/cspace-services/collectionobjects/${createdCsid}?wf_deleted=false&showRelations=true`, {
+    moxios.stubRequest(`/cspace-services/collectionobjects/${createdCsid}?wf_deleted=false&showRelations=true&pgSz=0`, {
       status: 200,
       response: {},
     });
