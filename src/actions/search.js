@@ -259,6 +259,47 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       }));
   };
 
+export const searchCsid = (config, recordType, csid) => () => {
+  const requestConfig = {
+    params: {
+      as: `(ecm:name = "${csid}")`,
+      pgSz: 1,
+      wf_deleted: false,
+    },
+  };
+
+  const recordTypeConfig = config.recordTypes[recordType];
+
+  if (!recordTypeConfig) {
+    return Promise.reject();
+  }
+
+  const recordTypeServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
+
+  if (!recordTypeServicePath) {
+    return Promise.reject();
+  }
+
+  const pathParts = [recordTypeServicePath];
+  const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+  if (serviceType === 'authority') {
+    const vocabularyServicePath =
+      get(recordTypeConfig, ['vocabularies', 'all', 'serviceConfig', 'servicePath']);
+
+    if (!vocabularyServicePath) {
+      return Promise.reject();
+    }
+
+    pathParts.push(vocabularyServicePath);
+    pathParts.push('items');
+  }
+
+  const path = pathParts.join('/');
+
+  return getSession().read(path, requestConfig);
+};
+
 export const setResultItemSelected =
   (config, searchName, searchDescriptor, listType = 'common', index, isSelected) => {
     const listTypeConfig = config.listTypes[listType];

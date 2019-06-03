@@ -219,7 +219,7 @@ export default class SearchResultTable extends Component {
       const items = searchResult.getIn([listNodeName, itemNodeName]);
       const item = Immutable.List.isList(items) ? items.get(index) : items;
 
-      onItemClick(item);
+      onItemClick(item, index);
     }
   }
 

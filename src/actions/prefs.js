@@ -17,7 +17,7 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
-  SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
@@ -87,8 +87,8 @@ export const setSearchResultPagePageSize = pageSize => ({
   payload: pageSize,
 });
 
-export const setSearchToRelatePageSize = pageSize => ({
-  type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
+export const setSearchToSelectPageSize = pageSize => ({
+  type: SET_SEARCH_TO_SELECT_PAGE_SIZE,
   payload: pageSize,
 });
 

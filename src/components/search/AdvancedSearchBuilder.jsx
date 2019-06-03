@@ -152,7 +152,7 @@ export default class AdvancedSearchBuilder extends Component {
             onConditionCommit(mergedCondition);
           }
         }
-      } else {
+      } else if (defaultCondition) {
         onConditionCommit(
           preferredBooleanOp
             ? defaultCondition.set('op', preferredBooleanOp)

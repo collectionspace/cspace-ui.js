@@ -13,6 +13,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'All Locations',
       },
+      itemName: {
+        id: 'vocab.location.all.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Location',
+      },
     }),
     serviceConfig: {
       servicePath: '_ALL_',
@@ -31,6 +36,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Local Storage Locations',
       },
+      itemName: {
+        id: 'vocab.location.local.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Local Storage Location',
+      },
     }),
     serviceConfig: {
       servicePath: 'urn:cspace:name(location)',
@@ -48,6 +58,11 @@ export default {
         id: 'vocab.location.offsite.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Offsite Storage Locations',
+      },
+      itemName: {
+        id: 'vocab.location.offsite.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Offsite Storage Location',
       },
     }),
     serviceConfig: {

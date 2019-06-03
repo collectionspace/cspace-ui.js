@@ -133,6 +133,37 @@ describe('SearchForm', function suite() {
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
 
+  it('should filter out record types that are not included in recordTypeInputRecordTypes', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeInputRecordTypes={['group', 'person']}
+            recordTypeValue="group"
+            perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const dropdownMenuInput = this.container.querySelector('.cspace-input-DropdownMenuInput--common');
+
+    dropdownMenuInput.should.not.equal(null);
+
+    const input = dropdownMenuInput.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    const items = dropdownMenuInput.querySelectorAll('li');
+
+    items.should.have.lengthOf(2);
+
+    items[0].textContent.should.equal('group');
+    items[1].textContent.should.equal('person');
+  });
+
   it('should not render a vocabulary input for non-authority record types', function test() {
     render(
       <IntlProvider locale="en">

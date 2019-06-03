@@ -14,7 +14,7 @@ const messages = defineMessages({
   },
   keyword: {
     id: 'searchResultTitleBar.keyword',
-    defaultMessage: 'containing {keyword}',
+    defaultMessage: 'containing "{keyword}"',
   },
   related: {
     id: 'searchResultTitleBar.related',

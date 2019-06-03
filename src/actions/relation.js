@@ -44,12 +44,12 @@ const messages = defineMessages({
     } related to {subjectTitle}.`,
   },
   batchCreateError: {
-    id: 'searchToRelateModal.batchCreateError',
+    id: 'action.relation.batchCreateError',
     description: 'Message shown when relating multiple records fails.',
     defaultMessage: 'Some records could not be related: {error}',
   },
   batchUnrelateError: {
-    id: 'searchToRelateModal.batchUnrelateError',
+    id: 'action.relation.batchUnrelateError',
     description: 'Message shown when unrelating multiple records fails.',
     defaultMessage: 'Some records could not be unrelated: {error}',
   },

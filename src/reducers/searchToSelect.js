@@ -1,24 +1,24 @@
 import Immutable from 'immutable';
 
 import {
-  CLEAR_SEARCH_TO_RELATE,
-  SET_SEARCH_TO_RELATE_ADVANCED,
-  SET_SEARCH_TO_RELATE_KEYWORD,
-  SET_SEARCH_TO_RELATE_RECORD_TYPE,
-  SET_SEARCH_TO_RELATE_VOCABULARY,
+  CLEAR_SEARCH_TO_SELECT,
+  SET_SEARCH_TO_SELECT_ADVANCED,
+  SET_SEARCH_TO_SELECT_KEYWORD,
+  SET_SEARCH_TO_SELECT_RECORD_TYPE,
+  SET_SEARCH_TO_SELECT_VOCABULARY,
 } from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
-    case SET_SEARCH_TO_RELATE_ADVANCED:
+    case SET_SEARCH_TO_SELECT_ADVANCED:
       return state.set('advanced', Immutable.fromJS(action.payload));
-    case SET_SEARCH_TO_RELATE_KEYWORD:
+    case SET_SEARCH_TO_SELECT_KEYWORD:
       return state.set('keyword', action.payload);
-    case SET_SEARCH_TO_RELATE_RECORD_TYPE:
+    case SET_SEARCH_TO_SELECT_RECORD_TYPE:
       return state.set('recordType', action.payload).delete('advanced');
-    case SET_SEARCH_TO_RELATE_VOCABULARY:
+    case SET_SEARCH_TO_SELECT_VOCABULARY:
       return state.setIn(['vocabulary', state.get('recordType')], action.payload);
-    case CLEAR_SEARCH_TO_RELATE:
+    case CLEAR_SEARCH_TO_SELECT:
       return state.delete('advanced').delete('keyword');
     default:
       return state;

@@ -236,9 +236,9 @@ export default class ReportPage extends Component {
       <InvocationModalContainer
         config={config}
         csid={match.params.csid}
-        initialInvocationDescriptor={{
+        initialInvocationDescriptor={Immutable.Map({
           mode: 'nocontext',
-        }}
+        })}
         isOpen={openModalName === InvocationModal.modalName}
         recordType="report"
         onCancelButtonClick={this.handleModalCancelButtonClick}

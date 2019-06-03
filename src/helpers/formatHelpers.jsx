@@ -69,7 +69,9 @@ export const formatRefNameAsVocabularyName = (refName, { intl, config }) => {
       return intl.formatMessage(vocabularyConfig.messages.name);
     }
 
-    return `[ ${vocabularyShortID.toLowerCase()} ]`;
+    const fallback = vocabularyShortID ? vocabularyShortID.toLowerCase() : '';
+
+    return `[ ${fallback} ]`;
   }
 
   return `[ ${recordServicePath.toLowerCase()} ]`;

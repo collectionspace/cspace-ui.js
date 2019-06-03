@@ -13,6 +13,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'All Concepts',
       },
+      itemName: {
+        id: 'vocab.concept.all.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Concept',
+      },
     }),
     serviceConfig: {
       servicePath: '_ALL_',
@@ -31,6 +36,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Associated Concepts',
       },
+      itemName: {
+        id: 'vocab.concept.associated.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Associated Concept',
+      },
     }),
     serviceConfig: {
       servicePath: 'urn:cspace:name(concept)',
@@ -47,6 +57,11 @@ export default {
         id: 'vocab.concept.activity.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Activity Concepts',
+      },
+      itemName: {
+        id: 'vocab.concept.activity.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Activity Concept',
       },
     }),
     serviceConfig: {
@@ -65,6 +80,11 @@ export default {
         description: 'The name of a collection of records from the ethculture concept vocabulary.',
         defaultMessage: 'Ethnographic Cultures',
       },
+      itemName: {
+        id: 'vocab.concept.ethculture.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Ethnographic Culture',
+      },
     }),
     serviceConfig: {
       servicePath: 'urn:cspace:name(ethculture)',
@@ -81,6 +101,11 @@ export default {
         id: 'vocab.concept.material.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Material Concepts',
+      },
+      itemName: {
+        id: 'vocab.concept.material.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Material Concept',
       },
     }),
     serviceConfig: {

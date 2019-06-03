@@ -50,6 +50,7 @@ const propTypes = {
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   recordTypeInputReadOnly: PropTypes.bool,
   recordTypeInputRootType: PropTypes.string,
+  recordTypeInputRecordTypes: PropTypes.arrayOf(PropTypes.string),
   recordTypeInputServiceTypes: PropTypes.arrayOf(PropTypes.string),
   showButtons: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -173,6 +174,7 @@ export default class SearchForm extends Component {
       recordTypeValue,
       recordTypeInputReadOnly,
       recordTypeInputRootType,
+      recordTypeInputRecordTypes,
       recordTypeInputServiceTypes,
       showButtons,
       getAuthorityVocabCsid,
@@ -216,6 +218,20 @@ export default class SearchForm extends Component {
 
     const searchableRecordTypes = getSearchableRecordTypes(getAuthorityVocabCsid, config, perms);
 
+    let recordTypes;
+
+    if (recordTypeInputRecordTypes) {
+      recordTypes = {};
+
+      // Filter out searchable record types that are not included in the desired record types list.
+
+      recordTypeInputRecordTypes.forEach((recordType) => {
+        recordTypes[recordType] = searchableRecordTypes[recordType];
+      });
+    } else {
+      recordTypes = searchableRecordTypes;
+    }
+
     return (
       <form autoComplete="off" className={styles.common} onSubmit={this.handleFormSubmit}>
         {header}
@@ -223,7 +239,7 @@ export default class SearchForm extends Component {
           <div className={recordTypeStyles.common}>
             <RecordTypeInput
               label={intl.formatMessage(messages.recordType)}
-              recordTypes={searchableRecordTypes}
+              recordTypes={recordTypes}
               rootType={recordTypeInputRootType}
               serviceTypes={recordTypeInputServiceTypes}
               value={recordTypeValue}
@@ -231,7 +247,7 @@ export default class SearchForm extends Component {
               onCommit={this.handleRecordTypeDropdownCommit}
               readOnly={recordTypeInputReadOnly}
             />
-            {this.renderVocabularyInput(searchableRecordTypes)}
+            {this.renderVocabularyInput(recordTypes)}
           </div>
           <ConnectedPanel
             collapsible

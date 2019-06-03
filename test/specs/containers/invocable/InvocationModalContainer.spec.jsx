@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
@@ -37,6 +38,11 @@ const context = {
 
 const config = {
   recordTypes: {
+    group: {
+      serviceConfig: {
+        servicePath: 'groups',
+      },
+    },
     report: {},
   },
 };
@@ -47,7 +53,13 @@ describe('InvocationModalContainer', function suite() {
       .then(() => store.clearActions())
   );
 
+  beforeEach(function before() {
+    moxios.install();
+  });
+
   afterEach(() => {
+    moxios.uninstall();
+
     store.clearActions();
   });
 
@@ -86,6 +98,33 @@ describe('InvocationModalContainer', function suite() {
       })
       .catch((err) => {
         throw err;
+      });
+  });
+
+  it('should connect searchCsid to searchCsid action creator', function test() {
+    moxios.stubRequest('/cspace-services/groups?as=(ecm:name+%3D+%225678%22)&pgSz=1&wf_deleted=false', {
+      status: 200,
+      response: {
+        foo: 'bar',
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InvocationModalContainer
+        config={config}
+        csid="1234"
+        recordType="report"
+      />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    return result.props.searchCsid(config, 'group', '5678')
+      .then((response) => {
+        response.data.should.deep.equal({
+          foo: 'bar',
+        });
       });
   });
 });

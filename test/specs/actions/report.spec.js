@@ -81,11 +81,11 @@ describe('report action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .then(() => {
@@ -116,13 +116,13 @@ describe('report action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: [
           recordCsid,
         ],
         mode: 'list',
-      };
+      });
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .then(() => {
@@ -156,10 +156,10 @@ describe('report action creator', function suite() {
       const reportCsid = 'abcd';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         mode: 'nocontext',
-      };
+      });
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .then(() => {
@@ -190,10 +190,10 @@ describe('report action creator', function suite() {
       const reportCsid = 'abcd';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         mode: 'nocontext',
-      };
+      });
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .catch(() => {
@@ -252,11 +252,11 @@ describe('report action creator', function suite() {
         },
       });
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       const savedWindowOpen = window.open;
 
@@ -290,11 +290,11 @@ describe('report action creator', function suite() {
         },
       });
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       const savedWindowOpen = window.open;
 
@@ -354,11 +354,11 @@ describe('report action creator', function suite() {
         },
       });
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       const savedWindowOpen = window.open;
 

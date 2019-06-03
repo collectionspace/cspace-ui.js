@@ -13,13 +13,13 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
-  SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
-  SET_SEARCH_TO_RELATE_ADVANCED,
+  SET_SEARCH_TO_SELECT_ADVANCED,
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
@@ -82,14 +82,14 @@ export default (state = Immutable.Map(), action) => {
       );
     case SET_SEARCH_RESULT_PAGE_PAGE_SIZE:
       return state.set('searchResultPagePageSize', action.payload);
-    case SET_SEARCH_TO_RELATE_PAGE_SIZE:
-      return state.set('searchToRelatePageSize', action.payload);
+    case SET_SEARCH_TO_SELECT_PAGE_SIZE:
+      return state.set('searchToSelectPageSize', action.payload);
     case SET_FORM:
       return state.setIn(['form', action.meta.recordType], action.payload);
     case SET_UPLOAD_TYPE:
       return state.set('uploadType', action.payload);
     case SET_SEARCH_PAGE_ADVANCED:
-    case SET_SEARCH_TO_RELATE_ADVANCED:
+    case SET_SEARCH_TO_SELECT_ADVANCED:
       return handleAdvancedSearchConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
       return handleToggleRecordSidebar(state, action);
@@ -121,8 +121,8 @@ export const getSearchPanelPageSize = (state, recordType, name) =>
 export const getSearchResultPagePageSize = state =>
   state.get('searchResultPagePageSize');
 
-export const getSearchToRelatePageSize = state =>
-  state.get('searchToRelatePageSize');
+export const getSearchToSelectPageSize = state =>
+  state.get('searchToSelectPageSize');
 
 export const isPanelCollapsed = (state, recordType, name) =>
   state.getIn(['panels', recordType, name, 'collapsed']);

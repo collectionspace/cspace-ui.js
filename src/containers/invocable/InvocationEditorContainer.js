@@ -1,14 +1,7 @@
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
-import {
-  createNewRecord,
-} from '../../actions/record';
-
-import {
-  getRecordData,
-} from '../../reducers';
-
+import { createNewRecord } from '../../actions/record';
+import { getRecordData } from '../../reducers';
 import InvocationEditor from '../../components/invocable/InvocationEditor';
 
 const mapStateToProps = state => ({

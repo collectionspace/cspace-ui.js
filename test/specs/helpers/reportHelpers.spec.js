@@ -1,6 +1,5 @@
-import {
-  getReportViewerPath,
-} from '../../../src/helpers/reportHelpers';
+import Immutable from 'immutable';
+import { getReportViewerPath } from '../../../src/helpers/reportHelpers';
 
 chai.should();
 
@@ -11,10 +10,10 @@ describe('reportHelpers', function moduleSuite() {
     const csid = '8888';
     const recordType = 'collectionobject';
 
-    const invocationDescriptor = {
+    const invocationDescriptor = Immutable.Map({
       csid,
       recordType,
-    };
+    });
 
     const params = {
       foo: 'abc',

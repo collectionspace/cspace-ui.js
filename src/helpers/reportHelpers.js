@@ -10,9 +10,9 @@ export const getReportViewerPath = (config, reportCsid, invocationDescriptor, re
   const reportParamsJson = reportParams && JSON.stringify(reportParams);
 
   const queryParams = {
-    mode: invocationDescriptor.mode,
-    csid: invocationDescriptor.csid,
-    recordType: invocationDescriptor.recordType,
+    mode: invocationDescriptor.get('mode'),
+    csid: invocationDescriptor.get('csid'),
+    recordType: invocationDescriptor.get('recordType'),
     params: reportParamsJson,
   };
 

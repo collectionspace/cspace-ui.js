@@ -5,7 +5,7 @@ export default {
     name: {
       id: 'record.procedure.name',
       description: 'The name of the record type.',
-      defaultMessage: 'Procedures',
+      defaultMessage: 'Procedure',
     },
     collectionName: {
       id: 'record.procedure.collectionName',

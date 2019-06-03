@@ -16,8 +16,10 @@ export const addOptionLists = (optionLists) => {
         value,
       };
 
-      if (messages && messages[value]) {
-        merged.message = messages[value];
+      const message = messages && messages[value];
+
+      if (message) {
+        merged.message = message;
       }
 
       return merged;

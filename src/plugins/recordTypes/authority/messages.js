@@ -5,7 +5,7 @@ export default {
     name: {
       id: 'record.authority.name',
       description: 'The name of the record type.',
-      defaultMessage: 'Authorities',
+      defaultMessage: 'Authority Item',
     },
     collectionName: {
       id: 'record.authority.collectionName',

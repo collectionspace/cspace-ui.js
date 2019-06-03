@@ -2,6 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import Immutable from 'immutable';
+import chaiAsPromised from 'chai-as-promised';
 
 import {
   CLEAR_SEARCH_RESULTS,
@@ -27,6 +28,7 @@ import {
   search,
   setResultItemSelected,
   setAllResultItemsSelected,
+  searchCsid,
 } from '../../../src/actions/search';
 
 import {
@@ -39,6 +41,7 @@ import {
   searchKey,
 } from '../../../src/reducers/search';
 
+chai.use(chaiAsPromised);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -672,6 +675,126 @@ describe('search action creator', function suite() {
             },
           });
         });
+    });
+  });
+
+  describe('searchCsid', function actionSuite() {
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should make an advanced search request for procedures', function test() {
+      const config = {
+        recordTypes: {
+          collectionobject: {
+            serviceConfig: {
+              servicePath: 'collectionobjects',
+            },
+          },
+        },
+      };
+
+      const data = {
+        foo: 'bar',
+      };
+
+      moxios.stubRequest('/cspace-services/collectionobjects?as=(ecm:name+%3D+%221234%22)&pgSz=1&wf_deleted=false', {
+        status: 200,
+        response: data,
+      });
+
+      const store = mockStore({});
+
+      return store.dispatch(searchCsid(config, 'collectionobject', '1234'))
+        .then((response) => {
+          response.data.should.equal(data);
+        });
+    });
+
+    it('should make an advanced search request for authorities', function test() {
+      const config = {
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+            vocabularies: {
+              all: {
+                serviceConfig: {
+                  servicePath: '_ALL_',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const data = {
+        foo: 'bar',
+      };
+
+      moxios.stubRequest('/cspace-services/personauthorities/_ALL_/items?as=(ecm:name+%3D+%221234%22)&pgSz=1&wf_deleted=false', {
+        status: 200,
+        response: data,
+      });
+
+      const store = mockStore({});
+
+      return store.dispatch(searchCsid(config, 'person', '1234'))
+        .then((response) => {
+          response.data.should.equal(data);
+        });
+    });
+
+    it('should reject if no record type config is found', function test() {
+      const config = {
+        recordTypes: {},
+      };
+
+      const store = mockStore({});
+
+      return store.dispatch(searchCsid(config, 'person', '1234')).should.eventually.be.rejected;
+    });
+
+    it('should reject if no record service path is found', function test() {
+      const config = {
+        recordTypes: {
+          group: {
+            serviceConfig: {},
+          },
+        },
+      };
+
+      const store = mockStore({});
+
+      return store.dispatch(searchCsid(config, 'group', '1234')).should.eventually.be.rejected;
+    });
+
+    it('should reject if no vocabulary service path is found for an authority', function test() {
+      const config = {
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+            vocabularies: {
+              all: {
+                serviceConfig: {},
+              },
+            },
+          },
+        },
+      };
+
+      const store = mockStore({});
+
+      return store.dispatch(searchCsid(config, 'person', '1234')).should.eventually.be.rejected;
     });
   });
 

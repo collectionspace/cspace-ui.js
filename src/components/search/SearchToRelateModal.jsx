@@ -1,43 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
-import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
-import { Modal } from 'cspace-layout';
-import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
-import SearchForm from './SearchForm';
-import Pager from './Pager';
-import BackButton from '../navigation/BackButton';
-import CancelButton from '../navigation/CancelButton';
-import RelateButton from '../record/RelateButton';
-import SearchButton from './SearchButton';
-import SearchClearButton from './SearchClearButton';
-import SearchResultSummary from './SearchResultSummary';
-import SearchToRelateTitleBar from './SearchToRelateTitleBar';
-import SelectBar from './SelectBar';
-import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
 import { canRelate } from '../../helpers/permissionHelpers';
-import { normalizeCondition } from '../../helpers/searchHelpers';
-import styles from '../../../styles/cspace-ui/SearchToRelateModal.css';
+import SearchToSelectModalContainer from '../../containers/search/SearchToSelectModalContainer';
+import relateButtonStyles from '../../../styles/cspace-ui/RelateButton.css';
+
+const isSingleSubject = subjects => (Array.isArray(subjects) && subjects.length === 1);
 
 const messages = defineMessages({
-  editSearch: {
-    id: 'searchToRelateModal.editSearch',
-    defaultMessage: 'Revise search',
-  },
   label: {
     id: 'searchToRelateModal.label',
-    defaultMessage: 'Relate',
+    defaultMessage: 'Relate records',
   },
-  relate: {
-    id: 'searchToRelateModal.relate',
+  accept: {
+    id: 'searchToRelateModal.accept',
+    description: 'Label of the accept selection button in the search to relate modal.',
     defaultMessage: 'Relate selected',
   },
   relating: {
     id: 'searchToRelateModal.relating',
-    defaultMessage: 'Relating...',
+    defaultMessage: 'Relating…',
   },
   multipleSubjectsRelated: {
     id: 'searchToRelateModal.multipleSubjectsRelated',
@@ -48,30 +32,19 @@ const messages = defineMessages({
       other {# records}
     } related to each of {subjectCount, number} search results.`,
   },
+  title: {
+    id: 'searchToRelateModal.title',
+    defaultMessage: 'Relate {typeName} {query}',
+  },
 });
 
-export const searchName = 'searchToRelate';
-
-const listType = 'common';
-// FIXME: Make default page size configurable
-const defaultPageSize = 20;
-
-const isSingleSubject = subjects => (Array.isArray(subjects) && subjects.length === 1);
+const renderRelatingMessage = () => (
+  <p><FormattedMessage {...messages.relating} /></p>
+);
 
 const propTypes = {
-  allowedServiceTypes: PropTypes.arrayOf(PropTypes.string),
   config: PropTypes.object,
-  intl: intlShape,
-  isOpen: PropTypes.bool,
-  keywordValue: PropTypes.string,
-  defaultRecordTypeValue: PropTypes.string,
-  recordTypeValue: PropTypes.string,
-  vocabularyValue: PropTypes.string,
-  advancedSearchCondition: PropTypes.object,
-  preferredAdvancedSearchBooleanOp: PropTypes.string,
-  preferredPageSize: PropTypes.number,
   perms: PropTypes.instanceOf(Immutable.Map),
-  selectedItems: PropTypes.instanceOf(Immutable.Map),
   subjects: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -83,210 +56,34 @@ const propTypes = {
     ),
     PropTypes.func,
   ]),
-  getAuthorityVocabCsid: PropTypes.func,
-  onAdvancedSearchConditionCommit: PropTypes.func,
-  onKeywordCommit: PropTypes.func,
-  onRecordTypeCommit: PropTypes.func,
-  onVocabularyCommit: PropTypes.func,
-  onCloseButtonClick: PropTypes.func,
-  onCancelButtonClick: PropTypes.func,
-  onClearButtonClick: PropTypes.func,
-  onItemSelectChange: PropTypes.func,
-  onRelationsCreated: PropTypes.func,
-  clearSearchResults: PropTypes.func,
   createRelations: PropTypes.func,
-  parentSelector: PropTypes.func,
-  search: PropTypes.func,
-  setAllItemsSelected: PropTypes.func,
-  setPreferredPageSize: PropTypes.func,
   showRelationNotification: PropTypes.func,
+  onRelationsCreated: PropTypes.func,
 };
 
-const defaultProps = {
-  selectedItems: Immutable.Map(),
-};
+export default class SearchToRelateModal extends Component {
+  constructor(props) {
+    super(props);
 
-export class BaseSearchToRelateModal extends Component {
-  constructor() {
-    super();
-
+    this.customizeSearchDescriptor = this.customizeSearchDescriptor.bind(this);
+    this.handleAccept = this.handleAccept.bind(this);
     this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
-    this.handleAcceptButtonClick = this.handleAcceptButtonClick.bind(this);
-    this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this);
-    this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
-    this.handleCloseButtonClick = this.handleCloseButtonClick.bind(this);
-    this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
-    this.handleFormSearch = this.handleFormSearch.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-    this.handleSortChange = this.handleSortChange.bind(this);
-    this.renderCheckbox = this.renderCheckbox.bind(this);
-    this.renderEditSearchLink = this.renderEditSearchLink.bind(this);
-    this.renderModalButtonBar = this.renderModalButtonBar.bind(this);
-    this.renderSearchResultTableHeader = this.renderSearchResultTableHeader.bind(this);
-    this.renderSearchResultTableFooter = this.renderSearchResultTableFooter.bind(this);
-
-    this.state = {
-      isSearchInitiated: false,
-      pageNum: 0,
-      sort: null,
-    };
   }
 
-  componentWillReceiveProps(nextProps) {
+  customizeSearchDescriptor(searchDescriptor) {
     const {
-      isOpen,
-    } = this.props;
-
-    const {
-      isOpen: nextIsOpen,
-    } = nextProps;
-
-    if (isOpen && !nextIsOpen) {
-      // Closing.
-
-      this.setState({
-        isRelating: false,
-        isSearchInitiated: false,
-        pageNum: 0,
-        sort: null,
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const {
-      isOpen,
-    } = this.props;
-
-    const {
-      isOpen: prevIsOpen,
-    } = prevProps;
-
-    if (prevIsOpen && !isOpen) {
-      // Closed.
-
-      const {
-        clearSearchResults,
-        onRecordTypeCommit,
-      } = this.props;
-
-      if (clearSearchResults) {
-        clearSearchResults(searchName);
-      }
-
-      if (onRecordTypeCommit) {
-        onRecordTypeCommit('');
-      }
-    } else if (!prevIsOpen && isOpen) {
-      // Opened.
-
-      const {
-        defaultRecordTypeValue,
-        onRecordTypeCommit,
-      } = this.props;
-
-      if (onRecordTypeCommit) {
-        onRecordTypeCommit(defaultRecordTypeValue);
-
-        // TODO: If search to relate is ever used on authorities, need to set the default vocabulary
-        // if this is an authority record type, and vocabularyValue is not provided.
-      }
-    }
-
-    const {
-      isSearchInitiated,
-      pageNum,
-      sort,
-    } = this.state;
-
-    if (isSearchInitiated) {
-      const {
-        recordTypeValue,
-        vocabularyValue,
-        advancedSearchCondition,
-        preferredPageSize,
-      } = this.props;
-
-      const {
-        recordTypeValue: prevRecordTypeValue,
-        vocabularyValue: prevVocabularyValue,
-        advancedSearchCondition: prevAdvancedSearchCondition,
-        preferredPageSize: prevPreferredPageSize,
-      } = prevProps;
-
-      const {
-        pageNum: prevPageNum,
-        sort: prevSort,
-      } = prevState;
-
-      if (
-        recordTypeValue !== prevRecordTypeValue ||
-        vocabularyValue !== prevVocabularyValue ||
-        !isEqual(advancedSearchCondition, prevAdvancedSearchCondition) ||
-        preferredPageSize !== prevPreferredPageSize ||
-        pageNum !== prevPageNum ||
-        sort !== prevSort
-      ) {
-        this.search();
-      }
-    }
-  }
-
-  getSearchDescriptor() {
-    const {
-      config,
-      recordTypeValue: recordType,
-      vocabularyValue: vocabulary,
-      keywordValue: keyword,
-      advancedSearchCondition,
-      preferredPageSize,
       subjects,
     } = this.props;
 
-    const {
-      pageNum,
-      sort,
-    } = this.state;
-
-    const pageSize = preferredPageSize || defaultPageSize;
-
-    const searchQuery = {
-      p: pageNum,
-      size: pageSize,
-    };
-
     if (isSingleSubject(subjects)) {
-      searchQuery.mkRtSbj = subjects[0].csid;
+      return searchDescriptor.setIn(['searchQuery', 'mkRtSbj'], subjects[0].csid);
     }
 
-    if (sort) {
-      searchQuery.sort = sort;
-    }
-
-    const kw = keyword ? keyword.trim() : '';
-
-    if (kw) {
-      searchQuery.kw = kw;
-    }
-
-    const fields = get(config, ['recordTypes', recordType, 'fields']);
-    const condition = normalizeCondition(fields, advancedSearchCondition);
-
-    if (condition) {
-      searchQuery.as = condition;
-    }
-
-    return Immutable.fromJS({
-      recordType,
-      vocabulary,
-      searchQuery,
-    });
+    return searchDescriptor;
   }
 
-  relate() {
+  relate(selectedItems, searchDescriptor) {
     const {
-      selectedItems,
       createRelations,
       onRelationsCreated,
     } = this.props;
@@ -301,19 +98,12 @@ export class BaseSearchToRelateModal extends Component {
       }
 
       if (subjects && subjects.length > 0) {
-        const searchDescriptor = this.getSearchDescriptor();
-
-        this.setState({
-          isRelating: true,
-          isSearchInitiated: false,
-        });
-
         const objects = selectedItems.valueSeq().map(item => ({
           csid: item.get('csid'),
           recordType: searchDescriptor.get('recordType'),
         })).toJS();
 
-        Promise.all(subjects.map(subject => createRelations(subject, objects, 'affects')))
+        return Promise.all(subjects.map(subject => createRelations(subject, objects, 'affects')))
           .then(() => {
             if (subjects.length > 1) {
               const { showRelationNotification } = this.props;
@@ -332,125 +122,8 @@ export class BaseSearchToRelateModal extends Component {
           });
       }
     }
-  }
 
-  search() {
-    const {
-      config,
-      search,
-    } = this.props;
-
-    if (search) {
-      const searchDescriptor = this.getSearchDescriptor();
-
-      search(config, searchName, searchDescriptor);
-
-      this.setState({
-        isSearchInitiated: true,
-      });
-    }
-  }
-
-  handleAcceptButtonClick() {
-    const {
-      isSearchInitiated,
-    } = this.state;
-
-    if (isSearchInitiated) {
-      this.relate();
-    } else {
-      this.search();
-    }
-  }
-
-  handleCancelButtonClick(event) {
-    const {
-      onCancelButtonClick,
-    } = this.props;
-
-    if (onCancelButtonClick) {
-      onCancelButtonClick(event);
-    }
-  }
-
-  handleCloseButtonClick(event) {
-    const {
-      onCloseButtonClick,
-    } = this.props;
-
-    if (onCloseButtonClick) {
-      onCloseButtonClick(event);
-    }
-  }
-
-  handleEditSearchLinkClick() {
-    const {
-      clearSearchResults,
-    } = this.props;
-
-    if (clearSearchResults) {
-      clearSearchResults(searchName);
-    }
-
-    this.setState({
-      isSearchInitiated: false,
-    });
-  }
-
-  handleFormSearch() {
-    this.search();
-  }
-
-  handleCheckboxCommit(path, value) {
-    const index = parseInt(path[0], 10);
-    const checked = value;
-
-    const {
-      config,
-      onItemSelectChange,
-    } = this.props;
-
-    if (onItemSelectChange) {
-      const searchDescriptor = this.getSearchDescriptor();
-
-      onItemSelectChange(config, searchName, searchDescriptor, listType, index, checked);
-    }
-  }
-
-  handlePageChange(pageNum) {
-    this.setState({
-      pageNum,
-    });
-  }
-
-  handlePageSizeChange(pageSize) {
-    const {
-      setPreferredPageSize,
-    } = this.props;
-
-    let normalizedPageSize;
-
-    if (isNaN(pageSize) || pageSize < 1) {
-      normalizedPageSize = 0;
-    } else if (pageSize > 2500) {
-      normalizedPageSize = 2500;
-    } else {
-      normalizedPageSize = pageSize;
-    }
-
-    if (setPreferredPageSize) {
-      this.setState({
-        pageNum: 0,
-      });
-
-      setPreferredPageSize(normalizedPageSize);
-    }
-  }
-
-  handleSortChange(sort) {
-    this.setState({
-      sort,
-    });
+    return undefined;
   }
 
   shouldShowCheckbox(item) {
@@ -475,300 +148,34 @@ export class BaseSearchToRelateModal extends Component {
     return canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config);
   }
 
-  renderCheckbox({ rowData, rowIndex }) {
-    if (this.shouldShowCheckbox(rowData)) {
-      const {
-        selectedItems,
-      } = this.props;
-
-      const itemCsid = rowData.get('csid');
-      const selected = selectedItems ? selectedItems.has(itemCsid) : false;
-
-      return (
-        <CheckboxInput
-          embedded
-          name={`${rowIndex}`}
-          value={selected}
-          onCommit={this.handleCheckboxCommit}
-        />
-      );
-    }
-
-    return null;
-  }
-
-  renderSearchForm() {
-    const {
-      allowedServiceTypes,
-      config,
-      intl,
-      keywordValue,
-      recordTypeValue,
-      vocabularyValue,
-      perms,
-      preferredAdvancedSearchBooleanOp,
-      advancedSearchCondition,
-      getAuthorityVocabCsid,
-      onAdvancedSearchConditionCommit,
-      onKeywordCommit,
-      onRecordTypeCommit,
-      onVocabularyCommit,
-    } = this.props;
-
-    let recordTypeInputReadOnly = true;
-    let recordTypeInputRootType;
-
-    if (allowedServiceTypes) {
-      // Allow the record type to be changed.
-
-      recordTypeInputReadOnly = false;
-
-      // Don't show the All Records option.
-
-      recordTypeInputRootType = '';
-    }
-
-    return (
-      <SearchForm
-        config={config}
-        intl={intl}
-        recordTypeValue={recordTypeValue}
-        vocabularyValue={vocabularyValue}
-        keywordValue={keywordValue}
-        advancedSearchCondition={advancedSearchCondition}
-        perms={perms}
-        preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
-        recordTypeInputReadOnly={recordTypeInputReadOnly}
-        recordTypeInputRootType={recordTypeInputRootType}
-        recordTypeInputServiceTypes={allowedServiceTypes}
-        getAuthorityVocabCsid={getAuthorityVocabCsid}
-        onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
-        onKeywordCommit={onKeywordCommit}
-        onRecordTypeCommit={onRecordTypeCommit}
-        onVocabularyCommit={onVocabularyCommit}
-        onSearch={this.handleFormSearch}
-      />
-    );
-  }
-
-  renderEditSearchLink() {
-    return (
-      <button onClick={this.handleEditSearchLinkClick}>
-        <FormattedMessage {...messages.editSearch} />
-      </button>
-    );
-  }
-
-  renderSearchResultTableHeader({ searchError, searchResult }) {
-    const {
-      config,
-      selectedItems,
-      setAllItemsSelected,
-    } = this.props;
-
-    if (searchError) {
-      return null;
-    }
-
-    const searchDescriptor = this.getSearchDescriptor();
-
-    return (
-      <header>
-        <SearchResultSummary
-          config={config}
-          listType={listType}
-          searchDescriptor={searchDescriptor}
-          searchError={searchError}
-          searchResult={searchResult}
-          renderEditLink={this.renderEditSearchLink}
-          onPageSizeChange={this.handlePageSizeChange}
-        />
-        <SelectBar
-          config={config}
-          listType={listType}
-          searchDescriptor={searchDescriptor}
-          searchName={searchName}
-          searchResult={searchResult}
-          selectedItems={selectedItems}
-          setAllItemsSelected={setAllItemsSelected}
-          showCheckboxFilter={this.shouldShowCheckbox}
-        />
-      </header>
-    );
-  }
-
-  renderSearchResultTableFooter({ searchResult }) {
-    const {
-      config,
-    } = this.props;
-
-    if (searchResult) {
-      const listTypeConfig = config.listTypes[listType];
-      const list = searchResult.get(listTypeConfig.listNodeName);
-
-      const totalItems = parseInt(list.get('totalItems'), 10);
-      const pageSize = parseInt(list.get('pageSize'), 10);
-      const pageNum = parseInt(list.get('pageNum'), 10);
-      const lastPage = Math.max(0, isNaN(totalItems) ? 0 : Math.ceil(totalItems / pageSize) - 1);
-
-      return (
-        <footer>
-          <Pager
-            currentPage={pageNum}
-            lastPage={lastPage}
-            pageSize={pageSize}
-            onPageChange={this.handlePageChange}
-            onPageSizeChange={this.handlePageSizeChange}
-          />
-        </footer>
-      );
-    }
-
-    return null;
-  }
-
-  renderSearchResultTable() {
-    const {
-      config,
-      recordTypeValue,
-    } = this.props;
-
-    const searchDescriptor = this.getSearchDescriptor();
-
-    return (
-      <SearchResultTableContainer
-        config={config}
-        linkItems={false}
-        listType={listType}
-        recordType={recordTypeValue}
-        searchName={searchName}
-        searchDescriptor={searchDescriptor}
-        showCheckboxColumn
-        renderCheckbox={this.renderCheckbox}
-        renderHeader={this.renderSearchResultTableHeader}
-        renderFooter={this.renderSearchResultTableFooter}
-        onSortChange={this.handleSortChange}
-      />
-    );
-  }
-
-  renderModalButtonBar() {
-    const {
-      selectedItems,
-      onClearButtonClick,
-    } = this.props;
-
-    const {
-      isRelating,
-      isSearchInitiated,
-    } = this.state;
-
-    const cancelButton = (
-      <CancelButton
-        disabled={isRelating}
-        onClick={this.handleCancelButtonClick}
-      />
-    );
-
-    let acceptButton;
-    let backButton;
-    let clearButton;
-
-    if (isSearchInitiated) {
-      acceptButton = (
-        <RelateButton
-          disabled={isRelating || !selectedItems || selectedItems.size < 1}
-          label={<FormattedMessage {...messages.relate} />}
-          onClick={this.handleAcceptButtonClick}
-        />
-      );
-
-      backButton = (
-        <BackButton
-          disabled={isRelating}
-          label={<FormattedMessage {...messages.editSearch} />}
-          onClick={this.handleEditSearchLinkClick}
-        />
-      );
-    } else {
-      acceptButton = (
-        <SearchButton
-          disabled={isRelating}
-          type="button"
-          onClick={this.handleAcceptButtonClick}
-        />
-      );
-
-      clearButton = (
-        <SearchClearButton onClick={onClearButtonClick} />
-      );
-    }
-
-    return (
-      <div>
-        {cancelButton}
-        {clearButton}
-        {backButton}
-        {acceptButton}
-      </div>
-    );
+  handleAccept(selectedItems, searchDescriptor) {
+    return this.relate(selectedItems, searchDescriptor);
   }
 
   render() {
     const {
-      config,
-      intl,
-      isOpen,
-      recordTypeValue,
-      parentSelector,
+      /* eslint-disable no-unused-vars */
+      subjects,
+      createRelations,
+      showRelationNotification,
+      onRelationsCreated,
+      /* eslint-enable no-unused-vars */
+      ...remainingProps
     } = this.props;
 
-    const {
-      isRelating,
-      isSearchInitiated,
-    } = this.state;
-
-    let content;
-
-    if (isRelating) {
-      content = <p><FormattedMessage {...messages.relating} /></p>;
-    } else if (isSearchInitiated) {
-      content = this.renderSearchResultTable();
-    } else {
-      content = this.renderSearchForm();
-    }
-
-    const searchDescriptor = this.getSearchDescriptor();
-
-    const title = (
-      <SearchToRelateTitleBar
-        config={config}
-        isSearchInitiated={isSearchInitiated}
-        recordType={recordTypeValue}
-        searchDescriptor={searchDescriptor}
-      />
-    );
-
     return (
-      <Modal
-        className={styles.common}
-        contentLabel={intl.formatMessage(messages.label)}
-        title={title}
-        isOpen={isOpen}
-        showCloseButton={!isRelating}
-        closeButtonClassName="material-icons"
-        closeButtonLabel="close"
-        parentSelector={parentSelector}
-        renderButtonBar={this.renderModalButtonBar}
-        onCloseButtonClick={this.handleCloseButtonClick}
-      >
-        {content}
-      </Modal>
+      <SearchToSelectModalContainer
+        acceptButtonClassName={relateButtonStyles.common}
+        acceptButtonLabel={<FormattedMessage {...messages.accept} />}
+        customizeSearchDescriptor={this.customizeSearchDescriptor}
+        titleMessage={messages.title}
+        renderAcceptPending={renderRelatingMessage}
+        shouldShowCheckbox={this.shouldShowCheckbox}
+        onAccept={this.handleAccept}
+        {...remainingProps}
+      />
     );
   }
 }
 
-BaseSearchToRelateModal.propTypes = propTypes;
-BaseSearchToRelateModal.defaultProps = defaultProps;
-
-export default injectIntl(BaseSearchToRelateModal);
+SearchToRelateModal.propTypes = propTypes;

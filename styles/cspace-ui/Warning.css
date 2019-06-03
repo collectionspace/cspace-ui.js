@@ -1,0 +1,6 @@
+.common {
+  padding-left: 16px;
+  font-size: 12px;
+  background: url(../../images/warning.svg) left center no-repeat;
+  background-size: 12px;
+}

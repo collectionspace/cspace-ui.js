@@ -35,7 +35,7 @@ import reducer, {
   getSearchPageVocabulary,
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
-  getSearchToRelatePageSize,
+  getSearchToSelectPageSize,
   getUploadType,
   getForm,
   getAdminTab,
@@ -55,10 +55,10 @@ import reducer, {
   getSearchError,
   getSearchSelectedItems,
   getRelationFindResult,
-  getSearchToRelateAdvanced,
-  getSearchToRelateKeyword,
-  getSearchToRelateRecordType,
-  getSearchToRelateVocabulary,
+  getSearchToSelectAdvanced,
+  getSearchToSelectKeyword,
+  getSearchToSelectRecordType,
+  getSearchToSelectVocabulary,
   getNotifications,
   getOpenModalName,
 } from '../../../src/reducers';
@@ -90,7 +90,7 @@ describe('reducer', function suite() {
       'recordPage',
       'relation',
       'search',
-      'searchToRelate',
+      'searchToSelect',
       'user',
       'vocabulary',
     ]);
@@ -569,15 +569,15 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToRelatePageSize selector', function selectorSuite() {
+  describe('getSearchToSelectPageSize selector', function selectorSuite() {
     it('should select from the prefs key', function test() {
-      const searchToRelatePageSize = 15;
+      const searchToSelectPageSize = 15;
 
-      getSearchToRelatePageSize({
+      getSearchToSelectPageSize({
         prefs: Immutable.fromJS({
-          searchToRelatePageSize,
+          searchToSelectPageSize,
         }),
-      }).should.equal(searchToRelatePageSize);
+      }).should.equal(searchToSelectPageSize);
     });
   });
 
@@ -937,53 +937,53 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToRelateAdvanced selector', function selectorSuite() {
-    it('should select from the searchToRelate key', function test() {
+  describe('getSearchToSelectAdvanced selector', function selectorSuite() {
+    it('should select from the searchToSelect key', function test() {
       const advancedSearchCondition = Immutable.Map({
         op: 'eq',
         path: '',
         value: '',
       });
 
-      getSearchToRelateAdvanced({
-        searchToRelate: Immutable.fromJS({
+      getSearchToSelectAdvanced({
+        searchToSelect: Immutable.fromJS({
           advanced: advancedSearchCondition,
         }),
       }).should.equal(advancedSearchCondition);
     });
   });
 
-  describe('getSearchToRelateKeyword selector', function selectorSuite() {
-    it('should select from the searchToRelate key', function test() {
+  describe('getSearchToSelectKeyword selector', function selectorSuite() {
+    it('should select from the searchToSelect key', function test() {
       const keyword = 'something';
 
-      getSearchToRelateKeyword({
-        searchToRelate: Immutable.fromJS({
+      getSearchToSelectKeyword({
+        searchToSelect: Immutable.fromJS({
           keyword,
         }),
       }).should.equal(keyword);
     });
   });
 
-  describe('getSearchToRelateRecordType selector', function selectorSuite() {
-    it('should select from the searchToRelate key', function test() {
+  describe('getSearchToSelectRecordType selector', function selectorSuite() {
+    it('should select from the searchToSelect key', function test() {
       const recordType = 'person';
 
-      getSearchToRelateRecordType({
-        searchToRelate: Immutable.fromJS({
+      getSearchToSelectRecordType({
+        searchToSelect: Immutable.fromJS({
           recordType,
         }),
       }).should.equal(recordType);
     });
   });
 
-  describe('getSearchToRelateVocabulary selector', function selectorSuite() {
-    it('should select from the searchToRelate key', function test() {
+  describe('getSearchToSelectVocabulary selector', function selectorSuite() {
+    it('should select from the searchToSelect key', function test() {
       const recordType = 'person';
       const vocabulary = 'local';
 
-      getSearchToRelateVocabulary({
-        searchToRelate: Immutable.fromJS({
+      getSearchToSelectVocabulary({
+        searchToSelect: Immutable.fromJS({
           vocabulary: {
             [recordType]: vocabulary,
           },

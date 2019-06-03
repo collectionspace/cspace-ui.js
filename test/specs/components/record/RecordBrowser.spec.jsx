@@ -52,7 +52,7 @@ const store = mockStore({
   prefs: Immutable.Map(),
   recordBrowser: Immutable.Map(),
   search: Immutable.Map(),
-  searchToRelate: Immutable.Map(),
+  searchToSelect: Immutable.Map(),
   user: Immutable.fromJS({
     perms: {
       collectionobject: {

@@ -5,7 +5,7 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import SearchToRelateTitleBar from '../../../../src/components/search/SearchToRelateTitleBar';
+import SearchToSelectTitleBar from '../../../../src/components/search/SearchToSelectTitleBar';
 import { configKey } from '../../../../src/helpers/configHelpers';
 
 const expect = chai.expect;
@@ -73,7 +73,7 @@ const config = {
   },
 };
 
-describe('SearchToRelateTitleBar', function suite() {
+describe('SearchToSelectTitleBar', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -81,7 +81,7 @@ describe('SearchToRelateTitleBar', function suite() {
   it('should render as a header', function test() {
     render(
       <IntlProvider locale="en">
-        <SearchToRelateTitleBar
+        <SearchToSelectTitleBar
           config={config}
           recordType="collectionobject"
         />
@@ -93,7 +93,7 @@ describe('SearchToRelateTitleBar', function suite() {
   it('should render nothing for an unknown record type', function test() {
     render(
       <IntlProvider locale="en">
-        <SearchToRelateTitleBar
+        <SearchToSelectTitleBar
           config={config}
           recordType="foo"
         />
@@ -105,7 +105,7 @@ describe('SearchToRelateTitleBar', function suite() {
   it('should render the vocabulary name if a vocabulary is supplied', function test() {
     render(
       <IntlProvider locale="en">
-        <SearchToRelateTitleBar
+        <SearchToSelectTitleBar
           config={config}
           recordType="person"
           vocabulary="local"
@@ -131,7 +131,7 @@ describe('SearchToRelateTitleBar', function suite() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
-          <SearchToRelateTitleBar
+          <SearchToSelectTitleBar
             config={config}
             isSearchInitiated
             searchDescriptor={searchDescriptor}
@@ -139,7 +139,7 @@ describe('SearchToRelateTitleBar', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    this.container.querySelector('h1').textContent.should.match(/containing keyword/);
+    this.container.querySelector('h1').textContent.should.match(/containing "keyword"/);
     this.container.querySelector('.cspace-ui-FieldConditionInput--common').should.not.equal(null);
   });
 
@@ -152,7 +152,7 @@ describe('SearchToRelateTitleBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <SearchToRelateTitleBar
+        <SearchToSelectTitleBar
           config={config}
           searchDescriptor={searchDescriptor}
           isSearchInitiated

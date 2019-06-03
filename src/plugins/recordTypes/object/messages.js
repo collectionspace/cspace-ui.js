@@ -5,7 +5,7 @@ export default {
     name: {
       id: 'record.object.name',
       description: 'The name of the record type.',
-      defaultMessage: 'Objects',
+      defaultMessage: 'Object',
     },
     collectionName: {
       id: 'record.object.collectionName',

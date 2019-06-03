@@ -20,7 +20,7 @@ export const createInvocationData = (config, invocationDescriptor, params) => {
     mode,
     recordType: invocationRecordType,
     csid: invocationCsid,
-  } = invocationDescriptor;
+  } = invocationDescriptor.toJS();
 
   const invocationContext = {
     mode,

@@ -1,6 +1,5 @@
-import {
-  createInvocationData,
-} from '../../../src/helpers/invocationHelpers';
+import Immutable from 'immutable';
+import { createInvocationData } from '../../../src/helpers/invocationHelpers';
 
 describe('invocationHelpers', function moduleSuite() {
   const config = {
@@ -15,9 +14,9 @@ describe('invocationHelpers', function moduleSuite() {
 
   describe('createInvocationData', function suite() {
     it('should create invocation data for no context mode invocation descriptors', function test() {
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         mode: 'nocontext',
-      };
+      });
 
       createInvocationData(config, invocationDescriptor).should.deep.equal({
         'ns2:invocationContext': {
@@ -30,11 +29,11 @@ describe('invocationHelpers', function moduleSuite() {
     });
 
     it('should create invocation data for single mode invocation descriptors', function test() {
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         mode: 'single',
         recordType: 'collectionobject',
         csid: '1234',
-      };
+      });
 
       createInvocationData(config, invocationDescriptor).should.deep.equal({
         'ns2:invocationContext': {
@@ -48,11 +47,11 @@ describe('invocationHelpers', function moduleSuite() {
     });
 
     it('should create invocation data for list mode invocation descriptors', function test() {
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         mode: 'list',
         recordType: 'collectionobject',
         csid: ['1234', 'abcd'],
-      };
+      });
 
       createInvocationData(config, invocationDescriptor).should.deep.equal({
         'ns2:invocationContext': {
@@ -71,10 +70,10 @@ describe('invocationHelpers', function moduleSuite() {
     });
 
     it('should create invocation data for group mode invocation descriptors', function test() {
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         mode: 'group',
         csid: '1234',
-      };
+      });
 
       createInvocationData(config, invocationDescriptor).should.deep.equal({
         'ns2:invocationContext': {
@@ -88,9 +87,9 @@ describe('invocationHelpers', function moduleSuite() {
     });
 
     it('should convert params to key/value pairs', function test() {
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         mode: 'nocontext',
-      };
+      });
 
       const params = {
         foo: '123',

@@ -13,6 +13,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'All Citations',
       },
+      itemName: {
+        id: 'vocab.citation.all.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Citation',
+      },
     }),
     serviceConfig: {
       servicePath: '_ALL_',
@@ -31,6 +36,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Local Citations',
       },
+      itemName: {
+        id: 'vocab.citation.local.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Local Citation',
+      },
     }),
     serviceConfig: {
       servicePath: 'urn:cspace:name(citation)',
@@ -48,6 +58,11 @@ export default {
         id: 'vocab.citation.worldcat.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'WorldCat Citations',
+      },
+      itemName: {
+        id: 'vocab.citation.worldcat.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'WorldCat Citation',
       },
     }),
     serviceConfig: {

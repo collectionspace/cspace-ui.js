@@ -13,6 +13,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'All Works',
       },
+      itemName: {
+        id: 'vocab.work.all.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Work',
+      },
     }),
     serviceConfig: {
       servicePath: '_ALL_',
@@ -31,6 +36,11 @@ export default {
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'Local Works',
       },
+      itemName: {
+        id: 'vocab.work.local.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Local Work',
+      },
     }),
     serviceConfig: {
       servicePath: 'urn:cspace:name(work)',
@@ -48,6 +58,11 @@ export default {
         id: 'vocab.work.cona.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
         defaultMessage: 'CONA Works',
+      },
+      itemName: {
+        id: 'vocab.work.cona.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'CONA Work',
       },
     }),
     serviceConfig: {

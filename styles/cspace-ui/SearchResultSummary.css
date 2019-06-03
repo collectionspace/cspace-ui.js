@@ -34,10 +34,13 @@
 
 .searching {
   composes: normal;
-  padding-left: 30px;
+}
+
+.searching > div:first-child {
+  padding-left: 20px;
   background-size: 16px;
   background-repeat: no-repeat;
-  background-position: 10px 12px;
+  background-position: 0px 2px;
   background-image: url(../../images/spinner.svg);
 }
 

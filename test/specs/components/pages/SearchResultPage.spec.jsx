@@ -176,7 +176,7 @@ const store = mockStore({
       },
     },
   }),
-  searchToRelate: Immutable.Map(),
+  searchToSelect: Immutable.Map(),
   user: Immutable.Map(),
 });
 

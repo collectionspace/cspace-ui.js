@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import Immutable from 'immutable';
 import qs from 'qs';
 import ReportViewerPage from '../../components/pages/ReportViewerPage';
 import withConfig from '../../enhancers/withConfig';
@@ -13,12 +14,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
     const {
       params: paramsJson,
-      ...invocationDescriptor
+      ...invocationDescriptorObject
     } = queryParams;
 
     const params = paramsJson && JSON.parse(paramsJson);
+    const invocationDescriptor = Immutable.fromJS(invocationDescriptorObject);
 
-    return dispatch(invoke(ownProps.config, match.params.reportCsid, invocationDescriptor, params));
+    return dispatch(
+      invoke(ownProps.config, match.params.reportCsid, invocationDescriptor, params)
+    );
   },
 });
 

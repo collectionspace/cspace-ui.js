@@ -14,7 +14,7 @@ import prefs, * as fromPrefs from './prefs';
 import record, * as fromRecord from './record';
 import recordBrowser, * as fromRecordBrowser from './recordBrowser';
 import recordPage, * as fromRecordPage from './recordPage';
-import searchToRelate, * as fromSearchToRelate from './searchToRelate';
+import searchToSelect, * as fromSearchToSelect from './searchToSelect';
 import relation, * as fromRelation from './relation';
 import search, * as fromSearch from './search';
 import user, * as fromUser from './user';
@@ -36,7 +36,7 @@ export default combineReducers({
   record,
   recordBrowser,
   recordPage,
-  searchToRelate,
+  searchToSelect,
   relation,
   search,
   user,
@@ -128,8 +128,8 @@ export const getSearchPanelPageSize = (state, recordType, name) =>
 export const getSearchResultPagePageSize = state =>
   fromPrefs.getSearchResultPagePageSize(state.prefs);
 
-export const getSearchToRelatePageSize = state =>
-  fromPrefs.getSearchToRelatePageSize(state.prefs);
+export const getSearchToSelectPageSize = state =>
+  fromPrefs.getSearchToSelectPageSize(state.prefs);
 
 export const getForm = (state, recordType) => fromPrefs.getForm(state.prefs, recordType);
 
@@ -196,17 +196,17 @@ export const getSearchSelectedItems = (state, searchName) =>
 export const getRelationFindResult = (state, subject, object, predicate) =>
   fromRelation.getFindResult(state.relation, subject, object, predicate);
 
-export const getSearchToRelateAdvanced = state =>
-  fromSearchToRelate.getAdvanced(state.searchToRelate);
+export const getSearchToSelectAdvanced = state =>
+  fromSearchToSelect.getAdvanced(state.searchToSelect);
 
-export const getSearchToRelateKeyword = state =>
-  fromSearchToRelate.getKeyword(state.searchToRelate);
+export const getSearchToSelectKeyword = state =>
+  fromSearchToSelect.getKeyword(state.searchToSelect);
 
-export const getSearchToRelateRecordType = state =>
-  fromSearchToRelate.getRecordType(state.searchToRelate);
+export const getSearchToSelectRecordType = state =>
+  fromSearchToSelect.getRecordType(state.searchToSelect);
 
-export const getSearchToRelateVocabulary = (state, recordType) =>
-  fromSearchToRelate.getVocabulary(state.searchToRelate, recordType);
+export const getSearchToSelectVocabulary = (state, recordType) =>
+  fromSearchToSelect.getVocabulary(state.searchToSelect, recordType);
 
 export const getNotifications = state =>
   fromNotification.getNotifications(state.notification);

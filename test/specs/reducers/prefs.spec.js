@@ -13,13 +13,13 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
-  SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
-  SET_SEARCH_TO_RELATE_ADVANCED,
+  SET_SEARCH_TO_SELECT_ADVANCED,
 } from '../../../src/constants/actionCodes';
 
 import reducer, {
@@ -33,7 +33,7 @@ import reducer, {
   getQuickSearchVocabulary,
   getSearchPanelPageSize,
   getSearchResultPagePageSize,
-  getSearchToRelatePageSize,
+  getSearchToSelectPageSize,
   getStickyFields,
   getToolTab,
   getUploadType,
@@ -165,11 +165,11 @@ describe('prefs reducer', function suite() {
     getAdvancedSearchBooleanOp(state).should.equal(op);
   });
 
-  it('should handle SET_SEARCH_TO_RELATE_ADVANCED', function test() {
+  it('should handle SET_SEARCH_TO_SELECT_ADVANCED', function test() {
     const op = 'and';
 
     const state = reducer(Immutable.Map(), {
-      type: SET_SEARCH_TO_RELATE_ADVANCED,
+      type: SET_SEARCH_TO_SELECT_ADVANCED,
       payload: Immutable.fromJS({
         op,
       }),
@@ -308,19 +308,19 @@ describe('prefs reducer', function suite() {
     getSearchPanelPageSize(state, recordType, panelName).should.equal(pageSize);
   });
 
-  it('should handle SET_SEARCH_TO_RELATE_PAGE_SIZE', function test() {
+  it('should handle SET_SEARCH_TO_SELECT_PAGE_SIZE', function test() {
     const pageSize = 19;
 
     const state = reducer(undefined, {
-      type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
+      type: SET_SEARCH_TO_SELECT_PAGE_SIZE,
       payload: pageSize,
     });
 
     state.should.deep.equal(Immutable.fromJS({
-      searchToRelatePageSize: pageSize,
+      searchToSelectPageSize: pageSize,
     }));
 
-    getSearchToRelatePageSize(state).should.equal(pageSize);
+    getSearchToSelectPageSize(state).should.equal(pageSize);
   });
 
   it('should handle SET_UPLOAD_TYPE', function test() {

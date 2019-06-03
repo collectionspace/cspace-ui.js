@@ -16,7 +16,7 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
-  SET_SEARCH_TO_RELATE_PAGE_SIZE,
+  SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
@@ -37,7 +37,7 @@ import {
   setSearchPageVocabulary,
   setSearchPanelPageSize,
   setSearchResultPagePageSize,
-  setSearchToRelatePageSize,
+  setSearchToSelectPageSize,
   toggleRecordSidebar,
 } from '../../../src/actions/prefs';
 
@@ -171,12 +171,12 @@ describe('prefs action creator', function suite() {
     });
   });
 
-  describe('setSearchToRelatePagePageSize', function actionSuite() {
-    it('should create a SET_SEARCH_TO_RELATE_PAGE_SIZE action', function test() {
+  describe('setSearchToSelectPagePageSize', function actionSuite() {
+    it('should create a SET_SEARCH_TO_SELECT_PAGE_SIZE action', function test() {
       const pageSize = 23;
 
-      setSearchToRelatePageSize(pageSize).should.deep.equal({
-        type: SET_SEARCH_TO_RELATE_PAGE_SIZE,
+      setSearchToSelectPageSize(pageSize).should.deep.equal({
+        type: SET_SEARCH_TO_SELECT_PAGE_SIZE,
         payload: pageSize,
       });
     });

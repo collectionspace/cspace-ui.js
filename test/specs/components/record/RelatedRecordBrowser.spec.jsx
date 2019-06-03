@@ -83,7 +83,7 @@ const store = mockStore({
     },
   }),
   search: Immutable.Map(),
-  searchToRelate: Immutable.fromJS({
+  searchToSelect: Immutable.fromJS({
     recordType: 'group',
   }),
   user: Immutable.fromJS({

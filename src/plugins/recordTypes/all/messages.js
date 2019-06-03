@@ -6,7 +6,7 @@ export default {
     name: {
       id: 'record.all.name',
       description: 'The name of the record type.',
-      defaultMessage: 'All Records',
+      defaultMessage: 'Record',
     },
     collectionName: {
       id: 'record.all.collectionName',

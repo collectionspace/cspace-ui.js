@@ -103,11 +103,11 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
@@ -147,13 +147,13 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: [
           recordCsid,
         ],
         mode: 'list',
-      };
+      });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
@@ -196,10 +196,10 @@ describe('batch action creator', function suite() {
 
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         mode: 'nocontext',
-      };
+      });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
@@ -241,11 +241,11 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
@@ -294,11 +294,11 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       let onValidationSuccessCalled = false;
 
@@ -362,11 +362,11 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       return invalidDataStore.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
@@ -398,11 +398,11 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
@@ -446,11 +446,11 @@ describe('batch action creator', function suite() {
       const recordCsid = '1234';
       const recordType = 'group';
 
-      const invocationDescriptor = {
+      const invocationDescriptor = Immutable.Map({
         recordType,
         csid: recordCsid,
         mode: 'single',
-      };
+      });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
