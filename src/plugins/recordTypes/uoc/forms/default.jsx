@@ -24,6 +24,8 @@ const template = (configContext) => {
         <Row>
           <Col>
             <Field name="referenceNumber" />
+            <Field name="projectId" />
+            <Field name="projectDescription" />
           </Col>
 
           <Col>

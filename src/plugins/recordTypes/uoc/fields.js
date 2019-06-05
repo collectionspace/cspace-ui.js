@@ -61,6 +61,38 @@ export default (configContext) => {
             },
           },
         },
+        projectId: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.projectId.name',
+                defaultMessage: 'Project ID',
+              },
+            }),
+            view: {
+              type: IDGeneratorInput,
+              props: {
+                source: 'projID' // FIX ME
+              },
+            },
+          },
+        },
+        projectDescription: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.projectDescription.name',
+                defaultMessage: 'Project Description',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
         methodList: {
           [config]: {
             view: {
