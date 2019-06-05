@@ -61,6 +61,8 @@ const template = (configContext) => {
               <Field name="userGroup">
                 <Field name="user" />
                 <Field name="userType" />
+                <Field name="userRole" />
+                <Field name="userInstitution" />
               </Field>
             </Field>
 

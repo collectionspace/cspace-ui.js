@@ -365,6 +365,47 @@ export default (configContext) => {
                 },
               },
             },
+            userRole: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.userRole.fullName',
+                    defaultMessage: 'User role',
+                  },
+                  name: {
+                    id: 'field.uoc_common.userRole.name',
+                    defaultMessage: 'Role',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'userRoles',
+                  },
+                },
+              },
+            },
+            userInstitution: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.userInstitution.fullName',
+                    defaultMessage: 'User institution',
+                  },
+                  name: {
+                    id: 'field.uoc_common.userInstitution.name',
+                    defaultMessage: 'Institution',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local,organization/all,organization/shared',
+                  },
+                },
+              },
+            },
+
           },
         },
         location: {

@@ -22,4 +22,12 @@ export default {
       },
     }),
   },
+  userRoles: {
+    values: [
+      'Undergraduate student',
+      'Graduate student',
+      'Faculty',
+      'other',
+    ],
+  },
 };
