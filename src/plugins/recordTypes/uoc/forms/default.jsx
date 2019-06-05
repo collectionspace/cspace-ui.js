@@ -48,7 +48,13 @@ const template = (configContext) => {
 
         <Cols>
           <Col>
-            <Field name="startSingleDate" />
+            <Field name="startSingleDateGroupList">
+              <Field name="startSingleDateGroup" >
+                <Field name="startSingleDate" />
+                <Field name="numberOfVisitors" />
+                <Field name="hoursSpent" />
+              </Field>
+            </Field>
             <Field name="endDate" />
 
             <Field name="userGroupList">

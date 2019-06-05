@@ -17,6 +17,7 @@ export default (configContext) => {
 
   const {
     DATA_TYPE_DATE,
+    DATA_TYPE_INT,
   } = configContext.dataTypes;
 
   const {
@@ -222,17 +223,69 @@ export default (configContext) => {
             },
           },
         },
-        startSingleDate: {
+        startSingleDateGroupList: {
           [config]: {
-            dataType: DATA_TYPE_DATE,
-            messages: defineMessages({
-              name: {
-                id: 'field.uoc_common.startSingleDate.name',
-                defaultMessage: 'Start/single date',
-              },
-            }),
             view: {
-              type: DateInput,
+              type: CompoundInput,
+            },
+          },
+          startSingleDateGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.startSingleDateGroup.name',
+                  defaultMessage: 'Start/single dates', // FIX ME
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                }
+              },
+            },
+            startSingleDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.startSingleDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            numberOfVisitors: {
+              [config]: {
+                messages: defineMessages({ 
+                  name: {
+                    id: 'field.uoc_common.numberOfVisitors.name',
+                    defaultMessage: 'No. of vistors',
+                  },
+                }),
+                dataType: DATA_TYPE_INT,
+                view: {
+                  type: TextInput,
+                }
+              },
+            },
+            hoursSpent: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.hoursSpent.name',
+                    defaultMessage: 'Hours spent',
+                  },
+                }),
+                dataType: DATA_TYPE_INT,
+                view: {
+                  type: TextInput,
+                },
+              },
             },
           },
         },
