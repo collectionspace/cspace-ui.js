@@ -35,11 +35,14 @@ const template = (configContext) => {
 
         <Field name="title" />
 
-        <InputTable name="authorizedBy">
-          <Field name="authorizedBy" />
-          <Field name="authorizationDate" />
-          <Field name="authorizationNote" />
-        </InputTable>
+        <Field name="authorizationGroupList">
+          <Field name="authorizationGroup">
+            <Field name="authorizedBy" />
+            <Field name="authorizationDate" />
+            <Field name="authorizationNote" />
+            <Field name="authorizationStatus" />
+          </Field>
+        </Field>
 
         <Cols>
           <Col>

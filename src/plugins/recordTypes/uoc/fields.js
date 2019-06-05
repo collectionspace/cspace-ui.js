@@ -8,6 +8,7 @@ export default (configContext) => {
     AutocompleteInput,
     IDGeneratorInput,
     TermPickerInput,
+    OptionPickerInput,
   } = configContext.inputComponents;
 
   const {
@@ -98,54 +99,94 @@ export default (configContext) => {
             },
           },
         },
-        authorizedBy: {
+        authorizationGroupList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.uoc_common.authorizedBy.name',
-                defaultMessage: 'Authorized by',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared',
-              },
+              type: CompoundInput,
             },
           },
-        },
-        authorizationDate: {
-          [config]: {
-            dataType: DATA_TYPE_DATE,
-            messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.authorizationDate.fullName',
-                defaultMessage: 'Authorization date',
+          authorizationGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.authorizationGroup.name',
+                  defaultMessage: 'Authorization',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                }
               },
-              name: {
-                id: 'field.uoc_common.authorizationDate.name',
-                defaultMessage: 'Date',
-              },
-            }),
-            view: {
-              type: DateInput,
             },
-          },
-        },
-        authorizationNote: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.authorizationNote.fullName',
-                defaultMessage: 'Authorization note',
+            authorizedBy: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.authorizedBy.name',
+                    defaultMessage: 'Authorized by',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared',
+                  },
+                },
               },
-              name: {
-                id: 'field.uoc_common.authorizationNote.name',
-                defaultMessage: 'Note',
+            },
+            authorizationDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  fulName: {
+                    id: 'field.uoc_common.authorizationDate.fulName',
+                    defaultMessage: 'Authorization date',
+                  },
+                  name: {
+                    id: 'field.uoc_common.authorizationDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
               },
-            }),
-            view: {
-              type: TextInput,
+            },
+            authorizationNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.authorizationNote.fullName',
+                    defaultMessage: 'Authorization note',
+                  },
+                  name: {
+                    id: 'field.uoc_common.authorizationNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            authorizationStatus: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.authorizationStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'authorizationStatuses',
+                  },
+                },
+              },
             },
           },
         },
