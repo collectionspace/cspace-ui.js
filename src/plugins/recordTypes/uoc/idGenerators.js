@@ -10,4 +10,13 @@ export default {
       },
     }),
   },
+  proj: {
+    csid: 'ddba36e0-0534-495d-84ea-8b8b65a1f79f',
+    messages: defineMessages({
+      type: {
+        id: 'idGenerator.proj.type',
+        defaultMessage: 'Use of Collections Project',
+      },
+    }),
+  },
 };

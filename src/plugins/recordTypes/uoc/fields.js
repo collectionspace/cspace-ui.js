@@ -67,13 +67,13 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.uoc_common.projectId.name',
-                defaultMessage: 'Project ID',
+                defaultMessage: 'Project ID 2',
               },
             }),
             view: {
               type: IDGeneratorInput,
               props: {
-                source: 'projID' // FIX ME
+                source: 'proj' // FIX ME
               },
             },
           },
