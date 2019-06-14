@@ -472,9 +472,11 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
   if (Immutable.List.isList(value)) {
     // Expand or'ed values.
 
-    return value.map(valueInstance =>
+    const orClauses = value.map(valueInstance =>
       fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance))
     ).join(' OR ');
+
+    return `(${orClauses})`;
   }
 
   if (dataType === DATA_TYPE_STRUCTURED_DATE) {

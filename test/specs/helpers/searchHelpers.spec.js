@@ -836,7 +836,7 @@ describe('searchHelpers', function moduleSuite() {
       });
 
       fieldConditionToNXQL(fields, condition).should
-        .equal('part:foo <= "bar" OR part:foo <= "baz"');
+        .equal('(part:foo <= "bar" OR part:foo <= "baz")');
     });
   });
 
