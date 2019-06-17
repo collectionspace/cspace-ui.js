@@ -43,6 +43,14 @@ import {
 } from '../../../src/helpers/configHelpers';
 
 import {
+  thumbnailImage,
+} from '../../../src/helpers/blobHelpers';
+
+import {
+  formatWorkflowStateIcon,
+} from '../../../src/helpers/formatHelpers';
+
+import {
   DATA_TYPE_BOOL,
   DATA_TYPE_INT,
   DATA_TYPE_MAP,
@@ -1513,6 +1521,56 @@ describe('configHelpers', function moduleSuite() {
 
     it('should use the column set named \'default\' if no column set is specified', function test() {
       getFirstColumnName(config, 'group').should.equal('title');
+    });
+
+    it('should ignore workflow state columns', function test() {
+      const workflowStateConfig = {
+        recordTypes: {
+          person: {
+            columns: {
+              default: {
+                workflowState: {
+                  formatValue: formatWorkflowStateIcon,
+                  order: 10,
+                },
+                termDisplayName: {
+                  order: 20,
+                },
+                updatedAt: {
+                  order: 30,
+                },
+              },
+            },
+          },
+        },
+      };
+
+      getFirstColumnName(workflowStateConfig, 'person').should.equal('termDisplayName');
+    });
+
+    it('should ignore image thumbnail columns', function test() {
+      const thumbnailConfig = {
+        recordTypes: {
+          media: {
+            columns: {
+              default: {
+                blobCsid: {
+                  formatValue: thumbnailImage,
+                  order: 10,
+                },
+                identificationNumber: {
+                  order: 20,
+                },
+                updatedAt: {
+                  order: 30,
+                },
+              },
+            },
+          },
+        },
+      };
+
+      getFirstColumnName(thumbnailConfig, 'media').should.equal('identificationNumber');
     });
   });
 });

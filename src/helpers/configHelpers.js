@@ -22,6 +22,14 @@ import {
 } from '../constants/dataTypes';
 
 import {
+  thumbnailImage,
+} from './blobHelpers';
+
+import {
+  formatWorkflowStateIcon,
+} from './formatHelpers';
+
+import {
   NS_PREFIX,
 } from './recordDataHelpers';
 
@@ -811,7 +819,11 @@ export const getFirstColumnName = (config, recordType, columnSetName = 'default'
   }
 
   const orderedColumnNames = Object.keys(columnConfig)
-    .filter(name => !columnConfig[name].disabled)
+    .filter(name => (
+      !columnConfig[name].disabled
+      && columnConfig[name].formatValue !== formatWorkflowStateIcon
+      && columnConfig[name].formatValue !== thumbnailImage
+    ))
     .sort((nameA, nameB) => {
       const orderA = columnConfig[nameA].order;
       const orderB = columnConfig[nameB].order;
