@@ -19,7 +19,7 @@ import InvocationModalContainer from '../../../../src/containers/invocable/Invoc
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import ReportPage from '../../../../src/components/pages/ReportPage';
-import { OP_AND, OP_CONTAIN, OP_EQ } from '../../../../src/constants/searchOperators';
+import { OP_CONTAIN } from '../../../../src/constants/searchOperators';
 
 const expect = chai.expect;
 
@@ -258,19 +258,9 @@ describe('ReportPage', function suite() {
           recordType: 'report',
           searchQuery: {
             as: {
-              op: OP_AND,
-              value: [
-                {
-                  value: 'searchval',
-                  op: OP_CONTAIN,
-                  path: 'ns2:reports_common/name',
-                },
-                {
-                  op: OP_EQ,
-                  path: 'ns2:reports_common/supportsNoContext',
-                  value: 1,
-                },
-              ],
+              value: 'searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:reports_common/name',
             },
             size: 20,
             p: 0,
@@ -323,11 +313,6 @@ describe('ReportPage', function suite() {
           recordType: 'report',
           searchQuery: {
             size: 20,
-            as: {
-              op: OP_EQ,
-              path: 'ns2:reports_common/supportsNoContext',
-              value: 1,
-            },
           },
         }));
 
@@ -345,19 +330,9 @@ describe('ReportPage', function suite() {
             p: 0,
             size: 20,
             as: {
-              op: OP_AND,
-              value: [
-                {
-                  value: 'another searchval',
-                  op: OP_CONTAIN,
-                  path: 'ns2:reports_common/name',
-                },
-                {
-                  op: OP_EQ,
-                  path: 'ns2:reports_common/supportsNoContext',
-                  value: 1,
-                },
-              ],
+              value: 'another searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:reports_common/name',
             },
           },
         }));
@@ -401,19 +376,9 @@ describe('ReportPage', function suite() {
           recordType: 'report',
           searchQuery: {
             as: {
-              op: OP_AND,
-              value: [
-                {
-                  value: 'searchval',
-                  op: OP_CONTAIN,
-                  path: 'ns2:reports_common/name',
-                },
-                {
-                  op: OP_EQ,
-                  path: 'ns2:reports_common/supportsNoContext',
-                  value: 1,
-                },
-              ],
+              value: 'searchval',
+              op: OP_CONTAIN,
+              path: 'ns2:reports_common/name',
             },
             size: 20,
             p: 0,
@@ -428,11 +393,6 @@ describe('ReportPage', function suite() {
         searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
           recordType: 'report',
           searchQuery: {
-            as: {
-              op: OP_EQ,
-              path: 'ns2:reports_common/supportsNoContext',
-              value: 1,
-            },
             size: 20,
             p: 0,
           },

@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import InvocationModal from '../invocable/InvocationModal';
 import ReportSearchBar from '../invocable/ReportSearchBar';
-import { OP_CONTAIN, OP_EQ, OP_AND } from '../../constants/searchOperators';
+import { OP_CONTAIN } from '../../constants/searchOperators';
 import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
@@ -47,12 +47,6 @@ const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
   searchQuery: {
     size: 20,
-    // TODO: Remove this, after allowing user to select context in the invocation modal.
-    as: {
-      op: OP_EQ,
-      path: 'ns2:reports_common/supportsNoContext',
-      value: 1,
-    },
   },
 });
 
@@ -94,26 +88,12 @@ export default class ReportPage extends Component {
 
     if (value) {
       updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
-        op: OP_AND,
-        value: [
-          {
-            value,
-            op: OP_CONTAIN,
-            path: 'ns2:reports_common/name',
-          },
-          {
-            op: OP_EQ,
-            path: 'ns2:reports_common/supportsNoContext',
-            value: 1,
-          },
-        ],
+        value,
+        op: OP_CONTAIN,
+        path: 'ns2:reports_common/name',
       }));
     } else {
-      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
-        op: OP_EQ,
-        path: 'ns2:reports_common/supportsNoContext',
-        value: 1,
-      }));
+      updatedSearchQuery = searchQuery.delete('as');
     }
 
     updatedSearchQuery = updatedSearchQuery.set('p', 0);
