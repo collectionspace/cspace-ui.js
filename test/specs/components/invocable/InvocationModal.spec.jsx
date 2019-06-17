@@ -442,4 +442,120 @@ describe('InvocationModal', function suite() {
       }, 0);
     });
   });
+
+  it('should create an item containing the invocation descriptor csid if no item is found by searchCsid', function test() {
+    const singleCsidInvocationDescriptor = Immutable.Map({
+      mode: 'single',
+      recordType: 'collectionobject',
+      csid: '1234',
+    });
+
+    const searchCsid = () => Promise.resolve({
+      data: {
+        'ns2:abstract-common-list': {},
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              csid={csid}
+              isOpen={false}
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              searchCsid={searchCsid}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const modal = document.querySelector('.ReactModal__Content--after-open');
+
+        modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
+          .should.equal('1234');
+
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should create an item containing the invocation descriptor csid if searchCsid fails', function test() {
+    const singleCsidInvocationDescriptor = Immutable.Map({
+      mode: 'single',
+      recordType: 'collectionobject',
+      csid: '1234',
+    });
+
+    const searchCsid = () => Promise.reject();
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              csid={csid}
+              isOpen={false}
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              searchCsid={searchCsid}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const modal = document.querySelector('.ReactModal__Content--after-open');
+
+        modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
+          .should.equal('1234');
+
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 0);
+    });
+  });
 });

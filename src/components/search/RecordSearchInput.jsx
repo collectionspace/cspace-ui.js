@@ -47,7 +47,7 @@ export default class RecordSearchInput extends Component {
         const recordType = getRecordTypeNameByUri(config, item.get('uri'));
         const firstColumnName = getFirstColumnName(config, recordType);
 
-        return item.get(firstColumnName);
+        return (item.get(firstColumnName) || item.get('csid')) || '?';
       });
 
       return (
