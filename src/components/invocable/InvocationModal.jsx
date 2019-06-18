@@ -23,11 +23,13 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  allowedModes: PropTypes.arrayOf(PropTypes.string),
   config: PropTypes.object.isRequired,
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   initialInvocationDescriptor: PropTypes.instanceOf(Immutable.Map),
-  invocationDescriptorReadOnly: PropTypes.bool,
+  modeReadOnly: PropTypes.bool,
+  invocationTargetReadOnly: PropTypes.bool,
   isOpen: PropTypes.bool,
   isRecordModified: PropTypes.bool,
   recordType: PropTypes.oneOf(['report', 'batch']),
@@ -142,14 +144,16 @@ export default class InvocationModal extends Component {
           .then((response) => {
             let item = get(response, ['data', 'ns2:abstract-common-list', 'list-item']);
 
-            if (!item) {
+            if (item) {
+              item = Immutable.fromJS(item);
+            } else {
               item = Immutable.Map({
                 csid: invocationCsid,
               });
             }
 
             const nextInvocationDescriptor = this.state.invocationDescriptor.set(
-              'items', Immutable.fromJS([item])
+              'items', Immutable.Map({ [invocationCsid]: item })
             );
 
             this.setState({
@@ -162,7 +166,7 @@ export default class InvocationModal extends Component {
             });
 
             const nextInvocationDescriptor = this.state.invocationDescriptor.set(
-              'items', Immutable.fromJS([item])
+              'items', Immutable.Map({ [invocationCsid]: item })
             );
 
             this.setState({
@@ -224,10 +228,12 @@ export default class InvocationModal extends Component {
 
   render() {
     const {
+      allowedModes,
       config,
       csid,
       data,
-      invocationDescriptorReadOnly,
+      modeReadOnly,
+      invocationTargetReadOnly,
       isOpen,
       isRecordModified,
       recordType,
@@ -257,10 +263,12 @@ export default class InvocationModal extends Component {
         onCloseButtonClick={onCloseButtonClick}
       >
         <InvocationEditorContainer
+          allowedModes={allowedModes}
           config={config}
           metadata={data}
           invocationDescriptor={invocationDescriptor}
-          invocationDescriptorReadOnly={invocationDescriptorReadOnly}
+          modeReadOnly={modeReadOnly}
+          invocationTargetReadOnly={invocationTargetReadOnly}
           invocableName={invocableName}
           isInvocationTargetModified={isRecordModified}
           recordType={recordType}

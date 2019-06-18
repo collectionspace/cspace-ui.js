@@ -102,7 +102,7 @@ describe('InvocationModalContainer', function suite() {
   });
 
   it('should connect searchCsid to searchCsid action creator', function test() {
-    moxios.stubRequest('/cspace-services/groups?as=(ecm:name+%3D+%225678%22)&pgSz=1&wf_deleted=false', {
+    moxios.stubRequest('/cspace-services/groups?as=%28ecm%3Aname%20%3D%20%225678%22%29&pgSz=1&wf_deleted=false', {
       status: 200,
       response: {
         foo: 'bar',

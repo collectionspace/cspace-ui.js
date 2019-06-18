@@ -382,7 +382,7 @@ describe('search action creator', function suite() {
     });
 
     it('should generate the sort parameter', function test() {
-      const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core:updatedAt');
+      const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core%3AupdatedAt');
 
       moxios.stubRequest(sortedSearchUrl, {
         status: 200,
@@ -433,7 +433,7 @@ describe('search action creator', function suite() {
     });
 
     it('should generate the sort parameter for descending searches', function test() {
-      const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core:updatedAt\\+DESC');
+      const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core%3AupdatedAt%20DESC');
 
       moxios.stubRequest(sortedSearchUrl, {
         status: 200,
@@ -702,7 +702,7 @@ describe('search action creator', function suite() {
         foo: 'bar',
       };
 
-      moxios.stubRequest('/cspace-services/collectionobjects?as=(ecm:name+%3D+%221234%22)&pgSz=1&wf_deleted=false', {
+      moxios.stubRequest('/cspace-services/collectionobjects?as=%28ecm%3Aname%20%3D%20%221234%22%29&pgSz=1&wf_deleted=false', {
         status: 200,
         response: data,
       });
@@ -738,7 +738,7 @@ describe('search action creator', function suite() {
         foo: 'bar',
       };
 
-      moxios.stubRequest('/cspace-services/personauthorities/_ALL_/items?as=(ecm:name+%3D+%221234%22)&pgSz=1&wf_deleted=false', {
+      moxios.stubRequest('/cspace-services/personauthorities/_ALL_/items?as=%28ecm%3Aname%20%3D%20%221234%22%29&pgSz=1&wf_deleted=false', {
         status: 200,
         response: data,
       });

@@ -104,6 +104,7 @@ describe('RecordBatchPanel', function suite() {
       recordType: 'batch',
       searchQuery: {
         doctype: 'Group',
+        mode: ['single', 'group'],
         p: 0,
         size: 5,
       },
@@ -186,6 +187,7 @@ describe('RecordBatchPanel', function suite() {
       recordType: 'batch',
       searchQuery: {
         doctype: 'Group',
+        mode: ['single', 'group'],
         p: 0,
         size: 5,
       },
@@ -209,6 +211,7 @@ describe('RecordBatchPanel', function suite() {
       recordType: 'batch',
       searchQuery: {
         doctype: 'CollectionObject',
+        mode: 'single',
         p: 0,
         size: 5,
       },
@@ -552,6 +555,7 @@ describe('RecordBatchPanel', function suite() {
       recordType: 'batch',
       searchQuery: {
         doctype: 'Group',
+        mode: ['single', 'group'],
         p: 0,
         size: 5,
       },

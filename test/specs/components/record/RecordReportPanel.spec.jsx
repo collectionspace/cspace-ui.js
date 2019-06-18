@@ -103,6 +103,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
+        mode: ['single', 'group'],
         p: 0,
         size: 5,
       },
@@ -185,6 +186,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
+        mode: ['single', 'group'],
         p: 0,
         size: 5,
       },
@@ -208,6 +210,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'CollectionObject',
+        mode: 'single',
         p: 0,
         size: 5,
       },
@@ -380,6 +383,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
+        mode: ['single', 'group'],
         p: 0,
         size: 5,
       },

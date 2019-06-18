@@ -28,7 +28,8 @@ const propTypes = {
   config: PropTypes.object,
   invocationDescriptor: PropTypes.instanceOf(Immutable.Map),
   modes: PropTypes.arrayOf(PropTypes.string),
-  readOnly: PropTypes.bool,
+  modeReadOnly: PropTypes.bool,
+  invocationTargetReadOnly: PropTypes.bool,
   recordTypes: PropTypes.arrayOf(PropTypes.string),
   onCommit: PropTypes.func,
 };
@@ -88,17 +89,21 @@ export default class InvocationDescriptorEditor extends Component {
   handleModePickerCommit(path, value) {
     const {
       invocationDescriptor,
+      invocationTargetReadOnly,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit(
-        invocationDescriptor
-          .set('mode', value)
+      let nextInvocationDescriptor = invocationDescriptor.set('mode', value);
+
+      if (!invocationTargetReadOnly) {
+        nextInvocationDescriptor = nextInvocationDescriptor
           .delete('csid')
           .delete('recordType')
-          .delete('items')
-      );
+          .delete('items');
+      }
+
+      onCommit(nextInvocationDescriptor);
     }
   }
 
@@ -113,7 +118,8 @@ export default class InvocationDescriptorEditor extends Component {
       config,
       invocationDescriptor,
       modes,
-      readOnly,
+      modeReadOnly,
+      invocationTargetReadOnly,
       recordTypes,
     } = this.props;
 
@@ -130,7 +136,7 @@ export default class InvocationDescriptorEditor extends Component {
         <div>
           <ModePickerInput
             modes={modes}
-            readOnly={readOnly || modes.length < 2}
+            readOnly={modeReadOnly || modes.length < 2}
             value={mode}
             onCommit={this.handleModePickerCommit}
           />
@@ -138,7 +144,7 @@ export default class InvocationDescriptorEditor extends Component {
           <InvocationTargetInput
             config={config}
             mode={mode}
-            readOnly={readOnly}
+            readOnly={invocationTargetReadOnly}
             openSearchModal={this.openSearchModal}
             value={invocationDescriptor.get('items')}
           />

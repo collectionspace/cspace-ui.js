@@ -23,6 +23,8 @@ import {
   DESELECT_RESULT_ITEM,
 } from '../constants/actionCodes';
 
+const toJS = obj => ((obj && typeof obj === 'object' && obj.toJS) ? obj.toJS() : obj);
+
 const getSortParam = (config, searchDescriptor, columnSetName) => {
   const sortSpec = searchDescriptor.getIn(['searchQuery', 'sort']);
   const [sortColumnName, sortDir] = sortSpec.split(' ');
@@ -180,6 +182,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
         doctype: searchQuery.get('doctype'),
         kw: searchQuery.get('kw'),
         mkRtSbj: searchQuery.get('mkRtSbj'),
+        mode: toJS(searchQuery.get('mode')),
         pgNum: searchQuery.get('p'),
         pgSz: searchQuery.get('size'),
         rtSbj: searchQuery.get('rel'),

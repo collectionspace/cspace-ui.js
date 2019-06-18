@@ -114,6 +114,25 @@ describe('InvocationEditor', function suite() {
     invocationDescriptorEditor.props.modes.should.deep.equal(['nocontext', 'list', 'group', 'single']);
   });
 
+  it('should filter out supported modes that are not allowed, if allowedModes is supplied', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InvocationEditor
+        config={config}
+        invocationDescriptor={invocationDescriptor}
+        metadata={reportMetadata}
+        recordType="report"
+        allowedModes={['group', 'single']}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const invocationDescriptorEditor = findWithType(result, InvocationDescriptorEditor);
+
+    invocationDescriptorEditor.props.modes.should.deep.equal(['group', 'single']);
+  });
+
   it('should support an invocable with a single (non-list) forDocTypes', function test() {
     const singleForDocTypeReportMetadata = Immutable.fromJS({
       document: {

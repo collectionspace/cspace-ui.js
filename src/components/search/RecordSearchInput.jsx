@@ -41,14 +41,12 @@ export default class RecordSearchInput extends Component {
     } = this.props;
 
     if (value && value.size > 0) {
-      const limitedValues = value.slice(0, itemLimit);
-
-      const descriptions = limitedValues.map((item) => {
+      const descriptions = value.valueSeq().take(itemLimit).map((item) => {
         const recordType = getRecordTypeNameByUri(config, item.get('uri'));
         const firstColumnName = getFirstColumnName(config, recordType);
 
         return (item.get(firstColumnName) || item.get('csid')) || '?';
-      });
+      }).toJS();
 
       return (
         <FormattedMessage

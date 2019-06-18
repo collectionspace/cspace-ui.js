@@ -30,9 +30,11 @@ const renderLoading = () => (
 );
 
 const propTypes = {
+  allowedModes: PropTypes.arrayOf(PropTypes.string),
   config: PropTypes.object,
   invocationDescriptor: PropTypes.instanceOf(Immutable.Map),
-  invocationDescriptorReadOnly: PropTypes.bool,
+  modeReadOnly: PropTypes.bool,
+  invocationTargetReadOnly: PropTypes.bool,
   isInvocationTargetModified: PropTypes.bool,
   metadata: PropTypes.instanceOf(Immutable.Map),
   paramData: PropTypes.instanceOf(Immutable.Map),
@@ -54,10 +56,11 @@ export default class InvocationEditor extends Component {
 
   getSupportedModes() {
     const {
+      allowedModes,
       metadata,
     } = this.props;
 
-    const modes = [];
+    let modes = [];
 
     if (getCommonFieldValue(metadata, 'supportsNoContext') === 'true') {
       modes.push('nocontext');
@@ -73,6 +76,10 @@ export default class InvocationEditor extends Component {
 
     if (getCommonFieldValue(metadata, 'supportsSingleDoc') === 'true') {
       modes.push('single');
+    }
+
+    if (allowedModes) {
+      modes = modes.filter(mode => allowedModes.includes(mode));
     }
 
     return modes;
@@ -117,7 +124,8 @@ export default class InvocationEditor extends Component {
     const {
       config,
       invocationDescriptor,
-      invocationDescriptorReadOnly,
+      modeReadOnly,
+      invocationTargetReadOnly,
       isInvocationTargetModified,
       metadata,
       paramData,
@@ -158,7 +166,8 @@ export default class InvocationEditor extends Component {
           config={config}
           invocationDescriptor={invocationDescriptor}
           modes={this.getSupportedModes()}
-          readOnly={invocationDescriptorReadOnly}
+          modeReadOnly={modeReadOnly}
+          invocationTargetReadOnly={invocationTargetReadOnly}
           recordTypes={this.getSupportedRecordTypes()}
           onCommit={onInvocationDescriptorCommit}
         />
