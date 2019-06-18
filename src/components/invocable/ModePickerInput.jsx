@@ -58,6 +58,7 @@ export default function ModePickerInput(props) {
       blankable={false}
       label={<Label><FormattedMessage {...messages.label} /></Label>}
       options={options}
+      readOnly={modes.length < 2}
       value={value}
       {...remainingProps}
     />

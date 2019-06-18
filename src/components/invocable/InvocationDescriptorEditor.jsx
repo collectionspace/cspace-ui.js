@@ -6,6 +6,24 @@ import InvocationTargetInput from './InvocationTargetInput';
 import ModePickerInput from './ModePickerInput';
 import styles from '../../../styles/cspace-ui/InvocationDescriptorEditor.css';
 
+const initMode = (props) => {
+  const {
+    invocationDescriptor,
+    modes,
+    onCommit,
+  } = props;
+
+  const mode = invocationDescriptor && invocationDescriptor.get('mode');
+
+  if (
+    (!mode || !modes.includes(mode))
+    && modes.length > 0
+    && onCommit
+  ) {
+    onCommit(invocationDescriptor.set('mode', modes[0]));
+  }
+};
+
 const propTypes = {
   config: PropTypes.object,
   invocationDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -17,6 +35,7 @@ const propTypes = {
 
 const defaultProps = {
   invocationDescriptor: Immutable.Map(),
+  modes: [],
 };
 
 export default class InvocationDescriptorEditor extends Component {
@@ -31,6 +50,14 @@ export default class InvocationDescriptorEditor extends Component {
     this.state = {
       isSearchModalOpen: false,
     };
+  }
+
+  componentDidMount() {
+    initMode(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    initMode(nextProps);
   }
 
   handleSearchModalAccept(selectedItems, searchDescriptor) {
@@ -103,7 +130,7 @@ export default class InvocationDescriptorEditor extends Component {
         <div>
           <ModePickerInput
             modes={modes}
-            readOnly={readOnly}
+            readOnly={readOnly || modes.length < 2}
             value={mode}
             onCommit={this.handleModePickerCommit}
           />

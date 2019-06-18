@@ -121,6 +121,43 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModalContainer.props.singleSelect.should.equal(true);
   });
 
+  it('should update the invocation descriptor with the first mode in the modes list if the mode in the invocation descriptor is not in the modes list', function test() {
+    const invocationDescriptor = Immutable.Map({
+      mode: 'nocontext',
+    });
+
+    let committedInvocationDescriptor;
+
+    const handleCommit = (invocationDescriptorArg) => {
+      committedInvocationDescriptor = invocationDescriptorArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <InvocationDescriptorEditor
+        invocationDescriptor={invocationDescriptor}
+        modes={['nocontext', 'group', 'list']}
+      />
+    );
+
+    shallowRenderer.getRenderOutput();
+
+    shallowRenderer.render(
+      <InvocationDescriptorEditor
+        invocationDescriptor={invocationDescriptor}
+        modes={['group', 'list']}
+        onCommit={handleCommit}
+      />
+    );
+
+    shallowRenderer.getRenderOutput();
+
+    committedInvocationDescriptor.should.equal(Immutable.fromJS({
+      mode: 'group',
+    }));
+  });
+
   it('should update the invocation descriptor and close the search to select modal when the selection is accepted', function test() {
     const invocationDescriptor = Immutable.Map({
       mode: 'list',
