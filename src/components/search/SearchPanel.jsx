@@ -43,6 +43,7 @@ const propTypes = {
   recordType: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
   title: PropTypes.node,
