@@ -110,14 +110,16 @@ export default class SearchPanel extends Component {
 
     const {
       searchDescriptor,
+      searchError,
       searchResult,
       onSearchDescriptorChange,
     } = this.props;
 
     if (
       !Immutable.is(prevSearchDescriptor, searchDescriptor) ||
-      // If the search result was cleared from the store, redo the search.
-      (typeof searchResult === 'undefined' && prevSearchResult)
+      // If the search result was cleared from the store (not due to the search failing), redo the
+      // search.
+      (typeof searchResult === 'undefined' && prevSearchResult && !searchError)
     ) {
       this.search();
 
