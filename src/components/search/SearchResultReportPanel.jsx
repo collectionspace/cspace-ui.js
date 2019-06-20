@@ -6,16 +6,14 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
-import { isExistingRecord } from '../../helpers/recordDataHelpers';
-import { serviceUriToLocation } from '../../helpers/uriHelpers';
 import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { RECORD_BATCH_PANEL_SEARCH_NAME } from '../../constants/searchNames';
+import { SEARCH_RESULT_REPORT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 
 const messages = defineMessages({
   title: {
-    id: 'recordBatchPanel.title',
-    defaultMessage: 'Data Updates',
+    id: 'searchResultReportPanel.title',
+    defaultMessage: 'Reports',
   },
 });
 
@@ -23,12 +21,12 @@ const getSearchDescriptor = (config, recordType) => {
   const objectName = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
 
   return Immutable.fromJS({
-    recordType: 'batch',
+    recordType: 'report',
     searchQuery: {
       p: 0,
       size: 5,
       doctype: objectName,
-      mode: (recordType === 'group' ? ['single', 'group'] : 'single'),
+      mode: 'list',
     },
   });
 };
@@ -36,15 +34,13 @@ const getSearchDescriptor = (config, recordType) => {
 const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
-  csid: PropTypes.string,
-  history: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
-  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
-  invoke: PropTypes.func,
+  selectedItems: PropTypes.instanceOf(Immutable.Map),
+  openReport: PropTypes.func,
 };
 
-export default class RecordBatchPanel extends Component {
+export default class SearchResultReportPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -100,54 +96,20 @@ export default class RecordBatchPanel extends Component {
     });
   }
 
-  handleModalInvokeButtonClick(batchMetadata, invocationDescriptor) {
+  handleModalInvokeButtonClick(reportMetadata, invocationDescriptor) {
     const {
       config,
-      history,
-      invoke,
+      openReport,
     } = this.props;
 
-    if (invoke) {
-      const createsNewFocus =
-        (batchMetadata.getIn(['document', 'ns2:batch_common', 'createsNewFocus']) === 'true');
-
-      const handleValidationSuccess = () => {
-        if (createsNewFocus) {
-          // If the batch job is going to direct us to a different record, keep the modal in place
-          // until it completes, so the user won't be surprised by a new record opening.
-
-          this.setState({
-            isRunning: true,
-          });
-        } else {
+    if (openReport) {
+      openReport(config, reportMetadata, invocationDescriptor)
+        .then(() => {
           this.setState({
             isModalOpen: false,
           });
-        }
-      };
-
-      this.setState({
-        isRunning: true,
-      });
-
-      invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
-        .then((response) => {
-          if (createsNewFocus) {
-            this.setState({
-              isModalOpen: false,
-              isRunning: false,
-            });
-
-            // Open the record indicated by the invocation result.
-
-            const uri = get(response.data, ['ns2:invocationResults', 'primaryURICreated']);
-            const location = serviceUriToLocation(config, uri);
-
-            if (location) {
-              history.push(location);
-            }
-          }
-        });
+        })
+        .catch(() => {});
     }
   }
 
@@ -161,30 +123,22 @@ export default class RecordBatchPanel extends Component {
     const {
       color,
       config,
-      csid,
       perms,
-      recordData,
       recordType,
+      selectedItems,
     } = this.props;
 
     const {
       isModalOpen,
-      isRunning,
       searchDescriptor,
       selectedItem,
     } = this.state;
 
-    if (!isExistingRecord(recordData)) {
-      // Don't render until after the record has loaded.
-
+    if (!canList('report', perms)) {
       return null;
     }
 
-    if (!canList('batch', perms)) {
-      return null;
-    }
-
-    const canRun = canCreate('batch', perms);
+    const canRun = canCreate('report', perms);
 
     return (
       <div>
@@ -193,7 +147,7 @@ export default class RecordBatchPanel extends Component {
           color={color}
           config={config}
           linkItems={false}
-          name={RECORD_BATCH_PANEL_SEARCH_NAME}
+          name={SEARCH_RESULT_REPORT_PANEL_SEARCH_NAME}
           searchDescriptor={searchDescriptor}
           recordType={recordType}
           showSearchButton={false}
@@ -202,19 +156,17 @@ export default class RecordBatchPanel extends Component {
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <InvocationModalContainer
-          allowedModes={recordType === 'group' ? ['group', 'single'] : undefined}
           config={config}
           csid={selectedItem && selectedItem.get('csid')}
           initialInvocationDescriptor={Immutable.Map({
-            csid,
             recordType,
-            mode: (recordType === 'group' ? 'group' : 'single'),
+            items: selectedItems,
+            mode: 'list',
           })}
-          modeReadOnly={recordType !== 'group'}
+          modeReadOnly
           invocationTargetReadOnly
           isOpen={isModalOpen}
-          isRunning={isRunning}
-          recordType="batch"
+          recordType="report"
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
           onInvokeButtonClick={this.handleModalInvokeButtonClick}
@@ -224,4 +176,4 @@ export default class RecordBatchPanel extends Component {
   }
 }
 
-RecordBatchPanel.propTypes = propTypes;
+SearchResultReportPanel.propTypes = propTypes;

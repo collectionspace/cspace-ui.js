@@ -21,6 +21,7 @@ import {
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
+  TOGGLE_SEARCH_RESULT_SIDEBAR,
   SET_STICKY_FIELDS,
 } from '../constants/actionCodes';
 
@@ -107,6 +108,10 @@ export const setUploadType = type => ({
 
 export const toggleRecordSidebar = () => ({
   type: TOGGLE_RECORD_SIDEBAR,
+});
+
+export const toggleSearchResultSidebar = () => ({
+  type: TOGGLE_SEARCH_RESULT_SIDEBAR,
 });
 
 export const setStickyFields = (recordTypeConfig, csid) => (dispatch, getState) => {

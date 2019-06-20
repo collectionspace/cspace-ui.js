@@ -32,6 +32,7 @@ const propTypes = {
   invocationTargetReadOnly: PropTypes.bool,
   isOpen: PropTypes.bool,
   isRecordModified: PropTypes.bool,
+  isRunning: PropTypes.bool,
   recordType: PropTypes.oneOf(['report', 'batch']),
   readRecord: PropTypes.func,
   searchCsid: PropTypes.func,
@@ -179,18 +180,31 @@ export default class InvocationModal extends Component {
 
   renderButtonBar() {
     const {
+      isRunning,
       onCancelButtonClick,
       recordType,
     } = this.props;
 
+    const {
+      invocationDescriptor,
+    } = this.state;
+
+    const mode = invocationDescriptor.get('mode');
+    const items = invocationDescriptor.get('items');
+
     return (
       <div>
         <CancelButton
+          disabled={isRunning}
           label={<FormattedMessage {...messages.cancel} />}
           onClick={onCancelButtonClick}
         />
 
         <InvokeButton
+          disabled={
+            isRunning
+            || (mode !== 'nocontext' && (!items || items.isEmpty()))
+          }
           label={<FormattedMessage {...messages.invoke} />}
           recordType={recordType}
           onClick={this.handleInvokeButtonClick}

@@ -32,6 +32,16 @@
   content: '< ';
 }
 
+.black {
+  background-color: rgba(230, 230, 230, .4);
+  color: #4D4D4D;
+}
+
+.black:hover, .black:focus {
+  background-color: rgba(0, 0, 0, .66);
+  color: white;
+}
+
 .blue {
   background-color: rgba(156, 185, 211, .2);
   color: #305A8D;

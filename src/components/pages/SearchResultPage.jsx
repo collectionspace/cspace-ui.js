@@ -9,11 +9,13 @@ import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import ErrorPage from './ErrorPage';
 import RelateButton from '../record/RelateButton';
-import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import Pager from '../search/Pager';
+import SearchResultSidebar from '../search/SearchResultSidebar';
 import SearchResultSummary from '../search/SearchResultSummary';
+import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import SelectBar from '../search/SelectBar';
-import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
+import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
+import SearchResultSidebarToggleButtonContainer from '../../containers/search/SearchResultSidebarToggleButtonContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
 import { getListType } from '../../helpers/searchHelpers';
@@ -28,7 +30,6 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
-import searchResultSidebarStyles from '../../../styles/cspace-ui/SearchResultSidebar.css';
 
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
@@ -46,6 +47,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  isSidebarOpen: PropTypes.bool,
   history: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -82,6 +84,7 @@ export default class SearchResultPage extends Component {
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
+    this.search = this.search.bind(this);
     this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
 
     this.state = {
@@ -163,11 +166,6 @@ export default class SearchResultPage extends Component {
   }
 
   getSearchDescriptor() {
-    // FIXME: Make the search descriptor consistently an Immutable. Currently only the advanced
-    // search condition is an Immutable. The whole search descriptor gets converted to an Immutable
-    // when stored in the Redux store, but components expect it to be an object (except for the
-    // advanced search condition, which is always Immutable). This is confusing.
-
     // FIXME: Refactor this into a wrapper component that calculates the search descriptor from
     // location and params, and passes it into a child. This will eliminate the multiple calls to
     // this method from the various render methods in this class.
@@ -552,18 +550,22 @@ export default class SearchResultPage extends Component {
 
     let selectBar;
 
-    if (!searchError && this.isResultRelatable(searchDescriptor)) {
+    if (!searchError) {
       const selectedCount = selectedItems ? selectedItems.size : 0;
 
-      const relateButton = (
-        <RelateButton
-          disabled={selectedCount < 1}
-          key="relate"
-          label={<FormattedMessage {...messages.relate} />}
-          name="relate"
-          onClick={this.handleRelateButtonClick}
-        />
-      );
+      let relateButton;
+
+      if (this.isResultRelatable(searchDescriptor)) {
+        relateButton = (
+          <RelateButton
+            disabled={selectedCount < 1}
+            key="relate"
+            label={<FormattedMessage {...messages.relate} />}
+            name="relate"
+            onClick={this.handleRelateButtonClick}
+          />
+        );
+      }
 
       selectBar = (
         <SelectBar
@@ -633,6 +635,8 @@ export default class SearchResultPage extends Component {
   render() {
     const {
       history,
+      isSidebarOpen,
+      selectedItems,
     } = this.props;
 
     const {
@@ -687,22 +691,34 @@ export default class SearchResultPage extends Component {
           updateDocumentTitle
         />
 
-        <div className={pageBodyStyles.common}>
-          <SearchResultTableContainer
+        {/* TODO: Move search conditions here. */}
+        <div style={{ height: '31px' }}>
+          <SearchResultSidebarToggleButtonContainer />
+        </div>
+
+        <div className={isSidebarOpen ? pageBodyStyles.common : pageBodyStyles.full}>
+          <WatchedSearchResultTableContainer
             config={config}
             history={history}
             listType={listType}
             searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
             searchDescriptor={searchDescriptor}
             recordType={recordType}
-            showCheckboxColumn={isResultRelatable}
+            showCheckboxColumn
             renderCheckbox={this.renderCheckbox}
             renderHeader={this.renderHeader}
             renderFooter={this.renderFooter}
             onSortChange={this.handleSortChange}
+            search={this.search}
           />
 
-          <div className={searchResultSidebarStyles.common} />
+          <SearchResultSidebar
+            config={config}
+            history={history}
+            isOpen={isSidebarOpen}
+            recordType={recordType}
+            selectedItems={selectedItems}
+          />
         </div>
 
         {searchToRelateModal}

@@ -1,0 +1,18 @@
+.common {
+  padding-left: 16px;
+  font-size: 12px;
+  background-size: 12px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+.warning {
+  composes: common;
+  background-image: url(../../images/warning.svg);
+}
+
+.error {
+  composes: common;
+  background-image: url(../../images/error.svg);
+  color: rgb(220, 0, 0);
+}

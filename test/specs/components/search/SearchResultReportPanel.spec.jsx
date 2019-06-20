@@ -8,7 +8,7 @@ import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
-import RecordReportPanel from '../../../../src/components/record/RecordReportPanel';
+import SearchResultReportPanel from '../../../../src/components/search/SearchResultReportPanel';
 
 const expect = chai.expect;
 
@@ -70,23 +70,28 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('RecordReportPanel', function suite() {
+const selectedItems = Immutable.fromJS({
+  1234: {
+    csid: '1234',
+  },
+});
+
+describe('SearchResultReportPanel', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should render a div containing a search panel and an invocation modal', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
         perms={perms}
       />);
 
@@ -103,7 +108,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
-        mode: ['single', 'group'],
+        mode: 'list',
         p: 0,
         size: 5,
       },
@@ -114,46 +119,17 @@ describe('RecordReportPanel', function suite() {
     modal.should.not.equal(null);
   });
 
-  it('should render a nothing if the record has not been saved', function test() {
-    const csid = '1234';
-    const recordType = 'group';
-
-    const unsavedRecordData = Immutable.fromJS({
-      document: {
-        'ns2:collectionspace_core': {
-          // No uri
-        },
-      },
-    });
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <RecordReportPanel
-        config={config}
-        csid={csid}
-        recordData={unsavedRecordData}
-        recordType={recordType}
-        perms={perms}
-      />);
-
-    const result = shallowRenderer.getRenderOutput();
-
-    expect(result).to.equal(null);
-  });
-
   it('should render nothing if list permission on report does not exist', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
       />);
 
     const result = shallowRenderer.getRenderOutput();
@@ -162,17 +138,16 @@ describe('RecordReportPanel', function suite() {
   });
 
   it('should update the search panel\'s search descriptor when the record type changes', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
         perms={perms}
       />);
 
@@ -186,7 +161,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
-        mode: ['single', 'group'],
+        mode: 'list',
         p: 0,
         size: 5,
       },
@@ -195,11 +170,11 @@ describe('RecordReportPanel', function suite() {
     const newRecordType = 'collectionobject';
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={newRecordType}
+        selectedItems={selectedItems}
         perms={perms}
       />);
 
@@ -210,7 +185,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'CollectionObject',
-        mode: 'single',
+        mode: 'list',
         p: 0,
         size: 5,
       },
@@ -218,17 +193,16 @@ describe('RecordReportPanel', function suite() {
   });
 
   it('should close the invocation modal when the cancel button is clicked', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
         perms={perms}
       />);
 
@@ -258,17 +232,16 @@ describe('RecordReportPanel', function suite() {
   });
 
   it('should close the invocation modal when the close button is clicked', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
         perms={perms}
       />);
 
@@ -298,7 +271,6 @@ describe('RecordReportPanel', function suite() {
   });
 
   it('should call openReport when the invoke button is clicked in the invocation modal', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     let openedConfig = null;
@@ -316,11 +288,11 @@ describe('RecordReportPanel', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
         perms={perms}
         openReport={openReport}
       />);
@@ -344,9 +316,9 @@ describe('RecordReportPanel', function suite() {
     });
 
     const invocationDescriptor = {
-      csid,
       recordType,
-      mode: 'single',
+      items: selectedItems,
+      mode: 'list',
     };
 
     modal.props.onInvokeButtonClick(reportMetadata, invocationDescriptor);
@@ -363,17 +335,16 @@ describe('RecordReportPanel', function suite() {
   });
 
   it('should update the search panel when it changes the search descriptor', function test() {
-    const csid = '1234';
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RecordReportPanel
+      <SearchResultReportPanel
         config={config}
-        csid={csid}
         recordData={recordData}
         recordType={recordType}
+        selectedItems={selectedItems}
         perms={perms}
       />);
 
@@ -389,7 +360,7 @@ describe('RecordReportPanel', function suite() {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
-        mode: ['single', 'group'],
+        mode: 'list',
         p: 0,
         size: 5,
       },

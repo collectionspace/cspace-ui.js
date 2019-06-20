@@ -19,7 +19,7 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
 import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
-import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
+import WatchedSearchResultTableContainer from '../../../../src/containers/search/WatchedSearchResultTableContainer';
 import { searchKey } from '../../../../src/reducers/search';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../../src/constants/searchNames';
 
@@ -1071,7 +1071,7 @@ describe('SearchResultPage', function suite() {
 
     result = shallowRenderer.getRenderOutput();
 
-    const table = findWithType(result, SearchResultTableContainer);
+    const table = findWithType(result, WatchedSearchResultTableContainer);
     const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
     const selectBar = findWithType(tableHeader, SelectBar);
     const relateButton = selectBar.props.buttons[0];
@@ -1109,7 +1109,7 @@ describe('SearchResultPage', function suite() {
 
     result = shallowRenderer.getRenderOutput();
 
-    const table = findWithType(result, SearchResultTableContainer);
+    const table = findWithType(result, WatchedSearchResultTableContainer);
     const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
     const selectBar = findWithType(tableHeader, SelectBar);
     const relateButton = selectBar.props.buttons[0];
@@ -1147,7 +1147,7 @@ describe('SearchResultPage', function suite() {
 
     result = shallowRenderer.getRenderOutput();
 
-    const table = findWithType(result, SearchResultTableContainer);
+    const table = findWithType(result, WatchedSearchResultTableContainer);
     const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
     const selectBar = findWithType(tableHeader, SelectBar);
     const relateButton = selectBar.props.buttons[0];
@@ -1213,7 +1213,7 @@ describe('SearchResultPage', function suite() {
     const rowIndex = 1;
     const checked = true;
 
-    const table = findWithType(result, SearchResultTableContainer);
+    const table = findWithType(result, WatchedSearchResultTableContainer);
 
     const checkbox = table.props.renderCheckbox({
       rowIndex,
@@ -1335,7 +1335,7 @@ describe('SearchResultPage', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const table = findWithType(result, SearchResultTableContainer);
+    const table = findWithType(result, WatchedSearchResultTableContainer);
 
     const checkbox = table.props.renderCheckbox({
       rowData: Immutable.Map({
@@ -1376,7 +1376,7 @@ describe('SearchResultPage', function suite() {
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const table = findWithType(result, SearchResultTableContainer);
+    const table = findWithType(result, WatchedSearchResultTableContainer);
 
     const checkbox = table.props.renderCheckbox({
       rowData: Immutable.Map({ workflowState: 'locked' }),

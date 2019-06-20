@@ -15,6 +15,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  disabled: PropTypes.bool,
   isRunning: PropTypes.bool,
   recordType: PropTypes.string,
   onClick: PropTypes.func,
@@ -22,6 +23,7 @@ const propTypes = {
 
 export default function InvokeButton(props) {
   const {
+    disabled,
     isRunning,
     recordType,
     onClick,
@@ -30,7 +32,7 @@ export default function InvokeButton(props) {
   return (
     <Button
       className={styles[recordType]}
-      disabled={isRunning}
+      disabled={disabled || isRunning}
       icon
       name="invoke"
       onClick={onClick}

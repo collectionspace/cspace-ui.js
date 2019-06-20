@@ -2,8 +2,12 @@
   background: rgb(250, 250, 250);
 }
 
-.common > div > :global(.cspace-ui-SearchResultTable--common) {
+.common > :global(.cspace-ui-PageBody--common) > :global(.cspace-ui-SearchResultTable--common) {
   padding: 0 10px 10px 0;
   width: 70%;
   background: white;
+}
+
+.common > :global(.cspace-ui-PageBody--full) > :global(.cspace-ui-SearchResultTable--common) {
+  padding-right: 0;
 }

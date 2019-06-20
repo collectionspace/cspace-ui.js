@@ -157,7 +157,6 @@ export default class RecordReportPanel extends Component {
           collapsed
           color={color}
           config={config}
-          csid={csid}
           linkItems={false}
           name={RECORD_REPORT_PANEL_SEARCH_NAME}
           searchDescriptor={searchDescriptor}

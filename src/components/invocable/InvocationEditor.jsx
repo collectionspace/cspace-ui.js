@@ -8,7 +8,7 @@ import { getRecordTypeNameByServiceObjectName } from '../../helpers/configHelper
 import { getCommonFieldValue } from '../../helpers/recordDataHelpers';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import styles from '../../../styles/cspace-ui/InvocationEditor.css';
-import warningStyles from '../../../styles/cspace-ui/Warning.css';
+import messageStyles from '../../../styles/cspace-ui/FormStatusMessage.css';
 
 const messages = defineMessages({
   loading: {
@@ -148,11 +148,33 @@ export default class InvocationEditor extends Component {
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
     const recordTypeMessages = get(recordTypeConfig, ['messages', 'record']);
 
+    const mode = invocationDescriptor.get('mode');
+    const items = invocationDescriptor.get('items');
+
+    let missingTargetError;
+
+    if (mode !== 'nocontext' && (!items || items.isEmpty())) {
+      missingTargetError = (
+        <p className={messageStyles.error}>
+          <FormattedMessage {...recordTypeMessages[`${mode}TargetMissing`]} />
+        </p>
+      );
+
+      if (modeReadOnly && invocationTargetReadOnly) {
+        return (
+          <div className={styles.common}>
+            <p>{description}</p>
+            {missingTargetError}
+          </div>
+        );
+      }
+    }
+
     let unsavedWarning;
 
     if (isInvocationTargetModified) {
       unsavedWarning = (
-        <p className={warningStyles.common}>
+        <p className={messageStyles.warning}>
           <FormattedMessage {...recordTypeMessages.invokeUnsaved} />
         </p>
       );
@@ -172,6 +194,7 @@ export default class InvocationEditor extends Component {
           onCommit={onInvocationDescriptorCommit}
         />
 
+        {missingTargetError}
         {unsavedWarning}
 
         <RecordFormContainer

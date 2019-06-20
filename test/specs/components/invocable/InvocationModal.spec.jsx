@@ -70,6 +70,10 @@ const config = {
             id: 'report.name',
             defaultMessage: 'Report',
           },
+          singleTargetMissing: {
+            id: 'report.singleTargetMissing',
+            defaultMessage: 'Single target missing!',
+          },
         },
       },
       serviceConfig: {
@@ -81,8 +85,13 @@ const config = {
   },
 };
 
-const invocationDescriptor = Immutable.Map({
+const invocationDescriptor = Immutable.fromJS({
   mode: 'single',
+  items: {
+    1234: {
+      csid: '1234',
+    },
+  },
 });
 
 describe('InvocationModal', function suite() {
@@ -247,7 +256,7 @@ describe('InvocationModal', function suite() {
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
-    modal.querySelector('.cspace-ui-Warning--common').textContent.should.equal('Unsaved changes!');
+    modal.querySelector('.cspace-ui-FormStatusMessage--warning').textContent.should.equal('Unsaved changes!');
 
     unmountComponentAtNode(this.container);
   });
@@ -280,7 +289,13 @@ describe('InvocationModal', function suite() {
 
     input.value.should.equal('single record');
 
-    unmountComponentAtNode(this.container);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should call onInvokeButtonClick when the invoke button is clicked', function test() {
@@ -314,7 +329,13 @@ describe('InvocationModal', function suite() {
 
     invokeButtonClicked.should.equal(true);
 
-    unmountComponentAtNode(this.container);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should call readRecord when opened', function test() {

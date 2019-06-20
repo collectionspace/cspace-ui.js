@@ -5,3 +5,7 @@
 .common > * {
   flex:  1 1 auto;
 }
+
+.full {
+  composes: common;
+}

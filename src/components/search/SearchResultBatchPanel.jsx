@@ -6,15 +6,14 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { canCreate, canList } from '../../helpers/permissionHelpers';
-import { isExistingRecord } from '../../helpers/recordDataHelpers';
 import { serviceUriToLocation } from '../../helpers/uriHelpers';
 import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { RECORD_BATCH_PANEL_SEARCH_NAME } from '../../constants/searchNames';
+import { SEARCH_RESULT_BATCH_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 
 const messages = defineMessages({
   title: {
-    id: 'recordBatchPanel.title',
+    id: 'searchResultBatchPanel.title',
     defaultMessage: 'Data Updates',
   },
 });
@@ -28,7 +27,7 @@ const getSearchDescriptor = (config, recordType) => {
       p: 0,
       size: 5,
       doctype: objectName,
-      mode: (recordType === 'group' ? ['single', 'group'] : 'single'),
+      mode: 'list',
     },
   });
 };
@@ -36,15 +35,14 @@ const getSearchDescriptor = (config, recordType) => {
 const propTypes = {
   color: PropTypes.string,
   config: PropTypes.object,
-  csid: PropTypes.string,
   history: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
-  recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
+  selectedItems: PropTypes.instanceOf(Immutable.Map),
   invoke: PropTypes.func,
 };
 
-export default class RecordBatchPanel extends Component {
+export default class SearchResultBatchPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -161,10 +159,9 @@ export default class RecordBatchPanel extends Component {
     const {
       color,
       config,
-      csid,
       perms,
-      recordData,
       recordType,
+      selectedItems,
     } = this.props;
 
     const {
@@ -173,12 +170,6 @@ export default class RecordBatchPanel extends Component {
       searchDescriptor,
       selectedItem,
     } = this.state;
-
-    if (!isExistingRecord(recordData)) {
-      // Don't render until after the record has loaded.
-
-      return null;
-    }
 
     if (!canList('batch', perms)) {
       return null;
@@ -193,7 +184,7 @@ export default class RecordBatchPanel extends Component {
           color={color}
           config={config}
           linkItems={false}
-          name={RECORD_BATCH_PANEL_SEARCH_NAME}
+          name={SEARCH_RESULT_BATCH_PANEL_SEARCH_NAME}
           searchDescriptor={searchDescriptor}
           recordType={recordType}
           showSearchButton={false}
@@ -202,18 +193,17 @@ export default class RecordBatchPanel extends Component {
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <InvocationModalContainer
-          allowedModes={recordType === 'group' ? ['group', 'single'] : undefined}
           config={config}
           csid={selectedItem && selectedItem.get('csid')}
           initialInvocationDescriptor={Immutable.Map({
-            csid,
             recordType,
-            mode: (recordType === 'group' ? 'group' : 'single'),
+            items: selectedItems,
+            mode: 'list',
           })}
-          modeReadOnly={recordType !== 'group'}
+          isRunning={isRunning}
+          modeReadOnly
           invocationTargetReadOnly
           isOpen={isModalOpen}
-          isRunning={isRunning}
           recordType="batch"
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
@@ -224,4 +214,4 @@ export default class RecordBatchPanel extends Component {
   }
 }
 
-RecordBatchPanel.propTypes = propTypes;
+SearchResultBatchPanel.propTypes = propTypes;

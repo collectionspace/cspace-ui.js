@@ -17,6 +17,7 @@ import {
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
+  TOGGLE_SEARCH_RESULT_SIDEBAR,
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_TO_SELECT_ADVANCED,
@@ -39,6 +40,7 @@ import reducer, {
   getUploadType,
   isPanelCollapsed,
   isRecordSidebarOpen,
+  isSearchResultSidebarOpen,
 } from '../../../src/reducers/prefs';
 
 chai.use(chaiImmutable);
@@ -385,6 +387,36 @@ describe('prefs reducer', function suite() {
     }));
 
     isRecordSidebarOpen(state).should.equal(false);
+  });
+
+  it('should handle TOGGLE_SEARCH_RESULT_SIDEBAR', function test() {
+    let state;
+
+    state = reducer(undefined, {
+      type: TOGGLE_SEARCH_RESULT_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      searchResultSidebarOpen: false,
+    }));
+
+    state = reducer(state, {
+      type: TOGGLE_SEARCH_RESULT_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      searchResultSidebarOpen: true,
+    }));
+
+    state = reducer(state, {
+      type: TOGGLE_SEARCH_RESULT_SIDEBAR,
+    });
+
+    state.should.equal(Immutable.fromJS({
+      searchResultSidebarOpen: false,
+    }));
+
+    isSearchResultSidebarOpen(state).should.equal(false);
   });
 
   it('should handle SET_STICKY_FIELDS', function test() {

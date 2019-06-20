@@ -12,6 +12,8 @@ import RecordFormContainer from '../../../../src/containers/record/RecordFormCon
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 
+const expect = chai.expect;
+
 chai.should();
 
 const mockStore = configureMockStore();
@@ -57,6 +59,18 @@ describe('InvocationEditor', function suite() {
       report: {
         invocableName: data =>
           data.getIn(['document', 'ns2:reports_common', 'filename']),
+        messages: {
+          record: {
+            invokeUnsaved: {
+              id: 'record.report.invokeUnsaved',
+              defaultMessage: 'Record modified!',
+            },
+            singleTargetMissing: {
+              id: 'report.singleTargetMissing',
+              defaultMessage: 'Single target missing!',
+            },
+          },
+        },
         serviceConfig: {
           objectName: 'Report',
         },
@@ -84,8 +98,13 @@ describe('InvocationEditor', function suite() {
 
   const paramData = Immutable.Map();
 
-  const invocationDescriptor = Immutable.Map({
+  const invocationDescriptor = Immutable.fromJS({
     mode: 'single',
+    items: {
+      1234: {
+        csid: '1234',
+      },
+    },
   });
 
   beforeEach(function before() {
@@ -271,5 +290,78 @@ describe('InvocationEditor', function suite() {
       </IntlProvider>, this.container);
 
     this.container.textContent.should.contain('Loading');
+  });
+
+  it('should render an unsaved warning message if isInvocationTargetModified is true', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationEditor
+              config={config}
+              invocationDescriptor={invocationDescriptor}
+              isInvocationTargetModified
+              metadata={reportMetadata}
+              recordType="report"
+              createNewRecord={() => undefined}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-FormStatusMessage--warning').textContent
+      .should.equal('Record modified!');
+  });
+
+  it('should render an error message if the mode is not nocontext, and the invocation descriptor has no items', function test() {
+    const noItemsInvocationDescriptor = invocationDescriptor.delete('items');
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationEditor
+              config={config}
+              invocationDescriptor={noItemsInvocationDescriptor}
+              isInvocationTargetModified
+              metadata={reportMetadata}
+              recordType="report"
+              createNewRecord={() => undefined}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-FormStatusMessage--error').textContent
+      .should.equal('Single target missing!');
+
+    this.container.querySelector('.cspace-ui-InvocationDescriptorEditor--common').should.not.equal(null);
+  });
+
+  it('should not render an InvocationDescriptorEditor if the mode is not nocontext, and the invocation descriptor has no items, and the mode and target are read-only', function test() {
+    const noItemsInvocationDescriptor = invocationDescriptor.delete('items');
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationEditor
+              config={config}
+              invocationDescriptor={noItemsInvocationDescriptor}
+              isInvocationTargetModified
+              metadata={reportMetadata}
+              recordType="report"
+              createNewRecord={() => undefined}
+              modeReadOnly
+              invocationTargetReadOnly
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.querySelector('.cspace-ui-FormStatusMessage--error').textContent
+      .should.equal('Single target missing!');
+
+    expect(this.container.querySelector('.cspace-ui-InvocationDescriptorEditor--common')).to.equal(null);
   });
 });

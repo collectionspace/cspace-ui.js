@@ -17,5 +17,20 @@ export default {
       description: 'The message shown when a record of the type is invoked, and the context record has unsaved changes.',
       defaultMessage: 'This record has changes that have not been saved. The data update will not include any unsaved data.',
     },
+    singleTargetMissing: {
+      id: 'record.batch.singleTargetMissing',
+      description: 'The message shown when a record of the type is invoked, and the invocation target has not been supplied in single mode.',
+      defaultMessage: 'Select a record on which to run this data update.',
+    },
+    listTargetMissing: {
+      id: 'record.batch.listTargetMissing',
+      description: 'The message shown when a record of the type is invoked, and the invocation target has not been supplied in list mode.',
+      defaultMessage: 'Select one or more records on which to run this data update.',
+    },
+    groupTargetMissing: {
+      id: 'record.batch.groupTargetMissing',
+      description: 'The message shown when a record of the type is invoked, and the invocation target has not been supplied in group mode.',
+      defaultMessage: 'Select a group on which to run this data update.',
+    },
   }),
 };

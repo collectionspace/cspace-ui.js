@@ -14,9 +14,11 @@ import {
   getSearchResultPagePageSize,
   getSearchSelectedItems,
   getUserPerms,
+  isSearchResultSidebarOpen,
 } from '../../reducers';
 
 const mapStateToProps = state => ({
+  isSidebarOpen: isSearchResultSidebarOpen(state),
   perms: getUserPerms(state),
   preferredPageSize: getSearchResultPagePageSize(state),
   selectedItems: getSearchSelectedItems(state, SEARCH_RESULT_PAGE_SEARCH_NAME),

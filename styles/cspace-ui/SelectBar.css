@@ -1,14 +1,21 @@
+@value tabHeight from '../dimensions.css';
+
 .common {
   display: flex;
   align-items: baseline;
   border-top: 1px solid rgb(220, 220, 220);
   padding: 4px 10px;
   background: rgb(240, 240, 240);
+  min-height: tabHeight;
 }
 
 .common > :global(.cspace-input-CheckboxInput--common) {
   align-self: center;
   margin-right: 10px;
+}
+
+.common > span {
+  align-self: center;
 }
 
 .common > :global(.cspace-ui-ButtonBar--common) {

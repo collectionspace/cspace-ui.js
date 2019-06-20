@@ -26,6 +26,7 @@ const messages = defineMessages({
 
 const propTypes = {
   mode: PropTypes.string.isRequired,
+  readOnly: PropTypes.bool,
 };
 
 export default function InvocationTargetInput(props) {
@@ -40,7 +41,7 @@ export default function InvocationTargetInput(props) {
 
   return (
     <RecordSearchInput
-      label={<Label><FormattedMessage {...messages[mode]} /></Label>}
+      label={<Label required={!props.readOnly}><FormattedMessage {...messages[mode]} /></Label>}
       {...remainingProps}
     />
   );
