@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Redirect, Route, Switch } from 'react-router';
 import Immutable from 'immutable';
+import BatchPageContainer from '../../containers/pages/BatchPageContainer';
 import ReportPageContainer from '../../containers/pages/ReportPageContainer';
 import ToolNavBar from '../navigation/ToolNavBar';
 import TitleBar from '../sections/TitleBar';
@@ -18,7 +19,7 @@ const messages = defineMessages({
 
 const tabs = [
   'report',
-  // 'batch',
+  'batch',
 ];
 
 const propTypes = {
@@ -54,7 +55,7 @@ export default function ToolPage(props) {
         <Redirect exact path={basename} to={`${basename}/${redirectTabName}`} />
 
         <Route path={`${basename}/report/:csid?`} component={ReportPageContainer} />
-        {/* <Route path={`${basename}/batch/:csid?`} component={BatchPageContainer} /> */}
+        <Route path={`${basename}/batch/:csid?`} component={BatchPageContainer} />
       </Switch>
     </div>
   );

@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import InvocationModal from '../invocable/InvocationModal';
 import InvocableSearchBar from '../invocable/InvocableSearchBar';
 import { OP_CONTAIN } from '../../constants/searchOperators';
+import { serviceUriToLocation } from '../../helpers/uriHelpers';
 import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
@@ -29,7 +30,7 @@ const propTypes = {
   openModalName: PropTypes.string,
   closeModal: PropTypes.func,
   openModal: PropTypes.func,
-  openReport: PropTypes.func,
+  invoke: PropTypes.func,
   setToolTab: PropTypes.func,
 };
 
@@ -41,7 +42,7 @@ const contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const recordType = 'report';
+const recordType = 'batch';
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
@@ -50,7 +51,7 @@ const getSearchDescriptor = () => Immutable.fromJS({
   },
 });
 
-export default class ReportPage extends Component {
+export default class BatchPage extends Component {
   constructor() {
     super();
 
@@ -90,7 +91,7 @@ export default class ReportPage extends Component {
       updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
         value,
         op: OP_CONTAIN,
-        path: 'ns2:reports_common/name',
+        path: 'ns2:batch_common/name',
       }));
     } else {
       updatedSearchQuery = searchQuery.delete('as');
@@ -131,24 +132,59 @@ export default class ReportPage extends Component {
     }
   }
 
-  handleModalInvokeButtonClick(reportMetadata, invocationDescriptor) {
+  handleModalInvokeButtonClick(batchMetadata, invocationDescriptor) {
+    // FIXME: Consolidate similar code in RecordBatchPanel and SearchResultBatchPanel.
+
     const {
-      openReport,
       closeModal,
+      history,
+      invoke,
     } = this.props;
 
     const {
       config,
     } = this.context;
 
-    if (openReport) {
-      openReport(config, reportMetadata, invocationDescriptor)
-        .then(() => {
-          if (closeModal) {
-            closeModal(InvocationModal.modalName);
+    if (invoke) {
+      const createsNewFocus =
+        (batchMetadata.getIn(['document', 'ns2:batch_common', 'createsNewFocus']) === 'true');
+
+      const handleValidationSuccess = () => {
+        if (createsNewFocus) {
+          // If the batch job is going to direct us to a different record, keep the modal in place
+          // until it completes, so the user won't be surprised by a new record opening.
+
+          this.setState({
+            isRunning: true,
+          });
+        } else {
+          closeModal();
+        }
+      };
+
+      this.setState({
+        isRunning: true,
+      });
+
+      invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
+        .then((response) => {
+          if (createsNewFocus) {
+            this.setState({
+              isRunning: false,
+            });
+
+            closeModal();
+
+            // Open the record indicated by the invocation result.
+
+            const uri = get(response.data, ['ns2:invocationResults', 'primaryURICreated']);
+            const location = serviceUriToLocation(config, uri);
+
+            if (location) {
+              history.push(location);
+            }
           }
-        })
-        .catch(() => {});
+        });
     }
   }
 
@@ -209,6 +245,10 @@ export default class ReportPage extends Component {
     } = this.props;
 
     const {
+      isRunning,
+    } = this.state;
+
+    const {
       config,
     } = this.context;
 
@@ -220,7 +260,8 @@ export default class ReportPage extends Component {
           mode: 'nocontext',
         })}
         isOpen={openModalName === InvocationModal.modalName}
-        recordType="report"
+        isRunning={isRunning}
+        recordType="batch"
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
         onInvokeButtonClick={this.handleModalInvokeButtonClick}
@@ -264,8 +305,8 @@ export default class ReportPage extends Component {
       restrictedPerms = disallowDelete(recordType, restrictedPerms);
       restrictedPerms = disallowSoftDelete(recordType, restrictedPerms);
 
-      // TODO: Allow update, once we can show all reports (not just nocontext reports).
-      // This requires first allowing the user to select the context when invoking the report.
+      // TODO: Allow update, once we can show all batch jobs (not just nocontext batch jobs).
+      // This requires first allowing the user to select the context when invoking the batch job.
 
       restrictedPerms = disallowUpdate(recordType, restrictedPerms);
 
@@ -287,7 +328,7 @@ export default class ReportPage extends Component {
           history={history}
           isFiltered={!!filterValue}
           linkItems={false}
-          name="reportPage"
+          name="batchPage"
           searchDescriptor={searchDescriptor}
           title={title}
           recordType={recordType}
@@ -303,6 +344,6 @@ export default class ReportPage extends Component {
   }
 }
 
-ReportPage.propTypes = propTypes;
-ReportPage.defaultProps = defaultProps;
-ReportPage.contextTypes = contextTypes;
+BatchPage.propTypes = propTypes;
+BatchPage.defaultProps = defaultProps;
+BatchPage.contextTypes = contextTypes;

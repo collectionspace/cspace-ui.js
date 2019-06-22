@@ -1,4 +1,6 @@
 import columns from './columns';
+import fields from './fields';
+import forms from './forms';
 import invocableName from './invocableName';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
@@ -10,6 +12,8 @@ export default () => configContext => ({
       messages,
       serviceConfig,
       columns: columns(configContext),
+      fields: fields(configContext),
+      forms: forms(configContext),
       invocableName: invocableName(configContext),
       title: title(configContext),
     },

@@ -3,11 +3,11 @@ import { Simulate } from 'react-dom/test-utils';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
-import ReportSearchBar from '../../../../src/components/invocable/ReportSearchBar';
+import InvocableSearchBar from '../../../../src/components/invocable/InvocableSearchBar';
 
 chai.should();
 
-describe('ReportSearchBar', function suite() {
+describe('InvocableSearchBar', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -15,7 +15,7 @@ describe('ReportSearchBar', function suite() {
   it('should render as a div', function test() {
     render(
       <IntlProvider locale="en">
-        <ReportSearchBar />
+        <InvocableSearchBar />
       </IntlProvider>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -26,7 +26,7 @@ describe('ReportSearchBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ReportSearchBar value={value} />
+        <InvocableSearchBar value={value} />
       </IntlProvider>, this.container);
 
     this.container.querySelector('input[type="text"]').value.should.equal(value);
@@ -41,7 +41,7 @@ describe('ReportSearchBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ReportSearchBar onChange={handleChange} />
+        <InvocableSearchBar onChange={handleChange} />
       </IntlProvider>, this.container);
 
     const input = this.container.querySelector('input[type="text"]');
@@ -63,7 +63,7 @@ describe('ReportSearchBar', function suite() {
 
     render(
       <IntlProvider locale="en">
-        <ReportSearchBar onChange={handleChange} value="some value" />
+        <InvocableSearchBar onChange={handleChange} value="some value" />
       </IntlProvider>, this.container);
 
     const clearButton = this.container.querySelector('button');

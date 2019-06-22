@@ -8,13 +8,13 @@ const { LineInput, MiniButton } = inputComponents;
 
 const messages = defineMessages({
   filter: {
-    id: 'reportSearchBar.filter',
-    description: 'Label of the input on the search bar of the report page.',
+    id: 'invocableSearchBar.filter',
+    description: 'Label of the input on the search bar of the report and batch job pages.',
     defaultMessage: 'Filter by name',
   },
   clear: {
-    id: 'reportSearchBar.clear',
-    description: 'Label of the clear button on the search bar of the report page.',
+    id: 'invocableSearchBar.clear',
+    description: 'Label of the clear button on the search bar of the report and batch job pages.',
     defaultMessage: 'Clear',
   },
 });
@@ -28,7 +28,7 @@ const contextTypes = {
   intl: intlShape,
 };
 
-export default class ReportSearchBar extends Component {
+export default class InvocableSearchBar extends Component {
   constructor() {
     super();
 
@@ -85,5 +85,5 @@ export default class ReportSearchBar extends Component {
   }
 }
 
-ReportSearchBar.propTypes = propTypes;
-ReportSearchBar.contextTypes = contextTypes;
+InvocableSearchBar.propTypes = propTypes;
+InvocableSearchBar.contextTypes = contextTypes;
