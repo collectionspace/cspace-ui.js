@@ -62,6 +62,10 @@ const propTypes = {
   onItemSelectChange: PropTypes.func,
 };
 
+const defaultProps = {
+  isSidebarOpen: true,
+};
+
 const contextTypes = {
   config: PropTypes.object.isRequired,
 };
@@ -728,4 +732,5 @@ export default class SearchResultPage extends Component {
 }
 
 SearchResultPage.propTypes = propTypes;
+SearchResultPage.defaultProps = defaultProps;
 SearchResultPage.contextTypes = contextTypes;
