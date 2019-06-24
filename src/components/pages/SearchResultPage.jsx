@@ -30,6 +30,7 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import sidebarToggleBarStyles from '../../../styles/cspace-ui/SidebarToggleBar.css';
 
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
@@ -652,6 +653,8 @@ export default class SearchResultPage extends Component {
     } = this.state;
 
     const searchDescriptor = this.getSearchDescriptor();
+    const advancedSearchCondition = searchDescriptor.getIn(['searchQuery', 'as']);
+
     const listType = this.getListType(searchDescriptor);
 
     const recordType = searchDescriptor.get('recordType');
@@ -695,8 +698,13 @@ export default class SearchResultPage extends Component {
           updateDocumentTitle
         />
 
-        {/* TODO: Move search conditions here. */}
-        <div style={{ height: '31px' }}>
+        <div
+          className={
+            advancedSearchCondition
+              ? sidebarToggleBarStyles.advanced
+              : sidebarToggleBarStyles.normal
+          }
+        >
           <SearchResultSidebarToggleButtonContainer />
         </div>
 
