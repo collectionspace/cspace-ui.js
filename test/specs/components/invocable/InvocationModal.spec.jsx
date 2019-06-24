@@ -261,6 +261,31 @@ describe('InvocationModal', function suite() {
     unmountComponentAtNode(this.container);
   });
 
+  it('should render a running message if isRunning is true', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              isRunning
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const modal = document.querySelector('.ReactModal__Content--after-open');
+
+    modal.querySelector('p').textContent.should.contain('Running');
+
+    unmountComponentAtNode(this.container);
+  });
+
   it('should update the invocation descriptor when a change is committed', function test() {
     render(
       <IntlProvider locale="en">

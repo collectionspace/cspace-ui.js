@@ -245,14 +245,6 @@ export default class InvocationModal extends Component {
     );
   }
 
-  renderRunningMessage() {
-    return (
-      <p>
-        <FormattedMessage {...messages.running} />
-      </p>
-    );
-  }
-
   renderInvocationEditor() {
     const {
       allowedModes,
@@ -300,7 +292,17 @@ export default class InvocationModal extends Component {
       return null;
     }
 
-    const content = isRunning ? this.renderRunningMessage() : this.renderInvocationEditor();
+    let content;
+
+    if (isRunning) {
+      content = (
+        <p>
+          <FormattedMessage {...messages.running} />
+        </p>
+      );
+    } else {
+      content = this.renderInvocationEditor();
+    }
 
     return (
       <Modal
