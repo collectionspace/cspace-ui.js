@@ -168,11 +168,11 @@ export default class BatchPage extends Component {
 
       invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
         .then((response) => {
-          if (createsNewFocus) {
-            this.setState({
-              isRunning: false,
-            });
+          this.setState({
+            isRunning: false,
+          });
 
+          if (createsNewFocus) {
             closeModal();
 
             // Open the record indicated by the invocation result.

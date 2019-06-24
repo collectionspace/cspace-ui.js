@@ -20,6 +20,11 @@ const messages = defineMessages({
     description: 'Label of the invoke button in the invocation modal.',
     defaultMessage: 'Run',
   },
+  running: {
+    id: 'invocationModal.running',
+    description: 'Message displayed in the invocation modal when the report/batch job is running.',
+    defaultMessage: 'Running…',
+  },
 });
 
 const propTypes = {
@@ -240,54 +245,75 @@ export default class InvocationModal extends Component {
     );
   }
 
-  render() {
+  renderRunningMessage() {
+    return (
+      <p>
+        <FormattedMessage {...messages.running} />
+      </p>
+    );
+  }
+
+  renderInvocationEditor() {
     const {
       allowedModes,
       config,
-      csid,
       data,
       modeReadOnly,
       invocationTargetReadOnly,
-      isOpen,
       isRecordModified,
       recordType,
-      onCloseButtonClick,
     } = this.props;
 
     const {
       invocationDescriptor,
     } = this.state;
 
-    if (!isOpen || !csid) {
-      return null;
-    }
-
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
     const invocableNameGetter = get(recordTypeConfig, 'invocableName');
     const invocableName = invocableNameGetter && invocableNameGetter(data);
 
     return (
+      <InvocationEditorContainer
+        allowedModes={allowedModes}
+        config={config}
+        metadata={data}
+        invocationDescriptor={invocationDescriptor}
+        modeReadOnly={modeReadOnly}
+        invocationTargetReadOnly={invocationTargetReadOnly}
+        invocableName={invocableName}
+        isInvocationTargetModified={isRecordModified}
+        recordType={recordType}
+        onInvocationDescriptorCommit={this.handleInvocationDescriptorCommit}
+      />
+    );
+  }
+
+  render() {
+    const {
+      csid,
+      isOpen,
+      isRunning,
+      onCloseButtonClick,
+    } = this.props;
+
+    if (!isOpen || !csid) {
+      return null;
+    }
+
+    const content = isRunning ? this.renderRunningMessage() : this.renderInvocationEditor();
+
+    return (
       <Modal
-        className={styles.common}
+        className={isRunning ? styles.running : styles.common}
         isOpen={isOpen}
         title={this.renderTitle()}
         closeButtonClassName="material-icons"
+        closeButtonDisabled={isRunning}
         closeButtonLabel="close"
         renderButtonBar={this.renderButtonBar}
         onCloseButtonClick={onCloseButtonClick}
       >
-        <InvocationEditorContainer
-          allowedModes={allowedModes}
-          config={config}
-          metadata={data}
-          invocationDescriptor={invocationDescriptor}
-          modeReadOnly={modeReadOnly}
-          invocationTargetReadOnly={invocationTargetReadOnly}
-          invocableName={invocableName}
-          isInvocationTargetModified={isRecordModified}
-          recordType={recordType}
-          onInvocationDescriptorCommit={this.handleInvocationDescriptorCommit}
-        />
+        {content}
       </Modal>
     );
   }
