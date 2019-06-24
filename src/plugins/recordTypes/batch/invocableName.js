@@ -12,5 +12,5 @@ export default configContext => (data) => {
 
   const common = getPart(data, 'batch_common');
 
-  return common && common.get('name');
+  return common && common.get('className');
 };
