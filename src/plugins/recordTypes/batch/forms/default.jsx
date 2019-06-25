@@ -7,6 +7,8 @@ const template = (configContext) => {
 
   const {
     Col,
+    Panel,
+    Row,
   } = configContext.layoutComponents;
 
   const {
@@ -15,10 +17,31 @@ const template = (configContext) => {
 
   return (
     <Field name="document">
-      <Col>
+      <Row>
         <Field name="name" />
-        <Field name="notes" />
-      </Col>
+        <Field name="className" />
+      </Row>
+
+      <Field name="notes" />
+
+      <Panel name="mode">
+        <Row>
+          <Field name="supportsNoContext" />
+          <Field name="supportsDocList" />
+          <Field name="supportsGroup" />
+          <Field name="supportsSingleDoc" />
+        </Row>
+      </Panel>
+
+      <Row>
+        <Col>
+          <Field name="forDocTypes">
+            <Field name="forDocType" />
+          </Field>
+        </Col>
+
+        <Field name="createsNewFocus" />
+      </Row>
     </Field>
   );
 };

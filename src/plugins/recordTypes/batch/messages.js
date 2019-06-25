@@ -33,4 +33,10 @@ export default {
       defaultMessage: 'Select a group on which to run this data update.',
     },
   }),
+  panel: defineMessages({
+    mode: {
+      id: 'panel.batch.mode',
+      defaultMessage: 'Runs on',
+    },
+  }),
 };

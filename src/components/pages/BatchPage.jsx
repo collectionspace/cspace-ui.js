@@ -19,7 +19,6 @@ import {
   disallowCreate,
   disallowDelete,
   disallowSoftDelete,
-  disallowUpdate,
 } from '../../helpers/permissionHelpers';
 
 const propTypes = {
@@ -304,11 +303,6 @@ export default class BatchPage extends Component {
       restrictedPerms = disallowCreate(recordType, restrictedPerms);
       restrictedPerms = disallowDelete(recordType, restrictedPerms);
       restrictedPerms = disallowSoftDelete(recordType, restrictedPerms);
-
-      // TODO: Allow update, once we can show all batch jobs (not just nocontext batch jobs).
-      // This requires first allowing the user to select the context when invoking the batch job.
-
-      restrictedPerms = disallowUpdate(recordType, restrictedPerms);
 
       recordEditor = (
         <RecordEditorContainer

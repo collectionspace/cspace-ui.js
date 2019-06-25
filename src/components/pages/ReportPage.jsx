@@ -18,7 +18,6 @@ import {
   disallowCreate,
   disallowDelete,
   disallowSoftDelete,
-  disallowUpdate,
 } from '../../helpers/permissionHelpers';
 
 const propTypes = {
@@ -263,11 +262,6 @@ export default class ReportPage extends Component {
       restrictedPerms = disallowCreate(recordType, restrictedPerms);
       restrictedPerms = disallowDelete(recordType, restrictedPerms);
       restrictedPerms = disallowSoftDelete(recordType, restrictedPerms);
-
-      // TODO: Allow update, once we can show all reports (not just nocontext reports).
-      // This requires first allowing the user to select the context when invoking the report.
-
-      restrictedPerms = disallowUpdate(recordType, restrictedPerms);
 
       recordEditor = (
         <RecordEditorContainer

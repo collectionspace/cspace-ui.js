@@ -31,6 +31,7 @@ import Field from '../components/record/Field';
 import InputTable from '../components/record/InputTable';
 import Subrecord from '../components/record/Subrecord';
 import BaseCheckboxInput from '../components/record/CheckboxInput';
+import BaseObjectNameInput from '../components/record/ObjectNameInput';
 import URLInput from '../components/record/URLInput';
 import ContentViewer from '../components/record/ContentViewer';
 
@@ -75,6 +76,7 @@ const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;
 const HierarchyInput = withCsid(HierarchyInputContainer);
 const IDGeneratorInput = IDGeneratorInputContainer;
+const ObjectNameInput = repeatable(labelable(BaseObjectNameInput));
 const OptionPickerInput = OptionPickerInputContainer;
 const PermissionsInput = labelable(PermissionsInputContainer);
 const RolesInput = labelable(RolesInputContainer);
@@ -116,7 +118,7 @@ export default () => ({
     DateTimeInput,
     HierarchyInput,
     IDGeneratorInput,
-    URLInput,
+    ObjectNameInput,
     OptionPickerInput,
     PasswordInput,
     PermissionsInput,
@@ -127,6 +129,7 @@ export default () => ({
     TextInput,
     TermPickerInput,
     UploadInput,
+    URLInput,
     WorkflowStateInput,
   },
   layoutComponents: {

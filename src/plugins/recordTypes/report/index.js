@@ -2,11 +2,13 @@ import columns from './columns';
 import fields from './fields';
 import forms from './forms';
 import messages from './messages';
+import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
 import invocableName from './invocableName';
 import title from './title';
 
 export default () => configContext => ({
+  optionLists,
   recordTypes: {
     report: {
       messages,

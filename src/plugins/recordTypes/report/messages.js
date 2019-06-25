@@ -33,4 +33,10 @@ export default {
       defaultMessage: 'Select a group on which to run this report.',
     },
   }),
+  panel: defineMessages({
+    mode: {
+      id: 'panel.report.mode',
+      defaultMessage: 'Runs on',
+    },
+  }),
 };
