@@ -8,7 +8,6 @@ export default (configContext) => {
     AutocompleteInput,
     IDGeneratorInput,
     TermPickerInput,
-    OptionPickerInput,
   } = configContext.inputComponents;
 
   const {
@@ -214,7 +213,7 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: OptionPickerInput,
+                  type: TermPickerInput,
                   props: {
                     source: 'authorizationStatuses',
                   },
@@ -378,7 +377,7 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: OptionPickerInput,
+                  type: TermPickerInput,
                   props: {
                     source: 'userRoles',
                   },
