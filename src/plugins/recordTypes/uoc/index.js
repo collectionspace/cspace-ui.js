@@ -6,11 +6,9 @@ import messages from './messages';
 import serviceConfig from './serviceConfig';
 import title from './title';
 import idGenerators from './idGenerators';
-import optionLists from './optionLists';
 
 export default () => (configContext) => ({
   idGenerators,
-  optionLists,
   recordTypes: {
     uoc: {
       messages,
