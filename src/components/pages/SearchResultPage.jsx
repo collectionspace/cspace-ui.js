@@ -90,7 +90,6 @@ export default class SearchResultPage extends Component {
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
     this.search = this.search.bind(this);
-    this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
 
     this.state = {
       isSearchToRelateModalOpen: false,
@@ -267,6 +266,7 @@ export default class SearchResultPage extends Component {
   closeModal() {
     this.setState({
       isSearchToRelateModalOpen: false,
+      selectionValidationError: undefined,
     });
   }
 
@@ -323,19 +323,53 @@ export default class SearchResultPage extends Component {
     return false;
   }
 
-  shouldShowCheckbox(item) {
+  validateSelectedItemsRelatable() {
     const {
       perms,
+      selectedItems,
     } = this.props;
 
     const {
       config,
     } = this.context;
 
-    return (
-      item.get('workflowState') !== 'locked' &&
-      canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config)
-    );
+    if (selectedItems) {
+      let err;
+
+      selectedItems.valueSeq().find((item) => {
+        if (item.get('workflowState') === 'locked') {
+          err = {
+            code: 'locked',
+          };
+
+          return true;
+        }
+
+        const recordType = getRecordTypeNameByUri(config, item.get('uri'));
+
+        if (!canRelate(recordType, perms, config)) {
+          const recordMessages = get(config, ['recordTypes', recordType, 'messages', 'record']);
+
+          err = {
+            code: 'notPermitted',
+            values: {
+              name: <FormattedMessage {...recordMessages.name} />,
+              collectionName: <FormattedMessage {...recordMessages.collectionName} />,
+            },
+          };
+
+          return true;
+        }
+
+        return false;
+      });
+
+      if (err) {
+        return err;
+      }
+    }
+
+    return undefined;
   }
 
   handleCheckboxClick(event) {
@@ -464,6 +498,7 @@ export default class SearchResultPage extends Component {
   handleRelateButtonClick() {
     this.setState({
       isSearchToRelateModalOpen: true,
+      selectionValidationError: this.validateSelectedItemsRelatable(),
     });
   }
 
@@ -517,27 +552,23 @@ export default class SearchResultPage extends Component {
       selectedItems,
     } = this.props;
 
-    if (this.shouldShowCheckbox(rowData)) {
-      const itemCsid = rowData.get('csid');
-      const selected = selectedItems ? selectedItems.has(itemCsid) : false;
+    const itemCsid = rowData.get('csid');
+    const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
-      return (
-        <CheckboxInput
-          embedded
-          name={`${rowIndex}`}
-          value={selected}
+    return (
+      <CheckboxInput
+        embedded
+        name={`${rowIndex}`}
+        value={selected}
 
-          // DRYD-252: Elaborate workaround for Firefox, part II. Use this onClick instead of the
-          // onCommit and onClick below.
-          onClick={this.handleCheckboxClick}
-          // onCommit={this.handleCheckboxCommit}
-          // Prevent clicking on the checkbox from selecting the record.
-          // onClick={stopPropagation}
-        />
-      );
-    }
-
-    return null;
+        // DRYD-252: Elaborate workaround for Firefox, part II. Use this onClick instead of the
+        // onCommit and onClick below.
+        onClick={this.handleCheckboxClick}
+        // onCommit={this.handleCheckboxCommit}
+        // Prevent clicking on the checkbox from selecting the record.
+        // onClick={stopPropagation}
+      />
+    );
   }
 
   renderHeader({ searchError, searchResult }) {
@@ -582,7 +613,6 @@ export default class SearchResultPage extends Component {
           searchResult={searchResult}
           selectedItems={selectedItems}
           setAllItemsSelected={setAllItemsSelected}
-          showCheckboxFilter={this.shouldShowCheckbox}
         />
       );
     }
@@ -650,6 +680,7 @@ export default class SearchResultPage extends Component {
 
     const {
       isSearchToRelateModalOpen,
+      selectionValidationError,
     } = this.state;
 
     const searchDescriptor = this.getSearchDescriptor();
@@ -682,6 +713,7 @@ export default class SearchResultPage extends Component {
           config={config}
           isOpen={isSearchToRelateModalOpen}
           defaultRecordTypeValue="collectionobject"
+          error={selectionValidationError}
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
           onRelationsCreated={this.handleRelationsCreated}

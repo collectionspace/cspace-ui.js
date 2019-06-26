@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
+import { Modal } from 'cspace-layout';
 import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
 import { canRelate } from '../../helpers/permissionHelpers';
 import SearchToSelectModalContainer from '../../containers/search/SearchToSelectModalContainer';
@@ -36,6 +37,21 @@ const messages = defineMessages({
     id: 'searchToRelateModal.title',
     defaultMessage: 'Relate {typeName} {query}',
   },
+  errorTitle: {
+    id: 'searchToRelateModal.errorTitle',
+    defaultMessage: 'Can\'t Relate',
+  },
+});
+
+const errorMessages = defineMessages({
+  locked: {
+    id: 'searchToRelateModal.error.locked',
+    defaultMessage: 'Locked records are selected. Relations cannot be made to locked records.',
+  },
+  notPermitted: {
+    id: 'searchToRelateModal.error.notPermitted',
+    defaultMessage: '{name} records are selected. You are not permitted to create relations to {collectionName}.',
+  },
 });
 
 const renderRelatingMessage = () => (
@@ -44,6 +60,8 @@ const renderRelatingMessage = () => (
 
 const propTypes = {
   config: PropTypes.object,
+  error: PropTypes.object,
+  isOpen: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   subjects: PropTypes.oneOfType([
     PropTypes.arrayOf(
@@ -58,6 +76,8 @@ const propTypes = {
   ]),
   createRelations: PropTypes.func,
   showRelationNotification: PropTypes.func,
+  onCancelButtonClick: PropTypes.func,
+  onCloseButtonClick: PropTypes.func,
   onRelationsCreated: PropTypes.func,
 };
 
@@ -154,6 +174,7 @@ export default class SearchToRelateModal extends Component {
 
   render() {
     const {
+      error,
       /* eslint-disable no-unused-vars */
       subjects,
       createRelations,
@@ -162,6 +183,20 @@ export default class SearchToRelateModal extends Component {
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
+
+    if (this.props.isOpen && error) {
+      return (
+        <Modal
+          isOpen
+          showCancelButton={false}
+          title={<h1><FormattedMessage {...messages.errorTitle} /></h1>}
+          onAcceptButtonClick={this.props.onCancelButtonClick}
+          onCloseButtonClick={this.props.onCloseButtonClick}
+        >
+          <FormattedMessage {...errorMessages[error.code]} values={error.values} />
+        </Modal>
+      );
+    }
 
     return (
       <SearchToSelectModalContainer

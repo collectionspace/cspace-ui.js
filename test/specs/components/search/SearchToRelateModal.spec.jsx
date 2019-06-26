@@ -2,10 +2,12 @@
 
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import { render } from 'react-dom';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { Modal } from 'cspace-layout';
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
 import SearchToSelectModalContainer from '../../../../src/containers/search/SearchToSelectModalContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -389,5 +391,28 @@ describe('SearchToRelateModal', function suite() {
     shouldShowCheckbox(Immutable.Map({
       uri: '/collectionobjects/abcd',
     })).should.equal(true);
+  });
+
+  it('should render a Modal containing an error message when an error is supplied', function test() {
+    const error = {
+      code: 'locked',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchToRelateModal
+        isOpen
+        error={error}
+      />
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(Modal);
+
+    const message = findWithType(result, FormattedMessage);
+
+    message.props.defaultMessage.should.contain('Locked records are selected');
   });
 });

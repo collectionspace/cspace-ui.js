@@ -103,6 +103,24 @@ const config = {
         servicePath: 'collectionobjects',
       },
     },
+    movement: {
+      name: 'movement',
+      messages: {
+        record: {
+          name: {
+            id: 'record.movement.name',
+            defaultMessage: 'Location/Movement/Inventory',
+          },
+          collectionName: {
+            id: 'record.collectionobject.collectionName',
+            defaultMessage: 'Location/Movement/Inventory records',
+          },
+        },
+      },
+      serviceConfig: {
+        servicePath: 'movements',
+      },
+    },
     person: {
       serviceConfig: {
         serviceType: 'authority',
@@ -1090,6 +1108,109 @@ describe('SearchResultPage', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
+  it('should set an error on the search to relate modal when the relate button is clicked when a locked item is selected', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    const selectedItems = Immutable.fromJS({
+      1111: {
+        csid: '1111',
+        uri: '/collectionobjects/1111',
+      },
+      2222: {
+        csid: '2222',
+        uri: '/movements/2222',
+        workflowState: 'locked',
+      },
+    });
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+        perms={Immutable.fromJS({
+          collectionobject: {
+            data: 'CRUDL',
+          },
+          relation: {
+            data: 'CRUDL',
+          },
+        })}
+        selectedItems={selectedItems}
+      />, context);
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.error.code.should.equal('locked');
+  });
+
+  it('should set an error on the search to relate modal when the relate button is clicked when an item is selected that the user is not permitted to relate', function test() {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    const selectedItems = Immutable.fromJS({
+      1111: {
+        csid: '1111',
+        uri: '/collectionobjects/1111',
+      },
+    });
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+        perms={Immutable.fromJS({
+          collectionobject: {
+            data: 'R',
+          },
+          relation: {
+            data: 'CRUDL',
+          },
+        })}
+        selectedItems={selectedItems}
+      />, context);
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.error.code.should.equal('notPermitted');
+  });
+
   it('should close the search to relate modal when the close button is clicked', function test() {
     const shallowRenderer = createRenderer();
 
@@ -1359,30 +1480,5 @@ describe('SearchResultPage', function suite() {
     Simulate.click(checkboxNode);
 
     clickPropagated.should.equal(false);
-  });
-
-  it('should not render checkboxes on items that are locked', function test() {
-    const shallowRenderer = createRenderer();
-
-    const context = {
-      config,
-      store,
-    };
-
-    shallowRenderer.render(
-      <SearchResultPage
-        location={location}
-        match={match}
-      />, context);
-
-    const result = shallowRenderer.getRenderOutput();
-    const table = findWithType(result, WatchedSearchResultTableContainer);
-
-    const checkbox = table.props.renderCheckbox({
-      rowData: Immutable.Map({ workflowState: 'locked' }),
-      rowIndex: 1,
-    });
-
-    expect(checkbox).to.equal(null);
   });
 });
