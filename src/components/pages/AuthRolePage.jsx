@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -8,6 +10,7 @@ import RecordEditorContainer from '../../containers/record/RecordEditorContainer
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import { canCreate, canRead } from '../../helpers/permissionHelpers';
 import AdminTabButtonBar from '../admin/AdminTabButtonBar';
+import AuthRoleSearchBar from '../admin/AuthRoleSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
@@ -15,7 +18,12 @@ const propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
+  filterDelay: PropTypes.number,
   setAdminTab: PropTypes.func,
+};
+
+const defaultProps = {
+  filterDelay: 500,
 };
 
 const contextTypes = {
@@ -41,7 +49,9 @@ export default class AuthRolePage extends Component {
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
     this.handleRecordDeleted = this.handleRecordDeleted.bind(this);
     this.handleRecordSaved = this.handleRecordSaved.bind(this);
+    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
+    this.renderSearchBar = this.renderSearchBar.bind(this);
 
     this.state = {
       searchDescriptor: getSearchDescriptor(),
@@ -77,6 +87,28 @@ export default class AuthRolePage extends Component {
     history.replace({
       pathname: `/admin/${recordType}/new`,
       search: `?${queryString}`,
+    });
+  }
+
+  filter(value) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('dn', value);
+    } else {
+      updatedSearchQuery = searchQuery.delete('dn');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
+
+    this.setState({
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
     });
   }
 
@@ -141,10 +173,43 @@ export default class AuthRolePage extends Component {
     });
   }
 
+  handleSearchBarChange(value) {
+    if (this.filterTimer) {
+      window.clearTimeout(this.filterTimer);
+
+      this.filterTimer = null;
+    }
+
+    if (value) {
+      const {
+        filterDelay,
+      } = this.props;
+
+      this.filterTimer = window.setTimeout(() => {
+        this.filter(value);
+        this.filterTimer = null;
+      }, filterDelay);
+    } else {
+      this.filter(value);
+    }
+  }
+
   handleSearchDescriptorChange(searchDescriptor) {
     this.setState({
       searchDescriptor,
     });
+  }
+
+  renderSearchBar() {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const filterValue = searchDescriptor.getIn(['searchQuery', 'dn']);
+
+    return (
+      <AuthRoleSearchBar value={filterValue} onChange={this.handleSearchBarChange} />
+    );
   }
 
   render() {
@@ -173,6 +238,7 @@ export default class AuthRolePage extends Component {
     const cloneCsid = query.clone;
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
+    const filterValue = searchDescriptor.getIn(['searchQuery', 'dn']);
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;
@@ -203,6 +269,7 @@ export default class AuthRolePage extends Component {
           <SearchPanelContainer
             config={config}
             history={history}
+            isFiltered={!!filterValue}
             linkItems={false}
             listType="role"
             name="authRolePage"
@@ -210,6 +277,7 @@ export default class AuthRolePage extends Component {
             searchDescriptor={searchDescriptor}
             title={title}
             recordType={recordType}
+            renderTableHeader={this.renderSearchBar}
             showSearchButton={false}
             onItemClick={this.handleItemClick}
             onSearchDescriptorChange={this.handleSearchDescriptorChange}
@@ -222,4 +290,5 @@ export default class AuthRolePage extends Component {
 }
 
 AuthRolePage.propTypes = propTypes;
+AuthRolePage.defaultProps = defaultProps;
 AuthRolePage.contextTypes = contextTypes;

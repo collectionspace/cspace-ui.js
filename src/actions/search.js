@@ -188,6 +188,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
         rtSbj: searchQuery.get('rel'),
         rtPredicate: searchQuery.get('relType'),
         sn: searchQuery.get('sn'), // accounts screen name
+        dn: searchQuery.get('dn'), // role display name
         wf_deleted: false,
       },
     };

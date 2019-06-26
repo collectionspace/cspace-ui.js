@@ -10,6 +10,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
@@ -19,6 +20,7 @@ import AuthRolePage from '../../../../src/components/pages/AuthRolePage';
 
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -419,6 +421,188 @@ describe('AuthRolePage', function suite() {
 
         resolve();
       }, 0);
+    });
+  });
+
+  it('should update the search descriptor when the search bar value changes', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <AuthRolePage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'authrole',
+          searchQuery: {
+            dn: 'searchval',
+            p: 0,
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 600);
+    });
+  });
+
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <AuthRolePage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        searchBar.props.onChange('another searchval');
+
+        resolve();
+      }, 200);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'authrole',
+          searchQuery: {
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }))
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'authrole',
+          searchQuery: {
+            dn: 'another searchval',
+            p: 0,
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 400);
+    }));
+  });
+
+  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
+    const location = {
+      search: '',
+    };
+
+    const match = {
+      params: {},
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <AuthRolePage
+        location={location}
+        match={match}
+        perms={null}
+      />, context);
+
+    let result;
+    let searchPanel;
+
+    result = shallowRenderer.getRenderOutput();
+    searchPanel = findWithType(result, SearchPanelContainer);
+
+    searchPanel.should.not.equal(null);
+
+    const searchBar = searchPanel.props.renderTableHeader();
+
+    searchBar.props.onChange('searchval');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'authrole',
+          searchQuery: {
+            dn: 'searchval',
+            p: 0,
+            size: 20,
+          },
+        }));
+
+        searchBar.props.onChange('');
+
+        result = shallowRenderer.getRenderOutput();
+        searchPanel = findWithType(result, SearchPanelContainer);
+
+        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+          recordType: 'authrole',
+          searchQuery: {
+            p: 0,
+            size: 20,
+          },
+        }));
+
+        resolve();
+      }, 600);
     });
   });
 });

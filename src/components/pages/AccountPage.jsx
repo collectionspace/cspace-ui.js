@@ -51,8 +51,8 @@ export default class AccountPage extends Component {
     this.handleRecordCreated = this.handleRecordCreated.bind(this);
     this.handleRecordDeleted = this.handleRecordDeleted.bind(this);
     this.handleRecordSaved = this.handleRecordSaved.bind(this);
-    this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+    this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
 
     this.state = {
@@ -132,27 +132,6 @@ export default class AccountPage extends Component {
     history.replace(`/admin/${recordType}/new`);
   }
 
-  handleSearchBarChange(value) {
-    if (this.filterTimer) {
-      window.clearTimeout(this.filterTimer);
-
-      this.filterTimer = null;
-    }
-
-    if (value) {
-      const {
-        filterDelay,
-      } = this.props;
-
-      this.filterTimer = window.setTimeout(() => {
-        this.filter(value);
-        this.filterTimer = null;
-      }, filterDelay);
-    } else {
-      this.filter(value);
-    }
-  }
-
   handleItemClick(item) {
     const {
       history,
@@ -204,6 +183,27 @@ export default class AccountPage extends Component {
     this.setState({
       searchDescriptor: searchDescriptor.set('seqId', (new Date()).toISOString()),
     });
+  }
+
+  handleSearchBarChange(value) {
+    if (this.filterTimer) {
+      window.clearTimeout(this.filterTimer);
+
+      this.filterTimer = null;
+    }
+
+    if (value) {
+      const {
+        filterDelay,
+      } = this.props;
+
+      this.filterTimer = window.setTimeout(() => {
+        this.filter(value);
+        this.filterTimer = null;
+      }, filterDelay);
+    } else {
+      this.filter(value);
+    }
   }
 
   handleSearchDescriptorChange(searchDescriptor) {
