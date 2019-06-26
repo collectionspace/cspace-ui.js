@@ -215,7 +215,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'authorizationStatuses',
+                    source: 'uocauthorizationstatuses',
                   },
                 },
               },
@@ -379,7 +379,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'userRoles',
+                    source: 'uocuserroles',
                   },
                 },
               },
