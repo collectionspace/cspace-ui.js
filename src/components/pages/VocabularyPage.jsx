@@ -242,6 +242,8 @@ export default class VocabularyPage extends Component {
       <div className={styles.common}>
         <div>
           <SearchPanelContainer
+            collapsed={false}
+            collapsible={false}
             config={config}
             history={history}
             isFiltered={!!filterValue}

@@ -32,6 +32,7 @@ const messages = defineMessages({
 
 const propTypes = {
   collapsed: PropTypes.bool,
+  collapsible: PropTypes.bool,
   color: PropTypes.string,
   columnSetName: PropTypes.string,
   config: PropTypes.object,
@@ -60,6 +61,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  collapsible: true,
   columnSetName: 'default',
   listType: 'common',
   pageSizeOptionListName: 'searchPanelPageSizes',
@@ -347,6 +349,7 @@ export default class SearchPanel extends Component {
   render() {
     const {
       collapsed,
+      collapsible,
       color,
       columnSetName,
       config,
@@ -415,7 +418,7 @@ export default class SearchPanel extends Component {
         <Panel
           buttons={this.renderButtons()}
           className={styles.common}
-          collapsible
+          collapsible={collapsible}
           collapsed={collapsed}
           color={color}
           config={config}
