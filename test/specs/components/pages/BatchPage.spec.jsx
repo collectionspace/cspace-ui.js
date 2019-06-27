@@ -279,6 +279,7 @@ describe('BatchPage', function suite() {
             },
             size: 20,
             p: 0,
+            sort: 'name',
           },
         }));
 
@@ -328,6 +329,7 @@ describe('BatchPage', function suite() {
           recordType: 'batch',
           searchQuery: {
             size: 20,
+            sort: 'name',
           },
         }));
 
@@ -344,10 +346,12 @@ describe('BatchPage', function suite() {
           searchQuery: {
             p: 0,
             size: 20,
+            sort: 'name',
             as: {
               value: 'another searchval',
               op: OP_CONTAIN,
               path: 'ns2:batch_common/name',
+
             },
           },
         }));
@@ -397,6 +401,7 @@ describe('BatchPage', function suite() {
             },
             size: 20,
             p: 0,
+            sort: 'name',
           },
         }));
 
@@ -410,6 +415,7 @@ describe('BatchPage', function suite() {
           searchQuery: {
             size: 20,
             p: 0,
+            sort: 'name',
           },
         }));
 
