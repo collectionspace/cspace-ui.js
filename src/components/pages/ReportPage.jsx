@@ -278,6 +278,8 @@ export default class ReportPage extends Component {
     return (
       <div className={styles.common}>
         <SearchPanelContainer
+          collapsed={false}
+          collapsible={false}
           config={config}
           history={history}
           isFiltered={!!filterValue}

@@ -267,6 +267,8 @@ export default class AuthRolePage extends Component {
             onCreateButtonClick={this.handleCreateButtonClick}
           />
           <SearchPanelContainer
+            collapsed={false}
+            collapsible={false}
             config={config}
             history={history}
             isFiltered={!!filterValue}

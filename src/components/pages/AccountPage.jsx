@@ -280,6 +280,8 @@ export default class AccountPage extends Component {
             onCreateButtonClick={this.handleCreateButtonClick}
           />
           <SearchPanelContainer
+            collapsed={false}
+            collapsible={false}
             config={config}
             history={history}
             isFiltered={!!filterValue}
