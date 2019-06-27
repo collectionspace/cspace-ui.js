@@ -363,6 +363,7 @@ describe('VocabularyPage', function suite() {
           searchQuery: {
             p: 0,
             size: 20,
+            sort: 'displayName',
             as: {
               value: 'searchval',
               op: OP_CONTAIN,
@@ -422,6 +423,7 @@ describe('VocabularyPage', function suite() {
           recordType: 'vocabulary',
           searchQuery: {
             size: 20,
+            sort: 'displayName',
           },
         }));
 
@@ -438,6 +440,7 @@ describe('VocabularyPage', function suite() {
           searchQuery: {
             p: 0,
             size: 20,
+            sort: 'displayName',
             as: {
               value: 'another searchval',
               op: OP_CONTAIN,
@@ -491,6 +494,7 @@ describe('VocabularyPage', function suite() {
           searchQuery: {
             p: 0,
             size: 20,
+            sort: 'displayName',
             as: {
               value: 'searchval',
               op: OP_CONTAIN,
@@ -509,6 +513,7 @@ describe('VocabularyPage', function suite() {
           searchQuery: {
             size: 20,
             p: 0,
+            sort: 'displayName',
           },
         }));
 

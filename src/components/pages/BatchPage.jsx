@@ -47,6 +47,7 @@ const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
   searchQuery: {
     size: 20,
+    sort: 'name',
   },
 });
 

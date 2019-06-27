@@ -10,6 +10,7 @@ export default () => ({
         },
       }),
       order: 10,
+      sortBy: 'reports_common:name',
       width: 400,
     },
   },
