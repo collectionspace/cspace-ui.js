@@ -407,18 +407,26 @@ export default (configContext) => {
 
           },
         },
-        location: {
+        locationList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.uoc_common.location.name',
-                defaultMessage: 'Location',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'organization/local,organization/shared,place/local,place/shared,location/local',
+              type: CompoundInput,
+            },
+          },
+          location: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.location.name',
+                  defaultMessage: 'Location',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'organization/local,organization/shared,place/local,place/shared,location/local',
+                },
               },
             },
           },

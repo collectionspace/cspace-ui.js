@@ -65,7 +65,9 @@ const template = (configContext) => {
               </Field>
             </Field>
 
-            <Field name="location" />
+            <Field name="locationList">
+              <Field name="location" />
+            </Field>
           </Col>
 
           <Col>
