@@ -545,6 +545,51 @@ export default (configContext) => {
             },                
           },
         },
+        citationDescription: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.citationDescription.name',
+                defaultMessage: 'Citation description', // FIX ME this is temporary
+              },
+            }),
+            required: true,
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
+        dateRequested: {
+          [config]: {
+            dataType: DATA_TYPE_DATE,
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.dateRequested.name',
+                defaultMessage: 'Date requested',
+              },
+            }),
+            view: {
+              type: DateInput,
+            },
+          },
+        },
+        dateFulfilled: {
+          [config]: {
+            dataType: DATA_TYPE_DATE,
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.dateFulfilled.name',
+                defaultMessage: 'Date fulfilled',
+              },
+            }),
+            view: {
+              type: DateInput,
+            },
+          },
+        },
       },
     },
   };
