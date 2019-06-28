@@ -596,11 +596,11 @@ export default (configContext) => {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
               fullName: {
-                id: 'field.uoc_common.fullName.name',
-                defaultMessage: 'Amount charged',
+                id: 'field.uoc_common.feeAmount.fullName',
+                defaultMessage: 'Fee amount charged',
               },
               name: {
-                id: 'field.uoc_common.result.name',
+                id: 'field.uoc_common.feeAmount.name',
                 defaultMessage: 'Amount',
               },
             }),
@@ -623,6 +623,27 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
+            },
+          },
+        },
+        occasionList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          occasion: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.occasion.name',
+                  defaultMessage: 'Occasion',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TextInput,
+              },
             },
           },
         },

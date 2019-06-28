@@ -101,6 +101,10 @@ const template = (configContext) => {
           <Field name="feeAmount" />
           <Field name="feeNote" />
         </InputTable>
+
+        <Field name="occasionList">
+          <Field name="occasion"/>
+        </Field>
       </Panel>
     </Field>
   );
