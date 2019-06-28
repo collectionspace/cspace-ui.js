@@ -77,6 +77,14 @@ const template = (configContext) => {
         </Cols>
 
         <Field name="result" />
+
+        <Field name="citationGroupList">
+          <Field name="citationGroup">
+            <Field name="citation"/>
+            <Field name="permanentId"/>
+            <Field name="objectCited"/>
+          </Field>
+        </Field>
       </Panel>
     </Field>
   );

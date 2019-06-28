@@ -479,6 +479,72 @@ export default (configContext) => {
             },
           },
         },
+        citationGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          citationGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.citationGroup.name',
+                  defaultMessage: 'Citation stemming from use of collection',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            citation : {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.citation.name',
+                    defaultMessage: 'Citation',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'citation/all,citation/local,citation/worldcat'
+                  }
+                },
+              },
+            },                
+            permanentId: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.permanentId.name',
+                    defaultMessage: 'Permanent Id (DOI, etc.)',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },              
+            objectCited: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.objectCited.name',
+                    defaultMessage: 'Object(s) cited',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },                
+          },
+        },
       },
     },
   };
