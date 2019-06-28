@@ -28,5 +28,9 @@ export default {
       id: 'inputTable.uoc.user',
       defaultMessage: 'User',
     },
+    feeCharged: {
+      id: 'inputTable.uoc.feeCharged',
+      defaultMessage: 'Fee charged',
+    },
   }),
 };

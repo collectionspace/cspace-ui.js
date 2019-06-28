@@ -17,6 +17,7 @@ export default (configContext) => {
   const {
     DATA_TYPE_DATE,
     DATA_TYPE_INT,
+    DATA_TYPE_FLOAT,
   } = configContext.dataTypes;
 
   const {
@@ -587,6 +588,41 @@ export default (configContext) => {
             }),
             view: {
               type: DateInput,
+            },
+          },
+        },
+        feeAmount: {
+          [config]: {
+            dataType: DATA_TYPE_FLOAT,
+            messages: defineMessages({
+              fullName: {
+                id: 'field.uoc_common.fullName.name',
+                defaultMessage: 'Amount charged',
+              },
+              name: {
+                id: 'field.uoc_common.result.name',
+                defaultMessage: 'Amount',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },    
+        },
+        feeNote: {
+          [config]: {
+            messages: defineMessages({
+              fullName: {
+                id: 'field.uoc_common.feeNote.fullName',
+                defaultMessage: 'Fee note',
+              },
+              name: {
+                id: 'field.uoc_common.feeNote.name',
+                defaultMessage: 'Note',
+              },
+            }),
+            view: {
+              type: TextInput,
             },
           },
         },

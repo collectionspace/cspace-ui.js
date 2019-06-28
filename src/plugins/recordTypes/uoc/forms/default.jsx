@@ -14,6 +14,7 @@ const template = (configContext) => {
 
   const {
     Field,
+    InputTable,
   } = configContext.recordComponents;
 
   return (
@@ -95,6 +96,11 @@ const template = (configContext) => {
           </Col>
           <Col />
         </Cols>
+
+        <InputTable name="feeCharged">
+          <Field name="feeAmount" />
+          <Field name="feeNote" />
+        </InputTable>
       </Panel>
     </Field>
   );
