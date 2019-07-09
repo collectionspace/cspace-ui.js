@@ -22,7 +22,7 @@ const messages = defineMessages({
         <i>common</i> installation, which includes fields and procedures common to most collecting
         organizations. If you’re interested in a version of CollectionSpace configured to meet the
         needs of a specific domain, please visit our
-        <a href="http://demo.collectionspace.org">demo landing page</a>
+        <a href="https://www.collectionspace.org/demo/">demo landing page</a>
         to view all available options. Examples include Anthropology, Botanical Garden, Fine Art,
         Herbarium, and Local History &amp; Material Culture.
       </p>
