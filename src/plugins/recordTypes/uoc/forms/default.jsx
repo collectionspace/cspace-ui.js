@@ -28,13 +28,13 @@ const template = (configContext) => {
 
         <Row>
           <Cols>
-            <Col>          
+            <Col>
               <Field name="methodList">
                 <Field name="method" />
               </Field>
             </Col>
-            
-            <Col>            
+
+            <Col>
               <Field name="collectionTypeList">
                 <Field name="collectionType" />
               </Field>
@@ -61,13 +61,13 @@ const template = (configContext) => {
         <Cols>
           <Col>
             <Field name="dateRequested" />
-            <Field name="dateCompleted" />  {/* turn into date completed */}
+            <Field name="dateCompleted" />
 
             <Field name="occasionList">
-              <Field name="occasion"/> {/*turn into dynnamic list */}
-            </Field> 
+              <Field name="occasion" />
+            </Field>
           </Col>
-          
+
           <Col>
             <Field name="projectDescription" />
           </Col>
@@ -124,7 +124,8 @@ const template = (configContext) => {
                 <Field name="feeAmount" />
                 <Field name="feeNote" />
               </InputTable>
-            <Field name="feePaid" />
+
+              <Field name="feePaid" />
             </Row>
           </Col>
         </Cols>
