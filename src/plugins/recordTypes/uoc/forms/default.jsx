@@ -22,39 +22,58 @@ const template = (configContext) => {
       <Panel name="useOfCollections" collapsible>
 
         <Row>
-          <Col>
-            <Field name="referenceNumber" />
-            <Field name="projectId" />
-            <Field name="projectDescription" />
-          </Col>
+          <Field name="referenceNumber" />
+          <Field name="projectId" />
+        </Row>
 
-          <Col>
-            <Field name="methodList">
-              <Field name="method" />
-            </Field>
-
-
-            <Row>
+        <Row>
+          <Cols>
+            <Col>          
+              <Field name="methodList">
+                <Field name="method" />
+              </Field>
+            </Col>
+            
+            <Col>            
               <Field name="collectionTypeList">
                 <Field name="collectionType" />
               </Field>
-              
+            </Col>
+
+            <Col>
               <Field name="materialTypeList">
                 <Field name="materialType" />
               </Field>
-            </Row>
-
-            <Field name="dateRequested" />
-            <Field name="dateFulfilled" />
-
-            <Field name="occasionList">
-              <Field name="occasion"/>
-            </Field>
-          </Col>
+            </Col>
+          </Cols>
         </Row>
 
-        <Field name="title" />
+        <Field name="userGroupList">
+          <Field name="userGroup">
+            <Field name="user" />
+            <Field name="userType" />
+            <Field name="userRole" />
+            <Field name="userInstitution" />
+          </Field>
+        </Field>
 
+        <Field name="title" />
+        <Cols>
+          <Col>
+            <Field name="dateRequested" />
+            <Field name="dateCompleted" />  {/* turn into date completed */}
+
+            <Field name="occasionList">
+              <Field name="occasion"/> {/*turn into dynnamic list */}
+            </Field> 
+          </Col>
+          
+          <Col>
+            <Field name="projectDescription" />
+          </Col>
+        </Cols>
+
+        <Field name="linkToContract" />
         <Field name="authorizationGroupList">
           <Field name="authorizationGroup">
             <Field name="authorizedBy" />
@@ -74,16 +93,8 @@ const template = (configContext) => {
                 <Field name="useDateVisitorNote" />
               </Field>
             </Field>
-            <Field name="endDate" />
 
-            <Field name="userGroupList">
-              <Field name="userGroup">
-                <Field name="user" />
-                <Field name="userType" />
-                <Field name="userRole" />
-                <Field name="userInstitution" />
-              </Field>
-            </Field>
+            <Field name="endDate" />
 
             <Field name="staffGroupList">
               <Field name="staffGroup">
@@ -97,6 +108,8 @@ const template = (configContext) => {
             <Field name="locationList">
               <Field name="location" />
             </Field>
+
+
           </Col>
 
           <Col>
@@ -105,19 +118,18 @@ const template = (configContext) => {
               <Field name="provisos" />
               <Field name="obligationsFulfilled" />
             </Row>
+
+            <Row>
+              <InputTable name="feeCharged">
+                <Field name="feeAmount" />
+                <Field name="feeNote" />
+              </InputTable>
+            <Field name="feePaid" />
+            </Row>
           </Col>
         </Cols>
 
         <Field name="result" />
-
-        <Row>
-          <InputTable name="feeCharged">
-            <Field name="feeAmount" />
-            <Field name="feeNote" />
-          </InputTable>
-          <Field name="feePaid" />
-        </Row>
-
       </Panel>
     </Field>
   );

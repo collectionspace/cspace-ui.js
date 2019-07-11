@@ -9,7 +9,7 @@ export default (configContext) => {
     IDGeneratorInput,
     TermPickerInput,
     CheckboxInput,
-    OptionPickerInput,
+    URLInput,
   } = configContext.inputComponents;
 
   const {
@@ -513,13 +513,13 @@ export default (configContext) => {
             },
           },
         },
-        dateFulfilled: {
+        dateCompleted: {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.uoc_common.dateFulfilled.name',
-                defaultMessage: 'Date fulfilled',
+                id: 'field.uoc_common.dateCompleted.name',
+                defaultMessage: 'Date completed',
               },
             }),
             view: {
@@ -752,6 +752,19 @@ export default (configContext) => {
                   source: 'uocmaterialtypes',
                 },
               },
+            },
+          },
+        },
+        linkToContract: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.linkToContract.name',
+                defaultMessage: 'Link to contract',
+              },
+            }),
+            view: {
+              type: URLInput,
             },
           },
         },
