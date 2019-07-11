@@ -32,6 +32,24 @@ const template = (configContext) => {
             <Field name="methodList">
               <Field name="method" />
             </Field>
+
+
+            <Row>
+              <Field name="collectionTypeList">
+                <Field name="collectionType" />
+              </Field>
+              
+              <Field name="materialTypeList">
+                <Field name="materialType" />
+              </Field>
+            </Row>
+
+            <Field name="dateRequested" />
+            <Field name="dateFulfilled" />
+
+            <Field name="occasionList">
+              <Field name="occasion"/>
+            </Field>
           </Col>
         </Row>
 
@@ -48,11 +66,12 @@ const template = (configContext) => {
 
         <Cols>
           <Col>
-            <Field name="startSingleDateGroupList">
-              <Field name="startSingleDateGroup" >
-                <Field name="startSingleDate" />
-                <Field name="numberOfVisitors" />
-                <Field name="hoursSpent" />
+            <Field name="useDateGroupList">
+              <Field name="useDateGroup" >
+                <Field name="useDate" />
+                <Field name="useDateNumberOfVisitors" />
+                <Field name="useDateHoursSpent" />
+                <Field name="useDateVisitorNote" />
               </Field>
             </Field>
             <Field name="endDate" />
@@ -66,6 +85,15 @@ const template = (configContext) => {
               </Field>
             </Field>
 
+            <Field name="staffGroupList">
+              <Field name="staffGroup">
+                <Field name="staffName" />
+                <Field name="staffRole" />
+                <Field name="staffHours" />
+                <Field name="staffNote" />
+              </Field>
+            </Field>
+
             <Field name="locationList">
               <Field name="location" />
             </Field>
@@ -73,38 +101,23 @@ const template = (configContext) => {
 
           <Col>
             <Field name="note" />
-            <Field name="provisos" />
+            <Row>
+              <Field name="provisos" />
+              <Field name="obligationsFulfilled" />
+            </Row>
           </Col>
         </Cols>
 
         <Field name="result" />
 
-        <Field name="citationGroupList">
-          <Field name="citationGroup">
-            <Field name="citation"/>
-            <Field name="permanentId"/>
-            <Field name="objectCited"/>
-          </Field>
-        </Field>
+        <Row>
+          <InputTable name="feeCharged">
+            <Field name="feeAmount" />
+            <Field name="feeNote" />
+          </InputTable>
+          <Field name="feePaid" />
+        </Row>
 
-        <Field name="citationDescription" />
-
-        <Cols>
-          <Col>
-            <Field name="dateRequested" />
-            <Field name="dateFulfilled" />
-          </Col>
-          <Col />
-        </Cols>
-
-        <InputTable name="feeCharged">
-          <Field name="feeAmount" />
-          <Field name="feeNote" />
-        </InputTable>
-
-        <Field name="occasionList">
-          <Field name="occasion"/>
-        </Field>
       </Panel>
     </Field>
   );

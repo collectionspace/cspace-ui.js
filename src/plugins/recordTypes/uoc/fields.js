@@ -8,6 +8,8 @@ export default (configContext) => {
     AutocompleteInput,
     IDGeneratorInput,
     TermPickerInput,
+    CheckboxInput,
+    OptionPickerInput,
   } = configContext.inputComponents;
 
   const {
@@ -18,6 +20,7 @@ export default (configContext) => {
     DATA_TYPE_DATE,
     DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
+    DATA_TYPE_BOOL,
   } = configContext.dataTypes;
 
   const {
@@ -223,18 +226,18 @@ export default (configContext) => {
             },
           },
         },
-        startSingleDateGroupList: {
+        useDateGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          startSingleDateGroup: {
+          useDateGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.uoc_common.startSingleDateGroup.name',
-                  defaultMessage: 'Start/single dates', // FIX ME
+                  id: 'field.uoc_common.useDateGroup.name',
+                  defaultMessage: 'Use dates', // FIX ME
                 },
               }),
               repeating: true,
@@ -245,12 +248,12 @@ export default (configContext) => {
                 },
               },
             },
-            startSingleDate: {
+            useDate: {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
-                    id: 'field.uoc_common.startSingleDate.name',
+                    id: 'field.uoc_common.useDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -259,11 +262,11 @@ export default (configContext) => {
                 },
               },
             },
-            numberOfVisitors: {
+            useDateNumberOfVisitors: {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.uoc_common.numberOfVisitors.name',
+                    id: 'field.uoc_common.useDateNumberOfVisitors.name',
                     defaultMessage: 'No. of vistors',
                   },
                 }),
@@ -273,7 +276,7 @@ export default (configContext) => {
                 },
               },
             },
-            hoursSpent: {
+            useDateHoursSpent: {
               [config]: {
                 messages: defineMessages({
                   name: {
@@ -281,12 +284,29 @@ export default (configContext) => {
                     defaultMessage: 'Hours spent',
                   },
                 }),
-                dataType: DATA_TYPE_INT,
+                dataType: DATA_TYPE_FLOAT,
                 view: {
                   type: TextInput,
                 },
               },
             },
+            useDateVisitorNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.useDateVisitorNote.fullName',
+                    defaultMessage: 'Visitor note',
+                  },
+                  name: {
+                    id: 'field.uoc_common.useDateVisitorNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },  
+            }
           },
         },
         endDate: {
@@ -405,7 +425,6 @@ export default (configContext) => {
                 },
               },
             },
-
           },
         },
         locationList: {
@@ -480,89 +499,6 @@ export default (configContext) => {
             },
           },
         },
-        citationGroupList: {
-          [config]: {
-            view: {
-              type: CompoundInput,
-            },
-          },
-          citationGroup: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.uoc_common.citationGroup.name',
-                  defaultMessage: 'Citation stemming from use of collection',
-                },
-              }),
-              repeating: true,
-              view: {
-                type: CompoundInput,
-                props: {
-                  tabular: true,
-                },
-              },
-            },
-            citation : {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.uoc_common.citation.name',
-                    defaultMessage: 'Citation',
-                  },
-                }),
-                view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'citation/all,citation/local,citation/worldcat'
-                  }
-                },
-              },
-            },                
-            permanentId: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.uoc_common.permanentId.name',
-                    defaultMessage: 'Permanent Id (DOI, etc.)',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },              
-            objectCited: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.uoc_common.objectCited.name',
-                    defaultMessage: 'Object(s) cited',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },                
-          },
-        },
-        citationDescription: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.uoc_common.citationDescription.name',
-                defaultMessage: 'Citation description', // FIX ME this is temporary
-              },
-            }),
-            required: true,
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
-              },
-            },
-          },
-        },
         dateRequested: {
           [config]: {
             dataType: DATA_TYPE_DATE,
@@ -626,6 +562,21 @@ export default (configContext) => {
             },
           },
         },
+
+        feePaid: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.feePaid.name',
+                defaultMessage: 'Fee paid',
+              }
+            }),
+            dataType: DATA_TYPE_BOOL,
+            view: {
+              type: CheckboxInput,
+            },
+          },
+        },
         occasionList: {
           [config]: {
             view: {
@@ -643,6 +594,163 @@ export default (configContext) => {
               repeating: true,
               view: {
                 type: TextInput,
+              },
+            },
+          },
+        },
+        obligationsFulfilled: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.obligationsFulfilled.name',
+                defaultMessage: 'Obligations fulfilled',
+              }
+            }),
+            dataType: DATA_TYPE_BOOL,
+            view: {
+              type: CheckboxInput,
+            },
+          },
+        },
+        staffGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          staffGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.staffGroup.name',
+                  defaultMessage: 'Staff',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            staffName: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.staffName.fullName',
+                    defaultMessage: 'Staff name',
+                  },
+                  name: {
+                    id: 'field.uoc_common.staffName.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared,organization/local,organization/shared',
+                  },
+                },
+              },
+            },
+            staffRole: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.staffRole.fullName',
+                    defaultMessage: 'Staff role',
+                  },
+                  name: {
+                    id: 'field.uoc_common.staffRole.name',
+                    defaultMessage: 'Role',
+                  }
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'uocstaffroles'
+                  }
+                },
+              },
+            },
+            staffHours: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.staffHours.fullName',
+                    defaultMessage: 'Staff hours spent',         
+                  },
+                  name: {
+                    id: 'field.uoc_common.staffHours.name',
+                    defaultMessage: 'Hours spent',
+                  },
+                }),
+                dataType: DATA_TYPE_FLOAT,
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            staffNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.staffNote.name',
+                    defaultMessage: 'Staff note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        collectionTypeList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          collectionType: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.collectionType.name',
+                  defaultMessage: 'Collection type',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'uoccollectiontypes',
+                },
+              },
+            },
+          },
+        },
+        materialTypeList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          materialType: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.materialType.name',
+                  defaultMessage: 'Material type',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'uocmaterialtypes',
+                },
               },
             },
           },
