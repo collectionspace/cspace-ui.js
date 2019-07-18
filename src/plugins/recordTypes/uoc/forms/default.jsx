@@ -83,8 +83,6 @@ const template = (configContext) => {
           </Field>
         </Field>
 
-        <Cols>
-          <Col>
             <Field name="useDateGroupList">
               <Field name="useDateGroup" >
                 <Field name="useDate" />
@@ -94,7 +92,13 @@ const template = (configContext) => {
               </Field>
             </Field>
 
-            <Field name="endDate" />
+            <Cols>
+              <Col>
+              <Field name="endDate" />
+              </Col>
+              <Col/>
+            </Cols>
+           
 
             <Field name="staffGroupList">
               <Field name="staffGroup">
@@ -105,20 +109,12 @@ const template = (configContext) => {
               </Field>
             </Field>
 
+            <Row>
             <Field name="locationList">
               <Field name="location" />
+
+              
             </Field>
-
-
-          </Col>
-
-          <Col>
-            <Field name="note" />
-            <Row>
-              <Field name="provisos" />
-              <Field name="obligationsFulfilled" />
-            </Row>
-
             <Row>
               <InputTable name="feeCharged">
                 <Field name="feeAmount" />
@@ -127,8 +123,15 @@ const template = (configContext) => {
 
               <Field name="feePaid" />
             </Row>
-          </Col>
-        </Cols>
+            </Row>
+
+
+
+        <Field name="note" />
+            <Row>
+              <Field name="provisos" />
+              <Field name="obligationsFulfilled" />
+            </Row>
 
         <Field name="result" />
       </Panel>

@@ -33,10 +33,6 @@ export default (configContext) => {
         op: OP_EQ,
         path: 'ns2:uoc_common/staffGroupList/staffGroup/staffName',
       },
-      {
-        op: OP_EQ,
-        path: 'ns2:uoc_common/userGroupList/userGroup/user',
-      },
       ...extensions.core.advancedSearch,
     ],
   };

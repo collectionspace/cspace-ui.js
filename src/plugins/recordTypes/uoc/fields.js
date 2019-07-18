@@ -237,7 +237,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.uoc_common.useDateGroup.name',
-                  defaultMessage: 'Use dates', // FIX ME
+                  defaultMessage: 'Start/single date', // FIX ME
                 },
               }),
               repeating: true,
@@ -420,7 +420,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/all,organization/shared',
+                    source: 'organization/local,organization/shared',
                   },
                 },
               },
