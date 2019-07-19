@@ -73,7 +73,15 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
-        <Field name="linkToContract" />
+        <Cols>
+          <Col>
+            <Field name="linkToContractList">
+              <Field name="linkToContract" />
+            </Field>
+          </Col>
+          <Col />
+        </Cols>
+        
         <Field name="authorizationGroupList">
           <Field name="authorizationGroup">
             <Field name="authorizedBy" />
@@ -110,19 +118,21 @@ const template = (configContext) => {
             </Field>
 
             <Row>
-            <Field name="locationList">
-              <Field name="location" />
+              <Field name="locationList">
+                <Field name="location" />
 
-              
-            </Field>
-            <Row>
-              <InputTable name="feeCharged">
-                <Field name="feeAmount" />
-                <Field name="feeNote" />
-              </InputTable>
-
-              <Field name="feePaid" />
-            </Row>
+                
+              </Field>
+              <Row>
+                  <Field name="feeGroupList">
+                    <Field name="feeGroup">
+                      <Field name="feeCurrency" />
+                      <Field name="feeValue" />
+                      <Field name="feeNote" />
+                      <Field name="feePaid" />
+                    </Field>
+                  </Field>
+              </Row>
             </Row>
 
 

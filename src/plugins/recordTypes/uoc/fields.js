@@ -168,7 +168,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/shared',
+                    source: 'person/local,person/shared,organization/local,organization/shared',
                   },
                 },
               },
@@ -267,7 +267,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.uoc_common.useDateNumberOfVisitors.name',
-                    defaultMessage: 'No. of vistors',
+                    defaultMessage: 'No. of visitors',
                   },
                 }),
                 dataType: DATA_TYPE_INT,
@@ -527,56 +527,6 @@ export default (configContext) => {
             },
           },
         },
-        feeAmount: {
-          [config]: {
-            dataType: DATA_TYPE_FLOAT,
-            messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.feeAmount.fullName',
-                defaultMessage: 'Fee amount charged',
-              },
-              name: {
-                id: 'field.uoc_common.feeAmount.name',
-                defaultMessage: 'Amount',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        feeNote: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.uoc_common.feeNote.fullName',
-                defaultMessage: 'Fee note',
-              },
-              name: {
-                id: 'field.uoc_common.feeNote.name',
-                defaultMessage: 'Note',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-
-        feePaid: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.uoc_common.feePaid.name',
-                defaultMessage: 'Fee paid',
-              },
-            }),
-            dataType: DATA_TYPE_BOOL,
-            view: {
-              type: CheckboxInput,
-            },
-          },
-        },
         occasionList: {
           [config]: {
             view: {
@@ -593,7 +543,10 @@ export default (configContext) => {
               }),
               repeating: true,
               view: {
-                type: TextInput,
+                type: AutocompleteInput,
+                props: {
+                  source: 'concept/associated,concept/activity,concept/material',
+                },
               },
             },
           },
@@ -755,16 +708,121 @@ export default (configContext) => {
             },
           },
         },
-        linkToContract: {
+        linkToContractList: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.uoc_common.linkToContract.name',
-                defaultMessage: 'Link to contract',
-              },
-            }),
             view: {
-              type: URLInput,
+              type: CompoundInput,
+            },
+          },
+          linkToContract: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.linkToContract.name',
+                  defaultMessage: 'Link to contract',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: URLInput,
+              },
+            },
+          },
+        },
+        feeGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          feeGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.uoc_common.feeGroup.name',
+                  defaultMessage: 'Fee charged',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            feeCurrency: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.feeCurrency.fullName',
+                    defaultMessage: 'Fee currency',
+                  },
+                  name: {
+                    id: 'field.uoc_common.feeCurrency.name',
+                    defaultMessage: 'Currency',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'currency',
+                  },
+                },
+              },
+            },
+            feeValue: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.feeValue.fullName',
+                    defaultMessage: 'Fee Value',
+                  },
+                  name: {
+                    id: 'field.uoc_common.feeValue.name',
+                    defaultMessage: 'Value',
+                  },
+                }),
+                dataType: DATA_TYPE_FLOAT,
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            feeNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.feeNote.fullName',
+                    defaultMessage: 'Fee Note',
+                  },
+                  name: {
+                    id: 'field.uoc_common.feeNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            feePaid: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.feePaid.fullName',
+                    defaultMessage: 'Fee Paid',
+                  },
+                  name: {
+                    id: 'field.uoc_common.feePaid.name',
+                    defaultMessage: 'Paid',
+                  },
+                }),
+                dataType: DATA_TYPE_BOOL,
+                view: {
+                  type: CheckboxInput,
+                },
+              },
             },
           },
         },
