@@ -4,8 +4,8 @@ This documentation is intended for developers who wish to modify CollectionSpace
 
 The cspace-ui project is one of several related CollectionSpace JavaScript projects. The projects are designed to work together, but may also be used independently. All of the projects have similar structures, and use similar tools and libraries.
 
-- [Overview of CollectionSpace Javascript Projects](https://wiki.collectionspace.org/display/~rhlee@berkeley.edu/Overview+of+Projects)
-- [Overview of Languages, Tools, and Libraries](https://wiki.collectionspace.org/display/~rhlee@berkeley.edu/Overview+of+Languages%2C+Tools%2C+and+Libraries)
+- [Overview of CollectionSpace Javascript Projects](https://collectionspace.atlassian.net/wiki/x/dQDkK)
+- [Overview of Languages, Tools, and Libraries](https://collectionspace.atlassian.net/wiki/x/bwDkK)
 
 ## Table of Contents
 
