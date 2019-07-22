@@ -84,6 +84,7 @@ export default {
       'millimeters',
       'meters',
       'minutes',
+      'ounces',
       'pixels',
       'pounds',
       'square-feet',
@@ -130,6 +131,10 @@ export default {
       minutes: {
         id: 'option.measurementUnits.minutes',
         defaultMessage: 'minutes',
+      },
+      ounces: {
+        id: 'option.measurementUnits.ounces',
+        defaultMessage: 'ounces',
       },
       pixels: {
         id: 'option.measurementUnits.pixels',
