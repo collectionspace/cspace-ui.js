@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default (configContext) => {
   const {
+    formatDate,
     formatRefName,
     formatTimestamp,
     formatWorkflowStateIcon,
@@ -25,7 +26,7 @@ export default (configContext) => {
         }),
         order: 20,
         sortBy: 'movements_common:movementReferenceNumber',
-        width: 250,
+        width: 230,
       },
       currentLocation: {
         formatValue: formatRefName,
@@ -37,7 +38,19 @@ export default (configContext) => {
         }),
         order: 30,
         sortBy: 'movements_common:currentLocation',
-        width: 380,
+        width: 250,
+      },
+      locationDate: {
+        formatValue: formatDate,
+        messages: defineMessages({
+          label: {
+            id: 'column.movement.default.locationDate',
+            defaultMessage: 'Location date',
+          },
+        }),
+        order: 35,
+        sortBy: 'movements_common:locationDate',
+        width: 150,
       },
       updatedAt: {
         formatValue: formatTimestamp,
