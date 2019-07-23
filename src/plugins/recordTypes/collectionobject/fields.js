@@ -3388,6 +3388,22 @@ export default (configContext) => {
             },
           },
         },
+        fieldCollectionFeature: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.fieldCollectionFeature.name',
+                defaultMessage: 'Field collection feature',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
         fieldCollectionNote: {
           [config]: {
             messages: defineMessages({
