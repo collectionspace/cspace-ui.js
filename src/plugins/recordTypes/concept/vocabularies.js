@@ -112,4 +112,26 @@ export default {
       servicePath: 'urn:cspace:name(material_ca)',
     },
   },
+  nomenclature: {
+    messages: defineMessages({
+      name: {
+        id: 'vocab.concept.nomenclature.name',
+        description: 'The name of the nomenclature concept vocabulary.',
+        defaultMessage: 'Nomenclature',
+      },
+      collectionName: {
+        id: 'vocab.concept.nomenclature.collectionName',
+        description: 'The name of a collection of records from the nomenclature concept vocabulary.',
+        defaultMessage: 'Nomenclature Concepts',
+      },
+      itemName: {
+        id: 'vocab.concept.nomenclature.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Nomenclature',
+      },
+    }),
+    serviceConfig: {
+      servicePath: 'urn:cspace:name(nomenclature)',
+    },
+  },
 };
