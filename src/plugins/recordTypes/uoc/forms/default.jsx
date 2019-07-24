@@ -72,15 +72,6 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
-        <Cols>
-          <Col>
-            <Field name="linkToContractList">
-              <Field name="linkToContract" />
-            </Field>
-          </Col>
-          <Col />
-        </Cols>
-
         <Field name="authorizationGroupList">
           <Field name="authorizationGroup">
             <Field name="authorizedBy" />

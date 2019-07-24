@@ -9,7 +9,6 @@ export default (configContext) => {
     IDGeneratorInput,
     TermPickerInput,
     CheckboxInput,
-    URLInput,
   } = configContext.inputComponents;
 
   const {
@@ -704,27 +703,6 @@ export default (configContext) => {
                 props: {
                   source: 'uocmaterialtypes',
                 },
-              },
-            },
-          },
-        },
-        linkToContractList: {
-          [config]: {
-            view: {
-              type: CompoundInput,
-            },
-          },
-          linkToContract: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.uoc_common.linkToContract.name',
-                  defaultMessage: 'Link to contract',
-                },
-              }),
-              repeating: true,
-              view: {
-                type: URLInput,
               },
             },
           },
