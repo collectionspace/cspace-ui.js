@@ -20,6 +20,24 @@ const mockStore = configureMockStore([thunk]);
 
 const store = mockStore({
   searchToSelect: Immutable.Map(),
+  optionList: {
+    reportMimeTypes: [
+      {
+        value: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        message: {
+          id: 'option.message.1',
+          defaultMessage: 'MS Word (.docx)',
+        },
+      },
+      {
+        value: 'text/csv',
+        message: {
+          id: 'option.message.2',
+          defaultMessage: 'CSV',
+        },
+      },
+    ],
+  },
   prefs: Immutable.Map(),
   record: Immutable.Map(),
   search: Immutable.Map(),
@@ -37,6 +55,7 @@ const reportData = Immutable.fromJS({
       name: 'Test Report',
       supportsNoContext: 'true',
       supportsSingleDoc: 'true',
+      outputMIME: 'text/csv',
     },
   },
 });
@@ -286,6 +305,93 @@ describe('InvocationModal', function suite() {
     unmountComponentAtNode(this.container);
   });
 
+  it('should render a format picker if recordType is report', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const modal = document.querySelector('.ReactModal__Content--after-open');
+
+    modal.querySelector('.cspace-ui-InvocationFormatPicker--common').should.not.equal(null);
+
+    unmountComponentAtNode(this.container);
+  });
+
+  it('should not render a format picker if recordType is not report', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              recordType="batch"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const modal = document.querySelector('.ReactModal__Content--after-open');
+
+    expect(modal.querySelector('.cspace-ui-InvocationFormatPicker--common')).to.equal(null);
+
+    unmountComponentAtNode(this.container);
+  });
+
+  it('should call onInvokeButtonClick when the invoke button is clicked', function test() {
+    let invokeButtonClicked;
+
+    const handleInvokeButtonClick = () => {
+      invokeButtonClicked = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              onInvokeButtonClick={handleInvokeButtonClick}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const button = modal.querySelector('button[name="invoke"]');
+
+    Simulate.click(button);
+
+    invokeButtonClicked.should.equal(true);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 0);
+    });
+  });
+
   it('should update the invocation descriptor when a change is committed', function test() {
     render(
       <IntlProvider locale="en">
@@ -323,11 +429,11 @@ describe('InvocationModal', function suite() {
     });
   });
 
-  it('should call onInvokeButtonClick when the invoke button is clicked', function test() {
-    let invokeButtonClicked;
+  it('should update the invocation descriptor when a format picker value is committed', function test() {
+    let invokedDescriptor;
 
-    const handleInvokeButtonClick = () => {
-      invokeButtonClicked = true;
+    const handleInvokeButtonClick = (dataArg, invocationDescriptorArg) => {
+      invokedDescriptor = invocationDescriptorArg;
     };
 
     render(
@@ -348,11 +454,21 @@ describe('InvocationModal', function suite() {
       </IntlProvider>, this.container);
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
+    const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
+    const input = dropdownMenuInput.querySelector('input');
+
+    input.value = 'docx';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    input.value.should.equal('MS Word (.docx)');
+
     const button = modal.querySelector('button[name="invoke"]');
 
     Simulate.click(button);
 
-    invokeButtonClicked.should.equal(true);
+    invokedDescriptor.get('outputMIME').should.equal('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -481,6 +597,53 @@ describe('InvocationModal', function suite() {
 
         modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
           .should.equal('1-1234');
+
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should update the mime type when data is received', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={invocationDescriptor}
+              csid={csid}
+              isOpen
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={invocationDescriptor}
+              csid={csid}
+              isOpen
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const modal = document.querySelector('.ReactModal__Content--after-open');
+        const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
+        const input = dropdownMenuInput.querySelector('input');
+
+        input.value.should.equal('CSV');
 
         unmountComponentAtNode(this.container);
 

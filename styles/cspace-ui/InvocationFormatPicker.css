@@ -1,0 +1,19 @@
+.common {
+  display: inline-block;
+  text-align: left;
+  float: left;
+}
+
+.common label {
+  display: inline;
+  margin-right: 4px;
+}
+
+.common :global(.cspace-input-DropdownMenuInput--common) {
+  display: inline-block;
+  width: 150px;
+}
+
+.common :global(.cspace-input-TextInput--normal) {
+  margin-bottom: 0;
+}

@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import { components as inputComponents } from 'cspace-input';
 import { Modal } from 'cspace-layout';
 import InvokeButton from './InvokeButton';
 import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
+import OptionPickerInputContainer from '../../containers/record/OptionPickerInputContainer';
+import { normalizeInvocationDescriptor } from '../../helpers/invocationHelpers';
 import CancelButton from '../navigation/CancelButton';
 import styles from '../../../styles/cspace-ui/InvocationModal.css';
+import formatPickerStyles from '../../../styles/cspace-ui/InvocationFormatPicker.css';
+
+const { Label } = inputComponents;
 
 const messages = defineMessages({
   cancel: {
@@ -24,6 +30,11 @@ const messages = defineMessages({
     id: 'invocationModal.running',
     description: 'Message displayed in the invocation modal when the report/batch job is running.',
     defaultMessage: 'Running…',
+  },
+  format: {
+    id: 'invocationModal.format',
+    description: 'Label of the output format picker in the invocation modal.',
+    defaultMessage: 'Format:',
   },
 });
 
@@ -50,27 +61,45 @@ export default class InvocationModal extends Component {
   constructor(props) {
     super(props);
 
+    this.handleFormatPickerCommit = this.handleFormatPickerCommit.bind(this);
     this.handleInvocationDescriptorCommit = this.handleInvocationDescriptorCommit.bind(this);
     this.handleInvokeButtonClick = this.handleInvokeButtonClick.bind(this);
     this.renderButtonBar = this.renderButtonBar.bind(this);
 
+    const {
+      data,
+      initialInvocationDescriptor,
+    } = this.props;
+
     this.state = {
-      invocationDescriptor: props.initialInvocationDescriptor,
+      invocationDescriptor: normalizeInvocationDescriptor(initialInvocationDescriptor, data),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const {
+      data,
       isOpen,
     } = this.props;
 
     const {
+      data: nextData,
       isOpen: nextIsOpen,
     } = nextProps;
 
     if (!isOpen && nextIsOpen) {
+      const {
+        initialInvocationDescriptor,
+      } = nextProps;
+
       this.setState({
-        invocationDescriptor: nextProps.initialInvocationDescriptor,
+        invocationDescriptor: normalizeInvocationDescriptor(initialInvocationDescriptor, nextData),
+      });
+    } else if (!data && nextData) {
+      const { invocationDescriptor } = this.state;
+
+      this.setState({
+        invocationDescriptor: normalizeInvocationDescriptor(invocationDescriptor, nextData),
       });
     }
   }
@@ -93,6 +122,16 @@ export default class InvocationModal extends Component {
 
       this.readInvocationItem();
     }
+  }
+
+  handleFormatPickerCommit(path, value) {
+    const {
+      invocationDescriptor,
+    } = this.state;
+
+    this.setState({
+      invocationDescriptor: invocationDescriptor.set('outputMIME', value),
+    });
   }
 
   handleInvocationDescriptorCommit(invocationDescriptor) {
@@ -183,6 +222,36 @@ export default class InvocationModal extends Component {
     }
   }
 
+  renderFormatPicker() {
+    const {
+      recordType,
+    } = this.props;
+
+    const {
+      invocationDescriptor,
+    } = this.state;
+
+    // TODO: Use reports/mimetypes endpoint to get options, and [recordType]/mimetypes to check if
+    // a format picker should be shown instead of hardcoding (batch/mimetypes will return 404, so
+    // format picker should not be shown).
+
+    if (recordType === 'report') {
+      return (
+        <div className={formatPickerStyles.common}>
+          <OptionPickerInputContainer
+            blankable={false}
+            label={<Label><FormattedMessage {...messages.format} /></Label>}
+            source="reportMimeTypes"
+            value={invocationDescriptor.get('outputMIME')}
+            onCommit={this.handleFormatPickerCommit}
+          />
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   renderButtonBar() {
     const {
       isRunning,
@@ -199,6 +268,8 @@ export default class InvocationModal extends Component {
 
     return (
       <div>
+        {this.renderFormatPicker()}
+
         <CancelButton
           disabled={isRunning}
           label={<FormattedMessage {...messages.cancel} />}

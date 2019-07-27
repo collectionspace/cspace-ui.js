@@ -85,6 +85,7 @@ describe('report action creator', function suite() {
         recordType,
         csid: recordCsid,
         mode: 'single',
+        outputMIME: 'text/html',
       });
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
@@ -101,6 +102,7 @@ describe('report action creator', function suite() {
               docType: 'Group',
               mode: 'single',
               singleCSID: recordCsid,
+              outputMIME: 'text/html',
             },
           });
         });
@@ -240,6 +242,7 @@ describe('report action creator', function suite() {
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
+      const outputMIME = 'someMimeType';
 
       const reportMetadata = Immutable.fromJS({
         document: {
@@ -253,6 +256,7 @@ describe('report action creator', function suite() {
       });
 
       const invocationDescriptor = Immutable.Map({
+        outputMIME,
         recordType,
         csid: recordCsid,
         mode: 'single',
@@ -268,7 +272,7 @@ describe('report action creator', function suite() {
 
       return store.dispatch(openReport(config, reportMetadata, invocationDescriptor))
         .then(() => {
-          openedPath.should.equal(`/report/${reportCsid}?mode=single&csid=${recordCsid}&recordType=${recordType}`);
+          openedPath.should.equal(`/report/${reportCsid}?mode=single&csid=${recordCsid}&outputMIME=${outputMIME}&recordType=${recordType}`);
 
           window.open = savedWindowOpen;
         });

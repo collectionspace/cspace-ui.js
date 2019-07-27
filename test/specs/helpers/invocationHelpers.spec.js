@@ -1,5 +1,12 @@
 import Immutable from 'immutable';
-import { createInvocationData } from '../../../src/helpers/invocationHelpers';
+import chaiImmutable from 'chai-immutable';
+
+import {
+  createInvocationData,
+  normalizeInvocationDescriptor,
+} from '../../../src/helpers/invocationHelpers';
+
+chai.use(chaiImmutable);
 
 describe('invocationHelpers', function moduleSuite() {
   const config = {
@@ -23,6 +30,7 @@ describe('invocationHelpers', function moduleSuite() {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'nocontext',
           docType: undefined,
+          outputMIME: undefined,
           params: undefined,
         },
       });
@@ -41,6 +49,7 @@ describe('invocationHelpers', function moduleSuite() {
           mode: 'single',
           docType: 'CollectionObject',
           singleCSID: '1234',
+          outputMIME: undefined,
           params: undefined,
         },
       });
@@ -64,6 +73,7 @@ describe('invocationHelpers', function moduleSuite() {
               'abcd',
             ],
           },
+          outputMIME: undefined,
           params: undefined,
         },
       });
@@ -81,6 +91,7 @@ describe('invocationHelpers', function moduleSuite() {
           mode: 'group',
           docType: undefined,
           groupCSID: '1234',
+          outputMIME: undefined,
           params: undefined,
         },
       });
@@ -101,6 +112,7 @@ describe('invocationHelpers', function moduleSuite() {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'nocontext',
           docType: undefined,
+          outputMIME: undefined,
           params: {
             param: [
               { key: 'foo', value: '123' },
@@ -109,6 +121,42 @@ describe('invocationHelpers', function moduleSuite() {
           },
         },
       });
+    });
+  });
+
+  describe('normalizeInvocationDescriptor', function suite() {
+    it('should return an immutable map if the invocation descriptor is undefined', function test() {
+      normalizeInvocationDescriptor().should.equal(Immutable.Map());
+    });
+
+    it('should set outputMIME to the outputMIME in the metadata if it is not set', function test() {
+      const invocationDescriptor = Immutable.Map();
+
+      const metadata = Immutable.fromJS({
+        document: {
+          'ns2:reports_common': {
+            outputMIME: 'foo/bar',
+          },
+        },
+      });
+
+      normalizeInvocationDescriptor(invocationDescriptor, metadata).should.equal(Immutable.Map({
+        outputMIME: 'foo/bar',
+      }));
+    });
+
+    it('should set outputMIME to application/pdf if it is not set, and is also not set in the metadata', function test() {
+      const invocationDescriptor = Immutable.Map();
+
+      const metadata = Immutable.fromJS({
+        document: {
+          'ns2:reports_common': {},
+        },
+      });
+
+      normalizeInvocationDescriptor(invocationDescriptor, metadata).should.equal(Immutable.Map({
+        outputMIME: 'application/pdf',
+      }));
     });
   });
 });

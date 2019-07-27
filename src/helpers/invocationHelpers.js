@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import get from 'lodash/get';
 
 const prepareParams = (params) => {
@@ -18,12 +19,14 @@ const prepareParams = (params) => {
 export const createInvocationData = (config, invocationDescriptor, params) => {
   const {
     mode,
+    outputMIME,
     recordType: invocationRecordType,
     csid: invocationCsid,
   } = invocationDescriptor.toJS();
 
   const invocationContext = {
     mode,
+    outputMIME,
     params: prepareParams(params),
     docType: get(config, ['recordTypes', invocationRecordType, 'serviceConfig', 'objectName']),
   };
@@ -44,4 +47,21 @@ export const createInvocationData = (config, invocationDescriptor, params) => {
   };
 };
 
-export default {};
+export const normalizeInvocationDescriptor = (invocationDescriptor, invocationMetadata) => {
+  let normalizedInvocationDescriptor = invocationDescriptor;
+
+  if (!normalizedInvocationDescriptor) {
+    normalizedInvocationDescriptor = Immutable.Map();
+  }
+
+  const outputMIME = normalizedInvocationDescriptor.get('outputMIME');
+
+  if (!outputMIME && invocationMetadata) {
+    const defaultOutputMIME = invocationMetadata.getIn(['document', 'ns2:reports_common', 'outputMIME'])
+      || 'application/pdf';
+
+    normalizedInvocationDescriptor = normalizedInvocationDescriptor.set('outputMIME', defaultOutputMIME);
+  }
+
+  return normalizedInvocationDescriptor;
+};
