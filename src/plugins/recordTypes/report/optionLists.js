@@ -6,11 +6,11 @@ export default {
       'application/pdf',
       'text/html',
       'application/xml',
-      'application/vnd.ms-excel',
+      // 'application/vnd.ms-excel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-powerpoint',
+      // 'application/vnd.ms-powerpoint',
       'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'application/msword',
+      // 'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'text/csv',
       'text/tab-separated-values',
@@ -28,29 +28,29 @@ export default {
         id: 'option.reportMimeTypes.application/xml',
         defaultMessage: 'XML',
       },
-      'application/vnd.ms-excel': {
-        id: 'option.reportMimeTypes.application/vnd.ms-excel',
-        defaultMessage: 'MS Excel (.xls)',
-      },
+      // 'application/vnd.ms-excel': {
+      //   id: 'option.reportMimeTypes.application/vnd.ms-excel',
+      //   defaultMessage: 'MS Excel (.xls)',
+      // },
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
         id: 'option.reportMimeTypes.application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        defaultMessage: 'MS Excel (.xlsx)',
+        defaultMessage: 'MS Excel',
       },
-      'application/vnd.ms-powerpoint': {
-        id: 'option.reportMimeTypes.application/vnd.ms-powerpoint',
-        defaultMessage: 'MS PowerPoint (.ppt)',
-      },
+      // 'application/vnd.ms-powerpoint': {
+      //   id: 'option.reportMimeTypes.application/vnd.ms-powerpoint',
+      //   defaultMessage: 'MS PowerPoint (.ppt)',
+      // },
       'application/vnd.openxmlformats-officedocument.presentationml.presentation': {
         id: 'option.reportMimeTypes.application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        defaultMessage: 'MS PowerPoint (.pptx)',
+        defaultMessage: 'MS PowerPoint',
       },
-      'application/msword': {
-        id: 'option.reportMimeTypes.application/msword',
-        defaultMessage: 'MS Word (.doc)',
-      },
+      // 'application/msword': {
+      //   id: 'option.reportMimeTypes.application/msword',
+      //   defaultMessage: 'MS Word (.doc)',
+      // },
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
         id: 'option.reportMimeTypes.application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        defaultMessage: 'MS Word (.docx)',
+        defaultMessage: 'MS Word',
       },
       'text/csv': {
         id: 'option.reportMimeTypes.text/csv',
