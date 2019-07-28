@@ -90,7 +90,7 @@ export const invoke = (config, batchMetadata, invocationDescriptor, onValidation
         items: [{
           message: messages.running,
           values: {
-            name: batchName,
+            name: batchMetadata.getIn(['document', 'ns2:batch_common', 'name']),
           },
         }],
         date: new Date(),
@@ -129,7 +129,7 @@ export const invoke = (config, batchMetadata, invocationDescriptor, onValidation
               values: {
                 numAffected,
                 userNote,
-                name: batchName,
+                name: batchMetadata.getIn(['document', 'ns2:batch_common', 'name']),
               },
             }],
             date: new Date(),
