@@ -9,10 +9,13 @@
 
 export default {
   // Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.
-  "about.contentHTML": "<p> CollectionSpace is a free, open-source collections management application for museums, historical societies, natural science collections, and more. </p> <p> This demo site is running the <a href=\"http://www.collectionspace.org/current_release/\">current version</a> of the <i>common</i> installation, which includes fields and procedures common to most collecting organizations. If you’re interested in a version of CollectionSpace configured to meet the needs of a specific domain, please visit our <a href=\"http://demo.collectionspace.org\">demo landing page</a> to view all available options. Examples include Anthropology, Botanical Garden, Fine Art, Herbarium, and Local History &amp; Material Culture. </p> <p> To log in, use the email <strong>admin@core.collectionspace.org</strong>, with the case-sensitive password <strong>Administrator</strong>. To view in read-only mode, use the email <strong>reader@core.collectionspace.org</strong> with the password <strong>reader</strong>. </p> <p> Not sure where to get started? Follow along with one of our quick-start guides: </p> <ul> <li> <span>Create a new object:</span> <a href=\"http://bit.ly/newobjpdf\">PDF</a> <a href=\"https://vimeo.com/112212895\">Screencast</a> </li> <li> <span>Link to an image:</span> <a href=\"http://bit.ly/linkimgpdf\">PDF</a> <a href=\"https://vimeo.com/112214418\">Screencast</a> </li> <li> <span>Add a storage location:</span> <a href=\"http://bit.ly/storlocpdf\">PDF</a> <a href=\"https://vimeo.com/112818120\">Screencast</a> </li> </ul> <p> We rebuild this demo site weekly so don't worry, you won't break it! </p>",
+  "about.contentHTML": "<p> CollectionSpace is a free, open-source collections management application for museums, historical societies, natural science collections, and more. </p> <p> This demo site is running the <a href=\"http://www.collectionspace.org/current_release/\">current version</a> of the <i>common</i> installation, which includes fields and procedures common to most collecting organizations. If you’re interested in a version of CollectionSpace configured to meet the needs of a specific domain, please visit our <a href=\"https://www.collectionspace.org/demo/\">demo landing page</a> to view all available options. Examples include Anthropology, Botanical Garden, Fine Art, Herbarium, and Local History &amp; Material Culture. </p> <p> To log in, use the email <strong>admin@core.collectionspace.org</strong>, with the case-sensitive password <strong>Administrator</strong>. To view in read-only mode, use the email <strong>reader@core.collectionspace.org</strong> with the password <strong>reader</strong>. </p> <p> Not sure where to get started? Follow along with one of our quick-start guides: </p> <ul> <li> <span>Create a new object:</span> <a href=\"http://bit.ly/newobjpdf\">PDF</a> <a href=\"https://vimeo.com/112212895\">Screencast</a> </li> <li> <span>Link to an image:</span> <a href=\"http://bit.ly/linkimgpdf\">PDF</a> <a href=\"https://vimeo.com/112214418\">Screencast</a> </li> <li> <span>Add a storage location:</span> <a href=\"http://bit.ly/storlocpdf\">PDF</a> <a href=\"https://vimeo.com/112818120\">Screencast</a> </li> </ul> <p> We rebuild this demo site weekly so don't worry, you won't break it! </p>",
 
   // Title of the about page.
   "about.title": "Welcome to the CollectionSpace Demo",
+
+  // Label of the accept selection button.
+  "acceptSelectionButton.label": "Use selection",
 
   // Label of the clear button on the search bar of the account (user) admin page.
   "accountSearchBar.clear": "Clear",
@@ -58,6 +61,12 @@ export default {
 
   // Notification message displayed when a lock workflow transition is in progress.
   "action.record.transition.lock.transitioning": "{hasTitle, select, yes {Locking {title}…} other {Locking record…}}",
+
+  // Message shown when relating multiple records fails.
+  "action.relation.batchCreateError": "Some records could not be related: {error}",
+
+  // Message shown when unrelating multiple records fails.
+  "action.relation.batchUnrelateError": "Some records could not be unrelated: {error}",
 
   // Notification message displayed when records are related successfully.
   "action.relation.related": "{objectCount, plural, =0 {No records} one {# record} other {# records}} related to {subjectTitle}.",
@@ -246,6 +255,8 @@ export default {
   "column.media.default.updatedAt": "Updated",
 
   "column.movement.default.currentLocation": "Current location",
+
+  "column.movement.default.locationDate": "Location date",
 
   "column.movement.default.movementReferenceNumber": "Reference number",
 
@@ -591,6 +602,24 @@ export default {
   "field.authrole.displayName.name": "Name",
 
   "field.authrole.permission.name": "Permissions",
+
+  "field.batch_common.className.name": "Java class",
+
+  "field.batch_common.createsNewFocus.name": "Navigate to new record when complete",
+
+  "field.batch_common.forDocType.name": "For record type",
+
+  "field.batch_common.name.name": "Name",
+
+  "field.batch_common.notes.name": "Description",
+
+  "field.batch_common.supportsDocList.name": "Record list",
+
+  "field.batch_common.supportsGroup.name": "Group",
+
+  "field.batch_common.supportsNoContext.name": "All records",
+
+  "field.batch_common.supportsSingleDoc.name": "Single record",
 
   "field.blobs_common.length.name": "Size",
 
@@ -2330,9 +2359,23 @@ export default {
 
   "field.pottags_common.taxonName.name": "Taxon name",
 
+  "field.reports_common.filename.name": "Jasper report file",
+
+  "field.reports_common.forDocType.name": "For record type",
+
   "field.reports_common.name.name": "Name",
 
   "field.reports_common.notes.name": "Description",
+
+  "field.reports_common.outputMIME.name": "Default output format",
+
+  "field.reports_common.supportsDocList.name": "Record list",
+
+  "field.reports_common.supportsGroup.name": "Group",
+
+  "field.reports_common.supportsNoContext.name": "All records",
+
+  "field.reports_common.supportsSingleDoc.name": "Single record",
 
   "field.structuredDate.dateAssociation": "Association",
 
@@ -2543,6 +2586,9 @@ export default {
 
   "footer.feedbackUrl": "http://www.collectionspace.org/contact",
 
+  // Message shown in the footer when a connection to the CollectionSpace server can not be established.
+  "footer.notConnected": "Not connected to {serverUrl}",
+
   "footer.release": "Release {version}",
 
   "footer.version": "{name} version {version}",
@@ -2552,6 +2598,8 @@ export default {
   "form.acquisition.default.name": "Standard Template",
 
   "form.authrole.default.name": "Standard Template",
+
+  "form.batch.default.name": "Standard Template",
 
   "form.blob.default.name": "Standard Template",
 
@@ -2789,6 +2837,12 @@ export default {
 
   "inputTable.work.termSource": "Source",
 
+  // Label of the clear button on the search bar of the report and batch job pages.
+  "invocableSearchBar.clear": "Clear",
+
+  // Label of the input on the search bar of the report and batch job pages.
+  "invocableSearchBar.filter": "Filter by name",
+
   // Message displayed when invocable metadata is loading.
   "invocationEditor.loading": "Loading…",
 
@@ -2798,8 +2852,23 @@ export default {
   // Label of the cancel button in the invocation modal.
   "invocationModal.cancel": "Cancel",
 
+  // Label of the output format picker in the invocation modal.
+  "invocationModal.format": "Format:",
+
   // Label of the invoke button in the invocation modal.
   "invocationModal.run": "Run",
+
+  // Message displayed in the invocation modal when the report/batch job is running.
+  "invocationModal.running": "Running…",
+
+  // Label of the invocation target picker in group mode.
+  "invocationTargetInput.group": "Group",
+
+  // Label of the invocation target picker in list mode.
+  "invocationTargetInput.list": "Records",
+
+  // Label of the invocation target picker in single mode.
+  "invocationTargetInput.single": "Record",
 
   // Label of the invoke button.
   "invokeButton.label": "Run",
@@ -2893,6 +2962,17 @@ export default {
   "mediaSnapshotPanel.title": "Media",
 
   "mediaViewerPanel.titleWithCount": "{title}: {totalItems, number}",
+
+  // Label of the invocation mode picker.
+  "modePickerInput.label": "Run on",
+
+  "modePickerInput.mode.group": "group",
+
+  "modePickerInput.mode.list": "record list",
+
+  "modePickerInput.mode.nocontext": "all records",
+
+  "modePickerInput.mode.single": "single record",
 
   "navBar.admin": "Administration",
 
@@ -3821,6 +3901,8 @@ export default {
 
   "option.measurementUnits.minutes": "minutes",
 
+  "option.measurementUnits.ounces": "ounces",
+
   "option.measurementUnits.pixels": "pixels",
 
   "option.measurementUnits.pounds": "pounds",
@@ -4159,6 +4241,28 @@ export default {
 
   "option.recordStatuses.temporary": "temporary",
 
+  "option.reportMimeTypes.application/msword": "MS Word (.doc)",
+
+  "option.reportMimeTypes.application/pdf": "PDF",
+
+  "option.reportMimeTypes.application/vnd.ms-excel": "MS Excel (.xls)",
+
+  "option.reportMimeTypes.application/vnd.ms-powerpoint": "MS PowerPoint (.ppt)",
+
+  "option.reportMimeTypes.application/vnd.openxmlformats-officedocument.presentationml.presentation": "MS PowerPoint (.pptx)",
+
+  "option.reportMimeTypes.application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "MS Excel (.xlsx)",
+
+  "option.reportMimeTypes.application/vnd.openxmlformats-officedocument.wordprocessingml.document": "MS Word (.docx)",
+
+  "option.reportMimeTypes.application/xml": "XML",
+
+  "option.reportMimeTypes.text/csv": "CSV",
+
+  "option.reportMimeTypes.text/html": "HTML",
+
+  "option.reportMimeTypes.text/tab-separated-values": "TSV",
+
   "option.salutations.dear": "Dear",
 
   "option.salutations.hello": "Hello",
@@ -4271,6 +4375,8 @@ export default {
 
   "panel.acquisition.priceInformation": "Price Information",
 
+  "panel.batch.mode": "Runs on",
+
   "panel.citation.hierarchy": "Hierarchy",
 
   "panel.citation.info": "Citation Information",
@@ -4376,6 +4482,8 @@ export default {
   "panel.place.localityInfo": "Locality Information",
 
   "panel.pottag.info": "Pot Tag Information",
+
+  "panel.report.mode": "Runs on",
 
   "panel.uoc.useOfCollections": "Use of Collections Information",
 
@@ -4491,7 +4599,7 @@ export default {
   "record.all.collectionName": "All Records",
 
   // The name of the record type.
-  "record.all.name": "All Records",
+  "record.all.name": "Record",
 
   // The name of the record type.
   "record.aquisition.name": "Acquisition",
@@ -4500,7 +4608,7 @@ export default {
   "record.authority.collectionName": "Authority Items",
 
   // The name of the record type.
-  "record.authority.name": "Authorities",
+  "record.authority.name": "Authority Item",
 
   // The name of a collection of records of the type.
   "record.authrole.collectionName": "Roles",
@@ -4511,11 +4619,20 @@ export default {
   // The name of a collection of records of the type.
   "record.batch.collectionName": "Data Updates",
 
+  // The message shown when a record of the type is invoked, and the invocation target has not been supplied in group mode.
+  "record.batch.groupTargetMissing": "Select a group on which to run this data update.",
+
   // The message shown when a record of the type is invoked, and the context record has unsaved changes.
   "record.batch.invokeUnsaved": "This record has changes that have not been saved. The data update will not include any unsaved data.",
 
+  // The message shown when a record of the type is invoked, and the invocation target has not been supplied in list mode.
+  "record.batch.listTargetMissing": "Select one or more records on which to run this data update.",
+
   // The name of the record type.
   "record.batch.name": "Data Update",
+
+  // The message shown when a record of the type is invoked, and the invocation target has not been supplied in single mode.
+  "record.batch.singleTargetMissing": "Select a record on which to run this data update.",
 
   // The name of a collection of records of the type.
   "record.blob.collectionName": "Blobs",
@@ -4617,7 +4734,7 @@ export default {
   "record.object.collectionName": "Objects",
 
   // The name of the record type.
-  "record.object.name": "Objects",
+  "record.object.name": "Object",
 
   // The name of a collection of records of the type.
   "record.objectexit.collectionName": "Object Exits",
@@ -4653,7 +4770,7 @@ export default {
   "record.procedure.collectionName": "Procedures",
 
   // The name of the record type.
-  "record.procedure.name": "Procedures",
+  "record.procedure.name": "Procedure",
 
   // The name of a collection of records of the relation type.
   "record.relation.collectionName": "Relations",
@@ -4664,11 +4781,20 @@ export default {
   // The name of a collection of records of the type.
   "record.report.collectionName": "Reports",
 
+  // The message shown when a record of the type is invoked, and the invocation target has not been supplied in group mode.
+  "record.report.groupTargetMissing": "Select a group on which to run this report.",
+
   // The message shown when a record of the type is invoked, and the context record has unsaved changes.
   "record.report.invokeUnsaved": "This record has changes that have not been saved. The report will not include any unsaved data.",
 
+  // The message shown when a record of the type is invoked, and the invocation target has not been supplied in list mode.
+  "record.report.listTargetMissing": "Select one or more records on which to run this report.",
+
   // The name of the record type.
   "record.report.name": "Report",
+
+  // The message shown when a record of the type is invoked, and the invocation target has not been supplied in single mode.
+  "record.report.singleTargetMissing": "Select a record on which to run this report.",
 
   // The name of a collection of records of the type.
   "record.structureddates.collectionName": "Structured Date Parser",
@@ -4722,11 +4848,7 @@ export default {
 
   "recordReportPanel.title": "Reports",
 
-  // Label of the button to hide the sidebar.
-  "recordSidebarToggleButton.hide": "Hide sidebar",
-
-  // Label of the button to show the sidebar.
-  "recordSidebarToggleButton.show": "Show sidebar",
+  "recordSearchInput.value": "{count, plural, =0 {} one {} other {# records: }}{items}{remainingCount, plural, =0 {} other {, and # more}}",
 
   // For authority items, the record type and vocabulary displayed in the right side of the title bar.
   "recordTitleBar.authority": "{recordType} - {vocabulary}",
@@ -4751,12 +4873,6 @@ export default {
 
   // Notification message shown when a report fails.
   "report.error": "Error running report: {error}",
-
-  // Label of the clear button on the search bar of the report page.
-  "reportSearchBar.clear": "Clear",
-
-  // Label of the input on the search bar of the report page.
-  "reportSearchBar.filter": "Filter by name",
 
   // Message displayed when a report invocation fails.
   "reportViewerPage.error": "Error running report: {error}",
@@ -4808,6 +4924,8 @@ export default {
 
   "searchPanel.titleWithCountFiltered": "{title}: {totalItems, number} (filtered)",
 
+  "searchResultBatchPanel.title": "Data Updates",
+
   "searchResultLink.error": "...",
 
   "searchResultLink.label": "{recordNumber}",
@@ -4819,6 +4937,8 @@ export default {
   // Label of the relate button on the search result page.
   "searchResultPage.relate": "Relate…",
 
+  "searchResultReportPanel.title": "Reports",
+
   "searchResultSummary.editSearch": "Revise search",
 
   "searchResultSummary.ERR_NOT_ALLOWED": "You're not allowed to perform this search.",
@@ -4827,7 +4947,7 @@ export default {
 
   "searchResultTable.searchPending": "⋯",
 
-  "searchResultTitleBar.keyword": "containing {keyword}",
+  "searchResultTitleBar.keyword": "containing \"{keyword}\"",
 
   "searchResultTitleBar.related": "related to {record}",
 
@@ -4848,29 +4968,40 @@ export default {
   // Label of the search save button.
   "searchSaveButton.label": "Save",
 
-  // Message shown when relating multiple records fails.
-  "searchToRelateModal.batchCreateError": "Some records could not be related: {error}",
+  // Label of the accept selection button in the search to relate modal.
+  "searchToRelateModal.accept": "Relate selected",
 
-  // Message shown when unrelating multiple records fails.
-  "searchToRelateModal.batchUnrelateError": "Some records could not be unrelated: {error}",
+  "searchToRelateModal.error.locked": "Locked records are selected. Relations cannot be made to locked records.",
 
-  "searchToRelateModal.editSearch": "Revise search",
+  "searchToRelateModal.error.notPermitted": "{name} records are selected. You are not permitted to create relations to {collectionName}.",
 
-  "searchToRelateModal.label": "Relate",
+  "searchToRelateModal.errorTitle": "Can't Relate",
+
+  "searchToRelateModal.label": "Relate records",
 
   // Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.
   "searchToRelateModal.multipleSubjectsRelated": "{objectCount, plural, =0 {No records} one {# record} other {# records}} related to each of {subjectCount, number} search results.",
 
-  "searchToRelateModal.relate": "Relate selected",
+  "searchToRelateModal.relating": "Relating…",
 
-  "searchToRelateModal.relating": "Relating...",
+  "searchToRelateModal.title": "Relate {typeName} {query}",
 
-  "searchToRelateTitleBar.keyword": "containing {keyword}",
+  "searchToSelectModal.editSearch": "Revise search",
 
-  "searchToRelateTitleBar.title": "Relate {collectionName} {query}",
+  "searchToSelectModal.label": "Select records",
+
+  "searchToSelectTitleBar.keyword": "containing \"{keyword}\"",
+
+  "searchToSelectTitleBar.title": "Select {typeName} {query}",
 
   // Label showing the number of selected items.
   "selectBar.selected": "{selectedItemCount, plural, =0 {0 selected} other {# selected}}",
+
+  // Label of the button to hide the sidebar.
+  "sidebarToggleButton.hide": "Hide sidebar",
+
+  // Label of the button to show the sidebar.
+  "sidebarToggleButton.show": "Show sidebar",
 
   "structuredDateInput.parseFailed": "Unrecognized display date format. Try a different format, or enter values in the fields below.",
 
@@ -4937,11 +5068,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.citation.all.collectionName": "All Citations",
 
+  // The name of a record from the vocabulary.
+  "vocab.citation.all.itemName": "Citation",
+
   // The name of the vocabulary.
   "vocab.citation.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
   "vocab.citation.local.collectionName": "Local Citations",
+
+  // The name of a record from the vocabulary.
+  "vocab.citation.local.itemName": "Local Citation",
 
   // The name of the vocabulary.
   "vocab.citation.local.name": "Local",
@@ -4949,11 +5086,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.citation.worldcat.collectionName": "WorldCat Citations",
 
+  // The name of a record from the vocabulary.
+  "vocab.citation.worldcat.itemName": "WorldCat Citation",
+
   // The name of the vocabulary.
   "vocab.citation.worldcat.name": "WorldCat",
 
   // The name of a collection of records from the vocabulary.
   "vocab.concept.activity.collectionName": "Activity Concepts",
+
+  // The name of a record from the vocabulary.
+  "vocab.concept.activity.itemName": "Activity Concept",
 
   // The name of the vocabulary.
   "vocab.concept.activity.name": "Activity",
@@ -4961,11 +5104,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.concept.all.collectionName": "All Concepts",
 
+  // The name of a record from the vocabulary.
+  "vocab.concept.all.itemName": "Concept",
+
   // The name of the vocabulary.
   "vocab.concept.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
   "vocab.concept.associated.collectionName": "Associated Concepts",
+
+  // The name of a record from the vocabulary.
+  "vocab.concept.associated.itemName": "Associated Concept",
 
   // The name of the vocabulary.
   "vocab.concept.associated.name": "Associated",
@@ -4973,11 +5122,17 @@ export default {
   // The name of a collection of records from the ethculture concept vocabulary.
   "vocab.concept.ethculture.collectionName": "Ethnographic Cultures",
 
+  // The name of a record from the vocabulary.
+  "vocab.concept.ethculture.itemName": "Ethnographic Culture",
+
   // The name of the ethculture concept vocabulary.
   "vocab.concept.ethculture.name": "Ethnographic Culture",
 
   // The name of a collection of records from the vocabulary.
   "vocab.concept.material.collectionName": "Material Concepts",
+
+  // The name of a record from the vocabulary.
+  "vocab.concept.material.itemName": "Material Concept",
 
   // The name of the vocabulary.
   "vocab.concept.material.name": "Material",
@@ -4985,11 +5140,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.location.all.collectionName": "All Locations",
 
+  // The name of a record from the vocabulary.
+  "vocab.location.all.itemName": "Location",
+
   // The name of the vocabulary.
   "vocab.location.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
   "vocab.location.local.collectionName": "Local Storage Locations",
+
+  // The name of a record from the vocabulary.
+  "vocab.location.local.itemName": "Local Storage Location",
 
   // The name of the vocabulary.
   "vocab.location.local.name": "Local",
@@ -4997,11 +5158,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.location.offsite.collectionName": "Offsite Storage Locations",
 
+  // The name of a record from the vocabulary.
+  "vocab.location.offsite.itemName": "Offsite Storage Location",
+
   // The name of the vocabulary.
   "vocab.location.offsite.name": "Offsite",
 
   // The name of a collection of records from the vocabulary.
   "vocab.organization.all.collectionName": "All Organizations",
+
+  // The name of a record from the vocabulary.
+  "vocab.organization.all.itemName": "Organization",
 
   // The name of the vocabulary.
   "vocab.organization.all.name": "All",
@@ -5009,11 +5176,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.organization.local.collectionName": "Local Organizations",
 
+  // The name of a record from the vocabulary.
+  "vocab.organization.local.itemName": "Local Organization",
+
   // The name of the vocabulary.
   "vocab.organization.local.name": "Local",
 
   // The name of a collection of records from the vocabulary.
   "vocab.organization.ulan.collectionName": "ULAN Organizations",
+
+  // The name of a record from the vocabulary.
+  "vocab.organization.ulan.itemName": "ULAN Organization",
 
   // The name of the vocabulary.
   "vocab.organization.ulan.name": "ULAN",
@@ -5021,11 +5194,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.person.all.collectionName": "All Persons",
 
+  // The name of a record from the vocabulary.
+  "vocab.person.all.itemName": "Person",
+
   // The name of the vocabulary.
   "vocab.person.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
   "vocab.person.local.collectionName": "Local Persons",
+
+  // The name of a record from the vocabulary.
+  "vocab.person.local.itemName": "Local Person",
 
   // The name of the vocabulary.
   "vocab.person.local.name": "Local",
@@ -5033,11 +5212,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.person.ulan.collectionName": "ULAN Persons",
 
+  // The name of a record from the vocabulary.
+  "vocab.person.ulan.itemName": "ULAN Person",
+
   // The name of the vocabulary.
   "vocab.person.ulan.name": "ULAN",
 
   // The name of a collection of records from the vocabulary.
   "vocab.place.all.collectionName": "All Places",
+
+  // The name of a record from the vocabulary.
+  "vocab.place.all.itemName": "Place",
 
   // The name of the vocabulary.
   "vocab.place.all.name": "All",
@@ -5045,11 +5230,17 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.place.local.collectionName": "Local Places",
 
+  // The name of a record from the vocabulary.
+  "vocab.place.local.itemName": "Local Place",
+
   // The name of the vocabulary.
   "vocab.place.local.name": "Local",
 
   // The name of a collection of records from the vocabulary.
   "vocab.place.tgn.collectionName": "TGN Places",
+
+  // The name of a record from the vocabulary.
+  "vocab.place.tgn.itemName": "TGN Place",
 
   // The name of the vocabulary.
   "vocab.place.tgn.name": "TGN",
@@ -5057,17 +5248,26 @@ export default {
   // The name of a collection of records from the vocabulary.
   "vocab.work.all.collectionName": "All Works",
 
+  // The name of a record from the vocabulary.
+  "vocab.work.all.itemName": "Work",
+
   // The name of the vocabulary.
   "vocab.work.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
   "vocab.work.cona.collectionName": "CONA Works",
 
+  // The name of a record from the vocabulary.
+  "vocab.work.cona.itemName": "CONA Work",
+
   // The name of the vocabulary.
   "vocab.work.cona.name": "CONA",
 
   // The name of a collection of records from the vocabulary.
   "vocab.work.local.collectionName": "Local Works",
+
+  // The name of a record from the vocabulary.
+  "vocab.work.local.itemName": "Local Work",
 
   // The name of the vocabulary.
   "vocab.work.local.name": "Local",
