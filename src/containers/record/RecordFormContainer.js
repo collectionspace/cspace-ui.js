@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import get from 'lodash/get';
 
 import {
   addFieldInstance,
@@ -15,10 +14,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {
     config,
     csid,
-    recordType,
+    recordTypeConfig,
   } = ownProps;
-
-  const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
   return {
     onAddInstance: (path, position) => {

@@ -122,6 +122,31 @@ describe('invocationHelpers', function moduleSuite() {
         },
       });
     });
+
+    it('should convert array params to multiple key/value pairs with the same key', function test() {
+      const invocationDescriptor = Immutable.Map({
+        mode: 'nocontext',
+      });
+
+      const params = {
+        foo: ['123', '456'],
+      };
+
+      createInvocationData(config, invocationDescriptor, params).should.deep.equal({
+        'ns2:invocationContext': {
+          '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+          mode: 'nocontext',
+          docType: undefined,
+          outputMIME: undefined,
+          params: {
+            param: [
+              { key: 'foo', value: '123' },
+              { key: 'foo', value: '456' },
+            ],
+          },
+        },
+      });
+    });
   });
 
   describe('normalizeInvocationDescriptor', function suite() {

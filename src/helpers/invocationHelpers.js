@@ -3,10 +3,17 @@ import get from 'lodash/get';
 
 const prepareParams = (params) => {
   if (params) {
-    const paramPairs = Object.keys(params).map(key => ({
-      key,
-      value: params[key],
-    }));
+    const paramPairs = [];
+
+    Object.keys(params).forEach((key) => {
+      const value = params[key];
+
+      if (Array.isArray(value)) {
+        value.forEach(v => paramPairs.push({ key, value: v }));
+      } else {
+        paramPairs.push({ key, value });
+      }
+    });
 
     if (paramPairs.length > 0) {
       return { param: paramPairs };
