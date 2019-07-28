@@ -132,12 +132,12 @@ export default class RecordBatchPanel extends Component {
 
       invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
         .then((response) => {
-          if (createsNewFocus) {
-            this.setState({
-              isModalOpen: false,
-              isRunning: false,
-            });
+          this.setState({
+            isModalOpen: false,
+            isRunning: false,
+          });
 
+          if (createsNewFocus) {
             // Open the record indicated by the invocation result.
 
             const uri = get(response.data, ['ns2:invocationResults', 'primaryURICreated']);
