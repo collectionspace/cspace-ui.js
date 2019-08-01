@@ -609,7 +609,7 @@ export default {
 
   "field.authrole.permission.name": "Permissions",
 
-  "field.batch.UpdateInventoryStatusBatchJob.value.name": "New inventory status",
+  "field.batch.UpdateInventoryStatusBatchJob.inventoryStatus.name": "New inventory status",
 
   "field.batch_common.className.name": "Java class",
 
