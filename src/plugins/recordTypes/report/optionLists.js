@@ -62,4 +62,25 @@ export default {
       },
     }),
   },
+  uocApprovalStatusMIMETypes: {
+    values: [
+      'application/pdf',
+      'text/csv',
+      'application/msword',
+    ],
+    messages: defineMessages({
+      'application/pdf': {
+        id: 'option.uocApprovalStatusMIMETypes.application/pdf.',
+        defaultMessage: 'PDF',
+      },
+      'text/csv': {
+        id: 'option.uocApprovalStatusMIMETypes.text/csv.',
+        defaultMessage: 'CSV',
+      },
+      'application/msword': {
+        id: 'option.uocApprovalStatusMIMETypes.application/msword.',
+        defaultMessage: 'MS word',
+      },
+    }),
+  },
 };
