@@ -2852,9 +2852,6 @@ export default {
   // Label of the cancel button in the invocation modal.
   "invocationModal.cancel": "Cancel",
 
-  // Label of the output format picker in the invocation modal.
-  "invocationModal.format": "Format:",
-
   // Label of the invoke button in the invocation modal.
   "invocationModal.run": "Run",
 
@@ -4241,27 +4238,17 @@ export default {
 
   "option.recordStatuses.temporary": "temporary",
 
-  "option.reportMimeTypes.application/msword": "MS Word (.doc)",
+  "option.reportMimeTypes.application/msword": "MS Word",
 
   "option.reportMimeTypes.application/pdf": "PDF",
 
-  "option.reportMimeTypes.application/vnd.ms-excel": "MS Excel (.xls)",
+  "option.reportMimeTypes.application/vnd.ms-excel": "MS Excel",
 
-  "option.reportMimeTypes.application/vnd.ms-powerpoint": "MS PowerPoint (.ppt)",
+  "option.reportMimeTypes.application/vnd.ms-powerpoint": "MS PowerPoint",
 
-  "option.reportMimeTypes.application/vnd.openxmlformats-officedocument.presentationml.presentation": "MS PowerPoint (.pptx)",
+  "option.reportMimeTypes.text/csv": "CSV (comma-separated values)",
 
-  "option.reportMimeTypes.application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "MS Excel (.xlsx)",
-
-  "option.reportMimeTypes.application/vnd.openxmlformats-officedocument.wordprocessingml.document": "MS Word (.docx)",
-
-  "option.reportMimeTypes.application/xml": "XML",
-
-  "option.reportMimeTypes.text/csv": "CSV",
-
-  "option.reportMimeTypes.text/html": "HTML",
-
-  "option.reportMimeTypes.text/tab-separated-values": "TSV",
+  "option.reportMimeTypes.text/tab-separated-values": "TSV (tab-separated values)",
 
   "option.salutations.dear": "Dear",
 
