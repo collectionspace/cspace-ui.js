@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import NavLink from './NavLink';
-import { canAdmin, canCreateNew } from '../../helpers/permissionHelpers';
+import { canAdmin, canCreateNew, canTool } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/NavBar.css';
 
 const messages = defineMessages({
@@ -42,6 +42,10 @@ export default function NavBar(props) {
     ? <li><NavLink to="/create"><FormattedMessage {...messages.create} /></NavLink></li>
     : null;
 
+  const toolLink = canTool(perms)
+    ? <li><NavLink to="/tool"><FormattedMessage {...messages.tool} /></NavLink></li>
+    : null;
+
   const adminLink = canAdmin(perms)
     ? <li><NavLink to="/admin"><FormattedMessage {...messages.admin} /></NavLink></li>
     : null;
@@ -52,7 +56,7 @@ export default function NavBar(props) {
         <li><NavLink to="/dashboard"><FormattedMessage {...messages.dashboard} /></NavLink></li>
         {createLink}
         <li><NavLink to="/search"><FormattedMessage {...messages.search} /></NavLink></li>
-        <li><NavLink to="/tool"><FormattedMessage {...messages.tool} /></NavLink></li>
+        {toolLink}
         {adminLink}
       </ul>
     </nav>

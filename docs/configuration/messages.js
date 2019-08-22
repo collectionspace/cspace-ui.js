@@ -75,8 +75,6 @@ export default {
 
   "adminNavBar.authrole": "Roles and Permissions",
 
-  "adminNavBar.vocabulary": "Term Lists",
-
   "adminPage.title": "Administration",
 
   "advancedSearchBuilder.title": "Advanced Search",
@@ -1004,6 +1002,8 @@ export default {
   "field.collectionobjects_common.materialSource.name": "Source",
 
   "field.collectionobjects_common.numberOfObjects.name": "Number of objects",
+
+  "field.collectionobjects_common.numberType.fullName": "Other number type",
 
   "field.collectionobjects_common.numberType.name": "Type",
 
@@ -2368,6 +2368,10 @@ export default {
   "field.pottags_common.printLabels.name": "Print labels",
 
   "field.pottags_common.taxonName.name": "Taxon name",
+
+  "field.report.systematicInventory.endLocation.name": "To location",
+
+  "field.report.systematicInventory.startLocation.name": "From location",
 
   "field.reports_common.filename.name": "Jasper report file",
 
@@ -5032,6 +5036,8 @@ export default {
   "toolNavBar.batch": "Data Updates",
 
   "toolNavBar.report": "Reports",
+
+  "toolNavBar.vocabulary": "Term Lists",
 
   "toolPage.title": "Tools",
 

@@ -12,6 +12,7 @@ import {
   getPermissions,
   canCreateNew,
   canAdmin,
+  canTool,
   disallowCreate,
   disallowDelete,
   disallowSoftDelete,
@@ -76,6 +77,27 @@ describe('permissionHelpers', function moduleSuite() {
             serviceType: 'security',
           },
         },
+        vocabulary: {
+          name: 'vocabulary',
+          serviceConfig: {
+            servicePath: 'vocabularies',
+            serviceType: 'utility',
+          },
+        },
+        report: {
+          name: 'report',
+          serviceConfig: {
+            servicePath: 'reports',
+            serviceType: 'utility',
+          },
+        },
+        batch: {
+          name: 'batch',
+          serviceConfig: {
+            servicePath: 'batch',
+            serviceType: 'utility',
+          },
+        },
       },
     };
 
@@ -104,6 +126,7 @@ describe('permissionHelpers', function moduleSuite() {
         },
         canCreateNew: true,
         canAdmin: false,
+        canTool: false,
       }));
     });
 
@@ -132,16 +155,17 @@ describe('permissionHelpers', function moduleSuite() {
         },
         canCreateNew: false,
         canAdmin: false,
+        canTool: false,
       }));
     });
 
-    it('should set canAdmin to true if vocabularies or security records can be updated or created', function test() {
+    it('should set canAdmin to true if security records can be listed', function test() {
       const data = {
         'ns2:account_permission': {
           permission: [
             {
               resourceName: 'authorization/role',
-              actionGroup: 'CRUDL',
+              actionGroup: 'RL',
             },
           ],
         },
@@ -149,10 +173,77 @@ describe('permissionHelpers', function moduleSuite() {
 
       getPermissions(config, data).should.equal(Immutable.fromJS({
         authrole: {
-          data: 'CRUDL',
+          data: 'RL',
         },
         canCreateNew: false,
         canAdmin: true,
+        canTool: false,
+      }));
+    });
+
+    it('should set canTool to true if vocabulary records can be listed', function test() {
+      const data = {
+        'ns2:account_permission': {
+          permission: [
+            {
+              resourceName: 'vocabularies',
+              actionGroup: 'RL',
+            },
+          ],
+        },
+      };
+
+      getPermissions(config, data).should.equal(Immutable.fromJS({
+        vocabulary: {
+          data: 'RL',
+        },
+        canCreateNew: false,
+        canAdmin: false,
+        canTool: true,
+      }));
+    });
+
+    it('should set canTool to true if report records can be listed', function test() {
+      const data = {
+        'ns2:account_permission': {
+          permission: [
+            {
+              resourceName: 'reports',
+              actionGroup: 'CRUL',
+            },
+          ],
+        },
+      };
+
+      getPermissions(config, data).should.equal(Immutable.fromJS({
+        report: {
+          data: 'CRUL',
+        },
+        canCreateNew: false,
+        canAdmin: false,
+        canTool: true,
+      }));
+    });
+
+    it('should set canTool to true if batch records can be listed', function test() {
+      const data = {
+        'ns2:account_permission': {
+          permission: [
+            {
+              resourceName: 'batch',
+              actionGroup: 'CRUDL',
+            },
+          ],
+        },
+      };
+
+      getPermissions(config, data).should.equal(Immutable.fromJS({
+        batch: {
+          data: 'CRUDL',
+        },
+        canCreateNew: false,
+        canAdmin: false,
+        canTool: true,
       }));
     });
 
@@ -172,6 +263,7 @@ describe('permissionHelpers', function moduleSuite() {
         },
         canCreateNew: false,
         canAdmin: false,
+        canTool: false,
       }));
     });
 
@@ -212,6 +304,7 @@ describe('permissionHelpers', function moduleSuite() {
         },
         canCreateNew: false,
         canAdmin: false,
+        canTool: false,
       }));
     });
 
@@ -234,6 +327,7 @@ describe('permissionHelpers', function moduleSuite() {
       getPermissions(config, data).should.equal(Immutable.fromJS({
         canCreateNew: false,
         canAdmin: false,
+        canTool: false,
       }));
     });
   });
@@ -500,6 +594,16 @@ describe('permissionHelpers', function moduleSuite() {
       });
 
       canAdmin(perms).should.equal(true);
+    });
+  });
+
+  describe('canTool', function suite() {
+    it('should return true if canTool is true in the permissions', function test() {
+      const perms = Immutable.fromJS({
+        canTool: true,
+      });
+
+      canTool(perms).should.equal(true);
     });
   });
 

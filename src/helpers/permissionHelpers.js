@@ -38,6 +38,7 @@ export const getPermissions = (config, accountPermsData) => {
 
     let canAdmin = false;
     let canCreateNew = false;
+    let canTool = false;
 
     accountPerms.forEach((permission) => {
       const {
@@ -75,8 +76,8 @@ export const getPermissions = (config, accountPermsData) => {
             // determine if the Create New navigation item should be shown.
 
             if (
-              mergedActionGroup.indexOf('C') >= 0 &&
-              (
+              mergedActionGroup.indexOf('C') >= 0
+              && (
                 serviceType === 'object' ||
                 serviceType === 'authority' ||
                 serviceType === 'procedure'
@@ -85,14 +86,24 @@ export const getPermissions = (config, accountPermsData) => {
               canCreateNew = true;
             }
 
-            // Track if any security record can be created or updated. This is used
-            // to determine if the Admin navigation item should be shown.
+            if (mergedActionGroup.indexOf('L') >= 0) {
+              // Track if any security record can be listed. This is used to determine if the Admin
+              // navigation item should be shown.
 
-            if (
-              mergedActionGroup.indexOf('L') >= 0
-              && serviceType === 'security'
-            ) {
-              canAdmin = true;
+              if (serviceType === 'security') {
+                canAdmin = true;
+              }
+
+              // Track if vocabularies, reports, or batch jobs can be listed. This is used to
+              // determine if the Tools navigation item should be shown.
+
+              if (
+                name === 'vocabulary'
+                || name === 'report'
+                || name === 'batch'
+              ) {
+                canTool = true;
+              }
             }
           }
         }
@@ -101,6 +112,7 @@ export const getPermissions = (config, accountPermsData) => {
 
     perms.canCreateNew = canCreateNew;
     perms.canAdmin = canAdmin;
+    perms.canTool = canTool;
   }
 
   return Immutable.fromJS(perms);
@@ -163,6 +175,9 @@ export const canCreateNew = permissions =>
 
 export const canAdmin = permissions =>
   permissions && !!permissions.get('canAdmin');
+
+export const canTool = permissions =>
+  permissions && !!permissions.get('canTool');
 
 const disallow = (recordType, permissions, actionCode) => {
   if (can(recordType, permissions, actionCode)) {

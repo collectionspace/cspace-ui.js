@@ -106,6 +106,7 @@ describe('user reducer', function suite() {
         },
         canCreateNew: true,
         canAdmin: false,
+        canTool: false,
       },
     }));
 
@@ -176,6 +177,7 @@ describe('user reducer', function suite() {
         },
         canCreateNew: true,
         canAdmin: false,
+        canTool: false,
       },
     }));
 
