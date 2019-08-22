@@ -496,6 +496,14 @@ export default (configContext) => {
           },
         },
       },
+      // TODO: Use the embedded contacts_common (available as of 5.1) to render contact info,
+      // instead of the configured subrecord. For now just make it not cloneable, so that a
+      // cloned organization doesn't end up with two associated contact records.
+      'ns2:contacts_common': {
+        [config]: {
+          cloneable: false,
+        },
+      },
     },
   };
 };
