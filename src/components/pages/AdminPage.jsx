@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Redirect, Route, Switch } from 'react-router';
 import Immutable from 'immutable';
-import VocabularyPageContainer from '../../containers/pages/VocabularyPageContainer';
 import AccountPageContainer from '../../containers/pages/AccountPageContainer';
 import AuthRolePageContainer from '../../containers/pages/AuthRolePageContainer';
 import AdminNavBar from '../admin/AdminNavBar';
@@ -19,7 +18,6 @@ const messages = defineMessages({
 });
 
 const tabs = [
-  'vocabulary',
   'account',
   'authrole',
 ];
@@ -56,7 +54,6 @@ export default function AdminPage(props) {
       <Switch>
         <Redirect exact path={basename} to={`${basename}/${redirectTabName}`} />
 
-        <Route path={`${basename}/vocabulary/:csid?`} component={VocabularyPageContainer} />
         <Route path={`${basename}/account/:csid?`} component={AccountPageContainer} />
         <Route path={`${basename}/authrole/:csid?`} component={AuthRolePageContainer} />
       </Switch>

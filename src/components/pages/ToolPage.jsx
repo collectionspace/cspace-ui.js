@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router';
 import Immutable from 'immutable';
 import BatchPageContainer from '../../containers/pages/BatchPageContainer';
 import ReportPageContainer from '../../containers/pages/ReportPageContainer';
+import VocabularyPageContainer from '../../containers/pages/VocabularyPageContainer';
 import ToolNavBar from '../navigation/ToolNavBar';
 import TitleBar from '../sections/TitleBar';
 import { canList } from '../../helpers/permissionHelpers';
@@ -18,6 +19,7 @@ const messages = defineMessages({
 });
 
 const tabs = [
+  'vocabulary',
   'report',
   'batch',
 ];
@@ -54,6 +56,7 @@ export default function ToolPage(props) {
       <Switch>
         <Redirect exact path={basename} to={`${basename}/${redirectTabName}`} />
 
+        <Route path={`${basename}/vocabulary/:csid?`} component={VocabularyPageContainer} />
         <Route path={`${basename}/report/:csid?`} component={ReportPageContainer} />
         <Route path={`${basename}/batch/:csid?`} component={BatchPageContainer} />
       </Switch>

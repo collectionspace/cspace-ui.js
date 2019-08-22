@@ -85,15 +85,12 @@ export const getPermissions = (config, accountPermsData) => {
               canCreateNew = true;
             }
 
-            // Track if any vocabulary or security record can be created or updated. This is used
+            // Track if any security record can be created or updated. This is used
             // to determine if the Admin navigation item should be shown.
 
             if (
-              mergedActionGroup.indexOf('L') >= 0 &&
-              (
-                serviceType === 'security' ||
-                name === 'vocabulary'
-              )
+              mergedActionGroup.indexOf('L') >= 0
+              && serviceType === 'security'
             ) {
               canAdmin = true;
             }

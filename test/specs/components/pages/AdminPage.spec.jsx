@@ -17,9 +17,6 @@ describe('AdminPage', function suite() {
 
   it('should render as a div', function test() {
     const perms = Immutable.fromJS({
-      vocabulary: {
-        data: 'CRUDL',
-      },
       account: {
         data: 'CRUDL',
       },
@@ -39,7 +36,11 @@ describe('AdminPage', function suite() {
   });
 
   it('should render nothing if no tabs are permitted', function test() {
-    const perms = Immutable.Map();
+    const perms = Immutable.Map({
+      group: {
+        data: 'CRUDL',
+      },
+    });
 
     render(
       <IntlProvider locale="en">
@@ -53,7 +54,7 @@ describe('AdminPage', function suite() {
 
   it('should not render tabs for which list permissions do not exist', function test() {
     const perms = Immutable.fromJS({
-      vocabulary: {
+      account: {
         data: 'CRUDL',
       },
     });
@@ -69,6 +70,6 @@ describe('AdminPage', function suite() {
 
     links.length.should.equal(1);
 
-    links[0].textContent.should.equal('Term Lists');
+    links[0].textContent.should.equal('Users');
   });
 });

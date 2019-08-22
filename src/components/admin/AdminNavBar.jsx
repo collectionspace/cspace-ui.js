@@ -14,10 +14,6 @@ const messages = defineMessages({
     id: 'adminNavBar.authrole',
     defaultMessage: 'Roles and Permissions',
   },
-  vocabulary: {
-    id: 'adminNavBar.vocabulary',
-    defaultMessage: 'Term Lists',
-  },
 });
 
 const renderLinkItem = (basename, tab) => (

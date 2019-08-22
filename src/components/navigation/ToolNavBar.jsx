@@ -14,6 +14,10 @@ const messages = defineMessages({
     id: 'toolNavBar.batch',
     defaultMessage: 'Data Updates',
   },
+  vocabulary: {
+    id: 'toolNavBar.vocabulary',
+    defaultMessage: 'Term Lists',
+  },
 });
 
 const renderLinkItem = (basename, tab) => (
