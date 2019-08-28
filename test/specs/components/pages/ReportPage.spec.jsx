@@ -72,7 +72,7 @@ const store = mockStore({
 
 const perms = Immutable.fromJS({
   report: {
-    data: 'RUL',
+    data: 'CRUL',
   },
 });
 
@@ -426,7 +426,11 @@ describe('ReportPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportPage match={match} openModal={openModal} />, context);
+      <ReportPage
+        match={match}
+        openModal={openModal}
+        perms={perms}
+      />, context);
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
