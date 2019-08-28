@@ -92,6 +92,9 @@ export default (configContext) => {
             }),
             view: {
               type: CheckboxInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -106,6 +109,9 @@ export default (configContext) => {
             }),
             view: {
               type: CheckboxInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -120,6 +126,9 @@ export default (configContext) => {
             }),
             view: {
               type: CheckboxInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -134,6 +143,9 @@ export default (configContext) => {
             }),
             view: {
               type: CheckboxInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -154,6 +166,9 @@ export default (configContext) => {
               repeating: true,
               view: {
                 type: ObjectNameInput,
+                props: {
+                  readOnly: true,
+                },
               },
             },
           },
@@ -170,6 +185,7 @@ export default (configContext) => {
               type: OptionPickerInput,
               props: {
                 source: 'reportMimeTypes',
+                readOnly: true,
               },
             },
           },
