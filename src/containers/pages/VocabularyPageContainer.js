@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import VocabularyPage from '../../components/pages/VocabularyPage';
 
 import {
-  setAdminTab,
+  setToolTab,
 } from '../../actions/prefs';
 
 import {
@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   readVocabularyItemRefs,
-  setAdminTab,
+  setToolTab,
 };
 
 export default connect(

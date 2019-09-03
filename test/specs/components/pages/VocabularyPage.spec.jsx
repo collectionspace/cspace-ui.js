@@ -101,10 +101,10 @@ describe('VocabularyPage', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
-  it('should call setAdminTab when mounted', function test() {
+  it('should call setToolTab when mounted', function test() {
     let setTabName = null;
 
-    const setAdminTab = (tabNameArg) => {
+    const setToolTab = (tabNameArg) => {
       setTabName = tabNameArg;
     };
 
@@ -121,7 +121,7 @@ describe('VocabularyPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <VocabularyPage location={location} match={match} setAdminTab={setAdminTab} />
+              <VocabularyPage location={location} match={match} setToolTab={setToolTab} />
             </Router>
           </ConfigProvider>
         </StoreProvider>
@@ -190,7 +190,7 @@ describe('VocabularyPage', function suite() {
     searchPanel.should.not.equal(null);
     searchPanel.props.onItemClick(Immutable.Map({ csid: itemCsid })).should.equal(false);
 
-    replacedLocation.should.equal(`/admin/vocabulary/${itemCsid}`);
+    replacedLocation.should.equal(`/tool/vocabulary/${itemCsid}`);
   });
 
   it('should not replace history when an item is clicked in the search panel but there are not read permissions on vocabularies', function test() {

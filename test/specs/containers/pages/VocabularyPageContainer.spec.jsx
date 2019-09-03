@@ -55,6 +55,6 @@ describe('VocabularyPageContainer', function suite() {
     result.props.should.have.property('data', data);
     result.props.should.have.property('perms', perms);
     result.props.should.have.property('readVocabularyItemRefs').that.is.a('function');
-    result.props.should.have.property('setAdminTab').that.is.a('function');
+    result.props.should.have.property('setToolTab').that.is.a('function');
   });
 });
