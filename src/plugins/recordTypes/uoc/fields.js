@@ -544,7 +544,7 @@ export default (configContext) => {
               view: {
                 type: AutocompleteInput,
                 props: {
-                  source: 'concept/associated,concept/activity,concept/material',
+                  source: 'concept/occasion',
                 },
               },
             },
