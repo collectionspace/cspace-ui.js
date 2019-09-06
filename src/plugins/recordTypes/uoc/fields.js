@@ -73,9 +73,9 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: IDGeneratorInput,
+              type: TermPickerInput,
               props: {
-                source: 'proj',
+                source: 'uocprojectid',
               },
             },
           },
