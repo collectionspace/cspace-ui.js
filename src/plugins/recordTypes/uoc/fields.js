@@ -261,6 +261,23 @@ export default (configContext) => {
                 },
               },
             },
+            useDateTimeNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.uoc_common.useDateTimeNote.name',
+                    defaultMessage: 'Time note',
+                  },
+                  fullName: {
+                    id: 'field.uoc_common.useDateTimeNote.fullName',
+                    defaultMessage: 'Use date time note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
             useDateNumberOfVisitors: {
               [config]: {
                 messages: defineMessages({
@@ -364,16 +381,16 @@ export default (configContext) => {
                 },
               },
             },
-            userType: {
+            userInstitutionRole: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.uoc_common.userType.fullName',
-                    defaultMessage: 'User type',
+                    id: 'field.uoc_common.userInstitutionRole.fullName',
+                    defaultMessage: 'User institution role',
                   },
                   name: {
-                    id: 'field.uoc_common.userType.name',
-                    defaultMessage: 'Type',
+                    id: 'field.uoc_common.userInstitutionRole.name',
+                    defaultMessage: 'Institution role',
                   },
                 }),
                 view: {
@@ -384,16 +401,16 @@ export default (configContext) => {
                 },
               },
             },
-            userRole: {
+            userUocRole: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.uoc_common.userRole.fullName',
-                    defaultMessage: 'User role',
+                    id: 'field.uoc_common.userUocRole.fullName',
+                    defaultMessage: 'User Use of Collections role',
                   },
                   name: {
-                    id: 'field.uoc_common.userRole.name',
-                    defaultMessage: 'Role',
+                    id: 'field.uoc_common.userUocRole.name',
+                    defaultMessage: 'Use of Collections role',
                   },
                 }),
                 view: {

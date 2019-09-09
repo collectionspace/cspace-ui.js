@@ -84,6 +84,7 @@ const template = (configContext) => {
         <Field name="useDateGroupList">
           <Field name="useDateGroup" >
             <Field name="useDate" />
+            
             <Field name="useDateNumberOfVisitors" />
             <Field name="useDateHoursSpent" />
             <Field name="useDateVisitorNote" />
