@@ -6,8 +6,8 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
-    Col,
-    Panel,
+    // Col,
+    // Panel,
     Row,
   } = configContext.layoutComponents;
 
