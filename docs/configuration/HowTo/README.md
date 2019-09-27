@@ -14,3 +14,4 @@ Each of the following how-to guides shows configuration settings that may be add
 - [Changing a field label](FieldLabel.md)
 - [Reordering fields](ReorderingFields.md)
 - [Adding form templates](AddingTemplates.md)
+- [Hiding record types and vocabularies](HideRecord.md)
