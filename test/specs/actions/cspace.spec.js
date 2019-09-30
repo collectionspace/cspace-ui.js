@@ -300,7 +300,13 @@ describe('cspace action creator', function suite() {
       // user: Immutable.Map(),
     });
 
-    const systemInfoUrl = '/cspace-services/systeminfo';
+    const tenantId = '123';
+
+    const config = {
+      tenantId,
+    };
+
+    const systemInfoUrl = `/cspace-services/systeminfo?tid=${tenantId}`;
 
     before(() =>
       store.dispatch(configureCSpace())
@@ -329,7 +335,7 @@ describe('cspace action creator', function suite() {
         },
       });
 
-      return store.dispatch(readSystemInfo())
+      return store.dispatch(readSystemInfo(config))
         .then(() => {
           const actions = store.getActions();
 
@@ -360,7 +366,7 @@ describe('cspace action creator', function suite() {
         response: {},
       });
 
-      return store.dispatch(readSystemInfo())
+      return store.dispatch(readSystemInfo(config))
         .then(() => {
           const actions = store.getActions();
 

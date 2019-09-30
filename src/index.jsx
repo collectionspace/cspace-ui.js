@@ -99,7 +99,7 @@ export default (uiConfig) => {
     store.dispatch(configureCSpace(config));
     store.dispatch(addOptionLists(optionLists));
     store.dispatch(addIDGenerators(idGenerators));
-    store.dispatch(readSystemInfo());
+    store.dispatch(readSystemInfo(config));
 
     const props = {
       config,

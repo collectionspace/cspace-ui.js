@@ -38,8 +38,13 @@ export const setSession = (newSession) => {
   };
 };
 
-export const readSystemInfo = () => dispatch =>
-  getSession().read('systeminfo', { auth: false })
+export const readSystemInfo = config => dispatch =>
+  getSession().read('systeminfo', {
+    auth: false,
+    params: {
+      tid: get(config, 'tenantId'),
+    },
+  })
     .then(response => dispatch({
       type: READ_SYSTEM_INFO_FULFILLED,
       payload: response,
