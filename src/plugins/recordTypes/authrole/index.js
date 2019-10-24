@@ -13,6 +13,7 @@ export default () => configContext => ({
       requestConfig,
       serviceConfig,
       columns: columns(configContext),
+      deletePermType: 'hard',
       fields: fields(configContext),
       forms: forms(configContext),
       title: title(configContext),

@@ -166,7 +166,7 @@ export default class PermissionsInput extends Component {
     );
   }
 
-  stageUpdate(recordType, actionGroup, updates = {}) {
+  stageUpdate(recordType, actionGroup = '', updates = {}) {
     /* The updates arg is mutated by this method. */
     /* eslint-disable no-param-reassign */
 
@@ -174,7 +174,12 @@ export default class PermissionsInput extends Component {
       config,
     } = this.context;
 
-    const serviceConfig = get(config, ['recordTypes', recordType, 'serviceConfig']);
+    const recordTypeConfig = get(config, ['recordTypes', recordType]);
+
+    const {
+      deletePermType,
+      serviceConfig,
+    } = recordTypeConfig;
 
     const {
       documentName,
@@ -183,54 +188,21 @@ export default class PermissionsInput extends Component {
     } = serviceConfig;
 
     const resourceName = servicePath;
-    const workflowDeleteResourceName = `/${resourceName}/*/workflow/delete`;
 
-    updates[resourceName] = actionGroup;
+    const shouldSetSoftDeletePerm = !deletePermType || deletePermType === 'soft' || deletePermType === 'all';
+    const shouldSetHardDeletePerm = deletePermType === 'hard' || deletePermType === 'all';
 
-    if (
-      serviceType === 'object' ||
-      serviceType === 'procedure' ||
-      serviceType === 'authority' ||
-      (
-        serviceType === 'utility' &&
-        // TODO: These utility records don't have soft delete. Make this configured, instead of
-        // hardcoded.
-        resourceName !== 'idgenerators' &&
-        resourceName !== 'structureddates' &&
-        // TODO: Relation records have soft delete, but the UI issues hard deletes (for
-        // consistency with pre-5.0 behavior). Therefore hard-delete permission needs to be
-        // retained. Make this configured, instead of hard-coded.
-        resourceName !== 'relations'
-      )
-    ) {
-      // For object, procedure, authority, and utility types, replace delete permission with
-      // permissions on the delete workflow transition. (Security records do not have
-      // soft-delete).
+    updates[resourceName] = shouldSetHardDeletePerm ? actionGroup : actionGroup.replace('D', '');
 
-      if (actionGroup) {
-        if (actionGroup.includes('D')) {
-          updates[workflowDeleteResourceName] = 'CRUDL';
-          updates[resourceName] = actionGroup.replace('D', '');
-        } else {
-          updates[workflowDeleteResourceName] = 'RL';
-        }
+    if (shouldSetSoftDeletePerm) {
+      const softDeleteResourceName = `/${resourceName}/*/workflow/delete`;
+
+      if (!actionGroup) {
+        updates[softDeleteResourceName] = '';
+      } else if (actionGroup.includes('D')) {
+        updates[softDeleteResourceName] = 'CRUDL';
       } else {
-        updates[workflowDeleteResourceName] = '';
-      }
-    }
-
-    if (resourceName === 'relations') {
-      // The UI might switch to soft-deleting relations in the future, so also grant permission on
-      // the delete workflow transition if delete permission exists.
-
-      if (actionGroup) {
-        if (actionGroup.includes('D')) {
-          updates[workflowDeleteResourceName] = 'CRUDL';
-        } else {
-          updates[workflowDeleteResourceName] = 'RL';
-        }
-      } else {
-        updates[workflowDeleteResourceName] = '';
+        updates[softDeleteResourceName] = 'RL';
       }
     }
 

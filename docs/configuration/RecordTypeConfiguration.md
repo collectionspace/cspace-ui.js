@@ -54,6 +54,7 @@ The value for each name is an object describing the record type:
 type RecordTypeDescriptor = {
   advancedSearch: AdvancedSearchConditionDescriptor,
   columns: ColumnSetMap,
+  deletePermType: string,
   disabled: boolean,
   fields: FieldDescriptor,
   forms: FormDescriptorMap,
@@ -89,6 +90,12 @@ A [column set map](./ColumnConfiguration.md) that describes columns to be displa
 content: ContentDescriptorMap
 ```
 A [content descriptor map](./RecordContentConfiguration.md) that describes how to display binary content for the record type.
+
+### deletePermType
+```
+deletePermType: "soft" | "hard" | "all"
+```
+The CollectionSpace API supports two kinds of delete: "soft-delete", which is a workflow state transition that can be undone, and "hard-delete", which is a permanent removal of a record from the data store. Using the API, distinct permissions for each type of delete may be granted to a role. However, in the UI, when setting permissions for a role, there is only one "Delete" permission level for each record type. The `deletePermType` setting determines if the "Delete" permission in the UI maps to soft-delete permission ("soft"), hard-delete permission ("hard"), or both ("all"). The default setting of "soft" is normally the desired setting, except for the (rare) record types that do not support soft-delete.
 
 ### disabled
 ```

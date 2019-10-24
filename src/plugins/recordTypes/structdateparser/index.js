@@ -6,6 +6,7 @@ export default () => () => ({
     structureddates: {
       messages,
       serviceConfig,
+      deletePermType: 'hard',
     },
   },
 });

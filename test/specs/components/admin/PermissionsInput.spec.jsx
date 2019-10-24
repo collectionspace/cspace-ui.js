@@ -100,6 +100,7 @@ const config = {
     },
     authrole: {
       name: 'authrole',
+      deletePermType: 'hard',
       messages: {
         record: {
           collectionName: {
@@ -115,6 +116,7 @@ const config = {
     },
     relation: {
       name: 'relation',
+      deletePermType: 'all',
       messages: {
         record: {
           collectionName: {

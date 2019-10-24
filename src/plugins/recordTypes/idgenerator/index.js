@@ -6,6 +6,7 @@ export default () => () => ({
     idgenerator: {
       messages,
       serviceConfig,
+      deletePermType: 'hard',
     },
   },
 });

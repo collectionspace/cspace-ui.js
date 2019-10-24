@@ -18,6 +18,7 @@ export default () => configContext => ({
       requestConfig,
       serviceConfig,
       columns: columns(configContext),
+      deletePermType: 'hard',
       fields: fields(configContext),
       forms: forms(configContext),
       normalizeRecordData: normalizeRecordData(configContext),
