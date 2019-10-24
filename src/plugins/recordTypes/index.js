@@ -4,6 +4,7 @@ import all from './all';
 import authority from './authority';
 import authrole from './authrole';
 import batch from './batch';
+import batchinvocation from './batchinvocation';
 import blob from './blob';
 import citation from './citation';
 import collectionobject from './collectionobject';
@@ -28,6 +29,7 @@ import place from './place';
 import procedure from './procedure';
 import relation from './relation';
 import report from './report';
+import reportinvocation from './reportinvocation';
 import structdateparser from './structdateparser';
 import uoc from './uoc';
 import valuation from './valuation';
@@ -41,6 +43,7 @@ export default [
   authority,
   authrole,
   batch,
+  batchinvocation,
   blob,
   citation,
   collectionobject,
@@ -66,6 +69,7 @@ export default [
   procedure,
   relation,
   report,
+  reportinvocation,
   structdateparser,
   valuation,
   vocabulary,
