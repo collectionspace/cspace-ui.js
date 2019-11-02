@@ -83,7 +83,7 @@
     "coveralls": "^3.0.2",
     "cross-env": "^2.0.0",
     "css-loader": "^2.1.1",
-    "eslint": "^3.2.2",
+    "eslint": "^4.18.2",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.12.0",
     "eslint-plugin-jsx-a11y": "^2.0.1",
