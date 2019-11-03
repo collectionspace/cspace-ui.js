@@ -540,9 +540,15 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
-    const listType = this.getListType(searchDescriptor);
+    const searchQuery = searchDescriptor.get('searchQuery');
 
-    if (search) {
+    // Don't send the query if the provided page size and/or number are invalid.
+    // The search will be repeated with a valid descriptor once normalizeQuery
+    // has set them to the defaults.
+
+    if (!isNaN(searchQuery.get('p')) && !isNaN(searchQuery.get('size')) && search) {
+      const listType = this.getListType(searchDescriptor);
+
       search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType);
     }
   }
