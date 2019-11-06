@@ -9,9 +9,6 @@ import { ConnectedPanel } from '../../containers/layout/PanelContainer';
 import {
   OP_AND,
   OP_OR,
-  OP_RANGE,
-  OP_GTE,
-  OP_LTE,
 } from '../../constants/searchOperators';
 
 const messages = defineMessages({
@@ -21,27 +18,10 @@ const messages = defineMessages({
   },
 });
 
-const findAdvancedSearchClause = (searchClauses, clause) => {
-  let index;
-
-  index = searchClauses.findKey(candidateClause =>
-    candidateClause.get('path') === clause.get('path') &&
-    candidateClause.get('op') === clause.get('op')
+const findAdvancedSearchClause = (searchClauses, clause) =>
+  searchClauses.findKey(candidateClause =>
+    candidateClause.get('path') === clause.get('path')
   );
-
-  if (typeof index === 'undefined') {
-    if (clause.get('op') === OP_GTE || clause.get('op') === OP_LTE) {
-      // A one-sided range search might have been converted to a gte/lte search.
-
-      index = searchClauses.findKey(candidateClause =>
-        candidateClause.get('path') === clause.get('path') &&
-        candidateClause.get('op') === OP_RANGE
-      );
-    }
-  }
-
-  return index;
-};
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
@@ -134,17 +114,20 @@ export default class AdvancedSearchBuilder extends Component {
             const index = findAdvancedSearchClause(targetClauses, clause);
 
             if (typeof index !== 'undefined') {
-              const targetClause = targetClauses.get(index);
+              // const targetClause = targetClauses.get(index);
 
-              let value = clause.get('value');
+              const clauseOp = clause.get('op');
+              const clauseValue = clause.get('value');
 
-              if (targetClause.get('op') === OP_RANGE && !Immutable.List.isList(value)) {
-                value = (clause.get('op') === OP_GTE)
-                  ? Immutable.List([value])
-                  : Immutable.List([undefined, value]);
-              }
+              // if (targetClause.get('op') === OP_RANGE && !Immutable.List.isList(clauseValue)) {
+              //   clauseOp = OP_RANGE;
+              //   clauseValue = (clause.get('op') === OP_GTE)
+              //     ? Immutable.List([clauseValue])
+              //     : Immutable.List([undefined, clauseValue]);
+              // }
 
-              mergedCondition = mergedCondition.setIn(['value', index, 'value'], value);
+              mergedCondition = mergedCondition.setIn(['value', index, 'op'], clauseOp);
+              mergedCondition = mergedCondition.setIn(['value', index, 'value'], clauseValue);
             }
           });
 

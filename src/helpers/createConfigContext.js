@@ -70,18 +70,19 @@ const {
   repeatable,
 } = inputEnhancers;
 
-const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputContainer));
+export const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputContainer));
+export const OptionPickerInput = OptionPickerInputContainer;
+export const TermPickerInput = TermPickerInputContainer;
+
 const CheckboxInput = withBooleanValue(BaseCheckboxInput);
 const DateInput = DateInputContainer;
 const DateTimeInput = DateTimeInputContainer;
 const HierarchyInput = withCsid(HierarchyInputContainer);
 const IDGeneratorInput = IDGeneratorInputContainer;
 const ObjectNameInput = repeatable(labelable(BaseObjectNameInput));
-const OptionPickerInput = OptionPickerInputContainer;
 const PermissionsInput = labelable(PermissionsInputContainer);
 const RolesInput = labelable(RolesInputContainer);
 const StructuredDateInput = StructuredDateInputContainer;
-const TermPickerInput = TermPickerInputContainer;
 const UploadInput = UploadInputContainer;
 
 export default () => ({

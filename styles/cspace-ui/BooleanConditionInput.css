@@ -31,9 +31,14 @@
 }
 
 .normal > ul > li > *:first-child {
+  flex: 0 0 auto;
   width: 50px;
   margin-right: 4px;
   text-align: center;
+}
+
+.normal > ul > li > div {
+  flex: 1 1 auto;
 }
 
 .inline {

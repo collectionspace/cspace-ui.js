@@ -261,7 +261,7 @@ describe('BooleanConditionInput', function suite() {
       </IntlProvider>, this.container);
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
-    const input = fieldConditionInput.querySelector('input');
+    const input = fieldConditionInput.querySelector('input[name="objectNumber"]');
 
     input.value = 'new val';
 

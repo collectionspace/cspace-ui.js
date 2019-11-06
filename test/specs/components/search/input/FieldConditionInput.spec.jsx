@@ -13,6 +13,7 @@ import createTestContainer from '../../../../helpers/createTestContainer';
 
 import {
   OP_EQ,
+  OP_GT,
   OP_RANGE,
 } from '../../../../../src/constants/searchOperators';
 
@@ -30,7 +31,10 @@ const TestInput = props => (
 TestInput.propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.instanceOf(Immutable.List),
+    PropTypes.string,
+  ]),
   onCommit: PropTypes.func,
 };
 
@@ -128,7 +132,7 @@ describe('FieldConditionInput', function suite() {
     const divs = fieldConditionInput.querySelectorAll('div');
 
     divs[0].textContent.should.equal('objectNumber');
-    divs[1].textContent.should.equal('is');
+    divs[1].querySelector('input').value.should.equal('is');
     divs[2].querySelector('input').should.not.equal(null);
   });
 
@@ -220,7 +224,7 @@ describe('FieldConditionInput', function suite() {
     divs[2].querySelectorAll('input').length.should.equal(2);
   });
 
-  it('should call onCommit when the search field is committed', function test() {
+  it('should call onCommit when the value field is committed', function test() {
     const condition = Immutable.fromJS({
       op: OP_EQ,
       path: 'ns2:collectionobjects_common/objectNumber',
@@ -242,7 +246,7 @@ describe('FieldConditionInput', function suite() {
         </ConfigProvider>
       </IntlProvider>, this.container);
 
-    const input = this.container.querySelector('input');
+    const input = this.container.querySelector('input[name="objectNumber"]');
 
     input.value = 'new val';
 
@@ -252,6 +256,78 @@ describe('FieldConditionInput', function suite() {
       op: OP_EQ,
       path: 'ns2:collectionobjects_common/objectNumber',
       value: ['new val'],
+    }));
+  });
+
+  it('should call onCommit when the operator field is committed', function test() {
+    const condition = Immutable.fromJS({
+      op: OP_EQ,
+      path: 'ns2:collectionobjects_common/objectNumber',
+      value: 'value',
+    });
+
+    let committedCondition = null;
+
+    const handleCommit = (conditionArg) => {
+      committedCondition = conditionArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTypeProvider recordType="collectionobject">
+            <FieldConditionInput condition={condition} onCommit={handleCommit} />
+          </RecordTypeProvider>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.querySelector('input[data-name="searchOp"]');
+
+    input.value = 'is greater than';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    committedCondition.should.equal(Immutable.fromJS({
+      op: OP_GT,
+      path: 'ns2:collectionobjects_common/objectNumber',
+      value: 'value',
+    }));
+  });
+
+  it('should remove all values except the first when a new operator is selected that does not support multiple values', function test() {
+    const condition = Immutable.fromJS({
+      op: OP_EQ,
+      path: 'ns2:collectionobjects_common/objectNumber',
+      value: ['value1', 'value2', 'value3'],
+    });
+
+    let committedCondition = null;
+
+    const handleCommit = (conditionArg) => {
+      committedCondition = conditionArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTypeProvider recordType="collectionobject">
+            <FieldConditionInput condition={condition} onCommit={handleCommit} />
+          </RecordTypeProvider>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.querySelector('input[data-name="searchOp"]');
+
+    input.value = 'is greater than';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    committedCondition.should.equal(Immutable.fromJS({
+      op: OP_GT,
+      path: 'ns2:collectionobjects_common/objectNumber',
+      value: 'value1',
     }));
   });
 });

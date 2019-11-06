@@ -303,6 +303,20 @@ describe('searchHelpers', function moduleSuite() {
       }));
     });
 
+    it('should return a >= condition if the value is not a list', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/numberOfObjects',
+        value: '2',
+      });
+
+      normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
+        op: OP_GTE,
+        path: 'ns2:part/numberOfObjects',
+        value: '2',
+      }));
+    });
+
     it('should return a <= condition if the end of range is omitted', function test() {
       const condition = Immutable.fromJS({
         op: OP_RANGE,

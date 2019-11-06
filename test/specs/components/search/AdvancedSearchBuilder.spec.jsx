@@ -16,8 +16,6 @@ import {
   OP_CONTAIN,
   OP_OR,
   OP_EQ,
-  OP_LTE,
-  OP_GTE,
   OP_RANGE,
 } from '../../../../src/constants/searchOperators';
 
@@ -346,110 +344,6 @@ describe('AdvancedSearchBuilder', function suite() {
           {
             op: OP_RANGE,
             path: 'ns2:collectionobjects_common/bar',
-          },
-        ],
-      }));
-  });
-
-  it('should merge <= operations into range operations', function test() {
-    let committedCondition = null;
-
-    const handleConditionCommit = (conditionArg) => {
-      committedCondition = conditionArg;
-    };
-
-    const condition = Immutable.fromJS({
-      op: OP_LTE,
-      path: 'ns2:collectionobjects_common/bar',
-      value: 'abc',
-    });
-
-    render(
-      <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <StoreProvider store={store}>
-            <AdvancedSearchBuilder
-              condition={condition}
-              config={config}
-              recordType="collectionobject"
-              onConditionCommit={handleConditionCommit}
-            />
-          </StoreProvider>
-        </ConfigProvider>
-      </IntlProvider>, this.container);
-
-    committedCondition.should
-      .equal(Immutable.fromJS({
-        op: OP_OR,
-        value: [
-          {
-            op: OP_EQ,
-            path: 'ns2:collectionobjects_common/objectNumber',
-          },
-          {
-            op: OP_CONTAIN,
-            path: 'ns2:collectionobjects_common/objectNumber',
-          },
-          {
-            op: OP_EQ,
-            path: 'ns2:collectionobjects_common/foo',
-          },
-          {
-            op: OP_RANGE,
-            path: 'ns2:collectionobjects_common/bar',
-            value: [undefined, 'abc'],
-          },
-        ],
-      }));
-  });
-
-  it('should merge >= operations into range operations', function test() {
-    let committedCondition = null;
-
-    const handleConditionCommit = (conditionArg) => {
-      committedCondition = conditionArg;
-    };
-
-    const condition = Immutable.fromJS({
-      op: OP_GTE,
-      path: 'ns2:collectionobjects_common/bar',
-      value: 'abc',
-    });
-
-    render(
-      <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <StoreProvider store={store}>
-            <AdvancedSearchBuilder
-              condition={condition}
-              config={config}
-              recordType="collectionobject"
-              onConditionCommit={handleConditionCommit}
-            />
-          </StoreProvider>
-        </ConfigProvider>
-      </IntlProvider>, this.container);
-
-    committedCondition.should
-      .equal(Immutable.fromJS({
-        op: OP_OR,
-        value: [
-          {
-            op: OP_EQ,
-            path: 'ns2:collectionobjects_common/objectNumber',
-          },
-          {
-            op: OP_CONTAIN,
-            path: 'ns2:collectionobjects_common/objectNumber',
-          },
-          {
-            op: OP_EQ,
-            path: 'ns2:collectionobjects_common/foo',
-          },
-          {
-            op: OP_RANGE,
-            path: 'ns2:collectionobjects_common/bar',
-            value: ['abc'],
           },
         ],
       }));

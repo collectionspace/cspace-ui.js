@@ -12,17 +12,20 @@
   align-items: top;
 }
 
-.normal > div {
-  padding-top: 2px;
-  width: 80px;
-}
-
-.normal > div:first-child {
+.normal > div:nth-child(1) {
+  flex: 0 1 auto;
   width: 220px;
   margin-right: 10px;
 }
 
-.normal > div:last-child {
+.normal > div:nth-child(2) {
+  flex: 0 1 auto;
+  width: 130px;
+  margin-right: 10px;
+}
+
+.normal > div:nth-child(3) {
+  flex: 1 1 auto;
   padding-top: 0;
   width: 440px;
 }
@@ -31,7 +34,8 @@
 .normal > div > :global(.cspace-input-DropdownInput--common),
 .normal > div > :global(.cspace-input-RepeatingInput--common) {
   display: inline-block;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
 }
 
 .inline {

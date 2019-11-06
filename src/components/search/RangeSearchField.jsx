@@ -15,7 +15,10 @@ const messages = defineMessages({
 const propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
-  value: PropTypes.instanceOf(Immutable.List),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.instanceOf(Immutable.List),
+  ]),
   readOnly: PropTypes.bool,
   inline: PropTypes.bool,
   onCommit: PropTypes.func,
@@ -40,7 +43,11 @@ export default class RangeSearchField extends Component {
     } = this.props;
 
     if (onCommit) {
-      onCommit(path, value.set(0, startValue));
+      const nextValue = Immutable.List.isList(value)
+        ? value.set(0, startValue)
+        : Immutable.List.of(startValue);
+
+      onCommit(path, nextValue);
     }
   }
 
@@ -51,7 +58,11 @@ export default class RangeSearchField extends Component {
     } = this.props;
 
     if (onCommit) {
-      onCommit(path, value.set(1, endValue));
+      const nextValue = Immutable.List.isList(value)
+        ? value.set(1, endValue)
+        : Immutable.List.of(value).set(1, endValue);
+
+      onCommit(path, nextValue);
     }
   }
 
@@ -64,11 +75,13 @@ export default class RangeSearchField extends Component {
       readOnly,
     } = this.props;
 
+    const normalizedValue = Immutable.List.isList(value) ? value : Immutable.List.of(value);
+
     const startField = (
       <SearchField
         parentPath={parentPath}
         name={name}
-        value={value.get(0)}
+        value={normalizedValue.get(0)}
         readOnly={readOnly}
         repeating={false}
         onCommit={this.handleStartFieldCommit}
@@ -79,7 +92,7 @@ export default class RangeSearchField extends Component {
       <SearchField
         parentPath={parentPath}
         name={name}
-        value={value.get(1)}
+        value={normalizedValue.get(1)}
         readOnly={readOnly}
         repeating={false}
         onCommit={this.handleEndFieldCommit}

@@ -36,6 +36,70 @@ import {
   OP_RANGE,
 } from '../constants/searchOperators';
 
+const opsByDataType = {
+  [DATA_TYPE_STRING]: [
+    OP_EQ,
+    OP_CONTAIN,
+    OP_MATCH,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_RANGE,
+  ],
+  [DATA_TYPE_INT]: [
+    OP_EQ,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_RANGE,
+  ],
+  [DATA_TYPE_FLOAT]: [
+    OP_EQ,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_RANGE,
+  ],
+  [DATA_TYPE_BOOL]: [
+    OP_EQ,
+  ],
+  [DATA_TYPE_DATE]: [
+    OP_EQ,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_RANGE,
+  ],
+  [DATA_TYPE_DATETIME]: [
+    OP_EQ,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_RANGE,
+  ],
+  [DATA_TYPE_STRUCTURED_DATE]: [
+    OP_EQ,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_RANGE,
+  ],
+};
+
+// For controlled lists, comparison/range operators will not necessarily produce results that
+// users expect, since they are comparing database values/ref names, not display names. Don't
+// show those operators on controlled list fields, until we have a way to deal with this.
+
+const controlledListOps = [
+  OP_EQ,
+];
+
 const getDataType = (fieldDescriptor, path) =>
   get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'dataType']);
 
@@ -126,11 +190,15 @@ export const normalizeBooleanCondition = (fieldDescriptor, condition) => {
 };
 
 export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
-  const value = condition.get('value');
+  let value = condition.get('value');
 
   if (value) {
     const path = condition.get('path');
     const dataType = getDataType(fieldDescriptor, path);
+
+    if (!Immutable.List.isList(value)) {
+      value = Immutable.List.of(value);
+    }
 
     let startValue = value.get(0);
     let endValue = value.get(1);
@@ -605,7 +673,6 @@ export const getFirstItem = (config, listData, listType = 'common') => {
   } = listTypeConfig;
 
   const items = listData.getIn([listNodeName, itemNodeName]);
-
   const item = Immutable.List.isList(items) ? items.first() : items;
 
   return item;
@@ -680,3 +747,26 @@ export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) =
 
   return filteredRecordTypes;
 };
+
+export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlled) => (
+  isControlled ? controlledListOps : (opsByDataType[dataType] || [])
+);
+
+export const operatorSupportsMultipleValues = op => (
+  // There is no need to support multiple values with greater than/less than operators, since they
+  // are redundant. The range search operator could conceivably have multiple values (non-
+  // overlapping ranges), but the range search input doesn't support multiple values right now.
+  // This could be implemented if it's needed.
+
+  // The below operators allow multiple values.
+
+  op === OP_EQ || op === OP_CONTAIN || op === OP_MATCH
+);
+
+export const dataTypeSupportsMultipleValues = dataType => (
+  // Booleans only have two possible values, so null (don't care) or a single desired
+  // value is sufficient to describe all searches, and there's no need to allow multiple
+  // values.
+
+  dataType !== DATA_TYPE_BOOL
+);
