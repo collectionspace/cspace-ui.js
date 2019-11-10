@@ -120,6 +120,7 @@ const propTypes = {
   formatColumnLabel: PropTypes.func,
   isSearchPending: PropTypes.bool,
   linkItems: PropTypes.bool,
+  linkState: PropTypes.object,
   listType: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -161,6 +162,7 @@ export default class SearchResultTable extends Component {
   getItemLocation(item) {
     const {
       config,
+      linkState,
       listType,
       perms,
       searchDescriptor,
@@ -181,16 +183,18 @@ export default class SearchResultTable extends Component {
 
     // Create a location with the item location path, along with enough state to reproduce this
     // search. The search descriptor is converted to an object in order to reliably store it in
-    // location state.
+    // location state. Also merge in any object that was passed in via the linkState prop.
+
+    const state = Object.assign({
+      searchDescriptor: searchDescriptor.toJS(),
+      // The search traverser on records will always link to the search result page, so use
+      // its search name.
+      searchName: 'searchResultPage',
+    }, linkState);
 
     return {
+      state,
       pathname: itemLocationPath,
-      state: {
-        searchDescriptor: searchDescriptor.toJS(),
-        // The search traverser on records will always link to the search result page, so use
-        // its search name.
-        searchName: 'searchResultPage',
-      },
     };
   }
 

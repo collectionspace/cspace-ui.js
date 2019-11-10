@@ -23,6 +23,7 @@ const propTypes = {
   vocabulary: PropTypes.string,
   searchName: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  originSearchPageState: PropTypes.object,
   onDocked: PropTypes.func,
 };
 
@@ -39,6 +40,7 @@ export default function RecordTitleBar(props, context) {
     vocabulary,
     searchName,
     searchDescriptor,
+    originSearchPageState,
     onDocked,
     ...remainingProps
   } = props;
@@ -78,6 +80,7 @@ export default function RecordTitleBar(props, context) {
         csid={csid}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
+        originSearchPageState={originSearchPageState}
       />
     );
   }

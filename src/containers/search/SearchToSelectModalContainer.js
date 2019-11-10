@@ -43,8 +43,8 @@ const mapStateToProps = (state, ownProps) => {
     advancedSearchCondition: getSearchToSelectAdvanced(state),
     perms: getUserPerms(state),
     preferredAdvancedSearchBooleanOp:
-      getAdvancedSearchBooleanOp(state) ||
-      get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
+      getAdvancedSearchBooleanOp(state)
+      || get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
     preferredPageSize: getSearchToSelectPageSize(state),
     selectedItems: getSearchSelectedItems(state, searchName),
     getAuthorityVocabCsid: (recordType, vocabulary) =>

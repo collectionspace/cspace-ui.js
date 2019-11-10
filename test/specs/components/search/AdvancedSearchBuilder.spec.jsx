@@ -203,7 +203,7 @@ describe('AdvancedSearchBuilder', function suite() {
       .equal(Immutable.fromJS(config.recordTypes.collectionobject.advancedSearch));
   });
 
-  it('should set the top-level op to the preferred boolean op if it is a different boolean op', function test() {
+  it('should wrap the condition with the preferred boolean operator if it is not a boolean operator', function test() {
     let committedCondition = null;
 
     const handleConditionCommit = (conditionArg) => {
@@ -211,14 +211,9 @@ describe('AdvancedSearchBuilder', function suite() {
     };
 
     const condition = Immutable.fromJS({
-      op: OP_AND,
-      value: [
-        {
-          op: OP_EQ,
-          path: 'ns2:collectionobjects_common/objectNumber',
-          value: 'hello',
-        },
-      ],
+      op: OP_EQ,
+      path: 'ns2:collectionobjects_common/objectNumber',
+      value: 'hello',
     });
 
     render(
@@ -228,42 +223,7 @@ describe('AdvancedSearchBuilder', function suite() {
             <AdvancedSearchBuilder
               condition={condition}
               config={config}
-              recordType="collectionobject"
-              preferredBooleanOp={OP_OR}
-              onConditionCommit={handleConditionCommit}
-            />
-          </StoreProvider>
-        </ConfigProvider>
-      </IntlProvider>, this.container);
-
-    committedCondition.get('op').should.equal(OP_OR);
-  });
-
-  it('should merge the condition into the default condition for the record type', function test() {
-    let committedCondition = null;
-
-    const handleConditionCommit = (conditionArg) => {
-      committedCondition = conditionArg;
-    };
-
-    const condition = Immutable.fromJS({
-      op: OP_AND,
-      value: [
-        {
-          op: OP_EQ,
-          path: 'ns2:collectionobjects_common/objectNumber',
-          value: 'hello',
-        },
-      ],
-    });
-
-    render(
-      <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <StoreProvider store={store}>
-            <AdvancedSearchBuilder
-              condition={condition}
-              config={config}
+              preferredBooleanOp={OP_AND}
               recordType="collectionobject"
               onConditionCommit={handleConditionCommit}
             />
@@ -280,34 +240,18 @@ describe('AdvancedSearchBuilder', function suite() {
             path: 'ns2:collectionobjects_common/objectNumber',
             value: 'hello',
           },
-          {
-            op: OP_CONTAIN,
-            path: 'ns2:collectionobjects_common/objectNumber',
-          },
-          {
-            op: OP_EQ,
-            path: 'ns2:collectionobjects_common/foo',
-          },
-          {
-            op: OP_RANGE,
-            path: 'ns2:collectionobjects_common/bar',
-          },
         ],
       }));
   });
 
-  it('should merge a non-boolean condition into the child conditions of the default condition, and set the top-level op to the preferred boolean op', function test() {
+  it('should set the condition to the default condition if it is undefined, and change the top-level boolean operator to the preferred boolean operator', function test() {
     let committedCondition = null;
 
     const handleConditionCommit = (conditionArg) => {
       committedCondition = conditionArg;
     };
 
-    const condition = Immutable.fromJS({
-      op: OP_EQ,
-      path: 'ns2:collectionobjects_common/objectNumber',
-      value: 'hello',
-    });
+    const condition = undefined;
 
     render(
       <IntlProvider locale="en">
@@ -331,7 +275,6 @@ describe('AdvancedSearchBuilder', function suite() {
           {
             op: OP_EQ,
             path: 'ns2:collectionobjects_common/objectNumber',
-            value: 'hello',
           },
           {
             op: OP_CONTAIN,

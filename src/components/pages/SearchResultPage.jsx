@@ -59,6 +59,8 @@ const propTypes = {
   setPreferredPageSize: PropTypes.func,
   setSearchPageAdvanced: PropTypes.func,
   setSearchPageKeyword: PropTypes.func,
+  setSearchPageRecordType: PropTypes.func,
+  setSearchPageVocabulary: PropTypes.func,
   setAllItemsSelected: PropTypes.func,
   onItemSelectChange: PropTypes.func,
 };
@@ -314,6 +316,7 @@ export default class SearchResultPage extends Component {
         history.replace({
           pathname: location.pathname,
           search: `?${queryString}`,
+          state: location.state,
         });
 
         return true;
@@ -412,24 +415,43 @@ export default class SearchResultPage extends Component {
   }
 
   handleEditSearchLinkClick() {
-    // Transfer this search descriptor's search criteria to advanced search.
+    // Transfer the search descriptor from this search to the search page. If this search
+    // originated from the search page, the original descriptor will be in the location state.
+    // Otherwise, build it from the URL params. If present, the search descriptor from the
+    // originating search page will be more complete than one constructed from the URL; for
+    // example, it will contain fields that are blank, which will have been removed from the
+    // URL, to reduce the size.
 
     const {
+      location,
       setSearchPageAdvanced,
       setSearchPageKeyword,
+      setSearchPageRecordType,
+      setSearchPageVocabulary,
     } = this.props;
 
-    if (setSearchPageKeyword || setSearchPageAdvanced) {
-      const searchDescriptor = this.getSearchDescriptor();
-      const searchQuery = searchDescriptor.get('searchQuery');
+    const origin = get(location.state, 'originSearchPage');
 
-      if (setSearchPageKeyword) {
-        setSearchPageKeyword(searchQuery.get('kw'));
-      }
+    const searchDescriptor = origin
+      ? Immutable.fromJS(origin.searchDescriptor)
+      : this.getSearchDescriptor();
 
-      if (setSearchPageAdvanced) {
-        setSearchPageAdvanced(searchQuery.get('as'));
-      }
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    if (setSearchPageRecordType) {
+      setSearchPageRecordType(searchDescriptor.get('recordType'));
+    }
+
+    if (setSearchPageVocabulary) {
+      setSearchPageVocabulary(searchDescriptor.get('vocabulary'));
+    }
+
+    if (setSearchPageKeyword) {
+      setSearchPageKeyword(searchQuery.get('kw'));
+    }
+
+    if (setSearchPageAdvanced) {
+      setSearchPageAdvanced(searchQuery.get('as'));
     }
   }
 
@@ -461,6 +483,7 @@ export default class SearchResultPage extends Component {
       history.push({
         pathname: location.pathname,
         search: `?${queryString}`,
+        state: location.state,
       });
     }
   }
@@ -491,6 +514,7 @@ export default class SearchResultPage extends Component {
       history.push({
         pathname: location.pathname,
         search: `?${queryString}`,
+        state: location.state,
       });
     }
   }
@@ -526,6 +550,7 @@ export default class SearchResultPage extends Component {
       history.push({
         pathname: location.pathname,
         search: `?${queryString}`,
+        state: location.state,
       });
     }
   }
@@ -675,6 +700,7 @@ export default class SearchResultPage extends Component {
 
   render() {
     const {
+      location,
       history,
       isSidebarOpen,
       selectedItems,
@@ -750,6 +776,7 @@ export default class SearchResultPage extends Component {
           <WatchedSearchResultTableContainer
             config={config}
             history={history}
+            linkState={{ originSearchPage: get(location, ['state', 'originSearchPage']) }}
             listType={listType}
             searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
             searchDescriptor={searchDescriptor}

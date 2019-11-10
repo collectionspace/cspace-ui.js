@@ -5,11 +5,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import SearchConditionInput from './input/SearchConditionInput';
 import { ConnectedPanel } from '../../containers/layout/PanelContainer';
-
-import {
-  OP_AND,
-  OP_OR,
-} from '../../constants/searchOperators';
+import { OP_AND, OP_OR } from '../../constants/searchOperators';
 
 const messages = defineMessages({
   title: {
@@ -18,10 +14,19 @@ const messages = defineMessages({
   },
 });
 
-const findAdvancedSearchClause = (searchClauses, clause) =>
-  searchClauses.findKey(candidateClause =>
-    candidateClause.get('path') === clause.get('path')
+const ensureRootBooleanOp = (condition, preferredBooleanOp) => {
+  const op = condition && condition.get('op');
+
+  if (op === OP_AND || op === OP_OR) {
+    return condition;
+  }
+
+  return (
+    Immutable.Map()
+      .set('op', preferredBooleanOp)
+      .set('value', condition ? Immutable.List.of(condition) : Immutable.List())
   );
+};
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
@@ -31,6 +36,10 @@ const propTypes = {
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
   onConditionCommit: PropTypes.func,
+};
+
+const defaultProps = {
+  preferredBooleanOp: 'or',
 };
 
 const childContextTypes = {
@@ -65,83 +74,24 @@ export default class AdvancedSearchBuilder extends Component {
       onConditionCommit,
     } = this.props;
 
-    // FIXME: Uncomment this once conditions may be added by the end user.
-
-    // if (!condition && onConditionCommit) {
-    //   const defaultCondition = get(config, ['recordTypes', recordType, 'advancedSearch']);
-    //
-    //   if (defaultCondition) {
-    //     onConditionCommit(Immutable.fromJS(defaultCondition));
-    //   }
-    // }
-
-    // FIXME: There will be no need for this once conditions may be added by the end user.
-    // For now do a quick and dirty merge of the (possibly normalized) condition into the
-    // default, so that fields aren't unrecoverable after normalization.
-
     if (onConditionCommit) {
-      const defaultCondition = Immutable.fromJS(
-        get(config, ['recordTypes', recordType, 'advancedSearch']));
+      let normalizedCondition;
 
-      const op = condition && condition.get('op');
-
-      if (preferredBooleanOp && (op === OP_AND || op === OP_OR) && (op !== preferredBooleanOp)) {
-        onConditionCommit(condition.set('op', preferredBooleanOp));
-      } else if (defaultCondition && condition) {
-        if (
-          op !== defaultCondition.get('op') ||
-          !Immutable.List.isList(condition.get('value')) ||
-          condition.get('value').size !== defaultCondition.get('value').size
-        ) {
-          let mergedCondition = defaultCondition;
-          let clauses;
-
-          if (op === OP_AND || op === OP_OR) {
-            mergedCondition = mergedCondition.set('op', op);
-
-            clauses = condition.get('value');
-          } else {
-            if (preferredBooleanOp) {
-              mergedCondition = mergedCondition.set('op', preferredBooleanOp);
-            }
-
-            clauses = Immutable.List([condition]);
-          }
-
-          const targetClauses = mergedCondition.get('value');
-
-          clauses.forEach((clause) => {
-            const index = findAdvancedSearchClause(targetClauses, clause);
-
-            if (typeof index !== 'undefined') {
-              // const targetClause = targetClauses.get(index);
-
-              const clauseOp = clause.get('op');
-              const clauseValue = clause.get('value');
-
-              // if (targetClause.get('op') === OP_RANGE && !Immutable.List.isList(clauseValue)) {
-              //   clauseOp = OP_RANGE;
-              //   clauseValue = (clause.get('op') === OP_GTE)
-              //     ? Immutable.List([clauseValue])
-              //     : Immutable.List([undefined, clauseValue]);
-              // }
-
-              mergedCondition = mergedCondition.setIn(['value', index, 'op'], clauseOp);
-              mergedCondition = mergedCondition.setIn(['value', index, 'value'], clauseValue);
-            }
-          });
-
-          if (!mergedCondition.equals(condition)) {
-            onConditionCommit(mergedCondition);
-          }
-        }
-      } else if (defaultCondition) {
-        onConditionCommit(
-          preferredBooleanOp
-            ? defaultCondition.set('op', preferredBooleanOp)
-            : defaultCondition
+      if (condition) {
+        normalizedCondition = ensureRootBooleanOp(condition, preferredBooleanOp);
+      } else {
+        const defaultCondition = Immutable.fromJS(
+          get(config, ['recordTypes', recordType, 'advancedSearch'])
         );
+
+        normalizedCondition = ensureRootBooleanOp(defaultCondition, preferredBooleanOp);
+
+        if (normalizedCondition.get('op') !== preferredBooleanOp) {
+          normalizedCondition = normalizedCondition.set('op', preferredBooleanOp);
+        }
       }
+
+      onConditionCommit(normalizedCondition);
     }
   }
 
@@ -193,4 +143,5 @@ export default class AdvancedSearchBuilder extends Component {
 }
 
 AdvancedSearchBuilder.propTypes = propTypes;
+AdvancedSearchBuilder.defaultProps = defaultProps;
 AdvancedSearchBuilder.childContextTypes = childContextTypes;

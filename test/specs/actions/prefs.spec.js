@@ -142,9 +142,45 @@ describe('prefs action creator', function suite() {
     it('should create a SET_SEARCH_PAGE_RECORD_TYPE action', function test() {
       const value = 'loanin';
 
-      setSearchPageRecordType(value).should.deep.equal({
+      const store = mockStore({
+        prefs: Immutable.Map(),
+      });
+
+      store.dispatch(setSearchPageRecordType(value));
+
+      const actions = store.getActions();
+
+      actions[0].should.deep.equal({
         type: SET_SEARCH_PAGE_RECORD_TYPE,
         payload: value,
+        meta: {
+          prevRecordType: undefined,
+        },
+      });
+    });
+
+    it('should set the prevRecordType meta value to the previous value', function test() {
+      const prevValue = 'foo';
+      const value = 'loanin';
+
+      const store = mockStore({
+        prefs: Immutable.fromJS({
+          searchPage: {
+            recordType: prevValue,
+          },
+        }),
+      });
+
+      store.dispatch(setSearchPageRecordType(value));
+
+      const actions = store.getActions();
+
+      actions[0].should.deep.equal({
+        type: SET_SEARCH_PAGE_RECORD_TYPE,
+        payload: value,
+        meta: {
+          prevRecordType: prevValue,
+        },
       });
     });
   });

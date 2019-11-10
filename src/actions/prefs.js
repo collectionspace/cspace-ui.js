@@ -2,8 +2,14 @@
 
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import { getUserUsername, getPrefs, getRecordData } from '../reducers';
 import { getStickyFieldValues } from '../helpers/recordDataHelpers';
+
+import {
+  getUserUsername,
+  getPrefs,
+  getRecordData,
+  getSearchPageRecordType,
+} from '../reducers';
 
 import {
   PREFS_LOADED,
@@ -54,10 +60,15 @@ export const setRecordBrowserNavBarItems = (recordType, navBarItems) => ({
   },
 });
 
-export const setSearchPageRecordType = value => ({
-  type: SET_SEARCH_PAGE_RECORD_TYPE,
-  payload: value,
-});
+export const setSearchPageRecordType = value => (dispatch, getState) => {
+  dispatch({
+    type: SET_SEARCH_PAGE_RECORD_TYPE,
+    payload: value,
+    meta: {
+      prevRecordType: getSearchPageRecordType(getState()),
+    },
+  });
+};
 
 export const setSearchPageVocabulary = value => ({
   type: SET_SEARCH_PAGE_VOCABULARY,

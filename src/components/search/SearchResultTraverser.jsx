@@ -45,6 +45,7 @@ const propTypes = {
   nextPageSearchState: PropTypes.instanceOf(Immutable.Map),
   prevPageSearchDescriptor: PropTypes.object,
   prevPageSearchState: PropTypes.instanceOf(Immutable.Map),
+  originSearchPageState: PropTypes.object,
   search: PropTypes.func,
 };
 
@@ -275,6 +276,7 @@ export default class SearchResultTraverser extends Component {
       searchDescriptor,
       searchName,
       searchState,
+      originSearchPageState,
     } = this.props;
 
     if (!searchDescriptor) {
@@ -325,16 +327,23 @@ export default class SearchResultTraverser extends Component {
       const locationState = {
         searchName,
         searchDescriptor: searchDescriptor.toJS(),
+        originSearchPage: originSearchPageState,
       };
 
       prevLink = this.renderPrevLink(items, index, currentNum, totalItems, locationState);
       nextLink = this.renderNextLink(items, index, currentNum, totalItems, locationState);
     }
 
+    const searchLocation = Object.assign(searchDescriptorToLocation(searchDescriptor), {
+      state: {
+        originSearchPage: originSearchPageState,
+      },
+    });
+
     return (
       <nav className={styles.common}>
         <div>
-          <Link rel="search" to={searchDescriptorToLocation(searchDescriptor)}>
+          <Link rel="search" to={searchLocation}>
             {resultMessage}
           </Link>
         </div>

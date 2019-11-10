@@ -57,20 +57,51 @@ describe('search page reducer', function suite() {
     getKeyword(state).should.equal(keyword);
   });
 
-  it('should delete advanced search condition on SET_SEARCH_PAGE_RECORD_TYPE', function test() {
-    const state = reducer(Immutable.Map({
-      advanced: Immutable.Map(),
-      keyword: 'foo',
-    }), {
-      type: SET_SEARCH_PAGE_RECORD_TYPE,
-      payload: 'group',
+  context('on SET_SEARCH_PAGE_RECORD_TYPE', function context() {
+    it('should delete advanced search condition if the record type has changed', function test() {
+      const state = reducer(Immutable.Map({
+        advanced: Immutable.Map(),
+        keyword: 'foo',
+      }), {
+        type: SET_SEARCH_PAGE_RECORD_TYPE,
+        payload: 'group',
+        meta: {
+          prevRecordType: 'loanin',
+        },
+      });
+
+      state.should.equal(Immutable.Map({
+        keyword: 'foo',
+      }));
+
+      expect(getAdvanced(state)).to.equal(undefined);
     });
 
-    state.should.equal(Immutable.Map({
-      keyword: 'foo',
-    }));
+    it('should not delete advanced search condition if the record type has not changed', function test() {
+      const state = reducer(Immutable.Map({
+        advanced: Immutable.Map({
+          foo: '1',
+        }),
+        keyword: 'foo',
+      }), {
+        type: SET_SEARCH_PAGE_RECORD_TYPE,
+        payload: 'group',
+        meta: {
+          prevRecordType: 'group',
+        },
+      });
 
-    expect(getAdvanced(state)).to.equal(undefined);
+      state.should.equal(Immutable.Map({
+        advanced: Immutable.Map({
+          foo: '1',
+        }),
+        keyword: 'foo',
+      }));
+
+      expect(getAdvanced(state)).to.equal(Immutable.Map({
+        foo: '1',
+      }));
+    });
   });
 
   it('should handle CLEAR_SEARCH_PAGE', function test() {

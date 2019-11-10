@@ -312,6 +312,9 @@ describe('RecordPage', function suite() {
       action: '',
       pathname: `/record/all/${csid}`,
       search: '',
+      state: {
+        foo: '1',
+      },
     };
 
     const match = {
@@ -379,7 +382,11 @@ describe('RecordPage', function suite() {
       </IntlProvider>, this.container);
 
     clearedCsid.should.equal(csid);
-    replacedLocation.should.deep.equal(`/record/${objectRecordType}/${csid}`);
+
+    replacedLocation.should.deep.equal({
+      pathname: `/record/${objectRecordType}/${csid}`,
+      state: location.state,
+    });
   });
 
   context('for an object/procedure record', function contextSuite() {

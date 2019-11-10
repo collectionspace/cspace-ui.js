@@ -60,5 +60,19 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
   push({
     pathname,
     search: `?${queryString}`,
+    state: {
+      originSearchPage: {
+        // Keep the search descriptor a plain object, not an Immutable, so that it can be stored in
+        // location state.
+        searchDescriptor: {
+          recordType,
+          vocabulary,
+          searchQuery: {
+            as: advancedSearchCondition && advancedSearchCondition.toJS(),
+            kw: keyword,
+          },
+        },
+      },
+    },
   });
 };

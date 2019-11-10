@@ -253,6 +253,7 @@ describe('RecordTitleBar', function suite() {
     const searchName = 'searchName';
     const searchDescriptor = Immutable.Map();
     const csid = '1234';
+    const originSearchPageState = { foo: '1' };
 
     const shallowRenderer = createRenderer();
 
@@ -267,6 +268,7 @@ describe('RecordTitleBar', function suite() {
         csid={csid}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
+        originSearchPageState={originSearchPageState}
       />, context);
 
     const result = shallowRenderer.getRenderOutput();
@@ -279,6 +281,7 @@ describe('RecordTitleBar', function suite() {
       csid,
       searchName,
       searchDescriptor,
+      originSearchPageState,
     });
   });
 

@@ -35,8 +35,8 @@ const mapStateToProps = (state, ownProps) => {
     advancedSearchCondition: getSearchPageAdvanced(state),
     perms: getUserPerms(state),
     preferredAdvancedSearchBooleanOp:
-      getAdvancedSearchBooleanOp(state) ||
-      get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
+      getAdvancedSearchBooleanOp(state)
+      || get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
     getAuthorityVocabCsid: (recordType, vocabulary) =>
       getAuthorityVocabCsid(state, recordType, vocabulary),
   };

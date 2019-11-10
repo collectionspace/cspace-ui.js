@@ -318,6 +318,18 @@ describe('SearchPageContainer', function suite() {
     pushedLocation.should.deep.equal({
       pathname: '/list/concept/material',
       search: '?kw=hello%20world',
+      state: {
+        originSearchPage: {
+          searchDescriptor: {
+            recordType: 'concept',
+            vocabulary: 'material',
+            searchQuery: {
+              as: undefined,
+              kw: 'hello world',
+            },
+          },
+        },
+      },
     });
   });
 

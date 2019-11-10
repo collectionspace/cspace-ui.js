@@ -106,6 +106,7 @@ export default class RecordPage extends Component {
       config,
       data,
       history,
+      location,
       perms,
       clearRecord,
     } = this.props;
@@ -132,7 +133,10 @@ export default class RecordPage extends Component {
         clearRecord(dataCsid);
       }
 
-      history.replace(refNameToUrl(config, getRefName(data), dataCsid));
+      history.replace({
+        pathname: refNameToUrl(config, getRefName(data), dataCsid),
+        state: location.state,
+      });
     }
   }
 
@@ -266,15 +270,9 @@ export default class RecordPage extends Component {
       );
     }
 
-    const locationState = location.state;
-
-    let searchName;
-    let searchDescriptor;
-
-    if (locationState) {
-      searchName = locationState.searchName;
-      searchDescriptor = Immutable.fromJS(locationState.searchDescriptor);
-    }
+    const searchName = get(location, ['state', 'searchName']);
+    const searchDescriptor = Immutable.fromJS(get(location, ['state', 'searchDescriptor']));
+    const originSearchPageState = get(location, ['state', 'originSearchPage']);
 
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
     const workflowState = getWorkflowState(data);
@@ -292,6 +290,7 @@ export default class RecordPage extends Component {
           vocabulary={vocabulary}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
+          originSearchPageState={originSearchPageState}
           updateDocumentTitle
           onDocked={this.handleTitleBarDocked}
         />

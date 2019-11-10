@@ -152,7 +152,6 @@ const config = {
 const match = {
   params: {
     recordType: 'collectionobject',
-    // vocabulary: 'something',
   },
 };
 
@@ -165,6 +164,10 @@ const location = {
   action: '',
   pathname: '/search/collectionobject',
   search: `?${qs.stringify(query)}`,
+  state: {
+    foo: '1',
+    bar: '2',
+  },
 };
 
 const searchDescriptor = Immutable.fromJS({
@@ -451,6 +454,7 @@ describe('SearchResultPage', function suite() {
     pushedLocation.should.deep.equal({
       pathname: location.pathname,
       search: `${location.search}&sort=objectNumber`,
+      state: location.state,
     });
   });
 
@@ -750,6 +754,7 @@ describe('SearchResultPage', function suite() {
       pushedLocation.should.deep.equal({
         pathname: location.pathname,
         search: '?p=1&size=20',
+        state: location.state,
       });
 
       preferredPageSize.should.equal(20);
@@ -878,6 +883,82 @@ describe('SearchResultPage', function suite() {
     });
   });
 
+  it('should call setSearchPageRecordType and setSearchPageVocabulary when the edit link is clicked', function test() {
+    let transferredRecordType = null;
+    let transferredVocabulary = null;
+
+    const setSearchPageRecordType = (recordTypeArg) => {
+      transferredRecordType = recordTypeArg;
+    };
+
+    const setSearchPageVocabulary = (vocabularyArg) => {
+      transferredVocabulary = vocabularyArg;
+    };
+
+    const recordType = 'person';
+    const vocabulary = 'ulan';
+
+    const recordTypeLocation = Object.assign({}, location, {
+      pathname: `/search/${recordType}/${vocabulary}`,
+    });
+
+    const recordTypeMatch = Object.assign({}, match, {
+      params: {
+        recordType,
+        vocabulary,
+      },
+    });
+
+    const history = mockHistory();
+    const pageContainer = document.createElement('div');
+
+    document.body.appendChild(pageContainer);
+
+    let searchResultPage;
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <SearchResultPage
+                history={history}
+                location={recordTypeLocation}
+                match={recordTypeMatch}
+                ref={(ref) => { searchResultPage = ref; }}
+                setSearchPageRecordType={setSearchPageRecordType}
+                setSearchPageVocabulary={setSearchPageVocabulary}
+              />
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, pageContainer);
+
+    const headerContainer = document.createElement('div');
+
+    document.body.appendChild(headerContainer);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              {searchResultPage.renderHeader({ searchResult })}
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, headerContainer);
+
+    const editLink = headerContainer.querySelector('header > div > div > a');
+
+    editLink.should.not.equal(null);
+
+    Simulate.click(editLink);
+
+    transferredRecordType.should.equal(recordType);
+    transferredVocabulary.should.equal(vocabulary);
+  });
+
   describe('renderFooter', function method() {
     it('should render the search result footer', function test() {
       const pageContainer = document.createElement('div');
@@ -990,6 +1071,7 @@ describe('SearchResultPage', function suite() {
       pushedLocation.should.deep.equal({
         pathname: location.pathname,
         search: `?p=20&size=${query.size}`,
+        state: location.state,
       });
     });
   });
