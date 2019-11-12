@@ -7,11 +7,12 @@ import SearchField from '../SearchField';
 import RangeSearchField from '../RangeSearchField';
 import OperatorInput from './OperatorInput';
 import { configKey } from '../../../helpers/configHelpers';
-import { OP_RANGE } from '../../../constants/searchOperators';
+import { OP_RANGE, OP_NOT_RANGE } from '../../../constants/searchOperators';
 
 import {
   dataTypeSupportsMultipleValues,
   operatorSupportsMultipleValues,
+  operatorExpectsValue,
 } from '../../../helpers/searchHelpers';
 
 import {
@@ -51,7 +52,12 @@ export default class FieldConditionInput extends Component {
     if (onCommit) {
       let nextCondition = condition.set('op', operator);
 
-      if (!operatorSupportsMultipleValues(operator)) {
+      if (!operatorExpectsValue(operator)) {
+        // If the new operator doesn't expect a value, but the old one did, and any values were
+        // entered, prune them.
+
+        nextCondition = nextCondition.delete('value');
+      } else if (!operatorSupportsMultipleValues(operator)) {
         // If the new operator doesn't support multiple values, but the old one did, and multiple
         // values were entered, prune all values except the first.
 
@@ -113,7 +119,32 @@ export default class FieldConditionInput extends Component {
       ? <FormattedMessage {...(messages.fullName || messages.name)} />
       : name;
 
-    const SearchFieldComponent = (operator === OP_RANGE) ? RangeSearchField : SearchField;
+    let valueSearchField = null;
+
+    if (operatorExpectsValue(operator)) {
+      const ValueSearchFieldComponent = (operator === OP_RANGE || operator === OP_NOT_RANGE)
+        ? RangeSearchField
+        : SearchField;
+
+      valueSearchField = (
+        <div>
+          <ValueSearchFieldComponent
+            inline={inline}
+            parentPath={parentPath}
+            name={name}
+            readOnly={readOnly}
+            repeating={
+              operatorSupportsMultipleValues(operator)
+              && dataTypeSupportsMultipleValues(dataType)
+            }
+            value={value}
+            onCommit={this.handleValueCommit}
+          />
+        </div>
+      );
+    }
+
+
     const className = inline ? styles.inline : styles.normal;
 
     return (
@@ -128,21 +159,8 @@ export default class FieldConditionInput extends Component {
           value={operator}
           onCommit={this.handleOperatorCommit}
         />
-        {' '}
-        <div>
-          <SearchFieldComponent
-            inline={inline}
-            parentPath={parentPath}
-            name={name}
-            readOnly={readOnly}
-            repeating={
-              operatorSupportsMultipleValues(operator)
-              && dataTypeSupportsMultipleValues(dataType)
-            }
-            value={value}
-            onCommit={this.handleValueCommit}
-          />
-        </div>
+        {valueSearchField ? ' ' : null}
+        {valueSearchField}
       </div>
     );
   }

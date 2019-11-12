@@ -15,6 +15,7 @@ import {
   OP_EQ,
   OP_GT,
   OP_RANGE,
+  OP_NULL,
 } from '../../../../../src/constants/searchOperators';
 
 chai.use(chaiImmutable);
@@ -328,6 +329,41 @@ describe('FieldConditionInput', function suite() {
       op: OP_GT,
       path: 'ns2:collectionobjects_common/objectNumber',
       value: 'value1',
+    }));
+  });
+
+  it('should remove all values when a new operator is selected that does not support a value', function test() {
+    const condition = Immutable.fromJS({
+      op: OP_EQ,
+      path: 'ns2:collectionobjects_common/objectNumber',
+      value: ['value1', 'value2', 'value3'],
+    });
+
+    let committedCondition = null;
+
+    const handleCommit = (conditionArg) => {
+      committedCondition = conditionArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTypeProvider recordType="collectionobject">
+            <FieldConditionInput condition={condition} onCommit={handleCommit} />
+          </RecordTypeProvider>
+        </ConfigProvider>
+      </IntlProvider>, this.container);
+
+    const input = this.container.querySelector('input[data-name="searchOp"]');
+
+    input.value = 'is blank';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    committedCondition.should.equal(Immutable.fromJS({
+      op: OP_NULL,
+      path: 'ns2:collectionobjects_common/objectNumber',
     }));
   });
 });

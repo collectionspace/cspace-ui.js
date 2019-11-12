@@ -13,7 +13,13 @@ import {
   OP_LTE,
   OP_MATCH,
   OP_RANGE,
-} from '../../../constants/searchOperators';
+  OP_NULL,
+  OP_NOT_CONTAIN,
+  OP_NOT_EQ,
+  OP_NOT_MATCH,
+  OP_NOT_RANGE,
+  OP_NOT_NULL,
+  } from '../../../constants/searchOperators';
 
 const {
   OptionPickerInput,
@@ -53,6 +59,30 @@ const operatorMessages = {
       id: 'operatorInput.OP_RANGE',
       defaultMessage: 'is between',
     },
+    [OP_NULL]: {
+      id: 'operatorInput.OP_NULL',
+      defaultMessage: 'is blank',
+    },
+    [OP_NOT_CONTAIN]: {
+      id: 'operatorInput.OP_NOT_CONTAIN',
+      defaultMessage: 'does not contain',
+    },
+    [OP_NOT_EQ]: {
+      id: 'operatorInput.OP_NOT_EQ',
+      defaultMessage: 'is not',
+    },
+    [OP_NOT_MATCH]: {
+      id: 'operatorInput.OP_NOT_MATCH',
+      defaultMessage: 'does not match',
+    },
+    [OP_NOT_RANGE]: {
+      id: 'operatorInput.OP_NOT_RANGE',
+      defaultMessage: 'is not between',
+    },
+    [OP_NOT_NULL]: {
+      id: 'operatorInput.OP_NOT_NULL',
+      defaultMessage: 'is not blank',
+    },
   }),
   compact: defineMessages({
     [OP_CONTAIN]: {
@@ -86,6 +116,30 @@ const operatorMessages = {
     [OP_RANGE]: {
       id: 'operatorInput.compact.OP_RANGE',
       defaultMessage: 'between',
+    },
+    [OP_NULL]: {
+      id: 'operatorInput.compact.OP_NULL',
+      defaultMessage: 'is blank',
+    },
+    [OP_NOT_CONTAIN]: {
+      id: 'operatorInput.compact.OP_NOT_CONTAIN',
+      defaultMessage: 'does not contain',
+    },
+    [OP_NOT_EQ]: {
+      id: 'operatorInput.compact.OP_NOT_EQ',
+      defaultMessage: '≠',
+    },
+    [OP_NOT_MATCH]: {
+      id: 'operatorInput.compact.OP_NOT_MATCH',
+      defaultMessage: 'does not match',
+    },
+    [OP_NOT_RANGE]: {
+      id: 'operatorInput.compact.OP_NOT_RANGE',
+      defaultMessage: 'is not between',
+    },
+    [OP_NOT_NULL]: {
+      id: 'operatorInput.compact.OP_NOT_NULL',
+      defaultMessage: 'is not blank',
     },
   }),
 };

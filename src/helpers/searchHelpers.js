@@ -34,61 +34,97 @@ import {
   OP_CONTAIN,
   OP_MATCH,
   OP_RANGE,
+  OP_NULL,
+  OP_NOT_CONTAIN,
+  OP_NOT_EQ,
+  OP_NOT_MATCH,
+  OP_NOT_RANGE,
+  OP_NOT_NULL,
 } from '../constants/searchOperators';
 
 const opsByDataType = {
   [DATA_TYPE_STRING]: [
     OP_EQ,
+    OP_NOT_EQ,
     OP_CONTAIN,
+    OP_NOT_CONTAIN,
     OP_MATCH,
+    OP_NOT_MATCH,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
     OP_RANGE,
+    OP_NOT_RANGE,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
   [DATA_TYPE_INT]: [
     OP_EQ,
+    OP_NOT_EQ,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
     OP_RANGE,
+    OP_NOT_RANGE,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
   [DATA_TYPE_FLOAT]: [
     OP_EQ,
+    OP_NOT_EQ,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
     OP_RANGE,
+    OP_NOT_RANGE,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
   [DATA_TYPE_BOOL]: [
     OP_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
   [DATA_TYPE_DATE]: [
     OP_EQ,
+    OP_NOT_EQ,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
     OP_RANGE,
+    OP_NOT_RANGE,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
   [DATA_TYPE_DATETIME]: [
     OP_EQ,
+    OP_NOT_EQ,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
     OP_RANGE,
+    OP_NOT_RANGE,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
   [DATA_TYPE_STRUCTURED_DATE]: [
     OP_EQ,
+    OP_NOT_EQ,
+    OP_CONTAIN,
+    OP_NOT_CONTAIN,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
     OP_RANGE,
+    OP_NOT_RANGE,
+    OP_NULL,
+    OP_NOT_NULL,
   ],
 };
 
@@ -98,7 +134,45 @@ const opsByDataType = {
 
 const controlledListOps = [
   OP_EQ,
+  OP_NOT_EQ,
+  OP_NULL,
+  OP_NOT_NULL,
 ];
+
+export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlled) => (
+  isControlled ? controlledListOps : (opsByDataType[dataType] || [])
+);
+
+export const operatorExpectsValue = op => (
+  op !== OP_NULL
+  && op !== OP_NOT_NULL
+);
+
+export const operatorSupportsMultipleValues = op => (
+  // There is no need to support multiple values with greater than/less than operators, since they
+  // are redundant. The range search operator could conceivably have multiple values (non-
+  // overlapping ranges), but the range search input doesn't support multiple values right now.
+  // This could be implemented if it's needed.
+
+  // The below operators allow multiple values.
+
+  op === OP_EQ
+  || op === OP_CONTAIN
+  || op === OP_MATCH
+  || op === OP_RANGE
+  || op === OP_NOT_EQ
+  || op === OP_NOT_CONTAIN
+  || op === OP_NOT_MATCH
+  || op === OP_NOT_RANGE
+);
+
+export const dataTypeSupportsMultipleValues = dataType => (
+  // Booleans only have two possible values, so null (don't care) or a single desired
+  // value is sufficient to describe all searches, and there's no need to allow multiple
+  // values.
+
+  dataType !== DATA_TYPE_BOOL
+);
 
 const getDataType = (fieldDescriptor, path) =>
   get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'dataType']);
@@ -194,6 +268,7 @@ export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
 
   if (value) {
     const path = condition.get('path');
+    const op = condition.get('op');
     const dataType = getDataType(fieldDescriptor, path);
 
     if (!Immutable.List.isList(value)) {
@@ -217,7 +292,7 @@ export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
 
     if (!startValue) {
       return Immutable.Map({
-        op: OP_LTE,
+        op: op === OP_NOT_RANGE ? OP_GT : OP_LTE,
         path: condition.get('path'),
         value: endValue,
       });
@@ -225,7 +300,7 @@ export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
 
     if (!endValue) {
       return Immutable.Map({
-        op: OP_GTE,
+        op: op === OP_NOT_RANGE ? OP_LT : OP_GTE,
         path: condition.get('path'),
         value: startValue,
       });
@@ -244,7 +319,12 @@ export const normalizeFieldCondition = (fieldDescriptor, condition) => {
     return condition.set('value', value);
   }
 
-  return null;
+  if (operatorExpectsValue(condition.get('op'))) {
+    // The operator expects a value, but none were supplied. Remove the condition.
+    return null;
+  }
+
+  return condition.delete('value');
 };
 
 export const normalizeCondition = (fieldDescriptor, condition) => {
@@ -256,6 +336,7 @@ export const normalizeCondition = (fieldDescriptor, condition) => {
       case OP_OR:
         return normalizeBooleanCondition(fieldDescriptor, condition);
       case OP_RANGE:
+      case OP_NOT_RANGE:
         return normalizeRangeFieldCondition(fieldDescriptor, condition);
       default:
         return normalizeFieldCondition(fieldDescriptor, condition);
@@ -283,6 +364,12 @@ const operatorToNXQLMap = {
   [OP_GTE]: '>=',
   [OP_MATCH]: 'ILIKE',
   [OP_RANGE]: 'BETWEEN',
+  [OP_NULL]: 'IS NULL',
+  [OP_NOT_EQ]: '<>',
+  [OP_NOT_MATCH]: 'NOT ILIKE',
+  [OP_NOT_RANGE]: 'NOT BETWEEN',
+  [OP_NOT_NULL]: 'IS NOT NULL',
+
 };
 
 export const pathToNXQL = (fieldDescriptor, path) => {
@@ -420,6 +507,28 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
         },
       ],
     });
+  } else if (operator === OP_NOT_RANGE) {
+    // The structured date range does not overlap the value range.
+    // This will be the logical negation of OP_RANGE.
+
+    const rangeStart = value.get(0);
+    const rangeEnd = value.get(1);
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_OR,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_GT,
+          value: rangeEnd,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_LTE,
+          value: rangeStart,
+        },
+      ],
+    });
   } else if (operator === OP_CONTAIN) {
     // The structured date range contains the value date.
 
@@ -434,6 +543,25 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
         {
           path: latestScalarDatePath,
           op: OP_GT, // Not GTE, because latest scalar date has one day added.
+          value,
+        },
+      ],
+    });
+  } else if (operator === OP_NOT_CONTAIN) {
+    // The structured date range does not contain the value date.
+    // This will be the logical negation of OP_CONTAIN.
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_OR,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_GT,
+          value,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_LTE, // Not LT, because latest scalar date has one day added.
           value,
         },
       ],
@@ -453,6 +581,27 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
         {
           path: latestScalarDatePath,
           op: OP_EQ,
+          // GRRR. The latest scalar date has one day added.
+          value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
+        },
+      ],
+    });
+  } else if (operator === OP_NOT_EQ) {
+    // Either the earliest or latest dates of the structured date are not equal to the
+    // value date.
+    // This will be the logical negation of OP_EQ.
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_OR,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_NOT_EQ,
+          value,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_NOT_EQ,
           // GRRR. The latest scalar date has one day added.
           value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
         },
@@ -492,6 +641,39 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
       path: latestScalarDatePath,
       op: OP_GT, // Not GTE, because latest scalar date has one day added.
       value,
+    });
+  } else if (operator === OP_NULL) {
+    // Both the earliest and latest scalar dates are null.
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_AND,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_NULL,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_NULL,
+        },
+      ],
+    });
+  } else if (operator === OP_NOT_NULL) {
+    // Either the earliest or latest scalar date is not null.
+    // This will be the logical negation of OP_NULL.
+
+    convertedCondition = Immutable.fromJS({
+      op: OP_OR,
+      value: [
+        {
+          path: earliestScalarDatePath,
+          op: OP_NOT_NULL,
+        },
+        {
+          path: latestScalarDatePath,
+          op: OP_NOT_NULL,
+        },
+      ],
     });
   }
 
@@ -554,6 +736,9 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
   if (operator === OP_CONTAIN) {
     operator = OP_MATCH;
     value = `%${value}%`;
+  } else if (operator === OP_NOT_CONTAIN) {
+    operator = OP_NOT_MATCH;
+    value = `%${value}%`;
   }
 
   if (operator === OP_MATCH) {
@@ -562,6 +747,11 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
   const nxqlOp = operatorToNXQL(operator);
+
+  if (typeof value === 'undefined') {
+    return `${nxqlPath} ${nxqlOp}`;
+  }
+
   const nxqlValue = valueToNXQL(value, path, fieldDescriptor);
 
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
@@ -576,6 +766,7 @@ export const advancedSearchConditionToNXQL = (fieldDescriptor, condition) => {
       case OP_OR:
         return booleanConditionToNXQL(fieldDescriptor, condition);
       case OP_RANGE:
+      case OP_NOT_RANGE:
         return rangeFieldConditionToNXQL(fieldDescriptor, condition);
       default:
         return fieldConditionToNXQL(fieldDescriptor, condition);
@@ -747,26 +938,3 @@ export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) =
 
   return filteredRecordTypes;
 };
-
-export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlled) => (
-  isControlled ? controlledListOps : (opsByDataType[dataType] || [])
-);
-
-export const operatorSupportsMultipleValues = op => (
-  // There is no need to support multiple values with greater than/less than operators, since they
-  // are redundant. The range search operator could conceivably have multiple values (non-
-  // overlapping ranges), but the range search input doesn't support multiple values right now.
-  // This could be implemented if it's needed.
-
-  // The below operators allow multiple values.
-
-  op === OP_EQ || op === OP_CONTAIN || op === OP_MATCH
-);
-
-export const dataTypeSupportsMultipleValues = dataType => (
-  // Booleans only have two possible values, so null (don't care) or a single desired
-  // value is sufficient to describe all searches, and there's no need to allow multiple
-  // values.
-
-  dataType !== DATA_TYPE_BOOL
-);

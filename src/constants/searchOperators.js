@@ -9,3 +9,10 @@ export const OP_LT = 'lt';
 export const OP_LTE = 'lte';
 export const OP_MATCH = 'match';
 export const OP_RANGE = 'range';
+export const OP_NULL = 'null';
+
+export const OP_NOT_CONTAIN = 'ncont';
+export const OP_NOT_EQ = 'neq';
+export const OP_NOT_MATCH = 'nmatch';
+export const OP_NOT_RANGE = 'nrange';
+export const OP_NOT_NULL = 'nnull';
