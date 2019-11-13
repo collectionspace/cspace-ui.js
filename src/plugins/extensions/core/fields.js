@@ -39,6 +39,12 @@ export default (configContext) => {
       },
       createdBy: {
         [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.ext.core.createdBy.name',
+              defaultMessage: 'Created by',
+            },
+          }),
           view: {
             type: TextInput,
           },

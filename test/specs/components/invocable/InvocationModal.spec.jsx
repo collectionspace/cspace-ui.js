@@ -20,7 +20,7 @@ const mockStore = configureMockStore([thunk]);
 
 const store = mockStore({
   searchToSelect: Immutable.Map(),
-  optionList: {
+  optionList: Immutable.Map({
     reportMimeTypes: [
       {
         value: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -37,7 +37,7 @@ const store = mockStore({
         },
       },
     ],
-  },
+  }),
   prefs: Immutable.Map(),
   record: Immutable.Map(),
   search: Immutable.Map(),

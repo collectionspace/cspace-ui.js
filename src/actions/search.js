@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import { getSearchResult, isSearchDirty, isSearchPending } from '../reducers';
 import getSession from './cspace';
-import { advancedSearchConditionToNXQL } from '../helpers/searchHelpers';
+import { convertAdvancedSearchConditionToNXQL } from '../helpers/searchHelpers';
 
 import {
   ERR_UNKNOWN_RECORD_TYPE,
@@ -173,7 +173,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       return Promise.resolve();
     }
 
-    const nxql = advancedSearchConditionToNXQL(recordTypeConfig.fields, searchQuery.get('as'));
+    const nxql = convertAdvancedSearchConditionToNXQL(recordTypeConfig.fields, searchQuery.get('as'));
 
     const requestConfig = {
       params: {

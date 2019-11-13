@@ -158,7 +158,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.collectionobjects_common.numberValue.name',
-                    defaultMessage: 'Number',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {
@@ -444,6 +444,10 @@ export default (configContext) => {
               titleTranslationSubGroup: {
                 [config]: {
                   messages: defineMessages({
+                    fullName: {
+                      id: 'field.collectionobjects_common.titleTranslationSubGroup.fullName',
+                      defaultMessage: 'Title translation',
+                    },
                     name: {
                       id: 'field.collectionobjects_common.titleTranslationSubGroup.name',
                       defaultMessage: 'Translation',
@@ -460,6 +464,10 @@ export default (configContext) => {
                 titleTranslation: {
                   [config]: {
                     messages: defineMessages({
+                      fullName: {
+                        id: 'field.collectionobjects_common.titleTranslation.fullName',
+                        defaultMessage: 'Title translation',
+                      },
                       name: {
                         id: 'field.collectionobjects_common.titleTranslation.name',
                         defaultMessage: 'Translation',
@@ -495,6 +503,10 @@ export default (configContext) => {
             titleType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.titleType.fullName',
+                    defaultMessage: 'Title type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.titleType.name',
                     defaultMessage: 'Type',
@@ -552,6 +564,10 @@ export default (configContext) => {
             objectNameCurrency: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameCurrency.fullName',
+                    defaultMessage: 'Object name currency',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectNameCurrency.name',
                     defaultMessage: 'Currency',
@@ -568,6 +584,10 @@ export default (configContext) => {
             objectNameLevel: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameLevel.fullName',
+                    defaultMessage: 'Object name level',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectNameLevel.name',
                     defaultMessage: 'Level',
@@ -584,6 +604,10 @@ export default (configContext) => {
             objectNameSystem: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameSystem.fullName',
+                    defaultMessage: 'Object name system',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectNameSystem.name',
                     defaultMessage: 'System',
@@ -600,6 +624,10 @@ export default (configContext) => {
             objectNameType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameType.fullName',
+                    defaultMessage: 'Object name type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectNameType.name',
                     defaultMessage: 'Type',
@@ -636,6 +664,10 @@ export default (configContext) => {
             objectNameNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameNote.fullName',
+                    defaultMessage: 'Object name note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectNameNote.name',
                     defaultMessage: 'Note',
@@ -758,13 +790,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_INT,
             messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.age.name',
-                defaultMessage: 'Value',
-              },
               fullName: {
                 id: 'field.collectionobjects_common.age.fullName',
                 defaultMessage: 'Age value',
+              },
+              name: {
+                id: 'field.collectionobjects_common.age.name',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -795,6 +827,10 @@ export default (configContext) => {
         ageUnit: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ageUnit.fullName',
+                defaultMessage: 'Age unit',
+              },
               name: {
                 id: 'field.collectionobjects_common.ageUnit.name',
                 defaultMessage: 'Unit',
@@ -963,9 +999,6 @@ export default (configContext) => {
                 defaultMessage: 'Physical description',
               },
             }),
-            searchView: {
-              type: TextInput,
-            },
             view: {
               type: TextInput,
               props: {
@@ -1019,6 +1052,10 @@ export default (configContext) => {
             objectComponentInformation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectComponentInformation.fullName',
+                    defaultMessage: 'Object component information',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectComponentInformation.name',
                     defaultMessage: 'Information',
@@ -1076,6 +1113,10 @@ export default (configContext) => {
             technicalAttributeMeasurement: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.technicalAttributeMeasurement.fullName',
+                    defaultMessage: 'Technical attribute measurement',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.technicalAttributeMeasurement.name',
                     defaultMessage: 'Measurement',
@@ -1092,6 +1133,10 @@ export default (configContext) => {
             technicalAttributeMeasurementUnit: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.technicalAttributeMeasurementUnit.fullName',
+                    defaultMessage: 'Technical attribute measurement unit',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.technicalAttributeMeasurementUnit.name',
                     defaultMessage: 'Unit',
@@ -1111,6 +1156,10 @@ export default (configContext) => {
         contentDescription: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.contentDescription.fullName',
+                defaultMessage: 'Content description',
+              },
               name: {
                 id: 'field.collectionobjects_common.contentDescription.name',
                 defaultMessage: 'Description',
@@ -1161,6 +1210,10 @@ export default (configContext) => {
           contentActivity: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentActivity.fullName',
+                  defaultMessage: 'Content activity',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentActivity.name',
                   defaultMessage: 'Activity',
@@ -1203,6 +1256,7 @@ export default (configContext) => {
         },
         contentDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               fullName: {
                 id: 'field.collectionobjects_common.contentDateGroup.fullName',
@@ -1213,6 +1267,9 @@ export default (configContext) => {
                 defaultMessage: 'Date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },
@@ -1228,6 +1285,10 @@ export default (configContext) => {
           contentPosition: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentPosition.fullName',
+                  defaultMessage: 'Content position',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentPosition.name',
                   defaultMessage: 'Position',
@@ -1252,6 +1313,10 @@ export default (configContext) => {
           contentObjectGroup: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentObjectGroup.fullName',
+                  defaultMessage: 'Content object',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentObjectGroup.name',
                   defaultMessage: 'Object',
@@ -1268,6 +1333,10 @@ export default (configContext) => {
             contentObject: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.contentObject.fullName',
+                    defaultMessage: 'Content object name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.contentObject.name',
                     defaultMessage: 'Name',
@@ -1281,6 +1350,10 @@ export default (configContext) => {
             contentObjectType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.contentObjectType.fullName',
+                    defaultMessage: 'Content object type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.contentObjectType.name',
                     defaultMessage: 'Type',
@@ -1305,6 +1378,10 @@ export default (configContext) => {
           contentPeople: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentPeople.fullName',
+                  defaultMessage: 'Content people',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentPeople.name',
                   defaultMessage: 'People',
@@ -1326,13 +1403,13 @@ export default (configContext) => {
           contentPerson: {
             [config]: {
               messages: defineMessages({
-                name: {
-                  id: 'field.collectionobjects_common.contentPerson.name',
-                  defaultMessage: 'Person',
-                },
                 fullName: {
                   id: 'field.collectionobjects_common.contentPerson.fullName',
                   defaultMessage: 'Content person',
+                },
+                name: {
+                  id: 'field.collectionobjects_common.contentPerson.name',
+                  defaultMessage: 'Person',
                 },
               }),
               repeating: true,
@@ -1354,6 +1431,10 @@ export default (configContext) => {
           contentPlace: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentPlace.fullName',
+                  defaultMessage: 'Content place',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentPlace.name',
                   defaultMessage: 'Place',
@@ -1375,6 +1456,10 @@ export default (configContext) => {
           contentScript: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentScript.fullName',
+                  defaultMessage: 'Content script',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentScript.name',
                   defaultMessage: 'Script',
@@ -1399,13 +1484,13 @@ export default (configContext) => {
           contentOrganization: {
             [config]: {
               messages: defineMessages({
-                name: {
-                  id: 'field.collectionobjects_common.contentOrganization.name',
-                  defaultMessage: 'Organization',
-                },
                 fullName: {
                   id: 'field.collectionobjects_common.contentOrganization.fullName',
                   defaultMessage: 'Content organization',
+                },
+                name: {
+                  id: 'field.collectionobjects_common.contentOrganization.name',
+                  defaultMessage: 'Organization',
                 },
               }),
               repeating: true,
@@ -1427,6 +1512,10 @@ export default (configContext) => {
           contentEventNameGroup: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentEventNameGroup.fullName',
+                  defaultMessage: 'Content event',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentEventNameGroup.name',
                   defaultMessage: 'Event',
@@ -1443,6 +1532,10 @@ export default (configContext) => {
             contentEventName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.contentEventName.fullName',
+                    defaultMessage: 'Content event name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.contentEventName.name',
                     defaultMessage: 'Name',
@@ -1456,6 +1549,10 @@ export default (configContext) => {
             contentEventNameType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.contentEventNameType.fullName',
+                    defaultMessage: 'Content event type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.contentEventNameType.name',
                     defaultMessage: 'Type',
@@ -1477,6 +1574,10 @@ export default (configContext) => {
           contentOtherGroup: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentOtherGroup.fullName',
+                  defaultMessage: 'Content other',
+                },
                 name: {
                   id: 'field.collectionobjects_common.contentOtherGroup.name',
                   defaultMessage: 'Other',
@@ -1493,6 +1594,10 @@ export default (configContext) => {
             contentOther: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.contentOther.fullName',
+                    defaultMessage: 'Content other name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.contentOther.name',
                     defaultMessage: 'Name',
@@ -1506,6 +1611,10 @@ export default (configContext) => {
             contentOtherType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.contentOtherType.fullName',
+                    defaultMessage: 'Content other type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.contentOtherType.name',
                     defaultMessage: 'Type',
@@ -1521,6 +1630,10 @@ export default (configContext) => {
         contentNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.contentNote.fullName',
+                defaultMessage: 'Content note',
+              },
               name: {
                 id: 'field.collectionobjects_common.contentNote.name',
                 defaultMessage: 'Note',
@@ -1542,6 +1655,12 @@ export default (configContext) => {
           },
           textualInscriptionGroup: {
             [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.textualInscriptionGroup.fullName',
+                  defaultMessage: 'Textual inscription',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1550,6 +1669,10 @@ export default (configContext) => {
             inscriptionContent: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContent.fullName',
+                    defaultMessage: 'Textual inscription content',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContent.name',
                     defaultMessage: 'Inscription content',
@@ -1605,6 +1728,7 @@ export default (configContext) => {
             },
             inscriptionContentDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.inscriptionContentDateGroup.fullName',
@@ -1615,6 +1739,9 @@ export default (configContext) => {
                     defaultMessage: 'Date',
                   },
                 }),
+                searchView: {
+                  type: DateInput,
+                },
                 view: {
                   type: StructuredDateInput,
                 },
@@ -1624,6 +1751,10 @@ export default (configContext) => {
             inscriptionContentPosition: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentPosition.fullName',
+                    defaultMessage: 'Textual inscription position',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentPosition.name',
                     defaultMessage: 'Position',
@@ -1640,6 +1771,10 @@ export default (configContext) => {
             inscriptionContentScript: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentScript.fullName',
+                    defaultMessage: 'Textual inscription script',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentScript.name',
                     defaultMessage: 'Script',
@@ -1656,6 +1791,10 @@ export default (configContext) => {
             inscriptionContentType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentType.fullName',
+                    defaultMessage: 'Textual inscription type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentType.name',
                     defaultMessage: 'Type',
@@ -1672,6 +1811,10 @@ export default (configContext) => {
             inscriptionContentMethod: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentMethod.fullName',
+                    defaultMessage: 'Textual inscription method',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentMethod.name',
                     defaultMessage: 'Method',
@@ -1685,6 +1828,10 @@ export default (configContext) => {
             inscriptionContentInterpretation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentInterpretation.fullName',
+                    defaultMessage: 'Textual inscription interpretation',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentInterpretation.name',
                     defaultMessage: 'Interpretation',
@@ -1701,6 +1848,10 @@ export default (configContext) => {
             inscriptionContentTranslation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentTranslation.fullName',
+                    defaultMessage: 'Textual inscription translation',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentTranslation.name',
                     defaultMessage: 'Translation',
@@ -1714,6 +1865,10 @@ export default (configContext) => {
             inscriptionContentTransliteration: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionContentTransliteration.fullName',
+                    defaultMessage: 'Textual inscription transliteration',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentTransliteration.name',
                     defaultMessage: 'Transliteration',
@@ -1734,6 +1889,12 @@ export default (configContext) => {
           },
           nonTextualInscriptionGroup: {
             [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.nonTextualInscriptionGroup.fullName',
+                  defaultMessage: 'Non-textual inscription',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -1742,6 +1903,10 @@ export default (configContext) => {
             inscriptionDescription: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionDescription.fullName',
+                    defaultMessage: 'Non-textual inscription description',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescription.name',
                     defaultMessage: 'Inscription description',
@@ -1777,6 +1942,7 @@ export default (configContext) => {
             },
             inscriptionDescriptionDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.fullName',
@@ -1787,6 +1953,9 @@ export default (configContext) => {
                     defaultMessage: 'Date',
                   },
                 }),
+                searchView: {
+                  type: DateInput,
+                },
                 view: {
                   type: StructuredDateInput,
                 },
@@ -1796,6 +1965,10 @@ export default (configContext) => {
             inscriptionDescriptionPosition: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionDescriptionPosition.fullName',
+                    defaultMessage: 'Non-textual inscription position',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionPosition.name',
                     defaultMessage: 'Position',
@@ -1812,6 +1985,10 @@ export default (configContext) => {
             inscriptionDescriptionType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionDescriptionType.fullName',
+                    defaultMessage: 'Non-textual inscription type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionType.name',
                     defaultMessage: 'Type',
@@ -1845,6 +2022,10 @@ export default (configContext) => {
             inscriptionDescriptionInterpretation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.inscriptionDescriptionInterpretation.fullName',
+                    defaultMessage: 'Non-textual inscription interpretation',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionInterpretation.name',
                     defaultMessage: 'Interpretation',
@@ -1928,6 +2109,10 @@ export default (configContext) => {
             techniqueType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.techniqueType.fullName',
+                    defaultMessage: 'Production technique type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.techniqueType.name',
                     defaultMessage: 'Type',
@@ -1982,6 +2167,10 @@ export default (configContext) => {
             objectProductionPlaceRole: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectProductionPlaceRole.fullName',
+                    defaultMessage: 'Production place role',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectProductionPlaceRole.name',
                     defaultMessage: 'Role',
@@ -2060,6 +2249,10 @@ export default (configContext) => {
             objectProductionPeopleRole: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectProductionPeopleRole.fullName',
+                    defaultMessage: 'Production people role',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectProductionPeopleRole.name',
                     defaultMessage: 'Role',
@@ -2117,6 +2310,10 @@ export default (configContext) => {
             objectProductionPersonRole: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectProductionPersonRole.fullName',
+                    defaultMessage: 'Production person role',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectProductionPersonRole.name',
                     defaultMessage: 'Role',
@@ -2174,6 +2371,10 @@ export default (configContext) => {
             objectProductionOrganizationRole: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectProductionOrganizationRole.fullName',
+                    defaultMessage: 'Production organization role',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectProductionOrganizationRole.name',
                     defaultMessage: 'Role',
@@ -2227,6 +2428,10 @@ export default (configContext) => {
             assocActivity: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocActivity.fullName',
+                    defaultMessage: 'Associated activity',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocActivity.name',
                     defaultMessage: 'Activity',
@@ -2240,6 +2445,10 @@ export default (configContext) => {
             assocActivityType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocActivityType.fullName',
+                    defaultMessage: 'Associated activity type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocActivityType.name',
                     defaultMessage: 'Type',
@@ -2253,6 +2462,10 @@ export default (configContext) => {
             assocActivityNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocActivityNote.fullName',
+                    defaultMessage: 'Associated activity note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocActivityNote.name',
                     defaultMessage: 'Note',
@@ -2290,6 +2503,10 @@ export default (configContext) => {
             assocObject: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocObject.fullName',
+                    defaultMessage: 'Associated object',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocObject.name',
                     defaultMessage: 'Object',
@@ -2303,6 +2520,10 @@ export default (configContext) => {
             assocObjectType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocObjectType.fullName',
+                    defaultMessage: 'Associated object type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocObjectType.name',
                     defaultMessage: 'Type',
@@ -2316,6 +2537,10 @@ export default (configContext) => {
             assocObjectNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocObjectNote.fullName',
+                    defaultMessage: 'Associated object note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocObjectNote.name',
                     defaultMessage: 'Note',
@@ -2373,6 +2598,10 @@ export default (configContext) => {
             assocConceptType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocConceptType.fullName',
+                    defaultMessage: 'Associated concept type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocConceptType.name',
                     defaultMessage: 'Type',
@@ -2386,6 +2615,10 @@ export default (configContext) => {
             assocConceptNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocConceptNote.fullName',
+                    defaultMessage: 'Associated concept note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocConceptNote.name',
                     defaultMessage: 'Note',
@@ -2423,6 +2656,10 @@ export default (configContext) => {
             assocCulturalContext: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocCulturalContext.fullName',
+                    defaultMessage: 'Associated cultural affinity',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocCulturalContext.name',
                     defaultMessage: 'Cultural affinity',
@@ -2436,6 +2673,10 @@ export default (configContext) => {
             assocCulturalContextType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocCulturalContextType.fullName',
+                    defaultMessage: 'Associated cultural affinity type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocCulturalContextType.name',
                     defaultMessage: 'Type',
@@ -2449,6 +2690,10 @@ export default (configContext) => {
             assocCulturalContextNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocCulturalContextNote.fullName',
+                    defaultMessage: 'Associated cultural affinity note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocCulturalContextNote.name',
                     defaultMessage: 'Note',
@@ -2506,6 +2751,10 @@ export default (configContext) => {
             assocOrganizationType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocOrganizationType.fullName',
+                    defaultMessage: 'Associated organization type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocOrganizationType.name',
                     defaultMessage: 'Type',
@@ -2519,6 +2768,10 @@ export default (configContext) => {
             assocOrganizationNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocOrganizationNote.fullName',
+                    defaultMessage: 'Associated organization note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocOrganizationNote.name',
                     defaultMessage: 'Note',
@@ -2573,6 +2826,10 @@ export default (configContext) => {
             assocPeopleType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPeopleType.fullName',
+                    defaultMessage: 'Associated people type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPeopleType.name',
                     defaultMessage: 'Type',
@@ -2586,6 +2843,10 @@ export default (configContext) => {
             assocPeopleNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPeopleNote.fullName',
+                    defaultMessage: 'Associated people note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPeopleNote.name',
                     defaultMessage: 'Note',
@@ -2643,6 +2904,10 @@ export default (configContext) => {
             assocPersonType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPersonType.fullName',
+                    defaultMessage: 'Associated person type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPersonType.name',
                     defaultMessage: 'Type',
@@ -2656,6 +2921,10 @@ export default (configContext) => {
             assocPersonNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPersonNote.fullName',
+                    defaultMessage: 'Associated person note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPersonNote.name',
                     defaultMessage: 'Note',
@@ -2710,6 +2979,10 @@ export default (configContext) => {
             assocPlaceType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPlaceType.fullName',
+                    defaultMessage: 'Associated place type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPlaceType.name',
                     defaultMessage: 'Type',
@@ -2723,6 +2996,10 @@ export default (configContext) => {
             assocPlaceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocPlaceNote.fullName',
+                    defaultMessage: 'Associated place note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocPlaceNote.name',
                     defaultMessage: 'Note',
@@ -2738,6 +3015,10 @@ export default (configContext) => {
         assocEventName: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.assocEventName.fullName',
+                defaultMessage: 'Associated event',
+              },
               name: {
                 id: 'field.collectionobjects_common.assocEventName.name',
                 defaultMessage: 'Event',
@@ -2751,6 +3032,10 @@ export default (configContext) => {
         assocEventNameType: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.assocEventNameType.fullName',
+                defaultMessage: 'Associated event type',
+              },
               name: {
                 id: 'field.collectionobjects_common.assocEventNameType.name',
                 defaultMessage: 'Type',
@@ -2888,6 +3173,7 @@ export default (configContext) => {
             },
             assocStructuredDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.assocStructuredDateGroup.fullName',
@@ -2898,6 +3184,9 @@ export default (configContext) => {
                     defaultMessage: 'Date',
                   },
                 }),
+                searchView: {
+                  type: DateInput,
+                },
                 view: {
                   type: StructuredDateInput,
                 },
@@ -2907,6 +3196,10 @@ export default (configContext) => {
             assocDateType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocDateType.fullName',
+                    defaultMessage: 'Associated date type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocDateType.name',
                     defaultMessage: 'Type',
@@ -2920,6 +3213,10 @@ export default (configContext) => {
             assocDateNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assocDateNote.fullName',
+                    defaultMessage: 'Associated date note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.assocDateNote.name',
                     defaultMessage: 'Note',
@@ -2986,6 +3283,10 @@ export default (configContext) => {
             usageNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.usageNote.fullName',
+                    defaultMessage: 'Usage note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.usageNote.name',
                     defaultMessage: 'Note',
@@ -3030,6 +3331,7 @@ export default (configContext) => {
           },
           ownershipDateGroup: {
             [config]: {
+              dataType: DATA_TYPE_STRUCTURED_DATE,
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.ownershipDateGroup.name',
@@ -3037,6 +3339,9 @@ export default (configContext) => {
                 },
               }),
               repeating: true,
+              searchView: {
+                type: DateInput,
+              },
               view: {
                 type: StructuredDateInput,
               },
@@ -3092,6 +3397,10 @@ export default (configContext) => {
         ownershipExchangeMethod: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ownershipExchangeMethod.fullName',
+                defaultMessage: 'Ownership exchange method',
+              },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangeMethod.name',
                 defaultMessage: 'Method',
@@ -3108,6 +3417,10 @@ export default (configContext) => {
         ownershipExchangeNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.ownershipExchangeNote.fullName',
+                defaultMessage: 'Ownership exchange note',
+              },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangeNote.name',
                 defaultMessage: 'Note',
@@ -3315,6 +3628,12 @@ export default (configContext) => {
           },
           referenceGroup: {
             [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.referenceGroup.fullName',
+                  defaultMessage: 'Reference',
+                },
+              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -3342,6 +3661,10 @@ export default (configContext) => {
             referenceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.referenceNote.fullName',
+                    defaultMessage: 'Reference note',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.referenceNote.name',
                     defaultMessage: 'Note',
@@ -3356,12 +3679,16 @@ export default (configContext) => {
         },
         fieldCollectionDateGroup: {
           [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.fieldCollectionDateGroup.name',
                 defaultMessage: 'Field collection date',
               },
             }),
+            searchView: {
+              type: DateInput,
+            },
             view: {
               type: StructuredDateInput,
             },

@@ -3,6 +3,11 @@ import get from 'lodash/get';
 import SearchToSelectModal, { searchName } from '../../components/search/SearchToSelectModal';
 
 import {
+  buildRecordFieldOptionLists,
+  deleteOptionList,
+} from '../../actions/optionList';
+
+import {
   setSearchToSelectPageSize,
 } from '../../actions/prefs';
 
@@ -53,7 +58,9 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
+  buildRecordFieldOptionLists,
   clearSearchResults,
+  deleteOptionList,
   search,
   onAdvancedSearchConditionCommit: setSearchToSelectAdvanced,
   onClearButtonClick: clearSearchToSelect,

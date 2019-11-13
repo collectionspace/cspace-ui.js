@@ -43,7 +43,7 @@ describe('StructuredDateInputContainer', function suite() {
 
     const store = mockStore({
       vocabulary,
-      optionList: optionLists,
+      optionList: Immutable.Map(optionLists),
       user: Immutable.Map({
         perms,
       }),
@@ -87,7 +87,7 @@ describe('StructuredDateInputContainer', function suite() {
     };
 
     const store = mockStore({
-      optionList: optionLists,
+      optionList: Immutable.Map(optionLists),
       user: Immutable.Map(),
       vocabulary: {
         [vocabularyName]: vocabulary,

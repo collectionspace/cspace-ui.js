@@ -16,3 +16,5 @@ export const OP_NOT_EQ = 'neq';
 export const OP_NOT_MATCH = 'nmatch';
 export const OP_NOT_RANGE = 'nrange';
 export const OP_NOT_NULL = 'nnull';
+
+export const OP_GROUP = 'grp';

@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import Immutable from 'immutable';
 import OptionPickerInput from '../../../../src/components/record/OptionPickerInput';
 import ConnectedOptionPickerInput from '../../../../src/containers/record/OptionPickerInputContainer';
 
@@ -17,9 +18,9 @@ describe('OptionPickerInputContainer', function suite() {
     ];
 
     const store = mockStore({
-      optionList: {
+      optionList: Immutable.Map({
         [optionListName]: options,
-      },
+      }),
     });
 
     const context = {
@@ -47,108 +48,4 @@ describe('OptionPickerInputContainer', function suite() {
     result.type.should.equal(OptionPickerInput);
     result.props.options.should.deep.equal(options);
   });
-
-  // it('should connect formatOptionLabel to intl.formatMessage', function test() {
-  //   const optionListName = 'units';
-
-  //   const options = [
-  //     {
-  //       value: 'cm',
-  //       message: {
-  //         id: 'option.units.cm',
-  //         defaultMessage: 'centimeters',
-  //       },
-  //     },
-  //   ];
-
-  //   const store = mockStore({
-  //     optionList: {
-  //       [optionListName]: options,
-  //     },
-  //   });
-
-  //   let formatMessageCalled = false;
-
-  //   const context = {
-  //     store,
-  //     intl: {
-  //       formatDate: () => null,
-  //       formatTime: () => null,
-  //       formatRelative: () => null,
-  //       formatNumber: () => null,
-  //       formatPlural: () => null,
-  //       formatMessage: () => {
-  //         formatMessageCalled = true;
-  //       },
-  //       formatHTMLMessage: () => null,
-  //       now: () => null,
-  //     },
-  //   };
-
-  //   const shallowRenderer = createRenderer();
-
-  //   shallowRenderer.render(
-  //     <ConnectedOptionPickerInput
-  //       intl={context.intl}
-  //       source={optionListName}
-  //     />, context);
-
-  //   const result = shallowRenderer.getRenderOutput();
-
-  //   result.props.formatOptionLabel(options[0]);
-
-  //   formatMessageCalled.should.equal(true);
-  // });
-
-  // it('should connect formatStatusMessage to intl.formatMessage', function test() {
-  //   const optionListName = 'units';
-
-  //   const options = [
-  //     {
-  //       value: 'cm',
-  //       message: {
-  //         id: 'option.units.cm',
-  //         defaultMessage: 'centimeters',
-  //       },
-  //     },
-  //   ];
-
-  //   const store = mockStore({
-  //     optionList: {
-  //       [optionListName]: options,
-  //     },
-  //   });
-
-  //   let formatMessageCalled = false;
-
-  //   const context = {
-  //     store,
-  //     intl: {
-  //       formatDate: () => null,
-  //       formatTime: () => null,
-  //       formatRelative: () => null,
-  //       formatNumber: () => null,
-  //       formatPlural: () => null,
-  //       formatMessage: () => {
-  //         formatMessageCalled = true;
-  //       },
-  //       formatHTMLMessage: () => null,
-  //       now: () => null,
-  //     },
-  //   };
-
-  //   const shallowRenderer = createRenderer();
-
-  //   shallowRenderer.render(
-  //     <ConnectedOptionPickerInput
-  //       intl={context.intl}
-  //       source={optionListName}
-  //     />, context);
-
-  //   const result = shallowRenderer.getRenderOutput();
-
-  //   result.props.formatStatusMessage();
-
-  //   formatMessageCalled.should.equal(true);
-  // });
 });

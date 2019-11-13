@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import { ConnectedComboBoxInput } from '../../../../src/containers/input/ComboBoxInputContainer';
 
@@ -18,9 +19,9 @@ describe('ComboBoxInputContainer', function suite() {
     ];
 
     const store = mockStore({
-      optionList: {
+      optionList: Immutable.Map({
         [optionListName]: options,
-      },
+      }),
     });
 
     const context = {
@@ -54,9 +55,9 @@ describe('ComboBoxInputContainer', function suite() {
     ];
 
     const store = mockStore({
-      optionList: {
+      optionList: Immutable.Map({
         [optionListName]: options,
-      },
+      }),
     });
 
     let formatMessageCalled = false;

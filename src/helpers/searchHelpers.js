@@ -40,12 +40,11 @@ import {
   OP_NOT_MATCH,
   OP_NOT_RANGE,
   OP_NOT_NULL,
+  OP_GROUP,
 } from '../constants/searchOperators';
 
 const opsByDataType = {
   [DATA_TYPE_STRING]: [
-    OP_EQ,
-    OP_NOT_EQ,
     OP_CONTAIN,
     OP_NOT_CONTAIN,
     OP_MATCH,
@@ -56,30 +55,32 @@ const opsByDataType = {
     OP_LTE,
     OP_RANGE,
     OP_NOT_RANGE,
+    OP_EQ,
+    OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
   [DATA_TYPE_INT]: [
-    OP_EQ,
-    OP_NOT_EQ,
+    OP_RANGE,
+    OP_NOT_RANGE,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
-    OP_RANGE,
-    OP_NOT_RANGE,
+    OP_EQ,
+    OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
   [DATA_TYPE_FLOAT]: [
-    OP_EQ,
-    OP_NOT_EQ,
+    OP_RANGE,
+    OP_NOT_RANGE,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
-    OP_RANGE,
-    OP_NOT_RANGE,
+    OP_EQ,
+    OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
@@ -89,40 +90,41 @@ const opsByDataType = {
     OP_NOT_NULL,
   ],
   [DATA_TYPE_DATE]: [
-    OP_EQ,
-    OP_NOT_EQ,
+    OP_RANGE,
+    OP_NOT_RANGE,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
-    OP_RANGE,
-    OP_NOT_RANGE,
+    OP_EQ,
+    OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
   [DATA_TYPE_DATETIME]: [
-    OP_EQ,
-    OP_NOT_EQ,
+    OP_RANGE,
+    OP_NOT_RANGE,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
-    OP_RANGE,
-    OP_NOT_RANGE,
+    // There currently is no input to enter an exact timestamp.
+    // OP_EQ,
+    // OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
   [DATA_TYPE_STRUCTURED_DATE]: [
-    OP_EQ,
-    OP_NOT_EQ,
-    OP_CONTAIN,
-    OP_NOT_CONTAIN,
+    OP_RANGE,
+    OP_NOT_RANGE,
     OP_GT,
     OP_GTE,
     OP_LT,
     OP_LTE,
-    OP_RANGE,
-    OP_NOT_RANGE,
+    OP_CONTAIN,
+    OP_NOT_CONTAIN,
+    OP_EQ,
+    OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
@@ -244,12 +246,11 @@ export const normalizeBooleanCondition = (fieldDescriptor, condition) => {
   let childConditions = condition.get('value');
 
   if (childConditions) {
-    /* Gotta do this mutual recursion */
-    /* eslint-disable no-use-before-define */
     childConditions = childConditions
+      // Gotta do this mutual recursion
+      // eslint-disable-next-line no-use-before-define
       .map(childCondition => normalizeCondition(fieldDescriptor, childCondition))
       .filter(childCondition => !!childCondition);
-    /* eslint-enable no-use-before-define */
   }
 
   if (childConditions && childConditions.size > 0) {
@@ -263,11 +264,61 @@ export const normalizeBooleanCondition = (fieldDescriptor, condition) => {
   return null;
 };
 
+export const normalizeGroupCondition = (fieldDescriptor, condition) => {
+  const path = condition.get('path');
+
+  if (!path) {
+    return null;
+  }
+
+  let childCondition = condition.get('value');
+
+  if (!childCondition) {
+    return null;
+  }
+
+  const childOp = childCondition.get('op');
+
+  if (childOp !== OP_AND && childOp !== OP_OR) {
+    // Ensure the child is a boolean operation.
+
+    childCondition = Immutable.Map({
+      op: OP_AND,
+      value: Immutable.List.of(childCondition),
+    });
+  }
+
+  // Normalize the child conditions of the child boolean operation.
+
+  let boolChildConditions = childCondition.get('value');
+
+  if (!boolChildConditions) {
+    return null;
+  }
+
+  boolChildConditions = boolChildConditions
+    // Gotta do this mutual recursion
+    // eslint-disable-next-line no-use-before-define
+    .map(boolChildCondition => normalizeCondition(fieldDescriptor, boolChildCondition))
+    .filter(boolChildCondition => !!boolChildCondition);
+
+  if (boolChildConditions.size === 0) {
+    return null;
+  }
+
+  return condition.set('value', childCondition.set('value', boolChildConditions));
+};
+
 export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
+  const path = condition.get('path');
+
+  if (!path) {
+    return null;
+  }
+
   let value = condition.get('value');
 
   if (value) {
-    const path = condition.get('path');
     const op = condition.get('op');
     const dataType = getDataType(fieldDescriptor, path);
 
@@ -313,6 +364,12 @@ export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
 };
 
 export const normalizeFieldCondition = (fieldDescriptor, condition) => {
+  const path = condition.get('path');
+
+  if (!path) {
+    return null;
+  }
+
   const value = normalizeFieldValue(condition.get('value'));
 
   if (value) {
@@ -338,6 +395,8 @@ export const normalizeCondition = (fieldDescriptor, condition) => {
       case OP_RANGE:
       case OP_NOT_RANGE:
         return normalizeRangeFieldCondition(fieldDescriptor, condition);
+      case OP_GROUP:
+        return normalizeGroupCondition(fieldDescriptor, condition);
       default:
         return normalizeFieldCondition(fieldDescriptor, condition);
     }
@@ -449,7 +508,7 @@ export const valueToNXQL = (value, path, fieldDescriptor) => {
   return JSON.stringify(nxqlValue);
 };
 
-export const booleanConditionToNXQL = (fieldDescriptor, condition) => {
+export const booleanConditionToNXQL = (fieldDescriptor, condition, counter) => {
   const operator = condition.get('op');
   const nxqlOp = operatorToNXQL(operator);
 
@@ -459,10 +518,9 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition) => {
     const nxql =
       childConditions
         .map(childCondition =>
-          /* Gotta do this mutual recursion */
-          /* eslint-disable no-use-before-define */
-          advancedSearchConditionToNXQL(fieldDescriptor, childCondition))
-          /* eslint-enable no-use-before-define */
+          // Gotta do this mutual recursion
+          // eslint-disable-next-line no-use-before-define
+          advancedSearchConditionToNXQL(fieldDescriptor, childCondition, counter))
         .join(` ${nxqlOp} `);
 
     return `(${nxql})`;
@@ -471,7 +529,34 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition) => {
   return '';
 };
 
-export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) => {
+const correlatePath = (nxql, nxqlPath, counter) => {
+  if (!nxqlPath.endsWith('*')) {
+    return nxql;
+  }
+
+  const correlationNumber = counter.next();
+  const correlatedPath = `${nxqlPath}${correlationNumber}`;
+  const nxqlPathMatchString = nxqlPath.replace(/\*/g, '\\*\\d*');
+  const correlatedNXQL = nxql.replace(new RegExp(nxqlPathMatchString, 'g'), correlatedPath);
+
+  const index = nxqlPath.lastIndexOf('*', nxqlPath.length - 2);
+
+  return correlatePath(correlatedNXQL, nxqlPath.substring(0, index + 1), counter);
+};
+
+export const groupConditionToNXQL = (fieldDescriptor, condition, counter) => {
+  const path = condition.get('path');
+  const childCondition = condition.get('value');
+
+  const nxqlPath = pathToNXQL(fieldDescriptor, path);
+  // Gotta do this mutual recursion
+  // eslint-disable-next-line no-use-before-define
+  const nxql = advancedSearchConditionToNXQL(fieldDescriptor, childCondition, counter);
+
+  return correlatePath(nxql, nxqlPath, counter);
+};
+
+export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
   // Convert structured date searches to searches on the earliest and latest scalar dates.
 
   // The UI has historically added one day to the latest day when computing the latest scalar
@@ -493,19 +578,23 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
     const rangeEnd = value.get(1);
 
     convertedCondition = Immutable.fromJS({
-      op: OP_AND,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_LTE,
-          value: rangeEnd,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_GT,
-          value: rangeStart,
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_AND,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_LTE,
+            value: rangeEnd,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_GT,
+            value: rangeStart,
+          },
+        ],
+      },
     });
   } else if (operator === OP_NOT_RANGE) {
     // The structured date range does not overlap the value range.
@@ -515,76 +604,92 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
     const rangeEnd = value.get(1);
 
     convertedCondition = Immutable.fromJS({
-      op: OP_OR,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_GT,
-          value: rangeEnd,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_LTE,
-          value: rangeStart,
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_OR,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_GT,
+            value: rangeEnd,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_LTE,
+            value: rangeStart,
+          },
+        ],
+      },
     });
   } else if (operator === OP_CONTAIN) {
     // The structured date range contains the value date.
 
     convertedCondition = Immutable.fromJS({
-      op: OP_AND,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_LTE,
-          value,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_GT, // Not GTE, because latest scalar date has one day added.
-          value,
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_AND,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_LTE,
+            value,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_GT, // Not GTE, because latest scalar date has one day added.
+            value,
+          },
+        ],
+      },
     });
   } else if (operator === OP_NOT_CONTAIN) {
     // The structured date range does not contain the value date.
     // This will be the logical negation of OP_CONTAIN.
 
     convertedCondition = Immutable.fromJS({
-      op: OP_OR,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_GT,
-          value,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_LTE, // Not LT, because latest scalar date has one day added.
-          value,
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_OR,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_GT,
+            value,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_LTE, // Not LT, because latest scalar date has one day added.
+            value,
+          },
+        ],
+      },
     });
   } else if (operator === OP_EQ) {
     // The earliest and latest dates of the structured date are the same, and are equal to the
     // value date.
 
     convertedCondition = Immutable.fromJS({
-      op: OP_AND,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_EQ,
-          value,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_EQ,
-          // GRRR. The latest scalar date has one day added.
-          value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_AND,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_EQ,
+            value,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_EQ,
+            // GRRR. The latest scalar date has one day added.
+            value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
+          },
+        ],
+      },
     });
   } else if (operator === OP_NOT_EQ) {
     // Either the earliest or latest dates of the structured date are not equal to the
@@ -592,20 +697,24 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
     // This will be the logical negation of OP_EQ.
 
     convertedCondition = Immutable.fromJS({
-      op: OP_OR,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_NOT_EQ,
-          value,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_NOT_EQ,
-          // GRRR. The latest scalar date has one day added.
-          value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_OR,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_NOT_EQ,
+            value,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_NOT_EQ,
+            // GRRR. The latest scalar date has one day added.
+            value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
+          },
+        ],
+      },
     });
   } else if (operator === OP_LT) {
     // The earliest date in the structured date is before the value date, i.e. some part of the
@@ -646,34 +755,42 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
     // Both the earliest and latest scalar dates are null.
 
     convertedCondition = Immutable.fromJS({
-      op: OP_AND,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_NULL,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_NULL,
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_AND,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_NULL,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_NULL,
+          },
+        ],
+      },
     });
   } else if (operator === OP_NOT_NULL) {
     // Either the earliest or latest scalar date is not null.
     // This will be the logical negation of OP_NULL.
 
     convertedCondition = Immutable.fromJS({
-      op: OP_OR,
-      value: [
-        {
-          path: earliestScalarDatePath,
-          op: OP_NOT_NULL,
-        },
-        {
-          path: latestScalarDatePath,
-          op: OP_NOT_NULL,
-        },
-      ],
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_OR,
+        value: [
+          {
+            path: earliestScalarDatePath,
+            op: OP_NOT_NULL,
+          },
+          {
+            path: latestScalarDatePath,
+            op: OP_NOT_NULL,
+          },
+        ],
+      },
     });
   }
 
@@ -681,18 +798,19 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition) =
 
   return (
     convertedCondition
+      // Gotta do this mutual recursion
       // eslint-disable-next-line no-use-before-define
-      ? advancedSearchConditionToNXQL(fieldDescriptor, convertedCondition)
+      ? advancedSearchConditionToNXQL(fieldDescriptor, convertedCondition, counter)
       : null
   );
 };
 
-export const rangeFieldConditionToNXQL = (fieldDescriptor, condition) => {
+export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
   const path = condition.get('path');
   const dataType = getDataType(fieldDescriptor, path);
 
   if (dataType === DATA_TYPE_STRUCTURED_DATE) {
-    return structuredDateFieldConditionToNXQL(fieldDescriptor, condition);
+    return structuredDateFieldConditionToNXQL(fieldDescriptor, condition, counter);
   }
 
   const operator = condition.get('op');
@@ -712,7 +830,7 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition) => {
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
 
-export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
+export const fieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
   const path = condition.get('path');
   const dataType = getDataType(fieldDescriptor, path);
 
@@ -723,14 +841,14 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
     // Expand or'ed values.
 
     const orClauses = value.map(valueInstance =>
-      fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance))
+      fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance), counter)
     ).join(' OR ');
 
     return `(${orClauses})`;
   }
 
   if (dataType === DATA_TYPE_STRUCTURED_DATE) {
-    return structuredDateFieldConditionToNXQL(fieldDescriptor, condition);
+    return structuredDateFieldConditionToNXQL(fieldDescriptor, condition, counter);
   }
 
   if (operator === OP_CONTAIN) {
@@ -757,24 +875,43 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition) => {
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
 
-export const advancedSearchConditionToNXQL = (fieldDescriptor, condition) => {
+export const createCounter = () => {
+  let nextNum = 1;
+
+  return {
+    next: () => {
+      const result = nextNum;
+
+      nextNum += 1;
+
+      return result;
+    },
+  };
+};
+
+export const advancedSearchConditionToNXQL = (fieldDescriptor, condition, counter) => {
   if (condition) {
     const operator = condition.get('op');
 
     switch (operator) {
       case OP_AND:
       case OP_OR:
-        return booleanConditionToNXQL(fieldDescriptor, condition);
+        return booleanConditionToNXQL(fieldDescriptor, condition, counter);
       case OP_RANGE:
       case OP_NOT_RANGE:
-        return rangeFieldConditionToNXQL(fieldDescriptor, condition);
+        return rangeFieldConditionToNXQL(fieldDescriptor, condition, counter);
+      case OP_GROUP:
+        return groupConditionToNXQL(fieldDescriptor, condition, counter);
       default:
-        return fieldConditionToNXQL(fieldDescriptor, condition);
+        return fieldConditionToNXQL(fieldDescriptor, condition, counter);
     }
   }
 
   return null;
 };
+
+export const convertAdvancedSearchConditionToNXQL = (fieldDescriptor, condition) =>
+  advancedSearchConditionToNXQL(fieldDescriptor, condition, createCounter());
 
 /**
  * Converts a search descriptor to a React Router location.

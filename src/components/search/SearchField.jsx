@@ -112,7 +112,7 @@ export default class SearchField extends Component {
     } = this.props;
 
     if (readOnly) {
-      return (orderNumber > 1 ? <div>/</div> : null);
+      return (orderNumber > 1 ? <div>, </div> : null);
     }
 
     return (

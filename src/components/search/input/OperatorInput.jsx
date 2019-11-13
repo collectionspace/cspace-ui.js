@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
-import { getOperatorsForDataType } from '../../../helpers/searchHelpers';
 
 import {
   OP_CONTAIN,
@@ -115,7 +114,7 @@ const operatorMessages = {
     },
     [OP_RANGE]: {
       id: 'operatorInput.compact.OP_RANGE',
-      defaultMessage: 'between',
+      defaultMessage: 'is between',
     },
     [OP_NULL]: {
       id: 'operatorInput.compact.OP_NULL',
@@ -123,7 +122,7 @@ const operatorMessages = {
     },
     [OP_NOT_CONTAIN]: {
       id: 'operatorInput.compact.OP_NOT_CONTAIN',
-      defaultMessage: 'does not contain',
+      defaultMessage: 'doesn\'t contain',
     },
     [OP_NOT_EQ]: {
       id: 'operatorInput.compact.OP_NOT_EQ',
@@ -131,24 +130,24 @@ const operatorMessages = {
     },
     [OP_NOT_MATCH]: {
       id: 'operatorInput.compact.OP_NOT_MATCH',
-      defaultMessage: 'does not match',
+      defaultMessage: 'doesn\'t match',
     },
     [OP_NOT_RANGE]: {
       id: 'operatorInput.compact.OP_NOT_RANGE',
-      defaultMessage: 'is not between',
+      defaultMessage: 'isn\'t between',
     },
     [OP_NOT_NULL]: {
       id: 'operatorInput.compact.OP_NOT_NULL',
-      defaultMessage: 'is not blank',
+      defaultMessage: 'isn\'t blank',
     },
   }),
 };
 
 const propTypes = {
   compact: PropTypes.bool,
-  dataType: PropTypes.string,
   intl: intlShape,
-  isControlled: PropTypes.bool,
+  name: PropTypes.string,
+  operators: PropTypes.arrayOf(PropTypes.string),
   readOnly: PropTypes.bool,
   value: PropTypes.string,
   onCommit: PropTypes.func,
@@ -157,9 +156,9 @@ const propTypes = {
 function OperatorInput(props) {
   const {
     compact,
-    dataType,
     intl,
-    isControlled,
+    name,
+    operators,
     readOnly,
     value,
     onCommit,
@@ -173,14 +172,14 @@ function OperatorInput(props) {
     );
   }
 
-  const options = getOperatorsForDataType(dataType, isControlled).map(op => (
+  const options = operators.map(op => (
     { value: op, label: intl.formatMessage(messages[op]) }
   ));
 
   return (
     <OptionPickerInput
       blankable={false}
-      name="searchOp"
+      name={name}
       options={options}
       value={value}
       onCommit={onCommit}

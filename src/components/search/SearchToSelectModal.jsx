@@ -62,6 +62,8 @@ const propTypes = {
   singleSelect: PropTypes.bool,
   titleMessage: PropTypes.objectOf(PropTypes.string),
   getAuthorityVocabCsid: PropTypes.func,
+  buildRecordFieldOptionLists: PropTypes.func,
+  deleteOptionList: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -482,6 +484,8 @@ export class BaseSearchToSelectModal extends Component {
       preferredAdvancedSearchBooleanOp,
       advancedSearchCondition,
       getAuthorityVocabCsid,
+      buildRecordFieldOptionLists,
+      deleteOptionList,
       onAdvancedSearchConditionCommit,
       onKeywordCommit,
       onRecordTypeCommit,
@@ -516,6 +520,8 @@ export class BaseSearchToSelectModal extends Component {
         recordTypeInputRecordTypes={allowedRecordTypes}
         recordTypeInputServiceTypes={allowedServiceTypes}
         getAuthorityVocabCsid={getAuthorityVocabCsid}
+        buildRecordFieldOptionLists={buildRecordFieldOptionLists}
+        deleteOptionList={deleteOptionList}
         onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
         onKeywordCommit={onKeywordCommit}
         onRecordTypeCommit={onRecordTypeCommit}

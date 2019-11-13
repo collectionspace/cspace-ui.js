@@ -3,9 +3,30 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import SearchConditionInput from './input/SearchConditionInput';
 import { ConnectedPanel } from '../../containers/layout/PanelContainer';
-import { OP_AND, OP_OR } from '../../constants/searchOperators';
+import { OP_AND, OP_OR, OP_GROUP } from '../../constants/searchOperators';
+import GroupConditionInputContainer from '../../containers/search/input/GroupConditionInputContainer';
+import BooleanConditionInput from './input/BooleanConditionInput';
+import FieldConditionInput from './input/FieldConditionInput';
+
+const propTypes = {
+  condition: PropTypes.instanceOf(Immutable.Map),
+  config: PropTypes.object,
+  hasChildGroups: PropTypes.bool,
+  inline: PropTypes.bool,
+  preferredBooleanOp: PropTypes.string,
+  readOnly: PropTypes.bool,
+  recordType: PropTypes.string,
+  onConditionCommit: PropTypes.func,
+};
+
+const defaultProps = {
+  preferredBooleanOp: 'or',
+};
+
+const childContextTypes = {
+  recordType: PropTypes.string,
+};
 
 const messages = defineMessages({
   title: {
@@ -28,25 +49,27 @@ const ensureRootBooleanOp = (condition, preferredBooleanOp) => {
   );
 };
 
-const propTypes = {
-  condition: PropTypes.instanceOf(Immutable.Map),
-  config: PropTypes.object,
-  inline: PropTypes.bool,
-  preferredBooleanOp: PropTypes.string,
-  readOnly: PropTypes.bool,
-  recordType: PropTypes.string,
-  onConditionCommit: PropTypes.func,
-};
+export const getSearchConditionInputComponent = (condition) => {
+  const operator = condition.get('op');
 
-const defaultProps = {
-  preferredBooleanOp: 'or',
-};
+  if (operator === OP_AND || operator === OP_OR) {
+    return BooleanConditionInput;
+  }
 
-const childContextTypes = {
-  recordType: PropTypes.string,
+  if (operator === OP_GROUP) {
+    return GroupConditionInputContainer;
+  }
+
+  return FieldConditionInput;
 };
 
 export default class AdvancedSearchBuilder extends Component {
+  constructor() {
+    super();
+
+    this.handleConditionCommit = this.handleConditionCommit.bind(this);
+  }
+
   getChildContext() {
     const {
       recordType,
@@ -91,7 +114,19 @@ export default class AdvancedSearchBuilder extends Component {
         }
       }
 
-      onConditionCommit(normalizedCondition);
+      if (normalizedCondition !== condition) {
+        onConditionCommit(normalizedCondition);
+      }
+    }
+  }
+
+  handleConditionCommit(name, condition) {
+    const {
+      onConditionCommit,
+    } = this.props;
+
+    if (onConditionCommit) {
+      onConditionCommit(condition);
     }
   }
 
@@ -99,25 +134,31 @@ export default class AdvancedSearchBuilder extends Component {
     const {
       condition,
       config,
+      hasChildGroups,
       inline,
       readOnly,
       recordType,
-      onConditionCommit,
     } = this.props;
 
     if (!condition) {
       return null;
     }
 
-    const fieldDescriptor = get(config, ['recordTypes', recordType, 'fields']);
+    const SearchConditionInputComponent = getSearchConditionInputComponent(condition);
 
     const searchConditionInput = (
-      <SearchConditionInput
+      <SearchConditionInputComponent
         condition={condition}
-        fields={fieldDescriptor}
+        config={config}
+        hasChildGroups={hasChildGroups}
         inline={inline}
+        name="advancedSearch"
         readOnly={readOnly}
-        onCommit={onConditionCommit}
+        recordType={recordType}
+        showInlineParens={false}
+        showRemoveButton={false}
+        getSearchConditionInputComponent={getSearchConditionInputComponent}
+        onCommit={this.handleConditionCommit}
       />
     );
 

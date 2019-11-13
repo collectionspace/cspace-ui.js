@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import { Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
+import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import Pager from '../../../../src/components/search/Pager';
 
@@ -12,13 +13,13 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  optionList: {
+  optionList: Immutable.Map({
     searchResultPagePageSizes: [
       { value: '10' },
       { value: '20' },
       { value: '40' },
     ],
-  },
+  }),
 });
 
 const getPages = (container) => {

@@ -20,6 +20,7 @@ import {
   OP_LTE,
   OP_GT,
   OP_GTE,
+  OP_GROUP,
   OP_MATCH,
   OP_RANGE,
   OP_NOT_EQ,
@@ -34,8 +35,10 @@ import {
 } from '../../../src/helpers/configHelpers';
 
 import {
+  createCounter,
   normalizeCondition,
   normalizeBooleanCondition,
+  normalizeGroupCondition,
   normalizeRangeFieldCondition,
   normalizeFieldCondition,
   normalizeFieldValue,
@@ -48,6 +51,7 @@ import {
   pathToNXQL,
   valueToNXQL,
   booleanConditionToNXQL,
+  groupConditionToNXQL,
   rangeFieldConditionToNXQL,
   fieldConditionToNXQL,
   structuredDateFieldConditionToNXQL,
@@ -206,8 +210,118 @@ describe('searchHelpers', function moduleSuite() {
     });
   });
 
+  describe('normalizeGroupCondition', function suite() {
+    const fields = {};
+
+    it('should normalize the child conditions of the boolean child condition', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+        value: {
+          op: OP_AND,
+          value: [{
+            op: OP_RANGE,
+            path: 'collectionobjects_common/titleGroupList/titleGroup/title',
+            value: ['aaa', null],
+          }],
+        },
+      });
+
+      normalizeGroupCondition(fields, condition).should.equal(Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+        value: {
+          op: OP_AND,
+          value: [{
+            op: OP_GTE,
+            path: 'collectionobjects_common/titleGroupList/titleGroup/title',
+            value: 'aaa',
+          }],
+        },
+      }));
+    });
+
+    it('should return null if the condition has no path', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+      });
+
+      expect(normalizeGroupCondition(fields, condition)).to.equal(null);
+    });
+
+    it('should return null if the condition has no child condition value', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+      });
+
+      expect(normalizeGroupCondition(fields, condition)).to.equal(null);
+    });
+
+    it('should wrap a non-boolean child condition in an AND condition', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+        value: {
+          op: OP_EQ,
+          path: 'collectionobjects_common/titleGroupList/titleGroup/title',
+          value: 'the title',
+        },
+      });
+
+      normalizeGroupCondition(fields, condition).should.equal(Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+        value: {
+          op: OP_AND,
+          value: [{
+            op: OP_EQ,
+            path: 'collectionobjects_common/titleGroupList/titleGroup/title',
+            value: 'the title',
+          }],
+        },
+      }));
+    });
+
+    it('should return null if the boolean child condition has no child conditions', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+        value: {
+          op: OP_AND,
+        },
+      });
+
+      expect(normalizeGroupCondition(fields, condition)).to.equal(null);
+    });
+
+    it('should return null if the normalized boolean child condition has no child conditions', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/titleGroupList/titleGroup',
+        value: {
+          op: OP_AND,
+          value: [{
+            op: OP_EQ,
+            path: 'collectionobjects_common/titleGroupList/titleGroup/title',
+          }],
+        },
+      });
+
+      expect(normalizeGroupCondition(fields, condition)).to.equal(null);
+    });
+  });
+
   describe('normalizeFieldCondition', function suite() {
     const fields = {};
+
+    it('should return null if the condition has no path', function test() {
+      const condition = Immutable.Map({
+        path: null,
+      });
+
+      expect(normalizeFieldCondition(fields, condition)).to.equal(null);
+    });
 
     it('should normalize the value of the condition', function test() {
       const condition = Immutable.Map({
@@ -259,6 +373,14 @@ describe('searchHelpers', function moduleSuite() {
         },
       },
     };
+
+    it('should return null if the condition has no path', function test() {
+      const condition = Immutable.Map({
+        path: null,
+      });
+
+      expect(normalizeRangeFieldCondition(fields, condition)).to.equal(null);
+    });
 
     it('should normalize the value of the condition', function test() {
       const condition = Immutable.fromJS({
@@ -420,6 +542,41 @@ describe('searchHelpers', function moduleSuite() {
         op: OP_RANGE,
         path: 'collectionobjects_common/numberOfObjects',
         value: ['2', '4'],
+      }));
+    });
+
+    it('should normalize OP_GROUP conditions', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/materialGroupList/materialGroup',
+        value: {
+          op: OP_AND,
+          value: [
+            {
+              op: OP_EQ,
+              path: 'collectionobjects_common/materialGroupList/materialGroup/material',
+              value: 'glass',
+            },
+            {
+              path: null,
+            },
+          ],
+        },
+      });
+
+      normalizeCondition(fields, condition).should.equal(Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'collectionobjects_common/materialGroupList/materialGroup',
+        value: {
+          op: OP_AND,
+          value: [
+            {
+              op: OP_EQ,
+              path: 'collectionobjects_common/materialGroupList/materialGroup/material',
+              value: 'glass',
+            },
+          ],
+        },
       }));
     });
   });
@@ -765,6 +922,89 @@ describe('searchHelpers', function moduleSuite() {
       });
 
       booleanConditionToNXQL(fields, condition).should.equal('');
+    });
+  });
+
+  describe('groupConditionToNXQL', function suite() {
+    const fields = {
+      document: {
+        'ns2:part': {
+          groupList: {
+            group: {
+              [configKey]: {
+                repeating: true,
+              },
+              foo: {},
+              bar: {},
+              baz: {},
+              nestedGroupList: {
+                nestedGroup: {
+                  [configKey]: {
+                    repeating: true,
+                  },
+                  geordi: {},
+                  worf: {},
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    it('should correlate paths to the fields in the group', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'ns2:part/groupList/group',
+        value: {
+          op: OP_AND,
+          value: [
+            {
+              op: OP_EQ,
+              path: 'ns2:part/groupList/group/foo',
+              value: 'val1',
+            },
+            {
+              op: OP_EQ,
+              path: 'ns2:part/groupList/group/bar',
+              value: 'val2',
+            },
+            {
+              op: OP_EQ,
+              path: 'ns2:part/groupList/group/baz',
+              value: 'val3',
+            },
+          ],
+        },
+      });
+
+      groupConditionToNXQL(fields, condition, createCounter()).should
+        .equal('(part:groupList/*1/foo = "val1" AND part:groupList/*1/bar = "val2" AND part:groupList/*1/baz = "val3")');
+    });
+
+    it('should correlate paths to the fields in nested groups', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'ns2:part/groupList/group/nestedGroupList/nestedGroup',
+        value: {
+          op: OP_OR,
+          value: [
+            {
+              op: OP_GT,
+              path: 'ns2:part/groupList/group/nestedGroupList/nestedGroup/worf',
+              value: 'val1',
+            },
+            {
+              op: OP_LT,
+              path: 'ns2:part/groupList/group/nestedGroupList/nestedGroup/geordi',
+              value: 'val2',
+            },
+          ],
+        },
+      });
+
+      groupConditionToNXQL(fields, condition, createCounter()).should
+        .equal('(part:groupList/*2/nestedGroupList/*1/worf > "val1" OR part:groupList/*2/nestedGroupList/*1/geordi < "val2")');
     });
   });
 

@@ -7,22 +7,6 @@ import {
   SET_SEARCH_PAGE_RECORD_TYPE,
 } from '../constants/actionCodes';
 
-const handleSetSearchPageRecordType = (state, action) => {
-  const {
-    meta,
-    payload,
-  } = action;
-
-  const nextRecordType = payload;
-  const { prevRecordType } = meta;
-
-  if (prevRecordType !== nextRecordType) {
-    return state.delete('advanced');
-  }
-
-  return state;
-};
-
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case SET_SEARCH_PAGE_ADVANCED:
@@ -30,7 +14,7 @@ export default (state = Immutable.Map(), action) => {
     case SET_SEARCH_PAGE_KEYWORD:
       return state.set('keyword', action.payload);
     case SET_SEARCH_PAGE_RECORD_TYPE:
-      return handleSetSearchPageRecordType(state, action);
+      return state.delete('advanced');
     case CLEAR_SEARCH_PAGE:
       return state.clear();
     default:

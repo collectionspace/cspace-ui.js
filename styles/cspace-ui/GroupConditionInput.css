@@ -1,0 +1,35 @@
+@value searchConditionPaddingTop from '../dimensions.css';
+
+.common > header {
+  display: flex;
+}
+
+.common > header > div {
+  flex: 1 1 auto;
+}
+
+.common > header > button {
+  flex: 0 0 auto;
+}
+
+.common > header :global(.cspace-input-DropdownMenuInput--common) {
+  display: inline-block;
+  width: 240px;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > div {
+  padding-top: 14px;
+}
+
+.inline {
+  composes: common;
+  display: inline-block;
+}
+
+.inline > div {
+  display: inline-block;
+}

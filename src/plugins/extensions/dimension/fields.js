@@ -41,6 +41,10 @@ export default (configContext) => {
         measuredPart: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.dimension.measuredPart.fullName',
+                defaultMessage: 'Measured part',
+              },
               name: {
                 id: 'field.ext.dimension.measuredPart.name',
                 defaultMessage: 'Part',
@@ -57,6 +61,10 @@ export default (configContext) => {
         dimensionSummary: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.dimension.dimensionSummary.fullName',
+                defaultMessage: 'Dimension summary',
+              },
               name: {
                 id: 'field.ext.dimension.dimensionSummary.name',
                 defaultMessage: 'Summary',
@@ -92,6 +100,10 @@ export default (configContext) => {
             dimension: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.ext.dimension.dimension.fullName',
+                    defaultMessage: 'Measurement dimension',
+                  },
                   name: {
                     id: 'field.ext.dimension.dimension.name',
                     defaultMessage: 'Dimension',
@@ -124,6 +136,10 @@ export default (configContext) => {
             measurementMethod: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.ext.dimension.measurementMethod.fullName',
+                    defaultMessage: 'Measurement method',
+                  },
                   name: {
                     id: 'field.ext.dimension.measurementMethod.name',
                     defaultMessage: 'Method',
@@ -158,6 +174,10 @@ export default (configContext) => {
             measurementUnit: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.ext.dimension.measurementUnit.fullName',
+                    defaultMessage: 'Measurement unit',
+                  },
                   name: {
                     id: 'field.ext.dimension.measurementUnit.name',
                     defaultMessage: 'Unit',
@@ -174,6 +194,10 @@ export default (configContext) => {
             valueQualifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.ext.dimension.valueQualifier.fullName',
+                    defaultMessage: 'Measurement qualifier',
+                  },
                   name: {
                     id: 'field.ext.dimension.valueQualifier.name',
                     defaultMessage: 'Qualifier',
@@ -188,13 +212,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.ext.dimension.valueDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.ext.dimension.valueDate.fullName',
                     defaultMessage: 'Measurement date',
+                  },
+                  name: {
+                    id: 'field.ext.dimension.valueDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {

@@ -66,6 +66,7 @@ export const OPEN_MODAL = 'OPEN_MODAL';
 // optionList
 
 export const ADD_OPTION_LISTS = 'ADD_OPTION_LISTS';
+export const DELETE_OPTION_LIST = 'DELETE_OPTION_LIST';
 
 // partialTermSearch
 

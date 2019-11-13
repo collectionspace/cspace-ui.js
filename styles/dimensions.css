@@ -2,3 +2,6 @@
 @value activeEdgeWidth: 2px;
 @value inputMargin: 10px;
 @value tabHeight: 31px;
+@value searchConditionPaddingTop: 10px;
+@value searchBooleanOpWidth: 50px;
+@value searchColumnMarginRight: 4px;

@@ -124,13 +124,11 @@ const searchResult = Immutable.fromJS({
 
 const store = mockStore({
   optionList: Immutable.Map({
-    searchPanelPageSizes: {
-      values: [
-        '5',
-        '10',
-        '20',
-      ],
-    },
+    searchPanelPageSizes: [
+      { value: '5' },
+      { value: '10' },
+      { value: '20' },
+    ],
   }),
   prefs: Immutable.Map(),
   search: Immutable.fromJS({

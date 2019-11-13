@@ -1,0 +1,7 @@
+@value inputHeight, searchConditionPaddingTop from '../dimensions.css';
+
+.common {
+  position: relative;
+  top: calc(-1 * searchConditionPaddingTop);
+  outline: 1px solid rgb(220, 220, 220);
+}

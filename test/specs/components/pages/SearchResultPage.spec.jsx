@@ -180,13 +180,13 @@ const searchDescriptor = Immutable.fromJS({
 });
 
 const store = mockStore({
-  optionList: {
+  optionList: Immutable.Map({
     searchResultPagePageSizes: [
       { value: '10' },
       { value: '20' },
       { value: '40' },
     ],
-  },
+  }),
   prefs: Immutable.Map(),
   search: Immutable.fromJS({
     [SEARCH_RESULT_PAGE_SEARCH_NAME]: {

@@ -61,13 +61,12 @@ export const setRecordBrowserNavBarItems = (recordType, navBarItems) => ({
 });
 
 export const setSearchPageRecordType = value => (dispatch, getState) => {
-  dispatch({
-    type: SET_SEARCH_PAGE_RECORD_TYPE,
-    payload: value,
-    meta: {
-      prevRecordType: getSearchPageRecordType(getState()),
-    },
-  });
+  if (value !== getSearchPageRecordType(getState())) {
+    dispatch({
+      type: SET_SEARCH_PAGE_RECORD_TYPE,
+      payload: value,
+    });
+  }
 };
 
 export const setSearchPageVocabulary = value => ({

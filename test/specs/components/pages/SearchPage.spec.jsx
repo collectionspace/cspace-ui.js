@@ -15,6 +15,7 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
+  optionList: Immutable.Map(),
   prefs: Immutable.fromJS({
     panels: {},
   }),
@@ -583,5 +584,53 @@ describe('SearchPage', function suite() {
       </IntlProvider>, this.container);
 
     committedVocabulary.should.equal('ulan');
+  });
+
+  it('should call initiateSearch when a search is initiated', function test() {
+    const history = mockHistory({
+      push: () => {},
+    });
+
+    const location = {
+      pathname: '/search/collectionobject',
+      action: '',
+      search: '',
+    };
+
+    const match = {
+      params: {
+        recordType: 'collectionobject',
+      },
+    };
+
+    let initiatedConfig = null;
+    let initiatedPush = null;
+
+    const initiateSearch = (configArg, pushArg) => {
+      initiatedConfig = configArg;
+      initiatedPush = pushArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              config={config}
+              history={history}
+              location={location}
+              match={match}
+              initiateSearch={initiateSearch}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    const form = this.container.querySelector('form');
+
+    Simulate.submit(form);
+
+    initiatedConfig.should.equal(config);
+    initiatedPush.should.equal(history.push);
   });
 });

@@ -15,6 +15,7 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
+  optionList: Immutable.Map(),
   prefs: Immutable.Map(),
 });
 
@@ -301,5 +302,108 @@ describe('SearchForm', function suite() {
     Simulate.submit(form);
 
     handlerCalled.should.equal(true);
+  });
+
+  it('should call buildRecordFieldOptionLists when mounted', function test() {
+    let handlerCalled = false;
+
+    const buildRecordFieldOptionLists = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+            buildRecordFieldOptionLists={buildRecordFieldOptionLists}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    handlerCalled.should.equal(true);
+  });
+
+  it('should call buildRecordFieldOptionLists when recordTypeValue changes', function test() {
+    let handlerCalled = false;
+
+    const buildRecordFieldOptionLists = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="person"
+            vocabularyValue="local"
+            perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+            buildRecordFieldOptionLists={buildRecordFieldOptionLists}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    handlerCalled.should.equal(true);
+  });
+
+  it('should call deleteOptionList when recordTypeValue changes', function test() {
+    const deletedNames = [];
+
+    const deleteOptionList = (name) => {
+      deletedNames.push(name);
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="person"
+            vocabularyValue="local"
+            perms={perms}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+            deleteOptionList={deleteOptionList}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    deletedNames.should.deep.equal([
+      '_field_group',
+      '_fieldgroup_group',
+    ]);
   });
 });

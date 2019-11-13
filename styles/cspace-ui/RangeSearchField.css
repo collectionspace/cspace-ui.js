@@ -1,5 +1,5 @@
 .normal > div > :global(.cspace-input-Input--common),
 .normal > div > :global(.cspace-input-DateInput--common) {
   display: inline-block;
-  width: 200px;
+  width: 180px;
 }

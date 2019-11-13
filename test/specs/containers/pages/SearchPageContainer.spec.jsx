@@ -8,6 +8,7 @@ import SearchPage from '../../../../src/components/pages/SearchPage';
 import { ConnectedSearchPage } from '../../../../src/containers/pages/SearchPageContainer';
 
 import {
+  ADD_OPTION_LISTS,
   CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_PAGE_KEYWORD,
@@ -63,7 +64,7 @@ describe('SearchPageContainer', function suite() {
     result.props.should.have.property('onKeywordCommit').that.is.a('function');
     result.props.should.have.property('onRecordTypeCommit').that.is.a('function');
     result.props.should.have.property('onVocabularyCommit').that.is.a('function');
-    result.props.should.have.property('onSearch').that.is.a('function');
+    result.props.should.have.property('initiateSearch').that.is.a('function');
   });
 
   it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', function test() {
@@ -106,6 +107,59 @@ describe('SearchPageContainer', function suite() {
     const result = shallowRenderer.getRenderOutput();
 
     result.props.getAuthorityVocabCsid('concept', 'material').should.equal('1234');
+  });
+
+  it('should connect buildRecordFieldOptionLists to buildRecordFieldOptionLists action creator', function test() {
+    const store = mockStore({
+      optionList: Immutable.Map(),
+      searchPage: Immutable.fromJS({
+        keyword: 'hello world',
+      }),
+      prefs: Immutable.fromJS({
+        searchPage: {
+          recordType: 'concept',
+          vocabulary: {
+            concept: 'material',
+          },
+        },
+      }),
+      user: Immutable.fromJS({
+        perms: {
+          concept: {
+            data: 'CRUDL',
+          },
+        },
+      }),
+      authority: Immutable.fromJS({
+        concept: {
+          material: {
+            csid: '1234',
+          },
+        },
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<ConnectedSearchPage />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.buildRecordFieldOptionLists({}, 'collectionobject');
+
+    const action = store.getActions()[0];
+
+    action.should.deep.equal({
+      type: ADD_OPTION_LISTS,
+      payload: {
+        _field_collectionobject: [],
+        _fieldgroup_collectionobject: [],
+      },
+    });
   });
 
   it('should connect onAdvancedSearchConditionCommit to setSearchPageAdvanced action creator', function test() {
@@ -273,7 +327,7 @@ describe('SearchPageContainer', function suite() {
     action.should.have.deep.property('payload', 'ulan');
   });
 
-  it('should connect onSearch to initiateSearch action creator', function test() {
+  it('should connect initiateSearch to initiateSearch action creator', function test() {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -313,7 +367,7 @@ describe('SearchPageContainer', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onSearch();
+    result.props.initiateSearch({}, history.push);
 
     pushedLocation.should.deep.equal({
       pathname: '/list/concept/material',

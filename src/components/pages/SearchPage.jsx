@@ -27,6 +27,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  config: PropTypes.object,
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   keywordValue: PropTypes.string,
@@ -37,12 +38,14 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   getAuthorityVocabCsid: PropTypes.func,
+  buildRecordFieldOptionLists: PropTypes.func,
+  deleteOptionList: PropTypes.func,
+  initiateSearch: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
-  onSearch: PropTypes.func,
 };
 
 const contextTypes = {
@@ -54,6 +57,7 @@ export default class SearchPage extends Component {
     super();
 
     this.handleRecordTypeCommit = this.handleRecordTypeCommit.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.handleVocabularyCommit = this.handleVocabularyCommit.bind(this);
     this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
 
@@ -188,6 +192,18 @@ export default class SearchPage extends Component {
     });
   }
 
+  handleSearch() {
+    const {
+      config,
+      history,
+      initiateSearch,
+    } = this.props;
+
+    if (initiateSearch) {
+      initiateSearch(config, history.push);
+    }
+  }
+
   handleTitleBarDocked(height) {
     this.setState({
       headerDockPosition: height,
@@ -219,10 +235,11 @@ export default class SearchPage extends Component {
       perms,
       preferredAdvancedSearchBooleanOp,
       getAuthorityVocabCsid,
+      buildRecordFieldOptionLists,
+      deleteOptionList,
       onAdvancedSearchConditionCommit,
       onClearButtonClick,
       onKeywordCommit,
-      onSearch,
     } = this.props;
 
     const {
@@ -267,12 +284,14 @@ export default class SearchPage extends Component {
             preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
             showButtons
             getAuthorityVocabCsid={getAuthorityVocabCsid}
+            buildRecordFieldOptionLists={buildRecordFieldOptionLists}
+            deleteOptionList={deleteOptionList}
             onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
             onClearButtonClick={onClearButtonClick}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
             onVocabularyCommit={this.handleVocabularyCommit}
-            onSearch={onSearch}
+            onSearch={this.handleSearch}
           />
         </div>
       </div>

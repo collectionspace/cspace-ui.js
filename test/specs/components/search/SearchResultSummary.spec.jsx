@@ -14,13 +14,13 @@ chai.should();
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  optionList: {
+  optionList: Immutable.Map({
     searchResultPagePageSizes: [
       { value: '10' },
       { value: '20' },
       { value: '40' },
     ],
-  },
+  }),
 });
 
 const searchDescriptor = Immutable.fromJS({

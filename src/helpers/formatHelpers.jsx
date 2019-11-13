@@ -120,3 +120,19 @@ export const formatOption = (optionListName, value, { intl, config }) => {
 
   return (message ? intl.formatMessage(message) : value);
 };
+
+export const formatExtensionFieldName = (intl, fieldConfig) => {
+  const extensionParentConfig = get(fieldConfig, 'extensionParentConfig');
+
+  const formattedParentName = extensionParentConfig
+    ? formatExtensionFieldName(intl, extensionParentConfig)
+    : null;
+
+  const messages = get(fieldConfig, 'messages');
+
+  const formattedName = messages
+    ? intl.formatMessage(messages.fullName || messages.name)
+    : null;
+
+  return [formattedParentName, formattedName].filter(part => !!part).join(' - ');
+};

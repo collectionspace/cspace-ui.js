@@ -153,15 +153,11 @@ describe('prefs action creator', function suite() {
       actions[0].should.deep.equal({
         type: SET_SEARCH_PAGE_RECORD_TYPE,
         payload: value,
-        meta: {
-          prevRecordType: undefined,
-        },
       });
     });
 
-    it('should set the prevRecordType meta value to the previous value', function test() {
+    it('should not dispatch any action of the record type has not changed', function test() {
       const prevValue = 'foo';
-      const value = 'loanin';
 
       const store = mockStore({
         prefs: Immutable.fromJS({
@@ -171,17 +167,11 @@ describe('prefs action creator', function suite() {
         }),
       });
 
-      store.dispatch(setSearchPageRecordType(value));
+      store.dispatch(setSearchPageRecordType(prevValue));
 
       const actions = store.getActions();
 
-      actions[0].should.deep.equal({
-        type: SET_SEARCH_PAGE_RECORD_TYPE,
-        payload: value,
-        meta: {
-          prevRecordType: prevValue,
-        },
-      });
+      actions.should.have.lengthOf(0);
     });
   });
 

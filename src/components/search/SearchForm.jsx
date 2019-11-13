@@ -6,12 +6,17 @@ import { components as inputComponents } from 'cspace-input';
 import { Panel } from 'cspace-layout';
 import Dock from '../sections/Dock';
 import SearchButtonBar from './SearchButtonBar';
-import AdvancedSearchBuilder from './AdvancedSearchBuilder';
+import AdvancedSearchBuilderContainer from '../../containers/search/AdvancedSearchBuilderContainer';
 import { getSearchableRecordTypes } from '../../helpers/searchHelpers';
 import { ConnectedPanel } from '../../containers/layout/PanelContainer';
 import styles from '../../../styles/cspace-ui/SearchForm.css';
 import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
 import vocabStyles from '../../../styles/cspace-ui/SearchFormVocab.css';
+
+import {
+  getRecordFieldOptionListName,
+  getRecordGroupOptionListName,
+} from '../../helpers/configHelpers';
 
 const {
   Label,
@@ -55,6 +60,8 @@ const propTypes = {
   showButtons: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   getAuthorityVocabCsid: PropTypes.func,
+  buildRecordFieldOptionLists: PropTypes.func,
+  deleteOptionList: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
@@ -73,6 +80,55 @@ export default class SearchForm extends Component {
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
+  }
+
+  componentDidMount() {
+    const {
+      config,
+      recordTypeValue,
+      buildRecordFieldOptionLists,
+    } = this.props;
+
+    if (buildRecordFieldOptionLists) {
+      buildRecordFieldOptionLists(config, recordTypeValue);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      config,
+      recordTypeValue,
+      buildRecordFieldOptionLists,
+      deleteOptionList,
+    } = this.props;
+
+    const {
+      recordTypeValue: prevRecordTypeValue,
+    } = prevProps;
+
+    if (recordTypeValue !== prevRecordTypeValue) {
+      if (deleteOptionList) {
+        deleteOptionList(getRecordFieldOptionListName(prevRecordTypeValue));
+        deleteOptionList(getRecordGroupOptionListName(prevRecordTypeValue));
+      }
+
+      if (buildRecordFieldOptionLists) {
+        buildRecordFieldOptionLists(config, recordTypeValue);
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    const {
+      recordTypeValue,
+      deleteOptionList,
+    } = this.props;
+
+
+    if (deleteOptionList) {
+      deleteOptionList(getRecordFieldOptionListName(recordTypeValue));
+      deleteOptionList(getRecordGroupOptionListName(recordTypeValue));
+    }
   }
 
   formatRecordTypeLabel(name, config) {
@@ -261,7 +317,7 @@ export default class SearchForm extends Component {
               onCommit={this.handleKeywordInputCommit}
             />
           </ConnectedPanel>
-          <AdvancedSearchBuilder
+          <AdvancedSearchBuilderContainer
             condition={advancedSearchCondition}
             config={config}
             preferredBooleanOp={preferredAdvancedSearchBooleanOp}

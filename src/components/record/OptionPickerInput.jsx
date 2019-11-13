@@ -38,6 +38,7 @@ class OptionPickerInput extends Component {
 
   formatOptionLabel(option) {
     const {
+      labelFormatter,
       message,
       value,
     } = option;
@@ -46,7 +47,15 @@ class OptionPickerInput extends Component {
       intl,
     } = this.props;
 
-    return (message ? intl.formatMessage(message) : value);
+    if (labelFormatter) {
+      return labelFormatter(intl, option);
+    }
+
+    if (message) {
+      return intl.formatMessage(message);
+    }
+
+    return value;
   }
 
   formatStatusMessage(count) {

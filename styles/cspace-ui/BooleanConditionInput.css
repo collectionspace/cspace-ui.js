@@ -1,4 +1,4 @@
-@value inputHeight from '../dimensions.css';
+@value inputHeight, searchBooleanOpWidth, searchColumnMarginRight, searchConditionPaddingTop from '../dimensions.css';
 
 .common {
   font-size: 14px;
@@ -10,13 +10,25 @@
   padding: 0;
 }
 
-.common > div :global(.cspace-input-DropdownMenuInput--common) {
+.common > header {
+  display: flex;
+}
+
+.common > header > div {
+  flex: 1 1 auto;
+}
+
+.common > header > button {
+  flex: 0 0 auto;
+}
+
+.common > header :global(.cspace-input-DropdownMenuInput--common) {
   display: inline-block;
 }
 
-.common > div :global(.cspace-input-DropdownMenuInput--common) > :global(.cspace-input-TextInput--common) {
+.common > header :global(.cspace-input-DropdownMenuInput--common) > :global(.cspace-input-TextInput--common) {
   display: inline;
-  width: 50px;
+  width: searchBooleanOpWidth;
 }
 
 .normal {
@@ -26,36 +38,68 @@
 .normal > ul > li {
   display: flex;
   align-items: baseline;
-  border-top: 1px solid rgb(220, 220, 220);
-  padding-top: 8px;
+}
+
+.normal > ul > li:last-child > div {
+  border-bottom: 1px solid rgb(220, 220, 220);
+  margin-bottom: searchConditionPaddingTop;
 }
 
 .normal > ul > li > *:first-child {
   flex: 0 0 auto;
-  width: 50px;
-  margin-right: 4px;
+  width: searchBooleanOpWidth;
+  margin-right: searchColumnMarginRight;
   text-align: center;
 }
 
 .normal > ul > li > div {
+  padding-top: searchConditionPaddingTop;
+  border-top: 1px solid rgb(220, 220, 220);
   flex: 1 1 auto;
+}
+
+.normal > footer {
+  display: flex;
+  padding: 4px 0;
+}
+
+.normal > footer > div:first-of-type {
+  flex: 0 0 auto;
+  width: searchBooleanOpWidth;
+  margin-right: searchColumnMarginRight;
+  text-align: center;
+  color: rgb(200, 200, 200);
+}
+
+/* .normal > footer::before {
+  display: inline-block;
+  width: searchBooleanOpWidth;
+  margin-right: searchColumnMarginRight;
+  text-align: center;
+  content: '+';
+} */
+
+.normal > footer > div > :global(.cspace-input-MiniButton--common) {
+  display: inline-block;
+  margin-right: 4px;
+  margin-bottom: 8px;
+  outline: 1px solid rgb(220, 220, 220);
+  font-size: 14px;
+  padding-left: 4px;
+  padding-right: 10px;
 }
 
 .inline {
   composes: common;
+  display: inline-block;
 }
 
 .inline > div,
 .inline > ul {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-block;
 }
 
 .inline > ul > li {
   display: inline;
   line-height: calc(inputHeight + 2px);
-}
-
-.inline > ul > li:not(:first-child) > span {
-  margin: 0 4px;
 }

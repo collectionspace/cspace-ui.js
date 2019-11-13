@@ -260,7 +260,7 @@ describe('SearchField', function suite() {
     message.props.defaultMessage.should.equal('or');
   });
 
-  it('should render \'/\' as the repeating field order indicator on values after the first if readOnly is true', function test() {
+  it('should render \', \' as the repeating field order indicator on values after the first if readOnly is true', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<SearchField readOnly />);
@@ -277,6 +277,6 @@ describe('SearchField', function suite() {
     indicator = renderOrderIndicator(2);
 
     indicator.should.have.property('type', 'div');
-    indicator.props.children.should.equal('/');
+    indicator.props.children.should.equal(', ');
   });
 });

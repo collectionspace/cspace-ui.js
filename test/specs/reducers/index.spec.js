@@ -629,9 +629,9 @@ describe('reducer', function suite() {
       ];
 
       getOptionList({
-        optionList: {
+        optionList: Immutable.Map({
           sizes,
-        },
+        }),
       }, 'sizes').should.deep.equal(sizes);
     });
   });
