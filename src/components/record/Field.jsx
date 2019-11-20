@@ -16,14 +16,17 @@ import {
   isFieldRequired,
 } from '../../helpers/configHelpers';
 
+import {
+  DateInput,
+  StructuredDateInput,
+} from '../../helpers/configContextInputs';
+
 const {
   getPath,
   pathPropType,
 } = inputHelpers.pathHelpers;
 
 const { Label } = inputComponents;
-
-const defaultViewConfigKey = 'view';
 
 const renderLabel = (fieldDescriptor, providedLabelMessage, recordData, props) => {
   const fieldConfig = fieldDescriptor[configKey];
@@ -121,12 +124,23 @@ export default function Field(props, context) {
   }
 
   const fieldConfig = field[configKey];
-  const viewConfigKey = (viewType === 'search') ? 'searchView' : defaultViewConfigKey;
-  const viewConfig = fieldConfig[viewConfigKey] || fieldConfig[defaultViewConfigKey];
-  const BaseComponent = viewConfig.type;
+  const isSearch = (viewType === 'search');
+
+  const viewConfig = isSearch
+    ? fieldConfig.searchView || fieldConfig.view
+    : fieldConfig.view;
+
+  let BaseComponent = viewConfig.type;
+
+  if (isSearch && !fieldConfig.searchView && BaseComponent === StructuredDateInput) {
+    // If a search view was not explicitly configured, and the view is a StructuredDateInput,
+    // automatically make the search view a DateInput.
+
+    BaseComponent = DateInput;
+  }
+
   const configuredProps = viewConfig.props || {};
   const providedProps = {};
-
   const basePropTypes = BaseComponent.propTypes;
 
   Object.keys(props).forEach((propName) => {

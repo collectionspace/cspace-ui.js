@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
+import { DateInput, StructuredDateInput } from '../../../../src/helpers/configContextInputs';
 import { configKey } from '../../../../src/helpers/configHelpers';
 import Field from '../../../../src/components/record/Field';
 import createTestContainer from '../../../helpers/createTestContainer';
@@ -89,6 +90,19 @@ const config = {
                   defaultMessage: 'message for field.title.name',
                 },
               },
+            },
+          },
+        },
+        fieldCollectionDateGroup: {
+          [configKey]: {
+            messages: {
+              name: {
+                id: 'field.fieldCollectionDateGroup.name',
+                defaultMessage: 'message for field.fieldCollectionDateGroup.name',
+              },
+            },
+            view: {
+              type: StructuredDateInput,
             },
           },
         },
@@ -331,6 +345,20 @@ describe('Field', function suite() {
     result.should.not.have.property('baz');
   });
 
+  it('should render a DateInput as the search view for field whose view is a StructuredDateInput, if no search view is explicitly configured', function test() {
+    const context = {
+      config,
+      recordType: 'collectionobject',
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<Field name="fieldCollectionDateGroup" viewType="search" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(DateInput);
+  });
 
   it('should render nothing if the record type is not configured', function test() {
     const context = {
