@@ -15,6 +15,7 @@ const propTypes = {
   hasChildGroups: PropTypes.bool,
   inline: PropTypes.bool,
   preferredBooleanOp: PropTypes.string,
+  preferredCondition: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
   onConditionCommit: PropTypes.func,
@@ -93,6 +94,7 @@ export default class AdvancedSearchBuilder extends Component {
       condition,
       config,
       preferredBooleanOp,
+      preferredCondition,
       recordType,
       onConditionCommit,
     } = this.props;
@@ -103,11 +105,15 @@ export default class AdvancedSearchBuilder extends Component {
       if (condition) {
         normalizedCondition = ensureRootBooleanOp(condition, preferredBooleanOp);
       } else {
-        const defaultCondition = Immutable.fromJS(
-          get(config, ['recordTypes', recordType, 'advancedSearch'])
-        );
+        let initialCondition = preferredCondition;
 
-        normalizedCondition = ensureRootBooleanOp(defaultCondition, preferredBooleanOp);
+        if (!initialCondition) {
+          initialCondition = Immutable.fromJS(
+            get(config, ['recordTypes', recordType, 'advancedSearch'])
+          );
+        }
+
+        normalizedCondition = ensureRootBooleanOp(initialCondition, preferredBooleanOp);
 
         if (normalizedCondition.get('op') !== preferredBooleanOp) {
           normalizedCondition = normalizedCondition.set('op', preferredBooleanOp);

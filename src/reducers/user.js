@@ -9,6 +9,7 @@ import {
   AUTH_RENEW_FULFILLED,
   LOGIN_FULFILLED,
   LOGOUT_FULFILLED,
+  PREFS_LOADED,
 } from '../constants/actionCodes';
 
 const handleAccountPermsReadFulfilled = (state, action) => {
@@ -51,6 +52,8 @@ export default (state = Immutable.Map(), action) => {
       // dev tools.
 
       return state.set('perms', state.get('perms').mergeDeep(Immutable.fromJS(action.payload)));
+    case PREFS_LOADED:
+      return state.set('prefsLoaded', true);
     default:
       return state;
   }
@@ -60,3 +63,4 @@ export const getUsername = state => state.get('username');
 export const getScreenName = state => state.getIn(['account', 'screenName']);
 export const getUserId = state => state.getIn(['account', 'userId']);
 export const getPerms = state => state.get('perms');
+export const arePrefsLoaded = state => (state.get('prefsLoaded') === true);

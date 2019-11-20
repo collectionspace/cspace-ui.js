@@ -39,6 +39,7 @@ const propTypes = {
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   getAuthorityVocabCsid: PropTypes.func,
   buildRecordFieldOptionLists: PropTypes.func,
+  clearSearchPage: PropTypes.func,
   deleteOptionList: PropTypes.func,
   initiateSearch: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
@@ -112,6 +113,16 @@ export default class SearchPage extends Component {
           }
         }
       }
+    }
+  }
+
+  componentWillUnmount() {
+    const {
+      clearSearchPage,
+    } = this.props;
+
+    if (clearSearchPage) {
+      clearSearchPage();
     }
   }
 

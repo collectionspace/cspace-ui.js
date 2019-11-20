@@ -15,6 +15,7 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   screenName: PropTypes.string,
   username: PropTypes.string.isRequired,
+  userPrefsLoaded: PropTypes.bool,
   children: PropTypes.node,
   closeModal: PropTypes.func,
   resetLogin: PropTypes.func,
@@ -61,6 +62,7 @@ export default class ProtectedPage extends Component {
       perms,
       screenName,
       username,
+      userPrefsLoaded,
       children,
       closeModal,
     } = this.props;
@@ -70,16 +72,25 @@ export default class ProtectedPage extends Component {
       intl,
     } = this.context;
 
-    const header = decorated
-      ? <Header history={history} perms={perms} screenName={screenName || username} />
-      : null;
+    let header;
+
+    if (decorated) {
+      header = (
+        <Header
+          history={history}
+          perms={perms}
+          screenName={screenName || username}
+          userPrefsLoaded={userPrefsLoaded}
+        />
+      );
+    }
 
     const footer = decorated ? <FooterContainer config={config} intl={intl} /> : null;
 
     return (
       <div>
         {header}
-        {children}
+        {userPrefsLoaded ? children : null}
         {footer}
 
         <LoginModal

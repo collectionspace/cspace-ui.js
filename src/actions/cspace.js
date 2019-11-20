@@ -9,8 +9,8 @@ import LoginModal from '../components/login/LoginModal';
 
 import {
   CSPACE_CONFIGURED,
-  READ_SYSTEM_INFO_FULFILLED,
-  READ_SYSTEM_INFO_REJECTED,
+  SYSTEM_INFO_READ_FULFILLED,
+  SYSTEM_INFO_READ_REJECTED,
 } from '../constants/actionCodes';
 
 let client;
@@ -46,11 +46,11 @@ export const readSystemInfo = config => dispatch =>
     },
   })
     .then(response => dispatch({
-      type: READ_SYSTEM_INFO_FULFILLED,
+      type: SYSTEM_INFO_READ_FULFILLED,
       payload: response,
     }))
     .catch(error => dispatch({
-      type: READ_SYSTEM_INFO_REJECTED,
+      type: SYSTEM_INFO_READ_REJECTED,
       payload: error,
     }));
 

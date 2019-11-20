@@ -10,8 +10,8 @@ import LoginModal from '../../../src/components/login/LoginModal';
 import {
   CSPACE_CONFIGURED,
   PREFS_LOADED,
-  READ_SYSTEM_INFO_FULFILLED,
-  READ_SYSTEM_INFO_REJECTED,
+  SYSTEM_INFO_READ_FULFILLED,
+  SYSTEM_INFO_READ_REJECTED,
   ACCOUNT_PERMS_READ_FULFILLED,
   AUTH_VOCABS_READ_STARTED,
   AUTH_VOCABS_READ_FULFILLED,
@@ -322,7 +322,7 @@ describe('cspace action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch READ_SYSTEM_INFO_FULFILLED on success', function test() {
+    it('should dispatch SYSTEM_INFO_READ_FULFILLED on success', function test() {
       moxios.stubRequest(systemInfoUrl, {
         status: 200,
         response: {
@@ -342,7 +342,7 @@ describe('cspace action creator', function suite() {
           actions.should.have.lengthOf(1);
 
           actions[0].should.deep.equal({
-            type: READ_SYSTEM_INFO_FULFILLED,
+            type: SYSTEM_INFO_READ_FULFILLED,
             payload: {
               status: 200,
               statusText: undefined,
@@ -360,7 +360,7 @@ describe('cspace action creator', function suite() {
         });
     });
 
-    it('should dispatch READ_SYSTEM_INFO_REJECTED on error', function test() {
+    it('should dispatch SYSTEM_INFO_READ_REJECTED on error', function test() {
       moxios.stubRequest(systemInfoUrl, {
         status: 404,
         response: {},
@@ -372,7 +372,7 @@ describe('cspace action creator', function suite() {
 
           actions.should.have.lengthOf(1);
 
-          actions[0].type.should.equal(READ_SYSTEM_INFO_REJECTED);
+          actions[0].type.should.equal(SYSTEM_INFO_READ_REJECTED);
         });
     });
   });

@@ -4,6 +4,7 @@ import { getRecordGroupOptionListName } from '../../helpers/configHelpers';
 
 import {
   getOptionList,
+  getSearchCondition,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -15,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     hasChildGroups: groupOptions && groupOptions.length > 0,
+    preferredCondition: getSearchCondition(state, recordType),
   };
 };
 

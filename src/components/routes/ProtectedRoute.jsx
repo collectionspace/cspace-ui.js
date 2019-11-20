@@ -11,6 +11,7 @@ const propTypes = {
   perms: PropTypes.instanceOf(Immutable.Map),
   screenName: PropTypes.string,
   username: PropTypes.string,
+  userPrefsLoaded: PropTypes.bool,
   closeModal: PropTypes.func,
   resetLogin: PropTypes.func,
 };
@@ -23,6 +24,7 @@ export default function ProtectedRoute(props) {
     perms,
     screenName,
     username,
+    userPrefsLoaded,
     closeModal,
     resetLogin,
     ...remainingProps
@@ -38,6 +40,7 @@ export default function ProtectedRoute(props) {
             perms={perms}
             screenName={screenName}
             username={username}
+            userPrefsLoaded={userPrefsLoaded}
             decorated={decorated}
             closeModal={closeModal}
             resetLogin={resetLogin}

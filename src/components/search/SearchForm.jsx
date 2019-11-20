@@ -7,11 +7,14 @@ import { Panel } from 'cspace-layout';
 import Dock from '../sections/Dock';
 import SearchButtonBar from './SearchButtonBar';
 import AdvancedSearchBuilderContainer from '../../containers/search/AdvancedSearchBuilderContainer';
-import { getSearchableRecordTypes } from '../../helpers/searchHelpers';
 import { ConnectedPanel } from '../../containers/layout/PanelContainer';
 import styles from '../../../styles/cspace-ui/SearchForm.css';
 import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
 import vocabStyles from '../../../styles/cspace-ui/SearchFormVocab.css';
+
+import {
+  getSearchableRecordTypes,
+} from '../../helpers/searchHelpers';
 
 import {
   getRecordFieldOptionListName,
@@ -123,7 +126,6 @@ export default class SearchForm extends Component {
       recordTypeValue,
       deleteOptionList,
     } = this.props;
-
 
     if (deleteOptionList) {
       deleteOptionList(getRecordFieldOptionListName(recordTypeValue));

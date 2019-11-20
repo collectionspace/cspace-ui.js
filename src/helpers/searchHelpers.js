@@ -1075,3 +1075,28 @@ export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) =
 
   return filteredRecordTypes;
 };
+
+export const clearAdvancedSearchConditionValues = (condition) => {
+  if (!condition) {
+    return condition;
+  }
+
+  const op = condition.get('op');
+  const value = condition.get('value');
+
+  if (op === OP_AND || op === OP_OR) {
+    if (Immutable.List.isList(value)) {
+      return condition.set('value', value.map(
+        childCondition => clearAdvancedSearchConditionValues(childCondition)
+      ));
+    }
+
+    return condition.set('value', clearAdvancedSearchConditionValues(value));
+  }
+
+  if (op === OP_GROUP) {
+    return condition.set('value', clearAdvancedSearchConditionValues(value));
+  }
+
+  return condition.delete('value');
+};

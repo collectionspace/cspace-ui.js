@@ -57,6 +57,8 @@ export const isAuthzRolesReadPending = state => fromAuthz.isRolesReadPending(sta
 
 export const getAuthzRoles = state => fromAuthz.getRoles(state.authz);
 
+export const areUserPrefsLoaded = state => fromUser.arePrefsLoaded(state.user);
+
 export const getUserScreenName = state => fromUser.getScreenName(state.user);
 
 export const getUserUserId = state => fromUser.getUserId(state.user);
@@ -154,6 +156,9 @@ export const getIDGenerator = (state, idGeneratorName) =>
 export const getSearchPageAdvanced = state => fromSearchPage.getAdvanced(state.searchPage);
 
 export const getSearchPageKeyword = state => fromSearchPage.getKeyword(state.searchPage);
+
+export const getSearchCondition = (state, recordType) =>
+  fromPrefs.getSearchCondition(state.prefs, recordType);
 
 export const getSearchPageRecordType = state => fromPrefs.getSearchPageRecordType(state.prefs);
 

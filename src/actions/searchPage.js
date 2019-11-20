@@ -25,10 +25,17 @@ export const setSearchPageKeyword = value => ({
   payload: value,
 });
 
-export const setSearchPageAdvanced = condition => ({
-  type: SET_SEARCH_PAGE_ADVANCED,
-  payload: condition,
-});
+export const setSearchPageAdvanced = condition => (dispatch, getState) => {
+  const recordType = getSearchPageRecordType(getState());
+
+  dispatch({
+    type: SET_SEARCH_PAGE_ADVANCED,
+    payload: condition,
+    meta: {
+      recordType,
+    },
+  });
+};
 
 export const initiateSearch = (config, push) => (dispatch, getState) => {
   const state = getState();

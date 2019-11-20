@@ -49,6 +49,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   buildRecordFieldOptionLists,
+  clearSearchPage,
   deleteOptionList,
   initiateSearch,
   onAdvancedSearchConditionCommit: setSearchPageAdvanced,

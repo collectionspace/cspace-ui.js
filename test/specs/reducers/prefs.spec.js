@@ -1,5 +1,7 @@
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { OP_AND, OP_EQ } from '../../../src/constants/searchOperators';
+import { clearAdvancedSearchConditionValues } from '../../../src/helpers/searchHelpers';
 
 import {
   PREFS_LOADED,
@@ -28,6 +30,7 @@ import reducer, {
   getAdvancedSearchBooleanOp,
   getForm,
   getRecordBrowserNavBarItems,
+  getSearchCondition,
   getSearchPageRecordType,
   getSearchPageVocabulary,
   getQuickSearchRecordType,
@@ -151,37 +154,75 @@ describe('prefs reducer', function suite() {
   });
 
   it('should handle SET_SEARCH_PAGE_ADVANCED', function test() {
-    const op = 'and';
+    const op = OP_AND;
+    const recordType = 'conditioncheck';
+
+    const condition = Immutable.fromJS({
+      op,
+      value: [
+        {
+          op: OP_EQ,
+          path: 'ns2:conditionchecks_common/foo',
+          value: 'some value',
+        },
+      ],
+    });
 
     const state = reducer(Immutable.Map(), {
       type: SET_SEARCH_PAGE_ADVANCED,
-      payload: Immutable.fromJS({
-        op,
-      }),
+      payload: condition,
+      meta: {
+        recordType,
+      },
     });
 
     state.should.equal(Immutable.fromJS({
       advancedSearchBooleanOp: op,
+      searchCond: {
+        [recordType]: clearAdvancedSearchConditionValues(condition),
+      },
     }));
 
     getAdvancedSearchBooleanOp(state).should.equal(op);
+
+    getSearchCondition(state, recordType).should
+      .equal(clearAdvancedSearchConditionValues(condition));
   });
 
   it('should handle SET_SEARCH_TO_SELECT_ADVANCED', function test() {
-    const op = 'and';
+    const op = OP_AND;
+    const recordType = 'intake';
+
+    const condition = Immutable.fromJS({
+      op,
+      value: [
+        {
+          op: OP_EQ,
+          path: 'ns2:intakes_common/bar',
+          value: 'search it',
+        },
+      ],
+    });
 
     const state = reducer(Immutable.Map(), {
       type: SET_SEARCH_TO_SELECT_ADVANCED,
-      payload: Immutable.fromJS({
-        op,
-      }),
+      payload: condition,
+      meta: {
+        recordType,
+      },
     });
 
     state.should.equal(Immutable.fromJS({
       advancedSearchBooleanOp: op,
+      searchCond: {
+        [recordType]: clearAdvancedSearchConditionValues(condition),
+      },
     }));
 
     getAdvancedSearchBooleanOp(state).should.equal(op);
+
+    getSearchCondition(state, recordType).should
+      .equal(clearAdvancedSearchConditionValues(condition));
   });
 
   it('should handle SET_SEARCH_PAGE_RECORD_TYPE', function test() {

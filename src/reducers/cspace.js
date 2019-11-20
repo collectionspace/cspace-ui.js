@@ -2,17 +2,17 @@ import Immutable from 'immutable';
 
 import {
   CSPACE_CONFIGURED,
-  READ_SYSTEM_INFO_FULFILLED,
-  READ_SYSTEM_INFO_REJECTED,
+  SYSTEM_INFO_READ_FULFILLED,
+  SYSTEM_INFO_READ_REJECTED,
 } from '../constants/actionCodes';
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
     case CSPACE_CONFIGURED:
       return state.set('config', Immutable.fromJS(action.payload));
-    case READ_SYSTEM_INFO_FULFILLED:
+    case SYSTEM_INFO_READ_FULFILLED:
       return state.set('systemInfo', Immutable.fromJS(action.payload.data));
-    case READ_SYSTEM_INFO_REJECTED:
+    case SYSTEM_INFO_READ_REJECTED:
       return state.set('systemInfo', Immutable.fromJS({
         error: action.payload,
       }));

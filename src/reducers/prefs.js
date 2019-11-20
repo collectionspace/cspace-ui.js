@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import { OP_AND, OP_OR } from '../constants/searchOperators';
+import { clearAdvancedSearchConditionValues } from '../helpers/searchHelpers';
 
 import {
   PREFS_LOADED,
@@ -27,7 +28,20 @@ const handleAdvancedSearchConditionChange = (state, action) => {
   const condition = action.payload;
   const op = condition ? condition.get('op') : null;
 
-  return ((op === OP_AND || op === OP_OR) ? state.set('advancedSearchBooleanOp', op) : state);
+  let nextState = state;
+
+  if (op === OP_AND || op === OP_OR) {
+    nextState = nextState.set('advancedSearchBooleanOp', op);
+  }
+
+  const { recordType } = action.meta;
+
+  nextState = nextState.setIn(
+    ['searchCond', recordType],
+    clearAdvancedSearchConditionValues(condition)
+  );
+
+  return nextState;
 };
 
 const handleToggleRecordSidebar = (state) => {
@@ -115,6 +129,9 @@ export default (state = Immutable.Map(), action) => {
 
 export const getAdvancedSearchBooleanOp = state =>
   state.get('advancedSearchBooleanOp');
+
+export const getSearchCondition = (state, recordType) =>
+  state.getIn(['searchCond', recordType]);
 
 export const getSearchPageRecordType = state =>
   state.getIn(['searchPage', 'recordType']);

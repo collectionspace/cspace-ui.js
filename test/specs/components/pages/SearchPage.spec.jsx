@@ -633,4 +633,36 @@ describe('SearchPage', function suite() {
     initiatedConfig.should.equal(config);
     initiatedPush.should.equal(history.push);
   });
+
+  it('should call clearSearchPage when unmounted', function test() {
+    const match = {
+      params: {
+        recordType: 'collectionobject',
+      },
+    };
+
+    let clearSearchPageCalled = false;
+
+    const clearSearchPage = () => {
+      clearSearchPageCalled = true;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <SearchPage
+              config={config}
+              match={match}
+              clearSearchPage={clearSearchPage}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    render(
+      <div />, this.container);
+
+    clearSearchPageCalled.should.equal(true);
+  });
 });

@@ -17,6 +17,7 @@ const propTypes = {
   intl: intlShape,
   config: PropTypes.object,
   perms: PropTypes.instanceOf(Immutable.Map),
+  userPrefsLoaded: PropTypes.bool,
 };
 
 function Header(props) {
@@ -26,20 +27,31 @@ function Header(props) {
     config,
     perms,
     screenName,
+    userPrefsLoaded,
   } = props;
+
+  let quickSearch;
+
+  if (userPrefsLoaded) {
+    // Wait for user prefs to load, so that the record type selector will reflect the user's
+    // preference.
+
+    quickSearch = (
+      <QuickSearchFormContainer
+        history={history}
+        intl={intl}
+        config={config}
+        perms={perms}
+      />
+    );
+  }
 
   return (
     <header>
       <div className={bannerStyles.common}>
         <div className={bannerMainStyles.common}>
           <Logo config={config} />
-
-          <QuickSearchFormContainer
-            history={history}
-            intl={intl}
-            config={config}
-            perms={perms}
-          />
+          {quickSearch}
         </div>
 
         <div className={bannerRightStyles.common}>

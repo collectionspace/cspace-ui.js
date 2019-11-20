@@ -35,6 +35,7 @@ import {
 } from '../../../src/helpers/configHelpers';
 
 import {
+  clearAdvancedSearchConditionValues,
   createCounter,
   normalizeCondition,
   normalizeBooleanCondition,
@@ -1638,6 +1639,120 @@ describe('searchHelpers', function moduleSuite() {
       const subrecordName = 'contact';
 
       getSubrecordSearchName(csid, subrecordName).should.equal(`subrecord/${csid}/${subrecordName}`);
+    });
+  });
+
+  describe('clearAdvancedSearchConditionValues', function suite() {
+    it('should clear values from field conditions in the search condition', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_AND,
+        value: [
+          {
+            op: OP_EQ,
+            path: 'path1',
+            value: 'value1',
+          },
+          {
+            op: OP_OR,
+            value: [
+              {
+                op: OP_RANGE,
+                path: 'path2',
+                value: ['value2-1', 'value2-2'],
+              },
+              {
+                op: OP_NULL,
+                path: 'path3',
+              },
+              {
+                op: OP_GROUP,
+                value: {
+                  op: OP_AND,
+                  value: {
+                    op: OP_EQ,
+                    path: 'path6',
+                    value: 'value 6',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            op: OP_GROUP,
+            path: 'path3',
+            value: {
+              op: OP_AND,
+              value: [
+                {
+                  op: OP_GT,
+                  path: 'path4',
+                  value: 'value4',
+                },
+                {
+                  op: OP_LT,
+                  path: 'path5',
+                  value: 'value5',
+                },
+              ],
+            },
+          },
+        ],
+      });
+
+      clearAdvancedSearchConditionValues(condition).should.equal(Immutable.fromJS({
+        op: OP_AND,
+        value: [
+          {
+            op: OP_EQ,
+            path: 'path1',
+          },
+          {
+            op: OP_OR,
+            value: [
+              {
+                op: OP_RANGE,
+                path: 'path2',
+              },
+              {
+                op: OP_NULL,
+                path: 'path3',
+              },
+              {
+                op: OP_GROUP,
+                value: {
+                  op: OP_AND,
+                  value: {
+                    op: OP_EQ,
+                    path: 'path6',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            op: OP_GROUP,
+            path: 'path3',
+            value: {
+              op: OP_AND,
+              value: [
+                {
+                  op: OP_GT,
+                  path: 'path4',
+                },
+                {
+                  op: OP_LT,
+                  path: 'path5',
+                },
+              ],
+            },
+          },
+        ],
+      }));
+    });
+
+    it('should return the condition if it is null or undefined', function test() {
+      expect(clearAdvancedSearchConditionValues(null)).to.equal(null);
+      expect(clearAdvancedSearchConditionValues(undefined)).to.equal(undefined);
     });
   });
 });

@@ -19,7 +19,7 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('search to relate reducer', function suite() {
+describe('search to select reducer', function suite() {
   it('should have empty immutable initial state', function test() {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });

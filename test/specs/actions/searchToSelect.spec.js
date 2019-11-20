@@ -1,3 +1,7 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import Immutable from 'immutable';
+
 import {
   SET_SEARCH_TO_SELECT_KEYWORD,
   SET_SEARCH_TO_SELECT_ADVANCED,
@@ -14,7 +18,9 @@ import {
 
 chai.should();
 
-describe('search to relate action creator', function suite() {
+const mockStore = configureMockStore([thunk]);
+
+describe('search to select action creator', function suite() {
   describe('setSearchToSelectKeyword', function actionSuite() {
     it('should create a SET_SEARCH_TO_SELECT_KEYWORD action', function test() {
       const value = 'keyword';
@@ -28,15 +34,28 @@ describe('search to relate action creator', function suite() {
 
   describe('setSearchToSelectAdvanced', function actionSuite() {
     it('should create a SET_SEARCH_TO_SELECT_ADVANCED action', function test() {
+      const store = mockStore({
+        searchToSelect: Immutable.Map({
+          recordType: 'intake',
+        }),
+      });
+
       const condition = {
         op: 'eq',
         path: 'path',
         value: 'value',
       };
 
-      setSearchToSelectAdvanced(condition).should.deep.equal({
+      store.dispatch(setSearchToSelectAdvanced(condition));
+
+      const actions = store.getActions();
+
+      actions[0].should.deep.equal({
         type: SET_SEARCH_TO_SELECT_ADVANCED,
         payload: condition,
+        meta: {
+          recordType: 'intake',
+        },
       });
     });
   });

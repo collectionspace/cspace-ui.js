@@ -21,15 +21,30 @@ const mockStore = configureMockStore([thunk]);
 describe('search page action creator', function suite() {
   describe('setSearchPageAdvanced', function actionSuite() {
     it('should create a SET_SEARCH_PAGE_ADVANCED action', function test() {
+      const store = mockStore({
+        prefs: Immutable.fromJS({
+          searchPage: {
+            recordType: 'loanin',
+          },
+        }),
+      });
+
       const advancedSearchCondition = Immutable.Map({
         op: 'eq',
         path: 'collectionspace_core/updatedAt',
         value: 'something',
       });
 
-      setSearchPageAdvanced(advancedSearchCondition).should.deep.equal({
+      store.dispatch(setSearchPageAdvanced(advancedSearchCondition));
+
+      const actions = store.getActions();
+
+      actions[0].should.deep.equal({
         type: SET_SEARCH_PAGE_ADVANCED,
         payload: advancedSearchCondition,
+        meta: {
+          recordType: 'loanin',
+        },
       });
     });
   });

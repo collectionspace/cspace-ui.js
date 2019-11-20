@@ -15,6 +15,8 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import LoginModal from '../../../../src/components/login/LoginModal';
 import ProtectedPage from '../../../../src/components/pages/ProtectedPage';
 
+const expect = chai.expect;
+
 chai.should();
 
 const mockStore = configureMockStore();
@@ -41,7 +43,10 @@ describe('ProtectedPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <ProtectedPage username="user@collectionspace.org" />
+              <ProtectedPage
+                username="user@collectionspace.org"
+                userPrefsLoaded
+              />
             </Router>
           </ConfigProvider>
         </StoreProvider>
@@ -56,7 +61,10 @@ describe('ProtectedPage', function suite() {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <ProtectedPage username="user@collectionspace.org">
+              <ProtectedPage
+                username="user@collectionspace.org"
+                userPrefsLoaded
+              >
                 <div id="content">This is some content</div>
               </ProtectedPage>
             </Router>
@@ -68,13 +76,35 @@ describe('ProtectedPage', function suite() {
       .equal('This is some content');
   });
 
+  it('should not render the content if userPrefsLoaded is false', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <Router>
+              <ProtectedPage
+                username="user@collectionspace.org"
+              >
+                <div id="content">This is some content</div>
+              </ProtectedPage>
+            </Router>
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    expect(this.container.querySelector('div > div#content')).to.equal(null);
+  });
+
   it('should render a header containing a user menu', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <ProtectedPage username="user@collectionspace.org">
+              <ProtectedPage
+                username="user@collectionspace.org"
+                userPrefsLoaded
+              >
                 <div id="content">This is some content</div>
               </ProtectedPage>
             </Router>
@@ -91,6 +121,7 @@ describe('ProtectedPage', function suite() {
     const result = shallowRenderer.render(
       <ProtectedPage
         username="user@collectionspace.org"
+        userPrefsLoaded
       >
         <div id="content">This is some content</div>
       </ProtectedPage>);
@@ -106,6 +137,7 @@ describe('ProtectedPage', function suite() {
     const result = shallowRenderer.render(
       <ProtectedPage
         username="user@collectionspace.org"
+        userPrefsLoaded
       >
         <div id="content">This is some content</div>
       </ProtectedPage>);
@@ -135,6 +167,7 @@ describe('ProtectedPage', function suite() {
         closeModal={closeModal}
         resetLogin={resetLogin}
         username="user@collectionspace.org"
+        userPrefsLoaded
       >
         <div id="content">This is some content</div>
       </ProtectedPage>);
