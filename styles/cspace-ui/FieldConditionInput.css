@@ -16,19 +16,19 @@
   line-height: 24px;
 }
 
-.normal > div:nth-child(1) {
+.normal > *:nth-child(1) {
   flex: 0 1 auto;
   width: 240px;
   margin-right: 4px;
 }
 
-.normal > div:nth-child(2) {
+.normal > *:nth-child(2) {
   flex: 0 1 auto;
   width: 140px;
   margin-right: 4px;
 }
 
-.normal > div:nth-child(3) {
+.normal > *:nth-child(3) {
   flex: 1 1 auto;
   padding-top: 0;
   width: 440px;

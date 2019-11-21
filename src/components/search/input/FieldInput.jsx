@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import get from 'lodash/get';
+import { DATA_TYPE_STRUCTURED_DATE } from '../../../constants/dataTypes';
+import { formatExtensionFieldName } from '../../../helpers/formatHelpers';
 
 import {
   OptionPickerInput,
@@ -14,6 +16,7 @@ import {
 
 const propTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   name: PropTypes.string,
   placeholder: PropTypes.string,
   readOnly: PropTypes.bool,
@@ -24,9 +27,10 @@ const propTypes = {
   onCommit: PropTypes.func,
 };
 
-export default function FieldInput(props) {
+export function BaseFieldInput(props) {
   const {
     config,
+    intl,
     name,
     placeholder,
     readOnly,
@@ -38,29 +42,46 @@ export default function FieldInput(props) {
   } = props;
 
   if (readOnly) {
-    let message;
+    let label = value;
 
     if (valueDescriptor) {
+      const valueConfig = valueDescriptor[configKey];
+      const extensionParentConfig = get(valueConfig, 'extensionParentConfig');
+      const messages = get(valueConfig, 'messages');
+
       const rootPathParts = rootPath ? rootPath.split('/') : [];
       const pathParts = value ? value.split('/') : [];
 
-      const isFirstLevelField = (pathParts.length - rootPathParts.length === 1);
-      const messages = get(valueDescriptor, [configKey, 'messages']);
+      const level = (pathParts.length - rootPathParts.length);
 
       if (messages) {
-        if (!isFirstLevelField) {
-          message = messages.fullName;
+        let message;
+
+        if (extensionParentConfig && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE) {
+          // Special case for constructing the label for fields in structured dates.
+
+          if (level > 1) {
+            label = formatExtensionFieldName(intl, valueConfig);
+          } else {
+            message = messages.name || messages.fullName;
+          }
+        } else {
+          if (level > 1) {
+            message = messages.fullName;
+          }
+
+          if (!message) {
+            message = messages.name || messages.fullName;
+          }
         }
 
-        if (!message) {
-          message = messages.name || messages.fullName;
+        if (message) {
+          label = intl.formatMessage(message);
         }
       }
     }
 
-    return message
-      ? <div><FormattedMessage {...message} /></div>
-      : <div><span>{value}</span></div>;
+    return <div><span>{label}</span></div>;
   }
 
   const sortComparator = (optionA, optionB) => {
@@ -83,4 +104,6 @@ export default function FieldInput(props) {
   );
 }
 
-FieldInput.propTypes = propTypes;
+BaseFieldInput.propTypes = propTypes;
+
+export default injectIntl(BaseFieldInput);

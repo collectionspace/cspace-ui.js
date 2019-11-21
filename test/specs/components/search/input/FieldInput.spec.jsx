@@ -5,7 +5,8 @@ import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import ConfigProvider from '../../../../../src/components/config/ConfigProvider';
-import FieldInput from '../../../../../src/components/search/input/FieldInput';
+import FieldInput, { BaseFieldInput } from '../../../../../src/components/search/input/FieldInput';
+import { DATA_TYPE_STRUCTURED_DATE } from '../../../../../src/constants/dataTypes';
 import { OptionPickerInput } from '../../../../../src/helpers/configContextInputs';
 import { configKey, getRecordFieldOptionListName } from '../../../../../src/helpers/configHelpers';
 import createTestContainer from '../../../../helpers/createTestContainer';
@@ -13,7 +14,19 @@ import createTestContainer from '../../../../helpers/createTestContainer';
 chai.should();
 
 const mockStore = configureMockStore();
+
 const config = {};
+
+const intl = {
+  formatDate: () => null,
+  formatTime: () => null,
+  formatRelative: () => null,
+  formatNumber: () => null,
+  formatPlural: () => null,
+  formatMessage: message => `formatted ${message.id}`,
+  formatHTMLMessage: () => null,
+  now: () => null,
+};
 
 describe('FieldInput', function suite() {
   beforeEach(function before() {
@@ -27,8 +40,9 @@ describe('FieldInput', function suite() {
     const rootPath = 'ns2:collectionobjects_common/titleGroupList/titleGroup';
 
     shallowRenderer.render(
-      <FieldInput
+      <BaseFieldInput
         config={config}
+        intl={intl}
         recordType={recordType}
         rootPath={rootPath}
       />);
@@ -46,8 +60,9 @@ describe('FieldInput', function suite() {
     const recordType = 'collectionobject';
 
     shallowRenderer.render(
-      <FieldInput
+      <BaseFieldInput
         config={config}
+        intl={intl}
         recordType={recordType}
       />);
 
@@ -230,6 +245,108 @@ describe('FieldInput', function suite() {
       </IntlProvider>, this.container);
 
     this.container.textContent.should.equal('fullName message');
+  });
+
+  it('should render the parent name for a structured date field that is not the first level under the rootPath', function test() {
+    const store = mockStore({
+      optionList: {},
+    });
+
+    const recordType = 'collectionobject';
+    const value = 'ns2:collectionobjects_common/fieldCollectionDateGroup/dateDisplayDate';
+
+    const valueDescriptor = {
+      [configKey]: {
+        extensionParentConfig: {
+          dataType: DATA_TYPE_STRUCTURED_DATE,
+          messages: {
+            fullName: {
+              id: 'fieldCollectionDateGroup.fullName',
+              defaultMessage: 'field collection date fullName',
+            },
+          },
+        },
+        messages: {
+          fullName: {
+            id: 'displayDate.fullName',
+            defaultMessage: 'display date fullName',
+          },
+          name: {
+            id: 'displayDate.name',
+            defaultMessage: 'display date name',
+          },
+        },
+      },
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <FieldInput
+              config={config}
+              readOnly
+              recordType={recordType}
+              value={value}
+              valueDescriptor={valueDescriptor}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.textContent.should.equal('field collection date fullName - display date fullName');
+  });
+
+  it('should prefer the name message for a structured date field that is the first level under the rootPath', function test() {
+    const store = mockStore({
+      optionList: {},
+    });
+
+    const recordType = 'collectionobject';
+    const rootPath = 'ns2:collectionobjects_common/fieldCollectionDateGroup';
+    const value = 'ns2:collectionobjects_common/fieldCollectionDateGroup/dateDisplayDate';
+
+    const valueDescriptor = {
+      [configKey]: {
+        extensionParentConfig: {
+          dataType: DATA_TYPE_STRUCTURED_DATE,
+          messages: {
+            fullName: {
+              id: 'fieldCollectionDateGroup.fullName',
+              defaultMessage: 'field collection date fullName',
+            },
+          },
+        },
+        messages: {
+          fullName: {
+            id: 'displayDate.fullName',
+            defaultMessage: 'display date fullName',
+          },
+          name: {
+            id: 'displayDate.name',
+            defaultMessage: 'display date name',
+          },
+        },
+      },
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <FieldInput
+              config={config}
+              readOnly
+              recordType={recordType}
+              rootPath={rootPath}
+              value={value}
+              valueDescriptor={valueDescriptor}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.textContent.should.equal('display date name');
   });
 
   it('should render the value if readOnly is true and no valueDescriptor is supplied', function test() {
