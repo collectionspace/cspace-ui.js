@@ -20,6 +20,7 @@ export default (configContext) => {
     DATA_TYPE_BOOL,
     DATA_TYPE_FLOAT,
     DATA_TYPE_INT,
+    DATA_TYPE_STRUCTURED_DATE,
   } = configContext.dataTypes;
 
   const {
@@ -76,21 +77,57 @@ export default (configContext) => {
         csid: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.csid.name',
+                defaultMessage: 'System CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         inAuthority: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.inAuthority.name',
+                defaultMessage: 'System authority CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         refName: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.refName.name',
+                defaultMessage: 'System ref name',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         shortIdentifier: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.shortIdentifier.name',
+                defaultMessage: 'System short ID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         placeTermGroupList: {
@@ -122,6 +159,10 @@ export default (configContext) => {
             termDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termDisplayName.fullName',
+                    defaultMessage: 'Term display name',
+                  },
                   name: {
                     id: 'field.places_common.termDisplayName.name',
                     defaultMessage: 'Display name',
@@ -136,6 +177,10 @@ export default (configContext) => {
             termName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termName.fullName',
+                    defaultMessage: 'Term name',
+                  },
                   name: {
                     id: 'field.places_common.termName.name',
                     defaultMessage: 'Name',
@@ -150,9 +195,50 @@ export default (configContext) => {
                 },
               },
             },
+            termQualifier: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termQualifier.fullName',
+                    defaultMessage: 'Term qualifier',
+                  },
+                  name: {
+                    id: 'field.places_common.termQualifier.name',
+                    defaultMessage: 'Qualifier',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            termStatus: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termStatus.fullName',
+                    defaultMessage: 'Term status',
+                  },
+                  name: {
+                    id: 'field.places_common.termStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'placeTermStatuses',
+                  },
+                },
+              },
+            },
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.places_common.termType.name',
                     defaultMessage: 'Type',
@@ -186,32 +272,23 @@ export default (configContext) => {
                 },
               },
             },
-            termStatus: {
+            historicalStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.historicalStatus.fullName',
+                    defaultMessage: 'Term historical status',
+                  },
                   name: {
-                    id: 'field.places_common.termStatus.name',
-                    defaultMessage: 'Status',
+                    id: 'field.places_common.historicalStatus.name',
+                    defaultMessage: 'Historical status',
                   },
                 }),
                 view: {
                   type: OptionPickerInput,
                   props: {
-                    source: 'placeTermStatuses',
+                    source: 'placeHistoricalStatuses',
                   },
-                },
-              },
-            },
-            termQualifier: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.places_common.termQualifier.name',
-                    defaultMessage: 'Qualifier',
-                  },
-                }),
-                view: {
-                  type: TextInput,
                 },
               },
             },
@@ -239,6 +316,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termPrefForLang.fullName',
+                    defaultMessage: 'Term preferred for lang',
+                  },
                   name: {
                     id: 'field.places_common.termPrefForLang.name',
                     defaultMessage: 'Preferred for lang',
@@ -249,84 +330,13 @@ export default (configContext) => {
                 },
               },
             },
-            termSource: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.places_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
-                  fullName: {
-                    id: 'field.places_common.termSource.fullName',
-                    defaultMessage: 'Source name',
-                  },
-                }),
-                view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'citation/local,citation/shared,citation/worldcat',
-                  },
-                },
-              },
-            },
-            termSourceDetail: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.places_common.termSourceDetail.name',
-                    defaultMessage: 'Detail',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            termSourceID: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.places_common.termSourceID.name',
-                    defaultMessage: 'ID',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            termSourceNote: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.places_common.termSourceNote.name',
-                    defaultMessage: 'Note',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            historicalStatus: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.places_common.historicalStatus.name',
-                    defaultMessage: 'Historical status',
-                  },
-                }),
-                view: {
-                  type: OptionPickerInput,
-                  props: {
-                    source: 'placeHistoricalStatuses',
-                  },
-                },
-              },
-            },
             nameAbbrev: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.nameAbbrev.fullName',
+                    defaultMessage: 'Term abbreviation',
+                  },
                   name: {
                     id: 'field.places_common.nameAbbrev.name',
                     defaultMessage: 'Abbreviation',
@@ -340,6 +350,10 @@ export default (configContext) => {
             nameNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.nameNote.fullName',
+                    defaultMessage: 'Term note',
+                  },
                   name: {
                     id: 'field.places_common.nameNote.name',
                     defaultMessage: 'Note',
@@ -352,10 +366,11 @@ export default (configContext) => {
             },
             nameDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.places_common.nameDateGroup.fullName',
-                    defaultMessage: 'Name date',
+                    defaultMessage: 'Term date',
                   },
                   name: {
                     id: 'field.places_common.nameDateGroup.name',
@@ -367,6 +382,77 @@ export default (configContext) => {
                 },
               },
               ...extensions.structuredDate.fields,
+            },
+            termSource: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termSource.fullName',
+                    defaultMessage: 'Term source',
+                  },
+                  name: {
+                    id: 'field.places_common.termSource.name',
+                    defaultMessage: 'Source',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'citation/local,citation/shared,citation/worldcat',
+                  },
+                },
+              },
+            },
+            termSourceDetail: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termSourceDetail.fullName',
+                    defaultMessage: 'Term source detail',
+                  },
+                  name: {
+                    id: 'field.places_common.termSourceDetail.name',
+                    defaultMessage: 'Source detail',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            termSourceID: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termSourceID.fullName',
+                    defaultMessage: 'Term source ID',
+                  },
+                  name: {
+                    id: 'field.places_common.termSourceID.name',
+                    defaultMessage: 'Source ID',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            termSourceNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.termSourceNote.fullName',
+                    defaultMessage: 'Term source note',
+                  },
+                  name: {
+                    id: 'field.places_common.termSourceNote.name',
+                    defaultMessage: 'Source note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
             },
           },
         },
@@ -396,25 +482,6 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
-            },
-          },
-        },
-        placeNote: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.placeNote.name',
-                defaultMessage: 'Place note',
-              },
-            }),
-            searchView: {
-              type: TextInput,
-            },
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
-              },
             },
           },
         },
@@ -458,6 +525,7 @@ export default (configContext) => {
             },
             ownershipDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.places_common.ownershipDateGroup.fullName',
@@ -477,6 +545,10 @@ export default (configContext) => {
             ownershipNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.ownershipNote.fullName',
+                    defaultMessage: 'Ownership note',
+                  },
                   name: {
                     id: 'field.places_common.ownershipNote.name',
                     defaultMessage: 'Note',
@@ -485,6 +557,22 @@ export default (configContext) => {
                 view: {
                   type: TextInput,
                 },
+              },
+            },
+          },
+        },
+        placeNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.placeNote.name',
+                defaultMessage: 'Place note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
               },
             },
           },
@@ -558,32 +646,6 @@ export default (configContext) => {
               props: {
                 source: 'spatialRefSystems',
               },
-            },
-          },
-        },
-        vCoordSource: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.vCoordSource.name',
-                defaultMessage: 'Coordinate source',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        vCoordSourceRefId: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.places_common.vCoordSourceRefId.name',
-                defaultMessage: 'Coordinate source detail',
-              },
-            }),
-            view: {
-              type: TextInput,
             },
           },
         },
@@ -726,6 +788,32 @@ export default (configContext) => {
             },
           },
         },
+        vCoordSource: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.vCoordSource.name',
+                defaultMessage: 'Coordinate source',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        vCoordSourceRefId: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.places_common.vCoordSourceRefId.name',
+                defaultMessage: 'Coordinate source detail',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
         placeGeoRefGroupList: {
           [config]: {
             view: {
@@ -735,6 +823,12 @@ export default (configContext) => {
           placeGeoRefGroup: {
             [config]: {
               repeating: true,
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.places_common.placeGeoRefGroup.fullName',
+                  defaultMessage: 'Georeference',
+                },
+              }),
               view: {
                 type: CompoundInput,
               },
@@ -743,6 +837,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.decimalLatitude.fullName',
+                    defaultMessage: 'Georeference decimal latitude',
+                  },
                   name: {
                     id: 'field.places_common.decimalLatitude.name',
                     defaultMessage: 'Decimal latitude',
@@ -757,6 +855,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.decimalLongitude.fullName',
+                    defaultMessage: 'Georeference decimal longitude',
+                  },
                   name: {
                     id: 'field.places_common.decimalLongitude.name',
                     defaultMessage: 'Decimal longitude',
@@ -770,6 +872,10 @@ export default (configContext) => {
             geodeticDatum: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geodeticDatum.fullName',
+                    defaultMessage: 'Georeference datum',
+                  },
                   name: {
                     id: 'field.places_common.geodeticDatum.name',
                     defaultMessage: 'Datum',
@@ -787,6 +893,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_INT,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.coordUncertaintyInMeters.fullName',
+                    defaultMessage: 'Georeference uncertainty (m)',
+                  },
                   name: {
                     id: 'field.places_common.coordUncertaintyInMeters.name',
                     defaultMessage: 'Uncertainty (m)',
@@ -800,6 +910,10 @@ export default (configContext) => {
             coordPrecision: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.coordPrecision.fullName',
+                    defaultMessage: 'Georeference precision',
+                  },
                   name: {
                     id: 'field.places_common.coordPrecision.name',
                     defaultMessage: 'Precision',
@@ -813,6 +927,10 @@ export default (configContext) => {
             pointRadiusSpatialFit: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.pointRadiusSpatialFit.fullName',
+                    defaultMessage: 'Georeference point radius spatial fit',
+                  },
                   name: {
                     id: 'field.places_common.pointRadiusSpatialFit.name',
                     defaultMessage: 'Point radius spatial fit',
@@ -826,6 +944,10 @@ export default (configContext) => {
             footprintWKT: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.footprintWKT.fullName',
+                    defaultMessage: 'Georeference footprint WKT',
+                  },
                   name: {
                     id: 'field.places_common.footprintWKT.name',
                     defaultMessage: 'Footprint WKT',
@@ -839,6 +961,10 @@ export default (configContext) => {
             footprintSRS: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.footprintSRS.fullName',
+                    defaultMessage: 'Georeference footprint SRS',
+                  },
                   name: {
                     id: 'field.places_common.footprintSRS.name',
                     defaultMessage: 'Footprint SRS',
@@ -852,6 +978,10 @@ export default (configContext) => {
             footprintSpatialFit: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.footprintSpatialFit.fullName',
+                    defaultMessage: 'Georeference footprint spatial fit',
+                  },
                   name: {
                     id: 'field.places_common.footprintSpatialFit.name',
                     defaultMessage: 'Footprint spatial fit',
@@ -880,6 +1010,7 @@ export default (configContext) => {
             },
             geoRefDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.places_common.geoRefDateGroup.fullName',
@@ -899,6 +1030,10 @@ export default (configContext) => {
             geoRefProtocol: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geoRefProtocol.fullName',
+                    defaultMessage: 'Georeference protocol',
+                  },
                   name: {
                     id: 'field.places_common.geoRefProtocol.name',
                     defaultMessage: 'Protocol',
@@ -915,6 +1050,10 @@ export default (configContext) => {
             geoRefSource: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geoRefSource.fullName',
+                    defaultMessage: 'Georeference source',
+                  },
                   name: {
                     id: 'field.places_common.geoRefSource.name',
                     defaultMessage: 'Source',
@@ -928,6 +1067,10 @@ export default (configContext) => {
             geoRefVerificationStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geoRefVerificationStatus.fullName',
+                    defaultMessage: 'Georeference verification',
+                  },
                   name: {
                     id: 'field.places_common.geoRefVerificationStatus.name',
                     defaultMessage: 'Verification',
@@ -944,6 +1087,10 @@ export default (configContext) => {
             geoRefRemarks: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geoRefRemarks.fullName',
+                    defaultMessage: 'Georeference remarks',
+                  },
                   name: {
                     id: 'field.places_common.geoRefRemarks.name',
                     defaultMessage: 'Remarks',
@@ -957,9 +1104,13 @@ export default (configContext) => {
             geoRefPlaceName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.places_common.geoRefPlaceName.fullName',
+                    defaultMessage: 'Georeference place name',
+                  },
                   name: {
                     id: 'field.places_common.geoRefPlaceName.name',
-                    defaultMessage: 'Georeference place name',
+                    defaultMessage: 'Place name',
                   },
                 }),
                 view: {

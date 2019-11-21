@@ -118,8 +118,8 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              fulName: {
-                id: 'field.uoc_common.authorizationDate.fulName',
+              fullName: {
+                id: 'field.uoc_common.authorizationDate.fullName',
                 defaultMessage: 'Authorization date',
               },
               name: {

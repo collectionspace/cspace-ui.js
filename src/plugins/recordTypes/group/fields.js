@@ -14,6 +14,10 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   const {
+    DATA_TYPE_DATE,
+  } = configContext.dataTypes;
+
+  const {
     extensions,
   } = configContext.config;
 
@@ -82,6 +86,7 @@ export default (configContext) => {
         },
         groupEarliestSingleDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.groups_common.groupEarliestSingleDate.name',
@@ -95,6 +100,7 @@ export default (configContext) => {
         },
         groupLatestDate: {
           [config]: {
+            dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
                 id: 'field.groups_common.groupLatestDate.name',

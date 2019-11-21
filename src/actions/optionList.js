@@ -60,7 +60,7 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
     return;
   }
 
-  if (path[0] === 'rel:relations-common-list') {
+  if (path[0] === 'rel:relations-common-list' || path[0] === 'ns2:contacts_common') {
     // Skip this part.
 
     return;

@@ -80,6 +80,10 @@ export default (configContext) => {
             completeness: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.completeness.fullName',
+                    defaultMessage: 'Completeness description',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.completeness.name',
                     defaultMessage: 'Description',
@@ -97,13 +101,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.completenessDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.completenessDate.fullName',
                     defaultMessage: 'Completeness date',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.completenessDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -114,6 +118,10 @@ export default (configContext) => {
             completenessNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.completenessNote.fullName',
+                    defaultMessage: 'Completeness note',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.completenessNote.name',
                     defaultMessage: 'Note',
@@ -151,13 +159,13 @@ export default (configContext) => {
             condition: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.condition.name',
-                    defaultMessage: 'Description',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.condition.fullName',
                     defaultMessage: 'Condition description',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.condition.name',
+                    defaultMessage: 'Description',
                   },
                 }),
                 view: {
@@ -172,13 +180,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.conditionDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.conditionDate.fullName',
                     defaultMessage: 'Condition date',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.conditionDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -189,6 +197,10 @@ export default (configContext) => {
             conditionNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.conditionNote.fullName',
+                    defaultMessage: 'Condition note',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.conditionNote.name',
                     defaultMessage: 'Note',
@@ -242,6 +254,10 @@ export default (configContext) => {
             envConditionNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.envConditionNote.fullName',
+                    defaultMessage: 'Environmental condition note',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.envConditionNote.name',
                     defaultMessage: 'Note',
@@ -256,13 +272,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.envConditionNoteDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.envConditionNoteDate.fullName',
                     defaultMessage: 'Environmental condition date',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.envConditionNoteDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -311,6 +327,10 @@ export default (configContext) => {
             techAssessment: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.techAssessment.fullName',
+                    defaultMessage: 'Technical assessment description',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.techAssessment.name',
                     defaultMessage: 'Description',
@@ -325,13 +345,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.techAssessmentDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.techAssessmentDate.fullName',
                     defaultMessage: 'Technical assessment date',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.techAssessmentDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -366,6 +386,10 @@ export default (configContext) => {
             hazard: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.hazard.fullName',
+                    defaultMessage: 'Hazard description',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.hazard.name',
                     defaultMessage: 'Description',
@@ -383,13 +407,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.hazardDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.hazardDate.fullName',
                     defaultMessage: 'Hazard date',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.hazardDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -400,6 +424,10 @@ export default (configContext) => {
             hazardNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.hazardNote.fullName',
+                    defaultMessage: 'Hazard note',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.hazardNote.name',
                     defaultMessage: 'Note',
@@ -664,6 +692,10 @@ export default (configContext) => {
             salvagePriorityCode: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.salvagePriorityCode.fullName',
+                    defaultMessage: 'Salvage priority code',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.salvagePriorityCode.name',
                     defaultMessage: 'Code',
@@ -681,13 +713,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conditionchecks_common.salvagePriorityCodeDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conditionchecks_common.salvagePriorityCodeDate.fullName',
                     defaultMessage: 'Salvage priority date',
+                  },
+                  name: {
+                    id: 'field.conditionchecks_common.salvagePriorityCodeDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -722,6 +754,10 @@ export default (configContext) => {
             legalReqsHeld: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeld.fullName',
+                    defaultMessage: 'Legal/license requirement held description',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeld.name',
                     defaultMessage: 'Description',
@@ -736,13 +772,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldBeginDate.fullName',
+                    defaultMessage: 'Legal/license requirement held begin date',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldBeginDate.name',
                     defaultMessage: 'Begin date',
-                  },
-                  fullName: {
-                    id: 'field.conditionchecks_common.legalReqsHeldBeginDate.fullName',
-                    defaultMessage: 'Legal/license requirement begin date',
                   },
                 }),
                 view: {
@@ -754,13 +790,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldEndDate.fullName',
+                    defaultMessage: 'Legal/license requirement held end date',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldEndDate.name',
                     defaultMessage: 'End date',
-                  },
-                  fullName: {
-                    id: 'field.conditionchecks_common.legalReqsHeldEndDate.fullName',
-                    defaultMessage: 'Legal/license requirement end date',
                   },
                 }),
                 view: {
@@ -771,6 +807,10 @@ export default (configContext) => {
             legalReqsHeldNumber: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldNumber.fullName',
+                    defaultMessage: 'Legal/license requirement held number',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldNumber.name',
                     defaultMessage: 'Number',
@@ -785,13 +825,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conditionchecks_common.legalReqsHeldRenewDate.fullName',
+                    defaultMessage: 'Legal/license requirement held renewal date',
+                  },
                   name: {
                     id: 'field.conditionchecks_common.legalReqsHeldRenewDate.name',
                     defaultMessage: 'Renewal date',
-                  },
-                  fullName: {
-                    id: 'field.conditionchecks_common.legalReqsHeldRenewDate.fullName',
-                    defaultMessage: 'Legal/license requirement renewal date',
                   },
                 }),
                 view: {

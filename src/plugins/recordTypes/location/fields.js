@@ -75,21 +75,57 @@ export default (configContext) => {
         csid: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.locations_common.csid.name',
+                defaultMessage: 'System CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         inAuthority: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.locations_common.inAuthority.name',
+                defaultMessage: 'System authority CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         refName: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.locations_common.refName.name',
+                defaultMessage: 'System ref name',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         shortIdentifier: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.locations_common.shortIdentifier.name',
+                defaultMessage: 'System short ID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         locTermGroupList: {
@@ -121,6 +157,10 @@ export default (configContext) => {
             termDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termDisplayName.fullName',
+                    defaultMessage: 'Term display name',
+                  },
                   name: {
                     id: 'field.locations_common.termDisplayName.name',
                     defaultMessage: 'Display name',
@@ -135,6 +175,10 @@ export default (configContext) => {
             termName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termName.fullName',
+                    defaultMessage: 'Term name',
+                  },
                   name: {
                     id: 'field.locations_common.termName.name',
                     defaultMessage: 'Name',
@@ -148,6 +192,10 @@ export default (configContext) => {
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.locations_common.termType.name',
                     defaultMessage: 'Type',
@@ -184,6 +232,10 @@ export default (configContext) => {
             termStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termStatus.fullName',
+                    defaultMessage: 'Term status',
+                  },
                   name: {
                     id: 'field.locations_common.termStatus.name',
                     defaultMessage: 'Status',
@@ -200,6 +252,10 @@ export default (configContext) => {
             termQualifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termQualifier.fullName',
+                    defaultMessage: 'Term qualifier',
+                  },
                   name: {
                     id: 'field.locations_common.termQualifier.name',
                     defaultMessage: 'Qualifier',
@@ -234,6 +290,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termPrefForLang.fullName',
+                    defaultMessage: 'Term preferred for lang',
+                  },
                   name: {
                     id: 'field.locations_common.termPrefForLang.name',
                     defaultMessage: 'Preferred for lang',
@@ -247,13 +307,13 @@ export default (configContext) => {
             termSource: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.locations_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.locations_common.termSource.fullName',
-                    defaultMessage: 'Source name',
+                    defaultMessage: 'Term source',
+                  },
+                  name: {
+                    id: 'field.locations_common.termSource.name',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -267,9 +327,13 @@ export default (configContext) => {
             termSourceDetail: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termSourceDetail.fullName',
+                    defaultMessage: 'Term source detail',
+                  },
                   name: {
                     id: 'field.locations_common.termSourceDetail.name',
-                    defaultMessage: 'Detail',
+                    defaultMessage: 'Source detail',
                   },
                 }),
                 view: {
@@ -280,9 +344,13 @@ export default (configContext) => {
             termSourceID: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termSourceID.fullName',
+                    defaultMessage: 'Term source ID',
+                  },
                   name: {
                     id: 'field.locations_common.termSourceID.name',
-                    defaultMessage: 'ID',
+                    defaultMessage: 'Source ID',
                   },
                 }),
                 view: {
@@ -293,9 +361,13 @@ export default (configContext) => {
             termSourceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.locations_common.termSourceNote.fullName',
+                    defaultMessage: 'Term source note',
+                  },
                   name: {
                     id: 'field.locations_common.termSourceNote.name',
-                    defaultMessage: 'Note',
+                    defaultMessage: 'Source note',
                   },
                 }),
                 view: {
@@ -305,17 +377,30 @@ export default (configContext) => {
             },
           },
         },
-        accessNote: {
+        locationType: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.locations_common.accessNote.name',
-                defaultMessage: 'Access note',
+                id: 'field.locations_common.locationType.name',
+                defaultMessage: 'Storage location type',
               },
             }),
-            searchView: {
-              type: TextInput,
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'locationtype',
+              },
             },
+          },
+        },
+        securityNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.locations_common.securityNote.name',
+                defaultMessage: 'Security note',
+              },
+            }),
             view: {
               type: TextInput,
               props: {
@@ -334,6 +419,22 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
+            },
+          },
+        },
+        accessNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.locations_common.accessNote.name',
+                defaultMessage: 'Access note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
@@ -362,13 +463,13 @@ export default (configContext) => {
             conditionNote: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.locations_common.conditionNote.name',
-                    defaultMessage: 'Note',
-                  },
                   fullName: {
                     id: 'field.locations_common.conditionNote.fullName',
                     defaultMessage: 'Condition note',
+                  },
+                  name: {
+                    id: 'field.locations_common.conditionNote.name',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -380,53 +481,18 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.locations_common.conditionNoteDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.locations_common.conditionNoteDate.fullName',
                     defaultMessage: 'Condition note date',
+                  },
+                  name: {
+                    id: 'field.locations_common.conditionNoteDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
                   type: DateInput,
                 },
-              },
-            },
-          },
-        },
-        securityNote: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.locations_common.securityNote.name',
-                defaultMessage: 'Security note',
-              },
-            }),
-            searchView: {
-              type: TextInput,
-            },
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
-              },
-            },
-          },
-        },
-        locationType: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.locations_common.locationType.name',
-                defaultMessage: 'Storage location type',
-              },
-            }),
-            view: {
-              type: TermPickerInput,
-              props: {
-                source: 'locationtype',
               },
             },
           },

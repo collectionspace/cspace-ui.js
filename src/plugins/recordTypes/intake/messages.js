@@ -36,7 +36,7 @@ export default {
     },
     condition: {
       id: 'panel.intake.condition',
-      defaultMessage: 'Condition Information',
+      defaultMessage: 'Condition Check Information',
     },
   }),
   inputTable: defineMessages({

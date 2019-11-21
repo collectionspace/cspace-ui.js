@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
-    DateInput,
     IDGeneratorInput,
     TextInput,
     OptionPickerInput,
@@ -263,9 +262,6 @@ export default (configContext) => {
                 },
               }),
               repeating: true,
-              searchView: {
-                type: DateInput,
-              },
               view: {
                 type: StructuredDateInput,
               },

@@ -108,13 +108,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.valuationcontrols_common.valueAmount.name',
-                    defaultMessage: 'Value',
-                  },
                   fullName: {
                     id: 'field.valuationcontrols_common.valueAmount.fullName',
                     defaultMessage: 'Amount value',
+                  },
+                  name: {
+                    id: 'field.valuationcontrols_common.valueAmount.name',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {

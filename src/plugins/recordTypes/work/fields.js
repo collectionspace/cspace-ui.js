@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
-    DateInput,
     HierarchyInput,
     OptionPickerInput,
     TextInput,
@@ -76,21 +75,57 @@ export default (configContext) => {
         csid: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.works_common.csid.name',
+                defaultMessage: 'System CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         inAuthority: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.works_common.inAuthority.name',
+                defaultMessage: 'System authority CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         refName: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.works_common.refName.name',
+                defaultMessage: 'System ref name',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         shortIdentifier: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.works_common.shortIdentifier.name',
+                defaultMessage: 'System short ID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         workTermGroupList: {
@@ -122,6 +157,10 @@ export default (configContext) => {
             termDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termDisplayName.fullName',
+                    defaultMessage: 'Term display name',
+                  },
                   name: {
                     id: 'field.works_common.termDisplayName.name',
                     defaultMessage: 'Display name',
@@ -136,6 +175,10 @@ export default (configContext) => {
             termName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termName.fullName',
+                    defaultMessage: 'Term name',
+                  },
                   name: {
                     id: 'field.works_common.termName.name',
                     defaultMessage: 'Name',
@@ -153,6 +196,10 @@ export default (configContext) => {
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.works_common.termType.name',
                     defaultMessage: 'Type',
@@ -186,6 +233,10 @@ export default (configContext) => {
             termStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termStatus.fullName',
+                    defaultMessage: 'Term status',
+                  },
                   name: {
                     id: 'field.works_common.termStatus.name',
                     defaultMessage: 'Status',
@@ -202,6 +253,10 @@ export default (configContext) => {
             termQualifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termQualifier.fullName',
+                    defaultMessage: 'Term qualifier',
+                  },
                   name: {
                     id: 'field.works_common.termQualifier.name',
                     defaultMessage: 'Qualifier',
@@ -236,6 +291,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termPrefForLang.fullName',
+                    defaultMessage: 'Term preferred for lang',
+                  },
                   name: {
                     id: 'field.works_common.termPrefForLang.name',
                     defaultMessage: 'Preferred for lang',
@@ -249,13 +308,13 @@ export default (configContext) => {
             termSource: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.works_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.works_common.termSource.fullName',
-                    defaultMessage: 'Source name',
+                    defaultMessage: 'Term source',
+                  },
+                  name: {
+                    id: 'field.works_common.termSource.name',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -269,9 +328,13 @@ export default (configContext) => {
             termSourceDetail: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termSourceDetail.fullName',
+                    defaultMessage: 'Term source detail',
+                  },
                   name: {
                     id: 'field.works_common.termSourceDetail.name',
-                    defaultMessage: 'Detail',
+                    defaultMessage: 'Source detail',
                   },
                 }),
                 view: {
@@ -282,9 +345,13 @@ export default (configContext) => {
             termSourceID: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termSourceID.fullName',
+                    defaultMessage: 'Term source ID',
+                  },
                   name: {
                     id: 'field.works_common.termSourceID.name',
-                    defaultMessage: 'ID',
+                    defaultMessage: 'Source ID',
                   },
                 }),
                 view: {
@@ -295,9 +362,13 @@ export default (configContext) => {
             termSourceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.works_common.termSourceNote.fullName',
+                    defaultMessage: 'Term source note',
+                  },
                   name: {
                     id: 'field.works_common.termSourceNote.name',
-                    defaultMessage: 'Note',
+                    defaultMessage: 'Source note',
                   },
                 }),
                 view: {
@@ -339,9 +410,6 @@ export default (configContext) => {
                 },
               }),
               repeating: true,
-              searchView: {
-                type: DateInput,
-              },
               view: {
                 type: StructuredDateInput,
               },
@@ -390,13 +458,13 @@ export default (configContext) => {
             creator: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.works_common.creator.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.works_common.creator.fullName',
                     defaultMessage: 'Creator name',
+                  },
+                  name: {
+                    id: 'field.works_common.creator.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -454,13 +522,13 @@ export default (configContext) => {
             publisher: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.works_common.publisher.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.works_common.publisher.fullName',
                     defaultMessage: 'Publisher name',
+                  },
+                  name: {
+                    id: 'field.works_common.publisher.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {

@@ -65,38 +65,6 @@ export default (configContext) => {
             },
           },
         },
-        currentOwner: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.currentOwner.name',
-                defaultMessage: 'Current owner',
-              },
-            }),
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared,organization/local,organization/shared',
-              },
-            },
-          },
-        },
-        depositor: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.depositor.name',
-                defaultMessage: 'Depositor',
-              },
-            }),
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared,organization/local,organization/shared',
-              },
-            },
-          },
-        },
         exitDateGroup: {
           [config]: {
             dataType: DATA_TYPE_STRUCTURED_DATE,
@@ -106,14 +74,27 @@ export default (configContext) => {
                 defaultMessage: 'Exit date',
               },
             }),
-            searchView: {
-              type: DateInput,
-            },
             view: {
               type: StructuredDateInput,
             },
           },
           ...extensions.structuredDate.fields,
+        },
+        exitReason: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.exitReason.name',
+                defaultMessage: 'Exit reason',
+              },
+            }),
+            view: {
+              type: OptionPickerInput,
+              props: {
+                source: 'exitReasons',
+              },
+            },
+          },
         },
         exitMethods: {
           [config]: {
@@ -153,6 +134,38 @@ export default (configContext) => {
             },
           },
         },
+        currentOwner: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.currentOwner.name',
+                defaultMessage: 'Current owner',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared,organization/local,organization/shared',
+              },
+            },
+          },
+        },
+        depositor: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.depositor.name',
+                defaultMessage: 'Depositor',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared,organization/local,organization/shared',
+              },
+            },
+          },
+        },
         exitNote: {
           [config]: {
             messages: defineMessages({
@@ -161,29 +174,10 @@ export default (configContext) => {
                 defaultMessage: 'Exit note',
               },
             }),
-            searchView: {
-              type: TextInput,
-            },
             view: {
               type: TextInput,
               props: {
                 multiline: true,
-              },
-            },
-          },
-        },
-        exitReason: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.exitReason.name',
-                defaultMessage: 'Exit reason',
-              },
-            }),
-            view: {
-              type: OptionPickerInput,
-              props: {
-                source: 'exitReasons',
               },
             },
           },
@@ -214,6 +208,36 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
+            },
+          },
+        },
+        deaccessionAuthorizer: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.deaccessionAuthorizer.name',
+                defaultMessage: 'Deaccession authorizer',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local',
+              },
+            },
+          },
+        },
+        authorizationDate: {
+          [config]: {
+            dataType: DATA_TYPE_DATE,
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.authorizationDate.name',
+                defaultMessage: 'Authorization date',
+              },
+            }),
+            view: {
+              type: DateInput,
             },
           },
         },
@@ -303,13 +327,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.objectexit_common.deaccessionApprovalDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.objectexit_common.deaccessionApprovalDate.fullName',
                     defaultMessage: 'Deaccession approval status date',
+                  },
+                  name: {
+                    id: 'field.objectexit_common.deaccessionApprovalDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -320,49 +344,19 @@ export default (configContext) => {
             deaccessionApprovalNote: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.objectexit_common.deaccessionApprovalNote.name',
-                    defaultMessage: 'Note',
-                  },
                   fullName: {
                     id: 'field.objectexit_common.deaccessionApprovalNote.fullName',
                     defaultMessage: 'Deaccession approval note',
+                  },
+                  name: {
+                    id: 'field.objectexit_common.deaccessionApprovalNote.name',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
                   type: TextInput,
                 },
               },
-            },
-          },
-        },
-        deaccessionAuthorizer: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.deaccessionAuthorizer.name',
-                defaultMessage: 'Deaccession authorizer',
-              },
-            }),
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local',
-              },
-            },
-          },
-        },
-        authorizationDate: {
-          [config]: {
-            dataType: DATA_TYPE_DATE,
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.authorizationDate.name',
-                defaultMessage: 'Authorization date',
-              },
-            }),
-            view: {
-              type: DateInput,
             },
           },
         },
@@ -423,22 +417,6 @@ export default (configContext) => {
             },
           },
         },
-        displosalProvisos: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.displosalProvisos.name',
-                defaultMessage: 'Disposal provisos',
-              },
-            }),
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
-              },
-            },
-          },
-        },
         disposalProposedRecipient: {
           [config]: {
             messages: defineMessages({
@@ -467,22 +445,6 @@ export default (configContext) => {
               type: AutocompleteInput,
               props: {
                 source: 'person/local,person/shared,organization/local,organization/shared',
-              },
-            },
-          },
-        },
-        displosalNote: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.objectexit_common.displosalNote.name',
-                defaultMessage: 'Disposal note',
-              },
-            }),
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
               },
             },
           },
@@ -563,8 +525,39 @@ export default (configContext) => {
             },
           },
         },
+        displosalProvisos: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.displosalProvisos.name',
+                defaultMessage: 'Disposal provisos',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
+        displosalNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.objectexit_common.displosalNote.name',
+                defaultMessage: 'Disposal note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
     },
   };
-}
-;
+};

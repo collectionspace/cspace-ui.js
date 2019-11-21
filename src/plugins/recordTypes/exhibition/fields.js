@@ -18,6 +18,7 @@ export default (configContext) => {
 
   const {
     DATA_TYPE_DATE,
+    DATA_TYPE_STRUCTURED_DATE,
   } = configContext.dataTypes;
 
   const {
@@ -164,13 +165,13 @@ export default (configContext) => {
             venue: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.exhibitions_common.venue.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.exhibitions_common.venue.fullName',
                     defaultMessage: 'Venue name',
+                  },
+                  name: {
+                    id: 'field.exhibitions_common.venue.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -185,13 +186,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.exhibitions_common.venueOpeningDate.name',
-                    defaultMessage: 'Opening date',
-                  },
                   fullName: {
                     id: 'field.exhibitions_common.venueOpeningDate.fullName',
                     defaultMessage: 'Venue opening date',
+                  },
+                  name: {
+                    id: 'field.exhibitions_common.venueOpeningDate.name',
+                    defaultMessage: 'Opening date',
                   },
                 }),
                 view: {
@@ -203,13 +204,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.exhibitions_common.venueClosingDate.name',
-                    defaultMessage: 'Closing date',
-                  },
                   fullName: {
                     id: 'field.exhibitions_common.venueClosingDate.fullName',
                     defaultMessage: 'Venue closing date',
+                  },
+                  name: {
+                    id: 'field.exhibitions_common.venueClosingDate.name',
+                    defaultMessage: 'Closing date',
                   },
                 }),
                 view: {
@@ -220,6 +221,10 @@ export default (configContext) => {
             venueAttendance: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.venueAttendance.fullName',
+                    defaultMessage: 'Venue attendance',
+                  },
                   name: {
                     id: 'field.exhibitions_common.venueAttendance.name',
                     defaultMessage: 'Attendance',
@@ -233,6 +238,10 @@ export default (configContext) => {
             venueUrl: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.venueUrl.fullName',
+                    defaultMessage: 'Venue web address',
+                  },
                   name: {
                     id: 'field.exhibitions_common.venueUrl.name',
                     defaultMessage: 'Web address',
@@ -267,6 +276,10 @@ export default (configContext) => {
             workingGroupTitle: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.workingGroupTitle.fullName',
+                    defaultMessage: 'Working group title',
+                  },
                   name: {
                     id: 'field.exhibitions_common.workingGroupTitle.name',
                     defaultMessage: 'Title',
@@ -280,6 +293,10 @@ export default (configContext) => {
             workingGroupNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.workingGroupNote.fullName',
+                    defaultMessage: 'Working group note',
+                  },
                   name: {
                     id: 'field.exhibitions_common.workingGroupNote.name',
                     defaultMessage: 'Note',
@@ -299,6 +316,10 @@ export default (configContext) => {
               exhibitionPersonGroup: {
                 [config]: {
                   messages: defineMessages({
+                    fullName: {
+                      id: 'field.exhibitions_common.exhibitionPersonGroup.fullName',
+                      defaultMessage: 'Working group member',
+                    },
                     name: {
                       id: 'field.exhibitions_common.exhibitionPersonGroup.name',
                       defaultMessage: 'Member',
@@ -315,13 +336,13 @@ export default (configContext) => {
                 exhibitionPerson: {
                   [config]: {
                     messages: defineMessages({
-                      name: {
-                        id: 'field.exhibitions_common.exhibitionPerson.name',
-                        defaultMessage: 'Name',
-                      },
                       fullName: {
                         id: 'field.exhibitions_common.exhibitionPerson.fullName',
                         defaultMessage: 'Working group member name',
+                      },
+                      name: {
+                        id: 'field.exhibitions_common.exhibitionPerson.name',
+                        defaultMessage: 'Name',
                       },
                     }),
                     view: {
@@ -445,6 +466,10 @@ export default (configContext) => {
             galleryRotationName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.galleryRotationName.fullName',
+                    defaultMessage: 'Gallery rotation name',
+                  },
                   name: {
                     id: 'field.exhibitions_common.galleryRotationName.name',
                     defaultMessage: 'Name',
@@ -457,6 +482,7 @@ export default (configContext) => {
             },
             galleryRotationStartDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.exhibitions_common.galleryRotationStartDateGroup.fullName',
@@ -475,6 +501,7 @@ export default (configContext) => {
             },
             galleryRotationEndDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.exhibitions_common.galleryRotationEndDateGroup.fullName',
@@ -494,6 +521,10 @@ export default (configContext) => {
             galleryRotationNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.galleryRotationNote.fullName',
+                    defaultMessage: 'Gallery rotation note',
+                  },
                   name: {
                     id: 'field.exhibitions_common.galleryRotationNote.name',
                     defaultMessage: 'Note',
@@ -531,13 +562,13 @@ export default (configContext) => {
             exhibitionReference: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.exhibitions_common.exhibitionReference.name',
-                    defaultMessage: 'Reference',
-                  },
                   fullName: {
                     id: 'field.exhibitions_common.exhibitionReference.fullName',
                     defaultMessage: 'Bibliographic reference',
+                  },
+                  name: {
+                    id: 'field.exhibitions_common.exhibitionReference.name',
+                    defaultMessage: 'Reference',
                   },
                 }),
                 view: {
@@ -571,6 +602,10 @@ export default (configContext) => {
             exhibitionReferenceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionReferenceNote.fullName',
+                    defaultMessage: 'Bibliographic reference note',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionReferenceNote.name',
                     defaultMessage: 'Note',
@@ -608,9 +643,13 @@ export default (configContext) => {
             exhibitionSectionName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionSectionName.fullName',
+                    defaultMessage: 'Exhibition section name',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionName.name',
-                    defaultMessage: 'Section',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -621,6 +660,10 @@ export default (configContext) => {
             exhibitionSectionLocation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionSectionLocation.fullName',
+                    defaultMessage: 'Exhibition section location',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionLocation.name',
                     defaultMessage: 'Location',
@@ -634,6 +677,10 @@ export default (configContext) => {
             exhibitionSectionObjects: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionSectionObjects.fullName',
+                    defaultMessage: 'Exhibition section objects',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionObjects.name',
                     defaultMessage: 'Objects',
@@ -647,6 +694,10 @@ export default (configContext) => {
             exhibitionSectionNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionSectionNote.fullName',
+                    defaultMessage: 'Exhibition section note',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionSectionNote.name',
                     defaultMessage: 'Note',
@@ -684,6 +735,10 @@ export default (configContext) => {
             exhibitionStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionStatus.fullName',
+                    defaultMessage: 'Exhibition status',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionStatus.name',
                     defaultMessage: 'Status',
@@ -701,13 +756,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.exhibitions_common.exhibitionStatusDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.exhibitions_common.exhibitionStatusDate.fullName',
                     defaultMessage: 'Exhibition status date',
+                  },
+                  name: {
+                    id: 'field.exhibitions_common.exhibitionStatusDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -718,6 +773,10 @@ export default (configContext) => {
             exhibitionStatusNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionStatusNote.fullName',
+                    defaultMessage: 'Exhibition status note',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionStatusNote.name',
                     defaultMessage: 'Note',
@@ -755,9 +814,13 @@ export default (configContext) => {
             exhibitionObjectNumber: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectNumber.fullName',
+                    defaultMessage: 'Object number',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectNumber.name',
-                    defaultMessage: 'Object',
+                    defaultMessage: 'Number',
                   },
                 }),
                 view: {
@@ -768,6 +831,10 @@ export default (configContext) => {
             exhibitionObjectName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectName.fullName',
+                    defaultMessage: 'Object name',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectName.name',
                     defaultMessage: 'Name',
@@ -782,6 +849,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectConsCheckDate.fullName',
+                    defaultMessage: 'Object cons. check',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectConsCheckDate.name',
                     defaultMessage: 'Cons. check',
@@ -795,6 +866,10 @@ export default (configContext) => {
             exhibitionObjectConsTreatment: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectConsTreatment.fullName',
+                    defaultMessage: 'Object cons. treatment',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectConsTreatment.name',
                     defaultMessage: 'Cons. treatment',
@@ -811,6 +886,10 @@ export default (configContext) => {
             exhibitionObjectMount: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectMount.fullName',
+                    defaultMessage: 'Object mount',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectMount.name',
                     defaultMessage: 'Mount',
@@ -827,6 +906,10 @@ export default (configContext) => {
             exhibitionObjectSection: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectSection.fullName',
+                    defaultMessage: 'Object section',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectSection.name',
                     defaultMessage: 'Section',
@@ -840,6 +923,10 @@ export default (configContext) => {
             exhibitionObjectCase: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectCase.fullName',
+                    defaultMessage: 'Object case',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectCase.name',
                     defaultMessage: 'Case',
@@ -853,6 +940,10 @@ export default (configContext) => {
             exhibitionObjectSeqNum: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectSeqNum.fullName',
+                    defaultMessage: 'Object seq. #',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectSeqNum.name',
                     defaultMessage: 'Seq. #',
@@ -866,6 +957,10 @@ export default (configContext) => {
             exhibitionObjectRotation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectRotation.fullName',
+                    defaultMessage: 'Object rotation',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectRotation.name',
                     defaultMessage: 'Rotation',
@@ -879,6 +974,10 @@ export default (configContext) => {
             exhibitionObjectNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.exhibitions_common.exhibitionObjectNote.fullName',
+                    defaultMessage: 'Object note',
+                  },
                   name: {
                     id: 'field.exhibitions_common.exhibitionObjectNote.name',
                     defaultMessage: 'Note',

@@ -23,14 +23,4 @@ export default {
       defaultMessage: 'Hierarchy',
     },
   }),
-  inputTable: defineMessages({
-    nameDetail: {
-      id: 'inputTable.person.nameDetail',
-      defaultMessage: 'Name detail',
-    },
-    termSource: {
-      id: 'inputTable.person.termSource',
-      defaultMessage: 'Source',
-    },
-  }),
 };

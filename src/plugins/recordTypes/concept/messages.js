@@ -24,10 +24,6 @@ export default {
     },
   }),
   inputTable: defineMessages({
-    termSource: {
-      id: 'inputTable.concept.termSource',
-      defaultMessage: 'Source',
-    },
     scopeNote: {
       id: 'inputTable.concept.scopeNote',
       defaultMessage: 'Scope note',

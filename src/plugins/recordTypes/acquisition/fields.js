@@ -73,9 +73,6 @@ export default (configContext) => {
                 defaultMessage: 'Accession date',
               },
             }),
-            searchView: {
-              type: DateInput,
-            },
             view: {
               type: StructuredDateInput,
             },
@@ -132,9 +129,6 @@ export default (configContext) => {
                 },
               }),
               repeating: true,
-              searchView: {
-                type: DateInput,
-              },
               view: {
                 type: StructuredDateInput,
               },
@@ -305,13 +299,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.acquisitions_common.approvalDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.acquisitions_common.approvalDate.fullName',
                     defaultMessage: 'Approval status date',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.approvalDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -652,9 +646,13 @@ export default (configContext) => {
             acquisitionFundingSource: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.acquisitionFundingSource.fullName',
+                    defaultMessage: 'Funding source',
+                  },
                   name: {
                     id: 'field.acquisitions_common.acquisitionFundingSource.name',
-                    defaultMessage: 'Funding source',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -668,6 +666,10 @@ export default (configContext) => {
             acquisitionFundingSourceProvisos: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquistions_common.acquisitionFundingSourceProvisos.fullName',
+                    defaultMessage: 'Funding source provisos',
+                  },
                   name: {
                     id: 'field.acquistions_common.acquisitionFundingSourceProvisos.name',
                     defaultMessage: 'Source provisos',

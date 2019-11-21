@@ -102,13 +102,13 @@ export default (configContext) => {
             loanGroup: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanGroup.name',
-                    defaultMessage: 'Group',
-                  },
                   fullName: {
                     id: 'field.loansin_common.loanGroup.fullName',
                     defaultMessage: 'Loan status group',
+                  },
+                  name: {
+                    id: 'field.loansin_common.loanGroup.name',
+                    defaultMessage: 'Group',
                   },
                 }),
                 view: {
@@ -122,13 +122,13 @@ export default (configContext) => {
             loanIndividual: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanIndividual.name',
-                    defaultMessage: 'Individual',
-                  },
                   fullName: {
                     id: 'field.loansin_common.loanIndividual.fullName',
                     defaultMessage: 'Loan status individual',
+                  },
+                  name: {
+                    id: 'field.loansin_common.loanIndividual.name',
+                    defaultMessage: 'Individual',
                   },
                 }),
                 view: {
@@ -142,13 +142,13 @@ export default (configContext) => {
             loanStatus: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanStatus.name',
-                    defaultMessage: 'Status',
-                  },
                   fullName: {
                     id: 'field.loansin_common.loanStatus.fullName',
                     defaultMessage: 'Loan status',
+                  },
+                  name: {
+                    id: 'field.loansin_common.loanStatus.name',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
@@ -163,13 +163,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.loanStatusDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.loansin_common.loanStatusDate.fullName',
                     defaultMessage: 'Loan status date',
+                  },
+                  name: {
+                    id: 'field.loansin_common.loanStatusDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -180,6 +180,10 @@ export default (configContext) => {
             loanStatusNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.loansin_common.loanStatusNote.fullName',
+                    defaultMessage: 'Loan status note',
+                  },
                   name: {
                     id: 'field.loansin_common.loanStatusNote.name',
                     defaultMessage: 'Note',
@@ -217,13 +221,13 @@ export default (configContext) => {
             lender: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.lender.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.loansin_common.lender.fullName',
                     defaultMessage: 'Lender name',
+                  },
+                  name: {
+                    id: 'field.loansin_common.lender.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -237,13 +241,13 @@ export default (configContext) => {
             lendersContact: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.lendersContact.name',
-                    defaultMessage: 'Contact',
-                  },
                   fullName: {
                     id: 'field.loansin_common.lendersContact.fullName',
                     defaultMessage: 'Lender contact',
+                  },
+                  name: {
+                    id: 'field.loansin_common.lendersContact.name',
+                    defaultMessage: 'Contact',
                   },
                 }),
                 view: {
@@ -257,13 +261,13 @@ export default (configContext) => {
             lendersAuthorizer: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.lendersAuthorizer.name',
-                    defaultMessage: 'Authorizer',
-                  },
                   fullName: {
                     id: 'field.loansin_common.lendersAuthorizer.fullName',
                     defaultMessage: 'Lender authorizer',
+                  },
+                  name: {
+                    id: 'field.loansin_common.lendersAuthorizer.name',
+                    defaultMessage: 'Authorizer',
                   },
                 }),
                 view: {
@@ -278,13 +282,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.loansin_common.lendersAuthorizationDate.name',
-                    defaultMessage: 'Authorization date',
-                  },
                   fullName: {
                     id: 'field.loansin_common.lendersAuthorizationDate.fullName',
                     defaultMessage: 'Lender authorization date',
+                  },
+                  name: {
+                    id: 'field.loansin_common.lendersAuthorizationDate.name',
+                    defaultMessage: 'Authorization date',
                   },
                 }),
                 view: {
@@ -297,13 +301,13 @@ export default (configContext) => {
         borrowersContact: {
           [config]: {
             messages: defineMessages({
-              name: {
-                id: 'field.loansin_common.borrowersContact.name',
-                defaultMessage: 'Contact',
-              },
               fullName: {
                 id: 'field.loansin_common.borrowersContact.fullName',
                 defaultMessage: 'Borrower contact',
+              },
+              name: {
+                id: 'field.loansin_common.borrowersContact.name',
+                defaultMessage: 'Contact',
               },
             }),
             view: {
@@ -317,13 +321,13 @@ export default (configContext) => {
         borrowersAuthorizer: {
           [config]: {
             messages: defineMessages({
-              name: {
-                id: 'field.loansin_common.borrowersAuthorizer.name',
-                defaultMessage: 'Authorizer',
-              },
               fullName: {
                 id: 'field.loansin_common.borrowersAuthorizer.fullName',
                 defaultMessage: 'Borrower authorizer',
+              },
+              name: {
+                id: 'field.loansin_common.borrowersAuthorizer.name',
+                defaultMessage: 'Authorizer',
               },
             }),
             view: {
@@ -338,13 +342,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              name: {
-                id: 'field.loansin_common.borrowersAuthorizationDate.name',
-                defaultMessage: 'Authorization date',
-              },
               fullName: {
                 id: 'field.loansin_common.borrowersAuthorizationDate.fullName',
                 defaultMessage: 'Borrower authorization date',
+              },
+              name: {
+                id: 'field.loansin_common.borrowersAuthorizationDate.name',
+                defaultMessage: 'Authorization date',
               },
             }),
             view: {

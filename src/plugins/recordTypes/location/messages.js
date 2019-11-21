@@ -23,10 +23,4 @@ export default {
       defaultMessage: 'Hierarchy',
     },
   }),
-  inputTable: defineMessages({
-    termSource: {
-      id: 'inputTable.location.termSource',
-      defaultMessage: 'Source',
-    },
-  }),
 };

@@ -1267,9 +1267,9 @@ export default (configContext) => {
                 defaultMessage: 'Date',
               },
             }),
-            searchView: {
-              type: DateInput,
-            },
+            // searchView: {
+            //   type: DateInput,
+            // },
             view: {
               type: StructuredDateInput,
             },

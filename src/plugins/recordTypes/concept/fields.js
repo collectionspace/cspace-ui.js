@@ -73,21 +73,57 @@ export default (configContext) => {
         csid: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.concepts_common.csid.name',
+                defaultMessage: 'System CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         inAuthority: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.concepts_common.inAuthority.name',
+                defaultMessage: 'System authority CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         refName: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.concepts_common.refName.name',
+                defaultMessage: 'System ref name',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         shortIdentifier: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.concepts_common.shortIdentifier.name',
+                defaultMessage: 'System short ID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         conceptTermGroupList: {
@@ -119,6 +155,10 @@ export default (configContext) => {
             termDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termDisplayName.fullName',
+                    defaultMessage: 'Term display name',
+                  },
                   name: {
                     id: 'field.concepts_common.termDisplayName.name',
                     defaultMessage: 'Display name',
@@ -133,6 +173,10 @@ export default (configContext) => {
             termName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termName.fullName',
+                    defaultMessage: 'Term name',
+                  },
                   name: {
                     id: 'field.concepts_common.termName.name',
                     defaultMessage: 'Name',
@@ -146,6 +190,10 @@ export default (configContext) => {
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.concepts_common.termType.name',
                     defaultMessage: 'Type',
@@ -182,6 +230,10 @@ export default (configContext) => {
             historicalStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.historicalStatus.fullName',
+                    defaultMessage: 'Term historical status',
+                  },
                   name: {
                     id: 'field.concepts_common.historicalStatus.name',
                     defaultMessage: 'Historical status',
@@ -198,6 +250,10 @@ export default (configContext) => {
             termStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termStatus.fullName',
+                    defaultMessage: 'Term status',
+                  },
                   name: {
                     id: 'field.concepts_common.termStatus.name',
                     defaultMessage: 'Status',
@@ -214,6 +270,10 @@ export default (configContext) => {
             termQualifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termQualifier.fullName',
+                    defaultMessage: 'Term qualifier',
+                  },
                   name: {
                     id: 'field.concepts_common.termQualifier.name',
                     defaultMessage: 'Qualifier',
@@ -248,6 +308,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termPrefForLang.fullName',
+                    defaultMessage: 'Term preferred for lang',
+                  },
                   name: {
                     id: 'field.concepts_common.termPrefForLang.name',
                     defaultMessage: 'Preferred for lang',
@@ -261,13 +325,13 @@ export default (configContext) => {
             termSource: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.concepts_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.concepts_common.termSource.fullName',
-                    defaultMessage: 'Source name',
+                    defaultMessage: 'Term source',
+                  },
+                  name: {
+                    id: 'field.concepts_common.termSource.name',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -281,9 +345,13 @@ export default (configContext) => {
             termSourceDetail: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termSourceDetail.fullName',
+                    defaultMessage: 'Term source detail',
+                  },
                   name: {
                     id: 'field.concepts_common.termSourceDetail.name',
-                    defaultMessage: 'Detail',
+                    defaultMessage: 'Source detail',
                   },
                 }),
                 view: {
@@ -294,9 +362,13 @@ export default (configContext) => {
             termSourceID: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termSourceID.fullName',
+                    defaultMessage: 'Term source ID',
+                  },
                   name: {
                     id: 'field.concepts_common.termSourceID.name',
-                    defaultMessage: 'ID',
+                    defaultMessage: 'Source ID',
                   },
                 }),
                 view: {
@@ -307,9 +379,13 @@ export default (configContext) => {
             termSourceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.termSourceNote.fullName',
+                    defaultMessage: 'Term source note',
+                  },
                   name: {
                     id: 'field.concepts_common.termSourceNote.name',
-                    defaultMessage: 'Note',
+                    defaultMessage: 'Source note',
                   },
                 }),
                 view: {
@@ -346,6 +422,10 @@ export default (configContext) => {
         scopeNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.concepts_common.scopeNote.fullName',
+                defaultMessage: 'Scope note',
+              },
               name: {
                 id: 'field.concepts_common.scopeNote.name',
                 defaultMessage: 'Note',
@@ -359,6 +439,10 @@ export default (configContext) => {
         scopeNoteSource: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.concepts_common.scopeNoteSource.fullName',
+                defaultMessage: 'Scope note source',
+              },
               name: {
                 id: 'field.concepts_common.scopeNoteSource.name',
                 defaultMessage: 'Source',
@@ -372,6 +456,10 @@ export default (configContext) => {
         scopeNoteSourceDetail: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.concepts_common.scopeNoteSourceDetail.fullName',
+                defaultMessage: 'Scope note source detail',
+              },
               name: {
                 id: 'field.concepts_common.scopeNoteSourceDetail.name',
                 defaultMessage: 'Source detail',
@@ -407,9 +495,13 @@ export default (configContext) => {
             citationSource: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.citationSource.fullName',
+                    defaultMessage: 'Citation source',
+                  },
                   name: {
                     id: 'field.concepts_common.citationSource.name',
-                    defaultMessage: 'Citation',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -420,6 +512,10 @@ export default (configContext) => {
             citationSourceDetail: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.citationSourceDetail.fullName',
+                    defaultMessage: 'Citation source detail',
+                  },
                   name: {
                     id: 'field.concepts_common.citationSourceDetail.name',
                     defaultMessage: 'Source detail',
@@ -457,9 +553,13 @@ export default (configContext) => {
             additionalSource: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.additionalSource.fullName',
+                    defaultMessage: 'Additional source',
+                  },
                   name: {
                     id: 'field.concepts_common.additionalSource.name',
-                    defaultMessage: 'Name',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -470,6 +570,10 @@ export default (configContext) => {
             additionalSourceDetail: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.additionalSourceDetail.fullName',
+                    defaultMessage: 'Additional source detail',
+                  },
                   name: {
                     id: 'field.concepts_common.additionalSourceDetail.name',
                     defaultMessage: 'Detail',
@@ -483,6 +587,10 @@ export default (configContext) => {
             additionalSourceID: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.additionalSourceID.fullName',
+                    defaultMessage: 'Additional source ID',
+                  },
                   name: {
                     id: 'field.concepts_common.additionalSourceID.name',
                     defaultMessage: 'ID',
@@ -496,6 +604,10 @@ export default (configContext) => {
             additionalSourceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.concepts_common.additionalSourceNote.fullName',
+                    defaultMessage: 'Additional source note',
+                  },
                   name: {
                     id: 'field.concepts_common.additionalSourceNote.name',
                     defaultMessage: 'Note',

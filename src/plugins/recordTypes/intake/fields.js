@@ -148,13 +148,13 @@ export default (configContext) => {
         depositor: {
           [config]: {
             messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.depositor.name',
-                defaultMessage: 'Name',
-              },
               fullName: {
                 id: 'field.intakes_common.depositor.fullName',
                 defaultMessage: 'Depositor name',
+              },
+              name: {
+                id: 'field.intakes_common.depositor.name',
+                defaultMessage: 'Name',
               },
             }),
             view: {
@@ -168,6 +168,10 @@ export default (configContext) => {
         depositorsRequirements: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.despositorsRequirements.fullName',
+                defaultMessage: 'Depositor requirements',
+              },
               name: {
                 id: 'field.intakes_common.despositorsRequirements.name',
                 defaultMessage: 'Requirements',
@@ -264,13 +268,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.intakes_common.approvalDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.intakes_common.approvalDate.fullName',
                     defaultMessage: 'Approval status date',
+                  },
+                  name: {
+                    id: 'field.intakes_common.approvalDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -281,13 +285,13 @@ export default (configContext) => {
             approvalNote: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.intakes_common.approvalNote.name',
-                    defaultMessage: 'Note',
-                  },
                   fullName: {
                     id: 'field.intakes_common.approvalNote.fullName',
                     defaultMessage: 'Approval note',
+                  },
+                  name: {
+                    id: 'field.intakes_common.approvalNote.name',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -497,6 +501,10 @@ export default (configContext) => {
         valuationReferenceNumber: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.valuationReferenceNumber.fullName',
+                defaultMessage: 'Valuation reference number',
+              },
               name: {
                 id: 'field.intakes_common.valuationReferenceNumber.name',
                 defaultMessage: 'Reference number',
@@ -534,6 +542,10 @@ export default (configContext) => {
         insurancePolicyNumber: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.insurancePolicyNumber.fullName',
+                defaultMessage: 'Insurance policy number',
+              },
               name: {
                 id: 'field.intakes_common.insurancePolicyNumber.name',
                 defaultMessage: 'Policy number',
@@ -548,13 +560,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.insuranceRenewalDate.name',
-                defaultMessage: 'Renewal date',
-              },
               fullName: {
                 id: 'field.intakes_common.insuranceRenewalDate.fullName',
                 defaultMessage: 'Insurance renewal date',
+              },
+              name: {
+                id: 'field.intakes_common.insuranceRenewalDate.name',
+                defaultMessage: 'Renewal date',
               },
             }),
             view: {
@@ -565,6 +577,10 @@ export default (configContext) => {
         insuranceReferenceNumber: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.insuranceReferenceNumber.fullName',
+                defaultMessage: 'Insurance reference number',
+              },
               name: {
                 id: 'field.intakes_common.insuranceReferenceNumber.name',
                 defaultMessage: 'Reference number',
@@ -578,9 +594,13 @@ export default (configContext) => {
         insuranceNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.insuranceNote.fullName',
+                defaultMessage: 'Insurance note',
+              },
               name: {
                 id: 'field.intakes_common.insuranceNote.name',
-                defaultMessage: 'Insurance note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -616,13 +636,13 @@ export default (configContext) => {
             currentLocation: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.intakes_common.currentLocation.name',
-                    defaultMessage: 'Location',
-                  },
                   fullName: {
                     id: 'field.intakes_common.currentLocation.fullName',
                     defaultMessage: 'Current location',
+                  },
+                  name: {
+                    id: 'field.intakes_common.currentLocation.name',
+                    defaultMessage: 'Location',
                   },
                 }),
                 view: {
@@ -656,6 +676,10 @@ export default (configContext) => {
             currentLocationNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.currentLocationNote.fullName',
+                    defaultMessage: 'Current location note',
+                  },
                   name: {
                     id: 'field.intakes_common.currentLocationNote.name',
                     defaultMessage: 'Note',
@@ -707,9 +731,13 @@ export default (configContext) => {
           conditionCheckMethod: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.intakes_common.conditionCheckMethod.fullName',
+                  defaultMessage: 'Condition check method',
+                },
                 name: {
                   id: 'field.intakes_common.conditionCheckMethod.name',
-                  defaultMessage: 'Condition check method',
+                  defaultMessage: 'Method',
                 },
               }),
               repeating: true,
@@ -731,9 +759,13 @@ export default (configContext) => {
           conditionCheckReason: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.intakes_common.conditionCheckReason.fullName',
+                  defaultMessage: 'Condition check reason',
+                },
                 name: {
                   id: 'field.intakes_common.conditionCheckReason.name',
-                  defaultMessage: 'Condition check reason',
+                  defaultMessage: 'Reason',
                 },
               }),
               repeating: true,
@@ -755,9 +787,13 @@ export default (configContext) => {
           conditionCheckerOrAssessor: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.intakes_common.conditionCheckerOrAssessor.fullName',
+                  defaultMessage: 'Condition check assessor',
+                },
                 name: {
                   id: 'field.intakes_common.conditionCheckerOrAssessor.name',
-                  defaultMessage: 'Condition check assessor',
+                  defaultMessage: 'Assessor',
                 },
               }),
               repeating: true,
@@ -773,9 +809,13 @@ export default (configContext) => {
         conditionCheckNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.conditionCheckNote.fullName',
+                defaultMessage: 'Condition check note',
+              },
               name: {
                 id: 'field.intakes_common.conditionCheckNote.name',
-                defaultMessage: 'Condition check note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -790,9 +830,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.conditionCheckDate.fullName',
+                defaultMessage: 'Condition check date',
+              },
               name: {
                 id: 'field.intakes_common.conditionCheckDate.name',
-                defaultMessage: 'Condition check date',
+                defaultMessage: 'Date',
               },
             }),
             view: {
@@ -803,9 +847,13 @@ export default (configContext) => {
         conditionCheckReferenceNumber: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.intakes_common.conditionCheckReferenceNumber.fullName',
+                defaultMessage: 'Condition check reference number',
+              },
               name: {
                 id: 'field.intakes_common.conditionCheckReferenceNumber.name',
-                defaultMessage: 'Condition check reference number',
+                defaultMessage: 'Reference number',
               },
             }),
             view: {

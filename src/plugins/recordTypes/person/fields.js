@@ -5,7 +5,6 @@ export default (configContext) => {
     AutocompleteInput,
     CheckboxInput,
     CompoundInput,
-    DateInput,
     HierarchyInput,
     OptionPickerInput,
     StructuredDateInput,
@@ -76,21 +75,57 @@ export default (configContext) => {
         csid: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.persons_common.csid.name',
+                defaultMessage: 'System CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         inAuthority: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.persons_common.inAuthority.name',
+                defaultMessage: 'System authority CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         refName: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.persons_common.refName.name',
+                defaultMessage: 'System ref name',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         shortIdentifier: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.persons_common.shortIdentifier.name',
+                defaultMessage: 'System short ID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         personTermGroupList: {
@@ -122,6 +157,10 @@ export default (configContext) => {
             termDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termDisplayName.fullName',
+                    defaultMessage: 'Term display name',
+                  },
                   name: {
                     id: 'field.persons_common.termDisplayName.name',
                     defaultMessage: 'Display name',
@@ -136,6 +175,10 @@ export default (configContext) => {
             termFormattedDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termFormattedDisplayName.fullName',
+                    defaultMessage: 'Term formatted display name',
+                  },
                   name: {
                     id: 'field.persons_common.termFormattedDisplayName.name',
                     defaultMessage: 'Formatted display name',
@@ -150,6 +193,10 @@ export default (configContext) => {
             termName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termName.fullName',
+                    defaultMessage: 'Term name',
+                  },
                   name: {
                     id: 'field.persons_common.termName.name',
                     defaultMessage: 'Name',
@@ -167,6 +214,10 @@ export default (configContext) => {
             termQualifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termQualifier.fullName',
+                    defaultMessage: 'Term qualifier',
+                  },
                   name: {
                     id: 'field.persons_common.termQualifier.name',
                     defaultMessage: 'Qualifier',
@@ -180,6 +231,10 @@ export default (configContext) => {
             termStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termStatus.fullName',
+                    defaultMessage: 'Term status',
+                  },
                   name: {
                     id: 'field.persons_common.termStatus.name',
                     defaultMessage: 'Status',
@@ -257,6 +312,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termPrefForLang.fullName',
+                    defaultMessage: 'Term preferred for lang',
+                  },
                   name: {
                     id: 'field.persons_common.termPrefForLang.name',
                     defaultMessage: 'Preferred for lang',
@@ -270,6 +329,10 @@ export default (configContext) => {
             salutation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.salutation.fullName',
+                    defaultMessage: 'Term salutation',
+                  },
                   name: {
                     id: 'field.persons_common.salutation.name',
                     defaultMessage: 'Salutation',
@@ -286,6 +349,10 @@ export default (configContext) => {
             title: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.title.fullName',
+                    defaultMessage: 'Term title',
+                  },
                   name: {
                     id: 'field.persons_common.title.name',
                     defaultMessage: 'Title',
@@ -302,6 +369,10 @@ export default (configContext) => {
             foreName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.forename.fullName',
+                    defaultMessage: 'Term forename',
+                  },
                   name: {
                     id: 'field.persons_common.forename.name',
                     defaultMessage: 'Forename',
@@ -319,6 +390,10 @@ export default (configContext) => {
             middleName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.middleName.fullName',
+                    defaultMessage: 'Term middle name',
+                  },
                   name: {
                     id: 'field.persons_common.middleName.name',
                     defaultMessage: 'Middle name',
@@ -336,6 +411,10 @@ export default (configContext) => {
             surName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.surname.fullName',
+                    defaultMessage: 'Term surname',
+                  },
                   name: {
                     id: 'field.persons_common.surname.name',
                     defaultMessage: 'Surname',
@@ -353,6 +432,10 @@ export default (configContext) => {
             nameAdditions: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.nameAdditions.fullName',
+                    defaultMessage: 'Term addition',
+                  },
                   name: {
                     id: 'field.persons_common.nameAdditions.name',
                     defaultMessage: 'Addition',
@@ -366,6 +449,10 @@ export default (configContext) => {
             initials: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.initials.fullName',
+                    defaultMessage: 'Term initials',
+                  },
                   name: {
                     id: 'field.persons_common.initials.name',
                     defaultMessage: 'Initials',
@@ -379,13 +466,13 @@ export default (configContext) => {
             termSource: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.persons_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.persons_common.termSource.fullName',
-                    defaultMessage: 'Source name',
+                    defaultMessage: 'Term source',
+                  },
+                  name: {
+                    id: 'field.persons_common.termSource.name',
+                    defaultMessage: 'Source',
                   },
                 }),
                 view: {
@@ -399,9 +486,13 @@ export default (configContext) => {
             termSourceDetail: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termSourceDetail.fullName',
+                    defaultMessage: 'Term source detail',
+                  },
                   name: {
                     id: 'field.persons_common.termSourceDetail.name',
-                    defaultMessage: 'Detail',
+                    defaultMessage: 'Source detail',
                   },
                 }),
                 view: {
@@ -412,9 +503,13 @@ export default (configContext) => {
             termSourceID: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termSourceID.fullName',
+                    defaultMessage: 'Term source ID',
+                  },
                   name: {
                     id: 'field.persons_common.termSourceID.name',
-                    defaultMessage: 'ID',
+                    defaultMessage: 'Source ID',
                   },
                 }),
                 view: {
@@ -425,9 +520,13 @@ export default (configContext) => {
             termSourceNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.termSourceNote.fullName',
+                    defaultMessage: 'Term source note',
+                  },
                   name: {
                     id: 'field.persons_common.termSourceNote.name',
-                    defaultMessage: 'Note',
+                    defaultMessage: 'Source note',
                   },
                 }),
                 view: {
@@ -586,9 +685,6 @@ export default (configContext) => {
                 defaultMessage: 'Birth date',
               },
             }),
-            searchView: {
-              type: DateInput,
-            },
             view: {
               type: StructuredDateInput,
             },
@@ -617,9 +713,6 @@ export default (configContext) => {
                 defaultMessage: 'Death date',
               },
             }),
-            searchView: {
-              type: DateInput,
-            },
             view: {
               type: StructuredDateInput,
             },

@@ -55,6 +55,10 @@ export default (configContext) => {
         addressPlace1: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.address.addressPlace1.fullName',
+                defaultMessage: 'Address line 1',
+              },
               name: {
                 id: 'field.ext.address.addressPlace1.name',
                 defaultMessage: 'Line 1',
@@ -68,6 +72,10 @@ export default (configContext) => {
         addressPlace2: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.address.addressPlace2.fullName',
+                defaultMessage: 'Address line 2',
+              },
               name: {
                 id: 'field.ext.address.addressPlace2.name',
                 defaultMessage: 'Line 2',
@@ -81,6 +89,10 @@ export default (configContext) => {
         addressMunicipality: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.address.addressMunicipality.fullName',
+                defaultMessage: 'Address municipality',
+              },
               name: {
                 id: 'field.ext.address.addressMunicipality.name',
                 defaultMessage: 'Municipality',
@@ -97,6 +109,10 @@ export default (configContext) => {
         addressStateOrProvince: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.address.addressStateOrProvince.fullName',
+                defaultMessage: 'Address state/province',
+              },
               name: {
                 id: 'field.ext.address.addressStateOrProvince.name',
                 defaultMessage: 'State/Province',
@@ -115,6 +131,10 @@ export default (configContext) => {
         addressPostCode: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.address.addressPostCode.fullName',
+                defaultMessage: 'Address postal code',
+              },
               name: {
                 id: 'field.ext.address.addressPostCode.name',
                 defaultMessage: 'Postal code',
@@ -132,6 +152,10 @@ export default (configContext) => {
         addressCountry: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.ext.address.addressCountry.fullName',
+                defaultMessage: 'Address country',
+              },
               name: {
                 id: 'field.ext.address.addressCountry.name',
                 defaultMessage: 'Country',

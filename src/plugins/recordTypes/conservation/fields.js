@@ -16,6 +16,7 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   const {
+    DATA_TYPE_BOOL,
     DATA_TYPE_DATE,
   } = configContext.dataTypes;
 
@@ -86,13 +87,13 @@ export default (configContext) => {
             status: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conservation_common.status.name',
-                    defaultMessage: 'Status',
-                  },
                   fullName: {
                     id: 'field.conservation_common.status.fullName',
                     defaultMessage: 'Procedural status',
+                  },
+                  name: {
+                    id: 'field.conservation_common.status.name',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
@@ -107,13 +108,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conservation_common.statusDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conservation_common.statusDate.fullName',
                     defaultMessage: 'Procedural status date',
+                  },
+                  name: {
+                    id: 'field.conservation_common.statusDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -188,13 +189,13 @@ export default (configContext) => {
             otherParty: {
               [config]: {
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conservation_common.otherParty.name',
-                    defaultMessage: 'Name',
-                  },
                   fullName: {
                     id: 'field.conservation_common.otherParty.fullName',
                     defaultMessage: 'Other treatment party name',
+                  },
+                  name: {
+                    id: 'field.conservation_common.otherParty.name',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -228,6 +229,10 @@ export default (configContext) => {
             otherPartyNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.otherPartyNote.fullName',
+                    defaultMessage: 'Other treatment party note',
+                  },
                   name: {
                     id: 'field.conservation_common.otherPartyNote.name',
                     defaultMessage: 'Note',
@@ -262,9 +267,13 @@ export default (configContext) => {
             examinationStaff: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.examinationStaff.fullName',
+                    defaultMessage: 'Examination staff',
+                  },
                   name: {
                     id: 'field.conservation_common.examinationStaff.name',
-                    defaultMessage: 'Exam staff',
+                    defaultMessage: 'Staff',
                   },
                 }),
                 view: {
@@ -279,6 +288,10 @@ export default (configContext) => {
             examinationPhase: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.examinationPhase.fullName',
+                    defaultMessage: 'Examination phase of treatment',
+                  },
                   name: {
                     id: 'field.conservation_common.examinationPhase.name',
                     defaultMessage: 'Phase of treatment',
@@ -296,13 +309,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conservation_common.examinationDate.name',
-                    defaultMessage: 'Date',
-                  },
                   fullName: {
                     id: 'field.conservation_common.examinationDate.fullName',
                     defaultMessage: 'Examination date',
+                  },
+                  name: {
+                    id: 'field.conservation_common.examinationDate.name',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -313,6 +326,10 @@ export default (configContext) => {
             examinationNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.examinationNote.fullName',
+                    defaultMessage: 'Examination note',
+                  },
                   name: {
                     id: 'field.conservation_common.examinationNote.name',
                     defaultMessage: 'Note',
@@ -437,6 +454,10 @@ export default (configContext) => {
         researcher: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.conservation_common.researcher.fullName',
+                defaultMessage: 'Analysis researcher',
+              },
               name: {
                 id: 'field.conservation_common.researcher.name',
                 defaultMessage: 'Researcher',
@@ -470,13 +491,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
-              name: {
-                id: 'field.conservation_common.proposedAnalysisDate.name',
-                defaultMessage: 'Proposal date',
-              },
               fullName: {
                 id: 'field.conservation_common.proposedAnalysisDate.fullName',
                 defaultMessage: 'Analysis proposal date',
+              },
+              name: {
+                id: 'field.conservation_common.proposedAnalysisDate.name',
+                defaultMessage: 'Proposal date',
               },
             }),
             view: {
@@ -507,13 +528,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  name: {
-                    id: 'field.conservation_common.destAnalysisApprovedDate.name',
-                    defaultMessage: 'Approval date',
-                  },
                   fullName: {
                     id: 'field.conservation_common.destAnalysisApprovedDate.fullName',
                     defaultMessage: 'Destructive analysis approval date',
+                  },
+                  name: {
+                    id: 'field.conservation_common.destAnalysisApprovedDate.name',
+                    defaultMessage: 'Approval date',
                   },
                 }),
                 view: {
@@ -524,6 +545,10 @@ export default (configContext) => {
             destAnalysisApprovalNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.destAnalysisApprovalNote.fullName',
+                    defaultMessage: 'Destructive analysis approval note',
+                  },
                   name: {
                     id: 'field.conservation_common.destAnalysisApprovalNote.name',
                     defaultMessage: 'Approval note',
@@ -537,6 +562,10 @@ export default (configContext) => {
             sampleBy: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.sampleBy.fullName',
+                    defaultMessage: 'Destructive analysis sample taken by',
+                  },
                   name: {
                     id: 'field.conservation_common.sampleBy.name',
                     defaultMessage: 'Sample taken by',
@@ -554,6 +583,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.sampleDate.fullName',
+                    defaultMessage: 'Destructive analysis sample date',
+                  },
                   name: {
                     id: 'field.conservation_common.sampleDate.name',
                     defaultMessage: 'Sample date',
@@ -567,6 +600,10 @@ export default (configContext) => {
             sampleDescription: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.sampleDescription.fullName',
+                    defaultMessage: 'Destructive analysis sample description',
+                  },
                   name: {
                     id: 'field.conservation_common.sampleDescription.name',
                     defaultMessage: 'Sample description',
@@ -582,9 +619,14 @@ export default (configContext) => {
             },
             sampleReturned: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.sampleReturned.fullName',
+                    defaultMessage: 'Destructive analysis sample returned',
+                  },
                   name: {
-                    id: 'field.conservation_common.sampleReturned.name',
+                    id: 'field.conservation_common.sampleReturned.nadme',
                     defaultMessage: 'Sample returned',
                   },
                 }),
@@ -596,6 +638,10 @@ export default (configContext) => {
             sampleReturnedLocation: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.conservation_common.sampleReturnedLocation.fullName',
+                    defaultMessage: 'Destructive analysis sample returned location',
+                  },
                   name: {
                     id: 'field.conservation_common.sampleReturnedLocation.name',
                     defaultMessage: 'Sample returned location',

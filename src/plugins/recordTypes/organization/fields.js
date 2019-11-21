@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     AutocompleteInput,
     CompoundInput,
-    DateInput,
     HierarchyInput,
     OptionPickerInput,
     TextInput,
@@ -76,21 +75,57 @@ export default (configContext) => {
         csid: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.organizations_common.csid.name',
+                defaultMessage: 'System CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         inAuthority: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.organizations_common.inAuthority.name',
+                defaultMessage: 'System authority CSID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         refName: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.organizations_common.refName.name',
+                defaultMessage: 'System ref name',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         shortIdentifier: {
           [config]: {
             cloneable: false,
+            messages: defineMessages({
+              name: {
+                id: 'field.organizations_common.shortIdentifier.name',
+                defaultMessage: 'System short ID',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
           },
         },
         orgTermGroupList: {
@@ -122,6 +157,10 @@ export default (configContext) => {
             termDisplayName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termDisplayName.fullName',
+                    defaultMessage: 'Term display name',
+                  },
                   name: {
                     id: 'field.organizations_common.termDisplayName.name',
                     defaultMessage: 'Display name',
@@ -136,6 +175,10 @@ export default (configContext) => {
             termName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termName.fullName',
+                    defaultMessage: 'Term name',
+                  },
                   name: {
                     id: 'field.organizations_common.termName.name',
                     defaultMessage: 'Name',
@@ -149,6 +192,10 @@ export default (configContext) => {
             termType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termType.fullName',
+                    defaultMessage: 'Term type',
+                  },
                   name: {
                     id: 'field.organizations_common.termType.name',
                     defaultMessage: 'Type',
@@ -185,6 +232,10 @@ export default (configContext) => {
             termStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termStatus.fullName',
+                    defaultMessage: 'Term status',
+                  },
                   name: {
                     id: 'field.organizations_common.termStatus.name',
                     defaultMessage: 'Status',
@@ -201,6 +252,10 @@ export default (configContext) => {
             termQualifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termQualifier.fullName',
+                    defaultMessage: 'Term qualifier',
+                  },
                   name: {
                     id: 'field.organizations_common.termQualifier.name',
                     defaultMessage: 'Qualifier',
@@ -235,6 +290,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termPrefForLang.fullName',
+                    defaultMessage: 'Term preferred for lang',
+                  },
                   name: {
                     id: 'field.organizations_common.termPrefForLang.name',
                     defaultMessage: 'Preferred for lang',
@@ -245,68 +304,13 @@ export default (configContext) => {
                 },
               },
             },
-            termSource: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.organizations_common.termSource.name',
-                    defaultMessage: 'Name',
-                  },
-                  fullName: {
-                    id: 'field.organizations_common.termSource.fullName',
-                    defaultMessage: 'Source name',
-                  },
-                }),
-                view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'citation/local,citation/worldcat',
-                  },
-                },
-              },
-            },
-            termSourceDetail: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.organizations_common.termSourceDetail.name',
-                    defaultMessage: 'Detail',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            termSourceID: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.organizations_common.termSourceID.name',
-                    defaultMessage: 'ID',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            termSourceNote: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.organizations_common.termSourceNote.name',
-                    defaultMessage: 'Note',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
             mainBodyName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.mainBodyName.fullName',
+                    defaultMessage: 'Term main body name',
+                  },
                   name: {
                     id: 'field.organizations_common.mainBodyName.name',
                     defaultMessage: 'Main body name',
@@ -320,9 +324,84 @@ export default (configContext) => {
             additionsToName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.additionsToName.fullName',
+                    defaultMessage: 'Term name addition',
+                  },
                   name: {
                     id: 'field.organizations_common.additionsToName.name',
-                    defaultMessage: 'Addition',
+                    defaultMessage: 'Name addition',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            termSource: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termSource.fullName',
+                    defaultMessage: 'Term source',
+                  },
+                  name: {
+                    id: 'field.organizations_common.termSource.name',
+                    defaultMessage: 'Source',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'citation/local,citation/worldcat',
+                  },
+                },
+              },
+            },
+            termSourceDetail: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termSourceDetail.fullName',
+                    defaultMessage: 'Term source detail',
+                  },
+                  name: {
+                    id: 'field.organizations_common.termSourceDetail.name',
+                    defaultMessage: 'Source detail',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            termSourceID: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termSourceID.fullName',
+                    defaultMessage: 'Term source ID',
+                  },
+                  name: {
+                    id: 'field.organizations_common.termSourceID.name',
+                    defaultMessage: 'Source ID',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            termSourceNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.termSourceNote.fullName',
+                    defaultMessage: 'Term source note',
+                  },
+                  name: {
+                    id: 'field.organizations_common.termSourceNote.name',
+                    defaultMessage: 'Source note',
                   },
                 }),
                 view: {
@@ -365,27 +444,6 @@ export default (configContext) => {
                 defaultMessage: 'Foundation date',
               },
             }),
-            searchView: {
-              type: DateInput,
-            },
-            view: {
-              type: StructuredDateInput,
-            },
-          },
-          ...extensions.structuredDate.fields,
-        },
-        dissolutionDateGroup: {
-          [config]: {
-            dataType: DATA_TYPE_STRUCTURED_DATE,
-            messages: defineMessages({
-              name: {
-                id: 'field.organizations_common.dissolutionDateGroup.name',
-                defaultMessage: 'Dissolution date',
-              },
-            }),
-            searchView: {
-              type: DateInput,
-            },
             view: {
               type: StructuredDateInput,
             },
@@ -402,6 +460,45 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
+            },
+          },
+        },
+        dissolutionDateGroup: {
+          [config]: {
+            dataType: DATA_TYPE_STRUCTURED_DATE,
+            messages: defineMessages({
+              name: {
+                id: 'field.organizations_common.dissolutionDateGroup.name',
+                defaultMessage: 'Dissolution date',
+              },
+            }),
+            view: {
+              type: StructuredDateInput,
+            },
+          },
+          ...extensions.structuredDate.fields,
+        },
+        contactNames: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          contactName: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.organizations_common.contactName.name',
+                  defaultMessage: 'Contact name',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'person/local',
+                },
+              },
             },
           },
         },
@@ -466,30 +563,6 @@ export default (configContext) => {
                 type: TextInput,
                 props: {
                   multiline: true,
-                },
-              },
-            },
-          },
-        },
-        contactNames: {
-          [config]: {
-            view: {
-              type: CompoundInput,
-            },
-          },
-          contactName: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.organizations_common.contactName.name',
-                  defaultMessage: 'Contact name',
-                },
-              }),
-              repeating: true,
-              view: {
-                type: AutocompleteInput,
-                props: {
-                  source: 'person/local',
                 },
               },
             },
