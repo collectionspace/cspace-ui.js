@@ -336,7 +336,7 @@ describe('GroupConditionInput', function suite() {
     buildIncludeStructDateFields.should.equal(true);
   });
 
-  it('should call buildRecordFieldOptionLists when the path is changed from null to not null', function test() {
+  it('should call buildRecordFieldOptionLists when the path is changed', function test() {
     const condition = Immutable.fromJS({
       op: OP_GROUP,
       path: null,

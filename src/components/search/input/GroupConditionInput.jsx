@@ -96,8 +96,8 @@ export default class GroupConditionInput extends Component {
     const path = condition.get('path');
     const prevPath = prevCondition.get('path');
 
-    if (path && prevPath === null) {
-      // The group was just selected. Load the field options for the group.
+    if (path !== prevPath) {
+      // The group changed. Load the field options for the group.
 
       if (buildRecordFieldOptionLists) {
         buildRecordFieldOptionLists(config, recordType, path, true);
