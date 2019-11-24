@@ -807,10 +807,16 @@ describe('searchHelpers', function moduleSuite() {
 
     it('should convert int typed values to unquoted numeric strings', function test() {
       valueToNXQL('3', 'intField', fields).should.equal('3');
+      valueToNXQL('3.14', 'intField', fields).should.equal('3.14');
+      valueToNXQL('-24', 'intField', fields).should.equal('-24');
+      valueToNXQL('0.0', 'intField', fields).should.equal('0');
     });
 
     it('should convert float typed values to unquoted numeric strings', function test() {
+      valueToNXQL('3', 'floatField', fields).should.equal('3');
       valueToNXQL('3.14', 'floatField', fields).should.equal('3.14');
+      valueToNXQL('-24', 'floatField', fields).should.equal('-24');
+      valueToNXQL('0.0', 'floatField', fields).should.equal('0');
     });
 
     it('should convert bool typed values to unquoted 0 or 1', function test() {

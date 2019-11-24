@@ -493,9 +493,7 @@ export const valueToNXQL = (value, path, fieldDescriptor) => {
     return `TIMESTAMP "${nxqlValue}"`;
   }
 
-  if (dataType === DATA_TYPE_INT) {
-    nxqlValue = parseInt(data, 10);
-  } else if (dataType === DATA_TYPE_FLOAT) {
+  if (dataType === DATA_TYPE_INT || dataType === DATA_TYPE_FLOAT) {
     nxqlValue = parseFloat(data);
   } else if (dataType === DATA_TYPE_BOOL) {
     const boolData = (typeof data === 'string' && data === 'false' ? false : !!data);
