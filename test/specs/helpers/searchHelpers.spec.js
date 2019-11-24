@@ -22,6 +22,7 @@ import {
   OP_GTE,
   OP_GROUP,
   OP_MATCH,
+  OP_NOT_MATCH,
   OP_RANGE,
   OP_NOT_EQ,
   OP_NOT_CONTAIN,
@@ -1094,22 +1095,44 @@ describe('searchHelpers', function moduleSuite() {
       const condition = Immutable.fromJS({
         op: OP_CONTAIN,
         path: 'ns2:part/foo',
-        value: 'bar',
+        value: 'bar%baz',
       });
 
       fieldConditionToNXQL(fields, condition).should
-        .equal('part:foo ILIKE "%bar%"');
+        .equal('part:foo ILIKE "%bar%baz%"');
     });
 
-    it('should convert not contain operation to not match operation', function test() {
+    it('should convert not contain operation to not match operation with wildcards on either end', function test() {
       const condition = Immutable.fromJS({
         op: OP_NOT_CONTAIN,
         path: 'ns2:part/foo',
-        value: 'bar',
+        value: 'bar%baz',
       });
 
       fieldConditionToNXQL(fields, condition).should
-        .equal('part:foo NOT ILIKE "%bar%"');
+        .equal('part:foo NOT ILIKE "%bar%baz%"');
+    });
+
+    it('should normalize the value of a match operation as a pattern', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_MATCH,
+        path: 'ns2:part/foo',
+        value: 'hello*world',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:foo ILIKE "hello%world"');
+    });
+
+    it('should normalize the value of a not match operation as a pattern', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_NOT_MATCH,
+        path: 'ns2:part/foo',
+        value: 'hello*world',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:foo NOT ILIKE "hello%world"');
     });
 
     it('should expand list values into multiple OR clauses', function test() {

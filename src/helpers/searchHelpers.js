@@ -859,7 +859,7 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
     value = `%${value}%`;
   }
 
-  if (operator === OP_MATCH) {
+  if (operator === OP_MATCH || operator === OP_NOT_MATCH) {
     value = normalizePatternValue(value);
   }
 
