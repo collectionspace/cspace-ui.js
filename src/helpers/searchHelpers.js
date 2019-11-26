@@ -26,15 +26,19 @@ import {
 import {
   OP_AND,
   OP_OR,
+  OP_COMPLETE,
   OP_EQ,
   OP_GT,
+  OP_GTC,
   OP_GTE,
   OP_LT,
+  OP_LTC,
   OP_LTE,
   OP_CONTAIN,
   OP_MATCH,
   OP_RANGE,
   OP_NULL,
+  OP_NOT_COMPLETE,
   OP_NOT_CONTAIN,
   OP_NOT_EQ,
   OP_NOT_MATCH,
@@ -108,25 +112,24 @@ const opsByDataType = {
     OP_GTE,
     OP_LT,
     OP_LTE,
-    // There currently is no input to enter an exact timestamp.
-    // OP_EQ,
-    // OP_NOT_EQ,
+    OP_EQ,
+    OP_NOT_EQ,
     OP_NULL,
     OP_NOT_NULL,
   ],
   [DATA_TYPE_STRUCTURED_DATE]: [
     OP_RANGE,
     OP_NOT_RANGE,
-    OP_GT,
-    OP_GTE,
-    OP_LT,
-    OP_LTE,
     OP_CONTAIN,
     OP_NOT_CONTAIN,
+    OP_GT,
+    OP_GTC,
+    OP_LT,
+    OP_LTC,
     OP_EQ,
     OP_NOT_EQ,
-    OP_NULL,
-    OP_NOT_NULL,
+    OP_NOT_COMPLETE,
+    OP_COMPLETE,
   ],
 };
 
@@ -148,6 +151,8 @@ export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlle
 export const operatorExpectsValue = op => (
   op !== OP_NULL
   && op !== OP_NOT_NULL
+  && op !== OP_COMPLETE
+  && op !== OP_NOT_COMPLETE
 );
 
 export const operatorSupportsMultipleValues = op => (
@@ -181,30 +186,6 @@ const getDataType = (fieldDescriptor, path) =>
 
 const getSearchValueTransform = (fieldDescriptor, path) =>
   get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'searchTransform']);
-
-export const normalizeTimestampRangeStartValue = (value) => {
-  if (value) {
-    const timestamp = value.trim();
-
-    if (timestamp) {
-      return ((timestamp.indexOf('T') < 0) ? `${timestamp}T00:00:00.000` : timestamp);
-    }
-  }
-
-  return null;
-};
-
-export const normalizeTimestampRangeEndValue = (value) => {
-  if (value) {
-    const timestamp = value.trim();
-
-    if (timestamp) {
-      return ((timestamp.indexOf('T') < 0) ? `${timestamp}T23:59:59.999` : timestamp);
-    }
-  }
-
-  return null;
-};
 
 export const normalizeStringFieldValue = (value) => {
   let trimmed;
@@ -319,39 +300,47 @@ export const normalizeRangeFieldCondition = (fieldDescriptor, condition) => {
   let value = condition.get('value');
 
   if (value) {
-    const op = condition.get('op');
-    const dataType = getDataType(fieldDescriptor, path);
-
     if (!Immutable.List.isList(value)) {
       value = Immutable.List.of(value);
     }
 
-    let startValue = value.get(0);
-    let endValue = value.get(1);
-
-    if (dataType === DATA_TYPE_DATETIME || dataType === DATA_TYPE_DATE) {
-      startValue = normalizeTimestampRangeStartValue(startValue);
-      endValue = normalizeTimestampRangeEndValue(endValue);
-    } else {
-      startValue = normalizeStringFieldValue(startValue);
-      endValue = normalizeStringFieldValue(endValue);
-    }
+    const startValue = normalizeStringFieldValue(value.get(0));
+    const endValue = normalizeStringFieldValue(value.get(1));
 
     if (!startValue && !endValue) {
       return null;
     }
 
+    const op = condition.get('op');
+    const dataType = getDataType(fieldDescriptor, path);
+
     if (!startValue) {
+      let newOp;
+
+      if (dataType === DATA_TYPE_STRUCTURED_DATE) {
+        newOp = (op === OP_NOT_RANGE) ? OP_GT : OP_LTC;
+      } else {
+        newOp = (op === OP_NOT_RANGE) ? OP_GT : OP_LTE;
+      }
+
       return Immutable.Map({
-        op: op === OP_NOT_RANGE ? OP_GT : OP_LTE,
+        op: newOp,
         path: condition.get('path'),
         value: endValue,
       });
     }
 
     if (!endValue) {
+      let newOp;
+
+      if (dataType === DATA_TYPE_STRUCTURED_DATE) {
+        newOp = (op === OP_NOT_RANGE) ? OP_LT : OP_GTC;
+      } else {
+        newOp = (op === OP_NOT_RANGE) ? OP_LT : OP_GTE;
+      }
+
       return Immutable.Map({
-        op: op === OP_NOT_RANGE ? OP_LT : OP_GTE,
+        op: newOp,
         path: condition.get('path'),
         value: startValue,
       });
@@ -405,7 +394,7 @@ export const normalizeCondition = (fieldDescriptor, condition) => {
   return null;
 };
 
-export const normalizePatternValue = (value) => {
+export const patternValueToNXQL = (value) => {
   if (!value) {
     return value;
   }
@@ -456,6 +445,12 @@ export const pathToNXQL = (fieldDescriptor, path) => {
 };
 
 export const operatorToNXQL = operator => operatorToNXQLMap[operator];
+
+export const dateStartTimestamp = value =>
+  ((value.indexOf('T') < 0) ? `${value}T00:00:00.000` : value);
+
+export const dateEndTimestamp = value =>
+  ((value.indexOf('T') < 0) ? `${value}T23:59:59.999` : value);
 
 export const valueToNXQL = (value, path, fieldDescriptor) => {
   const dataType = getDataType(fieldDescriptor, path) || DATA_TYPE_STRING;
@@ -560,6 +555,10 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
   // The UI has historically added one day to the latest day when computing the latest scalar
   // date. I don't know why. This has to be taken into account.
 
+  // All conditions that are converted to and/or conditions on the earliest and latest scalar dates
+  // need to be correlated to the same group instance, because the field may be repeating. This is
+  // done by wrapping them in a group operator.
+
   const path = condition.get('path');
   const operator = condition.get('op');
   const value = condition.get('value');
@@ -588,7 +587,7 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
           },
           {
             path: latestScalarDatePath,
-            op: OP_GT,
+            op: OP_GT, // Not GTE, because latest scalar date has one day added.
             value: rangeStart,
           },
         ],
@@ -614,7 +613,7 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
           },
           {
             path: latestScalarDatePath,
-            op: OP_LTE,
+            op: OP_LTE, // Not LT, because latest scalar date has one day added.
             value: rangeStart,
           },
         ],
@@ -715,15 +714,15 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
       },
     });
   } else if (operator === OP_LT) {
-    // The earliest date in the structured date is before the value date, i.e. some part of the
-    // structured date exists before the value.
+    // The latest date in the structured date is before the value date, i.e. no part of the
+    // structured date exists on or after the value.
 
     convertedCondition = Immutable.fromJS({
-      path: earliestScalarDatePath,
-      op: OP_LT,
+      path: latestScalarDatePath,
+      op: OP_LTE, // Not LT, because latest scalar date has one day added.
       value,
     });
-  } else if (operator === OP_LTE) {
+  } else if (operator === OP_LTC) {
     // The earliest date in the structured date is before or equal to the value date.
 
     convertedCondition = Immutable.fromJS({
@@ -732,16 +731,15 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
       value,
     });
   } else if (operator === OP_GT) {
-    // The latest date in the structured date is after the value date, i.e. some part of the
-    // structured date exists after the value.
+    // The earliest date in the structured date is after the value date, i.e. no part of the
+    // structured date exists on or before the value.
 
     convertedCondition = Immutable.fromJS({
-      path: latestScalarDatePath,
+      path: earliestScalarDatePath,
       op: OP_GT,
-      // GRRR. The latest scalar date has one day added.
-      value: moment(value).add(1, 'day').format('YYYY-MM-DD'),
+      value,
     });
-  } else if (operator === OP_GTE) {
+  } else if (operator === OP_GTC) {
     // The latest date in the structured date is after or equal to the value date.
 
     convertedCondition = Immutable.fromJS({
@@ -749,8 +747,8 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
       op: OP_GT, // Not GTE, because latest scalar date has one day added.
       value,
     });
-  } else if (operator === OP_NULL) {
-    // Both the earliest and latest scalar dates are null.
+  } else if (operator === OP_COMPLETE) {
+    // Both the earliest and latest scalar date are not null.
 
     convertedCondition = Immutable.fromJS({
       path,
@@ -760,18 +758,18 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
         value: [
           {
             path: earliestScalarDatePath,
-            op: OP_NULL,
+            op: OP_NOT_NULL,
           },
           {
             path: latestScalarDatePath,
-            op: OP_NULL,
+            op: OP_NOT_NULL,
           },
         ],
       },
     });
-  } else if (operator === OP_NOT_NULL) {
-    // Either the earliest or latest scalar date is not null.
-    // This will be the logical negation of OP_NULL.
+  } else if (operator === OP_NOT_COMPLETE) {
+    // Either the earliest or latest scalar date is null.
+    // This will be the logical negation of OP_COMPLETE.
 
     convertedCondition = Immutable.fromJS({
       path,
@@ -781,11 +779,11 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
         value: [
           {
             path: earliestScalarDatePath,
-            op: OP_NOT_NULL,
+            op: OP_NULL,
           },
           {
             path: latestScalarDatePath,
-            op: OP_NOT_NULL,
+            op: OP_NULL,
           },
         ],
       },
@@ -817,8 +815,13 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, counter) =
   const nxqlPath = pathToNXQL(fieldDescriptor, path);
   const nxqlOp = operatorToNXQL(operator);
 
-  const startValue = values.get(0);
-  const endValue = values.get(1);
+  let startValue = values.get(0);
+  let endValue = values.get(1);
+
+  if (dataType === DATA_TYPE_DATETIME) { // } || dataType === DATA_TYPE_DATE) {
+    startValue = dateStartTimestamp(startValue);
+    endValue = dateEndTimestamp(endValue);
+  }
 
   const nxqlValue =
     [startValue, endValue]
@@ -849,6 +852,24 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
     return structuredDateFieldConditionToNXQL(fieldDescriptor, condition, counter);
   }
 
+  if (dataType === DATA_TYPE_DATETIME) { // } || dataType === DATA_TYPE_DATE) {
+    if (operator === OP_EQ || operator === OP_NOT_EQ) {
+      return rangeFieldConditionToNXQL(
+        fieldDescriptor,
+        condition
+          .set('op', operator === OP_EQ ? OP_RANGE : OP_NOT_RANGE)
+          .set('value', Immutable.List([value, value])),
+        counter,
+      );
+    }
+
+    if (operator === OP_GT || operator === OP_LTE) {
+      value = dateEndTimestamp(value);
+    } else {
+      value = dateStartTimestamp(value);
+    }
+  }
+
   if (operator === OP_CONTAIN) {
     operator = OP_MATCH;
     value = `%${value}%`;
@@ -858,7 +879,7 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
   }
 
   if (operator === OP_MATCH || operator === OP_NOT_MATCH) {
-    value = normalizePatternValue(value);
+    value = patternValueToNXQL(value);
   }
 
   const nxqlPath = pathToNXQL(fieldDescriptor, path);

@@ -17,4 +17,9 @@ export const OP_NOT_MATCH = 'nmatch';
 export const OP_NOT_RANGE = 'nrange';
 export const OP_NOT_NULL = 'nnull';
 
+export const OP_GTC = 'gtc';
+export const OP_LTC = 'ltc';
+export const OP_COMPLETE = 'cmpl';
+export const OP_NOT_COMPLETE = 'ncmpl';
+
 export const OP_GROUP = 'grp';

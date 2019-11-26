@@ -4,15 +4,19 @@ import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-i
 import { baseComponents as inputComponents } from 'cspace-input';
 
 import {
+  OP_COMPLETE,
   OP_CONTAIN,
   OP_EQ,
   OP_GT,
+  OP_GTC,
   OP_GTE,
   OP_LT,
+  OP_LTC,
   OP_LTE,
   OP_MATCH,
   OP_RANGE,
   OP_NULL,
+  OP_NOT_COMPLETE,
   OP_NOT_CONTAIN,
   OP_NOT_EQ,
   OP_NOT_MATCH,
@@ -26,6 +30,10 @@ const {
 
 const operatorMessages = {
   full: defineMessages({
+    [OP_COMPLETE]: {
+      id: 'operatorInput.OP_COMPLETE',
+      defaultMessage: 'is complete',
+    },
     [OP_CONTAIN]: {
       id: 'operatorInput.OP_CONTAIN',
       defaultMessage: 'contains',
@@ -38,6 +46,10 @@ const operatorMessages = {
       id: 'operatorInput.OP_GT',
       defaultMessage: 'is greater than',
     },
+    [OP_GTC]: {
+      id: 'operatorInput.OP_GTC',
+      defaultMessage: 'is greater than or contains',
+    },
     [OP_GTE]: {
       id: 'operatorInput.OP_GTE',
       defaultMessage: 'is at least',
@@ -45,6 +57,10 @@ const operatorMessages = {
     [OP_LT]: {
       id: 'operatorInput.OP_LT',
       defaultMessage: 'is less than',
+    },
+    [OP_LTC]: {
+      id: 'operatorInput.OP_LTC',
+      defaultMessage: 'is less than or contains',
     },
     [OP_LTE]: {
       id: 'operatorInput.OP_LTE',
@@ -61,6 +77,10 @@ const operatorMessages = {
     [OP_NULL]: {
       id: 'operatorInput.OP_NULL',
       defaultMessage: 'is blank',
+    },
+    [OP_NOT_COMPLETE]: {
+      id: 'operatorInput.OP_NOT_COMPLETE',
+      defaultMessage: 'is incomplete',
     },
     [OP_NOT_CONTAIN]: {
       id: 'operatorInput.OP_NOT_CONTAIN',
@@ -84,6 +104,10 @@ const operatorMessages = {
     },
   }),
   compact: defineMessages({
+    [OP_COMPLETE]: {
+      id: 'operatorInput.compact.OP_COMPLETE',
+      defaultMessage: 'is complete',
+    },
     [OP_CONTAIN]: {
       id: 'operatorInput.compact.OP_CONTAIN',
       defaultMessage: 'contains',
@@ -96,6 +120,10 @@ const operatorMessages = {
       id: 'operatorInput.compact.OP_GT',
       defaultMessage: '>',
     },
+    [OP_GTC]: {
+      id: 'operatorInput.compact.OP_GTC',
+      defaultMessage: '> or contains',
+    },
     [OP_GTE]: {
       id: 'operatorInput.compact.OP_GTE',
       defaultMessage: '≥',
@@ -103,6 +131,10 @@ const operatorMessages = {
     [OP_LT]: {
       id: 'operatorInput.compact.OP_LT',
       defaultMessage: '<',
+    },
+    [OP_LTC]: {
+      id: 'operatorInput.compact.OP_LTC',
+      defaultMessage: '< or contains',
     },
     [OP_LTE]: {
       id: 'operatorInput.compact.OP_LTE',
@@ -119,6 +151,10 @@ const operatorMessages = {
     [OP_NULL]: {
       id: 'operatorInput.compact.OP_NULL',
       defaultMessage: 'is blank',
+    },
+    [OP_NOT_COMPLETE]: {
+      id: 'operatorInput.compact.OP_NOT_COMPLETE',
+      defaultMessage: 'is incomplete',
     },
     [OP_NOT_CONTAIN]: {
       id: 'operatorInput.compact.OP_NOT_CONTAIN',

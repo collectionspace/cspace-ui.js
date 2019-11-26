@@ -13,22 +13,26 @@ import {
 
 import {
   OP_AND,
+  OP_COMPLETE,
   OP_CONTAIN,
   OP_OR,
   OP_EQ,
   OP_LT,
+  OP_LTC,
   OP_LTE,
   OP_GT,
+  OP_GTC,
   OP_GTE,
   OP_GROUP,
   OP_MATCH,
   OP_NOT_MATCH,
-  OP_RANGE,
+  OP_NOT_COMPLETE,
   OP_NOT_EQ,
   OP_NOT_CONTAIN,
   OP_NOT_RANGE,
   OP_NULL,
   OP_NOT_NULL,
+  OP_RANGE,
 } from '../../../src/constants/searchOperators';
 
 import {
@@ -38,6 +42,8 @@ import {
 import {
   clearAdvancedSearchConditionValues,
   createCounter,
+  dateEndTimestamp,
+  dateStartTimestamp,
   normalizeCondition,
   normalizeBooleanCondition,
   normalizeGroupCondition,
@@ -46,11 +52,9 @@ import {
   normalizeFieldValue,
   normalizeListFieldValue,
   normalizeStringFieldValue,
-  normalizePatternValue,
-  normalizeTimestampRangeStartValue,
-  normalizeTimestampRangeEndValue,
   operatorToNXQL,
   pathToNXQL,
+  patternValueToNXQL,
   valueToNXQL,
   booleanConditionToNXQL,
   groupConditionToNXQL,
@@ -367,9 +371,19 @@ describe('searchHelpers', function moduleSuite() {
     const fields = {
       document: {
         'ns2:part': {
-          updatedAt: {
+          fuzzyDate: {
             [configKey]: {
-              dataType: DATA_TYPE_DATETIME,
+              dataType: DATA_TYPE_STRUCTURED_DATE,
+            },
+            dateEarliestScalarValue: {
+              [configKey]: {
+                dataType: DATA_TYPE_DATE,
+              },
+            },
+            dateLatestScalarValue: {
+              [configKey]: {
+                dataType: DATA_TYPE_DATE,
+              },
             },
           },
         },
@@ -398,20 +412,6 @@ describe('searchHelpers', function moduleSuite() {
       }));
     });
 
-    it('should add start/end times to timestamps', function test() {
-      const condition = Immutable.fromJS({
-        op: OP_RANGE,
-        path: 'ns2:part/updatedAt',
-        value: ['2017-03-04', '2017-03-08'],
-      });
-
-      normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
-        op: OP_RANGE,
-        path: 'ns2:part/updatedAt',
-        value: ['2017-03-04T00:00:00.000', '2017-03-08T23:59:59.999'],
-      }));
-    });
-
     it('should return null if the value normalizes to null', function test() {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
@@ -431,7 +431,21 @@ describe('searchHelpers', function moduleSuite() {
       expect(normalizeRangeFieldCondition(fields, condition)).to.equal(null);
     });
 
-    it('should return a >= condition if the end of range is omitted', function test() {
+    it('should return a >= condition if the value is not a list and the field is not a structured date', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/numberOfObjects',
+        value: '2',
+      });
+
+      normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
+        op: OP_GTE,
+        path: 'ns2:part/numberOfObjects',
+        value: '2',
+      }));
+    });
+
+    it('should return a >= condition if the end of range is omitted and the field is not a structured date', function test() {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
         path: 'ns2:part/numberOfObjects',
@@ -445,21 +459,21 @@ describe('searchHelpers', function moduleSuite() {
       }));
     });
 
-    it('should return a >= condition if the value is not a list', function test() {
+    it('should return a > or contains condition if the end of range is omitted and the field is a structured date', function test() {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
-        value: '2',
+        path: 'ns2:part/fuzzyDate',
+        value: ['2000-01-01'],
       });
 
       normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
-        op: OP_GTE,
-        path: 'ns2:part/numberOfObjects',
-        value: '2',
+        op: OP_GTC,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
       }));
     });
 
-    it('should return a <= condition if the end of range is omitted', function test() {
+    it('should return a <= condition if the start of range is omitted and the field is not a structured date', function test() {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
         path: 'ns2:part/numberOfObjects',
@@ -470,6 +484,20 @@ describe('searchHelpers', function moduleSuite() {
         op: OP_LTE,
         path: 'ns2:part/numberOfObjects',
         value: '4',
+      }));
+    });
+
+    it('should return a < or contains condition if the start of range is omitted and the field is a structured date', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/fuzzyDate',
+        value: [undefined, '2000-01-01'],
+      });
+
+      normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
+        op: OP_LTC,
+        path: 'ns2:part/fuzzyDate',
+        value: '2000-01-01',
       }));
     });
   });
@@ -636,59 +664,6 @@ describe('searchHelpers', function moduleSuite() {
     });
   });
 
-  describe('normalizePatternValue', function suite() {
-    it('should return the value if the value is undefined, null, or empty', function test() {
-      expect(normalizePatternValue(undefined)).to.equal(undefined);
-      expect(normalizePatternValue(null)).to.equal(null);
-      expect(normalizePatternValue('')).to.equal('');
-    });
-
-    it('should replace * not preceded by an odd number of backslashes with %', function test() {
-      expect(normalizePatternValue('foo*bar*baz')).to.equal('foo%bar%baz');
-      expect(normalizePatternValue('*foo')).to.equal('%foo');
-      expect(normalizePatternValue('foo*')).to.equal('foo%');
-      expect(normalizePatternValue('foo**bar')).to.equal('foo%bar');
-      expect(normalizePatternValue('foo*\\*bar')).to.equal('foo%\\*bar');
-      expect(normalizePatternValue('foo\\*\\*bar')).to.equal('foo\\*\\*bar');
-      expect(normalizePatternValue('foo\\*bar')).to.equal('foo\\*bar');
-      expect(normalizePatternValue('foo\\\\*bar')).to.equal('foo\\\\%bar');
-      expect(normalizePatternValue('\\*foo\\\\\\*bar')).to.equal('\\*foo\\\\\\%bar');
-      expect(normalizePatternValue('\\\\*foo\\***bar')).to.equal('\\\\%foo\\*%bar');
-    });
-  });
-
-  describe('normalizeTimestampRangeStartValue', function suite() {
-    it('should return null if the value is undefined, null, or empty', function test() {
-      expect(normalizeTimestampRangeStartValue(undefined)).to.equal(null);
-      expect(normalizeTimestampRangeStartValue(null)).to.equal(null);
-      expect(normalizeTimestampRangeStartValue('')).to.equal(null);
-    });
-
-    it('should trim the value', function test() {
-      expect(normalizeTimestampRangeStartValue(' 1997-05-23T13:00:00  ')).to.equal('1997-05-23T13:00:00');
-    });
-
-    it('should add a time if the value does not have one', function test() {
-      expect(normalizeTimestampRangeStartValue('1997-05-23')).to.equal('1997-05-23T00:00:00.000');
-    });
-  });
-
-  describe('normalizeTimestampRangeEndValue', function suite() {
-    it('should return null if the value is undefined, null, or empty', function test() {
-      expect(normalizeTimestampRangeEndValue(undefined)).to.equal(null);
-      expect(normalizeTimestampRangeEndValue(null)).to.equal(null);
-      expect(normalizeTimestampRangeEndValue('')).to.equal(null);
-    });
-
-    it('should trim the value', function test() {
-      expect(normalizeTimestampRangeEndValue(' 1997-05-23T13:00:00  ')).to.equal('1997-05-23T13:00:00');
-    });
-
-    it('should add a time if the value does not have one', function test() {
-      expect(normalizeTimestampRangeEndValue('1997-05-23')).to.equal('1997-05-23T23:59:59.999');
-    });
-  });
-
   describe('normalizeFieldValue', function suite() {
     it('should normalize list values', function test() {
       normalizeFieldValue(Immutable.List([
@@ -757,6 +732,39 @@ describe('searchHelpers', function moduleSuite() {
 
       pathToNXQL(fields, 'ns2:collectionobjects_common/titleGroupList/titleGroup/titleTranslationSubGroupList/titleTranslationSubGroup/titleTranslation').should
         .equal('collectionobjects_common:titleGroupList/*/titleTranslationSubGroupList/*/titleTranslation');
+    });
+  });
+
+  describe('dateStartTimestamp', function suite() {
+    it('should add a time if the value does not have one', function test() {
+      expect(dateStartTimestamp('1997-05-23')).to.equal('1997-05-23T00:00:00.000');
+    });
+  });
+
+  describe('dateEndTimestamp', function suite() {
+    it('should add a time if the value does not have one', function test() {
+      expect(dateEndTimestamp('1997-05-23')).to.equal('1997-05-23T23:59:59.999');
+    });
+  });
+
+  describe('patternValueToNXQL', function suite() {
+    it('should return the value if the value is undefined, null, or empty', function test() {
+      expect(patternValueToNXQL(undefined)).to.equal(undefined);
+      expect(patternValueToNXQL(null)).to.equal(null);
+      expect(patternValueToNXQL('')).to.equal('');
+    });
+
+    it('should replace * not preceded by an odd number of backslashes with %', function test() {
+      expect(patternValueToNXQL('foo*bar*baz')).to.equal('foo%bar%baz');
+      expect(patternValueToNXQL('*foo')).to.equal('%foo');
+      expect(patternValueToNXQL('foo*')).to.equal('foo%');
+      expect(patternValueToNXQL('foo**bar')).to.equal('foo%bar');
+      expect(patternValueToNXQL('foo*\\*bar')).to.equal('foo%\\*bar');
+      expect(patternValueToNXQL('foo\\*\\*bar')).to.equal('foo\\*\\*bar');
+      expect(patternValueToNXQL('foo\\*bar')).to.equal('foo\\*bar');
+      expect(patternValueToNXQL('foo\\\\*bar')).to.equal('foo\\\\%bar');
+      expect(patternValueToNXQL('\\*foo\\\\\\*bar')).to.equal('\\*foo\\\\\\%bar');
+      expect(patternValueToNXQL('\\\\*foo\\***bar')).to.equal('\\\\%foo\\*%bar');
     });
   });
 
@@ -1025,6 +1033,11 @@ describe('searchHelpers', function moduleSuite() {
               dataType: DATA_TYPE_STRUCTURED_DATE,
             },
           },
+          updatedAt: {
+            [configKey]: {
+              dataType: DATA_TYPE_DATETIME,
+            },
+          },
         },
       },
     };
@@ -1038,6 +1051,17 @@ describe('searchHelpers', function moduleSuite() {
 
       rangeFieldConditionToNXQL(fields, condition).should
         .equal('part:foo BETWEEN "c" AND "g"');
+    });
+
+    it('should add start/end times to timestamps', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/updatedAt',
+        value: ['2017-03-04', '2017-03-08'],
+      });
+
+      rangeFieldConditionToNXQL(fields, condition).should
+        .match(new RegExp('^part:updatedAt BETWEEN TIMESTAMP "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z" AND TIMESTAMP "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z"$'));
     });
 
     it('should convert structured date range conditions to NXQL', function test() {
@@ -1071,6 +1095,11 @@ describe('searchHelpers', function moduleSuite() {
               },
             },
           },
+          updatedAt: {
+            [configKey]: {
+              dataType: DATA_TYPE_DATETIME,
+            },
+          },
         },
       },
     };
@@ -1086,6 +1115,26 @@ describe('searchHelpers', function moduleSuite() {
         .equal('part:foo <= "bar"');
     });
 
+    it('should convert is null conditions to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_NULL,
+        path: 'ns2:part/foo',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:foo IS NULL');
+    });
+
+    it('should convert is not null conditions to NXQL', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_NOT_NULL,
+        path: 'ns2:part/foo',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .equal('part:foo IS NOT NULL');
+    });
+
     it('should convert structured date field conditions to NXQL', function test() {
       const condition = Immutable.fromJS({
         op: OP_LT,
@@ -1094,7 +1143,7 @@ describe('searchHelpers', function moduleSuite() {
       });
 
       fieldConditionToNXQL(fields, condition).should
-        .equal('part:date/dateEarliestScalarValue < TIMESTAMP "2000-01-01T00:00:00.000Z"');
+        .equal('part:date/dateLatestScalarValue <= TIMESTAMP "2000-01-01T00:00:00.000Z"');
     });
 
     it('should convert contain operation to match operation with wildcards on either end', function test() {
@@ -1119,7 +1168,7 @@ describe('searchHelpers', function moduleSuite() {
         .equal('part:foo NOT ILIKE "%bar%baz%"');
     });
 
-    it('should normalize the value of a match operation as a pattern', function test() {
+    it('should substitute * in the value of a match operation with %', function test() {
       const condition = Immutable.fromJS({
         op: OP_MATCH,
         path: 'ns2:part/foo',
@@ -1130,7 +1179,7 @@ describe('searchHelpers', function moduleSuite() {
         .equal('part:foo ILIKE "hello%world"');
     });
 
-    it('should normalize the value of a not match operation as a pattern', function test() {
+    it('should substitute * in the value of a not match operation with %', function test() {
       const condition = Immutable.fromJS({
         op: OP_NOT_MATCH,
         path: 'ns2:part/foo',
@@ -1150,6 +1199,59 @@ describe('searchHelpers', function moduleSuite() {
 
       fieldConditionToNXQL(fields, condition).should
         .equal('(part:foo <= "bar" OR part:foo <= "baz")');
+    });
+
+    it('should convert = and not = operations on datetimes to range searches', function test() {
+      const eqCondition = Immutable.fromJS({
+        op: OP_EQ,
+        path: 'ns2:part/updatedAt',
+        value: '2015-08-16',
+      });
+
+      fieldConditionToNXQL(fields, eqCondition).should
+        .match(new RegExp('part:updatedAt BETWEEN TIMESTAMP "2015-08-1\\dT\\d\\d:00:00.000Z" AND TIMESTAMP "2015-08-1\\dT\\d\\d:59:59.999Z"'));
+
+      const notEqCondition = Immutable.fromJS({
+        op: OP_NOT_EQ,
+        path: 'ns2:part/updatedAt',
+        value: '2015-08-16',
+      });
+
+      fieldConditionToNXQL(fields, notEqCondition).should
+        .match(new RegExp('part:updatedAt NOT BETWEEN TIMESTAMP "2015-08-1\\dT\\d\\d:00:00.000Z" AND TIMESTAMP "2015-08-1\\dT\\d\\d:59:59.999Z"'));
+    });
+
+    it('should add the latest timestamp to the date value of a > operation on datetimes', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_GT,
+        path: 'ns2:part/updatedAt',
+        value: '2015-08-16',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .match(/part:updatedAt > TIMESTAMP "2015-08-1\dT\d\d:59:59.999Z"/);
+    });
+
+    it('should add the latest timestamp to the date value of a <= operation on datetimes', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_LTE,
+        path: 'ns2:part/updatedAt',
+        value: '2015-08-16',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .match(/part:updatedAt <= TIMESTAMP "2015-08-1\dT\d\d:59:59.999Z"/);
+    });
+
+    it('should add the earliest timestamp to the date value of other operations on datetimes', function test() {
+      const condition = Immutable.fromJS({
+        op: OP_LT,
+        path: 'ns2:part/updatedAt',
+        value: '2015-08-16',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .match(/part:updatedAt < TIMESTAMP "2015-08-1\dT\d\d:00:00.000Z"/);
     });
   });
 
@@ -1301,12 +1403,12 @@ describe('searchHelpers', function moduleSuite() {
       });
 
       structuredDateFieldConditionToNXQL(fields, condition).should
-        .equal('part:fuzzyDate/dateEarliestScalarValue < TIMESTAMP "2000-01-01T00:00:00.000Z"');
+        .equal('part:fuzzyDate/dateLatestScalarValue <= TIMESTAMP "2000-01-01T00:00:00.000Z"');
     });
 
-    it('should convert <= operations to NXQL', function test() {
+    it('should convert < or contains operations to NXQL', function test() {
       const condition = Immutable.fromJS({
-        op: OP_LTE,
+        op: OP_LTC,
         path: 'ns2:part/fuzzyDate',
         value: '2000-01-01',
       });
@@ -1323,12 +1425,12 @@ describe('searchHelpers', function moduleSuite() {
       });
 
       structuredDateFieldConditionToNXQL(fields, condition).should
-        .equal('part:fuzzyDate/dateLatestScalarValue > TIMESTAMP "2000-01-02T00:00:00.000Z"');
+        .equal('part:fuzzyDate/dateEarliestScalarValue > TIMESTAMP "2000-01-01T00:00:00.000Z"');
     });
 
-    it('should convert >= operations to NXQL', function test() {
+    it('should convert > or contains operations to NXQL', function test() {
       const condition = Immutable.fromJS({
-        op: OP_GTE,
+        op: OP_GTC,
         path: 'ns2:part/fuzzyDate',
         value: '2000-01-01',
       });
@@ -1337,26 +1439,24 @@ describe('searchHelpers', function moduleSuite() {
         .equal('part:fuzzyDate/dateLatestScalarValue > TIMESTAMP "2000-01-01T00:00:00.000Z"');
     });
 
-    it('should convert null operations to NXQL', function test() {
+    it('should convert complete operations to NXQL', function test() {
       const condition = Immutable.fromJS({
-        op: OP_NULL,
+        op: OP_COMPLETE,
         path: 'ns2:part/fuzzyDate',
-        value: '2000-01-01',
       });
 
       structuredDateFieldConditionToNXQL(fields, condition).should
-        .equal('(part:fuzzyDate/dateEarliestScalarValue IS NULL AND part:fuzzyDate/dateLatestScalarValue IS NULL)');
+        .equal('(part:fuzzyDate/dateEarliestScalarValue IS NOT NULL AND part:fuzzyDate/dateLatestScalarValue IS NOT NULL)');
     });
 
-    it('should convert not null operations to NXQL', function test() {
+    it('should convert not complete operations to NXQL', function test() {
       const condition = Immutable.fromJS({
-        op: OP_NOT_NULL,
+        op: OP_NOT_COMPLETE,
         path: 'ns2:part/fuzzyDate',
-        value: '2000-01-01',
       });
 
       structuredDateFieldConditionToNXQL(fields, condition).should
-        .equal('(part:fuzzyDate/dateEarliestScalarValue IS NOT NULL OR part:fuzzyDate/dateLatestScalarValue IS NOT NULL)');
+        .equal('(part:fuzzyDate/dateEarliestScalarValue IS NULL OR part:fuzzyDate/dateLatestScalarValue IS NULL)');
     });
   });
 
