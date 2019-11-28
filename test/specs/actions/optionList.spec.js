@@ -127,6 +127,15 @@ describe('optionList action creator', function suite() {
                         name: { id: 'foo name message' },
                       },
                     },
+                    fooName: {
+                      [configKey]: {
+                        messages: {
+                          fullName: { id: 'fooName fullName message' },
+                          groupName: { id: 'fooName groupName message' },
+                          name: { id: 'fooName name message' },
+                        },
+                      },
+                    },
                     fooType: {
                       [configKey]: {
                         messages: {
@@ -224,6 +233,18 @@ describe('optionList action creator', function suite() {
                           },
                         },
                       },
+                      datePeriod: {
+                        [configKey]: {
+                          extensionParentConfig: {
+                            dataType: DATA_TYPE_STRUCTURED_DATE,
+                          },
+                          messages: {
+                            name: { id: 'datePeriod name message' },
+                            groupName: { id: 'datePeriod groupName message' },
+                            fullName: { id: 'datePeriod fullName message' },
+                          },
+                        },
+                      },
                     },
                   },
                 },
@@ -248,6 +269,29 @@ describe('optionList action creator', function suite() {
                   // Oh no, forgot the [configKey] key.
                   messages: {
                     id: 'message id',
+                  },
+                },
+              },
+            },
+          },
+        },
+        objectexit: {
+          fields: {
+            document: {
+              'ns2:objectexit_common': {
+                fooGroupList: {
+                  fooGroup: {
+                    barGroup: {
+                      [configKey]: {
+                        messages: {
+                          name: { id: 'barGroup name message' },
+                          groupName: { id: 'barGroup groupName message' },
+                          fullName: { id: 'barGroup fullName message' },
+                        },
+                      },
+                      barName: {},
+                      barType: {},
+                    },
                   },
                 },
               },
@@ -312,6 +356,7 @@ describe('optionList action creator', function suite() {
           [getRecordFieldOptionListName(recordType)]: [
             { message: { id: 'title fullName message' }, value: 'ns2:groups_common/title' },
             { message: { id: 'owner name message' }, value: 'ns2:groups_common/owner' },
+            { message: { id: 'fooName fullName message' }, value: 'ns2:groups_common/fooGroupList/fooGroup/fooName' },
             { message: { id: 'fooType fullName message' }, value: 'ns2:groups_common/fooGroupList/fooGroup/fooType' },
             { message: { id: 'fooNote fullName message' }, value: 'ns2:groups_common/fooGroupList/fooGroup/fooNote' },
             { value: 'ns2:groups_common/barGroupList/barGroup/barType' },
@@ -451,7 +496,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should prefer the name message on direct children of the rootPath, if one is supplied', function test() {
+    it('should prefer the groupName message on top-level children of the rootPath, then fall back to name, then fullName', function test() {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -469,6 +514,7 @@ describe('optionList action creator', function suite() {
         type: ADD_OPTION_LISTS,
         payload: {
           [getRecordFieldOptionListName(recordType, rootPath)]: [
+            { message: { id: 'fooName groupName message' }, value: 'ns2:groups_common/fooGroupList/fooGroup/fooName' },
             { message: { id: 'fooType name message' }, value: 'ns2:groups_common/fooGroupList/fooGroup/fooType' },
             { message: { id: 'fooNote fullName message' }, value: 'ns2:groups_common/fooGroupList/fooGroup/fooNote' },
           ],
@@ -477,7 +523,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should prefer the name message on direct children of the rootPath, if one is supplied', function test() {
+    it('should prefer the groupName message on top-level children of the rootPath, when the rootPath is a structured date group', function test() {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -497,8 +543,37 @@ describe('optionList action creator', function suite() {
           [getRecordFieldOptionListName(recordType, rootPath)]: [
             { message: { id: 'dateDisplayDate name message' }, value: 'ns2:loansout_common/groupList/group/structDate/dateDisplayDate' },
             { message: { id: 'dateNote fullName message' }, value: 'ns2:loansout_common/groupList/group/structDate/dateNote' },
+            { message: { id: 'datePeriod groupName message' }, value: 'ns2:loansout_common/groupList/group/structDate/datePeriod' },
           ],
           [getRecordGroupOptionListName(recordType, rootPath)]: [],
+        },
+      });
+    });
+
+    it('should prefer the groupName message on top-level group children of the rootPath', function test() {
+      const store = mockStore({
+        optionList: Immutable.Map(),
+      });
+
+      const recordType = 'objectexit';
+      const rootPath = 'ns2:objectexit_common/fooGroupList/fooGroup';
+
+      store.dispatch(buildRecordFieldOptionLists(config, recordType, rootPath));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
+        type: ADD_OPTION_LISTS,
+        payload: {
+          [getRecordFieldOptionListName(recordType, rootPath)]: [
+            { value: 'ns2:objectexit_common/fooGroupList/fooGroup/barGroup/barName' },
+            { value: 'ns2:objectexit_common/fooGroupList/fooGroup/barGroup/barType' },
+          ],
+          [getRecordGroupOptionListName(recordType, rootPath)]: [
+            { message: { id: 'barGroup groupName message' }, value: 'ns2:objectexit_common/fooGroupList/fooGroup/barGroup' },
+          ],
         },
       });
     });

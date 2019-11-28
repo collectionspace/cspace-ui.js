@@ -388,11 +388,15 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.places_common.termSource.fullName',
-                    defaultMessage: 'Term source',
+                    defaultMessage: 'Term source name',
+                  },
+                  groupName: {
+                    id: 'field.places_common.termSource.groupName',
+                    defaultMessage: 'Source name',
                   },
                   name: {
                     id: 'field.places_common.termSource.name',
-                    defaultMessage: 'Source',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -410,9 +414,13 @@ export default (configContext) => {
                     id: 'field.places_common.termSourceDetail.fullName',
                     defaultMessage: 'Term source detail',
                   },
+                  groupName: {
+                    id: 'field.places_common.termSourceDetail.groupName',
+                    defaultMessage: 'Source detail',
+                  },
                   name: {
                     id: 'field.places_common.termSourceDetail.name',
-                    defaultMessage: 'Source detail',
+                    defaultMessage: 'Detail',
                   },
                 }),
                 view: {
@@ -427,9 +435,13 @@ export default (configContext) => {
                     id: 'field.places_common.termSourceID.fullName',
                     defaultMessage: 'Term source ID',
                   },
+                  groupName: {
+                    id: 'field.places_common.termSourceID.groupName',
+                    defaultMessage: 'Source ID',
+                  },
                   name: {
                     id: 'field.places_common.termSourceID.name',
-                    defaultMessage: 'Source ID',
+                    defaultMessage: 'ID',
                   },
                 }),
                 view: {
@@ -444,9 +456,13 @@ export default (configContext) => {
                     id: 'field.places_common.termSourceNote.fullName',
                     defaultMessage: 'Term source note',
                   },
+                  groupName: {
+                    id: 'field.places_common.termSourceNote.groupName',
+                    defaultMessage: 'Source note',
+                  },
                   name: {
                     id: 'field.places_common.termSourceNote.name',
-                    defaultMessage: 'Source note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {

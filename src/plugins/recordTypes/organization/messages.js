@@ -23,4 +23,14 @@ export default {
       defaultMessage: 'Hierarchy',
     },
   }),
+  inputTable: defineMessages({
+    nameDetail: {
+      id: 'inputTable.organization.nameDetail',
+      defaultMessage: 'Name detail',
+    },
+    termSource: {
+      id: 'inputTable.organization.termSource',
+      defaultMessage: 'Source',
+    },
+  }),
 };

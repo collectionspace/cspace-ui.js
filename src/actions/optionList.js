@@ -83,29 +83,25 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
     const messages = get(config, 'messages');
 
     if (messages) {
-      if (extensionParentConfig && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE) {
-        // Special case for constructing the label for fields in structured dates.
-
-        if (level > 1) {
+      if (level > 1) {
+        if (
+          extensionParentConfig
+          && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE
+        ) {
+          // Construct the full label for a field inside a structured date.
           option.fieldConfig = config;
           option.labelFormatter = (intl, opt) => formatExtensionFieldName(intl, opt.fieldConfig);
         } else {
-          option.message = messages.name || messages.fullName;
+          // Prefer the fullName message.
+          option.message = messages.fullName;
         }
       } else {
-        let message;
+        // This is a top-level field in a group. Prefer the groupName message.
+        option.message = messages.groupName;
+      }
 
-        if (level > 1) {
-          message = messages.fullName;
-        }
-
-        if (!message) {
-          message = messages.name || messages.fullName;
-        }
-
-        if (message) {
-          option.message = message;
-        }
+      if (!option.labelFormatter && !option.message) {
+        option.message = messages.name || messages.fullName;
       }
     }
 
@@ -154,18 +150,16 @@ const collectGroupFields = (options, path, fieldDescriptor, level) => {
     const messages = get(config, 'messages');
 
     if (messages) {
-      let message;
-
       if (level > 1) {
-        message = messages.fullName;
+        // Prefer the fullName message.
+        option.message = messages.fullName;
+      } else {
+        // This is a top-level group in a group. Prefer the groupName message.
+        option.message = messages.groupName;
       }
 
-      if (!message) {
-        message = messages.name || messages.fullName;
-      }
-
-      if (message) {
-        option.message = message;
+      if (!option.message) {
+        option.message = messages.name || messages.fullName;
       }
     }
 

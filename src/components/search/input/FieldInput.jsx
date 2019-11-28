@@ -42,7 +42,7 @@ export function BaseFieldInput(props) {
   } = props;
 
   if (readOnly) {
-    let label = value;
+    let label;
 
     if (valueDescriptor) {
       const valueConfig = valueDescriptor[configKey];
@@ -57,28 +57,36 @@ export function BaseFieldInput(props) {
       if (messages) {
         let message;
 
-        if (extensionParentConfig && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE) {
-          // Special case for constructing the label for fields in structured dates.
-
-          if (level > 1) {
+        if (level > 1) {
+          if (
+            extensionParentConfig
+            && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE
+          ) {
+            // Construct the full label for a field inside a structured date.
             label = formatExtensionFieldName(intl, valueConfig);
           } else {
-            message = messages.name || messages.fullName;
-          }
-        } else {
-          if (level > 1) {
+            // Prefer the fullName message.
             message = messages.fullName;
           }
+        } else {
+          // This is a top-level field in a group. Prefer the groupName message.
+          message = messages.groupName;
+        }
 
+        if (!label) {
           if (!message) {
             message = messages.name || messages.fullName;
           }
-        }
 
-        if (message) {
-          label = intl.formatMessage(message);
+          if (message) {
+            label = intl.formatMessage(message);
+          }
         }
       }
+    }
+
+    if (!label) {
+      label = value;
     }
 
     return <div><span>{label}</span></div>;

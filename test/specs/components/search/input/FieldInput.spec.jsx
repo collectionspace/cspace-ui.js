@@ -165,7 +165,54 @@ describe('FieldInput', function suite() {
     this.container.textContent.should.equal('name message');
   });
 
-  it('should prefer the name message from the supplied valueDescriptor if readOnly is true and the value path is the first level under the rootPath', function test() {
+  it('should prefer the groupName message from the supplied valueDescriptor if readOnly is true and the value path is the first level under the rootPath', function test() {
+    const store = mockStore({
+      optionList: {},
+    });
+
+    const recordType = 'collectionobject';
+    const rootPath = 'ns2:collectionobjects_common/titleGroupList/titleGroup';
+    const value = 'ns2:collectionobjects_common/titleGroupList/titleGroup/title';
+
+    const valueDescriptor = {
+      [configKey]: {
+        messages: {
+          fullName: {
+            id: 'fullName',
+            defaultMessage: 'fullName message',
+          },
+          groupName: {
+            id: 'groupName',
+            defaultMessage: 'groupName message',
+          },
+          name: {
+            id: 'name',
+            defaultMessage: 'name message',
+          },
+        },
+      },
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <FieldInput
+              config={config}
+              readOnly
+              recordType={recordType}
+              rootPath={rootPath}
+              value={value}
+              valueDescriptor={valueDescriptor}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container);
+
+    this.container.textContent.should.equal('groupName message');
+  });
+
+  it('should fall back to the name message from the supplied valueDescriptor if readOnly is true and the value path is the first level under the rootPath, and the groupName message is not available', function test() {
     const store = mockStore({
       optionList: {},
     });
@@ -208,7 +255,7 @@ describe('FieldInput', function suite() {
     this.container.textContent.should.equal('name message');
   });
 
-  it('should fall back to the fullName message from the supplied valueDescriptor if readOnly is true and the value path is the first level under the rootPath, and the name message is not available', function test() {
+  it('should fall back to the fullName message from the supplied valueDescriptor if readOnly is true and the value path is the first level under the rootPath, and the groupName and name messages are not available', function test() {
     const store = mockStore({
       optionList: {},
     });
