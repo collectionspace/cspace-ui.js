@@ -121,18 +121,22 @@ export const formatOption = (optionListName, value, { intl, config }) => {
   return (message ? intl.formatMessage(message) : value);
 };
 
-export const formatExtensionFieldName = (intl, fieldConfig) => {
+export const formatExtensionFieldName = (intl, fieldConfig, messageName = 'fullName') => {
   const extensionParentConfig = get(fieldConfig, 'extensionParentConfig');
 
   const formattedParentName = extensionParentConfig
-    ? formatExtensionFieldName(intl, extensionParentConfig)
+    ? formatExtensionFieldName(intl, extensionParentConfig, messageName)
     : null;
 
   const messages = get(fieldConfig, 'messages');
 
-  const formattedName = messages
-    ? intl.formatMessage(messages.fullName || messages.name)
-    : null;
+  let formattedName;
+
+  if (messages) {
+    formattedName = intl.formatMessage(
+      messages[messageName] || messages.fullName || messages.name
+    );
+  }
 
   return [formattedParentName, formattedName].filter(part => !!part).join(' - ');
 };

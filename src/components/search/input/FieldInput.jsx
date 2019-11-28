@@ -63,7 +63,11 @@ export function BaseFieldInput(props) {
             && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE
           ) {
             // Construct the full label for a field inside a structured date.
-            label = formatExtensionFieldName(intl, valueConfig);
+            // If the level is 2, the structured date group (this field's parent) is at the top
+            // level, so use the groupName message instead of the fullName.
+            const messageName = (level === 2) ? 'groupName' : 'fullName';
+
+            label = formatExtensionFieldName(intl, valueConfig, messageName);
           } else {
             // Prefer the fullName message.
             message = messages.fullName;

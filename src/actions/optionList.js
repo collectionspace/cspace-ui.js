@@ -89,8 +89,16 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
           && extensionParentConfig.dataType === DATA_TYPE_STRUCTURED_DATE
         ) {
           // Construct the full label for a field inside a structured date.
+          // If the level is 2, the structured date group (this field's parent) is at the top
+          // level, so use the groupName message instead of the fullName.
+
+          const messageName = (level === 2) ? 'groupName' : 'fullName';
+
           option.fieldConfig = config;
-          option.labelFormatter = (intl, opt) => formatExtensionFieldName(intl, opt.fieldConfig);
+
+          option.labelFormatter = (intl, opt) => formatExtensionFieldName(
+            intl, opt.fieldConfig, messageName
+          );
         } else {
           // Prefer the fullName message.
           option.message = messages.fullName;
