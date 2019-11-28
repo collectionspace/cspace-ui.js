@@ -43,13 +43,17 @@ export default function GroupInput(props) {
     if (valueDescriptor) {
       const rootPathParts = rootPath ? rootPath.split('/') : [];
       const pathParts = value ? value.split('/') : [];
-
-      const isFirstLevelField = (pathParts.length - rootPathParts.length === 1);
       const messages = get(valueDescriptor, [configKey, 'messages']);
 
       if (messages) {
-        if (!isFirstLevelField) {
+        const level = (pathParts.length - rootPathParts.length);
+
+        if (level > 1) {
+          // Prefer the fullName message.
           message = messages.fullName;
+        } else {
+          // This is a top-level group in a group. Prefer the groupName message.
+          message = messages.groupName;
         }
 
         if (!message) {

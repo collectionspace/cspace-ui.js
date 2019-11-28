@@ -52,10 +52,10 @@ export function BaseFieldInput(props) {
       const rootPathParts = rootPath ? rootPath.split('/') : [];
       const pathParts = value ? value.split('/') : [];
 
-      const level = (pathParts.length - rootPathParts.length);
-
       if (messages) {
         let message;
+
+        const level = (pathParts.length - rootPathParts.length);
 
         if (level > 1) {
           if (
