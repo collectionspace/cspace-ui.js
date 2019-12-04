@@ -67,6 +67,12 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
   }
 
   const config = fieldDescriptor[configKey];
+  const searchDisabled = get(config, 'searchDisabled');
+
+  if (searchDisabled) {
+    return;
+  }
+
   const dataType = get(config, 'dataType');
 
   const childFieldNames = Object.keys(fieldDescriptor).filter(key => key !== configKey);
@@ -140,6 +146,12 @@ const collectGroupFields = (options, path, fieldDescriptor, level) => {
   }
 
   const config = fieldDescriptor[configKey];
+  const searchDisabled = get(config, 'searchDisabled');
+
+  if (searchDisabled) {
+    return;
+  }
+
   const childFieldNames = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
   const isGroup =

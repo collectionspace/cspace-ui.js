@@ -258,6 +258,22 @@ describe('optionList action creator', function suite() {
               'rel:relations-common-list': {
                 'relation-list-item': {},
               },
+              'ns2:intakes_common': {
+                foo: {
+                  [configKey]: {
+                    searchDisabled: true,
+                  },
+                },
+                barGroupList: {
+                  [configKey]: {
+                    searchDisabled: true,
+                  },
+                  barGroup: {
+                    barName: {},
+                    barType: {},
+                  },
+                },
+              },
             },
           },
         },
@@ -371,6 +387,28 @@ describe('optionList action creator', function suite() {
     });
 
     it('should skip the rel:relations-common-list field', function test() {
+      const store = mockStore({
+        optionList: Immutable.Map(),
+      });
+
+      const recordType = 'intake';
+
+      store.dispatch(buildRecordFieldOptionLists(config, recordType));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      actions[0].should.deep.equal({
+        type: ADD_OPTION_LISTS,
+        payload: {
+          [getRecordFieldOptionListName(recordType)]: [],
+          [getRecordGroupOptionListName(recordType)]: [],
+        },
+      });
+    });
+
+    it('should skip fields where searchDisabled is true', function test() {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
