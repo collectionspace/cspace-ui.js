@@ -47,31 +47,6 @@ export const mergeKey = '[merge]';
 export const dataPathToFieldDescriptorPath = dataPath =>
   dataPath.filter(isNotNumeric);
 
-/*
- * Initialize the extension configurations in a configuration object. This function mutates the
- * argument configuration.
- *
- * - Set the extensionName property of each top level field in the extension to the extension name
- */
-export const initializeExtensions = (config) => {
-  const { extensions } = config;
-
-  if (extensions) {
-    Object.keys(extensions).forEach((extensionName) => {
-      const extension = extensions[extensionName];
-      const { fields } = extension;
-
-      if (fields) {
-        Object.values(fields).forEach((fieldDescriptor) => {
-          set(fieldDescriptor, [configKey, 'extensionName'], extensionName);
-        });
-      }
-    });
-  }
-
-  return config;
-};
-
 export const initializeExtensionFieldParents = (fieldDescriptor) => {
   if (fieldDescriptor) {
     Object.keys(fieldDescriptor).filter(key => key !== configKey).forEach((key) => {
@@ -98,6 +73,32 @@ export const initializeExtensionFieldParents = (fieldDescriptor) => {
       }
     });
   }
+};
+
+/*
+ * Initialize the extension configurations in a configuration object. This function mutates the
+ * argument configuration.
+ *
+ * - Set the extensionName property of each top level field in the extension to the extension name
+ */
+export const initializeExtensions = (config) => {
+  const { extensions } = config;
+
+  if (extensions) {
+    Object.keys(extensions).forEach((extensionName) => {
+      const extension = extensions[extensionName];
+      const { fields } = extension;
+
+      if (fields) {
+        Object.values(fields).forEach((fieldDescriptor) => {
+          set(fieldDescriptor, [configKey, 'extensionName'], extensionName);
+          initializeExtensionFieldParents(fieldDescriptor);
+        });
+      }
+    });
+  }
+
+  return config;
 };
 
 /*
