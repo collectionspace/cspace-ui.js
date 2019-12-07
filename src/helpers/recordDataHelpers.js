@@ -665,9 +665,15 @@ const validateDataType = (value, dataType) => {
   return (validator ? validator(value) : true);
 };
 
-const doValidate = (
-  data, path = [], recordData, subrecordData, fieldDescriptor, expandRepeating = true
-) => {
+const doValidate = (validationContext, expandRepeating = true) => {
+  const {
+    data,
+    path = [],
+    recordData,
+    subrecordData,
+    fieldDescriptor,
+  } = validationContext;
+
   if (!fieldDescriptor) {
     return null;
   }
@@ -681,11 +687,13 @@ const doValidate = (
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceData = instances.get(index);
-      const instancePath = [...path, index];
-
-      const instanceResults =
-        doValidate(instanceData, instancePath, recordData, subrecordData, fieldDescriptor, false);
+      const instanceResults = doValidate({
+        data: instance,
+        path: [...path, index],
+        recordData,
+        subrecordData,
+        fieldDescriptor,
+      }, false);
 
       if (instanceResults) {
         Array.prototype.push.apply(results, instanceResults);
@@ -703,12 +711,13 @@ const doValidate = (
     const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
     childKeys.forEach((childKey) => {
-      const childData = data ? data.get(childKey) : undefined;
-      const childPath = [...path, childKey];
-      const childFieldDescriptor = fieldDescriptor[childKey];
-
-      const childResults =
-        doValidate(childData, childPath, recordData, subrecordData, childFieldDescriptor);
+      const childResults = doValidate({
+        data: data ? data.get(childKey) : undefined,
+        path: [...path, childKey],
+        recordData,
+        subrecordData,
+        fieldDescriptor: fieldDescriptor[childKey],
+      }, true);
 
       if (childResults) {
         Array.prototype.push.apply(results, childResults);
@@ -755,7 +764,7 @@ const doValidate = (
     const customValidator = getFieldCustomValidator(fieldDescriptor);
 
     if (customValidator) {
-      const error = customValidator({ data, path, recordData, subrecordData, fieldDescriptor });
+      const error = customValidator(validationContext);
 
       if (error) {
         result = {
@@ -773,12 +782,8 @@ const doValidate = (
   return (results.length > 0 ? results : null);
 };
 
-export const validateField = (
-  data, path, recordData, subrecordData, fieldDescriptor, expandRepeating
-) => {
-  const validationResults = doValidate(
-    data, path, recordData, subrecordData, fieldDescriptor, expandRepeating
-  );
+export const validateField = (validationContext, expandRepeating) => {
+  const validationResults = doValidate(validationContext, expandRepeating);
 
   if (validationResults) {
     // Validation results may either contain error objects, or promises that will resolve to error
@@ -819,8 +824,13 @@ export const validateField = (
   return Promise.resolve(null);
 };
 
-export const validateRecordData = (data, subrecordData, recordTypeConfig) =>
-  validateField(data, [], data, subrecordData, get(recordTypeConfig, 'fields'));
+export const validateRecordData = (data, subrecordData, recordTypeConfig) => validateField({
+  data,
+  path: [],
+  recordData: data,
+  subrecordData,
+  fieldDescriptor: get(recordTypeConfig, 'fields'),
+}, true);
 
 const doCompute =
   (data, path = [], recordData, subrecordData, fieldDescriptor, expandRepeating = true) => {

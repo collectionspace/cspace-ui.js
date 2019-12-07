@@ -275,12 +275,15 @@ export const computeRecordData = (recordTypeConfig, csid) => (dispatch, getState
 };
 
 export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
-  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
-  const recordData = getRecordData(getState(), csid);
-  const subrecordData = getSubrecordData(getState(), csid);
+  const validationContext = {
+    data: value,
+    path: [],
+    recordData: getRecordData(getState(), csid),
+    subrecordData: getSubrecordData(getState(), csid),
+    fieldDescriptor: get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]),
+  };
 
-
-  return validateField(value, [], recordData, subrecordData, fieldDescriptor, true)
+  return validateField(validationContext, true)
     .then((errors) => {
       if (errors) {
         dispatch({

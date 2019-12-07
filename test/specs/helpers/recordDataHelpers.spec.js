@@ -2247,105 +2247,227 @@ describe('recordDataHelpers', function moduleSuite() {
     };
 
     it('should resolve to null if the value is valid', function test() {
-      return validateField('red', [], Immutable.Map(), undefined, fieldDescriptor.color).should
-        .eventually.equal(null);
+      return validateField({
+        data: 'red',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.color,
+      }).should.eventually.equal(null);
     });
 
     it('should resolve to an error if a required field is empty, null, or undefined', function test() {
       return Promise.all([
-        validateField('', [], Immutable.Map(), undefined, fieldDescriptor.id).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_MISSING_REQ_FIELD,
-            message: undefined,
-          })),
+        validateField({
+          data: '',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.id,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_MISSING_REQ_FIELD,
+          message: undefined,
+        })),
 
-        validateField(null, [], Immutable.Map(), undefined, fieldDescriptor.id).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_MISSING_REQ_FIELD,
-            message: undefined,
-          })),
+        validateField({
+          data: null,
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.id,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_MISSING_REQ_FIELD,
+          message: undefined,
+        })),
 
-        validateField(undefined, [], Immutable.Map(), undefined, fieldDescriptor.id).should
-          .eventually.have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_MISSING_REQ_FIELD,
-            message: undefined,
-          })),
+        validateField({
+          data: undefined,
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.id,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_MISSING_REQ_FIELD,
+          message: undefined,
+        })),
       ]);
     });
 
     it('should resolve to null if an integer field is valid', function test() {
       return Promise.all([
-        validateField('1', [], Immutable.Map(), undefined, fieldDescriptor.count).should.eventually.equal(null),
-        validateField('-1', [], Immutable.Map(), undefined, fieldDescriptor.count).should.eventually.equal(null),
-        validateField('0', [], Immutable.Map(), undefined, fieldDescriptor.count).should.eventually.equal(null),
+        validateField({
+          data: '1',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.count,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '-1',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.count,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '0',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.count,
+        }).should.eventually.equal(null),
       ]);
     });
 
     it('should resolve to an error if an integer field is invalid', function test() {
       return Promise.all([
-        validateField('a', [], Immutable.Map(), undefined, fieldDescriptor.count).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_INT,
-            value: 'a',
-          })),
+        validateField({
+          data: 'a',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.count,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_INT,
+          value: 'a',
+        })),
 
-        validateField('24w', [], Immutable.Map(), undefined, fieldDescriptor.count).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_INT,
-            value: '24w',
-          })),
+        validateField({
+          data: '24w',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.count,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_INT,
+          value: '24w',
+        })),
       ]);
     });
 
     it('should resolve to null when no field descriptor is supplied', function test() {
-      return validateField('a', [], Immutable.Map(), undefined, null).should.eventually.equal(null);
+      return validateField({
+        data: 'a',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: null,
+      }).should.eventually.equal(null);
     });
 
     it('should resolve to null if a float field is valid', function test() {
       return Promise.all([
-        validateField('1.00', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually.equal(null),
-        validateField('-14.12', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually.equal(null),
-        validateField('32', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually.equal(null),
-        validateField('-1234', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually.equal(null),
-        validateField('.56', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually.equal(null),
-        validateField('-.2', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually.equal(null),
+        validateField({
+          data: '1.00',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '-14.12',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '32',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '-1234',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '.56',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.equal(null),
+
+        validateField({
+          data: '-.2',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.equal(null),
       ]);
     });
 
     it('should resolve to an error if a float field is invalid', function test() {
       return Promise.all([
-        validateField('a', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_FLOAT,
-            value: 'a',
-          })),
+        validateField({
+          data: 'a',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_FLOAT,
+          value: 'a',
+        })),
 
-        validateField('1.00.0', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually
-        .have.property(ERROR_KEY, Immutable.Map({
+        validateField({
+          data: '1.00.0',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
           code: ERR_DATA_TYPE,
           dataType: DATA_TYPE_FLOAT,
           value: '1.00.0',
         })),
 
-        validateField('24.sd', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_FLOAT,
-            value: '24.sd',
-          })),
+        validateField({
+          data: '24.sd',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_FLOAT,
+          value: '24.sd',
+        })),
 
-        validateField('-24.sd', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_FLOAT,
-            value: '-24.sd',
-          })),
+        validateField({
+          data: '-24.sd',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_FLOAT,
+          value: '-24.sd',
+        })),
 
-        validateField('-', [], Immutable.Map(), undefined, fieldDescriptor.price).should.eventually
-        .have.property(ERROR_KEY, Immutable.Map({
+        validateField({
+          data: '-',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.price,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
           code: ERR_DATA_TYPE,
           dataType: DATA_TYPE_FLOAT,
           value: '-',
@@ -2354,93 +2476,157 @@ describe('recordDataHelpers', function moduleSuite() {
     });
 
     it('should resolve to null if a date field is valid', function test() {
-      return validateField('1983-03-05', [], Immutable.Map(), undefined, fieldDescriptor.date).should
-        .eventually.equal(null);
+      return validateField({
+        data: '1983-03-05',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.date,
+      }).should.eventually.equal(null);
     });
 
     it('should resolve to an error if a date field is invalid', function test() {
       return Promise.all([
-        validateField('a', [], Immutable.Map(), undefined, fieldDescriptor.date).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_DATE,
-            value: 'a',
-          })),
+        validateField({
+          data: 'a',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.date,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_DATE,
+          value: 'a',
+        })),
 
-        validateField('1983-03-05T13:00:00', [], Immutable.Map(), undefined, fieldDescriptor.date).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_DATE,
-            value: '1983-03-05T13:00:00',
-          })),
+        validateField({
+          data: '1983-03-05T13:00:00',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.date,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_DATE,
+          value: '1983-03-05T13:00:00',
+        })),
       ]);
     });
 
     it('should resolve to null if a datetime field is valid', function test() {
-      return validateField('1983-03-05T13:45:23.000Z', [], Immutable.Map(), undefined, fieldDescriptor.time)
-        .should.eventually.equal(null);
+      return validateField({
+        data: '1983-03-05T13:45:23.000Z',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.time,
+      }).should.eventually.equal(null);
     });
 
     it('should resolve to an error if a datetime field is invalid', function test() {
       return Promise.all([
-        validateField('a', [], Immutable.Map(), undefined, fieldDescriptor.time).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_DATETIME,
-            value: 'a',
-          })),
+        validateField({
+          data: 'a',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.time,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_DATETIME,
+          value: 'a',
+        })),
 
-        validateField('1983-03-05Z', [], Immutable.Map(), undefined, fieldDescriptor.time).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_DATETIME,
-            value: '1983-03-05Z',
-          })),
+        validateField({
+          data: '1983-03-05Z',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.time,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_DATETIME,
+          value: '1983-03-05Z',
+        })),
       ]);
     });
 
     it('should resolve to null if a boolean field is valid', function test() {
       return Promise.all([
-        validateField(true, [], Immutable.Map(), undefined, fieldDescriptor.preferred).should
-          .eventually.equal(null),
+        validateField({
+          data: true,
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.preferred,
+        }).should.eventually.equal(null),
 
-        validateField(false, [], Immutable.Map(), undefined, fieldDescriptor.preferred).should
-          .eventually.equal(null),
+        validateField({
+          data: false,
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.preferred,
+        }).should.eventually.equal(null),
 
-        validateField('true', [], Immutable.Map(), undefined, fieldDescriptor.preferred).should
-          .eventually.equal(null),
+        validateField({
+          data: 'true',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.preferred,
+        }).should.eventually.equal(null),
 
-        validateField('false', [], Immutable.Map(), undefined, fieldDescriptor.preferred).should
-          .eventually.equal(null),
+        validateField({
+          data: 'false',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.preferred,
+        }).should.eventually.equal(null),
       ]);
     });
 
     it('should resolve to an error if a boolean field is invalid', function test() {
       return Promise.all([
-        validateField('foo', [], Immutable.Map(), undefined, fieldDescriptor.preferred).should.eventually
-          .have.property(ERROR_KEY, Immutable.Map({
-            code: ERR_DATA_TYPE,
-            dataType: DATA_TYPE_BOOL,
-            value: 'foo',
-          })),
+        validateField({
+          data: 'foo',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.preferred,
+        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+          code: ERR_DATA_TYPE,
+          dataType: DATA_TYPE_BOOL,
+          value: 'foo',
+        })),
       ]);
     });
 
     it('should resolve to null if a map field is valid', function test() {
       return (
-        validateField(
-          Immutable.Map(), [], Immutable.Map(), undefined, fieldDescriptor.departments
-        ).should.eventually.equal(null)
+        validateField({
+          data: Immutable.Map(),
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.departments,
+        }).should.eventually.equal(null)
       );
     });
 
     it('should resolve to an error if a map field is invalid', function test() {
-      return validateField('a', [], Immutable.Map(), undefined, fieldDescriptor.departments).should.eventually
-        .have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_MAP,
-          value: 'a',
-        }));
+      return validateField({
+        data: 'a',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.departments,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_MAP,
+        value: 'a',
+      }));
     });
 
     it('should validate nested fields recursively', function test() {
@@ -2452,9 +2638,13 @@ describe('recordDataHelpers', function moduleSuite() {
       });
 
       return (
-        validateField(
-          value, [], Immutable.Map(), undefined, fieldDescriptor.measurements, value
-        ).should.eventually.have.deep.property(
+        validateField({
+          data: value,
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.measurements,
+        }).should.eventually.have.deep.property(
           ['measurement', 0, 'value', ERROR_KEY],
           Immutable.Map({
             code: ERR_DATA_TYPE,
@@ -2474,24 +2664,27 @@ describe('recordDataHelpers', function moduleSuite() {
       ]);
 
       return (
-        validateField(
-          value, [], Immutable.Map(), undefined, fieldDescriptor.ages.age, expandRepeating
-        )
-          .then((error) => {
-            error.getIn([0, ERROR_KEY]).should.equal(Immutable.Map({
-              code: ERR_DATA_TYPE,
-              dataType: DATA_TYPE_INT,
-              value: 'a',
-            }));
+        validateField({
+          data: value,
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.ages.age,
+        }, expandRepeating).then((error) => {
+          error.getIn([0, ERROR_KEY]).should.equal(Immutable.Map({
+            code: ERR_DATA_TYPE,
+            dataType: DATA_TYPE_INT,
+            value: 'a',
+          }));
 
-            expect(error.get(1)).to.equal(undefined);
+          expect(error.get(1)).to.equal(undefined);
 
-            error.getIn([2, ERROR_KEY]).should.equal(Immutable.Map({
-              code: ERR_DATA_TYPE,
-              dataType: DATA_TYPE_INT,
-              value: 'c',
-            }));
-          })
+          error.getIn([2, ERROR_KEY]).should.equal(Immutable.Map({
+            code: ERR_DATA_TYPE,
+            dataType: DATA_TYPE_INT,
+            value: 'c',
+          }));
+        })
       );
     });
 
@@ -2504,42 +2697,69 @@ describe('recordDataHelpers', function moduleSuite() {
         'c',
       ]);
 
-      return (
-        validateField(
-          value.get[1], [], Immutable.Map(), undefined, fieldDescriptor.ages.age, expandRepeating
-        ).should.eventually.equal(null)
-      );
+      return validateField({
+        data: value.get[1],
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.ages.age,
+      }, expandRepeating).should.eventually.equal(null);
     });
 
     it('should run a custom validator', function test() {
       return Promise.all([
-        validateField('3', [], Immutable.Map(), undefined, fieldDescriptor.negativeNumber).should.eventually
-          .have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
+        validateField({
+          data: '3',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.negativeNumber,
+        }).should.eventually.have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
 
-        validateField('-3', [], Immutable.Map(), undefined, fieldDescriptor.negativeNumber).should.eventually
-          .equal(null),
+        validateField({
+          data: '-3',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.negativeNumber,
+        }).should.eventually.equal(null),
       ]);
     });
 
     it('should run an asynchronous custom validator', function test() {
       return Promise.all([
-        validateField('foo', [], Immutable.Map(), undefined, fieldDescriptor.zipCode).should.eventually
-          .have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
+        validateField({
+          data: 'foo',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.zipCode,
+        }).should.eventually.have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
 
-        validateField('94710', [], Immutable.Map(), undefined, fieldDescriptor.zipCode).should.eventually
-          .equal(null),
+        validateField({
+          data: '94710',
+          path: [],
+          recordData: Immutable.Map(),
+          subrecordData: undefined,
+          fieldDescriptor: fieldDescriptor.zipCode,
+        }).should.eventually.equal(null),
       ]);
     });
 
     it('should resolve to an error on the document when an asynchronous custom validator rejects', function test() {
-      return validateField('foo', [], Immutable.Map(), undefined, fieldDescriptor.address).should.eventually
-        .equal(Immutable.fromJS({
-          document: {
-            [ERROR_KEY]: {
-              code: ERR_UNABLE_TO_VALIDATE,
-            },
+      return validateField({
+        data: 'foo',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.address,
+      }).should.eventually.equal(Immutable.fromJS({
+        document: {
+          [ERROR_KEY]: {
+            code: ERR_UNABLE_TO_VALIDATE,
           },
-        }));
+        },
+      }));
     });
   });
 
