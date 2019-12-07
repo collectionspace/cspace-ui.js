@@ -665,7 +665,9 @@ const validateDataType = (value, dataType) => {
   return (validator ? validator(value) : true);
 };
 
-const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeating = true) => {
+const doValidate = (
+  data, path = [], recordData, subrecordData, fieldDescriptor, expandRepeating = true
+) => {
   if (!fieldDescriptor) {
     return null;
   }
@@ -683,7 +685,7 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
       const instancePath = [...path, index];
 
       const instanceResults =
-        doValidate(instanceData, instancePath, recordData, fieldDescriptor, false);
+        doValidate(instanceData, instancePath, recordData, subrecordData, fieldDescriptor, false);
 
       if (instanceResults) {
         Array.prototype.push.apply(results, instanceResults);
@@ -706,7 +708,7 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
       const childFieldDescriptor = fieldDescriptor[childKey];
 
       const childResults =
-        doValidate(childData, childPath, recordData, childFieldDescriptor);
+        doValidate(childData, childPath, recordData, subrecordData, childFieldDescriptor);
 
       if (childResults) {
         Array.prototype.push.apply(results, childResults);
@@ -753,7 +755,7 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
     const customValidator = getFieldCustomValidator(fieldDescriptor);
 
     if (customValidator) {
-      const error = customValidator({ data, path, recordData, fieldDescriptor });
+      const error = customValidator({ data, path, recordData, subrecordData, fieldDescriptor });
 
       if (error) {
         result = {
@@ -771,8 +773,12 @@ const doValidate = (data, path = [], recordData, fieldDescriptor, expandRepeatin
   return (results.length > 0 ? results : null);
 };
 
-export const validateField = (data, path, recordData, fieldDescriptor, expandRepeating) => {
-  const validationResults = doValidate(data, path, recordData, fieldDescriptor, expandRepeating);
+export const validateField = (
+  data, path, recordData, subrecordData, fieldDescriptor, expandRepeating
+) => {
+  const validationResults = doValidate(
+    data, path, recordData, subrecordData, fieldDescriptor, expandRepeating
+  );
 
   if (validationResults) {
     // Validation results may either contain error objects, or promises that will resolve to error
@@ -813,8 +819,8 @@ export const validateField = (data, path, recordData, fieldDescriptor, expandRep
   return Promise.resolve(null);
 };
 
-export const validateRecordData = (data, recordTypeConfig) =>
-  validateField(data, [], data, get(recordTypeConfig, 'fields'));
+export const validateRecordData = (data, subrecordData, recordTypeConfig) =>
+  validateField(data, [], data, subrecordData, get(recordTypeConfig, 'fields'));
 
 const doCompute =
   (data, path = [], recordData, subrecordData, fieldDescriptor, expandRepeating = true) => {
