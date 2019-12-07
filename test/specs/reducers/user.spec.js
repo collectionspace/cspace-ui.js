@@ -4,6 +4,7 @@ import chaiImmutable from 'chai-immutable';
 import {
   CSPACE_CONFIGURED,
   ACCOUNT_PERMS_READ_FULFILLED,
+  ACCOUNT_ROLES_READ_FULFILLED,
   SET_ACCOUNT_PERMS,
   AUTH_RENEW_FULFILLED,
   LOGIN_FULFILLED,
@@ -14,6 +15,7 @@ import {
 import reducer, {
   arePrefsLoaded,
   getPerms,
+  getRoleNames,
   getScreenName,
   getUsername,
 } from '../../../src/reducers/user';
@@ -114,6 +116,91 @@ describe('user reducer', function suite() {
 
     getPerms(state).should.equal(state.get('perms'));
     getScreenName(state).should.equal(screenName);
+  });
+
+  context('on ACCOUNT_ROLES_READ_FULFILLED', function context() {
+    it('should set the user\'s role names from the response', function test() {
+      const response = {
+        data: {
+          'ns2:account_role': {
+            account: {},
+            role: [
+              {
+                roleId: '123',
+                roleName: 'FOO_ROLE',
+                roleRelationshipId: '8961',
+              },
+              {
+                roleId: '456',
+                roleName: 'BAR_ROLE',
+                roleRelationshipId: '3827',
+              },
+            ],
+          },
+        },
+      };
+
+      const state = reducer(undefined, {
+        type: ACCOUNT_ROLES_READ_FULFILLED,
+        payload: response,
+      });
+
+      state.should.equal(Immutable.fromJS({
+        roleNames: [
+          'FOO_ROLE',
+          'BAR_ROLE',
+        ],
+      }));
+
+      getRoleNames(state).should.equal(state.get('roleNames'));
+    });
+
+    it('should set the user\'s role names when there is a single (non-array) role', function test() {
+      const response = {
+        data: {
+          'ns2:account_role': {
+            account: {},
+            role: {
+              roleId: '123',
+              roleName: 'FOO_ROLE',
+              roleRelationshipId: '8961',
+            },
+          },
+        },
+      };
+
+      const state = reducer(undefined, {
+        type: ACCOUNT_ROLES_READ_FULFILLED,
+        payload: response,
+      });
+
+      state.should.equal(Immutable.fromJS({
+        roleNames: [
+          'FOO_ROLE',
+        ],
+      }));
+
+      getRoleNames(state).should.equal(state.get('roleNames'));
+    });
+
+    it('should not change the state when there are no roles', function test() {
+      const response = {
+        data: {
+          'ns2:account_role': {
+            account: {},
+          },
+        },
+      };
+
+      const state = reducer(Immutable.Map(), {
+        type: ACCOUNT_ROLES_READ_FULFILLED,
+        payload: response,
+      });
+
+      state.should.equal(Immutable.Map());
+
+      expect(getRoleNames(state)).to.equal(undefined);
+    });
   });
 
   it('should handle AUTH_RENEW_FULFILLED', function test() {

@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import { readAuthVocabs } from './authority';
 import { createSession, setSession } from './cspace';
 import { loadPrefs, savePrefs } from './prefs';
+import { readAccountRoles } from './account';
 import { getUserUsername } from '../reducers';
 
 import {
@@ -56,6 +57,7 @@ const renewAuth = (config, username, password) => (dispatch) => {
         },
       });
     })
+    .then(() => dispatch(readAccountRoles(config, username)))
     .catch((error) => {
       let { code } = error;
 

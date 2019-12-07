@@ -30,6 +30,7 @@ describe('logout action creator', function suite() {
     const mockStore = configureMockStore([thunk]);
     const tokenUrl = '/cspace-services/oauth/token';
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
+    const accountRolesUrl = '/cspace-services/accounts/0/accountroles';
     const config = {};
     const username = 'user@collectionspace.org';
     const password = 'pw';
@@ -70,6 +71,11 @@ describe('logout action creator', function suite() {
       });
 
       moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: {},
+      });
+
+      moxios.stubRequest(accountRolesUrl, {
         status: 200,
         response: {},
       });

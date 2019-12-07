@@ -31,6 +31,7 @@ import {
   isRecordReadPending,
 } from '../reducers';
 
+
 import {
   dataPathToFieldDescriptorPath,
 } from '../helpers/configHelpers';
@@ -277,6 +278,7 @@ export const validateFieldValue = (recordTypeConfig, csid, path, value) => (disp
   const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
   const recordData = getRecordData(getState(), csid);
   const subrecordData = getSubrecordData(getState(), csid);
+
 
   return validateField(value, [], recordData, subrecordData, fieldDescriptor, true)
     .then((errors) => {

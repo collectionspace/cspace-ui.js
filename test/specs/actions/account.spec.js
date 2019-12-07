@@ -12,7 +12,16 @@ import {
   checkForRoleUses,
   requestPasswordReset,
   resetPassword,
+  readAccountPerms,
+  readAccountRoles,
 } from '../../../src/actions/account';
+
+import {
+  ACCOUNT_PERMS_READ_FULFILLED,
+  ACCOUNT_PERMS_READ_REJECTED,
+  ACCOUNT_ROLES_READ_FULFILLED,
+  ACCOUNT_ROLES_READ_REJECTED,
+} from '../../../src/constants/actionCodes';
 
 chai.should();
 
@@ -141,6 +150,143 @@ describe('account action creator', function suite() {
           const request = moxios.requests.mostRecent();
 
           request.config.data.should.contain(`"token":"${token}","password":"${btoa(password)}"`);
+        });
+    });
+  });
+
+  describe('readAccountPerms', function actionSuite() {
+    const store = mockStore();
+    const config = {};
+
+    const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
+
+    const accountPermsPayload = {
+      'ns2:account_permission': {
+        account: {},
+      },
+    };
+
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      store.clearActions();
+      moxios.uninstall();
+    });
+
+    it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', function test() {
+      moxios.stubRequest(accountPermsUrl, {
+        status: 200,
+        response: accountPermsPayload,
+      });
+
+      return store.dispatch(readAccountPerms(config))
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: ACCOUNT_PERMS_READ_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: accountPermsPayload,
+            },
+            meta: {
+              config,
+            },
+          });
+        });
+    });
+
+    it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', function test() {
+      moxios.stubRequest(accountPermsUrl, {
+        status: 400,
+        response: {},
+      });
+
+      return store.dispatch(readAccountPerms())
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.have.property('type', ACCOUNT_PERMS_READ_REJECTED);
+        });
+    });
+  });
+
+  describe('readAccountRoles', function actionSuite() {
+    const store = mockStore();
+
+    const accountRolesUrl = '/cspace-services/accounts/0/accountroles';
+
+    const accountRolesPayload = {
+      'ns2:account_role': {
+        account: {},
+        role: {},
+      },
+    };
+
+    before(() =>
+      store.dispatch(configureCSpace())
+        .then(() => store.clearActions())
+    );
+
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      store.clearActions();
+      moxios.uninstall();
+    });
+
+    it('should dispatch ACCOUNT_ROLES_READ_FULFILLED on success', function test() {
+      moxios.stubRequest(accountRolesUrl, {
+        status: 200,
+        response: accountRolesPayload,
+      });
+
+      return store.dispatch(readAccountRoles())
+        .then(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.deep.equal({
+            type: ACCOUNT_ROLES_READ_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: accountRolesPayload,
+            },
+          });
+        });
+    });
+
+    it('should dispatch ACCOUNT_ROLES_READ_REJECTED on error', function test() {
+      moxios.stubRequest(accountRolesUrl, {
+        status: 400,
+        response: {},
+      });
+
+      return store.dispatch(readAccountRoles())
+        .catch(() => {
+          const actions = store.getActions();
+
+          actions.should.have.lengthOf(1);
+
+          actions[0].should.have.property('type', ACCOUNT_ROLES_READ_REJECTED);
         });
     });
   });

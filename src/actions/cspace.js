@@ -2,7 +2,7 @@ import cspaceClient from 'cspace-client';
 import get from 'lodash/get';
 import { resetLogin } from './login';
 import { loadPrefs } from './prefs';
-import { readAccountPerms } from './account';
+import { readAccountPerms, readAccountRoles } from './account';
 import { readAuthVocabs } from './authority';
 import { openModal } from './notification';
 import LoginModal from '../components/login/LoginModal';
@@ -86,7 +86,8 @@ export const configureCSpace = config => (dispatch) => {
     return Promise.resolve();
   }
 
-  return dispatch(readAccountPerms(config, username))
+  return dispatch(readAccountPerms(config))
+    .then(() => dispatch(readAccountRoles(config, username)))
     .then(() => dispatch(loadPrefs(config, username)))
     .then(() => dispatch(readAuthVocabs(config)))
     .catch((error) => {
