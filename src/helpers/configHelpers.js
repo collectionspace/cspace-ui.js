@@ -511,10 +511,24 @@ export const isFieldRepeating = (fieldDescriptor) => {
   return false;
 };
 
-export const isFieldRequired = (fieldDescriptor, recordData) => {
-  const required = get(fieldDescriptor, [configKey, 'required']);
+export const isFieldRequired = (validationContext) => {
+  const { fieldDescriptor } = validationContext;
 
-  return !!((typeof required === 'function') ? required(recordData) : required);
+  let required = get(fieldDescriptor, [configKey, 'required']);
+
+  if (typeof required === 'function') {
+    const requiredContext = Object.assign({}, validationContext);
+
+    // Don't include the data property of the validation context in the required context, since it
+    // doesn't really make sense to have the required state of a field depend on the value in the
+    // field.
+
+    delete requiredContext.data;
+
+    required = required(requiredContext);
+  }
+
+  return !!required;
 };
 
 export const getFieldDataType = (fieldDescriptor) => {

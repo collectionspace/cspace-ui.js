@@ -1006,14 +1006,18 @@ describe('configHelpers', function moduleSuite() {
   describe('isFieldRequired', function suite() {
     it('should return the required configuration setting', function test() {
       isFieldRequired({
-        [configKey]: {
-          required: false,
+        fieldDescriptor: {
+          [configKey]: {
+            required: false,
+          },
         },
       }).should.equal(false);
 
       isFieldRequired({
-        [configKey]: {
-          required: true,
+        fieldDescriptor: {
+          [configKey]: {
+            required: true,
+          },
         },
       }).should.equal(true);
     });
@@ -1024,23 +1028,54 @@ describe('configHelpers', function moduleSuite() {
       let requiredRecordData = null;
 
       isFieldRequired({
-        [configKey]: {
-          required: (recordDataArg) => {
-            requiredRecordData = recordDataArg;
+        recordData,
+        fieldDescriptor: {
+          [configKey]: {
+            required: (requiredContext) => {
+              requiredRecordData = requiredContext.recordData;
 
-            return false;
+              return false;
+            },
           },
         },
-      }, recordData).should.equal(false);
+      }).should.equal(false);
 
       requiredRecordData.should.equal(recordData);
     });
 
-    it('should default to false', function test() {
-      isFieldRequired({}).should.equal(false);
+    it('should not include the data property from the validation context in the context passed to a required function', function test() {
+      const recordData = Immutable.Map();
+
+      let requiredContext = null;
 
       isFieldRequired({
-        [configKey]: {},
+        recordData,
+        fieldDescriptor: {
+          [configKey]: {
+            required: (requiredContextArg) => {
+              requiredContext = requiredContextArg;
+
+              return true;
+            },
+          },
+        },
+        data: '123',
+      }).should.equal(true);
+
+      requiredContext.should.have.property('recordData');
+      requiredContext.should.have.property('fieldDescriptor');
+      requiredContext.should.not.have.property('data');
+    });
+
+    it('should default to false', function test() {
+      isFieldRequired({
+        fieldDescriptor: {},
+      }).should.equal(false);
+
+      isFieldRequired({
+        fieldDescriptor: {
+          [configKey]: {},
+        },
       }).should.equal(false);
     });
   });

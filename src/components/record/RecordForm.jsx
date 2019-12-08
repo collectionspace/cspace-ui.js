@@ -42,6 +42,8 @@ const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   formName: PropTypes.string,
   readOnly: PropTypes.bool,
+  roleNames: PropTypes.instanceOf(Immutable.List),
+  subrecordData: PropTypes.instanceOf(Immutable.Map),
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
@@ -55,9 +57,12 @@ const defaultProps = {
 
 const childContextTypes = {
   config: PropTypes.object,
+  formName: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   recordTypeConfig: PropTypes.object,
+  roleNames: PropTypes.instanceOf(Immutable.List),
+  subrecordData: PropTypes.instanceOf(Immutable.Map),
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
   readOnly: PropTypes.bool,
@@ -69,8 +74,11 @@ export default class RecordForm extends Component {
       config,
       csid,
       data,
+      formName,
       recordType,
       recordTypeConfig,
+      roleNames,
+      subrecordData,
       vocabulary,
       readOnly,
     } = this.props;
@@ -83,10 +91,13 @@ export default class RecordForm extends Component {
 
     return {
       config,
+      formName,
+      readOnly,
       recordType,
       recordTypeConfig,
+      roleNames,
+      subrecordData,
       vocabulary,
-      readOnly,
       csid: dataCsid || csid,
       recordData: data,
     };

@@ -145,7 +145,7 @@ export default (configContext) => {
               defaultMessage: 'Password',
             },
           }),
-          required: recordData => isNewRecord(recordData),
+          required: ({ recordData }) => isNewRecord(recordData),
           validate: ({ data, fieldDescriptor }) => {
             if (data && !isValidPassword(data)) {
               return {
@@ -173,7 +173,7 @@ export default (configContext) => {
               defaultMessage: 'Confirm password',
             },
           }),
-          required: recordData => isNewRecord(recordData),
+          required: ({ recordData }) => isNewRecord(recordData),
           view: {
             type: PasswordInput,
             props: {

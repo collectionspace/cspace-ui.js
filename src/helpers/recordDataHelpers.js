@@ -669,7 +669,6 @@ const doValidate = (validationContext, expandRepeating = true) => {
   const {
     data,
     path = [],
-    recordData,
     fieldDescriptor,
   } = validationContext;
 
@@ -723,7 +722,7 @@ const doValidate = (validationContext, expandRepeating = true) => {
 
   // Check required.
 
-  const required = isFieldRequired(fieldDescriptor, recordData);
+  const required = isFieldRequired(validationContext);
 
   // TODO: Does this make sense for compound fields?
 
