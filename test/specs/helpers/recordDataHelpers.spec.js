@@ -2852,23 +2852,43 @@ describe('recordDataHelpers', function moduleSuite() {
     };
 
     it('should resolve to undefined if no field descriptor is supplied', function test() {
-      return computeField('world', [], Immutable.Map(), null, undefined)
-        .then((computedValue) => {
-          expect(computedValue).to.equal(undefined);
-        });
+      return computeField({
+        data: 'world',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: undefined,
+      }).then((computedValue) => {
+        expect(computedValue).to.equal(undefined);
+      });
     });
 
     it('should resolve a computed value for scalar fields', function test() {
-      return computeField('world', [], Immutable.Map(), null, fieldDescriptor.sayHello).should
-        .eventually.equal('hello world');
+      return computeField({
+        data: 'world',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: fieldDescriptor.sayHello,
+      }).should.eventually.equal('hello world');
     });
 
     it('should resolve a computed value for repeating field instances', function test() {
       return Promise.all([
-        computeField('Alvar Aalto', [0], Immutable.Map(), null, fieldDescriptor.names.name, false).should
-          .eventually.equal('0. Alvar Aalto'),
-        computeField('Ray Eames', [1], Immutable.Map(), null, fieldDescriptor.names.name, false).should
-          .eventually.equal('1. Ray Eames'),
+        computeField({
+          data: 'Alvar Aalto',
+          path: [0],
+          recordData: Immutable.Map(),
+          subrecordData: null,
+          fieldDescriptor: fieldDescriptor.names.name,
+        }, false).should.eventually.equal('0. Alvar Aalto'),
+        computeField({
+          data: 'Ray Eames',
+          path: [1],
+          recordData: Immutable.Map(),
+          subrecordData: null,
+          fieldDescriptor: fieldDescriptor.names.name,
+        }, false).should.eventually.equal('1. Ray Eames'),
       ]);
     });
 
@@ -2879,12 +2899,17 @@ describe('recordDataHelpers', function moduleSuite() {
         'Bruce Wayne',
       ]);
 
-      return computeField(value, [], Immutable.Map(), null, fieldDescriptor.names.name).should
-        .eventually.equal(Immutable.List([
-          '0. Lois Lane',
-          '1. Clark Kent',
-          '2. Bruce Wayne',
-        ]));
+      return computeField({
+        data: value,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: fieldDescriptor.names.name,
+      }, true).should.eventually.equal(Immutable.List([
+        '0. Lois Lane',
+        '1. Clark Kent',
+        '2. Bruce Wayne',
+      ]));
     });
 
     it('should resolve a computed value for repeating field containers', function test() {
@@ -2898,14 +2923,19 @@ describe('recordDataHelpers', function moduleSuite() {
         ],
       });
 
-      return computeField(value, [], Immutable.Map(), null, fieldDescriptor.colors).should
-        .eventually.equal(Immutable.fromJS({
-          color: [
-            '0. blue',
-            '1. green',
-            '2. red',
-          ],
-        }));
+      return computeField({
+        data: value,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: fieldDescriptor.colors,
+      }).should.eventually.equal(Immutable.fromJS({
+        color: [
+          '0. blue',
+          '1. green',
+          '2. red',
+        ],
+      }));
     });
 
     it('should resolve a computed value for complex fields', function test() {
@@ -2925,10 +2955,13 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      return computeField(
-        value, [0], Immutable.Map(), null,
-        fieldDescriptor.measuredPartGroupList.measuredPartGroup, false
-      ).should.eventually.equal(value.set('dimensionSummary', 'base: 12 x 24'));
+      return computeField({
+        data: value,
+        path: [0],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: fieldDescriptor.measuredPartGroupList.measuredPartGroup,
+      }, false).should.eventually.equal(value.set('dimensionSummary', 'base: 12 x 24'));
     });
 
     it('should resolve a sparse tree of computed values for complex fields that have computed descendent fields', function test() {
@@ -2973,18 +3006,23 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      return computeField(value, [], Immutable.Map(), null, docFieldDescriptor).should
-        .eventually.equal(Immutable.fromJS({
-          document: {
-            'ns2:collectionobjects_common': {
-              groupList: {
-                group: {
-                  sayHello: 'hello world',
-                },
+      return computeField({
+        data: value,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: docFieldDescriptor,
+      }, true).should.eventually.equal(Immutable.fromJS({
+        document: {
+          'ns2:collectionobjects_common': {
+            groupList: {
+              group: {
+                sayHello: 'hello world',
               },
             },
           },
-        }));
+        },
+      }));
     });
 
     it('should resolve to undefined if there are no computed fields', function test() {
@@ -3023,16 +3061,25 @@ describe('recordDataHelpers', function moduleSuite() {
         },
       });
 
-      return computeField(value, [], Immutable.Map(), null, docFieldDescriptor)
-        .then((computedValue) => {
-          expect(computedValue).to.equal(undefined);
-        });
+      return computeField({
+        data: value,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: docFieldDescriptor,
+      }).then((computedValue) => {
+        expect(computedValue).to.equal(undefined);
+      });
     });
 
     it('should reject if the compute function throws', function test() {
-      return computeField('', [], Immutable.Map(), null, fieldDescriptor.throwError)
-        .catch(error => error.message)
-        .should.eventually.equal('test error');
+      return computeField({
+        data: '',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: null,
+        fieldDescriptor: fieldDescriptor.throwError,
+      }).catch(error => error.message).should.eventually.equal('test error');
     });
   });
 

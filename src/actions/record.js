@@ -234,11 +234,15 @@ const getSaveErrorNotificationItem = (error, title) => {
 };
 
 export const computeFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
-  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
-  const recordData = getRecordData(getState(), csid);
-  const subrecordData = getSubrecordData(getState(), csid);
+  const computeContext = {
+    data: value,
+    path: [],
+    recordData: getRecordData(getState(), csid),
+    subrecordData: getSubrecordData(getState(), csid),
+    fieldDescriptor: get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]),
+  };
 
-  return computeField(value, [], recordData, subrecordData, fieldDescriptor, true)
+  return computeField(computeContext, true)
     .then((computedValue) => {
       if (typeof computedValue !== 'undefined') {
         dispatch({
