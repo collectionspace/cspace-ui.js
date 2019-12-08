@@ -66,6 +66,7 @@ describe('ID generator action creator', function suite() {
           csid: idGeneratorCsid,
         },
       }),
+      prefs: Immutable.Map(),
       user: Immutable.Map(),
     });
 
@@ -162,6 +163,7 @@ describe('ID generator action creator', function suite() {
           csid: idGeneratorCsid,
         },
       }),
+      prefs: Immutable.Map(),
       user: Immutable.Map(),
       record: Immutable.Map(),
     });

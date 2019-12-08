@@ -974,6 +974,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -988,6 +989,7 @@ describe('record action creator', function suite() {
               validation: {},
             },
           }),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(
@@ -1048,6 +1050,7 @@ describe('record action creator', function suite() {
             },
           }),
           recordPage: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, undefined, csid))
@@ -1117,6 +1120,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1130,6 +1134,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, undefined, csid))
@@ -1189,6 +1194,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             '': {
               data: {
@@ -1198,6 +1204,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, undefined, ''))
@@ -1257,6 +1264,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             '': {
               data: {
@@ -1266,6 +1274,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, undefined, ''))
@@ -1342,6 +1351,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             '': {
               data: {
@@ -1352,6 +1362,7 @@ describe('record action creator', function suite() {
             },
           }),
           recordPage: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         // Pass an empty csid and a replace function to saveRecord.
@@ -1463,6 +1474,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1471,6 +1483,7 @@ describe('record action creator', function suite() {
             },
           }),
           recordPage: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(
@@ -1545,6 +1558,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1559,6 +1573,7 @@ describe('record action creator', function suite() {
             },
           }),
           recordPage: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -1759,6 +1774,7 @@ describe('record action creator', function suite() {
           }),
           recordPage: Immutable.Map(),
           search: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -1892,6 +1908,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -1920,6 +1937,7 @@ describe('record action creator', function suite() {
             },
           }),
           search: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -2069,6 +2087,7 @@ describe('record action creator', function suite() {
           }),
           recordPage: Immutable.Map(),
           search: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -2176,6 +2195,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -2208,6 +2228,7 @@ describe('record action creator', function suite() {
           }),
           recordPage: Immutable.Map(),
           search: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -2348,6 +2369,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -2380,6 +2402,7 @@ describe('record action creator', function suite() {
           }),
           recordPage: Immutable.Map(),
           search: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -2514,6 +2537,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             [csid]: {
               data: {
@@ -2548,6 +2572,7 @@ describe('record action creator', function suite() {
           }),
           recordPage: Immutable.Map(),
           search: Immutable.Map(),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, vocabularyConfig, csid))
@@ -2660,6 +2685,7 @@ describe('record action creator', function suite() {
         });
 
         const store = mockStore({
+          prefs: Immutable.Map(),
           record: Immutable.fromJS({
             '': {
               data: {
@@ -2674,6 +2700,7 @@ describe('record action creator', function suite() {
               },
             },
           }),
+          user: Immutable.Map(),
         });
 
         return store.dispatch(saveRecord(config, recordTypeConfig, undefined, ''))
@@ -2777,7 +2804,9 @@ describe('record action creator', function suite() {
 
     it('should create an ADD_FIELD_INSTANCE action', function test() {
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const csid = '1234';
@@ -2829,7 +2858,9 @@ describe('record action creator', function suite() {
 
     it('should create a SORT_FIELD_INSTANCES action', function test() {
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const config = { locale: 'en-US' };
@@ -2883,7 +2914,9 @@ describe('record action creator', function suite() {
 
     it('should dispatch DELETE_FIELD_VALUE', function test() {
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const recordTypeConfig = {};
@@ -2932,7 +2965,9 @@ describe('record action creator', function suite() {
 
     it('should dispatch MOVE_FIELD_VALUE', function test() {
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const recordTypeConfig = {};
@@ -2983,7 +3018,9 @@ describe('record action creator', function suite() {
 
     it('should dispatch SET_FIELD_VALUE', function test() {
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const recordTypeConfig = {};
@@ -3342,6 +3379,7 @@ describe('record action creator', function suite() {
       });
 
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.fromJS({
           [csid]: {
             data: {
@@ -3356,6 +3394,7 @@ describe('record action creator', function suite() {
           },
         }),
         recordPage: Immutable.Map(),
+        user: Immutable.Map(),
       });
 
       const transitionName = 'lock';
@@ -3742,6 +3781,7 @@ describe('record action creator', function suite() {
       const value = 'world';
 
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.fromJS({
           [csid]: {
             data: {
@@ -3753,6 +3793,7 @@ describe('record action creator', function suite() {
             },
           },
         }),
+        user: Immutable.Map(),
       });
 
       return store.dispatch(computeFieldValue(recordTypeConfig, csid, path, value))
@@ -3777,6 +3818,7 @@ describe('record action creator', function suite() {
       const value = 'foo';
 
       const store = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.fromJS({
           [csid]: {
             data: {
@@ -3784,6 +3826,7 @@ describe('record action creator', function suite() {
             },
           },
         }),
+        user: Immutable.Map(),
       });
 
       return store.dispatch(computeFieldValue(recordTypeConfig, csid, path, value))

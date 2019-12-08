@@ -21,6 +21,7 @@ import {
 } from './search';
 
 import {
+  getForm,
   getRecordData,
   getRecordSubrecordCsid,
   getRecordValidationErrors,
@@ -28,6 +29,7 @@ import {
   getSearchResult,
   getStickyFields,
   getSubrecordData,
+  getUserRoleNames,
   isRecordReadPending,
 } from '../reducers';
 
@@ -234,12 +236,17 @@ const getSaveErrorNotificationItem = (error, title) => {
 };
 
 export const computeFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
+  const state = getState();
+
   const computeContext = {
     data: value,
     path: [],
-    recordData: getRecordData(getState(), csid),
-    subrecordData: getSubrecordData(getState(), csid),
+    recordData: getRecordData(state, csid),
+    subrecordData: getSubrecordData(state, csid),
     fieldDescriptor: get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]),
+    recordType: recordTypeConfig.name,
+    form: getForm(state, recordTypeConfig.name),
+    roleNames: getUserRoleNames(state),
   };
 
   return computeField(computeContext, true)
@@ -279,12 +286,17 @@ export const computeRecordData = (recordTypeConfig, csid) => (dispatch, getState
 };
 
 export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
+  const state = getState();
+
   const validationContext = {
     data: value,
     path: [],
-    recordData: getRecordData(getState(), csid),
-    subrecordData: getSubrecordData(getState(), csid),
+    recordData: getRecordData(state, csid),
+    subrecordData: getSubrecordData(state, csid),
     fieldDescriptor: get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]),
+    recordType: recordTypeConfig.name,
+    form: getForm(state, recordTypeConfig.name),
+    roleNames: getUserRoleNames(state),
   };
 
   return validateField(validationContext, true)

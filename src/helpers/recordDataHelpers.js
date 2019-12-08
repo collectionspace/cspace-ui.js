@@ -670,7 +670,6 @@ const doValidate = (validationContext, expandRepeating = true) => {
     data,
     path = [],
     recordData,
-    subrecordData,
     fieldDescriptor,
   } = validationContext;
 
@@ -687,13 +686,10 @@ const doValidate = (validationContext, expandRepeating = true) => {
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceResults = doValidate({
+      const instanceResults = doValidate(Object.assign({}, validationContext, {
         data: instance,
         path: [...path, index],
-        recordData,
-        subrecordData,
-        fieldDescriptor,
-      }, false);
+      }), false);
 
       if (instanceResults) {
         Array.prototype.push.apply(results, instanceResults);
@@ -711,13 +707,11 @@ const doValidate = (validationContext, expandRepeating = true) => {
     const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
     childKeys.forEach((childKey) => {
-      const childResults = doValidate({
+      const childResults = doValidate(Object.assign({}, validationContext, {
         data: data ? data.get(childKey) : undefined,
         path: [...path, childKey],
-        recordData,
-        subrecordData,
         fieldDescriptor: fieldDescriptor[childKey],
-      }, true);
+      }), true);
 
       if (childResults) {
         Array.prototype.push.apply(results, childResults);
@@ -836,8 +830,6 @@ const doCompute = (computeContext, expandRepeating = true) => {
   const {
     data,
     path = [],
-    recordData,
-    subrecordData,
     fieldDescriptor,
   } = computeContext;
 
@@ -853,14 +845,10 @@ const doCompute = (computeContext, expandRepeating = true) => {
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceResults =
-        doCompute({
-          data: instance,
-          path: [...path, index],
-          recordData,
-          subrecordData,
-          fieldDescriptor,
-        }, false);
+      const instanceResults = doCompute(Object.assign({}, computeContext, {
+        data: instance,
+        path: [...path, index],
+      }), false);
 
       if (instanceResults) {
         Array.prototype.push.apply(results, instanceResults);
@@ -878,14 +866,11 @@ const doCompute = (computeContext, expandRepeating = true) => {
     const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
 
     childKeys.forEach((childKey) => {
-      const childResults =
-        doCompute({
-          data: data ? data.get(childKey) : undefined,
-          path: [...path, childKey],
-          recordData,
-          subrecordData,
-          fieldDescriptor: fieldDescriptor[childKey],
-        }, true);
+      const childResults = doCompute(Object.assign({}, computeContext, {
+        data: data ? data.get(childKey) : undefined,
+        path: [...path, childKey],
+        fieldDescriptor: fieldDescriptor[childKey],
+      }), true);
 
       if (childResults) {
         Array.prototype.push.apply(results, childResults);
