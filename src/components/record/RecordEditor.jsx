@@ -26,6 +26,8 @@ const propTypes = {
   dockTop: PropTypes.number,
   formName: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
+  roleNames: PropTypes.instanceOf(Immutable.List),
+  subrecordData: PropTypes.instanceOf(Immutable.Map),
   validationErrors: PropTypes.instanceOf(Immutable.Map),
   vocabularyWorkflowState: PropTypes.string,
   isModified: PropTypes.bool,
@@ -548,6 +550,8 @@ export default class RecordEditor extends Component {
       perms,
       recordType,
       relatedSubjectWorkflowState,
+      roleNames,
+      subrecordData,
       validationErrors,
       vocabulary,
       vocabularyWorkflowState,
@@ -659,6 +663,8 @@ export default class RecordEditor extends Component {
           readOnly={readOnly}
           recordType={recordType}
           recordTypeConfig={recordTypeConfig}
+          roleNames={roleNames}
+          subrecordData={subrecordData}
           vocabulary={vocabulary}
         />
 

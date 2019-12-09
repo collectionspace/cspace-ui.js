@@ -41,7 +41,9 @@ import {
   getOpenModalName,
   getRecordData,
   getRecordValidationErrors,
+  getSubrecordData,
   getUserPerms,
+  getUserRoleNames,
   isRecordModified,
   isRecordReadPending,
   isRecordSavePending,
@@ -70,6 +72,8 @@ const mapStateToProps = (state, ownProps) => {
     isSidebarOpen: isRecordSidebarOpen(state),
     openModalName: getOpenModalName(state),
     perms: perms || getUserPerms(state),
+    roleNames: getUserRoleNames(state),
+    subrecordData: getSubrecordData(state, csid),
     validationErrors: getRecordValidationErrors(state, csid),
     vocabularyWorkflowState: getAuthorityVocabWorkflowState(state, recordType, vocabulary),
   };
@@ -121,6 +125,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       .catch(() => {}),
     setForm: (formName) => {
       dispatch(setForm(recordType, formName));
+      dispatch(validateRecordData(recordTypeConfig, csid));
     },
     transitionRecord: transitionName => dispatch(transitionRecord(
       config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid

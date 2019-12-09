@@ -16,6 +16,7 @@ import {
   LOGIN_REJECTED,
   ACCOUNT_PERMS_READ_FULFILLED,
   ACCOUNT_PERMS_READ_REJECTED,
+  ACCOUNT_ROLES_READ_FULFILLED,
 } from '../../../src/constants/actionCodes';
 
 import {
@@ -57,6 +58,7 @@ describe('login action creator', function suite() {
     const mockStore = configureMockStore([thunk]);
     const tokenUrl = '/cspace-services/oauth/token';
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
+    const accountRolesUrl = '/cspace-services/accounts/0/accountroles';
     const config = {};
     const prevUsername = 'prevuser@collectionspace.org';
     const username = 'user@collectionspace.org';
@@ -105,6 +107,11 @@ describe('login action creator', function suite() {
         response: {},
       });
 
+      moxios.stubRequest(accountRolesUrl, {
+        status: 200,
+        response: {},
+      });
+
       return store.dispatch(login(config, username, password))
         .then(() => {
           getSession().should.be.an('object');
@@ -123,11 +130,16 @@ describe('login action creator', function suite() {
         response: {},
       });
 
+      moxios.stubRequest(accountRolesUrl, {
+        status: 200,
+        response: {},
+      });
+
       return store.dispatch(login(config, username, password))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(5);
+          actions.should.have.lengthOf(6);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -152,9 +164,19 @@ describe('login action creator', function suite() {
             },
           });
 
-          actions[3].should.have.property('type', PREFS_LOADED);
+          actions[3].should.deep.equal({
+            type: ACCOUNT_ROLES_READ_FULFILLED,
+            payload: {
+              status: 200,
+              statusText: undefined,
+              headers: undefined,
+              data: {},
+            },
+          });
 
-          actions[4].should.deep.equal({
+          actions[4].should.have.property('type', PREFS_LOADED);
+
+          actions[5].should.deep.equal({
             type: LOGIN_FULFILLED,
             meta: {
               prevUsername,

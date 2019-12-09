@@ -55,6 +55,7 @@ const mockStore = configureMockStore([thunk]);
 describe('batch action creator', function suite() {
   describe('invoke', function actionSuite() {
     const store = mockStore({
+      prefs: Immutable.Map(),
       record: Immutable.fromJS({
         '': {
           data: {
@@ -317,6 +318,7 @@ describe('batch action creator', function suite() {
     it('should not dispatch any actions when parameter validation fails', function test() {
       const invalidDataStore = mockStore({
         notification: Immutable.Map(),
+        prefs: Immutable.Map(),
         record: Immutable.fromJS({
           '': {
             validation: {

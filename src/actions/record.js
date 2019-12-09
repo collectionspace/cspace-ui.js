@@ -21,6 +21,7 @@ import {
 } from './search';
 
 import {
+  getForm,
   getRecordData,
   getRecordSubrecordCsid,
   getRecordValidationErrors,
@@ -28,8 +29,10 @@ import {
   getSearchResult,
   getStickyFields,
   getSubrecordData,
+  getUserRoleNames,
   isRecordReadPending,
 } from '../reducers';
+
 
 import {
   dataPathToFieldDescriptorPath,
@@ -233,11 +236,20 @@ const getSaveErrorNotificationItem = (error, title) => {
 };
 
 export const computeFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
-  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
-  const recordData = getRecordData(getState(), csid);
-  const subrecordData = getSubrecordData(getState(), csid);
+  const state = getState();
 
-  return computeField(value, [], recordData, subrecordData, fieldDescriptor, true)
+  const computeContext = {
+    data: value,
+    path: [],
+    recordData: getRecordData(state, csid),
+    subrecordData: getSubrecordData(state, csid),
+    fieldDescriptor: get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]),
+    recordType: recordTypeConfig.name,
+    form: getForm(state, recordTypeConfig.name),
+    roleNames: getUserRoleNames(state),
+  };
+
+  return computeField(computeContext, true)
     .then((computedValue) => {
       if (typeof computedValue !== 'undefined') {
         dispatch({
@@ -274,10 +286,20 @@ export const computeRecordData = (recordTypeConfig, csid) => (dispatch, getState
 };
 
 export const validateFieldValue = (recordTypeConfig, csid, path, value) => (dispatch, getState) => {
-  const fieldDescriptor = get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]);
-  const recordData = getRecordData(getState(), csid);
+  const state = getState();
 
-  return validateField(value, [], recordData, fieldDescriptor, true)
+  const validationContext = {
+    data: value,
+    path: [],
+    recordData: getRecordData(state, csid),
+    subrecordData: getSubrecordData(state, csid),
+    fieldDescriptor: get(recordTypeConfig, ['fields', ...dataPathToFieldDescriptorPath(path)]),
+    recordType: recordTypeConfig.name,
+    form: getForm(state, recordTypeConfig.name),
+    roleNames: getUserRoleNames(state),
+  };
+
+  return validateField(validationContext, true)
     .then((errors) => {
       if (errors) {
         dispatch({

@@ -15,7 +15,7 @@ type FieldConfig = {
   dataType: string,
   messages: MessageDescriptorMap,
   repeating: boolean,
-  required: boolean,
+  required: boolean | function,
   service: FieldServiceConfig,
   view: FieldViewConfig,
 };
@@ -130,9 +130,21 @@ If true, the field is repeating (multivalued), and will be rendered with add and
 
 ### required
 ```
-required: boolean = false
+required: boolean | (requiredContext) => boolean
 ```
 If true, the field is required. It will be rendered with a required indictor, and will trigger an error notification if it is left empty.
+
+If a function is provided, the function will be called with a requiredContext object as an argument,  and it must return a boolean. The requiredContext has the following properties:
+
+| Property          | Type           | Description |
+| ----------------- | -------------- | ----------- |
+| `fieldDescriptor` | Object         | The field's descriptor, containing its configuration and the configuration of any descendants. |
+| `form`            | String         | The name of the form (template) that is in use. |
+| `path`            | Array          | The path to the field in the record data. |
+| `recordData`      | Immutable.Map  | The record data. |
+| `recordType`      | String         | The name of the record type. |
+| `roleNames`       | Immutable.List | The current user's roles. |
+| `subrecordData`   | Immutable.Map  | The data of the record's subrecords, if any (e.g. blob in media, contact in person/organization). |
 
 ### searchView
 ```
@@ -146,8 +158,9 @@ service: FieldServiceConfig
 ```
 An object that describes service layer configuration for the field. The following properties may be set:
 
-|Property|Description|
-|`ns`    |String. The namespace URI for the field.|
+| Property | Type   | Description |
+| -------- | ------ | ----------- |
+| `ns`     | String | The namespace URI for the field. |
 
 ### view
 ```
@@ -155,6 +168,7 @@ view: FieldViewConfig
 ```
 Configuration that describes how the field is to be rendered on the record editor form. The following properties may be set:
 
-|Property|Description|
-|`type`  |The React component type that should be used to render the field. When the field descriptor is defined in a configurer function, React component types that may be used are provided in the configuration context passed to the configurer, under the `inputComponents` property.|
-|`props` |Props to set on the React component when it is rendered. The possible values will depend on the type of component.|
+| Property | Type     | Description |
+| -------- | -------- | ----------- |
+| `type`   | Function | The React component that should be used to render the field. When the field descriptor is defined in a configurer function, React component types that may be used are provided in the configuration context passed to the configurer, under the `inputComponents` property. |
+| `props`  | Object   | Props to set on the React component when it is rendered. The possible props will depend on the type of component. |

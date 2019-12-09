@@ -13,6 +13,7 @@ import {
   SYSTEM_INFO_READ_FULFILLED,
   SYSTEM_INFO_READ_REJECTED,
   ACCOUNT_PERMS_READ_FULFILLED,
+  ACCOUNT_ROLES_READ_FULFILLED,
   AUTH_VOCABS_READ_STARTED,
   AUTH_VOCABS_READ_FULFILLED,
   RESET_LOGIN,
@@ -59,7 +60,7 @@ describe('cspace action creator', function suite() {
       session.config().should.have.property('url', 'http://something.org');
     });
 
-    it('should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED', function test() {
+    it('should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, ACCOUNT_ROLES_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED', function test() {
       moxios.stubRequest(/.*/, {
         status: 200,
         response: {},
@@ -98,7 +99,7 @@ describe('cspace action creator', function suite() {
         window.setTimeout(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(5);
+          actions.should.have.lengthOf(6);
 
           actions[0].should
             .include({ type: CSPACE_CONFIGURED })
@@ -106,9 +107,10 @@ describe('cspace action creator', function suite() {
               .that.has.property('url', 'http://something.org');
 
           actions[1].should.include({ type: ACCOUNT_PERMS_READ_FULFILLED });
-          actions[2].should.include({ type: PREFS_LOADED });
-          actions[3].should.include({ type: AUTH_VOCABS_READ_STARTED });
-          actions[4].should.include({ type: AUTH_VOCABS_READ_FULFILLED });
+          actions[2].should.include({ type: ACCOUNT_ROLES_READ_FULFILLED });
+          actions[3].should.include({ type: PREFS_LOADED });
+          actions[4].should.include({ type: AUTH_VOCABS_READ_STARTED });
+          actions[5].should.include({ type: AUTH_VOCABS_READ_FULFILLED });
 
           window.localStorage.removeItem('cspace-client');
 

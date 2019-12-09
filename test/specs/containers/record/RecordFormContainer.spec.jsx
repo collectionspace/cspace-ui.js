@@ -36,7 +36,9 @@ describe('RecordFormContainer', function suite() {
   };
 
   const store = mockStore({
+    prefs: Immutable.Map(),
     record: Immutable.Map(),
+    user: Immutable.Map(),
   });
 
   const context = {

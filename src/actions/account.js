@@ -6,6 +6,8 @@ import getSession from './cspace';
 import {
   ACCOUNT_PERMS_READ_FULFILLED,
   ACCOUNT_PERMS_READ_REJECTED,
+  ACCOUNT_ROLES_READ_FULFILLED,
+  ACCOUNT_ROLES_READ_REJECTED,
 } from '../constants/actionCodes';
 
 export const checkForRoleUses = csid => () =>
@@ -28,6 +30,21 @@ export const readAccountPerms = config => dispatch =>
     .catch((error) => {
       dispatch({
         type: ACCOUNT_PERMS_READ_REJECTED,
+        payload: error,
+      });
+
+      return Promise.reject(error);
+    });
+
+export const readAccountRoles = () => dispatch =>
+  getSession().read('accounts/0/accountroles')
+    .then(response => dispatch({
+      type: ACCOUNT_ROLES_READ_FULFILLED,
+      payload: response,
+    }))
+    .catch((error) => {
+      dispatch({
+        type: ACCOUNT_ROLES_READ_REJECTED,
         payload: error,
       });
 

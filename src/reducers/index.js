@@ -67,6 +67,8 @@ export const getUserUsername = state => fromUser.getUsername(state.user);
 
 export const getUserPerms = state => fromUser.getPerms(state.user);
 
+export const getUserRoleNames = state => fromUser.getRoleNames(state.user);
+
 export const getLoginUsername = state => fromLogin.getUsername(state.login);
 
 export const isLoginPending = state => fromLogin.isPending(state.login);

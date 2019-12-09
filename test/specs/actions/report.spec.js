@@ -214,6 +214,7 @@ describe('report action creator', function suite() {
     };
 
     const store = mockStore({
+      prefs: Immutable.Map(),
       record: Immutable.fromJS({
         '': {
           data: {
@@ -322,6 +323,7 @@ describe('report action creator', function suite() {
 
     it('should not call window.open if parameter validation fails', function test() {
       const invalidDataStore = mockStore({
+        prefs: Immutable.Map(),
         record: Immutable.fromJS({
           '': {
             validation: {
