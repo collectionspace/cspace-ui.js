@@ -2,6 +2,7 @@
 
 import get from 'lodash/get';
 import getSession from './cspace';
+import { getUserAccountId } from '../reducers';
 
 import {
   ACCOUNT_PERMS_READ_FULFILLED,
@@ -36,8 +37,10 @@ export const readAccountPerms = config => dispatch =>
       return Promise.reject(error);
     });
 
-export const readAccountRoles = () => dispatch =>
-  getSession().read('accounts/0/accountroles')
+export const readAccountRoles = () => (dispatch, getState) => {
+  const accountId = getUserAccountId(getState());
+
+  return getSession().read(`accounts/${accountId}/accountroles`)
     .then(response => dispatch({
       type: ACCOUNT_ROLES_READ_FULFILLED,
       payload: response,
@@ -50,6 +53,7 @@ export const readAccountRoles = () => dispatch =>
 
       return Promise.reject(error);
     });
+};
 
 export const requestPasswordReset = (email, tenantId) => () => {
   const config = {

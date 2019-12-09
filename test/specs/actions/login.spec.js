@@ -56,9 +56,10 @@ describe('login action creator', function suite() {
 
   describe('login', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
+    const accountId = '1234';
     const tokenUrl = '/cspace-services/oauth/token';
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
-    const accountRolesUrl = '/cspace-services/accounts/0/accountroles';
+    const accountRolesUrl = `/cspace-services/accounts/${accountId}/accountroles`;
     const config = {};
     const prevUsername = 'prevuser@collectionspace.org';
     const username = 'user@collectionspace.org';
@@ -66,8 +67,11 @@ describe('login action creator', function suite() {
 
     const store = mockStore({
       notification: Immutable.Map(),
-      user: Immutable.Map({
+      user: Immutable.fromJS({
         username: prevUsername,
+        account: {
+          accountId,
+        },
       }),
     });
 

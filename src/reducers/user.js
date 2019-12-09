@@ -80,6 +80,7 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
+export const getAccountId = state => state.getIn(['account', 'accountId']);
 export const getUsername = state => state.get('username');
 export const getScreenName = state => state.getIn(['account', 'screenName']);
 export const getUserId = state => state.getIn(['account', 'userId']);

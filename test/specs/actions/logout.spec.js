@@ -28,15 +28,20 @@ chai.should();
 describe('logout action creator', function suite() {
   describe('logout', function actionSuite() {
     const mockStore = configureMockStore([thunk]);
+    const accountId = '1234';
     const tokenUrl = '/cspace-services/oauth/token';
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
-    const accountRolesUrl = '/cspace-services/accounts/0/accountroles';
+    const accountRolesUrl = `/cspace-services/accounts/${accountId}/accountroles`;
     const config = {};
     const username = 'user@collectionspace.org';
     const password = 'pw';
 
     const store = mockStore({
-      user: Immutable.Map(),
+      user: Immutable.fromJS({
+        account: {
+          accountId,
+        },
+      }),
     });
 
     const tokenGrantPayload = {

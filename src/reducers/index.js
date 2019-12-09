@@ -59,6 +59,8 @@ export const getAuthzRoles = state => fromAuthz.getRoles(state.authz);
 
 export const areUserPrefsLoaded = state => fromUser.arePrefsLoaded(state.user);
 
+export const getUserAccountId = state => fromUser.getAccountId(state.user);
+
 export const getUserScreenName = state => fromUser.getScreenName(state.user);
 
 export const getUserUserId = state => fromUser.getUserId(state.user);

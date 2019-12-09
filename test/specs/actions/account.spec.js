@@ -3,6 +3,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import Immutable from 'immutable';
 
 import {
   configureCSpace,
@@ -225,9 +226,8 @@ describe('account action creator', function suite() {
   });
 
   describe('readAccountRoles', function actionSuite() {
-    const store = mockStore();
-
-    const accountRolesUrl = '/cspace-services/accounts/0/accountroles';
+    const accountId = '1234';
+    const accountRolesUrl = `/cspace-services/accounts/${accountId}/accountroles`;
 
     const accountRolesPayload = {
       'ns2:account_role': {
@@ -235,6 +235,14 @@ describe('account action creator', function suite() {
         role: {},
       },
     };
+
+    const store = mockStore({
+      user: Immutable.fromJS({
+        account: {
+          accountId,
+        },
+      }),
+    });
 
     before(() =>
       store.dispatch(configureCSpace())
