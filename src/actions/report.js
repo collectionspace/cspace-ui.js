@@ -77,7 +77,7 @@ export const invoke = (config, csid, invocationDescriptor, params) => (dispatch)
     responseType: 'blob',
   };
 
-  return getSession().create(`reports/${csid}`, requestConfig)
+  return getSession().create(`reports/${csid}/invoke`, requestConfig)
     .catch((error) => {
       const notificationID = getNotificationID();
 

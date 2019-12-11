@@ -101,7 +101,7 @@ export const invoke = (config, batchMetadata, invocationDescriptor, onValidation
         data: createInvocationData(config, invocationDescriptor, params),
       };
 
-      return getSession().create(`batch/${batchCsid}`, requestConfig)
+      return getSession().create(`batch/${batchCsid}/invoke`, requestConfig)
         .then((response) => {
           const { data } = response;
           const numAffected = get(data, ['ns2:invocationResults', 'numAffected']);
