@@ -19,6 +19,7 @@ import {
   disallowCreate,
   disallowDelete,
   disallowSoftDelete,
+  canDelete,
 } from '../../helpers/permissionHelpers';
 
 const propTypes = {
@@ -48,6 +49,7 @@ const contextTypes = {
 };
 
 const recordType = 'report';
+const invocationType = 'reportinvocation';
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
@@ -261,9 +263,8 @@ export default class ReportPage extends Component {
     const title = <FormattedMessage {...recordTypeConfig.messages.record.collectionName} />;
 
     let recordEditor;
-
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
-      const isRunnable = canCreate(recordType, perms);
+      const isRunnable = canCreate(invocationType, perms) || canDelete(invocationType, perms);
 
       // Temporarily disallow deleting or creating records.
 
