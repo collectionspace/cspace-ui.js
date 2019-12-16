@@ -20,6 +20,7 @@ import {
   disallowCreate,
   disallowDelete,
   disallowSoftDelete,
+  canDelete,
 } from '../../helpers/permissionHelpers';
 
 const propTypes = {
@@ -50,6 +51,7 @@ const contextTypes = {
 };
 
 const recordType = 'batch';
+const invocationType = 'batchinvocation'
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
@@ -304,7 +306,7 @@ export default class BatchPage extends Component {
     let recordEditor;
 
     if (typeof normalizedCsid !== 'undefined' && normalizedCsid !== null) {
-      const isRunnable = canCreate(recordType, perms);
+      const isRunnable = canCreate(invocationType, perms) || canDelete(invocationType, perms);
 
       // Temporarily disallow deleting or creating records.
 
