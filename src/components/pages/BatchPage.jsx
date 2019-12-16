@@ -51,7 +51,7 @@ const contextTypes = {
 };
 
 const recordType = 'batch';
-const invocationType = 'batchinvocation'
+const invocationType = 'batchinvocation';
 
 const getSearchDescriptor = () => Immutable.fromJS({
   recordType,
