@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/citation/messages';
 
 chai.should();
 
-describe('citation record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('citation record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((citationName) => {

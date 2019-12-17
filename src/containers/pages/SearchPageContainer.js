@@ -42,8 +42,9 @@ const mapStateToProps = (state, ownProps) => {
     preferredAdvancedSearchBooleanOp:
       getAdvancedSearchBooleanOp(state)
       || get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
-    getAuthorityVocabCsid: (recordType, vocabulary) =>
-      getAuthorityVocabCsid(state, recordType, vocabulary),
+    getAuthorityVocabCsid: (recordType, vocabulary) => getAuthorityVocabCsid(
+      state, recordType, vocabulary,
+    ),
   };
 };
 

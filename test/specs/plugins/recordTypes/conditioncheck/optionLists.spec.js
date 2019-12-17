@@ -2,8 +2,8 @@ import optionsList from '../../../../../src/plugins/recordTypes/conditioncheck/o
 
 chai.should();
 
-describe('condition check record optionLists', function suite() {
-  it('should contain properties values and messages', function test() {
+describe('condition check record optionLists', () => {
+  it('should contain properties values and messages', () => {
     optionsList.should.be.an('object');
 
     Object.keys(optionsList).forEach((option) => {

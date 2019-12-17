@@ -5,8 +5,8 @@ import withListType from '../../../src/enhancers/withListType';
 
 chai.should();
 
-describe('withListType', function suite() {
-  it('should set listType prop on the base component with the given value', function test() {
+describe('withListType', () => {
+  it('should set listType prop on the base component with the given value', () => {
     const listType = 'default';
 
     const StubComponent = () => null;

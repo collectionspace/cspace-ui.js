@@ -57,7 +57,9 @@ const propTypes = {
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   intl: intlShape,
   recordType: PropTypes.string,
 };

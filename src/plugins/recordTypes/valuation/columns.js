@@ -20,8 +20,7 @@ export default (configContext) => {
         width: 250,
       },
       valueType: {
-        formatValue: (data, formatterContext) =>
-          formatOption('valueTypes', data, formatterContext),
+        formatValue: (data, formatterContext) => formatOption('valueTypes', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.valuation.default.valueType',

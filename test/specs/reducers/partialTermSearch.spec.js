@@ -18,17 +18,17 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('partialTermSearch reducer', function suite() {
+describe('partialTermSearch reducer', () => {
   const recordType = 'person';
   const vocabulary = 'local';
   const displayName = 'abcd';
   const partialTerm = 'zyxw';
 
-  it('should have an empty Immutable initial state', function test() {
+  it('should have an empty Immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });
 
-  it('should handle ADD_TERM_STARTED', function test() {
+  it('should handle ADD_TERM_STARTED', () => {
     reducer(Immutable.Map(), {
       type: ADD_TERM_STARTED,
       meta: {
@@ -48,7 +48,7 @@ describe('partialTermSearch reducer', function suite() {
     }));
   });
 
-  it('should handle ADD_TERM_FULFILLED', function test() {
+  it('should handle ADD_TERM_FULFILLED', () => {
     const newTermData = {};
 
     const addTermResponse = {
@@ -75,7 +75,7 @@ describe('partialTermSearch reducer', function suite() {
     }));
   });
 
-  it('should handle ADD_TERM_REJECTED', function test() {
+  it('should handle ADD_TERM_REJECTED', () => {
     const error = new Error();
 
     reducer(Immutable.Map(), {
@@ -98,7 +98,7 @@ describe('partialTermSearch reducer', function suite() {
     }));
   });
 
-  it('should handle PARTIAL_TERM_SEARCH_STARTED', function test() {
+  it('should handle PARTIAL_TERM_SEARCH_STARTED', () => {
     reducer(Immutable.Map(), {
       type: PARTIAL_TERM_SEARCH_STARTED,
       meta: {
@@ -117,7 +117,7 @@ describe('partialTermSearch reducer', function suite() {
     }));
   });
 
-  it('should handle PARTIAL_TERM_SEARCH_FULFILLED', function test() {
+  it('should handle PARTIAL_TERM_SEARCH_FULFILLED', () => {
     const items = [
       { refName: 'a' },
       { refName: 'b' },
@@ -149,7 +149,7 @@ describe('partialTermSearch reducer', function suite() {
     getMatches(newState).should.equal(newState);
   });
 
-  it('should set items to empty array if search result count is zero', function test() {
+  it('should set items to empty array if search result count is zero', () => {
     const searchData = {
       'ns2:abstract-common-list': {
         itemsInPage: '0',
@@ -176,7 +176,7 @@ describe('partialTermSearch reducer', function suite() {
     getMatches(newState).should.equal(newState);
   });
 
-  it('should set items to an array if one list item is returned', function test() {
+  it('should set items to an array if one list item is returned', () => {
     const items = { refName: 'a' };
 
     const searchData = {
@@ -206,7 +206,7 @@ describe('partialTermSearch reducer', function suite() {
     getMatches(newState).should.equal(newState);
   });
 
-  it('should handle PARTIAL_TERM_SEARCH_REJECTED', function test() {
+  it('should handle PARTIAL_TERM_SEARCH_REJECTED', () => {
     const error = new Error();
 
     const newState = reducer(Immutable.Map(), {
@@ -222,7 +222,7 @@ describe('partialTermSearch reducer', function suite() {
     newState.getIn([partialTerm, recordType, vocabulary, 'error']).should.deep.equal(error);
   });
 
-  it('should handle CLEAR_PARTIAL_TERM_SEARCH_RESULTS', function test() {
+  it('should handle CLEAR_PARTIAL_TERM_SEARCH_RESULTS', () => {
     reducer(Immutable.fromJS({
       [partialTerm]: {
         [recordType]: {

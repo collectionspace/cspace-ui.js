@@ -40,7 +40,9 @@ const messages = defineMessages({
 
 const propTypes = {
   allowedModes: PropTypes.arrayOf(PropTypes.string),
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   initialInvocationDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -159,7 +161,7 @@ export default class InvocationModal extends Component {
     let csid = items.keySeq().toJS();
 
     if (mode === 'single' || mode === 'group') {
-      csid = csid[0];
+      [csid] = csid;
     }
 
     if (onInvokeButtonClick) {
@@ -197,26 +199,22 @@ export default class InvocationModal extends Component {
               });
             }
 
-            const nextInvocationDescriptor = this.state.invocationDescriptor.set(
-              'items', Immutable.Map({ [invocationCsid]: item })
-            );
-
-            this.setState({
-              invocationDescriptor: nextInvocationDescriptor,
-            });
+            this.setState((prevState) => ({
+              invocationDescriptor: prevState.invocationDescriptor.set(
+                'items', Immutable.Map({ [invocationCsid]: item }),
+              ),
+            }));
           })
           .catch(() => {
             const item = Immutable.Map({
               csid: invocationCsid,
             });
 
-            const nextInvocationDescriptor = this.state.invocationDescriptor.set(
-              'items', Immutable.Map({ [invocationCsid]: item })
-            );
-
-            this.setState({
-              invocationDescriptor: nextInvocationDescriptor,
-            });
+            this.setState((prevState) => ({
+              invocationDescriptor: prevState.invocationDescriptor.set(
+                'items', Immutable.Map({ [invocationCsid]: item }),
+              ),
+            }));
           });
       }
     }
@@ -392,5 +390,4 @@ export default class InvocationModal extends Component {
   }
 }
 
-InvocationModal.modalName = 'InvocationModal';
 InvocationModal.propTypes = propTypes;

@@ -1,23 +1,36 @@
 import { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  children: PropTypes.node.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  config: PropTypes.object.isRequired,
+};
+
+const childContextTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  config: PropTypes.object,
+};
+
 export default class ConfigProvider extends Component {
   getChildContext() {
+    const {
+      config,
+    } = this.props;
+
     return {
-      config: this.props.config,
+      config,
     };
   }
 
   render() {
-    return Children.only(this.props.children);
+    const {
+      children,
+    } = this.props;
+
+    return Children.only(children);
   }
 }
 
-ConfigProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  config: PropTypes.object.isRequired,
-};
-
-ConfigProvider.childContextTypes = {
-  config: PropTypes.object,
-};
+ConfigProvider.propTypes = propTypes;
+ConfigProvider.childContextTypes = childContextTypes;

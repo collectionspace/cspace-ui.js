@@ -9,8 +9,8 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('LoginFormContainer', function suite() {
-  it('should set props on LoginForm', function test() {
+describe('LoginFormContainer', () => {
+  it('should set props on LoginForm', () => {
     const username = 'user@collectionspace.org';
 
     const store = mockStore({

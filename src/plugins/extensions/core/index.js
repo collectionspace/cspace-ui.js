@@ -1,7 +1,7 @@
 import advancedSearch from './advancedSearch';
 import fields from './fields';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   extensions: {
     core: {
       advancedSearch: advancedSearch(configContext),

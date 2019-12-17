@@ -36,8 +36,8 @@ const store = mockStore({
   }),
 });
 
-describe('ProtectedRouteContainer', function suite() {
-  it('should set props on ProtectedRoute', function test() {
+describe('ProtectedRouteContainer', () => {
+  it('should set props on ProtectedRoute', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();

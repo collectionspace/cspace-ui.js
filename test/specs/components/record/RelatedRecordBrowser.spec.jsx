@@ -19,7 +19,7 @@ import RelatedRecordBrowser from '../../../../src/components/record/RelatedRecor
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
 import RelatedRecordPanelContainer from '../../../../src/containers/record/RelatedRecordPanelContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -128,11 +128,9 @@ const config = {
   },
 };
 
-describe('RelatedRecordBrowser', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('RelatedRecordBrowser', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -150,7 +148,8 @@ describe('RelatedRecordBrowser', function suite() {
         <StoreProvider store={store}>
           <RelatedRecordBrowser config={config} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -169,7 +168,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const component = findRenderedComponentWithType(resultTree, RelationEditor);
 
@@ -207,7 +207,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     replacedLocation.should.deep.equal({
       pathname: `/record/${recordType}/${csid}/${relatedRecordType}/${relatedCsid}`,
@@ -247,7 +248,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="clone"]');
 
@@ -291,7 +293,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="create"]');
 
@@ -325,7 +328,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const component = findRenderedComponentWithType(resultTree, RelatedRecordPanel);
 
@@ -389,7 +393,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const saveButton = this.container.querySelector('button[name="save"]');
 
@@ -421,7 +426,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="relate"]');
 
@@ -448,7 +454,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="relate"]');
 
@@ -483,7 +490,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="relate"]');
 
@@ -518,7 +526,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="relate"]');
 
@@ -570,7 +579,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const panel = findRenderedComponentWithType(resultTree, RelatedRecordPanelContainer);
 
@@ -610,7 +620,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const relationEditor = findRenderedComponentWithType(resultTree, RelationEditor);
 
@@ -651,7 +662,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const relationEditor = findRenderedComponentWithType(resultTree, RelationEditor);
 
@@ -688,7 +700,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -704,7 +717,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     setRecordType.should.equal(relatedRecordType);
     setCsid.should.equal(newRelatedCsid);
@@ -738,7 +752,8 @@ describe('RelatedRecordBrowser', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const relationEditor = findRenderedComponentWithType(resultTree, RelationEditor);
 

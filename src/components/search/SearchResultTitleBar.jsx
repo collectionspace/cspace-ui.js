@@ -23,7 +23,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchName: PropTypes.string,
 };
@@ -108,7 +110,9 @@ export default function SearchResultTitleBar(props) {
 
   const title = (
     <div>
-      {collectionName} {queryTitle}
+      {collectionName}
+      {' '}
+      {queryTitle}
     </div>
   );
 

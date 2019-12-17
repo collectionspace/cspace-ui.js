@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/acquisition/message
 
 chai.should();
 
-describe('acquisition record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('acquisition record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((groupName) => {

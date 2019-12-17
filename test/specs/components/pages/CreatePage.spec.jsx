@@ -10,7 +10,7 @@ import BaseCreatePage from '../../../../src/components/pages/CreatePage';
 
 const CreatePage = injectIntl(BaseCreatePage);
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -188,7 +188,7 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('CreatePage', function suite() {
+describe('CreatePage', () => {
   const getAuthorityVocabWorkflowState = () => 'project';
 
   beforeEach(function before() {
@@ -205,7 +205,8 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -221,7 +222,8 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
@@ -254,13 +256,14 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
     links.should.have.lengthOf(5);
 
-    Array.from(links).map(link => link.textContent).should.not.include('Exhibition');
+    Array.from(links).map((link) => link.textContent).should.not.include('Exhibition');
   });
 
   it('should not render links for disabled vocabularies', function test() {
@@ -274,18 +277,18 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
     links.should.have.lengthOf(5);
 
-    Array.from(links).map(link => link.textContent).should.not.include('Disabled Vocab');
+    Array.from(links).map((link) => link.textContent).should.not.include('Disabled Vocab');
   });
 
   it('should not render links for locked vocabularies', function test() {
-    const lockedULANVocabWorkflowState = (recordType, vocabulary) =>
-      (recordType === 'person' && vocabulary === 'ulan' ? 'locked' : 'project');
+    const lockedULANVocabWorkflowState = (recordType, vocabulary) => (recordType === 'person' && vocabulary === 'ulan' ? 'locked' : 'project');
 
     render(
       <IntlProvider locale="en">
@@ -297,18 +300,18 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
     links.should.have.lengthOf(4);
 
-    Array.from(links).map(link => link.textContent).should.not.include('ULAN');
+    Array.from(links).map((link) => link.textContent).should.not.include('ULAN');
   });
 
   it('should not render links for vocabularies with no workflow state', function test() {
-    const noULANVocabWorkflowState = (recordType, vocabulary) =>
-      (recordType === 'person' && vocabulary === 'ulan' ? undefined : 'project');
+    const noULANVocabWorkflowState = (recordType, vocabulary) => (recordType === 'person' && vocabulary === 'ulan' ? undefined : 'project');
 
     render(
       <IntlProvider locale="en">
@@ -320,13 +323,14 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
     links.should.have.lengthOf(4);
 
-    Array.from(links).map(link => link.textContent).should.not.include('ULAN');
+    Array.from(links).map((link) => link.textContent).should.not.include('ULAN');
   });
 
   it('should not render links for authority records whose vocabularies are all disabled', function test() {
@@ -340,13 +344,14 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
     links.should.have.lengthOf(5);
 
-    Array.from(links).map(link => link.textContent).should.not.include('Work');
+    Array.from(links).map((link) => link.textContent).should.not.include('Work');
   });
 
   it('should sort procedures/vocabularies by sortOrder if present', function test() {
@@ -381,7 +386,8 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 
@@ -431,7 +437,8 @@ describe('CreatePage', function suite() {
             />
           </Router>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 

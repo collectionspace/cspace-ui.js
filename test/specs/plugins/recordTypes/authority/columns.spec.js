@@ -3,15 +3,15 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('authority record columns', function suite() {
+describe('authority record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
-  it('should have correct shape', function test() {
+  it('should have correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have docName column that is formatted as a refname display name', function test() {
+  it('should have docName column that is formatted as a refname display name', () => {
     const docNameColumn = columns.default.docName;
 
     docNameColumn.should.have.property('formatValue').that.is.a('function');
@@ -20,7 +20,7 @@ describe('authority record columns', function suite() {
       .equal('John Doe');
   });
 
-  it('should have docType column that is formatted as a record type name from a service object name', function test() {
+  it('should have docType column that is formatted as a record type name from a service object name', () => {
     const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -43,14 +43,14 @@ describe('authority record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
     };
 
     docTypeColumn.formatValue('CollectionObject', { intl, config }).should
       .equal('formatted record.object.name');
   });
 
-  it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
+  it('should format the docType column with a fallback if no record type is found for the service object name', () => {
     const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -73,14 +73,14 @@ describe('authority record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
     };
 
     docTypeColumn.formatValue('Group', { intl, config }).should
       .equal('[ group ]');
   });
 
-  it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
+  it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', () => {
     const vocabularyColumn = columns.default.vocabulary;
 
     vocabularyColumn.should.have.property('formatValue').that.is.a('function');
@@ -108,7 +108,7 @@ describe('authority record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
     };
 
     const refName = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'';

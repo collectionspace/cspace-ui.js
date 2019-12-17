@@ -4,8 +4,8 @@ import createConfigContext from '../../../../../../src/helpers/createConfigConte
 
 chai.should();
 
-describe('exhibition record default form', function suite() {
-  it('should be a Field', function test() {
+describe('exhibition record default form', () => {
+  it('should be a Field', () => {
     const configContext = createConfigContext();
     const { template } = form(configContext);
 

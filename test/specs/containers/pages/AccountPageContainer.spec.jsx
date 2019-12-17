@@ -24,8 +24,8 @@ const store = mockStore({
   }),
 });
 
-describe('AccountPageContainer', function suite() {
-  it('should set props on AccountPage', function test() {
+describe('AccountPageContainer', () => {
+  it('should set props on AccountPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();

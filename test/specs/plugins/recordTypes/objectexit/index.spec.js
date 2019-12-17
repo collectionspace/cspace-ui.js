@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('object exit record plugin', function suite() {
+describe('object exit record plugin', () => {
   const config = {};
   const objectexitRecordTypePlugin = objectexitRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = objectexitRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');

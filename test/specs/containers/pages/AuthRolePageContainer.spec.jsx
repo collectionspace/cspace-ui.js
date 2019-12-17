@@ -24,8 +24,8 @@ const store = mockStore({
   }),
 });
 
-describe('AuthRolePageContainer', function suite() {
-  it('should set props on AuthRolePage', function test() {
+describe('AuthRolePageContainer', () => {
+  it('should set props on AuthRolePage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();

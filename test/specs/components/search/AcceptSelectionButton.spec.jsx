@@ -6,7 +6,7 @@ import AcceptSelectionButton from '../../../../src/components/search/AcceptSelec
 
 chai.should();
 
-describe('AcceptSelectionButton', function suite() {
+describe('AcceptSelectionButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -15,7 +15,8 @@ describe('AcceptSelectionButton', function suite() {
     render(
       <IntlProvider locale="en">
         <AcceptSelectionButton />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
@@ -24,7 +25,8 @@ describe('AcceptSelectionButton', function suite() {
     render(
       <IntlProvider locale="en">
         <AcceptSelectionButton className="foo" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.contain('foo');
   });

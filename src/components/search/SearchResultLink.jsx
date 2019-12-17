@@ -24,7 +24,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   listType: PropTypes.string,
   search: PropTypes.func,
   searchName: PropTypes.string,
@@ -77,7 +79,7 @@ export default class SearchResultLink extends Component {
     const list = searchResult.get(listNodeName);
     const totalItems = parseInt(list.get('totalItems'), 10);
 
-    if (isNaN(totalItems) || totalItems === 0) {
+    if (Number.isNaN(totalItems) || totalItems === 0) {
       return null;
     }
 

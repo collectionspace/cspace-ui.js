@@ -24,8 +24,10 @@ import {
   STATUS_ERROR,
 } from '../../../src/constants/notificationStatusCodes';
 
-const assert = chai.assert;
-const expect = chai.expect;
+const {
+  assert,
+  expect,
+} = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -43,24 +45,21 @@ const config = {
       },
     },
     report: {
-      invocableName: data =>
-        data.getIn(['document', 'ns2:reports_common', 'filename']),
+      invocableName: (data) => data.getIn(['document', 'ns2:reports_common', 'filename']),
     },
   },
 };
 
 const mockStore = configureMockStore([thunk]);
 
-describe('report action creator', function suite() {
-  describe('invoke', function actionSuite() {
+describe('report action creator', () => {
+  describe('invoke', () => {
     const store = mockStore({
       user: Immutable.Map(),
     });
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -71,7 +70,7 @@ describe('report action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should invoke a report in single mode', function test() {
+    it('should invoke a report in single mode', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -108,7 +107,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should invoke a report in list mode', function test() {
+    it('should invoke a report in list mode', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -149,7 +148,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should invoke a report in nocontext mode', function test() {
+    it('should invoke a report in nocontext mode', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -181,7 +180,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', function test() {
+    it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', () => {
       moxios.wait(() => {
         moxios.requests.mostRecent().respondWith({
           status: 400,
@@ -207,7 +206,7 @@ describe('report action creator', function suite() {
     });
   });
 
-  describe('openReport', function actionSuite() {
+  describe('openReport', () => {
     const params = {
       foo: 'abc',
       bar: 'def',
@@ -227,10 +226,8 @@ describe('report action creator', function suite() {
       user: Immutable.Map(),
     });
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
     });
@@ -239,7 +236,7 @@ describe('report action creator', function suite() {
       store.clearActions();
     });
 
-    it('should open a window with the URL of the report', function test() {
+    it('should open a window with the URL of the report', () => {
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
@@ -279,7 +276,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should include parameters', function test() {
+    it('should include parameters', () => {
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
@@ -321,7 +318,7 @@ describe('report action creator', function suite() {
         });
     });
 
-    it('should not call window.open if parameter validation fails', function test() {
+    it('should not call window.open if parameter validation fails', () => {
       const invalidDataStore = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.fromJS({

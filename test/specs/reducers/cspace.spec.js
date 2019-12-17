@@ -11,12 +11,12 @@ import {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('cspace reducer', function suite() {
-  it('should have an empty initial state', function test() {
+describe('cspace reducer', () => {
+  it('should have an empty initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map());
   });
 
-  it('should handle CSPACE_CONFIGURED', function test() {
+  it('should handle CSPACE_CONFIGURED', () => {
     let state = reducer(undefined, {
       type: CSPACE_CONFIGURED,
       payload: {
@@ -60,7 +60,7 @@ describe('cspace reducer', function suite() {
     }));
   });
 
-  it('should handle SYSTEM_INFO_READ_FULFILLED', function test() {
+  it('should handle SYSTEM_INFO_READ_FULFILLED', () => {
     const state = reducer(undefined, {
       type: SYSTEM_INFO_READ_FULFILLED,
       payload: {
@@ -96,7 +96,7 @@ describe('cspace reducer', function suite() {
     }));
   });
 
-  it('should handle SYSTEM_INFO_READ_REJECTED', function test() {
+  it('should handle SYSTEM_INFO_READ_REJECTED', () => {
     const state = reducer(undefined, {
       type: SYSTEM_INFO_READ_REJECTED,
       payload: {

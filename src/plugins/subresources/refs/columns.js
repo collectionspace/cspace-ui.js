@@ -11,7 +11,7 @@ export default {
     docNumber: {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => formatRefName(value) || value,
+      formatValue: (value) => formatRefName(value) || value,
       messages: defineMessages({
         label: {
           id: 'column.refs.default.docNumber',
@@ -24,7 +24,7 @@ export default {
     docName: {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => formatRefName(value) || value,
+      formatValue: (value) => formatRefName(value) || value,
       messages: defineMessages({
         label: {
           id: 'column.refs.default.docName',
@@ -61,7 +61,7 @@ export default {
     docNumber: {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => formatRefName(value) || value,
+      formatValue: (value) => formatRefName(value) || value,
       messages: defineMessages({
         label: {
           id: 'column.refs.narrow.docNumber',
@@ -74,7 +74,7 @@ export default {
     docName: {
       // The value -might- be a refname.
       // FIXME: It could also be an option list value. How to tell?
-      formatValue: value => formatRefName(value) || value,
+      formatValue: (value) => formatRefName(value) || value,
       messages: defineMessages({
         label: {
           id: 'column.refs.narrow.docName',

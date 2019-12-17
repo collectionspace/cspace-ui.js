@@ -11,7 +11,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordForm from '../../../../src/components/record/RecordForm';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -62,7 +62,7 @@ const config = {
           template: <p>inventory template</p>,
         },
         computed: {
-          template: data => data.getIn(['foo', 'bar']),
+          template: (data) => data.getIn(['foo', 'bar']),
         },
         computed2: {
           template: () => <div id="computedFormTemplate">Computed form template content</div>,
@@ -105,7 +105,7 @@ const config = {
   },
 };
 
-describe('RecordForm', function suite() {
+describe('RecordForm', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -120,7 +120,8 @@ describe('RecordForm', function suite() {
             recordTypeConfig={config.recordTypes.collectionobject}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -135,7 +136,8 @@ describe('RecordForm', function suite() {
             recordTypeConfig={config.recordTypes.foo}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -151,7 +153,8 @@ describe('RecordForm', function suite() {
             formName="inventory"
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('p').textContent.should.equal('inventory template');
   });
@@ -174,7 +177,8 @@ describe('RecordForm', function suite() {
             formName="computed"
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('p').textContent.should.equal('inventory template');
   });
@@ -197,7 +201,8 @@ describe('RecordForm', function suite() {
             formName="computed"
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -213,7 +218,8 @@ describe('RecordForm', function suite() {
             formName="computed2"
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('#computedFormTemplate').textContent.should.equal('Computed form template content');
   });
@@ -237,7 +243,8 @@ describe('RecordForm', function suite() {
             recordTypeConfig={config.recordTypes.collectionobject}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('input[data-name="objectNumber"]').value.should.equal(objectNumber);
   });

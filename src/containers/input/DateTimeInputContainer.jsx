@@ -24,6 +24,7 @@ export function IntlAwareDateTimeInput(props) {
 
   return (
     <DateTimeInput
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
       formatValue={(timestamp) => {
         const date = intl.formatDate(timestamp, { day: 'numeric', month: 'short', year: 'numeric' });

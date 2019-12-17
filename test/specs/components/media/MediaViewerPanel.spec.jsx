@@ -77,17 +77,15 @@ const store = mockStore({
   user: Immutable.Map(),
 });
 
-describe('MediaViewerPanel', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('MediaViewerPanel', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a Panel', function test() {
+  it('should render as a Panel', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -95,7 +93,7 @@ describe('MediaViewerPanel', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -103,7 +101,7 @@ describe('MediaViewerPanel', function suite() {
     result.type.should.equal(Panel);
   });
 
-  it('should include the number of related media records in the header', function test() {
+  it('should include the number of related media records in the header', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -111,7 +109,7 @@ describe('MediaViewerPanel', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -120,7 +118,7 @@ describe('MediaViewerPanel', function suite() {
     headerMessage.props.values.totalItems.should.equal(3);
   });
 
-  it('should add one to the count if ownBlobCsid is provided', function test() {
+  it('should add one to the count if ownBlobCsid is provided', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -129,7 +127,7 @@ describe('MediaViewerPanel', function suite() {
         ownBlobCsid="84471689-9a99-4687-9c66"
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -138,7 +136,7 @@ describe('MediaViewerPanel', function suite() {
     headerMessage.props.values.totalItems.should.equal(4);
   });
 
-  it('should not add one to the count if ownBlobCsid is not a guid csid', function test() {
+  it('should not add one to the count if ownBlobCsid is not a guid csid', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -147,7 +145,7 @@ describe('MediaViewerPanel', function suite() {
         ownBlobCsid="/blob"
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -164,7 +162,7 @@ describe('MediaViewerPanel', function suite() {
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
@@ -181,7 +179,8 @@ describe('MediaViewerPanel', function suite() {
           searchDescriptor={searchDescriptor}
           search={search}
         />
-      </StoreProvider>, this.container);
+      </StoreProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -198,7 +197,7 @@ describe('MediaViewerPanel', function suite() {
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
@@ -214,7 +213,8 @@ describe('MediaViewerPanel', function suite() {
           name={searchName}
           searchDescriptor={searchDescriptor}
         />
-      </StoreProvider>, this.container);
+      </StoreProvider>, this.container,
+    );
 
     const newSearchDescriptor = Immutable.fromJS({
       recordType: 'media',
@@ -233,7 +233,8 @@ describe('MediaViewerPanel', function suite() {
           searchDescriptor={newSearchDescriptor}
           search={search}
         />
-      </StoreProvider>, this.container);
+      </StoreProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);

@@ -44,8 +44,8 @@ const hierarchy = Immutable.fromJS({
   ],
 });
 
-describe('TypedHierarchyEditor', function suite() {
-  it('should render inputs for the parent and nested repeating inputs for the children', function test() {
+describe('TypedHierarchyEditor', () => {
+  it('should render inputs for the parent and nested repeating inputs for the children', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -53,7 +53,7 @@ describe('TypedHierarchyEditor', function suite() {
         intl={intl}
         messages={messages}
         value={hierarchy}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -77,7 +77,7 @@ describe('TypedHierarchyEditor', function suite() {
     compoundInputs[1].props.repeating.should.equal(true);
   });
 
-  it('should render an input for the parent if showParent is false', function test() {
+  it('should render an input for the parent if showParent is false', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -86,7 +86,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         showParent={false}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -106,7 +106,7 @@ describe('TypedHierarchyEditor', function suite() {
     compoundInputs[1].props.repeating.should.equal(true);
   });
 
-  it('should not render inputs for the children if showChildren is false', function test() {
+  it('should not render inputs for the children if showChildren is false', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -115,7 +115,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         showChildren={false}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -136,7 +136,7 @@ describe('TypedHierarchyEditor', function suite() {
     compoundInputs.should.have.lengthOf(0);
   });
 
-  it('should filter the current record out of term matches', function test() {
+  it('should filter the current record out of term matches', () => {
     const csid = '1111';
 
     const shallowRenderer = createRenderer();
@@ -147,7 +147,7 @@ describe('TypedHierarchyEditor', function suite() {
         intl={intl}
         messages={messages}
         value={hierarchy}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -155,7 +155,7 @@ describe('TypedHierarchyEditor', function suite() {
 
     inputs.should.have.lengthOf(2);
 
-    const matchFilter = inputs[0].props.matchFilter;
+    const { matchFilter } = inputs[0].props;
 
     inputs[1].props.matchFilter.should.equal(matchFilter);
 
@@ -163,7 +163,7 @@ describe('TypedHierarchyEditor', function suite() {
     matchFilter({ csid: '1234' }).should.equal(true);
   });
 
-  it('should call onCommit when a parent ref name value is committed', function test() {
+  it('should call onCommit when a parent ref name value is committed', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -180,7 +180,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -194,11 +194,11 @@ describe('TypedHierarchyEditor', function suite() {
     committedPath.should.deep.equal(['parent']);
 
     committedValue.should.equal(
-      hierarchy.get('parent').set('csid', newCsid).set('refName', newValue)
+      hierarchy.get('parent').set('csid', newCsid).set('refName', newValue),
     );
   });
 
-  it('should call onCommit when a parent type value is committed', function test() {
+  it('should call onCommit when a parent type value is committed', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -215,7 +215,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -230,7 +230,7 @@ describe('TypedHierarchyEditor', function suite() {
     committedValue.should.equal(newValue);
   });
 
-  it('should call onCommit when a child ref name value is committed', function test() {
+  it('should call onCommit when a child ref name value is committed', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -247,7 +247,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -261,7 +261,7 @@ describe('TypedHierarchyEditor', function suite() {
     committedValue.should.equal(newValue);
   });
 
-  it('should call onCommit when a child type value is committed', function test() {
+  it('should call onCommit when a child type value is committed', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -278,7 +278,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -293,7 +293,7 @@ describe('TypedHierarchyEditor', function suite() {
     committedValue.should.equal(newValue);
   });
 
-  it('should call onAddChild when a child value is added', function test() {
+  it('should call onAddChild when a child value is added', () => {
     let handlerCalled = null;
 
     const handleAddChild = () => {
@@ -308,7 +308,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         onAddChild={handleAddChild}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -319,7 +319,7 @@ describe('TypedHierarchyEditor', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should call onRemoveChild when a child value is removed', function test() {
+  it('should call onRemoveChild when a child value is removed', () => {
     let removedPosition = null;
 
     const handleRemoveChild = (positionArg) => {
@@ -334,7 +334,7 @@ describe('TypedHierarchyEditor', function suite() {
         messages={messages}
         value={hierarchy}
         onRemoveChild={handleRemoveChild}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

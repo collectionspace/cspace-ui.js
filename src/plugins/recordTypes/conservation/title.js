@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     getPart,
     deepGet,
@@ -21,5 +21,5 @@ export default configContext => (data) => {
   const conservationNumber = common.get('conservationNumber');
   const status = getDisplayName(deepGet(common, ['conservationStatusGroupList', 'conservationStatusGroup', 0, 'status']));
 
-  return [conservationNumber, status].filter(part => !!part).join(' – ');
+  return [conservationNumber, status].filter((part) => !!part).join(' – ');
 };

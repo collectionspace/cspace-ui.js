@@ -3,15 +3,15 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('object record columns', function suite() {
+describe('object record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
-  it('should have correct shape', function test() {
+  it('should have correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have docNumber column with the proper shape', function test() {
+  it('should have docNumber column with the proper shape', () => {
     const docNumberColumn = columns.default.docType;
 
     docNumberColumn.should.have.property('messages').that.is.a('object');
@@ -19,7 +19,7 @@ describe('object record columns', function suite() {
     docNumberColumn.should.have.property('width').that.is.a('number');
   });
 
-  it('should have docNumber column that is formatted as a refname display name', function test() {
+  it('should have docNumber column that is formatted as a refname display name', () => {
     const docNumberColumn = columns.default.docNumber;
 
     docNumberColumn.should.have.property('formatValue').that.is.a('function');
@@ -28,7 +28,7 @@ describe('object record columns', function suite() {
       .equal('John Doe');
   });
 
-  it('should have docType column with the proper shape', function test() {
+  it('should have docType column with the proper shape', () => {
     const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('messages').that.is.a('object');
@@ -36,7 +36,7 @@ describe('object record columns', function suite() {
     docTypeColumn.should.have.property('width').that.is.a('number');
   });
 
-  it('should have docName column that is formatted as a refname display name', function test() {
+  it('should have docName column that is formatted as a refname display name', () => {
     const docNameColumn = columns.default.docName;
 
     docNameColumn.should.have.property('formatValue').that.is.a('function');
@@ -45,7 +45,7 @@ describe('object record columns', function suite() {
       .equal('John Doe');
   });
 
-  it('should have docType column that is formatted as a record type name from a service object name', function test() {
+  it('should have docType column that is formatted as a record type name from a service object name', () => {
     const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -68,14 +68,14 @@ describe('object record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
     };
 
     docTypeColumn.formatValue('CollectionObject', { intl, config }).should
       .equal('formatted record.collectionobject.name');
   });
 
-  it('should format the docType column with a fallback if no record type is found for the service object name', function test() {
+  it('should format the docType column with a fallback if no record type is found for the service object name', () => {
     const docTypeColumn = columns.default.docType;
 
     docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -98,14 +98,14 @@ describe('object record columns', function suite() {
     };
 
     const intl = {
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
     };
 
     docTypeColumn.formatValue('Group', { intl, config }).should
       .equal('[ group ]');
   });
 
-  it('should have updated column with the proper shape', function test() {
+  it('should have updated column with the proper shape', () => {
     const updatedAtColumn = columns.default.updatedAt;
 
     updatedAtColumn.should.have.property('messages').that.is.a('object');
@@ -114,11 +114,11 @@ describe('object record columns', function suite() {
     updatedAtColumn.should.have.property('width').that.is.a('number');
   });
 
-  it('should have updatedAt column that is formatted as a date', function test() {
+  it('should have updatedAt column that is formatted as a date', () => {
     const updatedAtColumn = columns.default.updatedAt;
 
     const intl = {
-      formatDate: value => `formatted ${value}`,
+      formatDate: (value) => `formatted ${value}`,
     };
 
     updatedAtColumn.formatValue('2017-01-04T05:20:36.377Z', { intl }).should

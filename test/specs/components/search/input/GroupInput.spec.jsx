@@ -15,12 +15,12 @@ chai.should();
 const mockStore = configureMockStore();
 const config = {};
 
-describe('GroupInput', function suite() {
+describe('GroupInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as an OptionPickerInput containing group options for the given record type and root path', function test() {
+  it('should render as an OptionPickerInput containing group options for the given record type and root path', () => {
     const shallowRenderer = createRenderer();
 
     const recordType = 'collectionobject';
@@ -31,7 +31,8 @@ describe('GroupInput', function suite() {
         config={config}
         recordType={recordType}
         rootPath={rootPath}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -40,7 +41,7 @@ describe('GroupInput', function suite() {
     result.props.source.should.equal(getRecordGroupOptionListName(recordType, rootPath));
   });
 
-  it('should sort options alphabetically by label', function test() {
+  it('should sort options alphabetically by label', () => {
     const shallowRenderer = createRenderer();
 
     const recordType = 'collectionobject';
@@ -49,7 +50,8 @@ describe('GroupInput', function suite() {
       <GroupInput
         config={config}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -108,7 +110,8 @@ describe('GroupInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('fullName message');
   });
@@ -145,7 +148,8 @@ describe('GroupInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('name message');
   });
@@ -188,7 +192,8 @@ describe('GroupInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('name message');
   });
@@ -227,7 +232,8 @@ describe('GroupInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('fullName message');
   });
@@ -252,7 +258,8 @@ describe('GroupInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal(value);
   });

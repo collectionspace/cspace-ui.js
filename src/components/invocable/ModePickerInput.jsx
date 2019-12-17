@@ -49,7 +49,7 @@ export default function ModePickerInput(props) {
     ...remainingProps
   } = props;
 
-  const options = modes.map(mode => (
+  const options = modes.map((mode) => (
     { value: mode, message: modeMessages[mode] }
   ));
 

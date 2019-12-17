@@ -37,7 +37,7 @@ import {
   batchUnrelateBidirectional,
 } from '../../../src/actions/relation';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -58,7 +58,7 @@ const config = {
   },
 };
 
-describe('relation action creator', function suite() {
+describe('relation action creator', () => {
   const subject = {
     csid: '1234',
     recordType: 'collectionobject',
@@ -77,15 +77,15 @@ describe('relation action creator', function suite() {
   const findUrl = `/cspace-services/relations?prd=${predicate}&wf_deleted=false&pgSz=0&sbj=${subject.csid}&sbjType=${sbjType}&obj=${object.csid}&objType=${objType}`;
   const createUrl = '/cspace-services/relations';
 
-  describe('clearState', function actionSuite() {
-    it('should create a CLEAR_RELATION_STATE action', function test() {
+  describe('clearState', () => {
+    it('should create a CLEAR_RELATION_STATE action', () => {
       clearState().should.deep.equal({
         type: CLEAR_RELATION_STATE,
       });
     });
   });
 
-  describe('find', function actionSuite() {
+  describe('find', () => {
     before(() => {
       const store = mockStore({
         user: Immutable.Map(),
@@ -102,7 +102,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_FIND_FULFILLED on success', function test() {
+    it('should dispatch RELATION_FIND_FULFILLED on success', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -144,7 +144,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch RELATION_FIND_REJECTED on error', function test() {
+    it('should dispatch RELATION_FIND_REJECTED on error', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -179,7 +179,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should return null if a find result already exists for the descriptor', function test() {
+    it('should return null if a find result already exists for the descriptor', () => {
       const store = mockStore({
         relation: Immutable.fromJS({
           find: {
@@ -197,7 +197,7 @@ describe('relation action creator', function suite() {
       expect(store.dispatch(find(config, subject, object, predicate))).to.equal(null);
     });
 
-    it('should throw if neither object csid nor subject csid are supplied', function test() {
+    it('should throw if neither object csid nor subject csid are supplied', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -207,7 +207,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('create', function actionSuite() {
+  describe('create', () => {
     before(() => {
       const store = mockStore({
         user: Immutable.Map(),
@@ -224,7 +224,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_SAVE_FULFILLED on success', function test() {
+    it('should dispatch RELATION_SAVE_FULFILLED on success', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -278,7 +278,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch RELATION_SAVE_REJECTED on error', function test() {
+    it('should dispatch RELATION_SAVE_REJECTED on error', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -314,7 +314,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('createBidirectional', function actionSuite() {
+  describe('createBidirectional', () => {
     before(() => {
       const store = mockStore({
         user: Immutable.Map(),
@@ -331,7 +331,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_SAVE_FULFILLED twice, once in each direction', function test() {
+    it('should dispatch RELATION_SAVE_FULFILLED twice, once in each direction', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -412,7 +412,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('batchCreate', function actionSuite() {
+  describe('batchCreate', () => {
     const checkUrl = new RegExp(`\\/cspace-services\\/relations\\?prd=${predicate}&sbj=${subject.csid}&andReciprocal=true&wf_deleted=false&pgSz=1&obj=.*`);
 
     before(() => {
@@ -431,7 +431,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_SAVE_FULFILLED once for each object', function test() {
+    it('should dispatch RELATION_SAVE_FULFILLED once for each object', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -561,7 +561,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION on error', function test() {
+    it('should dispatch SHOW_NOTIFICATION on error', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -619,7 +619,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch nothing for each object that is already related to the subject', function test() {
+    it('should dispatch nothing for each object that is already related to the subject', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -665,7 +665,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('batchCreateBidirectional', function actionSuite() {
+  describe('batchCreateBidirectional', () => {
     const checkUrl = new RegExp(`\\/cspace-services\\/relations\\?prd=${predicate}&sbj=${subject.csid}&andReciprocal=true&wf_deleted=false&pgSz=1&obj=.*`);
 
     before(() => {
@@ -684,7 +684,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_SAVE_FULFILLED twice for each object', function test() {
+    it('should dispatch RELATION_SAVE_FULFILLED twice for each object', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -840,7 +840,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION on error', function test() {
+    it('should dispatch SHOW_NOTIFICATION on error', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -894,7 +894,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch nothing for each object that is already related to the subject', function test() {
+    it('should dispatch nothing for each object that is already related to the subject', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -940,7 +940,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('deleteRelation', function actionSuite() {
+  describe('deleteRelation', () => {
     const relationCsid = 'aaaa';
     const deleteUrl = `/cspace-services/relations/${relationCsid}`;
 
@@ -960,7 +960,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_DELETE_FULFILLED on success', function test() {
+    it('should dispatch RELATION_DELETE_FULFILLED on success', () => {
       const store = mockStore();
 
       moxios.stubRequest(deleteUrl, {
@@ -995,7 +995,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch RELATION_DELETE_REJECTED on error', function test() {
+    it('should dispatch RELATION_DELETE_REJECTED on error', () => {
       const store = mockStore();
 
       moxios.stubRequest(deleteUrl, {
@@ -1024,7 +1024,7 @@ describe('relation action creator', function suite() {
         .catch(() => {});
     });
 
-    it('should throw if no csid is supplied', function test() {
+    it('should throw if no csid is supplied', () => {
       const store = mockStore();
 
       expect(store.dispatch.bind(store, deleteRelation()))
@@ -1032,7 +1032,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('unrelate', function actionSuite() {
+  describe('unrelate', () => {
     const relationCsid = 'aaaa';
     const deleteUrl = `/cspace-services/relations/${relationCsid}`;
 
@@ -1052,7 +1052,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_DELETE_FULFILLED on success', function test() {
+    it('should dispatch RELATION_DELETE_FULFILLED on success', () => {
       const store = mockStore({
         relation: Immutable.fromJS({
           find: {
@@ -1113,7 +1113,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch RELATION_DELETE_REJECTED on error', function test() {
+    it('should dispatch RELATION_DELETE_REJECTED on error', () => {
       const store = mockStore({
         relation: Immutable.fromJS({
           find: {
@@ -1159,7 +1159,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should find the relation if it is not already in the store', function test() {
+    it('should find the relation if it is not already in the store', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -1201,7 +1201,7 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should throw if object csid and subject csid are not both supplied', function test() {
+    it('should throw if object csid and subject csid are not both supplied', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -1211,7 +1211,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('unrelateBidirectional', function actionSuite() {
+  describe('unrelateBidirectional', () => {
     const forwardRelationCsid = 'aaaa';
     const backwardRelationCsid = 'bbbb';
 
@@ -1234,7 +1234,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_DELETE_FULFILLED twice, once for each direction', function test() {
+    it('should dispatch RELATION_DELETE_FULFILLED twice, once for each direction', () => {
       const store = mockStore({
         relation: Immutable.fromJS({
           find: {
@@ -1341,7 +1341,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('batchUnrelate', function actionSuite() {
+  describe('batchUnrelate', () => {
     const objects = [
       {
         csid: '1000',
@@ -1358,7 +1358,7 @@ describe('relation action creator', function suite() {
       'bbbb',
     ];
 
-    const deleteUrls = relationCsids.map(csid => `/cspace-services/relations/${csid}`);
+    const deleteUrls = relationCsids.map((csid) => `/cspace-services/relations/${csid}`);
 
     before(() => {
       const store = mockStore({
@@ -1376,15 +1376,14 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_DELETE_FULFILLED once for each object', function test() {
-      const relationState = objects.reduce((map, obj, index) =>
-        map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
-          'rel:relations-common-list': {
-            'relation-list-item': {
-              csid: relationCsids[index],
-            },
+    it('should dispatch RELATION_DELETE_FULFILLED once for each object', () => {
+      const relationState = objects.reduce((map, obj, index) => map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+        'rel:relations-common-list': {
+          'relation-list-item': {
+            csid: relationCsids[index],
           },
-        })), Immutable.Map());
+        },
+      })), Immutable.Map());
 
       const store = mockStore({
         relation: relationState,
@@ -1452,15 +1451,14 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION on error', function test() {
-      const relationState = objects.reduce((map, obj, index) =>
-        map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
-          'rel:relations-common-list': {
-            'relation-list-item': {
-              csid: relationCsids[index],
-            },
+    it('should dispatch SHOW_NOTIFICATION on error', () => {
+      const relationState = objects.reduce((map, obj, index) => map.setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+        'rel:relations-common-list': {
+          'relation-list-item': {
+            csid: relationCsids[index],
           },
-        })), Immutable.Map());
+        },
+      })), Immutable.Map());
 
       const store = mockStore({
         relation: relationState,
@@ -1496,7 +1494,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('batchUnrelateBidirectional', function actionSuite() {
+  describe('batchUnrelateBidirectional', () => {
     const objects = [
       {
         csid: '1000',
@@ -1518,11 +1516,9 @@ describe('relation action creator', function suite() {
       'bbbb1',
     ];
 
-    const forwardDeleteUrls =
-      forwardRelationCsids.map(csid => `/cspace-services/relations/${csid}`);
+    const forwardDeleteUrls = forwardRelationCsids.map((csid) => `/cspace-services/relations/${csid}`);
 
-    const backwardDeleteUrls =
-      backwardRelationCsids.map(csid => `/cspace-services/relations/${csid}`);
+    const backwardDeleteUrls = backwardRelationCsids.map((csid) => `/cspace-services/relations/${csid}`);
 
     before(() => {
       const store = mockStore({
@@ -1540,23 +1536,22 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch RELATION_DELETE_FULFILLED once for each object', function test() {
-      const relationState = objects.reduce((map, obj, index) =>
-        map
-          .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
-            'rel:relations-common-list': {
-              'relation-list-item': {
-                csid: forwardRelationCsids[index],
-              },
+    it('should dispatch RELATION_DELETE_FULFILLED once for each object', () => {
+      const relationState = objects.reduce((map, obj, index) => map
+        .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              csid: forwardRelationCsids[index],
             },
-          }))
-          .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
-            'rel:relations-common-list': {
-              'relation-list-item': {
-                csid: backwardRelationCsids[index],
-              },
+          },
+        }))
+        .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              csid: backwardRelationCsids[index],
             },
-          })), Immutable.Map());
+          },
+        })), Immutable.Map());
 
       const store = mockStore({
         relation: relationState,
@@ -1686,23 +1681,22 @@ describe('relation action creator', function suite() {
         });
     });
 
-    it('should dispatch SHOW_NOTIFICATION on error', function test() {
-      const relationState = objects.reduce((map, obj, index) =>
-        map
-          .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
-            'rel:relations-common-list': {
-              'relation-list-item': {
-                csid: forwardRelationCsids[index],
-              },
+    it('should dispatch SHOW_NOTIFICATION on error', () => {
+      const relationState = objects.reduce((map, obj, index) => map
+        .setIn(['find', subject.csid, obj.csid, predicate, 'result'], Immutable.fromJS({
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              csid: forwardRelationCsids[index],
             },
-          }))
-          .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
-            'rel:relations-common-list': {
-              'relation-list-item': {
-                csid: backwardRelationCsids[index],
-              },
+          },
+        }))
+        .setIn(['find', obj.csid, subject.csid, predicate, 'result'], Immutable.fromJS({
+          'rel:relations-common-list': {
+            'relation-list-item': {
+              csid: backwardRelationCsids[index],
             },
-          })), Immutable.Map());
+          },
+        })), Immutable.Map());
 
       const store = mockStore({
         relation: relationState,
@@ -1744,7 +1738,7 @@ describe('relation action creator', function suite() {
     });
   });
 
-  describe('checkForRelations', function actionSuite() {
+  describe('checkForRelations', () => {
     const csid = '1234';
     const checkUrl = `/cspace-services/relations?prd=${predicate}&sbj=${csid}&andReciprocal=true&wf_deleted=false&pgSz=1`;
 
@@ -1762,7 +1756,7 @@ describe('relation action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should resolve to true if relations are found for the given csid and predicate', function test() {
+    it('should resolve to true if relations are found for the given csid and predicate', () => {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {
@@ -1779,7 +1773,7 @@ describe('relation action creator', function suite() {
       });
     });
 
-    it('should resolve to false if no relations are found for the given csid and predicate', function test() {
+    it('should resolve to false if no relations are found for the given csid and predicate', () => {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {

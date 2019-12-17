@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('condition check record plugin', function suite() {
+describe('condition check record plugin', () => {
   const config = {};
   const conditionCheckRecordTypePlugin = conditionCheckRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = conditionCheckRecordTypePlugin(configContext);
 
     pluginConfigContribution.should.have.property('idGenerators').that.is.an('object');

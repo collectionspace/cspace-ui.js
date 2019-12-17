@@ -25,7 +25,9 @@ const initMode = (props) => {
 };
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   invocationDescriptor: PropTypes.instanceOf(Immutable.Map),
   modes: PropTypes.arrayOf(PropTypes.string),
   modeReadOnly: PropTypes.bool,
@@ -71,7 +73,7 @@ export default class InvocationDescriptorEditor extends Component {
       onCommit(
         invocationDescriptor
           .set('recordType', searchDescriptor.get('recordType'))
-          .set('items', selectedItems)
+          .set('items', selectedItems),
       );
     }
 

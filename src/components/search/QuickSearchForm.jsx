@@ -22,7 +22,9 @@ const messages = defineMessages({
 
 const propTypes = {
   intl: intlShape,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   getAuthorityVocabCsid: PropTypes.func,
 };
@@ -36,11 +38,13 @@ export default function QuickSearchForm(props) {
     ...remainingProps
   } = props;
 
-  const formatRecordTypeLabel = (name, recordTypeConfig) =>
-    intl.formatMessage(recordTypeConfig.messages.record.collectionName);
+  const formatRecordTypeLabel = (name, recordTypeConfig) => (
+    intl.formatMessage(recordTypeConfig.messages.record.collectionName)
+  );
 
-  const formatVocabularyLabel = (name, vocabularyConfig) =>
-    intl.formatMessage(vocabularyConfig.messages.name);
+  const formatVocabularyLabel = (name, vocabularyConfig) => (
+    intl.formatMessage(vocabularyConfig.messages.name)
+  );
 
   return (
     <fieldset>

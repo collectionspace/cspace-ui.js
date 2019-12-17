@@ -8,11 +8,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import PasswordResetForm from '../../../../src/components/user/PasswordResetForm';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('PasswordResetForm', function suite() {
+describe('PasswordResetForm', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -25,7 +25,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
@@ -44,7 +45,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -73,7 +75,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
 
@@ -91,7 +94,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -114,7 +118,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -142,7 +147,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -172,7 +178,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -195,19 +202,22 @@ describe('PasswordResetForm', function suite() {
   });
 
   it('should show an error notification when the token is invalid', function test() {
-    const reset = () => Promise.reject({
-      response: {
-        status: 400,
-        data: 'The token \'1234\' is not valid or does not exist.',
-      },
-    });
+    const error = new Error();
+
+    error.response = {
+      status: 400,
+      data: 'The token \'1234\' is not valid or does not exist.',
+    };
+
+    const reset = () => Promise.reject(error);
 
     render(
       <IntlProvider locale="en">
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -236,19 +246,22 @@ describe('PasswordResetForm', function suite() {
   });
 
   it('should show an error notification when the token is expired', function test() {
-    const reset = () => Promise.reject({
-      response: {
-        status: 500,
-        data: 'Could not reset password using token with ID=\'1234\'. Password reset token has expired.',
-      },
-    });
+    const error = new Error();
+
+    error.response = {
+      status: 500,
+      data: 'Could not reset password using token with ID=\'1234\'. Password reset token has expired.',
+    };
+
+    const reset = () => Promise.reject(error);
 
     render(
       <IntlProvider locale="en">
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -277,19 +290,22 @@ describe('PasswordResetForm', function suite() {
   });
 
   it('should show a generic error notification when an error occurs that is not specifically handled', function test() {
-    const reset = () => Promise.reject({
-      response: {
-        status: 400,
-        data: 'The underlying error message.',
-      },
-    });
+    const error = new Error();
+
+    error.response = {
+      status: 400,
+      data: 'The underlying error message.',
+    };
+
+    const reset = () => Promise.reject(error);
 
     render(
       <IntlProvider locale="en">
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');
@@ -325,7 +341,8 @@ describe('PasswordResetForm', function suite() {
         <Router>
           <PasswordResetForm reset={reset} token="1234" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const passwordInput = this.container.querySelector('input[data-name="password"]');

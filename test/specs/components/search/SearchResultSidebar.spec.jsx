@@ -4,7 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchResultSidebar from '../../../../src/components/search/SearchResultSidebar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -14,12 +14,12 @@ const config = {
   },
 };
 
-describe('SearchResultSidebar', function suite() {
+describe('SearchResultSidebar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a div', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -27,7 +27,8 @@ describe('SearchResultSidebar', function suite() {
         config={config}
         recordType="group"
         isOpen
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -40,7 +41,8 @@ describe('SearchResultSidebar', function suite() {
         config={config}
         recordType="group"
         isOpen={false}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

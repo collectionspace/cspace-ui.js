@@ -14,14 +14,14 @@ import chaiImmutable from 'chai-immutable';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import ReportPage from '../../../../src/components/pages/ReportPage';
+import { MODAL_INVOCATION } from '../../../../src/constants/modalNames';
 import { OP_CONTAIN } from '../../../../src/constants/searchOperators';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -81,11 +81,9 @@ const context = {
   store,
 };
 
-describe('ReportPage', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('ReportPage', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -105,7 +103,8 @@ describe('ReportPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -130,12 +129,13 @@ describe('ReportPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     toolTabRecordType.should.equal('report');
   });
 
-  it('should render a record editor when a csid param exists in the match', function test() {
+  it('should render a record editor when a csid param exists in the match', () => {
     const csid = '1234';
 
     const match = {
@@ -147,7 +147,8 @@ describe('ReportPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportPage match={match} />, context);
+      <ReportPage match={match} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -156,7 +157,7 @@ describe('ReportPage', function suite() {
     recordEditor.props.csid.should.equal(csid);
   });
 
-  it('should replace history with a new location when an item is clicked in the search panel', function test() {
+  it('should replace history with a new location when an item is clicked in the search panel', () => {
     const match = {
       params: {},
     };
@@ -176,7 +177,8 @@ describe('ReportPage', function suite() {
         history={history}
         match={match}
         perms={perms}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -189,7 +191,7 @@ describe('ReportPage', function suite() {
     replacedLocation.should.equal(`/tool/report/${itemCsid}`);
   });
 
-  it('should not replace history when an item is clicked in the search panel if the user does not have read permission on reports', function test() {
+  it('should not replace history when an item is clicked in the search panel if the user does not have read permission on reports', () => {
     const match = {
       params: {},
     };
@@ -209,7 +211,8 @@ describe('ReportPage', function suite() {
         history={history}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -222,7 +225,7 @@ describe('ReportPage', function suite() {
     expect(replacedLocation).to.equal(null);
   });
 
-  it('should update the search descriptor when the search bar value is changed', function test() {
+  it('should update the search descriptor when the search bar value is changed', () => {
     const match = {
       params: {},
     };
@@ -233,7 +236,8 @@ describe('ReportPage', function suite() {
       <ReportPage
         match={match}
         perms={perms}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -273,7 +277,7 @@ describe('ReportPage', function suite() {
     });
   });
 
-  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', () => {
     const match = {
       params: {},
     };
@@ -284,7 +288,8 @@ describe('ReportPage', function suite() {
       <ReportPage
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -305,47 +310,47 @@ describe('ReportPage', function suite() {
         resolve();
       }, 200);
     })
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-        searchPanel = findWithType(result, SearchPanelContainer);
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          result = shallowRenderer.getRenderOutput();
+          searchPanel = findWithType(result, SearchPanelContainer);
 
-        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'report',
-          searchQuery: {
-            size: 20,
-            sort: 'name',
-          },
-        }));
-
-        resolve();
-      }, 400);
-    }))
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-        searchPanel = findWithType(result, SearchPanelContainer);
-
-        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'report',
-          searchQuery: {
-            p: 0,
-            size: 20,
-            sort: 'name',
-            as: {
-              value: 'another searchval',
-              op: OP_CONTAIN,
-              path: 'ns2:reports_common/name',
+          searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+            recordType: 'report',
+            searchQuery: {
+              size: 20,
+              sort: 'name',
             },
-          },
-        }));
+          }));
 
-        resolve();
-      }, 400);
-    }));
+          resolve();
+        }, 400);
+      }))
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          result = shallowRenderer.getRenderOutput();
+          searchPanel = findWithType(result, SearchPanelContainer);
+
+          searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+            recordType: 'report',
+            searchQuery: {
+              p: 0,
+              size: 20,
+              sort: 'name',
+              as: {
+                value: 'another searchval',
+                op: OP_CONTAIN,
+                path: 'ns2:reports_common/name',
+              },
+            },
+          }));
+
+          resolve();
+        }, 400);
+      }));
   });
 
-  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
+  it('should update the search descriptor immediately when the search bar value is blanked', () => {
     const match = {
       params: {},
     };
@@ -356,7 +361,8 @@ describe('ReportPage', function suite() {
       <ReportPage
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -408,7 +414,7 @@ describe('ReportPage', function suite() {
     });
   });
 
-  it('should call openModal when the run button is clicked in the record editor', function test() {
+  it('should call openModal when the run button is clicked in the record editor', () => {
     const csid = '1234';
 
     const match = {
@@ -430,7 +436,8 @@ describe('ReportPage', function suite() {
         match={match}
         openModal={openModal}
         perms={perms}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -438,10 +445,10 @@ describe('ReportPage', function suite() {
     recordEditor.should.not.equal(null);
     recordEditor.props.onRunButtonClick();
 
-    openedModalName.should.equal(InvocationModal.modalName);
+    openedModalName.should.equal(MODAL_INVOCATION);
   });
 
-  it('should call openReport followed by closeModal when the invoke button is clicked in the invocation modal', function test() {
+  it('should call openReport followed by closeModal when the invoke button is clicked in the invocation modal', () => {
     const csid = '1234';
 
     const match = {
@@ -473,10 +480,11 @@ describe('ReportPage', function suite() {
     shallowRenderer.render(
       <ReportPage
         match={match}
-        openModalName={InvocationModal.modalName}
+        openModalName={MODAL_INVOCATION}
         openReport={openReport}
         closeModal={closeModal}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, InvocationModalContainer);
@@ -510,7 +518,7 @@ describe('ReportPage', function suite() {
     });
   });
 
-  it('should call closeModal when the close button or the cancel button is clicked in the invocation modal', function test() {
+  it('should call closeModal when the close button or the cancel button is clicked in the invocation modal', () => {
     const csid = '1234';
 
     const match = {
@@ -530,9 +538,10 @@ describe('ReportPage', function suite() {
     shallowRenderer.render(
       <ReportPage
         match={match}
-        openModalName={InvocationModal.modalName}
+        openModalName={MODAL_INVOCATION}
         closeModal={closeModal}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, InvocationModalContainer);

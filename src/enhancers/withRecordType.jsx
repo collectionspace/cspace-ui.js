@@ -9,6 +9,7 @@ export default function withRecordType(BaseComponent) {
 
     return (
       <BaseComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         recordType={recordType}
       />

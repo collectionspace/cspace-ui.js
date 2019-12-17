@@ -23,8 +23,8 @@ import {
 
 chai.should();
 
-describe('vocabulary action creator', function suite() {
-  describe('readVocabularyItems', function actionSuite() {
+describe('vocabulary action creator', () => {
+  describe('readVocabularyItems', () => {
     const mockStore = configureMockStore([thunk]);
     const vocabulary = 'languages';
     const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabulary}\\)/items.*`);
@@ -45,7 +45,7 @@ describe('vocabulary action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch READ_VOCABULARY_ITEMS_FULFILLED on success', function test() {
+    it('should dispatch READ_VOCABULARY_ITEMS_FULFILLED on success', () => {
       moxios.stubRequest(readVocabularyItemsUrl, {
         status: 200,
         response: {},
@@ -83,7 +83,7 @@ describe('vocabulary action creator', function suite() {
         });
     });
 
-    it('should dispatch READ_VOCABULARY_ITEMS_REJECTED on error', function test() {
+    it('should dispatch READ_VOCABULARY_ITEMS_REJECTED on error', () => {
       moxios.stubRequest(readVocabularyItemsUrl, {
         status: 400,
         response: {},
@@ -114,7 +114,7 @@ describe('vocabulary action creator', function suite() {
         });
     });
 
-    it('should dispatch nothing if the vocabulary already has a pending read', function test() {
+    it('should dispatch nothing if the vocabulary already has a pending read', () => {
       const store = mockStore({
         vocabulary: {
           [vocabulary]: {
@@ -131,7 +131,7 @@ describe('vocabulary action creator', function suite() {
         });
     });
 
-    it('should dispatch nothing if the vocabulary already has items', function test() {
+    it('should dispatch nothing if the vocabulary already has items', () => {
       const store = mockStore({
         vocabulary: {
           [vocabulary]: {
@@ -149,7 +149,7 @@ describe('vocabulary action creator', function suite() {
     });
   });
 
-  describe('readVocabularyItemRefs', function actionSuite() {
+  describe('readVocabularyItemRefs', () => {
     const mockStore = configureMockStore([thunk]);
     const csid = '1234';
     const vocabulary = 'languages';
@@ -171,7 +171,7 @@ describe('vocabulary action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch READ_VOCABULARY_ITEM_REFS_FULFILLED on success', function test() {
+    it('should dispatch READ_VOCABULARY_ITEM_REFS_FULFILLED on success', () => {
       moxios.stubRequest(readVocabularyItemsUrl, {
         status: 200,
         response: {},
@@ -212,7 +212,7 @@ describe('vocabulary action creator', function suite() {
         });
     });
 
-    it('should dispatch READ_VOCABULARY_ITEM_REFS_REJECTED on error', function test() {
+    it('should dispatch READ_VOCABULARY_ITEM_REFS_REJECTED on error', () => {
       moxios.stubRequest(readVocabularyItemsUrl, {
         status: 400,
         response: {},
@@ -246,7 +246,7 @@ describe('vocabulary action creator', function suite() {
         });
     });
 
-    it('should dispatch nothing if the vocabulary already has a pending read', function test() {
+    it('should dispatch nothing if the vocabulary already has a pending read', () => {
       const store = mockStore({
         record: Immutable.fromJS({
           [csid]: {

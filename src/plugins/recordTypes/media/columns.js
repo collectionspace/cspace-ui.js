@@ -1,9 +1,9 @@
 import { defineMessages } from 'react-intl';
-import { thumbnailImage } from '../../../helpers/blobHelpers';
 
 export default (configContext) => {
   const {
     formatTimestamp,
+    thumbnailImage,
   } = configContext.formatHelpers;
 
   return {

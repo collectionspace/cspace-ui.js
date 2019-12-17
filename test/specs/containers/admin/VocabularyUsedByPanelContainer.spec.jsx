@@ -9,7 +9,7 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('VocabularyUsedByPanelContainer', function suite() {
+describe('VocabularyUsedByPanelContainer', () => {
   const csid = '1234';
 
   const data = Immutable.fromJS({
@@ -31,11 +31,12 @@ describe('VocabularyUsedByPanelContainer', function suite() {
     store,
   };
 
-  it('should set props on VocabularyUsedByPanel', function test() {
+  it('should set props on VocabularyUsedByPanel', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <VocabularyUsedByPanelContainer csid={csid} />, context);
+      <VocabularyUsedByPanelContainer csid={csid} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

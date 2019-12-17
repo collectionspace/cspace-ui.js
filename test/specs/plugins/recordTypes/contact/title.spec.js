@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('contact record title', function suite() {
+describe('contact record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should return the primary email', function test() {
+  it('should return the primary email', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:contacts_common': {
@@ -26,12 +26,12 @@ describe('contact record title', function suite() {
     title(data).should.equal('email1@foo.org');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:contact_extension': {

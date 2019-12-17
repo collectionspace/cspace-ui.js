@@ -11,7 +11,7 @@ import RelationEditor, { confirmUnrelateModalName } from '../../../../src/compon
 import RelationButtonBar from '../../../../src/components/record/RelationButtonBar';
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -31,12 +31,12 @@ const config = {
   },
 };
 
-describe('RelationEditor', function suite() {
+describe('RelationEditor', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a record editor if the relation is found', function test() {
+  it('should render a record editor if the relation is found', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -61,7 +61,8 @@ describe('RelationEditor', function suite() {
         subject={subject}
         object={object}
         findResult={findResult}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
@@ -73,7 +74,7 @@ describe('RelationEditor', function suite() {
     recordEditorContainer.props.relatedSubjectCsid.should.equal(subject.csid);
   });
 
-  it('should render nothing if there is no relation find result', function test() {
+  it('should render nothing if there is no relation find result', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -91,14 +92,15 @@ describe('RelationEditor', function suite() {
         config={config}
         subject={subject}
         object={object}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should render an error message div if the relation find result contains no items', function test() {
+  it('should render an error message div if the relation find result contains no items', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -123,14 +125,15 @@ describe('RelationEditor', function suite() {
         subject={subject}
         object={object}
         findResult={findResult}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal('div');
   });
 
-  it('should render an error message div if an object error is provided', function test() {
+  it('should render an error message div if an object error is provided', () => {
     const object = {
       csid: '5678',
       recordType: 'group',
@@ -154,14 +157,15 @@ describe('RelationEditor', function suite() {
         object={object}
         objectError={error}
         findResult={findResult}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal('div');
   });
 
-  it('should call createRelation followed by onRecordCreated when a record is created', function test() {
+  it('should call createRelation followed by onRecordCreated when a record is created', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -203,7 +207,8 @@ describe('RelationEditor', function suite() {
         predicate={predicate}
         createRelation={createRelation}
         onRecordCreated={handleRecordCreated}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
@@ -227,7 +232,7 @@ describe('RelationEditor', function suite() {
     });
   });
 
-  it('should return null when a record create is attempted but no createRelation prop is supplied', function test() {
+  it('should return null when a record create is attempted but no createRelation prop is supplied', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -247,7 +252,8 @@ describe('RelationEditor', function suite() {
         subject={subject}
         object={object}
         predicate={predicate}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
@@ -259,7 +265,7 @@ describe('RelationEditor', function suite() {
       .equal(null);
   });
 
-  it('should call onRecordTransitioned when a record is transitioned', function test() {
+  it('should call onRecordTransitioned when a record is transitioned', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -291,7 +297,8 @@ describe('RelationEditor', function suite() {
         object={object}
         findResult={findResult}
         onRecordTransitioned={handleRecordTransitioned}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
@@ -303,7 +310,7 @@ describe('RelationEditor', function suite() {
     transitionedTransitionName.should.equal(transitionName);
   });
 
-  it('should call onClose when a record is transitioned with transition name \'delete\'', function test() {
+  it('should call onClose when a record is transitioned with transition name \'delete\'', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -335,7 +342,8 @@ describe('RelationEditor', function suite() {
         object={object}
         findResult={findResult}
         onClose={close}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditorContainer = findWithType(result, RecordEditorContainer);
@@ -379,7 +387,8 @@ describe('RelationEditor', function suite() {
         object={object}
         predicate={predicate}
         findRelation={findRelation}
-      />, this.container);
+      />, this.container,
+    );
 
     findConfig.should.equal(config);
     findSubject.should.equal(subject);
@@ -418,7 +427,8 @@ describe('RelationEditor', function suite() {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, this.container);
+      />, this.container,
+    );
 
     const newObject = {
       csid: 'abcd',
@@ -432,7 +442,8 @@ describe('RelationEditor', function suite() {
         object={newObject}
         predicate={predicate}
         findRelation={findRelation}
-      />, this.container);
+      />, this.container,
+    );
 
     findConfig.should.equal(config);
     findSubject.should.equal(subject);
@@ -451,7 +462,8 @@ describe('RelationEditor', function suite() {
         object={object}
         predicate={predicate}
         findRelation={findRelation}
-      />, this.container);
+      />, this.container,
+    );
 
     findConfig.should.equal(config);
     findSubject.should.equal(newSubject);
@@ -467,7 +479,8 @@ describe('RelationEditor', function suite() {
         object={object}
         predicate={newPredicate}
         findRelation={findRelation}
-      />, this.container);
+      />, this.container,
+    );
 
     findConfig.should.equal(config);
     findSubject.should.equal(subject);
@@ -503,15 +516,17 @@ describe('RelationEditor', function suite() {
         object={object}
         predicate={predicate}
         onUnmount={handleUnmount}
-      />, this.container);
+      />, this.container,
+    );
 
     render(
-      <div />, this.container);
+      <div />, this.container,
+    );
 
     handlerCalled.should.equal(true);
   });
 
-  it('should call onClose when the cancel button is clicked in the button bar', function test() {
+  it('should call onClose when the cancel button is clicked in the button bar', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -543,7 +558,8 @@ describe('RelationEditor', function suite() {
         object={object}
         findResult={findResult}
         onClose={handleClose}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const buttonBar = findWithType(result, RelationButtonBar);
@@ -553,7 +569,7 @@ describe('RelationEditor', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should call onClose when the close button is clicked in the button bar', function test() {
+  it('should call onClose when the close button is clicked in the button bar', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -585,7 +601,8 @@ describe('RelationEditor', function suite() {
         object={object}
         findResult={findResult}
         onClose={handleClose}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const buttonBar = findWithType(result, RelationButtonBar);
@@ -595,7 +612,7 @@ describe('RelationEditor', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should call openModal when the unrelate button is clicked', function test() {
+  it('should call openModal when the unrelate button is clicked', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -630,7 +647,8 @@ describe('RelationEditor', function suite() {
         predicate={predicate}
         findResult={findResult}
         openModal={openModal}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const buttonBar = findWithType(result, RelationButtonBar);
@@ -640,7 +658,7 @@ describe('RelationEditor', function suite() {
     openModalName.should.equal(confirmUnrelateModalName);
   });
 
-  it('should call closeModal and onClose, then unrelate and onUnrelated when unmounted when the confirm unrelate button is clicked', function test() {
+  it('should call closeModal and onClose, then unrelate and onUnrelated when unmounted when the confirm unrelate button is clicked', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -708,7 +726,8 @@ describe('RelationEditor', function suite() {
         onClose={handleClose}
         unrelate={unrelate}
         onUnrelated={handleUnrelated}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const confirmUnrelateModal = findWithType(result, ConfirmRecordUnrelateModal);
@@ -738,7 +757,7 @@ describe('RelationEditor', function suite() {
     });
   });
 
-  it('should not call unrelate when unmounted if navigation is cancelled following the unrelate button being clicked', function test() {
+  it('should not call unrelate when unmounted if navigation is cancelled following the unrelate button being clicked', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -775,7 +794,8 @@ describe('RelationEditor', function suite() {
         predicate={predicate}
         findResult={findResult}
         unrelate={unrelate}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const buttonBar = findWithType(result, RelationButtonBar);
@@ -791,7 +811,7 @@ describe('RelationEditor', function suite() {
     unrelateCalled.should.equal(false);
   });
 
-  it('should call closeModal when the cancel button is clicked in the confirm unrelate modal', function test() {
+  it('should call closeModal when the cancel button is clicked in the confirm unrelate modal', () => {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
@@ -826,7 +846,8 @@ describe('RelationEditor', function suite() {
         predicate={predicate}
         findResult={findResult}
         closeModal={closeModal}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const confirmUnrelateModal = findWithType(result, ConfirmRecordUnrelateModal);

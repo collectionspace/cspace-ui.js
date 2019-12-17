@@ -79,13 +79,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
-    /* eslint-disable no-unused-vars */
     config,
     csid,
     source,
     intl,
     recordType,
-    /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
 
@@ -99,11 +97,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 export const ConnectedIDGeneratorInput = connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps
+  mergeProps,
 )(IDGeneratorInput);
 
-const IntlizedConnectedIDGeneratorInput =
-  injectIntl(withCsid(withConfig(withRecordType(ConnectedIDGeneratorInput))));
+const IntlizedConnectedIDGeneratorInput = injectIntl(
+  withCsid(withConfig(withRecordType(ConnectedIDGeneratorInput))),
+);
 
 IntlizedConnectedIDGeneratorInput.propTypes = IDGeneratorInput.propTypes;
 

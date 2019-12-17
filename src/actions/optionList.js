@@ -45,7 +45,7 @@ export const addOptionLists = (optionLists) => {
   };
 };
 
-export const deleteOptionList = name => ({
+export const deleteOptionList = (name) => ({
   type: DELETE_OPTION_LIST,
   payload: name,
 });
@@ -75,7 +75,7 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
 
   const dataType = get(config, 'dataType');
 
-  const childFieldNames = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+  const childFieldNames = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
   const isLeaf = (childFieldNames.length === 0);
 
   if ((isLeaf || dataType === DATA_TYPE_STRUCTURED_DATE) && level > 0) {
@@ -103,7 +103,7 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
           option.fieldConfig = config;
 
           option.labelFormatter = (intl, opt) => formatExtensionFieldName(
-            intl, opt.fieldConfig, messageName
+            intl, opt.fieldConfig, messageName,
           );
         } else {
           // Prefer the fullName message.
@@ -152,13 +152,14 @@ const collectGroupFields = (options, path, fieldDescriptor, level) => {
     return;
   }
 
-  const childFieldNames = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+  const childFieldNames = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
 
-  const isGroup =
+  const isGroup = (
     // Omit first-level groups, which are the document parts.
     (path.length > 1)
     // Omit containers for repeating scalars, which will have just one child.
-    && (childFieldNames.length > 1);
+    && (childFieldNames.length > 1)
+  );
 
   if (isGroup && level > 0) {
     const option = {
@@ -193,7 +194,7 @@ const collectGroupFields = (options, path, fieldDescriptor, level) => {
       options,
       [...path, childFieldName],
       fieldDescriptor[childFieldName],
-      level + 1
+      level + 1,
     );
   });
 };

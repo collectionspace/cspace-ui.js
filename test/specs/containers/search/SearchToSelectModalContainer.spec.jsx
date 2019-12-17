@@ -10,8 +10,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('SearchToSelectModalContainer', function suite() {
-  it('should set props on SearchToSelectModal', function test() {
+describe('SearchToSelectModalContainer', () => {
+  it('should set props on SearchToSelectModal', () => {
     const store = mockStore({
       searchToSelect: Immutable.fromJS({
         keyword: 'foo',
@@ -38,7 +38,8 @@ describe('SearchToSelectModalContainer', function suite() {
     };
 
     shallowRenderer.render(
-      <SearchToSelectModalContainer />, context);
+      <SearchToSelectModalContainer />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -53,7 +54,7 @@ describe('SearchToSelectModalContainer', function suite() {
     result.props.should.have.property('onVocabularyCommit').that.is.a('function');
   });
 
-  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', function test() {
+  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', () => {
     const store = mockStore({
       searchToSelect: Immutable.fromJS({
         keyword: 'foo',
@@ -87,7 +88,8 @@ describe('SearchToSelectModalContainer', function suite() {
     };
 
     shallowRenderer.render(
-      <SearchToSelectModalContainer />, context);
+      <SearchToSelectModalContainer />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

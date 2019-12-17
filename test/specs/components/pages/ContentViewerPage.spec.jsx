@@ -8,11 +8,11 @@ import ImageViewer from '../../../../src/components/media/ImageViewer';
 import ContentViewerPage from '../../../../src/components/pages/ContentViewerPage';
 import createTestContainer from '../../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('ContentViewerPage', function suite() {
+describe('ContentViewerPage', () => {
   const readContent = () => Promise.resolve({
     status: 200,
     data: new Blob(),
@@ -44,7 +44,8 @@ describe('ContentViewerPage', function suite() {
       <ContentViewerPage
         match={match}
         readContent={readContent}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
 
@@ -71,7 +72,8 @@ describe('ContentViewerPage', function suite() {
       <ContentViewerPage
         match={match}
         readContent={readImageContent}
-      />, this.container);
+      />, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -82,7 +84,7 @@ describe('ContentViewerPage', function suite() {
     });
   });
 
-  it('should render nothing if imagePath is not present in match params', function test() {
+  it('should render nothing if imagePath is not present in match params', () => {
     const match = {};
 
     const shallowRenderer = createRenderer();
@@ -105,7 +107,8 @@ describe('ContentViewerPage', function suite() {
       <ContentViewerPage
         match={match}
         readContent={readContent}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
 
@@ -126,7 +129,8 @@ describe('ContentViewerPage', function suite() {
           <ContentViewerPage
             match={newMatch}
             readContent={readContent}
-          />, this.container);
+          />, this.container,
+        );
 
         expect(this.container.firstElementChild).to.equal(null);
 
@@ -146,7 +150,8 @@ describe('ContentViewerPage', function suite() {
       <ContentViewerPage
         match={match}
         readContent={readContent}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
 
@@ -162,7 +167,7 @@ describe('ContentViewerPage', function suite() {
   });
 
   it('should call renderError to render an error when reading the content fails', function test() {
-    const failingReadContent = () => Promise.reject({});
+    const failingReadContent = () => Promise.reject(new Error());
 
     const renderError = () => <div>renderError called</div>;
 
@@ -177,7 +182,8 @@ describe('ContentViewerPage', function suite() {
         match={match}
         readContent={failingReadContent}
         renderError={renderError}
-      />, this.container);
+      />, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {

@@ -10,12 +10,12 @@ import {
   refNameToCsid,
   getRecordType,
   getVocabulary,
-} from '../../../src/helpers/refNameHelpers';
+} from '../../helpers/refNameHelpers';
 
 import {
   normalizeRelationList,
   findBroaderRelation,
-} from '../../../src/helpers/relationListHelpers';
+} from '../../helpers/relationListHelpers';
 
 const notificationID = 'hierarchyReparentNotifier';
 
@@ -27,7 +27,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
   csid: PropTypes.string.isRequired,
   childData: PropTypes.instanceOf(Immutable.Map).isRequired,
   readRecord: PropTypes.func.isRequired,
@@ -37,7 +39,11 @@ const propTypes = {
 
 export default class HierarchyReparentNotifier extends Component {
   componentDidMount() {
-    this.readRecords(this.props.childData.keySeq().filter(refName => !!refName));
+    const {
+      childData,
+    } = this.props;
+
+    this.readRecords(childData.keySeq().filter((refName) => !!refName));
     this.showNotification();
   }
 
@@ -51,7 +57,7 @@ export default class HierarchyReparentNotifier extends Component {
     } = prevProps;
 
     const newRefNames = childData.keySeq().filter(
-      refName => refName && !prevChildData.has(refName)
+      (refName) => refName && !prevChildData.has(refName),
     );
 
     this.readRecords(newRefNames);
@@ -106,7 +112,7 @@ export default class HierarchyReparentNotifier extends Component {
       const childCsid = refNameToCsid(childRefName);
 
       const relations = normalizeRelationList(data.getIn(
-        ['document', 'rel:relations-common-list', 'relation-list-item']
+        ['document', 'rel:relations-common-list', 'relation-list-item'],
       ));
 
       if (!relations) {

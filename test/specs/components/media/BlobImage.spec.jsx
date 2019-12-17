@@ -5,8 +5,8 @@ import BlobImage from '../../../../src/components/media/BlobImage';
 
 chai.should();
 
-describe('BlobImage', function suite() {
-  it('should render as an ImageContainer', function test() {
+describe('BlobImage', () => {
+  it('should render as an ImageContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<BlobImage csid="1234" derivative="Small" />);
@@ -16,7 +16,7 @@ describe('BlobImage', function suite() {
     result.type.should.equal(ImageContainer);
   });
 
-  it('should insert the csid and derivative name into the img src url', function test() {
+  it('should insert the csid and derivative name into the img src url', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<BlobImage csid="1234" derivative="Small" />);

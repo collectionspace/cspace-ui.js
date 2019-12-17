@@ -5,8 +5,8 @@ import withCsid from '../../../src/enhancers/withCsid';
 
 chai.should();
 
-describe('withCsid', function suite() {
-  it('should set csid prop on the base component with csid from context', function test() {
+describe('withCsid', () => {
+  it('should set csid prop on the base component with csid from context', () => {
     const csid = '1234';
 
     const reactContext = {

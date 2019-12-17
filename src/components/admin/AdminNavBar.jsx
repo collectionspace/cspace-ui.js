@@ -39,7 +39,7 @@ export default function AdminNavBar(props) {
     tabs,
   } = props;
 
-  const items = tabs.map(tab => renderLinkItem(basename, tab));
+  const items = tabs.map((tab) => renderLinkItem(basename, tab));
 
   return (
     <nav className={styles.common}>

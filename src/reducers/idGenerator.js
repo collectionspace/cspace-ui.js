@@ -16,7 +16,7 @@ export default (state = Immutable.Map(), action) => {
         'sample',
       ], action.payload.data.idgenerator.displayid);
     case LOGOUT_FULFILLED:
-      return state.map(idGeneratorState => idGeneratorState.delete('sample'));
+      return state.map((idGeneratorState) => idGeneratorState.delete('sample'));
     default:
       return state;
   }

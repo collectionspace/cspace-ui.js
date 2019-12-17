@@ -6,11 +6,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ToolPage from '../../../../src/components/pages/ToolPage';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('ToolPage', function suite() {
+describe('ToolPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -30,7 +30,8 @@ describe('ToolPage', function suite() {
         <Router>
           <ToolPage match={{ url: '/tool' }} perms={perms} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -43,7 +44,8 @@ describe('ToolPage', function suite() {
         <Router>
           <ToolPage match={{ url: '/tool' }} perms={perms} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -60,7 +62,8 @@ describe('ToolPage', function suite() {
         <Router>
           <ToolPage match={{ url: '/tool' }} perms={perms} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const links = this.container.querySelectorAll('a');
 

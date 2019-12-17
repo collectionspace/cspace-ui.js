@@ -9,7 +9,7 @@ import { baseComponents as inputComponents } from 'cspace-input';
 import ImageContainer from '../../../../src/containers/media/ImageContainer';
 import MediaViewer from '../../../../src/components/media/MediaViewer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -67,8 +67,8 @@ const searchResult = Immutable.fromJS({
   },
 });
 
-describe('MediaViewer', function suite() {
-  it('should render a div', function test() {
+describe('MediaViewer', () => {
+  it('should render a div', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<MediaViewer config={config} />);
@@ -78,7 +78,7 @@ describe('MediaViewer', function suite() {
     result.type.should.equal('div');
   });
 
-  it('should render an ImageGallery when there is a search result', function test() {
+  it('should render an ImageGallery when there is a search result', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -86,7 +86,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -96,7 +96,7 @@ describe('MediaViewer', function suite() {
     gallery.props.items.should.have.lengthOf(3);
   });
 
-  it('should render with empty class when the search result contains no items', function test() {
+  it('should render with empty class when the search result contains no items', () => {
     const emptySearchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',
@@ -113,7 +113,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={emptySearchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -121,7 +121,7 @@ describe('MediaViewer', function suite() {
     result.props.className.should.equal('cspace-ui-MediaViewer--empty');
   });
 
-  it('should render an ImageContainer for each carousel image', function test() {
+  it('should render an ImageContainer for each carousel image', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -129,7 +129,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -142,7 +142,7 @@ describe('MediaViewer', function suite() {
     findWithType(carouselImage, ImageContainer).should.not.equal(null);
   });
 
-  it('should render an ImageContainer for each thumbnail image', function test() {
+  it('should render an ImageContainer for each thumbnail image', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -150,7 +150,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -163,7 +163,7 @@ describe('MediaViewer', function suite() {
     findWithType(thumbImage, ImageContainer).should.not.equal(null);
   });
 
-  it('should render a MiniButton for each nav button', function test() {
+  it('should render a MiniButton for each nav button', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -171,7 +171,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -188,7 +188,7 @@ describe('MediaViewer', function suite() {
     findWithType(rightNavButton, MiniButton).should.not.equal(null);
   });
 
-  it('should render nothing when the search is pending', function test() {
+  it('should render nothing when the search is pending', () => {
     const emptySearchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',
@@ -206,7 +206,7 @@ describe('MediaViewer', function suite() {
         isSearchPending
         searchDescriptor={searchDescriptor}
         searchResult={emptySearchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -214,7 +214,7 @@ describe('MediaViewer', function suite() {
     expect(result).to.equal(null);
   });
 
-  it('should not render thumbnails for a single search result', function test() {
+  it('should not render thumbnails for a single search result', () => {
     const singleSearchResult = Immutable.fromJS({
       'ns2:abstract-common-list': {
         pageNum: '0',
@@ -235,7 +235,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={singleSearchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -249,7 +249,7 @@ describe('MediaViewer', function suite() {
   // This test works on a local Chrome, but it's flaky on Sauce Labs because of opening and closing
   // the popup window. Skip it for now.
 
-  it('should open a window when the carousel image is clicked', function test() {
+  it('should open a window when the carousel image is clicked', () => {
     const blobCsid = '03794600-d98f-44a6-8985';
 
     const singleSearchResult = Immutable.fromJS({
@@ -272,7 +272,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={singleSearchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -306,7 +306,7 @@ describe('MediaViewer', function suite() {
     });
   });
 
-  it('should render the own blobCsid image first', function test() {
+  it('should render the own blobCsid image first', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -315,7 +315,7 @@ describe('MediaViewer', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

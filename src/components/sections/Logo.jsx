@@ -13,7 +13,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    logo: PropTypes.string,
+  }),
   intl: intlShape,
 };
 

@@ -12,12 +12,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('quick search reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('quick search reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });
 
-  it('should handle SET_QUICK_SEARCH_KEYWORD', function test() {
+  it('should handle SET_QUICK_SEARCH_KEYWORD', () => {
     const keyword = 'some stuff';
 
     const state = reducer(Immutable.Map(), {

@@ -9,6 +9,7 @@ export default function withCsid(BaseComponent) {
 
     return (
       <BaseComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         csid={csid}
       />

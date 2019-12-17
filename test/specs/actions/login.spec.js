@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
+import getSession from '../../../src/helpers/session';
 
 import {
   CSPACE_CONFIGURED,
@@ -29,7 +30,7 @@ import {
   readAccountPerms,
 } from '../../../src/actions/account';
 
-import getSession, {
+import {
   configureCSpace,
 } from '../../../src/actions/cspace';
 
@@ -40,11 +41,11 @@ import {
 
 chai.should();
 
-describe('login action creator', function suite() {
-  describe('resetLogin', function actionSuite() {
+describe('login action creator', () => {
+  describe('resetLogin', () => {
     const username = 'user@collectionspace.org';
 
-    it('should create a RESET_LOGIN action', function test() {
+    it('should create a RESET_LOGIN action', () => {
       resetLogin(username).should.deep.equal({
         type: RESET_LOGIN,
         meta: {
@@ -54,7 +55,7 @@ describe('login action creator', function suite() {
     });
   });
 
-  describe('login', function actionSuite() {
+  describe('login', () => {
     const mockStore = configureMockStore([thunk]);
     const accountId = '1234';
     const tokenUrl = '/cspace-services/oauth/token';
@@ -83,10 +84,8 @@ describe('login action creator', function suite() {
       jti: '1234',
     };
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -100,7 +99,7 @@ describe('login action creator', function suite() {
       localStorage.removeItem('cspace-client');
     });
 
-    it('should update the active session', function test() {
+    it('should update the active session', () => {
       moxios.stubRequest(tokenUrl, {
         status: 200,
         response: tokenGrantPayload,
@@ -123,7 +122,7 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch LOGIN_FULFILLED on success', function test() {
+    it('should dispatch LOGIN_FULFILLED on success', () => {
       moxios.stubRequest(tokenUrl, {
         status: 200,
         response: tokenGrantPayload,
@@ -190,7 +189,7 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch LOGIN_REJECTED on error', function test() {
+    it('should dispatch LOGIN_REJECTED on error', () => {
       moxios.stubRequest(tokenUrl, {
         status: 400,
       });
@@ -215,7 +214,7 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch AUTH_RENEW_REJECTED with error code ERR_INVALID_CREDENTIALS when an invalid credentials error response is received', function test() {
+    it('should dispatch AUTH_RENEW_REJECTED with error code ERR_INVALID_CREDENTIALS when an invalid credentials error response is received', () => {
       moxios.stubRequest(tokenUrl, {
         status: 400,
         response: {
@@ -244,7 +243,7 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch AUTH_RENEW_REJECTED with error code ERR_NETWORK when a network error occurs', function test() {
+    it('should dispatch AUTH_RENEW_REJECTED with error code ERR_NETWORK when a network error occurs', () => {
       moxios.stubRequest(tokenUrl, {
         status: 400,
         response: {
@@ -273,7 +272,7 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch AUTH_RENEW_REJECTED with error code ERR_WRONG_TENANT when the account tenant id is not the tenant id configured for the ui', function test() {
+    it('should dispatch AUTH_RENEW_REJECTED with error code ERR_WRONG_TENANT when the account tenant id is not the tenant id configured for the ui', () => {
       moxios.stubRequest(tokenUrl, {
         status: 200,
         response: tokenGrantPayload,
@@ -312,7 +311,7 @@ describe('login action creator', function suite() {
     });
   });
 
-  describe('readAccountPerms', function actionSuite() {
+  describe('readAccountPerms', () => {
     const mockStore = configureMockStore([thunk]);
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
     const username = 'admin@core.collectionspace.org';
@@ -326,10 +325,8 @@ describe('login action creator', function suite() {
       },
     };
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -340,7 +337,7 @@ describe('login action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', function test() {
+    it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', () => {
       moxios.stubRequest(accountPermsUrl, {
         status: 200,
         response: accountPermsPayload,
@@ -367,7 +364,7 @@ describe('login action creator', function suite() {
         });
     });
 
-    it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', function test() {
+    it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', () => {
       moxios.stubRequest(accountPermsUrl, {
         status: 400,
         response: {},

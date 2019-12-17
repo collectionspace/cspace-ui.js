@@ -8,8 +8,8 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('LogoutIndicatorContainer', function suite() {
-  it('should set props on LogoutIndicator', function test() {
+describe('LogoutIndicatorContainer', () => {
+  it('should set props on LogoutIndicator', () => {
     const store = mockStore({
       logout: {
         isPending: true,

@@ -13,7 +13,7 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('SearchResultTableContainer', function suite() {
+describe('SearchResultTableContainer', () => {
   const searchName = 'testSearch';
   const searchDescriptor = Immutable.Map();
   const searchResult = {};
@@ -22,7 +22,7 @@ describe('SearchResultTableContainer', function suite() {
     code: 'ERROR_CODE',
   };
 
-  it('should set props on SearchResultTable', function test() {
+  it('should set props on SearchResultTable', () => {
     const store = mockStore({
       search: Immutable.fromJS({
         [searchName]: {
@@ -49,7 +49,8 @@ describe('SearchResultTableContainer', function suite() {
         config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -63,7 +64,7 @@ describe('SearchResultTableContainer', function suite() {
     result.props.formatColumnLabel.should.be.a('function');
   });
 
-  it('should connect formatColumnLabel to intl.formatMessage', function test() {
+  it('should connect formatColumnLabel to intl.formatMessage', () => {
     const store = mockStore({
       search: Immutable.Map(),
       user: Immutable.Map(),
@@ -74,7 +75,7 @@ describe('SearchResultTableContainer', function suite() {
     };
 
     const intl = {
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
     };
 
     const shallowRenderer = createRenderer();
@@ -85,7 +86,8 @@ describe('SearchResultTableContainer', function suite() {
         intl={intl}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -98,7 +100,7 @@ describe('SearchResultTableContainer', function suite() {
     }).should.equal('formatted column.object.objectNumber');
   });
 
-  it('should supply formatCellData with intl and config', function test() {
+  it('should supply formatCellData with intl and config', () => {
     const store = mockStore({
       search: Immutable.Map(),
       user: Immutable.Map(),
@@ -119,7 +121,8 @@ describe('SearchResultTableContainer', function suite() {
         config={config}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -137,7 +140,7 @@ describe('SearchResultTableContainer', function suite() {
     suppliedConfig.should.equal(config);
   });
 
-  it('should have formatCellData return the data if the column config does not contain a formatValue function', function test() {
+  it('should have formatCellData return the data if the column config does not contain a formatValue function', () => {
     const store = mockStore({
       search: Immutable.Map(),
       user: Immutable.Map(),
@@ -154,7 +157,8 @@ describe('SearchResultTableContainer', function suite() {
         config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

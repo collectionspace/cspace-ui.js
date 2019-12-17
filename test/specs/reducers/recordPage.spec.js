@@ -12,12 +12,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('record page reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('record page reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map());
   });
 
-  it('should handle SET_RECORD_PAGE_PRIMARY_CSID', function test() {
+  it('should handle SET_RECORD_PAGE_PRIMARY_CSID', () => {
     const csid = '1234';
 
     const state = reducer(Immutable.Map(), {

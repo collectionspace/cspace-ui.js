@@ -8,7 +8,7 @@ import OptionPickerInput from '../../../../src/components/record/OptionPickerInp
 
 chai.should();
 
-describe('OptionPickerInput', function suite() {
+describe('OptionPickerInput', () => {
   const config = {};
 
   beforeEach(function before() {
@@ -21,7 +21,8 @@ describe('OptionPickerInput', function suite() {
         <ConfigProvider config={config}>
           <OptionPickerInput />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-DropdownMenuInput--common').should.not.equal(null);
   });
@@ -36,7 +37,8 @@ describe('OptionPickerInput', function suite() {
         <ConfigProvider config={config}>
           <OptionPickerInput />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -64,7 +66,8 @@ describe('OptionPickerInput', function suite() {
         <ConfigProvider config={config}>
           <OptionPickerInput options={items} />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -98,7 +101,8 @@ describe('OptionPickerInput', function suite() {
         <ConfigProvider config={config}>
           <OptionPickerInput options={items} />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

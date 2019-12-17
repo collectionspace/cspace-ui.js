@@ -15,12 +15,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('authority reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('authority reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.deep.equal(Immutable.Map());
   });
 
-  context('on AUTH_VOCABS_READ_FULFILLED', function context() {
+  context('on AUTH_VOCABS_READ_FULFILLED', () => {
     const config = {
       recordTypes: {
         place: {
@@ -95,7 +95,7 @@ describe('authority reducer', function suite() {
       },
     ];
 
-    it('should set the csid and workflowState for each vocabulary in the payload', function test() {
+    it('should set the csid and workflowState for each vocabulary in the payload', () => {
       const state = reducer(undefined, {
         type: AUTH_VOCABS_READ_FULFILLED,
         payload: responses,
@@ -127,7 +127,7 @@ describe('authority reducer', function suite() {
       getVocabWorkflowState(state, 'place', 'tgn').should.equal('locked');
     });
 
-    it('should do nothing if a response contains no items', function test() {
+    it('should do nothing if a response contains no items', () => {
       const state = reducer(undefined, {
         type: AUTH_VOCABS_READ_FULFILLED,
         payload: [{}],
@@ -140,8 +140,8 @@ describe('authority reducer', function suite() {
     });
   });
 
-  context('on LOGOUT_FULFILLED', function context() {
-    it('should clear all state', function test() {
+  context('on LOGOUT_FULFILLED', () => {
+    it('should clear all state', () => {
       const state = reducer(Immutable.fromJS({
         person: {
           local: {
@@ -157,8 +157,8 @@ describe('authority reducer', function suite() {
     });
   });
 
-  context('on SET_AUTH_VOCAB_WORKFLOW_STATE', function context() {
-    it('should set the workflow state for the given vocabulary', function test() {
+  context('on SET_AUTH_VOCAB_WORKFLOW_STATE', () => {
+    it('should set the workflow state for the given vocabulary', () => {
       const state = reducer(Immutable.fromJS({
         person: {
           local: {

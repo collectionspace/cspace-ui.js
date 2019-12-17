@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import UndeprecateButton from '../../../../src/components/record/UndeprecateButton';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('UndeprecateButton', function suite() {
+describe('UndeprecateButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('UndeprecateButton', function suite() {
     render(
       <IntlProvider locale="en">
         <UndeprecateButton isUndeprecatable />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
@@ -26,7 +27,8 @@ describe('UndeprecateButton', function suite() {
     render(
       <IntlProvider locale="en">
         <UndeprecateButton isUndeprecatable={false} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -35,7 +37,8 @@ describe('UndeprecateButton', function suite() {
     render(
       <IntlProvider locale="en">
         <UndeprecateButton isUndeprecatable isModified />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.disabled.should.equal(true);
   });
@@ -44,7 +47,8 @@ describe('UndeprecateButton', function suite() {
     render(
       <IntlProvider locale="en">
         <UndeprecateButton isUndeprecatable isSavePending />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.disabled.should.equal(true);
   });

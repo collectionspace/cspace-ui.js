@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import upperFirst from 'lodash/upperFirst';
-import getSession from './cspace';
+import getSession from '../helpers/session';
 
 const transformDate = (input = {}) => {
   const output = {};
@@ -23,7 +23,7 @@ const transformDate = (input = {}) => {
   return Immutable.fromJS(output);
 };
 
-export const parseDisplayDate = displayDate => () => {
+export const parseDisplayDate = (displayDate) => () => {
   if (!displayDate) {
     return Promise.resolve({
       value: transformDate(),
@@ -37,7 +37,7 @@ export const parseDisplayDate = displayDate => () => {
   };
 
   return getSession().read('structureddates', requestConfig)
-    .then(response => ({
+    .then((response) => ({
       value: transformDate(get(response, ['data', 'ns2:structureddate_common'])),
     }))
     .catch(() => ({

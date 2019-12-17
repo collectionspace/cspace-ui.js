@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('loan-in record plugin', function suite() {
+describe('loan-in record plugin', () => {
   const config = {};
   const loaninRecordTypePlugin = loaninRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = loaninRecordTypePlugin(configContext);
 
     const {

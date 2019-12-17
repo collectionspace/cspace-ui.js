@@ -23,7 +23,7 @@ import WatchedSearchResultTableContainer from '../../../../src/containers/search
 import { searchKey } from '../../../../src/reducers/search';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../../src/constants/searchNames';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -201,7 +201,7 @@ const store = mockStore({
   user: Immutable.Map(),
 });
 
-describe('SearchResultPage', function suite() {
+describe('SearchResultPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -216,7 +216,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -235,7 +236,8 @@ describe('SearchResultPage', function suite() {
             <SearchResultPage location={location} match={unknownRecordTypeMatch} />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
   });
@@ -255,7 +257,8 @@ describe('SearchResultPage', function suite() {
             <SearchResultPage location={location} match={unknownVocabularyMatch} />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
   });
@@ -278,7 +281,8 @@ describe('SearchResultPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-SearchResultTable--common')).to.equal(null);
   });
@@ -312,7 +316,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       if (!replacedLocation) {
         return null;
@@ -354,15 +359,14 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     preferredPageSize.should.equal(2);
 
     preferredPageSize = null;
 
-    const newLocation = Object.assign({}, location, {
-      search: '?size=34',
-    });
+    const newLocation = { ...location, search: '?size=34' };
 
     render(
       <IntlProvider locale="en">
@@ -377,7 +381,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     preferredPageSize.should.equal(34);
   });
@@ -406,7 +411,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(SEARCH_RESULT_PAGE_SEARCH_NAME);
@@ -416,10 +422,11 @@ describe('SearchResultPage', function suite() {
       // vocabulary: match.params.vocabulary,
 
       // expect the page num searched to be 1 less than the page num in the URL
-      searchQuery: Object.assign({}, query, {
+      searchQuery: {
+        ...query,
         p: parseInt(query.p, 10) - 1,
         size: parseInt(query.size, 10),
-      }),
+      },
     }));
   });
 
@@ -445,7 +452,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const col = this.container.querySelector('.ReactVirtualized__Table__sortableHeaderColumn');
 
@@ -459,9 +467,7 @@ describe('SearchResultPage', function suite() {
   });
 
   it('should render a related query title', function test() {
-    const relLocation = Object.assign({}, location, {
-      search: `${location.search}&rel=1234`,
-    });
+    const relLocation = { ...location, search: `${location.search}&rel=1234` };
 
     render(
       <IntlProvider locale="en">
@@ -475,7 +481,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/related to/);
   });
@@ -500,7 +507,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/Local Persons/);
   });
@@ -524,13 +532,14 @@ describe('SearchResultPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-TitleBar--common').textContent.should.match(/Authority Terms Used by/);
   });
 
-  describe('renderHeader', function method() {
-    it('should render the search result header', function test() {
+  describe('renderHeader', () => {
+    it('should render the search result header', () => {
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -550,7 +559,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const headerContainer = document.createElement('div');
 
@@ -565,7 +575,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, headerContainer);
+        </IntlProvider>, headerContainer,
+      );
 
       headerContainer.querySelector('header').should.not.equal(null);
 
@@ -593,7 +604,7 @@ describe('SearchResultPage', function suite() {
       items[2].textContent.should.equal('40');
     });
 
-    it('should render a pending message if the search result does not have a total items count', function test() {
+    it('should render a pending message if the search result does not have a total items count', () => {
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -613,7 +624,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const headerContainer = document.createElement('div');
 
@@ -632,7 +644,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, headerContainer);
+        </IntlProvider>, headerContainer,
+      );
 
       headerContainer.querySelector('header').should.not.equal(null);
 
@@ -640,7 +653,7 @@ describe('SearchResultPage', function suite() {
         .equal('Finding records...');
     });
 
-    it('should render an error message if the search has an error', function test() {
+    it('should render an error message if the search has an error', () => {
       const searchError = Immutable.Map({
         code: 'ERROR_CODE',
       });
@@ -664,7 +677,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const headerContainer = document.createElement('div');
 
@@ -679,14 +693,15 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, headerContainer);
+        </IntlProvider>, headerContainer,
+      );
 
       headerContainer.querySelector('header').should.not.equal(null);
 
       headerContainer.querySelector('header').textContent.should.match(/^Error/);
     });
 
-    it('should connect page size change events to a handler', function test() {
+    it('should connect page size change events to a handler', () => {
       let pushedLocation = null;
 
       const history = mockHistory({
@@ -722,7 +737,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const headerContainer = document.createElement('div');
 
@@ -737,7 +753,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, headerContainer);
+        </IntlProvider>, headerContainer,
+      );
 
       const pageSizeChooser = headerContainer.querySelector('.cspace-ui-PageSizeChooser--common');
 
@@ -760,16 +777,14 @@ describe('SearchResultPage', function suite() {
       preferredPageSize.should.equal(20);
     });
 
-    it('should call setSearchPageKeyword when the edit link is clicked', function test() {
+    it('should call setSearchPageKeyword when the edit link is clicked', () => {
       let transferredKeyword = null;
 
       const setSearchPageKeyword = (keywordArg) => {
         transferredKeyword = keywordArg;
       };
 
-      const keywordLocation = Object.assign({}, location, {
-        search: `${location.search}&kw=foo`,
-      });
+      const keywordLocation = { ...location, search: `${location.search}&kw=foo` };
 
       const history = mockHistory();
       const pageContainer = document.createElement('div');
@@ -793,7 +808,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const headerContainer = document.createElement('div');
 
@@ -808,7 +824,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, headerContainer);
+        </IntlProvider>, headerContainer,
+      );
 
       const editLink = headerContainer.querySelector('header > div > div > a');
 
@@ -819,16 +836,14 @@ describe('SearchResultPage', function suite() {
       transferredKeyword.should.equal('foo');
     });
 
-    it('should call setSearchPageAdvanced when the edit link is clicked', function test() {
+    it('should call setSearchPageAdvanced when the edit link is clicked', () => {
       let transferredCondition = null;
 
       const setSearchPageAdvanced = (conditionArg) => {
         transferredCondition = conditionArg;
       };
 
-      const advancedLocation = Object.assign({}, location, {
-        search: `${location.search}&as={"op": "eq", "path": "ns2:path/foo", "value": "bar"}`,
-      });
+      const advancedLocation = { ...location, search: `${location.search}&as={"op": "eq", "path": "ns2:path/foo", "value": "bar"}` };
 
       const history = mockHistory();
       const pageContainer = document.createElement('div');
@@ -852,7 +867,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const headerContainer = document.createElement('div');
 
@@ -867,7 +883,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, headerContainer);
+        </IntlProvider>, headerContainer,
+      );
 
       const editLink = headerContainer.querySelector('header > div > div > a');
 
@@ -883,7 +900,7 @@ describe('SearchResultPage', function suite() {
     });
   });
 
-  it('should call setSearchPageRecordType and setSearchPageVocabulary when the edit link is clicked', function test() {
+  it('should call setSearchPageRecordType and setSearchPageVocabulary when the edit link is clicked', () => {
     let transferredRecordType = null;
     let transferredVocabulary = null;
 
@@ -898,16 +915,15 @@ describe('SearchResultPage', function suite() {
     const recordType = 'person';
     const vocabulary = 'ulan';
 
-    const recordTypeLocation = Object.assign({}, location, {
-      pathname: `/search/${recordType}/${vocabulary}`,
-    });
+    const recordTypeLocation = { ...location, pathname: `/search/${recordType}/${vocabulary}` };
 
-    const recordTypeMatch = Object.assign({}, match, {
+    const recordTypeMatch = {
+      ...match,
       params: {
         recordType,
         vocabulary,
       },
-    });
+    };
 
     const history = mockHistory();
     const pageContainer = document.createElement('div');
@@ -932,7 +948,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, pageContainer);
+      </IntlProvider>, pageContainer,
+    );
 
     const headerContainer = document.createElement('div');
 
@@ -947,7 +964,8 @@ describe('SearchResultPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, headerContainer);
+      </IntlProvider>, headerContainer,
+    );
 
     const editLink = headerContainer.querySelector('header > div > div > a');
 
@@ -959,8 +977,8 @@ describe('SearchResultPage', function suite() {
     transferredVocabulary.should.equal(vocabulary);
   });
 
-  describe('renderFooter', function method() {
-    it('should render the search result footer', function test() {
+  describe('renderFooter', () => {
+    it('should render the search result footer', () => {
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -980,7 +998,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const footerContainer = document.createElement('div');
 
@@ -995,7 +1014,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, footerContainer);
+        </IntlProvider>, footerContainer,
+      );
 
       footerContainer.querySelector('footer').should.not.equal(null);
 
@@ -1011,7 +1031,7 @@ describe('SearchResultPage', function suite() {
       pages[pages.length - 1].textContent.should.equal('20');
     });
 
-    it('should connect page select events to a handler', function test() {
+    it('should connect page select events to a handler', () => {
       let pushedLocation = null;
 
       const history = mockHistory({
@@ -1040,7 +1060,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, pageContainer);
+        </IntlProvider>, pageContainer,
+      );
 
       const footerContainer = document.createElement('div');
 
@@ -1055,7 +1076,8 @@ describe('SearchResultPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, footerContainer);
+        </IntlProvider>, footerContainer,
+      );
 
       footerContainer.querySelector('footer').should.not.equal(null);
 
@@ -1076,7 +1098,7 @@ describe('SearchResultPage', function suite() {
     });
   });
 
-  it('should render a search to relate modal if the search record type is object an object or procedure', function test() {
+  it('should render a search to relate modal if the search record type is object an object or procedure', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1088,14 +1110,15 @@ describe('SearchResultPage', function suite() {
       <SearchResultPage
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     findWithType(result, SearchToRelateModalContainer).should.not.equal(null);
   });
 
-  it('should generate search to relate subjects from selected items', function test() {
+  it('should generate search to relate subjects from selected items', () => {
     const selectedItems = Immutable.fromJS({
       1111: {
         csid: '1111',
@@ -1117,7 +1140,8 @@ describe('SearchResultPage', function suite() {
         location={location}
         match={match}
         selectedItems={selectedItems}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, SearchToRelateModalContainer);
@@ -1130,7 +1154,7 @@ describe('SearchResultPage', function suite() {
     ]);
   });
 
-  it('should return null subjects if selected items is undefined', function test() {
+  it('should return null subjects if selected items is undefined', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1142,7 +1166,8 @@ describe('SearchResultPage', function suite() {
       <SearchResultPage
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, SearchToRelateModalContainer);
@@ -1152,7 +1177,7 @@ describe('SearchResultPage', function suite() {
     expect(subjects).to.equal(null);
   });
 
-  it('should close the search to relate modal when relations have been created', function test() {
+  it('should close the search to relate modal when relations have been created', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1164,7 +1189,8 @@ describe('SearchResultPage', function suite() {
       <SearchResultPage
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     let result;
     let modal;
@@ -1190,7 +1216,7 @@ describe('SearchResultPage', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should set an error on the search to relate modal when the relate button is clicked when a locked item is selected', function test() {
+  it('should set an error on the search to relate modal when the relate button is clicked when a locked item is selected', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1223,7 +1249,8 @@ describe('SearchResultPage', function suite() {
           },
         })}
         selectedItems={selectedItems}
-      />, context);
+      />, context,
+    );
 
     let result;
 
@@ -1244,7 +1271,7 @@ describe('SearchResultPage', function suite() {
     modal.props.error.code.should.equal('locked');
   });
 
-  it('should set an error on the search to relate modal when the relate button is clicked when an item is selected that the user is not permitted to relate', function test() {
+  it('should set an error on the search to relate modal when the relate button is clicked when an item is selected that the user is not permitted to relate', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1272,7 +1299,8 @@ describe('SearchResultPage', function suite() {
           },
         })}
         selectedItems={selectedItems}
-      />, context);
+      />, context,
+    );
 
     let result;
 
@@ -1293,7 +1321,7 @@ describe('SearchResultPage', function suite() {
     modal.props.error.code.should.equal('notPermitted');
   });
 
-  it('should close the search to relate modal when the close button is clicked', function test() {
+  it('should close the search to relate modal when the close button is clicked', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1305,7 +1333,8 @@ describe('SearchResultPage', function suite() {
       <SearchResultPage
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     let result;
     let modal;
@@ -1331,7 +1360,7 @@ describe('SearchResultPage', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should close the search to relate modal when the cancel button is clicked', function test() {
+  it('should close the search to relate modal when the cancel button is clicked', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -1343,7 +1372,8 @@ describe('SearchResultPage', function suite() {
       <SearchResultPage
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     let result;
     let modal;
@@ -1371,7 +1401,7 @@ describe('SearchResultPage', function suite() {
 
   // This test inntriduced due to workaround from DRYD-252.
 
-  it('should call onItemSelectChange when a checkbox is clicked', function test() {
+  it('should call onItemSelectChange when a checkbox is clicked', () => {
     let changedConfig = null;
     let changedSearchName = null;
     let changedSearchDescriptor = null;
@@ -1379,15 +1409,16 @@ describe('SearchResultPage', function suite() {
     let changedIndex = null;
     let changedChecked = null;
 
-    const handleItemSelectChange =
-      (configArg, searchNameArg, searchDescriptorArg, listTypeArg, indexArg, checkedArg) => {
-        changedConfig = configArg;
-        changedSearchName = searchNameArg;
-        changedSearchDescriptor = searchDescriptorArg;
-        changedListType = listTypeArg;
-        changedIndex = indexArg;
-        changedChecked = checkedArg;
-      };
+    const handleItemSelectChange = (
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, indexArg, checkedArg,
+    ) => {
+      changedConfig = configArg;
+      changedSearchName = searchNameArg;
+      changedSearchDescriptor = searchDescriptorArg;
+      changedListType = listTypeArg;
+      changedIndex = indexArg;
+      changedChecked = checkedArg;
+    };
 
     const shallowRenderer = createRenderer();
 
@@ -1409,7 +1440,8 @@ describe('SearchResultPage', function suite() {
             data: 'CRUDL',
           },
         })}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -1535,7 +1567,8 @@ describe('SearchResultPage', function suite() {
             data: 'CRUDL',
           },
         })}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const table = findWithType(result, WatchedSearchResultTableContainer);
@@ -1553,9 +1586,8 @@ describe('SearchResultPage', function suite() {
       clickPropagated = true;
     };
 
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
-    render(<div onClick={handleClick}>{checkbox}</div>, this.container);
-    /* eslint-enable jsx-a11y/no-static-element-interactions */
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    render(<div role="presentation" onClick={handleClick}>{checkbox}</div>, this.container);
 
     const checkboxNode = this.container.querySelector('input');
 

@@ -41,7 +41,7 @@ export const searchKey = (searchDescriptor) => {
   // search descriptor object.
 
   const pairs = asPairs(
-    Immutable.Map.isMap(searchDescriptor) ? searchDescriptor.toJS() : searchDescriptor
+    Immutable.Map.isMap(searchDescriptor) ? searchDescriptor.toJS() : searchDescriptor,
   );
 
   // Serialize the name/value pairs to JSON.
@@ -200,7 +200,7 @@ const computeIndexesByCsid = (listTypeConfig, result) => {
     }
 
     indexesByCsid = Immutable.Map(
-      items.map((item, index) => [item.get('csid') || item.get('docId'), index])
+      items.map((item, index) => [item.get('csid') || item.get('docId'), index]),
     );
   }
 
@@ -224,15 +224,14 @@ const setSearchResult = (state, listTypeConfig, searchName, searchDescriptor, re
 
     const searchState = namedSearch.getIn(['byKey', key]);
 
-    const updatedSearchState =
-      searchState
-        .set('isPending', false)
-        .set('result', normalizedResult)
-        .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, normalizedResult))
-        .set('listNodeName', listNodeName)
-        .set('itemNodeName', itemNodeName)
-        .delete('error')
-        .delete('isDirty');
+    const updatedSearchState = searchState
+      .set('isPending', false)
+      .set('result', normalizedResult)
+      .set('indexesByCsid', computeIndexesByCsid(listTypeConfig, normalizedResult))
+      .set('listNodeName', listNodeName)
+      .set('itemNodeName', itemNodeName)
+      .delete('error')
+      .delete('isDirty');
 
     const updatedNamedSearch = namedSearch.setIn(['byKey', key], updatedSearchState);
 
@@ -276,7 +275,7 @@ const handleSearchFulfilled = (state, action) => {
   } = action.meta;
 
   return setSearchResult(
-    state, listTypeConfig, searchName, searchDescriptor, Immutable.fromJS(action.payload.data)
+    state, listTypeConfig, searchName, searchDescriptor, Immutable.fromJS(action.payload.data),
   );
 };
 
@@ -294,8 +293,7 @@ const handleSearchRejected = (state, action) => {
       .set('isPending', false)
       .set('error', Immutable.fromJS(action.payload))
       .delete('result')
-      .delete('isDirty')
-    );
+      .delete('isDirty'));
 
     return state.set(searchName, updatedNamedSearch);
   }
@@ -337,11 +335,11 @@ const handleSetAllResultItemsSelected = (state, action) => {
 
     if (isSelected) {
       updatedSelectedItems = selectedItems.withMutations(
-        map => items.reduce((updatedMap, item) => updatedMap.set(item.get('csid'), item), map)
+        (map) => items.reduce((updatedMap, item) => updatedMap.set(item.get('csid'), item), map),
       );
     } else {
       updatedSelectedItems = selectedItems.withMutations(
-        map => items.reduce((updatedMap, item) => updatedMap.delete(item.get('csid')), map)
+        (map) => items.reduce((updatedMap, item) => updatedMap.delete(item.get('csid')), map),
       );
     }
 
@@ -392,10 +390,9 @@ const clearFilteredResults = (state, filter) => {
   return nextState;
 };
 
-const clearNamedResults = (state, action) =>
-  state.delete(action.meta.searchName);
+const clearNamedResults = (state, action) => state.delete(action.meta.searchName);
 
-const clearAllResults = state => state.clear();
+const clearAllResults = (state) => state.clear();
 
 const handleRecordSaveFulfilled = (state) => {
   // We don't really know which search results will be affected by a record being created, so clear
@@ -409,23 +406,23 @@ const handleRecordSaveFulfilled = (state) => {
   let nextState = state;
 
   nextState = clearFilteredResults(nextState, (searchState, searchName) => (
-    searchName !== SEARCH_RESULT_PAGE_SEARCH_NAME &&
-    searchName !== RECORD_BATCH_PANEL_SEARCH_NAME &&
-    searchName !== RECORD_REPORT_PANEL_SEARCH_NAME
+    searchName !== SEARCH_RESULT_PAGE_SEARCH_NAME
+    && searchName !== RECORD_BATCH_PANEL_SEARCH_NAME
+    && searchName !== RECORD_REPORT_PANEL_SEARCH_NAME
   ));
 
   const searchResultPageState = nextState.get(SEARCH_RESULT_PAGE_SEARCH_NAME);
 
   if (searchResultPageState) {
     nextState = nextState.set(
-      SEARCH_RESULT_PAGE_SEARCH_NAME, searchResultPageState.set('isDirty', true)
+      SEARCH_RESULT_PAGE_SEARCH_NAME, searchResultPageState.set('isDirty', true),
     );
   }
 
   return nextState;
 };
 
-const handleRecordDeleteFulfilled = state => clearAllResults(state);
+const handleRecordDeleteFulfilled = (state) => clearAllResults(state);
 
 const handleRecordTransitionFulfilled = (state, action) => {
   const {
@@ -505,23 +502,16 @@ export default (state = Immutable.Map(), action) => {
 
 export const isDirty = (state, searchName) => state.getIn([searchName, 'isDirty']);
 
-export const isPending = (state, searchName, searchDescriptor) =>
-  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
+export const isPending = (state, searchName, searchDescriptor) => state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'isPending']);
 
-export const getState = (state, searchName, searchDescriptor) =>
-  state.getIn([searchName, 'byKey', searchKey(searchDescriptor)]);
+export const getState = (state, searchName, searchDescriptor) => state.getIn([searchName, 'byKey', searchKey(searchDescriptor)]);
 
-export const getIndexesByCsid = (state, searchName, searchDescriptor) =>
-  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'indexesByCsid']);
+export const getIndexesByCsid = (state, searchName, searchDescriptor) => state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'indexesByCsid']);
 
-export const getMostRecentDescriptor = (state, searchName) =>
-  state.getIn([searchName, 'byKey', state.getIn([searchName, 'mostRecentKey']), 'descriptor']);
+export const getMostRecentDescriptor = (state, searchName) => state.getIn([searchName, 'byKey', state.getIn([searchName, 'mostRecentKey']), 'descriptor']);
 
-export const getResult = (state, searchName, searchDescriptor) =>
-  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'result']);
+export const getResult = (state, searchName, searchDescriptor) => state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'result']);
 
-export const getError = (state, searchName, searchDescriptor) =>
-  state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'error']);
+export const getError = (state, searchName, searchDescriptor) => state.getIn([searchName, 'byKey', searchKey(searchDescriptor), 'error']);
 
-export const getSelectedItems = (state, searchName) =>
-  state.getIn([searchName, 'selected']);
+export const getSelectedItems = (state, searchName) => state.getIn([searchName, 'selected']);

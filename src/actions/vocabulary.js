@@ -1,4 +1,4 @@
-import getSession from './cspace';
+import getSession from '../helpers/session';
 
 import {
   getVocabulary,
@@ -14,7 +14,7 @@ import {
   READ_VOCABULARY_ITEM_REFS_REJECTED,
 } from '../constants/actionCodes';
 
-export const readVocabularyItems = vocabularyName => (dispatch, getState) => {
+export const readVocabularyItems = (vocabularyName) => (dispatch, getState) => {
   const vocabulary = getVocabulary(getState(), vocabularyName);
 
   if (vocabulary && (vocabulary.isReadPending || vocabulary.items)) {
@@ -37,14 +37,14 @@ export const readVocabularyItems = vocabularyName => (dispatch, getState) => {
   };
 
   return getSession().read(`vocabularies/urn:cspace:name(${vocabularyName})/items`, config)
-    .then(response => dispatch({
+    .then((response) => dispatch({
       type: READ_VOCABULARY_ITEMS_FULFILLED,
       payload: response,
       meta: {
         vocabulary: vocabularyName,
       },
     }))
-    .catch(error => dispatch({
+    .catch((error) => dispatch({
       type: READ_VOCABULARY_ITEMS_REJECTED,
       payload: error,
       meta: {
@@ -75,7 +75,7 @@ export const readVocabularyItemRefs = (csid, vocabularyName) => (dispatch, getSt
   };
 
   return getSession().read(`vocabularies/urn:cspace:name(${vocabularyName})/items`, config)
-    .then(response => dispatch({
+    .then((response) => dispatch({
       type: READ_VOCABULARY_ITEM_REFS_FULFILLED,
       payload: response,
       meta: {
@@ -83,7 +83,7 @@ export const readVocabularyItemRefs = (csid, vocabularyName) => (dispatch, getSt
         vocabulary: vocabularyName,
       },
     }))
-    .catch(error => dispatch({
+    .catch((error) => dispatch({
       type: READ_VOCABULARY_ITEM_REFS_REJECTED,
       payload: error,
       meta: {

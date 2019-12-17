@@ -12,7 +12,7 @@ chai.should();
 const expectedClassName = 'cspace-ui-UserMenu--common';
 const username = 'user@collectionspace.org';
 
-describe('UserMenu', function suite() {
+describe('UserMenu', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -23,7 +23,8 @@ describe('UserMenu', function suite() {
         <Router>
           <UserMenu username={username} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -34,7 +35,8 @@ describe('UserMenu', function suite() {
         <Router>
           <UserMenu username={username} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });

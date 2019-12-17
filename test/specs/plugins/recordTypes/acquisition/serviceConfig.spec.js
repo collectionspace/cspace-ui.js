@@ -2,8 +2,8 @@ import serviceConfig from '../../../../../src/plugins/recordTypes/acquisition/se
 
 chai.should();
 
-describe('acquisition record serviceConfig', function suite() {
-  it('should have servicePath property', function test() {
+describe('acquisition record serviceConfig', () => {
+  it('should have servicePath property', () => {
     serviceConfig.should.have.property('servicePath').that.is.a('string');
   });
 });

@@ -8,7 +8,9 @@ import { getCsid } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/MiniView.css';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   intl: intlShape,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
@@ -64,7 +66,7 @@ export default class MiniView extends Component {
     }
 
     const csid = getCsid(data);
-    const path = ['/record', recordType, vocabulary, csid].filter(part => !!part).join('/');
+    const path = ['/record', recordType, vocabulary, csid].filter((part) => !!part).join('/');
 
     return (
       <h3><Link to={path}>{title}</Link></h3>

@@ -28,7 +28,7 @@ const config = {
   },
 };
 
-describe('HierarchySiblingList', function suite() {
+describe('HierarchySiblingList', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -45,7 +45,8 @@ describe('HierarchySiblingList', function suite() {
     render(
       <HierarchySiblingList
         title={title}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('header').textContent.should.equal(title);
   });
@@ -56,7 +57,8 @@ describe('HierarchySiblingList', function suite() {
     render(
       <HierarchySiblingList
         title={title}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('header').textContent.should.equal(title);
   });
@@ -83,7 +85,8 @@ describe('HierarchySiblingList', function suite() {
         parentCsid={parentCsid}
         recordType={recordType}
         findRelations={findRelations}
-      />, this.container);
+      />, this.container,
+    );
 
     findConfig.should.equal(config);
     findSubject.should.deep.equal({ recordType });
@@ -112,7 +115,8 @@ describe('HierarchySiblingList', function suite() {
         config={config}
         parentCsid={parentCsid}
         recordType={recordType}
-      />, this.container);
+      />, this.container,
+    );
 
     const newParentCsid = '2222';
 
@@ -122,7 +126,8 @@ describe('HierarchySiblingList', function suite() {
         parentCsid={newParentCsid}
         recordType={recordType}
         findRelations={findRelations}
-      />, this.container);
+      />, this.container,
+    );
 
     findConfig.should.equal(config);
     findSubject.should.deep.equal({ recordType });
@@ -130,7 +135,7 @@ describe('HierarchySiblingList', function suite() {
     findPredicate.should.equal('hasBroader');
   });
 
-  it('should render a link for each item in the result set', function test() {
+  it('should render a link for each item in the result set', () => {
     const findResult = Immutable.fromJS({
       'rel:relations-common-list': {
         'relation-list-item': [
@@ -165,7 +170,7 @@ describe('HierarchySiblingList', function suite() {
       <HierarchySiblingList
         config={config}
         findResult={findResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -174,7 +179,7 @@ describe('HierarchySiblingList', function suite() {
     inputs.should.have.lengthOf(3);
   });
 
-  it('should render one input for a single item (non-list) result set', function test() {
+  it('should render one input for a single item (non-list) result set', () => {
     const findResult = Immutable.fromJS({
       'rel:relations-common-list': {
         'relation-list-item': {
@@ -193,7 +198,7 @@ describe('HierarchySiblingList', function suite() {
       <HierarchySiblingList
         config={config}
         findResult={findResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

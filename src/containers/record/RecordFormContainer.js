@@ -38,5 +38,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default connect(
   undefined,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(RecordForm);

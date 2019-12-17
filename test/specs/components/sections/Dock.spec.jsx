@@ -7,8 +7,8 @@ import Dock from '../../../../src/components/sections/Dock';
 
 chai.should();
 
-describe('Dock', function suite() {
-  before(function first() {
+describe('Dock', () => {
+  before(() => {
     // Clear any previous tests from the page.
     document.body.innerHTML = '';
 
@@ -27,7 +27,8 @@ describe('Dock', function suite() {
     render(
       <Dock>
         <div>Hello world</div>
-      </Dock>, this.container);
+      </Dock>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');
   });
@@ -40,7 +41,8 @@ describe('Dock', function suite() {
     render(
       <Dock dockTop={dockTop}>
         <div>Hello world</div>
-      </Dock>, this.container);
+      </Dock>, this.container,
+    );
 
     const container = this.container.firstElementChild.querySelector('div');
     const initialRect = container.getBoundingClientRect();

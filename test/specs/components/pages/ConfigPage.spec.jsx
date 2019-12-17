@@ -6,7 +6,7 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 
 chai.should();
 
-describe('ConfigPage', function suite() {
+describe('ConfigPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('ConfigPage', function suite() {
     render(
       <ConfigProvider config={config}>
         <ConfigPage />
-      </ConfigProvider>, this.container);
+      </ConfigProvider>, this.container,
+    );
 
     this.container.querySelector('a[href^="blob:"]').should.not.equal(null);
   });
@@ -28,7 +29,8 @@ describe('ConfigPage', function suite() {
     render(
       <ConfigProvider config={config}>
         <ConfigPage />
-      </ConfigProvider>, this.container);
+      </ConfigProvider>, this.container,
+    );
 
     render(<div />, this.container);
 

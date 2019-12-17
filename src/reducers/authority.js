@@ -29,15 +29,19 @@ const handleAuthVocabsReadFulfilled = (state, action) => {
       const recordTypeConfig = getRecordTypeConfigByUri(config, item.uri);
 
       if (recordTypeConfig) {
-        const vocabularyConfig =
-          getVocabularyConfigByShortID(recordTypeConfig, item.shortIdentifier);
+        const vocabularyConfig = getVocabularyConfigByShortID(
+          recordTypeConfig,
+          item.shortIdentifier,
+        );
 
         if (vocabularyConfig) {
-          nextState =
-            nextState.setIn([recordTypeConfig.name, vocabularyConfig.name], Immutable.Map({
+          nextState = nextState.setIn(
+            [recordTypeConfig.name, vocabularyConfig.name],
+            Immutable.Map({
               csid: item.csid,
               workflowState: item.workflowState,
-            }));
+            }),
+          );
         }
       }
     });
@@ -46,7 +50,7 @@ const handleAuthVocabsReadFulfilled = (state, action) => {
   return nextState;
 };
 
-const clearAll = state => state.clear();
+const clearAll = (state) => state.clear();
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
@@ -59,14 +63,13 @@ export default (state = Immutable.Map(), action) => {
       // dev tools.
 
       return state.setIn(
-        [action.meta.recordType, action.meta.vocabulary, 'workflowState'], action.payload);
+        [action.meta.recordType, action.meta.vocabulary, 'workflowState'], action.payload,
+      );
     default:
       return state;
   }
 };
 
-export const getVocabCsid = (state, recordType, vocabulary) =>
-  state.getIn([recordType, vocabulary, 'csid']);
+export const getVocabCsid = (state, recordType, vocabulary) => state.getIn([recordType, vocabulary, 'csid']);
 
-export const getVocabWorkflowState = (state, recordType, vocabulary) =>
-  state.getIn([recordType, vocabulary, 'workflowState']);
+export const getVocabWorkflowState = (state, recordType, vocabulary) => state.getIn([recordType, vocabulary, 'workflowState']);

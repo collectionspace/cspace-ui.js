@@ -11,8 +11,8 @@ import SearchToSelectModalContainer from '../../../../src/containers/search/Sear
 chai.use(chaiImmutable);
 chai.should();
 
-describe('InvocationDescriptorEditor', function suite() {
-  it('should render a div containing a ModePickerInput, an InvocationTargetInput, and SearchToSelectModal', function test() {
+describe('InvocationDescriptorEditor', () => {
+  it('should render a div containing a ModePickerInput, an InvocationTargetInput, and SearchToSelectModal', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'single',
     });
@@ -22,7 +22,7 @@ describe('InvocationDescriptorEditor', function suite() {
     shallowRenderer.render(
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -42,7 +42,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModal.should.not.equal(null);
   });
 
-  it('should set the allowed search to select record types to group records if the mode is group', function test() {
+  it('should set the allowed search to select record types to group records if the mode is group', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'group',
     });
@@ -52,7 +52,7 @@ describe('InvocationDescriptorEditor', function suite() {
     shallowRenderer.render(
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -61,7 +61,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModalContainer.props.allowedRecordTypes.should.deep.equal(['group']);
   });
 
-  it('should set the allowed search to select record types to the specified record types if mode is not group', function test() {
+  it('should set the allowed search to select record types to the specified record types if mode is not group', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'single',
     });
@@ -74,7 +74,7 @@ describe('InvocationDescriptorEditor', function suite() {
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
         recordTypes={recordTypes}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -83,7 +83,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModalContainer.props.allowedRecordTypes.should.deep.equal(recordTypes);
   });
 
-  it('should only allow a single selection in the search to select modal when the mode is group', function test() {
+  it('should only allow a single selection in the search to select modal when the mode is group', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'group',
     });
@@ -93,7 +93,7 @@ describe('InvocationDescriptorEditor', function suite() {
     shallowRenderer.render(
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -102,7 +102,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModalContainer.props.singleSelect.should.equal(true);
   });
 
-  it('should only allow a single selection in the search to select modal when the mode is single', function test() {
+  it('should only allow a single selection in the search to select modal when the mode is single', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'single',
     });
@@ -112,7 +112,7 @@ describe('InvocationDescriptorEditor', function suite() {
     shallowRenderer.render(
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -121,7 +121,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModalContainer.props.singleSelect.should.equal(true);
   });
 
-  it('should update the invocation descriptor with the first mode in the modes list if the mode in the invocation descriptor is not in the modes list', function test() {
+  it('should update the invocation descriptor with the first mode in the modes list if the mode in the invocation descriptor is not in the modes list', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'nocontext',
     });
@@ -138,7 +138,7 @@ describe('InvocationDescriptorEditor', function suite() {
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
         modes={['nocontext', 'group', 'list']}
-      />
+      />,
     );
 
     shallowRenderer.getRenderOutput();
@@ -148,7 +148,7 @@ describe('InvocationDescriptorEditor', function suite() {
         invocationDescriptor={invocationDescriptor}
         modes={['group', 'list']}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     shallowRenderer.getRenderOutput();
@@ -158,7 +158,7 @@ describe('InvocationDescriptorEditor', function suite() {
     }));
   });
 
-  it('should update the invocation descriptor and close the search to select modal when the selection is accepted', function test() {
+  it('should update the invocation descriptor and close the search to select modal when the selection is accepted', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'list',
     });
@@ -175,7 +175,7 @@ describe('InvocationDescriptorEditor', function suite() {
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     let result = shallowRenderer.getRenderOutput();
@@ -215,7 +215,7 @@ describe('InvocationDescriptorEditor', function suite() {
     }));
   });
 
-  it('should close the search to select modal when its close button is clicked', function test() {
+  it('should close the search to select modal when its close button is clicked', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'single',
     });
@@ -225,7 +225,7 @@ describe('InvocationDescriptorEditor', function suite() {
     shallowRenderer.render(
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
-      />
+      />,
     );
 
     let result = shallowRenderer.getRenderOutput();
@@ -250,7 +250,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModal.props.isOpen.should.equal(false);
   });
 
-  it('should set the invocation target input\'s openSearchModal function to open the contained search to select modal', function test() {
+  it('should set the invocation target input\'s openSearchModal function to open the contained search to select modal', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'single',
     });
@@ -260,7 +260,7 @@ describe('InvocationDescriptorEditor', function suite() {
     shallowRenderer.render(
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
-      />
+      />,
     );
 
     let result = shallowRenderer.getRenderOutput();
@@ -278,7 +278,7 @@ describe('InvocationDescriptorEditor', function suite() {
     searchToSelectModal.props.isOpen.should.equal(true);
   });
 
-  it('should delete the invocation descriptor csid, record type, and items when the mode is changed in the mode picker input', function test() {
+  it('should delete the invocation descriptor csid, record type, and items when the mode is changed in the mode picker input', () => {
     const invocationDescriptor = Immutable.Map({
       mode: 'single',
       csid: '1234',
@@ -298,7 +298,7 @@ describe('InvocationDescriptorEditor', function suite() {
       <InvocationDescriptorEditor
         invocationDescriptor={invocationDescriptor}
         onCommit={handleCommit}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

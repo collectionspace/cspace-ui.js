@@ -10,10 +10,6 @@ import {
 } from './configHelpers';
 
 import {
-  NS_PREFIX,
-} from './recordDataHelpers';
-
-import {
   DATA_TYPE_BOOL,
   DATA_TYPE_DATE,
   DATA_TYPE_DATETIME,
@@ -46,6 +42,10 @@ import {
   OP_NOT_NULL,
   OP_GROUP,
 } from '../constants/searchOperators';
+
+import {
+  NS_PREFIX,
+} from '../constants/xmlNames';
 
 const opsByDataType = {
   [DATA_TYPE_STRING]: [
@@ -148,14 +148,14 @@ export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlle
   isControlled ? controlledListOps : (opsByDataType[dataType] || [])
 );
 
-export const operatorExpectsValue = op => (
+export const operatorExpectsValue = (op) => (
   op !== OP_NULL
   && op !== OP_NOT_NULL
   && op !== OP_COMPLETE
   && op !== OP_NOT_COMPLETE
 );
 
-export const operatorSupportsMultipleValues = op => (
+export const operatorSupportsMultipleValues = (op) => (
   // There is no need to support multiple values with greater than/less than operators, since they
   // are redundant. The range search operator could conceivably have multiple values (non-
   // overlapping ranges), but the range search input doesn't support multiple values right now.
@@ -173,7 +173,7 @@ export const operatorSupportsMultipleValues = op => (
   || op === OP_NOT_RANGE
 );
 
-export const dataTypeSupportsMultipleValues = dataType => (
+export const dataTypeSupportsMultipleValues = (dataType) => (
   // Booleans only have two possible values, so null (don't care) or a single desired
   // value is sufficient to describe all searches, and there's no need to allow multiple
   // values.
@@ -181,11 +181,9 @@ export const dataTypeSupportsMultipleValues = dataType => (
   dataType !== DATA_TYPE_BOOL
 );
 
-const getDataType = (fieldDescriptor, path) =>
-  get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'dataType']);
+const getDataType = (fieldDescriptor, path) => get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'dataType']);
 
-const getSearchValueTransform = (fieldDescriptor, path) =>
-  get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'searchTransform']);
+const getSearchValueTransform = (fieldDescriptor, path) => get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'searchTransform']);
 
 export const normalizeStringFieldValue = (value) => {
   let trimmed;
@@ -202,8 +200,8 @@ export const normalizeListFieldValue = (list) => {
 
   if (list) {
     filtered = list
-      .map(value => normalizeStringFieldValue(value))
-      .filter(value => !!value);
+      .map((value) => normalizeStringFieldValue(value))
+      .filter((value) => !!value);
   }
 
   if (!filtered || filtered.size === 0) {
@@ -217,7 +215,7 @@ export const normalizeListFieldValue = (list) => {
   return filtered;
 };
 
-export const normalizeFieldValue = value => (
+export const normalizeFieldValue = (value) => (
   Immutable.List.isList(value)
     ? normalizeListFieldValue(value)
     : normalizeStringFieldValue(value)
@@ -230,8 +228,8 @@ export const normalizeBooleanCondition = (fieldDescriptor, condition) => {
     childConditions = childConditions
       // Gotta do this mutual recursion
       // eslint-disable-next-line no-use-before-define
-      .map(childCondition => normalizeCondition(fieldDescriptor, childCondition))
-      .filter(childCondition => !!childCondition);
+      .map((childCondition) => normalizeCondition(fieldDescriptor, childCondition))
+      .filter((childCondition) => !!childCondition);
   }
 
   if (childConditions && childConditions.size > 0) {
@@ -280,8 +278,8 @@ export const normalizeGroupCondition = (fieldDescriptor, condition) => {
   boolChildConditions = boolChildConditions
     // Gotta do this mutual recursion
     // eslint-disable-next-line no-use-before-define
-    .map(boolChildCondition => normalizeCondition(fieldDescriptor, boolChildCondition))
-    .filter(boolChildCondition => !!boolChildCondition);
+    .map((boolChildCondition) => normalizeCondition(fieldDescriptor, boolChildCondition))
+    .filter((boolChildCondition) => !!boolChildCondition);
 
   if (boolChildConditions.size === 0) {
     return null;
@@ -444,13 +442,11 @@ export const pathToNXQL = (fieldDescriptor, path) => {
   return `${nxqlPartName}:${nxqlPath}`;
 };
 
-export const operatorToNXQL = operator => operatorToNXQLMap[operator];
+export const operatorToNXQL = (operator) => operatorToNXQLMap[operator];
 
-export const dateStartTimestamp = value =>
-  ((value.indexOf('T') < 0) ? `${value}T00:00:00.000` : value);
+export const dateStartTimestamp = (value) => ((value.indexOf('T') < 0) ? `${value}T00:00:00.000` : value);
 
-export const dateEndTimestamp = value =>
-  ((value.indexOf('T') < 0) ? `${value}T23:59:59.999` : value);
+export const dateEndTimestamp = (value) => ((value.indexOf('T') < 0) ? `${value}T23:59:59.999` : value);
 
 export const valueToNXQL = (value, path, fieldDescriptor) => {
   const dataType = getDataType(fieldDescriptor, path) || DATA_TYPE_STRING;
@@ -508,13 +504,13 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition, counter) => {
   if (nxqlOp) {
     const childConditions = condition.get('value');
 
-    const nxql =
-      childConditions
-        .map(childCondition =>
-          // Gotta do this mutual recursion
-          // eslint-disable-next-line no-use-before-define
-          advancedSearchConditionToNXQL(fieldDescriptor, childCondition, counter))
-        .join(` ${nxqlOp} `);
+    const nxql = childConditions
+      .map((childCondition) => (
+        // Gotta do this mutual recursion
+        // eslint-disable-next-line no-use-before-define
+        advancedSearchConditionToNXQL(fieldDescriptor, childCondition, counter)
+      ))
+      .join(` ${nxqlOp} `);
 
     return `(${nxql})`;
   }
@@ -823,10 +819,9 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, counter) =
     endValue = dateEndTimestamp(endValue);
   }
 
-  const nxqlValue =
-    [startValue, endValue]
-      .map(value => valueToNXQL(value, path, fieldDescriptor))
-      .join(' AND ');
+  const nxqlValue = [startValue, endValue]
+    .map((value) => valueToNXQL(value, path, fieldDescriptor))
+    .join(' AND ');
 
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
@@ -841,9 +836,7 @@ export const fieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
   if (Immutable.List.isList(value)) {
     // Expand or'ed values.
 
-    const orClauses = value.map(valueInstance =>
-      fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance), counter)
-    ).join(' OR ');
+    const orClauses = value.map((valueInstance) => fieldConditionToNXQL(fieldDescriptor, condition.set('value', valueInstance), counter)).join(' OR ');
 
     return `(${orClauses})`;
   }
@@ -929,8 +922,9 @@ export const advancedSearchConditionToNXQL = (fieldDescriptor, condition, counte
   return null;
 };
 
-export const convertAdvancedSearchConditionToNXQL = (fieldDescriptor, condition) =>
-  advancedSearchConditionToNXQL(fieldDescriptor, condition, createCounter());
+export const convertAdvancedSearchConditionToNXQL = (fieldDescriptor, condition) => (
+  advancedSearchConditionToNXQL(fieldDescriptor, condition, createCounter())
+);
 
 /**
  * Converts a search descriptor to a React Router location.
@@ -943,7 +937,7 @@ export const searchDescriptorToLocation = (searchDescriptor) => {
   const searchQuery = searchDescriptor.get('searchQuery');
 
   const pathParts = ['/list', recordType, vocabulary, csid, subresource];
-  const pathname = pathParts.filter(part => !!part).join('/');
+  const pathname = pathParts.filter((part) => !!part).join('/');
 
   const as = searchQuery.get('as');
   const p = searchQuery.get('p');
@@ -1042,8 +1036,8 @@ export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) =
     const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
     if (
-      serviceType === 'object' ||
-      serviceType === 'procedure'
+      serviceType === 'object'
+      || serviceType === 'procedure'
     ) {
       // For objects and procedures, check if list permissions exist.
 
@@ -1054,7 +1048,7 @@ export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) =
       // For authorities, check if list permissions exist, and if so, filter the vocabularies.
 
       if (canList(recordType, perms)) {
-        const vocabularies = recordTypeConfig.vocabularies;
+        const { vocabularies } = recordTypeConfig;
 
         if (vocabularies) {
           const filteredVocabularies = {};
@@ -1080,9 +1074,10 @@ export const getSearchableRecordTypes = (getAuthorityVocabCsid, config, perms) =
             }
           });
 
-          filteredRecordTypes[recordType] = Object.assign({}, recordTypeConfig, {
+          filteredRecordTypes[recordType] = {
+            ...recordTypeConfig,
             vocabularies: filteredVocabularies,
-          });
+          };
         }
       }
     } else {
@@ -1106,7 +1101,7 @@ export const clearAdvancedSearchConditionValues = (condition) => {
   if (op === OP_AND || op === OP_OR) {
     if (Immutable.List.isList(value)) {
       return condition.set('value', value.map(
-        childCondition => clearAdvancedSearchConditionValues(childCondition)
+        (childCondition) => clearAdvancedSearchConditionValues(childCondition),
       ));
     }
 

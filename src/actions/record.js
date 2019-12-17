@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 import Immutable from 'immutable';
-import getSession from './cspace';
+import getSession from '../helpers/session';
 import getNotificationID from '../helpers/notificationHelpers';
 import getErrorDescription from '../helpers/getErrorDescription';
 import HierarchyReparentNotifier from '../components/record/HierarchyReparentNotifier';
@@ -214,8 +214,8 @@ const getSaveErrorNotificationItem = (error, title) => {
   const data = get(error, ['error', 'response', 'data']);
 
   if (
-    typeof data === 'string' &&
-    data.includes('unique constraint "roles_rolename_tenant_id_key"')
+    typeof data === 'string'
+    && data.includes('unique constraint "roles_rolename_tenant_id_key"')
   ) {
     return {
       message: saveMessages.errorDupRoleName,
@@ -332,7 +332,7 @@ export const validateRecordData = (recordTypeConfig, csid) => (dispatch, getStat
   return dispatch(validateFieldValue(recordTypeConfig, csid, [], recordData));
 };
 
-const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) =>
+const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) => (
   (dispatch, getState) => {
     const { subrecords } = recordTypeConfig;
 
@@ -401,14 +401,14 @@ const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) 
           const subrecordTypeConfig = get(config, ['recordTypes', subrecordType]);
 
           const subrecordVocabularyConfig = get(
-            subrecordTypeConfig, ['vocabularies', subrecordVocabulary]
+            subrecordTypeConfig, ['vocabularies', subrecordVocabulary],
           );
 
           if (subrecordCsid) {
             return (
-              // eslint-disable-next-line no-use-before-define
+            // eslint-disable-next-line no-use-before-define
               dispatch(readRecord(
-                config, subrecordTypeConfig, subrecordVocabularyConfig, subrecordCsid
+                config, subrecordTypeConfig, subrecordVocabularyConfig, subrecordCsid,
               ))
                 .then(() => dispatch({
                   type: SUBRECORD_READ_FULFILLED,
@@ -426,14 +426,15 @@ const initializeSubrecords = (config, recordTypeConfig, vocabularyConfig, csid) 
           // eslint-disable-next-line no-use-before-define
           return dispatch(createNewSubrecord(
             config, csid, csidField, subrecordName,
-            subrecordTypeConfig, subrecordVocabularyConfig, undefined, true
+            subrecordTypeConfig, subrecordVocabularyConfig, undefined, true,
           ));
         });
       }
 
       return Promise.resolve();
     }));
-  };
+  }
+);
 
 const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   const {
@@ -474,7 +475,7 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   return getSession().read(path, requestConfig);
 };
 
-export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
+export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) => (
   (dispatch, getState) => {
     const existingData = getRecordData(getState(), csid);
 
@@ -495,7 +496,7 @@ export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
     });
 
     return doRead(recordTypeConfig, vocabularyConfig, csid)
-      .then(response => dispatch({
+      .then((response) => dispatch({
         type: RECORD_READ_FULFILLED,
         payload: response,
         meta: {
@@ -506,7 +507,7 @@ export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
       }))
       .then(() => dispatch(initializeSubrecords(config, recordTypeConfig, vocabularyConfig, csid)))
       .then(() => getRecordData(getState(), csid))
-      .catch(error => dispatch({
+      .catch((error) => dispatch({
         type: RECORD_READ_REJECTED,
         payload: {
           code: ERR_API,
@@ -517,9 +518,10 @@ export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) =>
           csid,
         },
       }));
-  };
+  }
+);
 
-export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, cloneCsid) =>
+export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, cloneCsid) => (
   (dispatch, getState) => {
     let readClone;
 
@@ -555,11 +557,12 @@ export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, clon
         },
       }))
     );
-  };
+  }
+);
 
 export const createNewSubrecord = (
   config, csid, csidField, subrecordName,
-  subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid, isDefault
+  subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid, isDefault,
 ) => (dispatch, getState) => {
   let readClone;
 
@@ -570,7 +573,7 @@ export const createNewSubrecord = (
       // We don't have data for the record to be cloned. Read it first.
 
       readClone = dispatch(readRecord(
-        config, subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid
+        config, subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid,
       ));
     }
   }
@@ -603,7 +606,7 @@ export const createNewSubrecord = (
   );
 };
 
-const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveStage) =>
+const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveStage) => (
   (dispatch, getState) => {
     const { subrecords } = recordTypeConfig;
 
@@ -613,7 +616,7 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
 
     return Promise.all(
       Object.entries(subrecords)
-        .filter(entry => entry[1].saveStage === saveStage)
+        .filter((entry) => entry[1].saveStage === saveStage)
         .map((entry) => {
           const [subrecordName, subrecordConfig] = entry;
           const subrecordCsid = getRecordSubrecordCsid(getState(), csid, subrecordName);
@@ -637,7 +640,7 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
               const subrecordTypeConfig = get(config, ['recordTypes', subrecordConfig.recordType]);
 
               const subrecordVocabularyConfig = get(
-                subrecordTypeConfig, ['vocabularies', subrecordConfig.vocabulary]
+                subrecordTypeConfig, ['vocabularies', subrecordConfig.vocabulary],
               );
 
               // eslint-disable-next-line no-use-before-define
@@ -660,7 +663,7 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
                     },
                   });
                 },
-                false
+                false,
               ));
             }
 
@@ -689,132 +692,195 @@ const saveSubrecords = (config, recordTypeConfig, vocabularyConfig, csid, saveSt
                       },
                     });
                   },
-                  false
+                  false,
                 ));
               }
             }
           }
 
           return Promise.resolve();
-        })
+        }),
     );
-  };
+  }
+);
 
-export const saveRecord =
-  (
-    config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
-    relatedSubjectCsid, onRecordCreated, showNotifications = true
-  ) =>
-    (dispatch, getState, intl) => {
-      let currentRecordTypeConfig;
-      let currentVocabularyConfig;
-      let currentCsid;
+export const saveRecord = (
+  config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
+  relatedSubjectCsid, onRecordCreated, showNotifications = true,
+) => (dispatch, getState, intl) => {
+  let currentRecordTypeConfig;
+  let currentVocabularyConfig;
+  let currentCsid;
 
-      if (subresourceConfig) {
-        currentRecordTypeConfig = get(config, ['recordTypes', subresourceConfig.recordType]);
+  if (subresourceConfig) {
+    currentRecordTypeConfig = get(config, ['recordTypes', subresourceConfig.recordType]);
 
-        currentVocabularyConfig = get(
-          currentRecordTypeConfig, ['vocabularies', subresourceConfig.vocabulary]
-        );
+    currentVocabularyConfig = get(
+      currentRecordTypeConfig, ['vocabularies', subresourceConfig.vocabulary],
+    );
 
-        currentCsid = subresourceCsid;
-      } else {
-        currentRecordTypeConfig = recordTypeConfig;
-        currentVocabularyConfig = vocabularyConfig;
-        currentCsid = csid;
+    currentCsid = subresourceCsid;
+  } else {
+    currentRecordTypeConfig = recordTypeConfig;
+    currentVocabularyConfig = vocabularyConfig;
+    currentCsid = csid;
+  }
+
+  return dispatch(computeRecordData(currentRecordTypeConfig, currentCsid))
+    .then(() => dispatch(validateRecordData(currentRecordTypeConfig, currentCsid)))
+    .then(() => {
+      if (getRecordValidationErrors(getState(), currentCsid)) {
+        return null;
       }
 
-      return dispatch(computeRecordData(currentRecordTypeConfig, currentCsid))
-        .then(() => dispatch(validateRecordData(currentRecordTypeConfig, currentCsid)))
-        .then(() => {
-          if (getRecordValidationErrors(getState(), currentCsid)) {
-            return null;
-          }
+      dispatch({
+        type: RECORD_SAVE_STARTED,
+        meta: {
+          csid: currentCsid,
+        },
+      });
 
-          dispatch({
-            type: RECORD_SAVE_STARTED,
-            meta: {
-              csid: currentCsid,
+      const title = currentRecordTypeConfig.title
+        ? currentRecordTypeConfig.title(
+          getRecordData(getState(), currentCsid), { config, intl },
+        )
+        : null;
+
+      const notificationID = getNotificationID();
+
+      if (showNotifications) {
+        dispatch(showNotification({
+          items: [{
+            message: saveMessages.saving,
+            values: {
+              title,
+              hasTitle: title ? 'yes' : '',
             },
-          });
+          }],
+          date: new Date(),
+          status: STATUS_PENDING,
+        }, notificationID));
+      }
 
-          const title = currentRecordTypeConfig.title
-            ? currentRecordTypeConfig.title(
-                getRecordData(getState(), currentCsid), { config, intl })
-            : null;
+      return dispatch(saveSubrecords(
+        config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid, 'before',
+      ))
+        .then(() => dispatch(setStickyFields(currentRecordTypeConfig, currentCsid)))
+        .then(() => {
+          const data = getRecordData(getState(), currentCsid);
+          const isExisting = isExistingRecord(data);
 
-          const notificationID = getNotificationID();
+          const recordServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
+          const vocabularyServicePath = get(vocabularyConfig, ['serviceConfig', 'servicePath']);
 
-          if (showNotifications) {
-            dispatch(showNotification({
-              items: [{
-                message: saveMessages.saving,
-                values: {
-                  title,
-                  hasTitle: title ? 'yes' : '',
-                },
-              }],
-              date: new Date(),
-              status: STATUS_PENDING,
-            }, notificationID));
+          const pathParts = [recordServicePath];
+
+          if (vocabularyServicePath) {
+            pathParts.push(vocabularyServicePath);
+            pathParts.push('items');
           }
 
-          return dispatch(saveSubrecords(
-            config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid, 'before'
-          ))
-          .then(() => dispatch(setStickyFields(currentRecordTypeConfig, currentCsid)))
-          .then(() => {
-            const data = getRecordData(getState(), currentCsid);
-            const isExisting = isExistingRecord(data);
-
-            const recordServicePath = get(recordTypeConfig, ['serviceConfig', 'servicePath']);
-            const vocabularyServicePath = get(vocabularyConfig, ['serviceConfig', 'servicePath']);
-
-            const pathParts = [recordServicePath];
-
-            if (vocabularyServicePath) {
-              pathParts.push(vocabularyServicePath);
-              pathParts.push('items');
+          if (subresourceConfig) {
+            if (csid) {
+              pathParts.push(csid);
             }
 
-            if (subresourceConfig) {
-              if (csid) {
-                pathParts.push(csid);
-              }
+            const subresourceServicePath = get(subresourceConfig, ['serviceConfig', 'servicePath']);
 
-              const subresourceServicePath = get(subresourceConfig, ['serviceConfig', 'servicePath']);
-
-              if (subresourceServicePath) {
-                pathParts.push(subresourceServicePath);
-              }
+            if (subresourceServicePath) {
+              pathParts.push(subresourceServicePath);
             }
+          }
 
-            if (isExisting && currentCsid) {
-              pathParts.push(currentCsid);
-            }
+          if (isExisting && currentCsid) {
+            pathParts.push(currentCsid);
+          }
 
-            const path = pathParts.join('/');
+          const path = pathParts.join('/');
 
-            const requestConfig = {
-              data: prepareForSending(data, currentRecordTypeConfig).toJS(),
-            };
+          const requestConfig = {
+            data: prepareForSending(data, currentRecordTypeConfig).toJS(),
+          };
 
-            if (recordTypeConfig.requestConfig) {
-              merge(requestConfig, recordTypeConfig.requestConfig('save', data));
-            }
+          if (recordTypeConfig.requestConfig) {
+            merge(requestConfig, recordTypeConfig.requestConfig('save', data));
+          }
 
-            if (isExisting) {
-              return getSession().update(path, requestConfig)
-                .then(response => (
-                  currentRecordTypeConfig.refetchAfterUpdate
-                    ? doRead(currentRecordTypeConfig, currentVocabularyConfig, currentCsid)
-                    : response
+          if (isExisting) {
+            return getSession().update(path, requestConfig)
+              .then((response) => (
+                currentRecordTypeConfig.refetchAfterUpdate
+                  ? doRead(currentRecordTypeConfig, currentVocabularyConfig, currentCsid)
+                  : response
+              ))
+              .then((response) => dispatch(saveSubrecords(
+                config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid, 'after',
+              ))
+                .then(() => {
+                  if (showNotifications) {
+                    dispatch(showNotification({
+                      items: [{
+                        message: saveMessages.saved,
+                        values: {
+                          title,
+                          hasTitle: title ? 'yes' : '',
+                        },
+                      }],
+                      date: new Date(),
+                      status: STATUS_SUCCESS,
+                      autoClose: true,
+                    }, notificationID));
+                  }
+
+                  dispatch({
+                    type: RECORD_SAVE_FULFILLED,
+                    payload: response,
+                    meta: {
+                      relatedSubjectCsid,
+                      recordTypeConfig: currentRecordTypeConfig,
+                      csid: currentCsid,
+                      recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
+                    },
+                  });
+                })
+                .then(() => dispatch(initializeSubrecords(
+                  config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid,
+                )))
+                .then(() => currentCsid)
+                .catch((error) => {
+                  throw error;
+                }))
+              .catch((error) => {
+                const wrapper = new Error();
+                wrapper.code = ERR_API;
+                wrapper.error = error;
+
+                return Promise.reject(wrapper);
+              });
+          }
+
+          return getSession().create(path, requestConfig)
+            .then((response) => {
+              if (response.status === 201 && response.headers.location) {
+                const { location } = response.headers;
+                const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
+
+                dispatch({
+                  type: RECORD_CREATED,
+                  meta: {
+                    currentCsid,
+                    newRecordCsid,
+                    recordTypeConfig: currentRecordTypeConfig,
+                  },
+                });
+
+                return dispatch(saveSubrecords(
+                  config, currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid, 'after',
                 ))
-                .then(response =>
-                  dispatch(saveSubrecords(
-                    config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid, 'after'
+                  .then(() => doRead(
+                    currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid,
                   ))
-                  .then(() => {
+                  .then((readResponse) => {
                     if (showNotifications) {
                       dispatch(showNotification({
                         items: [{
@@ -830,121 +896,62 @@ export const saveRecord =
                       }, notificationID));
                     }
 
-                    dispatch({
+                    return dispatch({
                       type: RECORD_SAVE_FULFILLED,
-                      payload: response,
+                      payload: readResponse,
                       meta: {
                         relatedSubjectCsid,
                         recordTypeConfig: currentRecordTypeConfig,
-                        csid: currentCsid,
+                        csid: newRecordCsid,
                         recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
                       },
                     });
                   })
                   .then(() => dispatch(initializeSubrecords(
-                    config, currentRecordTypeConfig, currentVocabularyConfig, currentCsid
+                    config, currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid,
                   )))
-                  .then(() => currentCsid)
-                  .catch((error) => {
-                    throw error;
-                  })
-                )
-                .catch(error => Promise.reject({
-                  code: ERR_API,
-                  error,
-                }));
-            }
-
-            return getSession().create(path, requestConfig)
-              .then((response) => {
-                if (response.status === 201 && response.headers.location) {
-                  const location = response.headers.location;
-                  const newRecordCsid = location.substring(location.lastIndexOf('/') + 1);
-
-                  dispatch({
-                    type: RECORD_CREATED,
-                    meta: {
-                      currentCsid,
-                      newRecordCsid,
-                      recordTypeConfig: currentRecordTypeConfig,
-                    },
-                  });
-
-                  return dispatch(saveSubrecords(
-                    config, currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid, 'after'
+                  .then(() => Promise.resolve(
+                    onRecordCreated ? onRecordCreated(newRecordCsid) : null,
                   ))
-                    .then(() => doRead(
-                      currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid
-                    ))
-                    .then((readResponse) => {
-                      if (showNotifications) {
-                        dispatch(showNotification({
-                          items: [{
-                            message: saveMessages.saved,
-                            values: {
-                              title,
-                              hasTitle: title ? 'yes' : '',
-                            },
-                          }],
-                          date: new Date(),
-                          status: STATUS_SUCCESS,
-                          autoClose: true,
-                        }, notificationID));
-                      }
+                  .then(() => newRecordCsid);
+              }
 
-                      return dispatch({
-                        type: RECORD_SAVE_FULFILLED,
-                        payload: readResponse,
-                        meta: {
-                          relatedSubjectCsid,
-                          recordTypeConfig: currentRecordTypeConfig,
-                          csid: newRecordCsid,
-                          recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
-                        },
-                      });
-                    })
-                    .then(() => dispatch(initializeSubrecords(
-                      config, currentRecordTypeConfig, currentVocabularyConfig, newRecordCsid
-                    )))
-                    .then(() => Promise.resolve(
-                      onRecordCreated ? onRecordCreated(newRecordCsid) : null
-                    ))
-                    .then(() => newRecordCsid);
-                }
+              const error = new Error('Expected response with status 201 and a location header');
+              error.response = response;
 
-                const error = new Error('Expected response with status 201 and a location header');
-                error.response = response;
+              throw error;
+            })
+            .catch((error) => {
+              const wrapper = new Error();
+              wrapper.code = ERR_API;
+              wrapper.error = error;
 
-                throw error;
-              })
-              .catch(error => Promise.reject({
-                code: ERR_API,
-                error,
-              }));
-          })
-          .catch((error) => {
-            const notificationItem = getSaveErrorNotificationItem(error, title);
-
-            if (showNotifications) {
-              dispatch(showNotification({
-                items: [notificationItem],
-                date: new Date(),
-                status: STATUS_ERROR,
-              }, notificationID));
-            }
-
-            dispatch({
-              type: RECORD_SAVE_REJECTED,
-              payload: error,
-              meta: {
-                csid: currentCsid,
-              },
+              return Promise.reject(wrapper);
             });
+        })
+        .catch((error) => {
+          const notificationItem = getSaveErrorNotificationItem(error, title);
 
-            throw error;
+          if (showNotifications) {
+            dispatch(showNotification({
+              items: [notificationItem],
+              date: new Date(),
+              status: STATUS_ERROR,
+            }, notificationID));
+          }
+
+          dispatch({
+            type: RECORD_SAVE_REJECTED,
+            payload: error,
+            meta: {
+              csid: currentCsid,
+            },
           });
+
+          throw error;
         });
-    };
+    });
+};
 
 export const addFieldInstance = (recordTypeConfig, csid, path, position) => (dispatch) => {
   dispatch({
@@ -1043,16 +1050,117 @@ export const revertRecord = (recordTypeConfig, csid) => (dispatch) => {
 };
 
 export const deleteRecord = (
-  config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid
-) =>
-  (dispatch, getState, intl) => {
-    const data = getRecordData(getState(), csid);
-    const title = recordTypeConfig.title(data, { config, intl });
-    const notificationID = getNotificationID();
+  config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid,
+) => (dispatch, getState, intl) => {
+  const data = getRecordData(getState(), csid);
+  const title = recordTypeConfig.title(data, { config, intl });
+  const notificationID = getNotificationID();
 
+  dispatch(showNotification({
+    items: [{
+      message: deleteMessages.deleting,
+      values: {
+        title,
+        hasTitle: title ? 'yes' : '',
+      },
+    }],
+    date: new Date(),
+    status: STATUS_PENDING,
+  }, notificationID));
+
+  dispatch({
+    type: RECORD_DELETE_STARTED,
+    meta: {
+      recordTypeConfig,
+      csid,
+    },
+  });
+
+  const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+
+  const vocabularyServicePath = vocabularyConfig
+    ? vocabularyConfig.serviceConfig.servicePath
+    : null;
+
+  const pathParts = [recordServicePath];
+
+  if (vocabularyServicePath) {
+    pathParts.push(vocabularyServicePath);
+    pathParts.push('items');
+  }
+
+  if (csid) {
+    pathParts.push(csid);
+  }
+
+  const path = pathParts.join('/');
+
+  return getSession().delete(path)
+    .then((response) => {
+      dispatch(showNotification({
+        items: [{
+          message: deleteMessages.deleted,
+          values: {
+            title,
+            hasTitle: title ? 'yes' : '',
+          },
+        }],
+        date: new Date(),
+        status: STATUS_SUCCESS,
+        autoClose: true,
+      }, notificationID));
+
+      return dispatch({
+        type: RECORD_DELETE_FULFILLED,
+        payload: response,
+        meta: {
+          recordTypeConfig,
+          csid,
+          relatedSubjectCsid,
+        },
+      });
+    })
+    .catch((error) => {
+      dispatch(showNotification({
+        items: [{
+          message: deleteMessages.errorDeleting,
+          values: {
+            title,
+            hasTitle: title ? 'yes' : '',
+            error: getErrorDescription(error),
+          },
+        }],
+        date: new Date(),
+        status: STATUS_ERROR,
+      }, notificationID));
+
+      return dispatch({
+        type: RECORD_DELETE_REJECTED,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+        },
+      });
+    });
+};
+
+export const transitionRecord = (
+  config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid,
+) => (dispatch, getState, intl) => {
+  const data = getRecordData(getState(), csid);
+  const title = recordTypeConfig.title(data, { config, intl });
+  const notificationID = getNotificationID();
+
+  const messages = transitionMessages[transitionName];
+
+  if (messages) {
     dispatch(showNotification({
       items: [{
-        message: deleteMessages.deleting,
+        message: messages.transitioning,
         values: {
           title,
           hasTitle: title ? 'yes' : '',
@@ -1061,40 +1169,54 @@ export const deleteRecord = (
       date: new Date(),
       status: STATUS_PENDING,
     }, notificationID));
+  }
 
-    dispatch({
-      type: RECORD_DELETE_STARTED,
-      meta: {
-        recordTypeConfig,
-        csid,
-      },
-    });
+  dispatch({
+    type: RECORD_TRANSITION_STARTED,
+    meta: {
+      recordTypeConfig,
+      csid,
+      transitionName,
+    },
+  });
 
-    const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
+  const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
 
-    const vocabularyServicePath = vocabularyConfig
-      ? vocabularyConfig.serviceConfig.servicePath
-      : null;
+  const vocabularyServicePath = vocabularyConfig
+    ? vocabularyConfig.serviceConfig.servicePath
+    : null;
 
-    const pathParts = [recordServicePath];
+  const pathParts = [recordServicePath];
 
-    if (vocabularyServicePath) {
-      pathParts.push(vocabularyServicePath);
-      pathParts.push('items');
-    }
+  if (vocabularyServicePath) {
+    pathParts.push(vocabularyServicePath);
+    pathParts.push('items');
+  }
 
-    if (csid) {
-      pathParts.push(csid);
-    }
+  if (csid) {
+    pathParts.push(csid);
+  }
 
-    const path = pathParts.join('/');
+  pathParts.push('workflow');
+  pathParts.push(transitionName);
 
-    return getSession().delete(path)
-      .then((response) => {
+  const path = pathParts.join('/');
+
+  return getSession().update(path)
+    .then((response) => (
+      (transitionName === 'delete')
+        ? response
+      // For all transitions other than delete, re-read the record to obtain the new workflow
+      // state.
+        : doRead(recordTypeConfig, vocabularyConfig, csid)
+    ))
+    .then((response) => {
+      if (messages) {
         dispatch(showNotification({
           items: [{
-            message: deleteMessages.deleted,
+            message: messages.transitioned,
             values: {
+              transitionName,
               title,
               hasTitle: title ? 'yes' : '',
             },
@@ -1103,22 +1225,30 @@ export const deleteRecord = (
           status: STATUS_SUCCESS,
           autoClose: true,
         }, notificationID));
+      }
 
-        return dispatch({
-          type: RECORD_DELETE_FULFILLED,
-          payload: response,
-          meta: {
-            recordTypeConfig,
-            csid,
-            relatedSubjectCsid,
-          },
-        });
-      })
-      .catch((error) => {
+      return dispatch({
+        type: RECORD_TRANSITION_FULFILLED,
+        payload: response,
+        meta: {
+          recordTypeConfig,
+          csid,
+          transitionName,
+          relatedSubjectCsid,
+          recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
+          // We don't get data back from the transition request. Rather than making a separate
+          // request to get the actual updated time of the record, just make it the current time.
+          updatedTimestamp: (new Date()).toISOString(),
+        },
+      });
+    })
+    .catch((error) => {
+      if (messages) {
         dispatch(showNotification({
           items: [{
-            message: deleteMessages.errorDeleting,
+            message: messages.errorTransitioning,
             values: {
+              transitionName,
               title,
               hasTitle: title ? 'yes' : '',
               error: getErrorDescription(error),
@@ -1127,160 +1257,33 @@ export const deleteRecord = (
           date: new Date(),
           status: STATUS_ERROR,
         }, notificationID));
+      }
 
-        return dispatch({
-          type: RECORD_DELETE_REJECTED,
-          payload: {
-            code: ERR_API,
-            error,
-          },
-          meta: {
-            recordTypeConfig,
-            csid,
-          },
-        });
+      return dispatch({
+        type: RECORD_TRANSITION_REJECTED,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          recordTypeConfig,
+          csid,
+          transitionName,
+        },
       });
-  };
-
-export const transitionRecord = (
-  config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
-) =>
-  (dispatch, getState, intl) => {
-    const data = getRecordData(getState(), csid);
-    const title = recordTypeConfig.title(data, { config, intl });
-    const notificationID = getNotificationID();
-
-    const messages = transitionMessages[transitionName];
-
-    if (messages) {
-      dispatch(showNotification({
-        items: [{
-          message: messages.transitioning,
-          values: {
-            title,
-            hasTitle: title ? 'yes' : '',
-          },
-        }],
-        date: new Date(),
-        status: STATUS_PENDING,
-      }, notificationID));
-    }
-
-    dispatch({
-      type: RECORD_TRANSITION_STARTED,
-      meta: {
-        recordTypeConfig,
-        csid,
-        transitionName,
-      },
     });
+};
 
-    const recordServicePath = recordTypeConfig.serviceConfig.servicePath;
-
-    const vocabularyServicePath = vocabularyConfig
-      ? vocabularyConfig.serviceConfig.servicePath
-      : null;
-
-    const pathParts = [recordServicePath];
-
-    if (vocabularyServicePath) {
-      pathParts.push(vocabularyServicePath);
-      pathParts.push('items');
-    }
-
-    if (csid) {
-      pathParts.push(csid);
-    }
-
-    pathParts.push('workflow');
-    pathParts.push(transitionName);
-
-    const path = pathParts.join('/');
-
-    return getSession().update(path)
-      .then(response => (
-        (transitionName === 'delete')
-          ? response
-          // For all transitions other than delete, re-read the record to obtain the new workflow
-          // state.
-          : doRead(recordTypeConfig, vocabularyConfig, csid)
-      ))
-      .then((response) => {
-        if (messages) {
-          dispatch(showNotification({
-            items: [{
-              message: messages.transitioned,
-              values: {
-                transitionName,
-                title,
-                hasTitle: title ? 'yes' : '',
-              },
-            }],
-            date: new Date(),
-            status: STATUS_SUCCESS,
-            autoClose: true,
-          }, notificationID));
-        }
-
-        return dispatch({
-          type: RECORD_TRANSITION_FULFILLED,
-          payload: response,
-          meta: {
-            recordTypeConfig,
-            csid,
-            transitionName,
-            relatedSubjectCsid,
-            recordPagePrimaryCsid: getRecordPagePrimaryCsid(getState()),
-            // We don't get data back from the transition request. Rather than making a separate
-            // request to get the actual updated time of the record, just make it the current time.
-            updatedTimestamp: (new Date()).toISOString(),
-          },
-        });
-      })
-      .catch((error) => {
-        if (messages) {
-          dispatch(showNotification({
-            items: [{
-              message: messages.errorTransitioning,
-              values: {
-                transitionName,
-                title,
-                hasTitle: title ? 'yes' : '',
-                error: getErrorDescription(error),
-              },
-            }],
-            date: new Date(),
-            status: STATUS_ERROR,
-          }, notificationID));
-        }
-
-        return dispatch({
-          type: RECORD_TRANSITION_REJECTED,
-          payload: {
-            code: ERR_API,
-            error,
-          },
-          meta: {
-            recordTypeConfig,
-            csid,
-            transitionName,
-          },
-        });
-      });
-  };
-
-export const saveRecordWithTransition =
-  (
-    config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
-    relatedSubjectCsid, transitionName, onRecordCreated, showNotifications = true
-  ) => dispatch =>
-    dispatch(saveRecord(
-      config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
-      relatedSubjectCsid, onRecordCreated, showNotifications
-    ))
-    .then(savedCsid => dispatch(transitionRecord(
-      config, recordTypeConfig, vocabularyConfig, savedCsid, transitionName, relatedSubjectCsid
-    )));
+export const saveRecordWithTransition = (
+  config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
+  relatedSubjectCsid, transitionName, onRecordCreated, showNotifications = true,
+) => (dispatch) => dispatch(saveRecord(
+  config, recordTypeConfig, vocabularyConfig, csid, subresourceConfig, subresourceCsid,
+  relatedSubjectCsid, onRecordCreated, showNotifications,
+))
+  .then((savedCsid) => dispatch(transitionRecord(
+    config, recordTypeConfig, vocabularyConfig, savedCsid, transitionName, relatedSubjectCsid,
+  )));
 
 export const detachSubrecord = (config, csid, csidField, subrecordName, subrecordTypeConfig) => ({
   type: DETACH_SUBRECORD,
@@ -1293,7 +1296,7 @@ export const detachSubrecord = (config, csid, csidField, subrecordName, subrecor
   },
 });
 
-export const clearRecord = csid => ({
+export const clearRecord = (csid) => ({
   type: CLEAR_RECORD,
   meta: {
     csid,

@@ -9,8 +9,8 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('MiniViewPopupAutoCompleteInput', function suite() {
-  it('should set props on MiniViewPopupAutocompleteInput', function test() {
+describe('MiniViewPopupAutoCompleteInput', () => {
+  it('should set props on MiniViewPopupAutocompleteInput', () => {
     const perms = Immutable.fromJS({
       person: {
         data: 'CRUDL',

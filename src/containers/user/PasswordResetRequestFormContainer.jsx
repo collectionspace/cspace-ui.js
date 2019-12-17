@@ -7,7 +7,7 @@ import {
 } from '../../actions/account';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  requestReset: email => dispatch(requestPasswordReset(email, ownProps.config.tenantId)),
+  requestReset: (email) => dispatch(requestPasswordReset(email, ownProps.config.tenantId)),
 });
 
 export const ConnectedPasswordResetRequestForm = connect(

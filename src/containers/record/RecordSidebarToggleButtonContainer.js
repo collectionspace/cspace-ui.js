@@ -9,7 +9,7 @@ import {
   isRecordSidebarOpen,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isRecordSidebarOpen: isRecordSidebarOpen(state),
 });
 

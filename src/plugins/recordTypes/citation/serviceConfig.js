@@ -6,7 +6,7 @@ export default {
   objectName: 'Citation',
   documentName: 'citations',
 
-  quickAddData: values => ({
+  quickAddData: (values) => ({
     document: {
       'ns2:citations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/citation',

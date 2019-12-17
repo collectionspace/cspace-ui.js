@@ -8,7 +8,7 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchForm from '../../../../src/components/search/SearchForm';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -111,7 +111,7 @@ const intl = {
 
 const getAuthorityVocabCsid = () => '1234';
 
-describe('SearchForm', function suite() {
+describe('SearchForm', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -129,7 +129,8 @@ describe('SearchForm', function suite() {
             getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
@@ -147,7 +148,8 @@ describe('SearchForm', function suite() {
             getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const dropdownMenuInput = this.container.querySelector('.cspace-input-DropdownMenuInput--common');
 
@@ -177,7 +179,8 @@ describe('SearchForm', function suite() {
             getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-SearchFormVocab--common')).to.equal(null);
   });
@@ -201,7 +204,8 @@ describe('SearchForm', function suite() {
             onKeywordCommit={handleKeywordCommit}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('section > div > input');
 
@@ -232,7 +236,8 @@ describe('SearchForm', function suite() {
             onRecordTypeCommit={handleRecordTypeCommit}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-ui-SearchFormRecordType--common input');
 
@@ -264,7 +269,8 @@ describe('SearchForm', function suite() {
             onVocabularyCommit={handleVocabularyCommit}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-ui-SearchFormVocab--common input');
 
@@ -295,7 +301,8 @@ describe('SearchForm', function suite() {
             onSearch={handleSearch}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
 
@@ -323,7 +330,8 @@ describe('SearchForm', function suite() {
             buildRecordFieldOptionLists={buildRecordFieldOptionLists}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(true);
   });
@@ -346,7 +354,8 @@ describe('SearchForm', function suite() {
             getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -361,7 +370,8 @@ describe('SearchForm', function suite() {
             buildRecordFieldOptionLists={buildRecordFieldOptionLists}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(true);
   });
@@ -384,7 +394,8 @@ describe('SearchForm', function suite() {
             getAuthorityVocabCsid={getAuthorityVocabCsid}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -399,7 +410,8 @@ describe('SearchForm', function suite() {
             deleteOptionList={deleteOptionList}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     deletedNames.should.deep.equal([
       '_field_group',

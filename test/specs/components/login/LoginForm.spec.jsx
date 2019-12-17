@@ -11,13 +11,13 @@ import { ERR_INVALID_CREDENTIALS } from '../../../../src/constants/errorCodes';
 import createTestContainer from '../../../helpers/createTestContainer';
 import LoginForm from '../../../../src/components/login/LoginForm';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-ui-LoginForm--common';
 
-describe('LoginForm', function suite() {
+describe('LoginForm', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -30,7 +30,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -43,7 +44,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -58,7 +60,8 @@ describe('LoginForm', function suite() {
             showHeader
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('h2').should.not.equal(null);
   });
@@ -73,7 +76,8 @@ describe('LoginForm', function suite() {
             showHeader={false}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('h2')).to.equal(null);
   });
@@ -93,7 +97,8 @@ describe('LoginForm', function suite() {
             isPending
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('div > p').textContent.should
       .equal(messages['loginForm.pending']);
@@ -112,7 +117,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm isSuccess username="admin@core.collectionspace.org" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('div > p').textContent.should
       .equal(messages['loginForm.success']);
@@ -131,7 +137,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm isExpired username="admin@core.collectionspace.org" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('div > p').textContent.should
       .equal(messages['loginForm.expiredPrompt']);
@@ -154,7 +161,8 @@ describe('LoginForm', function suite() {
             error={error}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-Notification--common').textContent.should
       .equal(messages['loginForm.error']);
@@ -179,7 +187,8 @@ describe('LoginForm', function suite() {
             error={error}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-Notification--common').textContent.should
       .equal(messages['loginForm.ERR_INVALID_CREDENTIALS']);
@@ -203,7 +212,8 @@ describe('LoginForm', function suite() {
             login={login}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const username = 'user@collectionspace.org';
@@ -226,7 +236,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
 
@@ -251,7 +262,8 @@ describe('LoginForm', function suite() {
             onSuccess={handleSuccess}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(false);
 
@@ -265,7 +277,8 @@ describe('LoginForm', function suite() {
             onSuccess={handleSuccess}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(true);
   });
@@ -278,7 +291,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider
@@ -289,7 +303,8 @@ describe('LoginForm', function suite() {
             username="user@collectionspace.org"
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const passwordInput = this.container.querySelector('#password');
 
@@ -304,7 +319,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider
@@ -315,7 +331,8 @@ describe('LoginForm', function suite() {
             error={Immutable.Map()}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const passwordInput = this.container.querySelector('#password');
 
@@ -332,7 +349,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const usernameInput = this.container.querySelector('#username');
 
@@ -353,7 +371,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm showForgotLink username="admin@core.collectionspace.org" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('a').should.not.equal(null);
   });
@@ -366,7 +385,8 @@ describe('LoginForm', function suite() {
         <Router>
           <LoginForm showForgotLink={false} username="admin@core.collectionspace.org" />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('a')).to.equal(null);
   });

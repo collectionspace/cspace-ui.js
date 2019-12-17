@@ -16,7 +16,7 @@ import {
   normalizeRelationList,
   findBroaderRelation,
   findNarrowerRelations,
-} from '../../../src/helpers/relationListHelpers';
+} from '../../helpers/relationListHelpers';
 
 const {
   getPath,
@@ -38,35 +38,36 @@ const findParent = (csid, relations) => {
   return null;
 };
 
-const findChildren = (csid, relations) =>
-  findNarrowerRelations(csid, relations)
-    .sort((relationA, relationB) => {
-      const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName']));
-      const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName']));
+const findChildren = (csid, relations) => findNarrowerRelations(csid, relations)
+  .sort((relationA, relationB) => {
+    const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName']));
+    const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName']));
 
-      if (displayNameA && displayNameB) {
-        return displayNameA.localeCompare(displayNameB);
-      }
+    if (displayNameA && displayNameB) {
+      return displayNameA.localeCompare(displayNameB);
+    }
 
-      if (!displayNameA && !displayNameB) {
-        return 0;
-      }
+    if (!displayNameA && !displayNameB) {
+      return 0;
+    }
 
-      if (displayNameA) {
-        return -1;
-      }
+    if (displayNameA) {
+      return -1;
+    }
 
-      return 1;
-    })
-    .map(relation => Immutable.Map({
-      relCsid: relation.get('csid'),
-      refName: relation.getIn(['subject', 'refName']),
-      type: relation.get('relationshipMetaType'),
-    }));
+    return 1;
+  })
+  .map((relation) => Immutable.Map({
+    relCsid: relation.get('csid'),
+    refName: relation.getIn(['subject', 'refName']),
+    type: relation.get('relationshipMetaType'),
+  }));
 
 const propTypes = {
   csid: PropTypes.string,
-  messages: PropTypes.object,
+  messages: PropTypes.shape({
+    siblings: PropTypes.object,
+  }),
   /* eslint-disable react/no-unused-prop-types */
   name: PropTypes.string,
   parentPath: pathPropType,
@@ -95,7 +96,9 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
 };
@@ -141,7 +144,7 @@ export default class HierarchyInput extends Component {
 
     const children = hierarchy.get('children');
 
-    const childRelationItems = children.map(child => Immutable.fromJS({
+    const childRelationItems = children.map((child) => Immutable.fromJS({
       csid: child.get('relCsid'),
       predicate: 'hasBroader',
       relationshipMetaType: child.get('type'),
@@ -308,8 +311,8 @@ export default class HierarchyInput extends Component {
     } = this.context;
 
     const newChildRefNames = hierarchy.get('children')
-      .filter(child => !child.get('relCsid'))
-      .map(child => child.get('refName'));
+      .filter((child) => !child.get('relCsid'))
+      .map((child) => child.get('refName'));
 
     return (
       <HierarchyReparentNotifierContainer

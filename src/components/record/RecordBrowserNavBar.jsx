@@ -31,6 +31,10 @@ const messages = defineMessages({
     id: 'recordBrowserNavBar.moreRelated',
     defaultMessage: '+ Related',
   },
+  close: {
+    id: 'recordBrowserNavBar.close',
+    defaultMessage: 'close',
+  },
 });
 
 const filterRecordTypes = (recordTypes, relatedRecordBrowsers, perms) => {
@@ -40,15 +44,17 @@ const filterRecordTypes = (recordTypes, relatedRecordBrowsers, perms) => {
     const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
 
     return (
-      (serviceType === 'procedure' || serviceType === 'object') &&
-      !existingBrowsers.includes(name) &&
-      canList(name, perms)
+      (serviceType === 'procedure' || serviceType === 'object')
+      && !existingBrowsers.includes(name)
+      && canList(name, perms)
     );
   });
 };
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   recordType: PropTypes.string,
   relatedRecordType: PropTypes.string,
@@ -140,7 +146,7 @@ class RecordBrowserNavBar extends Component {
     }
 
     if (onSelect && (closedType === relatedRecordType)) {
-      let index = itemSet.toList().findKey(value => value === closedType);
+      let index = itemSet.toList().findKey((value) => value === closedType);
 
       if (index > updatedItems.size - 1) {
         index = updatedItems.size - 1;
@@ -184,13 +190,13 @@ class RecordBrowserNavBar extends Component {
 
     const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-    const showRelatedItems =
-      csid && !isAuthority(recordTypeConfig) && !isUtility(recordTypeConfig);
+    const showRelatedItems = csid && !isAuthority(recordTypeConfig) && !isUtility(recordTypeConfig);
 
     const primaryItem = (
       <li className={relatedRecordType ? itemStyles.normal : itemStyles.active}>
         <button
           disabled={!showRelatedItems || !relatedRecordType}
+          type="button"
           onClick={this.handleItemButtonClick}
         >
           {intl.formatMessage(csid ? messages.primary : messages.new)}
@@ -214,12 +220,15 @@ class RecordBrowserNavBar extends Component {
             <button
               data-recordtype={itemRecordType}
               disabled={itemRecordType === relatedRecordType}
+              type="button"
               onClick={this.handleItemButtonClick}
             >
               {label}
             </button>
             <button
+              aria-label={intl.formatMessage(messages.close)}
               data-recordtype={itemRecordType}
+              type="button"
               onClick={this.handleItemCloseButtonClick}
             />
           </li>

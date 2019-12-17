@@ -15,9 +15,9 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('quick search action creator', function suite() {
-  describe('setQuickSearchKeyword', function actionSuite() {
-    it('should create a SET_QUICK_SEARCH_KEYWORD action', function test() {
+describe('quick search action creator', () => {
+  describe('setQuickSearchKeyword', () => {
+    it('should create a SET_QUICK_SEARCH_KEYWORD action', () => {
       const value = 'search keywords';
 
       setQuickSearchKeyword(value).should.deep.equal({
@@ -27,8 +27,8 @@ describe('quick search action creator', function suite() {
     });
   });
 
-  describe('initiateSearch', function actionSuite() {
-    it('should push a search result location onto history for authority records', function test() {
+  describe('initiateSearch', () => {
+    it('should push a search result location onto history for authority records', () => {
       const store = mockStore({
         quickSearch: Immutable.fromJS({
           keyword: 'hello',
@@ -57,7 +57,7 @@ describe('quick search action creator', function suite() {
       });
     });
 
-    it('should push a search result location onto history for procedure records', function test() {
+    it('should push a search result location onto history for procedure records', () => {
       const store = mockStore({
         quickSearch: Immutable.fromJS({
           keyword: 'hello',
@@ -83,7 +83,7 @@ describe('quick search action creator', function suite() {
       });
     });
 
-    it('should push a record location onto history when a csid is entered as a keyword', function test() {
+    it('should push a record location onto history when a csid is entered as a keyword', () => {
       const csid = '53ae2430-379a-4656-9ff5';
 
       const store = mockStore({

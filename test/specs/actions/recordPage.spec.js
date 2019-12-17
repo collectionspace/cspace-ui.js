@@ -8,9 +8,9 @@ import {
 
 chai.should();
 
-describe('record page action creator', function suite() {
-  describe('setRecordPagePrimaryCsid', function actionSuite() {
-    it('should create a SET_RECORD_PAGE_PRIMARY_CSID action', function test() {
+describe('record page action creator', () => {
+  describe('setRecordPagePrimaryCsid', () => {
+    it('should create a SET_RECORD_PAGE_PRIMARY_CSID action', () => {
       const csid = '1234';
 
       setRecordPagePrimaryCsid(csid).should.deep.equal({

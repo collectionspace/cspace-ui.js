@@ -8,12 +8,12 @@ import LogoutIndicator from '../../../../src/components/login/LogoutIndicator';
 
 chai.should();
 
-describe('LogoutIndicator', function suite() {
+describe('LogoutIndicator', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  context('when isPending is true', function context() {
+  context('when isPending is true', () => {
     it('should render as a div', function test() {
       render(
         <IntlProvider
@@ -22,7 +22,8 @@ describe('LogoutIndicator', function suite() {
           <LogoutIndicator
             isPending
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.nodeName.should.equal('DIV');
     });
@@ -40,14 +41,15 @@ describe('LogoutIndicator', function suite() {
           <LogoutIndicator
             isPending
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.querySelector('div').textContent.should
         .equal(messages['logoutIndicator.pending']);
     });
   });
 
-  context('when response exists', function context() {
+  context('when response exists', () => {
     it('should render as a div', function test() {
       const response = {};
 
@@ -58,7 +60,8 @@ describe('LogoutIndicator', function suite() {
           <LogoutIndicator
             response={response}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.nodeName.should.equal('DIV');
     });
@@ -78,14 +81,15 @@ describe('LogoutIndicator', function suite() {
           <LogoutIndicator
             response={response}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.querySelector('div').textContent.should
         .equal(messages['logoutIndicator.success']);
     });
   });
 
-  context('when error exists', function context() {
+  context('when error exists', () => {
     it('should render as a div', function test() {
       const error = new Error();
 
@@ -96,7 +100,8 @@ describe('LogoutIndicator', function suite() {
           <LogoutIndicator
             error={error}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.nodeName.should.equal('DIV');
     });
@@ -112,7 +117,8 @@ describe('LogoutIndicator', function suite() {
           <LogoutIndicator
             error={error}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.querySelector('div').textContent.should
         .equal(errorMessage);
@@ -136,7 +142,8 @@ describe('LogoutIndicator', function suite() {
           isPending
           onSuccess={handleSuccess}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(false);
 
@@ -149,7 +156,8 @@ describe('LogoutIndicator', function suite() {
         <LogoutIndicator
           onSuccess={handleSuccess}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(false);
 
@@ -163,7 +171,8 @@ describe('LogoutIndicator', function suite() {
           isPending
           onSuccess={handleSuccess}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     // Change isPending to false, with response - onSuccess should be called
 
@@ -177,7 +186,8 @@ describe('LogoutIndicator', function suite() {
           response={response}
           onSuccess={handleSuccess}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(true);
 
@@ -194,7 +204,8 @@ describe('LogoutIndicator', function suite() {
         <LogoutIndicator
           onSuccess={handleSuccess}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(false);
 
@@ -208,7 +219,8 @@ describe('LogoutIndicator', function suite() {
           isPending
           onSuccess={handleSuccess}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(false);
 
@@ -221,7 +233,8 @@ describe('LogoutIndicator', function suite() {
         <LogoutIndicator
           response={response}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(false);
   });

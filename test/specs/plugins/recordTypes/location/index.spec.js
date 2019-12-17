@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('location record plugin', function suite() {
+describe('location record plugin', () => {
   const config = {};
   const locationRecordTypePlugin = locationRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = locationRecordTypePlugin(configContext);
 
     const {

@@ -2,8 +2,8 @@ import optionLists from '../../../../../src/plugins/recordTypes/acquisition/opti
 
 chai.should();
 
-describe('acquisition record optionLists', function suite() {
-  it('should export an object', function test() {
+describe('acquisition record optionLists', () => {
+  it('should export an object', () => {
     optionLists.should.be.an('object');
   });
 });

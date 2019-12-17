@@ -11,7 +11,9 @@ const propTypes = {
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
 };
 
 export default function ValidationErrorNotification(props, context) {
@@ -28,8 +30,7 @@ export default function ValidationErrorNotification(props, context) {
     config,
   } = context;
 
-  const recordTypeConfig =
-    get(config, ['recordTypes', recordType])
+  const recordTypeConfig = get(config, ['recordTypes', recordType])
     || get(config, ['invocables', 'report', recordType])
     || get(config, ['invocables', 'batch', recordType]);
 

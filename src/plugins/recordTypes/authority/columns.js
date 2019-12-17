@@ -11,7 +11,7 @@ export default (configContext) => {
   return {
     default: {
       docName: {
-        formatValue: value => formatRefName(value) || value,
+        formatValue: (value) => formatRefName(value) || value,
         messages: defineMessages({
           label: {
             id: 'column.authority.default.docName',

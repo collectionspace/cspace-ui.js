@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import WorkflowStateIcon from '../../../../src/components/record/WorkflowStateIcon';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('WorkflowStateIcon', function suite() {
+describe('WorkflowStateIcon', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('WorkflowStateIcon', function suite() {
     render(
       <IntlProvider locale="en">
         <WorkflowStateIcon value="locked" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.tagName.should.equal('DIV');
   });
@@ -26,7 +27,8 @@ describe('WorkflowStateIcon', function suite() {
     render(
       <IntlProvider locale="en">
         <WorkflowStateIcon value="locked" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const img = this.container.querySelector('img');
 
@@ -37,7 +39,8 @@ describe('WorkflowStateIcon', function suite() {
     render(
       <IntlProvider locale="en">
         <WorkflowStateIcon value="replicated" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const img = this.container.querySelector('img');
 
@@ -48,7 +51,8 @@ describe('WorkflowStateIcon', function suite() {
     render(
       <IntlProvider locale="en">
         <WorkflowStateIcon value="deprecated" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const img = this.container.querySelector('img');
 
@@ -59,7 +63,8 @@ describe('WorkflowStateIcon', function suite() {
     render(
       <IntlProvider locale="en">
         <WorkflowStateIcon value="" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -68,7 +73,8 @@ describe('WorkflowStateIcon', function suite() {
     render(
       <IntlProvider locale="en">
         <WorkflowStateIcon value="something_else" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

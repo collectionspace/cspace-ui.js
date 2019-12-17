@@ -2,8 +2,8 @@ import optionsList from '../../../../../src/plugins/recordTypes/location/optionL
 
 chai.should();
 
-describe('location record optionLists', function suite() {
-  it('should contain properties values and messages', function test() {
+describe('location record optionLists', () => {
+  it('should contain properties values and messages', () => {
     optionsList.should.be.an('object');
 
     Object.keys(optionsList).forEach((option) => {

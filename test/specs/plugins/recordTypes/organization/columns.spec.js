@@ -3,7 +3,7 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('organization record columns', function suite() {
+describe('organization record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
@@ -50,14 +50,14 @@ describe('organization record columns', function suite() {
   };
 
   const intl = {
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
   };
 
-  it('should have correct shape', function test() {
+  it('should have correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
+  it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', () => {
     const vocabularyColumn = columns.default.vocabulary;
 
     vocabularyColumn.should.have.property('formatValue').that.is.a('function');
@@ -68,7 +68,7 @@ describe('organization record columns', function suite() {
       .equal('formatted vocab.organization.local.name');
   });
 
-  it('should have term status column that is formatted as an option list value', function test() {
+  it('should have term status column that is formatted as an option list value', () => {
     const termStatusColumn = columns.default.termStatus;
 
     termStatusColumn.should.have.property('formatValue').that.is.a('function');

@@ -48,7 +48,7 @@ const handleAccountRolesReadFulfilled = (state, action) => {
       roles = [roles];
     }
 
-    return state.set('roleNames', Immutable.List(roles.map(role => role.roleName)));
+    return state.set('roleNames', Immutable.List(roles.map((role) => role.roleName)));
   }
 
   return state;
@@ -80,10 +80,10 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getAccountId = state => state.getIn(['account', 'accountId']);
-export const getUsername = state => state.get('username');
-export const getScreenName = state => state.getIn(['account', 'screenName']);
-export const getUserId = state => state.getIn(['account', 'userId']);
-export const getPerms = state => state.get('perms');
-export const getRoleNames = state => state.get('roleNames');
-export const arePrefsLoaded = state => (state.get('prefsLoaded') === true);
+export const getAccountId = (state) => state.getIn(['account', 'accountId']);
+export const getUsername = (state) => state.get('username');
+export const getScreenName = (state) => state.getIn(['account', 'screenName']);
+export const getUserId = (state) => state.getIn(['account', 'userId']);
+export const getPerms = (state) => state.get('perms');
+export const getRoleNames = (state) => state.get('roleNames');
+export const arePrefsLoaded = (state) => (state.get('prefsLoaded') === true);

@@ -3,7 +3,7 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('pot tag record columns', function suite() {
+describe('pot tag record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
@@ -21,14 +21,14 @@ describe('pot tag record columns', function suite() {
   };
 
   const intl = {
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
   };
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have family column that is formatted as a refname display name', function test() {
+  it('should have family column that is formatted as a refname display name', () => {
     const familyColumn = columns.default.family;
 
     familyColumn.should.have.property('formatValue').that.is.a('function');
@@ -37,7 +37,7 @@ describe('pot tag record columns', function suite() {
       .equal('PTFamily');
   });
 
-  it('should have taxonName column that is formatted as a refname display name', function test() {
+  it('should have taxonName column that is formatted as a refname display name', () => {
     const taxonNameColumn = columns.default.taxonName;
 
     taxonNameColumn.should.have.property('formatValue').that.is.a('function');
@@ -46,7 +46,7 @@ describe('pot tag record columns', function suite() {
       .equal('TaxonName');
   });
 
-  it('should have print labels column that is formatted as an option list value', function test() {
+  it('should have print labels column that is formatted as an option list value', () => {
     const printLabelsColumn = columns.default.printLabels;
 
     printLabelsColumn.should.have.property('formatValue').that.is.a('function');

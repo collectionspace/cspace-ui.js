@@ -2,8 +2,8 @@ import optionsList from '../../../../../src/plugins/recordTypes/citation/optionL
 
 chai.should();
 
-describe('citation record optionLists', function suite() {
-  it('should contain properties values and messages', function test() {
+describe('citation record optionLists', () => {
+  it('should contain properties values and messages', () => {
     optionsList.should.be.an('object');
 
     Object.keys(optionsList).forEach((option) => {

@@ -18,7 +18,7 @@ const store = mockStore({
   }),
 });
 
-describe('RootPage', function suite() {
+describe('RootPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -31,7 +31,8 @@ describe('RootPage', function suite() {
             <RootPage />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });

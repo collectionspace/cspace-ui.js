@@ -6,7 +6,7 @@ export default {
   objectName: 'Organization',
   documentName: 'organizations',
 
-  quickAddData: values => ({
+  quickAddData: (values) => ({
     document: {
       'ns2:organizations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/organization',

@@ -12,8 +12,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('SearchToRelateModalContainer', function suite() {
-  it('should set props on SearchToRelateModal', function test() {
+describe('SearchToRelateModalContainer', () => {
+  it('should set props on SearchToRelateModal', () => {
     const perms = Immutable.fromJS({
       person: {
         data: 'CRUDL',
@@ -33,7 +33,8 @@ describe('SearchToRelateModalContainer', function suite() {
     };
 
     shallowRenderer.render(
-      <SearchToRelateModalContainer />, context);
+      <SearchToRelateModalContainer />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

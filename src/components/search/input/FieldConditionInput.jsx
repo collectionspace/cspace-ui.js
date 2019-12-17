@@ -31,7 +31,9 @@ import styles from '../../../../styles/cspace-ui/FieldConditionInput.css';
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   inline: PropTypes.bool,
   name: PropTypes.string,
   readOnly: PropTypes.bool,
@@ -130,7 +132,7 @@ export default class FieldConditionInput extends Component {
     } = this.props;
 
     const fieldDescriptor = get(
-      config, ['recordTypes', recordType, 'fields', 'document', ...path.split('/')]
+      config, ['recordTypes', recordType, 'fields', 'document', ...path.split('/')],
     );
 
     const dataType = getFieldDataType(fieldDescriptor);

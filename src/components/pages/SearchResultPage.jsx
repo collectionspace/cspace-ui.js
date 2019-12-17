@@ -49,9 +49,18 @@ const messages = defineMessages({
 
 const propTypes = {
   isSidebarOpen: PropTypes.bool,
-  history: PropTypes.object,
-  location: PropTypes.object,
-  match: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    state: PropTypes.object,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
@@ -70,7 +79,9 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
 };
 
 export default class SearchResultPage extends Component {
@@ -136,12 +147,12 @@ export default class SearchResultPage extends Component {
     const { params: prevParams } = prevMatch;
 
     if (
-      perms !== prevPerms ||
-      params.recordType !== prevParams.recordType ||
-      params.vocabulary !== prevParams.vocabulary ||
-      params.csid !== prevParams.csid ||
-      params.subresource !== prevParams.subresource ||
-      location.search !== prevLocation.search
+      perms !== prevPerms
+      || params.recordType !== prevParams.recordType
+      || params.vocabulary !== prevParams.vocabulary
+      || params.csid !== prevParams.csid
+      || params.subresource !== prevParams.subresource
+      || location.search !== prevLocation.search
     ) {
       if (!this.normalizeQuery()) {
         const {
@@ -191,10 +202,11 @@ export default class SearchResultPage extends Component {
 
     const query = qs.parse(search.substring(1));
 
-    const searchQuery = Object.assign({}, query, {
+    const searchQuery = {
+      ...query,
       p: parseInt(query.p, 10) - 1,
       size: parseInt(query.size, 10),
-    });
+    };
 
     const advancedSearchCondition = query.as;
 
@@ -238,7 +250,7 @@ export default class SearchResultPage extends Component {
 
     const titleColumnName = getFirstColumnName(config, recordType);
 
-    return selectedItems.valueSeq().map(item => ({
+    return selectedItems.valueSeq().map((item) => ({
       csid: item.get('csid'),
       recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
       title: item.get(titleColumnName),
@@ -257,10 +269,10 @@ export default class SearchResultPage extends Component {
 
     return (
       subresource !== 'terms' && (
-        serviceType === 'procedure' ||
-        serviceType === 'object' ||
-        recordType === 'procedure' ||
-        recordType === 'object'
+        serviceType === 'procedure'
+        || serviceType === 'object'
+        || recordType === 'procedure'
+        || recordType === 'object'
       )
     );
   }
@@ -290,7 +302,7 @@ export default class SearchResultPage extends Component {
 
       const pageSize = parseInt(query.size, 10);
 
-      if (isNaN(pageSize) || pageSize < 1) {
+      if (Number.isNaN(pageSize) || pageSize < 1) {
         const normalizedPageSize = preferredPageSize || defaultPageSize;
 
         normalizedQueryParams.size = normalizedPageSize.toString();
@@ -303,14 +315,14 @@ export default class SearchResultPage extends Component {
 
       const pageNum = parseInt(query.p, 10);
 
-      if (isNaN(pageNum) || pageNum < 1) {
+      if (Number.isNaN(pageNum) || pageNum < 1) {
         normalizedQueryParams.p = '1';
       } else if (pageNum.toString() !== query.p) {
         normalizedQueryParams.p = pageNum.toString();
       }
 
       if (Object.keys(normalizedQueryParams).length > 0) {
-        const newQuery = Object.assign({}, query, normalizedQueryParams);
+        const newQuery = { ...query, ...normalizedQueryParams };
         const queryString = qs.stringify(newQuery);
 
         history.replace({
@@ -410,7 +422,8 @@ export default class SearchResultPage extends Component {
       const listType = this.getListType(searchDescriptor);
 
       onItemSelectChange(
-        config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, index, selected);
+        config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, index, selected,
+      );
     }
   }
 
@@ -571,7 +584,7 @@ export default class SearchResultPage extends Component {
     // The search will be repeated with a valid descriptor once normalizeQuery
     // has set them to the defaults.
 
-    if (!isNaN(searchQuery.get('p')) && !isNaN(searchQuery.get('size')) && search) {
+    if (!Number.isNaN(searchQuery.get('p')) && !Number.isNaN(searchQuery.get('size')) && search) {
       const listType = this.getListType(searchDescriptor);
 
       search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType);
@@ -680,7 +693,11 @@ export default class SearchResultPage extends Component {
       const totalItems = parseInt(list.get('totalItems'), 10);
       const pageNum = parseInt(list.get('pageNum'), 10);
       const pageSize = parseInt(list.get('pageSize'), 10);
-      const lastPage = Math.max(0, isNaN(totalItems) ? 0 : Math.ceil(totalItems / pageSize) - 1);
+
+      const lastPage = Math.max(
+        0,
+        Number.isNaN(totalItems) ? 0 : Math.ceil(totalItems / pageSize) - 1,
+      );
 
       return (
         <footer>
@@ -725,7 +742,9 @@ export default class SearchResultPage extends Component {
     const csid = searchDescriptor.get('csid');
     const subresource = searchDescriptor.get('subresource');
 
-    const validation = validateLocation(config, { recordType, vocabulary, csid, subresource });
+    const validation = validateLocation(config, {
+      recordType, vocabulary, csid, subresource,
+    });
 
     if (validation.error) {
       return (

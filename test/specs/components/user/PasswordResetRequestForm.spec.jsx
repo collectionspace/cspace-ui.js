@@ -7,11 +7,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import PasswordResetRequestForm from '../../../../src/components/user/PasswordResetRequestForm';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('PasswordResetRequestForm', function suite() {
+describe('PasswordResetRequestForm', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -22,7 +22,8 @@ describe('PasswordResetRequestForm', function suite() {
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
@@ -39,7 +40,8 @@ describe('PasswordResetRequestForm', function suite() {
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const emailInput = this.container.querySelector('input[type="text"]');
@@ -60,7 +62,8 @@ describe('PasswordResetRequestForm', function suite() {
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
 
@@ -76,7 +79,8 @@ describe('PasswordResetRequestForm', function suite() {
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const emailInput = this.container.querySelector('input[type="text"]');
@@ -93,16 +97,19 @@ describe('PasswordResetRequestForm', function suite() {
   });
 
   it('should show an error notification when no account is found with the email address', function test() {
-    const requestReset = () => Promise.reject({
-      response: {
-        status: 404,
-      },
-    });
+    const error = new Error();
+
+    error.response = {
+      status: 404,
+    };
+
+    const requestReset = () => Promise.reject(error);
 
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const emailInput = this.container.querySelector('input[type="text"]');
@@ -125,14 +132,13 @@ describe('PasswordResetRequestForm', function suite() {
   });
 
   it('should show a generic error notification when an error occurs that is not specifically handled', function test() {
-    const requestReset = () => Promise.reject({
-      message: 'The underlying error message.',
-    });
+    const requestReset = () => Promise.reject(new Error('The underlying error message.'));
 
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const emailInput = this.container.querySelector('input[type="text"]');
@@ -160,7 +166,8 @@ describe('PasswordResetRequestForm', function suite() {
     render(
       <IntlProvider locale="en">
         <PasswordResetRequestForm requestReset={requestReset} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
     const emailInput = this.container.querySelector('input[type="text"]');

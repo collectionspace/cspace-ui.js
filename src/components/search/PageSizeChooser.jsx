@@ -39,7 +39,7 @@ export default class PageSizeChooser extends Component {
     if (onPageSizeChange) {
       const value = parseInt(label, 10);
 
-      if (!isNaN(value) && value > 0) {
+      if (!Number.isNaN(value) && value > 0) {
         onPageSizeChange(value);
       }
     }
@@ -67,7 +67,7 @@ export default class PageSizeChooser extends Component {
       pageSizeOptionListName,
     } = this.props;
 
-    const value = isNaN(pageSize) ? '' : pageSize.toString();
+    const value = Number.isNaN(pageSize) ? '' : pageSize.toString();
 
     const chooser = (
       <ComboBoxInputContainer

@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('citation record plugin', function suite() {
+describe('citation record plugin', () => {
   const config = {};
   const citationRecordTypePlugin = citationRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = citationRecordTypePlugin(configContext);
 
     const {

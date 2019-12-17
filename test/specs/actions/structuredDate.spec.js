@@ -15,17 +15,15 @@ import {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('structured date action creator', function suite() {
-  describe('parseDisplayDate', function actionSuite() {
+describe('structured date action creator', () => {
+  describe('parseDisplayDate', () => {
     const mockStore = configureMockStore([thunk]);
     const store = mockStore();
 
     const parseStructuredDateUrl = /^\/cspace-services\/structureddates\?dateToParse=.*/;
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -36,7 +34,7 @@ describe('structured date action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should resolve to an object containing a parsed structured date value', function test() {
+    it('should resolve to an object containing a parsed structured date value', () => {
       moxios.stubRequest(parseStructuredDateUrl, {
         status: 200,
         response: {
@@ -84,7 +82,7 @@ describe('structured date action creator', function suite() {
         });
     });
 
-    it('should resolve to an object with isError set to true when the display date is not parseable', function test() {
+    it('should resolve to an object with isError set to true when the display date is not parseable', () => {
       moxios.stubRequest(parseStructuredDateUrl, {
         status: 400,
         response: {},
@@ -96,8 +94,8 @@ describe('structured date action creator', function suite() {
         });
     });
 
-    it('should resolve to a structured date with all fields set to null when the display date is blank', function test() {
-      return store.dispatch(parseDisplayDate(''))
+    it('should resolve to a structured date with all fields set to null when the display date is blank', () => (
+      store.dispatch(parseDisplayDate(''))
         .then((result) => {
           result.should.have.property('value').that.equals(Immutable.Map({
             dateDisplayDate: null,
@@ -119,7 +117,7 @@ describe('structured date action creator', function suite() {
             dateLatestQualifierValue: null,
             scalarValuesComputed: null,
           }));
-        });
-    });
+        })
+    ));
   });
 });

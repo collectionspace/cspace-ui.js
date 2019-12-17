@@ -12,7 +12,7 @@ import {
   getPreviousPageSearchDescriptor,
 } from '../../../../src/helpers/searchHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -61,15 +61,16 @@ const context = {
   store,
 };
 
-describe('SearchResultTraverserContainer', function suite() {
-  it('should set props on SearchResultTraverser', function test() {
+describe('SearchResultTraverserContainer', () => {
+  it('should set props on SearchResultTraverser', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <SearchResultTraverserContainer
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -83,7 +84,7 @@ describe('SearchResultTraverserContainer', function suite() {
     result.props.search.should.be.a('function');
   });
 
-  it('should set prevPageSearchState to undefined if the search descriptor is on page 0', function test() {
+  it('should set prevPageSearchState to undefined if the search descriptor is on page 0', () => {
     const pageZeroSearchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
@@ -97,7 +98,8 @@ describe('SearchResultTraverserContainer', function suite() {
       <SearchResultTraverserContainer
         searchName={searchName}
         searchDescriptor={pageZeroSearchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

@@ -10,8 +10,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('RecordPageContainer', function suite() {
-  it('should set props on RecordPage', function test() {
+describe('RecordPageContainer', () => {
+  it('should set props on RecordPage', () => {
     const recordType = 'group';
     const csid = '3f702416-1897-43ce-a9f5';
 
@@ -56,7 +56,8 @@ describe('RecordPageContainer', function suite() {
       <ConnectedRecordPage
         config={config}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

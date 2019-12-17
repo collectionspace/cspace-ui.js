@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     getPart,
     deepGet,
@@ -21,5 +21,5 @@ export default configContext => (data) => {
   const loanInNumber = common.get('loanInNumber');
   const borrower = getDisplayName(deepGet(common, ['lenderGroupList', 'lenderGroup', 0, 'lender']));
 
-  return [loanInNumber, borrower].filter(part => !!part).join(' – ');
+  return [loanInNumber, borrower].filter((part) => !!part).join(' – ');
 };

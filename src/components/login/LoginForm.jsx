@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import {
+  defineMessages, injectIntl, intlShape, FormattedMessage,
+} from 'react-intl';
 import { Link } from 'react-router-dom';
+import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import LoginButton from './LoginButton';
 import Notification from '../notification/Notification';
@@ -73,17 +76,19 @@ const messages = defineMessages({
 });
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    tenantId: PropTypes.string,
+  }),
 };
 
 const propTypes = {
   formId: PropTypes.string,
-  intl: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   isExpired: PropTypes.bool,
   isPending: PropTypes.bool,
   isSuccess: PropTypes.bool,
   username: PropTypes.string,
-  error: PropTypes.object,
+  error: PropTypes.instanceOf(Immutable.Map()),
   showForgotLink: PropTypes.bool,
   showHeader: PropTypes.bool,
   login: PropTypes.func,

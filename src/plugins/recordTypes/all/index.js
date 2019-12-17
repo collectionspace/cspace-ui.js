@@ -4,7 +4,7 @@ import fields from './fields';
 import messages from './messages';
 import serviceConfig from './serviceConfig';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   recordTypes: {
     all: {
       messages,

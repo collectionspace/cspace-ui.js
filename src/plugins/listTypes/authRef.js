@@ -46,8 +46,10 @@ export default () => ({
           if (canRead(recordType, perms)) {
             const vocabularyShortID = getVocabularyShortID(refName);
 
-            const vocabularyConfig =
-              getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
+            const vocabularyConfig = getVocabularyConfigByShortID(
+              recordTypeConfig,
+              vocabularyShortID,
+            );
 
             if (vocabularyConfig) {
               const csid = item.get('csid');

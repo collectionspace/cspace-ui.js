@@ -24,7 +24,7 @@ import {
   OP_GROUP,
 } from '../../../../../src/constants/searchOperators';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -39,13 +39,22 @@ const store = mockStore({
   }),
 });
 
-const TestInput = props => (
-  <input
-    name={props.name}
-    defaultValue={props.value}
-    onBlur={event => props.onCommit([...props.parentPath, props.name, 0], event.target.value)}
-  />
-);
+const TestInput = (props) => {
+  const {
+    name,
+    parentPath,
+    value,
+    onCommit,
+  } = props;
+
+  return (
+    <input
+      name={name}
+      defaultValue={value}
+      onBlur={(event) => onCommit([...parentPath, name, 0], event.target.value)}
+    />
+  );
+};
 
 TestInput.propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
@@ -113,7 +122,7 @@ const config = {
   },
 };
 
-describe('BooleanConditionInput', function suite() {
+describe('BooleanConditionInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -155,7 +164,8 @@ describe('BooleanConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
 
@@ -189,7 +199,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.match(/^\(.*\)$/);
   });
@@ -211,7 +222,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('button[name="addGroup"]').should.not.equal(null);
   });
@@ -233,7 +245,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-RemoveConditionButton--common')).to.equal(null);
   });
@@ -255,7 +268,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-RemoveConditionButton--common')).to.equal(null);
   });
@@ -286,7 +300,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('.cspace-ui-RemoveConditionButton--common');
 
@@ -311,7 +326,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="booleanSearchOp"]');
 
@@ -334,7 +350,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-DropdownMenuInput--common > input').value.should.equal('All');
   });
@@ -355,7 +372,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-DropdownMenuInput--common > input').value.should.equal('Any');
   });
@@ -389,7 +407,8 @@ describe('BooleanConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input');
 
@@ -454,7 +473,8 @@ describe('BooleanConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="field"]');
 
@@ -517,7 +537,8 @@ describe('BooleanConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="addBoolean"]');
 
@@ -569,7 +590,8 @@ describe('BooleanConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="addField"]');
 
@@ -620,7 +642,8 @@ describe('BooleanConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('button[name="addGroup"]');
 
@@ -682,10 +705,11 @@ describe('BooleanConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector(
-      '.cspace-ui-FieldConditionInput--common button.cspace-ui-RemoveConditionButton--common'
+      '.cspace-ui-FieldConditionInput--common button.cspace-ui-RemoveConditionButton--common',
     );
 
     Simulate.click(button);

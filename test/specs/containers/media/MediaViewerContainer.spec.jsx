@@ -13,8 +13,8 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('MediaViewerContainer', function suite() {
-  it('should set props on MediaViewer', function test() {
+describe('MediaViewerContainer', () => {
+  it('should set props on MediaViewer', () => {
     const searchName = 'test';
     const searchDescriptor = Immutable.Map();
     const key = searchKey(searchDescriptor);
@@ -46,7 +46,8 @@ describe('MediaViewerContainer', function suite() {
         config={config}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

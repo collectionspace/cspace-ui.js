@@ -19,11 +19,9 @@ const store = mockStore({
   user: Immutable.Map(),
 });
 
-describe('ContentViewerPageContainer', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('ContentViewerPageContainer', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(() => {
     moxios.install();
@@ -34,7 +32,7 @@ describe('ContentViewerPageContainer', function suite() {
     moxios.uninstall();
   });
 
-  it('should set props on ContentViewerPage', function test() {
+  it('should set props on ContentViewerPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();
@@ -47,7 +45,7 @@ describe('ContentViewerPageContainer', function suite() {
     result.props.should.have.property('readContent').that.is.a('function');
   });
 
-  it('should connect readContent to an action that fetches the content as a blob', function test() {
+  it('should connect readContent to an action that fetches the content as a blob', () => {
     moxios.stubRequest(/./, {
       status: 200,
       response: {},

@@ -3,11 +3,11 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import SubrecordEditorContainer from '../../../../src/containers/record/SubrecordEditorContainer';
 import Subrecord from '../../../../src/components/record/Subrecord';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('Subrecord', function suite() {
+describe('Subrecord', () => {
   const recordType = 'person';
   const csid = '1234';
 
@@ -38,7 +38,7 @@ describe('Subrecord', function suite() {
     recordType,
   };
 
-  it('should render a SubrecordEditorContainer', function test() {
+  it('should render a SubrecordEditorContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -46,7 +46,8 @@ describe('Subrecord', function suite() {
         name={subrecordName}
         template={template}
         showDetachButton
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -59,14 +60,15 @@ describe('Subrecord', function suite() {
     result.props.showDetachButton.should.equal(true);
   });
 
-  it('should render nothing if the named subrecord is not configured for the record type', function test() {
+  it('should render nothing if the named subrecord is not configured for the record type', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <Subrecord
         name="badName"
         template={template}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

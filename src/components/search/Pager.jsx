@@ -168,7 +168,7 @@ export default class Pager extends Component {
       });
     }
 
-    const items = pages.map(page =>
+    const items = pages.map((page) => (
       <li key={page.pageNum}>
         <MiniButton
           data-pagenum={page.pageNum}
@@ -178,7 +178,7 @@ export default class Pager extends Component {
           {page.label}
         </MiniButton>
       </li>
-    );
+    ));
 
     return (
       <ul>

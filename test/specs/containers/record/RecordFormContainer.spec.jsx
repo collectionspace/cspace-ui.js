@@ -18,7 +18,7 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('RecordFormContainer', function suite() {
+describe('RecordFormContainer', () => {
   const csid = '1234';
   const recordType = 'collectionobject';
   const path = ['comments', 'comment'];
@@ -49,7 +49,7 @@ describe('RecordFormContainer', function suite() {
     store.clearActions();
   });
 
-  it('should set props on RecordForm', function test() {
+  it('should set props on RecordForm', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -58,7 +58,8 @@ describe('RecordFormContainer', function suite() {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -70,7 +71,7 @@ describe('RecordFormContainer', function suite() {
     result.props.should.have.property('onSortInstances').that.is.a('function');
   });
 
-  it('should connect onAddInstance to addFieldInstance action creator', function test() {
+  it('should connect onAddInstance to addFieldInstance action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -79,7 +80,8 @@ describe('RecordFormContainer', function suite() {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -93,7 +95,7 @@ describe('RecordFormContainer', function suite() {
     action.should.have.deep.property('meta.recordTypeConfig', recordTypeConfig);
   });
 
-  it('should connect onCommit to setFieldValue action creator', function test() {
+  it('should connect onCommit to setFieldValue action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -102,7 +104,8 @@ describe('RecordFormContainer', function suite() {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -116,7 +119,7 @@ describe('RecordFormContainer', function suite() {
     action.should.have.deep.property('meta.path', path);
   });
 
-  it('should connect onMoveInstance to moveFieldValue action creator', function test() {
+  it('should connect onMoveInstance to moveFieldValue action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -125,7 +128,8 @@ describe('RecordFormContainer', function suite() {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -139,7 +143,7 @@ describe('RecordFormContainer', function suite() {
     action.should.have.deep.property('meta.newPosition', '0');
   });
 
-  it('should connect onRemoveInstance to deleteFieldValue action creator', function test() {
+  it('should connect onRemoveInstance to deleteFieldValue action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -148,7 +152,8 @@ describe('RecordFormContainer', function suite() {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -161,7 +166,7 @@ describe('RecordFormContainer', function suite() {
     action.should.have.deep.property('meta.path', path);
   });
 
-  it('should connect onSortInstances to sortInstances action creator', function test() {
+  it('should connect onSortInstances to sortInstances action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -170,7 +175,8 @@ describe('RecordFormContainer', function suite() {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

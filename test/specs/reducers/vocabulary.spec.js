@@ -13,12 +13,12 @@ import reducer, {
 
 chai.should();
 
-describe('vocabulary reducer', function suite() {
-  it('should have an empty initial state', function test() {
+describe('vocabulary reducer', () => {
+  it('should have an empty initial state', () => {
     reducer(undefined, {}).should.deep.equal({});
   });
 
-  it('should handle READ_VOCABULARY_ITEMS_STARTED', function test() {
+  it('should handle READ_VOCABULARY_ITEMS_STARTED', () => {
     const vocabulary = 'languages';
 
     const state = reducer({}, {
@@ -41,7 +41,7 @@ describe('vocabulary reducer', function suite() {
     });
   });
 
-  it('should handle READ_VOCABULARY_ITEMS_FULFILLED', function test() {
+  it('should handle READ_VOCABULARY_ITEMS_FULFILLED', () => {
     const vocabulary = 'states';
 
     const items = [
@@ -76,7 +76,7 @@ describe('vocabulary reducer', function suite() {
     });
   });
 
-  it('should handle READ_VOCABULARY_ITEMS_REJECTED', function test() {
+  it('should handle READ_VOCABULARY_ITEMS_REJECTED', () => {
     const vocabulary = 'languages';
     const error = new Error();
 
@@ -99,8 +99,8 @@ describe('vocabulary reducer', function suite() {
     });
   });
 
-  context('on RECORD_SAVE_FULFILLED', function context() {
-    it('should clear all state if the saved record is a vocabulary', function test() {
+  context('on RECORD_SAVE_FULFILLED', () => {
+    it('should clear all state if the saved record is a vocabulary', () => {
       const initialState = {
         currency: {},
         language: {},
@@ -119,7 +119,7 @@ describe('vocabulary reducer', function suite() {
       state.should.deep.equal({});
     });
 
-    it('should not change the state if the saved record is not a vocabulary', function test() {
+    it('should not change the state if the saved record is not a vocabulary', () => {
       const initialState = {
         currency: {},
         language: {},
@@ -139,13 +139,13 @@ describe('vocabulary reducer', function suite() {
     });
   });
 
-  context('on LOGIN_FULFILLED', function context() {
+  context('on LOGIN_FULFILLED', () => {
     const initialState = {
       vocab1: {},
       vocab2: {},
     };
 
-    it('should clear vocabulary state if the user has changed', function test() {
+    it('should clear vocabulary state if the user has changed', () => {
       const prevUsername = 'prevUser@collectionspace.org';
       const username = 'newUser@collectionspace.org';
 
@@ -160,7 +160,7 @@ describe('vocabulary reducer', function suite() {
       state.should.deep.equal({});
     });
 
-    it('should not clear vocabulary state if the user has not changed', function test() {
+    it('should not clear vocabulary state if the user has not changed', () => {
       const prevUsername = 'user@collectionspace.org';
       const username = 'user@collectionspace.org';
 
@@ -176,7 +176,7 @@ describe('vocabulary reducer', function suite() {
     });
   });
 
-  it('should handle LOGOUT_FULFILLED', function test() {
+  it('should handle LOGOUT_FULFILLED', () => {
     const state = reducer({
       vocab1: {},
       vocab2: {},

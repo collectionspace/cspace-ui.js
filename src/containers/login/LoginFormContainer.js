@@ -9,7 +9,7 @@ import {
   getLoginError,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPending: isLoginPending(state),
   isSuccess: isLoginSuccess(state),
   username: getLoginUsername(state),
@@ -22,5 +22,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(LoginForm);

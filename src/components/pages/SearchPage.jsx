@@ -27,14 +27,24 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  // FIXME: Why is config both a prop and in context?
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   keywordValue: PropTypes.string,
-  advancedSearchCondition: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
-  match: PropTypes.object,
+  advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
+  history: PropTypes.shape({
+    push: PropTypes.func,
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   getAuthorityVocabCsid: PropTypes.func,
@@ -50,7 +60,9 @@ const propTypes = {
 };
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
 };
 
 export default class SearchPage extends Component {
@@ -74,12 +86,16 @@ export default class SearchPage extends Component {
   componentDidUpdate(prevProps) {
     let historyChanged = false;
 
-    const { params } = this.props.match;
+    const {
+      match,
+    } = this.props;
+
+    const { params } = match;
     const { params: prevParams } = prevProps.match;
 
     if (
-      params.recordType !== prevParams.recordType ||
-      params.vocabulary !== prevParams.vocabulary
+      params.recordType !== prevParams.recordType
+      || params.vocabulary !== prevParams.vocabulary
     ) {
       historyChanged = this.normalizePath();
     }
@@ -128,8 +144,12 @@ export default class SearchPage extends Component {
 
   getSearchDescriptor() {
     const {
+      match,
+    } = this.props;
+
+    const {
       params,
-    } = this.props.match;
+    } = match;
 
     const searchDescriptor = {};
 

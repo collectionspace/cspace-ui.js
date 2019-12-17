@@ -9,7 +9,7 @@ import {
   getUserPerms,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   perms: getUserPerms(state),
 });
 

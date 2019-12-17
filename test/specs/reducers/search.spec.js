@@ -38,12 +38,12 @@ import reducer, {
   getState,
 } from '../../../src/reducers/search';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('search reducer', function suite() {
+describe('search reducer', () => {
   const searchName = 'testSearch';
 
   const listTypeConfig = {
@@ -51,11 +51,11 @@ describe('search reducer', function suite() {
     itemNodeName: 'list-item',
   };
 
-  it('should have immutable initial state', function test() {
+  it('should have immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map());
   });
 
-  it('should handle SEARCH_STARTED', function test() {
+  it('should handle SEARCH_STARTED', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
@@ -100,7 +100,7 @@ describe('search reducer', function suite() {
     getMostRecentDescriptor(state, searchName).should.equal(searchDescriptor);
   });
 
-  it('should clear all search states on SEARCH_STARTED when the new search is not only a page change', function test() {
+  it('should clear all search states on SEARCH_STARTED when the new search is not only a page change', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'group',
       searchQuery: {},
@@ -134,7 +134,7 @@ describe('search reducer', function suite() {
     state.getIn([searchName, 'byKey']).size.should.equal(1);
   });
 
-  it('should seed the search result on SEARCH_STARTED when the new search is only a page change', function test() {
+  it('should seed the search result on SEARCH_STARTED when the new search is only a page change', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
@@ -180,7 +180,7 @@ describe('search reducer', function suite() {
     state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'totalItems']).should.equal('22');
   });
 
-  it('should seed the search result on SEARCH_STARTED when the new search is only a sort change', function test() {
+  it('should seed the search result on SEARCH_STARTED when the new search is only a sort change', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
@@ -230,7 +230,7 @@ describe('search reducer', function suite() {
     state.getIn([searchName, 'byKey', key, 'result', 'ns2:abstract-common-list', 'totalItems']).should.equal('22');
   });
 
-  it('should seed the search result on SEARCH_STARTED when the new search is only a seq id change', function test() {
+  it('should seed the search result on SEARCH_STARTED when the new search is only a seq id change', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
@@ -288,7 +288,7 @@ describe('search reducer', function suite() {
       .equal(items);
   });
 
-  it('should handle SET_MOST_RECENT_SEARCH', function test() {
+  it('should handle SET_MOST_RECENT_SEARCH', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -318,7 +318,7 @@ describe('search reducer', function suite() {
     state.getIn([searchName, 'mostRecentKey']).should.equal(key);
   });
 
-  it('should not change state on SET_MOST_RECENT_SEARCH if the specified key does not exist', function test() {
+  it('should not change state on SET_MOST_RECENT_SEARCH if the specified key does not exist', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -342,7 +342,7 @@ describe('search reducer', function suite() {
     state.getIn([searchName, 'mostRecentKey']).should.equal('this should not change');
   });
 
-  it('should handle SEARCH_FULFILLED', function test() {
+  it('should handle SEARCH_FULFILLED', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -434,7 +434,7 @@ describe('search reducer', function suite() {
       .equal(state.getIn([searchName, 'byKey', key]));
   });
 
-  it('should handle SEARCH_FULFILLED when a single item is found', function test() {
+  it('should handle SEARCH_FULFILLED when a single item is found', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -509,7 +509,7 @@ describe('search reducer', function suite() {
       .equal(state.getIn([searchName, 'byKey', key]));
   });
 
-  it('should not change state on SEARCH_FULFILLED for an unknown search descriptor', function test() {
+  it('should not change state on SEARCH_FULFILLED for an unknown search descriptor', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -539,7 +539,7 @@ describe('search reducer', function suite() {
     state.should.equal(initialState);
   });
 
-  it('should handle SEARCH_REJECTED', function test() {
+  it('should handle SEARCH_REJECTED', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -591,7 +591,7 @@ describe('search reducer', function suite() {
     getError(state, searchName, searchDescriptor).should.equal(Immutable.fromJS(error));
   });
 
-  it('should not change state on SEARCH_REJECTED for an unknown search descriptor', function test() {
+  it('should not change state on SEARCH_REJECTED for an unknown search descriptor', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -622,7 +622,7 @@ describe('search reducer', function suite() {
     state.should.equal(initialState);
   });
 
-  it('should handle CLEAR_SEARCH_RESULTS', function test() {
+  it('should handle CLEAR_SEARCH_RESULTS', () => {
     const initialState = Immutable.fromJS({
       [searchName]: {},
     });
@@ -637,7 +637,7 @@ describe('search reducer', function suite() {
     state.should.deep.equal(Immutable.fromJS({}));
   });
 
-  it('should handle CREATE_EMPTY_SEARCH_RESULT', function test() {
+  it('should handle CREATE_EMPTY_SEARCH_RESULT', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {
@@ -703,7 +703,7 @@ describe('search reducer', function suite() {
     (typeof getError(state, searchName, searchDescriptor)).should.equal('undefined');
   });
 
-  it('should handle SET_RESULT_ITEM_SELECTED', function test() {
+  it('should handle SET_RESULT_ITEM_SELECTED', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -819,7 +819,7 @@ describe('search reducer', function suite() {
     state.should.deep.equal(initialState);
   });
 
-  it('should handle CLEAR_SELECTED', function test() {
+  it('should handle CLEAR_SELECTED', () => {
     const initialState = Immutable.fromJS({
       [searchName]: {
         selected: {
@@ -842,7 +842,7 @@ describe('search reducer', function suite() {
     expect(getSelectedItems(state, searchName)).to.equal(undefined);
   });
 
-  it('should handle DESELECT_RESULT_ITEM', function test() {
+  it('should handle DESELECT_RESULT_ITEM', () => {
     const initialState = Immutable.fromJS({
       [searchName]: {
         selected: {
@@ -876,7 +876,7 @@ describe('search reducer', function suite() {
     }));
   });
 
-  it('should handle SET_ALL_RESULT_ITEMS_SELECTED', function test() {
+  it('should handle SET_ALL_RESULT_ITEMS_SELECTED', () => {
     const searchDescriptor = Immutable.fromJS({
       recordType: 'collectionobject',
       searchQuery: {},
@@ -984,7 +984,7 @@ describe('search reducer', function suite() {
       type: SET_ALL_RESULT_ITEMS_SELECTED,
       payload: true,
       meta: {
-        filter: item => item.get('csid') === '1111' || item.get('csid') === '3333',
+        filter: (item) => item.get('csid') === '1111' || item.get('csid') === '3333',
         listTypeConfig,
         searchName,
         searchDescriptor,
@@ -1074,7 +1074,7 @@ describe('search reducer', function suite() {
     state.should.equal(initialState);
   });
 
-  it('should handle SUBRECORD_CREATED', function test() {
+  it('should handle SUBRECORD_CREATED', () => {
     const searchName1 = 'searchName 1';
     const searchName2 = 'searchName 2';
 
@@ -1103,8 +1103,8 @@ describe('search reducer', function suite() {
     }));
   });
 
-  context('on RECORD_SAVE_FULFILLED', function context() {
-    it('should clear all search state except for search result page, report panel, and batch panel', function test() {
+  context('on RECORD_SAVE_FULFILLED', () => {
+    it('should clear all search state except for search result page, report panel, and batch panel', () => {
       const initialState = Immutable.fromJS({
         searchName1: {},
         searchName2: {},
@@ -1127,7 +1127,7 @@ describe('search reducer', function suite() {
       }));
     });
 
-    it('should mark search result page results as dirty', function test() {
+    it('should mark search result page results as dirty', () => {
       const initialState = Immutable.fromJS({
         [SEARCH_RESULT_PAGE_SEARCH_NAME]: {},
       });
@@ -1144,7 +1144,7 @@ describe('search reducer', function suite() {
     });
   });
 
-  it('should handle RECORD_DELETE_FULFILLED', function test() {
+  it('should handle RECORD_DELETE_FULFILLED', () => {
     const initialState = Immutable.fromJS({
       searchName1: {},
       searchName2: {},
@@ -1158,7 +1158,7 @@ describe('search reducer', function suite() {
     state.should.equal(Immutable.Map());
   });
 
-  it('should handle RECORD_TRANSITION_FULFILLED', function test() {
+  it('should handle RECORD_TRANSITION_FULFILLED', () => {
     const initialState = Immutable.fromJS({
       searchName1: {},
       searchName2: {},
@@ -1190,14 +1190,14 @@ describe('search reducer', function suite() {
     state.should.equal(initialState);
   });
 
-  context('on LOGIN_FULFILLED', function context() {
+  context('on LOGIN_FULFILLED', () => {
     const initialState = Immutable.fromJS({
       searchName1: {},
       searchName2: {},
       searchName3: {},
     });
 
-    it('should clear all search state when the previous username is not the same as the new username', function test() {
+    it('should clear all search state when the previous username is not the same as the new username', () => {
       const state = reducer(initialState, {
         type: LOGIN_FULFILLED,
         meta: {
@@ -1209,7 +1209,7 @@ describe('search reducer', function suite() {
       state.should.equal(Immutable.Map({}));
     });
 
-    it('should not clear search state if the previous username is the same as the new username', function test() {
+    it('should not clear search state if the previous username is the same as the new username', () => {
       const state = reducer(initialState, {
         type: LOGIN_FULFILLED,
         meta: {
@@ -1223,7 +1223,7 @@ describe('search reducer', function suite() {
   });
 
 
-  it('should handle LOGOUT_FULFILLED', function test() {
+  it('should handle LOGOUT_FULFILLED', () => {
     const state = reducer(Immutable.fromJS({
       searchName1: {},
       searchName2: {},
@@ -1235,14 +1235,14 @@ describe('search reducer', function suite() {
     state.should.deep.equal(Immutable.Map({}));
   });
 
-  context('on BATCH_INVOKE_FULFILLED', function context() {
+  context('on BATCH_INVOKE_FULFILLED', () => {
     const initialState = Immutable.fromJS({
       searchName1: {},
       searchName2: {},
       searchName3: {},
     });
 
-    it('should clear all search state when any records were affected', function test() {
+    it('should clear all search state when any records were affected', () => {
       const state = reducer(initialState, {
         type: BATCH_INVOKE_FULFILLED,
         meta: {
@@ -1253,7 +1253,7 @@ describe('search reducer', function suite() {
       state.should.equal(Immutable.Map({}));
     });
 
-    it('should not clear search state if no records were affected', function test() {
+    it('should not clear search state if no records were affected', () => {
       const state = reducer(initialState, {
         type: BATCH_INVOKE_FULFILLED,
         meta: {

@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('loan-in record title', function suite() {
+describe('loan-in record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the loan-in number and lender', function test() {
+  it('should concat the loan-in number and lender', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:loansin_common': {
@@ -27,7 +27,7 @@ describe('loan-in record title', function suite() {
     title(data).should.equal('LI.2017.2 – David Bowie');
   });
 
-  it('should return the loan-in number when lender is empty', function test() {
+  it('should return the loan-in number when lender is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:loansin_common': {
@@ -40,7 +40,7 @@ describe('loan-in record title', function suite() {
     title(data).should.equal('LI.2017.2');
   });
 
-  it('should return the lender when loan-in number is empty', function test() {
+  it('should return the lender when loan-in number is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:loansin_common': {
@@ -59,12 +59,12 @@ describe('loan-in record title', function suite() {
     title(data).should.equal('David Bowie');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:loansout_extension': {

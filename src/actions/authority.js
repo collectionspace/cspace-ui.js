@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import getSession from './cspace';
+import getSession from '../helpers/session';
 
 import {
   AUTH_VOCABS_READ_STARTED,
@@ -7,7 +7,7 @@ import {
   AUTH_VOCABS_READ_REJECTED,
 } from '../constants/actionCodes';
 
-export const readAuthVocabs = config => (dispatch) => {
+export const readAuthVocabs = (config) => (dispatch) => {
   const recordTypes = get(config, 'recordTypes');
 
   if (!recordTypes) {
@@ -23,19 +23,17 @@ export const readAuthVocabs = config => (dispatch) => {
   const session = getSession();
 
   const readPromises = Object.values(config.recordTypes)
-    .filter(recordTypeConfig => recordTypeConfig.serviceConfig.serviceType === 'authority')
-    .map(recordTypeConfig =>
-      session.read(recordTypeConfig.serviceConfig.servicePath)
-        .catch(error => (
-          // 403 Forbidden might happen if the user doesn't have any permissions on an authority.
-          // Just swallow this, but reject other errors.
+    .filter((recordTypeConfig) => recordTypeConfig.serviceConfig.serviceType === 'authority')
+    .map((recordTypeConfig) => session.read(recordTypeConfig.serviceConfig.servicePath)
+      .catch((error) => (
+        // 403 Forbidden might happen if the user doesn't have any permissions on an authority.
+        // Just swallow this, but reject other errors.
 
-          get(error, ['response', 'status']) === 403 ? undefined : Promise.reject(error)
-        ))
-    );
+        get(error, ['response', 'status']) === 403 ? undefined : Promise.reject(error)
+      )));
 
   return Promise.all(readPromises)
-    .then(responses => dispatch({
+    .then((responses) => dispatch({
       type: AUTH_VOCABS_READ_FULFILLED,
       payload: responses,
       meta: {

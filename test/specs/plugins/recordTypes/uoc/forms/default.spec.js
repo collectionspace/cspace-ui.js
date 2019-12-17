@@ -4,8 +4,8 @@ import createConfigContext from '../../../../../../src/helpers/createConfigConte
 
 chai.should();
 
-describe('uoc record default form', function suite() {
-  it('should be a Field', function test() {
+describe('uoc record default form', () => {
+  it('should be a Field', () => {
     const configContext = createConfigContext();
     const { template } = form(configContext);
 

@@ -22,9 +22,9 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('optionList action creator', function suite() {
-  describe('addOptionLists', function actionSuite() {
-    it('should create an ADD_OPTION_LISTS action', function test() {
+describe('optionList action creator', () => {
+  describe('addOptionLists', () => {
+    it('should create an ADD_OPTION_LISTS action', () => {
       const optionLists = {
         states: {
           values: [
@@ -68,7 +68,7 @@ describe('optionList action creator', function suite() {
     });
   });
 
-  describe('buildRecordFieldOptionLists', function actionSuite() {
+  describe('buildRecordFieldOptionLists', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -317,7 +317,7 @@ describe('optionList action creator', function suite() {
       },
     };
 
-    it('should dispatch an ADD_OPTION_LISTS action containing fields and groups in the given record type', function test() {
+    it('should dispatch an ADD_OPTION_LISTS action containing fields and groups in the given record type', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -353,7 +353,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should use the fullName message of the option if available, and fall back to the name', function test() {
+    it('should use the fullName message of the option if available, and fall back to the name', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -386,7 +386,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should skip the rel:relations-common-list field', function test() {
+    it('should skip the rel:relations-common-list field', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -408,7 +408,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should skip fields where searchDisabled is true', function test() {
+    it('should skip fields where searchDisabled is true', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -430,7 +430,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should not descend into structured dates when collecting fields if includeStructDateFields is false', function test() {
+    it('should not descend into structured dates when collecting fields if includeStructDateFields is false', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -456,7 +456,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should descend into structured dates when collecting fields if includeStructDateFields is true', function test() {
+    it('should descend into structured dates when collecting fields if includeStructDateFields is true', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -475,7 +475,7 @@ describe('optionList action creator', function suite() {
         .has.lengthOf(3);
 
       actions[0].payload[getRecordFieldOptionListName(recordType)]
-        .map(option => option.value)
+        .map((option) => option.value)
         .should.deep.equal([
           'ns2:loansin_common/structDate',
           'ns2:loansin_common/structDate/dateDisplayDate',
@@ -483,7 +483,7 @@ describe('optionList action creator', function suite() {
         ]);
 
       actions[0].payload[getRecordFieldOptionListName(recordType)]
-        .map(option => option.fieldConfig)
+        .map((option) => option.fieldConfig)
         .should.deep.equal([
           undefined,
           config.recordTypes.loanin.fields.document['ns2:loansin_common'].structDate.dateDisplayDate[configKey],
@@ -491,7 +491,7 @@ describe('optionList action creator', function suite() {
         ]);
 
       actions[0].payload[getRecordFieldOptionListName(recordType)]
-        .map(option => (typeof option.labelFormatter))
+        .map((option) => (typeof option.labelFormatter))
         .should.deep.equal([
           'undefined',
           'function',
@@ -504,7 +504,7 @@ describe('optionList action creator', function suite() {
         ]);
     });
 
-    it('should only include fields/groups under the rootPath, of one is supplied', function test() {
+    it('should only include fields/groups under the rootPath, of one is supplied', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -534,7 +534,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should prefer the groupName message on top-level children of the rootPath, then fall back to name, then fullName', function test() {
+    it('should prefer the groupName message on top-level children of the rootPath, then fall back to name, then fullName', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -561,7 +561,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should prefer the groupName message on top-level children of the rootPath, when the rootPath is a structured date group', function test() {
+    it('should prefer the groupName message on top-level children of the rootPath, when the rootPath is a structured date group', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -588,7 +588,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should prefer the groupName message on top-level group children of the rootPath', function test() {
+    it('should prefer the groupName message on top-level group children of the rootPath', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -616,7 +616,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should skip invalid field descriptors', function test() {
+    it('should skip invalid field descriptors', () => {
       const store = mockStore({
         optionList: Immutable.Map(),
       });
@@ -638,7 +638,7 @@ describe('optionList action creator', function suite() {
       });
     });
 
-    it('should not dispatch any action if the option lists already exist', function test() {
+    it('should not dispatch any action if the option lists already exist', () => {
       const recordType = 'collectionobject';
 
       const store = mockStore({

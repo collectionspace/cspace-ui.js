@@ -10,7 +10,7 @@ chai.should();
 
 const expectedClassName = 'cspace-ui-About--common';
 
-describe('About', function suite() {
+describe('About', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -19,7 +19,8 @@ describe('About', function suite() {
     render(
       <IntlProvider locale="en">
         <About />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -28,7 +29,8 @@ describe('About', function suite() {
     render(
       <IntlProvider locale="en">
         <About />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });

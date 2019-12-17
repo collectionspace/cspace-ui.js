@@ -12,7 +12,7 @@ import InvocationModal from '../../../../src/components/invocable/InvocationModa
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -98,8 +98,7 @@ const config = {
       serviceConfig: {
         servicePath: 'reports',
       },
-      title: data =>
-        data.getIn(['document', 'ns2:reports_common', 'name']),
+      title: (data) => data.getIn(['document', 'ns2:reports_common', 'name']),
     },
   },
 };
@@ -113,7 +112,7 @@ const invocationDescriptor = Immutable.fromJS({
   },
 });
 
-describe('InvocationModal', function suite() {
+describe('InvocationModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -133,7 +132,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -155,7 +155,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -175,7 +176,8 @@ describe('InvocationModal', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -197,7 +199,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -222,7 +225,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -246,7 +250,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -271,7 +276,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -296,7 +302,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -320,7 +327,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -343,7 +351,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
@@ -374,7 +383,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
     const button = modal.querySelector('button[name="invoke"]');
@@ -407,7 +417,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
     const dropdownMenuInput = modal.querySelector('.cspace-input-DropdownMenuInput--common');
@@ -451,7 +462,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
@@ -501,7 +513,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -518,7 +531,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     readRecordCalled.should.equal(true);
 
@@ -568,7 +582,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -585,7 +600,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -619,7 +635,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -635,7 +652,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -679,7 +697,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -696,7 +715,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -735,7 +755,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -752,7 +773,8 @@ describe('InvocationModal', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {

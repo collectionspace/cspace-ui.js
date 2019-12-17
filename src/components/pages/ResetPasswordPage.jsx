@@ -16,7 +16,10 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+    state: PropTypes.object,
+  }).isRequired,
 };
 
 export default function ResetPasswordPage(props) {

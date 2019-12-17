@@ -45,7 +45,10 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    pluginInfo: PropTypes.object,
+    serverUrl: PropTypes.string,
+  }),
   intl: intlShape.isRequired,
   systemInfo: PropTypes.instanceOf(Immutable.Map),
 };

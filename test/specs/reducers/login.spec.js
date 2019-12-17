@@ -15,17 +15,17 @@ import reducer, {
   isSuccess,
 } from '../../../src/reducers/login';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('login reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('login reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.deep.equal(Immutable.Map({}));
   });
 
-  it('should handle RESET_LOGIN', function test() {
+  it('should handle RESET_LOGIN', () => {
     const username = 'someone@collectionspace.org';
 
     const state = reducer(undefined, {
@@ -42,7 +42,7 @@ describe('login reducer', function suite() {
     expect(isPending(state)).to.equal(undefined);
   });
 
-  it('should handle LOGIN_STARTED', function test() {
+  it('should handle LOGIN_STARTED', () => {
     const loginUsername = 'user@collectionspace.org';
 
     const state = reducer(undefined, {
@@ -61,7 +61,7 @@ describe('login reducer', function suite() {
     isPending(state).should.equal(true);
   });
 
-  it('should handle LOGIN_FULFILLED', function test() {
+  it('should handle LOGIN_FULFILLED', () => {
     const loginUsername = 'user@collectionspace.org';
 
     const state = reducer(undefined, {
@@ -80,7 +80,7 @@ describe('login reducer', function suite() {
     expect(isPending(state)).to.equal(undefined);
   });
 
-  it('should handle LOGIN_REJECTED', function test() {
+  it('should handle LOGIN_REJECTED', () => {
     const loginUsername = 'user@collectionspace.org';
     const loginError = new Error();
 

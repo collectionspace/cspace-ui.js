@@ -25,8 +25,10 @@ import {
   invoke,
 } from '../../../src/actions/batch';
 
-const expect = chai.expect;
-const assert = chai.assert;
+const {
+  assert,
+  expect,
+} = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -39,8 +41,7 @@ const config = {
   },
   recordTypes: {
     batch: {
-      invocableName: data =>
-        data.getIn(['document', 'ns2:batch_common', 'name']),
+      invocableName: (data) => data.getIn(['document', 'ns2:batch_common', 'name']),
     },
     group: {
       serviceConfig: {
@@ -52,8 +53,8 @@ const config = {
 
 const mockStore = configureMockStore([thunk]);
 
-describe('batch action creator', function suite() {
-  describe('invoke', function actionSuite() {
+describe('batch action creator', () => {
+  describe('invoke', () => {
     const store = mockStore({
       prefs: Immutable.Map(),
       record: Immutable.fromJS({
@@ -71,10 +72,8 @@ describe('batch action creator', function suite() {
       user: Immutable.Map(),
     });
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -85,7 +84,7 @@ describe('batch action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should invoke a batch job in single mode', function test() {
+    it('should invoke a batch job in single mode', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -129,7 +128,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should invoke a batch job in list mode', function test() {
+    it('should invoke a batch job in list mode', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -179,7 +178,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should invoke a batch job in nocontext mode', function test() {
+    it('should invoke a batch job in nocontext mode', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -220,7 +219,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should send parameters', function test() {
+    it('should send parameters', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -273,7 +272,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should call the onValidationSuccess callback if parameter validation succeeds', function test() {
+    it('should call the onValidationSuccess callback if parameter validation succeeds', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -308,14 +307,14 @@ describe('batch action creator', function suite() {
       };
 
       return store.dispatch(
-        invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess)
+        invoke(config, batchMetadata, invocationDescriptor, handleValidationSuccess),
       )
         .then(() => {
           onValidationSuccessCalled.should.equal(true);
         });
     });
 
-    it('should not dispatch any actions when parameter validation fails', function test() {
+    it('should not dispatch any actions when parameter validation fails', () => {
       const invalidDataStore = mockStore({
         notification: Immutable.Map(),
         prefs: Immutable.Map(),
@@ -381,7 +380,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should dispatch BATCH_INVOKE_FULFILLED when an invocation completes successfully', function test() {
+    it('should dispatch BATCH_INVOKE_FULFILLED when an invocation completes successfully', () => {
       moxios.stubRequest(/./, {
         status: 200,
         response: {},
@@ -430,7 +429,7 @@ describe('batch action creator', function suite() {
         });
     });
 
-    it('should dispatch BATCH_INVOKE_REJECTED when an invocation fails', function test() {
+    it('should dispatch BATCH_INVOKE_REJECTED when an invocation fails', () => {
       moxios.stubRequest(/./, {
         status: 400,
       });

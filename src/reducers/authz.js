@@ -25,8 +25,8 @@ const handlePermsReadFulfilled = (state, action) => {
   }
 
   const resourceNames = perms
-    .filter(perm => getRecordTypeConfigByServicePath(config, perm.resourceName))
-    .map(perm => perm.resourceName);
+    .filter((perm) => getRecordTypeConfigByServicePath(config, perm.resourceName))
+    .map((perm) => perm.resourceName);
 
   return (
     state
@@ -88,8 +88,8 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const isPermsReadPending = state => state.get('isPermsReadPending');
-export const getResourceNames = state => state.get('resourceNames');
+export const isPermsReadPending = (state) => state.get('isPermsReadPending');
+export const getResourceNames = (state) => state.get('resourceNames');
 
-export const isRolesReadPending = state => state.get('isRolesReadPending');
-export const getRoles = state => state.get('roles');
+export const isRolesReadPending = (state) => state.get('isRolesReadPending');
+export const getRoles = (state) => state.get('roles');

@@ -6,10 +6,11 @@ import {
   getUserPerms,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   perms: getUserPerms(state),
-  getAuthorityVocabWorkflowState: (recordType, vocabulary) =>
-    getAuthorityVocabWorkflowState(state, recordType, vocabulary),
+  getAuthorityVocabWorkflowState: (recordType, vocabulary) => getAuthorityVocabWorkflowState(
+    state, recordType, vocabulary,
+  ),
 });
 
 export default connect(

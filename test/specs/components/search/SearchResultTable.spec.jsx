@@ -7,7 +7,7 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -32,7 +32,7 @@ const config = {
     common: {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
-      getItemLocationPath: item => `itemLocation: ${item.get('csid')}`,
+      getItemLocationPath: (item) => `itemLocation: ${item.get('csid')}`,
     },
     foo: {
       listNodeName: 'ns2:abstract-common-list',
@@ -145,7 +145,7 @@ const searchResult = Immutable.fromJS({
   },
 });
 
-describe('SearchResultTable', function suite() {
+describe('SearchResultTable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -154,7 +154,8 @@ describe('SearchResultTable', function suite() {
     render(
       <Router>
         <SearchResultTable config={config} />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -168,7 +169,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -184,7 +186,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -200,7 +203,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={groupSearchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -215,7 +219,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(5);
   });
@@ -228,7 +233,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('a').length.should.equal(5);
   });
@@ -242,7 +248,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('a').length.should.equal(0);
   });
@@ -256,7 +263,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('a').length.should.equal(0);
   });
@@ -270,7 +278,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('a').length.should.equal(0);
   });
@@ -292,7 +301,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={emptySearchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-layout-Table--normal')).to.equal(null);
   });
@@ -317,7 +327,8 @@ describe('SearchResultTable', function suite() {
             searchResult={emptySearchResult}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-SearchResultEmpty--common').textContent.should
       .equal('⋯');
@@ -346,7 +357,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={singleSearchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(1);
   });
@@ -368,7 +380,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={singleSearchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.querySelectorAll('.ReactVirtualized__Table__headerRow').length.should.equal(1);
   });
@@ -381,7 +394,8 @@ describe('SearchResultTable', function suite() {
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -404,7 +418,8 @@ describe('SearchResultTable', function suite() {
           searchResult={searchResult}
           onSortChange={handleSortChange}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const cols = this.container.querySelectorAll('.ReactVirtualized__Table__headerColumn');
 
@@ -432,7 +447,8 @@ describe('SearchResultTable', function suite() {
           searchResult={searchResult}
           renderHeader={renderHeader}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     renderHeaderSearchResult.should.equal(searchResult);
 
@@ -458,7 +474,8 @@ describe('SearchResultTable', function suite() {
           searchResult={searchResult}
           renderFooter={renderFooter}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     renderFooterSearchResult.should.equal(searchResult);
 
@@ -488,7 +505,8 @@ describe('SearchResultTable', function suite() {
           searchResult={searchResult}
           formatCellData={formatCellData}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     Object.keys(formatCellDataCalls).length.should
       .equal(Object.keys(config.recordTypes.collectionobject.columns.default).length);
@@ -524,7 +542,8 @@ describe('SearchResultTable', function suite() {
           searchResult={searchResult}
           formatColumnLabel={formatColumnLabel}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     Object.keys(formatColumnLabelCalls).length.should
       .equal(Object.keys(config.recordTypes.collectionobject.columns.default).length);
@@ -554,7 +573,8 @@ describe('SearchResultTable', function suite() {
           searchResult={searchResult}
           onItemClick={handleItemClick}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 
@@ -582,7 +602,8 @@ describe('SearchResultTable', function suite() {
           onItemClick={handleItemClick}
           linkItems={false}
         />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
 

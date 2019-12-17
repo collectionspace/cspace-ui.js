@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/location/messages';
 
 chai.should();
 
-describe('location record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('location record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((locationName) => {

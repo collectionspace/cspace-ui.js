@@ -5,8 +5,8 @@ import CsidLink from '../../../../src/components/navigation/CsidLink';
 
 chai.should();
 
-describe('CsidLink', function suite() {
-  it('should render as a SearchResultLink', function test() {
+describe('CsidLink', () => {
+  it('should render as a SearchResultLink', () => {
     const config = {};
     const csid = '1234';
     const searchName = 'test';

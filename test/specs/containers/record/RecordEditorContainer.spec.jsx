@@ -40,7 +40,7 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('RecordEditorContainer', function suite() {
+describe('RecordEditorContainer', () => {
   const csid = '1234';
   const cloneCsid = '9999';
   const recordType = 'collectionobject';
@@ -126,10 +126,8 @@ describe('RecordEditorContainer', function suite() {
     store,
   };
 
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(() => {
     moxios.install();
@@ -140,7 +138,7 @@ describe('RecordEditorContainer', function suite() {
     moxios.uninstall();
   });
 
-  it('should set props on RecordEditor', function test() {
+  it('should set props on RecordEditor', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -148,7 +146,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -164,7 +163,7 @@ describe('RecordEditorContainer', function suite() {
     result.props.should.have.property('checkForRoleUses').that.is.a('function');
   });
 
-  it('should connect createNewRecord to createNewRecord action creator', function test() {
+  it('should connect createNewRecord to createNewRecord action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -173,7 +172,8 @@ describe('RecordEditorContainer', function suite() {
         csid={csid}
         recordType={authRecordType}
         vocabulary={vocabulary}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -192,7 +192,7 @@ describe('RecordEditorContainer', function suite() {
     });
   });
 
-  it('should connect deleteRecord to deleteRecord action creator', function test() {
+  it('should connect deleteRecord to deleteRecord action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -200,7 +200,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid="abcd"
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -221,7 +222,7 @@ describe('RecordEditorContainer', function suite() {
     }
   });
 
-  it('should connect readRecord to readRecord action creator', function test() {
+  it('should connect readRecord to readRecord action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -229,7 +230,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid="abcd"
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -248,7 +250,7 @@ describe('RecordEditorContainer', function suite() {
     }
   });
 
-  it('should connect revert to revertRecord action creator', function test() {
+  it('should connect revert to revertRecord action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -256,7 +258,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -268,7 +271,7 @@ describe('RecordEditorContainer', function suite() {
     action.should.have.deep.property('meta.csid', csid);
   });
 
-  it('should connect save to saveRecord action creator', function test() {
+  it('should connect save to saveRecord action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -276,7 +279,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -302,7 +306,7 @@ describe('RecordEditorContainer', function suite() {
     }
   });
 
-  it('should connect saveWithTransition to saveRecordWithTransition action creator', function test() {
+  it('should connect saveWithTransition to saveRecordWithTransition action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -310,7 +314,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -339,7 +344,7 @@ describe('RecordEditorContainer', function suite() {
     }
   });
 
-  it('should connect closeModal to closeModal action creator', function test() {
+  it('should connect closeModal to closeModal action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -347,7 +352,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -358,7 +364,7 @@ describe('RecordEditorContainer', function suite() {
     action.should.have.property('type', CLOSE_MODAL);
   });
 
-  it('should connect removeNotification to removeNotification action creator', function test() {
+  it('should connect removeNotification to removeNotification action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -366,7 +372,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const notificationID = 'foo';
@@ -379,7 +386,7 @@ describe('RecordEditorContainer', function suite() {
     action.meta.should.have.property('notificationID', notificationID);
   });
 
-  it('should connect removeValidationNotification to removeValidationNotification action creator', function test() {
+  it('should connect removeValidationNotification to removeValidationNotification action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -387,7 +394,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -399,7 +407,7 @@ describe('RecordEditorContainer', function suite() {
     action.meta.should.have.property('notificationID', NOTIFICATION_ID_VALIDATION);
   });
 
-  it('should connect validateRecordData to validateRecordData action creator', function test() {
+  it('should connect validateRecordData to validateRecordData action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -407,7 +415,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -427,7 +436,7 @@ describe('RecordEditorContainer', function suite() {
     });
   });
 
-  it('should connect transitionRecord to transitionRecord action creator', function test() {
+  it('should connect transitionRecord to transitionRecord action creator', () => {
     const transitionName = 'transitionName';
 
     const shallowRenderer = createRenderer();
@@ -437,7 +446,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -457,7 +467,7 @@ describe('RecordEditorContainer', function suite() {
     }
   });
 
-  it('should connect openModal to openModal action creator', function test() {
+  it('should connect openModal to openModal action creator', () => {
     const modalName = 'modalName';
 
     const shallowRenderer = createRenderer();
@@ -467,7 +477,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -480,7 +491,7 @@ describe('RecordEditorContainer', function suite() {
     action.meta.should.have.property('name').that.equals(modalName);
   });
 
-  it('should connect setForm to setForm action creator', function test() {
+  it('should connect setForm to setForm action creator', () => {
     const formName = 'formName';
 
     const shallowRenderer = createRenderer();
@@ -490,7 +501,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -504,7 +516,7 @@ describe('RecordEditorContainer', function suite() {
     action.meta.should.have.property('recordType').that.equals(recordType);
   });
 
-  it('should connect checkForRelations to checkForRelations action creator', function test() {
+  it('should connect checkForRelations to checkForRelations action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -512,7 +524,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -528,7 +541,7 @@ describe('RecordEditorContainer', function suite() {
     });
   });
 
-  it('should connect checkForUses to checkForUses action creator', function test() {
+  it('should connect checkForUses to checkForUses action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -537,7 +550,8 @@ describe('RecordEditorContainer', function suite() {
         csid={csid}
         recordType={authRecordType}
         vocabulary={vocabulary}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -553,7 +567,7 @@ describe('RecordEditorContainer', function suite() {
     });
   });
 
-  it('should connect checkForRoleUses to checkForRoleUses action creator', function test() {
+  it('should connect checkForRoleUses to checkForRoleUses action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -561,7 +575,8 @@ describe('RecordEditorContainer', function suite() {
         config={config}
         csid={csid}
         recordType="authrole"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

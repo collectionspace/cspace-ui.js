@@ -48,7 +48,11 @@ export default class RolesInput extends Component {
   }
 
   getRolesMap() {
-    let rolesList = this.props.value;
+    const {
+      value,
+    } = this.props;
+
+    let rolesList = value;
 
     if (!rolesList) {
       return undefined;
@@ -88,7 +92,7 @@ export default class RolesInput extends Component {
         delete membership[id];
       }
 
-      const newValue = Immutable.List(Object.keys(membership).map(roleId => Immutable.Map({
+      const newValue = Immutable.List(Object.keys(membership).map((roleId) => Immutable.Map({
         roleId,
       })));
 
@@ -127,7 +131,7 @@ export default class RolesInput extends Component {
           </li>
         );
       })
-      .filter(row => !!row);
+      .filter((row) => !!row);
 
     return rows.toJS();
   }

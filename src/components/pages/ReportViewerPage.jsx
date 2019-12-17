@@ -23,7 +23,7 @@ const renderLoading = () => (
   </div>
 );
 
-const renderError = error => (
+const renderError = (error) => (
   <div className={styles.error}>
     <FormattedMessage
       {...messages.error}

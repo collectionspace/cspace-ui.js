@@ -20,7 +20,7 @@ export default (configContext) => {
       docNumber: {
         // The value -might- be a refname.
         // FIXME: It could also be an option list value. How to tell?
-        formatValue: value => formatRefName(value) || value,
+        formatValue: (value) => formatRefName(value) || value,
         messages: defineMessages({
           label: {
             id: 'column.all.default.docNumber',
@@ -33,7 +33,7 @@ export default (configContext) => {
       docName: {
         // The value -might- be a refname.
         // FIXME: It could also be an option list value. How to tell?
-        formatValue: value => formatRefName(value) || value,
+        formatValue: (value) => formatRefName(value) || value,
         messages: defineMessages({
           label: {
             id: 'column.all.default.docName',

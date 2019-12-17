@@ -9,6 +9,7 @@ export default function withConfig(BaseComponent) {
 
     return (
       <BaseComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         config={config}
       />
@@ -16,6 +17,7 @@ export default function withConfig(BaseComponent) {
   }
 
   WithConfig.contextTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     config: PropTypes.object,
   };
 

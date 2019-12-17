@@ -47,13 +47,11 @@ const config = {
   },
 };
 
-describe('InvocationModalContainer', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('InvocationModalContainer', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
-  beforeEach(function before() {
+  beforeEach(() => {
     moxios.install();
   });
 
@@ -63,7 +61,7 @@ describe('InvocationModalContainer', function suite() {
     store.clearActions();
   });
 
-  it('should set props on InvocationModal', function test() {
+  it('should set props on InvocationModal', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -71,7 +69,8 @@ describe('InvocationModalContainer', function suite() {
         config={config}
         csid="1234"
         recordType="report"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -80,7 +79,7 @@ describe('InvocationModalContainer', function suite() {
     result.props.should.have.property('readRecord').that.is.a('function');
   });
 
-  it('should connect readRecord to readRecord action creator', function test() {
+  it('should connect readRecord to readRecord action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -88,7 +87,8 @@ describe('InvocationModalContainer', function suite() {
         config={config}
         csid="1234"
         recordType="report"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -101,7 +101,7 @@ describe('InvocationModalContainer', function suite() {
       });
   });
 
-  it('should connect searchCsid to searchCsid action creator', function test() {
+  it('should connect searchCsid to searchCsid action creator', () => {
     moxios.stubRequest('/cspace-services/groups?as=%28ecm%3Aname%20%3D%20%225678%22%29&pgSz=1&wf_deleted=false', {
       status: 200,
       response: {
@@ -116,7 +116,8 @@ describe('InvocationModalContainer', function suite() {
         config={config}
         csid="1234"
         recordType="report"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

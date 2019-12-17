@@ -15,7 +15,7 @@ const handleRelationFindFulfilled = (state, action) => {
 
   return state.setIn(
     ['find', subject.csid, object.csid, predicate, 'result'],
-    Immutable.fromJS(action.payload.data)
+    Immutable.fromJS(action.payload.data),
   );
 };
 
@@ -32,5 +32,4 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getFindResult = (state, subject, object, predicate) =>
-  state.getIn(['find', subject.csid, object.csid, predicate, 'result']);
+export const getFindResult = (state, subject, object, predicate) => state.getIn(['find', subject.csid, object.csid, predicate, 'result']);

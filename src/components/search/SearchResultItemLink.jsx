@@ -15,10 +15,16 @@ import {
 } from '../../helpers/configHelpers';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   item: PropTypes.instanceOf(Immutable.Map),
-  message: PropTypes.object,
+  message: PropTypes.shape({
+    id: PropTypes.string,
+    defaultMessage: PropTypes.string,
+  }),
   rel: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   state: PropTypes.object,
 };
 
@@ -46,8 +52,7 @@ export default function SearchResultItemLink(props) {
   if (recordTypeConfig.serviceConfig.serviceType === 'authority') {
     const vocabularyShortID = getVocabularyShortID(refName);
 
-    const vocabularyConfig =
-      getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
+    const vocabularyConfig = getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
 
     if (vocabularyConfig) {
       pathParts.push(vocabularyConfig.name);

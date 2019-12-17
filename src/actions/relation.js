@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
-import getSession from './cspace';
+import getSession from '../helpers/session';
 import { showNotification } from './notification';
 import getErrorDescription from '../helpers/getErrorDescription';
 import { getRelationFindResult } from '../reducers';
@@ -57,16 +57,15 @@ const messages = defineMessages({
 
 const notificationID = 'action.relation';
 
-export const showRelationNotification = (message, values) =>
-  showNotification({
-    items: [{
-      message,
-      values,
-    }],
-    date: new Date(),
-    status: STATUS_SUCCESS,
-    autoClose: true,
-  }, notificationID);
+export const showRelationNotification = (message, values) => showNotification({
+  items: [{
+    message,
+    values,
+  }],
+  date: new Date(),
+  status: STATUS_SUCCESS,
+  autoClose: true,
+}, notificationID);
 
 /*
  * Find a relation, given at least the subject csid and object csid, and optionally the subject
@@ -131,7 +130,7 @@ export const find = (config, subject, object, predicate) => (dispatch, getState)
   };
 
   return getSession().read('/relations', requestConfig)
-    .then(response => dispatch({
+    .then((response) => dispatch({
       type: RELATION_FIND_FULFILLED,
       payload: response,
       meta: {
@@ -140,7 +139,7 @@ export const find = (config, subject, object, predicate) => (dispatch, getState)
         predicate,
       },
     }))
-    .catch(error => dispatch({
+    .catch((error) => dispatch({
       type: RELATION_FIND_REJECTED,
       payload: {
         code: ERR_API,
@@ -183,7 +182,7 @@ export const checkForRelations = (csid1, predicate, csid2) => () => {
     });
 };
 
-export const deleteRelation = csid => (dispatch) => {
+export const deleteRelation = (csid) => (dispatch) => {
   if (!csid) {
     throw new Error('csid must be supplied');
   }
@@ -197,7 +196,7 @@ export const deleteRelation = csid => (dispatch) => {
   });
 
   return getSession().delete(`/relations/${csid}`)
-    .then(response => dispatch({
+    .then((response) => dispatch({
       type: RELATION_DELETE_FULFILLED,
       payload: response,
       meta: {
@@ -232,9 +231,8 @@ const doUnrelate = (config, subject, object, predicate) => (dispatch, getState) 
   if (existingResult) {
     promise = Promise.resolve(existingResult);
   } else {
-    promise =
-      dispatch(find(config, subject, object, predicate))
-        .then(() => getRelationFindResult(getState(), subject, object, predicate));
+    promise = dispatch(find(config, subject, object, predicate))
+      .then(() => getRelationFindResult(getState(), subject, object, predicate));
   }
 
   return promise
@@ -247,11 +245,11 @@ const doUnrelate = (config, subject, object, predicate) => (dispatch, getState) 
         items = Immutable.List.of(items);
       }
 
-      return Promise.all(items.map(item => dispatch(deleteRelation(item.get('csid')))));
+      return Promise.all(items.map((item) => dispatch(deleteRelation(item.get('csid')))));
     });
 };
 
-export const unrelate = (config, subject, object, predicate) => dispatch =>
+export const unrelate = (config, subject, object, predicate) => (dispatch) => (
   dispatch(doUnrelate(config, subject, object, predicate))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
@@ -260,18 +258,18 @@ export const unrelate = (config, subject, object, predicate) => dispatch =>
         updatedTime: (new Date()).toISOString(),
       },
     }))
-    .catch(() => {});
+    .catch(() => {})
+);
 
-export const unrelateBidirectional = (config, subject, object, predicate) => dispatch =>
+export const unrelateBidirectional = (config, subject, object, predicate) => (dispatch) => (
   dispatch(unrelate(config, subject, object, predicate))
     .then(() => dispatch(unrelate(config, object, subject, predicate)))
-    .catch(() => {});
+    .catch(() => {})
+);
 
-export const batchUnrelate = (config, subject, objects, predicate) => dispatch =>
+export const batchUnrelate = (config, subject, objects, predicate) => (dispatch) => (
   objects.reduce((promise, object) => promise
-    .then(() => dispatch(doUnrelate(config, subject, object, predicate)))
-    , Promise.resolve()
-  )
+    .then(() => dispatch(doUnrelate(config, subject, object, predicate))), Promise.resolve())
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
@@ -290,9 +288,10 @@ export const batchUnrelate = (config, subject, objects, predicate) => dispatch =
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
-    });
+    })
+);
 
-export const batchUnrelateBidirectional = (config, subject, objects, predicate) => dispatch =>
+export const batchUnrelateBidirectional = (config, subject, objects, predicate) => (dispatch) => (
   // For the passed subject, we only want to dispatch SUBJECT_RELATIONS_UPDATED once at the end, so
   // doUnrelate is used. The passed objects should be unique; for the reverse relations (where the
   // object becomes the subject), SUBJECT_RELATIONS_UPDATED may be dispatched immediately, so
@@ -301,11 +300,7 @@ export const batchUnrelateBidirectional = (config, subject, objects, predicate) 
   // Send these requests one at a time, to avoid DOSing the server.
   objects.reduce((promise, object) => promise
     .then(() => dispatch(doUnrelate(config, subject, object, predicate)))
-    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
-    .then(() => dispatch(unrelate(config, object, subject, predicate)))
-    // .then(() => new Promise((resolve) => { window.setTimeout(() => resolve(), 1000); }))
-    , Promise.resolve()
-  )
+    .then(() => dispatch(unrelate(config, object, subject, predicate))), Promise.resolve())
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
@@ -324,7 +319,8 @@ export const batchUnrelateBidirectional = (config, subject, objects, predicate) 
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
-    });
+    })
+);
 
 const doCreate = (subject, object, predicate) => (dispatch) => {
   dispatch({
@@ -350,7 +346,7 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
   };
 
   return getSession().create('/relations', config)
-    .then(response => dispatch({
+    .then((response) => dispatch({
       type: RELATION_SAVE_FULFILLED,
       payload: response,
       meta: {
@@ -377,7 +373,7 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
     });
 };
 
-export const batchCreate = (subject, objects, predicate) => dispatch =>
+export const batchCreate = (subject, objects, predicate) => (dispatch) => (
   objects.reduce((promise, object) => promise
     .then(() => dispatch(checkForRelations(subject.csid, predicate, object.csid)))
     .then((relationExists) => {
@@ -386,9 +382,7 @@ export const batchCreate = (subject, objects, predicate) => dispatch =>
       }
 
       return dispatch(doCreate(subject, object, predicate));
-    }),
-    Promise.resolve()
-  )
+    }), Promise.resolve())
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
       meta: {
@@ -407,9 +401,10 @@ export const batchCreate = (subject, objects, predicate) => dispatch =>
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
-    });
+    })
+);
 
-export const batchCreateBidirectional = (subject, objects, predicate) => dispatch =>
+export const batchCreateBidirectional = (subject, objects, predicate) => (dispatch) => (
   // Send these requests one at a time, to avoid DOSing the server.
   objects.reduce((promise, object) => promise
     .then(() => dispatch(checkForRelations(subject.csid, predicate, object.csid)))
@@ -420,9 +415,7 @@ export const batchCreateBidirectional = (subject, objects, predicate) => dispatc
 
       return dispatch(doCreate(subject, object, predicate))
         .then(() => dispatch(doCreate(object, subject, predicate)));
-    }),
-    Promise.resolve()
-  )
+    }), Promise.resolve())
     .then(() => {
       dispatch(showRelationNotification(messages.related, {
         objectCount: objects.length,
@@ -448,9 +441,10 @@ export const batchCreateBidirectional = (subject, objects, predicate) => dispatc
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
-    });
+    })
+);
 
-export const create = (subject, object, predicate) => dispatch =>
+export const create = (subject, object, predicate) => (dispatch) => (
   dispatch(doCreate(subject, object, predicate))
     .then(() => dispatch({
       type: SUBJECT_RELATIONS_UPDATED,
@@ -459,9 +453,10 @@ export const create = (subject, object, predicate) => dispatch =>
         updatedTime: (new Date()).toISOString(),
       },
     }))
-    .catch(() => {});
+    .catch(() => {})
+);
 
-export const createBidirectional = (subject, object, predicate) => dispatch =>
+export const createBidirectional = (subject, object, predicate) => (dispatch) => (
   dispatch(doCreate(subject, object, predicate))
     .then(() => dispatch(doCreate(object, subject, predicate)))
     .then(() => dispatch({
@@ -471,4 +466,5 @@ export const createBidirectional = (subject, object, predicate) => dispatch =>
         updatedTime: (new Date()).toISOString(),
       },
     }))
-    .catch(() => {});
+    .catch(() => {})
+);

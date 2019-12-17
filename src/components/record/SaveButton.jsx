@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import {
+  defineMessages, injectIntl, intlShape, FormattedMessage,
+} from 'react-intl';
 import classNames from 'classnames';
 import { components as inputComponents } from 'cspace-input';
 import ErrorBadge from './ErrorBadge';

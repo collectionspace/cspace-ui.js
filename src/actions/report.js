@@ -2,7 +2,7 @@
 
 import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
-import getSession from './cspace';
+import getSession from '../helpers/session';
 import getErrorDescription from '../helpers/getErrorDescription';
 import getNotificationID from '../helpers/notificationHelpers';
 import { createInvocationData } from '../helpers/invocationHelpers';
@@ -34,7 +34,7 @@ const messages = defineMessages({
   },
 });
 
-export const openReport = (config, reportMetadata, invocationDescriptor) =>
+export const openReport = (config, reportMetadata, invocationDescriptor) => (
   (dispatch, getState) => {
     const reportCsid = getCsid(reportMetadata);
     const reportNameGetter = get(config, ['recordTypes', 'report', 'invocableName']);
@@ -64,12 +64,12 @@ export const openReport = (config, reportMetadata, invocationDescriptor) =>
     }
 
     return validateParams.then(() => {
-      const viewerPath =
-        getReportViewerPath(config, reportCsid, invocationDescriptor, params);
+      const viewerPath = getReportViewerPath(config, reportCsid, invocationDescriptor, params);
 
       window.open(viewerPath, VIEWER_WINDOW_NAME);
     });
-  };
+  }
+);
 
 export const invoke = (config, csid, invocationDescriptor, params) => (dispatch) => {
   const requestConfig = {

@@ -32,7 +32,7 @@ const template = (configContext) => {
   );
 };
 
-export default configContext => ({
+export default (configContext) => ({
   disabled: true,
   messages: defineMessages({
     name: {

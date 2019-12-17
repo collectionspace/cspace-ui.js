@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
-import InvocationModal from '../invocable/InvocationModal';
 import InvocableSearchBar from '../invocable/InvocableSearchBar';
+import { MODAL_INVOCATION } from '../../constants/modalNames';
 import { OP_CONTAIN } from '../../constants/searchOperators';
 import InvocationModalContainer from '../../containers/invocable/InvocationModalContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
@@ -22,8 +22,12 @@ import {
 } from '../../helpers/permissionHelpers';
 
 const propTypes = {
-  history: PropTypes.object,
-  match: PropTypes.object,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
   openModalName: PropTypes.string,
@@ -38,7 +42,9 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
 };
 
 const recordType = 'report';
@@ -146,7 +152,7 @@ export default class ReportPage extends Component {
       openReport(config, reportMetadata, invocationDescriptor)
         .then(() => {
           if (closeModal) {
-            closeModal(InvocationModal.modalName);
+            closeModal(MODAL_INVOCATION);
           }
         })
         .catch(() => {});
@@ -159,7 +165,7 @@ export default class ReportPage extends Component {
     } = this.props;
 
     if (openModal) {
-      openModal(InvocationModal.modalName);
+      openModal(MODAL_INVOCATION);
     }
   }
 
@@ -220,7 +226,7 @@ export default class ReportPage extends Component {
         initialInvocationDescriptor={Immutable.Map({
           mode: 'nocontext',
         })}
-        isOpen={openModalName === InvocationModal.modalName}
+        isOpen={openModalName === MODAL_INVOCATION}
         recordType="report"
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}

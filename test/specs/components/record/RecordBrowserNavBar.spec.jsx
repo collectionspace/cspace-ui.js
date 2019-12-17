@@ -106,7 +106,7 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('RecordBrowserNavBar', function suite() {
+describe('RecordBrowserNavBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -115,7 +115,8 @@ describe('RecordBrowserNavBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordBrowserNavBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('NAV');
   });
@@ -129,7 +130,8 @@ describe('RecordBrowserNavBar', function suite() {
           csid="b09295cf-ff56-4018-be16"
           perms={perms}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const listItems = this.container.querySelectorAll('li');
 
@@ -151,7 +153,8 @@ describe('RecordBrowserNavBar', function suite() {
           items={navBarItems}
           perms={perms}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const listItems = this.container.querySelectorAll('li');
 
@@ -174,7 +177,8 @@ describe('RecordBrowserNavBar', function suite() {
           items={items}
           perms={perms}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const listItems = this.container.querySelectorAll('li');
 
@@ -195,7 +199,8 @@ describe('RecordBrowserNavBar', function suite() {
           items={items}
           perms={perms}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const listItems = this.container.querySelectorAll('li');
 
@@ -226,7 +231,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           setItems={setItems}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     setItemsRecordType.should.equal('collectionobject');
     setItemsItems.should.equal(Immutable.List(['group', 'media', 'intake']));
@@ -242,7 +248,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           setItems={setItems}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     setItemsRecordType.should.equal('collectionobject');
     setItemsItems.should.equal(Immutable.List(['group', 'media', 'loanin']));
@@ -267,7 +274,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           onSelect={handleSelect}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const groupItem = this.container.querySelectorAll('li')[1];
     const button = groupItem.querySelector('button');
@@ -298,7 +306,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           setItems={setItems}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const groupItem = this.container.querySelectorAll('li')[1];
     const closeButton = groupItem.querySelector('button:nth-of-type(2)');
@@ -329,7 +338,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           onSelect={handleSelect}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const groupItem = this.container.querySelectorAll('li')[1];
     const closeButton = groupItem.querySelector('button:nth-of-type(2)');
@@ -359,7 +369,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           onSelect={handleSelect}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const mediaItem = this.container.querySelectorAll('li')[2];
     const closeButton = mediaItem.querySelector('button:nth-of-type(2)');
@@ -387,7 +398,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           setItems={setItems}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const selectorItem = this.container.querySelectorAll('li')[1];
     const recordTypeInput = selectorItem.querySelector('.cspace-input-DropdownMenuInput--common > input');
@@ -419,7 +431,8 @@ describe('RecordBrowserNavBar', function suite() {
           perms={perms}
           onSelect={handleSelect}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const selectorItem = this.container.querySelectorAll('li')[1];
     const recordTypeInput = selectorItem.querySelector('.cspace-input-DropdownMenuInput--common > input');

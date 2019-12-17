@@ -1,7 +1,7 @@
 import LoginPage from './pageObjects/LoginPage';
 import SearchPage from './pageObjects/SearchPage';
 
-describe('when logged out', function suite() {
+describe('when logged out', () => {
   const loginPage = new LoginPage();
   const searchPage = new SearchPage();
 

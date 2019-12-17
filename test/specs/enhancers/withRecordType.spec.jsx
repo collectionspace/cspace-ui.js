@@ -5,8 +5,8 @@ import withRecordType from '../../../src/enhancers/withRecordType';
 
 chai.should();
 
-describe('withRecordType', function suite() {
-  it('should set recordType prop on the base component with recordType from context', function test() {
+describe('withRecordType', () => {
+  it('should set recordType prop on the base component with recordType from context', () => {
     const recordType = 'object';
 
     const reactContext = {

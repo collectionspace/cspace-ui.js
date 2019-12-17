@@ -7,7 +7,7 @@ import serviceConfig from './serviceConfig';
 import invocableName from './invocableName';
 import title from './title';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   optionLists,
   recordTypes: {
     report: {

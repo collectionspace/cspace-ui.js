@@ -15,6 +15,7 @@ const getHeader = (key, messages) => {
   }
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <h3><FormattedMessage {...message} /></h3>
   );
 };

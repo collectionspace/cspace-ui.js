@@ -9,7 +9,7 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('SubrecordEditorContainer', function suite() {
+describe('SubrecordEditorContainer', () => {
   const containerCsid = '1234';
   const subrecordName = 'contact';
   const subrecordCsid = '5678';
@@ -50,14 +50,15 @@ describe('SubrecordEditorContainer', function suite() {
     store,
   };
 
-  it('should set props on SubrecordEditor', function test() {
+  it('should set props on SubrecordEditor', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <SubrecordEditorContainer
         containerCsid={containerCsid}
         name={subrecordName}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

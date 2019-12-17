@@ -48,9 +48,9 @@ export default class CreatePage extends Page {
     }
 
     if (
-      typeof name !== 'undefined' &&
-      typeof serviceType !== 'undefined' &&
-      serviceType !== 'authority'
+      typeof name !== 'undefined'
+      && typeof serviceType !== 'undefined'
+      && serviceType !== 'authority'
     ) {
       const url = `/record/${name}`;
       const href = link.getAttribute('href');

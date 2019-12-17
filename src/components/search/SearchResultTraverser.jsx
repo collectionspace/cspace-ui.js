@@ -36,15 +36,18 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   searchName: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchState: PropTypes.instanceOf(Immutable.Map),
-  nextPageSearchDescriptor: PropTypes.object,
+  nextPageSearchDescriptor: PropTypes.instanceOf(Immutable.Map),
   nextPageSearchState: PropTypes.instanceOf(Immutable.Map),
-  prevPageSearchDescriptor: PropTypes.object,
+  prevPageSearchDescriptor: PropTypes.instanceOf(Immutable.Map),
   prevPageSearchState: PropTypes.instanceOf(Immutable.Map),
+  // eslint-disable-next-line react/forbid-prop-types
   originSearchPageState: PropTypes.object,
   search: PropTypes.func,
 };
@@ -111,10 +114,10 @@ export default class SearchResultTraverser extends Component {
         }
 
         if (
-          !prevPageSearchState &&
-          (prevIndex < 0) &&
-          (currentNum > 1) &&
-          prevPageSearchDescriptor
+          !prevPageSearchState
+          && (prevIndex < 0)
+          && (currentNum > 1)
+          && prevPageSearchDescriptor
         ) {
           // The previous page has not been retrieved, and we're on the first item of the current
           // page. Initiate the search for the previous page.
@@ -123,15 +126,15 @@ export default class SearchResultTraverser extends Component {
             config,
             searchName,
             prevPageSearchDescriptor,
-            getListType(config, prevPageSearchDescriptor)
+            getListType(config, prevPageSearchDescriptor),
           );
         }
 
         if (
-          !nextPageSearchState &&
-          (nextIndex > (items.size - 1)) &&
-          (currentNum < totalItems) &&
-          nextPageSearchDescriptor
+          !nextPageSearchState
+          && (nextIndex > (items.size - 1))
+          && (currentNum < totalItems)
+          && nextPageSearchDescriptor
         ) {
           // The next page has not been retrieved, and we're on the last item of the current page.
           // Initiate the search for the next page.
@@ -140,7 +143,7 @@ export default class SearchResultTraverser extends Component {
             config,
             searchName,
             nextPageSearchDescriptor,
-            getListType(config, nextPageSearchDescriptor)
+            getListType(config, nextPageSearchDescriptor),
           );
         }
       }
@@ -200,12 +203,12 @@ export default class SearchResultTraverser extends Component {
     if (currentNum > 1) {
       // We don't have data for the previous page, but there is one. Show a placeholder link.
 
-      return <a rel="prev"><FormattedMessage {...messages.prev} /></a>;
+      return <FormattedMessage {...messages.prev} />;
     }
 
     // We're on the first item of all pages. Show a placeholder link.
 
-    return <a rel="prev"><FormattedMessage {...messages.prev} /></a>;
+    return <FormattedMessage {...messages.prev} />;
   }
 
   renderNextLink(items, index, currentNum, totalItems, locationState) {
@@ -261,12 +264,12 @@ export default class SearchResultTraverser extends Component {
     if (currentNum < totalItems) {
       // We don't have data for the next page, but there is one. Show a placeholder link.
 
-      return <a rel="next"><FormattedMessage {...messages.next} /></a>;
+      return <FormattedMessage {...messages.next} />;
     }
 
     // We're on the last item of all pages. Show a placeholder link.
 
-    return <a rel="next"><FormattedMessage {...messages.next} /></a>;
+    return <FormattedMessage {...messages.next} />;
   }
 
   render() {
@@ -288,9 +291,9 @@ export default class SearchResultTraverser extends Component {
     let nextLink;
 
     if (
-      !searchState ||
-      searchState.get('isPending') ||
-      searchState.get('error')
+      !searchState
+      || searchState.get('isPending')
+      || searchState.get('error')
     ) {
       resultMessage = <FormattedMessage {...messages.resultPending} />;
     } else {

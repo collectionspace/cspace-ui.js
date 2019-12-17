@@ -2,12 +2,12 @@ import Immutable from 'immutable';
 import form from '../../../../../../src/plugins/recordTypes/blob/forms/default';
 import createConfigContext from '../../../../../../src/helpers/createConfigContext';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('blob record default form', function suite() {
-  it('should have a template function', function test() {
+describe('blob record default form', () => {
+  it('should have a template function', () => {
     const configContext = createConfigContext();
     const { template } = form(configContext);
 

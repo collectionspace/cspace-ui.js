@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import UnrelateButton from '../../../../src/components/record/UnrelateButton';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('UnrelateButton', function suite() {
+describe('UnrelateButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('UnrelateButton', function suite() {
     render(
       <IntlProvider locale="en">
         <UnrelateButton />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
@@ -26,7 +27,8 @@ describe('UnrelateButton', function suite() {
     render(
       <IntlProvider locale="en">
         <UnrelateButton isUnrelatable={false} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

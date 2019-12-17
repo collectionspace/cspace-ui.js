@@ -11,13 +11,24 @@ import ConfirmRecordDeleteModal from './ConfirmRecordDeleteModal';
 import LockRecordModal from './LockRecordModal';
 import HierarchyReparentNotifier from './HierarchyReparentNotifier';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
-import { canCreate, canDelete, canUpdate, canSoftDelete } from '../../helpers/permissionHelpers';
+import {
+  canCreate, canDelete, canUpdate, canSoftDelete,
+} from '../../helpers/permissionHelpers';
 import { isRecordDeprecated, isRecordImmutable } from '../../helpers/recordDataHelpers';
 import { isLocked } from '../../helpers/workflowStateHelpers';
 import styles from '../../../styles/cspace-ui/RecordEditor.css';
 
+import {
+  MODAL_CONFIRM_RECORD_DELETE,
+  MODAL_CONFIRM_RECORD_NAVIGATION,
+  MODAL_LOCK_RECORD,
+} from '../../constants/modalNames';
+
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+    termDeprecationEnabled: PropTypes.bool,
+  }),
   recordType: PropTypes.string.isRequired,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -80,11 +91,13 @@ export default class RecordEditor extends Component {
 
     // Confirm navigation modal button handlers.
 
-    this.handleConfirmNavigationSaveButtonClick =
-      this.handleConfirmNavigationSaveButtonClick.bind(this);
+    this.handleConfirmNavigationSaveButtonClick = (
+      this.handleConfirmNavigationSaveButtonClick.bind(this)
+    );
 
-    this.handleConfirmNavigationRevertButtonClick =
-      this.handleConfirmNavigationRevertButtonClick.bind(this);
+    this.handleConfirmNavigationRevertButtonClick = (
+      this.handleConfirmNavigationRevertButtonClick.bind(this)
+    );
 
     // Lock modal button handlers.
 
@@ -127,10 +140,10 @@ export default class RecordEditor extends Component {
     } = prevProps;
 
     if (
-      recordType !== prevRecordType ||
-      vocabulary !== prevVocabulary ||
-      csid !== prevCsid ||
-      cloneCsid !== prevCloneCsid
+      recordType !== prevRecordType
+      || vocabulary !== prevVocabulary
+      || csid !== prevCsid
+      || cloneCsid !== prevCloneCsid
     ) {
       this.initRecord();
     }
@@ -193,7 +206,7 @@ export default class RecordEditor extends Component {
     const { lockOnSave } = recordTypeConfig;
 
     if (lockOnSave === 'prompt' && openModal) {
-      openModal(LockRecordModal.modalName);
+      openModal(MODAL_LOCK_RECORD);
 
       return false;
     }
@@ -375,7 +388,7 @@ export default class RecordEditor extends Component {
     } = this.props;
 
     if (openModal) {
-      openModal(ConfirmRecordDeleteModal.modalName);
+      openModal(MODAL_CONFIRM_RECORD_DELETE);
     }
   }
 
@@ -461,7 +474,7 @@ export default class RecordEditor extends Component {
 
     return (
       <ConfirmRecordNavigationModal
-        isOpen={openModalName === ConfirmRecordNavigationModal.modalName}
+        isOpen={openModalName === MODAL_CONFIRM_RECORD_NAVIGATION}
         isModified={isModified}
         isSavePending={isSavePending}
         validationErrors={validationErrors}
@@ -493,7 +506,7 @@ export default class RecordEditor extends Component {
         config={config}
         csid={csid}
         data={data}
-        isOpen={openModalName === ConfirmRecordDeleteModal.modalName}
+        isOpen={openModalName === MODAL_CONFIRM_RECORD_DELETE}
         isSavePending={isSavePending}
         recordType={recordType}
         vocabulary={vocabulary}
@@ -526,7 +539,7 @@ export default class RecordEditor extends Component {
     return (
       <LockRecordModal
         csid={csid}
-        isOpen={openModalName === LockRecordModal.modalName}
+        isOpen={openModalName === MODAL_LOCK_RECORD}
         isSavePending={isSavePending}
         onCancelButtonClick={this.handleModalCancelButtonClick}
         onCloseButtonClick={this.handleModalCancelButtonClick}
@@ -573,51 +586,51 @@ export default class RecordEditor extends Component {
     const immutable = isRecordImmutable(data);
 
     const readOnly = (
-      isReadPending ||
-      immutable ||
-      !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
+      isReadPending
+      || immutable
+      || !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
     );
 
     const isRunnable = !!onRunButtonClick;
 
     const isCloneable = (
       // The record must be saved.
-      !!csid &&
-      !vocabularyLocked &&
+      !!csid
+      && !vocabularyLocked
       // If we're editing an object record in a secondary tab, and the primary record is locked,
       // a new cloned record would not be able to be related to the primary, so the clone
       // button should not appear.
-      !relatedSubjectLocked &&
+      && !relatedSubjectLocked
       // We must have permission to create a new record of the type.
-      canCreate(recordType, perms) &&
+      && canCreate(recordType, perms)
       // FIXME: Prevent cloning seeded authroles, since they may contain permissions that are not
       // normally creatable via the UI. Instead of hardcoding this, should be able to configure a
       // normalizeCloneData function that will clean up cloned data for a record type, and/or
       // a cloneable function that will determine if a record is cloneable based on its data.
-      !(recordType === 'authrole' && data.getIn(['ns2:role', 'permsProtection']) === 'immutable')
+      && !(recordType === 'authrole' && data.getIn(['ns2:role', 'permsProtection']) === 'immutable')
     );
 
     const isDeletable = (
-      (checkDeletable ? checkDeletable(data) : true) &&
-      !!csid &&
-      !immutable &&
-      !vocabularyLocked &&
+      (checkDeletable ? checkDeletable(data) : true)
+      && !!csid
+      && !immutable
+      && !vocabularyLocked
       // Security resources don't have soft-delete, so also need to check hard delete.
-      (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
+      && (canSoftDelete(recordType, perms) || canDelete(recordType, perms))
     );
 
     const isDeprecatable = (
-      !!csid &&
-      config.termDeprecationEnabled &&
-      serviceType === 'authority' &&
-      !isRecordDeprecated(data)
+      !!csid
+      && config.termDeprecationEnabled
+      && serviceType === 'authority'
+      && !isRecordDeprecated(data)
     );
 
     const isUndeprecatable = (
-      !!csid &&
-      config.termDeprecationEnabled &&
-      serviceType === 'authority' &&
-      isRecordDeprecated(data)
+      !!csid
+      && config.termDeprecationEnabled
+      && serviceType === 'authority'
+      && isRecordDeprecated(data)
     );
 
     const className = isSidebarOpen ? styles.normal : styles.full;
@@ -691,7 +704,7 @@ export default class RecordEditor extends Component {
 
         <Prompt
           when={isModified && !isSavePending}
-          message={ConfirmRecordNavigationModal.modalName}
+          message={MODAL_CONFIRM_RECORD_NAVIGATION}
         />
 
         {this.renderConfirmNavigationModal()}

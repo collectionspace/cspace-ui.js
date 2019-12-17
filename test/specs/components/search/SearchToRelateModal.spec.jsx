@@ -50,16 +50,16 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('SearchToRelateModal', function suite() {
+describe('SearchToRelateModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a SearchToSelectModal', function test() {
+  it('should render a SearchToSelectModal', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SearchToRelateModal />
+      <SearchToRelateModal />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -67,7 +67,7 @@ describe('SearchToRelateModal', function suite() {
     result.type.should.equal(SearchToSelectModalContainer);
   });
 
-  it('should add mkRtSbj to the search descriptor when there is a single subject', function test() {
+  it('should add mkRtSbj to the search descriptor when there is a single subject', () => {
     const subject = {
       csid: '1234',
       recordType: 'group',
@@ -78,7 +78,7 @@ describe('SearchToRelateModal', function suite() {
     shallowRenderer.render(
       <SearchToRelateModal
         subjects={[subject]}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -97,7 +97,7 @@ describe('SearchToRelateModal', function suite() {
     }));
   });
 
-  it('should not modify the search descriptor when there are multiple subjects', function test() {
+  it('should not modify the search descriptor when there are multiple subjects', () => {
     const subjects = [
       {
         csid: '1234',
@@ -114,7 +114,7 @@ describe('SearchToRelateModal', function suite() {
     shallowRenderer.render(
       <SearchToRelateModal
         subjects={subjects}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -139,7 +139,7 @@ describe('SearchToRelateModal', function suite() {
     shallowRenderer.render(
       <SearchToRelateModal
         subjects={[subject]}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -148,12 +148,13 @@ describe('SearchToRelateModal', function suite() {
     render(
       <IntlProvider locale="en">
         {message}
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.contain('Relating');
   });
 
-  it('should call createRelations followed by onRelationsCreated when the selection is accepted', function test() {
+  it('should call createRelations followed by onRelationsCreated when the selection is accepted', () => {
     const recordType = 'collectionobject';
 
     const subject = {
@@ -186,7 +187,7 @@ describe('SearchToRelateModal', function suite() {
         subjects={[subject]}
         createRelations={createRelations}
         onRelationsCreated={handleRelationsCreated}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -216,7 +217,7 @@ describe('SearchToRelateModal', function suite() {
     });
   });
 
-  it('should do nothing when the selection is accepted if there are no subjects', function test() {
+  it('should do nothing when the selection is accepted if there are no subjects', () => {
     const recordType = 'collectionobject';
 
     let created = false;
@@ -232,7 +233,7 @@ describe('SearchToRelateModal', function suite() {
     shallowRenderer.render(
       <SearchToRelateModal
         createRelations={createRelations}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -247,7 +248,7 @@ describe('SearchToRelateModal', function suite() {
     created.should.equal(false);
   });
 
-  it('should call showRelationNotification if multiple subjects are successfully related', function test() {
+  it('should call showRelationNotification if multiple subjects are successfully related', () => {
     const recordType = 'collectionobject';
 
     const subjects = [
@@ -276,7 +277,7 @@ describe('SearchToRelateModal', function suite() {
         subjects={subjects}
         createRelations={createRelations}
         showRelationNotification={showRelationNotification}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -300,7 +301,7 @@ describe('SearchToRelateModal', function suite() {
     });
   });
 
-  it('should call subjects to retrieve subjects if it is a function', function test() {
+  it('should call subjects to retrieve subjects if it is a function', () => {
     const recordType = 'collectionobject';
 
     const subject = {
@@ -324,7 +325,7 @@ describe('SearchToRelateModal', function suite() {
       <SearchToRelateModal
         subjects={getSubjects}
         createRelations={createRelations}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -339,7 +340,7 @@ describe('SearchToRelateModal', function suite() {
     createdSubject.should.deep.equal(subject);
   });
 
-  it('should not show a checkbox on items that are locked, already related to, or the same as the subject', function test() {
+  it('should not show a checkbox on items that are locked, already related to, or the same as the subject', () => {
     const subject = {
       csid: '1234',
       recordType: 'group',
@@ -350,7 +351,7 @@ describe('SearchToRelateModal', function suite() {
     shallowRenderer.render(
       <SearchToRelateModal
         subjects={[subject]}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -369,7 +370,7 @@ describe('SearchToRelateModal', function suite() {
     })).should.equal(false);
   });
 
-  it('should show a checkbox on items that the user has permission to relate', function test() {
+  it('should show a checkbox on items that the user has permission to relate', () => {
     const subject = {
       csid: '1234',
       recordType: 'group',
@@ -382,7 +383,7 @@ describe('SearchToRelateModal', function suite() {
         config={config}
         perms={perms}
         subjects={[subject]}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -393,7 +394,7 @@ describe('SearchToRelateModal', function suite() {
     })).should.equal(true);
   });
 
-  it('should render a Modal containing an error message when an error is supplied', function test() {
+  it('should render a Modal containing an error message when an error is supplied', () => {
     const error = {
       code: 'locked',
     };
@@ -404,7 +405,7 @@ describe('SearchToRelateModal', function suite() {
       <SearchToRelateModal
         isOpen
         error={error}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

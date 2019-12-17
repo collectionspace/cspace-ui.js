@@ -29,8 +29,8 @@ const store = mockStore({
   }),
 });
 
-describe('ToolPageContainer', function suite() {
-  it('should set props on ToolPage', function test() {
+describe('ToolPageContainer', () => {
+  it('should set props on ToolPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();

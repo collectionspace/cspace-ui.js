@@ -9,8 +9,19 @@ import RootPage from './pages/RootPage';
 import withClassName from '../enhancers/withClassName';
 
 const propTypes = {
-  store: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
+  store: PropTypes.shape({
+    subscribe: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    getState: PropTypes.func.isRequired,
+  }).isRequired,
+  config: PropTypes.shape({
+    basename: PropTypes.string,
+    className: PropTypes.string,
+    index: PropTypes.string,
+    locale: PropTypes.string,
+    messages: PropTypes.object,
+    prettyUrls: PropTypes.bool,
+  }).isRequired,
   router: PropTypes.func,
   openModal: PropTypes.func,
 };

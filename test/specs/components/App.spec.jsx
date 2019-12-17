@@ -35,7 +35,7 @@ TestRouter.propTypes = {
   children: PropTypes.node,
 };
 
-describe('App', function suite() {
+describe('App', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -50,13 +50,14 @@ describe('App', function suite() {
         store={store}
         config={config}
         router={TestRouter}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('div.cspace-ui-RootPage--common').should
       .not.equal(null);
   });
 
-  it('should render a BrowserRouter if no router prop is supplied and prettyUrls is true', function test() {
+  it('should render a BrowserRouter if no router prop is supplied and prettyUrls is true', () => {
     const config = {
       locale: 'en',
       prettyUrls: true,
@@ -68,14 +69,15 @@ describe('App', function suite() {
       <App
         store={store}
         config={config}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     findWithType(result, BrowserRouter).should.not.equal(null);
   });
 
-  it('should render a HashRouter if no router prop is supplied and prettyUrls is true', function test() {
+  it('should render a HashRouter if no router prop is supplied and prettyUrls is true', () => {
     const config = {
       locale: 'en',
       prettyUrls: false,
@@ -87,14 +89,15 @@ describe('App', function suite() {
       <App
         store={store}
         config={config}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     findWithType(result, HashRouter).should.not.equal(null);
   });
 
-  it('should call openModal to confirm router navigation', function test() {
+  it('should call openModal to confirm router navigation', () => {
     const config = {
       locale: 'en',
     };
@@ -114,7 +117,8 @@ describe('App', function suite() {
         store={store}
         config={config}
         openModal={openModal}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const router = findWithType(result, HashRouter);

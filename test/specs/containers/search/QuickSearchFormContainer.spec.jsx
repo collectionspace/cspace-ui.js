@@ -17,8 +17,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('QuickSearchFormContainer', function suite() {
-  it('should set props on QuickSearchForm', function test() {
+describe('QuickSearchFormContainer', () => {
+  it('should set props on QuickSearchForm', () => {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -56,7 +56,7 @@ describe('QuickSearchFormContainer', function suite() {
     result.props.search.should.be.a('function');
   });
 
-  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', function test() {
+  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', () => {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -91,7 +91,7 @@ describe('QuickSearchFormContainer', function suite() {
     result.props.getAuthorityVocabCsid('person', 'local').should.equal('1234');
   });
 
-  it('should connect onKeywordCommit to setQuickSearchKeyword action creator', function test() {
+  it('should connect onKeywordCommit to setQuickSearchKeyword action creator', () => {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -124,7 +124,7 @@ describe('QuickSearchFormContainer', function suite() {
     action.should.have.deep.property('payload', 'new keyword');
   });
 
-  it('should connect onRecordTypeCommit to setQuickSearchRecordType action creator', function test() {
+  it('should connect onRecordTypeCommit to setQuickSearchRecordType action creator', () => {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -157,7 +157,7 @@ describe('QuickSearchFormContainer', function suite() {
     action.should.have.deep.property('payload', 'person');
   });
 
-  it('should connect onVocabularyCommit to setQuickSearchVocabulary action creator', function test() {
+  it('should connect onVocabularyCommit to setQuickSearchVocabulary action creator', () => {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',
@@ -190,7 +190,7 @@ describe('QuickSearchFormContainer', function suite() {
     action.should.have.deep.property('payload', 'ulan');
   });
 
-  it('should connect search to initiateSearch action creator', function test() {
+  it('should connect search to initiateSearch action creator', () => {
     const store = mockStore({
       quickSearch: Immutable.fromJS({
         keyword: 'hello world',

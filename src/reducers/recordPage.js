@@ -13,4 +13,4 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getPrimaryCsid = state => state.get('primaryCsid');
+export const getPrimaryCsid = (state) => state.get('primaryCsid');

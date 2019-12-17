@@ -1,6 +1,6 @@
 import { formatOption } from '../../../helpers/formatHelpers';
 
-export default configContext => (data, formatterContext) => {
+export default (configContext) => (data, formatterContext) => {
   const {
     getPart,
   } = configContext.recordDataHelpers;
@@ -19,5 +19,5 @@ export default configContext => (data, formatterContext) => {
   const valueType = common.get('valueType');
   const formattedValueType = formatOption('valueTypes', valueType, formatterContext);
 
-  return [valuationcontrolReferenceNumber, formattedValueType].filter(part => !!part).join(' – ');
+  return [valuationcontrolReferenceNumber, formattedValueType].filter((part) => !!part).join(' – ');
 };

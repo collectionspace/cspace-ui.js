@@ -7,7 +7,9 @@ import { refNameToUrl } from '../../helpers/refNameHelpers';
 import styles from '../../../styles/cspace-ui/HierarchySiblingList.css';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   parentCsid: PropTypes.string,
   recordType: PropTypes.string,
@@ -78,9 +80,8 @@ export default class HierarchySiblingList extends Component {
         }
 
         items = items
-          .filter(item => item.getIn(['subject', 'csid']) !== csid)
-          .sort((itemA, itemB) =>
-            itemA.getIn(['subject', 'number']).localeCompare(itemB.getIn(['subject', 'number'])));
+          .filter((item) => item.getIn(['subject', 'csid']) !== csid)
+          .sort((itemA, itemB) => itemA.getIn(['subject', 'number']).localeCompare(itemB.getIn(['subject', 'number'])));
 
         siblings = items.map((item) => {
           const subject = item.get('subject');

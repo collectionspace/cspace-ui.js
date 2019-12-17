@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
-const template = configContext => (data, config) => {
+const template = (configContext) => (data, config) => {
   const {
     React,
   } = configContext.lib;
@@ -38,7 +38,7 @@ const template = configContext => (data, config) => {
   );
 };
 
-export default configContext => ({
+export default (configContext) => ({
   messages: defineMessages({
     name: {
       id: 'form.vocabulary.default.name',

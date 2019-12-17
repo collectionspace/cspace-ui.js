@@ -9,7 +9,7 @@ import RecordSearchInput from '../../../../src/components/search/RecordSearchInp
 
 chai.should();
 
-describe('RecordSearchInput', function suite() {
+describe('RecordSearchInput', () => {
   const config = {
     recordTypes: {
       collectionobject: {
@@ -37,7 +37,8 @@ describe('RecordSearchInput', function suite() {
 
   it('should render as a ChooserInput', function test() {
     render(
-      <RecordSearchInput />, this.container);
+      <RecordSearchInput />, this.container,
+    );
 
     this.container.firstElementChild.className.should.contain('cspace-input-ChooserInput--common');
   });
@@ -52,7 +53,8 @@ describe('RecordSearchInput', function suite() {
     render(
       <RecordSearchInput
         openSearchModal={openSearchModal}
-      />, this.container);
+      />, this.container,
+    );
 
     const chooseButton = this.container.querySelector('button[name="choose"]');
 
@@ -72,7 +74,8 @@ describe('RecordSearchInput', function suite() {
           config={config}
           value={items}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1-1000');
@@ -90,7 +93,8 @@ describe('RecordSearchInput', function suite() {
           config={config}
           value={items}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('2 records: 1-1000, 1-1001');
@@ -118,7 +122,8 @@ describe('RecordSearchInput', function suite() {
           config={config}
           value={items}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('12 records: 1-1000, 1-1001, 1-1002, 1-1003, 1-1004, 1-1005, 1-1006, 1-1007, 1-1008, 1-1009, and 2 more');

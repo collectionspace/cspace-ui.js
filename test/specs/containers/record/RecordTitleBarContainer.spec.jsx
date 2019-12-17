@@ -9,8 +9,8 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('RecordTitleBarContainer', function suite() {
-  it('should set props on RecordTitleBar', function test() {
+describe('RecordTitleBarContainer', () => {
+  it('should set props on RecordTitleBar', () => {
     const csid = '1234';
     const data = Immutable.Map();
 

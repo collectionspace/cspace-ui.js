@@ -13,12 +13,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('record browser reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('record browser reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });
 
-  it('should handle SET_RELATED_RECORD_BROWSER_RELATED_CSID', function test() {
+  it('should handle SET_RELATED_RECORD_BROWSER_RELATED_CSID', () => {
     const recordType = 'collectionobject';
     const relatedCsid = '1234';
 
@@ -41,7 +41,7 @@ describe('record browser reducer', function suite() {
     getRelatedRecordBrowserRelatedCsid(state, recordType).should.equal(relatedCsid);
   });
 
-  it('should handle CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID', function test() {
+  it('should handle CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID', () => {
     const initialState = Immutable.fromJS({
       relatedRecordBrowser: {
         relatedCsid: {

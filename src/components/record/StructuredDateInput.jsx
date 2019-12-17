@@ -74,8 +74,11 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseStructuredDateInput.propTypes,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    structDateVocabNames: PropTypes.arrayOf(PropTypes.string),
+  }),
   intl: intlShape,
   perms: PropTypes.instanceOf(Immutable.Map),
   readTerms: PropTypes.func,
@@ -147,12 +150,10 @@ class StructuredDateInput extends Component {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
       config,
       intl,
       perms,
       readTerms,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 

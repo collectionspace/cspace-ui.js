@@ -31,8 +31,8 @@ const store = mockStore({
   }),
 });
 
-describe('CreatePageContainer', function suite() {
-  it('should set props on CreatePage', function test() {
+describe('CreatePageContainer', () => {
+  it('should set props on CreatePage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();
@@ -46,7 +46,7 @@ describe('CreatePageContainer', function suite() {
     result.props.should.have.property('getAuthorityVocabWorkflowState').that.is.a('function');
   });
 
-  it('should return the workflow state from the store when getAuthorityVocabWorkflowState is called', function test() {
+  it('should return the workflow state from the store when getAuthorityVocabWorkflowState is called', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();

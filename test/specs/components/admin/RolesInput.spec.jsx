@@ -6,7 +6,7 @@ import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RolesInput from '../../../../src/components/admin/RolesInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -17,7 +17,7 @@ const roles = Immutable.fromJS([
   { displayName: 'ANOTHER_ROLE', roleName: 'ANOTHER_ROLE', '@csid': '3333' },
 ]);
 
-describe('RolesInput', function suite() {
+describe('RolesInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -26,7 +26,8 @@ describe('RolesInput', function suite() {
     render(
       <RolesInput
         roles={roles}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('UL');
   });
@@ -41,7 +42,8 @@ describe('RolesInput', function suite() {
     render(
       <RolesInput
         readRoles={readRoles}
-      />, this.container);
+      />, this.container,
+    );
 
     readRolesCalled.should.equal(true);
   });
@@ -50,7 +52,8 @@ describe('RolesInput', function suite() {
     render(
       <RolesInput
         roles={roles}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelectorAll('input[type="checkbox"]').length.should.equal(roles.size);
   });
@@ -64,7 +67,8 @@ describe('RolesInput', function suite() {
       <RolesInput
         roles={roles}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input[id="2222"]').checked
       .should.equal(true);
@@ -83,7 +87,8 @@ describe('RolesInput', function suite() {
       <RolesInput
         roles={roles}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input[id="1111"]').checked
       .should.equal(true);
@@ -99,7 +104,8 @@ describe('RolesInput', function suite() {
         readOnly
         roles={roles}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input[id="2222"]').checked
       .should.equal(true);
@@ -116,7 +122,8 @@ describe('RolesInput', function suite() {
         readOnly
         roles={roles}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -132,7 +139,8 @@ describe('RolesInput', function suite() {
       <RolesInput
         roles={roles}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input[id="2222"]');
 
@@ -161,7 +169,8 @@ describe('RolesInput', function suite() {
         roles={roles}
         value={value}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input[id="3333"]');
 

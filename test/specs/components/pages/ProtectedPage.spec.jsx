@@ -15,7 +15,7 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import LoginModal from '../../../../src/components/login/LoginModal';
 import ProtectedPage from '../../../../src/components/pages/ProtectedPage';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -32,7 +32,7 @@ const config = {
   recordTypes: {},
 };
 
-describe('ProtectedPage', function suite() {
+describe('ProtectedPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -50,7 +50,8 @@ describe('ProtectedPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -70,7 +71,8 @@ describe('ProtectedPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('div > div#content').textContent.should
       .equal('This is some content');
@@ -90,7 +92,8 @@ describe('ProtectedPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('div > div#content')).to.equal(null);
   });
@@ -110,12 +113,13 @@ describe('ProtectedPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('header .cspace-ui-UserMenu--common').should.not.be.null;
   });
 
-  it('should render a login modal', function test() {
+  it('should render a login modal', () => {
     const shallowRenderer = createRenderer();
 
     const result = shallowRenderer.render(
@@ -124,14 +128,15 @@ describe('ProtectedPage', function suite() {
         userPrefsLoaded
       >
         <div id="content">This is some content</div>
-      </ProtectedPage>);
+      </ProtectedPage>,
+    );
 
     const loginModal = findWithType(result, LoginModal);
 
     loginModal.should.not.equal(null);
   });
 
-  it('should render a login modal', function test() {
+  it('should render a login modal', () => {
     const shallowRenderer = createRenderer();
 
     const result = shallowRenderer.render(
@@ -140,14 +145,15 @@ describe('ProtectedPage', function suite() {
         userPrefsLoaded
       >
         <div id="content">This is some content</div>
-      </ProtectedPage>);
+      </ProtectedPage>,
+    );
 
     const loginModal = findWithType(result, LoginModal);
 
     loginModal.should.not.equal(null);
   });
 
-  it('should when login succeeds', function test() {
+  it('should when login succeeds', () => {
     let closeModalCalled = false;
 
     const closeModal = () => {
@@ -170,7 +176,8 @@ describe('ProtectedPage', function suite() {
         userPrefsLoaded
       >
         <div id="content">This is some content</div>
-      </ProtectedPage>);
+      </ProtectedPage>,
+    );
 
     const loginModal = findWithType(result, LoginModal);
 

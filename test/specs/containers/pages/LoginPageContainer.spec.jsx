@@ -9,8 +9,8 @@ chai.should();
 const mockStore = configureMockStore();
 const store = mockStore();
 
-describe('LoginPageContainer', function suite() {
-  it('should set props on LoginPage', function test() {
+describe('LoginPageContainer', () => {
+  it('should set props on LoginPage', () => {
     const context = { store };
     const history = {};
     const location = {};
@@ -21,7 +21,8 @@ describe('LoginPageContainer', function suite() {
       <LoginPageContainer
         history={history}
         location={location}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

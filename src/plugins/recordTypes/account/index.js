@@ -9,7 +9,7 @@ import serviceConfig from './serviceConfig';
 import prepareForSending from './prepareForSending';
 import title from './title';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   optionLists,
   recordTypes: {
     account: {

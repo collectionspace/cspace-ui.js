@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     deepGet,
     getPart,
@@ -14,8 +14,7 @@ export default configContext => (data) => {
     return '';
   }
 
-  const displayName =
-    deepGet(common, ['personTermGroupList', 'personTermGroup', 0, 'termDisplayName']);
+  const displayName = deepGet(common, ['personTermGroupList', 'personTermGroup', 0, 'termDisplayName']);
 
   return displayName;
 };

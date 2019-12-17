@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('authority record plugin', function suite() {
+describe('authority record plugin', () => {
   const config = {};
   const authorityRecordTypePlugin = authorityRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = authorityRecordTypePlugin(configContext);
 
     const {

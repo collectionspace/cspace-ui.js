@@ -3,15 +3,15 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('loan-in record columns', function suite() {
+describe('loan-in record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
-  it('should have correct shape', function test() {
+  it('should have correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have lender column that is formatted as a refname display name', function test() {
+  it('should have lender column that is formatted as a refname display name', () => {
     const lenderColumn = columns.default.lender;
 
     lenderColumn.should.have.property('formatValue').that.is.a('function');

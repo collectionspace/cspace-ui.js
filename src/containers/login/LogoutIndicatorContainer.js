@@ -7,11 +7,11 @@ import {
 
 import LogoutIndicator from '../../components/login/LogoutIndicator';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPending: isLogoutPending(state),
   response: getLogoutResponse(state),
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
 )(LogoutIndicator);

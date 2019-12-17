@@ -39,9 +39,9 @@ const getRecordTypesByServiceType = (recordTypes, perms, intl) => {
         const recordTypeConfig = recordTypes[recordTypeName];
 
         return (
-          recordTypeConfig.serviceConfig.serviceType === serviceType &&
-          !recordTypeConfig.disabled &&
-          canCreate(recordTypeName, perms)
+          recordTypeConfig.serviceConfig.serviceType === serviceType
+          && !recordTypeConfig.disabled
+          && canCreate(recordTypeName, perms)
         );
       })
       .sort((nameA, nameB) => {
@@ -95,10 +95,10 @@ const getVocabularies = (recordTypeConfig, intl, getAuthorityVocabWorkflowState)
         const workflowState = getAuthorityVocabWorkflowState(recordTypeName, vocabularyName);
 
         return (
-          vocabularyName !== 'all' &&
-          workflowState && // Empty workflow state means vocab doesn't exist.
-          !isLocked(workflowState) &&
-          !vocabularies[vocabularyName].disabled
+          vocabularyName !== 'all'
+          && workflowState // Empty workflow state means vocab doesn't exist.
+          && !isLocked(workflowState)
+          && !vocabularies[vocabularyName].disabled
         );
       })
       .sort((nameA, nameB) => {
@@ -136,7 +136,9 @@ const getVocabularies = (recordTypeConfig, intl, getAuthorityVocabWorkflowState)
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
 };
 
 const propTypes = {
@@ -175,19 +177,19 @@ export default function CreatePage(props, context) {
         const recordTypeConfig = recordTypes[recordType];
 
         const vocabularies = getVocabularies(
-          recordTypeConfig, intl, getAuthorityVocabWorkflowState
+          recordTypeConfig, intl, getAuthorityVocabWorkflowState,
         );
 
         let vocabularyList;
 
         if (vocabularies && vocabularies.length > 0) {
-          const vocabularyItems = vocabularies.map(vocabulary =>
+          const vocabularyItems = vocabularies.map((vocabulary) => (
             <li key={vocabulary}>
               <Link id={`${recordType}/${vocabulary}`} to={`/record/${recordType}/${vocabulary}`}>
                 <FormattedMessage {...recordTypeConfig.vocabularies[vocabulary].messages.name} />
               </Link>
             </li>
-          );
+          ));
 
           vocabularyList = <ul>{vocabularyItems}</ul>;
         }
@@ -219,7 +221,7 @@ export default function CreatePage(props, context) {
     });
 
     serviceTypes.forEach((serviceType) => {
-      const items = itemsByServiceType[serviceType].filter(item => !!item);
+      const items = itemsByServiceType[serviceType].filter((item) => !!item);
 
       if (items && items.length > 0) {
         lists.push(
@@ -228,7 +230,7 @@ export default function CreatePage(props, context) {
             <ul>
               {items}
             </ul>
-          </div>
+          </div>,
         );
       }
     });

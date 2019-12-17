@@ -5,11 +5,11 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SaveButton from '../../../../src/components/record/SaveButton';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('SaveButton', function suite() {
+describe('SaveButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -19,7 +19,8 @@ describe('SaveButton', function suite() {
     render(
       <IntlProvider locale="en">
         <SaveButton readOnly />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -29,7 +30,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.nodeName.should.equal('BUTTON');
     });
@@ -38,7 +40,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton isSavePending />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.className.should.contain('cspace-ui-SaveButton--pending');
     });
@@ -47,7 +50,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton isSavePending />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.className.should.contain('cspace-ui-SaveButton--pending');
     });
@@ -56,7 +60,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton isModified />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.className.should.contain('cspace-ui-SaveButton--normal');
     });
@@ -65,7 +70,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.firstElementChild.className.should.contain('cspace-ui-SaveButton--done');
     });
@@ -76,7 +82,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton validationErrors={Immutable.Map()} />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const div = this.container.firstElementChild;
 
@@ -90,7 +97,8 @@ describe('SaveButton', function suite() {
       render(
         <IntlProvider locale="en">
           <SaveButton validationErrors={Immutable.Map()} />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       this.container.querySelector('button[name="save"]').disabled.should.equal(true);
     });

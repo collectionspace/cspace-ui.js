@@ -22,5 +22,5 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getAdvanced = state => state.get('advanced');
-export const getKeyword = state => state.get('keyword');
+export const getAdvanced = (state) => state.get('advanced');
+export const getKeyword = (state) => state.get('keyword');

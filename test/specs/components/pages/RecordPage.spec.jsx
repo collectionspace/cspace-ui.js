@@ -15,7 +15,7 @@ import RecordBrowser from '../../../../src/components/record/RecordBrowser';
 import RecordTitleBarContainer from '../../../../src/containers/record/RecordTitleBarContainer';
 import RecordPage from '../../../../src/components/pages/RecordPage';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -135,11 +135,9 @@ const store = mockStore({
   }),
 });
 
-describe('RecordPage', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('RecordPage', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -171,7 +169,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -202,7 +201,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal('cspace-ui-RecordPage--object');
   });
@@ -233,7 +233,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -266,7 +267,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -302,7 +304,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal('cspace-ui-ErrorPage--common');
   });
@@ -361,7 +364,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -379,7 +383,8 @@ describe('RecordPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     clearedCsid.should.equal(csid);
 
@@ -389,7 +394,7 @@ describe('RecordPage', function suite() {
     });
   });
 
-  context('for an object/procedure record', function contextSuite() {
+  context('for an object/procedure record', () => {
     const location = {
       action: '',
       pathname: `/record/${objectRecordType}/${csid}`,
@@ -434,7 +439,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       readConfig.should.equal(config);
       readRecordTypeConfig.should.equal(config.recordTypes[objectRecordType]);
@@ -463,7 +469,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       setPrimaryCsid.should.equal(csid);
     });
@@ -495,7 +502,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       readRecordCalled.should.equal(false);
     });
@@ -526,13 +534,12 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const newCsid = '1d075e7f-82b4-4ca9-9ab6';
 
-      const newLocation = Object.assign({}, location, {
-        pathname: `/record/${objectRecordType}/${newCsid}`,
-      });
+      const newLocation = { ...location, pathname: `/record/${objectRecordType}/${newCsid}` };
 
       const newMatch = {
         params: {
@@ -555,7 +562,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       readConfig.should.equal(config);
       readRecordTypeConfig.should.equal(config.recordTypes[objectRecordType]);
@@ -583,13 +591,12 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const newCsid = '1d075e7f-82b4-4ca9-9ab6';
 
-      const newLocation = Object.assign({}, location, {
-        pathname: `/record/${objectRecordType}/${newCsid}`,
-      });
+      const newLocation = { ...location, pathname: `/record/${objectRecordType}/${newCsid}` };
 
       const newMatch = {
         params: {
@@ -612,7 +619,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       setPrimaryCsid.should.equal(newCsid);
     });
@@ -638,7 +646,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       unmountComponentAtNode(this.container);
 
@@ -659,7 +668,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const component = findRenderedComponentWithType(resultTree, RecordTitleBarContainer);
 
@@ -683,7 +693,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const component = findRenderedComponentWithType(resultTree, RecordBrowser);
 
@@ -694,9 +705,7 @@ describe('RecordPage', function suite() {
     });
 
     it('should use empty csid if csid is null', function test() {
-      const noCsidLocation = Object.assign({}, location, {
-        path: `/record/${objectRecordType}`,
-      });
+      const noCsidLocation = { ...location, path: `/record/${objectRecordType}` };
 
       const noCsidMatch = {
         params: {
@@ -730,7 +739,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const component = findRenderedComponentWithType(resultTree, RecordBrowser);
 
@@ -762,7 +772,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const navItems = this.container.querySelectorAll('.cspace-ui-RecordBrowserNavItem--common');
       const tabButton = navItems[1].querySelector('button');
@@ -776,7 +787,7 @@ describe('RecordPage', function suite() {
     });
   });
 
-  context('for an authority record', function contextSuite() {
+  context('for an authority record', () => {
     const location = {
       action: '',
       pathname: `/record/${authorityRecordType}/${vocabulary}/${csid}`,
@@ -818,7 +829,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       readConfig.should.equal(config);
       readRecordTypeConfig.should.equal(config.recordTypes[authorityRecordType]);
@@ -857,7 +869,8 @@ describe('RecordPage', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       readRecordCalled.should.equal(false);
     });

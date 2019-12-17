@@ -15,7 +15,9 @@ import {
 } from '../../../helpers/configHelpers';
 
 const propTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    locale: PropTypes.string,
+  }).isRequired,
   intl: intlShape.isRequired,
   name: PropTypes.string,
   placeholder: PropTypes.string,
@@ -23,7 +25,9 @@ const propTypes = {
   recordType: PropTypes.string,
   rootPath: PropTypes.string,
   value: PropTypes.string,
-  valueDescriptor: PropTypes.object,
+  valueDescriptor: PropTypes.shape({
+    [configKey]: PropTypes.object,
+  }),
   onCommit: PropTypes.func,
 };
 

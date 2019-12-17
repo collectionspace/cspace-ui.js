@@ -5,7 +5,8 @@ import configureMockStore from 'redux-mock-store';
 import chaiAsPromised from 'chai-as-promised';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
-import LoginModal from '../../../src/components/login/LoginModal';
+import getSession from '../../../src/helpers/session';
+import { MODAL_LOGIN } from '../../../src/constants/modalNames';
 
 import {
   CSPACE_CONFIGURED,
@@ -20,7 +21,7 @@ import {
   OPEN_MODAL,
 } from '../../../src/constants/actionCodes';
 
-import getSession, {
+import {
   configureCSpace,
   createSession,
   setSession,
@@ -32,8 +33,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('cspace action creator', function suite() {
-  describe('configureCSpace', function actionSuite() {
+describe('cspace action creator', () => {
+  describe('configureCSpace', () => {
     beforeEach(() => {
       moxios.install();
     });
@@ -42,7 +43,7 @@ describe('cspace action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should create a CSpace session and make it the active session', function test() {
+    it('should create a CSpace session and make it the active session', () => {
       const store = mockStore({
         user: Immutable.Map(),
       });
@@ -60,7 +61,7 @@ describe('cspace action creator', function suite() {
       session.config().should.have.property('url', 'http://something.org');
     });
 
-    it('should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, ACCOUNT_ROLES_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED', function test() {
+    it('should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, ACCOUNT_ROLES_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED', () => {
       moxios.stubRequest(/.*/, {
         status: 200,
         response: {},
@@ -104,7 +105,7 @@ describe('cspace action creator', function suite() {
           actions[0].should
             .include({ type: CSPACE_CONFIGURED })
             .and.have.property('payload')
-              .that.has.property('url', 'http://something.org');
+            .that.has.property('url', 'http://something.org');
 
           actions[1].should.include({ type: ACCOUNT_PERMS_READ_FULFILLED });
           actions[2].should.include({ type: ACCOUNT_ROLES_READ_FULFILLED });
@@ -119,7 +120,7 @@ describe('cspace action creator', function suite() {
       });
     });
 
-    it('should resolve if the readAccountPerms query returns a 401 error', function test() {
+    it('should resolve if the readAccountPerms query returns a 401 error', () => {
       moxios.stubRequest(/\/accounts\/0\/accountperms/, {
         status: 401,
         response: {},
@@ -156,7 +157,7 @@ describe('cspace action creator', function suite() {
         .then(() => Promise.resolve());
     });
 
-    it('should reject if the readAccountPerms query returns an error other than 401', function test() {
+    it('should reject if the readAccountPerms query returns an error other than 401', () => {
       moxios.stubRequest(/\/accounts\/0\/accountperms/, {
         status: 500,
         response: {},
@@ -193,7 +194,7 @@ describe('cspace action creator', function suite() {
         .catch(() => Promise.resolve());
     });
 
-    it('should configure an onError callback that is a function', function test() {
+    it('should configure an onError callback that is a function', () => {
       const store = mockStore({
         user: Immutable.Map(),
       });
@@ -207,7 +208,7 @@ describe('cspace action creator', function suite() {
     });
   });
 
-  describe('onError callback', function onErrorSuite() {
+  describe('onError callback', () => {
     const store = mockStore({
       notification: Immutable.Map(),
       user: Immutable.Map(),
@@ -221,13 +222,13 @@ describe('cspace action creator', function suite() {
       store.clearActions();
     });
 
-    it('should reject with the error', function test() {
+    it('should reject with the error', () => {
       const error = new Error();
 
       onError(error).should.eventually.be.rejectedWith(error);
     });
 
-    it('should dispatch RESET_LOGIN and OPEN_MODAL if the error is an invalid token 401 error', function test() {
+    it('should dispatch RESET_LOGIN and OPEN_MODAL if the error is an invalid token 401 error', () => {
       const error = {
         response: {
           status: 401,
@@ -253,14 +254,14 @@ describe('cspace action creator', function suite() {
       actions[1].should.deep.equal({
         type: OPEN_MODAL,
         meta: {
-          name: LoginModal.modalName,
+          name: MODAL_LOGIN,
         },
       });
     });
   });
 
-  describe('createSession', function actionSuite() {
-    it('should return a cspace session', function test() {
+  describe('createSession', () => {
+    it('should return a cspace session', () => {
       const username = 'user@collectionspace.org';
       const password = 'topsecret';
 
@@ -271,8 +272,8 @@ describe('cspace action creator', function suite() {
     });
   });
 
-  describe('setSession', function actionSuite() {
-    it('should create a CSPACE_CONFIGURED action', function test() {
+  describe('setSession', () => {
+    it('should create a CSPACE_CONFIGURED action', () => {
       const username = 'user@collectionspace.org';
       const password = 'topsecret';
 
@@ -281,10 +282,10 @@ describe('cspace action creator', function suite() {
       setSession(session).should
         .include({ type: CSPACE_CONFIGURED })
         .and.have.property('payload')
-          .that.has.property('username', username);
+        .that.has.property('username', username);
     });
 
-    it('should update the active session', function test() {
+    it('should update the active session', () => {
       const username = 'user@collectionspace.org';
       const password = 'topsecret';
 
@@ -296,7 +297,7 @@ describe('cspace action creator', function suite() {
     });
   });
 
-  describe('readSystemInfo', function actionSuite() {
+  describe('readSystemInfo', () => {
     const store = mockStore({
       cspace: Immutable.Map(),
       // user: Immutable.Map(),
@@ -310,10 +311,8 @@ describe('cspace action creator', function suite() {
 
     const systemInfoUrl = `/cspace-services/systeminfo?tid=${tenantId}`;
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -324,7 +323,7 @@ describe('cspace action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch SYSTEM_INFO_READ_FULFILLED on success', function test() {
+    it('should dispatch SYSTEM_INFO_READ_FULFILLED on success', () => {
       moxios.stubRequest(systemInfoUrl, {
         status: 200,
         response: {
@@ -362,7 +361,7 @@ describe('cspace action creator', function suite() {
         });
     });
 
-    it('should dispatch SYSTEM_INFO_READ_REJECTED on error', function test() {
+    it('should dispatch SYSTEM_INFO_READ_REJECTED on error', () => {
       moxios.stubRequest(systemInfoUrl, {
         status: 404,
         response: {},

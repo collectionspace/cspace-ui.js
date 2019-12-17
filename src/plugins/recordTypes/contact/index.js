@@ -5,7 +5,7 @@ import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   optionLists,
   recordTypes: {
     contact: {

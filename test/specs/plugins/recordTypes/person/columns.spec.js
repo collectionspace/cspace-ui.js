@@ -3,7 +3,7 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('person record columns', function suite() {
+describe('person record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
@@ -30,14 +30,14 @@ describe('person record columns', function suite() {
   };
 
   const intl = {
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
   };
 
-  it('should have correct shape', function test() {
+  it('should have correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', function test() {
+  it('should have vocabulary column that is formatted as a vocabulary name from a short id in a ref name', () => {
     const vocabularyColumn = columns.default.vocabulary;
 
     vocabularyColumn.should.have.property('formatValue').that.is.a('function');

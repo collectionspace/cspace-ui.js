@@ -9,7 +9,7 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('RolesInputContainer', function suite() {
+describe('RolesInputContainer', () => {
   const store = mockStore({
     authz: Immutable.fromJS({
       roles: [],
@@ -20,11 +20,12 @@ describe('RolesInputContainer', function suite() {
     store,
   };
 
-  it('should set props on RolesInput', function test() {
+  it('should set props on RolesInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedRolesInput />, context);
+      <ConnectedRolesInput />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

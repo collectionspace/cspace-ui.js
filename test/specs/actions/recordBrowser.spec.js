@@ -10,17 +10,17 @@ import {
 
 chai.should();
 
-describe('record browser action creator', function suite() {
-  describe('clearRelatedRecordBrowserRelatedCsid', function actionSuite() {
-    it('should create a CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID action', function test() {
+describe('record browser action creator', () => {
+  describe('clearRelatedRecordBrowserRelatedCsid', () => {
+    it('should create a CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID action', () => {
       clearRelatedRecordBrowserRelatedCsid().should.deep.equal({
         type: CLEAR_RELATED_RECORD_BROWSER_RELATED_CSID,
       });
     });
   });
 
-  describe('setRelatedRecordBrowserRelatedCsid', function actionSuite() {
-    it('should create a SET_RELATED_RECORD_BROWSER_RELATED_CSID action', function test() {
+  describe('setRelatedRecordBrowserRelatedCsid', () => {
+    it('should create a SET_RELATED_RECORD_BROWSER_RELATED_CSID action', () => {
       const recordType = 'collectionobject';
       const relatedCsid = '1234';
 

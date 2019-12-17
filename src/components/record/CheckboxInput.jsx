@@ -28,6 +28,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseCheckboxInput.propTypes,
   intl: intlShape,
   viewType: PropTypes.string,

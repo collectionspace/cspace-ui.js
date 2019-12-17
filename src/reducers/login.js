@@ -34,7 +34,7 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const isPending = state => state.get('isPending');
-export const isSuccess = state => state.get('isSuccess');
-export const getUsername = state => state.get('username');
-export const getError = state => state.get('error');
+export const isPending = (state) => state.get('isPending');
+export const isSuccess = (state) => state.get('isSuccess');
+export const getUsername = (state) => state.get('username');
+export const getError = (state) => state.get('error');

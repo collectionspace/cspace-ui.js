@@ -42,12 +42,12 @@ export const collapsePanel = (recordType, name, collapsed) => ({
   },
 });
 
-export const setAdminTab = tabName => ({
+export const setAdminTab = (tabName) => ({
   type: SET_ADMIN_TAB,
   payload: tabName,
 });
 
-export const setToolTab = tabName => ({
+export const setToolTab = (tabName) => ({
   type: SET_TOOL_TAB,
   payload: tabName,
 });
@@ -60,7 +60,7 @@ export const setRecordBrowserNavBarItems = (recordType, navBarItems) => ({
   },
 });
 
-export const setSearchPageRecordType = value => (dispatch, getState) => {
+export const setSearchPageRecordType = (value) => (dispatch, getState) => {
   if (value !== getSearchPageRecordType(getState())) {
     dispatch({
       type: SET_SEARCH_PAGE_RECORD_TYPE,
@@ -69,17 +69,17 @@ export const setSearchPageRecordType = value => (dispatch, getState) => {
   }
 };
 
-export const setSearchPageVocabulary = value => ({
+export const setSearchPageVocabulary = (value) => ({
   type: SET_SEARCH_PAGE_VOCABULARY,
   payload: value,
 });
 
-export const setQuickSearchRecordType = value => ({
+export const setQuickSearchRecordType = (value) => ({
   type: SET_QUICK_SEARCH_RECORD_TYPE,
   payload: value,
 });
 
-export const setQuickSearchVocabulary = value => ({
+export const setQuickSearchVocabulary = (value) => ({
   type: SET_QUICK_SEARCH_VOCABULARY,
   payload: value,
 });
@@ -93,12 +93,12 @@ export const setSearchPanelPageSize = (recordType, name, pageSize) => ({
   },
 });
 
-export const setSearchResultPagePageSize = pageSize => ({
+export const setSearchResultPagePageSize = (pageSize) => ({
   type: SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   payload: pageSize,
 });
 
-export const setSearchToSelectPageSize = pageSize => ({
+export const setSearchToSelectPageSize = (pageSize) => ({
   type: SET_SEARCH_TO_SELECT_PAGE_SIZE,
   payload: pageSize,
 });
@@ -111,7 +111,7 @@ export const setForm = (recordType, formName) => ({
   },
 });
 
-export const setUploadType = type => ({
+export const setUploadType = (type) => ({
   type: SET_UPLOAD_TYPE,
   payload: type,
 });

@@ -1,20 +1,20 @@
 import cspaceClient from 'cspace-client';
 import get from 'lodash/get';
-import { resetLogin } from './login';
+import { MODAL_LOGIN } from '../constants/modalNames';
+import getSession, { storeSession } from '../helpers/session';
 import { loadPrefs } from './prefs';
 import { readAccountPerms, readAccountRoles } from './account';
 import { readAuthVocabs } from './authority';
 import { openModal } from './notification';
-import LoginModal from '../components/login/LoginModal';
 
 import {
   CSPACE_CONFIGURED,
+  RESET_LOGIN,
   SYSTEM_INFO_READ_FULFILLED,
   SYSTEM_INFO_READ_REJECTED,
 } from '../constants/actionCodes';
 
 let client;
-let session;
 
 export const createSession = (username, password) => {
   if (typeof username === 'undefined' && typeof password === 'undefined') {
@@ -27,34 +27,31 @@ export const createSession = (username, password) => {
   });
 };
 
-const getSession = () => session;
-
 export const setSession = (newSession) => {
-  session = newSession;
+  storeSession(newSession);
 
   return {
     type: CSPACE_CONFIGURED,
-    payload: session.config(),
+    payload: getSession().config(),
   };
 };
 
-export const readSystemInfo = config => dispatch =>
-  getSession().read('systeminfo', {
-    auth: false,
-    params: {
-      tid: get(config, 'tenantId'),
-    },
-  })
-    .then(response => dispatch({
-      type: SYSTEM_INFO_READ_FULFILLED,
-      payload: response,
-    }))
-    .catch(error => dispatch({
-      type: SYSTEM_INFO_READ_REJECTED,
-      payload: error,
-    }));
+export const readSystemInfo = (config) => (dispatch) => getSession().read('systeminfo', {
+  auth: false,
+  params: {
+    tid: get(config, 'tenantId'),
+  },
+})
+  .then((response) => dispatch({
+    type: SYSTEM_INFO_READ_FULFILLED,
+    payload: response,
+  }))
+  .catch((error) => dispatch({
+    type: SYSTEM_INFO_READ_REJECTED,
+    payload: error,
+  }));
 
-export const configureCSpace = config => (dispatch) => {
+export const configureCSpace = (config) => (dispatch) => {
   client = cspaceClient({
     url: get(config, 'serverUrl'),
 
@@ -67,8 +64,14 @@ export const configureCSpace = config => (dispatch) => {
         if (internalError === 'invalid_token') {
           // The stored token is no longer valid. Show the login modal.
 
-          dispatch(resetLogin(session.config().username));
-          dispatch(openModal(LoginModal.modalName));
+          dispatch({
+            type: RESET_LOGIN,
+            meta: {
+              username: getSession().config().username,
+            },
+          });
+
+          dispatch(openModal(MODAL_LOGIN));
         }
       }
 
@@ -103,5 +106,3 @@ export const configureCSpace = config => (dispatch) => {
       return Promise.reject(error);
     });
 };
-
-export default getSession;

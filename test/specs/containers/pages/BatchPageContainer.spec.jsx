@@ -35,14 +35,15 @@ const store = mockStore({
   }),
 });
 
-describe('BatchPageContainer', function suite() {
-  it('should set props on BatchPage', function test() {
+describe('BatchPageContainer', () => {
+  it('should set props on BatchPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <BatchPageContainer />, context);
+      <BatchPageContainer />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

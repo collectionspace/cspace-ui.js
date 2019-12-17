@@ -9,7 +9,7 @@ import subrecords from './subrecords';
 import title from './title';
 import vocabularies from './vocabularies';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   optionLists,
   recordTypes: {
     person: {

@@ -8,17 +8,26 @@ import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SearchToSelectTitleBar from '../../../../src/components/search/SearchToSelectTitleBar';
 import { configKey } from '../../../../src/helpers/configHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-const TestInput = props => (
-  <input
-    name={props.name}
-    defaultValue={props.value}
-    onBlur={event => props.onCommit([...props.parentPath, props.name], event.target.value)}
-  />
-);
+const TestInput = (props) => {
+  const {
+    name,
+    parentPath,
+    value,
+    onCommit,
+  } = props;
+
+  return (
+    <input
+      name={name}
+      defaultValue={value}
+      onBlur={(event) => onCommit([...parentPath, name], event.target.value)}
+    />
+  );
+};
 
 TestInput.propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
@@ -73,7 +82,7 @@ const config = {
   },
 };
 
-describe('SearchToSelectTitleBar', function suite() {
+describe('SearchToSelectTitleBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -85,7 +94,8 @@ describe('SearchToSelectTitleBar', function suite() {
           config={config}
           recordType="collectionobject"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');
   });
@@ -97,7 +107,8 @@ describe('SearchToSelectTitleBar', function suite() {
           config={config}
           recordType="foo"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -110,7 +121,8 @@ describe('SearchToSelectTitleBar', function suite() {
           recordType="person"
           vocabulary="local"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('h1').textContent.should.match(/Local Persons/);
   });
@@ -137,7 +149,8 @@ describe('SearchToSelectTitleBar', function suite() {
             searchDescriptor={searchDescriptor}
           />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('h1').textContent.should.match(/containing "keyword"/);
     this.container.querySelector('.cspace-ui-FieldConditionInput--common').should.not.equal(null);
@@ -157,7 +170,8 @@ describe('SearchToSelectTitleBar', function suite() {
           searchDescriptor={searchDescriptor}
           isSearchInitiated
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('h1').textContent.should.match(/Local Persons/);
   });

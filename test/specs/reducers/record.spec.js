@@ -55,13 +55,13 @@ import reducer, {
   getSubrecordData,
 } from '../../../src/reducers/record';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('record reducer', function suite() {
-  it('should have empty immutable initial state', function test() {
+describe('record reducer', () => {
+  it('should have empty immutable initial state', () => {
     const state = reducer(undefined, {});
 
     state.should.equal(Immutable.Map());
@@ -70,7 +70,7 @@ describe('record reducer', function suite() {
     expect(getNewData(state)).to.equal(undefined);
   });
 
-  it('should handle ADD_FIELD_INSTANCE', function test() {
+  it('should handle ADD_FIELD_INSTANCE', () => {
     const csid = '1234';
 
     let data;
@@ -171,7 +171,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  context('on SORT_FIELD_INSTANCES', function context() {
+  context('on SORT_FIELD_INSTANCES', () => {
     const csid = '1234';
 
     const data = Immutable.fromJS({
@@ -198,7 +198,7 @@ describe('record reducer', function suite() {
       },
     });
 
-    it('should sort the list', function test() {
+    it('should sort the list', () => {
       const state = reducer(initialState, {
         type: SORT_FIELD_INSTANCES,
         meta: {
@@ -224,7 +224,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should sort the list by the specified subfield', function test() {
+    it('should sort the list by the specified subfield', () => {
       const state = reducer(initialState, {
         type: SORT_FIELD_INSTANCES,
         meta: {
@@ -251,7 +251,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should not change state if there is no data', function test() {
+    it('should not change state if there is no data', () => {
       const noDataInitialState = Immutable.fromJS({
         [csid]: {
           data: {},
@@ -272,8 +272,8 @@ describe('record reducer', function suite() {
   });
 
 
-  describe('on CREATE_NEW_RECORD', function actionSuite() {
-    it('should create new record data when there is no existing new record data', function test() {
+  describe('on CREATE_NEW_RECORD', () => {
+    it('should create new record data when there is no existing new record data', () => {
       const state = reducer(undefined, {
         type: CREATE_NEW_RECORD,
         meta: {
@@ -295,7 +295,7 @@ describe('record reducer', function suite() {
       isModified(state, '').should.equal(false);
     });
 
-    it('should create new record data when there is existing new record data', function test() {
+    it('should create new record data when there is existing new record data', () => {
       const state = reducer(Immutable.fromJS({
         '': {
           data: {
@@ -326,7 +326,7 @@ describe('record reducer', function suite() {
       isModified(state, '').should.equal(false);
     });
 
-    it('should copy data from another record when a cloneCsid is supplied', function test() {
+    it('should copy data from another record when a cloneCsid is supplied', () => {
       const cloneData = Immutable.fromJS({
         foo: {
           bar: 'baz',
@@ -350,7 +350,7 @@ describe('record reducer', function suite() {
       getNewData(state).should.equal(cloneData);
     });
 
-    it('should create new subrecord data', function test() {
+    it('should create new subrecord data', () => {
       const state = reducer(undefined, {
         type: CREATE_NEW_RECORD,
         meta: {
@@ -401,7 +401,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should create new subrecord data for a subrecord referenced by a csid field', function test() {
+    it('should create new subrecord data for a subrecord referenced by a csid field', () => {
       const state = reducer(undefined, {
         type: CREATE_NEW_RECORD,
         meta: {
@@ -449,7 +449,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should copy the csid in a subrecord csid field from a cloned record', function test() {
+    it('should copy the csid in a subrecord csid field from a cloned record', () => {
       const state = reducer(Immutable.fromJS({
         1234: {
           data: {
@@ -496,7 +496,7 @@ describe('record reducer', function suite() {
       getSubrecordCsid(state, '', 'blob').should.equal('8888');
     });
 
-    it('should copy sticky field values into new record data when supplied', function test() {
+    it('should copy sticky field values into new record data when supplied', () => {
       const state = reducer(undefined, {
         type: CREATE_NEW_RECORD,
         meta: {
@@ -529,7 +529,7 @@ describe('record reducer', function suite() {
     });
   });
 
-  it('should handle DELETE_FIELD_VALUE', function test() {
+  it('should handle DELETE_FIELD_VALUE', () => {
     const csid = '1234';
 
     let data;
@@ -611,7 +611,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  it('should handle MOVE_FIELD_VALUE', function test() {
+  it('should handle MOVE_FIELD_VALUE', () => {
     const csid = '1234';
 
     let data;
@@ -730,7 +730,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  it('should handle SET_FIELD_VALUE', function test() {
+  it('should handle SET_FIELD_VALUE', () => {
     const csid = '1234';
 
     let data;
@@ -817,7 +817,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  it('should handle RECORD_READ_STARTED', function test() {
+  it('should handle RECORD_READ_STARTED', () => {
     const csid = '1234';
 
     const state = reducer(undefined, {
@@ -836,7 +836,7 @@ describe('record reducer', function suite() {
     isReadPending(state, csid).should.equal(true);
   });
 
-  it('should handle RECORD_READ_FULFILLED', function test() {
+  it('should handle RECORD_READ_FULFILLED', () => {
     const recordTypeConfig = {};
     const csid = '1234';
 
@@ -891,7 +891,7 @@ describe('record reducer', function suite() {
     expect(isReadPending(state, csid)).to.equal(undefined);
   });
 
-  it('should handle RECORD_READ_REJECTED', function test() {
+  it('should handle RECORD_READ_REJECTED', () => {
     const csid = '1234';
 
     const state = reducer(Immutable.fromJS({
@@ -923,7 +923,7 @@ describe('record reducer', function suite() {
     }));
   });
 
-  it('should handle RECORD_SAVE_STARTED', function test() {
+  it('should handle RECORD_SAVE_STARTED', () => {
     const csid = '1234';
 
     const state = reducer(undefined, {
@@ -942,7 +942,7 @@ describe('record reducer', function suite() {
     isSavePending(state, csid).should.equal(true);
   });
 
-  describe('on RECORD_SAVE_FULFILLED', function actionSuite() {
+  describe('on RECORD_SAVE_FULFILLED', () => {
     const recordTypeConfig = {};
     const csid = '1234';
     const updatedAt = '2017-03-23-08:34:21.000Z';
@@ -956,7 +956,7 @@ describe('record reducer', function suite() {
       },
     };
 
-    it('should set the record data from the payload when there is no existing record data', function test() {
+    it('should set the record data from the payload when there is no existing record data', () => {
       const state = reducer(undefined, {
         type: RECORD_SAVE_FULFILLED,
         payload: {
@@ -972,7 +972,7 @@ describe('record reducer', function suite() {
       isModified(state, csid).should.equal(false);
     });
 
-    it('should set the record data from the payload when there is existing record data', function test() {
+    it('should set the record data from the payload when there is existing record data', () => {
       const state = reducer(Immutable.fromJS({
         [csid]: {
           data: {
@@ -999,7 +999,7 @@ describe('record reducer', function suite() {
       isModified(state, csid).should.equal(false);
     });
 
-    it('should update the relation updated timestamp of a related subject', function test() {
+    it('should update the relation updated timestamp of a related subject', () => {
       // With related subject csid
 
       const relatedSubjectCsid = '5678';
@@ -1024,7 +1024,7 @@ describe('record reducer', function suite() {
       getRelationUpdatedTimestamp(state, relatedSubjectCsid).should.equal(updatedAt);
     });
 
-    it('should clear all record state except for the saved record, subrecords of the saved record, new unsaved records, and records with pending saves', function test() {
+    it('should clear all record state except for the saved record, subrecords of the saved record, new unsaved records, and records with pending saves', () => {
       const initialState = Immutable.fromJS({
         [csid]: {
           data: {},
@@ -1041,7 +1041,7 @@ describe('record reducer', function suite() {
         4444: {},
         5555: {},
         '': {}, // new record
-        '/blob': {}, //new subrecord
+        '/blob': {}, // new subrecord
       });
 
       const state = reducer(initialState, {
@@ -1075,7 +1075,7 @@ describe('record reducer', function suite() {
     });
   });
 
-  it('should handle RECORD_SAVE_REJECTED', function test() {
+  it('should handle RECORD_SAVE_REJECTED', () => {
     const csid = '1234';
 
     const state = reducer(Immutable.fromJS({
@@ -1099,7 +1099,7 @@ describe('record reducer', function suite() {
     expect(isSavePending(state, csid)).to.equal(undefined);
   });
 
-  it('should handle REVERT_RECORD', function test() {
+  it('should handle REVERT_RECORD', () => {
     const csid = '1234';
 
     const data = Immutable.fromJS({
@@ -1164,7 +1164,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(false);
   });
 
-  it('should handle REVERT_RECORD when subrecord csid fields are present', function test() {
+  it('should handle REVERT_RECORD when subrecord csid fields are present', () => {
     const baselineSubrecordCsid = '0000';
 
     const baselineSubrecordBaselineData = Immutable.fromJS({
@@ -1262,7 +1262,7 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(false);
   });
 
-  it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
+  it('should handle SUBJECT_RELATIONS_UPDATED', () => {
     const csid = '1234';
     const updatedTime = (new Date()).toISOString();
 
@@ -1299,7 +1299,7 @@ describe('record reducer', function suite() {
     getRelationUpdatedTimestamp(state, csid).should.equal(updatedTime);
   });
 
-  it('should handle CREATE_ID_FULFILLED', function test() {
+  it('should handle CREATE_ID_FULFILLED', () => {
     const csid = '1234';
 
     let state;
@@ -1356,12 +1356,12 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  it('should handle VALIDATION_PASSED', function test() {
+  it('should handle VALIDATION_PASSED', () => {
     const csid = '1234';
     const path = ['foo', 'bar'];
 
     const initialState = Immutable.Map().setIn(
-      [csid, 'validation', ...path], {}
+      [csid, 'validation', ...path], {},
     );
 
     let state;
@@ -1395,7 +1395,7 @@ describe('record reducer', function suite() {
     }));
   });
 
-  it('should handle VALIDATION_FAILED', function test() {
+  it('should handle VALIDATION_FAILED', () => {
     const csid = '1234';
 
     const error = {
@@ -1412,13 +1412,13 @@ describe('record reducer', function suite() {
     });
 
     state.should.equal(Immutable.Map().setIn(
-      [csid, 'validation'], error
+      [csid, 'validation'], error,
     ));
 
     getValidationErrors(state, csid).should.equal(error);
   });
 
-  it('should handle RECORD_TRANSITION_STARTED', function test() {
+  it('should handle RECORD_TRANSITION_STARTED', () => {
     const csid = '1234';
 
     const state = reducer(undefined, {
@@ -1429,17 +1429,17 @@ describe('record reducer', function suite() {
     });
 
     state.should.equal(Immutable.Map().setIn(
-      [csid, 'isSavePending'], true
+      [csid, 'isSavePending'], true,
     ));
 
     isSavePending(state, csid).should.equal(true);
   });
 
-  describe('on RECORD_TRANSITION_FULFILLED', function actionSuite() {
+  describe('on RECORD_TRANSITION_FULFILLED', () => {
     const recordTypeConfig = {};
     const csid = '1234';
 
-    it('should delete isSavePending on any transition', function test() {
+    it('should delete isSavePending on any transition', () => {
       const initialState = Immutable.fromJS({
         [csid]: {
           isSavePending: true,
@@ -1461,7 +1461,7 @@ describe('record reducer', function suite() {
       expect(isSavePending(state, csid)).to.equal(undefined);
     });
 
-    it('should remove the record state on a delete transition', function test() {
+    it('should remove the record state on a delete transition', () => {
       const initialState = Immutable.fromJS({
         [csid]: {
           isSavePending: true,
@@ -1480,7 +1480,7 @@ describe('record reducer', function suite() {
       state.should.equal(Immutable.Map());
     });
 
-    it('should update the record data on a non-delete transition', function test() {
+    it('should update the record data on a non-delete transition', () => {
       const initialState = Immutable.fromJS({
         [csid]: {
           isSavePending: true,
@@ -1515,7 +1515,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should update relationUpdatedTime if a relatedSubjectCsid is present', function test() {
+    it('should update relationUpdatedTime if a relatedSubjectCsid is present', () => {
       const initialState = Immutable.fromJS({
         [csid]: {
           isSavePending: true,
@@ -1543,7 +1543,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should clear all record state on a delete transition, except for records with pending saves', function test() {
+    it('should clear all record state on a delete transition, except for records with pending saves', () => {
       const initialState = Immutable.fromJS({
         [csid]: {
           data: {},
@@ -1560,7 +1560,7 @@ describe('record reducer', function suite() {
         4444: {},
         5555: {},
         '': {}, // new record
-        '/blob': {}, //new subrecord
+        '/blob': {}, // new subrecord
       });
 
       const state = reducer(initialState, {
@@ -1580,7 +1580,7 @@ describe('record reducer', function suite() {
     });
   });
 
-  it('should handle RECORD_TRANSITION_REJECTED', function test() {
+  it('should handle RECORD_TRANSITION_REJECTED', () => {
     const csid = '1234';
 
     const initialState = Immutable.fromJS({
@@ -1605,7 +1605,7 @@ describe('record reducer', function suite() {
     expect(isSavePending(state, csid)).to.equal(undefined);
   });
 
-  it('should handle RECORD_CREATED', function test() {
+  it('should handle RECORD_CREATED', () => {
     const currentCsid = '1234';
     const newRecordCsid = '5678';
 
@@ -1638,7 +1638,7 @@ describe('record reducer', function suite() {
     }));
   });
 
-  it('should handle CREATE_NEW_SUBRECORD', function test() {
+  it('should handle CREATE_NEW_SUBRECORD', () => {
     const csid = '1234';
     const csidField = ['document', 'ns2:media_common', 'blobCsid'];
     const subrecordName = 'blob';
@@ -1699,7 +1699,7 @@ describe('record reducer', function suite() {
     }));
   });
 
-  it('should handle DETACH_SUBRECORD', function test() {
+  it('should handle DETACH_SUBRECORD', () => {
     const csid = '1234';
     const csidField = ['document', 'ns2:media_common', 'blobCsid'];
     const subrecordName = 'blob';
@@ -1760,7 +1760,7 @@ describe('record reducer', function suite() {
     }));
   });
 
-  it('should handle SUBRECORD_CREATED', function test() {
+  it('should handle SUBRECORD_CREATED', () => {
     const csid = '1234';
     const subrecordName = 'contact';
     const subrecordCsid = '5678';
@@ -1785,7 +1785,7 @@ describe('record reducer', function suite() {
     expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
   });
 
-  it('should handle SUBRECORD_CREATED with a csidField', function test() {
+  it('should handle SUBRECORD_CREATED with a csidField', () => {
     const csid = '1234';
     const subrecordName = 'blob';
     const subrecordCsid = '5678';
@@ -1821,7 +1821,7 @@ describe('record reducer', function suite() {
     expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
   });
 
-  it('should handle SUBRECORD_CREATED with a csidField where isDefault is true', function test() {
+  it('should handle SUBRECORD_CREATED with a csidField where isDefault is true', () => {
     const csid = '1234';
     const subrecordName = 'blob';
     const subrecordCsid = '5678';
@@ -1867,7 +1867,7 @@ describe('record reducer', function suite() {
     expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
   });
 
-  it('should handle SUBRECORD_READ_FULFILLED', function test() {
+  it('should handle SUBRECORD_READ_FULFILLED', () => {
     const csid = '1234';
     const subrecordName = 'contact';
     const subrecordCsid = '5678';
@@ -1892,7 +1892,7 @@ describe('record reducer', function suite() {
     expect(getSubrecordCsid(state, csid, subrecordName)).to.equal(subrecordCsid);
   });
 
-  it('should detect subrecord modifications', function test() {
+  it('should detect subrecord modifications', () => {
     const csid = '1234';
 
     const data = Immutable.fromJS({
@@ -1930,14 +1930,14 @@ describe('record reducer', function suite() {
     isModified(state, csid).should.equal(true);
   });
 
-  context('on LOGIN_FULFILLED', function context() {
+  context('on LOGIN_FULFILLED', () => {
     const initialState = Immutable.fromJS({
       recordCsid1: {},
       recordCsid2: {},
       recordCsid3: {},
     });
 
-    it('should clear all record state if the previous username is different than the new username', function test() {
+    it('should clear all record state if the previous username is different than the new username', () => {
       const state = reducer(initialState, {
         type: LOGIN_FULFILLED,
         meta: {
@@ -1949,7 +1949,7 @@ describe('record reducer', function suite() {
       state.should.equal(Immutable.Map({}));
     });
 
-    it('should not clear record state if the previous username is the same as the new username', function test() {
+    it('should not clear record state if the previous username is the same as the new username', () => {
       const state = reducer(initialState, {
         type: LOGIN_FULFILLED,
         meta: {
@@ -1962,7 +1962,7 @@ describe('record reducer', function suite() {
     });
   });
 
-  it('should handle LOGOUT_FULFILLED', function test() {
+  it('should handle LOGOUT_FULFILLED', () => {
     const state = reducer(Immutable.fromJS({
       recordCsid1: {},
       recordCsid2: {},
@@ -1974,8 +1974,8 @@ describe('record reducer', function suite() {
     state.should.equal(Immutable.Map({}));
   });
 
-  describe('on FIELD_COMPUTE_FULFILLED', function actionSuite() {
-    it('should merge the computed data into the current data', function test() {
+  describe('on FIELD_COMPUTE_FULFILLED', () => {
+    it('should merge the computed data into the current data', () => {
       const csid = '1234';
 
       const initialState = Immutable.fromJS({
@@ -2026,7 +2026,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should do nothing if there is no current data', function test() {
+    it('should do nothing if there is no current data', () => {
       const csid = '1234';
 
       const initialState = Immutable.fromJS({
@@ -2054,7 +2054,7 @@ describe('record reducer', function suite() {
       state.should.equal(initialState);
     });
 
-    it('should do nothing if the computed value path is not empty', function test() {
+    it('should do nothing if the computed value path is not empty', () => {
       const csid = '1234';
 
       const initialState = Immutable.fromJS({
@@ -2090,8 +2090,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on RECORD_DELETE_STARTED', function actionSuite() {
-    it('should set isSavePending to true', function test() {
+  describe('on RECORD_DELETE_STARTED', () => {
+    it('should set isSavePending to true', () => {
       const csid = '1234';
 
       const state = reducer(undefined, {
@@ -2111,8 +2111,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on RECORD_DELETE_FULFILLED', function actionSuite() {
-    it('should remove state associated with the deleted csid', function test() {
+  describe('on RECORD_DELETE_FULFILLED', () => {
+    it('should remove state associated with the deleted csid', () => {
       const csid = '1234';
 
       const state = reducer(Immutable.fromJS({
@@ -2132,7 +2132,7 @@ describe('record reducer', function suite() {
       expect(isSavePending(state, csid)).to.equal(undefined);
     });
 
-    it('should update relationUpdatedTime of a related record', function test() {
+    it('should update relationUpdatedTime of a related record', () => {
       const csid = '1234';
       const relatedSubjectCsid = '5678';
       const updatedTimestamp = '2000-01-01T12:00:00Z';
@@ -2155,8 +2155,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on RECORD_DELETE_REJECTED', function actionSuite() {
-    it('should unset isSavePending', function test() {
+  describe('on RECORD_DELETE_REJECTED', () => {
+    it('should unset isSavePending', () => {
       const csid = '1234';
 
       const state = reducer(Immutable.fromJS({
@@ -2178,8 +2178,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on CLEAR_RECORD', function actionSuite() {
-    it('should delete record state for the csid', function test() {
+  describe('on CLEAR_RECORD', () => {
+    it('should delete record state for the csid', () => {
       const csid = '1234';
 
       const state = reducer(Immutable.fromJS({
@@ -2200,7 +2200,7 @@ describe('record reducer', function suite() {
       expect(getData(state, csid)).to.equal(undefined);
     });
 
-    it('should clear state for any subrecords', function test() {
+    it('should clear state for any subrecords', () => {
       const csid = '1234';
       const subrecordCsid = 'abcd';
 
@@ -2231,7 +2231,7 @@ describe('record reducer', function suite() {
       expect(getData(state, subrecordCsid)).to.equal(undefined);
     });
 
-    it('should do nothing if there is no state for the csid', function test() {
+    it('should do nothing if there is no state for the csid', () => {
       const csid = '1234';
 
       const initialState = Immutable.fromJS({
@@ -2251,8 +2251,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on READ_VOCABULARY_ITEM_REFS_STARTED', function actionSuite() {
-    it('should set isReadVocabularyItemRefsPending to true', function test() {
+  describe('on READ_VOCABULARY_ITEM_REFS_STARTED', () => {
+    it('should set isReadVocabularyItemRefsPending to true', () => {
       const csid = '1234';
 
       const state = reducer(Immutable.fromJS({
@@ -2274,8 +2274,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on READ_VOCABULARY_ITEM_REFS_REJECTED', function actionSuite() {
-    it('should delete isReadVocabularyItemRefsPending', function test() {
+  describe('on READ_VOCABULARY_ITEM_REFS_REJECTED', () => {
+    it('should delete isReadVocabularyItemRefsPending', () => {
       const csid = '1234';
       const data = {};
 
@@ -2307,7 +2307,7 @@ describe('record reducer', function suite() {
       expect(isReadVocabularyItemRefsPending(state, csid)).to.equal(undefined);
     });
 
-    it('should merge referenced states into baseline and current data', function test() {
+    it('should merge referenced states into baseline and current data', () => {
       const csid = '1234';
 
       const data = {
@@ -2367,7 +2367,7 @@ describe('record reducer', function suite() {
       }));
     });
 
-    it('should handle single (non-list) items', function test() {
+    it('should handle single (non-list) items', () => {
       const csid = '1234';
 
       const data = {
@@ -2421,8 +2421,8 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('on READ_VOCABULARY_ITEM_REFS_REJECTED', function actionSuite() {
-    it('should delete isReadVocabularyItemRefsPending and set the error', function test() {
+  describe('on READ_VOCABULARY_ITEM_REFS_REJECTED', () => {
+    it('should delete isReadVocabularyItemRefsPending and set the error', () => {
       const csid = '1234';
       const error = {};
 
@@ -2448,11 +2448,11 @@ describe('record reducer', function suite() {
     });
   });
 
-  describe('isModifiedExceptPart', function actionSuite() {
+  describe('isModifiedExceptPart', () => {
     const csid = '1234';
     const exceptPart = 'ns2:foo';
 
-    it('should return false if no data exists for the csid', function test() {
+    it('should return false if no data exists for the csid', () => {
       const state = Immutable.fromJS({
         [csid]: {},
       });
@@ -2460,7 +2460,7 @@ describe('record reducer', function suite() {
       isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
     });
 
-    it('should return false if current data is referentially equal to baseline data', function test() {
+    it('should return false if current data is referentially equal to baseline data', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_common': {},
@@ -2479,7 +2479,7 @@ describe('record reducer', function suite() {
       isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
     });
 
-    it('should return false if current document is referentially equal to baseline document', function test() {
+    it('should return false if current document is referentially equal to baseline document', () => {
       const document = Immutable.fromJS({
         'ns2:collectionspace_common': {},
       });
@@ -2500,7 +2500,7 @@ describe('record reducer', function suite() {
       isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
     });
 
-    it('should return false if no part in the current document is referentially not equal to a part in the baseline document', function test() {
+    it('should return false if no part in the current document is referentially not equal to a part in the baseline document', () => {
       const commonPartData = Immutable.fromJS({
         foo: '1',
         bar: '2',
@@ -2526,7 +2526,7 @@ describe('record reducer', function suite() {
       isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
     });
 
-    it('should return true if the a part other than the excepted part in the current document is referentially not equal to a part in the baseline document', function test() {
+    it('should return true if the a part other than the excepted part in the current document is referentially not equal to a part in the baseline document', () => {
       const state = Immutable.fromJS({
         [csid]: {
           data: {
@@ -2551,7 +2551,7 @@ describe('record reducer', function suite() {
       isModifiedExceptPart(state, csid, exceptPart).should.equal(true);
     });
 
-    it('should return false if the only part in the current document is referentially not equal to a part in the baseline document is the excepted part', function test() {
+    it('should return false if the only part in the current document is referentially not equal to a part in the baseline document is the excepted part', () => {
       const state = Immutable.fromJS({
         [csid]: {
           data: {
@@ -2576,7 +2576,7 @@ describe('record reducer', function suite() {
       isModifiedExceptPart(state, csid, exceptPart).should.equal(false);
     });
 
-    it('should return true if a subrecord has been modified', function test() {
+    it('should return true if a subrecord has been modified', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_common': {},

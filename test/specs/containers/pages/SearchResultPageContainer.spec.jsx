@@ -9,7 +9,7 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('SearchResultPageContainer', function suite() {
+describe('SearchResultPageContainer', () => {
   const store = mockStore({
     prefs: Immutable.fromJS({
       searchResultPagePageSize: 10,
@@ -27,7 +27,7 @@ describe('SearchResultPageContainer', function suite() {
     search: '',
   };
 
-  it('should set props on SearchResultPage', function test() {
+  it('should set props on SearchResultPage', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
@@ -36,7 +36,8 @@ describe('SearchResultPageContainer', function suite() {
     };
 
     shallowRenderer.render(
-      <SearchResultPageContainer location={location} params={params} />, context);
+      <SearchResultPageContainer location={location} params={params} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

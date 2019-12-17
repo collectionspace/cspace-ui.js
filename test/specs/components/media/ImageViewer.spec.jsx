@@ -3,11 +3,11 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import ImageViewer from '../../../../src/components/media/ImageViewer';
 import createTestContainer from '../../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('ImageViewer', function suite() {
+describe('ImageViewer', () => {
   const blobUrl = '1234';
 
   beforeEach(function before() {

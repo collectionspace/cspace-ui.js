@@ -4,7 +4,7 @@ import { configKey } from '../../../../../src/helpers/configHelpers';
 
 chai.should();
 
-describe('refs subresource columns', function suite() {
+describe('refs subresource columns', () => {
   const config = {
     recordTypes: {
       person: {
@@ -69,16 +69,16 @@ describe('refs subresource columns', function suite() {
   };
 
   const intl = {
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
   };
 
-  it('should have correct shape', function test() {
+  it('should have correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
     columns.should.have.property('narrow').that.is.an('object');
   });
 
-  describe('default column set', function setTest() {
-    it('should have docNumber column that is formatted as a refname display name', function test() {
+  describe('default column set', () => {
+    it('should have docNumber column that is formatted as a refname display name', () => {
       const docNumberColumn = columns.default.docNumber;
 
       docNumberColumn.should.have.property('formatValue').that.is.a('function');
@@ -87,7 +87,7 @@ describe('refs subresource columns', function suite() {
         .equal('John Doe');
     });
 
-    it('should have docName column that is formatted as a refname display name', function test() {
+    it('should have docName column that is formatted as a refname display name', () => {
       const docNameColumn = columns.default.docName;
 
       docNameColumn.should.have.property('formatValue').that.is.a('function');
@@ -96,7 +96,7 @@ describe('refs subresource columns', function suite() {
         .equal('John Doe');
     });
 
-    it('should have docType column that is formatted as a record type name from a service object name', function test() {
+    it('should have docType column that is formatted as a record type name from a service object name', () => {
       const docTypeColumn = columns.default.docType;
 
       docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -105,7 +105,7 @@ describe('refs subresource columns', function suite() {
         .equal('formatted record.collectionobject.name');
     });
 
-    it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
+    it('should have sourceField column that is formatted as a field name from a part and field ids', () => {
       const sourceFieldColumn = columns.default.sourceField;
 
       sourceFieldColumn.should.have.property('formatValue').that.is.a('function');
@@ -120,7 +120,7 @@ describe('refs subresource columns', function suite() {
         .equal('formatted field.collectionobjects_common.objectProductionPerson.fullName');
     });
 
-    it('should format the sourceField column with a fallback if no field is found with the id', function test() {
+    it('should format the sourceField column with a fallback if no field is found with the id', () => {
       const sourceFieldColumn = columns.default.sourceField;
       const sourceField = 'collectionobjects_common:foobar';
 
@@ -133,8 +133,8 @@ describe('refs subresource columns', function suite() {
     });
   });
 
-  describe('narrow column set', function setTest() {
-    it('should have docNumber column that is formatted as a refname display name', function test() {
+  describe('narrow column set', () => {
+    it('should have docNumber column that is formatted as a refname display name', () => {
       const docNumberColumn = columns.narrow.docNumber;
 
       docNumberColumn.should.have.property('formatValue').that.is.a('function');
@@ -143,7 +143,7 @@ describe('refs subresource columns', function suite() {
         .equal('John Doe');
     });
 
-    it('should have docName column that is formatted as a refname display name', function test() {
+    it('should have docName column that is formatted as a refname display name', () => {
       const docNameColumn = columns.narrow.docName;
 
       docNameColumn.should.have.property('formatValue').that.is.a('function');
@@ -152,7 +152,7 @@ describe('refs subresource columns', function suite() {
         .equal('John Doe');
     });
 
-    it('should have docType column that is formatted as a record type name from a service object name', function test() {
+    it('should have docType column that is formatted as a record type name from a service object name', () => {
       const docTypeColumn = columns.narrow.docType;
 
       docTypeColumn.should.have.property('formatValue').that.is.a('function');
@@ -161,7 +161,7 @@ describe('refs subresource columns', function suite() {
         .equal('formatted record.collectionobject.name');
     });
 
-    it('should have sourceField column that is formatted as a field name from a part and field ids', function test() {
+    it('should have sourceField column that is formatted as a field name from a part and field ids', () => {
       const sourceFieldColumn = columns.narrow.sourceField;
 
       sourceFieldColumn.should.have.property('formatValue').that.is.a('function');
@@ -176,7 +176,7 @@ describe('refs subresource columns', function suite() {
         .equal('formatted field.collectionobjects_common.objectProductionPerson.fullName');
     });
 
-    it('should format the sourceField column with a fallback if no field is found with the id', function test() {
+    it('should format the sourceField column with a fallback if no field is found with the id', () => {
       const sourceFieldColumn = columns.narrow.sourceField;
       const sourceField = 'collectionobjects_common:foobar';
 

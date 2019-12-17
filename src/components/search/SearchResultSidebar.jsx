@@ -8,8 +8,12 @@ import styles from '../../../styles/cspace-ui/SearchResultSidebar.css';
 const panelColor = 'black';
 
 const propTypes = {
-  config: PropTypes.object,
-  history: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   recordType: PropTypes.string,
   isOpen: PropTypes.bool,
   selectedItems: PropTypes.instanceOf(Immutable.Map),

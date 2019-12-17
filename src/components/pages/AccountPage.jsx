@@ -14,9 +14,15 @@ import AccountSearchBar from '../admin/AccountSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
-  history: PropTypes.object,
-  location: PropTypes.object,
-  match: PropTypes.object,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
   userId: PropTypes.string,
@@ -28,7 +34,9 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
 };
 
 const recordType = 'account';

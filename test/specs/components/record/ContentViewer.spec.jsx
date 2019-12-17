@@ -4,11 +4,11 @@ import { findWithType } from 'react-shallow-testutils';
 import ImageContainer from '../../../../src/containers/media/ImageContainer';
 import ContentViewer from '../../../../src/components/record/ContentViewer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('ContentViewer', function suite() {
+describe('ContentViewer', () => {
   const csid = '1234';
 
   const intl = {
@@ -17,7 +17,7 @@ describe('ContentViewer', function suite() {
     formatRelative: () => null,
     formatNumber: () => null,
     formatPlural: () => null,
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
     formatHTMLMessage: () => null,
     now: () => null,
   };
@@ -95,7 +95,7 @@ describe('ContentViewer', function suite() {
     },
   };
 
-  it('should render a link containing an img', function test() {
+  it('should render a link containing an img', () => {
     const context = {
       config,
       csid,
@@ -118,7 +118,7 @@ describe('ContentViewer', function suite() {
     img.props.src.should.equal(`media/${csid}/derivatives/Thumbnail/content`);
   });
 
-  it('should render a link containing an img for an authority record type', function test() {
+  it('should render a link containing an img for an authority record type', () => {
     const context = {
       config,
       intl,
@@ -142,7 +142,7 @@ describe('ContentViewer', function suite() {
     img.props.src.should.equal(`someAuthority/local/items/${csid}/derivatives/Thumbnail/content`);
   });
 
-  it('should render nothing if content is not configured for the record type', function test() {
+  it('should render nothing if content is not configured for the record type', () => {
     const context = {
       config,
       csid,
@@ -159,7 +159,7 @@ describe('ContentViewer', function suite() {
     expect(result).to.equal(null);
   });
 
-  it('should render nothing if no csid is present in context', function test() {
+  it('should render nothing if no csid is present in context', () => {
     const context = {
       config,
       intl,
@@ -176,7 +176,7 @@ describe('ContentViewer', function suite() {
     expect(result).to.equal(null);
   });
 
-  it('should render nothing for an unknown record type', function test() {
+  it('should render nothing for an unknown record type', () => {
     const context = {
       config,
       intl,

@@ -14,12 +14,12 @@ export const clearSearchToSelect = () => ({
   type: CLEAR_SEARCH_TO_SELECT,
 });
 
-export const setSearchToSelectKeyword = value => ({
+export const setSearchToSelectKeyword = (value) => ({
   type: SET_SEARCH_TO_SELECT_KEYWORD,
   payload: value,
 });
 
-export const setSearchToSelectAdvanced = condition => (dispatch, getState) => {
+export const setSearchToSelectAdvanced = (condition) => (dispatch, getState) => {
   const recordType = getSearchToSelectRecordType(getState());
 
   dispatch({
@@ -31,12 +31,12 @@ export const setSearchToSelectAdvanced = condition => (dispatch, getState) => {
   });
 };
 
-export const setSearchToSelectRecordType = recordType => ({
+export const setSearchToSelectRecordType = (recordType) => ({
   type: SET_SEARCH_TO_SELECT_RECORD_TYPE,
   payload: recordType,
 });
 
-export const setSearchToSelectVocabulary = vocabulary => ({
+export const setSearchToSelectVocabulary = (vocabulary) => ({
   type: SET_SEARCH_TO_SELECT_VOCABULARY,
   payload: vocabulary,
 });

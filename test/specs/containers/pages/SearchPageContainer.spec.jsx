@@ -20,8 +20,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('SearchPageContainer', function suite() {
-  it('should set props on SearchPage', function test() {
+describe('SearchPageContainer', () => {
+  it('should set props on SearchPage', () => {
     const store = mockStore({
       searchPage: Immutable.Map({
         keyword: 'foo',
@@ -50,7 +50,8 @@ describe('SearchPageContainer', function suite() {
     };
 
     shallowRenderer.render(
-      <ConnectedSearchPage />, context);
+      <ConnectedSearchPage />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -67,7 +68,7 @@ describe('SearchPageContainer', function suite() {
     result.props.should.have.property('initiateSearch').that.is.a('function');
   });
 
-  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', function test() {
+  it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -109,7 +110,7 @@ describe('SearchPageContainer', function suite() {
     result.props.getAuthorityVocabCsid('concept', 'material').should.equal('1234');
   });
 
-  it('should connect buildRecordFieldOptionLists to buildRecordFieldOptionLists action creator', function test() {
+  it('should connect buildRecordFieldOptionLists to buildRecordFieldOptionLists action creator', () => {
     const store = mockStore({
       optionList: Immutable.Map(),
       searchPage: Immutable.fromJS({
@@ -162,7 +163,7 @@ describe('SearchPageContainer', function suite() {
     });
   });
 
-  it('should connect onAdvancedSearchConditionCommit to setSearchPageAdvanced action creator', function test() {
+  it('should connect onAdvancedSearchConditionCommit to setSearchPageAdvanced action creator', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -207,7 +208,7 @@ describe('SearchPageContainer', function suite() {
     action.should.have.deep.property('payload', condition);
   });
 
-  it('should connect onKeywordCommit to setSearchPageKeyword action creator', function test() {
+  it('should connect onKeywordCommit to setSearchPageKeyword action creator', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -247,7 +248,7 @@ describe('SearchPageContainer', function suite() {
     action.should.have.deep.property('payload', 'new keyword');
   });
 
-  it('should connect onRecordTypeCommit to setSearchPageRecordType action creator', function test() {
+  it('should connect onRecordTypeCommit to setSearchPageRecordType action creator', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -287,7 +288,7 @@ describe('SearchPageContainer', function suite() {
     action.should.have.deep.property('payload', 'person');
   });
 
-  it('should connect onVocabularyCommit to setSearchPageVocabulary action creator', function test() {
+  it('should connect onVocabularyCommit to setSearchPageVocabulary action creator', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -327,7 +328,7 @@ describe('SearchPageContainer', function suite() {
     action.should.have.deep.property('payload', 'ulan');
   });
 
-  it('should connect initiateSearch to initiateSearch action creator', function test() {
+  it('should connect initiateSearch to initiateSearch action creator', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',
@@ -387,7 +388,7 @@ describe('SearchPageContainer', function suite() {
     });
   });
 
-  it('should connect onClearButtonClick to clearSearchPage action creator', function test() {
+  it('should connect onClearButtonClick to clearSearchPage action creator', () => {
     const store = mockStore({
       searchPage: Immutable.fromJS({
         keyword: 'hello world',

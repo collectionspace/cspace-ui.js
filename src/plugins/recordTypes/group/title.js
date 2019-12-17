@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     getPart,
   } = configContext.recordDataHelpers;
@@ -20,5 +20,5 @@ export default configContext => (data) => {
   const title = common.get('title');
   const owner = getDisplayName(common.get('owner'));
 
-  return [title, owner].filter(part => !!part).join(' – ');
+  return [title, owner].filter((part) => !!part).join(' – ');
 };

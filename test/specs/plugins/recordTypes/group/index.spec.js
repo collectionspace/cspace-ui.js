@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('group record plugin', function suite() {
+describe('group record plugin', () => {
   const config = {};
   const groupRecordTypePlugin = groupRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = groupRecordTypePlugin(configContext);
 
     const {

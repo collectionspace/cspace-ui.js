@@ -25,8 +25,8 @@ import {
 
 chai.should();
 
-describe('partialTermSearch action creator', function suite() {
-  describe('addTerm', function actionSuite() {
+describe('partialTermSearch action creator', () => {
+  describe('addTerm', () => {
     const mockStore = configureMockStore([thunk]);
     const recordType = 'person';
     const servicePath = 'personauthorities';
@@ -73,10 +73,8 @@ describe('partialTermSearch action creator', function suite() {
       user: Immutable.Map(),
     });
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -87,7 +85,7 @@ describe('partialTermSearch action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch ADD_TERM_FULFILLED on success', function test() {
+    it('should dispatch ADD_TERM_FULFILLED on success', () => {
       moxios.stubRequest(termAddUrl, {
         status: 201,
         headers: {
@@ -134,7 +132,7 @@ describe('partialTermSearch action creator', function suite() {
         });
     });
 
-    it('should clone the primary record data if clone is true', function test() {
+    it('should clone the primary record data if clone is true', () => {
       moxios.stubRequest(termAddUrl, {
         status: 201,
         headers: {
@@ -159,7 +157,7 @@ describe('partialTermSearch action creator', function suite() {
         });
     });
 
-    it('should dispatch ADD_TERM_REJECTED on error', function test() {
+    it('should dispatch ADD_TERM_REJECTED on error', () => {
       moxios.stubRequest(termAddUrl, {
         status: 400,
         response: {},
@@ -193,7 +191,7 @@ describe('partialTermSearch action creator', function suite() {
     });
   });
 
-  describe('findMatchingTerms', function actionSuite() {
+  describe('findMatchingTerms', () => {
     const mockStore = configureMockStore([thunk]);
     const recordType = 'person';
     const servicePath = 'personauthorities';
@@ -220,10 +218,8 @@ describe('partialTermSearch action creator', function suite() {
       user: Immutable.Map(),
     });
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -234,14 +230,14 @@ describe('partialTermSearch action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch PARTIAL_TERM_SEARCH_FULFILLED on success', function test() {
+    it('should dispatch PARTIAL_TERM_SEARCH_FULFILLED on success', () => {
       moxios.stubRequest(termSearchUrl, {
         status: 200,
         response: {},
       });
 
       return store.dispatch(
-        findMatchingTerms(recordTypeConfig, vocabulary, partialTerm)
+        findMatchingTerms(recordTypeConfig, vocabulary, partialTerm),
       )
         .then(() => {
           const actions = store.getActions();
@@ -274,14 +270,14 @@ describe('partialTermSearch action creator', function suite() {
         });
     });
 
-    it('should dispatch PARTIAL_TERM_SEARCH_REJECTED on error', function test() {
+    it('should dispatch PARTIAL_TERM_SEARCH_REJECTED on error', () => {
       moxios.stubRequest(termSearchUrl, {
         status: 400,
         response: {},
       });
 
       return store.dispatch(
-        findMatchingTerms(recordTypeConfig, vocabulary, partialTerm)
+        findMatchingTerms(recordTypeConfig, vocabulary, partialTerm),
       )
         .then(() => {
           const actions = store.getActions();
@@ -307,19 +303,19 @@ describe('partialTermSearch action creator', function suite() {
         });
     });
 
-    it('should dispatch no action if the vocabulary does not have a service path', function test() {
+    it('should dispatch no action if the vocabulary does not have a service path', () => {
       const invalidVocabulary = `${vocabulary}abcd`;
 
       store.dispatch(
-        findMatchingTerms(recordTypeConfig, invalidVocabulary, partialTerm)
+        findMatchingTerms(recordTypeConfig, invalidVocabulary, partialTerm),
       );
 
       store.getActions().should.have.lengthOf(0);
     });
   });
 
-  describe('clearMatchedTerms', function actionSuite() {
-    it('should create a CLEAR_PARTIAL_TERM_SEARCH_RESULTS action', function test() {
+  describe('clearMatchedTerms', () => {
+    it('should create a CLEAR_PARTIAL_TERM_SEARCH_RESULTS action', () => {
       clearMatchedTerms().should.deep.equal({
         type: CLEAR_PARTIAL_TERM_SEARCH_RESULTS,
       });

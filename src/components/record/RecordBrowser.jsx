@@ -12,11 +12,18 @@ import styles from '../../../styles/cspace-ui/RecordBrowser.css';
 
 const propTypes = {
   cloneCsid: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   dockTop: PropTypes.number,
-  history: PropTypes.object,
-  location: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    state: PropTypes.object,
+  }),
   recordType: PropTypes.string,
   relatedCsid: PropTypes.string,
   relatedRecordType: PropTypes.string,
@@ -71,10 +78,9 @@ export default class RecordBrowser extends Component {
       history,
     } = this.props;
 
-    const path =
-      [recordType, vocabulary]
-        .filter(part => !!part)
-        .join('/');
+    const path = [recordType, vocabulary]
+      .filter((part) => !!part)
+      .join('/');
 
     const query = {
       clone: csid,
@@ -96,10 +102,9 @@ export default class RecordBrowser extends Component {
         vocabulary,
       } = this.props;
 
-      const path =
-        [recordType, vocabulary, newRecordCsid]
-          .filter(part => !!part)
-          .join('/');
+      const path = [recordType, vocabulary, newRecordCsid]
+        .filter((part) => !!part)
+        .join('/');
 
       history.replace(`/record/${path}`);
     }

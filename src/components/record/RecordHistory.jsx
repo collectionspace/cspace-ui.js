@@ -51,25 +51,25 @@ const messages = defineMessages({
   },
 });
 
-const formatDate = timestamp => (
+const formatDate = (timestamp) => (
   timestamp
     ? <FormattedDate value={timestamp} day="numeric" month="short" year="numeric" />
     : null
 );
 
-const formatTime = timestamp => (
+const formatTime = (timestamp) => (
   timestamp
     ? <FormattedTime value={timestamp} hour="numeric" minute="numeric" second="numeric" />
     : null
 );
 
-const formatTimeRelative = timestamp => (
+const formatTimeRelative = (timestamp) => (
   timestamp
     ? <FormattedRelative value={timestamp} />
     : null
 );
 
-const formatUserId = userId => (
+const formatUserId = (userId) => (
   userId
     ? <AccountLabel userId={userId} />
     : ''
@@ -212,11 +212,11 @@ export default class RecordHistory extends Component {
       );
     }
 
-    const items = [currentState, updated, created].filter(item => !!item);
+    const items = [currentState, updated, created].filter((item) => !!item);
 
     return (
       <ul>
-        {items.map(item => <li key={item.key}>{item}</li>)}
+        {items.map((item) => <li key={item.key}>{item}</li>)}
       </ul>
     );
   }

@@ -52,8 +52,9 @@ const mapStateToProps = (state, ownProps) => {
       || get(ownProps, ['config', 'defaultAdvancedSearchBooleanOp']),
     preferredPageSize: getSearchToSelectPageSize(state),
     selectedItems: getSearchSelectedItems(state, searchName),
-    getAuthorityVocabCsid: (recordType, vocabulary) =>
-      getAuthorityVocabCsid(state, recordType, vocabulary),
+    getAuthorityVocabCsid: (recordType, vocabulary) => getAuthorityVocabCsid(
+      state, recordType, vocabulary,
+    ),
   };
 };
 

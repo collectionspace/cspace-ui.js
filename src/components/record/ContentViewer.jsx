@@ -25,7 +25,9 @@ const messages = defineMessages({
 });
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -56,11 +58,12 @@ export default function ContentViewer(props, context) {
 
   const popupUrl = getImageViewerPath(
     config,
-    getContentPath(config, recordType, vocabulary, csid, popupSubresource, recordData)
+    getContentPath(config, recordType, vocabulary, csid, popupSubresource, recordData),
   );
 
-  const previewUrl =
-    getContentPath(config, recordType, vocabulary, csid, previewSubresource, recordData);
+  const previewUrl = getContentPath(
+    config, recordType, vocabulary, csid, previewSubresource, recordData,
+  );
 
   if (!previewUrl) {
     return null;

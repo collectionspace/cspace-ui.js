@@ -10,8 +10,8 @@ chai.should();
 const { ComboBoxInput } = inputComponents;
 const mockStore = configureMockStore([]);
 
-describe('ComboBoxInputContainer', function suite() {
-  it('should set props on ComboBoxInput', function test() {
+describe('ComboBoxInputContainer', () => {
+  it('should set props on ComboBoxInput', () => {
     const optionListName = 'units';
 
     const options = [
@@ -31,7 +31,8 @@ describe('ComboBoxInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedComboBoxInput source={optionListName} />, context);
+      <ConnectedComboBoxInput source={optionListName} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -41,7 +42,7 @@ describe('ComboBoxInputContainer', function suite() {
     result.props.formatOptionLabel.should.be.a('function');
   });
 
-  it('should connect formatOptionLabel to intl.formatMessage', function test() {
+  it('should connect formatOptionLabel to intl.formatMessage', () => {
     const optionListName = 'units';
 
     const options = [
@@ -77,7 +78,8 @@ describe('ComboBoxInputContainer', function suite() {
       <ConnectedComboBoxInput
         intl={context.intl}
         source={optionListName}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

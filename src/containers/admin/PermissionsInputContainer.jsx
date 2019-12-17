@@ -9,7 +9,7 @@ import {
   getAuthzResourceNames,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   resourceNames: getAuthzResourceNames(state),
 });
 

@@ -4,16 +4,16 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('media record plugin', function suite() {
+describe('media record plugin', () => {
   const config = {};
   const mediaRecordTypePlugin = mediaRecordTypePluginFactory(config);
   const configContext = createConfigContext();
   const pluginConfigContribution = mediaRecordTypePlugin(configContext);
 
   context('blob subrecord save condition', () => {
-    const saveCondition = pluginConfigContribution.recordTypes.media.subrecords.blob.saveCondition;
+    const { saveCondition } = pluginConfigContribution.recordTypes.media.subrecords.blob;
 
-    it('should return false for existing records', function test() {
+    it('should return false for existing records', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -26,7 +26,7 @@ describe('media record plugin', function suite() {
       saveCondition(data).should.equal(false);
     });
 
-    it('should return true for new records that have a file', function test() {
+    it('should return true for new records that have a file', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -41,7 +41,7 @@ describe('media record plugin', function suite() {
       saveCondition(data).should.equal(true);
     });
 
-    it('should return false for new records that do not have a file', function test() {
+    it('should return false for new records that do not have a file', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -53,7 +53,7 @@ describe('media record plugin', function suite() {
       saveCondition(data).should.equal(false);
     });
 
-    it('should return false for new records that have an empty file array', function test() {
+    it('should return false for new records that have an empty file array', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {

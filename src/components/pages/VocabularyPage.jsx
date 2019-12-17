@@ -9,14 +9,20 @@ import { OP_CONTAIN } from '../../constants/searchOperators';
 import VocabularyUsedByPanelContainer from '../../containers/admin/VocabularyUsedByPanelContainer';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { canRead, disallowCreate, disallowDelete, disallowSoftDelete } from '../../helpers/permissionHelpers';
+import {
+  canRead, disallowCreate, disallowDelete, disallowSoftDelete,
+} from '../../helpers/permissionHelpers';
 import VocabularySearchBar from '../admin/VocabularySearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
 
 const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
-  history: PropTypes.object,
-  match: PropTypes.object,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   filterDelay: PropTypes.number,
   readVocabularyItemRefs: PropTypes.func,
@@ -28,7 +34,9 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
 };
 
 const recordType = 'vocabulary';

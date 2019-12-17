@@ -4,7 +4,7 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('valuation record title', function suite() {
+describe('valuation record title', () => {
   const formatterContext = {
     config: {
       optionLists: {
@@ -19,14 +19,14 @@ describe('valuation record title', function suite() {
       },
     },
     intl: {
-      formatMessage: messageDescriptor => messageDescriptor.defaultMessage,
+      formatMessage: (messageDescriptor) => messageDescriptor.defaultMessage,
     },
   };
 
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the valuation number and the value type', function test() {
+  it('should concat the valuation number and the value type', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:valuationcontrols_common': {
@@ -39,7 +39,7 @@ describe('valuation record title', function suite() {
     title(data, formatterContext).should.equal('VAL2017.1 – current value');
   });
 
-  it('should return the valuation number when the value type is empty', function test() {
+  it('should return the valuation number when the value type is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:valuationcontrols_common': {
@@ -51,12 +51,12 @@ describe('valuation record title', function suite() {
     title(data, formatterContext).should.equal('VAL2017.1');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:valuationcontrols_extension': {

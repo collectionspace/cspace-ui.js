@@ -9,8 +9,8 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('OptionPickerInputContainer', function suite() {
-  it('should set props on OptionPickerInput', function test() {
+describe('OptionPickerInputContainer', () => {
+  it('should set props on OptionPickerInput', () => {
     const optionListName = 'units';
 
     const options = [
@@ -41,7 +41,8 @@ describe('OptionPickerInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionPickerInput source={optionListName} />, context);
+      <ConnectedOptionPickerInput source={optionListName} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

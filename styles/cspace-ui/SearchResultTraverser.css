@@ -11,22 +11,24 @@
   text-align: right;
 }
 
-.common a:not([href]) {
+.common > div:last-child > span {
   opacity: .5;
 }
 
-.common a[rel="prev"],
-.common a[rel="next"] {
+.common > div:last-child > a,
+.common > div:last-child > span {
   padding-left: 14px;
   background-repeat: no-repeat;
   background-size: 16px;
   background-position: -2px center;
 }
 
-.common a[rel="prev"] {
+.common > div > a[rel="prev"],
+.common > div:last-child > span:first-child {
   background-image: url(../../images/prevLink.svg);
 }
 
-.common a[rel="next"] {
+.common > div > a[rel="next"],
+.common > div:last-child > span:last-child {
   background-image: url(../../images/nextLink.svg);
 }

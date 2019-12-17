@@ -25,8 +25,8 @@ import {
 
 chai.should();
 
-describe('logout action creator', function suite() {
-  describe('logout', function actionSuite() {
+describe('logout action creator', () => {
+  describe('logout', () => {
     const mockStore = configureMockStore([thunk]);
     const accountId = '1234';
     const tokenUrl = '/cspace-services/oauth/token';
@@ -52,10 +52,8 @@ describe('logout action creator', function suite() {
       jti: '1234',
     };
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -69,7 +67,7 @@ describe('logout action creator', function suite() {
       localStorage.removeItem('cspace-client');
     });
 
-    it('should dispatch LOGOUT_FULFILLED on success', function test() {
+    it('should dispatch LOGOUT_FULFILLED on success', () => {
       moxios.stubRequest(tokenUrl, {
         status: 200,
         response: tokenGrantPayload,

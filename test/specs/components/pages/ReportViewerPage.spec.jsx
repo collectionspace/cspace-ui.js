@@ -5,14 +5,15 @@ import ReportViewerPage from '../../../../src/components/pages/ReportViewerPage'
 
 chai.should();
 
-describe('ReportViewerPage', function suite() {
+describe('ReportViewerPage', () => {
   const readContent = () => {};
 
   it('should render a ContentViewerPage', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportViewerPage readContent={readContent} />, this.container);
+      <ReportViewerPage readContent={readContent} />, this.container,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -23,7 +24,8 @@ describe('ReportViewerPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportViewerPage readContent={readContent} />, this.container);
+      <ReportViewerPage readContent={readContent} />, this.container,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -34,7 +36,8 @@ describe('ReportViewerPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportViewerPage readContent={readContent} />, this.container);
+      <ReportViewerPage readContent={readContent} />, this.container,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const error = {};

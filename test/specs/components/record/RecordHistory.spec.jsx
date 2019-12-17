@@ -8,7 +8,7 @@ import RecordHistory from '../../../../src/components/record/RecordHistory';
 
 chai.should();
 
-describe('RecordHistory', function suite() {
+describe('RecordHistory', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -28,7 +28,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
 
@@ -57,7 +58,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const recordHistoryElement = this.container.querySelector('.cspace-ui-RecordHistory--common');
 
@@ -72,7 +74,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} isModified />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const recordHistoryElement = this.container.querySelector('.cspace-ui-RecordHistory--common');
     const span = recordHistoryElement.querySelector('span');
@@ -88,7 +91,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} isSavePending />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const recordHistoryElement = this.container.querySelector('.cspace-ui-RecordHistory--common');
     const span = recordHistoryElement.querySelector('span');
@@ -108,7 +112,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
 
@@ -141,7 +146,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} isSavePending />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
 
@@ -177,7 +183,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} isModified />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
 
@@ -213,7 +220,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
 
@@ -243,7 +251,8 @@ describe('RecordHistory', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordHistory data={data} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const popover = this.container.querySelector('.cspace-layout-Popover--common');
 

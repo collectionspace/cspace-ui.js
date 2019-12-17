@@ -18,6 +18,7 @@ import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 export const getParams = (props) => {
   const {
     config,
+    match,
   } = props;
 
   const {
@@ -25,7 +26,7 @@ export const getParams = (props) => {
     path1,
     path2,
     path3,
-  } = props.match.params;
+  } = match.params;
 
   let vocabulary;
   let csid;
@@ -58,14 +59,24 @@ export const getParams = (props) => {
 };
 
 const propTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
   data: PropTypes.instanceOf(Immutable.Map),
   error: PropTypes.instanceOf(Immutable.Map),
-  history: PropTypes.object,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }),
   isSidebarOpen: PropTypes.bool,
-  location: PropTypes.object,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+    state: PropTypes.object,
+  }),
   // Use of the match prop isn't being detected by eslint.
-  match: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
+  // eslint-disable-next-line react/no-unused-prop-types
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   clearRecord: PropTypes.func,
   readRecord: PropTypes.func,
@@ -174,8 +185,7 @@ export default class RecordPage extends Component {
       // an authority without specifying a vocabulary, but we can get a record by csid without
       // specifying any record type.
 
-      const recordTypeConfig =
-        get(config, ['recordTypes', vocabulary === 'all' ? 'all' : recordType]);
+      const recordTypeConfig = get(config, ['recordTypes', vocabulary === 'all' ? 'all' : recordType]);
 
       const vocabularyConfig = (vocabulary && vocabulary !== 'all')
         ? get(recordTypeConfig, ['vocabularies', vocabulary])
@@ -197,10 +207,9 @@ export default class RecordPage extends Component {
       location,
     } = this.props;
 
-    const path =
-      [recordType, vocabulary, csid, relatedRecordType, relatedCsid]
-        .filter(part => !!part)
-        .join('/');
+    const path = [recordType, vocabulary, csid, relatedRecordType, relatedCsid]
+      .filter((part) => !!part)
+      .join('/');
 
     history.replace({
       pathname: `/record/${path}`,
@@ -278,8 +287,8 @@ export default class RecordPage extends Component {
     const workflowState = getWorkflowState(data);
 
     const isRelatable = (
-      workflowState !== 'locked' &&
-      canRelate(recordType, perms, config)
+      workflowState !== 'locked'
+      && canRelate(recordType, perms, config)
     );
 
     return (

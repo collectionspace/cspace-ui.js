@@ -3,7 +3,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import { baseComponents as inputComponents } from 'cspace-input';
 import ObjectNameInput from '../../../../src/components/record/ObjectNameInput';
 
-const RecordTypeInput = inputComponents.RecordTypeInput;
+const { RecordTypeInput } = inputComponents;
 
 chai.should();
 
@@ -43,23 +43,25 @@ const context = {
   config,
 };
 
-describe('ObjectNameInput', function suite() {
-  it('should render as a RecordTypeInput', function test() {
+describe('ObjectNameInput', () => {
+  it('should render as a RecordTypeInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ObjectNameInput />, context);
+      <ObjectNameInput />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(RecordTypeInput);
   });
 
-  it('should set the recordTypes prop to the recordTypes from config that have serviceType of object, procedure, and authority', function test() {
+  it('should set the recordTypes prop to the recordTypes from config that have serviceType of object, procedure, and authority', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ObjectNameInput />, context);
+      <ObjectNameInput />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -84,20 +86,21 @@ describe('ObjectNameInput', function suite() {
     });
   });
 
-  it('should convert the value from a service object type to a UI record type', function test() {
+  it('should convert the value from a service object type to a UI record type', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ObjectNameInput
         value="Group"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.value.should.equal('group');
   });
 
-  it('should convert the committed value from a UI record type to a service object name', function test() {
+  it('should convert the committed value from a UI record type to a service object name', () => {
     const shallowRenderer = createRenderer();
 
     let committedPath;
@@ -111,7 +114,8 @@ describe('ObjectNameInput', function suite() {
     shallowRenderer.render(
       <ObjectNameInput
         onCommit={handleCommit}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

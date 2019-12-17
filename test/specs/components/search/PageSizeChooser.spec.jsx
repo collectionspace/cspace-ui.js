@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import PageSizeChooser from '../../../../src/components/search/PageSizeChooser';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -24,7 +24,7 @@ const store = mockStore({
   }),
 });
 
-describe('PageSizeChooser', function suite() {
+describe('PageSizeChooser', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -35,7 +35,8 @@ describe('PageSizeChooser', function suite() {
         <StoreProvider store={store}>
           <PageSizeChooser pageSize={40} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -46,7 +47,8 @@ describe('PageSizeChooser', function suite() {
         <StoreProvider store={store}>
           <PageSizeChooser pageSize={34} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal('34');
   });
@@ -57,7 +59,8 @@ describe('PageSizeChooser', function suite() {
         <StoreProvider store={store}>
           <PageSizeChooser pageSize={34} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -85,7 +88,8 @@ describe('PageSizeChooser', function suite() {
             onPageSizeChange={handlePageSizeChange}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -114,7 +118,8 @@ describe('PageSizeChooser', function suite() {
             onPageSizeChange={handlePageSizeChange}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -148,7 +153,8 @@ describe('PageSizeChooser', function suite() {
             onPageSizeChange={handlePageSizeChange}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -183,7 +189,8 @@ describe('PageSizeChooser', function suite() {
             onPageSizeChange={handlePageSizeChange}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

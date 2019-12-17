@@ -11,11 +11,16 @@ import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSidebar.css';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    mediaSnapshotSort: PropTypes.string,
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
-  history: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   isOpen: PropTypes.bool,
   isRelatable: PropTypes.bool,
 };
@@ -47,14 +52,13 @@ export default function RecordSidebar(props) {
     return null;
   }
 
-  const serviceType = recordTypeConfig.serviceConfig.serviceType;
+  const { serviceType } = recordTypeConfig.serviceConfig;
   const isAuthority = serviceType === 'authority';
   const isUtility = serviceType === 'utility';
   const panelColor = isAuthority ? 'purple' : 'blue';
 
-  const relatedRecordDescriptors =
-    get(recordTypeConfig, ['sidebar', 'relatedRecords']) ||
-    [{ recordType: 'collectionobject' }, { recordType: 'procedure' }];
+  const relatedRecordDescriptors = get(recordTypeConfig, ['sidebar', 'relatedRecords'])
+    || [{ recordType: 'collectionobject' }, { recordType: 'procedure' }];
 
   let mediaSnapshot = null;
   let relatedRecords = null;
@@ -86,7 +90,6 @@ export default function RecordSidebar(props) {
           csid={csid}
           columnSetName={columnSet}
           config={config}
-          history={history}
           initialSort={sort}
           key={relatedRecordType}
           name={`related${upperFirst(relatedRecordType)}Panel`}
@@ -125,7 +128,6 @@ export default function RecordSidebar(props) {
         color={panelColor}
         csid={csid}
         config={config}
-        history={history}
         recordType={recordType}
         vocabulary={vocabulary}
       />
@@ -139,7 +141,6 @@ export default function RecordSidebar(props) {
         color={panelColor}
         csid={csid}
         config={config}
-        history={history}
         recordType={recordType}
         vocabulary={vocabulary}
       />

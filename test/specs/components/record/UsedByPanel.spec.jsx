@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import UsedByPanel from '../../../../src/components/record/UsedByPanel';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -16,8 +16,8 @@ const recordData = Immutable.fromJS({
   },
 });
 
-describe('UsedByPanel', function suite() {
-  it('should render a search panel', function test() {
+describe('UsedByPanel', () => {
+  it('should render a search panel', () => {
     const config = {};
     const recordType = 'object';
 
@@ -28,7 +28,8 @@ describe('UsedByPanel', function suite() {
         config={config}
         recordData={recordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -38,7 +39,7 @@ describe('UsedByPanel', function suite() {
     result.props.recordType.should.equal(recordType);
   });
 
-  it('should render nothing if the record data has not been saved', function test() {
+  it('should render nothing if the record data has not been saved', () => {
     const config = {};
     const recordType = 'object';
 
@@ -57,14 +58,15 @@ describe('UsedByPanel', function suite() {
         config={config}
         recordData={unsavedRecordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should rerender with the new search descriptor when it is changed by the search panel', function test() {
+  it('should rerender with the new search descriptor when it is changed by the search panel', () => {
     const config = {};
     const recordType = 'object';
 
@@ -75,7 +77,8 @@ describe('UsedByPanel', function suite() {
         config={config}
         recordData={recordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const newSearchDescriptor = Immutable.fromJS({ foo: 'bar', seqID: 'seq1234' });
@@ -87,7 +90,7 @@ describe('UsedByPanel', function suite() {
     newResult.props.searchDescriptor.should.equal(newSearchDescriptor);
   });
 
-  it('should rerender with a new search descriptor when a new csid is supplied via props', function test() {
+  it('should rerender with a new search descriptor when a new csid is supplied via props', () => {
     const config = {};
     const recordType = 'object';
     const csid = '1234';
@@ -100,7 +103,8 @@ describe('UsedByPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -114,14 +118,15 @@ describe('UsedByPanel', function suite() {
         csid={newCsid}
         recordData={recordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const newResult = shallowRenderer.getRenderOutput();
 
     newResult.props.searchDescriptor.get('csid').should.equal(newCsid);
   });
 
-  it('should retain the same page number and page size when only the last updated timestamp is changed', function test() {
+  it('should retain the same page number and page size when only the last updated timestamp is changed', () => {
     const config = {};
     const recordType = 'object';
     const csid = '1234';
@@ -134,10 +139,11 @@ describe('UsedByPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
-    const searchDescriptor = result.props.searchDescriptor;
+    const { searchDescriptor } = result.props;
 
     // Change the page num and size
 
@@ -162,7 +168,8 @@ describe('UsedByPanel', function suite() {
         csid={csid}
         recordData={newRecordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const newResult = shallowRenderer.getRenderOutput();
     const newSearchDescriptor = newResult.props.searchDescriptor;

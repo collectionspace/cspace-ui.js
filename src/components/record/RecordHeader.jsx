@@ -7,7 +7,9 @@ import RecordHistory from './RecordHistory';
 import styles from '../../../styles/cspace-ui/RecordHeader.css';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   data: PropTypes.instanceOf(Immutable.Map),
   formName: PropTypes.string,
   isCloneable: PropTypes.bool,

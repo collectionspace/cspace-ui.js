@@ -7,7 +7,7 @@ import serviceConfig from './serviceConfig';
 import title from './title';
 import optionLists from './optionLists';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   optionLists,
   recordTypes: {
     pottag: {

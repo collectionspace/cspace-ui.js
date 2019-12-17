@@ -9,7 +9,7 @@ import prepareForSending from './prepareForSending';
 import serviceConfig from './serviceConfig';
 import title from './title';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   idGenerators,
   optionLists,
   recordTypes: {

@@ -2,7 +2,7 @@ import LoginPage from './pageObjects/LoginPage';
 import ProtectedPage from './pageObjects/ProtectedPage';
 import SearchPage from './pageObjects/SearchPage';
 
-describe('login', function suite() {
+describe('login', () => {
   describe('from the login page', () => {
     const loginPage = new LoginPage();
     const protectedPage = new ProtectedPage();
@@ -22,7 +22,7 @@ describe('login', function suite() {
       }
     });
 
-    context('when valid credentials are entered', function context() {
+    context('when valid credentials are entered', () => {
       beforeEach(() => {
         loginPage
           .setUsername(testParams.adminUser.username)

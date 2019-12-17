@@ -2,8 +2,8 @@ import serviceConfig from '../../../../../src/plugins/recordTypes/loanout/servic
 
 chai.should();
 
-describe('loan-out record serviceConfig', function suite() {
-  it('should have servicePath property', function test() {
+describe('loan-out record serviceConfig', () => {
+  it('should have servicePath property', () => {
     serviceConfig.should.have.property('servicePath').that.is.a('string');
   });
 });

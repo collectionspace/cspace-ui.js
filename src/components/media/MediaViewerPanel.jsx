@@ -18,7 +18,9 @@ const propTypes = {
   collapsed: PropTypes.bool,
   color: PropTypes.string,
   columnSetName: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   name: PropTypes.string,
   ownBlobCsid: PropTypes.string,
   recordType: PropTypes.string,
@@ -51,9 +53,9 @@ export default class MediaViewerPanel extends Component {
     } = this.props;
 
     if (
-      !Immutable.is(prevSearchDescriptor, searchDescriptor) ||
+      !Immutable.is(prevSearchDescriptor, searchDescriptor)
       // If the search result was cleared from the store, redo the search.
-      (typeof searchResult === 'undefined' && prevSearchResult)
+      || (typeof searchResult === 'undefined' && prevSearchResult)
     ) {
       this.search();
     }

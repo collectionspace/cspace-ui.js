@@ -41,10 +41,8 @@ export default class WatchedSearchResultTable extends Component {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
       onSearchDescriptorChange,
       search,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 

@@ -10,7 +10,7 @@ import InvocationModalContainer from '../../../../src/containers/invocable/Invoc
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import SearchResultReportPanel from '../../../../src/components/search/SearchResultReportPanel';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -76,12 +76,12 @@ const selectedItems = Immutable.fromJS({
   },
 });
 
-describe('SearchResultReportPanel', function suite() {
+describe('SearchResultReportPanel', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a div containing a search panel and an invocation modal', function test() {
+  it('should render a div containing a search panel and an invocation modal', () => {
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
@@ -93,7 +93,8 @@ describe('SearchResultReportPanel', function suite() {
         recordType={recordType}
         selectedItems={selectedItems}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -119,7 +120,7 @@ describe('SearchResultReportPanel', function suite() {
     modal.should.not.equal(null);
   });
 
-  it('should render nothing if list permission on report does not exist', function test() {
+  it('should render nothing if list permission on report does not exist', () => {
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
@@ -130,14 +131,15 @@ describe('SearchResultReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         selectedItems={selectedItems}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should update the search panel\'s search descriptor when the record type changes', function test() {
+  it('should update the search panel\'s search descriptor when the record type changes', () => {
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
@@ -149,7 +151,8 @@ describe('SearchResultReportPanel', function suite() {
         recordType={recordType}
         selectedItems={selectedItems}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let searchPanel;
@@ -176,7 +179,8 @@ describe('SearchResultReportPanel', function suite() {
         recordType={newRecordType}
         selectedItems={selectedItems}
         perms={perms}
-      />);
+      />,
+    );
 
     result = shallowRenderer.getRenderOutput();
     searchPanel = findWithType(result, SearchPanelContainer);
@@ -192,7 +196,7 @@ describe('SearchResultReportPanel', function suite() {
     }));
   });
 
-  it('should close the invocation modal when the cancel button is clicked', function test() {
+  it('should close the invocation modal when the cancel button is clicked', () => {
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
@@ -204,7 +208,8 @@ describe('SearchResultReportPanel', function suite() {
         recordType={recordType}
         selectedItems={selectedItems}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let modal;
@@ -231,7 +236,7 @@ describe('SearchResultReportPanel', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should close the invocation modal when the close button is clicked', function test() {
+  it('should close the invocation modal when the close button is clicked', () => {
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
@@ -243,7 +248,8 @@ describe('SearchResultReportPanel', function suite() {
         recordType={recordType}
         selectedItems={selectedItems}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let modal;
@@ -270,7 +276,7 @@ describe('SearchResultReportPanel', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should call openReport when the invoke button is clicked in the invocation modal', function test() {
+  it('should call openReport when the invoke button is clicked in the invocation modal', () => {
     const recordType = 'group';
 
     let openedConfig = null;
@@ -295,7 +301,8 @@ describe('SearchResultReportPanel', function suite() {
         selectedItems={selectedItems}
         perms={perms}
         openReport={openReport}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -334,7 +341,7 @@ describe('SearchResultReportPanel', function suite() {
     });
   });
 
-  it('should update the search panel when it changes the search descriptor', function test() {
+  it('should update the search panel when it changes the search descriptor', () => {
     const recordType = 'group';
 
     const shallowRenderer = createRenderer();
@@ -346,7 +353,8 @@ describe('SearchResultReportPanel', function suite() {
         recordType={recordType}
         selectedItems={selectedItems}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let searchPanel;
@@ -354,7 +362,7 @@ describe('SearchResultReportPanel', function suite() {
     result = shallowRenderer.getRenderOutput();
     searchPanel = findWithType(result, SearchPanelContainer);
 
-    const searchDescriptor = searchPanel.props.searchDescriptor;
+    const { searchDescriptor } = searchPanel.props;
 
     searchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'report',

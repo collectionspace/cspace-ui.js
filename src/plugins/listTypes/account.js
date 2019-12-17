@@ -30,15 +30,13 @@ export default () => ({
         if (rootNodeName === listNodeName && rootNodeNsPrefix !== listNodeNsPrefix) {
           const rootNodeNsUri = rootNodeData.get(`@xmlns:${rootNodeNsPrefix}`);
 
-          const updatedRootNodeData =
-            rootNodeData
-              .delete(`@xmlns:${rootNodeNsPrefix}`)
-              .set(`@xmlns:${listNodeNsPrefix}`, rootNodeNsUri);
+          const updatedRootNodeData = rootNodeData
+            .delete(`@xmlns:${rootNodeNsPrefix}`)
+            .set(`@xmlns:${listNodeNsPrefix}`, rootNodeNsUri);
 
-          const updatedData =
-            data
-              .delete(`${rootNodeNsPrefix}:${rootNodeName}`)
-              .set(`${listNodeNsPrefix}:${listNodeName}`, updatedRootNodeData);
+          const updatedData = data
+            .delete(`${rootNodeNsPrefix}:${rootNodeName}`)
+            .set(`${listNodeNsPrefix}:${listNodeName}`, updatedRootNodeData);
 
           return updatedData;
         }

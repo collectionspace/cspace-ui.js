@@ -18,7 +18,7 @@ import SearchPanelContainer from '../../../../src/containers/search/SearchPanelC
 import VocabularyPage from '../../../../src/components/pages/VocabularyPage';
 import { OP_CONTAIN } from '../../../../src/constants/searchOperators';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -73,7 +73,7 @@ const context = {
   store,
 };
 
-describe('VocabularyPage', function suite() {
+describe('VocabularyPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -96,7 +96,8 @@ describe('VocabularyPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -125,12 +126,13 @@ describe('VocabularyPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     setTabName.should.equal('vocabulary');
   });
 
-  it('should render a record editor when a csid param exists in the match', function test() {
+  it('should render a record editor when a csid param exists in the match', () => {
     const location = {
       search: '',
     };
@@ -146,7 +148,8 @@ describe('VocabularyPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <VocabularyPage location={location} match={match} />, context);
+      <VocabularyPage location={location} match={match} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -155,7 +158,7 @@ describe('VocabularyPage', function suite() {
     recordEditor.props.csid.should.equal(csid);
   });
 
-  it('should replace history with a new location when an item is clicked in the search panel', function test() {
+  it('should replace history with a new location when an item is clicked in the search panel', () => {
     const location = {
       search: '',
     };
@@ -180,7 +183,8 @@ describe('VocabularyPage', function suite() {
         location={location}
         match={match}
         perms={perms}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -193,7 +197,7 @@ describe('VocabularyPage', function suite() {
     replacedLocation.should.equal(`/tool/vocabulary/${itemCsid}`);
   });
 
-  it('should not replace history when an item is clicked in the search panel but there are not read permissions on vocabularies', function test() {
+  it('should not replace history when an item is clicked in the search panel but there are not read permissions on vocabularies', () => {
     const location = {
       search: '',
     };
@@ -218,7 +222,8 @@ describe('VocabularyPage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -231,7 +236,7 @@ describe('VocabularyPage', function suite() {
     expect(replacedLocation).to.equal(null);
   });
 
-  it('should call readVocabularyItemRefs when a record read completes in the record editor', function test() {
+  it('should call readVocabularyItemRefs when a record read completes in the record editor', () => {
     const location = {
       search: '',
     };
@@ -272,7 +277,8 @@ describe('VocabularyPage', function suite() {
         match={match}
         data={data}
         readVocabularyItemRefs={readVocabularyItemRefs}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -283,7 +289,7 @@ describe('VocabularyPage', function suite() {
     calledVocabularyName.should.equal(calledVocabularyName);
   });
 
-  it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', function test() {
+  it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', () => {
     const location = {
       search: '',
     };
@@ -299,7 +305,8 @@ describe('VocabularyPage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <VocabularyPage location={location} match={match} />, context);
+      <VocabularyPage location={location} match={match} />, context,
+    );
 
     let result;
 
@@ -323,7 +330,7 @@ describe('VocabularyPage', function suite() {
     });
   });
 
-  it('should update the search descriptor when the search bar value changes', function test() {
+  it('should update the search descriptor when the search bar value changes', () => {
     const location = {
       search: '',
     };
@@ -339,7 +346,8 @@ describe('VocabularyPage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -377,7 +385,7 @@ describe('VocabularyPage', function suite() {
     });
   });
 
-  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', () => {
     const location = {
       search: '',
     };
@@ -393,7 +401,8 @@ describe('VocabularyPage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -414,47 +423,47 @@ describe('VocabularyPage', function suite() {
         resolve();
       }, 200);
     })
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-        searchPanel = findWithType(result, SearchPanelContainer);
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          result = shallowRenderer.getRenderOutput();
+          searchPanel = findWithType(result, SearchPanelContainer);
 
-        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'vocabulary',
-          searchQuery: {
-            size: 20,
-            sort: 'displayName',
-          },
-        }));
-
-        resolve();
-      }, 400);
-    }))
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-        searchPanel = findWithType(result, SearchPanelContainer);
-
-        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'vocabulary',
-          searchQuery: {
-            p: 0,
-            size: 20,
-            sort: 'displayName',
-            as: {
-              value: 'another searchval',
-              op: OP_CONTAIN,
-              path: 'ns2:vocabularies_common/displayName',
+          searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+            recordType: 'vocabulary',
+            searchQuery: {
+              size: 20,
+              sort: 'displayName',
             },
-          },
-        }));
+          }));
 
-        resolve();
-      }, 400);
-    }));
+          resolve();
+        }, 400);
+      }))
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          result = shallowRenderer.getRenderOutput();
+          searchPanel = findWithType(result, SearchPanelContainer);
+
+          searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+            recordType: 'vocabulary',
+            searchQuery: {
+              p: 0,
+              size: 20,
+              sort: 'displayName',
+              as: {
+                value: 'another searchval',
+                op: OP_CONTAIN,
+                path: 'ns2:vocabularies_common/displayName',
+              },
+            },
+          }));
+
+          resolve();
+        }, 400);
+      }));
   });
 
-  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
+  it('should update the search descriptor immediately when the search bar value is blanked', () => {
     const location = {
       search: '',
     };
@@ -470,7 +479,8 @@ describe('VocabularyPage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;

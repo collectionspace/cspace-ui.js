@@ -8,7 +8,7 @@ import serviceConfig from './serviceConfig';
 import title from './title';
 import idGenerators from './idGenerators';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   idGenerators,
   optionLists,
   recordTypes: {

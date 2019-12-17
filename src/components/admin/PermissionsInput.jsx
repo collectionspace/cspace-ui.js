@@ -83,7 +83,9 @@ const propTypes = {
 
 const contextTypes = {
   intl: intlShape,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
 };
 
 export default class PermissionsInput extends Component {
@@ -110,10 +112,14 @@ export default class PermissionsInput extends Component {
   }
 
   getPermsMap() {
+    const {
+      value,
+    } = this.props;
+
     // The services layer gives us a list of resources and action groups. Build a map of resource
     // names to UI permissions.
 
-    let permissionsList = this.props.value;
+    let permissionsList = value;
 
     if (!permissionsList) {
       return undefined;
@@ -146,8 +152,8 @@ export default class PermissionsInput extends Component {
 
     return (
       resourceNames
-        .map(resourceName => getRecordTypeConfigByServicePath(config, resourceName))
-        .filter(recordTypeConfig => (recordTypeConfig && !recordTypeConfig.disabled))
+        .map((resourceName) => getRecordTypeConfigByServicePath(config, resourceName))
+        .filter((recordTypeConfig) => (recordTypeConfig && !recordTypeConfig.disabled))
     );
   }
 
@@ -158,11 +164,11 @@ export default class PermissionsInput extends Component {
 
     return Immutable.List(
       Object.keys(perms)
-        .filter(resourceName => !!perms[resourceName])
-        .map(resourceName => Immutable.Map({
+        .filter((resourceName) => !!perms[resourceName])
+        .map((resourceName) => Immutable.Map({
           resourceName,
           actionGroup: perms[resourceName],
-        }))
+        })),
     );
   }
 
@@ -245,7 +251,7 @@ export default class PermissionsInput extends Component {
       const stagedUpdates = {};
 
       this.getRecordTypeConfigs()
-        .filter(recordTypeConfig => recordTypeConfig.serviceConfig.serviceType === serviceType)
+        .filter((recordTypeConfig) => recordTypeConfig.serviceConfig.serviceType === serviceType)
         .forEach((recordTypeConfig) => {
           this.stageUpdate(recordTypeConfig.name, actionGroup, stagedUpdates);
         });
@@ -322,8 +328,7 @@ export default class PermissionsInput extends Component {
     }
 
     return (
-      // FIXME: Do I really need for if I'm wrapping the input in the label?
-      // eslint-disable-next-line jsx-a11y/label-has-for
+      // eslint-disable-next-line jsx-a11y/label-has-associated-control
       <label className={className}>
         <FormattedMessage {...permMessages[value]} />
         <input
@@ -351,7 +356,7 @@ export default class PermissionsInput extends Component {
       const rows = [];
 
       this.getRecordTypeConfigs()
-        .filter(recordTypeConfig => recordTypeConfig.serviceConfig.serviceType === serviceType)
+        .filter((recordTypeConfig) => recordTypeConfig.serviceConfig.serviceType === serviceType)
         .sort((recordTypeConfigA, recordTypeConfigB) => {
           // Primary sort by sortOrder
 
@@ -379,7 +384,7 @@ export default class PermissionsInput extends Component {
           return labelA.localeCompare(labelB);
         })
         .forEach((recordTypeConfig) => {
-          const name = recordTypeConfig.name;
+          const { name } = recordTypeConfig;
           const resourceName = recordTypeConfig.serviceConfig.servicePath;
           const nameMessage = get(recordTypeConfig, ['messages', 'record', 'collectionName']);
 
@@ -396,7 +401,7 @@ export default class PermissionsInput extends Component {
                 {this.renderRadioButton(perms, name, resourceName, 'CRUL')}
                 {this.renderRadioButton(perms, name, resourceName, 'CRUDL')}
               </div>
-            </div>
+            </div>,
           );
         });
 
@@ -412,7 +417,7 @@ export default class PermissionsInput extends Component {
             </ul>
           </header>
           {rows}
-        </section>
+        </section>,
       );
     });
 

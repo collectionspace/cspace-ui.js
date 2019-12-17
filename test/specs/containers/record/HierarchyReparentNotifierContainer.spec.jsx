@@ -12,8 +12,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('HierarchyReparentNotifierContainer', function suite() {
-  it('should set props on HierarchyReparentNotifier', function test() {
+describe('HierarchyReparentNotifierContainer', () => {
+  it('should set props on HierarchyReparentNotifier', () => {
     const csid = '1234';
 
     const childRefNames = Immutable.List([
@@ -59,7 +59,8 @@ describe('HierarchyReparentNotifierContainer', function suite() {
         config={config}
         csid={csid}
         childRefNames={childRefNames}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

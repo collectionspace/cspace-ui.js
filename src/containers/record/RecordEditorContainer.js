@@ -104,31 +104,29 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createNewRecord: (cloneCsid) => {
       dispatch(createNewRecord(config, recordTypeConfig, vocabularyConfig, cloneCsid));
     },
-    deleteRecord: () =>
-      dispatch(deleteRecord(config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid)),
-    readRecord: () =>
-      dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid)),
+    deleteRecord: () => dispatch(
+      deleteRecord(config, recordTypeConfig, vocabularyConfig, csid, relatedSubjectCsid),
+    ),
+    readRecord: () => dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid)),
     revert: () => {
       dispatch(revertRecord(recordTypeConfig, csid));
     },
-    save: onRecordCreated =>
-      dispatch(saveRecord(
-        config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
-        relatedSubjectCsid, onRecordCreated
-      ))
+    save: (onRecordCreated) => dispatch(saveRecord(
+      config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
+      relatedSubjectCsid, onRecordCreated,
+    ))
       .catch(() => {}),
-    saveWithTransition: (transitionName, onRecordCreated) =>
-      dispatch(saveRecordWithTransition(
-        config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
-        relatedSubjectCsid, transitionName, onRecordCreated
-      ))
+    saveWithTransition: (transitionName, onRecordCreated) => dispatch(saveRecordWithTransition(
+      config, recordTypeConfig, vocabularyConfig, csid, undefined, undefined,
+      relatedSubjectCsid, transitionName, onRecordCreated,
+    ))
       .catch(() => {}),
     setForm: (formName) => {
       dispatch(setForm(recordType, formName));
       dispatch(validateRecordData(recordTypeConfig, csid));
     },
-    transitionRecord: transitionName => dispatch(transitionRecord(
-      config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid
+    transitionRecord: (transitionName) => dispatch(transitionRecord(
+      config, recordTypeConfig, vocabularyConfig, csid, transitionName, relatedSubjectCsid,
     )),
     removeNotification: (notificationID) => {
       dispatch(removeNotification(notificationID));
@@ -139,16 +137,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     validateRecordData: () => {
       dispatch(validateRecordData(recordTypeConfig, csid));
     },
-    checkForRelations: predicate =>
-      dispatch(checkForRelations(csid, predicate)),
-    checkForUses: () =>
-      dispatch(checkForUses(config, recordType, vocabulary, csid)),
-    checkForRoleUses: () =>
-      dispatch(checkForRoleUses(csid)),
+    checkForRelations: (predicate) => dispatch(checkForRelations(csid, predicate)),
+    checkForUses: () => dispatch(checkForUses(config, recordType, vocabulary, csid)),
+    checkForRoleUses: () => dispatch(checkForRoleUses(csid)),
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(RecordEditor);

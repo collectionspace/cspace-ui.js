@@ -29,8 +29,7 @@ export default (configContext) => {
         width: 250,
       },
       termStatus: {
-        formatValue: (data, formatterContext) =>
-          formatOption('orgTermStatuses', data, formatterContext),
+        formatValue: (data, formatterContext) => formatOption('orgTermStatuses', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.organization.default.termStatus',
@@ -43,8 +42,9 @@ export default (configContext) => {
       },
       vocabulary: {
         dataKey: 'refName',
-        formatValue: (value, formatterContext) =>
-          formatRefNameAsVocabularyName(value, formatterContext),
+        formatValue: (value, formatterContext) => (
+          formatRefNameAsVocabularyName(value, formatterContext)
+        ),
         messages: defineMessages({
           label: {
             id: 'column.organization.default.vocabulary',

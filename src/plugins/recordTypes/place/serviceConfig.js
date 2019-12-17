@@ -6,7 +6,7 @@ export default {
   objectName: 'Placeitem',
   documentName: 'places',
 
-  quickAddData: values => ({
+  quickAddData: (values) => ({
     document: {
       'ns2:places_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/place',

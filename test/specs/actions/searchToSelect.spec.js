@@ -20,9 +20,9 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('search to select action creator', function suite() {
-  describe('setSearchToSelectKeyword', function actionSuite() {
-    it('should create a SET_SEARCH_TO_SELECT_KEYWORD action', function test() {
+describe('search to select action creator', () => {
+  describe('setSearchToSelectKeyword', () => {
+    it('should create a SET_SEARCH_TO_SELECT_KEYWORD action', () => {
       const value = 'keyword';
 
       setSearchToSelectKeyword(value).should.deep.equal({
@@ -32,8 +32,8 @@ describe('search to select action creator', function suite() {
     });
   });
 
-  describe('setSearchToSelectAdvanced', function actionSuite() {
-    it('should create a SET_SEARCH_TO_SELECT_ADVANCED action', function test() {
+  describe('setSearchToSelectAdvanced', () => {
+    it('should create a SET_SEARCH_TO_SELECT_ADVANCED action', () => {
       const store = mockStore({
         searchToSelect: Immutable.Map({
           recordType: 'intake',
@@ -60,8 +60,8 @@ describe('search to select action creator', function suite() {
     });
   });
 
-  describe('setSearchToSelectRecordType', function actionSuite() {
-    it('should create a SET_SEARCH_TO_SELECT_RECORD_TYPE action', function test() {
+  describe('setSearchToSelectRecordType', () => {
+    it('should create a SET_SEARCH_TO_SELECT_RECORD_TYPE action', () => {
       const recordType = 'collectionobject';
 
       setSearchToSelectRecordType(recordType).should.deep.equal({
@@ -71,8 +71,8 @@ describe('search to select action creator', function suite() {
     });
   });
 
-  describe('setSearchToSelectVocabulary', function actionSuite() {
-    it('should create a SET_SEARCH_TO_SELECT_VOCABULARY action', function test() {
+  describe('setSearchToSelectVocabulary', () => {
+    it('should create a SET_SEARCH_TO_SELECT_VOCABULARY action', () => {
       const vocabulary = 'local';
 
       setSearchToSelectVocabulary(vocabulary).should.deep.equal({

@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/collectionobject/me
 
 chai.should();
 
-describe('collectionobject record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('collectionobject record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((groupName) => {

@@ -12,13 +12,21 @@ const childContextTypes = {
 
 export default class RecordTypeProvider extends Component {
   getChildContext() {
+    const {
+      recordType,
+    } = this.props;
+
     return {
-      recordType: this.props.recordType,
+      recordType,
     };
   }
 
   render() {
-    return Children.only(this.props.children);
+    const {
+      children,
+    } = this.props;
+
+    return Children.only(children);
   }
 }
 

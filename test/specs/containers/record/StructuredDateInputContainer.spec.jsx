@@ -8,19 +8,19 @@ import { ConnectedStructuredDateInput } from '../../../../src/containers/record/
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
-} from '../../../../src/actions/vocabulary';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('StructuredDateInputContainer', function suite() {
+describe('StructuredDateInputContainer', () => {
   const config = {
     structDateOptionListNames: ['dateQualifiers'],
     structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
   };
 
-  it('should set props on StructuredDateInput', function test() {
+  it('should set props on StructuredDateInput', () => {
     const dateQualifiers = [
       { value: 'qual1', label: 'Qual 1' },
     ];
@@ -56,7 +56,8 @@ describe('StructuredDateInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedStructuredDateInput config={config} />, context);
+      <ConnectedStructuredDateInput config={config} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -71,7 +72,7 @@ describe('StructuredDateInputContainer', function suite() {
     });
   });
 
-  it('should connect readTerms to readVocabularyItems action creator', function test() {
+  it('should connect readTerms to readVocabularyItems action creator', () => {
     const dateQualifiers = [
       { value: 'qual1', label: 'Qual 1' },
     ];
@@ -101,7 +102,8 @@ describe('StructuredDateInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedStructuredDateInput config={config} />, context);
+      <ConnectedStructuredDateInput config={config} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

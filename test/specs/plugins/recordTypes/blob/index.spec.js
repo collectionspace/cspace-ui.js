@@ -2,16 +2,16 @@ import Immutable from 'immutable';
 import blobRecordTypePluginFactory from '../../../../../src/plugins/recordTypes/blob';
 import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('blob record plugin', function suite() {
+describe('blob record plugin', () => {
   const config = {};
   const blobRecordTypePlugin = blobRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = blobRecordTypePlugin(configContext);
 
     const {

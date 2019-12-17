@@ -70,7 +70,11 @@ export default class TitleBar extends Component {
     // If the height of the title bar content changes while the title bar is docked, fire onDocked
     // in order to notify listeners of the new height.
 
-    if (node && this.state.docked) {
+    const {
+      docked,
+    } = this.state;
+
+    if (node && docked) {
       const contentNode = node.firstElementChild;
 
       if (contentNode.offsetHeight !== this.dockedHeight) {
@@ -98,7 +102,7 @@ export default class TitleBar extends Component {
     const asideNode = this.domNode.querySelector('aside');
     const asideText = asideNode ? asideNode.textContent : null;
 
-    return [titleText, asideText].filter(part => !!part).join(' | ');
+    return [titleText, asideText].filter((part) => !!part).join(' | ');
   }
 
   setDomNode(ref) {
@@ -114,7 +118,11 @@ export default class TitleBar extends Component {
 
     if (!node) return;
 
-    if (this.state.docked) {
+    const {
+      docked,
+    } = this.state;
+
+    if (docked) {
       if (window.scrollY < node.offsetTop) {
         this.setState({
           docked: false,

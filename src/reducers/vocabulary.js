@@ -7,7 +7,7 @@ import {
   READ_VOCABULARY_ITEMS_REJECTED,
 } from '../constants/actionCodes';
 
-const normalizeItems = items => ((items && !Array.isArray(items)) ? [items] : items);
+const normalizeItems = (items) => ((items && !Array.isArray(items)) ? [items] : items);
 
 const clearAll = () => ({});
 
@@ -42,24 +42,27 @@ const handleRecordSaveFulfilled = (state, action) => {
 export default (state = {}, action) => {
   switch (action.type) {
     case READ_VOCABULARY_ITEMS_STARTED:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         [action.meta.vocabulary]: {
           isReadPending: true,
           items: null,
         },
-      });
+      };
     case READ_VOCABULARY_ITEMS_FULFILLED:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         [action.meta.vocabulary]: {
           items: normalizeItems(action.payload.data['ns2:abstract-common-list']['list-item']),
         },
-      });
+      };
     case READ_VOCABULARY_ITEMS_REJECTED:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         [action.meta.vocabulary]: {
           error: action.payload,
         },
-      });
+      };
     case RECORD_SAVE_FULFILLED:
       return handleRecordSaveFulfilled(state, action);
     case LOGIN_FULFILLED:

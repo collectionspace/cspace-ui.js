@@ -7,7 +7,7 @@ import VocabularySearchBar from '../../../../src/components/admin/VocabularySear
 
 chai.should();
 
-describe('VocabularySearchBar', function suite() {
+describe('VocabularySearchBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -16,7 +16,8 @@ describe('VocabularySearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <VocabularySearchBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -27,7 +28,8 @@ describe('VocabularySearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <VocabularySearchBar value={value} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('input[type="text"]').value.should.equal(value);
   });
@@ -42,7 +44,8 @@ describe('VocabularySearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <VocabularySearchBar onChange={handleChange} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[type="text"]');
     const newValue = 'new value';
@@ -64,7 +67,8 @@ describe('VocabularySearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <VocabularySearchBar onChange={handleChange} value="some value" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const clearButton = this.container.querySelector('button');
 

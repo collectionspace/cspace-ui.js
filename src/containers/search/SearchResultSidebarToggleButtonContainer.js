@@ -9,7 +9,7 @@ import {
   isSearchResultSidebarOpen,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSearchResultSidebarOpen: isSearchResultSidebarOpen(state),
 });
 

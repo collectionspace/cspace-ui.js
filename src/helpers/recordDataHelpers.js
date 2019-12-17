@@ -8,6 +8,11 @@ import {
 } from '../constants/errorCodes';
 
 import {
+  NS_PREFIX,
+  DOCUMENT_PROPERTY_NAME,
+} from '../constants/xmlNames';
+
+import {
   configKey,
   getDefaults,
   getDefaultValue,
@@ -38,18 +43,15 @@ import {
 
 const numericPattern = /^[0-9]$/;
 
-export const NS_PREFIX = 'ns2';
-export const DOCUMENT_PROPERTY_NAME = 'document';
 export const ERROR_KEY = '[error]';
 
-export const getPartPropertyName = partName =>
-  `${NS_PREFIX}:${partName}`;
+export const getPartPropertyName = (partName) => `${NS_PREFIX}:${partName}`;
 
-export const getPart = (data, partName) =>
-  data.getIn([DOCUMENT_PROPERTY_NAME, getPartPropertyName(partName)]);
+export const getPart = (data, partName) => (
+  data.getIn([DOCUMENT_PROPERTY_NAME, getPartPropertyName(partName)])
+);
 
-export const getPartNSPropertyName = prefix =>
-  `@xmlns:${prefix}`;
+export const getPartNSPropertyName = (prefix) => `@xmlns:${prefix}`;
 
 /**
  * Deeply get a value in an Immutable.Map. This is similar to Immutable.Map.getIn, but differs in
@@ -137,9 +139,10 @@ export const deepSet = (data, path, value) => {
  * This function also promotes an existing singular (non-List) item to a List, if any numeric key
  * is applied to it.
  */
-export const deepDelete = (data, path) =>
+export const deepDelete = (data, path) => (
   // First call deepSet with undefined value to ensure the path exists. Then call deleteIn.
-  deepSet(data, path).deleteIn(path);
+  deepSet(data, path).deleteIn(path)
+);
 
 export const normalizeFieldValue = (fieldDescriptor, fieldValue, expandRepeating = true) => {
   let normalizedValue = fieldValue;
@@ -147,18 +150,18 @@ export const normalizeFieldValue = (fieldDescriptor, fieldValue, expandRepeating
   if (fieldDescriptor && typeof fieldValue !== 'undefined') {
     if (Immutable.Map.isMap(normalizedValue)) {
       normalizedValue = normalizedValue.map(
-        (childValue, childName) => normalizeFieldValue(fieldDescriptor[childName], childValue)
+        (childValue, childName) => normalizeFieldValue(fieldDescriptor[childName], childValue),
       );
     } else if (Immutable.List.isList(normalizedValue)) {
       normalizedValue = normalizedValue.map(
-        instance => normalizeFieldValue(fieldDescriptor, instance, false)
+        (instance) => normalizeFieldValue(fieldDescriptor, instance, false),
       );
     }
 
     if (
-      expandRepeating &&
-      isFieldRepeating(fieldDescriptor) &&
-      !Immutable.List.isList(normalizedValue)
+      expandRepeating
+      && isFieldRepeating(fieldDescriptor)
+      && !Immutable.List.isList(normalizedValue)
     ) {
       normalizedValue = Immutable.List.of(normalizedValue);
     }
@@ -226,9 +229,9 @@ export const createBlankRecord = (recordTypeConfig) => {
  */
 export const copyValue = (fieldDescriptorPath, sourceData, destData) => {
   if (
-    !fieldDescriptorPath ||
-    fieldDescriptorPath.length === 0 ||
-    !Immutable.Map.isMap(sourceData)
+    !fieldDescriptorPath
+    || fieldDescriptorPath.length === 0
+    || !Immutable.Map.isMap(sourceData)
   ) {
     return sourceData;
   }
@@ -244,10 +247,9 @@ export const copyValue = (fieldDescriptorPath, sourceData, destData) => {
 
   if (Immutable.List.isList(sourceChild)) {
     return (
-      sourceChild.reduce((updatedDestData, instance, index) =>
-        updatedDestData.setIn([key, index], copyValue(rest, instance, destChild)),
-        destData.set(key, Immutable.List())
-      )
+      sourceChild.reduce((updatedDestData, instance, index) => (
+        updatedDestData.setIn([key, index], copyValue(rest, instance, destChild))
+      ), destData.set(key, Immutable.List()))
     );
   }
 
@@ -279,8 +281,9 @@ export const spreadDefaultValue = (value, fieldDescriptorPath, data) => {
 
   if (Immutable.List.isList(child)) {
     return (
-      child.reduce((updatedData, instance, index) =>
-        updatedData.setIn([key, index], spreadDefaultValue(value, rest, instance)), map)
+      child.reduce((updatedData, instance, index) => (
+        updatedData.setIn([key, index], spreadDefaultValue(value, rest, instance))
+      ), map)
     );
   }
 
@@ -290,15 +293,17 @@ export const spreadDefaultValue = (value, fieldDescriptorPath, data) => {
 /**
  * Set default values in record data.
  */
-export const applyDefaults = (fieldDescriptor, data) =>
-  getDefaults(fieldDescriptor).reduce((updatedData, defaultDescriptor) =>
-    spreadDefaultValue(defaultDescriptor.value, defaultDescriptor.path, updatedData), data);
+export const applyDefaults = (fieldDescriptor, data) => (
+  getDefaults(fieldDescriptor).reduce((updatedData, defaultDescriptor) => (
+    spreadDefaultValue(defaultDescriptor.value, defaultDescriptor.path, updatedData)
+  ), data)
+);
 
 /**
  * Initialize the child fields of a complex field.
  */
 export const initializeChildren = (fieldDescriptor, data, value = null) => {
-  const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+  const childKeys = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
 
   if (childKeys.length === 0) {
     return data;
@@ -314,8 +319,10 @@ export const initializeChildren = (fieldDescriptor, data, value = null) => {
 /**
  * Create a skeletal data record for a given CollectionSpace service.
  */
-export const createRecordData = recordTypeConfig =>
-  applyDefaults(recordTypeConfig.fields, createBlankRecord(recordTypeConfig));
+export const createRecordData = (recordTypeConfig) => applyDefaults(
+  recordTypeConfig.fields,
+  createBlankRecord(recordTypeConfig),
+);
 
 /**
  * Clear uncloneable fields from record data. Existing (not undefined) values in fields that are
@@ -339,13 +346,15 @@ export const clearUncloneable = (fieldDescriptor, data) => {
   }
 
   if (Immutable.Map.isMap(data)) {
-    return data.reduce((updatedData, child, name) =>
-      updatedData.set(name, clearUncloneable(fieldDescriptor[name], child)), data);
+    return data.reduce((updatedData, child, name) => updatedData.set(
+      name, clearUncloneable(fieldDescriptor[name], child),
+    ), data);
   }
 
   if (Immutable.List.isList(data)) {
-    return data.reduce((updatedData, child, index) =>
-      updatedData.set(index, clearUncloneable(fieldDescriptor, child)), data);
+    return data.reduce((updatedData, child, index) => updatedData.set(
+      index, clearUncloneable(fieldDescriptor, child),
+    ), data);
   }
 
   return data;
@@ -374,8 +383,7 @@ export const prepareClonedHierarchy = (fromCsid, data) => {
   }
 
   return updatedData.setIn(['document', 'rel:relations-common-list', 'relation-list-item'],
-    Immutable.List.of(broaderRelation.setIn(['subject', 'csid'], placeholderCsid))
-  );
+    Immutable.List.of(broaderRelation.setIn(['subject', 'csid'], placeholderCsid)));
 };
 
 /**
@@ -404,8 +412,7 @@ export const cloneRecordData = (recordTypeConfig, csid, data) => {
 /**
  * Get the document from the data record.
  */
-export const getDocument = data =>
-  data.get(DOCUMENT_PROPERTY_NAME);
+export const getDocument = (data) => data.get(DOCUMENT_PROPERTY_NAME);
 
 /**
  * Comparator function to sort properties that represent XML attributes and namespace declarations
@@ -497,7 +504,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
   // namespace declaration properties to the top.
 
   if (documentName === 'document') {
-    for (const key of cspaceDocument.keys()) {
+    cspaceDocument.keySeq().forEach((key) => {
       if (key.charAt(0) !== '@') {
         let part = cspaceDocument.get(key);
 
@@ -509,7 +516,7 @@ export const prepareForSending = (data, recordTypeConfig) => {
 
         cspaceDocument = cspaceDocument.set(key, part);
       }
-    }
+    });
   }
 
   // Filter out hierarchy relations that don't have both a subject and an object, since the REST
@@ -521,13 +528,13 @@ export const prepareForSending = (data, recordTypeConfig) => {
   const relations = cspaceDocument.getIn(['rel:relations-common-list', 'relation-list-item']);
 
   if (relations && Immutable.List.isList(relations)) {
-    const filteredRelations = relations.filter(relation => (
-      (relation.getIn(['object', 'refName']) || relation.getIn(['object', 'csid'])) &&
-      (relation.getIn(['subject', 'refName']) || relation.getIn(['subject', 'csid']))
+    const filteredRelations = relations.filter((relation) => (
+      (relation.getIn(['object', 'refName']) || relation.getIn(['object', 'csid']))
+      && (relation.getIn(['subject', 'refName']) || relation.getIn(['subject', 'csid']))
     ));
 
     cspaceDocument = cspaceDocument.setIn(
-      ['rel:relations-common-list', 'relation-list-item'], filteredRelations
+      ['rel:relations-common-list', 'relation-list-item'], filteredRelations,
     );
   }
 
@@ -578,7 +585,7 @@ export const getCommonFieldValue = (data, fieldName) => {
     return undefined;
   }
 
-  const partName = document.keySeq().find(key => key.endsWith('_common'));
+  const partName = document.keySeq().find((key) => key.endsWith('_common'));
   const commonPart = document.get(partName);
 
   return commonPart.get(fieldName);
@@ -618,8 +625,7 @@ export const getUpdatedTimestamp = (data) => {
   return updatedAt;
 };
 
-export const getUpdatedUser = data =>
-  getCoreFieldValue(data, 'updatedBy');
+export const getUpdatedUser = (data) => getCoreFieldValue(data, 'updatedBy');
 
 export const getCreatedTimestamp = (data) => {
   let createdAt = getCoreFieldValue(data, 'createdAt');
@@ -637,8 +643,7 @@ export const getCreatedTimestamp = (data) => {
   return createdAt;
 };
 
-export const getCreatedUser = data =>
-  getCoreFieldValue(data, 'createdBy');
+export const getCreatedUser = (data) => getCoreFieldValue(data, 'createdBy');
 
 const intPattern = /^-?\d+$/;
 const floatPattern = /^-?(\d+(\.\d+)?|\.\d+)$/;
@@ -650,13 +655,13 @@ const dateTimePattern = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z)?$/;
 const datePattern = dateTimePattern;
 
 const dataTypeValidators = {
-  DATA_TYPE_MAP: value => Immutable.Map.isMap(value),
+  DATA_TYPE_MAP: (value) => Immutable.Map.isMap(value),
   DATA_TYPE_STRING: () => true,
-  DATA_TYPE_INT: value => intPattern.test(value),
-  DATA_TYPE_FLOAT: value => floatPattern.test(value),
-  DATA_TYPE_BOOL: value => (typeof value === 'boolean' || value === 'true' || value === 'false'),
-  DATA_TYPE_DATE: value => datePattern.test(value),
-  DATA_TYPE_DATETIME: value => dateTimePattern.test(value),
+  DATA_TYPE_INT: (value) => intPattern.test(value),
+  DATA_TYPE_FLOAT: (value) => floatPattern.test(value),
+  DATA_TYPE_BOOL: (value) => (typeof value === 'boolean' || value === 'true' || value === 'false'),
+  DATA_TYPE_DATE: (value) => datePattern.test(value),
+  DATA_TYPE_DATETIME: (value) => dateTimePattern.test(value),
 };
 
 const validateDataType = (value, dataType) => {
@@ -685,10 +690,11 @@ const doValidate = (validationContext, expandRepeating = true) => {
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceResults = doValidate(Object.assign({}, validationContext, {
+      const instanceResults = doValidate({
+        ...validationContext,
         data: instance,
         path: [...path, index],
-      }), false);
+      }, false);
 
       if (instanceResults) {
         Array.prototype.push.apply(results, instanceResults);
@@ -703,14 +709,15 @@ const doValidate = (validationContext, expandRepeating = true) => {
   if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
     // Validate this field's children, and add any child results to the results array.
 
-    const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+    const childKeys = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
 
     childKeys.forEach((childKey) => {
-      const childResults = doValidate(Object.assign({}, validationContext, {
+      const childResults = doValidate({
+        ...validationContext,
         data: data ? data.get(childKey) : undefined,
         path: [...path, childKey],
         fieldDescriptor: fieldDescriptor[childKey],
-      }), true);
+      }, true);
 
       if (childResults) {
         Array.prototype.push.apply(results, childResults);
@@ -783,7 +790,7 @@ export const validateField = (validationContext, expandRepeating) => {
     // objects (when the validation function was async). Wait for all of the promises to resolve.
 
     return (
-      Promise.all(validationResults.map(result => result.error))
+      Promise.all(validationResults.map((result) => result.error))
         .then((resolvedErrors) => {
           // Convert the resolved error array into a tree of errors.
 
@@ -844,10 +851,11 @@ const doCompute = (computeContext, expandRepeating = true) => {
     const instances = Immutable.List.isList(data) ? data : Immutable.List.of(data);
 
     instances.forEach((instance, index) => {
-      const instanceResults = doCompute(Object.assign({}, computeContext, {
+      const instanceResults = doCompute({
+        ...computeContext,
         data: instance,
         path: [...path, index],
-      }), false);
+      }, false);
 
       if (instanceResults) {
         Array.prototype.push.apply(results, instanceResults);
@@ -862,14 +870,15 @@ const doCompute = (computeContext, expandRepeating = true) => {
   if (dataType === 'DATA_TYPE_MAP' && Immutable.Map.isMap(data)) {
     // Compute this field's children, and add any child results to the results array.
 
-    const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+    const childKeys = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
 
     childKeys.forEach((childKey) => {
-      const childResults = doCompute(Object.assign({}, computeContext, {
+      const childResults = doCompute({
+        ...computeContext,
         data: data ? data.get(childKey) : undefined,
         path: [...path, childKey],
         fieldDescriptor: fieldDescriptor[childKey],
-      }), true);
+      }, true);
 
       if (childResults) {
         Array.prototype.push.apply(results, childResults);
@@ -913,7 +922,7 @@ export const computeField = (computeContext, expandRepeating) => {
     // (when the computation function was async). Wait for all of the promises to resolve.
 
     return (
-      Promise.all(computationResults.map(result => result.value))
+      Promise.all(computationResults.map((result) => result.value))
         .then((resolvedValues) => {
           // Convert the resolved value array into a tree of values.
 
@@ -951,27 +960,26 @@ export const computeRecordData = (data, subrecordData, recordTypeConfig) => comp
   fieldDescriptor: get(recordTypeConfig, 'fields'),
 }, true);
 
-export const isExistingRecord = data => !!(
-  // TODO: Move this into record type config.
+export const isExistingRecord = (data) => !!(
+// TODO: Move this into record type config.
 
-  data &&
-  (
-    data.getIn(['document', 'ns2:collectionspace_core', 'uri']) ||
-    data.getIn(['ns2:role', '@csid']) ||
-    data.getIn(['ns2:accounts_common', '@csid'])
+  data
+  && (
+    data.getIn(['document', 'ns2:collectionspace_core', 'uri'])
+    || data.getIn(['ns2:role', '@csid'])
+    || data.getIn(['ns2:accounts_common', '@csid'])
   )
 );
 
-export const isNewRecord = data => !isExistingRecord(data);
+export const isNewRecord = (data) => !isExistingRecord(data);
 
-export const getWorkflowState = data =>
-  (data ? data.getIn(['document', 'ns2:collectionspace_core', 'workflowState']) : undefined);
+export const getWorkflowState = (data) => (data ? data.getIn(['document', 'ns2:collectionspace_core', 'workflowState']) : undefined);
 
-export const isRecordDeprecated = data => isDeprecated(getWorkflowState(data));
+export const isRecordDeprecated = (data) => isDeprecated(getWorkflowState(data));
 
-export const isRecordLocked = data => isLocked(getWorkflowState(data));
+export const isRecordLocked = (data) => isLocked(getWorkflowState(data));
 
-export const isRecordReplicated = data => isReplicated(getWorkflowState(data));
+export const isRecordReplicated = (data) => isReplicated(getWorkflowState(data));
 
 export const isSecurityRecordImmutable = (data) => {
   // Accounts and roles have the concept of "immutability", which is basically the same as
@@ -981,10 +989,10 @@ export const isSecurityRecordImmutable = (data) => {
     const doc = data.first();
 
     return (
-      doc &&
-      (
-        doc.get('permsProtection') === 'immutable' ||
-        doc.get('rolesProtection') === 'immutable'
+      doc
+      && (
+        doc.get('permsProtection') === 'immutable'
+        || doc.get('rolesProtection') === 'immutable'
       )
     );
   }
@@ -992,11 +1000,11 @@ export const isSecurityRecordImmutable = (data) => {
   return false;
 };
 
-export const isRecordImmutable = data => (
-  isRecordLocked(data) ||
-  isRecordDeprecated(data) ||
-  isRecordReplicated(data) ||
-  isSecurityRecordImmutable(data)
+export const isRecordImmutable = (data) => (
+  isRecordLocked(data)
+  || isRecordDeprecated(data)
+  || isRecordReplicated(data)
+  || isSecurityRecordImmutable(data)
 );
 
 export const hasHierarchyRelations = (data) => {
@@ -1017,18 +1025,19 @@ export const hasNarrowerHierarchyRelations = (csid, data) => {
   }
 
   return !!items.find(
-    relation => (
-      relation.get('predicate') === 'hasBroader' &&
-      relation.getIn(['object', 'csid']) === csid
-    )
+    (relation) => (
+      relation.get('predicate') === 'hasBroader'
+      && relation.getIn(['object', 'csid']) === csid
+    ),
   );
 };
 
 export const getStickyFieldValues = (recordTypeConfig, data) => {
   const stickyFields = getStickyFields(recordTypeConfig.fields);
 
-  const stickyData = stickyFields.reduce((updatedData, path) =>
-    copyValue(path, data, updatedData), Immutable.Map());
+  const stickyData = stickyFields.reduce(
+    (updatedData, path) => copyValue(path, data, updatedData), Immutable.Map(),
+  );
 
   return stickyData;
 };

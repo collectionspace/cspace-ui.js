@@ -7,7 +7,7 @@ import AccountSearchBar from '../../../../src/components/admin/AccountSearchBar'
 
 chai.should();
 
-describe('AccountSearchBar', function suite() {
+describe('AccountSearchBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -16,7 +16,8 @@ describe('AccountSearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <AccountSearchBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -27,7 +28,8 @@ describe('AccountSearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <AccountSearchBar value={value} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('input[type="text"]').value.should.equal(value);
   });
@@ -42,7 +44,8 @@ describe('AccountSearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <AccountSearchBar onChange={handleChange} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[type="text"]');
     const newValue = 'new value';
@@ -64,7 +67,8 @@ describe('AccountSearchBar', function suite() {
     render(
       <IntlProvider locale="en">
         <AccountSearchBar onChange={handleChange} value="some value" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const clearButton = this.container.querySelector('button');
 

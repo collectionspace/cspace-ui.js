@@ -7,8 +7,8 @@ import ProtectedRoute from '../../../../src/components/routes/ProtectedRoute';
 
 chai.should();
 
-describe('ProtectedRoute', function suite() {
-  it('should render a route to a Redirect if no username is supplied', function test() {
+describe('ProtectedRoute', () => {
+  it('should render a route to a Redirect if no username is supplied', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<ProtectedRoute />);
@@ -23,14 +23,15 @@ describe('ProtectedRoute', function suite() {
     routeRendering.type.should.equal(Redirect);
   });
 
-  it('should render a route to a ProtectedPage if a username is supplied', function test() {
+  it('should render a route to a ProtectedPage if a username is supplied', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ProtectedRoute
         component={AdminPage}
         username="admin@core.collectionspace.org"
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

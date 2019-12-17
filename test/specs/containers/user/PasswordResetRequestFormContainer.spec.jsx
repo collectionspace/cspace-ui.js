@@ -13,8 +13,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('PasswordResetRequestFormContainer', function suite() {
-  it('should set props on PasswordResetRequestForm', function test() {
+describe('PasswordResetRequestFormContainer', () => {
+  it('should set props on PasswordResetRequestForm', () => {
     const store = mockStore();
 
     const context = {
@@ -32,7 +32,7 @@ describe('PasswordResetRequestFormContainer', function suite() {
     result.props.should.have.property('requestReset').that.is.a('function');
   });
 
-  it('should connect requestReset to requestReset action creator', function test() {
+  it('should connect requestReset to requestReset action creator', () => {
     let createdPath = null;
 
     const mockSession = {
@@ -57,7 +57,8 @@ describe('PasswordResetRequestFormContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedPasswordResetRequestForm config={config} />, context);
+      <ConnectedPasswordResetRequestForm config={config} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

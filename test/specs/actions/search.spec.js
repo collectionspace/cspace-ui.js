@@ -46,8 +46,8 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('search action creator', function suite() {
-  describe('search', function actionSuite() {
+describe('search action creator', () => {
+  describe('search', () => {
     const recordType = 'person';
     const servicePath = 'personauthorities';
     const vocabulary = 'local';
@@ -123,7 +123,7 @@ describe('search action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch SEARCH_FULFILLED on success', function test() {
+    it('should dispatch SEARCH_FULFILLED on success', () => {
       moxios.stubRequest(searchUrl, {
         status: 200,
         response: {},
@@ -165,7 +165,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor is already pending', function test() {
+    it('should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor is already pending', () => {
       moxios.stubRequest(searchUrl, {
         status: 200,
         response: {},
@@ -198,7 +198,7 @@ describe('search action creator', function suite() {
       });
     });
 
-    it('should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor already has a result', function test() {
+    it('should dispatch SET_MOST_RECENT_SEARCH when a search with a given descriptor already has a result', () => {
       moxios.stubRequest(searchUrl, {
         status: 200,
         response: {},
@@ -231,7 +231,7 @@ describe('search action creator', function suite() {
       });
     });
 
-    it('should dispatch CREATE_EMPTY_SEARCH_RESULT on a related record query with empty csid', function test() {
+    it('should dispatch CREATE_EMPTY_SEARCH_RESULT on a related record query with empty csid', () => {
       const relSearchDescriptor = Immutable.fromJS({
         recordType,
         vocabulary,
@@ -273,7 +273,7 @@ describe('search action creator', function suite() {
       });
     });
 
-    it('should accept null/undefined vocabulary name', function test() {
+    it('should accept null/undefined vocabulary name', () => {
       const noVocabularySearchUrl = new RegExp(`^/cspace-services/${servicePath}.*`);
 
       moxios.stubRequest(noVocabularySearchUrl, {
@@ -322,7 +322,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should accept searches for subresources', function test() {
+    it('should accept searches for subresources', () => {
       const csid = '1234';
       const subresource = 'terms';
       const subresourceSearchUrl = new RegExp(`^/cspace-services/${servicePath}/${vocabularyServicePath.replace('(', '\\(').replace(')', '\\)')}/items/${csid}/${termsServicePath}.*`);
@@ -381,7 +381,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should generate the sort parameter', function test() {
+    it('should generate the sort parameter', () => {
       const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core%3AupdatedAt');
 
       moxios.stubRequest(sortedSearchUrl, {
@@ -395,9 +395,7 @@ describe('search action creator', function suite() {
 
       const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
-        searchQuery: Object.assign({}, searchQuery, {
-          sort: 'updatedAt',
-        }),
+        searchQuery: { ...searchQuery, sort: 'updatedAt' },
       });
 
       return store.dispatch(search(config, searchName, sortedSearchDescriptor))
@@ -432,7 +430,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should generate the sort parameter for descending searches', function test() {
+    it('should generate the sort parameter for descending searches', () => {
       const sortedSearchUrl = new RegExp('\\?.*sortBy=collectionspace_core%3AupdatedAt%20DESC');
 
       moxios.stubRequest(sortedSearchUrl, {
@@ -446,9 +444,7 @@ describe('search action creator', function suite() {
 
       const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
-        searchQuery: Object.assign({}, searchQuery, {
-          sort: 'updatedAt desc',
-        }),
+        searchQuery: { ...searchQuery, sort: 'updatedAt desc' },
       });
 
       return store.dispatch(search(config, searchName, sortedSearchDescriptor))
@@ -483,16 +479,14 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SEARCH_REJECTED when an unknown search column is specified', function test() {
+    it('should dispatch SEARCH_REJECTED when an unknown search column is specified', () => {
       const store = mockStore({
         search: Immutable.Map(),
       });
 
       const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
-        searchQuery: Object.assign({}, searchQuery, {
-          sort: 'foobar',
-        }),
+        searchQuery: { ...searchQuery, sort: 'foobar' },
       });
 
       store.dispatch(search(config, searchName, sortedSearchDescriptor))
@@ -514,16 +508,14 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SEARCH_REJECTED when an invalid search order is specified', function test() {
+    it('should dispatch SEARCH_REJECTED when an invalid search order is specified', () => {
       const store = mockStore({
         search: Immutable.Map(),
       });
 
       const sortedSearchDescriptor = Immutable.fromJS({
         recordType,
-        searchQuery: Object.assign({}, searchQuery, {
-          sort: 'updatedAt foo',
-        }),
+        searchQuery: { ...searchQuery, sort: 'updatedAt foo' },
       });
 
       store.dispatch(search(config, searchName, sortedSearchDescriptor))
@@ -545,7 +537,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SEARCH_REJECTED on API error', function test() {
+    it('should dispatch SEARCH_REJECTED on API error', () => {
       moxios.stubRequest(searchUrl, {
         status: 400,
         response: {},
@@ -578,7 +570,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SEARCH_REJECTED if the record type is unknown', function test() {
+    it('should dispatch SEARCH_REJECTED if the record type is unknown', () => {
       const badSearchDescriptor = searchDescriptor.set('recordType', 'foobar');
 
       const store = mockStore({
@@ -604,7 +596,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SEARCH_REJECTED if the record type does not have a service path', function test() {
+    it('should dispatch SEARCH_REJECTED if the record type does not have a service path', () => {
       const badConfig = {
         listTypes,
         recordTypes: {
@@ -637,7 +629,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', function test() {
+    it('should dispatch SEARCH_REJECTED if the vocabulary does not have a service path', () => {
       const badConfig = {
         listTypes,
         recordTypes: {
@@ -678,7 +670,7 @@ describe('search action creator', function suite() {
     });
   });
 
-  describe('searchCsid', function actionSuite() {
+  describe('searchCsid', () => {
     beforeEach(() => {
       moxios.install();
     });
@@ -687,7 +679,7 @@ describe('search action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should make an advanced search request for procedures', function test() {
+    it('should make an advanced search request for procedures', () => {
       const config = {
         recordTypes: {
           collectionobject: {
@@ -715,7 +707,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should make an advanced search request for authorities', function test() {
+    it('should make an advanced search request for authorities', () => {
       const config = {
         recordTypes: {
           person: {
@@ -751,7 +743,7 @@ describe('search action creator', function suite() {
         });
     });
 
-    it('should reject if no record type config is found', function test() {
+    it('should reject if no record type config is found', () => {
       const config = {
         recordTypes: {},
       };
@@ -761,7 +753,7 @@ describe('search action creator', function suite() {
       return store.dispatch(searchCsid(config, 'person', '1234')).should.eventually.be.rejected;
     });
 
-    it('should reject if no record service path is found', function test() {
+    it('should reject if no record service path is found', () => {
       const config = {
         recordTypes: {
           group: {
@@ -775,7 +767,7 @@ describe('search action creator', function suite() {
       return store.dispatch(searchCsid(config, 'group', '1234')).should.eventually.be.rejected;
     });
 
-    it('should reject if no vocabulary service path is found for an authority', function test() {
+    it('should reject if no vocabulary service path is found for an authority', () => {
       const config = {
         recordTypes: {
           person: {
@@ -798,7 +790,7 @@ describe('search action creator', function suite() {
     });
   });
 
-  describe('setResultItemSelected', function actionSuite() {
+  describe('setResultItemSelected', () => {
     const listTypes = {
       common: {
         listNodeName: 'ns2:abstract-common-list',
@@ -810,7 +802,7 @@ describe('search action creator', function suite() {
       listTypes,
     };
 
-    it('should dispatch SET_RESULT_ITEM_SELECTED', function test() {
+    it('should dispatch SET_RESULT_ITEM_SELECTED', () => {
       const searchName = 'searchName';
 
       const searchDescriptor = Immutable.fromJS({
@@ -838,8 +830,8 @@ describe('search action creator', function suite() {
     });
   });
 
-  describe('clearSearchResults', function actionSuite() {
-    it('should dispatch CLEAR_SEARCH_RESULTS', function test() {
+  describe('clearSearchResults', () => {
+    it('should dispatch CLEAR_SEARCH_RESULTS', () => {
       const searchName = 'searchName';
 
       clearSearchResults(searchName).should.deep.equal({
@@ -851,8 +843,8 @@ describe('search action creator', function suite() {
     });
   });
 
-  describe('setAllResultItemsSelected', function actionSuite() {
-    it('should dispatch SET_ALL_RESULT_ITEMS_SELECTED', function test() {
+  describe('setAllResultItemsSelected', () => {
+    it('should dispatch SET_ALL_RESULT_ITEMS_SELECTED', () => {
       const listType = 'common';
 
       const listTypeConfig = {
@@ -876,7 +868,7 @@ describe('search action creator', function suite() {
       const filter = () => true;
 
       setAllResultItemsSelected(
-        config, searchName, searchDescriptor, listType, isSelected, filter
+        config, searchName, searchDescriptor, listType, isSelected, filter,
       ).should.deep.equal({
         type: SET_ALL_RESULT_ITEMS_SELECTED,
         payload: isSelected,
@@ -890,8 +882,8 @@ describe('search action creator', function suite() {
     });
   });
 
-  describe('clearSelected', function actionSuite() {
-    it('should dispatch CLEAR_SELECTED', function test() {
+  describe('clearSelected', () => {
+    it('should dispatch CLEAR_SELECTED', () => {
       const searchName = 'searchName';
 
       clearSelected(searchName).should.deep.equal({
@@ -903,8 +895,8 @@ describe('search action creator', function suite() {
     });
   });
 
-  describe('deselectResultItem', function actionSuite() {
-    it('should dispatch DESELECT_RESULT_ITEM', function test() {
+  describe('deselectResultItem', () => {
+    it('should dispatch DESELECT_RESULT_ITEM', () => {
       const searchName = 'searchName';
       const csid = '1234';
 

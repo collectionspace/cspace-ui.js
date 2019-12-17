@@ -51,6 +51,7 @@ export const getPermissions = (config, accountPermsData) => {
       let servicePath;
       let transitionName;
 
+      /* eslint-disable prefer-destructuring */
       if (resourceNameParts.length === 1) {
         servicePath = resourceNameParts[0];
       } else if (resourceNameParts.length === 2) {
@@ -59,6 +60,7 @@ export const getPermissions = (config, accountPermsData) => {
         servicePath = resourceNameParts[1];
         transitionName = resourceNameParts[4];
       }
+      /* eslint-enable prefer-destructuring */
 
       if (servicePath) {
         const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
@@ -78,9 +80,9 @@ export const getPermissions = (config, accountPermsData) => {
             if (
               mergedActionGroup.indexOf('C') >= 0
               && (
-                serviceType === 'object' ||
-                serviceType === 'authority' ||
-                serviceType === 'procedure'
+                serviceType === 'object'
+                || serviceType === 'authority'
+                || serviceType === 'procedure'
               )
             ) {
               canCreateNew = true;
@@ -167,17 +169,13 @@ export const canUnrelate = (recordType, permissions, config) => {
   return can(recordType, permissions, relationMemberPerm);
 };
 
-export const canSoftDelete = (recordType, permissions) =>
-  canTransition(recordType, permissions, 'delete');
+export const canSoftDelete = (recordType, permissions) => canTransition(recordType, permissions, 'delete');
 
-export const canCreateNew = permissions =>
-  permissions && !!permissions.get('canCreateNew');
+export const canCreateNew = (permissions) => permissions && !!permissions.get('canCreateNew');
 
-export const canAdmin = permissions =>
-  permissions && !!permissions.get('canAdmin');
+export const canAdmin = (permissions) => permissions && !!permissions.get('canAdmin');
 
-export const canTool = permissions =>
-  permissions && !!permissions.get('canTool');
+export const canTool = (permissions) => permissions && !!permissions.get('canTool');
 
 const disallow = (recordType, permissions, actionCode) => {
   if (can(recordType, permissions, actionCode)) {

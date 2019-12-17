@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RecordSidebar from '../../../../src/components/record/RecordSidebar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -13,7 +13,7 @@ const config = {
   },
 };
 
-describe('RecordSidebar', function suite() {
+describe('RecordSidebar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -23,7 +23,8 @@ describe('RecordSidebar', function suite() {
       <RecordSidebar
         config={config}
         recordType="foo"
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -34,7 +35,8 @@ describe('RecordSidebar', function suite() {
         config={config}
         recordType="group"
         isOpen={false}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

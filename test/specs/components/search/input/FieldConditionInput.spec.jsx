@@ -24,7 +24,7 @@ import {
   OP_CONTAIN,
 } from '../../../../../src/constants/searchOperators';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -45,13 +45,22 @@ const store = mockStore({
   }),
 });
 
-const TestInput = props => (
-  <input
-    name={props.name}
-    defaultValue={props.value}
-    onBlur={event => props.onCommit([...props.parentPath, props.name, 0], event.target.value)}
-  />
-);
+const TestInput = (props) => {
+  const {
+    name,
+    parentPath,
+    value,
+    onCommit,
+  } = props;
+
+  return (
+    <input
+      name={name}
+      defaultValue={value}
+      onBlur={(event) => onCommit([...parentPath, name, 0], event.target.value)}
+    />
+  );
+};
 
 TestInput.propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
@@ -115,7 +124,7 @@ const config = {
   },
 };
 
-describe('FieldConditionInput', function suite() {
+describe('FieldConditionInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -138,7 +147,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -161,7 +171,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
     const divs = fieldConditionInput.querySelectorAll('div');
@@ -189,7 +200,8 @@ describe('FieldConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
     const divs = fieldConditionInput.querySelectorAll('div');
@@ -214,7 +226,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
 
@@ -239,7 +252,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('input[name="foobar"]')).to.equal(null);
   });
@@ -263,7 +277,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-RemoveConditionButton--common')).to.equal(null);
   });
@@ -286,7 +301,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
     const divs = fieldConditionInput.querySelectorAll('div');
@@ -312,7 +328,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
     const divs = fieldConditionInput.querySelectorAll('div');
@@ -338,7 +355,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
     const divs = fieldConditionInput.querySelectorAll('div');
@@ -364,7 +382,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const fieldConditionInput = this.container.querySelector('.cspace-ui-FieldConditionInput--common');
     const divs = fieldConditionInput.querySelectorAll('div');
@@ -402,7 +421,8 @@ describe('FieldConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="field"]');
 
@@ -448,7 +468,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[name="objectNumber"]');
 
@@ -495,7 +516,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="searchOp"]');
 
@@ -541,7 +563,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('.cspace-ui-RemoveConditionButton--common');
 
@@ -575,7 +598,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="searchOp"]');
 
@@ -616,7 +640,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="searchOp"]');
 
@@ -655,7 +680,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const nextCondition = condition.set('path', 'ns2:collectionobjects_common/bar');
 
@@ -671,7 +697,8 @@ describe('FieldConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedCondition.should.equal(Immutable.fromJS({
       op: OP_RANGE,
@@ -698,7 +725,8 @@ describe('FieldConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const nextCondition = condition.set('path', 'ns2:collectionobjects_common/bar');
 
@@ -715,7 +743,8 @@ describe('FieldConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="searchOp"]');
 

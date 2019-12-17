@@ -54,7 +54,7 @@ const defaultConfig = mergeConfig({
   tenantId: '1',
   termDeprecationEnabled: false,
 }, {
-  plugins: defaultPlugins.map(plugin => plugin()),
+  plugins: defaultPlugins.map((plugin) => plugin()),
 }, configContext);
 
 export default (uiConfig) => {
@@ -89,7 +89,7 @@ export default (uiConfig) => {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
     const store = createStore(reducer, composeEnhancers(
-      applyMiddleware(thunk.withExtraArgument(intl))
+      applyMiddleware(thunk.withExtraArgument(intl)),
     ));
 
     window.addEventListener('beforeunload', () => {

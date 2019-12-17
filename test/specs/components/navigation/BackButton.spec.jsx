@@ -6,7 +6,7 @@ import BackButton from '../../../../src/components/navigation/BackButton';
 
 chai.should();
 
-describe('BackButton', function suite() {
+describe('BackButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -15,7 +15,8 @@ describe('BackButton', function suite() {
     render(
       <IntlProvider locale="en">
         <BackButton />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });

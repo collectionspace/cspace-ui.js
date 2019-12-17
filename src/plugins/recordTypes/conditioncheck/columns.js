@@ -20,8 +20,7 @@ export default (configContext) => {
         width: 200,
       },
       condition: {
-        formatValue: (data, formatterContext) =>
-          formatOption('conditions', data, formatterContext),
+        formatValue: (data, formatterContext) => formatOption('conditions', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.conditioncheck.default.condition',

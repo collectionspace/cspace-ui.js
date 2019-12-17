@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('collectionobject record plugin', function suite() {
+describe('collectionobject record plugin', () => {
   const config = {};
   const collectionobjectRecordTypePlugin = collectionobjectRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = collectionobjectRecordTypePlugin(configContext);
 
     const {

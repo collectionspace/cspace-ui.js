@@ -10,7 +10,7 @@ import SearchResultTraverserContainer from '../../../../src/containers/search/Se
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordTitleBar from '../../../../src/components/record/RecordTitleBar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -66,8 +66,8 @@ const config = {
 
 const data = Immutable.Map();
 
-describe('RecordTitleBar', function suite() {
-  before(function first() {
+describe('RecordTitleBar', () => {
+  before(() => {
     // Clear any previous tests from the page.
     document.body.innerHTML = '';
 
@@ -82,7 +82,7 @@ describe('RecordTitleBar', function suite() {
     this.container = createTestContainer(this);
   });
 
-  after(function last() {
+  after(() => {
     document.body.style.paddingBottom = '0';
   });
 
@@ -92,7 +92,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');
   });
@@ -103,7 +104,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -114,7 +116,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('h1').textContent.should.equal('Title');
     this.container.querySelector('h2').textContent.should.equal('Object');
@@ -126,7 +129,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="person" vocabulary="local" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('h1').textContent.should.equal('Title');
     this.container.querySelector('h2').textContent.should.equal('Person - Local');
@@ -138,7 +142,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="foo" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -151,7 +156,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const container = this.container.firstElementChild.querySelector('div');
     const initialRect = container.getBoundingClientRect();
@@ -165,24 +171,24 @@ describe('RecordTitleBar', function suite() {
         resolve();
       }, 2000);
     })
-    .then(() => {
-      const scrolledRect = container.getBoundingClientRect();
+      .then(() => {
+        const scrolledRect = container.getBoundingClientRect();
 
-      scrolledRect.top.should.equal(0);
+        scrolledRect.top.should.equal(0);
 
-      window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
 
-      return new Promise((resolve) => {
-        window.setTimeout(() => {
-          resolve();
-        }, 1000);
+        return new Promise((resolve) => {
+          window.setTimeout(() => {
+            resolve();
+          }, 1000);
+        });
+      })
+      .then(() => {
+        const scrolledRect = container.getBoundingClientRect();
+
+        scrolledRect.top.should.be.above(0);
       });
-    })
-    .then(() => {
-      const scrolledRect = container.getBoundingClientRect();
-
-      scrolledRect.top.should.be.above(0);
-    });
   });
 
   it('should call onDock if the height changes while docked', function test() {
@@ -199,7 +205,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const container = this.container.firstElementChild.querySelector('div');
     const initialRect = container.getBoundingClientRect();
@@ -213,43 +220,44 @@ describe('RecordTitleBar', function suite() {
         resolve();
       }, 2000);
     })
-    .then(() => {
-      const scrolledRect = container.getBoundingClientRect();
+      .then(() => {
+        const scrolledRect = container.getBoundingClientRect();
 
-      scrolledRect.top.should.equal(0);
+        scrolledRect.top.should.equal(0);
 
-      render(
-        <IntlProvider locale="en">
-          <ConfigProvider config={config}>
-            <RecordTitleBar data={data} recordType="loanin" onDocked={handleDocked} />
-          </ConfigProvider>
-        </IntlProvider>, this.container);
+        render(
+          <IntlProvider locale="en">
+            <ConfigProvider config={config}>
+              <RecordTitleBar data={data} recordType="loanin" onDocked={handleDocked} />
+            </ConfigProvider>
+          </IntlProvider>, this.container,
+        );
 
-      return new Promise((resolve) => {
-        window.setTimeout(() => {
-          resolve();
-        }, 1000);
+        return new Promise((resolve) => {
+          window.setTimeout(() => {
+            resolve();
+          }, 1000);
+        });
+      })
+      .then(() => {
+        handlerCalled.should.equal(true);
+
+        window.scrollTo(0, 0);
+
+        return new Promise((resolve) => {
+          window.setTimeout(() => {
+            resolve();
+          }, 1000);
+        });
+      })
+      .then(() => {
+        const scrolledRect = container.getBoundingClientRect();
+
+        scrolledRect.top.should.be.above(0);
       });
-    })
-    .then(() => {
-      handlerCalled.should.equal(true);
-
-      window.scrollTo(0, 0);
-
-      return new Promise((resolve) => {
-        window.setTimeout(() => {
-          resolve();
-        }, 1000);
-      });
-    })
-    .then(() => {
-      const scrolledRect = container.getBoundingClientRect();
-
-      scrolledRect.top.should.be.above(0);
-    });
   });
 
-  it('should render a search result traverser as the title bar navigation if a search descriptor is supplied', function test() {
+  it('should render a search result traverser as the title bar navigation if a search descriptor is supplied', () => {
     const searchName = 'searchName';
     const searchDescriptor = Immutable.Map();
     const csid = '1234';
@@ -269,10 +277,11 @@ describe('RecordTitleBar', function suite() {
         searchName={searchName}
         searchDescriptor={searchDescriptor}
         originSearchPageState={originSearchPageState}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
-    const nav = result.props.nav;
+    const { nav } = result.props;
 
     nav.type.should.equal(SearchResultTraverserContainer);
 
@@ -308,7 +317,8 @@ describe('RecordTitleBar', function suite() {
         <ConfigProvider config={config}>
           <RecordTitleBar data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     ReactDOM.unmountComponentAtNode(this.container);
 

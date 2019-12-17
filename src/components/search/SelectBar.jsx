@@ -36,7 +36,7 @@ const isPageSelected = (items, selectedItems) => {
 
   const basis = selectedItems.has(firstItem.get('csid'));
 
-  if (remainingItems.find(item => (selectedItems.has(item.get('csid')) !== basis))) {
+  if (remainingItems.find((item) => (selectedItems.has(item.get('csid')) !== basis))) {
     return null;
   }
 
@@ -44,7 +44,9 @@ const isPageSelected = (items, selectedItems) => {
 };
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   buttons: PropTypes.arrayOf(PropTypes.node),
   listType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -74,7 +76,7 @@ export default class SelectBar extends Component {
 
     if (setAllItemsSelected) {
       setAllItemsSelected(
-        config, searchName, searchDescriptor, listType, value, showCheckboxFilter
+        config, searchName, searchDescriptor, listType, value, showCheckboxFilter,
       );
     }
   }

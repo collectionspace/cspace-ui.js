@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     getPart,
   } = configContext.recordDataHelpers;
@@ -20,5 +20,5 @@ export default configContext => (data) => {
   const exitNumber = common.get('exitNumber');
   const currentOwner = getDisplayName(common.get('currentOwner'));
 
-  return [exitNumber, currentOwner].filter(part => !!part).join(' – ');
+  return [exitNumber, currentOwner].filter((part) => !!part).join(' – ');
 };

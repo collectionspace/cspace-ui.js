@@ -3,8 +3,8 @@ import { getReportViewerPath } from '../../../src/helpers/reportHelpers';
 
 chai.should();
 
-describe('reportHelpers', function moduleSuite() {
-  describe('getReportViewerPath', function suite() {
+describe('reportHelpers', () => {
+  describe('getReportViewerPath', () => {
     const reportCsid = '1234';
 
     const csid = '8888';
@@ -19,7 +19,7 @@ describe('reportHelpers', function moduleSuite() {
       foo: 'abc',
     };
 
-    it('should prepend the basename and \'report\' to the report csid, and add query parameters', function test() {
+    it('should prepend the basename and \'report\' to the report csid, and add query parameters', () => {
       const config = {
         basename: 'base',
       };
@@ -28,7 +28,7 @@ describe('reportHelpers', function moduleSuite() {
         .equal(`${config.basename}/report/${reportCsid}?csid=${csid}&recordType=${recordType}&params=%7B%22foo%22%3A%22abc%22%7D`);
     });
 
-    it('should not prepend the basename if it is falsy', function test() {
+    it('should not prepend the basename if it is falsy', () => {
       const config = {
         basename: null,
       };

@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import authRefListTypePlugin from '../../../../src/plugins/listTypes/authRef';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -51,27 +51,27 @@ const permsNone = Immutable.fromJS({
   },
 });
 
-describe('auth ref list type', function suite() {
+describe('auth ref list type', () => {
   const configContribution = authRefListTypePlugin();
   const { listTypes } = configContribution;
   const authRefList = listTypes.authRef;
 
-  describe('getItemLocationPath', function funcSuite() {
-    it('should compute the location from the refName and csid', function test() {
+  describe('getItemLocationPath', () => {
+    it('should compute the location from the refName and csid', () => {
       authRefList.getItemLocationPath(Immutable.fromJS({
         csid: '1234',
         refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
       }), { config, perms }).should.equal('/record/person/local/1234');
     });
 
-    it('should return null if read permission does not exist for the record type', function test() {
+    it('should return null if read permission does not exist for the record type', () => {
       expect(authRefList.getItemLocationPath(Immutable.fromJS({
         csid: '1234',
         refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',
       }), { config, perms: permsNone })).to.equal(null);
     });
 
-    it('should return null for an unknown record type', function test() {
+    it('should return null for an unknown record type', () => {
       expect(authRefList.getItemLocationPath(Immutable.fromJS({
         csid: '1234',
         refName: 'urn:cspace:core.collectionspace.org:foobar:name(person):item:name(JaneDoe1484001439799)\'Jane Doe\'',

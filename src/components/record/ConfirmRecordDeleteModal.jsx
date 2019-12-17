@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { Modal } from 'cspace-layout';
 import CancelButton from '../navigation/CancelButton';
-import DeleteButton from '../record/DeleteButton';
+import DeleteButton from './DeleteButton';
 import styles from '../../../styles/cspace-ui/ConfirmRecordDeleteModal.css';
 
 import {
@@ -52,7 +52,10 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    allowDeleteHierarchyLeaves: PropTypes.bool,
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
   isOpen: PropTypes.bool,
@@ -82,13 +85,25 @@ export default class ConfirmRecordDeleteModal extends Component {
   }
 
   componentWillMount() {
-    if (this.props.isOpen) {
+    const {
+      isOpen,
+    } = this.props;
+
+    if (isOpen) {
       this.init(this.props);
     }
   }
 
   componentWillUpdate(nextProps) {
-    if (!this.props.isOpen && nextProps.isOpen) {
+    const {
+      isOpen,
+    } = this.props;
+
+    const {
+      isOpen: nextIsOpen,
+    } = nextProps;
+
+    if (!isOpen && nextIsOpen) {
       this.init(nextProps);
     }
   }
@@ -255,7 +270,12 @@ export default class ConfirmRecordDeleteModal extends Component {
         prompt = <FormattedMessage {...messages.prompt} values={{ title }} />;
 
         hasRelationsMessage = hasRelations
-          ? <div><br /><FormattedMessage {...messages.hasRelations} /></div>
+          ? (
+            <div>
+              <br />
+              <FormattedMessage {...messages.hasRelations} />
+            </div>
+          )
           : null;
       }
     }
@@ -279,6 +299,5 @@ export default class ConfirmRecordDeleteModal extends Component {
   }
 }
 
-ConfirmRecordDeleteModal.modalName = 'ConfirmRecordDeleteModal';
 ConfirmRecordDeleteModal.propTypes = propTypes;
 ConfirmRecordDeleteModal.contextTypes = contextTypes;

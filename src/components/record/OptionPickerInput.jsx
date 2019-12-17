@@ -19,8 +19,11 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseOptionPickerInput.propTypes,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    defaultDropdownFilter: PropTypes.string,
+  }),
   intl: intlShape,
 };
 
@@ -69,9 +72,7 @@ class OptionPickerInput extends Component {
   render() {
     const {
       config,
-      /* eslint-disable no-unused-vars */
       intl,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 

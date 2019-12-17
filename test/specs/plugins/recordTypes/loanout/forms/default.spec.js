@@ -4,8 +4,8 @@ import createConfigContext from '../../../../../../src/helpers/createConfigConte
 
 chai.should();
 
-describe('loanout record default form', function suite() {
-  it('should be a Field', function test() {
+describe('loanout record default form', () => {
+  it('should be a Field', () => {
     const configContext = createConfigContext();
     const { template } = form(configContext);
 

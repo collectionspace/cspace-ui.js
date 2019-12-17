@@ -2,8 +2,8 @@ import serviceConfig from '../../../../../src/plugins/recordTypes/loanin/service
 
 chai.should();
 
-describe('loan-in record serviceConfig', function suite() {
-  it('should have servicePath property', function test() {
+describe('loan-in record serviceConfig', () => {
+  it('should have servicePath property', () => {
     serviceConfig.should.have.property('servicePath').that.is.a('string');
   });
 });

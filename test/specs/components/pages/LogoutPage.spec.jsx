@@ -19,7 +19,7 @@ const store = mockStore({
 
 const history = mockHistory();
 
-describe('LogoutPage', function suite() {
+describe('LogoutPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -30,7 +30,8 @@ describe('LogoutPage', function suite() {
         <StoreProvider store={store}>
           <LogoutPage history={history} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -50,7 +51,8 @@ describe('LogoutPage', function suite() {
             logout={logout}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     logoutCalled.should.equal(true);
   });
@@ -78,7 +80,8 @@ describe('LogoutPage', function suite() {
             resetLogin={resetLogin}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const logoutIndicator = findRenderedComponentWithType(resultTree, LogoutIndicator);
 

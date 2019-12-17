@@ -47,7 +47,11 @@ export default class Dock extends Component {
       dockTop,
     } = this.props;
 
-    if (this.state.docked) {
+    const {
+      docked,
+    } = this.state;
+
+    if (docked) {
       if ((window.scrollY + dockTop) < node.offsetTop) {
         this.setState({
           docked: false,
@@ -73,7 +77,7 @@ export default class Dock extends Component {
 
     const className = classNames(
       isSidebarOpen ? styles.normal : styles.full,
-      { [styles.docked]: docked }
+      { [styles.docked]: docked },
     );
 
     const inlineStyle = docked

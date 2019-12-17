@@ -4,7 +4,9 @@ import Immutable from 'immutable';
 import SearchResultLinkContainer from '../../containers/search/SearchResultLinkContainer';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   searchName: PropTypes.string,
 };

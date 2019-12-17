@@ -22,7 +22,7 @@ import {
   isSearchResultSidebarOpen,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isSidebarOpen: isSearchResultSidebarOpen(state),
   perms: getUserPerms(state),
   preferredPageSize: getSearchResultPagePageSize(state),
@@ -42,5 +42,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(SearchResultPage);

@@ -6,7 +6,7 @@ export default {
   objectName: 'Locationitem',
   documentName: 'locations',
 
-  quickAddData: values => ({
+  quickAddData: (values) => ({
     document: {
       'ns2:locations_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/location',

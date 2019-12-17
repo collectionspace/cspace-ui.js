@@ -26,9 +26,10 @@ const getSearchDescriptor = (recordType, vocabulary, csid, updatedTimestamp) => 
 
 const propTypes = {
   color: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
-  history: PropTypes.object,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
@@ -47,8 +48,9 @@ export default class UsedByPanel extends Component {
       vocabulary,
     } = this.props;
 
-    const searchDescriptor =
-      getSearchDescriptor(recordType, vocabulary, csid, getUpdatedTimestamp(recordData));
+    const searchDescriptor = getSearchDescriptor(
+      recordType, vocabulary, csid, getUpdatedTimestamp(recordData),
+    );
 
     this.state = {
       searchDescriptor,
@@ -75,24 +77,29 @@ export default class UsedByPanel extends Component {
     const nextUpdatedTimestamp = getUpdatedTimestamp(nextRecordData);
 
     if (
-      nextCsid !== csid ||
-      nextRecordType !== recordType ||
-      nextVocabulary !== vocabulary ||
-      nextUpdatedTimestamp !== updatedTimestamp
+      nextCsid !== csid
+      || nextRecordType !== recordType
+      || nextVocabulary !== vocabulary
+      || nextUpdatedTimestamp !== updatedTimestamp
     ) {
       let newSearchDescriptor;
 
       if (
-        nextCsid === csid &&
-        nextRecordType === recordType &&
-        nextVocabulary === vocabulary
+        nextCsid === csid
+        && nextRecordType === recordType
+        && nextVocabulary === vocabulary
       ) {
+        const {
+          searchDescriptor,
+        } = this.state;
+
         // Only the updated timestamp changed, so just update the seq id of the search.
 
-        newSearchDescriptor = this.state.searchDescriptor.set('seqID', nextUpdatedTimestamp);
+        newSearchDescriptor = searchDescriptor.set('seqID', nextUpdatedTimestamp);
       } else {
-        newSearchDescriptor =
-          getSearchDescriptor(nextRecordType, nextVocabulary, nextCsid, nextUpdatedTimestamp);
+        newSearchDescriptor = getSearchDescriptor(
+          nextRecordType, nextVocabulary, nextCsid, nextUpdatedTimestamp,
+        );
       }
 
       this.setState({
@@ -112,7 +119,6 @@ export default class UsedByPanel extends Component {
       color,
       config,
       csid,
-      history,
       recordType,
       vocabulary,
     } = this.props;
@@ -134,7 +140,6 @@ export default class UsedByPanel extends Component {
         columnSetName="narrow"
         config={config}
         csid={csid}
-        history={history}
         listType="refDoc"
         name="usedByPanel"
         searchDescriptor={searchDescriptor}

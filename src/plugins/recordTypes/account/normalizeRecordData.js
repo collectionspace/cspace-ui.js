@@ -9,15 +9,13 @@ export default () => (data, recordTypeConfig) => {
   if (rootNodeName === docNodeName && rootNodeNsPrefix !== docNodeNsPrefix) {
     const rootNodeNsUri = rootNodeData.get(`@xmlns:${rootNodeNsPrefix}`);
 
-    const updatedRootNodeData =
-      rootNodeData
-        .delete(`@xmlns:${rootNodeNsPrefix}`)
-        .set(`@xmlns:${docNodeNsPrefix}`, rootNodeNsUri);
+    const updatedRootNodeData = rootNodeData
+      .delete(`@xmlns:${rootNodeNsPrefix}`)
+      .set(`@xmlns:${docNodeNsPrefix}`, rootNodeNsUri);
 
-    const updatedData =
-      data
-        .delete(`${rootNodeNsPrefix}:${rootNodeName}`)
-        .set(`${docNodeNsPrefix}:${docNodeName}`, updatedRootNodeData);
+    const updatedData = data
+      .delete(`${rootNodeNsPrefix}:${rootNodeName}`)
+      .set(`${docNodeNsPrefix}:${docNodeName}`, updatedRootNodeData);
 
     return updatedData;
   }

@@ -23,7 +23,7 @@ import {
   OP_OR,
 } from '../../../../../src/constants/searchOperators';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -44,13 +44,22 @@ const store = mockStore({
   }),
 });
 
-const TestInput = props => (
-  <input
-    name={props.name}
-    defaultValue={props.value}
-    onBlur={event => props.onCommit([...props.parentPath, props.name, 0], event.target.value)}
-  />
-);
+const TestInput = (props) => {
+  const {
+    name,
+    parentPath,
+    value,
+    onCommit,
+  } = props;
+
+  return (
+    <input
+      name={name}
+      defaultValue={value}
+      onBlur={(event) => onCommit([...parentPath, name, 0], event.target.value)}
+    />
+  );
+};
 
 TestInput.propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
@@ -114,7 +123,7 @@ const config = {
   },
 };
 
-describe('GroupConditionInput', function suite() {
+describe('GroupConditionInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -137,7 +146,8 @@ describe('GroupConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -164,7 +174,8 @@ describe('GroupConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-BooleanConditionInput--common').should.not.equal(null);
     this.container.querySelector('.cspace-ui-RemoveConditionButton--common').should.not.equal(null);
@@ -193,7 +204,8 @@ describe('GroupConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-GroupConditionInput--common > div').textContent.should
       .equal('In ns2:collectionobjects_common/titleGroupList/titleGroup:');
@@ -222,7 +234,8 @@ describe('GroupConditionInput', function suite() {
             />
           </RecordTypeProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-GroupConditionInput--common > div').textContent.should
       .equal('');
@@ -248,7 +261,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="group"]');
 
@@ -278,7 +292,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('input[data-name="group"]')).to.equal(null);
   });
@@ -328,7 +343,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     buildConfig.should.equal(config);
     buildRecordType.should.equal(recordType);
@@ -378,7 +394,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const path = 'ns2:collectionobjects_common/titleGroupList/titleGroup';
     const nextCondition = condition.set('path', path);
@@ -399,7 +416,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     buildConfig.should.equal(config);
     buildRecordType.should.equal(recordType);
@@ -439,7 +457,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="group"]');
 
@@ -496,7 +515,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="booleanSearchOp"]');
 
@@ -538,7 +558,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('.cspace-ui-RemoveConditionButton--common')).to.equal(null);
   });
@@ -573,7 +594,8 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const button = this.container.querySelector('.cspace-ui-RemoveConditionButton--common');
 
@@ -609,10 +631,12 @@ describe('GroupConditionInput', function suite() {
             </RecordTypeProvider>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
-      <div />, this.container);
+      <div />, this.container,
+    );
 
     deletedNames.should.deep.equal([
       '_field_collectionobject',

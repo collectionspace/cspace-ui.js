@@ -39,9 +39,13 @@ export default function InvocationTargetInput(props) {
     return <div />;
   }
 
+  const {
+    readOnly,
+  } = remainingProps;
+
   return (
     <RecordSearchInput
-      label={<Label required={!props.readOnly}><FormattedMessage {...messages[mode]} /></Label>}
+      label={<Label required={!readOnly}><FormattedMessage {...messages[mode]} /></Label>}
       {...remainingProps}
     />
   );

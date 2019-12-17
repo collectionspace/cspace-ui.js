@@ -19,18 +19,18 @@ import reducer, {
   isRolesReadPending,
 } from '../../../src/reducers/authz';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('authz reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('authz reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.deep.equal(Immutable.Map({}));
   });
 
-  context('on PERMS_READ_STARTED', function context() {
-    it('should set isPermsReadPending to true', function test() {
+  context('on PERMS_READ_STARTED', () => {
+    it('should set isPermsReadPending to true', () => {
       const state = reducer(undefined, {
         type: PERMS_READ_STARTED,
       });
@@ -43,7 +43,7 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on PERMS_READ_FULFILLED', function context() {
+  context('on PERMS_READ_FULFILLED', () => {
     const config = {
       recordTypes: {
         group: {
@@ -66,7 +66,7 @@ describe('authz reducer', function suite() {
       },
     };
 
-    it('should set resourceNames to contain known records in the response', function test() {
+    it('should set resourceNames to contain known records in the response', () => {
       const state = reducer(Immutable.fromJS({
         isPermsReadPending: true,
       }), {
@@ -82,7 +82,7 @@ describe('authz reducer', function suite() {
       ]));
     });
 
-    it('should unset isPermsReadPending', function test() {
+    it('should unset isPermsReadPending', () => {
       const state = reducer(Immutable.fromJS({
         isPermsReadPending: true,
       }), {
@@ -96,7 +96,7 @@ describe('authz reducer', function suite() {
       expect(isPermsReadPending(state)).to.equal(undefined);
     });
 
-    it('should handle a single (non-list) permission', function test() {
+    it('should handle a single (non-list) permission', () => {
       const singlePermResponse = {
         data: {
           'ns2:permissions_list': {
@@ -121,8 +121,8 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on PERMS_READ_REJECTED', function context() {
-    it('should unset isPermsReadPending', function test() {
+  context('on PERMS_READ_REJECTED', () => {
+    it('should unset isPermsReadPending', () => {
       const state = reducer(Immutable.fromJS({
         isPermsReadPending: true,
       }), {
@@ -135,8 +135,8 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on ROLES_READ_STARTED', function context() {
-    it('should set isRolesReadPending to true', function test() {
+  context('on ROLES_READ_STARTED', () => {
+    it('should set isRolesReadPending to true', () => {
       const state = reducer(undefined, {
         type: ROLES_READ_STARTED,
       });
@@ -149,7 +149,7 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on ROLES_READ_FULFILLED', function context() {
+  context('on ROLES_READ_FULFILLED', () => {
     const response = {
       data: {
         'ns2:roles_list': {
@@ -162,7 +162,7 @@ describe('authz reducer', function suite() {
       },
     };
 
-    it('should set roles to the roles in the response', function test() {
+    it('should set roles to the roles in the response', () => {
       const state = reducer(Immutable.fromJS({
         isRolesReadPending: true,
       }), {
@@ -173,7 +173,7 @@ describe('authz reducer', function suite() {
       getRoles(state).should.equal(Immutable.fromJS(response.data['ns2:roles_list'].role));
     });
 
-    it('should unset isRolesReadPending', function test() {
+    it('should unset isRolesReadPending', () => {
       const state = reducer(Immutable.fromJS({
         isRolesReadPending: true,
       }), {
@@ -184,7 +184,7 @@ describe('authz reducer', function suite() {
       expect(isRolesReadPending(state)).to.equal(undefined);
     });
 
-    it('should handle a single (non-list) role', function test() {
+    it('should handle a single (non-list) role', () => {
       const singleRoleResponse = {
         data: {
           'ns2:roles_list': {
@@ -206,8 +206,8 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on ROLES_READ_REJECTED', function context() {
-    it('should unset isRolesReadPending', function test() {
+  context('on ROLES_READ_REJECTED', () => {
+    it('should unset isRolesReadPending', () => {
       const state = reducer(Immutable.fromJS({
         isRolesReadPending: true,
       }), {
@@ -220,8 +220,8 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on RECORD_DELETE_FULFILLED', function context() {
-    it('should delete roles if the record type is authrole', function test() {
+  context('on RECORD_DELETE_FULFILLED', () => {
+    it('should delete roles if the record type is authrole', () => {
       const recordTypeConfig = {
         name: 'authrole',
       };
@@ -238,7 +238,7 @@ describe('authz reducer', function suite() {
       expect(getRoles(state)).to.equal(undefined);
     });
 
-    it('should not delete roles if the record type is not authrole', function test() {
+    it('should not delete roles if the record type is not authrole', () => {
       const recordTypeConfig = {
         name: 'group',
       };
@@ -256,8 +256,8 @@ describe('authz reducer', function suite() {
     });
   });
 
-  context('on RECORD_CREATED', function context() {
-    it('should delete roles if the record type is authrole', function test() {
+  context('on RECORD_CREATED', () => {
+    it('should delete roles if the record type is authrole', () => {
       const recordTypeConfig = {
         name: 'authrole',
       };
@@ -274,7 +274,7 @@ describe('authz reducer', function suite() {
       expect(getRoles(state)).to.equal(undefined);
     });
 
-    it('should not delete roles if the record type is not authrole', function test() {
+    it('should not delete roles if the record type is not authrole', () => {
       const recordTypeConfig = {
         name: 'group',
       };

@@ -8,7 +8,7 @@ chai.should();
 
 const expectedClassName = 'cspace-ui-NavLink--normal cspace-ui-NavLink--common';
 
-describe('NavLink', function suite() {
+describe('NavLink', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('NavLink', function suite() {
     render(
       <Router>
         <NavLink to="" />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('A');
   });
@@ -26,7 +27,8 @@ describe('NavLink', function suite() {
     render(
       <Router>
         <NavLink to="/foo" />
-      </Router>, this.container);
+      </Router>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });

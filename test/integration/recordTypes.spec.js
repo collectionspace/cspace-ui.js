@@ -2,7 +2,7 @@ import CreatePage from './pageObjects/CreatePage';
 import LoginPage from './pageObjects/LoginPage';
 import ProtectedPage from './pageObjects/ProtectedPage';
 
-describe('record types', function suite() {
+describe('record types', () => {
   const loginPage = new LoginPage();
   const landingPage = new ProtectedPage();
 
@@ -13,7 +13,7 @@ describe('record types', function suite() {
     landingPage.becomesVisible();
   });
 
-  context('on the create page', function context() {
+  context('on the create page', () => {
     const createPage = new CreatePage();
 
     before(() => {

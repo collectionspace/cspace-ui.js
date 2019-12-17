@@ -29,8 +29,7 @@ export default (configContext) => {
         width: 250,
       },
       termStatus: {
-        formatValue: (data, formatterContext) =>
-          formatOption('citationTermStatuses', data, formatterContext),
+        formatValue: (data, formatterContext) => formatOption('citationTermStatuses', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.citation.default.termStatus',

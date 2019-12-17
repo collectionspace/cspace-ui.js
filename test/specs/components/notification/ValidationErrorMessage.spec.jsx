@@ -17,7 +17,7 @@ import {
   ERROR_KEY,
 } from '../../../../src/helpers/recordDataHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -51,7 +51,7 @@ const fieldDescriptor = {
   },
 };
 
-describe('ValidationErrorMessage', function suite() {
+describe('ValidationErrorMessage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -71,7 +71,8 @@ describe('ValidationErrorMessage', function suite() {
           errors={errors}
           fieldDescriptor={fieldDescriptor}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('UL');
   });
@@ -91,7 +92,8 @@ describe('ValidationErrorMessage', function suite() {
           errors={errors}
           fieldDescriptor={fieldDescriptor}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('li').textContent.should.contain('Object number full name');
   });
@@ -111,7 +113,8 @@ describe('ValidationErrorMessage', function suite() {
           errors={errors}
           fieldDescriptor={fieldDescriptor}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('li').textContent.should.contain('Department name');
   });
@@ -131,7 +134,8 @@ describe('ValidationErrorMessage', function suite() {
           errors={errors}
           fieldDescriptor={fieldDescriptor}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('li').textContent.should.contain('altNum');
   });
@@ -161,7 +165,8 @@ describe('ValidationErrorMessage', function suite() {
           errors={errors}
           fieldDescriptor={fieldDescriptor}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelectorAll('li').should.have.lengthOf(3);
   });
@@ -175,7 +180,8 @@ describe('ValidationErrorMessage', function suite() {
           errors={errors}
           fieldDescriptor={fieldDescriptor}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

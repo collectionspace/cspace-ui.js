@@ -11,7 +11,7 @@ chai.should();
 
 const expectedClassName = 'cspace-ui-ButtonBar--common';
 
-describe('RecordButtonBar', function suite() {
+describe('RecordButtonBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -20,7 +20,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -29,7 +30,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -38,7 +40,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar isModified />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('button[name="save"]').className.should
       .match(/cspace-ui-SaveButton--normal/);
@@ -46,7 +49,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar isModified={false} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('button[name="save"]').className.should
       .match(/cspace-ui-SaveButton--done/);
@@ -56,7 +60,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar isSavePending />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('button[name="save"]').disabled.should.equal(true);
   });
@@ -71,7 +76,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar onSaveButtonClick={handleClick} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const saveButton = this.container.querySelector('button[name="save"]');
 
@@ -84,7 +90,8 @@ describe('RecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RecordButtonBar csid="1234" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('button[name="clone"]').should.not.equal(null);
   });

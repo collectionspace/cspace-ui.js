@@ -7,12 +7,13 @@ import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
 import { canList, canUnrelate } from '../../helpers/permissionHelpers';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
+import { MODAL_CONFIRM_RECORD_UNRELATE } from '../../constants/modalNames';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
 import SelectBar from '../search/SelectBar';
 import UnrelateButton from './UnrelateButton';
 
-export const confirmUnrelateModalName = `RelatedRecordPanel-${ConfirmRecordUnrelateModal.modalName}`;
+export const confirmUnrelateModalName = `RelatedRecordPanel-${MODAL_CONFIRM_RECORD_UNRELATE}`;
 
 const messages = defineMessages({
   title: {
@@ -52,9 +53,10 @@ const propTypes = {
   collapsed: PropTypes.bool,
   color: PropTypes.string,
   columnSetName: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
-  history: PropTypes.object,
   linkItems: PropTypes.bool,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -111,13 +113,17 @@ export default class RelatedRecordPanel extends Component {
 
     if (!Immutable.is(searchDescriptor, nextSearchDescriptor)) {
       if (
-        searchDescriptor.get('recordType') === nextSearchDescriptor.get('recordType') &&
-        searchDescriptor.getIn(['searchQuery', 'rel']) === nextSearchDescriptor.getIn(['searchQuery', 'rel'])
+        searchDescriptor.get('recordType') === nextSearchDescriptor.get('recordType')
+        && searchDescriptor.getIn(['searchQuery', 'rel']) === nextSearchDescriptor.getIn(['searchQuery', 'rel'])
       ) {
         // The record type and related csid didn't change, so carry over the page number, size, and
         // sort from the current search descriptor.
 
-        const searchQuery = this.state.searchDescriptor.get('searchQuery');
+        const {
+          searchDescriptor: currentSearchDescriptor,
+        } = this.state;
+
+        const searchQuery = currentSearchDescriptor.get('searchQuery');
 
         const nextSearchQuery = nextSearchDescriptor.get('searchQuery')
           .set('p', searchQuery.get('p'))
@@ -140,8 +146,8 @@ export default class RelatedRecordPanel extends Component {
     } = this.props;
 
     return (
-      item.get('workflowState') !== 'locked' &&
-      canUnrelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config)
+      item.get('workflowState') !== 'locked'
+      && canUnrelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config)
     );
   }
 
@@ -188,7 +194,7 @@ export default class RelatedRecordPanel extends Component {
         recordType,
       };
 
-      const objects = selectedItems.valueSeq().map(item => ({
+      const objects = selectedItems.valueSeq().map((item) => ({
         csid: item.get('csid'),
         recordType: relatedRecordType, // TODO: Check the item's docType first
       })).toJS();
@@ -353,8 +359,7 @@ export default class RelatedRecordPanel extends Component {
       relatedRecordType,
     } = this.props;
 
-    const collectionNameMessage =
-      get(config, ['recordTypes', relatedRecordType, 'messages', 'record', 'collectionName']);
+    const collectionNameMessage = get(config, ['recordTypes', relatedRecordType, 'messages', 'record', 'collectionName']);
 
     const collectionName = <FormattedMessage {...collectionNameMessage} />;
 
@@ -368,7 +373,6 @@ export default class RelatedRecordPanel extends Component {
       columnSetName,
       config,
       csid,
-      history,
       linkItems,
       name,
       perms,
@@ -386,13 +390,13 @@ export default class RelatedRecordPanel extends Component {
     } = this.state;
 
     const relatedServiceType = get(
-      config, ['recordTypes', relatedRecordType, 'serviceConfig', 'serviceType']
+      config, ['recordTypes', relatedRecordType, 'serviceConfig', 'serviceType'],
     );
 
     if (
-      relatedServiceType === 'object' ||
-      relatedServiceType === 'procedure' ||
-      relatedServiceType === 'authority'
+      relatedServiceType === 'object'
+      || relatedServiceType === 'procedure'
+      || relatedServiceType === 'authority'
     ) {
       // Don't render if list permissions are not present for the related record type.
 
@@ -416,7 +420,6 @@ export default class RelatedRecordPanel extends Component {
         columnSetName={columnSetName}
         config={config}
         csid={csid}
-        history={history}
         linkItems={linkItems}
         name={name}
         searchDescriptor={searchDescriptor}

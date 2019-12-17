@@ -21,12 +21,14 @@ export const serviceUriToLocation = (config, uri) => {
   let csid;
   let vocabularyServicePath;
 
+  /* eslint-disable prefer-destructuring */
   if (match[3]) {
     csid = match[4];
     vocabularyServicePath = match[2];
   } else {
     csid = match[2];
   }
+  /* eslint-enable prefer-destructuring */
 
   const recordTypeConfig = getRecordTypeConfigByServicePath(config, servicePath);
 
@@ -38,8 +40,10 @@ export const serviceUriToLocation = (config, uri) => {
   const parts = ['/record', recordType];
 
   if (vocabularyServicePath) {
-    const vocabularyConfig =
-      getVocabularyConfigByServicePath(recordTypeConfig, vocabularyServicePath);
+    const vocabularyConfig = getVocabularyConfigByServicePath(
+      recordTypeConfig,
+      vocabularyServicePath,
+    );
 
     const vocabulary = vocabularyConfig ? vocabularyConfig.name : undefined;
 

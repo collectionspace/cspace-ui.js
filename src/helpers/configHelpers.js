@@ -22,16 +22,8 @@ import {
 } from '../constants/dataTypes';
 
 import {
-  thumbnailImage,
-} from './blobHelpers';
-
-import {
-  formatWorkflowStateIcon,
-} from './formatHelpers';
-
-import {
   NS_PREFIX,
-} from './recordDataHelpers';
+} from '../constants/xmlNames';
 
 import {
   isCsid,
@@ -39,17 +31,16 @@ import {
 } from './csidHelpers';
 
 const onlyDigitsPattern = /^\d+$/;
-const isNotNumeric = string => !onlyDigitsPattern.test(string);
+const isNotNumeric = (string) => !onlyDigitsPattern.test(string);
 
 export const configKey = '[config]';
 export const mergeKey = '[merge]';
 
-export const dataPathToFieldDescriptorPath = dataPath =>
-  dataPath.filter(isNotNumeric);
+export const dataPathToFieldDescriptorPath = (dataPath) => dataPath.filter(isNotNumeric);
 
 export const initializeExtensionFieldParents = (fieldDescriptor) => {
   if (fieldDescriptor) {
-    Object.keys(fieldDescriptor).filter(key => key !== configKey).forEach((key) => {
+    Object.keys(fieldDescriptor).filter((key) => key !== configKey).forEach((key) => {
       const childFieldDescriptor = fieldDescriptor[key];
       const isExtensionField = get(childFieldDescriptor, [configKey, 'extensionName']);
 
@@ -60,11 +51,14 @@ export const initializeExtensionFieldParents = (fieldDescriptor) => {
 
         // Set the extension parent config in the extension field's config.
 
-        const childFieldDescriptorCopy = Object.assign({}, childFieldDescriptor, {
-          [configKey]: Object.assign({}, childFieldDescriptor[configKey], {
-            extensionParentConfig: fieldDescriptor[configKey],
-          }),
-        });
+        const childFieldDescriptorCopy = {
+          ...childFieldDescriptor,
+          [configKey]: {
+            ...childFieldDescriptor[configKey],
+            extensionParentConfig:
+            fieldDescriptor[configKey],
+          },
+        };
 
         // eslint-disable-next-line no-param-reassign
         fieldDescriptor[key] = childFieldDescriptorCopy;
@@ -226,9 +220,7 @@ export const applyPlugins = (targetConfig, plugins, configContext = {}) => {
 };
 
 export const mergeStrategy = {
-  override: srcValue => Object.assign({}, srcValue, {
-    [mergeKey]: 'override',
-  }),
+  override: (srcValue) => ({ ...srcValue, [mergeKey]: 'override' }),
 };
 
 const configMerger = (objValue, srcValue, key) => {
@@ -248,7 +240,7 @@ const configMerger = (objValue, srcValue, key) => {
   }
 
   if (srcValue && typeof srcValue === 'object' && srcValue[mergeKey] === 'override') {
-    const srcValueCopy = Object.assign({}, srcValue);
+    const srcValueCopy = { ...srcValue };
 
     delete srcValueCopy[mergeKey];
 
@@ -273,8 +265,7 @@ export const mergeConfig = (targetConfig, sourceConfig, configContext = {}) => {
   return mergedConfig;
 };
 
-export const initConfig = (config, configContext) =>
-  mergeConfig({}, config, configContext);
+export const initConfig = (config, configContext) => mergeConfig({}, config, configContext);
 
 export const getRecordTypeConfigByServiceDocumentName = (config, documentName) => {
   if (!documentName) {
@@ -383,9 +374,9 @@ export const getVocabularyConfigByShortID = (recordTypeConfig, shortID) => {
         const { servicePath } = vocabularyConfig.serviceConfig;
 
         if (
-          servicePath &&
-          servicePath.indexOf('urn:cspace:name(') === 0 &&
-          servicePath.lastIndexOf(')') === servicePath.length - 1
+          servicePath
+          && servicePath.indexOf('urn:cspace:name(') === 0
+          && servicePath.lastIndexOf(')') === servicePath.length - 1
         ) {
           const vocabularyShortID = servicePath.substring(16, servicePath.length - 1);
 
@@ -429,7 +420,7 @@ export const getDefaultValue = (fieldDescriptor) => {
       // If an object is supplied as a default value, convert it to an immutable map.
 
       return Immutable.fromJS(defaultValue);
-    } else if (typeof defaultValue === 'undefined' && dataType === DATA_TYPE_BOOL) {
+    } if (typeof defaultValue === 'undefined' && dataType === DATA_TYPE_BOOL) {
       // If no default value is configured for a boolean field, consider it to be false.
 
       return false;
@@ -453,7 +444,7 @@ export const getDefaults = (fieldDescriptor, currentPath = []) => {
     });
   }
 
-  const childKeys = Object.keys(fieldDescriptor).filter(key => key !== configKey);
+  const childKeys = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
 
   childKeys.forEach((childKey) => {
     const childPath = currentPath.concat(childKey);
@@ -481,7 +472,7 @@ export const getStickyFields = (fieldDescriptor, currentPath = []) => {
   }
 
   return Object.keys(fieldDescriptor)
-    .filter(key => key !== configKey)
+    .filter((key) => key !== configKey)
     .reduce((results, childKey) => {
       const childPath = currentPath.concat(childKey);
       const childfieldDescriptor = fieldDescriptor[childKey];
@@ -517,7 +508,7 @@ export const isFieldRequired = (validationContext) => {
   let required = get(fieldDescriptor, [configKey, 'required']);
 
   if (typeof required === 'function') {
-    const requiredContext = Object.assign({}, validationContext);
+    const requiredContext = { ...validationContext };
 
     // Don't include the data property of the validation context in the required context, since it
     // doesn't really make sense to have the required state of a field depend on the value in the
@@ -586,14 +577,11 @@ export const getFieldComputer = (fieldDescriptor) => {
   return computer;
 };
 
-export const getRequiredMessage = fieldDescriptor =>
-  get(fieldDescriptor, [configKey, 'messages', 'required']);
+export const getRequiredMessage = (fieldDescriptor) => get(fieldDescriptor, [configKey, 'messages', 'required']);
 
-export const isAuthority = recordTypeConfig =>
-  get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
+export const isAuthority = (recordTypeConfig) => get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'authority';
 
-export const isUtility = recordTypeConfig =>
-  get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'utility';
+export const isUtility = (recordTypeConfig) => get(recordTypeConfig, ['serviceConfig', 'serviceType']) === 'utility';
 
 export const validateLocation = (config, location) => {
   const {
@@ -674,8 +662,8 @@ export const validateLocation = (config, location) => {
     const relatedServiceType = get(config, ['recordTypes', relatedRecordType, 'serviceConfig', 'serviceType']);
 
     if (
-      (serviceType !== 'procedure' && serviceType !== 'object') ||
-      (relatedServiceType !== 'procedure' && relatedServiceType !== 'object')
+      (serviceType !== 'procedure' && serviceType !== 'object')
+      || (relatedServiceType !== 'procedure' && relatedServiceType !== 'object')
     ) {
       return {
         error: {
@@ -789,10 +777,8 @@ export const findFieldConfigInPart = (recordTypeConfig, partName, fieldName) => 
 };
 
 const findFieldsWithSource = (fieldDescriptor, shortId) => {
-  const fieldsWithSource = flatMap(Object.keys(fieldDescriptor).filter(key => key !== configKey),
-    childFieldName =>
-      findFieldsWithSource(fieldDescriptor[childFieldName], shortId)
-    );
+  const fieldsWithSource = flatMap(Object.keys(fieldDescriptor).filter((key) => key !== configKey),
+    (childFieldName) => findFieldsWithSource(fieldDescriptor[childFieldName], shortId));
 
   const fieldConfig = fieldDescriptor[configKey];
   const source = get(fieldConfig, ['view', 'props', 'source']);
@@ -834,11 +820,19 @@ export const getFirstColumnName = (config, recordType, columnSetName = 'default'
   }
 
   const orderedColumnNames = Object.keys(columnConfig)
-    .filter(name => (
-      !columnConfig[name].disabled
-      && columnConfig[name].formatValue !== formatWorkflowStateIcon
-      && columnConfig[name].formatValue !== thumbnailImage
-    ))
+    .filter((name) => {
+      const {
+        disabled,
+        width,
+      } = columnConfig[name];
+
+      return (
+        !disabled
+        // FIXME: This is a hack to filter out thumbnail/icon columns, so that the first text column
+        // is returned.
+        && (typeof width === 'undefined' || width >= 100)
+      );
+    })
     .sort((nameA, nameB) => {
       const orderA = columnConfig[nameA].order;
       const orderB = columnConfig[nameB].order;

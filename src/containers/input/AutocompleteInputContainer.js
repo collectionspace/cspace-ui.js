@@ -69,7 +69,7 @@ const filterSource = (source, perms) => {
   const filtered = (
     source
       .split(',')
-      .filter(sourceID => canList(sourceID.split('/', 1)[0], perms))
+      .filter((sourceID) => canList(sourceID.split('/', 1)[0], perms))
       .join(',')
   );
 
@@ -90,8 +90,8 @@ const filterQuickAddTo = (source, perms, state) => {
         const [recordType, vocabulary] = sourceID.split('/');
 
         return (
-          canCreate(recordType, perms) &&
-          !isLocked(getAuthorityVocabWorkflowState(state, recordType, vocabulary))
+          canCreate(recordType, perms)
+          && !isLocked(getAuthorityVocabWorkflowState(state, recordType, vocabulary))
         );
       })
       .join(',')
@@ -114,16 +114,15 @@ const mapStateToProps = (state, ownProps) => {
     recordTypes: config.recordTypes,
     source: filterSource(source, perms),
     quickAddTo: filterQuickAddTo(source, perms, state),
-    formatAddPrompt: (displayName, destinationName = '') =>
-      intl.formatMessage(messages.addPrompt, { displayName, destinationName }),
+    formatAddPrompt: (displayName, destinationName = '') => intl.formatMessage(messages.addPrompt, { displayName, destinationName }),
     formatCloneOptionLabel: () => intl.formatMessage(messages.cloneOptionLabel),
     formatCreateNewOptionLabel: () => intl.formatMessage(messages.createNewOptionLabel),
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
-    formatSearchResultMessage: count => intl.formatMessage(messages.count, { count }),
+    formatSearchResultMessage: (count) => intl.formatMessage(messages.count, { count }),
     formatSourceName: (recordTypeConfig, vocabulary) => intl.formatMessage(
       vocabulary
         ? get(recordTypeConfig, ['vocabularies', vocabulary, 'messages', 'collectionName'])
-        : get(recordTypeConfig, ['messages', 'record', 'collectionName'])
+        : get(recordTypeConfig, ['messages', 'record', 'collectionName']),
     ),
   };
 };
@@ -174,10 +173,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
-    /* eslint-disable no-unused-vars */
     intl,
     config,
-    /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
 
@@ -191,15 +188,15 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 export const ConnectedAutocompleteInput = connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps
+  mergeProps,
 )(AutocompleteInput);
 
-const IntlizedConnectedAutocompleteInput =
-  injectIntl(withConfig(ConnectedAutocompleteInput));
+const IntlizedConnectedAutocompleteInput = injectIntl(withConfig(ConnectedAutocompleteInput));
 
 IntlizedConnectedAutocompleteInput.propTypes = {
   ...AutocompleteInput.propTypes,
   source: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   config: PropTypes.object,
 };
 

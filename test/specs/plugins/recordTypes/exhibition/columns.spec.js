@@ -3,11 +3,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('exhibition record columns', function suite() {
+describe('exhibition record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 });

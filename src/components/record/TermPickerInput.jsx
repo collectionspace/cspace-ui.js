@@ -26,8 +26,11 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseTermPickerInput.propTypes,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    defaultDropdownFilter: PropTypes.string,
+  }),
   intl: intlShape,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -88,12 +91,10 @@ class TermPickerInput extends Component {
   render() {
     const {
       config,
-      /* eslint-disable no-unused-vars */
       intl,
       perms,
       readTerms,
       source,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 

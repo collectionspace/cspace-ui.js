@@ -13,18 +13,19 @@ const intl = {
   formatRelative: () => null,
   formatNumber: () => null,
   formatPlural: () => null,
-  formatMessage: message => `formatted ${message.id}`,
+  formatMessage: (message) => `formatted ${message.id}`,
   formatHTMLMessage: () => null,
   locale: 'locale',
   now: () => null,
 };
 
-describe('DateInputContainer', function suite() {
-  it('should set DateInput locale from intl', function test() {
+describe('DateInputContainer', () => {
+  it('should set DateInput locale from intl', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <IntlAwareDateInput intl={intl} />);
+      <IntlAwareDateInput intl={intl} />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

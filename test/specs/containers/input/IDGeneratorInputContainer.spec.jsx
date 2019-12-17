@@ -9,14 +9,14 @@ import { ConnectedIDGeneratorInput } from '../../../../src/containers/input/IDGe
 import {
   CREATE_ID_STARTED,
   READ_ID_GENERATOR_STARTED,
-} from '../../../../src/actions/idGenerator';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 
 const { IDGeneratorInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
-describe('IDGeneratorInputContainer', function suite() {
+describe('IDGeneratorInputContainer', () => {
   const store = mockStore({
     idGenerator: Immutable.fromJS({
       accession: {
@@ -51,7 +51,7 @@ describe('IDGeneratorInputContainer', function suite() {
     formatRelative: () => null,
     formatNumber: () => null,
     formatPlural: () => null,
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
     formatHTMLMessage: () => null,
     now: () => null,
   };
@@ -60,14 +60,15 @@ describe('IDGeneratorInputContainer', function suite() {
     store.clearActions();
   });
 
-  it('should set pattern on IDGeneratorInput', function test() {
+  it('should set pattern on IDGeneratorInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         intl={intl}
         source="accession"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -80,14 +81,15 @@ describe('IDGeneratorInputContainer', function suite() {
     }]);
   });
 
-  it('should accept multiple comma separated source values', function test() {
+  it('should accept multiple comma separated source values', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         intl={intl}
         source="accession,loanin"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -107,14 +109,15 @@ describe('IDGeneratorInputContainer', function suite() {
     ]);
   });
 
-  it('should accept an array of source values', function test() {
+  it('should accept an array of source values', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         intl={intl}
         source={['accession', 'loanin']}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -134,42 +137,45 @@ describe('IDGeneratorInputContainer', function suite() {
     ]);
   });
 
-  it('should set sampleColumnLabel from intl', function test() {
+  it('should set sampleColumnLabel from intl', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         intl={intl}
         source="accession"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.sampleColumnLabel.should.equal('formatted idGeneratorInput.column.sample');
   });
 
-  it('should set typeColumnLabel from intl', function test() {
+  it('should set typeColumnLabel from intl', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         intl={intl}
         source="accession"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.typeColumnLabel.should.equal('formatted idGeneratorInput.column.type');
   });
 
-  it('should connect onOpen to readIDGenerator action creator', function test() {
+  it('should connect onOpen to readIDGenerator action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         intl={intl}
         source="accession"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -191,7 +197,7 @@ describe('IDGeneratorInputContainer', function suite() {
     }
   });
 
-  it('should connect generateID to createID action creator', function test() {
+  it('should connect generateID to createID action creator', () => {
     const csid = '1234';
     const idGeneratorName = 'accession';
     const path = ['identificationNumber'];
@@ -203,7 +209,8 @@ describe('IDGeneratorInputContainer', function suite() {
         csid={csid}
         source={idGeneratorName}
         intl={intl}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

@@ -19,7 +19,7 @@ import {
   getUserPerms,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   openModalName: getOpenModalName(state),
   perms: getUserPerms(state),
 });

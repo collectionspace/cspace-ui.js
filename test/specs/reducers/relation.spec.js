@@ -11,17 +11,17 @@ import reducer, {
   getFindResult,
 } from '../../../src/reducers/relation';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('relation reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('relation reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map());
   });
 
-  it('should handle CLEAR_RELATION_STATE', function test() {
+  it('should handle CLEAR_RELATION_STATE', () => {
     const subject = {
       csid: '1234',
     };
@@ -51,7 +51,7 @@ describe('relation reducer', function suite() {
     expect(getFindResult(state, subject, object, predicate)).to.equal(undefined);
   });
 
-  it('should handle RELATION_FIND_FULFILLED', function test() {
+  it('should handle RELATION_FIND_FULFILLED', () => {
     const subject = {
       csid: '1234',
     };
@@ -96,7 +96,7 @@ describe('relation reducer', function suite() {
       .equal(Immutable.fromJS(data));
   });
 
-  it('should handle SUBJECT_RELATIONS_UPDATED', function test() {
+  it('should handle SUBJECT_RELATIONS_UPDATED', () => {
     const subject = {
       csid: '1234',
     };

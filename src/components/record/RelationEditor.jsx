@@ -8,11 +8,12 @@ import RelationButtonBar from './RelationButtonBar';
 import WorkflowStateIcon from './WorkflowStateIcon';
 import RecordEditorContainer from '../../containers/record/RecordEditorContainer';
 import ConfirmRecordUnrelateModal from './ConfirmRecordUnrelateModal';
+import { MODAL_CONFIRM_RECORD_UNRELATE } from '../../constants/modalNames';
 import { canUnrelate } from '../../helpers/permissionHelpers';
 import { getWorkflowState } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/RelationEditor.css';
 
-export const confirmUnrelateModalName = `RelationEditor-${ConfirmRecordUnrelateModal.modalName}`;
+export const confirmUnrelateModalName = `RelationEditor-${MODAL_CONFIRM_RECORD_UNRELATE}`;
 
 const messages = defineMessages({
   editTitle: {
@@ -35,7 +36,9 @@ const messages = defineMessages({
 
 const propTypes = {
   cloneCsid: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   // TODO: These uses aren't properly detected. Try updating eslint-plugin-react.
   /* eslint-disable react/no-unused-prop-types */
@@ -105,10 +108,10 @@ export default class RelationEditor extends Component {
     } = prevProps;
 
     if (
-      !isEqual(subject, prevSubject) ||
-      !isEqual(object, prevObject) ||
-      predicate !== prevPredicate ||
-      (!findResult && prevFindResult)
+      !isEqual(subject, prevSubject)
+      || !isEqual(object, prevObject)
+      || predicate !== prevPredicate
+      || (!findResult && prevFindResult)
     ) {
       this.initRelation();
     }
@@ -290,10 +293,10 @@ export default class RelationEditor extends Component {
     const objectWorkflowStateIcon = <WorkflowStateIcon value={objectWorkflowState} />;
 
     const isUnrelatable = (
-      subjectWorkflowState !== 'locked' &&
-      objectWorkflowState !== 'locked' &&
-      canUnrelate(subject.recordType, perms, config) &&
-      canUnrelate(object.recordType, perms, config)
+      subjectWorkflowState !== 'locked'
+      && objectWorkflowState !== 'locked'
+      && canUnrelate(subject.recordType, perms, config)
+      && canUnrelate(object.recordType, perms, config)
     );
 
     return (
@@ -360,7 +363,7 @@ export default class RelationEditor extends Component {
         const list = findResult.get('rel:relations-common-list');
         const count = parseInt(list.get('totalItems'), 10);
 
-        if (isNaN(count) || count < 1) {
+        if (Number.isNaN(count) || count < 1) {
           isObjectFound = false;
         }
       }

@@ -50,7 +50,7 @@ export default (state = Immutable.Map(), action) => {
     case PARTIAL_TERM_SEARCH_FULFILLED:
       count = parseInt(action.payload.data['ns2:abstract-common-list'].itemsInPage, 10);
 
-      if (isNaN(count) || count === 0) {
+      if (Number.isNaN(count) || count === 0) {
         items = [];
       } else {
         items = action.payload.data['ns2:abstract-common-list']['list-item'];

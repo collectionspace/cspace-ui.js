@@ -17,8 +17,8 @@ chai.should();
 const { AutocompleteInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
-describe('AutocompleteInputContainer', function suite() {
-  it('should set props on AutocompleteInput', function test() {
+describe('AutocompleteInputContainer', () => {
+  it('should set props on AutocompleteInput', () => {
     const matches = Immutable.Map({});
 
     const store = mockStore({
@@ -62,7 +62,8 @@ describe('AutocompleteInputContainer', function suite() {
       <ConnectedAutocompleteInput
         source="person/local"
         config={config}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -80,7 +81,7 @@ describe('AutocompleteInputContainer', function suite() {
     result.props.should.have.property('onClose').that.is.a('function');
   });
 
-  it('should render if no source is provided', function test() {
+  it('should render if no source is provided', () => {
     const matches = Immutable.Map({});
 
     const store = mockStore({
@@ -123,14 +124,15 @@ describe('AutocompleteInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedAutocompleteInput
         config={config}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(AutocompleteInput);
   });
 
-  it('should remove from source any record types for which there are not list permissions', function test() {
+  it('should remove from source any record types for which there are not list permissions', () => {
     const matches = Immutable.Map();
 
     const store = mockStore({
@@ -191,14 +193,15 @@ describe('AutocompleteInputContainer', function suite() {
       <ConnectedAutocompleteInput
         source="person/local,organization/local"
         config={config}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.should.have.property('source').that.equals('person/local');
   });
 
-  it('should set quickAddTo to contain source record types for which there are create permissions, and are not locked', function test() {
+  it('should set quickAddTo to contain source record types for which there are create permissions, and are not locked', () => {
     const matches = Immutable.Map();
 
     const store = mockStore({
@@ -270,14 +273,15 @@ describe('AutocompleteInputContainer', function suite() {
       <ConnectedAutocompleteInput
         source="person/local,person/shared,organization/local"
         config={config}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.should.have.property('quickAddTo').that.equals('person/local');
   });
 
-  it('should connect addTerm, findMatchingTerms, and onClose to action creators', function test() {
+  it('should connect addTerm, findMatchingTerms, and onClose to action creators', () => {
     const matches = Immutable.Map({});
 
     const store = mockStore({
@@ -322,7 +326,8 @@ describe('AutocompleteInputContainer', function suite() {
       <ConnectedAutocompleteInput
         source="person/local"
         config={config}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -361,7 +366,7 @@ describe('AutocompleteInputContainer', function suite() {
     store.getActions()[2].should.have.property('type', CLEAR_PARTIAL_TERM_SEARCH_RESULTS);
   });
 
-  it('should connect formatAddPrompt, formatCloneOptionLabel, formatCreateNewOptionLabel, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', function test() {
+  it('should connect formatAddPrompt, formatCloneOptionLabel, formatCreateNewOptionLabel, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', () => {
     const matches = Immutable.Map({});
 
     let formatMessageCalledCount = 0;
@@ -421,7 +426,8 @@ describe('AutocompleteInputContainer', function suite() {
         source="person/local"
         intl={intl}
         config={config}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

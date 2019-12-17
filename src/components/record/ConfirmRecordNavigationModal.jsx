@@ -4,8 +4,8 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Modal } from 'cspace-layout';
 import CancelButton from '../navigation/CancelButton';
-import SaveButton from '../record/SaveButton';
-import RevertButton from '../record/RevertButton';
+import SaveButton from './SaveButton';
+import RevertButton from './RevertButton';
 
 const messages = defineMessages({
   title: {
@@ -110,5 +110,4 @@ export default class ConfirmRecordNavigationModal extends Component {
   }
 }
 
-ConfirmRecordNavigationModal.modalName = 'ConfirmRecordNavigationModal';
 ConfirmRecordNavigationModal.propTypes = propTypes;

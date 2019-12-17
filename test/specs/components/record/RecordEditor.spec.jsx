@@ -1,4 +1,4 @@
-/* global window, document */
+/* global window */
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
@@ -21,7 +21,13 @@ import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmR
 import LockRecordModal from '../../../../src/components/record/LockRecordModal';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 
-const expect = chai.expect;
+import {
+  MODAL_CONFIRM_RECORD_DELETE,
+  MODAL_LOCK_RECORD,
+  MODAL_CONFIRM_RECORD_NAVIGATION,
+} from '../../../../src/constants/modalNames';
+
+const { expect } = chai;
 
 chai.should();
 
@@ -254,7 +260,7 @@ const perms = Immutable.fromJS({
 
 const expectedClassName = 'cspace-ui-RecordEditor--normal cspace-ui-RecordEditor--common';
 
-describe('RecordEditor', function suite() {
+describe('RecordEditor', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -267,7 +273,8 @@ describe('RecordEditor', function suite() {
             <RecordEditor config={config} recordType="collectionobject" />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
@@ -281,7 +288,8 @@ describe('RecordEditor', function suite() {
             <RecordEditor config={config} recordType="collectionobject" />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -292,7 +300,8 @@ describe('RecordEditor', function suite() {
         <StoreProvider store={store}>
           <RecordEditor config={config} recordType="foo" />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -309,7 +318,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-RecordFormSelector--common input').value.should.equal('Default Template');
     this.container.querySelector('.cspace-ui-RecordForm--common').textContent.should.equal('Default');
@@ -327,7 +337,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-RecordFormSelector--common input').value.should.equal('Other Template');
     this.container.querySelector('.cspace-ui-RecordForm--common').textContent.should.equal('Other');
@@ -354,7 +365,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     readRecordCalled.should.equal(true);
   });
@@ -381,7 +393,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -410,7 +423,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     createNewRecordCalled.should.equal(true);
   });
@@ -435,7 +449,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -449,7 +464,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     readRecordCalled.should.equal(true);
   });
@@ -480,7 +496,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     unmountComponentAtNode(this.container);
 
@@ -506,7 +523,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -520,7 +538,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     removeValidationNotificationCalled.should.equal(true);
   });
@@ -556,7 +575,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const saveButton = this.container.querySelector('button[name=save]');
 
@@ -602,7 +622,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const saveButton = this.container.querySelector('button[name=save]');
 
@@ -641,7 +662,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const saveButton = this.container.querySelector('button[name=save]');
 
@@ -671,7 +693,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const revertButton = this.container.querySelector('button[name=revert]');
 
@@ -700,7 +723,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const cloneButton = this.container.querySelector('button[name=clone]');
 
@@ -729,13 +753,14 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const deleteButton = this.container.querySelector('button[name=delete]');
 
     Simulate.click(deleteButton);
 
-    openModalName.should.equal(ConfirmRecordDeleteModal.modalName);
+    openModalName.should.equal(MODAL_CONFIRM_RECORD_DELETE);
   });
 
   it('should call openModal when the save button is clicked on a locking record', function test() {
@@ -758,13 +783,14 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const saveButton = this.container.querySelector('button[name=save]');
 
     Simulate.click(saveButton);
 
-    openModalName.should.equal(LockRecordModal.modalName);
+    openModalName.should.equal(MODAL_LOCK_RECORD);
   });
 
   it('should call validateRecordData when the save button error badge is clicked', function test() {
@@ -788,7 +814,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const errorBadge = this.container.querySelector('button.cspace-ui-Badge--common');
 
@@ -818,7 +845,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const errorBadge = this.container.querySelector('button.cspace-ui-Badge--common');
 
@@ -846,7 +874,8 @@ describe('RecordEditor', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const formSelector = this.container.querySelector('.cspace-ui-RecordFormSelector--common');
     const input = formSelector.querySelector('input');
@@ -860,7 +889,7 @@ describe('RecordEditor', function suite() {
     setFormName.should.equal('photo');
   });
 
-  it('should call save and closeModal when the confirmation modal save button is clicked', function test() {
+  it('should call save and closeModal when the confirmation modal save button is clicked', () => {
     let saveCallback = null;
 
     const save = (callbackArg) => {
@@ -892,13 +921,14 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordNavigationModal.modalName}
+            openModalName={MODAL_CONFIRM_RECORD_NAVIGATION}
             save={save}
             closeModal={closeModal}
             onRecordCreated={handleRecordCreated}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);
@@ -925,7 +955,7 @@ describe('RecordEditor', function suite() {
     recordCreatedIsNavigating.should.equal(true);
   });
 
-  it('should call revert and closeModal when the confirmation modal revert button is clicked', function test() {
+  it('should call revert and closeModal when the confirmation modal revert button is clicked', () => {
     let revertCalled = false;
 
     const revert = () => {
@@ -947,12 +977,13 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordNavigationModal.modalName}
+            openModalName={MODAL_CONFIRM_RECORD_NAVIGATION}
             revert={revert}
             closeModal={closeModal}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);
@@ -969,7 +1000,7 @@ describe('RecordEditor', function suite() {
     closeModalCalled.should.equal(true);
   });
 
-  it('should call closeModal and onSaveCancelled when the confirmation modal cancel button is clicked', function test() {
+  it('should call closeModal and onSaveCancelled when the confirmation modal cancel button is clicked', () => {
     let saveCancelledCalled = false;
 
     const handleSaveCancelled = () => {
@@ -991,12 +1022,13 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="collectionobject"
-            openModalName={ConfirmRecordNavigationModal.modalName}
+            openModalName={MODAL_CONFIRM_RECORD_NAVIGATION}
             onSaveCancelled={handleSaveCancelled}
             closeModal={closeModal}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);
@@ -1015,8 +1047,8 @@ describe('RecordEditor', function suite() {
     closeModalCalled.should.equal(true);
   });
 
-  context('when isHardDelete is true', function context() {
-    it('should call deleteRecord, closeModal, and onRecordDeleted when the delete modal delete button is clicked', function test() {
+  context('when isHardDelete is true', () => {
+    it('should call deleteRecord, closeModal, and onRecordDeleted when the delete modal delete button is clicked', () => {
       let deleteRecordCalled = false;
 
       const deleteRecord = () => {
@@ -1047,13 +1079,14 @@ describe('RecordEditor', function suite() {
               csid="1234"
               isHardDelete
               recordType="collectionobject"
-              openModalName={ConfirmRecordDeleteModal.modalName}
+              openModalName={MODAL_CONFIRM_RECORD_DELETE}
               deleteRecord={deleteRecord}
               closeModal={closeModal}
               onRecordDeleted={handleRecordDeleted}
             />
           </StoreProvider>
-        </IntlProvider>);
+        </IntlProvider>,
+      );
 
       const result = shallowRenderer.getRenderOutput();
       const recordEditor = findWithType(result, RecordEditor);
@@ -1079,8 +1112,8 @@ describe('RecordEditor', function suite() {
     });
   });
 
-  context('when isHardDelete is false', function context() {
-    it('should call transitionRecord, closeModal, and onRecordTransitioned when the delete modal delete button is clicked', function test() {
+  context('when isHardDelete is false', () => {
+    it('should call transitionRecord, closeModal, and onRecordTransitioned when the delete modal delete button is clicked', () => {
       let transitionRecordTransitionName = null;
 
       const transitionRecord = (transitionNameArg) => {
@@ -1110,13 +1143,14 @@ describe('RecordEditor', function suite() {
               config={config}
               csid="1234"
               recordType="collectionobject"
-              openModalName={ConfirmRecordDeleteModal.modalName}
+              openModalName={MODAL_CONFIRM_RECORD_DELETE}
               transitionRecord={transitionRecord}
               closeModal={closeModal}
               onRecordTransitioned={handleRecordTransitioned}
             />
           </StoreProvider>
-        </IntlProvider>);
+        </IntlProvider>,
+      );
 
       const result = shallowRenderer.getRenderOutput();
       const recordEditor = findWithType(result, RecordEditor);
@@ -1142,7 +1176,7 @@ describe('RecordEditor', function suite() {
     });
   });
 
-  it('should call save and closeModal when the lock modal save button is clicked', function test() {
+  it('should call save and closeModal when the lock modal save button is clicked', () => {
     let saveCallback = null;
 
     const save = (callbackArg) => {
@@ -1172,13 +1206,14 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="movement"
-            openModalName={LockRecordModal.modalName}
+            openModalName={MODAL_LOCK_RECORD}
             save={save}
             closeModal={closeModal}
             onRecordCreated={handleRecordCreated}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);
@@ -1210,7 +1245,7 @@ describe('RecordEditor', function suite() {
     });
   });
 
-  it('should call saveWithTransition and closeModal when the lock modal save and lock button is clicked', function test() {
+  it('should call saveWithTransition and closeModal when the lock modal save and lock button is clicked', () => {
     let saveWithTransitionName = null;
     let saveWithTransitionCallback = null;
 
@@ -1242,13 +1277,14 @@ describe('RecordEditor', function suite() {
             config={config}
             csid="1234"
             recordType="movement"
-            openModalName={LockRecordModal.modalName}
+            openModalName={MODAL_LOCK_RECORD}
             saveWithTransition={saveWithTransition}
             closeModal={closeModal}
             onRecordCreated={handleRecordCreated}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);
@@ -1281,7 +1317,7 @@ describe('RecordEditor', function suite() {
     });
   });
 
-  it('should call transitionRecord when the deprecate button is clicked', function test() {
+  it('should call transitionRecord when the deprecate button is clicked', () => {
     let transitionRecordTransitionName = null;
 
     const transitionRecord = (transitionNameArg) => {
@@ -1309,7 +1345,8 @@ describe('RecordEditor', function suite() {
             onRecordTransitioned={handleRecordTransitioned}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);
@@ -1333,7 +1370,7 @@ describe('RecordEditor', function suite() {
     });
   });
 
-  it('should call transitionRecord when the undeprecate button is clicked', function test() {
+  it('should call transitionRecord when the undeprecate button is clicked', () => {
     let transitionRecordTransitionName = null;
 
     const transitionRecord = (transitionNameArg) => {
@@ -1361,7 +1398,8 @@ describe('RecordEditor', function suite() {
             onRecordTransitioned={handleRecordTransitioned}
           />
         </StoreProvider>
-      </IntlProvider>);
+      </IntlProvider>,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditor);

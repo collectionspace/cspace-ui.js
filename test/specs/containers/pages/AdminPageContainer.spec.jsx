@@ -29,8 +29,8 @@ const store = mockStore({
   }),
 });
 
-describe('AdminPageContainer', function suite() {
-  it('should set props on AdminPage', function test() {
+describe('AdminPageContainer', () => {
+  it('should set props on AdminPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();

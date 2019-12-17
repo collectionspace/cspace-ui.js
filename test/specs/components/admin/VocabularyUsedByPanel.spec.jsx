@@ -8,7 +8,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import VocabularyUsedByPanel from '../../../../src/components/admin/VocabularyUsedByPanel';
 import { configKey } from '../../../../src/helpers/configHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -26,7 +26,7 @@ const store = mockStore({
   }),
 });
 
-describe('VocabularyUsedByPanel', function suite() {
+describe('VocabularyUsedByPanel', () => {
   const shortId = 'shortId';
 
   const config = {
@@ -80,7 +80,8 @@ describe('VocabularyUsedByPanel', function suite() {
         <StoreProvider store={store}>
           <VocabularyUsedByPanel config={config} data={data} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-layout-Panel--common').should.not.equal(null);
   });
@@ -91,7 +92,8 @@ describe('VocabularyUsedByPanel', function suite() {
         <StoreProvider store={store}>
           <VocabularyUsedByPanel config={config} data={data} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const list = this.container.querySelector('ul');
 
@@ -115,7 +117,8 @@ describe('VocabularyUsedByPanel', function suite() {
         <StoreProvider store={store}>
           <VocabularyUsedByPanel config={config} data={notUsedData} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('div').textContent.should.equal('No uses found.');
   });
@@ -126,7 +129,8 @@ describe('VocabularyUsedByPanel', function suite() {
         <StoreProvider store={store}>
           <VocabularyUsedByPanel config={config} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

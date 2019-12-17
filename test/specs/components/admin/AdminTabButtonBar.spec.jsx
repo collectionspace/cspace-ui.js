@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('AdminTabButtonBar', function suite() {
+describe('AdminTabButtonBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('AdminTabButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <AdminTabButtonBar isCreatable />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -26,7 +27,8 @@ describe('AdminTabButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <AdminTabButtonBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

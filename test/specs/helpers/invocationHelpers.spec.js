@@ -8,7 +8,7 @@ import {
 
 chai.use(chaiImmutable);
 
-describe('invocationHelpers', function moduleSuite() {
+describe('invocationHelpers', () => {
   const config = {
     recordTypes: {
       collectionobject: {
@@ -19,8 +19,8 @@ describe('invocationHelpers', function moduleSuite() {
     },
   };
 
-  describe('createInvocationData', function suite() {
-    it('should create invocation data for no context mode invocation descriptors', function test() {
+  describe('createInvocationData', () => {
+    it('should create invocation data for no context mode invocation descriptors', () => {
       const invocationDescriptor = Immutable.Map({
         mode: 'nocontext',
       });
@@ -36,7 +36,7 @@ describe('invocationHelpers', function moduleSuite() {
       });
     });
 
-    it('should create invocation data for single mode invocation descriptors', function test() {
+    it('should create invocation data for single mode invocation descriptors', () => {
       const invocationDescriptor = Immutable.Map({
         mode: 'single',
         recordType: 'collectionobject',
@@ -55,7 +55,7 @@ describe('invocationHelpers', function moduleSuite() {
       });
     });
 
-    it('should create invocation data for list mode invocation descriptors', function test() {
+    it('should create invocation data for list mode invocation descriptors', () => {
       const invocationDescriptor = Immutable.Map({
         mode: 'list',
         recordType: 'collectionobject',
@@ -79,7 +79,7 @@ describe('invocationHelpers', function moduleSuite() {
       });
     });
 
-    it('should create invocation data for group mode invocation descriptors', function test() {
+    it('should create invocation data for group mode invocation descriptors', () => {
       const invocationDescriptor = Immutable.Map({
         mode: 'group',
         csid: '1234',
@@ -97,7 +97,7 @@ describe('invocationHelpers', function moduleSuite() {
       });
     });
 
-    it('should convert params to key/value pairs', function test() {
+    it('should convert params to key/value pairs', () => {
       const invocationDescriptor = Immutable.Map({
         mode: 'nocontext',
       });
@@ -123,7 +123,7 @@ describe('invocationHelpers', function moduleSuite() {
       });
     });
 
-    it('should convert array params to multiple key/value pairs with the same key', function test() {
+    it('should convert array params to multiple key/value pairs with the same key', () => {
       const invocationDescriptor = Immutable.Map({
         mode: 'nocontext',
       });
@@ -149,12 +149,12 @@ describe('invocationHelpers', function moduleSuite() {
     });
   });
 
-  describe('normalizeInvocationDescriptor', function suite() {
-    it('should return an immutable map if the invocation descriptor is undefined', function test() {
+  describe('normalizeInvocationDescriptor', () => {
+    it('should return an immutable map if the invocation descriptor is undefined', () => {
       normalizeInvocationDescriptor().should.equal(Immutable.Map());
     });
 
-    it('should set outputMIME to the outputMIME in the metadata if it is not set', function test() {
+    it('should set outputMIME to the outputMIME in the metadata if it is not set', () => {
       const invocationDescriptor = Immutable.Map();
 
       const metadata = Immutable.fromJS({
@@ -170,7 +170,7 @@ describe('invocationHelpers', function moduleSuite() {
       }));
     });
 
-    it('should set outputMIME to application/pdf if it is not set, and is also not set in the metadata', function test() {
+    it('should set outputMIME to application/pdf if it is not set, and is also not set in the metadata', () => {
       const invocationDescriptor = Immutable.Map();
 
       const metadata = Immutable.fromJS({

@@ -5,7 +5,9 @@ import LogoutIndicatorContainer from '../../containers/login/LogoutIndicatorCont
 import styles from '../../../styles/cspace-ui/LoginPage.css';
 
 const propTypes = {
-  history: PropTypes.object.isRequired,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }).isRequired,
   logout: PropTypes.func,
   resetLogin: PropTypes.func,
 };

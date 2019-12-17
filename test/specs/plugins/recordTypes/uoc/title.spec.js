@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('uoc record title', function suite() {
+describe('uoc record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the reference number and title', function test() {
+  it('should concat the reference number and title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:uoc_common': {
@@ -21,7 +21,7 @@ describe('uoc record title', function suite() {
     title(data).should.equal('LI.2017.2 – All Day Long');
   });
 
-  it('should return the reference number when title is empty', function test() {
+  it('should return the reference number when title is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:uoc_common': {
@@ -34,7 +34,7 @@ describe('uoc record title', function suite() {
     title(data).should.equal('LI.2017.2');
   });
 
-  it('should return the title when reference number is empty', function test() {
+  it('should return the title when reference number is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:uoc_common': {
@@ -47,12 +47,12 @@ describe('uoc record title', function suite() {
     title(data).should.equal('All Day Long');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:uoc_extension': {

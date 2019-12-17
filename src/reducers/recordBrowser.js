@@ -11,12 +11,11 @@ export default (state = Immutable.Map(), action) => {
       return state.deleteIn(['relatedRecordBrowser', 'relatedCsid']);
     case SET_RELATED_RECORD_BROWSER_RELATED_CSID:
       return state.setIn(
-        ['relatedRecordBrowser', 'relatedCsid', action.meta.recordType], action.payload
+        ['relatedRecordBrowser', 'relatedCsid', action.meta.recordType], action.payload,
       );
     default:
       return state;
   }
 };
 
-export const getRelatedRecordBrowserRelatedCsid = (state, recordType) =>
-  state.getIn(['relatedRecordBrowser', 'relatedCsid', recordType]);
+export const getRelatedRecordBrowserRelatedCsid = (state, recordType) => state.getIn(['relatedRecordBrowser', 'relatedCsid', recordType]);

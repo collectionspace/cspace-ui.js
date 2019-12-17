@@ -15,7 +15,7 @@ chai.should();
 const { UploadInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
-describe('UploadInputContainer', function suite() {
+describe('UploadInputContainer', () => {
   const uploadType = 'file';
 
   const store = mockStore({
@@ -34,7 +34,7 @@ describe('UploadInputContainer', function suite() {
     formatRelative: () => null,
     formatNumber: () => null,
     formatPlural: () => null,
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
     formatHTMLMessage: () => null,
     now: () => null,
   };
@@ -43,13 +43,14 @@ describe('UploadInputContainer', function suite() {
     store.clearActions();
   });
 
-  it('should set props on UploadInput', function test() {
+  it('should set props on UploadInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedUploadInput
         intl={intl}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -65,11 +66,11 @@ describe('UploadInputContainer', function suite() {
     result.props.formatFileInfo.should.be.a('function');
   });
 
-  it('should use intl to format the file info', function test() {
+  it('should use intl to format the file info', () => {
     let formattedValues = null;
 
     intl.formatMessage = (messageArg, valuesArg) => {
-      formattedValues = Object.assign({}, valuesArg);
+      formattedValues = { ...valuesArg };
 
       return `formatted ${messageArg.id}`;
     };
@@ -79,7 +80,8 @@ describe('UploadInputContainer', function suite() {
     shallowRenderer.render(
       <ConnectedUploadInput
         intl={intl}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -97,13 +99,14 @@ describe('UploadInputContainer', function suite() {
     });
   });
 
-  it('should connect onTypeChanged to setUploadType action creator', function test() {
+  it('should connect onTypeChanged to setUploadType action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedUploadInput
         intl={intl}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const newType = 'url';

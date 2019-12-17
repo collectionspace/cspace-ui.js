@@ -9,7 +9,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import WatchedSearchResultTable from '../../../../src/components/search/WatchedSearchResultTable';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -22,16 +22,17 @@ const store = mockStore({
 
 const config = {};
 
-describe('WatchedSearchResultTable', function suite() {
+describe('WatchedSearchResultTable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a SearchResultTable', function test() {
+  it('should render a SearchResultTable', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <WatchedSearchResultTable />);
+      <WatchedSearchResultTable />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -58,7 +59,8 @@ describe('WatchedSearchResultTable', function suite() {
             onSearchDescriptorChange={handleSearchDescriptorChange}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(changedSearchDescriptor).to.equal(null);
 
@@ -75,7 +77,8 @@ describe('WatchedSearchResultTable', function suite() {
             onSearchDescriptorChange={handleSearchDescriptorChange}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     changedSearchDescriptor.should.equal(nextSearchDescriptor);
   });
@@ -103,7 +106,8 @@ describe('WatchedSearchResultTable', function suite() {
             search={search}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchCalled.should.equal(false);
 
@@ -116,7 +120,8 @@ describe('WatchedSearchResultTable', function suite() {
             search={search}
           />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchCalled.should.equal(true);
   });

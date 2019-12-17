@@ -7,8 +7,8 @@ import Notification from '../../../../src/components/notification/Notification';
 
 chai.should();
 
-describe('NotificationBar', function suite() {
-  it('should render as a div', function test() {
+describe('NotificationBar', () => {
+  it('should render as a div', () => {
     const notifications = Immutable.OrderedMap();
 
     const shallowRenderer = createRenderer();
@@ -20,7 +20,7 @@ describe('NotificationBar', function suite() {
     result.type.should.equal('div');
   });
 
-  it('should render a notification for each supplied notification descriptor', function test() {
+  it('should render a notification for each supplied notification descriptor', () => {
     const notifications = Immutable.OrderedMap({
       1: {},
       2: {},

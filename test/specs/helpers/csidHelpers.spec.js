@@ -5,17 +5,17 @@ import {
   isUrnCsid,
 } from '../../../src/helpers/csidHelpers';
 
-describe('csidHelpers', function moduleSuite() {
-  describe('isCsid', function suite() {
-    it('should recognize short csids', function test() {
+describe('csidHelpers', () => {
+  describe('isCsid', () => {
+    it('should recognize short csids', () => {
       isCsid('6f53c229-721d-418d-94c2').should.equal(true);
     });
 
-    it('should recognize long csids', function test() {
+    it('should recognize long csids', () => {
       isCsid('f47ac10b-58cc-4372-a567-0e02b2c3d479').should.equal(true);
     });
 
-    it('should return false for non-csids', function test() {
+    it('should return false for non-csids', () => {
       isCsid('foo').should.equal(false);
       isCsid('urn:cspace:name(OliviaOwner1484269000345').should.equal(false);
 
@@ -24,29 +24,29 @@ describe('csidHelpers', function moduleSuite() {
     });
   });
 
-  describe('isUrnCsid', function suite() {
-    it('should recognize urn csids', function test() {
+  describe('isUrnCsid', () => {
+    it('should recognize urn csids', () => {
       isUrnCsid('urn:cspace:name(OliviaOwner1484269000345)').should.equal(true);
     });
 
-    it('should return false for non-urn csids', function test() {
+    it('should return false for non-urn csids', () => {
       isUrnCsid('4ece8f1a-8788-4853-921c').should.equal(false);
     });
 
-    it('should return false for non-csids', function test() {
+    it('should return false for non-csids', () => {
       isUrnCsid('foo').should.equal(false);
     });
   });
 
-  describe('getUrnCsidShortId', function suite() {
-    it('should return the short id from a urn csid', function test() {
+  describe('getUrnCsidShortId', () => {
+    it('should return the short id from a urn csid', () => {
       getUrnCsidShortId('urn:cspace:name(OliviaOwner1484269000345)').should
         .equal('OliviaOwner1484269000345');
     });
   });
 
-  describe('asKeywords', function suite() {
-    it('should convert dashes to spaces and add quotes', function test() {
+  describe('asKeywords', () => {
+    it('should convert dashes to spaces and add quotes', () => {
       asKeywords('6f53c229-721d-418d-94c2').should.equal('"6f53c229 721d 418d 94c2"');
     });
   });

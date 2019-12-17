@@ -10,7 +10,7 @@ import InvocationModalContainer from '../../../../src/containers/invocable/Invoc
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RecordReportPanel from '../../../../src/components/record/RecordReportPanel';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -70,12 +70,12 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('RecordReportPanel', function suite() {
+describe('RecordReportPanel', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a div containing a search panel and an invocation modal', function test() {
+  it('should render a div containing a search panel and an invocation modal', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -88,7 +88,8 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -114,7 +115,7 @@ describe('RecordReportPanel', function suite() {
     modal.should.not.equal(null);
   });
 
-  it('should render a nothing if the record has not been saved', function test() {
+  it('should render a nothing if the record has not been saved', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -135,14 +136,15 @@ describe('RecordReportPanel', function suite() {
         recordData={unsavedRecordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should render nothing if list permission on report does not exist', function test() {
+  it('should render nothing if list permission on report does not exist', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -154,14 +156,15 @@ describe('RecordReportPanel', function suite() {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should update the search panel\'s search descriptor when the record type changes', function test() {
+  it('should update the search panel\'s search descriptor when the record type changes', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -174,7 +177,8 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let searchPanel;
@@ -201,7 +205,8 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={newRecordType}
         perms={perms}
-      />);
+      />,
+    );
 
     result = shallowRenderer.getRenderOutput();
     searchPanel = findWithType(result, SearchPanelContainer);
@@ -217,7 +222,7 @@ describe('RecordReportPanel', function suite() {
     }));
   });
 
-  it('should close the invocation modal when the cancel button is clicked', function test() {
+  it('should close the invocation modal when the cancel button is clicked', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -230,7 +235,8 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let modal;
@@ -257,7 +263,7 @@ describe('RecordReportPanel', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should close the invocation modal when the close button is clicked', function test() {
+  it('should close the invocation modal when the close button is clicked', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -270,7 +276,8 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let modal;
@@ -297,7 +304,7 @@ describe('RecordReportPanel', function suite() {
     modal.props.isOpen.should.equal(false);
   });
 
-  it('should call openReport when the invoke button is clicked in the invocation modal', function test() {
+  it('should call openReport when the invoke button is clicked in the invocation modal', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -323,7 +330,8 @@ describe('RecordReportPanel', function suite() {
         recordType={recordType}
         perms={perms}
         openReport={openReport}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -362,7 +370,7 @@ describe('RecordReportPanel', function suite() {
     });
   });
 
-  it('should update the search panel when it changes the search descriptor', function test() {
+  it('should update the search panel when it changes the search descriptor', () => {
     const csid = '1234';
     const recordType = 'group';
 
@@ -375,7 +383,8 @@ describe('RecordReportPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     let result;
     let searchPanel;
@@ -383,7 +392,7 @@ describe('RecordReportPanel', function suite() {
     result = shallowRenderer.getRenderOutput();
     searchPanel = findWithType(result, SearchPanelContainer);
 
-    const searchDescriptor = searchPanel.props.searchDescriptor;
+    const { searchDescriptor } = searchPanel.props;
 
     searchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'report',

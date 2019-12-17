@@ -2,8 +2,8 @@ import optionLists from '../../../../../src/plugins/recordTypes/collectionobject
 
 chai.should();
 
-describe('collectionobject record optionLists', function suite() {
-  it('should export an object', function test() {
+describe('collectionobject record optionLists', () => {
+  it('should export an object', () => {
     optionLists.should.be.an('object');
   });
 });

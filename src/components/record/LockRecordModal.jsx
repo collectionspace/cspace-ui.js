@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Modal } from 'cspace-layout';
 import CancelButton from '../navigation/CancelButton';
-import SaveButton from '../record/SaveButton';
+import SaveButton from './SaveButton';
 import lockButtonStyles from '../../../styles/cspace-ui/LockButton.css';
 
 const messages = defineMessages({
@@ -105,5 +105,4 @@ export default class LockRecordModal extends Component {
   }
 }
 
-LockRecordModal.modalName = 'LockRecordModal';
 LockRecordModal.propTypes = propTypes;

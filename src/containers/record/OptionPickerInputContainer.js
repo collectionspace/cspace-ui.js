@@ -17,9 +17,7 @@ const mapDispatchToProps = {};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
-    /* eslint-disable no-unused-vars */
     source,
-    /* eslint-enable no-unused-vars */
     ...remainingOwnProps
   } = ownProps;
 
@@ -33,7 +31,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 const ConnectedOptionPickerInput = connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps
+  mergeProps,
 )(OptionPickerInput);
 
 ConnectedOptionPickerInput.propTypes = {

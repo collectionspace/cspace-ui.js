@@ -42,7 +42,7 @@ const messages = defineMessages({
 
 const propTypes = {
   errors: PropTypes.instanceOf(Immutable.Map),
-  fieldDescriptor: PropTypes.object,
+  fieldDescriptor: PropTypes.objectOf(PropTypes.object),
 };
 
 const formatErrors = (fieldDescriptor, errors, path = []) => {
@@ -75,7 +75,7 @@ const formatErrors = (fieldDescriptor, errors, path = []) => {
       }
     } else if (value) {
       formattedErrors.push(
-        ...formatErrors(fieldDescriptor, value, [...path, key])
+        ...formatErrors(fieldDescriptor, value, [...path, key]),
       );
     }
   });

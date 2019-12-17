@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('work record plugin', function suite() {
+describe('work record plugin', () => {
   const config = {};
   const workRecordTypePlugin = workRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = workRecordTypePlugin(configContext);
 
     const {

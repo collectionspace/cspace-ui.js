@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import {
+  defineMessages, injectIntl, intlShape, FormattedMessage,
+} from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 
 import {
@@ -22,7 +24,7 @@ import {
   OP_NOT_MATCH,
   OP_NOT_RANGE,
   OP_NOT_NULL,
-  } from '../../../constants/searchOperators';
+} from '../../../constants/searchOperators';
 
 const {
   OptionPickerInput,
@@ -208,7 +210,7 @@ function OperatorInput(props) {
     );
   }
 
-  const options = operators.map(op => (
+  const options = operators.map((op) => (
     { value: op, label: intl.formatMessage(messages[op]) }
   ));
 

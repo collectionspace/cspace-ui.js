@@ -19,7 +19,7 @@ const store = mockStore({
 
 const config = {};
 
-describe('PublicPage', function suite() {
+describe('PublicPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -34,7 +34,8 @@ describe('PublicPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -51,7 +52,8 @@ describe('PublicPage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('div > div#content').textContent.should
       .equal('This is some content');

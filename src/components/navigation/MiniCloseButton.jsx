@@ -9,6 +9,7 @@ export default function MiniCloseButton(props) {
     <button
       className={className}
       name="close"
+      type="button"
       {...props}
     >
       close

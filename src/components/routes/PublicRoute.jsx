@@ -16,7 +16,7 @@ export default function PublicRoute(props) {
   return (
     <Route
       {...remainingProps}
-      render={routeProps => (
+      render={(routeProps) => (
         <PublicPage {...routeProps}>
           <Component {...routeProps} />
         </PublicPage>

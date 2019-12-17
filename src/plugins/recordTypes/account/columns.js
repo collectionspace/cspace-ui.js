@@ -18,8 +18,7 @@ export default (configContext) => {
         width: 250,
       },
       status: {
-        formatValue: (data, formatterContext) =>
-          formatOption('accountStatuses', data, formatterContext),
+        formatValue: (data, formatterContext) => formatOption('accountStatuses', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.account.default.status',

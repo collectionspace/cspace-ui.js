@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     Immutable,
   } = configContext.lib;
@@ -17,7 +17,7 @@ export default configContext => (data) => {
   if (!Immutable.List.isList(items)) {
     normalizedItems = Immutable.List.of(items);
   } else {
-    normalizedItems = items.sortBy(item => item.get('order'));
+    normalizedItems = items.sortBy((item) => item.get('order'));
   }
 
   return data.setIn(itemPath, normalizedItems);

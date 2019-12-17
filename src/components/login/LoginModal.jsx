@@ -53,5 +53,4 @@ export default function LoginModal(props) {
   );
 }
 
-LoginModal.modalName = 'LoginModal';
 LoginModal.propTypes = propTypes;

@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import commonListTypePlugin from '../../../../src/plugins/listTypes/common';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -39,20 +39,20 @@ const config = {
   },
 };
 
-describe('common list type', function suite() {
+describe('common list type', () => {
   const configContribution = commonListTypePlugin();
   const { listTypes } = configContribution;
   const commonList = listTypes.common;
 
-  describe('getItemLocationPath', function funcSuite() {
-    it('should compute the location from the docType and csid', function test() {
+  describe('getItemLocationPath', () => {
+    it('should compute the location from the docType and csid', () => {
       commonList.getItemLocationPath(Immutable.fromJS({
         docType: 'CollectionObject',
         csid: '1234',
       }), { config }).should.equal('/record/collectionobject/1234');
     });
 
-    it('should include the vocabulary path', function test() {
+    it('should include the vocabulary path', () => {
       commonList.getItemLocationPath(Immutable.fromJS({
         docType: 'Person',
         csid: '1234',
@@ -60,7 +60,7 @@ describe('common list type', function suite() {
       }), { config }).should.equal('/record/person/local/1234');
     });
 
-    it('should fall back to the record type from the search descriptor if there is no docType', function test() {
+    it('should fall back to the record type from the search descriptor if there is no docType', () => {
       const searchDescriptor = Immutable.Map({
         recordType: 'group',
       });
@@ -70,7 +70,7 @@ describe('common list type', function suite() {
       }), { config, searchDescriptor }).should.equal('/record/group/1234');
     });
 
-    it('should return null for an unknown record type', function test() {
+    it('should return null for an unknown record type', () => {
       const searchDescriptor = Immutable.Map();
 
       expect(commonList.getItemLocationPath(Immutable.fromJS({

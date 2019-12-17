@@ -2,15 +2,10 @@
   "extends": [
     "airbnb"
   ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    }
-  },
   "rules": {
-    // Allow Immutable.List() and Immutable.Map() without new
-    "new-cap": ["error", { "capIsNew": false }],
-    // Allow object propTypes
-    "react/forbid-prop-types": ["error", { "forbid": ["any", "array"] }]
+    // TODO: Rationalize prop definitions -- add isRequired where needed, and add defaults
+    // elsewhere. For now turn off this rule.
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

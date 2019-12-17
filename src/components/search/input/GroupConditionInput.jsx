@@ -15,7 +15,9 @@ import {
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   hasChildGroups: PropTypes.bool,
   inline: PropTypes.bool,
   name: PropTypes.string,
@@ -87,7 +89,7 @@ export default class GroupConditionInput extends Component {
       buildRecordFieldOptionLists,
       config,
       recordType,
-  } = this.props;
+    } = this.props;
 
     const {
       condition: prevCondition,

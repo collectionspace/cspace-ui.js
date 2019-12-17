@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import CloneButton from '../../../../src/components/record/CloneButton';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('CloneButton', function suite() {
+describe('CloneButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('CloneButton', function suite() {
     render(
       <IntlProvider locale="en">
         <CloneButton csid="1234" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
@@ -26,7 +27,8 @@ describe('CloneButton', function suite() {
     render(
       <IntlProvider locale="en">
         <CloneButton isCloneable={false} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

@@ -34,8 +34,7 @@ export default (configContext) => {
         width: 200,
       },
       printLabels: {
-        formatValue: (data, formatterContext) =>
-          formatOption('printLabelOptions', data, formatterContext),
+        formatValue: (data, formatterContext) => formatOption('printLabelOptions', data, formatterContext),
         messages: defineMessages({
           label: {
             id: 'column.pottag.default.printLabels',

@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('acquisition record title', function suite() {
+describe('acquisition record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the acquisition reference number and acquisition source', function test() {
+  it('should concat the acquisition reference number and acquisition source', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:acquisitions_common': {
@@ -26,7 +26,7 @@ describe('acquisition record title', function suite() {
     title(data).should.equal('AC.2017.2 – David Bowie');
   });
 
-  it('should return the acquisition reference number when acquisition source is empty', function test() {
+  it('should return the acquisition reference number when acquisition source is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:acquisitions_common': {
@@ -39,7 +39,7 @@ describe('acquisition record title', function suite() {
     title(data).should.equal('AC.2017.2');
   });
 
-  it('should return the acquisition source when the acquisition reference number is empty', function test() {
+  it('should return the acquisition source when the acquisition reference number is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:acquisitions_common': {
@@ -57,12 +57,12 @@ describe('acquisition record title', function suite() {
     title(data).should.equal('David Bowie');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:acquisitions_extension': {

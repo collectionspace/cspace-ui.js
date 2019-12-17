@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('movement record title', function suite() {
+describe('movement record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the current location and location date', function test() {
+  it('should concat the current location and location date', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:movements_common': {
@@ -21,7 +21,7 @@ describe('movement record title', function suite() {
     title(data).should.equal('Room 200 – 2017-09-26');
   });
 
-  it('should return the current location when location date is empty', function test() {
+  it('should return the current location when location date is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:movements_common': {
@@ -33,7 +33,7 @@ describe('movement record title', function suite() {
     title(data).should.equal('Room 200');
   });
 
-  it('should return the location date when current location is empty', function test() {
+  it('should return the location date when current location is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:movements_common': {
@@ -45,7 +45,7 @@ describe('movement record title', function suite() {
     title(data).should.equal('2017-09-26');
   });
 
-  it('should return the location date when it does not have a time part', function test() {
+  it('should return the location date when it does not have a time part', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:movements_common': {
@@ -57,12 +57,12 @@ describe('movement record title', function suite() {
     title(data).should.equal('2017-09-26');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:movements_extension': {

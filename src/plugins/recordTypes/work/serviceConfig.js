@@ -6,7 +6,7 @@ export default {
   objectName: 'Workitem',
   documentName: 'works',
 
-  quickAddData: values => ({
+  quickAddData: (values) => ({
     document: {
       'ns2:works_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/work',

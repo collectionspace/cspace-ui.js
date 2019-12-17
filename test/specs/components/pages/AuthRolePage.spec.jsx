@@ -18,7 +18,7 @@ import RecordEditorContainer from '../../../../src/containers/record/RecordEdito
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import AuthRolePage from '../../../../src/components/pages/AuthRolePage';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -73,7 +73,7 @@ const context = {
   store,
 };
 
-describe('AuthRolePage', function suite() {
+describe('AuthRolePage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -96,7 +96,8 @@ describe('AuthRolePage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -125,12 +126,13 @@ describe('AuthRolePage', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     setTabName.should.equal('authrole');
   });
 
-  it('should render a record editor when a csid param exists in the match', function test() {
+  it('should render a record editor when a csid param exists in the match', () => {
     const location = {
       search: '',
     };
@@ -146,7 +148,8 @@ describe('AuthRolePage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthRolePage location={location} match={match} />, context);
+      <AuthRolePage location={location} match={match} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -155,7 +158,7 @@ describe('AuthRolePage', function suite() {
     recordEditor.props.csid.should.equal(csid);
   });
 
-  it('should replace history with a new location to clone a record', function test() {
+  it('should replace history with a new location to clone a record', () => {
     const location = {
       search: '',
     };
@@ -183,7 +186,8 @@ describe('AuthRolePage', function suite() {
         history={history}
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -197,7 +201,7 @@ describe('AuthRolePage', function suite() {
     });
   });
 
-  it('should replace history with a new location when the create new button is clicked', function test() {
+  it('should replace history with a new location when the create new button is clicked', () => {
     const location = {
       search: '',
     };
@@ -221,7 +225,8 @@ describe('AuthRolePage', function suite() {
         history={history}
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const buttonBar = findWithType(result, AdminTabButtonBar);
@@ -232,7 +237,7 @@ describe('AuthRolePage', function suite() {
     replacedLocation.should.equal('/admin/authrole/new');
   });
 
-  it('should replace history with a new location when a record is created', function test() {
+  it('should replace history with a new location when a record is created', () => {
     const location = {
       search: '',
     };
@@ -258,7 +263,8 @@ describe('AuthRolePage', function suite() {
         history={history}
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -271,7 +277,7 @@ describe('AuthRolePage', function suite() {
     replacedLocation.should.equal(`/admin/authrole/${newRecordCsid}`);
   });
 
-  it('should replace history with a new location when a role deletion completes', function test() {
+  it('should replace history with a new location when a role deletion completes', () => {
     const location = {
       search: '',
     };
@@ -297,7 +303,8 @@ describe('AuthRolePage', function suite() {
         history={history}
         location={location}
         match={match}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const recordEditor = findWithType(result, RecordEditorContainer);
@@ -308,7 +315,7 @@ describe('AuthRolePage', function suite() {
     replacedLocation.should.equal('/admin/authrole');
   });
 
-  it('should replace history with a new location when an item is clicked in the search panel', function test() {
+  it('should replace history with a new location when an item is clicked in the search panel', () => {
     const location = {
       search: '',
     };
@@ -333,7 +340,8 @@ describe('AuthRolePage', function suite() {
         location={location}
         match={match}
         perms={perms}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -346,7 +354,7 @@ describe('AuthRolePage', function suite() {
     replacedLocation.should.equal(`/admin/authrole/${itemCsid}`);
   });
 
-  it('should not replace history when an item is clicked in the search panel but there are not read permissions on roles', function test() {
+  it('should not replace history when an item is clicked in the search panel but there are not read permissions on roles', () => {
     const location = {
       search: '',
     };
@@ -371,7 +379,8 @@ describe('AuthRolePage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPanel = findWithType(result, SearchPanelContainer);
@@ -384,7 +393,7 @@ describe('AuthRolePage', function suite() {
     expect(replacedLocation).to.equal(null);
   });
 
-  it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', function test() {
+  it('should update the search descriptor\'s sequence ID when a record is saved in the record editor', () => {
     const location = {
       search: '',
     };
@@ -400,7 +409,8 @@ describe('AuthRolePage', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <AuthRolePage location={location} match={match} />, context);
+      <AuthRolePage location={location} match={match} />, context,
+    );
 
     let result;
 
@@ -424,7 +434,7 @@ describe('AuthRolePage', function suite() {
     });
   });
 
-  it('should update the search descriptor when the search bar value changes', function test() {
+  it('should update the search descriptor when the search bar value changes', () => {
     const location = {
       search: '',
     };
@@ -440,7 +450,8 @@ describe('AuthRolePage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -473,7 +484,7 @@ describe('AuthRolePage', function suite() {
     });
   });
 
-  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', function test() {
+  it('should only update the search descriptor once when the search bar value changes twice within the filter delay', () => {
     const location = {
       search: '',
     };
@@ -489,7 +500,8 @@ describe('AuthRolePage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;
@@ -510,41 +522,41 @@ describe('AuthRolePage', function suite() {
         resolve();
       }, 200);
     })
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-        searchPanel = findWithType(result, SearchPanelContainer);
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          result = shallowRenderer.getRenderOutput();
+          searchPanel = findWithType(result, SearchPanelContainer);
 
-        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'authrole',
-          searchQuery: {
-            size: 20,
-          },
-        }));
+          searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+            recordType: 'authrole',
+            searchQuery: {
+              size: 20,
+            },
+          }));
 
-        resolve();
-      }, 400);
-    }))
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        result = shallowRenderer.getRenderOutput();
-        searchPanel = findWithType(result, SearchPanelContainer);
+          resolve();
+        }, 400);
+      }))
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          result = shallowRenderer.getRenderOutput();
+          searchPanel = findWithType(result, SearchPanelContainer);
 
-        searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
-          recordType: 'authrole',
-          searchQuery: {
-            dn: 'another searchval',
-            p: 0,
-            size: 20,
-          },
-        }));
+          searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
+            recordType: 'authrole',
+            searchQuery: {
+              dn: 'another searchval',
+              p: 0,
+              size: 20,
+            },
+          }));
 
-        resolve();
-      }, 400);
-    }));
+          resolve();
+        }, 400);
+      }));
   });
 
-  it('should update the search descriptor immediately when the search bar value is blanked', function test() {
+  it('should update the search descriptor immediately when the search bar value is blanked', () => {
     const location = {
       search: '',
     };
@@ -560,7 +572,8 @@ describe('AuthRolePage', function suite() {
         location={location}
         match={match}
         perms={null}
-      />, context);
+      />, context,
+    );
 
     let result;
     let searchPanel;

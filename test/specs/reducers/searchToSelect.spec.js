@@ -19,12 +19,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('search to select reducer', function suite() {
-  it('should have empty immutable initial state', function test() {
+describe('search to select reducer', () => {
+  it('should have empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });
 
-  it('should handle SET_SEARCH_TO_SELECT_RECORD_TYPE', function test() {
+  it('should handle SET_SEARCH_TO_SELECT_RECORD_TYPE', () => {
     const recordType = 'loanin';
 
     const state = reducer(Immutable.Map(), {
@@ -39,7 +39,7 @@ describe('search to select reducer', function suite() {
     getRecordType(state).should.equal(recordType);
   });
 
-  it('should handle SET_SEARCH_TO_SELECT_VOCABULARY', function test() {
+  it('should handle SET_SEARCH_TO_SELECT_VOCABULARY', () => {
     const recordType = 'person';
     const vocabulary = 'local';
 
@@ -60,7 +60,7 @@ describe('search to select reducer', function suite() {
     getVocabulary(state, recordType).should.equal(vocabulary);
   });
 
-  it('should handle SET_SEARCH_TO_SELECT_ADVANCED', function test() {
+  it('should handle SET_SEARCH_TO_SELECT_ADVANCED', () => {
     const advancedSearchCondition = Immutable.Map({
       op: 'eq',
       path: '',
@@ -79,7 +79,7 @@ describe('search to select reducer', function suite() {
     getAdvanced(state).should.equal(advancedSearchCondition);
   });
 
-  it('should handle SET_SEARCH_TO_SELECT_KEYWORD', function test() {
+  it('should handle SET_SEARCH_TO_SELECT_KEYWORD', () => {
     const keyword = 'some stuff';
 
     const state = reducer(Immutable.Map(), {
@@ -94,7 +94,7 @@ describe('search to select reducer', function suite() {
     getKeyword(state).should.equal(keyword);
   });
 
-  it('should handle CLEAR_SEARCH_TO_SELECT', function test() {
+  it('should handle CLEAR_SEARCH_TO_SELECT', () => {
     const state = reducer(Immutable.fromJS({
       recordType: 'person',
       vocabulary: {

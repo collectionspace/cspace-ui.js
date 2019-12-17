@@ -34,8 +34,8 @@ const store = mockStore({
   }),
 });
 
-describe('VocabularyPageContainer', function suite() {
-  it('should set props on VocabularyPage', function test() {
+describe('VocabularyPageContainer', () => {
+  it('should set props on VocabularyPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();
@@ -47,7 +47,8 @@ describe('VocabularyPageContainer', function suite() {
             csid,
           },
         }}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

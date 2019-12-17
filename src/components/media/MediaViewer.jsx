@@ -16,13 +16,12 @@ import {
 
 import styles from '../../../styles/cspace-ui/MediaViewer.css';
 
-/* eslint-disable import/imports-first, import/no-unresolved */
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery-no-icon.css';
-/* eslint-enable import/imports-first, import/no-unresolved */
 
 const { MiniButton } = inputComponents;
 
-const renderItem = item => (
+const renderItem = (item) => (
   <div className="image-gallery-image">
     <ImageContainer
       src={item.snapshot}
@@ -35,7 +34,7 @@ const renderItem = item => (
   </div>
 );
 
-const renderThumbInner = item => (
+const renderThumbInner = (item) => (
   <div>
     <ImageContainer
       src={item.thumbnail}
@@ -57,7 +56,10 @@ const renderRightNav = (onClick, disabled) => (
 );
 
 const propTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+    recordTypes: PropTypes.object,
+  }).isRequired,
   isSearchPending: PropTypes.bool,
   listType: PropTypes.string,
   ownBlobCsid: PropTypes.string,
@@ -87,7 +89,7 @@ export default class MediaViewer extends Component {
     const popupSubresource = get(recordTypeConfig, ['content', 'popup', 'subresource']);
 
     return readRecord(config, recordTypeConfig, undefined, blobCsid)
-      .then(blobData => getContentPath(config, 'blob', undefined, blobCsid, popupSubresource, blobData));
+      .then((blobData) => getContentPath(config, 'blob', undefined, blobCsid, popupSubresource, blobData));
   }
 
   handleImageGalleryClick(event) {
@@ -95,10 +97,14 @@ export default class MediaViewer extends Component {
       target,
     } = event;
 
+    const {
+      config,
+    } = this.props;
+
     if (target.nodeName === 'IMG') {
       this.getPopupImagePath(target.dataset.csid)
         .then((popupImagePath) => {
-          window.open(getImageViewerPath(this.props.config, popupImagePath), VIEWER_WINDOW_NAME);
+          window.open(getImageViewerPath(config, popupImagePath), VIEWER_WINDOW_NAME);
         });
     }
   }
@@ -145,7 +151,7 @@ export default class MediaViewer extends Component {
       const list = searchResult.get(listNodeName);
       const totalItems = parseInt(list.get('totalItems'), 10);
 
-      if (!isNaN(totalItems)) {
+      if (!Number.isNaN(totalItems)) {
         let items = list.get(itemNodeName);
 
         if (items) {

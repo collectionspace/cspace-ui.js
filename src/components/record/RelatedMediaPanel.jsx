@@ -23,7 +23,9 @@ const getSearchDescriptor = (relatedCsid, updatedTimestamp) => Immutable.fromJS(
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,

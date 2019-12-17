@@ -14,7 +14,7 @@ chai.should();
 const mockStore = configureMockStore();
 const store = mockStore();
 
-describe('ResetPasswordPage', function suite() {
+describe('ResetPasswordPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -29,7 +29,8 @@ describe('ResetPasswordPage', function suite() {
         <StoreProvider store={store}>
           <ResetPasswordPage location={location} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -44,7 +45,8 @@ describe('ResetPasswordPage', function suite() {
         <StoreProvider store={store}>
           <ResetPasswordPage location={location} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     findRenderedComponentWithType(renderTree, PasswordResetRequestForm).should.not.equal(null);
   });
@@ -60,7 +62,8 @@ describe('ResetPasswordPage', function suite() {
         <StoreProvider store={store}>
           <ResetPasswordPage location={location} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     findRenderedComponentWithType(renderTree, PasswordResetForm).should.not.equal(null);
   });

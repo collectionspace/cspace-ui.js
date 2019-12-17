@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     getPart,
   } = configContext.recordDataHelpers;
@@ -20,5 +20,5 @@ export default configContext => (data) => {
   const loanOutNumber = common.get('loanOutNumber');
   const borrower = getDisplayName(common.get('borrower'));
 
-  return [loanOutNumber, borrower].filter(part => !!part).join(' – ');
+  return [loanOutNumber, borrower].filter((part) => !!part).join(' – ');
 };

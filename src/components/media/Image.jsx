@@ -1,4 +1,4 @@
-/* global window, URL */
+/* global window */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -39,7 +39,15 @@ export default class Image extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.src !== prevProps.src) {
+    const {
+      src,
+    } = this.props;
+
+    const {
+      src: prevSrc,
+    } = prevProps;
+
+    if (src !== prevSrc) {
       this.reset();
       this.readImage();
     }
@@ -90,7 +98,7 @@ export default class Image extends Component {
           if (get(error, ['response', 'status']) === 404 && retriesRemaining > 0) {
             // Make retries back off exponentially.
 
-            const pauseTime = Math.pow(2, retryLimit - retriesRemaining) * 1000;
+            const pauseTime = (2 ** (retryLimit - retriesRemaining)) * 1000;
 
             this.retryTimer = window.setTimeout(() => {
               this.tryReadImage(retriesRemaining - 1);
@@ -120,12 +128,10 @@ export default class Image extends Component {
       alt,
       errorMessage,
       pendingMessage,
-      /* eslint-disable no-unused-vars */
       src,
       retry,
       retryLimit,
       readImage,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 

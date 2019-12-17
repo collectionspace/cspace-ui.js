@@ -3,7 +3,7 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('valuation record columns', function suite() {
+describe('valuation record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
@@ -21,14 +21,14 @@ describe('valuation record columns', function suite() {
   };
 
   const intl = {
-    formatMessage: message => `formatted ${message.id}`,
+    formatMessage: (message) => `formatted ${message.id}`,
   };
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have value type that is formatted as an option list value', function test() {
+  it('should have value type that is formatted as an option list value', () => {
     const valueTypeColumn = columns.default.valueType;
 
     valueTypeColumn.should.have.property('formatValue').that.is.a('function');

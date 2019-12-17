@@ -21,14 +21,14 @@ const mapStateToProps = (state, ownProps) => {
   let searchDescriptor;
 
   if (
-    preferredPageSize &&
-    preferredPageSize !== providedSearchQuery.get('size') &&
-    !providedSearchQuery.get('p')
+    preferredPageSize
+    && preferredPageSize !== providedSearchQuery.get('size')
+    && !providedSearchQuery.get('p')
   ) {
     // A preferred page size exists. Override the provided page size.
 
     searchDescriptor = providedSearchDescriptor.set(
-      'searchQuery', providedSearchQuery.set('size', preferredPageSize)
+      'searchQuery', providedSearchQuery.set('size', preferredPageSize),
     );
   } else {
     searchDescriptor = providedSearchDescriptor;
@@ -47,5 +47,5 @@ const mapDispatchToProps = ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(SearchPanel);

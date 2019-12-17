@@ -9,8 +9,8 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('ValidationErrorNotificationContainer', function suite() {
-  it('should set props on ValidationErrorNotification', function test() {
+describe('ValidationErrorNotificationContainer', () => {
+  it('should set props on ValidationErrorNotification', () => {
     const csid = '1234';
     const validationErrors = Immutable.Map();
 

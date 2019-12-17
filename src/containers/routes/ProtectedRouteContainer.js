@@ -17,7 +17,7 @@ import {
   closeModal,
 } from '../../actions/notification';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   openModalName: getOpenModalName(state),
   perms: getUserPerms(state),
   username: getUserUsername(state),

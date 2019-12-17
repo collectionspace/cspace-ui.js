@@ -6,12 +6,12 @@ import RecordFormContainer from '../../../../src/containers/record/RecordFormCon
 import SubrecordEditor from '../../../../src/components/record/SubrecordEditor';
 import SubrecordDetachButton from '../../../../src/components/record/SubrecordDetachButton';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('SubrecordEditor', function suite() {
-  it('should render a RecordFormContainer', function test() {
+describe('SubrecordEditor', () => {
+  it('should render a RecordFormContainer', () => {
     const config = {
       recordTypes: {
         contact: {},
@@ -51,7 +51,8 @@ describe('SubrecordEditor', function suite() {
         data={data}
         formName={formName}
         perms={perms}
-      />);
+      />,
+    );
 
     const recordFormContainer = findWithType(result, RecordFormContainer);
 
@@ -65,7 +66,7 @@ describe('SubrecordEditor', function suite() {
     recordFormContainer.props.formName.should.equal(formName);
   });
 
-  it('should render nothing if there is no config for the record type', function test() {
+  it('should render nothing if there is no config for the record type', () => {
     const config = {
       recordTypes: {
         contact: {},
@@ -98,14 +99,15 @@ describe('SubrecordEditor', function suite() {
         csid={csid}
         data={data}
         formName={formName}
-      />);
+      />,
+    );
 
     const recordFormContainer = findAllWithType(result, RecordFormContainer);
 
     recordFormContainer.length.should.equal(0);
   });
 
-  it('should render nothing if read permission does not exist for the record type', function test() {
+  it('should render nothing if read permission does not exist for the record type', () => {
     const config = {
       recordTypes: {
         contact: {},
@@ -138,14 +140,15 @@ describe('SubrecordEditor', function suite() {
         csid={csid}
         data={data}
         formName={formName}
-      />);
+      />,
+    );
 
     const recordFormContainer = findAllWithType(result, RecordFormContainer);
 
     recordFormContainer.length.should.equal(0);
   });
 
-  it('should render a SubrecordDetachButton when showDetachButton is true and the data represents an existing record', function test() {
+  it('should render a SubrecordDetachButton when showDetachButton is true and the data represents an existing record', () => {
     const config = {
       recordTypes: {
         contact: {},
@@ -190,14 +193,15 @@ describe('SubrecordEditor', function suite() {
         formName={formName}
         perms={perms}
         showDetachButton
-      />);
+      />,
+    );
 
     const detachButton = findWithType(result, SubrecordDetachButton);
 
     detachButton.should.not.equal(null);
   });
 
-  it('should not render a SubrecordDetachButton when the data represents a new record', function test() {
+  it('should not render a SubrecordDetachButton when the data represents a new record', () => {
     const config = {
       recordTypes: {
         contact: {},
@@ -242,14 +246,15 @@ describe('SubrecordEditor', function suite() {
         formName={formName}
         perms={perms}
         showDetachButton
-      />);
+      />,
+    );
 
     const detachButtons = findAllWithType(result, SubrecordDetachButton);
 
     detachButtons.should.have.lengthOf(0);
   });
 
-  it('should call detachSubrecord when the subrecord detach button is clicked', function test() {
+  it('should call detachSubrecord when the subrecord detach button is clicked', () => {
     const config = {
       recordTypes: {
         person: {},
@@ -292,14 +297,15 @@ describe('SubrecordEditor', function suite() {
     let detachedName = null;
     let detachedSubrecordTypeConfig = null;
 
-    const detachSubrecord =
-      (configArg, containerCsidArg, csidFieldArg, nameArg, subrecordTypeConfigArg) => {
-        detachedConfig = configArg;
-        detachedContainerCsid = containerCsidArg;
-        detachedCsidField = csidFieldArg;
-        detachedName = nameArg;
-        detachedSubrecordTypeConfig = subrecordTypeConfigArg;
-      };
+    const detachSubrecord = (
+      configArg, containerCsidArg, csidFieldArg, nameArg, subrecordTypeConfigArg,
+    ) => {
+      detachedConfig = configArg;
+      detachedContainerCsid = containerCsidArg;
+      detachedCsidField = csidFieldArg;
+      detachedName = nameArg;
+      detachedSubrecordTypeConfig = subrecordTypeConfigArg;
+    };
 
     const shallowRenderer = createRenderer();
 
@@ -315,7 +321,8 @@ describe('SubrecordEditor', function suite() {
         perms={perms}
         showDetachButton
         detachSubrecord={detachSubrecord}
-      />);
+      />,
+    );
 
     const detachButton = findWithType(result, SubrecordDetachButton);
 

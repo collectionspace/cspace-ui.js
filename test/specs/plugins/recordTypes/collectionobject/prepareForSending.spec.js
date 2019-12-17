@@ -5,8 +5,8 @@ import prepareForSending from '../../../../../src/plugins/recordTypes/collection
 chai.use(chaiImmutable);
 chai.should();
 
-describe('collectionobject prepareForSending', function suite() {
-  it('should remove the computedCurrentLocation field', function test() {
+describe('collectionobject prepareForSending', () => {
+  it('should remove the computedCurrentLocation field', () => {
     prepareForSending(Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {

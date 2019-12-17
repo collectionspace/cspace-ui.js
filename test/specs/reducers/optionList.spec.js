@@ -13,12 +13,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('optionList reducer', function suite() {
-  it('should have an empty initial state', function test() {
+describe('optionList reducer', () => {
+  it('should have an empty initial state', () => {
     reducer(undefined, {}).should.deep.equal(Immutable.Map());
   });
 
-  it('should handle ADD_OPTION_LISTS', function test() {
+  it('should handle ADD_OPTION_LISTS', () => {
     const optionLists = {
       states: [
         { value: 'CA', label: 'California' },
@@ -59,7 +59,7 @@ describe('optionList reducer', function suite() {
     get(newState, 'countries').should.deep.equal(moreOptionLists.countries);
   });
 
-  it('should handle DELETE_OPTION_LIST', function test() {
+  it('should handle DELETE_OPTION_LIST', () => {
     const initialState = Immutable.Map({
       states: [
         { value: 'CA', label: 'California' },

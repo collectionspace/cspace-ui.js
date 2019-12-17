@@ -31,18 +31,16 @@ export const findBroaderRelation = (csid, relations) => {
     const shortId = getUrnCsidShortId(csid);
 
     return relations.find(
-      relation =>
-        relation.get('predicate') === 'hasBroader' &&
-        getItemShortID(relation.getIn(['subject', 'refName'])) === shortId
+      (relation) => relation.get('predicate') === 'hasBroader'
+        && getItemShortID(relation.getIn(['subject', 'refName'])) === shortId,
     );
   }
 
   const subjectCsid = csid || placeholderCsid;
 
   return relations.find(
-    relation =>
-      relation.get('predicate') === 'hasBroader' &&
-      relation.getIn(['subject', 'csid']) === subjectCsid
+    (relation) => relation.get('predicate') === 'hasBroader'
+      && relation.getIn(['subject', 'csid']) === subjectCsid,
   );
 };
 
@@ -54,11 +52,10 @@ export const findNarrowerRelations = (csid, relations) => {
   const objectCsid = csid || placeholderCsid;
 
   return relations.filter(
-    relation =>
-      (relation.get('predicate') === '') ||
-      (
-        relation.get('predicate') === 'hasBroader' &&
-        relation.getIn(['object', 'csid']) === objectCsid
-      )
+    (relation) => (relation.get('predicate') === '')
+      || (
+        relation.get('predicate') === 'hasBroader'
+        && relation.getIn(['object', 'csid']) === objectCsid
+      ),
   );
 };

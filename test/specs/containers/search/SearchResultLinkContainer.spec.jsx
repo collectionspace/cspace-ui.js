@@ -55,15 +55,16 @@ const context = {
   store,
 };
 
-describe('SearchResultLinkContainer', function suite() {
-  it('should set props on SearchResultLink', function test() {
+describe('SearchResultLinkContainer', () => {
+  it('should set props on SearchResultLink', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <SearchResultLinkContainer
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

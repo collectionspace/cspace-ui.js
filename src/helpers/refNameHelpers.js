@@ -1,4 +1,6 @@
-import { getServicePath, getVocabularyShortID, getItemShortID, getCsid } from 'cspace-refname';
+import {
+  getServicePath, getVocabularyShortID, getItemShortID, getCsid,
+} from 'cspace-refname';
 import { getRecordTypeConfigByServicePath, getVocabularyConfigByShortID } from './configHelpers';
 
 export const refNameToCsid = (refName) => {

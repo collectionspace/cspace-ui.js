@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('group record title', function suite() {
+describe('group record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the title and owner', function test() {
+  it('should concat the title and owner', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:groups_common': {
@@ -21,7 +21,7 @@ describe('group record title', function suite() {
     title(data).should.equal('Group 1 – David Bowie');
   });
 
-  it('should return the title when owner is empty', function test() {
+  it('should return the title when owner is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:groups_common': {
@@ -34,7 +34,7 @@ describe('group record title', function suite() {
     title(data).should.equal('Group 1');
   });
 
-  it('should return the owner when title is empty', function test() {
+  it('should return the owner when title is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:groups_common': {
@@ -47,12 +47,12 @@ describe('group record title', function suite() {
     title(data).should.equal('David Bowie');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:groups_extension': {

@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     const invocationDescriptor = Immutable.fromJS(invocationDescriptorObject);
 
     return dispatch(
-      invoke(ownProps.config, match.params.reportCsid, invocationDescriptor, params)
+      invoke(ownProps.config, match.params.reportCsid, invocationDescriptor, params),
     );
   },
 });

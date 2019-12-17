@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import SelectBar from '../../../../src/components/search/SelectBar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -42,8 +42,8 @@ const searchResult = Immutable.fromJS({
   },
 });
 
-describe('SelectBar', function suite() {
-  it('should render a checkbox and a message', function test() {
+describe('SelectBar', () => {
+  it('should render a checkbox and a message', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -51,7 +51,7 @@ describe('SelectBar', function suite() {
         config={config}
         listType={listType}
         searchResult={searchResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -60,14 +60,14 @@ describe('SelectBar', function suite() {
     findWithType(result, FormattedMessage).should.not.equal(null);
   });
 
-  it('should render nothing if no search result is supplied', function test() {
+  it('should render nothing if no search result is supplied', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <SelectBar
         config={config}
         listType={listType}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -75,7 +75,7 @@ describe('SelectBar', function suite() {
     expect(result).to.equal(null);
   });
 
-  it('should render nothing if search result contains no items', function test() {
+  it('should render nothing if search result contains no items', () => {
     const emptyResult = Immutable.fromJS({
       'ns2:abstract-common-list': {},
     });
@@ -87,7 +87,7 @@ describe('SelectBar', function suite() {
         config={config}
         listType={listType}
         searchResult={emptyResult}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -95,10 +95,10 @@ describe('SelectBar', function suite() {
     expect(result).to.equal(null);
   });
 
-  it('should render buttons supplied via props', function test() {
+  it('should render buttons supplied via props', () => {
     const buttons = [
-      <button key="1" />,
-      <button key="2" />,
+      <button key="1" type="button">1</button>,
+      <button key="2" type="button">2</button>,
     ];
 
     const shallowRenderer = createRenderer();
@@ -109,7 +109,7 @@ describe('SelectBar', function suite() {
         listType={listType}
         searchResult={searchResult}
         buttons={buttons}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -117,7 +117,7 @@ describe('SelectBar', function suite() {
     findAllWithType(result, 'button').should.have.lengthOf(2);
   });
 
-  it('should render the checkbox as checked when all items are selected', function test() {
+  it('should render the checkbox as checked when all items are selected', () => {
     const shallowRenderer = createRenderer();
 
     const selectedItems = Immutable.fromJS({
@@ -132,7 +132,7 @@ describe('SelectBar', function suite() {
         listType={listType}
         searchResult={searchResult}
         selectedItems={selectedItems}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -141,7 +141,7 @@ describe('SelectBar', function suite() {
     checkbox.props.value.should.equal(true);
   });
 
-  it('should render the checkbox as unchecked when no items are selected', function test() {
+  it('should render the checkbox as unchecked when no items are selected', () => {
     const shallowRenderer = createRenderer();
 
     const selectedItems = Immutable.fromJS({});
@@ -152,7 +152,7 @@ describe('SelectBar', function suite() {
         listType={listType}
         searchResult={searchResult}
         selectedItems={selectedItems}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -161,7 +161,7 @@ describe('SelectBar', function suite() {
     checkbox.props.value.should.equal(false);
   });
 
-  it('should render the checkbox as indeterminate when some but not all items are selected', function test() {
+  it('should render the checkbox as indeterminate when some but not all items are selected', () => {
     const shallowRenderer = createRenderer();
 
     const selectedItems = Immutable.fromJS({
@@ -174,7 +174,7 @@ describe('SelectBar', function suite() {
         listType={listType}
         searchResult={searchResult}
         selectedItems={selectedItems}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -183,7 +183,7 @@ describe('SelectBar', function suite() {
     expect(checkbox.props.value).to.equal(null);
   });
 
-  it('should render the checkbox correctly when there is a single (non-list) result item', function test() {
+  it('should render the checkbox correctly when there is a single (non-list) result item', () => {
     const shallowRenderer = createRenderer();
 
     const selectedItems = Immutable.fromJS({
@@ -208,7 +208,7 @@ describe('SelectBar', function suite() {
         listType={listType}
         searchResult={singleItemSearchResult}
         selectedItems={selectedItems}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -217,14 +217,14 @@ describe('SelectBar', function suite() {
     expect(checkbox.props.value).to.equal(true);
   });
 
-  it('should use showCheckboxFilter to determine the items to consider when calculating the checkbox state', function test() {
+  it('should use showCheckboxFilter to determine the items to consider when calculating the checkbox state', () => {
     const shallowRenderer = createRenderer();
 
     const selectedItems = Immutable.fromJS({
       1111: {},
     });
 
-    const showCheckboxFilter = item => item.get('csid') === '1111';
+    const showCheckboxFilter = (item) => item.get('csid') === '1111';
 
     shallowRenderer.render(
       <SelectBar
@@ -233,7 +233,7 @@ describe('SelectBar', function suite() {
         searchResult={searchResult}
         selectedItems={selectedItems}
         showCheckboxFilter={showCheckboxFilter}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -242,7 +242,7 @@ describe('SelectBar', function suite() {
     checkbox.props.value.should.equal(true);
   });
 
-  it('should call setAllItemsSelected when the checkbox value is committed', function test() {
+  it('should call setAllItemsSelected when the checkbox value is committed', () => {
     let setConfig = null;
     let setSearchName = null;
     let setSearchDescriptor = null;
@@ -251,7 +251,7 @@ describe('SelectBar', function suite() {
     let setShowCheckboxFilter = null;
 
     const setAllItemsSelected = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, valueArg, showCheckboxFilterArg
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, valueArg, showCheckboxFilterArg,
     ) => {
       setConfig = configArg;
       setSearchName = searchNameArg;
@@ -275,7 +275,7 @@ describe('SelectBar', function suite() {
         searchResult={searchResult}
         setAllItemsSelected={setAllItemsSelected}
         showCheckboxFilter={showCheckboxFilter}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

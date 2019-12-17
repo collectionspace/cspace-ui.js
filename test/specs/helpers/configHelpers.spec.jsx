@@ -43,10 +43,6 @@ import {
 } from '../../../src/helpers/configHelpers';
 
 import {
-  thumbnailImage,
-} from '../../../src/helpers/blobHelpers';
-
-import {
   formatWorkflowStateIcon,
 } from '../../../src/helpers/formatHelpers';
 
@@ -66,13 +62,13 @@ import {
   ERR_UNKNOWN_SUBRESOURCE,
 } from '../../../src/constants/errorCodes';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('configHelpers', function moduleSuite() {
-  describe('evaluatePlugin', function suite() {
-    it('should return empty object if the plugin is not an object or function', function test() {
+describe('configHelpers', () => {
+  describe('evaluatePlugin', () => {
+    it('should return empty object if the plugin is not an object or function', () => {
       evaluatePlugin('').should.deep.equal({});
       evaluatePlugin(0).should.deep.equal({});
       evaluatePlugin([]).should.deep.equal({});
@@ -80,16 +76,16 @@ describe('configHelpers', function moduleSuite() {
       evaluatePlugin(undefined).should.deep.equal({});
     });
 
-    it('should return the plugin if it is an object', function test() {
+    it('should return the plugin if it is an object', () => {
       const plugin = {};
 
       evaluatePlugin(plugin).should.equal(plugin);
     });
 
-    it('should call the plugin with the configContext if it is a function', function test() {
+    it('should call the plugin with the configContext if it is a function', () => {
       const stubConfigContext = {};
 
-      const plugin = configContext => ({
+      const plugin = (configContext) => ({
         calledWithConfigContext: configContext,
       });
 
@@ -99,8 +95,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('applyPlugin', function suite() {
-    it('should deeply merge the config contribution from the plugin with the target config', function test() {
+  describe('applyPlugin', () => {
+    it('should deeply merge the config contribution from the plugin with the target config', () => {
       let config;
 
       config = applyPlugin({}, {
@@ -134,8 +130,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('applyPlugins', function suite() {
-    it('should return the target config if plugins is not an array', function test() {
+  describe('applyPlugins', () => {
+    it('should return the target config if plugins is not an array', () => {
       const config = {};
 
       applyPlugins(config, {}).should.equal(config);
@@ -145,7 +141,7 @@ describe('configHelpers', function moduleSuite() {
       applyPlugins(config, undefined).should.equal(config);
     });
 
-    it('should apply each plugin to the target config in order', function test() {
+    it('should apply each plugin to the target config in order', () => {
       applyPlugins({}, [
         {
           serverUrl: 'a',
@@ -190,8 +186,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('mergeConfig', function suite() {
-    it('should not retain the plugins config option after merge', function test() {
+  describe('mergeConfig', () => {
+    it('should not retain the plugins config option after merge', () => {
       mergeConfig({
         serverUrl: 'a',
       }, {
@@ -202,7 +198,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should apply plugins from the source config, then merge in the source config', function test() {
+    it('should apply plugins from the source config, then merge in the source config', () => {
       mergeConfig({
         messages: {
           name: 'Dale',
@@ -241,7 +237,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should overwrite arrays in the target with the source value, instead of deeply merging them', function test() {
+    it('should overwrite arrays in the target with the source value, instead of deeply merging them', () => {
       const sourceArray = [1, 2, 3, 4];
       const targetArray = [5, 6, 7];
 
@@ -254,7 +250,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should overwrite the \'advancedSearch\' key in the target with the source value, instead of deeply merging them', function test() {
+    it('should overwrite the \'advancedSearch\' key in the target with the source value, instead of deeply merging them', () => {
       const sourceConfig = {
         foo: {
           abc: 123,
@@ -276,7 +272,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should overwrite React elements in the target with the source value, instead of deeply merging them', function test() {
+    it('should overwrite React elements in the target with the source value, instead of deeply merging them', () => {
       const sourceTemplate = (
         <div>
           <p>1</p>
@@ -301,7 +297,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should overwrite objects in the target with the source value, instead of deeply merging them, when the \'override\' merge strategy is specified', function test() {
+    it('should overwrite objects in the target with the source value, instead of deeply merging them, when the \'override\' merge strategy is specified', () => {
       const sourceObject = {
         foo: {
           [mergeKey]: 'override',
@@ -329,7 +325,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should overwrite objects in the target with the source value, instead of deeply merging them, when the \'override\' merge strategy is specified using the override function', function test() {
+    it('should overwrite objects in the target with the source value, instead of deeply merging them, when the \'override\' merge strategy is specified using the override function', () => {
       const sourceObject = {
         foo: mergeStrategy.override({
           bar: 3,
@@ -357,8 +353,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('initConfig', function suite() {
-    it('should apply the plugins', function test() {
+  describe('initConfig', () => {
+    it('should apply the plugins', () => {
       initConfig({
         serverUrl: 'http://collectionspace.org',
         messages: {
@@ -391,8 +387,8 @@ describe('configHelpers', function moduleSuite() {
       });
     });
   });
-  describe('initializeExtensions', function suite() {
-    it('should set the extensionName property of each top level field in each extension to the extension name', function test() {
+  describe('initializeExtensions', () => {
+    it('should set the extensionName property of each top level field in each extension to the extension name', () => {
       const config = {
         extensions: {
           core: {
@@ -461,8 +457,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('initializeRecordTypes', function suite() {
-    it('should set the name properties on record types and vocabularies', function test() {
+  describe('initializeRecordTypes', () => {
+    it('should set the name properties on record types and vocabularies', () => {
       const config = {
         recordTypes: {
           collectionobject: {},
@@ -495,7 +491,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the extensionParentConfig field on extension fields', function test() {
+    it('should set the extensionParentConfig field on extension fields', () => {
       const collectionobjectDocumentConfig = {
         foo: 'bar',
       };
@@ -593,8 +589,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('finalizeRecordTypes', function suite() {
-    it('should delete disabled record types and vocabularies', function test() {
+  describe('finalizeRecordTypes', () => {
+    it('should delete disabled record types and vocabularies', () => {
       const config = {
         recordTypes: {
           collectionobject: {
@@ -623,7 +619,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('getRecordTypeConfigByServiceDocumentName', function suite() {
+  describe('getRecordTypeConfigByServiceDocumentName', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -639,18 +635,18 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the record type config with the given service object name', function test() {
+    it('should return the record type config with the given service object name', () => {
       getRecordTypeConfigByServiceDocumentName(config, 'collectionobjects').should
         .equal(config.recordTypes.collectionobject);
     });
 
-    it('should return undefined if the service object name is undefined', function test() {
+    it('should return undefined if the service object name is undefined', () => {
       expect(getRecordTypeConfigByServiceDocumentName(config)).to
         .equal(undefined);
     });
   });
 
-  describe('getRecordTypeConfigByServiceObjectName', function suite() {
+  describe('getRecordTypeConfigByServiceObjectName', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -666,18 +662,18 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the record type config with the given service object name', function test() {
+    it('should return the record type config with the given service object name', () => {
       getRecordTypeConfigByServiceObjectName(config, 'CollectionObject').should
         .equal(config.recordTypes.collectionobject);
     });
 
-    it('should return undefined if the service object name is undefined', function test() {
+    it('should return undefined if the service object name is undefined', () => {
       expect(getRecordTypeConfigByServiceObjectName(config)).to
         .equal(undefined);
     });
   });
 
-  describe('getRecordTypeNameByServiceObjectName', function suite() {
+  describe('getRecordTypeNameByServiceObjectName', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -694,18 +690,18 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the record type config with the given service object name', function test() {
+    it('should return the record type config with the given service object name', () => {
       getRecordTypeNameByServiceObjectName(config, 'CollectionObject').should
         .equal(config.recordTypes.collectionobject.name);
     });
 
-    it('should return undefined if the service object name is undefined', function test() {
+    it('should return undefined if the service object name is undefined', () => {
       expect(getRecordTypeNameByServiceObjectName(config)).to
         .equal(undefined);
     });
   });
 
-  describe('getRecordTypeConfigByServicePath', function suite() {
+  describe('getRecordTypeConfigByServicePath', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -721,17 +717,17 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the record type config with the given service path', function test() {
+    it('should return the record type config with the given service path', () => {
       getRecordTypeConfigByServicePath(config, 'collectionobjects').should
         .equal(config.recordTypes.collectionobject);
     });
 
-    it('should return undefined if no service path is supplied', function test() {
+    it('should return undefined if no service path is supplied', () => {
       expect(getRecordTypeConfigByServicePath(config)).to.equal(undefined);
     });
   });
 
-  describe('getRecordTypeConfigByUri', function suite() {
+  describe('getRecordTypeConfigByUri', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -747,13 +743,13 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the record type config with the given URI', function test() {
+    it('should return the record type config with the given URI', () => {
       getRecordTypeConfigByUri(config, '/collectionobjects/1234').should
         .equal(config.recordTypes.collectionobject);
     });
   });
 
-  describe('getRecordTypeNameByUri', function suite() {
+  describe('getRecordTypeNameByUri', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -770,18 +766,18 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the record type config with the given URI', function test() {
+    it('should return the record type config with the given URI', () => {
       getRecordTypeNameByUri(config, '/collectionobjects/1234').should
         .equal(config.recordTypes.collectionobject.name);
     });
 
-    it('should return undefined if the URI is undefined', function test() {
+    it('should return undefined if the URI is undefined', () => {
       expect(getRecordTypeNameByUri(config)).to
         .equal(undefined);
     });
   });
 
-  describe('getVocabularyConfigByShortID', function suite() {
+  describe('getVocabularyConfigByShortID', () => {
     const recordTypeConfig = {
       vocabularies: {
         local: {
@@ -797,17 +793,17 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the vocabulary type config with the given short id', function test() {
+    it('should return the vocabulary type config with the given short id', () => {
       getVocabularyConfigByShortID(recordTypeConfig, 'person').should
         .equal(recordTypeConfig.vocabularies.local);
     });
 
-    it('should return undefined if no short id is supplied', function test() {
+    it('should return undefined if no short id is supplied', () => {
       expect(getVocabularyConfigByShortID(recordTypeConfig)).to.equal(undefined);
     });
   });
 
-  describe('getVocabularyConfigByServicePath', function suite() {
+  describe('getVocabularyConfigByServicePath', () => {
     const recordTypeConfig = {
       vocabularies: {
         local: {
@@ -823,18 +819,18 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the vocabulary type config with the given service path', function test() {
+    it('should return the vocabulary type config with the given service path', () => {
       getVocabularyConfigByServicePath(recordTypeConfig, 'urn:cspace:name(person)').should
         .equal(recordTypeConfig.vocabularies.local);
     });
 
-    it('should return undefined if the service path is not a valid cspace URN', function test() {
+    it('should return undefined if the service path is not a valid cspace URN', () => {
       expect(getVocabularyConfigByServicePath(recordTypeConfig, 'something weird')).to
         .equal(undefined);
     });
   });
 
-  describe('getDefaults', function suite() {
+  describe('getDefaults', () => {
     const fieldDescriptor = {
       document: {
         common: {
@@ -856,7 +852,7 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the paths and default values of fields that have defaults', function test() {
+    it('should return the paths and default values of fields that have defaults', () => {
       getDefaults(fieldDescriptor).should.deep.equal([
         {
           path: ['document', 'common', 'recordStatus'],
@@ -870,7 +866,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('getStickyFields', function suite() {
+  describe('getStickyFields', () => {
     const fieldDescriptor = {
       document: {
         common: {
@@ -892,20 +888,20 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the paths of fields that are sticky', function test() {
+    it('should return the paths of fields that are sticky', () => {
       getStickyFields(fieldDescriptor).should.deep.equal([
         ['document', 'common', 'recordStatus'],
         ['document', 'common', 'titleGroupList', 'titleGroup', 'titleLanguage'],
       ]);
     });
 
-    it('should return an empty array if no field descriptor is supplied', function test() {
+    it('should return an empty array if no field descriptor is supplied', () => {
       getStickyFields().should.deep.equal([]);
     });
   });
 
-  describe('getDefaultValue', function suite() {
-    it('should return the default value from a field descriptor', function test() {
+  describe('getDefaultValue', () => {
+    it('should return the default value from a field descriptor', () => {
       const fieldDescriptor = {
         [configKey]: {
           defaultValue: 'new',
@@ -915,7 +911,7 @@ describe('configHelpers', function moduleSuite() {
       getDefaultValue(fieldDescriptor).should.equal('new');
     });
 
-    it('should convert an object to an immutable map', function test() {
+    it('should convert an object to an immutable map', () => {
       const fieldDescriptor = {
         [configKey]: {
           defaultValue: {
@@ -937,7 +933,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return false if the field is a boolean and the default value is undefined', function test() {
+    it('should return false if the field is a boolean and the default value is undefined', () => {
       const fieldDescriptor = {
         [configKey]: {
           dataType: DATA_TYPE_BOOL,
@@ -948,15 +944,15 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('dataPathToFieldDescriptorPath', function suite() {
-    it('should remove numeric path components from the data path', function test() {
+  describe('dataPathToFieldDescriptorPath', () => {
+    it('should remove numeric path components from the data path', () => {
       dataPathToFieldDescriptorPath(['document', 'common', 'groupList', 'group', '1', 'foo', '2', 'bar']).should
         .deep.equal(['document', 'common', 'groupList', 'group', 'foo', 'bar']);
     });
   });
 
-  describe('isFieldCloneable', function suite() {
-    it('should return the cloneable configuration setting', function test() {
+  describe('isFieldCloneable', () => {
+    it('should return the cloneable configuration setting', () => {
       isFieldCloneable({
         [configKey]: {
           cloneable: false,
@@ -970,7 +966,7 @@ describe('configHelpers', function moduleSuite() {
       }).should.equal(true);
     });
 
-    it('should default to true', function test() {
+    it('should default to true', () => {
       isFieldCloneable({}).should.equal(true);
 
       isFieldCloneable({
@@ -979,8 +975,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('isFieldRepeating', function suite() {
-    it('should return the repeating configuration setting', function test() {
+  describe('isFieldRepeating', () => {
+    it('should return the repeating configuration setting', () => {
       isFieldRepeating({
         [configKey]: {
           repeating: false,
@@ -994,7 +990,7 @@ describe('configHelpers', function moduleSuite() {
       }).should.equal(true);
     });
 
-    it('should default to false', function test() {
+    it('should default to false', () => {
       isFieldRepeating({}).should.equal(false);
 
       isFieldRepeating({
@@ -1003,8 +999,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('isFieldRequired', function suite() {
-    it('should return the required configuration setting', function test() {
+  describe('isFieldRequired', () => {
+    it('should return the required configuration setting', () => {
       isFieldRequired({
         fieldDescriptor: {
           [configKey]: {
@@ -1022,7 +1018,7 @@ describe('configHelpers', function moduleSuite() {
       }).should.equal(true);
     });
 
-    it('should return the result of calling the required function, if it is a function', function test() {
+    it('should return the result of calling the required function, if it is a function', () => {
       const recordData = Immutable.Map();
 
       let requiredRecordData = null;
@@ -1043,7 +1039,7 @@ describe('configHelpers', function moduleSuite() {
       requiredRecordData.should.equal(recordData);
     });
 
-    it('should not include the data property from the validation context in the context passed to a required function', function test() {
+    it('should not include the data property from the validation context in the context passed to a required function', () => {
       const recordData = Immutable.Map();
 
       let requiredContext = null;
@@ -1067,7 +1063,7 @@ describe('configHelpers', function moduleSuite() {
       requiredContext.should.not.have.property('data');
     });
 
-    it('should default to false', function test() {
+    it('should default to false', () => {
       isFieldRequired({
         fieldDescriptor: {},
       }).should.equal(false);
@@ -1080,7 +1076,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('validateLocation', function suite() {
+  describe('validateLocation', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -1107,7 +1103,7 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return ERR_UNKNOWN_RECORD_TYPE error if the record type is unknown', function test() {
+    it('should return ERR_UNKNOWN_RECORD_TYPE error if the record type is unknown', () => {
       validateLocation(config, { recordType: 'foo' }).should.deep.equal({
         error: {
           recordType: 'foo',
@@ -1116,7 +1112,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_MISSING_VOCABULARY error if an authority record type is passed with no vocabulary', function test() {
+    it('should return ERR_MISSING_VOCABULARY error if an authority record type is passed with no vocabulary', () => {
       validateLocation(config, { recordType: 'person' }).should.deep.equal({
         error: {
           recordType: 'person',
@@ -1125,7 +1121,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_UNKNOWN_VOCABULARY error if an unknown vocabulary is passed', function test() {
+    it('should return ERR_UNKNOWN_VOCABULARY error if an unknown vocabulary is passed', () => {
       validateLocation(config, { recordType: 'person', vocabulary: 'foo' }).should.deep.equal({
         error: {
           recordType: 'person',
@@ -1135,7 +1131,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_UNKNOWN_VOCABULARY error if a vocabulary is passed with a non-authority record type', function test() {
+    it('should return ERR_UNKNOWN_VOCABULARY error if a vocabulary is passed with a non-authority record type', () => {
       validateLocation(config, { recordType: 'group', vocabulary: 'foo' }).should.deep.equal({
         error: {
           recordType: 'group',
@@ -1145,7 +1141,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_UNKNOWN_SUBRESOURCE error if an unknown subresource is passed', function test() {
+    it('should return ERR_UNKNOWN_SUBRESOURCE error if an unknown subresource is passed', () => {
       validateLocation(config, { recordType: 'group', subresource: 'foo' }).should.deep.equal({
         error: {
           subresource: 'foo',
@@ -1154,7 +1150,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_INVALID_CSID error if an invalid csid is passed', function test() {
+    it('should return ERR_INVALID_CSID error if an invalid csid is passed', () => {
       validateLocation(config, { recordType: 'group', csid: 'foo' }).should.deep.equal({
         error: {
           csid: 'foo',
@@ -1163,7 +1159,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed that is not a procedure or object', function test() {
+    it('should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed that is not a procedure or object', () => {
       validateLocation(config, { recordType: 'group', relatedRecordType: 'person' }).should.deep.equal({
         error: {
           recordType: 'group',
@@ -1173,7 +1169,7 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed and the recordType is not a procedure or object', function test() {
+    it('should return ERR_INVALID_RELATED_TYPE error if a relatedRecordType is passed and the recordType is not a procedure or object', () => {
       validateLocation(config, { recordType: 'person', vocabulary: 'local', relatedRecordType: 'group' }).should.deep.equal({
         error: {
           recordType: 'person',
@@ -1183,10 +1179,11 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return ERR_INVALID_CSID error if an invalid related csid is passed', function test() {
+    it('should return ERR_INVALID_CSID error if an invalid related csid is passed', () => {
       validateLocation(config,
-        { recordType: 'collectionobject', csid: '2ee54531-3f31-4633-8f2c', relatedRecordType: 'group', relatedCsid: 'foo' }
-      ).should.deep.equal({
+        {
+          recordType: 'collectionobject', csid: '2ee54531-3f31-4633-8f2c', relatedRecordType: 'group', relatedCsid: 'foo',
+        }).should.deep.equal({
         error: {
           csid: 'foo',
           code: ERR_INVALID_CSID,
@@ -1194,15 +1191,15 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return object with no error property if valid arguments are passed', function test() {
+    it('should return object with no error property if valid arguments are passed', () => {
       validateLocation(config, { recordType: 'group' })
         .should.be.an('object')
         .and.should.not.have.property('error');
     });
   });
 
-  describe('getDefaultSearchRecordType', function suite() {
-    it('should return the record type with defaultForSearch set to true', function test() {
+  describe('getDefaultSearchRecordType', () => {
+    it('should return the record type with defaultForSearch set to true', () => {
       const config = {
         recordTypes: {
           collectionobject: {},
@@ -1216,7 +1213,7 @@ describe('configHelpers', function moduleSuite() {
       getDefaultSearchRecordType(config).should.equal('loanin');
     });
 
-    it('should return the first record type if none have defaultForSearch set to true', function test() {
+    it('should return the first record type if none have defaultForSearch set to true', () => {
       const config = {
         recordTypes: {
           collectionobject: {},
@@ -1229,8 +1226,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('getDefaultSearchVocabulary', function suite() {
-    it('should return the vocabulary with defaultForSearch set to true', function test() {
+  describe('getDefaultSearchVocabulary', () => {
+    it('should return the vocabulary with defaultForSearch set to true', () => {
       const config = {
         vocabularies: {
           all: {},
@@ -1245,7 +1242,7 @@ describe('configHelpers', function moduleSuite() {
       getDefaultSearchVocabulary(config).should.equal('local');
     });
 
-    it('should return the first record type if none have defaultForSearch set to true', function test() {
+    it('should return the first record type if none have defaultForSearch set to true', () => {
       const config = {
         vocabularies: {
           all: {},
@@ -1259,7 +1256,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('findFieldConfigInPart', function suite() {
+  describe('findFieldConfigInPart', () => {
     const updatedAtConfig = {};
     const titleConfig = {};
 
@@ -1284,29 +1281,29 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should find the field config given a part name and field name', function test() {
+    it('should find the field config given a part name and field name', () => {
       findFieldConfigInPart(recordTypeConfig, 'collectionspace_core', 'updatedAt').should
         .equal(updatedAtConfig);
     });
 
-    it('should find nested fields', function test() {
+    it('should find nested fields', () => {
       findFieldConfigInPart(recordTypeConfig, 'collectionobjects_common', 'title').should
         .equal(titleConfig);
     });
 
-    it('should return null if an unknown part name is supplied', function test() {
+    it('should return null if an unknown part name is supplied', () => {
       expect(findFieldConfigInPart(recordTypeConfig, 'foo', 'title')).to
         .equal(null);
     });
 
-    it('should return null if an unknown field name is supplied', function test() {
+    it('should return null if an unknown field name is supplied', () => {
       expect(findFieldConfigInPart(recordTypeConfig, 'collectionobjects_common', 'foo')).to
         .equal(null);
     });
   });
 
-  describe('isAuthority', function suite() {
-    it('should return true if the service type is \'authority\'', function test() {
+  describe('isAuthority', () => {
+    it('should return true if the service type is \'authority\'', () => {
       isAuthority({
         serviceConfig: {
           serviceType: 'authority',
@@ -1314,7 +1311,7 @@ describe('configHelpers', function moduleSuite() {
       }).should.equal(true);
     });
 
-    it('should return true if the service type is not \'authority\'', function test() {
+    it('should return true if the service type is not \'authority\'', () => {
       isAuthority({
         serviceConfig: {
           serviceType: 'procedure',
@@ -1323,8 +1320,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('isUtility', function suite() {
-    it('should return true if the service type is \'utility\'', function test() {
+  describe('isUtility', () => {
+    it('should return true if the service type is \'utility\'', () => {
       isUtility({
         serviceConfig: {
           serviceType: 'utility',
@@ -1332,7 +1329,7 @@ describe('configHelpers', function moduleSuite() {
       }).should.equal(true);
     });
 
-    it('should return true if the service type is not \'utility\'', function test() {
+    it('should return true if the service type is not \'utility\'', () => {
       isUtility({
         serviceConfig: {
           serviceType: 'procedure',
@@ -1341,8 +1338,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('getFieldCustomValidator', function suite() {
-    it('should return the validator from a field descriptor', function test() {
+  describe('getFieldCustomValidator', () => {
+    it('should return the validator from a field descriptor', () => {
       const validator = () => '';
 
       const fieldDescriptor = {
@@ -1354,15 +1351,15 @@ describe('configHelpers', function moduleSuite() {
       getFieldCustomValidator(fieldDescriptor).should.equal(validator);
     });
 
-    it('should return undefined if there is no field configuration', function test() {
+    it('should return undefined if there is no field configuration', () => {
       const fieldDescriptor = {};
 
       expect(getFieldCustomValidator(fieldDescriptor)).to.equal(undefined);
     });
   });
 
-  describe('getFieldComputer', function suite() {
-    it('should return the compute function from a field descriptor', function test() {
+  describe('getFieldComputer', () => {
+    it('should return the compute function from a field descriptor', () => {
       const computer = () => '';
 
       const fieldDescriptor = {
@@ -1374,15 +1371,15 @@ describe('configHelpers', function moduleSuite() {
       getFieldComputer(fieldDescriptor).should.equal(computer);
     });
 
-    it('should return undefined if there is no field configuration', function test() {
+    it('should return undefined if there is no field configuration', () => {
       const fieldDescriptor = {};
 
       expect(getFieldComputer(fieldDescriptor)).to.equal(undefined);
     });
   });
 
-  describe('getFieldDataType', function suite() {
-    it('should return the data type from a field descriptor', function test() {
+  describe('getFieldDataType', () => {
+    it('should return the data type from a field descriptor', () => {
       const dataType = DATA_TYPE_INT;
 
       const fieldDescriptor = {
@@ -1394,13 +1391,13 @@ describe('configHelpers', function moduleSuite() {
       getFieldDataType(fieldDescriptor).should.equal(dataType);
     });
 
-    it('should default to string if there is no field configuration', function test() {
+    it('should default to string if there is no field configuration', () => {
       const fieldDescriptor = {};
 
       expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_STRING);
     });
 
-    it('should default to string if there is no data type specified in configuration', function test() {
+    it('should default to string if there is no data type specified in configuration', () => {
       const fieldDescriptor = {
         [configKey]: {},
       };
@@ -1408,7 +1405,7 @@ describe('configHelpers', function moduleSuite() {
       expect(getFieldDataType(fieldDescriptor)).to.equal(DATA_TYPE_STRING);
     });
 
-    it('should default to map if there is no data type specified in configuration and child fields are defined', function test() {
+    it('should default to map if there is no data type specified in configuration and child fields are defined', () => {
       const fieldDescriptor = {
         [configKey]: {},
         child: {},
@@ -1418,8 +1415,8 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('getRequiredMessage', function suite() {
-    it('should return the required message descriptor', function test() {
+  describe('getRequiredMessage', () => {
+    it('should return the required message descriptor', () => {
       const requiredMessageDescriptor = {
         id: 'field.required',
         defaultMessage: 'Field is required',
@@ -1437,7 +1434,7 @@ describe('configHelpers', function moduleSuite() {
     });
   });
 
-  describe('findVocabularyUses', function suite() {
+  describe('findVocabularyUses', () => {
     const shortId = 'shortId';
 
     const config = {
@@ -1491,7 +1488,7 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should find fields in config using the given shortId as a source', function test() {
+    it('should find fields in config using the given shortId as a source', () => {
       findVocabularyUses(config, shortId).should.deep.equal({
         group: [
           {
@@ -1520,12 +1517,12 @@ describe('configHelpers', function moduleSuite() {
       });
     });
 
-    it('should return null if no short id is supplied', function test() {
+    it('should return null if no short id is supplied', () => {
       expect(findVocabularyUses(config, undefined)).to.equal(null);
     });
   });
 
-  describe('getFirstColumnName', function suite() {
+  describe('getFirstColumnName', () => {
     const config = {
       recordTypes: {
         group: {
@@ -1546,19 +1543,19 @@ describe('configHelpers', function moduleSuite() {
       },
     };
 
-    it('should return the field with the lowest order in the column set', function test() {
+    it('should return the field with the lowest order in the column set', () => {
       getFirstColumnName(config, 'group', 'default').should.equal('title');
     });
 
-    it('should return undefined if no column config exists for the given column set name', function test() {
+    it('should return undefined if no column config exists for the given column set name', () => {
       expect(getFirstColumnName(config, 'group', 'foo')).to.equal(undefined);
     });
 
-    it('should use the column set named \'default\' if no column set is specified', function test() {
+    it('should use the column set named \'default\' if no column set is specified', () => {
       getFirstColumnName(config, 'group').should.equal('title');
     });
 
-    it('should ignore workflow state columns', function test() {
+    it('should ignore columns with width < 100', () => {
       const workflowStateConfig = {
         recordTypes: {
           person: {
@@ -1567,6 +1564,7 @@ describe('configHelpers', function moduleSuite() {
                 workflowState: {
                   formatValue: formatWorkflowStateIcon,
                   order: 10,
+                  width: 99,
                 },
                 termDisplayName: {
                   order: 20,
@@ -1581,31 +1579,6 @@ describe('configHelpers', function moduleSuite() {
       };
 
       getFirstColumnName(workflowStateConfig, 'person').should.equal('termDisplayName');
-    });
-
-    it('should ignore image thumbnail columns', function test() {
-      const thumbnailConfig = {
-        recordTypes: {
-          media: {
-            columns: {
-              default: {
-                blobCsid: {
-                  formatValue: thumbnailImage,
-                  order: 10,
-                },
-                identificationNumber: {
-                  order: 20,
-                },
-                updatedAt: {
-                  order: 30,
-                },
-              },
-            },
-          },
-        },
-      };
-
-      getFirstColumnName(thumbnailConfig, 'media').should.equal('identificationNumber');
     });
   });
 });

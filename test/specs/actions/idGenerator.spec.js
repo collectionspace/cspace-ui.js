@@ -29,13 +29,13 @@ import {
   NOTIFICATION_ID_VALIDATION,
 } from '../../../src/actions/notification';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('ID generator action creator', function suite() {
-  describe('addIDGenerators', function actionSuite() {
-    it('should create an ADD_ID_GENERATORS action', function test() {
+describe('ID generator action creator', () => {
+  describe('addIDGenerators', () => {
+    it('should create an ADD_ID_GENERATORS action', () => {
       const idGenerators = {
         accession: {
           csid: '9dd92952-c384-44dc-a736-95e435c1759c',
@@ -55,7 +55,7 @@ describe('ID generator action creator', function suite() {
     });
   });
 
-  describe('readIDGenerator', function actionSuite() {
+  describe('readIDGenerator', () => {
     const mockStore = configureMockStore([thunk]);
     const idGeneratorName = 'accession';
     const idGeneratorCsid = '1234';
@@ -72,10 +72,8 @@ describe('ID generator action creator', function suite() {
 
     const readIDGeneratorUrl = new RegExp(`/cspace-services/idgenerators/${idGeneratorCsid}.*`);
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -86,7 +84,7 @@ describe('ID generator action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch READ_ID_GENERATOR_FULFILLED on success', function test() {
+    it('should dispatch READ_ID_GENERATOR_FULFILLED on success', () => {
       moxios.stubRequest(readIDGeneratorUrl, {
         status: 200,
         response: {},
@@ -120,7 +118,7 @@ describe('ID generator action creator', function suite() {
         });
     });
 
-    it('should dispatch READ_ID_GENERATOR_REJECTED on error', function test() {
+    it('should dispatch READ_ID_GENERATOR_REJECTED on error', () => {
       moxios.stubRequest(readIDGeneratorUrl, {
         status: 400,
         response: {},
@@ -147,12 +145,12 @@ describe('ID generator action creator', function suite() {
         });
     });
 
-    it('should dispatch no action (null) when no csid is found for the ID generator name', function test() {
+    it('should dispatch no action (null) when no csid is found for the ID generator name', () => {
       expect(store.dispatch(readIDGenerator('foo'))).to.equal(null);
     });
   });
 
-  describe('createID', function actionSuite() {
+  describe('createID', () => {
     const mockStore = configureMockStore([thunk]);
     const idGeneratorName = 'accession';
     const idGeneratorCsid = '1234';
@@ -173,10 +171,8 @@ describe('ID generator action creator', function suite() {
     const csid = '9987';
     const path = ['collectionobjects_common', 'objectNumber'];
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -187,7 +183,7 @@ describe('ID generator action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch CREATE_ID_FULFILLED on success', function test() {
+    it('should dispatch CREATE_ID_FULFILLED on success', () => {
       moxios.stubRequest(createIDUrl, {
         status: 200,
         response: '2016.1.1',
@@ -242,7 +238,7 @@ describe('ID generator action creator', function suite() {
         });
     });
 
-    it('should dispatch CREATE_ID_REJECTED on error', function test() {
+    it('should dispatch CREATE_ID_REJECTED on error', () => {
       moxios.stubRequest(createIDUrl, {
         status: 400,
         response: {},
@@ -275,7 +271,7 @@ describe('ID generator action creator', function suite() {
         });
     });
 
-    it('should dispatch no action (null) when no csid is found for the ID generator name', function test() {
+    it('should dispatch no action (null) when no csid is found for the ID generator name', () => {
       expect(store.dispatch(createID('foo', csid, path))).to.equal(null);
     });
   });

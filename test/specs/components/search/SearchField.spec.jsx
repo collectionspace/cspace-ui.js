@@ -6,13 +6,13 @@ import chaiImmutable from 'chai-immutable';
 import Field from '../../../../src/components/record/Field';
 import SearchField from '../../../../src/components/search/SearchField';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('SearchField', function suite() {
-  it('should render a Field', function test() {
+describe('SearchField', () => {
+  it('should render a Field', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<SearchField />);
@@ -22,7 +22,7 @@ describe('SearchField', function suite() {
     result.type.should.equal(Field);
   });
 
-  it('should pass parentPath, name, and value props to the base Field', function test() {
+  it('should pass parentPath, name, and value props to the base Field', () => {
     const parentPath = ['a', 'b'];
     const name = 'name';
     const value = 'value';
@@ -34,7 +34,8 @@ describe('SearchField', function suite() {
         parentPath={parentPath}
         name={name}
         value={value}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -43,7 +44,7 @@ describe('SearchField', function suite() {
     result.props.value.should.equal(value);
   });
 
-  it('should override props on the base Field', function test() {
+  it('should override props on the base Field', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<SearchField />);
@@ -60,7 +61,7 @@ describe('SearchField', function suite() {
     result.props.ignoreDisabledOptions.should.equal(true);
   });
 
-  it('should append a null item and commit the new value when a repeating field instance is added', function test() {
+  it('should append a null item and commit the new value when a repeating field instance is added', () => {
     const value = Immutable.List(['a', 'b', 'c']);
 
     let committedPath = null;
@@ -84,7 +85,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal(Immutable.List(['a', 'b', 'c', null]));
   });
 
-  it('should convert a scalar value to a list when a repeating field instance is committed', function test() {
+  it('should convert a scalar value to a list when a repeating field instance is committed', () => {
     const value = 'a';
 
     let committedPath = null;
@@ -108,7 +109,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal(Immutable.List(['a', 'b']));
   });
 
-  it('should set the item and commit the value when a repeating field instance is committed', function test() {
+  it('should set the item and commit the value when a repeating field instance is committed', () => {
     const value = Immutable.List(['a', 'b', 'c']);
 
     let committedPath = null;
@@ -132,7 +133,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal(Immutable.List(['a', 'd', 'c']));
   });
 
-  it('should convert a scalar value to a list when a repeating field instance is added', function test() {
+  it('should convert a scalar value to a list when a repeating field instance is added', () => {
     const value = 'a';
 
     let committedPath = null;
@@ -156,7 +157,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal(Immutable.List(['a', null]));
   });
 
-  it('should call onCommit when the field is committed and repeating is false', function test() {
+  it('should call onCommit when the field is committed and repeating is false', () => {
     const value = 'a';
 
     let committedPath = null;
@@ -180,7 +181,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal('d');
   });
 
-  it('should call onCommit with a string value when a boolean value is committed', function test() {
+  it('should call onCommit with a string value when a boolean value is committed', () => {
     const value = 'a';
 
     let committedPath = null;
@@ -209,7 +210,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal('false');
   });
 
-  it('should delete the item and commit the new value when a repeating field instance is removed', function test() {
+  it('should delete the item and commit the new value when a repeating field instance is removed', () => {
     const value = Immutable.List(['a', 'b', 'c']);
 
     let committedPath = null;
@@ -233,7 +234,7 @@ describe('SearchField', function suite() {
     committedValue.should.equal(Immutable.List(['a', 'c']));
   });
 
-  it('should render \'or\' as the repeating field order indicator on values after the first', function test() {
+  it('should render \'or\' as the repeating field order indicator on values after the first', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<SearchField />);
@@ -260,7 +261,7 @@ describe('SearchField', function suite() {
     message.props.defaultMessage.should.equal('or');
   });
 
-  it('should render \', \' as the repeating field order indicator on values after the first if readOnly is true', function test() {
+  it('should render \', \' as the repeating field order indicator on values after the first if readOnly is true', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<SearchField readOnly />);

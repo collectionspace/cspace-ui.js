@@ -20,14 +20,14 @@ const messages = {
 const csid = '1111';
 const name = 'relation-list-item';
 
-describe('HierarchyInput', function suite() {
-  it('should render a hierarchy editor', function test() {
+describe('HierarchyInput', () => {
+  it('should render a hierarchy editor', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <HierarchyInput
         messages={messages}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -35,7 +35,7 @@ describe('HierarchyInput', function suite() {
     findWithType(result, UntypedHierarchyEditor).should.not.equal(null);
   });
 
-  it('should not render a hierarchy editor if both showParent and showChildren are false', function test() {
+  it('should not render a hierarchy editor if both showParent and showChildren are false', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -43,7 +43,7 @@ describe('HierarchyInput', function suite() {
         messages={messages}
         showParent={false}
         showChildren={false}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -51,13 +51,13 @@ describe('HierarchyInput', function suite() {
     findAllWithType(result, UntypedHierarchyEditor).length.should.equal(0);
   });
 
-  it('should render a hierarchy sibling list', function test() {
+  it('should render a hierarchy sibling list', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <HierarchyInput
         messages={messages}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -65,14 +65,14 @@ describe('HierarchyInput', function suite() {
     findWithType(result, HierarchySiblingListContainer).should.not.equal(null);
   });
 
-  it('should not render a hierarchy sibling list if showSiblings is false', function test() {
+  it('should not render a hierarchy sibling list if showSiblings is false', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <HierarchyInput
         messages={messages}
         showSiblings={false}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -80,7 +80,7 @@ describe('HierarchyInput', function suite() {
     findAllWithType(result, HierarchySiblingListContainer).length.should.equal(0);
   });
 
-  it('should convert a relation list to a hierarchy descriptor, and pass it to the hierarchy editor', function test() {
+  it('should convert a relation list to a hierarchy descriptor, and pass it to the hierarchy editor', () => {
     const relations = Immutable.fromJS([
       {
         predicate: 'hasBroader',
@@ -128,7 +128,8 @@ describe('HierarchyInput', function suite() {
         csid={csid}
         messages={messages}
         value={relations}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -160,7 +161,7 @@ describe('HierarchyInput', function suite() {
     }));
   });
 
-  it('should find broader relations using a urn-style csid', function test() {
+  it('should find broader relations using a urn-style csid', () => {
     const urnCsid = 'urn:cspace:name(1234)';
 
     const relations = Immutable.fromJS([
@@ -183,7 +184,8 @@ describe('HierarchyInput', function suite() {
         csid={urnCsid}
         messages={messages}
         value={relations}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -199,7 +201,7 @@ describe('HierarchyInput', function suite() {
     }));
   });
 
-  it('should accept a single-item (non-list) relation', function test() {
+  it('should accept a single-item (non-list) relation', () => {
     const relCsid = 'aaaa';
 
     const relations = Immutable.fromJS({
@@ -221,7 +223,8 @@ describe('HierarchyInput', function suite() {
         csid={csid}
         messages={messages}
         value={relations}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -237,7 +240,7 @@ describe('HierarchyInput', function suite() {
     }));
   });
 
-  it('should render no hierarchy when non-immutable relations are supplied', function test() {
+  it('should render no hierarchy when non-immutable relations are supplied', () => {
     const relations = {
       predicate: 'hasBroader',
       subject: {
@@ -256,7 +259,8 @@ describe('HierarchyInput', function suite() {
         csid={csid}
         messages={messages}
         value={relations}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -267,7 +271,7 @@ describe('HierarchyInput', function suite() {
     }));
   });
 
-  it('should pass a new hierarchy descriptor to the hierarchy editor when a new relation list is received via props', function test() {
+  it('should pass a new hierarchy descriptor to the hierarchy editor when a new relation list is received via props', () => {
     const relations = Immutable.fromJS([
       {
         predicate: 'hasBroader',
@@ -297,7 +301,8 @@ describe('HierarchyInput', function suite() {
         csid={csid}
         messages={messages}
         value={relations}
-      />);
+      />,
+    );
 
     let result;
     let hierarchyEditor;
@@ -347,7 +352,8 @@ describe('HierarchyInput', function suite() {
         csid={csid}
         messages={messages}
         value={newRelations}
-      />);
+      />,
+    );
 
     result = shallowRenderer.getRenderOutput();
     hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -369,7 +375,7 @@ describe('HierarchyInput', function suite() {
     }));
   });
 
-  it('should sort children by display name, with nulls at the end', function test() {
+  it('should sort children by display name, with nulls at the end', () => {
     const relations = Immutable.fromJS([
       {
         predicate: 'hasBroader',
@@ -435,7 +441,8 @@ describe('HierarchyInput', function suite() {
         messages={messages}
         name={name}
         value={relations}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -477,7 +484,7 @@ describe('HierarchyInput', function suite() {
     }));
   });
 
-  it('should call onCommit when a value is committed in the hierarchy editor', function test() {
+  it('should call onCommit when a value is committed in the hierarchy editor', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -509,7 +516,8 @@ describe('HierarchyInput', function suite() {
         messages={messages}
         name={name}
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -545,7 +553,7 @@ describe('HierarchyInput', function suite() {
     ]));
   });
 
-  it('should call onCommit when a child instance is removed in the hierarchy editor', function test() {
+  it('should call onCommit when a child instance is removed in the hierarchy editor', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -611,7 +619,8 @@ describe('HierarchyInput', function suite() {
         name={name}
         value={relations}
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -624,7 +633,7 @@ describe('HierarchyInput', function suite() {
     committedValue.should.equal(relations.delete(removedIndex));
   });
 
-  it('should call onCommit when a child instance is added in the hierarchy editor', function test() {
+  it('should call onCommit when a child instance is added in the hierarchy editor', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -679,7 +688,8 @@ describe('HierarchyInput', function suite() {
         name={name}
         value={relations}
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -701,7 +711,7 @@ describe('HierarchyInput', function suite() {
     })));
   });
 
-  it('should commit two children when a child instance is added in the hierarchy editor and there are no children', function test() {
+  it('should commit two children when a child instance is added in the hierarchy editor and there are no children', () => {
     let committedPath = null;
     let committedValue = null;
 
@@ -734,7 +744,8 @@ describe('HierarchyInput', function suite() {
         name={name}
         value={relations}
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const hierarchyEditor = findWithType(result, UntypedHierarchyEditor);
@@ -766,7 +777,7 @@ describe('HierarchyInput', function suite() {
           object: {
             csid,
           },
-        }))
+        })),
     );
   });
 });

@@ -17,7 +17,7 @@ import {
   ERROR_KEY,
 } from '../../../../src/helpers/recordDataHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -54,8 +54,8 @@ const errors = Immutable.fromJS({
   },
 });
 
-describe('ValidationErrorNotification', function suite() {
-  it('should render as a Notification containing a ValidationErrorMessage child', function test() {
+describe('ValidationErrorNotification', () => {
+  it('should render as a Notification containing a ValidationErrorMessage child', () => {
     const context = {
       config,
     };
@@ -67,13 +67,14 @@ describe('ValidationErrorNotification', function suite() {
         id="test"
         errors={errors}
         recordType="collectionobject"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal(Notification);
 
-    const children = result.props.children;
+    const { children } = result.props;
 
     children.type.should.equal(ValidationErrorMessage);
 
@@ -81,7 +82,7 @@ describe('ValidationErrorNotification', function suite() {
     children.props.fieldDescriptor.should.equal(fieldDescriptor);
   });
 
-  it('should render nothing if no errors are provided', function test() {
+  it('should render nothing if no errors are provided', () => {
     const context = {
       config,
     };
@@ -92,7 +93,8 @@ describe('ValidationErrorNotification', function suite() {
       <ValidationErrorNotification
         id="test"
         recordType="collectionobject"
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

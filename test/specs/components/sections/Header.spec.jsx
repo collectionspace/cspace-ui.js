@@ -24,7 +24,7 @@ const config = {
   recordTypes: {},
 };
 
-describe('Header', function suite() {
+describe('Header', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -39,7 +39,8 @@ describe('Header', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('HEADER');
   });

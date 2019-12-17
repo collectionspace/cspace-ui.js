@@ -39,7 +39,7 @@ const mapDispatchToProps = {
 
 export const ConnectedRecordPage = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(RecordPage);
 
 export default withConfig(ConnectedRecordPage);

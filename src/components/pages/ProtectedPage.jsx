@@ -4,13 +4,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Immutable from 'immutable';
+import { MODAL_LOGIN } from '../../constants/modalNames';
 import FooterContainer from '../../containers/sections/FooterContainer';
 import Header from '../sections/Header';
 import LoginModal from '../login/LoginModal';
 
 const propTypes = {
   decorated: PropTypes.bool,
-  history: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   openModalName: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   screenName: PropTypes.string,
@@ -26,7 +29,10 @@ const defaultProps = {
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    pluginInfo: PropTypes.object,
+    serverUrl: PropTypes.string,
+  }),
   intl: intlShape,
 };
 
@@ -94,7 +100,7 @@ export default class ProtectedPage extends Component {
         {footer}
 
         <LoginModal
-          isOpen={openModalName === LoginModal.modalName}
+          isOpen={openModalName === MODAL_LOGIN}
           onCloseButtonClick={closeModal}
           onSuccess={this.handleLoginSuccess}
         />

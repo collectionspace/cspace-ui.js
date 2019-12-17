@@ -141,6 +141,7 @@ export default class Notification extends Component {
       content = children;
     } else if (items) {
       const listItems = items.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key
         <li key={index}><FormattedMessage {...item.message} values={item.values} /></li>
       ));
 
@@ -152,7 +153,9 @@ export default class Notification extends Component {
     }
 
     return (
-      <div className={className} onMouseDown={this.handleMouseDown}>
+      // FIXME: Move mouse down handler into a button.
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+      <div className={className} role="status" onMouseDown={this.handleMouseDown}>
         {closeButton}
         <div>
           <header>

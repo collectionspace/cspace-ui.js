@@ -13,7 +13,7 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('SearchPanelContainer', function suite() {
+describe('SearchPanelContainer', () => {
   const panelName = 'testSearch';
   const searchName = panelName;
   const searchResult = {};
@@ -32,7 +32,7 @@ describe('SearchPanelContainer', function suite() {
   const recordType = 'object';
   const preferredPageSize = 23;
 
-  it('should set props on SearchPanel', function test() {
+  it('should set props on SearchPanel', () => {
     const store = mockStore({
       prefs: Immutable.fromJS({}),
       search: Immutable.fromJS({
@@ -59,7 +59,8 @@ describe('SearchPanelContainer', function suite() {
         name={panelName}
         recordType={recordType}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -71,7 +72,7 @@ describe('SearchPanelContainer', function suite() {
     result.props.setPreferredPageSize.should.be.a('function');
   });
 
-  it('should override the page size in the provided search descriptor with the preferred page size', function test() {
+  it('should override the page size in the provided search descriptor with the preferred page size', () => {
     const store = mockStore({
       prefs: Immutable.fromJS({
         panels: {
@@ -106,7 +107,8 @@ describe('SearchPanelContainer', function suite() {
         name={panelName}
         recordType={recordType}
         searchDescriptor={searchDescriptor}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

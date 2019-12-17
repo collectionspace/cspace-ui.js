@@ -8,20 +8,20 @@ import HierarchySiblingListContainer from '../../../../src/containers/record/Hie
 
 import {
   RELATION_FIND_STARTED,
-} from '../../../../src/actions/relation';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('HierarchySiblingListContainer', function suite() {
-  it('should set props on HierarchySiblingList', function test() {
+describe('HierarchySiblingListContainer', () => {
+  it('should set props on HierarchySiblingList', () => {
     const parentCsid = '1234';
     const recordType = 'person';
     const findResult = Immutable.Map();
 
     const relationStore = Immutable.Map().setIn(
-      ['find', undefined, parentCsid, 'hasBroader', 'result'], findResult
+      ['find', undefined, parentCsid, 'hasBroader', 'result'], findResult,
     );
 
     const store = mockStore({
@@ -36,7 +36,8 @@ describe('HierarchySiblingListContainer', function suite() {
       <HierarchySiblingListContainer
         parentCsid={parentCsid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -45,7 +46,7 @@ describe('HierarchySiblingListContainer', function suite() {
     result.props.should.have.property('findRelations').that.is.a('function');
   });
 
-  it('should connect findRelations to find action creator', function test() {
+  it('should connect findRelations to find action creator', () => {
     const parentCsid = '1234';
     const recordType = 'person';
 
@@ -75,7 +76,8 @@ describe('HierarchySiblingListContainer', function suite() {
       <HierarchySiblingListContainer
         parentCsid={parentCsid}
         recordType={recordType}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

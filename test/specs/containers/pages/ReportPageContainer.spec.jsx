@@ -35,14 +35,15 @@ const store = mockStore({
   }),
 });
 
-describe('ReportPageContainer', function suite() {
-  it('should set props on ReportPage', function test() {
+describe('ReportPageContainer', () => {
+  it('should set props on ReportPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportPageContainer />, context);
+      <ReportPageContainer />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

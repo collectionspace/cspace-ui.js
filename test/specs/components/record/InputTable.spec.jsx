@@ -67,12 +67,12 @@ const config = {
   },
 };
 
-describe('InputTable', function suite() {
+describe('InputTable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a cspace-input InputTable', function test() {
+  it('should render a cspace-input InputTable', () => {
     const context = {
       config,
       recordType: 'collectionobject',
@@ -105,7 +105,8 @@ describe('InputTable', function suite() {
     render(
       <IntlProvider locale="en">
         {result.props.label}
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('message for inputTable.collectionobject.age');
   });
@@ -119,7 +120,8 @@ describe('InputTable', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <InputTable name="age" />, context);
+      <InputTable name="age" />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -132,19 +134,20 @@ describe('InputTable', function suite() {
     render(
       <IntlProvider locale="en">
         {label}
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('message for field.ageValue.name');
   });
 
-  it('should set the renderAriaLabel prop on the base InputTable', function test() {
+  it('should set the renderAriaLabel prop on the base InputTable', () => {
     const intl = {
       formatDate: () => null,
       formatTime: () => null,
       formatRelative: () => null,
       formatNumber: () => null,
       formatPlural: () => null,
-      formatMessage: message => `formatted ${message.id}`,
+      formatMessage: (message) => `formatted ${message.id}`,
       formatHTMLMessage: () => null,
       now: () => null,
     };
@@ -158,7 +161,8 @@ describe('InputTable', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <InputTable name="age" />, context);
+      <InputTable name="age" />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -170,7 +174,7 @@ describe('InputTable', function suite() {
     result.props.renderAriaLabel(childInput).should.equal('formatted field.ageValue.name');
   });
 
-  it('should set readOnly to true on field labels for child inputs that are configured as read only', function test() {
+  it('should set readOnly to true on field labels for child inputs that are configured as read only', () => {
     const context = {
       config,
       recordType: 'collectionobject',
@@ -179,7 +183,8 @@ describe('InputTable', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <InputTable />, context);
+      <InputTable />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -192,7 +197,7 @@ describe('InputTable', function suite() {
     label.props.readOnly.should.equal(true);
   });
 
-  it('should set required to true on field labels for child inputs that configured as required', function test() {
+  it('should set required to true on field labels for child inputs that configured as required', () => {
     const context = {
       config,
       recordType: 'collectionobject',
@@ -201,7 +206,8 @@ describe('InputTable', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <InputTable />, context);
+      <InputTable />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

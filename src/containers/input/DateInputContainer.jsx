@@ -14,10 +14,11 @@ export function IntlAwareDateInput(props) {
     ...remainingProps
   } = props;
 
-  const locale = intl.locale;
+  const { locale } = intl;
 
   return (
     <DateInput
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
       locale={locale}
     />

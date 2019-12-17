@@ -5,7 +5,7 @@ import {
   getCSpaceSystemInfo,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   systemInfo: getCSpaceSystemInfo(state),
 });
 

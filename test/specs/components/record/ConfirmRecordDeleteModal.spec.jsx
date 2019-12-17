@@ -9,7 +9,7 @@ import { Modal } from 'cspace-layout';
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -68,7 +68,7 @@ const config = {
   },
 };
 
-describe('ConfirmRecordDeleteModal', function suite() {
+describe('ConfirmRecordDeleteModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
 
@@ -86,7 +86,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
           isOpen
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -104,7 +105,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
           isOpen={false}
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -120,7 +122,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
           isOpen={false}
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -139,7 +142,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
           isOpen
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Delete Group Record Title?');
@@ -147,7 +151,7 @@ describe('ConfirmRecordDeleteModal', function suite() {
     unmountComponentAtNode(this.container);
   });
 
-  context('when the record type is a procedure or object', function context() {
+  context('when the record type is a procedure or object', () => {
     it('should call checkForRelations when opened, and render a warning message if it resolves to true', function test() {
       const data = Immutable.Map();
 
@@ -167,7 +171,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
             isOpen={false}
             recordType="group"
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       render(
         <IntlProvider locale="en">
@@ -178,7 +183,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
             recordType="group"
             checkForRelations={checkForRelations}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       return new Promise((resolve) => {
         window.setTimeout(() => {
@@ -195,7 +201,7 @@ describe('ConfirmRecordDeleteModal', function suite() {
     });
   });
 
-  context('when the record type is an authority', function context() {
+  context('when the record type is an authority', () => {
     it('should call checkForUses when opened, and render a message if it resolves to true', function test() {
       const data = Immutable.Map();
 
@@ -217,7 +223,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
             vocabulary="local"
             csid="1234"
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       render(
         <IntlProvider locale="en">
@@ -230,7 +237,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
             csid="1234"
             checkForUses={checkForUses}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       return new Promise((resolve) => {
         window.setTimeout(() => {
@@ -247,7 +255,7 @@ describe('ConfirmRecordDeleteModal', function suite() {
     });
   });
 
-  context('when the record type is authrole', function context() {
+  context('when the record type is authrole', () => {
     it('should call checkForRoleUses when opened, and render a message if it resolves to true', function test() {
       const data = Immutable.Map();
 
@@ -268,7 +276,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
             recordType="authrole"
             csid="1234"
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       render(
         <IntlProvider locale="en">
@@ -280,7 +289,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
             csid="1234"
             checkForRoleUses={checkForRoleUses}
           />
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       return new Promise((resolve) => {
         window.setTimeout(() => {
@@ -317,7 +327,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
           isOpen
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .not.contain('Delete Group Record Title?');
@@ -348,7 +359,8 @@ describe('ConfirmRecordDeleteModal', function suite() {
           isOpen
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(document.querySelector('.ReactModal__Content--after-open button[name="delete"]')).to
       .equal(null);

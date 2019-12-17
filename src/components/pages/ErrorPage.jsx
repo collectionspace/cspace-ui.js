@@ -67,7 +67,9 @@ const messages = defineMessages({
 // but they can be changed to be created as immutable maps.
 
 const propTypes = {
-  error: PropTypes.object,
+  error: PropTypes.shape({
+    code: PropTypes.string,
+  }),
 };
 
 export default function ErrorPage(props) {

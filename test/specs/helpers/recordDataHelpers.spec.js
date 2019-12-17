@@ -74,27 +74,27 @@ import {
   ERROR_KEY,
 } from '../../../src/helpers/recordDataHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.use(chaiAsPromised);
 chai.should();
 
-describe('recordDataHelpers', function moduleSuite() {
-  describe('getPartPropertyName', function suite() {
-    it('should return the part name prepended with the namespace prefix', function test() {
+describe('recordDataHelpers', () => {
+  describe('getPartPropertyName', () => {
+    it('should return the part name prepended with the namespace prefix', () => {
       getPartPropertyName('collectionspace_core').should.equal('ns2:collectionspace_core');
     });
   });
 
-  describe('getPartNSPropertyName', function suite() {
-    it('should return the suppplied namespace prefix prepended with \'@xmlns:\'', function test() {
+  describe('getPartNSPropertyName', () => {
+    it('should return the suppplied namespace prefix prepended with \'@xmlns:\'', () => {
       getPartNSPropertyName('ns2').should.equal('@xmlns:ns2');
     });
   });
 
-  describe('getPart', function suite() {
-    it('should return the named part from the given data', function test() {
+  describe('getPart', () => {
+    it('should return the named part from the given data', () => {
       const corePart = Immutable.Map();
 
       const data = Immutable.fromJS({
@@ -108,8 +108,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('deepGet', function suite() {
-    it('should throw when path is not an array', function test() {
+  describe('deepGet', () => {
+    it('should throw when path is not an array', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -117,7 +117,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepGet.bind(data, 'color')).to.throw(Error);
     });
 
-    it('should throw when path is an empty array', function test() {
+    it('should throw when path is an empty array', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -125,12 +125,12 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepGet.bind(data, [])).to.throw(Error);
     });
 
-    it('should return undefined when data is null or undefined', function test() {
+    it('should return undefined when data is null or undefined', () => {
       expect(deepGet(null, ['color'])).to.equal(undefined);
       expect(deepGet(undefined, ['color'])).to.equal(undefined);
     });
 
-    it('should get a child value', function test() {
+    it('should get a child value', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -138,7 +138,7 @@ describe('recordDataHelpers', function moduleSuite() {
       deepGet(data, ['color']).should.equal('red');
     });
 
-    it('should get a nested Map value', function test() {
+    it('should get a nested Map value', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -148,7 +148,7 @@ describe('recordDataHelpers', function moduleSuite() {
       deepGet(data, ['common', 'color']).should.equal('red');
     });
 
-    it('should get a deeply nested Map value', function test() {
+    it('should get a deeply nested Map value', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -161,7 +161,7 @@ describe('recordDataHelpers', function moduleSuite() {
       deepGet(data, ['common', 'otherNumber', 'number']).should.equal('123');
     });
 
-    it('should return undefined for a non-existent path', function test() {
+    it('should return undefined for a non-existent path', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -174,7 +174,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepGet(data, ['common', 'something', 'number'])).to.equal(undefined);
     });
 
-    it('should get a nested list value', function test() {
+    it('should get a nested list value', () => {
       const data = Immutable.fromJS({
         comment: [
           'comment 1',
@@ -186,7 +186,7 @@ describe('recordDataHelpers', function moduleSuite() {
       deepGet(data, ['comment', '1']).should.equal('comment 2');
     });
 
-    it('should set a deeply nested list value', function test() {
+    it('should set a deeply nested list value', () => {
       const data = Immutable.fromJS({
         common: {
           otherNumber: [
@@ -213,7 +213,7 @@ describe('recordDataHelpers', function moduleSuite() {
       deepGet(data, ['common', 'otherNumber', '0', 'comment', '1']).should.equal('number comment 2');
     });
 
-    it('should treat a single (non-list) value as a list when it is keyed by \'0\'', function test() {
+    it('should treat a single (non-list) value as a list when it is keyed by \'0\'', () => {
       const data = Immutable.fromJS({
         common: {
           otherNumber: {
@@ -232,8 +232,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('deepSet', function suite() {
-    it('should throw when path is not an array', function test() {
+  describe('deepSet', () => {
+    it('should throw when path is not an array', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -241,7 +241,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepSet.bind(data, 'color', 'blue')).to.throw(Error);
     });
 
-    it('should throw when path is an empty array', function test() {
+    it('should throw when path is an empty array', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -249,7 +249,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepSet.bind(data, [], 'blue')).to.throw(Error);
     });
 
-    it('should set a child value', function test() {
+    it('should set a child value', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -270,7 +270,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set a nested Map value', function test() {
+    it('should set a nested Map value', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -286,7 +286,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set a deeply nested Map value', function test() {
+    it('should set a deeply nested Map value', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -308,7 +308,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set a nested list value', function test() {
+    it('should set a nested list value', () => {
       const data = Immutable.fromJS({
         comment: [
           'comment 1',
@@ -326,7 +326,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set a deeply nested list value', function test() {
+    it('should set a deeply nested list value', () => {
       const data = Immutable.fromJS({
         common: {
           otherNumber: [
@@ -377,7 +377,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should create missing Maps', function test() {
+    it('should create missing Maps', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -419,7 +419,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should create missing Lists', function test() {
+    it('should create missing Lists', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -449,7 +449,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should promote non-list values to lists when keyed with a numeric key', function test() {
+    it('should promote non-list values to lists when keyed with a numeric key', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -493,8 +493,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('deepDelete', function suite() {
-    it('should throw when path is not an array', function test() {
+  describe('deepDelete', () => {
+    it('should throw when path is not an array', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -502,7 +502,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepDelete.bind(data, 'color')).to.throw(Error);
     });
 
-    it('should throw when path is an empty array', function test() {
+    it('should throw when path is an empty array', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -510,7 +510,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(deepDelete.bind(data, [])).to.throw(Error);
     });
 
-    it('should delete a child value', function test() {
+    it('should delete a child value', () => {
       const data = Immutable.fromJS({
         color: 'red',
       });
@@ -520,7 +520,7 @@ describe('recordDataHelpers', function moduleSuite() {
       updatedData.should.deep.equal({});
     });
 
-    it('should delete a nested Map value', function test() {
+    it('should delete a nested Map value', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -534,7 +534,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should delete a deeply nested Map value', function test() {
+    it('should delete a deeply nested Map value', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -554,7 +554,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should delete a nested list value', function test() {
+    it('should delete a nested list value', () => {
       const data = Immutable.fromJS({
         comment: [
           'comment 1',
@@ -571,7 +571,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should delete a deeply nested list value', function test() {
+    it('should delete a deeply nested list value', () => {
       const data = Immutable.fromJS({
         common: {
           otherNumber: [
@@ -621,7 +621,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should create missing Maps', function test() {
+    it('should create missing Maps', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -659,7 +659,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should create missing Lists', function test() {
+    it('should create missing Lists', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -687,7 +687,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should promote non-list values to lists when keyed with a numeric key', function test() {
+    it('should promote non-list values to lists when keyed with a numeric key', () => {
       const data = Immutable.fromJS({
         common: {
           color: 'red',
@@ -728,7 +728,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('createBlankRecord', function suite() {
+  describe('createBlankRecord', () => {
     const groupConfig = {
       fields: {
         document: {
@@ -762,11 +762,11 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should return an Immutable.Map', function test() {
+    it('should return an Immutable.Map', () => {
       Immutable.Map.isMap(createBlankRecord(groupConfig)).should.equal(true);
     });
 
-    it('should create properties for the document', function test() {
+    it('should create properties for the document', () => {
       const data = createBlankRecord(roleConfig);
 
       data.get('ns2:role').toJS().should.deep.equal({
@@ -774,7 +774,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should create properties for each part', function test() {
+    it('should create properties for each part', () => {
       const data = createBlankRecord(groupConfig);
 
       data.get('document').get('ns2:groups_common').toJS().should.deep.equal({
@@ -787,7 +787,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('createRecordData', function suite() {
+  describe('createRecordData', () => {
     const recordTypeConfig = {
       serviceConfig: {
         documentName: 'groups',
@@ -812,48 +812,48 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should return an Immutable.Map', function test() {
+    it('should return an Immutable.Map', () => {
       Immutable.Map.isMap(createRecordData(recordTypeConfig)).should.equal(true);
     });
 
-    it('should have a document property', function test() {
+    it('should have a document property', () => {
       createRecordData(recordTypeConfig).get('document').should.be.an('object');
     });
   });
 
-  describe('getDocument', function suite() {
+  describe('getDocument', () => {
     const recordData = Immutable.Map({
       document: {
         '@name': 'collectionobjects',
       },
     });
 
-    it('should return the document object from the record data', function test() {
+    it('should return the document object from the record data', () => {
       getDocument(recordData).should
         .be.an('object')
         .with.property('@name', 'collectionobjects');
     });
   });
 
-  describe('attributePropertiesToTop', function suite() {
-    it('should return -1 if the first argument starts with \'@\' and the second does not', function test() {
+  describe('attributePropertiesToTop', () => {
+    it('should return -1 if the first argument starts with \'@\' and the second does not', () => {
       attributePropertiesToTop('@foo', 'bar').should.equal(-1);
     });
 
-    it('should return 1 if the second argument starts with \'@\' and the first does not', function test() {
+    it('should return 1 if the second argument starts with \'@\' and the first does not', () => {
       attributePropertiesToTop('foo', '@bar').should.equal(1);
     });
 
-    it('should return 0 if both arguments start with \'@\'', function test() {
+    it('should return 0 if both arguments start with \'@\'', () => {
       attributePropertiesToTop('@foo', '@bar').should.equal(0);
     });
 
-    it('should return 0 if neither argument starts with \'@\'', function test() {
+    it('should return 0 if neither argument starts with \'@\'', () => {
       attributePropertiesToTop('foo', 'bar').should.equal(0);
     });
   });
 
-  describe('prepareForSending', function suite() {
+  describe('prepareForSending', () => {
     const recordData = Immutable.fromJS({
       document: {
         '@name': 'groups',
@@ -903,39 +903,39 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should remove the collectionspace_core part', function test() {
+    it('should remove the collectionspace_core part', () => {
       prepareForSending(recordData, recordTypeConfig).get('document').has('ns2:collectionspace_core').should.equal(false);
     });
 
-    it('should remove the account_permission part', function test() {
+    it('should remove the account_permission part', () => {
       prepareForSending(recordData, recordTypeConfig).get('document').has('ns2:account_permission').should.equal(false);
     });
 
-    it('should sort attribute and namespace declaration properties to the top of each part', function test() {
+    it('should sort attribute and namespace declaration properties to the top of each part', () => {
       prepareForSending(recordData, recordTypeConfig).get('document').get('ns2:groups_common').keySeq()
         .toArray().should.deep.equal(['@attr1', '@xmlns:ns2', 'name', 'date']);
     });
 
-    it('should filter out incomplete relation items', function test() {
+    it('should filter out incomplete relation items', () => {
       prepareForSending(recordData, recordTypeConfig)
         .getIn(['document', 'rel:relations-common-list', 'relation-list-item']).size.should
-          .equal(0);
+        .equal(0);
     });
 
-    it('should filter out incomplete relation items', function test() {
+    it('should filter out incomplete relation items', () => {
       prepareForSending(recordData, recordTypeConfig)
         .getIn(['document', 'rel:relations-common-list', 'relation-list-item']).size.should
-          .equal(0);
+        .equal(0);
     });
 
-    it('should set subrecord csid fields that don\'t contain valid csids to null', function test() {
+    it('should set subrecord csid fields that don\'t contain valid csids to null', () => {
       expect(
         prepareForSending(recordData, recordTypeConfig)
-          .getIn(['document', 'ns2:groups_extension', 'blobCsid'])
+          .getIn(['document', 'ns2:groups_extension', 'blobCsid']),
       ).to.equal(null);
     });
 
-    it('should sort attribute and namespace properties of the root to the top', function test() {
+    it('should sort attribute and namespace properties of the root to the top', () => {
       const roleRecordData = Immutable.fromJS({
         'ns2:role': {
           createdAt: '1234',
@@ -949,18 +949,19 @@ describe('recordDataHelpers', function moduleSuite() {
         .toArray().should.deep.equal(['@csid', '@xmlns:ns2', 'createdAt', 'displayName']);
     });
 
-    it('should call a configured prepareForSending function', function test() {
+    it('should call a configured prepareForSending function', () => {
       let prepareForSendingData = null;
       let prepareForSendingRecordTypeConfig = null;
 
-      const customRecordTypeConfig = Object.assign({}, recordTypeConfig, {
+      const customRecordTypeConfig = {
+        ...recordTypeConfig,
         prepareForSending: (dataArg, recordTypeConfigArg) => {
           prepareForSendingData = dataArg;
           prepareForSendingRecordTypeConfig = recordTypeConfigArg;
 
           return dataArg.setIn(['document', 'ns2:groups_common', 'prepared'], true);
         },
-      });
+      };
 
       prepareForSending(recordData, customRecordTypeConfig)
         .getIn(['document', 'ns2:groups_common', 'prepared']).should.equal(true);
@@ -970,8 +971,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('copyValue', function suite() {
-    it('should copy a scalar value from the source to the destination', function test() {
+  describe('copyValue', () => {
+    it('should copy a scalar value from the source to the destination', () => {
       const sourceData = Immutable.fromJS({
         foo: 'abc',
       });
@@ -986,7 +987,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should overwrite existing destination values', function test() {
+    it('should overwrite existing destination values', () => {
       const sourceData = Immutable.fromJS({
         foo: 'abc',
       });
@@ -1000,7 +1001,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should copy a list value from the source to the destination', function test() {
+    it('should copy a list value from the source to the destination', () => {
       const sourceData = Immutable.fromJS({
         foo: ['value 1', 'value 2', 'value 3'],
       });
@@ -1015,7 +1016,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should overwrite an existing scalar value with a list value copied from the source', function test() {
+    it('should overwrite an existing scalar value with a list value copied from the source', () => {
       const sourceData = Immutable.fromJS({
         foo: ['value 1', 'value 2', 'value 3'],
       });
@@ -1029,7 +1030,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should overwrite an existing list value with a list value copied from the source', function test() {
+    it('should overwrite an existing list value with a list value copied from the source', () => {
       const sourceData = Immutable.fromJS({
         foo: ['value 1', 'value 2', 'value 3'],
       });
@@ -1043,7 +1044,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should recursively copy a complex value from the source to the destination', function test() {
+    it('should recursively copy a complex value from the source to the destination', () => {
       const sourceData = Immutable.fromJS({
         foo: {
           child1: {
@@ -1072,7 +1073,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should recursively copy lists of complex values from the source to the destination', function test() {
+    it('should recursively copy lists of complex values from the source to the destination', () => {
       const sourceData = Immutable.fromJS({
         foo: {
           child1: [
@@ -1140,8 +1141,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('spreadDefaultValue', function suite() {
-    it('should set the value if the path does not exist', function test() {
+  describe('spreadDefaultValue', () => {
+    it('should set the value if the path does not exist', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {},
@@ -1155,7 +1156,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'common',
           'recordStatus',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1167,7 +1168,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the value if the current value is undefined', function test() {
+    it('should set the value if the current value is undefined', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {
@@ -1183,7 +1184,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'common',
           'recordStatus',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1195,7 +1196,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should not set the value if the current value is not undefined', function test() {
+    it('should not set the value if the current value is not undefined', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {
@@ -1211,7 +1212,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'common',
           'recordStatus',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1223,7 +1224,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should return the data unchanged if it is an unexpected type', function test() {
+    it('should return the data unchanged if it is an unexpected type', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: '1234',
@@ -1237,7 +1238,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'common',
           'recordStatus',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1247,7 +1248,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the value in all existing undefined instances of a repeating field', function test() {
+    it('should set the value in all existing undefined instances of a repeating field', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {
@@ -1270,7 +1271,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'comments',
           'comment',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1288,7 +1289,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the value in all existing instances of a field in a repeating group', function test() {
+    it('should set the value in all existing instances of a field in a repeating group', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {
@@ -1316,7 +1317,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'titleGroup',
           'titleLanguage',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1340,7 +1341,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the value in all existing instances of a field in a nested repeating group', function test() {
+    it('should set the value in all existing instances of a field in a nested repeating group', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {
@@ -1393,7 +1394,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'titleTranslationSubgroup',
           'titleTranslationLanguage',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1441,7 +1442,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the value in undefined instances of a repeating group', function test() {
+    it('should set the value in undefined instances of a repeating group', () => {
       const recordData = Immutable.fromJS({
         document: {
           common: {
@@ -1478,7 +1479,7 @@ describe('recordDataHelpers', function moduleSuite() {
           'titleTranslationSubgroup',
           'titleTranslationLanguage',
         ],
-        recordData
+        recordData,
       );
 
       updatedData.toJS().should.deep.equal({
@@ -1510,8 +1511,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('applyDefaults', function suite() {
-    it('should set all default values from config into the data', function test() {
+  describe('applyDefaults', () => {
+    it('should set all default values from config into the data', () => {
       const fieldDescriptor = {
         document: {
           common: {
@@ -1552,8 +1553,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('initializeChildren', function suite() {
-    it('should set undefined children to null', function test() {
+  describe('initializeChildren', () => {
+    it('should set undefined children to null', () => {
       const fieldDescriptor = {
         [configKey]: {},
         field1: {
@@ -1580,7 +1581,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should return the data if the field descriptor does not define child fields', function test() {
+    it('should return the data if the field descriptor does not define child fields', () => {
       const fieldDescriptor = {
         [configKey]: {},
       };
@@ -1593,7 +1594,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('clearUncloneable', function suite() {
+  describe('clearUncloneable', () => {
     const recordTypeConfig = {
       document: {
         'ns2:collectionobjects_common': {
@@ -1629,7 +1630,7 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should set uncloneable fields with no default to undefined', function test() {
+    it('should set uncloneable fields with no default to undefined', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionobjects_common': {
@@ -1647,7 +1648,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should set uncloneable fields with a default to the default', function test() {
+    it('should set uncloneable fields with a default to the default', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionobjects_common': {
@@ -1665,7 +1666,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should do nothing to fields that are cloneable', function test() {
+    it('should do nothing to fields that are cloneable', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionobjects_common': {
@@ -1683,7 +1684,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should clear all instances of a repeating field', function test() {
+    it('should clear all instances of a repeating field', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionobjects_common': {
@@ -1709,7 +1710,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should clear all instances of a field in a repeating group', function test() {
+    it('should clear all instances of a field in a repeating group', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionobjects_common': {
@@ -1752,7 +1753,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('cloneRecordData', function suite() {
+  describe('cloneRecordData', () => {
     const csid = '1234';
 
     const recordTypeConfig = {
@@ -1769,7 +1770,7 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should omit the collectionspace_core and account_permission parts', function test() {
+    it('should omit the collectionspace_core and account_permission parts', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {},
@@ -1789,7 +1790,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should clear uncloneable fields', function test() {
+    it('should clear uncloneable fields', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {},
@@ -1811,7 +1812,7 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should prepare the record\'s hierarchy relations', function test() {
+    it('should prepare the record\'s hierarchy relations', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -1857,15 +1858,15 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should return undefined for undefined data', function test() {
+    it('should return undefined for undefined data', () => {
       expect(cloneRecordData(recordTypeConfig, csid, undefined)).to.equal(undefined);
     });
   });
 
-  describe('prepareClonedHierarchy', function suite() {
+  describe('prepareClonedHierarchy', () => {
     const fromCsid = '1234';
 
-    it('should retain only the relation to a broader record, and set the subject csid to the new record placeholder', function test() {
+    it('should retain only the relation to a broader record, and set the subject csid to the new record placeholder', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -1909,7 +1910,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should delete all relations if there is no relation to a broader record', function test() {
+    it('should delete all relations if there is no relation to a broader record', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -1939,7 +1940,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should handle a single (non-list) relation item', function test() {
+    it('should handle a single (non-list) relation item', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -1967,8 +1968,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getCreatedTimestamp', function suite() {
-    it('should return a core schema createdAt value', function test() {
+  describe('getCreatedTimestamp', () => {
+    it('should return a core schema createdAt value', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -1980,7 +1981,7 @@ describe('recordDataHelpers', function moduleSuite() {
       getCreatedTimestamp(data).should.equal('1234');
     });
 
-    it('should return a top level createdAt value  ', function test() {
+    it('should return a top level createdAt value  ', () => {
       const data = Immutable.fromJS({
         'ns2:role': {
           createdAt: '1234',
@@ -1991,8 +1992,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getCreatedUser', function suite() {
-    it('should return the created timestamp', function test() {
+  describe('getCreatedUser', () => {
+    it('should return the created timestamp', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -2005,8 +2006,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getUpdatedTimestamp', function suite() {
-    it('should return a core schema updatedAt value', function test() {
+  describe('getUpdatedTimestamp', () => {
+    it('should return a core schema updatedAt value', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -2018,7 +2019,7 @@ describe('recordDataHelpers', function moduleSuite() {
       getUpdatedTimestamp(data).should.equal('1234');
     });
 
-    it('should return a top level updatedAt value', function test() {
+    it('should return a top level updatedAt value', () => {
       const data = Immutable.fromJS({
         'ns2:role': {
           updatedAt: '1234',
@@ -2029,8 +2030,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getUpdatedUser', function suite() {
-    it('should return the updated timestamp', function test() {
+  describe('getUpdatedUser', () => {
+    it('should return the updated timestamp', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -2043,7 +2044,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getCommonFieldValue', function suite() {
+  describe('getCommonFieldValue', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:groups_common': {
@@ -2052,24 +2053,24 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     });
 
-    it('should return the specified field from the common part', function test() {
+    it('should return the specified field from the common part', () => {
       getCommonFieldValue(data, 'foo').should.equal('bar');
     });
 
-    it('should return undefined if the field does not exist', function test() {
+    it('should return undefined if the field does not exist', () => {
       expect(getCommonFieldValue(data, 'baz')).to.equal(undefined);
     });
 
-    it('should return undefined if the document key does not exist', function test() {
+    it('should return undefined if the document key does not exist', () => {
       expect(getCommonFieldValue(Immutable.Map(), 'foo')).to.equal(undefined);
     });
 
-    it('should return undefined if the data does not exist', function test() {
+    it('should return undefined if the data does not exist', () => {
       expect(getCommonFieldValue(null, 'foo')).to.equal(undefined);
     });
   });
 
-  describe('getCoreFieldValue', function suite() {
+  describe('getCoreFieldValue', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
@@ -2078,20 +2079,20 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     });
 
-    it('should return the specified field from the core part', function test() {
+    it('should return the specified field from the core part', () => {
       getCoreFieldValue(data, 'foo').should.equal('bar');
     });
 
-    it('should return undefined if the field does not exist', function test() {
+    it('should return undefined if the field does not exist', () => {
       expect(getCoreFieldValue(data, 'baz')).to.equal(undefined);
     });
 
-    it('should return undefined if the data does not exist', function test() {
+    it('should return undefined if the data does not exist', () => {
       expect(getCoreFieldValue(null, 'foo')).to.equal(undefined);
     });
   });
 
-  describe('getCsid', function suite() {
+  describe('getCsid', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionspace_core': {
@@ -2100,16 +2101,16 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     });
 
-    it('should return the csid extracted from the uri field in the core part', function test() {
+    it('should return the csid extracted from the uri field in the core part', () => {
       getCsid(data).should.equal('1234');
     });
 
-    it('should return undefined if the data does not exist', function test() {
+    it('should return undefined if the data does not exist', () => {
       expect(getCsid()).to.equal(undefined);
     });
   });
 
-  describe('getRefName', function suite() {
+  describe('getRefName', () => {
     const refName = 'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(California1514611983069)\'California\'';
 
     const data = Immutable.fromJS({
@@ -2120,16 +2121,16 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     });
 
-    it('should return the refName extracted from the core part', function test() {
+    it('should return the refName extracted from the core part', () => {
       getRefName(data).should.equal(refName);
     });
 
-    it('should return undefined if the data does not exist', function test() {
+    it('should return undefined if the data does not exist', () => {
       expect(getRefName()).to.equal(undefined);
     });
   });
 
-  describe('validateField', function suite() {
+  describe('validateField', () => {
     const fieldDescriptor = {
       id: {
         [configKey]: {
@@ -2246,390 +2247,360 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should resolve to null if the value is valid', function test() {
-      return validateField({
-        data: 'red',
+    it('should resolve to null if the value is valid', () => validateField({
+      data: 'red',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: undefined,
+      fieldDescriptor: fieldDescriptor.color,
+    }).should.eventually.equal(null));
+
+    it('should resolve to an error if a required field is empty, null, or undefined', () => Promise.all([
+      validateField({
+        data: '',
         path: [],
         recordData: Immutable.Map(),
         subrecordData: undefined,
-        fieldDescriptor: fieldDescriptor.color,
-      }).should.eventually.equal(null);
-    });
+        fieldDescriptor: fieldDescriptor.id,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+        message: undefined,
+      })),
 
-    it('should resolve to an error if a required field is empty, null, or undefined', function test() {
-      return Promise.all([
-        validateField({
-          data: '',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.id,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_MISSING_REQ_FIELD,
-          message: undefined,
-        })),
+      validateField({
+        data: null,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.id,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+        message: undefined,
+      })),
 
-        validateField({
-          data: null,
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.id,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_MISSING_REQ_FIELD,
-          message: undefined,
-        })),
+      validateField({
+        data: undefined,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.id,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_MISSING_REQ_FIELD,
+        message: undefined,
+      })),
+    ]));
 
-        validateField({
-          data: undefined,
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.id,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_MISSING_REQ_FIELD,
-          message: undefined,
-        })),
-      ]);
-    });
+    it('should resolve to null if an integer field is valid', () => Promise.all([
+      validateField({
+        data: '1',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.count,
+      }).should.eventually.equal(null),
 
-    it('should resolve to null if an integer field is valid', function test() {
-      return Promise.all([
-        validateField({
-          data: '1',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.count,
-        }).should.eventually.equal(null),
+      validateField({
+        data: '-1',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.count,
+      }).should.eventually.equal(null),
 
-        validateField({
-          data: '-1',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.count,
-        }).should.eventually.equal(null),
+      validateField({
+        data: '0',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.count,
+      }).should.eventually.equal(null),
+    ]));
 
-        validateField({
-          data: '0',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.count,
-        }).should.eventually.equal(null),
-      ]);
-    });
-
-    it('should resolve to an error if an integer field is invalid', function test() {
-      return Promise.all([
-        validateField({
-          data: 'a',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.count,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_INT,
-          value: 'a',
-        })),
-
-        validateField({
-          data: '24w',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.count,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_INT,
-          value: '24w',
-        })),
-      ]);
-    });
-
-    it('should resolve to null when no field descriptor is supplied', function test() {
-      return validateField({
+    it('should resolve to an error if an integer field is invalid', () => Promise.all([
+      validateField({
         data: 'a',
         path: [],
         recordData: Immutable.Map(),
         subrecordData: undefined,
-        fieldDescriptor: null,
-      }).should.eventually.equal(null);
-    });
+        fieldDescriptor: fieldDescriptor.count,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_INT,
+        value: 'a',
+      })),
 
-    it('should resolve to null if a float field is valid', function test() {
-      return Promise.all([
-        validateField({
-          data: '1.00',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.equal(null),
+      validateField({
+        data: '24w',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.count,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_INT,
+        value: '24w',
+      })),
+    ]));
 
-        validateField({
-          data: '-14.12',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.equal(null),
+    it('should resolve to null when no field descriptor is supplied', () => validateField({
+      data: 'a',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: undefined,
+      fieldDescriptor: null,
+    }).should.eventually.equal(null));
 
-        validateField({
-          data: '32',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.equal(null),
+    it('should resolve to null if a float field is valid', () => Promise.all([
+      validateField({
+        data: '1.00',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.equal(null),
 
-        validateField({
-          data: '-1234',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.equal(null),
+      validateField({
+        data: '-14.12',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.equal(null),
 
-        validateField({
-          data: '.56',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.equal(null),
+      validateField({
+        data: '32',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.equal(null),
 
-        validateField({
-          data: '-.2',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.equal(null),
-      ]);
-    });
+      validateField({
+        data: '-1234',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.equal(null),
 
-    it('should resolve to an error if a float field is invalid', function test() {
-      return Promise.all([
-        validateField({
-          data: 'a',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_FLOAT,
-          value: 'a',
-        })),
+      validateField({
+        data: '.56',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.equal(null),
 
-        validateField({
-          data: '1.00.0',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_FLOAT,
-          value: '1.00.0',
-        })),
+      validateField({
+        data: '-.2',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.equal(null),
+    ]));
 
-        validateField({
-          data: '24.sd',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_FLOAT,
-          value: '24.sd',
-        })),
+    it('should resolve to an error if a float field is invalid', () => Promise.all([
+      validateField({
+        data: 'a',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: 'a',
+      })),
 
-        validateField({
-          data: '-24.sd',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_FLOAT,
-          value: '-24.sd',
-        })),
+      validateField({
+        data: '1.00.0',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: '1.00.0',
+      })),
 
-        validateField({
-          data: '-',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.price,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_FLOAT,
-          value: '-',
-        })),
-      ]);
-    });
+      validateField({
+        data: '24.sd',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: '24.sd',
+      })),
 
-    it('should resolve to null if a date field is valid', function test() {
-      return validateField({
-        data: '1983-03-05',
+      validateField({
+        data: '-24.sd',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: '-24.sd',
+      })),
+
+      validateField({
+        data: '-',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.price,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_FLOAT,
+        value: '-',
+      })),
+    ]));
+
+    it('should resolve to null if a date field is valid', () => validateField({
+      data: '1983-03-05',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: undefined,
+      fieldDescriptor: fieldDescriptor.date,
+    }).should.eventually.equal(null));
+
+    it('should resolve to an error if a date field is invalid', () => Promise.all([
+      validateField({
+        data: 'a',
         path: [],
         recordData: Immutable.Map(),
         subrecordData: undefined,
         fieldDescriptor: fieldDescriptor.date,
-      }).should.eventually.equal(null);
-    });
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATE,
+        value: 'a',
+      })),
 
-    it('should resolve to an error if a date field is invalid', function test() {
-      return Promise.all([
-        validateField({
-          data: 'a',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.date,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_DATE,
-          value: 'a',
-        })),
-
-        validateField({
-          data: '1983-03-05T13:00:00',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.date,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_DATE,
-          value: '1983-03-05T13:00:00',
-        })),
-      ]);
-    });
-
-    it('should resolve to null if a datetime field is valid', function test() {
-      return validateField({
-        data: '1983-03-05T13:45:23.000Z',
+      validateField({
+        data: '1983-03-05T13:00:00',
         path: [],
         recordData: Immutable.Map(),
         subrecordData: undefined,
-        fieldDescriptor: fieldDescriptor.time,
-      }).should.eventually.equal(null);
-    });
+        fieldDescriptor: fieldDescriptor.date,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATE,
+        value: '1983-03-05T13:00:00',
+      })),
+    ]));
 
-    it('should resolve to an error if a datetime field is invalid', function test() {
-      return Promise.all([
-        validateField({
-          data: 'a',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.time,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_DATETIME,
-          value: 'a',
-        })),
+    it('should resolve to null if a datetime field is valid', () => validateField({
+      data: '1983-03-05T13:45:23.000Z',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: undefined,
+      fieldDescriptor: fieldDescriptor.time,
+    }).should.eventually.equal(null));
 
-        validateField({
-          data: '1983-03-05Z',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.time,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_DATETIME,
-          value: '1983-03-05Z',
-        })),
-      ]);
-    });
-
-    it('should resolve to null if a boolean field is valid', function test() {
-      return Promise.all([
-        validateField({
-          data: true,
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.preferred,
-        }).should.eventually.equal(null),
-
-        validateField({
-          data: false,
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.preferred,
-        }).should.eventually.equal(null),
-
-        validateField({
-          data: 'true',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.preferred,
-        }).should.eventually.equal(null),
-
-        validateField({
-          data: 'false',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.preferred,
-        }).should.eventually.equal(null),
-      ]);
-    });
-
-    it('should resolve to an error if a boolean field is invalid', function test() {
-      return Promise.all([
-        validateField({
-          data: 'foo',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.preferred,
-        }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
-          code: ERR_DATA_TYPE,
-          dataType: DATA_TYPE_BOOL,
-          value: 'foo',
-        })),
-      ]);
-    });
-
-    it('should resolve to null if a map field is valid', function test() {
-      return (
-        validateField({
-          data: Immutable.Map(),
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.departments,
-        }).should.eventually.equal(null)
-      );
-    });
-
-    it('should resolve to an error if a map field is invalid', function test() {
-      return validateField({
+    it('should resolve to an error if a datetime field is invalid', () => Promise.all([
+      validateField({
         data: 'a',
         path: [],
         recordData: Immutable.Map(),
         subrecordData: undefined,
-        fieldDescriptor: fieldDescriptor.departments,
+        fieldDescriptor: fieldDescriptor.time,
       }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
         code: ERR_DATA_TYPE,
-        dataType: DATA_TYPE_MAP,
+        dataType: DATA_TYPE_DATETIME,
         value: 'a',
-      }));
-    });
+      })),
 
-    it('should validate nested fields recursively', function test() {
+      validateField({
+        data: '1983-03-05Z',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.time,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_DATETIME,
+        value: '1983-03-05Z',
+      })),
+    ]));
+
+    it('should resolve to null if a boolean field is valid', () => Promise.all([
+      validateField({
+        data: true,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.preferred,
+      }).should.eventually.equal(null),
+
+      validateField({
+        data: false,
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.preferred,
+      }).should.eventually.equal(null),
+
+      validateField({
+        data: 'true',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.preferred,
+      }).should.eventually.equal(null),
+
+      validateField({
+        data: 'false',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.preferred,
+      }).should.eventually.equal(null),
+    ]));
+
+    it('should resolve to an error if a boolean field is invalid', () => Promise.all([
+      validateField({
+        data: 'foo',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.preferred,
+      }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+        code: ERR_DATA_TYPE,
+        dataType: DATA_TYPE_BOOL,
+        value: 'foo',
+      })),
+    ]));
+
+    it('should resolve to null if a map field is valid', () => (
+      validateField({
+        data: Immutable.Map(),
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.departments,
+      }).should.eventually.equal(null)
+    ));
+
+    it('should resolve to an error if a map field is invalid', () => validateField({
+      data: 'a',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: undefined,
+      fieldDescriptor: fieldDescriptor.departments,
+    }).should.eventually.have.property(ERROR_KEY, Immutable.Map({
+      code: ERR_DATA_TYPE,
+      dataType: DATA_TYPE_MAP,
+      value: 'a',
+    })));
+
+    it('should validate nested fields recursively', () => {
       const value = Immutable.fromJS({
         measurement: {
           value: 'uh oh',
@@ -2654,7 +2625,7 @@ describe('recordDataHelpers', function moduleSuite() {
         ));
     });
 
-    it('should validate repeating instances when the expand repeating flag is true', function test() {
+    it('should validate repeating instances when the expand repeating flag is true', () => {
       const expandRepeating = true;
 
       const value = Immutable.List([
@@ -2688,7 +2659,7 @@ describe('recordDataHelpers', function moduleSuite() {
       );
     });
 
-    it('should not validate repeating instances when the expand repeating flag is false', function test() {
+    it('should not validate repeating instances when the expand repeating flag is false', () => {
       const expandRepeating = false;
 
       const value = Immutable.List([
@@ -2706,64 +2677,58 @@ describe('recordDataHelpers', function moduleSuite() {
       }, expandRepeating).should.eventually.equal(null);
     });
 
-    it('should run a custom validator', function test() {
-      return Promise.all([
-        validateField({
-          data: '3',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.negativeNumber,
-        }).should.eventually.have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
+    it('should run a custom validator', () => Promise.all([
+      validateField({
+        data: '3',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.negativeNumber,
+      }).should.eventually.have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
 
-        validateField({
-          data: '-3',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.negativeNumber,
-        }).should.eventually.equal(null),
-      ]);
-    });
+      validateField({
+        data: '-3',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.negativeNumber,
+      }).should.eventually.equal(null),
+    ]));
 
-    it('should run an asynchronous custom validator', function test() {
-      return Promise.all([
-        validateField({
-          data: 'foo',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.zipCode,
-        }).should.eventually.have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
-
-        validateField({
-          data: '94710',
-          path: [],
-          recordData: Immutable.Map(),
-          subrecordData: undefined,
-          fieldDescriptor: fieldDescriptor.zipCode,
-        }).should.eventually.equal(null),
-      ]);
-    });
-
-    it('should resolve to an error on the document when an asynchronous custom validator rejects', function test() {
-      return validateField({
+    it('should run an asynchronous custom validator', () => Promise.all([
+      validateField({
         data: 'foo',
         path: [],
         recordData: Immutable.Map(),
         subrecordData: undefined,
-        fieldDescriptor: fieldDescriptor.address,
-      }).should.eventually.equal(Immutable.fromJS({
-        document: {
-          [ERROR_KEY]: {
-            code: ERR_UNABLE_TO_VALIDATE,
-          },
+        fieldDescriptor: fieldDescriptor.zipCode,
+      }).should.eventually.have.deep.property([ERROR_KEY, 'code'], ERR_VALIDATION),
+
+      validateField({
+        data: '94710',
+        path: [],
+        recordData: Immutable.Map(),
+        subrecordData: undefined,
+        fieldDescriptor: fieldDescriptor.zipCode,
+      }).should.eventually.equal(null),
+    ]));
+
+    it('should resolve to an error on the document when an asynchronous custom validator rejects', () => validateField({
+      data: 'foo',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: undefined,
+      fieldDescriptor: fieldDescriptor.address,
+    }).should.eventually.equal(Immutable.fromJS({
+      document: {
+        [ERROR_KEY]: {
+          code: ERR_UNABLE_TO_VALIDATE,
         },
-      }));
-    });
+      },
+    })));
   });
 
-  describe('validateRecordData', function suite() {
+  describe('validateRecordData', () => {
     const recordTypeConfig = {
       fields: {
         id: {
@@ -2776,7 +2741,7 @@ describe('recordDataHelpers', function moduleSuite() {
 
     const data = Immutable.Map();
 
-    it('should validate the data against the field descriptor in the record type config', function test() {
+    it('should validate the data against the field descriptor in the record type config', () => {
       validateRecordData(data, recordTypeConfig).should.eventually
         .have.deep.property(['id', ERROR_KEY], Immutable.Map({
           code: ERR_MISSING_REQ_FIELD,
@@ -2784,7 +2749,7 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('computeField', function suite() {
+  describe('computeField', () => {
     const fieldDescriptor = {
       sayHello: {
         [configKey]: {
@@ -2813,7 +2778,7 @@ describe('recordDataHelpers', function moduleSuite() {
       colors: {
         [configKey]: {
           compute: ({ data }) => data.set(
-            'color', data.get('color').map((color, index) => `${index}. ${color}`)
+            'color', data.get('color').map((color, index) => `${index}. ${color}`),
           ),
         },
         color: {
@@ -2851,48 +2816,42 @@ describe('recordDataHelpers', function moduleSuite() {
       },
     };
 
-    it('should resolve to undefined if no field descriptor is supplied', function test() {
-      return computeField({
-        data: 'world',
-        path: [],
+    it('should resolve to undefined if no field descriptor is supplied', () => computeField({
+      data: 'world',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: null,
+      fieldDescriptor: undefined,
+    }).then((computedValue) => {
+      expect(computedValue).to.equal(undefined);
+    }));
+
+    it('should resolve a computed value for scalar fields', () => computeField({
+      data: 'world',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: null,
+      fieldDescriptor: fieldDescriptor.sayHello,
+    }).should.eventually.equal('hello world'));
+
+    it('should resolve a computed value for repeating field instances', () => Promise.all([
+      computeField({
+        data: 'Alvar Aalto',
+        path: [0],
         recordData: Immutable.Map(),
         subrecordData: null,
-        fieldDescriptor: undefined,
-      }).then((computedValue) => {
-        expect(computedValue).to.equal(undefined);
-      });
-    });
-
-    it('should resolve a computed value for scalar fields', function test() {
-      return computeField({
-        data: 'world',
-        path: [],
+        fieldDescriptor: fieldDescriptor.names.name,
+      }, false).should.eventually.equal('0. Alvar Aalto'),
+      computeField({
+        data: 'Ray Eames',
+        path: [1],
         recordData: Immutable.Map(),
         subrecordData: null,
-        fieldDescriptor: fieldDescriptor.sayHello,
-      }).should.eventually.equal('hello world');
-    });
+        fieldDescriptor: fieldDescriptor.names.name,
+      }, false).should.eventually.equal('1. Ray Eames'),
+    ]));
 
-    it('should resolve a computed value for repeating field instances', function test() {
-      return Promise.all([
-        computeField({
-          data: 'Alvar Aalto',
-          path: [0],
-          recordData: Immutable.Map(),
-          subrecordData: null,
-          fieldDescriptor: fieldDescriptor.names.name,
-        }, false).should.eventually.equal('0. Alvar Aalto'),
-        computeField({
-          data: 'Ray Eames',
-          path: [1],
-          recordData: Immutable.Map(),
-          subrecordData: null,
-          fieldDescriptor: fieldDescriptor.names.name,
-        }, false).should.eventually.equal('1. Ray Eames'),
-      ]);
-    });
-
-    it('should resolve a computed value for repeating fields', function test() {
+    it('should resolve a computed value for repeating fields', () => {
       const value = Immutable.List([
         'Lois Lane',
         'Clark Kent',
@@ -2912,7 +2871,7 @@ describe('recordDataHelpers', function moduleSuite() {
       ]));
     });
 
-    it('should resolve a computed value for repeating field containers', function test() {
+    it('should resolve a computed value for repeating field containers', () => {
       // Really this is just a type of complex field, with one child that is repeating.
 
       const value = Immutable.fromJS({
@@ -2938,7 +2897,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should resolve a computed value for complex fields', function test() {
+    it('should resolve a computed value for complex fields', () => {
       // Test something more complicated then a repeating field container.
 
       const value = Immutable.fromJS({
@@ -2964,7 +2923,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }, false).should.eventually.equal(value.set('dimensionSummary', 'base: 12 x 24'));
     });
 
-    it('should resolve a sparse tree of computed values for complex fields that have computed descendent fields', function test() {
+    it('should resolve a sparse tree of computed values for complex fields that have computed descendent fields', () => {
       const docFieldDescriptor = {
         document: {
           'ns2:collectionobjects_common': {
@@ -3025,7 +2984,7 @@ describe('recordDataHelpers', function moduleSuite() {
       }));
     });
 
-    it('should resolve to undefined if there are no computed fields', function test() {
+    it('should resolve to undefined if there are no computed fields', () => {
       const docFieldDescriptor = {
         document: {
           'ns2:collectionobjects_common': {
@@ -3072,19 +3031,17 @@ describe('recordDataHelpers', function moduleSuite() {
       });
     });
 
-    it('should reject if the compute function throws', function test() {
-      return computeField({
-        data: '',
-        path: [],
-        recordData: Immutable.Map(),
-        subrecordData: null,
-        fieldDescriptor: fieldDescriptor.throwError,
-      }).catch(error => error.message).should.eventually.equal('test error');
-    });
+    it('should reject if the compute function throws', () => computeField({
+      data: '',
+      path: [],
+      recordData: Immutable.Map(),
+      subrecordData: null,
+      fieldDescriptor: fieldDescriptor.throwError,
+    }).catch((error) => error.message).should.eventually.equal('test error'));
   });
 
-  describe('computeRecordData', function suite() {
-    it('should resolve a sparse tree of computed values for the record data', function test() {
+  describe('computeRecordData', () => {
+    it('should resolve a sparse tree of computed values for the record data', () => {
       const recordTypeConfig = {
         fields: {
           document: {
@@ -3143,8 +3100,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('isNewRecord', function suite() {
-    it('should return false if the data contains a uri', function test() {
+  describe('isNewRecord', () => {
+    it('should return false if the data contains a uri', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -3156,7 +3113,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isNewRecord(data).should.equal(false);
     });
 
-    it('should return true if the data does not contain a uri', function test() {
+    it('should return true if the data does not contain a uri', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {},
@@ -3167,8 +3124,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('isExistingRecord', function suite() {
-    it('should return true if the data contains a uri', function test() {
+  describe('isExistingRecord', () => {
+    it('should return true if the data contains a uri', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -3180,7 +3137,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isExistingRecord(data).should.equal(true);
     });
 
-    it('should return false if the data does not contain a uri', function test() {
+    it('should return false if the data does not contain a uri', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {},
@@ -3191,8 +3148,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('isRecordDeprecated', function suite() {
-    it('should return true if the workflow state contains \'deprecated\'', function test() {
+  describe('isRecordDeprecated', () => {
+    it('should return true if the workflow state contains \'deprecated\'', () => {
       let data;
 
       data = Immutable.fromJS({
@@ -3216,13 +3173,13 @@ describe('recordDataHelpers', function moduleSuite() {
       isRecordDeprecated(data).should.equal(true);
     });
 
-    it('should return false if no data is supplied', function test() {
+    it('should return false if no data is supplied', () => {
       isRecordDeprecated().should.equal(false);
     });
   });
 
-  describe('isRecordImmutable', function suite() {
-    it('should return true if the record is locked', function test() {
+  describe('isRecordImmutable', () => {
+    it('should return true if the record is locked', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -3234,7 +3191,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isRecordImmutable(data).should.equal(true);
     });
 
-    it('should return true if the record is deprecated', function test() {
+    it('should return true if the record is deprecated', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -3246,7 +3203,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isRecordImmutable(data).should.equal(true);
     });
 
-    it('should return true if the record is replicated', function test() {
+    it('should return true if the record is replicated', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -3258,7 +3215,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isRecordImmutable(data).should.equal(true);
     });
 
-    it('should return true if the record is an immutable security record', function test() {
+    it('should return true if the record is an immutable security record', () => {
       const data = Immutable.fromJS({
         'ns2:role': {
           permsProtection: 'immutable',
@@ -3269,8 +3226,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('isRecordLocked', function suite() {
-    it('should return true if the workflow state is \'locked\'', function test() {
+  describe('isRecordLocked', () => {
+    it('should return true if the workflow state is \'locked\'', () => {
       const data = Immutable.fromJS({
         document: {
           'ns2:collectionspace_core': {
@@ -3282,13 +3239,13 @@ describe('recordDataHelpers', function moduleSuite() {
       isRecordLocked(data).should.equal(true);
     });
 
-    it('should return false if no data is supplied', function test() {
+    it('should return false if no data is supplied', () => {
       isRecordLocked().should.equal(false);
     });
   });
 
-  describe('isRecordReplicated', function suite() {
-    it('should return true if the workflow state contains \'replicated\'', function test() {
+  describe('isRecordReplicated', () => {
+    it('should return true if the workflow state contains \'replicated\'', () => {
       let data;
 
       data = Immutable.fromJS({
@@ -3312,13 +3269,13 @@ describe('recordDataHelpers', function moduleSuite() {
       isRecordReplicated(data).should.equal(true);
     });
 
-    it('should return false if no data is supplied', function test() {
+    it('should return false if no data is supplied', () => {
       isRecordReplicated().should.equal(false);
     });
   });
 
-  describe('isSecurityRecordImmutable', function suite() {
-    it('should return true if permsProtection is \'immutable\'', function test() {
+  describe('isSecurityRecordImmutable', () => {
+    it('should return true if permsProtection is \'immutable\'', () => {
       const data = Immutable.fromJS({
         'ns2:role': {
           permsProtection: 'immutable',
@@ -3328,7 +3285,7 @@ describe('recordDataHelpers', function moduleSuite() {
       isSecurityRecordImmutable(data).should.equal(true);
     });
 
-    it('should return true if rolesProtection is \'immutable\'', function test() {
+    it('should return true if rolesProtection is \'immutable\'', () => {
       const data = Immutable.fromJS({
         'ns2:account': {
           rolesProtection: 'immutable',
@@ -3338,17 +3295,17 @@ describe('recordDataHelpers', function moduleSuite() {
       isSecurityRecordImmutable(data).should.equal(true);
     });
 
-    it('should return false if no data is supplied', function test() {
+    it('should return false if no data is supplied', () => {
       isSecurityRecordImmutable().should.equal(false);
     });
 
-    it('should return false if no data is supplied', function test() {
+    it('should return false if no data is supplied', () => {
       isSecurityRecordImmutable().should.equal(false);
     });
   });
 
-  describe('normalizeFieldValue', function suite() {
-    it('should return the value when the field descriptor is undefined', function test() {
+  describe('normalizeFieldValue', () => {
+    it('should return the value when the field descriptor is undefined', () => {
       normalizeFieldValue(undefined, 'a').should.equal('a');
       normalizeFieldValue(undefined, 0).should.equal(0);
       normalizeFieldValue(undefined, '').should.equal('');
@@ -3356,7 +3313,7 @@ describe('recordDataHelpers', function moduleSuite() {
       expect(normalizeFieldValue(undefined, null)).to.equal(null);
     });
 
-    it('should wrap the field value in a list when the field is repeating and the value is not a list', function test() {
+    it('should wrap the field value in a list when the field is repeating and the value is not a list', () => {
       const fieldDescriptor = {
         [configKey]: {
           repeating: true,
@@ -3371,7 +3328,7 @@ describe('recordDataHelpers', function moduleSuite() {
         .equal(Immutable.List([Immutable.Map()]));
     });
 
-    it('should return the value when a repeating field value is already a list', function test() {
+    it('should return the value when a repeating field value is already a list', () => {
       const fieldDescriptor = {
         [configKey]: {
           repeating: true,
@@ -3388,7 +3345,7 @@ describe('recordDataHelpers', function moduleSuite() {
         .equal(Immutable.fromJS(['a', { foo: 'bar' }]));
     });
 
-    it('should deeply normalize maps', function test() {
+    it('should deeply normalize maps', () => {
       const fieldDescriptor = {
         part: {
           foo: {},
@@ -3462,8 +3419,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('normalizeRecordData', function suite() {
-    it('should deeply normalize the data', function test() {
+  describe('normalizeRecordData', () => {
+    it('should deeply normalize the data', () => {
       const recordTypeConfig = {
         fields: {
           document: {
@@ -3499,7 +3456,7 @@ describe('recordDataHelpers', function moduleSuite() {
         }));
     });
 
-    it('should call the configured record normalizer for the record type', function test() {
+    it('should call the configured record normalizer for the record type', () => {
       const recordTypeConfig = {
         normalizeRecordData: () => Immutable.Map({
           foo: 'bar',
@@ -3516,8 +3473,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getWorkflowState', function suite() {
-    it('should return the workflow state of the record', function test() {
+  describe('getWorkflowState', () => {
+    it('should return the workflow state of the record', () => {
       const workflowState = 'deleted';
 
       const data = Immutable.fromJS({
@@ -3532,8 +3489,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('setXmlNamespaceAttribute', function suite() {
-    it('should set the namespace uri attribute on parts', function test() {
+  describe('setXmlNamespaceAttribute', () => {
+    it('should set the namespace uri attribute on parts', () => {
       const partData = Immutable.Map();
       const partName = 'ns2:groups_botgarden';
 
@@ -3551,8 +3508,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('hasHierarchyRelations', function suite() {
-    it('should return true if the record data contains a relations list with a relation-list-item', function test() {
+  describe('hasHierarchyRelations', () => {
+    it('should return true if the record data contains a relations list with a relation-list-item', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -3564,7 +3521,7 @@ describe('recordDataHelpers', function moduleSuite() {
       hasHierarchyRelations(data).should.equal(true);
     });
 
-    it('should return true if the record data contains a relations list with multiple relation-list-items', function test() {
+    it('should return true if the record data contains a relations list with multiple relation-list-items', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -3579,7 +3536,7 @@ describe('recordDataHelpers', function moduleSuite() {
       hasHierarchyRelations(data).should.equal(true);
     });
 
-    it('should return false if the record data contains a relations list with no relation-list-item', function test() {
+    it('should return false if the record data contains a relations list with no relation-list-item', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {},
@@ -3589,7 +3546,7 @@ describe('recordDataHelpers', function moduleSuite() {
       hasHierarchyRelations(data).should.equal(false);
     });
 
-    it('should return false if the record data does not contain a relations list', function test() {
+    it('should return false if the record data does not contain a relations list', () => {
       const data = Immutable.fromJS({
         document: {},
       });
@@ -3598,10 +3555,10 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('hasNarrowerHierarchyRelations', function suite() {
+  describe('hasNarrowerHierarchyRelations', () => {
     const csid = '1234';
 
-    it('should return true if the record data contains a relations list with a single relation-list-item that is a narrower relation', function test() {
+    it('should return true if the record data contains a relations list with a single relation-list-item that is a narrower relation', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -3618,7 +3575,7 @@ describe('recordDataHelpers', function moduleSuite() {
       hasNarrowerHierarchyRelations(csid, data).should.equal(true);
     });
 
-    it('should return true if the record data contains a relations list with multiple relation-list-items and at least one is a narrower relation', function test() {
+    it('should return true if the record data contains a relations list with multiple relation-list-items and at least one is a narrower relation', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {
@@ -3643,7 +3600,7 @@ describe('recordDataHelpers', function moduleSuite() {
       hasNarrowerHierarchyRelations(csid, data).should.equal(true);
     });
 
-    it('should return false if the record data contains a relations list with no relation-list-item', function test() {
+    it('should return false if the record data contains a relations list with no relation-list-item', () => {
       const data = Immutable.fromJS({
         document: {
           'rel:relations-common-list': {},
@@ -3653,7 +3610,7 @@ describe('recordDataHelpers', function moduleSuite() {
       hasNarrowerHierarchyRelations(csid, data).should.equal(false);
     });
 
-    it('should return false if the record data does not contain a relations list', function test() {
+    it('should return false if the record data does not contain a relations list', () => {
       const data = Immutable.fromJS({
         document: {},
       });
@@ -3662,8 +3619,8 @@ describe('recordDataHelpers', function moduleSuite() {
     });
   });
 
-  describe('getStickyFieldValues', function suite() {
-    it('should return a map containing the values of sticky fields in the given record data', function test() {
+  describe('getStickyFieldValues', () => {
+    it('should return a map containing the values of sticky fields in the given record data', () => {
       const recordTypeConfig = {
         fields: {
           document: {

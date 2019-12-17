@@ -21,8 +21,8 @@ import {
   readRoles,
 } from '../../../src/actions/authz';
 
-describe('authz action creator', function suite() {
-  describe('readPerms', function actionSuite() {
+describe('authz action creator', () => {
+  describe('readPerms', () => {
     const mockStore = configureMockStore([thunk]);
 
     const store = mockStore({
@@ -33,10 +33,8 @@ describe('authz action creator', function suite() {
     const config = {};
     const readPermsUrl = '/cspace-services/authorization/permissions?pgSz=0&actGrp=CRUDL';
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -47,7 +45,7 @@ describe('authz action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch PERMS_READ_FULFILLED on success', function test() {
+    it('should dispatch PERMS_READ_FULFILLED on success', () => {
       moxios.stubRequest(readPermsUrl, {
         status: 200,
         response: {},
@@ -78,7 +76,7 @@ describe('authz action creator', function suite() {
         });
     });
 
-    it('should dispatch PERMS_READ_REJECTED on success', function test() {
+    it('should dispatch PERMS_READ_REJECTED on success', () => {
       moxios.stubRequest(readPermsUrl, {
         status: 400,
         response: {},
@@ -98,7 +96,7 @@ describe('authz action creator', function suite() {
         });
     });
 
-    it('should not dispatch any action if a read is already pending', function test() {
+    it('should not dispatch any action if a read is already pending', () => {
       const inProgressStore = mockStore({
         authz: Immutable.Map({
           isPermsReadPending: true,
@@ -113,7 +111,7 @@ describe('authz action creator', function suite() {
         });
     });
 
-    it('should not dispatch any action if permissions have already been retrieved', function test() {
+    it('should not dispatch any action if permissions have already been retrieved', () => {
       const permsRetrievedStore = mockStore({
         authz: Immutable.Map({
           resourceNames: Immutable.List(),
@@ -129,7 +127,7 @@ describe('authz action creator', function suite() {
     });
   });
 
-  describe('readRoles', function actionSuite() {
+  describe('readRoles', () => {
     const mockStore = configureMockStore([thunk]);
 
     const store = mockStore({
@@ -139,10 +137,8 @@ describe('authz action creator', function suite() {
 
     const readRolesUrl = '/cspace-services/authorization/roles?pgSz=0';
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -153,7 +149,7 @@ describe('authz action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch ROLES_READ_FULFILLED on success', function test() {
+    it('should dispatch ROLES_READ_FULFILLED on success', () => {
       moxios.stubRequest(readRolesUrl, {
         status: 200,
         response: {},
@@ -181,7 +177,7 @@ describe('authz action creator', function suite() {
         });
     });
 
-    it('should dispatch ROLES_READ_REJECTED on success', function test() {
+    it('should dispatch ROLES_READ_REJECTED on success', () => {
       moxios.stubRequest(readRolesUrl, {
         status: 400,
         response: {},
@@ -201,7 +197,7 @@ describe('authz action creator', function suite() {
         });
     });
 
-    it('should not dispatch any action if a read is already pending', function test() {
+    it('should not dispatch any action if a read is already pending', () => {
       const inProgressStore = mockStore({
         authz: Immutable.Map({
           isRolesReadPending: true,
@@ -216,7 +212,7 @@ describe('authz action creator', function suite() {
         });
     });
 
-    it('should not dispatch any action if roles have already been retrieved', function test() {
+    it('should not dispatch any action if roles have already been retrieved', () => {
       const rolesRetrievedStore = mockStore({
         authz: Immutable.Map({
           roles: Immutable.List(),

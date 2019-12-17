@@ -12,7 +12,10 @@ function renderTemplate(component, messages, handlers) {
   const type = get(component, 'type');
 
   if (type) {
-    const propTypes = type.propTypes;
+    // FIXME: Do this without looking at propTypes, so that propTypes may be removed in the
+    // production build.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
+    const { propTypes } = type;
 
     if (propTypes) {
       Object.keys(handlers).forEach((handlerName) => {
@@ -27,15 +30,24 @@ function renderTemplate(component, messages, handlers) {
       overrideProps,
       React.Children.map(
         component.props.children,
-        child => renderTemplate(child, messages, handlers)));
+        (child) => renderTemplate(child, messages, handlers),
+      ),
+    );
   }
 
   return component;
 }
 
 const propTypes = {
-  config: PropTypes.object,
-  recordTypeConfig: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
+  recordTypeConfig: PropTypes.shape({
+    defaultForm: PropTypes.string,
+    fields: PropTypes.object,
+    forms: PropTypes.object,
+    messages: PropTypes.object,
+  }),
   recordType: PropTypes.string.isRequired,
   vocabulary: PropTypes.string,
   csid: PropTypes.string,
@@ -56,11 +68,15 @@ const defaultProps = {
 };
 
 const childContextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   formName: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
-  recordTypeConfig: PropTypes.object,
+  recordTypeConfig: PropTypes.PropTypes.shape({
+    fields: PropTypes.object,
+  }),
   roleNames: PropTypes.instanceOf(Immutable.List),
   subrecordData: PropTypes.instanceOf(Immutable.Map),
   vocabulary: PropTypes.string,
@@ -187,7 +203,8 @@ export default class RecordForm extends Component {
       value: data.get(rootPropertyName),
       children: React.Children.map(
         formTemplate.props.children,
-        child => renderTemplate(child, messages, handlers)),
+        (child) => renderTemplate(child, messages, handlers),
+      ),
     });
 
     const className = classNames(styles.common, `cspace-ui-RecordForm--${recordType}`);

@@ -16,7 +16,7 @@ chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('RelationEditorContainer', function suite() {
+describe('RelationEditorContainer', () => {
   const subject = {
     csid: '1234',
     recordType: 'collectionobject',
@@ -62,7 +62,7 @@ describe('RelationEditorContainer', function suite() {
     store.clearActions();
   });
 
-  it('should set props on RelationEditor', function test() {
+  it('should set props on RelationEditor', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -70,7 +70,8 @@ describe('RelationEditorContainer', function suite() {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -81,7 +82,7 @@ describe('RelationEditorContainer', function suite() {
     result.props.should.have.property('onUnmount').that.is.a('function');
   });
 
-  it('should connect createRelation to createBidirectional action creator', function test() {
+  it('should connect createRelation to createBidirectional action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -89,7 +90,8 @@ describe('RelationEditorContainer', function suite() {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -109,7 +111,7 @@ describe('RelationEditorContainer', function suite() {
     }
   });
 
-  it('should connect findRelation to find action creator', function test() {
+  it('should connect findRelation to find action creator', () => {
     const newObject = {
       csid: '8888',
       recordType: 'group',
@@ -122,7 +124,8 @@ describe('RelationEditorContainer', function suite() {
         subject={subject}
         object={newObject}
         predicate={predicate}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -142,7 +145,7 @@ describe('RelationEditorContainer', function suite() {
     }
   });
 
-  it('should connect onUnmount to clearState action creator', function test() {
+  it('should connect onUnmount to clearState action creator', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -150,7 +153,8 @@ describe('RelationEditorContainer', function suite() {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

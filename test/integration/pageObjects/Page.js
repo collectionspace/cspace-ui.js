@@ -12,7 +12,7 @@ export default class Page {
   isVisible() {
     if (Array.isArray(this.selector)) {
       const element = this.selector.reduce(
-        (result, selector) => (result ? result.$(selector) : null), browser
+        (result, selector) => (result ? result.$(selector) : null), browser,
       );
 
       return (element ? element.isVisible() : false);

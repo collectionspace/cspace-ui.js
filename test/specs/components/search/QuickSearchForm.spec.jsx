@@ -12,7 +12,7 @@ const intl = {
   formatRelative: () => null,
   formatNumber: () => null,
   formatPlural: () => null,
-  formatMessage: message => `formatted ${message.id}`,
+  formatMessage: (message) => `formatted ${message.id}`,
   formatHTMLMessage: () => null,
   now: () => null,
 };
@@ -82,7 +82,7 @@ const perms = Immutable.fromJS({
 
 const getAuthorityVocabCsid = () => '1234';
 
-describe('QuickSearchForm', function suite() {
+describe('QuickSearchForm', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -93,7 +93,8 @@ describe('QuickSearchForm', function suite() {
         config={config}
         intl={intl}
         getAuthorityVocabCsid={getAuthorityVocabCsid}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
@@ -112,7 +113,8 @@ describe('QuickSearchForm', function suite() {
         recordTypeValue="person"
         perms={perms}
         getAuthorityVocabCsid={getAuthorityVocabCsid}
-      />, this.container);
+      />, this.container,
+    );
 
     const [recordTypeInput, vocabularyInput] = this.container.querySelectorAll('input');
 

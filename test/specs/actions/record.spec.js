@@ -95,8 +95,8 @@ import {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('record action creator', function suite() {
-  describe('createNewRecord', function actionSuite() {
+describe('record action creator', () => {
+  describe('createNewRecord', () => {
     const mockStore = configureMockStore([thunk]);
 
     before(() => {
@@ -115,7 +115,7 @@ describe('record action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch CREATE_NEW_RECORD', function test() {
+    it('should dispatch CREATE_NEW_RECORD', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
       });
@@ -152,7 +152,7 @@ describe('record action creator', function suite() {
         });
     });
 
-    it('should read the record to be cloned', function test() {
+    it('should read the record to be cloned', () => {
       const servicePath = 'collectionobjects';
 
       const config = {
@@ -221,7 +221,7 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('createNewSubrecord', function actionSuite() {
+  describe('createNewSubrecord', () => {
     const mockStore = configureMockStore([thunk]);
 
     before(() => {
@@ -240,7 +240,7 @@ describe('record action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch CREATE_NEW_SUBRECORD', function test() {
+    it('should dispatch CREATE_NEW_SUBRECORD', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
       });
@@ -266,7 +266,7 @@ describe('record action creator', function suite() {
 
       return store.dispatch(createNewSubrecord(
         config, csid, csidField, subrecordName,
-        subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid, isDefault
+        subrecordTypeConfig, subrecordVocabularyConfig, cloneCsid, isDefault,
       ))
         .then(() => {
           const actions = store.getActions();
@@ -289,7 +289,7 @@ describe('record action creator', function suite() {
         });
     });
 
-    it('should read the record to be cloned', function test() {
+    it('should read the record to be cloned', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.Map(),
@@ -323,7 +323,7 @@ describe('record action creator', function suite() {
 
       return store.dispatch(createNewSubrecord(
         config, csid, csidField, subrecordName,
-        subrecordTypeConfig, undefined, cloneCsid, isDefault
+        subrecordTypeConfig, undefined, cloneCsid, isDefault,
       ))
         .then(() => {
           const actions = store.getActions();
@@ -370,8 +370,8 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('detachSubrecord', function actionSuite() {
-    it('should return a DETACH_SUBRECORD action', function test() {
+  describe('detachSubrecord', () => {
+    it('should return a DETACH_SUBRECORD action', () => {
       const config = {
         foo: 'bar',
       };
@@ -398,8 +398,8 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('clearRecord', function actionSuite() {
-    it('should return a CLEAR_RECORD action', function test() {
+  describe('clearRecord', () => {
+    it('should return a CLEAR_RECORD action', () => {
       const csid = '1234';
 
       clearRecord(csid).should
@@ -412,8 +412,8 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('readRecord', function actionSuite() {
-    context('for an object/procedure', function contextSuite() {
+  describe('readRecord', () => {
+    context('for an object/procedure', () => {
       const mockStore = configureMockStore([thunk]);
       const servicePath = 'collectionobjects';
       const csid = '1234';
@@ -450,7 +450,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_READ_FULFILLED on success', function test() {
+      it('should dispatch RECORD_READ_FULFILLED on success', () => {
         moxios.stubRequest(readRecordUrl, {
           status: 200,
           response: {},
@@ -491,7 +491,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_READ_REJECTED on error', function test() {
+      it('should dispatch RECORD_READ_REJECTED on error', () => {
         moxios.stubRequest(readRecordUrl, {
           status: 400,
           response: {},
@@ -524,7 +524,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch no actions if a read is already pending for the given csid', function test() {
+      it('should dispatch no actions if a read is already pending for the given csid', () => {
         const store = mockStore({
           record: Immutable.fromJS({
             [csid]: {
@@ -539,7 +539,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch no actions if data is already available for the given csid', function test() {
+      it('should dispatch no actions if data is already available for the given csid', () => {
         const store = mockStore({
           record: Immutable.fromJS({
             [csid]: {
@@ -556,7 +556,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should merge request configuration from the record type config', function test() {
+      it('should merge request configuration from the record type config', () => {
         moxios.stubRequest(readRecordUrl, {
           status: 200,
           response: {},
@@ -575,7 +575,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for an authority', function contextSuite() {
+    context('for an authority', () => {
       const mockStore = configureMockStore([thunk]);
       const recordServicePath = 'personauthorities';
       const vocabularyServicePath = 'urn:cspace:name(person)';
@@ -612,7 +612,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_READ_FULFILLED on success', function test() {
+      it('should dispatch RECORD_READ_FULFILLED on success', () => {
         moxios.stubRequest(readRecordUrl, {
           status: 200,
           response: {},
@@ -654,7 +654,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for a record with subrecords', function contextSuite() {
+    context('for a record with subrecords', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -761,7 +761,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch SEARCH_STARTED and SEARCH_FULFILLED when a subrecord search is needed', function test() {
+      it('should dispatch SEARCH_STARTED and SEARCH_FULFILLED when a subrecord search is needed', () => {
         moxios.stubRequest(searchSubrecordUrl, {
           status: 200,
           response: {
@@ -828,7 +828,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch SUBRECORD_READ_FULFILLED after reading the container record and subrecord', function test() {
+      it('should dispatch SUBRECORD_READ_FULFILLED after reading the container record and subrecord', () => {
         moxios.stubRequest(readSubrecordUrl, {
           status: 200,
           response: {},
@@ -925,8 +925,8 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('saveRecord', function actionSuite() {
-    context('for an object/procedure', function contextSuite() {
+  describe('saveRecord', () => {
+    context('for an object/procedure', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'collectionobject';
       const servicePath = 'collectionobjects';
@@ -962,8 +962,9 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch VALIDATION_FAILED if there are validation errors', function test() {
-        const recordTypeConfigWithRequiredField = Object.assign({}, recordTypeConfig, {
+      it('should dispatch VALIDATION_FAILED if there are validation errors', () => {
+        const recordTypeConfigWithRequiredField = {
+          ...recordTypeConfig,
           fields: {
             objectNumber: {
               [configKey]: {
@@ -971,7 +972,7 @@ describe('record action creator', function suite() {
               },
             },
           },
-        });
+        };
 
         const store = mockStore({
           prefs: Immutable.Map(),
@@ -993,7 +994,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          saveRecord(config, recordTypeConfigWithRequiredField, undefined, csid)
+          saveRecord(config, recordTypeConfigWithRequiredField, undefined, csid),
         )
           .then(() => {
             const actions = store.getActions();
@@ -1010,7 +1011,7 @@ describe('record action creator', function suite() {
                     message: undefined,
                   },
                 },
-              })
+              }),
             );
 
             actions[0].meta.should.deep.equal({
@@ -1023,7 +1024,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_SAVE_FULFILLED on success', () => {
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
           response: {},
@@ -1113,7 +1114,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_SAVE_REJECTED on an update error', function test() {
+      it('should dispatch RECORD_SAVE_REJECTED on an update error', () => {
         moxios.stubRequest(saveRecordUrl, {
           status: 400,
           response: {},
@@ -1187,7 +1188,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_SAVE_REJECTED on a create error', function test() {
+      it('should dispatch RECORD_SAVE_REJECTED on a create error', () => {
         moxios.stubRequest(saveNewRecordUrl, {
           status: 400,
           response: {},
@@ -1257,7 +1258,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_SAVE_REJECTED if a create request does not return a 201 with a location', function test() {
+      it('should dispatch RECORD_SAVE_REJECTED if a create request does not return a 201 with a location', () => {
         moxios.stubRequest(saveNewRecordUrl, {
           status: 200,
           response: {},
@@ -1327,7 +1328,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should call the passed callback when a new record is saved', function test() {
+      it('should call the passed callback when a new record is saved', () => {
         const createdCsid = '6789';
 
         let reportedCreatedCsid = null;
@@ -1438,7 +1439,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should merge in a request config contribution from the record type config', function test() {
+      it('should merge in a request config contribution from the record type config', () => {
         let requestConfigRequestType = null;
         let requestConfigData = null;
 
@@ -1487,7 +1488,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          saveRecord(config, recordTypeConfigWithRequestConfig, undefined, csid)
+          saveRecord(config, recordTypeConfigWithRequestConfig, undefined, csid),
         )
           .then(() => {
             requestConfigRequestType.should.equal('save');
@@ -1500,7 +1501,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for an authority', function contextSuite() {
+    context('for an authority', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -1546,7 +1547,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_SAVE_FULFILLED on success', () => {
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
           response: {},
@@ -1637,7 +1638,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for a record with subresource subrecords', function contextSuite() {
+    context('for a record with subresource subrecords', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -1732,7 +1733,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_SAVE_FULFILLED on success', () => {
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
           response: {},
@@ -1891,7 +1892,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_SAVE_REJECTED if the subrecord save fails', function test() {
+      it('should dispatch RECORD_SAVE_REJECTED if the subrecord save fails', () => {
         moxios.stubRequest(saveSubrecordUrl, {
           status: 400,
           response: {},
@@ -2026,7 +2027,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch SUBRECORD_CREATED if a subrecord is created', function test() {
+      it('should dispatch SUBRECORD_CREATED if a subrecord is created', () => {
         const newRecordCsid = '8888';
         const saveNewRecordUrl = `/cspace-services/${recordServicePath}/${vocabularyServicePath}/items/${csid}/${subrecordSubresourceServicePath}`;
         const readNewRecordUrl = `/cspace-services/${subrecordServicePath}/${newRecordCsid}?wf_deleted=false`;
@@ -2109,7 +2110,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for a record with field-referenced subrecords', function contextSuite() {
+    context('for a record with field-referenced subrecords', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -2141,7 +2142,7 @@ describe('record action creator', function suite() {
           [subrecordName]: {
             csidField: subrecordCsidField,
             recordType: subrecordType,
-            saveCondition: data => !data.getIn(['document', 'noSave']),
+            saveCondition: (data) => !data.getIn(['document', 'noSave']),
             saveStage: 'before',
           },
         },
@@ -2183,7 +2184,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_SAVE_FULFILLED on success', () => {
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
           response: {},
@@ -2346,7 +2347,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch SUBRECORD_CREATED if a new subrecord is created', function test() {
+      it('should dispatch SUBRECORD_CREATED if a new subrecord is created', () => {
         const saveNewSubrecordUrl = `/cspace-services/${subrecordServicePath}`;
         const createdSubrecordCsid = '8888';
         const readNewSubrecordUrl = `/cspace-services/${subrecordServicePath}/${createdSubrecordCsid}?wf_deleted=false`;
@@ -2530,7 +2531,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should not save the subrecord if the configured save condition function returns false', function test() {
+      it('should not save the subrecord if the configured save condition function returns false', () => {
         moxios.stubRequest(saveRecordUrl, {
           status: 200,
           response: {},
@@ -2645,7 +2646,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for a role', function contextSuite() {
+    context('for a role', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'authrole';
       const servicePath = 'authorization/roles';
@@ -2678,7 +2679,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should show a specific notification message for a duplicate role name error during a create', function test() {
+      it('should show a specific notification message for a duplicate role name error during a create', () => {
         moxios.stubRequest(saveNewRecordUrl, {
           status: 400,
           response: 'ERROR: duplicate key value violates unique constraint "roles_rolename_tenant_id_key"',
@@ -2750,10 +2751,10 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('revertRecord', function actionSuite() {
+  describe('revertRecord', () => {
     const mockStore = configureMockStore([thunk]);
 
-    it('should dispatch REVERT_RECORD', function test() {
+    it('should dispatch REVERT_RECORD', () => {
       const store = mockStore({
         record: Immutable.Map(),
       });
@@ -2799,10 +2800,10 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('addFieldInstance', function actionSuite() {
+  describe('addFieldInstance', () => {
     const mockStore = configureMockStore([thunk]);
 
-    it('should create an ADD_FIELD_INSTANCE action', function test() {
+    it('should create an ADD_FIELD_INSTANCE action', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.Map(),
@@ -2853,10 +2854,10 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('sortFieldInstances', function actionSuite() {
+  describe('sortFieldInstances', () => {
     const mockStore = configureMockStore([thunk]);
 
-    it('should create a SORT_FIELD_INSTANCES action', function test() {
+    it('should create a SORT_FIELD_INSTANCES action', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.Map(),
@@ -2909,10 +2910,10 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('deleteFieldValue', function actionSuite() {
+  describe('deleteFieldValue', () => {
     const mockStore = configureMockStore([thunk]);
 
-    it('should dispatch DELETE_FIELD_VALUE', function test() {
+    it('should dispatch DELETE_FIELD_VALUE', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.Map(),
@@ -2960,10 +2961,10 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('moveFieldValue', function actionSuite() {
+  describe('moveFieldValue', () => {
     const mockStore = configureMockStore([thunk]);
 
-    it('should dispatch MOVE_FIELD_VALUE', function test() {
+    it('should dispatch MOVE_FIELD_VALUE', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.Map(),
@@ -3013,10 +3014,10 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('setFieldValue', function actionSuite() {
+  describe('setFieldValue', () => {
     const mockStore = configureMockStore([thunk]);
 
-    it('should dispatch SET_FIELD_VALUE', function test() {
+    it('should dispatch SET_FIELD_VALUE', () => {
       const store = mockStore({
         prefs: Immutable.Map(),
         record: Immutable.Map(),
@@ -3066,8 +3067,8 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('transitionRecord', function actionSuite() {
-    context('for an object/procedure', function contextSuite() {
+  describe('transitionRecord', () => {
+    context('for an object/procedure', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'collectionobject';
       const servicePath = 'collectionobjects';
@@ -3105,7 +3106,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_TRANSITION_FULFILLED on success', function test() {
+      it('should dispatch RECORD_TRANSITION_FULFILLED on success', () => {
         moxios.stubRequest(transitionRecordUrl, {
           status: 200,
           response: {},
@@ -3125,7 +3126,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          transitionRecord(config, recordTypeConfig, undefined, csid, transitionName)
+          transitionRecord(config, recordTypeConfig, undefined, csid, transitionName),
         )
           .then(() => {
             const actions = store.getActions();
@@ -3167,7 +3168,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_TRANSITION_REJECTED on error', function test() {
+      it('should dispatch RECORD_TRANSITION_REJECTED on error', () => {
         moxios.stubRequest(transitionRecordUrl, {
           status: 400,
           response: {},
@@ -3186,7 +3187,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          transitionRecord(config, recordTypeConfig, undefined, csid, transitionName)
+          transitionRecord(config, recordTypeConfig, undefined, csid, transitionName),
         )
           .then(() => {
             const actions = store.getActions();
@@ -3219,7 +3220,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for an authority', function contextSuite() {
+    context('for an authority', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -3269,7 +3270,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_SAVE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_SAVE_FULFILLED on success', () => {
         moxios.stubRequest(transitionRecordUrl, {
           status: 200,
           response: {},
@@ -3289,7 +3290,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          transitionRecord(config, recordTypeConfig, vocabularyConfig, csid, transitionName)
+          transitionRecord(config, recordTypeConfig, vocabularyConfig, csid, transitionName),
         )
           .then(() => {
             const actions = store.getActions();
@@ -3333,7 +3334,7 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('saveRecordWithTransition', function actionSuite() {
+  describe('saveRecordWithTransition', () => {
     const mockStore = configureMockStore([thunk]);
     const recordType = 'collectionobject';
     const servicePath = 'collectionobjects';
@@ -3367,7 +3368,7 @@ describe('record action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch saveRecord actions followed by transitionRecord actions', function test() {
+    it('should dispatch saveRecord actions followed by transitionRecord actions', () => {
       moxios.stubRequest(saveRecordUrl, {
         status: 200,
         response: {},
@@ -3400,7 +3401,7 @@ describe('record action creator', function suite() {
       const transitionName = 'lock';
 
       return store.dispatch(saveRecordWithTransition(
-        config, recordTypeConfig, undefined, csid, undefined, undefined, undefined, transitionName
+        config, recordTypeConfig, undefined, csid, undefined, undefined, undefined, transitionName,
       ))
         .then(() => {
           const actions = store.getActions();
@@ -3495,8 +3496,8 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('deleteRecord', function actionSuite() {
-    context('for an object/procedure', function contextSuite() {
+  describe('deleteRecord', () => {
+    context('for an object/procedure', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'collectionobject';
       const servicePath = 'collectionobjects';
@@ -3533,7 +3534,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_DELETE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_DELETE_FULFILLED on success', () => {
         moxios.stubRequest(deleteRecordUrl, {
           status: 200,
           response: {},
@@ -3588,7 +3589,7 @@ describe('record action creator', function suite() {
           });
       });
 
-      it('should dispatch RECORD_DELETE_REJECTED on error', function test() {
+      it('should dispatch RECORD_DELETE_REJECTED on error', () => {
         moxios.stubRequest(deleteRecordUrl, {
           status: 400,
           response: {},
@@ -3636,7 +3637,7 @@ describe('record action creator', function suite() {
       });
     });
 
-    context('for an authority', function contextSuite() {
+    context('for an authority', () => {
       const mockStore = configureMockStore([thunk]);
       const recordType = 'person';
       const recordServicePath = 'personauthorities';
@@ -3685,7 +3686,7 @@ describe('record action creator', function suite() {
         moxios.uninstall();
       });
 
-      it('should dispatch RECORD_DELETE_FULFILLED on success', function test() {
+      it('should dispatch RECORD_DELETE_FULFILLED on success', () => {
         moxios.stubRequest(deleteRecordUrl, {
           status: 200,
           response: {},
@@ -3704,7 +3705,7 @@ describe('record action creator', function suite() {
         });
 
         return store.dispatch(
-          deleteRecord(config, recordTypeConfig, vocabularyConfig, csid)
+          deleteRecord(config, recordTypeConfig, vocabularyConfig, csid),
         )
           .then(() => {
             const actions = store.getActions();
@@ -3744,7 +3745,7 @@ describe('record action creator', function suite() {
     });
   });
 
-  describe('computeFieldValue', function actionSuite() {
+  describe('computeFieldValue', () => {
     const mockStore = configureMockStore([thunk]);
 
     const recordTypeConfig = {
@@ -3776,7 +3777,7 @@ describe('record action creator', function suite() {
       return store.dispatch(configureCSpace());
     });
 
-    it('should dispatch FIELD_COMPUTE_FULFILLED when field values are computed', function test() {
+    it('should dispatch FIELD_COMPUTE_FULFILLED when field values are computed', () => {
       const path = ['document', 'sayHello'];
       const value = 'world';
 
@@ -3813,7 +3814,7 @@ describe('record action creator', function suite() {
         });
     });
 
-    it('should dispatch FIELD_COMPUTE_REJECTED when there is an error computing field values', function test() {
+    it('should dispatch FIELD_COMPUTE_REJECTED when there is an error computing field values', () => {
       const path = ['document', 'badCompute'];
       const value = 'foo';
 

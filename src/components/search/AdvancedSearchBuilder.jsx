@@ -11,7 +11,9 @@ import FieldConditionInput from './input/FieldConditionInput';
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   hasChildGroups: PropTypes.bool,
   inline: PropTypes.bool,
   preferredBooleanOp: PropTypes.string,
@@ -109,7 +111,7 @@ export default class AdvancedSearchBuilder extends Component {
 
         if (!initialCondition) {
           initialCondition = Immutable.fromJS(
-            get(config, ['recordTypes', recordType, 'advancedSearch'])
+            get(config, ['recordTypes', recordType, 'advancedSearch']),
           );
         }
 

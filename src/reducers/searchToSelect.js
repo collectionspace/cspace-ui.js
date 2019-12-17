@@ -25,7 +25,7 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getAdvanced = state => state.get('advanced');
-export const getKeyword = state => state.get('keyword');
-export const getRecordType = state => state.get('recordType');
+export const getAdvanced = (state) => state.get('advanced');
+export const getKeyword = (state) => state.get('keyword');
+export const getRecordType = (state) => state.get('recordType');
 export const getVocabulary = (state, recordType) => state.getIn(['vocabulary', recordType]);

@@ -68,8 +68,8 @@ import { searchKey } from '../../../src/reducers/search';
 chai.use(chaiImmutable);
 chai.should();
 
-describe('reducer', function suite() {
-  it('should compose other reducers', function test() {
+describe('reducer', () => {
+  it('should compose other reducers', () => {
     const state = reducer(undefined, {});
 
     state.should.have.all.keys([
@@ -96,8 +96,8 @@ describe('reducer', function suite() {
     ]);
   });
 
-  describe('getAuthorityVocabCsid selector', function selectorSuite() {
-    it('should select from the authority key', function test() {
+  describe('getAuthorityVocabCsid selector', () => {
+    it('should select from the authority key', () => {
       const recordType = 'person';
       const vocabulary = 'local';
       const csid = '1234';
@@ -114,8 +114,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getAuthorityVocabWorkflowState selector', function selectorSuite() {
-    it('should select from the authority key', function test() {
+  describe('getAuthorityVocabWorkflowState selector', () => {
+    it('should select from the authority key', () => {
       const recordType = 'person';
       const vocabulary = 'local';
       const workflowState = 'locked';
@@ -132,8 +132,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getAuthzResourceNames selector', function selectorSuite() {
-    it('should select from the authz key', function test() {
+  describe('getAuthzResourceNames selector', () => {
+    it('should select from the authz key', () => {
       const resourceNames = Immutable.List([
         'collectionobjects',
         'groups',
@@ -147,8 +147,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isAuthzPermsReadPending selector', function selectorSuite() {
-    it('should select from the authz key', function test() {
+  describe('isAuthzPermsReadPending selector', () => {
+    it('should select from the authz key', () => {
       isAuthzPermsReadPending({
         authz: Immutable.fromJS({
           isPermsReadPending: true,
@@ -157,8 +157,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getAuthzRoles selector', function selectorSuite() {
-    it('should select from the authz key', function test() {
+  describe('getAuthzRoles selector', () => {
+    it('should select from the authz key', () => {
       const roles = Immutable.fromJS([
         { roleName: 'TENANT_ADMINISTRATOR' },
         { roleName: 'TENANT_READER' },
@@ -172,8 +172,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isAuthzRolesReadPending selector', function selectorSuite() {
-    it('should select from the authz key', function test() {
+  describe('isAuthzRolesReadPending selector', () => {
+    it('should select from the authz key', () => {
       isAuthzRolesReadPending({
         authz: Immutable.fromJS({
           isRolesReadPending: true,
@@ -182,8 +182,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getUserScreenName selector', function selectorSuite() {
-    it('should select from the user key', function test() {
+  describe('getUserScreenName selector', () => {
+    it('should select from the user key', () => {
       getUserScreenName({
         user: Immutable.fromJS({
           account: {
@@ -194,8 +194,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getUserPerms selector', function selectorSuite() {
-    it('should select from the user key', function test() {
+  describe('getUserPerms selector', () => {
+    it('should select from the user key', () => {
       const perms = Immutable.Map({
         foo: {
           data: 'CRUDL',
@@ -210,8 +210,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getUserUsername selector', function selectorSuite() {
-    it('should select from the user key', function test() {
+  describe('getUserUsername selector', () => {
+    it('should select from the user key', () => {
       getUserUsername({
         user: Immutable.Map({
           username: 'user@collectionspace.org',
@@ -220,8 +220,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getLoginUsername selector', function selectorSuite() {
-    it('should select from the login key', function test() {
+  describe('getLoginUsername selector', () => {
+    it('should select from the login key', () => {
       getLoginUsername({
         login: Immutable.Map({
           username: 'admin@collectionspace.org',
@@ -230,8 +230,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isLoginPending selector', function selectorSuite() {
-    it('should select from the login key', function test() {
+  describe('isLoginPending selector', () => {
+    it('should select from the login key', () => {
       isLoginPending({
         login: Immutable.Map({
           isPending: true,
@@ -240,8 +240,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getLoginError selector', function selectorSuite() {
-    it('should select from the login key', function test() {
+  describe('getLoginError selector', () => {
+    it('should select from the login key', () => {
       const error = {};
 
       getLoginError({
@@ -252,8 +252,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isLoginSuccess selector', function selectorSuite() {
-    it('should select from the login key', function test() {
+  describe('isLoginSuccess selector', () => {
+    it('should select from the login key', () => {
       isLoginSuccess({
         login: Immutable.Map({
           isSuccess: true,
@@ -262,8 +262,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isLogoutPending selector', function selectorSuite() {
-    it('should select from the logout key', function test() {
+  describe('isLogoutPending selector', () => {
+    it('should select from the logout key', () => {
       isLogoutPending({
         logout: {
           isPending: true,
@@ -272,8 +272,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getLogoutResponse selector', function selectorSuite() {
-    it('should select from the logout key', function test() {
+  describe('getLogoutResponse selector', () => {
+    it('should select from the logout key', () => {
       const response = {};
 
       getLogoutResponse({
@@ -284,8 +284,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRecordRelationUpdatedTimestamp selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('getRecordRelationUpdatedTimestamp selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
       const relationUpdatedTime = '2017-03-23T13:23:11.000';
 
@@ -299,8 +299,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRecordData selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('getRecordData selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
       const data = Immutable.Map();
 
@@ -316,8 +316,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRecordError selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('getRecordError selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
       const error = Immutable.Map();
 
@@ -331,8 +331,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRecordSubrecordCsid selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('getRecordSubrecordCsid selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
       const subrecordName = 'contact';
       const subrecordCsid = '5678';
@@ -349,8 +349,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRecordValidationErrors selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('getRecordValidationErrors selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
 
       const validationError = Immutable.Map({
@@ -367,8 +367,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getNewRecordData selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('getNewRecordData selector', () => {
+    it('should select from the record key', () => {
       const data = Immutable.Map();
 
       getNewRecordData({
@@ -383,8 +383,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isRecordModified selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('isRecordModified selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
 
       isRecordModified({
@@ -400,8 +400,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isRecordReadPending selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('isRecordReadPending selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
 
       isRecordReadPending({
@@ -414,8 +414,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isRecordSavePending selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('isRecordSavePending selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
 
       isRecordSavePending({
@@ -428,8 +428,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isRecordReadVocabularyItemRefsPending selector', function selectorSuite() {
-    it('should select from the record key', function test() {
+  describe('isRecordReadVocabularyItemRefsPending selector', () => {
+    it('should select from the record key', () => {
       const csid = '1234';
 
       isRecordReadVocabularyItemRefsPending({
@@ -442,8 +442,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRelatedRecordBrowserRelatedCsid selector', function selectorSuite() {
-    it('should select from the recordBrowser key', function test() {
+  describe('getRelatedRecordBrowserRelatedCsid selector', () => {
+    it('should select from the recordBrowser key', () => {
       const recordType = 'collectionobject';
       const relatedCsid = '1234';
 
@@ -459,8 +459,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getPrefs selector', function selectorSuite() {
-    it('should return the prefs key', function test() {
+  describe('getPrefs selector', () => {
+    it('should return the prefs key', () => {
       const prefs = Immutable.fromJS({
         searchPageSize: 30,
         panels: {},
@@ -472,8 +472,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isPanelCollapsed selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('isPanelCollapsed selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'object';
       const name = 'desc';
 
@@ -491,8 +491,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRecordBrowserNavBarItems selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getRecordBrowserNavBarItems selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'object';
       const items = ['group', 'object'];
 
@@ -506,8 +506,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPanelPageSize selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getSearchPanelPageSize selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'object';
       const name = 'desc';
       const searchPanelPageSize = 7;
@@ -526,8 +526,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPageRecordType selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getSearchPageRecordType selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'person';
 
       getSearchPageRecordType({
@@ -540,8 +540,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPageVocabulary selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getSearchPageVocabulary selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'person';
       const vocabulary = 'local';
 
@@ -557,8 +557,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchResultPagePageSize selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getSearchResultPagePageSize selector', () => {
+    it('should select from the prefs key', () => {
       const searchResultPagePageSize = 35;
 
       getSearchResultPagePageSize({
@@ -569,8 +569,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToSelectPageSize selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getSearchToSelectPageSize selector', () => {
+    it('should select from the prefs key', () => {
       const searchToSelectPageSize = 15;
 
       getSearchToSelectPageSize({
@@ -581,8 +581,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getUploadType selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getUploadType selector', () => {
+    it('should select from the prefs key', () => {
       const uploadType = 'url';
 
       getUploadType({
@@ -593,8 +593,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getForm selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getForm selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'collectionobject';
       const form = 'default';
 
@@ -608,8 +608,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getAdminTab selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getAdminTab selector', () => {
+    it('should select from the prefs key', () => {
       const adminTab = 'roles';
 
       getAdminTab({
@@ -620,8 +620,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getOptionList selector', function selectorSuite() {
-    it('should select from the optionList key', function test() {
+  describe('getOptionList selector', () => {
+    it('should select from the optionList key', () => {
       const sizes = [
         { value: 'S', label: 'Small' },
         { value: 'M', label: 'Medium' },
@@ -636,8 +636,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getVocabulary selector', function selectorSuite() {
-    it('should select from the vocabulary key', function test() {
+  describe('getVocabulary selector', () => {
+    it('should select from the vocabulary key', () => {
       const vocabularyName = 'states';
 
       const vocabulary = {
@@ -655,8 +655,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getPartialTermSearchMatches selector', function selectorSuite() {
-    it('should select from the partialTermSearch key', function test() {
+  describe('getPartialTermSearchMatches selector', () => {
+    it('should select from the partialTermSearch key', () => {
       const partialTermSearch = Immutable.Map();
 
       getPartialTermSearchMatches({
@@ -665,8 +665,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getIDGenerator selector', function selectorSuite() {
-    it('should select from the idGenerator key', function test() {
+  describe('getIDGenerator selector', () => {
+    it('should select from the idGenerator key', () => {
       const idGeneratorName = 'lo';
       const idGenerator = Immutable.Map();
 
@@ -678,8 +678,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPageAdvanced selector', function selectorSuite() {
-    it('should select from the searchPage key', function test() {
+  describe('getSearchPageAdvanced selector', () => {
+    it('should select from the searchPage key', () => {
       const advancedSearchCondition = {
         op: 'eq',
         path: 'path',
@@ -694,8 +694,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchPageKeyword selector', function selectorSuite() {
-    it('should select from the searchPage key', function test() {
+  describe('getSearchPageKeyword selector', () => {
+    it('should select from the searchPage key', () => {
       const keyword = 'abc';
 
       getSearchPageKeyword({
@@ -706,8 +706,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getQuickSearchKeyword selector', function selectorSuite() {
-    it('should select from the quickSearch key', function test() {
+  describe('getQuickSearchKeyword selector', () => {
+    it('should select from the quickSearch key', () => {
       const keyword = 'abc';
 
       getQuickSearchKeyword({
@@ -718,8 +718,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getQuickSearchRecordType selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getQuickSearchRecordType selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'person';
 
       getQuickSearchRecordType({
@@ -732,8 +732,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getQuickSearchVocabulary selector', function selectorSuite() {
-    it('should select from the prefs key', function test() {
+  describe('getQuickSearchVocabulary selector', () => {
+    it('should select from the prefs key', () => {
       const recordType = 'person';
       const vocabulary = 'local';
 
@@ -749,8 +749,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('isSearchPending selector', function selectorSuite() {
-    it('should select from the search key', function test() {
+  describe('isSearchPending selector', () => {
+    it('should select from the search key', () => {
       const searchDescriptor = Immutable.Map({
         recordType: 'object',
       });
@@ -772,8 +772,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchState selector', function selectorSuite() {
-    it('should select from the search key', function test() {
+  describe('getSearchState selector', () => {
+    it('should select from the search key', () => {
       const searchDescriptor = Immutable.Map({
         recordType: 'object',
       });
@@ -800,8 +800,8 @@ describe('reducer', function suite() {
   });
 
 
-  describe('getMostRecentSearchDescriptor selector', function selectorSuite() {
-    it('should select from the search key', function test() {
+  describe('getMostRecentSearchDescriptor selector', () => {
+    it('should select from the search key', () => {
       const searchDescriptor = Immutable.Map({
         recordType: 'object',
       });
@@ -824,8 +824,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchResult selector', function selectorSuite() {
-    it('should select from the search key', function test() {
+  describe('getSearchResult selector', () => {
+    it('should select from the search key', () => {
       const searchDescriptor = Immutable.Map({
         recordType: 'object',
       });
@@ -853,8 +853,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchError selector', function selectorSuite() {
-    it('should select from the search key', function test() {
+  describe('getSearchError selector', () => {
+    it('should select from the search key', () => {
       const searchDescriptor = Immutable.Map({
         recordType: 'object',
       });
@@ -880,8 +880,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchSelectedItems selector', function selectorSuite() {
-    it('should select from the search key', function test() {
+  describe('getSearchSelectedItems selector', () => {
+    it('should select from the search key', () => {
       const searchName = 'testSearch';
 
       const selected = Immutable.fromJS({
@@ -900,8 +900,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getRelationFindResult selector', function selectorSuite() {
-    it('should select from the relation key', function test() {
+  describe('getRelationFindResult selector', () => {
+    it('should select from the relation key', () => {
       const subjectCsid = '1234';
       const objectCsid = '5678';
       const predicate = 'affects';
@@ -937,8 +937,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToSelectAdvanced selector', function selectorSuite() {
-    it('should select from the searchToSelect key', function test() {
+  describe('getSearchToSelectAdvanced selector', () => {
+    it('should select from the searchToSelect key', () => {
       const advancedSearchCondition = Immutable.Map({
         op: 'eq',
         path: '',
@@ -953,8 +953,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToSelectKeyword selector', function selectorSuite() {
-    it('should select from the searchToSelect key', function test() {
+  describe('getSearchToSelectKeyword selector', () => {
+    it('should select from the searchToSelect key', () => {
       const keyword = 'something';
 
       getSearchToSelectKeyword({
@@ -965,8 +965,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToSelectRecordType selector', function selectorSuite() {
-    it('should select from the searchToSelect key', function test() {
+  describe('getSearchToSelectRecordType selector', () => {
+    it('should select from the searchToSelect key', () => {
       const recordType = 'person';
 
       getSearchToSelectRecordType({
@@ -977,8 +977,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getSearchToSelectVocabulary selector', function selectorSuite() {
-    it('should select from the searchToSelect key', function test() {
+  describe('getSearchToSelectVocabulary selector', () => {
+    it('should select from the searchToSelect key', () => {
       const recordType = 'person';
       const vocabulary = 'local';
 
@@ -992,8 +992,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getNotifications selector', function selectorSuite() {
-    it('should select from the notification key', function test() {
+  describe('getNotifications selector', () => {
+    it('should select from the notification key', () => {
       const notifications = Immutable.OrderedMap({
         1: {
           message: {
@@ -1016,8 +1016,8 @@ describe('reducer', function suite() {
     });
   });
 
-  describe('getOpenModalName selector', function selectorSuite() {
-    it('should select from the notification key', function test() {
+  describe('getOpenModalName selector', () => {
+    it('should select from the notification key', () => {
       const modalName = 'modalName';
 
       getOpenModalName({

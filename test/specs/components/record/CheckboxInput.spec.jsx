@@ -10,7 +10,7 @@ chai.should();
 
 const { CheckboxInput: BaseCheckboxInput } = inputComponents;
 
-describe('CheckboxInput', function suite() {
+describe('CheckboxInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -19,7 +19,8 @@ describe('CheckboxInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <CheckboxInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     findRenderedComponentWithType(resultTree, BaseCheckboxInput).should.not.equal(null);
   });
@@ -28,7 +29,8 @@ describe('CheckboxInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <CheckboxInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const checkboxInput = findRenderedComponentWithType(resultTree, BaseCheckboxInput);
 
@@ -41,7 +43,8 @@ describe('CheckboxInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <CheckboxInput viewType="search" />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const checkboxInput = findRenderedComponentWithType(resultTree, BaseCheckboxInput);
 

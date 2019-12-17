@@ -4,7 +4,9 @@ import get from 'lodash/get';
 import SidebarToggleButton from '../navigation/SidebarToggleButton';
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   recordType: PropTypes.string,
   isRecordSidebarOpen: PropTypes.bool,
   toggleRecordSidebar: PropTypes.func,

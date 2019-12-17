@@ -20,12 +20,10 @@ const messages = defineMessages({
   },
 });
 
-const propTypes = {
-  history: PropTypes.object,
-};
-
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }).isRequired,
 };
 
 const recordType = 'all';
@@ -70,10 +68,6 @@ export default class DashboardPage extends Component {
     } = this.context;
 
     const {
-      history,
-    } = this.props;
-
-    const {
       searchDescriptor,
     } = this.state;
 
@@ -86,7 +80,6 @@ export default class DashboardPage extends Component {
 
         <SearchPanelContainer
           config={config}
-          history={history}
           name="dashboardRecentPanel"
           searchDescriptor={searchDescriptor}
           title={recentPanelTitle}
@@ -99,5 +92,4 @@ export default class DashboardPage extends Component {
   }
 }
 
-DashboardPage.propTypes = propTypes;
 DashboardPage.contextTypes = contextTypes;

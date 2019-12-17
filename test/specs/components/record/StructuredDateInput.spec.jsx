@@ -11,7 +11,7 @@ chai.should();
 
 const { StructuredDateInput: BaseStructuredDateInput } = inputComponents;
 
-describe('StructuredDateInput', function suite() {
+describe('StructuredDateInput', () => {
   const config = {
     structDateOptionListNames: ['dateQualifiers'],
     structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
@@ -25,7 +25,8 @@ describe('StructuredDateInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StructuredDateInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     findRenderedComponentWithType(resultTree, BaseStructuredDateInput).should.not.equal(null);
   });
@@ -40,7 +41,8 @@ describe('StructuredDateInput', function suite() {
     render(
       <IntlProvider locale="en">
         <StructuredDateInput config={config} readTerms={readTerms} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     readTermsSources.should.deep.equal(config.structDateVocabNames);
   });
@@ -64,7 +66,8 @@ describe('StructuredDateInput', function suite() {
           config={config}
           perms={perms}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const newPerms = perms.setIn(['vocabulary', 'data'], 'CRUL');
 
@@ -75,7 +78,8 @@ describe('StructuredDateInput', function suite() {
           perms={newPerms}
           readTerms={readTerms}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     readTermsSources.should.deep.equal(config.structDateVocabNames);
   });
@@ -88,7 +92,8 @@ describe('StructuredDateInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en" messages={messages}>
         <StructuredDateInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const structuredDateInput = findRenderedComponentWithType(resultTree, BaseStructuredDateInput);
 
@@ -103,7 +108,8 @@ describe('StructuredDateInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en" messages={messages}>
         <StructuredDateInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const structuredDateInput = findRenderedComponentWithType(resultTree, BaseStructuredDateInput);
 
@@ -120,7 +126,8 @@ describe('StructuredDateInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StructuredDateInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const structuredDateInput = findRenderedComponentWithType(resultTree, BaseStructuredDateInput);
 
@@ -139,7 +146,8 @@ describe('StructuredDateInput', function suite() {
     const resultTree = render(
       <IntlProvider locale="en" messages={messages}>
         <StructuredDateInput />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const structuredDateInput = findRenderedComponentWithType(resultTree, BaseStructuredDateInput);
 

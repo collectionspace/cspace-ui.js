@@ -4,7 +4,7 @@ import { defineMessages, FormattedMessage, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
 import CancelButton from '../navigation/CancelButton';
-import UnrelateButton from '../record/UnrelateButton';
+import UnrelateButton from './UnrelateButton';
 import styles from '../../../styles/cspace-ui/ConfirmRecordUnrelateModal.css';
 
 const messages = defineMessages({
@@ -34,7 +34,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   data: PropTypes.instanceOf(Immutable.Map),
   isOpen: PropTypes.bool,
   isMultiSelect: PropTypes.bool,
@@ -130,6 +132,5 @@ export default class ConfirmRecordUnrelateModal extends Component {
   }
 }
 
-ConfirmRecordUnrelateModal.modalName = 'ConfirmRecordUnrelateModal';
 ConfirmRecordUnrelateModal.propTypes = propTypes;
 ConfirmRecordUnrelateModal.contextTypes = contextTypes;

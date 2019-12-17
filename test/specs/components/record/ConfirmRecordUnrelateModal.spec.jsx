@@ -1,4 +1,4 @@
-/* global document, window */
+/* global document */
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
@@ -8,7 +8,7 @@ import { Modal } from 'cspace-layout';
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -35,7 +35,7 @@ const config = {
   },
 };
 
-describe('ConfirmRecordUnrelateModal', function suite() {
+describe('ConfirmRecordUnrelateModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
 
@@ -53,7 +53,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           isOpen
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -71,7 +72,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           isOpen={false}
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -87,7 +89,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           isOpen={false}
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -104,7 +107,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           recordCount={0}
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
@@ -123,7 +127,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           isOpen
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelate Group Record Title from the primary record?');
@@ -144,7 +149,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           recordCount={4}
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelate 4 selected records from the primary record?');
@@ -164,7 +170,8 @@ describe('ConfirmRecordUnrelateModal', function suite() {
           isUnrelating
           recordType="group"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelating...');

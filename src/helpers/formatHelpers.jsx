@@ -1,7 +1,16 @@
 import React from 'react';
 import get from 'lodash/get';
 import { getDisplayName, getServicePath, getVocabularyShortID } from 'cspace-refname';
+import BlobImage from '../components/media/BlobImage';
 import WorkflowStateIcon from '../components/record/WorkflowStateIcon';
+
+import {
+  DERIVATIVE_THUMBNAIL,
+  DERIVATIVE_SMALL,
+  DERIVATIVE_MEDIUM,
+  DERIVATIVE_ORIGINAL_JPEG,
+  DERIVATIVE_ORIGINAL,
+} from '../constants/derivativeNames';
 
 import {
   getRecordTypeConfigByServiceObjectName,
@@ -10,15 +19,14 @@ import {
   findFieldConfigInPart,
 } from './configHelpers';
 
-export const formatTimestamp = (timestamp, { intl }) =>
-  intl.formatDate(timestamp, {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    // timeZoneName: 'short',
-  });
+export const formatTimestamp = (timestamp, { intl }) => intl.formatDate(timestamp, {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  // timeZoneName: 'short',
+});
 
 export const formatDate = (date) => {
   if (!date) {
@@ -44,7 +52,7 @@ export const formatServiceObjectName = (serviceObjectName, { intl, config }) => 
   return `[ ${serviceObjectName.toLowerCase()} ]`;
 };
 
-export const formatRefName = refName => getDisplayName(refName);
+export const formatRefName = (refName) => getDisplayName(refName);
 
 export const formatRefNameAsRecordType = (refName, { intl, config }) => {
   const recordServicePath = getServicePath(refName);
@@ -86,7 +94,7 @@ export const formatRecordTypeSourceField = (recordType, sourceField, { intl, con
   let message;
 
   if (fieldConfig) {
-    const messages = fieldConfig.messages;
+    const { messages } = fieldConfig;
 
     if (messages) {
       message = messages.fullName || messages.name;
@@ -96,8 +104,9 @@ export const formatRecordTypeSourceField = (recordType, sourceField, { intl, con
   return (message ? intl.formatMessage(message) : `[ ${fieldName} ]`);
 };
 
-export const formatSourceField = (sourceField, formatterContext) =>
-  formatRecordTypeSourceField(formatterContext.recordType, sourceField, formatterContext);
+export const formatSourceField = (sourceField, formatterContext) => (
+  formatRecordTypeSourceField(formatterContext.recordType, sourceField, formatterContext)
+);
 
 export const formatForeignSourceField = (sourceField, formatterContext) => {
   const {
@@ -112,8 +121,9 @@ export const formatForeignSourceField = (sourceField, formatterContext) => {
   return formatRecordTypeSourceField(recordType, sourceField, formatterContext);
 };
 
-export const formatWorkflowStateIcon = workflowState =>
-  <WorkflowStateIcon value={workflowState} />;
+export const formatWorkflowStateIcon = (workflowState) => (
+  <WorkflowStateIcon value={workflowState} />
+);
 
 export const formatOption = (optionListName, value, { intl, config }) => {
   const message = get(config, ['optionLists', optionListName, 'messages', value]);
@@ -134,9 +144,23 @@ export const formatExtensionFieldName = (intl, fieldConfig, messageName = 'fullN
 
   if (messages) {
     formattedName = intl.formatMessage(
-      messages[messageName] || messages.fullName || messages.name
+      messages[messageName] || messages.fullName || messages.name,
     );
   }
 
-  return [formattedParentName, formattedName].filter(part => !!part).join(' - ');
+  return [formattedParentName, formattedName].filter((part) => !!part).join(' - ');
 };
+
+export const derivativeImage = (blobCsid, derivative) => (
+  blobCsid ? <BlobImage csid={blobCsid} derivative={derivative} /> : null
+);
+
+export const thumbnailImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_THUMBNAIL);
+
+export const smallImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_SMALL);
+
+export const mediumImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_MEDIUM);
+
+export const originalJpegImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_ORIGINAL_JPEG);
+
+export const originalImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_ORIGINAL);

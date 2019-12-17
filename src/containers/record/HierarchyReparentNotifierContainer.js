@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Immutable from 'immutable';
-import { refNameToCsid } from '../../../src/helpers/refNameHelpers';
+import { refNameToCsid } from '../../helpers/refNameHelpers';
 
 import {
   removeNotification,
@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     childData: Immutable.Map(
-      childRefNames.map(refName => [refName, getRecordData(state, refNameToCsid(refName))])
+      childRefNames.map((refName) => [refName, getRecordData(state, refNameToCsid(refName))]),
     ),
   };
 };
@@ -37,5 +37,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(HierarchyReparentNotifier);

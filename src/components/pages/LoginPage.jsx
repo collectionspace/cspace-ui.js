@@ -8,8 +8,12 @@ import LoginFormContainer from '../../containers/login/LoginFormContainer';
 import styles from '../../../styles/cspace-ui/LoginPage.css';
 
 const propTypes = {
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }).isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.object,
+  }).isRequired,
   closeModal: PropTypes.func,
   resetLogin: PropTypes.func,
   onMount: PropTypes.func,

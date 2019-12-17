@@ -9,7 +9,7 @@ const prepareParams = (params) => {
       const value = params[key];
 
       if (Array.isArray(value)) {
-        value.forEach(v => paramPairs.push({ key, value: v }));
+        value.forEach((v) => paramPairs.push({ key, value: v }));
       } else {
         paramPairs.push({ key, value });
       }

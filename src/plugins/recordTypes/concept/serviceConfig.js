@@ -6,7 +6,7 @@ export default {
   objectName: 'Conceptitem',
   documentName: 'concepts',
 
-  quickAddData: values => ({
+  quickAddData: (values) => ({
     document: {
       'ns2:concepts_common': {
         '@xmlns:ns2': 'http://collectionspace.org/services/concept',

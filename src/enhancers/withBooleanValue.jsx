@@ -26,6 +26,7 @@ export default function withBooleanValue(BaseComponent) {
     return (
       <BaseComponent
         value={booleanValue}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
       />
     );

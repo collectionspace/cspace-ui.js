@@ -10,7 +10,11 @@ const propTypes = {
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    logo: PropTypes.string,
+    pluginInfo: PropTypes.object,
+    serverUrl: PropTypes.string,
+  }),
   intl: intlShape,
 };
 

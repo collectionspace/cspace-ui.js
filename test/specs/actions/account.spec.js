@@ -26,10 +26,10 @@ import {
 
 chai.should();
 
-describe('account action creator', function suite() {
+describe('account action creator', () => {
   const mockStore = configureMockStore([thunk]);
 
-  describe('checkForRoleUses', function actionSuite() {
+  describe('checkForRoleUses', () => {
     const csid = '1234';
     const checkUrl = `/cspace-services/authorization/roles/${csid}/accountroles`;
 
@@ -47,7 +47,7 @@ describe('account action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should resolve to true if uses are found for the given role', function test() {
+    it('should resolve to true if uses are found for the given role', () => {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {
@@ -64,7 +64,7 @@ describe('account action creator', function suite() {
       });
     });
 
-    it('should resolve to false if no uses are found for the given role', function test() {
+    it('should resolve to false if no uses are found for the given role', () => {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {
@@ -80,15 +80,13 @@ describe('account action creator', function suite() {
     });
   });
 
-  describe('requestPasswordReset', function actionSuite() {
+  describe('requestPasswordReset', () => {
     const store = mockStore();
 
     const requestPasswordResetUrl = /\/cspace-services\/accounts\/requestpasswordreset.*/;
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -99,7 +97,7 @@ describe('account action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should request a password reset', function test() {
+    it('should request a password reset', () => {
       const email = 'user@collectionspace.org';
       const tenantId = '2';
 
@@ -118,15 +116,13 @@ describe('account action creator', function suite() {
     });
   });
 
-  describe('resetPassword', function actionSuite() {
+  describe('resetPassword', () => {
     const store = mockStore();
 
     const requestPasswordResetUrl = /\/cspace-services\/accounts\/processpasswordreset.*/;
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -137,7 +133,7 @@ describe('account action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should reset the password', function test() {
+    it('should reset the password', () => {
       const password = 'topsecret';
       const token = '1234';
 
@@ -155,7 +151,7 @@ describe('account action creator', function suite() {
     });
   });
 
-  describe('readAccountPerms', function actionSuite() {
+  describe('readAccountPerms', () => {
     const store = mockStore();
     const config = {};
 
@@ -167,10 +163,8 @@ describe('account action creator', function suite() {
       },
     };
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -181,7 +175,7 @@ describe('account action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', function test() {
+    it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', () => {
       moxios.stubRequest(accountPermsUrl, {
         status: 200,
         response: accountPermsPayload,
@@ -208,7 +202,7 @@ describe('account action creator', function suite() {
         });
     });
 
-    it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', function test() {
+    it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', () => {
       moxios.stubRequest(accountPermsUrl, {
         status: 400,
         response: {},
@@ -225,7 +219,7 @@ describe('account action creator', function suite() {
     });
   });
 
-  describe('readAccountRoles', function actionSuite() {
+  describe('readAccountRoles', () => {
     const accountId = '1234';
     const accountRolesUrl = `/cspace-services/accounts/${accountId}/accountroles`;
 
@@ -244,10 +238,8 @@ describe('account action creator', function suite() {
       }),
     });
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -258,7 +250,7 @@ describe('account action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch ACCOUNT_ROLES_READ_FULFILLED on success', function test() {
+    it('should dispatch ACCOUNT_ROLES_READ_FULFILLED on success', () => {
       moxios.stubRequest(accountRolesUrl, {
         status: 200,
         response: accountRolesPayload,
@@ -282,7 +274,7 @@ describe('account action creator', function suite() {
         });
     });
 
-    it('should dispatch ACCOUNT_ROLES_READ_REJECTED on error', function test() {
+    it('should dispatch ACCOUNT_ROLES_READ_REJECTED on error', () => {
       moxios.stubRequest(accountRolesUrl, {
         status: 400,
         response: {},

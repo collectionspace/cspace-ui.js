@@ -2,8 +2,8 @@ import serviceConfig from '../../../../../src/plugins/recordTypes/group/serviceC
 
 chai.should();
 
-describe('group record serviceConfig', function suite() {
-  it('should have servicePath property', function test() {
+describe('group record serviceConfig', () => {
+  it('should have servicePath property', () => {
     serviceConfig.should.have.property('servicePath').that.is.a('string');
   });
 });

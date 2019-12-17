@@ -35,15 +35,24 @@ const store = mockStore({
   }),
 });
 
-const TestInput = props => (
-  <input
-    name={props.name}
-    defaultValue={props.value}
-    onBlur={
-      event => props.onCommit([...props.parentPath, props.name], event.target.value)
-    }
-  />
-);
+const TestInput = (props) => {
+  const {
+    name,
+    parentPath,
+    value,
+    onCommit,
+  } = props;
+
+  return (
+    <input
+      name={name}
+      defaultValue={value}
+      onBlur={
+        (event) => onCommit([...parentPath, name], event.target.value)
+      }
+    />
+  );
+};
 
 TestInput.propTypes = {
   parentPath: PropTypes.arrayOf(PropTypes.string),
@@ -123,7 +132,7 @@ const config = {
   },
 };
 
-describe('AdvancedSearchBuilder', function suite() {
+describe('AdvancedSearchBuilder', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -145,7 +154,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should
       .match(/cspace-layout-Panel--common/);
@@ -169,7 +179,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should
       .match(/cspace-ui-BooleanConditionInput--common/);
@@ -193,7 +204,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedCondition.should
       .equal(Immutable.fromJS(config.recordTypes.collectionobject.advancedSearch));
@@ -216,7 +228,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -229,7 +242,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedCondition.should
       .equal(Immutable.fromJS(config.recordTypes.collectionobject.advancedSearch));
@@ -261,7 +275,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedCondition.should
       .equal(Immutable.fromJS({
@@ -298,7 +313,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedCondition.should
       .equal(Immutable.fromJS({
@@ -343,7 +359,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-FieldConditionInput--common').should.not.equal(null);
   });
@@ -370,7 +387,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-GroupConditionInput--common').should.not.equal(null);
   });
@@ -405,7 +423,8 @@ describe('AdvancedSearchBuilder', function suite() {
             />
           </StoreProvider>
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('input[name="objectNumber"]');
 

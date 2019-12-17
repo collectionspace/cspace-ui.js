@@ -6,7 +6,7 @@ import merge from 'lodash/merge';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RecordFormSelector from '../../../../src/components/record/RecordFormSelector';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -71,7 +71,7 @@ const config = {
 
 const expectedClassName = 'cspace-ui-RecordFormSelector--common';
 
-describe('RecordFormSelector', function suite() {
+describe('RecordFormSelector', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -84,7 +84,8 @@ describe('RecordFormSelector', function suite() {
           recordType="collectionobject"
           formName="default"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -97,7 +98,8 @@ describe('RecordFormSelector', function suite() {
           recordType="collectionobject"
           formName="default"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -110,7 +112,8 @@ describe('RecordFormSelector', function suite() {
           recordType="foo"
           formName="default"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -124,7 +127,8 @@ describe('RecordFormSelector', function suite() {
           recordType="group"
           formName="default"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -137,7 +141,8 @@ describe('RecordFormSelector', function suite() {
           recordType="collectionobject"
           formName="default"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const dropdownMenuInput = this.container.querySelector('.cspace-input-DropdownMenuInput--common');
 
@@ -182,7 +187,8 @@ describe('RecordFormSelector', function suite() {
           recordType="collectionobject"
           formName="default"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const dropdownMenuInput = this.container.querySelector('.cspace-input-DropdownMenuInput--common');
 

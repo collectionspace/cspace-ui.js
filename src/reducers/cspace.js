@@ -21,6 +21,6 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getConfig = state => state.get('config');
+export const getConfig = (state) => state.get('config');
 
-export const getSystemInfo = state => state.get('systemInfo');
+export const getSystemInfo = (state) => state.get('systemInfo');

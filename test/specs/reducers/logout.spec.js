@@ -10,12 +10,12 @@ import reducer, {
 
 chai.should();
 
-describe('logout reducer', function suite() {
-  it('should have an empty initial state', function test() {
+describe('logout reducer', () => {
+  it('should have an empty initial state', () => {
     reducer(undefined, {}).should.deep.equal({});
   });
 
-  it('should handle LOGOUT_STARTED', function test() {
+  it('should handle LOGOUT_STARTED', () => {
     const state = reducer({}, {
       type: LOGOUT_STARTED,
     });
@@ -28,7 +28,7 @@ describe('logout reducer', function suite() {
     isPending(state).should.equal(true);
   });
 
-  it('should handle LOGOUT_FULFILLED', function test() {
+  it('should handle LOGOUT_FULFILLED', () => {
     const logoutResponse = {
       status: 200,
       headers: {

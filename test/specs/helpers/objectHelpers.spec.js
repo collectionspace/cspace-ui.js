@@ -3,8 +3,8 @@ import {
   flatten,
 } from '../../../src/helpers/objectHelpers';
 
-describe('objectHelpers', function moduleSuite() {
-  describe('flatten', function suite() {
+describe('objectHelpers', () => {
+  describe('flatten', () => {
     const obj = {
       key1: {
         key2: 'foo',
@@ -19,7 +19,7 @@ describe('objectHelpers', function moduleSuite() {
       },
     };
 
-    it('should flatten deeply nested objects', function test() {
+    it('should flatten deeply nested objects', () => {
       flatten(obj).should.deep.equal({
         'key1.key2': 'foo',
         key3: 123,
@@ -29,7 +29,7 @@ describe('objectHelpers', function moduleSuite() {
       });
     });
 
-    it('should flatten to the given maximum depth', function test() {
+    it('should flatten to the given maximum depth', () => {
       flatten(obj, 1).should.deep.equal(obj);
 
       flatten(obj, 2).should.deep.equal({
@@ -44,8 +44,8 @@ describe('objectHelpers', function moduleSuite() {
     });
   });
 
-  describe('diff', function suite() {
-    it('should return a map of paths that differ', function test() {
+  describe('diff', () => {
+    it('should return a map of paths that differ', () => {
       diff({
         key1: 1,
         key2: {
@@ -159,7 +159,7 @@ describe('objectHelpers', function moduleSuite() {
       });
     });
 
-    it('should compare to the given maximum depth', function test() {
+    it('should compare to the given maximum depth', () => {
       const obj1 = {
         key1: {
           key2: 'foo',

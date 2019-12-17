@@ -97,7 +97,7 @@ const perms = Immutable.fromJS({
 
 const getAuthorityVocabCsid = () => '1234';
 
-describe('SearchPage', function suite() {
+describe('SearchPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -116,7 +116,8 @@ describe('SearchPage', function suite() {
             <SearchPage match={match} />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -135,7 +136,8 @@ describe('SearchPage', function suite() {
             <SearchPage match={match} />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-ErrorPage--common').should.not.equal(null);
   });
@@ -171,7 +173,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     replacementLocation.should.deep.equal({
       pathname: '/search/group',
@@ -211,7 +214,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const newMatch = {
       params: {},
@@ -229,7 +233,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     replacementLocation.should.deep.equal({
       pathname: '/search/group',
@@ -268,7 +273,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     replacementLocation.should.deep.equal({
       pathname: '/search/person/ulan',
@@ -309,7 +315,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input');
 
@@ -358,7 +365,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input');
 
@@ -400,9 +408,10 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
-    const newLocation = Object.assign({}, location, { pathname: '/search/group' });
+    const newLocation = { ...location, pathname: '/search/group' };
 
     const newMatch = {
       params: {
@@ -423,7 +432,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedRecordType.should.equal('group');
   });
@@ -463,7 +473,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-ui-SearchFormVocab--common input');
 
@@ -513,7 +524,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.querySelector('.cspace-ui-SearchFormVocab--common input');
 
@@ -557,9 +569,10 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
-    const newLocation = Object.assign({}, location, { pathname: '/search/person/ulan' });
+    const newLocation = { ...location, pathname: '/search/person/ulan' };
 
     const newMatch = {
       params: {
@@ -581,7 +594,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     committedVocabulary.should.equal('ulan');
   });
@@ -624,7 +638,8 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const form = this.container.querySelector('form');
 
@@ -658,10 +673,12 @@ describe('SearchPage', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
-      <div />, this.container);
+      <div />, this.container,
+    );
 
     clearSearchPageCalled.should.equal(true);
   });

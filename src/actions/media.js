@@ -1,6 +1,6 @@
-import getSession from './cspace';
+import getSession from '../helpers/session';
 
-export const readBinary = path => () => {
+export const readBinary = (path) => () => {
   const config = {
     responseType: 'blob',
   };

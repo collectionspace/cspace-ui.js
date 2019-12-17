@@ -11,7 +11,9 @@ const propTypes = {
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   recordType: PropTypes.string,
   readOnly: PropTypes.bool,

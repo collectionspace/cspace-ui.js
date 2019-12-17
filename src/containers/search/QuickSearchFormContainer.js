@@ -25,8 +25,9 @@ const mapStateToProps = (state) => {
     keywordValue: getQuickSearchKeyword(state),
     recordTypeValue: quickSearchRecordType,
     vocabularyValue: getQuickSearchVocabulary(state, quickSearchRecordType),
-    getAuthorityVocabCsid: (recordType, vocabulary) =>
-      getAuthorityVocabCsid(state, recordType, vocabulary),
+    getAuthorityVocabCsid: (recordType, vocabulary) => getAuthorityVocabCsid(
+      state, recordType, vocabulary,
+    ),
   };
 };
 

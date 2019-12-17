@@ -4,18 +4,17 @@ import createFields from '../../../../../src/plugins/recordTypes/media/fields';
 import { configKey } from '../../../../../src/helpers/configHelpers';
 import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('media record fields', function suite() {
+describe('media record fields', () => {
   const configContext = createConfigContext();
   const fields = createFields(configContext);
 
-  describe('externalUrl field computation', function fieldSuite() {
-    it('should set the value to the value of the blob\'s file field', function test() {
-      const externalUrlFieldConfig =
-        get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
+  describe('externalUrl field computation', () => {
+    it('should set the value to the value of the blob\'s file field', () => {
+      const externalUrlFieldConfig = get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
 
       externalUrlFieldConfig.should.be.an('object');
 
@@ -34,9 +33,8 @@ describe('media record fields', function suite() {
       externalUrlFieldConfig.compute({ subrecordData }).should.equal(fileUrl);
     });
 
-    it('should not set the value (should return undefined) if there is no blob data', function test() {
-      const externalUrlFieldConfig =
-        get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
+    it('should not set the value (should return undefined) if there is no blob data', () => {
+      const externalUrlFieldConfig = get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
 
       externalUrlFieldConfig.should.be.an('object');
 
@@ -45,9 +43,8 @@ describe('media record fields', function suite() {
       expect(externalUrlFieldConfig.compute({ subrecordData })).to.equal(undefined);
     });
 
-    it('should not set the value (should return undefined) if the blob\'s file field is not a string', function test() {
-      const externalUrlFieldConfig =
-        get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
+    it('should not set the value (should return undefined) if the blob\'s file field is not a string', () => {
+      const externalUrlFieldConfig = get(fields, ['document', 'ns2:media_common', 'externalUrl', configKey]);
 
       externalUrlFieldConfig.should.be.an('object');
 

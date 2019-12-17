@@ -13,19 +13,19 @@ import reducer, {
   getNotifications,
 } from '../../../src/reducers/notification';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('notification reducer', function suite() {
-  it('should have immutable map initial state with notifications key', function test() {
+describe('notification reducer', () => {
+  it('should have immutable map initial state with notifications key', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({
       notifications: Immutable.OrderedMap(),
     }));
   });
 
-  it('should handle SHOW_NOTIFICATION', function test() {
+  it('should handle SHOW_NOTIFICATION', () => {
     const notificationID = '1';
 
     const notificationDescriptor = {
@@ -59,7 +59,7 @@ describe('notification reducer', function suite() {
     }));
   });
 
-  it('should generate a notification ID when a SHOW_NOTIFICATION action does not provide one', function test() {
+  it('should generate a notification ID when a SHOW_NOTIFICATION action does not provide one', () => {
     const notificationID = undefined;
 
     const notificationDescriptor = {
@@ -90,7 +90,7 @@ describe('notification reducer', function suite() {
     entry[1].should.equal(notificationDescriptor);
   });
 
-  it('should handle REMOVE_NOTIFICATION', function test() {
+  it('should handle REMOVE_NOTIFICATION', () => {
     const initialState = Immutable.Map({
       notifications: Immutable.OrderedMap({
         1: {},
@@ -113,7 +113,7 @@ describe('notification reducer', function suite() {
     }));
   });
 
-  it('should handle OPEN_MODAL', function test() {
+  it('should handle OPEN_MODAL', () => {
     const name = 'modalName';
 
     const state = reducer(undefined, {
@@ -131,7 +131,7 @@ describe('notification reducer', function suite() {
     getModal(state).should.equal(name);
   });
 
-  it('should handle CLOSE_MODAL', function test() {
+  it('should handle CLOSE_MODAL', () => {
     const name = 'modalName';
 
     const initialState = Immutable.Map({

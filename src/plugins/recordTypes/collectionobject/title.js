@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     deepGet,
     getPart,
@@ -17,5 +17,5 @@ export default configContext => (data) => {
   const objectNumber = common.get('objectNumber');
   const title = deepGet(common, ['titleGroupList', 'titleGroup', 0, 'title']);
 
-  return [objectNumber, title].filter(part => !!part).join(' – ');
+  return [objectNumber, title].filter((part) => !!part).join(' – ');
 };

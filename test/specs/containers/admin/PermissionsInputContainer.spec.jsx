@@ -9,7 +9,7 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('PermissionsInputContainer', function suite() {
+describe('PermissionsInputContainer', () => {
   const store = mockStore({
     authz: Immutable.fromJS({
       resourceNames: [],
@@ -20,11 +20,12 @@ describe('PermissionsInputContainer', function suite() {
     store,
   };
 
-  it('should set props on PermissionsInput', function test() {
+  it('should set props on PermissionsInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedPermissionsInput />, context);
+      <ConnectedPermissionsInput />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

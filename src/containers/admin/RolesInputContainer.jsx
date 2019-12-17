@@ -9,7 +9,7 @@ import {
   getAuthzRoles,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   roles: getAuthzRoles(state),
 });
 

@@ -45,5 +45,5 @@ export default (state = Immutable.Map({ notifications: Immutable.OrderedMap() })
   }
 };
 
-export const getModal = state => state.get('modal');
-export const getNotifications = state => state.get('notifications');
+export const getModal = (state) => state.get('modal');
+export const getNotifications = (state) => state.get('notifications');

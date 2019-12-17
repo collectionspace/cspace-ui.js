@@ -17,7 +17,7 @@ import {
   configureCSpace,
 } from '../../../../src/actions/cspace';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -82,11 +82,9 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('MiniViewPopupAutocompleteInput', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('MiniViewPopupAutocompleteInput', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -104,7 +102,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -125,7 +124,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -150,7 +150,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -179,7 +180,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -210,7 +212,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -241,7 +244,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -280,7 +284,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -308,7 +313,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       expect(this.container.querySelector('.cspace-ui-MiniViewPopup--common')).to.equal(null);
 
@@ -316,7 +322,7 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
     }));
   });
 
-  context('when the filtering dropdown is open', function context() {
+  context('when the filtering dropdown is open', () => {
     beforeEach(function beforeEach() {
       render(
         <IntlProvider locale="en">
@@ -330,7 +336,8 @@ describe('MiniViewPopupAutocompleteInput', function suite() {
               </Router>
             </ConfigProvider>
           </StoreProvider>
-        </IntlProvider>, this.container);
+        </IntlProvider>, this.container,
+      );
 
       const input = this.container.querySelector('input');
 

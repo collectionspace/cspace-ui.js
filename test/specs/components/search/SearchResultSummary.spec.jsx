@@ -30,7 +30,7 @@ const searchDescriptor = Immutable.fromJS({
   },
 });
 
-describe('SearchResultSummary', function suite() {
+describe('SearchResultSummary', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -43,7 +43,8 @@ describe('SearchResultSummary', function suite() {
             <SearchResultSummary searchDescriptor={searchDescriptor} />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -68,7 +69,8 @@ describe('SearchResultSummary', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-SearchResultSummary--error > span').textContent.should
       .contain('not allowed to perform this search');

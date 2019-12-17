@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import MediaViewerPanelContainer from '../../../../src/containers/media/MediaViewerPanelContainer';
 import MediaSnapshotPanel from '../../../../src/components/record/MediaSnapshotPanel';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -22,8 +22,8 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('MediaSnapshotPanel', function suite() {
-  it('should render a media viewer panel', function test() {
+describe('MediaSnapshotPanel', () => {
+  it('should render a media viewer panel', () => {
     const config = {};
     const recordType = 'collectionobject';
     const csid = '1234';
@@ -37,7 +37,8 @@ describe('MediaSnapshotPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -48,7 +49,7 @@ describe('MediaSnapshotPanel', function suite() {
     result.props.recordType.should.equal(recordType);
   });
 
-  it('should rerender with a new search descriptor when a new csid is supplied via props', function test() {
+  it('should rerender with a new search descriptor when a new csid is supplied via props', () => {
     const config = {};
     const recordType = 'collectionobject';
     const csid = '1234';
@@ -62,7 +63,8 @@ describe('MediaSnapshotPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -77,14 +79,15 @@ describe('MediaSnapshotPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const newResult = shallowRenderer.getRenderOutput();
 
     newResult.props.searchDescriptor.getIn(['searchQuery', 'rel']).should.equal(newCsid);
   });
 
-  it('should render nothing if the record data has not been saved', function test() {
+  it('should render nothing if the record data has not been saved', () => {
     const config = {};
     const recordType = 'collectionobject';
 
@@ -104,14 +107,15 @@ describe('MediaSnapshotPanel', function suite() {
         recordData={unsavedRecordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should set the ownBlobCsid prop when the record is a media record', function test() {
+  it('should set the ownBlobCsid prop when the record is a media record', () => {
     const config = {};
     const recordType = 'media';
     const csid = '1234';
@@ -137,7 +141,8 @@ describe('MediaSnapshotPanel', function suite() {
         recordData={mediaRecordData}
         recordType={recordType}
         perms={perms}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

@@ -5,9 +5,5 @@
   "globals": {
     "browser": true,
     "chai": true
-  },
-  "rules": {
-    "import/no-extraneous-dependencies": "off",
-    "prefer-arrow-callback": "off"
   }
 }

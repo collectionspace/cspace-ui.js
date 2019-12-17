@@ -4,7 +4,7 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('condition check record title', function suite() {
+describe('condition check record title', () => {
   const formatterContext = {
     config: {
       optionLists: {
@@ -19,14 +19,14 @@ describe('condition check record title', function suite() {
       },
     },
     intl: {
-      formatMessage: messageDescriptor => messageDescriptor.defaultMessage,
+      formatMessage: (messageDescriptor) => messageDescriptor.defaultMessage,
     },
   };
 
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the condition check number and the condition', function test() {
+  it('should concat the condition check number and the condition', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:conditionchecks_common': {
@@ -48,7 +48,7 @@ describe('condition check record title', function suite() {
     title(data, formatterContext).should.equal('CC2017.1 – in jeopardy');
   });
 
-  it('should return the condition check number when the condition is empty', function test() {
+  it('should return the condition check number when the condition is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:conditionchecks_common': {
@@ -70,12 +70,12 @@ describe('condition check record title', function suite() {
     title(data, formatterContext).should.equal('CC2017.1');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:conditionchecks_extension': {

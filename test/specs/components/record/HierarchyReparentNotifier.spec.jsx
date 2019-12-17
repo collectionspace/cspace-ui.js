@@ -4,11 +4,11 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('HierarchyReparentNotifier', function suite() {
+describe('HierarchyReparentNotifier', () => {
   const config = {
     recordTypes: {
       place: {
@@ -54,12 +54,13 @@ describe('HierarchyReparentNotifier', function suite() {
         readRecord={readRecord}
         removeNotification={removeNotification}
         showNotification={showNotification}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
 
-  context('when mounted', function context() {
+  context('when mounted', () => {
     it('should call readRecord for each non-blank refName in childData', function test() {
       const childData = Immutable.fromJS({
         'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(Alameda)\'Alameda\'': {},
@@ -84,7 +85,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
       readRecordCalls.should.have.lengthOf(2);
 
@@ -127,7 +129,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
       readRecordCalls.should.have.lengthOf(0);
     });
@@ -186,7 +189,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
 
       notificationItems.should.have.lengthOf(1);
@@ -198,7 +202,7 @@ describe('HierarchyReparentNotifier', function suite() {
     });
   });
 
-  context('when props are updated', function context() {
+  context('when props are updated', () => {
     it('should call readRecord for each new non-blank refName in childData', function test() {
       const childData = Immutable.fromJS({
         'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(Alameda)\'Alameda\'': {},
@@ -222,7 +226,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
       readRecordCalls.splice(0);
 
@@ -239,7 +244,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
       readRecordCalls.should.have.lengthOf(1);
 
@@ -274,7 +280,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
       const newChildData = Immutable.Map();
 
@@ -286,7 +293,8 @@ describe('HierarchyReparentNotifier', function suite() {
           readRecord={readRecord}
           removeNotification={removeNotification}
           showNotification={showNotification}
-        />, this.container);
+        />, this.container,
+      );
 
       removeNotificationCalled.should.equal(true);
     });

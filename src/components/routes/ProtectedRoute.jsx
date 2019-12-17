@@ -33,7 +33,7 @@ export default function ProtectedRoute(props) {
   return (
     <Route
       {...remainingProps}
-      render={routeProps => (
+      render={(routeProps) => (
         username ? (
           <ProtectedPage
             openModalName={openModalName}

@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('collectionobject record title', function suite() {
+describe('collectionobject record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the object number and primary title', function test() {
+  it('should concat the object number and primary title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {
@@ -27,7 +27,7 @@ describe('collectionobject record title', function suite() {
     title(data).should.equal('1-234 – Primary Title');
   });
 
-  it('should return the object number when primary title is empty', function test() {
+  it('should return the object number when primary title is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {
@@ -46,7 +46,7 @@ describe('collectionobject record title', function suite() {
     title(data).should.equal('1-234');
   });
 
-  it('should return the primary title when object number is empty', function test() {
+  it('should return the primary title when object number is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {
@@ -65,7 +65,7 @@ describe('collectionobject record title', function suite() {
     title(data).should.equal('Primary Title');
   });
 
-  it('should work when titleGroupList is not present', function test() {
+  it('should work when titleGroupList is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {
@@ -77,7 +77,7 @@ describe('collectionobject record title', function suite() {
     title(data).should.equal('1-234');
   });
 
-  it('should work when titleGroup is an object (not an array)', function test() {
+  it('should work when titleGroup is an object (not an array)', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {
@@ -94,7 +94,7 @@ describe('collectionobject record title', function suite() {
     title(data).should.equal('1-234 – Primary Title');
   });
 
-  it('should work when titleGroup is not present', function test() {
+  it('should work when titleGroup is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_common': {
@@ -107,12 +107,12 @@ describe('collectionobject record title', function suite() {
     title(data).should.equal('1-234');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:collectionobjects_extension': {

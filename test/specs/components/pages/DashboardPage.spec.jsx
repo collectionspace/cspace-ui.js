@@ -13,34 +13,37 @@ const context = {
   config,
 };
 
-describe('DashboardPage', function suite() {
-  it('should render as a div', function test() {
+describe('DashboardPage', () => {
+  it('should render as a div', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <DashboardPage />, context);
+      <DashboardPage />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.type.should.equal('div');
   });
 
-  it('should render a search panel', function test() {
+  it('should render a search panel', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <DashboardPage />, context);
+      <DashboardPage />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     findWithType(result, SearchPanelContainer).should.not.equal(null);
   });
 
-  it('should update the search descriptor when it is changed by the search panel', function test() {
+  it('should update the search descriptor when it is changed by the search panel', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <DashboardPage />, context);
+      <DashboardPage />, context,
+    );
 
     let result;
     let searchPanel;

@@ -8,7 +8,7 @@ chai.should();
 
 const invocables = ['report', 'batch'];
 
-describe('RunButton', function suite() {
+describe('RunButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -21,7 +21,8 @@ describe('RunButton', function suite() {
         <RunButton
           isRunnable={invocables.includes(recordType)}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
@@ -34,7 +35,8 @@ describe('RunButton', function suite() {
         <RunButton
           isRunnable={invocables.includes(recordType)}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     /* eslint-disable */
     chai.expect(this.container.firstElementChild).to.not.exist;

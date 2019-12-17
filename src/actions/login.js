@@ -20,7 +20,7 @@ import {
   LOGIN_REJECTED,
 } from '../constants/actionCodes';
 
-export const resetLogin = username => ({
+export const resetLogin = (username) => ({
   type: RESET_LOGIN,
   meta: {
     username,
@@ -38,12 +38,18 @@ const renewAuth = (config, username, password) => (dispatch) => {
 
         return session.logout()
           // TODO: Use .finally when it's supported in all browsers.
-          .then(() => Promise.reject({
-            code: ERR_WRONG_TENANT,
-          }))
-          .catch(() => Promise.reject({
-            code: ERR_WRONG_TENANT,
-          }));
+          .then(() => {
+            const error = new Error();
+            error.code = ERR_WRONG_TENANT;
+
+            return Promise.reject(error);
+          })
+          .catch(() => {
+            const error = new Error();
+            error.code = ERR_WRONG_TENANT;
+
+            return Promise.reject(error);
+          });
       }
 
       dispatch(setSession(session));
@@ -82,10 +88,11 @@ const renewAuth = (config, username, password) => (dispatch) => {
         },
       });
 
-      return Promise.reject({
-        code,
-        error,
-      });
+      const wrapper = new Error();
+      wrapper.code = code;
+      wrapper.error = error;
+
+      return Promise.reject(wrapper);
     });
 };
 
@@ -111,7 +118,7 @@ export const login = (config, username, password) => (dispatch, getState) => {
         username,
       },
     }))
-    .catch(error => dispatch({
+    .catch((error) => dispatch({
       type: LOGIN_REJECTED,
       payload: error,
       meta: {

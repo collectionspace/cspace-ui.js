@@ -38,7 +38,7 @@ const handleAdvancedSearchConditionChange = (state, action) => {
 
   nextState = nextState.setIn(
     ['searchCond', recordType],
-    clearAdvancedSearchConditionValues(condition)
+    clearAdvancedSearchConditionValues(condition),
   );
 
   return nextState;
@@ -77,7 +77,7 @@ export default (state = Immutable.Map(), action) => {
       return (action.payload || Immutable.Map());
     case COLLAPSE_PANEL:
       return state.setIn(
-        ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload
+        ['panels', action.meta.recordType, action.meta.name, 'collapsed'], action.payload,
       );
     case SET_ADMIN_TAB:
       return state.set('adminTab', action.payload);
@@ -85,25 +85,25 @@ export default (state = Immutable.Map(), action) => {
       return state.set('toolTab', action.payload);
     case SET_RECORD_BROWSER_NAV_BAR_ITEMS:
       return state.setIn(
-        ['recordBrowserNavBarItems', action.meta.recordType], action.payload
+        ['recordBrowserNavBarItems', action.meta.recordType], action.payload,
       );
     case SET_SEARCH_PAGE_RECORD_TYPE:
       return state.setIn(['searchPage', 'recordType'], action.payload);
     case SET_SEARCH_PAGE_VOCABULARY:
       return state.setIn(
         ['searchPage', 'vocabulary', state.getIn(['searchPage', 'recordType'])],
-        action.payload
+        action.payload,
       );
     case SET_QUICK_SEARCH_RECORD_TYPE:
       return state.setIn(['quickSearch', 'recordType'], action.payload);
     case SET_QUICK_SEARCH_VOCABULARY:
       return state.setIn(
         ['quickSearch', 'vocabulary', state.getIn(['quickSearch', 'recordType'])],
-        action.payload
+        action.payload,
       );
     case SET_SEARCH_PANEL_PAGE_SIZE:
       return state.setIn(
-        ['panels', action.meta.recordType, action.meta.name, 'pageSize'], action.payload
+        ['panels', action.meta.recordType, action.meta.name, 'pageSize'], action.payload,
       );
     case SET_SEARCH_RESULT_PAGE_PAGE_SIZE:
       return state.set('searchResultPagePageSize', action.payload);
@@ -127,54 +127,39 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getAdvancedSearchBooleanOp = state =>
-  state.get('advancedSearchBooleanOp');
+export const getAdvancedSearchBooleanOp = (state) => state.get('advancedSearchBooleanOp');
 
-export const getSearchCondition = (state, recordType) =>
-  state.getIn(['searchCond', recordType]);
+export const getSearchCondition = (state, recordType) => state.getIn(['searchCond', recordType]);
 
-export const getSearchPageRecordType = state =>
-  state.getIn(['searchPage', 'recordType']);
+export const getSearchPageRecordType = (state) => state.getIn(['searchPage', 'recordType']);
 
-export const getSearchPageVocabulary = (state, recordType) =>
-  state.getIn(['searchPage', 'vocabulary', recordType]);
+export const getSearchPageVocabulary = (state, recordType) => state.getIn(['searchPage', 'vocabulary', recordType]);
 
-export const getQuickSearchRecordType = state =>
-  state.getIn(['quickSearch', 'recordType']);
+export const getQuickSearchRecordType = (state) => state.getIn(['quickSearch', 'recordType']);
 
-export const getQuickSearchVocabulary = (state, recordType) =>
-  state.getIn(['quickSearch', 'vocabulary', recordType]);
+export const getQuickSearchVocabulary = (state, recordType) => state.getIn(['quickSearch', 'vocabulary', recordType]);
 
-export const getSearchPanelPageSize = (state, recordType, name) =>
-  state.getIn(['panels', recordType, name, 'pageSize']);
+export const getSearchPanelPageSize = (state, recordType, name) => state.getIn(['panels', recordType, name, 'pageSize']);
 
-export const getSearchResultPagePageSize = state =>
-  state.get('searchResultPagePageSize');
+export const getSearchResultPagePageSize = (state) => state.get('searchResultPagePageSize');
 
-export const getSearchToSelectPageSize = state =>
-  state.get('searchToSelectPageSize');
+export const getSearchToSelectPageSize = (state) => state.get('searchToSelectPageSize');
 
-export const isPanelCollapsed = (state, recordType, name) =>
-  state.getIn(['panels', recordType, name, 'collapsed']);
+export const isPanelCollapsed = (state, recordType, name) => state.getIn(['panels', recordType, name, 'collapsed']);
 
-export const getRecordBrowserNavBarItems = (state, recordType) =>
-  state.getIn(['recordBrowserNavBarItems', recordType]);
+export const getRecordBrowserNavBarItems = (state, recordType) => state.getIn(['recordBrowserNavBarItems', recordType]);
 
-export const getForm = (state, recordType) =>
-  state.getIn(['form', recordType]);
+export const getForm = (state, recordType) => state.getIn(['form', recordType]);
 
-export const getUploadType = state =>
-  state.get('uploadType');
+export const getUploadType = (state) => state.get('uploadType');
 
-export const getAdminTab = state =>
-  state.get('adminTab');
+export const getAdminTab = (state) => state.get('adminTab');
 
-export const getToolTab = state =>
-  state.get('toolTab');
+export const getToolTab = (state) => state.get('toolTab');
 
-export const isRecordSidebarOpen = state => state.get('recordSidebarOpen');
+export const isRecordSidebarOpen = (state) => state.get('recordSidebarOpen');
 
-export const isSearchResultSidebarOpen = state => state.get('searchResultSidebarOpen');
+export const isSearchResultSidebarOpen = (state) => state.get('searchResultSidebarOpen');
 
 export const getStickyFields = (state, recordType) => {
   if (typeof recordType === 'undefined') {

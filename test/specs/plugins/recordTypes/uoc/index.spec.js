@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('uoc record plugin', function suite() {
+describe('uoc record plugin', () => {
   const config = {};
   const uocRecordTypePlugin = uocRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = uocRecordTypePlugin(configContext);
 
     const {

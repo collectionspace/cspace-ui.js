@@ -2,8 +2,8 @@ import optionsList from '../../../../../src/plugins/recordTypes/exhibition/optio
 
 chai.should();
 
-describe('exhibition record optionLists', function suite() {
-  it('should contain properties values and messages', function test() {
+describe('exhibition record optionLists', () => {
+  it('should contain properties values and messages', () => {
     optionsList.should.be.an('object');
 
     Object.keys(optionsList).forEach((option) => {

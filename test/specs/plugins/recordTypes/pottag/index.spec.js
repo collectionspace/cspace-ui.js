@@ -3,16 +3,16 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('pottag record plugin', function suite() {
+describe('pottag record plugin', () => {
   const config = {};
   const pottagRecordTypePlugin = pottagRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = pottagRecordTypePlugin(configContext);
 
     const {
-//      optionLists,
+      //      optionLists,
       recordTypes,
     } = pluginConfigContribution;
 

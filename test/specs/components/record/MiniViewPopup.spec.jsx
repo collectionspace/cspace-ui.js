@@ -5,8 +5,8 @@ import { Popup } from 'cspace-layout';
 import MiniViewPopup from '../../../../src/components/record/MiniViewPopup';
 import MiniViewContainer from '../../../../src/containers/record/MiniViewContainer';
 
-describe('MiniViewPopup', function suite() {
-  it('should render a Popup containing a MiniView', function test() {
+describe('MiniViewPopup', () => {
+  it('should render a Popup containing a MiniView', () => {
     const shallowRenderer = createRenderer();
 
     const result = shallowRenderer.render(<MiniViewPopup />);

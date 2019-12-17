@@ -14,7 +14,7 @@ import ConfirmRecordUnrelateModal from '../../../../src/components/record/Confir
 import UnrelateButton from '../../../../src/components/record/UnrelateButton';
 import SelectBar from '../../../../src/components/search/SelectBar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -70,12 +70,12 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe('RelatedRecordPanel', function suite() {
+describe('RelatedRecordPanel', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render a search panel', function test() {
+  it('should render a search panel', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -93,7 +93,8 @@ describe('RelatedRecordPanel', function suite() {
         relatedRecordType={relatedRecordType}
         recordRelationUpdatedTimestamp={recordRelationUpdatedTimestamp}
         initialSort={sort}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -115,7 +116,7 @@ describe('RelatedRecordPanel', function suite() {
     }));
   });
 
-  it('should render nothing if list permission is not present for the related record type', function test() {
+  it('should render nothing if list permission is not present for the related record type', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'intake';
@@ -131,14 +132,15 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType={relatedRecordType}
         recordRelationUpdatedTimestamp={recordRelationUpdatedTimestamp}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should render a select bar in the panel header if showCheckboxColumn is true', function test() {
+  it('should render a select bar in the panel header if showCheckboxColumn is true', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -154,7 +156,8 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({});
@@ -162,7 +165,7 @@ describe('RelatedRecordPanel', function suite() {
     findWithType(header, SelectBar).should.not.equal(null);
   });
 
-  it('should not render a select bar in the panel header if showCheckboxColumn is false', function test() {
+  it('should not render a select bar in the panel header if showCheckboxColumn is false', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -177,7 +180,8 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType={relatedRecordType}
         showCheckboxColumn={false}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({});
@@ -185,7 +189,7 @@ describe('RelatedRecordPanel', function suite() {
     findAllWithType(header, SelectBar).length.should.equal(0);
   });
 
-  it('should render nothing if the record data does not contain updatedAt', function test() {
+  it('should render nothing if the record data does not contain updatedAt', () => {
     const recordType = 'collectionobject';
 
     const incompleteData = Immutable.fromJS({
@@ -202,14 +206,15 @@ describe('RelatedRecordPanel', function suite() {
         recordData={incompleteData}
         recordType={recordType}
         relatedRecordType="group"
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).to.equal(null);
   });
 
-  it('should rerender with the new search descriptor when it is changed within the search panel', function test() {
+  it('should rerender with the new search descriptor when it is changed within the search panel', () => {
     const recordType = 'collectionobject';
 
     const shallowRenderer = createRenderer();
@@ -220,7 +225,8 @@ describe('RelatedRecordPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         relatedRecordType="group"
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const newSearchDescriptor = Immutable.fromJS({ foo: 'bar', seqID: 'seq1234' });
@@ -232,7 +238,7 @@ describe('RelatedRecordPanel', function suite() {
     newResult.props.searchDescriptor.should.equal(newSearchDescriptor);
   });
 
-  it('should rerender with a new search descriptor when a new csid is supplied via props', function test() {
+  it('should rerender with a new search descriptor when a new csid is supplied via props', () => {
     const recordType = 'collectionobject';
     const csid = '1234';
 
@@ -245,7 +251,8 @@ describe('RelatedRecordPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         relatedRecordType="group"
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -260,14 +267,15 @@ describe('RelatedRecordPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         relatedRecordType="group"
-      />);
+      />,
+    );
 
     const newResult = shallowRenderer.getRenderOutput();
 
     newResult.props.searchDescriptor.getIn(['searchQuery', 'rel']).should.equal(newCsid);
   });
 
-  it('should maintain the page number, size, and sort when only recordRelationUpdatedTimestamp is changed', function test() {
+  it('should maintain the page number, size, and sort when only recordRelationUpdatedTimestamp is changed', () => {
     const recordType = 'collectionobject';
     const csid = '1234';
 
@@ -280,7 +288,8 @@ describe('RelatedRecordPanel', function suite() {
         recordData={recordData}
         recordType={recordType}
         relatedRecordType="group"
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -302,7 +311,8 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType="group"
         recordRelationUpdatedTimestamp="2017-03-27T17:56.03.000Z"
-      />);
+      />,
+    );
 
     const newResult = shallowRenderer.getRenderOutput();
     const searchQuery = newResult.props.searchDescriptor.get('searchQuery');
@@ -312,7 +322,7 @@ describe('RelatedRecordPanel', function suite() {
     searchQuery.get('sort').should.equal('sortfield');
   });
 
-  it('should render checkboxes as checked for selected items', function test() {
+  it('should render checkboxes as checked for selected items', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -333,7 +343,8 @@ describe('RelatedRecordPanel', function suite() {
         relatedRecordType={relatedRecordType}
         selectedItems={selectedItems}
         showCheckboxColumn
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
 
@@ -348,7 +359,7 @@ describe('RelatedRecordPanel', function suite() {
     }).props.value.should.equal(false);
   });
 
-  it('should not render checkboxes for locked items', function test() {
+  it('should not render checkboxes for locked items', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -363,7 +374,8 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
 
@@ -386,15 +398,16 @@ describe('RelatedRecordPanel', function suite() {
     let handleItemSelectChangeIndex = null;
     let handleItemSelectChangeChecked = null;
 
-    const handleItemSelectChange =
-      (configArg, nameArg, searchDescriptorArg, listTypeArg, indexArg, checkedArg) => {
-        handleItemSelectChangeConfig = configArg;
-        handleItemSelectChangeName = nameArg;
-        handleItemSelectChangeSearchDescriptor = searchDescriptorArg;
-        handleItemSelectChangeListType = listTypeArg;
-        handleItemSelectChangeIndex = indexArg;
-        handleItemSelectChangeChecked = checkedArg;
-      };
+    const handleItemSelectChange = (
+      configArg, nameArg, searchDescriptorArg, listTypeArg, indexArg, checkedArg,
+    ) => {
+      handleItemSelectChangeConfig = configArg;
+      handleItemSelectChangeName = nameArg;
+      handleItemSelectChangeSearchDescriptor = searchDescriptorArg;
+      handleItemSelectChangeListType = listTypeArg;
+      handleItemSelectChangeIndex = indexArg;
+      handleItemSelectChangeChecked = checkedArg;
+    };
 
     const shallowRenderer = createRenderer();
 
@@ -409,7 +422,8 @@ describe('RelatedRecordPanel', function suite() {
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
         onItemSelectChange={handleItemSelectChange}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
 
@@ -453,7 +467,8 @@ describe('RelatedRecordPanel', function suite() {
         recordType={recordType}
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
 
@@ -468,9 +483,8 @@ describe('RelatedRecordPanel', function suite() {
       clickPropagated = true;
     };
 
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
-    render(<div onClick={handleClick}>{checkbox}</div>, this.container);
-    /* eslint-enable jsx-a11y/no-static-element-interactions */
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    render(<div role="presentation" onClick={handleClick}>{checkbox}</div>, this.container);
 
     const checkboxNode = this.container.querySelector('input');
 
@@ -479,7 +493,7 @@ describe('RelatedRecordPanel', function suite() {
     clickPropagated.should.equal(false);
   });
 
-  it('should call openModal when the unrelate button is clicked', function test() {
+  it('should call openModal when the unrelate button is clicked', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -524,7 +538,8 @@ describe('RelatedRecordPanel', function suite() {
         selectedItems={selectedItems}
         showCheckboxColumn
         openModal={openModal}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });
@@ -538,7 +553,7 @@ describe('RelatedRecordPanel', function suite() {
     openModalName.should.equal(confirmUnrelateModalName);
   });
 
-  it('should call unrelateRecords followed by clearSelected, onUnrelated, and closeModal when the confirm unrelate button is clicked', function test() {
+  it('should call unrelateRecords followed by clearSelected, onUnrelated, and closeModal when the confirm unrelate button is clicked', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -612,7 +627,8 @@ describe('RelatedRecordPanel', function suite() {
         unrelateRecords={unrelateRecords}
         onUnrelated={handleUnrelated}
         closeModal={closeModal}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });
@@ -647,7 +663,7 @@ describe('RelatedRecordPanel', function suite() {
     });
   });
 
-  it('should set unrelate modal isUnrelating prop to true while unrelating is in progress', function test() {
+  it('should set unrelate modal isUnrelating prop to true while unrelating is in progress', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -692,7 +708,8 @@ describe('RelatedRecordPanel', function suite() {
         selectedItems={selectedItems}
         showCheckboxColumn
         unrelateRecords={unrelateRecords}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });
@@ -718,7 +735,8 @@ describe('RelatedRecordPanel', function suite() {
             selectedItems={selectedItems}
             showCheckboxColumn
             unrelateRecords={unrelateRecords}
-          />);
+          />,
+        );
 
         const nextSearchPanel = shallowRenderer.getRenderOutput();
         const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
@@ -729,36 +747,37 @@ describe('RelatedRecordPanel', function suite() {
         resolve();
       }, 100);
     })
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
         // Re-render.
 
-        shallowRenderer.render(
-          <RelatedRecordPanel
-            config={config}
-            csid={csid}
-            name={panelName}
-            perms={perms}
-            recordData={recordData}
-            recordType={recordType}
-            relatedRecordType={relatedRecordType}
-            selectedItems={selectedItems}
-            showCheckboxColumn
-            unrelateRecords={unrelateRecords}
-          />);
+          shallowRenderer.render(
+            <RelatedRecordPanel
+              config={config}
+              csid={csid}
+              name={panelName}
+              perms={perms}
+              recordData={recordData}
+              recordType={recordType}
+              relatedRecordType={relatedRecordType}
+              selectedItems={selectedItems}
+              showCheckboxColumn
+              unrelateRecords={unrelateRecords}
+            />,
+          );
 
-        const nextSearchPanel = shallowRenderer.getRenderOutput();
-        const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
-        const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
+          const nextSearchPanel = shallowRenderer.getRenderOutput();
+          const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
+          const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
 
-        nextConfirmUnrelateModal.props.isUnrelating.should.equal(false);
+          nextConfirmUnrelateModal.props.isUnrelating.should.equal(false);
 
-        resolve();
-      }, 300);
-    }));
+          resolve();
+        }, 300);
+      }));
   });
 
-  it('should set unrelate modal isUnrelating prop back to false if unrelating fails', function test() {
+  it('should set unrelate modal isUnrelating prop back to false if unrelating fails', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -803,7 +822,8 @@ describe('RelatedRecordPanel', function suite() {
         selectedItems={selectedItems}
         showCheckboxColumn
         unrelateRecords={unrelateRecords}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });
@@ -829,7 +849,8 @@ describe('RelatedRecordPanel', function suite() {
             selectedItems={selectedItems}
             showCheckboxColumn
             unrelateRecords={unrelateRecords}
-          />);
+          />,
+        );
 
         const nextSearchPanel = shallowRenderer.getRenderOutput();
         const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
@@ -840,36 +861,37 @@ describe('RelatedRecordPanel', function suite() {
         resolve();
       }, 100);
     })
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
         // Re-render.
 
-        shallowRenderer.render(
-          <RelatedRecordPanel
-            config={config}
-            csid={csid}
-            name={panelName}
-            perms={perms}
-            recordData={recordData}
-            recordType={recordType}
-            relatedRecordType={relatedRecordType}
-            selectedItems={selectedItems}
-            showCheckboxColumn
-            unrelateRecords={unrelateRecords}
-          />);
+          shallowRenderer.render(
+            <RelatedRecordPanel
+              config={config}
+              csid={csid}
+              name={panelName}
+              perms={perms}
+              recordData={recordData}
+              recordType={recordType}
+              relatedRecordType={relatedRecordType}
+              selectedItems={selectedItems}
+              showCheckboxColumn
+              unrelateRecords={unrelateRecords}
+            />,
+          );
 
-        const nextSearchPanel = shallowRenderer.getRenderOutput();
-        const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
-        const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
+          const nextSearchPanel = shallowRenderer.getRenderOutput();
+          const nextHeader = nextSearchPanel.props.renderTableHeader({ searchResult });
+          const nextConfirmUnrelateModal = findWithType(nextHeader, ConfirmRecordUnrelateModal);
 
-        nextConfirmUnrelateModal.props.isUnrelating.should.equal(false);
+          nextConfirmUnrelateModal.props.isUnrelating.should.equal(false);
 
-        resolve();
-      }, 300);
-    }));
+          resolve();
+        }, 300);
+      }));
   });
 
-  it('should call closeModal when the cancel button is clicked in the confirm unrelate modal', function test() {
+  it('should call closeModal when the cancel button is clicked in the confirm unrelate modal', () => {
     const csid = '1234';
     const recordType = 'collectionobject';
     const relatedRecordType = 'group';
@@ -914,7 +936,8 @@ describe('RelatedRecordPanel', function suite() {
         selectedItems={selectedItems}
         showCheckboxColumn
         closeModal={closeModal}
-      />);
+      />,
+    );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });

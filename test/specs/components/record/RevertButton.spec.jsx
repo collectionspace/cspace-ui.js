@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RevertButton from '../../../../src/components/record/RevertButton';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('RevertButton', function suite() {
+describe('RevertButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('RevertButton', function suite() {
     render(
       <IntlProvider locale="en">
         <RevertButton />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('BUTTON');
   });
@@ -26,7 +27,8 @@ describe('RevertButton', function suite() {
     render(
       <IntlProvider locale="en">
         <RevertButton readOnly />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -37,7 +39,8 @@ describe('RevertButton', function suite() {
     render(
       <IntlProvider locale="en">
         <RevertButton label={label} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.textContent.should.equal(label);
   });
@@ -46,7 +49,8 @@ describe('RevertButton', function suite() {
     render(
       <IntlProvider locale="en">
         <RevertButton isModified={false} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.disabled.should.equal(true);
   });
@@ -55,7 +59,8 @@ describe('RevertButton', function suite() {
     render(
       <IntlProvider locale="en">
         <RevertButton isSavePending />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.disabled.should.equal(true);
   });

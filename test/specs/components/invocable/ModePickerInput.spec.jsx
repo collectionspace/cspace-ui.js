@@ -5,8 +5,8 @@ import OptionPickerInput from '../../../../src/components/record/OptionPickerInp
 
 chai.should();
 
-describe('ModePickerInput', function suite() {
-  it('should render as an OptionPickerInput with an option for each mode', function test() {
+describe('ModePickerInput', () => {
+  it('should render as an OptionPickerInput with an option for each mode', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<ModePickerInput modes={['single', 'list']} />);

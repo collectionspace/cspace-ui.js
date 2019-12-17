@@ -196,6 +196,7 @@ export default class PasswordResetRequestForm extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <p>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="email">
             <FormattedMessage {...messages.prompt} />
           </label>

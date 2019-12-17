@@ -7,8 +7,8 @@ import RecordSearchInput from '../../../../src/components/search/RecordSearchInp
 
 chai.should();
 
-describe('InvocationTargetInput', function suite() {
-  it('should render as a RecordSearchInput if mode is single, group, or list', function test() {
+describe('InvocationTargetInput', () => {
+  it('should render as a RecordSearchInput if mode is single, group, or list', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<InvocationTargetInput mode="single" />);
@@ -18,7 +18,7 @@ describe('InvocationTargetInput', function suite() {
     result.type.should.equal(RecordSearchInput);
   });
 
-  it('should render an empty div if mode is nocontext', function test() {
+  it('should render an empty div if mode is nocontext', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<InvocationTargetInput mode="nocontext" />);
@@ -28,7 +28,7 @@ describe('InvocationTargetInput', function suite() {
     result.type.should.equal('div');
   });
 
-  it('should vary the label based on the mode', function test() {
+  it('should vary the label based on the mode', () => {
     const shallowRenderer = createRenderer();
 
     let result;

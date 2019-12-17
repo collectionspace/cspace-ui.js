@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/group/messages';
 
 chai.should();
 
-describe('group record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('group record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((groupName) => {

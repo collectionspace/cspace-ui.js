@@ -14,7 +14,14 @@ const {
 const propTypes = {
   csid: PropTypes.string,
   intl: intlShape,
-  messages: PropTypes.object,
+  messages: PropTypes.shape({
+    parent: PropTypes.object,
+    parentName: PropTypes.object,
+    parentType: PropTypes.object,
+    children: PropTypes.object,
+    childName: PropTypes.object,
+    childType: PropTypes.object,
+  }),
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   value: PropTypes.instanceOf(Immutable.Map),
@@ -48,7 +55,11 @@ export class BaseTypedHierarchyEditor extends Component {
   }
 
   filterMatch(item) {
-    return (item.csid !== this.props.csid);
+    const {
+      csid,
+    } = this.props;
+
+    return (item.csid !== csid);
   }
 
   handleAddChild() {

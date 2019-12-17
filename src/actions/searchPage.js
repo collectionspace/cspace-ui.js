@@ -20,12 +20,12 @@ export const clearSearchPage = () => ({
   type: CLEAR_SEARCH_PAGE,
 });
 
-export const setSearchPageKeyword = value => ({
+export const setSearchPageKeyword = (value) => ({
   type: SET_SEARCH_PAGE_KEYWORD,
   payload: value,
 });
 
-export const setSearchPageAdvanced = condition => (dispatch, getState) => {
+export const setSearchPageAdvanced = (condition) => (dispatch, getState) => {
   const recordType = getSearchPageRecordType(getState());
 
   dispatch({

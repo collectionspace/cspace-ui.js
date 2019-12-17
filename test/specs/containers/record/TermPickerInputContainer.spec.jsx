@@ -8,14 +8,14 @@ import TermPickerInputContainer from '../../../../src/containers/record/TermPick
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
-} from '../../../../src/actions/vocabulary';
+} from '../../../../src/constants/actionCodes';
 
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
-describe('TermPickerInputContainer', function suite() {
-  it('should set props on TermPickerInput', function test() {
+describe('TermPickerInputContainer', () => {
+  it('should set props on TermPickerInput', () => {
     const vocabularyName = 'languages';
 
     const vocabulary = {
@@ -47,7 +47,8 @@ describe('TermPickerInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer source={vocabularyName} />, context);
+      <TermPickerInputContainer source={vocabularyName} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -57,7 +58,7 @@ describe('TermPickerInputContainer', function suite() {
     result.props.should.have.property('readTerms').that.is.a('function');
   });
 
-  it('should set terms to null if the source vocabulary does not exist', function test() {
+  it('should set terms to null if the source vocabulary does not exist', () => {
     const vocabularyName = 'foobar';
 
     const store = mockStore({
@@ -72,14 +73,15 @@ describe('TermPickerInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer source={vocabularyName} />, context);
+      <TermPickerInputContainer source={vocabularyName} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     result.props.should.have.property('terms', null);
   });
 
-  it('should connect readTerms to readVocabularyItems action creator', function test() {
+  it('should connect readTerms to readVocabularyItems action creator', () => {
     const vocabularyName = 'languages';
 
     const vocabulary = {
@@ -103,7 +105,8 @@ describe('TermPickerInputContainer', function suite() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer source={vocabularyName} />, context);
+      <TermPickerInputContainer source={vocabularyName} />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

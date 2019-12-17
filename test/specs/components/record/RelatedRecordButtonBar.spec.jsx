@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RelatedRecordButtonBar from '../../../../src/components/record/RelatedRecordButtonBar';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('RelatedRecordButtonBar', function suite() {
+describe('RelatedRecordButtonBar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('RelatedRecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RelatedRecordButtonBar />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -26,7 +27,8 @@ describe('RelatedRecordButtonBar', function suite() {
     render(
       <IntlProvider locale="en">
         <RelatedRecordButtonBar isRelatable={false} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });

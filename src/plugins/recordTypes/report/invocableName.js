@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   // Given record data, return the name that can be used to look up configuration (including, for
   // example, forms for entering parameters).
 

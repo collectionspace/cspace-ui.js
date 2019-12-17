@@ -14,12 +14,12 @@ import reducer, {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('ID generator reducer', function suite() {
-  it('should have empty immutable initial state', function test() {
+describe('ID generator reducer', () => {
+  it('should have empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });
 
-  it('should handle ADD_ID_GENERATORS', function test() {
+  it('should handle ADD_ID_GENERATORS', () => {
     const idGenerators = {
       accession: {
         csid: '9dd92952-c384-44dc-a736-95e435c1759c',
@@ -73,7 +73,7 @@ describe('ID generator reducer', function suite() {
     get(newState, 'intake').should.equal(Immutable.fromJS(moreIdGenerators.intake));
   });
 
-  it('should handle READ_ID_GENERATOR_FULFILLED', function test() {
+  it('should handle READ_ID_GENERATOR_FULFILLED', () => {
     const initialState = Immutable.fromJS({
       accession: {
         csid: '9dd92952-c384-44dc-a736-95e435c1759c',
@@ -112,8 +112,8 @@ describe('ID generator reducer', function suite() {
     state.should.equal(initialState.setIn(['accession', 'sample'], '2016.1.23'));
   });
 
-  context('on LOGOUT_FULFILLED', function context() {
-    it('should clear samples', function test() {
+  context('on LOGOUT_FULFILLED', () => {
+    it('should clear samples', () => {
       const initialState = Immutable.fromJS({
         accession: {
           csid: '9dd92952-c384-44dc-a736-95e435c1759c',

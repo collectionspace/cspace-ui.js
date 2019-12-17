@@ -13,17 +13,17 @@ import reducer, {
   getKeyword,
 } from '../../../src/reducers/searchPage';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
 
-describe('search page reducer', function suite() {
-  it('should have an empty immutable initial state', function test() {
+describe('search page reducer', () => {
+  it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.equal(Immutable.Map({}));
   });
 
-  it('should handle SET_SEARCH_PAGE_ADVANCED', function test() {
+  it('should handle SET_SEARCH_PAGE_ADVANCED', () => {
     const advancedSearchCondition = Immutable.Map({
       op: 'eq',
       path: '',
@@ -42,7 +42,7 @@ describe('search page reducer', function suite() {
     getAdvanced(state).should.equal(advancedSearchCondition);
   });
 
-  it('should handle SET_SEARCH_PAGE_KEYWORD', function test() {
+  it('should handle SET_SEARCH_PAGE_KEYWORD', () => {
     const keyword = 'some stuff';
 
     const state = reducer(Immutable.Map(), {
@@ -57,8 +57,8 @@ describe('search page reducer', function suite() {
     getKeyword(state).should.equal(keyword);
   });
 
-  context('on SET_SEARCH_PAGE_RECORD_TYPE', function context() {
-    it('should delete advanced search condition if the record type has changed', function test() {
+  context('on SET_SEARCH_PAGE_RECORD_TYPE', () => {
+    it('should delete advanced search condition if the record type has changed', () => {
       const state = reducer(Immutable.Map({
         advanced: Immutable.Map(),
         keyword: 'foo',
@@ -78,7 +78,7 @@ describe('search page reducer', function suite() {
     });
   });
 
-  it('should handle CLEAR_SEARCH_PAGE', function test() {
+  it('should handle CLEAR_SEARCH_PAGE', () => {
     const state = reducer(Immutable.Map({
       advanced: Immutable.Map(),
       keyword: 'foo',

@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/loanout/messages';
 
 chai.should();
 
-describe('loan-out record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('loan-out record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((loanOutName) => {

@@ -25,7 +25,9 @@ const tabs = [
 ];
 
 const propTypes = {
-  match: PropTypes.object,
+  match: PropTypes.shape({
+    url: PropTypes.string,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredTab: PropTypes.string,
 };
@@ -39,7 +41,7 @@ export default function ToolPage(props) {
 
   const basename = match.url;
   const title = <FormattedMessage {...messages.title} />;
-  const permittedTabs = tabs.filter(tab => canList(tab, perms));
+  const permittedTabs = tabs.filter((tab) => canList(tab, perms));
 
   if (permittedTabs.length === 0) {
     return null;

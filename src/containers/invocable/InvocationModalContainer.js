@@ -25,14 +25,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
   return {
-    readRecord: () =>
-      dispatch(readRecord(config, recordTypeConfig, undefined, csid)),
-    searchCsid: (...args) =>
-      dispatch(searchCsid(...args)),
+    readRecord: () => dispatch(readRecord(config, recordTypeConfig, undefined, csid)),
+    searchCsid: (...args) => dispatch(searchCsid(...args)),
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(InvocationModal);

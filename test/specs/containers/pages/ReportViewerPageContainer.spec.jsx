@@ -20,11 +20,9 @@ const store = mockStore({
   user: Immutable.Map(),
 });
 
-describe('ReportViewerPageContainer', function suite() {
-  before(() =>
-    store.dispatch(configureCSpace())
-      .then(() => store.clearActions())
-  );
+describe('ReportViewerPageContainer', () => {
+  before(() => store.dispatch(configureCSpace())
+    .then(() => store.clearActions()));
 
   beforeEach(() => {
     moxios.install();
@@ -35,7 +33,7 @@ describe('ReportViewerPageContainer', function suite() {
     moxios.uninstall();
   });
 
-  it('should set props on ReportViewerPage', function test() {
+  it('should set props on ReportViewerPage', () => {
     const context = { store };
 
     const shallowRenderer = createRenderer();
@@ -48,7 +46,7 @@ describe('ReportViewerPageContainer', function suite() {
     result.props.should.have.property('readContent').that.is.a('function');
   });
 
-  it('should connect readContent to an action that invokes the report', function test() {
+  it('should connect readContent to an action that invokes the report', () => {
     moxios.stubRequest(/./, {
       status: 200,
       response: {},

@@ -1,5 +1,3 @@
-/* global window */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -34,7 +32,9 @@ const getSearchDescriptor = (config, recordType) => {
 
 const propTypes = {
   color: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
   isRecordModified: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),

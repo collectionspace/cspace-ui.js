@@ -48,13 +48,15 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    messages: PropTypes.object,
+  }),
   dockTop: PropTypes.number,
   intl: intlShape,
   keywordValue: PropTypes.string,
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
-  advancedSearchCondition: PropTypes.object,
+  advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   recordTypeInputReadOnly: PropTypes.bool,
   recordTypeInputRootType: PropTypes.string,
@@ -199,9 +201,9 @@ export default class SearchForm extends Component {
     } = this.props;
 
     if (
-      !recordTypeValue ||
-      !recordTypes[recordTypeValue] ||
-      !recordTypes[recordTypeValue].vocabularies
+      !recordTypeValue
+      || !recordTypes[recordTypeValue]
+      || !recordTypes[recordTypeValue].vocabularies
     ) {
       return null;
     }

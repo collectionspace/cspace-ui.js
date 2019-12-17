@@ -9,7 +9,7 @@ import {
   getNotifications,
 } from '../../reducers';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   notifications: getNotifications(state),
 });
 

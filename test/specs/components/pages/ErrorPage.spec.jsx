@@ -10,7 +10,7 @@ import {
 
 chai.should();
 
-describe('ErrorPage', function suite() {
+describe('ErrorPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -23,7 +23,8 @@ describe('ErrorPage', function suite() {
     render(
       <IntlProvider locale="en">
         <ErrorPage error={error} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -41,7 +42,8 @@ describe('ErrorPage', function suite() {
     render(
       <IntlProvider locale="en">
         <ErrorPage error={error} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('p').textContent.should.equal('The record you\'re looking for doesn\'t seem to exist.');
   });
@@ -59,7 +61,8 @@ describe('ErrorPage', function suite() {
     render(
       <IntlProvider locale="en">
         <ErrorPage error={error} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('p').textContent.should.equal('You\'re not allowed to view this type of record.');
   });

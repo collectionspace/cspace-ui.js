@@ -9,7 +9,7 @@ import Immutable from 'immutable';
 import LoginModal from '../../../../src/components/login/LoginModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -19,7 +19,7 @@ const store = mockStore({
   login: Immutable.Map(),
 });
 
-describe('LoginModal', function suite() {
+describe('LoginModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -30,7 +30,8 @@ describe('LoginModal', function suite() {
         <StoreProvider store={store}>
           <LoginModal isOpen />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -43,7 +44,8 @@ describe('LoginModal', function suite() {
         <StoreProvider store={store}>
           <LoginModal isOpen={false} />
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);

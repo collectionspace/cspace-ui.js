@@ -3,15 +3,15 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('conservation record columns', function suite() {
+describe('conservation record columns', () => {
   const configContext = createConfigContext();
   const columns = createColumns(configContext);
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have conservation status column that is formatted as a refname display name', function test() {
+  it('should have conservation status column that is formatted as a refname display name', () => {
     const conservationStatusColumn = columns.default.status;
 
     conservationStatusColumn.should.have.property('formatValue').that.is.a('function');

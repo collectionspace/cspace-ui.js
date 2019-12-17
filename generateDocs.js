@@ -14,7 +14,7 @@ const jsonFile = require('jsonfile');
  * message documentation will be output as JSON, with double quoted strings, the resulting "\n"
  * escapes in the messages would make them less understandable.
  */
-const cleanMessage = message => message.replace(/\n\s*/g, ' ');
+const cleanMessage = (message) => message.replace(/\n\s*/g, ' ');
 
 /**
  * Generate documentation for react-intl messages. This must be done after the npm build script has
@@ -58,9 +58,13 @@ const generateMessagesDoc = () => {
   docFile.write('export default {');
 
   messages.forEach((message) => {
-    const id = message.id;
-    const desc = message.description;
-    const value = cleanMessage(message.defaultMessage);
+    const {
+      id,
+      defaultMessage,
+      description: desc,
+    } = message;
+
+    const value = cleanMessage(defaultMessage);
 
     docFile.write('\n');
 

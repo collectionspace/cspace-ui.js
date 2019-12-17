@@ -6,7 +6,7 @@ const getMessage = (error) => {
 
   const parts = [message, typeof data === 'string' ? data : null];
 
-  return parts.filter(part => !!part).join(': ');
+  return parts.filter((part) => !!part).join(': ');
 };
 
 export default (error) => {
@@ -17,5 +17,5 @@ export default (error) => {
 
   const parts = [errorMessage, internalErrorMessage];
 
-  return parts.filter(part => !!part).join(': ');
+  return parts.filter((part) => !!part).join(': ');
 };

@@ -2,7 +2,7 @@ import fields from './fields';
 import form from './form';
 import optionLists from './optionLists';
 
-export default () => configContext => ({
+export default () => (configContext) => ({
   optionLists,
   extensions: {
     dimension: {

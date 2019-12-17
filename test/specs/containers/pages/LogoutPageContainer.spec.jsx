@@ -8,8 +8,8 @@ chai.should();
 
 const mockStore = configureMockStore([]);
 
-describe('LogoutPageContainer', function suite() {
-  it('should set props on LogoutPage', function test() {
+describe('LogoutPageContainer', () => {
+  it('should set props on LogoutPage', () => {
     const history = {};
     const store = mockStore({});
     const context = { store };

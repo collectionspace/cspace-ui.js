@@ -4,7 +4,7 @@ import { createNewRecord } from '../../actions/record';
 import { getRecordData } from '../../reducers';
 import InvocationEditor from '../../components/invocable/InvocationEditor';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   paramData: getRecordData(state, ''),
 });
 
@@ -35,5 +35,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(InvocationEditor);

@@ -3,14 +3,20 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
-import SubrecordDetachButton from '../../components/record/SubrecordDetachButton';
+import SubrecordDetachButton from './SubrecordDetachButton';
 import { canRead, canCreate, canUpdate } from '../../helpers/permissionHelpers';
 import { isExistingRecord, isRecordImmutable } from '../../helpers/recordDataHelpers';
 import styles from '../../../styles/cspace-ui/SubrecordEditor.css';
 
 const propTypes = {
-  config: PropTypes.object,
-  subrecordConfig: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
+  subrecordConfig: PropTypes.shape({
+    recordType: PropTypes.string,
+    vocabulary: PropTypes.string,
+    csidField: PropTypes.arrayOf(PropTypes.string),
+  }),
   containerCsid: PropTypes.string,
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
@@ -73,9 +79,9 @@ export default class SubrecordEditor extends Component {
     }
 
     const subrecordReadOnly = (
-      readOnly ||
-      !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms)) ||
-      isRecordImmutable(data)
+      readOnly
+      || !(csid ? canUpdate(recordType, perms) : canCreate(recordType, perms))
+      || isRecordImmutable(data)
     );
 
     const detachButton = (showDetachButton && !readOnly && isExistingRecord(data))

@@ -6,9 +6,14 @@ import MiniView from './MiniView';
 import styles from '../../../styles/cspace-ui/MiniViewPopup.css';
 
 const propTypes = {
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...Popup.propTypes,
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...MiniView.propTypes,
-  style: PropTypes.object,
+  style: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])),
   domRef: PropTypes.func,
 };
 

@@ -4,11 +4,11 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('exhibition record title', function suite() {
+describe('exhibition record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should concat the exhibition number and the title', function test() {
+  it('should concat the exhibition number and the title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:exhibitions_common': {
@@ -21,7 +21,7 @@ describe('exhibition record title', function suite() {
     title(data).should.equal('EX2017.1 – Ancient Persia');
   });
 
-  it('should return the exhibition number when the title is empty', function test() {
+  it('should return the exhibition number when the title is empty', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:exhibitions_common': {
@@ -34,12 +34,12 @@ describe('exhibition record title', function suite() {
     title(data).should.equal('EX2017.1');
   });
 
-  it('should return empty string if no data is passed', function test() {
+  it('should return empty string if no data is passed', () => {
     title(null).should.equal('');
     title(undefined).should.equal('');
   });
 
-  it('should return empty string if the common part is not present', function test() {
+  it('should return empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       data: {
         'ns2:exhibitions_extension': {

@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }).isRequired,
 };
 
 export default class ConfigPage extends Component {
@@ -34,17 +36,25 @@ export default class ConfigPage extends Component {
   }
 
   componentWillUnmount() {
-    window.URL.revokeObjectURL(this.state.url);
+    const {
+      url,
+    } = this.state;
+
+    window.URL.revokeObjectURL(url);
   }
 
   render() {
+    const {
+      url,
+    } = this.state;
+
     return (
       <div>
         <p>
           UI configuration has been printed to the console.
         </p>
         <p>
-          <a href={this.state.url} download="cspace-ui-config.json">
+          <a href={url} download="cspace-ui-config.json">
             Save configuration as JSON
           </a>
         </p>

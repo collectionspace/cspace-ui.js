@@ -16,7 +16,9 @@ import styles from '../../../../styles/cspace-ui/BooleanConditionInput.css';
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   hasChildGroups: PropTypes.bool,
   inline: PropTypes.bool,
   name: PropTypes.string,
@@ -317,6 +319,7 @@ export default class BooleanConditionInput extends Component {
         : <span />;
 
       return (
+        // eslint-disable-next-line react/no-array-index-key
         <li key={index}>
           {operatorLabel}
           {inline ? ' ' : null}

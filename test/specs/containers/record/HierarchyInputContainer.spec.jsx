@@ -11,8 +11,8 @@ chai.should();
 
 const mockStore = configureMockStore();
 
-describe('HierarchyInputContainer', function suite() {
-  it('should set props on HierarchyInput', function test() {
+describe('HierarchyInputContainer', () => {
+  it('should set props on HierarchyInput', () => {
     const csid = '1234';
 
     const store = mockStore({
@@ -41,7 +41,8 @@ describe('HierarchyInputContainer', function suite() {
     shallowRenderer.render(
       <HierarchyInputContainer
         csid={csid}
-      />, context);
+      />, context,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

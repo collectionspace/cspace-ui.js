@@ -13,9 +13,15 @@ import styles from '../../../styles/cspace-ui/RelatedRecordBrowser.css';
 
 const propTypes = {
   cloneCsid: PropTypes.string,
-  config: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    state: PropTypes.object,
+  }),
   isSidebarOpen: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
@@ -109,10 +115,9 @@ export default class RelatedRecordBrowser extends Component {
         location,
       } = this.props;
 
-      const path =
-        [recordType, vocabulary, csid, relatedRecordType, preferredRelatedCsid]
-          .filter(part => !!part)
-          .join('/');
+      const path = [recordType, vocabulary, csid, relatedRecordType, preferredRelatedCsid]
+        .filter((part) => !!part)
+        .join('/');
 
       history.replace({
         pathname: `/record/${path}`,
@@ -131,10 +136,9 @@ export default class RelatedRecordBrowser extends Component {
       location,
     } = this.props;
 
-    const path =
-      [recordType, vocabulary, csid, relatedRecordType]
-        .filter(part => !!part)
-        .join('/');
+    const path = [recordType, vocabulary, csid, relatedRecordType]
+      .filter((part) => !!part)
+      .join('/');
 
     const query = {
       clone: relatedRecordCsid,
@@ -165,10 +169,9 @@ export default class RelatedRecordBrowser extends Component {
       relatedRecordType,
     } = this.props;
 
-    const path =
-      [recordType, vocabulary, csid, relatedRecordType, 'new']
-        .filter(part => !!part)
-        .join('/');
+    const path = [recordType, vocabulary, csid, relatedRecordType, 'new']
+      .filter((part) => !!part)
+      .join('/');
 
     history.replace({
       pathname: `/record/${path}`,
@@ -205,10 +208,9 @@ export default class RelatedRecordBrowser extends Component {
       setPreferredRelatedCsid(relatedRecordType, undefined);
     }
 
-    const path =
-      [recordType, vocabulary, csid, relatedRecordType]
-        .filter(part => !!part)
-        .join('/');
+    const path = [recordType, vocabulary, csid, relatedRecordType]
+      .filter((part) => !!part)
+      .join('/');
 
     history.replace({
       pathname: `/record/${path}`,
@@ -261,10 +263,9 @@ export default class RelatedRecordBrowser extends Component {
         relatedRecordType,
       } = this.props;
 
-      const path =
-        [recordType, vocabulary, csid, relatedRecordType, newRecordCsid]
-          .filter(part => !!part)
-          .join('/');
+      const path = [recordType, vocabulary, csid, relatedRecordType, newRecordCsid]
+        .filter((part) => !!part)
+        .join('/');
 
       history.replace({
         pathname: `/record/${path}`,
@@ -378,9 +379,9 @@ export default class RelatedRecordBrowser extends Component {
     const isCreatable = canCreate(relatedRecordType, perms);
 
     const isRelatable = (
-      workflowState !== 'locked' &&
-      canRelate(recordType, perms, config) &&
-      canRelate(relatedRecordType, perms, config)
+      workflowState !== 'locked'
+      && canRelate(recordType, perms, config)
+      && canRelate(relatedRecordType, perms, config)
     );
 
     const className = isSidebarOpen ? styles.normal : styles.full;

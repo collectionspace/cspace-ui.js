@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
+const propTypes = {
+  isPending: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  response: PropTypes.object,
+  error: PropTypes.shape({
+    message: PropTypes.string,
+  }),
+  onSuccess: PropTypes.func,
+};
+
 const messages = defineMessages({
   pending: {
     id: 'logoutIndicator.pending',
@@ -79,16 +89,11 @@ export default class LogoutIndicator extends Component {
 
   render() {
     return (
-      this.renderPending() ||
-      this.renderSuccess() ||
-      this.renderError()
+      this.renderPending()
+      || this.renderSuccess()
+      || this.renderError()
     );
   }
 }
 
-LogoutIndicator.propTypes = {
-  isPending: PropTypes.bool,
-  response: PropTypes.object,
-  error: PropTypes.object,
-  onSuccess: PropTypes.func,
-};
+LogoutIndicator.propTypes = propTypes;

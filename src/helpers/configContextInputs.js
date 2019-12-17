@@ -27,21 +27,21 @@ const {
 } = inputEnhancers;
 
 export const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputContainer));
-export const Button = inputComponents.Button;
+export const { Button } = inputComponents;
 export const CheckboxInput = withBooleanValue(CheckboxInputComponent);
-export const CompoundInput = inputComponents.CompoundInput;
+export const { CompoundInput } = inputComponents;
 export const DateInput = DateInputContainer;
 export const DateTimeInput = DateTimeInputContainer;
 export const HierarchyInput = withCsid(HierarchyInputContainer);
 export const IDGeneratorInput = IDGeneratorInputContainer;
 export const ObjectNameInput = repeatable(labelable(ObjectNameInputComponent));
-export const PasswordInput = inputComponents.PasswordInput;
+export const { PasswordInput } = inputComponents;
 export const PermissionsInput = labelable(PermissionsInputContainer);
 export const RolesInput = labelable(RolesInputContainer);
 export const StructuredDateInput = StructuredDateInputContainer;
-export const ReadOnlyInput = inputComponents.ReadOnlyInput;
-export const RichTextInput = inputComponents.RichTextInput;
-export const TextInput = inputComponents.TextInput;
+export const { ReadOnlyInput } = inputComponents;
+export const { RichTextInput } = inputComponents;
+export const { TextInput } = inputComponents;
 export const OptionPickerInput = OptionPickerInputContainer;
 export const TermPickerInput = TermPickerInputContainer;
 export const UploadInput = UploadInputContainer;

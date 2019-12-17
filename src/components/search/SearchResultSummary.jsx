@@ -24,7 +24,9 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    listTypes: PropTypes.object,
+  }),
   listType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
@@ -107,7 +109,7 @@ export default function SearchResultSummary(props) {
     const list = searchResult.get(listNodeName);
     const totalItems = parseInt(list.get('totalItems'), 10);
 
-    if (isNaN(totalItems)) {
+    if (Number.isNaN(totalItems)) {
       isSearching = true;
 
       message = (

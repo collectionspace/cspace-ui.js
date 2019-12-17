@@ -8,7 +8,7 @@ import { canRelate } from '../../helpers/permissionHelpers';
 import SearchToSelectModalContainer from '../../containers/search/SearchToSelectModalContainer';
 import relateButtonStyles from '../../../styles/cspace-ui/RelateButton.css';
 
-const isSingleSubject = subjects => (Array.isArray(subjects) && subjects.length === 1);
+const isSingleSubject = (subjects) => (Array.isArray(subjects) && subjects.length === 1);
 
 const messages = defineMessages({
   label: {
@@ -59,8 +59,12 @@ const renderRelatingMessage = () => (
 );
 
 const propTypes = {
-  config: PropTypes.object,
-  error: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
+  error: PropTypes.shape({
+    code: PropTypes.string,
+  }),
   isOpen: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   subjects: PropTypes.oneOfType([
@@ -70,7 +74,7 @@ const propTypes = {
         csid: PropTypes.string,
         recordType: PropTypes.string,
         /* eslint-enable react/no-unused-prop-types */
-      })
+      }),
     ),
     PropTypes.func,
   ]),
@@ -118,12 +122,12 @@ export default class SearchToRelateModal extends Component {
       }
 
       if (subjects && subjects.length > 0) {
-        const objects = selectedItems.valueSeq().map(item => ({
+        const objects = selectedItems.valueSeq().map((item) => ({
           csid: item.get('csid'),
           recordType: searchDescriptor.get('recordType'),
         })).toJS();
 
-        return Promise.all(subjects.map(subject => createRelations(subject, objects, 'affects')))
+        return Promise.all(subjects.map((subject) => createRelations(subject, objects, 'affects')))
           .then(() => {
             if (subjects.length > 1) {
               const { showRelationNotification } = this.props;
@@ -175,25 +179,29 @@ export default class SearchToRelateModal extends Component {
   render() {
     const {
       error,
-      /* eslint-disable no-unused-vars */
       subjects,
       createRelations,
       showRelationNotification,
       onRelationsCreated,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
-    if (this.props.isOpen && error) {
+    const {
+      isOpen,
+      onCancelButtonClick,
+      onCloseButtonClick,
+    } = remainingProps;
+
+    if (isOpen && error) {
       return (
         <Modal
           isOpen
           showCancelButton={false}
           title={<h1><FormattedMessage {...messages.errorTitle} /></h1>}
-          onAcceptButtonClick={this.props.onCancelButtonClick}
-          onCloseButtonClick={this.props.onCloseButtonClick}
+          onAcceptButtonClick={onCancelButtonClick}
+          onCloseButtonClick={onCloseButtonClick}
         >
-          <FormattedMessage {...errorMessages[error.code]} values={error.values} />
+          <FormattedMessage {...errorMessages[error.code]} />
         </Modal>
       );
     }

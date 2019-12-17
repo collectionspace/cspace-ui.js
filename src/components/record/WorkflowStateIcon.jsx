@@ -51,7 +51,7 @@ function WorkflowStateIcon(props) {
       const desc = message ? intl.formatMessage(message) : state;
 
       icons.push(
-        <img key={state} alt={desc} src={src} title={desc} />
+        <img key={state} alt={desc} src={src} title={desc} />,
       );
     }
   });

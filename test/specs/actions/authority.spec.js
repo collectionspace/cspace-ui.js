@@ -20,8 +20,8 @@ import {
 
 const mockStore = configureMockStore([thunk]);
 
-describe('authority action creator', function suite() {
-  describe('readAuthVocabs', function actionSuite() {
+describe('authority action creator', () => {
+  describe('readAuthVocabs', () => {
     const store = mockStore({
       authority: Immutable.Map(),
       // user: Immutable.Map(),
@@ -51,10 +51,8 @@ describe('authority action creator', function suite() {
 
     const readAuthorityUrl = /^\/cspace-services\/.*authorities?/;
 
-    before(() =>
-      store.dispatch(configureCSpace())
-        .then(() => store.clearActions())
-    );
+    before(() => store.dispatch(configureCSpace())
+      .then(() => store.clearActions()));
 
     beforeEach(() => {
       moxios.install();
@@ -65,7 +63,7 @@ describe('authority action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should dispatch AUTH_VOCABS_READ_FULFILLED on success', function test() {
+    it('should dispatch AUTH_VOCABS_READ_FULFILLED on success', () => {
       moxios.stubRequest(readAuthorityUrl, {
         status: 200,
         response: {},
@@ -104,7 +102,7 @@ describe('authority action creator', function suite() {
         });
     });
 
-    it('should dispatch AUTH_VOCABS_READ_FULFILLED if there are errors, but they are all 403', function test() {
+    it('should dispatch AUTH_VOCABS_READ_FULFILLED if there are errors, but they are all 403', () => {
       moxios.stubRequest(readAuthorityUrl, {
         status: 403,
         response: {},
@@ -126,7 +124,7 @@ describe('authority action creator', function suite() {
         });
     });
 
-    it('should dispatch AUTH_VOCABS_READ_REJECTED on errors other than 403', function test() {
+    it('should dispatch AUTH_VOCABS_READ_REJECTED on errors other than 403', () => {
       moxios.stubRequest(readAuthorityUrl, {
         status: 400,
         response: {},
@@ -149,7 +147,7 @@ describe('authority action creator', function suite() {
     });
   });
 
-  describe('checkForUses', function actionSuite() {
+  describe('checkForUses', () => {
     const recordType = 'person';
     const recordTypeServicePath = 'personauthorities';
     const vocabulary = 'local';
@@ -188,7 +186,7 @@ describe('authority action creator', function suite() {
       moxios.uninstall();
     });
 
-    it('should resolve to true if uses are found for the given authority item', function test() {
+    it('should resolve to true if uses are found for the given authority item', () => {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {
@@ -205,7 +203,7 @@ describe('authority action creator', function suite() {
       });
     });
 
-    it('should resolve to false if no uses are found for the authority item', function test() {
+    it('should resolve to false if no uses are found for the authority item', () => {
       const store = mockStore();
 
       moxios.stubRequest(checkUrl, {

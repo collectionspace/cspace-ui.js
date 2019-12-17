@@ -22,9 +22,9 @@ import {
 chai.use(chaiImmutable);
 chai.should();
 
-describe('permissionHelpers', function moduleSuite() {
-  describe('mergeActionGroup', function suite() {
-    it('should merge the given action group into existing permissions', function test() {
+describe('permissionHelpers', () => {
+  describe('mergeActionGroup', () => {
+    it('should merge the given action group into existing permissions', () => {
       const perms = {
         group: {
           data: 'CL',
@@ -40,7 +40,7 @@ describe('permissionHelpers', function moduleSuite() {
       });
     });
 
-    it('should set the permissions if there are no existing permissions', function test() {
+    it('should set the permissions if there are no existing permissions', () => {
       const perms = {};
 
       mergeActionGroup(perms, ['group', 'data'], 'CR').should.equal('CR');
@@ -53,7 +53,7 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('getPermissions', function suite() {
+  describe('getPermissions', () => {
     const config = {
       recordTypes: {
         collectionobject: {
@@ -101,7 +101,7 @@ describe('permissionHelpers', function moduleSuite() {
       },
     };
 
-    it('should retrieve data permissions for configured record types', function test() {
+    it('should retrieve data permissions for configured record types', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -130,7 +130,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should set canCreateNew to false if no object/procedure/authority can be created', function test() {
+    it('should set canCreateNew to false if no object/procedure/authority can be created', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -159,7 +159,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should set canAdmin to true if security records can be listed', function test() {
+    it('should set canAdmin to true if security records can be listed', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -181,7 +181,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should set canTool to true if vocabulary records can be listed', function test() {
+    it('should set canTool to true if vocabulary records can be listed', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -203,7 +203,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should set canTool to true if report records can be listed', function test() {
+    it('should set canTool to true if report records can be listed', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -225,7 +225,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should set canTool to true if batch records can be listed', function test() {
+    it('should set canTool to true if batch records can be listed', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -247,7 +247,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should retrieve permissions when there is a single (non-list) permission', function test() {
+    it('should retrieve permissions when there is a single (non-list) permission', () => {
       const data = {
         'ns2:account_permission': {
           permission: {
@@ -267,7 +267,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should return empty permissions if there are no permissions in the data', function test() {
+    it('should return empty permissions if there are no permissions in the data', () => {
       const data = {
         'ns2:account_permission': {},
       };
@@ -275,7 +275,7 @@ describe('permissionHelpers', function moduleSuite() {
       getPermissions(config, data).should.equal(Immutable.Map());
     });
 
-    it('should retrieve transition permissions for configured record types', function test() {
+    it('should retrieve transition permissions for configured record types', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -308,7 +308,7 @@ describe('permissionHelpers', function moduleSuite() {
       }));
     });
 
-    it('should ignore unrecognized resource names', function test() {
+    it('should ignore unrecognized resource names', () => {
       const data = {
         'ns2:account_permission': {
           permission: [
@@ -332,8 +332,8 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('canCreate', function suite() {
-    it('should return true if create permission exists for the record type', function test() {
+  describe('canCreate', () => {
+    it('should return true if create permission exists for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -343,7 +343,7 @@ describe('permissionHelpers', function moduleSuite() {
       canCreate('loanin', perms).should.equal(true);
     });
 
-    it('should return false if create permission does not exist for the record type', function test() {
+    it('should return false if create permission does not exist for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'RUDL',
@@ -353,19 +353,19 @@ describe('permissionHelpers', function moduleSuite() {
       canCreate('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canCreate('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the record type', function test() {
+    it('should return false if data permissions do not exist for the record type', () => {
       const perms = Immutable.Map();
 
       canCreate('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canRead', function suite() {
-    it('should return true if read permission exists for the record type', function test() {
+  describe('canRead', () => {
+    it('should return true if read permission exists for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -375,7 +375,7 @@ describe('permissionHelpers', function moduleSuite() {
       canRead('loanin', perms).should.equal(true);
     });
 
-    it('should return false if read permission does not exist for the record type', function test() {
+    it('should return false if read permission does not exist for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CUDL',
@@ -385,19 +385,19 @@ describe('permissionHelpers', function moduleSuite() {
       canRead('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canRead('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the record type', function test() {
+    it('should return false if data permissions do not exist for the record type', () => {
       const perms = Immutable.Map();
 
       canRead('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canUpdate', function suite() {
-    it('should return true if update permission exists for the record type', function test() {
+  describe('canUpdate', () => {
+    it('should return true if update permission exists for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -407,7 +407,7 @@ describe('permissionHelpers', function moduleSuite() {
       canUpdate('loanin', perms).should.equal(true);
     });
 
-    it('should return false if update permission does not exist for the record type', function test() {
+    it('should return false if update permission does not exist for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRDL',
@@ -417,19 +417,19 @@ describe('permissionHelpers', function moduleSuite() {
       canUpdate('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canUpdate('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the record type', function test() {
+    it('should return false if data permissions do not exist for the record type', () => {
       const perms = Immutable.Map();
 
       canUpdate('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canDelete', function suite() {
-    it('should return true if delete permission exists for the record type', function test() {
+  describe('canDelete', () => {
+    it('should return true if delete permission exists for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -439,7 +439,7 @@ describe('permissionHelpers', function moduleSuite() {
       canDelete('loanin', perms).should.equal(true);
     });
 
-    it('should return false if delete permission does not exist for the record type', function test() {
+    it('should return false if delete permission does not exist for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUL',
@@ -449,19 +449,19 @@ describe('permissionHelpers', function moduleSuite() {
       canDelete('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canDelete('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the record type', function test() {
+    it('should return false if data permissions do not exist for the record type', () => {
       const perms = Immutable.Map();
 
       canDelete('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canList', function suite() {
-    it('should return true if list permission exists for the record type', function test() {
+  describe('canList', () => {
+    it('should return true if list permission exists for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -471,7 +471,7 @@ describe('permissionHelpers', function moduleSuite() {
       canList('loanin', perms).should.equal(true);
     });
 
-    it('should return false if list permission does not exist for the record type', function test() {
+    it('should return false if list permission does not exist for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUD',
@@ -481,19 +481,19 @@ describe('permissionHelpers', function moduleSuite() {
       canList('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canList('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the record type', function test() {
+    it('should return false if data permissions do not exist for the record type', () => {
       const perms = Immutable.Map();
 
       canList('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canRelate', function suite() {
-    it('should return false create permissions do not exist for the relation record type', function test() {
+  describe('canRelate', () => {
+    it('should return false create permissions do not exist for the relation record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -504,7 +504,7 @@ describe('permissionHelpers', function moduleSuite() {
       canRelate('loanin', perms).should.equal(false);
     });
 
-    it('should return true if update permission exists for the member record type', function test() {
+    it('should return true if update permission exists for the member record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRUDL',
@@ -517,7 +517,7 @@ describe('permissionHelpers', function moduleSuite() {
       canRelate('loanin', perms).should.equal(true);
     });
 
-    it('should return false if update permission does not exist for the member record type', function test() {
+    it('should return false if update permission does not exist for the member record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           data: 'CRDL',
@@ -530,19 +530,19 @@ describe('permissionHelpers', function moduleSuite() {
       canRelate('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canRelate('loanin').should.equal(false);
     });
 
-    it('should return false if data permissions do not exist for the member record type', function test() {
+    it('should return false if data permissions do not exist for the member record type', () => {
       const perms = Immutable.Map();
 
       canRelate('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canSoftDelete', function suite() {
-    it('should return true if update permission for the delete transition exists for the record type', function test() {
+  describe('canSoftDelete', () => {
+    it('should return true if update permission for the delete transition exists for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           transition: {
@@ -554,7 +554,7 @@ describe('permissionHelpers', function moduleSuite() {
       canSoftDelete('loanin', perms).should.equal(true);
     });
 
-    it('should return false if update permission for the delete transition does not exist for the record type', function test() {
+    it('should return false if update permission for the delete transition does not exist for the record type', () => {
       const perms = Immutable.fromJS({
         loanin: {
           transition: {
@@ -566,19 +566,19 @@ describe('permissionHelpers', function moduleSuite() {
       canSoftDelete('loanin', perms).should.equal(false);
     });
 
-    it('should return false if permissions do not exist', function test() {
+    it('should return false if permissions do not exist', () => {
       canSoftDelete('loanin').should.equal(false);
     });
 
-    it('should return false if transition permissions do not exist for the record type', function test() {
+    it('should return false if transition permissions do not exist for the record type', () => {
       const perms = Immutable.Map();
 
       canSoftDelete('loanin', perms).should.equal(false);
     });
   });
 
-  describe('canCreateNew', function suite() {
-    it('should return true if canCreateNew is true in the permissions', function test() {
+  describe('canCreateNew', () => {
+    it('should return true if canCreateNew is true in the permissions', () => {
       const perms = Immutable.fromJS({
         canCreateNew: true,
       });
@@ -587,8 +587,8 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('canAdmin', function suite() {
-    it('should return true if canAdmin is true in the permissions', function test() {
+  describe('canAdmin', () => {
+    it('should return true if canAdmin is true in the permissions', () => {
       const perms = Immutable.fromJS({
         canAdmin: true,
       });
@@ -597,8 +597,8 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('canTool', function suite() {
-    it('should return true if canTool is true in the permissions', function test() {
+  describe('canTool', () => {
+    it('should return true if canTool is true in the permissions', () => {
       const perms = Immutable.fromJS({
         canTool: true,
       });
@@ -607,8 +607,8 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('disallowCreate', function suite() {
-    it('should remove create permission on the specified record type', function test() {
+  describe('disallowCreate', () => {
+    it('should remove create permission on the specified record type', () => {
       const perms = Immutable.fromJS({
         group: {
           data: 'CRUDL',
@@ -632,7 +632,7 @@ describe('permissionHelpers', function moduleSuite() {
       canCreate('group', updatedPerms).should.equal(false);
     });
 
-    it('should have no effect if create permission does not exist on the specified record type', function test() {
+    it('should have no effect if create permission does not exist on the specified record type', () => {
       const perms = Immutable.fromJS({
         person: {
           data: 'CRUDL',
@@ -645,8 +645,8 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('disallowDelete', function suite() {
-    it('should remove delete permission on the specified record type', function test() {
+  describe('disallowDelete', () => {
+    it('should remove delete permission on the specified record type', () => {
       const perms = Immutable.fromJS({
         group: {
           data: 'CRUDL',
@@ -670,7 +670,7 @@ describe('permissionHelpers', function moduleSuite() {
       canDelete('group', updatedPerms).should.equal(false);
     });
 
-    it('should have no effect if delete permission does not exist on the specified record type', function test() {
+    it('should have no effect if delete permission does not exist on the specified record type', () => {
       const perms = Immutable.fromJS({
         person: {
           data: 'CRUDL',
@@ -683,8 +683,8 @@ describe('permissionHelpers', function moduleSuite() {
     });
   });
 
-  describe('disallowSoftDelete', function suite() {
-    it('should remove permission to soft delete the specified record type', function test() {
+  describe('disallowSoftDelete', () => {
+    it('should remove permission to soft delete the specified record type', () => {
       const perms = Immutable.fromJS({
         group: {
           data: 'CRUDL',
@@ -714,7 +714,7 @@ describe('permissionHelpers', function moduleSuite() {
       canSoftDelete('group', updatedPerms).should.equal(false);
     });
 
-    it('should have no effect if soft delete permission does not exist on the specified record type', function test() {
+    it('should have no effect if soft delete permission does not exist on the specified record type', () => {
       const perms = Immutable.fromJS({
         person: {
           data: 'CRUDL',

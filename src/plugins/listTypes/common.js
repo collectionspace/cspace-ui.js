@@ -51,8 +51,10 @@ export default () => ({
           if (recordTypeConfig.serviceConfig.serviceType === 'authority') {
             const vocabularyShortID = getVocabularyShortID(refName);
 
-            const vocabularyConfig =
-              getVocabularyConfigByShortID(recordTypeConfig, vocabularyShortID);
+            const vocabularyConfig = getVocabularyConfigByShortID(
+              recordTypeConfig,
+              vocabularyShortID,
+            );
 
             if (vocabularyConfig) {
               return `/record/${recordTypeConfig.name}/${vocabularyConfig.name}/${csid}`;

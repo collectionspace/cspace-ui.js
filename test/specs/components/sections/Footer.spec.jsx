@@ -13,12 +13,12 @@ const intl = {
   formatRelative: () => null,
   formatNumber: () => null,
   formatPlural: () => null,
-  formatMessage: message => `formatted ${message.id}`,
+  formatMessage: (message) => `formatted ${message.id}`,
   formatHTMLMessage: () => null,
   now: () => null,
 };
 
-describe('Footer', function suite() {
+describe('Footer', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -29,7 +29,8 @@ describe('Footer', function suite() {
     render(
       <IntlProvider locale="en">
         <Footer config={config} intl={intl} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FOOTER');
   });
@@ -49,7 +50,8 @@ describe('Footer', function suite() {
     render(
       <IntlProvider locale="en">
         <Footer config={{}} intl={intl} systemInfo={systemInfo} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');
@@ -65,7 +67,8 @@ describe('Footer', function suite() {
     render(
       <IntlProvider locale="en">
         <Footer config={{}} intl={intl} systemInfo={systemInfo} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');
@@ -84,7 +87,8 @@ describe('Footer', function suite() {
     render(
       <IntlProvider locale="en">
         <Footer config={{}} intl={intl} systemInfo={systemInfo} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');
@@ -110,7 +114,8 @@ describe('Footer', function suite() {
     render(
       <IntlProvider locale="en">
         <Footer config={config} intl={intl} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');

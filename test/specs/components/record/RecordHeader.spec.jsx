@@ -1,5 +1,3 @@
-/* global window, document */
-
 import React from 'react';
 import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
@@ -28,7 +26,7 @@ const config = {
 
 const data = Immutable.Map();
 
-describe('RecordHeader', function suite() {
+describe('RecordHeader', () => {
   // before(function first() {
   //   // Clear any previous tests from the page.
   //   document.body.innerHTML = '';
@@ -50,7 +48,8 @@ describe('RecordHeader', function suite() {
         <ConfigProvider config={config}>
           <RecordHeader data={data} recordType="collectionobject" />
         </ConfigProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });

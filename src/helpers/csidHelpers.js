@@ -1,5 +1,4 @@
-const csidPattern =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}(-[0-9a-fA-F]{12})?$/;
+const csidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}(-[0-9a-fA-F]{12})?$/;
 
 const urnCsidPattern = /^urn:cspace:name\(\w+\)$/;
 
@@ -8,7 +7,7 @@ const urnCsidPattern = /^urn:cspace:name\(\w+\)$/;
  * @param {string} string - The string
  * @returns {boolean} True if the string is a valid csid, false otherwise.
  */
-export const isCsid = string => string && csidPattern.test(string);
+export const isCsid = (string) => string && csidPattern.test(string);
 
 /**
  * Determines if a given string is a valid URN-style csid. A URN-style csid may be substituted
@@ -16,7 +15,7 @@ export const isCsid = string => string && csidPattern.test(string);
  * @param {string} string - The string
  * @returns {boolean} True if the string is a valid URN-style csid, false otherwise.
  */
-export const isUrnCsid = string => urnCsidPattern.test(string);
+export const isUrnCsid = (string) => urnCsidPattern.test(string);
 
 /**
  * Returns the short ID of a URN-style csid.
@@ -24,7 +23,7 @@ export const isUrnCsid = string => urnCsidPattern.test(string);
  * @param {string} urnCsid
  * @returns {string} The short ID.
  */
-export const getUrnCsidShortId = urnCsid => urnCsid.substring(16, urnCsid.length - 1);
+export const getUrnCsidShortId = (urnCsid) => urnCsid.substring(16, urnCsid.length - 1);
 
 /**
  * Creates a keyword search parameter that may be used to find the record with a given csid. A
@@ -33,4 +32,4 @@ export const getUrnCsidShortId = urnCsid => urnCsid.substring(16, urnCsid.length
  * @param {string} string - The csid
  * @returns {string} The keyword search parameter.
  */
-export const asKeywords = csid => `"${csid.replace(/-/g, ' ')}"`;
+export const asKeywords = (csid) => `"${csid.replace(/-/g, ' ')}"`;

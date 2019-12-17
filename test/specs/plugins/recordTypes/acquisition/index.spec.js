@@ -3,12 +3,12 @@ import createConfigContext from '../../../../../src/helpers/createConfigContext'
 
 chai.should();
 
-describe('acquisition record plugin', function suite() {
+describe('acquisition record plugin', () => {
   const config = {};
   const acquisitionRecordTypePlugin = acquisitionRecordTypePluginFactory(config);
   const configContext = createConfigContext();
 
-  it('should have the correct shape', function test() {
+  it('should have the correct shape', () => {
     const pluginConfigContribution = acquisitionRecordTypePlugin(configContext);
 
     const {

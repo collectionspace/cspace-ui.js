@@ -1,5 +1,3 @@
-/* global window */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -35,9 +33,13 @@ const getSearchDescriptor = (config, recordType) => {
 
 const propTypes = {
   color: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   csid: PropTypes.string,
-  history: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
@@ -108,8 +110,7 @@ export default class RecordBatchPanel extends Component {
     } = this.props;
 
     if (invoke) {
-      const createsNewFocus =
-        (batchMetadata.getIn(['document', 'ns2:batch_common', 'createsNewFocus']) === 'true');
+      const createsNewFocus = (batchMetadata.getIn(['document', 'ns2:batch_common', 'createsNewFocus']) === 'true');
 
       const handleValidationSuccess = () => {
         if (createsNewFocus) {

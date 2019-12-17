@@ -1,4 +1,4 @@
-export default configContext => (data) => {
+export default (configContext) => (data) => {
   const {
     getPart,
   } = configContext.recordDataHelpers;
@@ -24,5 +24,5 @@ export default configContext => (data) => {
   const currentLocation = getDisplayName(common.get('currentLocation'));
   const locationDate = formatDate(common.get('locationDate'));
 
-  return [currentLocation, locationDate].filter(part => !!part).join(' – ');
+  return [currentLocation, locationDate].filter((part) => !!part).join(' – ');
 };

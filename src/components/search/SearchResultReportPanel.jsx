@@ -1,5 +1,3 @@
-/* global window */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
@@ -33,7 +31,9 @@ const getSearchDescriptor = (config, recordType) => {
 
 const propTypes = {
   color: PropTypes.string,
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   perms: PropTypes.instanceOf(Immutable.Map),
   recordType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),

@@ -20,16 +20,16 @@ import {
   configKey,
   mergeKey,
   mergeStrategy,
-} from '../helpers/configHelpers';
+} from './configHelpers';
 
 import {
   deepGet,
   getPart,
   getPartPropertyName,
   isNewRecord,
-} from '../helpers/recordDataHelpers';
+} from './recordDataHelpers';
 
-import * as formatHelpers from '../helpers/formatHelpers';
+import * as formatHelpers from './formatHelpers';
 import * as inputComponents from './configContextInputs';
 
 export default () => ({

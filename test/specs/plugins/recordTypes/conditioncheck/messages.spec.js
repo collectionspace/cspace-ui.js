@@ -2,8 +2,8 @@ import messages from '../../../../../src/plugins/recordTypes/conditioncheck/mess
 
 chai.should();
 
-describe('condition check record messages', function suite() {
-  it('should contain properties with id and defaultMessage properties', function test() {
+describe('condition check record messages', () => {
+  it('should contain properties with id and defaultMessage properties', () => {
     messages.should.be.an('object');
 
     Object.keys(messages).forEach((conditionCheckName) => {

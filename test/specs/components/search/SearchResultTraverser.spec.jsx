@@ -11,7 +11,7 @@ import {
   getPreviousPageSearchDescriptor,
 } from '../../../../src/helpers/searchHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -137,7 +137,7 @@ const config = {
   },
 };
 
-describe('SearchResultTraverser', function suite() {
+describe('SearchResultTraverser', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -150,7 +150,8 @@ describe('SearchResultTraverser', function suite() {
             searchDescriptor={searchDescriptor}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('NAV');
   });
@@ -163,7 +164,8 @@ describe('SearchResultTraverser', function suite() {
             searchDescriptor={searchDescriptor}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('nav').textContent.should.equal('Search result … of …');
   });
@@ -181,7 +183,8 @@ describe('SearchResultTraverser', function suite() {
             searchState={pendingSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('nav').textContent.should.equal('Search result … of …');
   });
@@ -199,7 +202,8 @@ describe('SearchResultTraverser', function suite() {
             searchState={errorSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('nav').textContent.should.equal('Search result … of …');
   });
@@ -210,7 +214,8 @@ describe('SearchResultTraverser', function suite() {
         <Router>
           <SearchResultTraverser />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -229,7 +234,8 @@ describe('SearchResultTraverser', function suite() {
             searchState={searchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const itemNum = (pageNum * pageSize) + index + 1;
 
@@ -267,7 +273,8 @@ describe('SearchResultTraverser', function suite() {
             searchState={singleItemSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const itemNum = (pageNum * pageSize) + index + 1;
 
@@ -288,7 +295,8 @@ describe('SearchResultTraverser', function suite() {
             searchState={searchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const prevLink = this.container.querySelector('a[rel="prev"]');
 
@@ -310,7 +318,8 @@ describe('SearchResultTraverser', function suite() {
             searchState={searchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const nextLink = this.container.querySelector('a[rel="next"]');
 
@@ -334,7 +343,8 @@ describe('SearchResultTraverser', function suite() {
             nextPageSearchState={nextPageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const nextLink = this.container.querySelector('a[rel="next"]');
 
@@ -361,12 +371,13 @@ describe('SearchResultTraverser', function suite() {
             nextPageSearchState={pendingNextPageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
-    const nextLink = this.container.querySelector('a[rel="next"]');
+    const nextLink = this.container.querySelector('nav > div:last-child > span:last-child');
 
     nextLink.should.not.equal(null);
-    nextLink.href.should.equal('');
+    nextLink.textContent.should.equal('Next');
   });
 
   it('should render a placeholder next link when the current item is the last item of all pages', function test() {
@@ -412,12 +423,13 @@ describe('SearchResultTraverser', function suite() {
             nextPageSearchDescriptor={nextPageSearchDescriptor}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
-    const nextLink = this.container.querySelector('a[rel="next"]');
+    const nextLink = this.container.querySelector('nav > div:last-child > span:last-child');
 
     nextLink.should.not.equal(null);
-    nextLink.href.should.equal('');
+    nextLink.textContent.should.equal('Next');
   });
 
   it('should handle a next page result set with a single (non-list) item', function test() {
@@ -452,7 +464,8 @@ describe('SearchResultTraverser', function suite() {
             nextPageSearchState={singleItemNextPageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const nextLink = this.container.querySelector('a[rel="next"]');
 
@@ -475,7 +488,8 @@ describe('SearchResultTraverser', function suite() {
             prevPageSearchState={prevPageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const prevLink = this.container.querySelector('a[rel="prev"]');
 
@@ -502,12 +516,13 @@ describe('SearchResultTraverser', function suite() {
             prevPageSearchState={pendingPrevPageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
-    const prevLink = this.container.querySelector('a[rel="prev"]');
+    const prevLink = this.container.querySelector('nav > div:last-child > span:first-child');
 
     prevLink.should.not.equal(null);
-    prevLink.href.should.equal('');
+    prevLink.textContent.should.equal('Previous');
   });
 
   it('should render a placeholder previous link when the current item is the first item of all pages', function test() {
@@ -552,12 +567,13 @@ describe('SearchResultTraverser', function suite() {
             searchState={onePageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
-    const prevLink = this.container.querySelector('a[rel="prev"]');
+    const prevLink = this.container.querySelector('nav > div:last-child > span:first-child');
 
     prevLink.should.not.equal(null);
-    prevLink.href.should.equal('');
+    prevLink.textContent.should.equal('Previous');
   });
 
   it('should handle a previous page result set with a single (non-list) item', function test() {
@@ -592,7 +608,8 @@ describe('SearchResultTraverser', function suite() {
             prevPageSearchState={singleItemPrevPageSearchState}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const prevLink = this.container.querySelector('a[rel="prev"]');
 
@@ -626,7 +643,8 @@ describe('SearchResultTraverser', function suite() {
             search={search}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -661,7 +679,8 @@ describe('SearchResultTraverser', function suite() {
             search={search}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(searchedConfig).to.equal(null);
 
@@ -676,7 +695,8 @@ describe('SearchResultTraverser', function suite() {
             search={search}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -712,7 +732,8 @@ describe('SearchResultTraverser', function suite() {
             prevPageSearchDescriptor={prevPageSearchDescriptor}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -748,7 +769,8 @@ describe('SearchResultTraverser', function suite() {
             nextPageSearchDescriptor={nextPageSearchDescriptor}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -800,7 +822,8 @@ describe('SearchResultTraverser', function suite() {
             nextPageSearchDescriptor={nextPageSearchDescriptor}
           />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);

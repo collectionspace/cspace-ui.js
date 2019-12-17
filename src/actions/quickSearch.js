@@ -11,12 +11,12 @@ import {
   SET_QUICK_SEARCH_KEYWORD,
 } from '../constants/actionCodes';
 
-export const setQuickSearchKeyword = value => ({
+export const setQuickSearchKeyword = (value) => ({
   type: SET_QUICK_SEARCH_KEYWORD,
   payload: value,
 });
 
-export const initiateSearch = push => (dispatch, getState) => {
+export const initiateSearch = (push) => (dispatch, getState) => {
   const keyword = getQuickSearchKeyword(getState());
   const kw = keyword ? keyword.trim() : '';
   const recordType = getQuickSearchRecordType(getState());

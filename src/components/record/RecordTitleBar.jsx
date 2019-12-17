@@ -23,12 +23,15 @@ const propTypes = {
   vocabulary: PropTypes.string,
   searchName: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  // eslint-disable-next-line react/forbid-prop-types
   originSearchPageState: PropTypes.object,
   onDocked: PropTypes.func,
 };
 
 const contextTypes = {
-  config: PropTypes.object,
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
   intl: intlShape,
 };
 

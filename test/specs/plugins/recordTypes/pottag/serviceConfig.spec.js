@@ -2,8 +2,8 @@ import serviceConfig from '../../../../../src/plugins/recordTypes/pottag/service
 
 chai.should();
 
-describe('pottag record serviceConfig', function suite() {
-  it('should have servicePath property', function test() {
+describe('pottag record serviceConfig', () => {
+  it('should have servicePath property', () => {
     serviceConfig.should.have.property('servicePath').that.is.a('string');
   });
 });

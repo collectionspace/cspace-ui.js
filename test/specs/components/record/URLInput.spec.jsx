@@ -6,7 +6,7 @@ import URLInput from '../../../../src/components/record/URLInput';
 
 chai.should();
 
-describe('URLInput', function suite() {
+describe('URLInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -17,7 +17,8 @@ describe('URLInput', function suite() {
     render(
       <IntlProvider locale="en">
         <URLInput value={url} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-input-LineInput--normal').should.not.equal(null);
     this.container.querySelector(`a[href="${url}"]`).textContent.should.equal('Open');

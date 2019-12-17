@@ -144,7 +144,7 @@ const store = mockStore({
   user: Immutable.Map(),
 });
 
-describe('SearchPanel', function suite() {
+describe('SearchPanel', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -162,7 +162,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -175,7 +176,7 @@ describe('SearchPanel', function suite() {
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
@@ -205,7 +206,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -224,7 +226,7 @@ describe('SearchPanel', function suite() {
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
@@ -252,7 +254,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const newSearchDescriptor = Immutable.fromJS({
       recordType: 'group',
@@ -277,7 +280,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -304,7 +308,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('header > button').textContent.should.equal('SearchPanel title');
     this.container.querySelectorAll('.ReactVirtualized__Table__row').length.should.equal(5);
@@ -329,7 +334,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('header > button').textContent.should.equal('SearchPanel title: 20');
   });
@@ -353,7 +359,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('header > button').textContent.should.equal('SearchPanel title: 20 (filtered)');
   });
@@ -380,7 +387,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const pager = this.container.querySelector('.cspace-ui-Pager--common');
     const buttons = pager.querySelectorAll('.cspace-input-MiniButton--common');
@@ -419,7 +427,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const pageSizeInput = this.container.querySelector('.cspace-ui-PageSizeChooser--common input');
     const newPageSize = 10;
@@ -466,7 +475,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const pageSizeInput = this.container.querySelector('.cspace-ui-PageSizeChooser--common input');
     const newPageSize = 32;
@@ -503,7 +513,8 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const titleHeader = this.container.querySelector('.ReactVirtualized__Table__sortableHeaderColumn');
 
@@ -519,7 +530,7 @@ describe('SearchPanel', function suite() {
     }));
   });
 
-  it('should render a search link', function test() {
+  it('should render a search link', () => {
     const recordType = 'collectionobject';
 
     const shallowRenderer = createRenderer();
@@ -531,7 +542,7 @@ describe('SearchPanel', function suite() {
         recordType={recordType}
         name={searchName}
         searchDescriptor={searchDescriptor}
-      />
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -558,12 +569,13 @@ describe('SearchPanel', function suite() {
             </Router>
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('button[name="add"]').should.not.equal(null);
   });
 
-  it('should open the search to relate modal when the add button is clicked', function test() {
+  it('should open the search to relate modal when the add button is clicked', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -571,7 +583,7 @@ describe('SearchPanel', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         showAddButton
-      />
+      />,
     );
 
     let result;
@@ -590,7 +602,7 @@ describe('SearchPanel', function suite() {
     searchToRelateModal.props.isOpen.should.equal(true);
   });
 
-  it('should close the search to relate modal after relations have been created', function test() {
+  it('should close the search to relate modal after relations have been created', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -598,7 +610,7 @@ describe('SearchPanel', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         showAddButton
-      />
+      />,
     );
 
     let result;
@@ -623,7 +635,7 @@ describe('SearchPanel', function suite() {
     searchToRelateModal.props.isOpen.should.equal(false);
   });
 
-  it('should close the search to relate modal when its close button is clicked', function test() {
+  it('should close the search to relate modal when its close button is clicked', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -631,7 +643,7 @@ describe('SearchPanel', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         showAddButton
-      />
+      />,
     );
 
     let result;
@@ -656,7 +668,7 @@ describe('SearchPanel', function suite() {
     searchToRelateModal.props.isOpen.should.equal(false);
   });
 
-  it('should close the search to relate modal when its cancel button is clicked', function test() {
+  it('should close the search to relate modal when its cancel button is clicked', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -664,7 +676,7 @@ describe('SearchPanel', function suite() {
         config={config}
         searchDescriptor={searchDescriptor}
         showAddButton
-      />
+      />,
     );
 
     let result;
@@ -689,7 +701,7 @@ describe('SearchPanel', function suite() {
     searchToRelateModal.props.isOpen.should.equal(false);
   });
 
-  it('should set allowedServiceTypes on the search to relate modal when the searched record type is a utility type', function test() {
+  it('should set allowedServiceTypes on the search to relate modal when the searched record type is a utility type', () => {
     const utilitySearchDescriptor = Immutable.fromJS({
       recordType: 'procedure',
       searchQuery: {
@@ -705,7 +717,7 @@ describe('SearchPanel', function suite() {
         config={config}
         searchDescriptor={utilitySearchDescriptor}
         showAddButton
-      />
+      />,
     );
 
     let result;

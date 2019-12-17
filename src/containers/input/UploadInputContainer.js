@@ -37,7 +37,7 @@ const messages = defineMessages({
   },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   type: getUploadType(state),
 });
 
@@ -58,8 +58,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     fileInputLabel: intl.formatMessage(messages.fileInputLabel),
     fileChooseButtonLabel: intl.formatMessage(messages.fileChooseButtonLabel),
     urlInputLabel: intl.formatMessage(messages.urlInputLabel),
-    formatFileInfo: (name, type, size) =>
-      intl.formatMessage(messages.fileInfo, { name, type, size }),
+    formatFileInfo: (name, type, size) => intl.formatMessage(
+      messages.fileInfo, { name, type, size },
+    ),
   };
 
   return {
@@ -73,7 +74,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 export const ConnectedUploadInput = connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps
+  mergeProps,
 )(UploadInput);
 
 const IntlizedUploadInput = injectIntl(ConnectedUploadInput);

@@ -6,7 +6,7 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SearchResultLink from '../../../../src/components/search/SearchResultLink';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -15,7 +15,7 @@ const config = {
     common: {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
-      getItemLocation: item => `itemLocation: ${item.get('csid')}`,
+      getItemLocation: (item) => `itemLocation: ${item.get('csid')}`,
     },
   },
   recordTypes: {
@@ -41,7 +41,7 @@ const config = {
   },
 };
 
-describe('SearchResultLink', function suite() {
+describe('SearchResultLink', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -50,7 +50,8 @@ describe('SearchResultLink', function suite() {
     render(
       <IntlProvider locale="en">
         <SearchResultLink isSearchPending />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('span').textContent.should.equal('...');
   });
@@ -61,7 +62,8 @@ describe('SearchResultLink', function suite() {
     render(
       <IntlProvider locale="en">
         <SearchResultLink searchError={searchError} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('span').textContent.should.equal('...');
   });
@@ -76,7 +78,8 @@ describe('SearchResultLink', function suite() {
     render(
       <IntlProvider locale="en">
         <SearchResultLink config={config} searchResult={searchResult} />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('span').textContent.should.match(/not found/);
   });
@@ -99,7 +102,8 @@ describe('SearchResultLink', function suite() {
         <Router>
           <SearchResultLink config={config} searchResult={searchResult} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('a > span').textContent.should.equal(docNumber);
   });
@@ -122,7 +126,8 @@ describe('SearchResultLink', function suite() {
         <Router>
           <SearchResultLink config={config} searchResult={searchResult} />
         </Router>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('a > span').textContent.should.equal(docNumber);
   });
@@ -131,7 +136,8 @@ describe('SearchResultLink', function suite() {
     render(
       <IntlProvider locale="en">
         <SearchResultLink />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(this.container.querySelector('span')).to.equal(null);
   });
@@ -158,7 +164,8 @@ describe('SearchResultLink', function suite() {
           searchDescriptor={searchDescriptor}
           searchName={searchName}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
@@ -186,7 +193,8 @@ describe('SearchResultLink', function suite() {
           searchDescriptor={searchDescriptor}
           searchName="oldSearchName"
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -196,7 +204,8 @@ describe('SearchResultLink', function suite() {
           searchDescriptor={searchDescriptor}
           searchName={searchName}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);

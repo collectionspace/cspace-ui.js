@@ -7,11 +7,11 @@ import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import Notification from '../../../../src/components/notification/Notification';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('Notification', function suite() {
+describe('Notification', () => {
   const notificationID = '3';
 
   const message = {
@@ -30,7 +30,8 @@ describe('Notification', function suite() {
           id={notificationID}
           message={message}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -49,7 +50,8 @@ describe('Notification', function suite() {
           message={message}
           close={close}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const closeButton = this.container.querySelector('button[name=close]');
 
@@ -78,7 +80,8 @@ describe('Notification', function suite() {
           autoClose
           autoCloseTime={autoCloseTime}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(closedID).to.equal(null);
 
@@ -106,7 +109,8 @@ describe('Notification', function suite() {
           id={notificationID}
           message={message}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     render(
       <IntlProvider locale="en">
@@ -117,7 +121,8 @@ describe('Notification', function suite() {
           autoClose
           autoCloseTime={autoCloseTime}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     expect(closedID).to.equal(null);
 
@@ -148,7 +153,8 @@ describe('Notification', function suite() {
           autoClose
           autoCloseTime={autoCloseTime}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const closeButton = this.container.querySelector('button[name=close]');
 
@@ -181,7 +187,8 @@ describe('Notification', function suite() {
           autoClose
           autoCloseTime={autoCloseTime}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const notification = this.container.querySelector('div');
 
@@ -206,7 +213,8 @@ describe('Notification', function suite() {
           message={message}
           date={notificationDate}
         />
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('header').textContent.should.equal('1:45:59 PM');
   });
@@ -221,7 +229,8 @@ describe('Notification', function suite() {
         >
           {content}
         </Notification>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.querySelector('.cspace-ui-Notification--common > div > div').textContent.should
       .equal(content);

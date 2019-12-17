@@ -21,7 +21,7 @@ const store = mockStore({
 
 const history = mockHistory();
 
-describe('LoginPage', function suite() {
+describe('LoginPage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -37,7 +37,8 @@ describe('LoginPage', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -60,7 +61,8 @@ describe('LoginPage', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     handlerCalled.should.equal(true);
   });
@@ -106,7 +108,8 @@ describe('LoginPage', function suite() {
             />
           </Router>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     const loginFormContainer = findRenderedComponentWithType(resultTree, LoginFormContainer);
 

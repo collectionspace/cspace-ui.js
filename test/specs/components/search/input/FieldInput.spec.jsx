@@ -23,17 +23,17 @@ const intl = {
   formatRelative: () => null,
   formatNumber: () => null,
   formatPlural: () => null,
-  formatMessage: message => `formatted ${message.id}`,
+  formatMessage: (message) => `formatted ${message.id}`,
   formatHTMLMessage: () => null,
   now: () => null,
 };
 
-describe('FieldInput', function suite() {
+describe('FieldInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as an OptionPickerInput containing field options for the given record type and root path', function test() {
+  it('should render as an OptionPickerInput containing field options for the given record type and root path', () => {
     const shallowRenderer = createRenderer();
 
     const recordType = 'collectionobject';
@@ -45,7 +45,8 @@ describe('FieldInput', function suite() {
         intl={intl}
         recordType={recordType}
         rootPath={rootPath}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -54,7 +55,7 @@ describe('FieldInput', function suite() {
     result.props.source.should.equal(getRecordFieldOptionListName(recordType, rootPath));
   });
 
-  it('should sort options alphabetically by label', function test() {
+  it('should sort options alphabetically by label', () => {
     const shallowRenderer = createRenderer();
 
     const recordType = 'collectionobject';
@@ -64,7 +65,8 @@ describe('FieldInput', function suite() {
         config={config}
         intl={intl}
         recordType={recordType}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -123,7 +125,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('fullName message');
   });
@@ -160,7 +163,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('name message');
   });
@@ -207,7 +211,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('groupName message');
   });
@@ -250,7 +255,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('name message');
   });
@@ -289,7 +295,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('fullName message');
   });
@@ -339,7 +346,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('field collection date fullName - display date fullName');
   });
@@ -391,7 +399,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal('display date name');
   });
@@ -416,7 +425,8 @@ describe('FieldInput', function suite() {
             />
           </ConfigProvider>
         </StoreProvider>
-      </IntlProvider>, this.container);
+      </IntlProvider>, this.container,
+    );
 
     this.container.textContent.should.equal(value);
   });

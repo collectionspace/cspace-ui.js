@@ -1,5 +1,3 @@
-/* global URL */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
@@ -7,8 +5,12 @@ import get from 'lodash/get';
 import ImageViewer from '../media/ImageViewer';
 
 const propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }),
   readContent: PropTypes.func.isRequired,
   renderError: PropTypes.func,
   renderLoading: PropTypes.func,
@@ -28,8 +30,16 @@ export default class ContentViewerPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const contentPath = get(this.props.match, ['params', 'contentPath']);
-    const prevContentPath = get(prevProps.match, ['params', 'contentPath']);
+    const {
+      match,
+    } = this.props;
+
+    const {
+      match: prevMatch,
+    } = prevProps;
+
+    const contentPath = get(match, ['params', 'contentPath']);
+    const prevContentPath = get(prevMatch, ['params', 'contentPath']);
 
     if (contentPath !== prevContentPath) {
       this.reset();
@@ -117,7 +127,8 @@ export default class ContentViewerPage extends Component {
     // Load the blob into an iframe to get the default viewer.
 
     return (
-      <iframe src={blobUrl} style={style} />
+      // TODO: Make title a message.
+      <iframe src={blobUrl} style={style} title="File content" />
     );
   }
 
