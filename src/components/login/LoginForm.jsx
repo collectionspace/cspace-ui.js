@@ -88,7 +88,7 @@ const propTypes = {
   isPending: PropTypes.bool,
   isSuccess: PropTypes.bool,
   username: PropTypes.string,
-  error: PropTypes.instanceOf(Immutable.Map()),
+  error: PropTypes.instanceOf(Immutable.Map),
   showForgotLink: PropTypes.bool,
   showHeader: PropTypes.bool,
   login: PropTypes.func,

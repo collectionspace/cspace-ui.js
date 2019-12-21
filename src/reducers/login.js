@@ -28,7 +28,10 @@ export default (state = Immutable.Map(), action) => {
         .delete('isPending')
         .delete('isSuccess')
         .set('username', action.meta.username)
-        .set('error', Immutable.fromJS(action.payload));
+        .set('error', Immutable.Map({
+          code: action.payload.code,
+          error: action.payload.error,
+        }));
     default:
       return state;
   }

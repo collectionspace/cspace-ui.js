@@ -82,7 +82,12 @@ describe('login reducer', () => {
 
   it('should handle LOGIN_REJECTED', () => {
     const loginUsername = 'user@collectionspace.org';
+    const errorCode = 'CODE';
+    const innerError = new Error();
     const loginError = new Error();
+
+    loginError.code = errorCode;
+    loginError.error = innerError;
 
     const state = reducer(undefined, {
       type: LOGIN_REJECTED,
@@ -94,10 +99,17 @@ describe('login reducer', () => {
 
     state.should.deep.equal(Immutable.Map({
       username: loginUsername,
-      error: loginError,
+      error: Immutable.Map({
+        code: errorCode,
+        error: innerError,
+      }),
     }));
 
-    getError(state).should.equal(loginError);
+    getError(state).should.equal(Immutable.Map({
+      code: errorCode,
+      error: innerError,
+    }));
+
     getUsername(state).should.equal(loginUsername);
     expect(isPending(state)).to.equal(undefined);
   });
