@@ -58,9 +58,6 @@
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-helmet": "^5.2.0",
-    "//": [
-      "Fixing react-image-gallery at 0.8.16, because later versions ask for react 16 (via react-swipeable@5)."
-    ],
     "react-image-gallery": "=0.8.16",
     "react-intl": "^2.4.0",
     "react-redux": "^4.4.5",
