@@ -3436,11 +3436,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceCurrency.fullName',
-                defaultMessage: 'Ownership exchange currency',
+                defaultMessage: 'Ownership exchange price currency',
               },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceCurrency.name',
-                defaultMessage: 'Currency',
+                defaultMessage: 'Price currency',
               },
             }),
             view: {
@@ -3457,11 +3457,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceValue.fullName',
-                defaultMessage: 'Ownership exchange price',
+                defaultMessage: 'Ownership exchange price value',
               },
               name: {
                 id: 'field.collectionobjects_common.ownershipExchangePriceValue.name',
-                defaultMessage: 'Price',
+                defaultMessage: 'Price value',
               },
             }),
             view: {
