@@ -97,6 +97,4 @@ export const invoke = (config, csid, invocationDescriptor, params) => (dispatch)
     });
 };
 
-export const getMimeTypes = csid => (getState) => {
-  return getRecordData(getState(), csid);
-}
+export const getMimeTypes = csid => (dispatch, getState) => getRecordData(getState(), csid);

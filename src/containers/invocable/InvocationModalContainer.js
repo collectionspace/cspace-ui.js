@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(readRecord(config, recordTypeConfig, undefined, csid)),
     searchCsid: (...args) =>
       dispatch(searchCsid(...args)),
-    getMimeTypes: () => 
+    getMimeTypes: () =>
       dispatch(getMimeTypes(csid)),
   };
 };
