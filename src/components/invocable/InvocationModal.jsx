@@ -7,13 +7,15 @@ import { components as inputComponents } from 'cspace-input';
 import { Modal } from 'cspace-layout';
 import InvokeButton from './InvokeButton';
 import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
-import OptionPickerInputContainer from '../../containers/record/OptionPickerInputContainer';
 import { normalizeInvocationDescriptor } from '../../helpers/invocationHelpers';
 import CancelButton from '../navigation/CancelButton';
 import styles from '../../../styles/cspace-ui/InvocationModal.css';
 import formatPickerStyles from '../../../styles/cspace-ui/InvocationFormatPicker.css';
+import { OptionPickerInput } from '../../helpers/configContextInputs';
+
 
 const { Label } = inputComponents;
+
 
 const messages = defineMessages({
   cancel: {
@@ -57,6 +59,7 @@ const propTypes = {
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onInvokeButtonClick: PropTypes.func,
+  getMimeTypes: PropTypes.func,
 };
 
 export default class InvocationModal extends Component {
@@ -226,29 +229,41 @@ export default class InvocationModal extends Component {
     } = this.props;
 
     const {
+      csid,
+      getMimeTypes,
+    } = this.props;
+
+    const {
       invocationDescriptor,
     } = this.state;
 
-    // TODO: Use reports/mimetypes endpoint to get options, and [recordType]/mimetypes to check if
-    // a format picker should be shown instead of hardcoding (batch/mimetypes will return 404, so
-    // format picker should not be shown).
+    let mimeList = []
+    if (getMimeTypes) {
+      mimeList = getMimeTypes(csid)
+      mimeList = mimeList.getIn(['document', 'ns2:reports_common', 'supportsOutputMIMEList', 'outputMIME']);
+    }
 
+    const prefilter = (option) => mimeList.contains(option.value);
+    
     if (recordType === 'report') {
       return (
         <div className={formatPickerStyles.common}>
-          <OptionPickerInputContainer
+          <OptionPickerInput
             blankable={false}
             label={<Label><FormattedMessage {...messages.format} /></Label>}
-            source="reportMimeTypes"
+            source= {"reportMimeTypes"}
+            prefilter= {mimeList ? prefilter : null}
             value={invocationDescriptor.get('outputMIME')}
             onCommit={this.handleFormatPickerCommit}
+            // blankable
           />
         </div>
       );
     }
-
     return null;
   }
+
+
 
   renderButtonBar() {
     const {

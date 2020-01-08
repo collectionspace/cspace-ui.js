@@ -24,6 +24,7 @@ import {
 import {
   getNewRecordData,
   getRecordValidationErrors,
+  getRecordData,
 } from '../reducers';
 
 const messages = defineMessages({
@@ -95,3 +96,7 @@ export const invoke = (config, csid, invocationDescriptor, params) => (dispatch)
       throw error;
     });
 };
+
+export const getMimeTypes = csid => (getState) => {
+  return getRecordData(getState(), csid);
+}
