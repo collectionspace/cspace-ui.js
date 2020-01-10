@@ -70,62 +70,7 @@ export default (configContext) => {
             ns: 'http://collectionspace.org/services/concept',
           },
         },
-        csid: {
-          [config]: {
-            cloneable: false,
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.csid.name',
-                defaultMessage: 'System CSID',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        inAuthority: {
-          [config]: {
-            cloneable: false,
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.inAuthority.name',
-                defaultMessage: 'System authority CSID',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        refName: {
-          [config]: {
-            cloneable: false,
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.refName.name',
-                defaultMessage: 'System ref name',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
-        shortIdentifier: {
-          [config]: {
-            cloneable: false,
-            messages: defineMessages({
-              name: {
-                id: 'field.concepts_common.shortIdentifier.name',
-                defaultMessage: 'System short ID',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
+        ...extensions.authItem.fields,
         conceptTermGroupList: {
           [config]: {
             messages: defineMessages({
