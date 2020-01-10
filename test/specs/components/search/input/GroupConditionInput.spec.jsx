@@ -604,10 +604,12 @@ describe('GroupConditionInput', () => {
     removedName.should.equal(name);
   });
 
-  it('should call deleteOptionList when unmounted', function test() {
+  it('should call deleteOptionList when unmounted if the condition path is not null', function test() {
+    const path = 'foo';
+
     const condition = Immutable.fromJS({
+      path,
       op: OP_GROUP,
-      path: null,
     });
 
     const deletedNames = [];
@@ -639,8 +641,8 @@ describe('GroupConditionInput', () => {
     );
 
     deletedNames.should.deep.equal([
-      '_field_collectionobject',
-      '_fieldgroup_collectionobject',
+      `_field_collectionobject@${path}`,
+      `_fieldgroup_collectionobject@${path}`,
     ]);
   });
 });

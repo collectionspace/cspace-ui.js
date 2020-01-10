@@ -116,7 +116,7 @@ export default class GroupConditionInput extends Component {
 
     const path = condition.get('path');
 
-    if (deleteOptionList) {
+    if (path && deleteOptionList) {
       deleteOptionList(getRecordFieldOptionListName(recordType, path));
       deleteOptionList(getRecordGroupOptionListName(recordType, path));
     }
