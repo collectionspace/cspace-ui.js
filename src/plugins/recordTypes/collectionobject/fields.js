@@ -1267,9 +1267,6 @@ export default (configContext) => {
                 defaultMessage: 'Date',
               },
             }),
-            // searchView: {
-            //   type: DateInput,
-            // },
             view: {
               type: StructuredDateInput,
             },
@@ -3177,11 +3174,15 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.assocStructuredDateGroup.fullName',
-                    defaultMessage: 'Associated date',
+                    defaultMessage: 'Associated date value',
+                  },
+                  groupName: {
+                    id: 'field.collectionobjects_common.assocStructuredDateGroup.groupName',
+                    defaultMessage: 'Value',
                   },
                   name: {
                     id: 'field.collectionobjects_common.assocStructuredDateGroup.name',
-                    defaultMessage: 'Date',
+                    defaultMessage: 'Value',
                   },
                 }),
                 searchView: {
