@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 export default (configContext) => {
   const {
     configKey: config,
@@ -24,12 +26,12 @@ export default (configContext) => {
   return {
     dateDisplayDate: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateDisplayDate.fullName',
             defaultMessage: 'Display date',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -37,12 +39,12 @@ export default (configContext) => {
     },
     datePeriod: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.datePeriod.fullName',
             defaultMessage: 'Period',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -50,12 +52,12 @@ export default (configContext) => {
     },
     dateAssociation: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateAssociation.fullName',
             defaultMessage: 'Association',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -63,12 +65,12 @@ export default (configContext) => {
     },
     dateNote: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateNote.fullName',
             defaultMessage: 'Note',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -77,12 +79,12 @@ export default (configContext) => {
     dateEarliestSingleYear: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleYear.fullName',
             defaultMessage: 'Earliest/single year',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -91,12 +93,12 @@ export default (configContext) => {
     dateEarliestSingleMonth: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleMonth.fullName',
             defaultMessage: 'Earliest/single month',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -105,12 +107,12 @@ export default (configContext) => {
     dateEarliestSingleDay: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleDay.fullName',
             defaultMessage: 'Earliest/single day',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -118,12 +120,12 @@ export default (configContext) => {
     },
     dateEarliestSingleEra: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleEra.fullName',
             defaultMessage: 'Earliest/single era',
           },
-        },
+        }),
         view: {
           type: TermPickerInput,
           props: {
@@ -134,12 +136,12 @@ export default (configContext) => {
     },
     dateEarliestSingleCertainty: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleCertainty.fullName',
             defaultMessage: 'Earliest/single certainty',
           },
-        },
+        }),
         view: {
           type: TermPickerInput,
           props: {
@@ -150,12 +152,12 @@ export default (configContext) => {
     },
     dateEarliestSingleQualifier: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleQualifier.fullName',
             defaultMessage: 'Earliest/single qualifier',
           },
-        },
+        }),
         view: {
           type: OptionPickerInput,
           props: {
@@ -167,12 +169,12 @@ export default (configContext) => {
     dateEarliestSingleQualifierValue: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleQualifierValue.fullName',
             defaultMessage: 'Earliest/single qualifier value',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -180,12 +182,12 @@ export default (configContext) => {
     },
     dateEarliestSingleQualifierUnit: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestSingleQualifierUnit.fullName',
             defaultMessage: 'Earliest/single qualifier unit',
           },
-        },
+        }),
         view: {
           type: TermPickerInput,
           props: {
@@ -197,12 +199,12 @@ export default (configContext) => {
     dateLatestYear: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestYear.fullName',
             defaultMessage: 'Latest year',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -211,12 +213,12 @@ export default (configContext) => {
     dateLatestMonth: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestMonth.fullName',
             defaultMessage: 'Latest month',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -225,12 +227,12 @@ export default (configContext) => {
     dateLatestDay: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestDay.fullName',
             defaultMessage: 'Latest day',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -238,12 +240,12 @@ export default (configContext) => {
     },
     dateLatestEra: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestEra.fullName',
             defaultMessage: 'Latest era',
           },
-        },
+        }),
         view: {
           type: TermPickerInput,
           props: {
@@ -254,12 +256,12 @@ export default (configContext) => {
     },
     dateLatestCertainty: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestCertainty.fullName',
             defaultMessage: 'Latest certainty',
           },
-        },
+        }),
         view: {
           type: TermPickerInput,
           props: {
@@ -270,12 +272,12 @@ export default (configContext) => {
     },
     dateLatestQualifier: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestQualifier.fullName',
             defaultMessage: 'Latest qualifier',
           },
-        },
+        }),
         view: {
           type: OptionPickerInput,
           props: {
@@ -287,12 +289,12 @@ export default (configContext) => {
     dateLatestQualifierValue: {
       [config]: {
         dataType: DATA_TYPE_INT,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestQualifierValue.fullName',
             defaultMessage: 'Latest qualifier value',
           },
-        },
+        }),
         view: {
           type: TextInput,
         },
@@ -300,12 +302,12 @@ export default (configContext) => {
     },
     dateLatestQualifierUnit: {
       [config]: {
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateLatestQualifierUnit.fullName',
             defaultMessage: 'Latest qualifier unit',
           },
-        },
+        }),
         view: {
           type: TermPickerInput,
           props: {
@@ -317,12 +319,12 @@ export default (configContext) => {
     dateEarliestScalarValue: {
       [config]: {
         dataType: DATA_TYPE_DATE,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.dateEarliestScalarValue.fullName',
             defaultMessage: 'Earliest represented date',
           },
-        },
+        }),
         view: {
           type: DateInput,
         },
@@ -331,12 +333,12 @@ export default (configContext) => {
     dateLatestScalarValue: {
       [config]: {
         dataType: DATA_TYPE_DATE,
-        messages: {
+        messages: defineMessages({
           fullName: {
-            id: 'field.ext.structuredDate.dateEarliestScalarValue.fullName',
+            id: 'field.ext.structuredDate.dateLatestScalarValue.fullName',
             defaultMessage: 'Latest represented date',
           },
-        },
+        }),
         view: {
           type: DateInput,
         },
@@ -345,12 +347,12 @@ export default (configContext) => {
     scalarValuesComputed: {
       [config]: {
         dataType: DATA_TYPE_BOOL,
-        messages: {
+        messages: defineMessages({
           fullName: {
             id: 'field.ext.structuredDate.scalarValuesComputed.fullName',
             defaultMessage: 'Represented dates computed',
           },
-        },
+        }),
         view: {
           type: CheckboxInput,
         },
