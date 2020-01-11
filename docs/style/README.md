@@ -9,6 +9,7 @@ This document contains guidelines to follow in order to maintain a consistent lo
   - [Repeating Fields](#repeating-fields)
   - [Repeating Field Groups](#repeating-field-groups)
   - [Input Tables](#input-tables)
+  - [Structured Dates](#structured-dates)
 - [Option Lists](#option-lists)
 
 
@@ -657,6 +658,167 @@ A group field is typically configured with the view type `CompoundInput`. The `C
          // ...
      },
    };
+   ```
+
+1. If the fields in the table are enclosed in a repeating field group, define a `groupName` message for each field.
+
+   Why: This ensures that each field can be unambiguously but concisely identified within a group search.
+
+   <img align="right" src="./images/inputTableFieldMissingGroupName.png">
+
+   ```JavaScript
+   // 🚫 BAD - groupName not defined on a field in
+   // an input table in a repeating group. The name
+   // message is displayed, which is ambiguous.
+
+   {
+     personTermGroupList: {
+       // ...
+       personTermGroup: {
+         // ...
+         termSource: {
+           [config]: {
+             messages: defineMessages({
+               fullName: {
+                 id: 'field.persons_common.termSource.fullName',
+                 defaultMessage: 'Term source name',
+               },
+               name: {
+                 id: 'field.persons_common.termSource.name',
+                 defaultMessage: 'Name',
+               },
+             }),
+             view: {
+               type: AutocompleteInput,
+               props: {
+                 source: 'citation/local,citation/shared,citation/worldcat',
+               },
+             },
+           },
+         },
+       },
+     },
+   }
+   ```
+
+   <img align="right" src="./images/inputTableFieldGroupName.png">
+
+   ```JavaScript
+   // ✅ GOOD - groupName defined to describe the
+   // field within the context of the parent.
+
+   {
+     personTermGroupList: {
+       // ...
+       personTermGroup: {
+         // ...
+         termSource: {
+           [config]: {
+             messages: defineMessages({
+               fullName: {
+                 id: 'field.persons_common.termSource.fullName',
+                 defaultMessage: 'Term source name',
+               },
+               groupName: {
+                 id: 'field.persons_common.termSource.groupName',
+                 defaultMessage: 'Source name',
+               },
+               name: {
+                 id: 'field.persons_common.termSource.name',
+                 defaultMessage: 'Name',
+               },
+             }),
+             view: {
+               type: AutocompleteInput,
+               props: {
+                 source: 'citation/local,citation/shared,citation/worldcat',
+               },
+             },
+           },
+         },
+       },
+     },
+   }
+   ```
+### Structured Dates
+
+1. If a structured date is enclosed in a repeating field group, define a `groupName` message that is the same as the `name` message.
+
+   Why: On advanced search forms, the labels of fields inside of structured dates are algorithmically constructed. When searching within a group, the algorithm that constructs these labels will use the `fullName` message if a `groupName` message is not present. This can be confusing for end users, because the structured date field itself may be displayed using the `name` message.
+
+   <img align="right" src="./images/structDateFieldMissingGroupName.png">
+
+   ```JavaScript
+   // 🚫 BAD - groupName not defined on a structured
+   // date field in a repeating field group. Fields
+   // inside the structured date are prefixed using
+   // the fullName, but the structured date itself
+   // is labeled using the name.
+
+   {
+     propActivityGroupList: {
+       // ...
+       propActivityGroup: {
+         // ...
+         activityDate: {
+           [config]: {
+             dataType: DATA_TYPE_STRUCTURED_DATE,
+             messages: defineMessages({
+               fullName: {
+                 id: 'field.propagations_common.activityDate.fullName',
+                 defaultMessage: 'Activity date',
+               },
+               name: {
+                 id: 'field.propagations_common.activityDate.name',
+                 defaultMessage: 'Date',
+               },
+             }),
+             view: {
+               type: StructuredDateInput,
+             },
+           },
+         },
+       },
+     },
+   }
+   ```
+
+   <img align="right" src="./images/structDateFieldGroupName.png">
+
+   ```JavaScript
+   // ✅ GOOD - groupName defined to be the same as
+   // name
+
+   {
+     propActivityGroupList: {
+       // ...
+       propActivityGroup: {
+         // ...
+         activityDate: {
+           [config]: {
+             dataType: DATA_TYPE_STRUCTURED_DATE,
+             messages: defineMessages({
+               fullName: {
+                 id: 'field.propagations_common.activityDate.fullName',
+                 defaultMessage: 'Activity date',
+               },
+               groupName: {
+                 id: 'field.propagations_common.activityDate.groupName',
+                 defaultMessage: 'Date',
+               },
+               name: {
+                 id: 'field.propagations_common.activityDate.name',
+                 defaultMessage: 'Date',
+               },
+             }),
+             view: {
+               type: StructuredDateInput,
+             },
+           },
+         },
+       },
+     },
+   }
    ```
 
 ## Option Lists
