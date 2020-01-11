@@ -9,10 +9,10 @@
 
 export default {
   // Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.
-  "about.contentHTML": "<p> CollectionSpace is a free, open-source collections management application for museums, historical societies, natural science collections, and more. </p> <p> This demo site is running the <a href=\"http://www.collectionspace.org/current_release/\">current version</a> of the <i>common</i> installation, which includes fields and procedures common to most collecting organizations. If you’re interested in a version of CollectionSpace configured to meet the needs of a specific domain, please visit our <a href=\"https://www.collectionspace.org/demo/\">demo landing page</a> to view all available options. Examples include Anthropology, Botanical Garden, Fine Art, Herbarium, and Local History &amp; Material Culture. </p> <p> To log in, use the email <strong>admin@core.collectionspace.org</strong>, with the case-sensitive password <strong>Administrator</strong>. To view in read-only mode, use the email <strong>reader@core.collectionspace.org</strong> with the password <strong>reader</strong>. </p> <p> Not sure where to get started? Follow along with one of our quick-start guides: </p> <ul> <li> <span>Create a new object:</span> <a href=\"http://bit.ly/newobjpdf\">PDF</a> <a href=\"https://vimeo.com/112212895\">Screencast</a> </li> <li> <span>Link to an image:</span> <a href=\"http://bit.ly/linkimgpdf\">PDF</a> <a href=\"https://vimeo.com/112214418\">Screencast</a> </li> <li> <span>Add a storage location:</span> <a href=\"http://bit.ly/storlocpdf\">PDF</a> <a href=\"https://vimeo.com/112818120\">Screencast</a> </li> </ul> <p> We rebuild this demo site weekly so don't worry, you won't break it! </p>",
+  "about.contentHTML": "<p> CollectionSpace is a free, open-source collections management application for museums, historical societies, natural science collections, and more. </p>",
 
   // Title of the about page.
-  "about.title": "Welcome to the CollectionSpace Demo",
+  "about.title": "Welcome to CollectionSpace",
 
   // Label of the accept selection button.
   "acceptSelectionButton.label": "Use selection",
@@ -111,6 +111,15 @@ export default {
 
   // Notification message shown when a batch job is running.
   "batch.running": "Running {name}…",
+
+  // Label of the button to add a new boolean constraint to a boolean search
+  "booleanConditionInput.addBoolean.label": "+ Any/All",
+
+  // Label of the button to add a new field constraint to a boolean search
+  "booleanConditionInput.addField.label": "+ Field",
+
+  // Label of the button to add a new group constraint to a boolean search
+  "booleanConditionInput.addGroup.label": "+ Group",
 
   "booleanConditionInput.and.label": "and",
 
@@ -305,14 +314,6 @@ export default {
   "column.place.default.vocabulary": "Vocabulary",
 
   "column.place.search.updatedAt": "Updated",
-
-  "column.pottag.default.family": "Family",
-
-  "column.pottag.default.printLabels": "Print labels",
-
-  "column.pottag.default.taxonName": "Taxon name",
-
-  "column.pottag.default.updatedAt": "Updated",
 
   "column.procedure.default.docName": "Summary",
 
@@ -509,7 +510,9 @@ export default {
 
   "field.acquisitions_common.acquisitionFundingCurrency.name": "Currency",
 
-  "field.acquisitions_common.acquisitionFundingSource.name": "Funding source",
+  "field.acquisitions_common.acquisitionFundingSource.fullName": "Funding source",
+
+  "field.acquisitions_common.acquisitionFundingSource.name": "Source",
 
   "field.acquisitions_common.acquisitionFundingValue.fullName": "Funding value",
 
@@ -595,6 +598,8 @@ export default {
 
   "field.acquisitions_common.transferOfTitleNumber.name": "Transfer of title number",
 
+  "field.acquistions_common.acquisitionFundingSourceProvisos.fullName": "Funding source provisos",
+
   "field.acquistions_common.acquisitionFundingSourceProvisos.name": "Source provisos",
 
   "field.approvalGroupField.approvalGroup.name": "Group",
@@ -606,6 +611,8 @@ export default {
   "field.authrole.displayName.name": "Name",
 
   "field.authrole.permission.name": "Permissions",
+
+  "field.batch.Merge Authority Items.targetCSID.name": "Target record",
 
   "field.batch.UpdateInventoryStatusBatchJob.inventoryStatus.name": "New inventory status",
 
@@ -639,11 +646,13 @@ export default {
 
   "field.citations_common.agent.name": "Name",
 
+  "field.citations_common.captureDate.fullName": "Resource identifier capture date",
+
   "field.citations_common.captureDate.name": "Capture date",
 
   "field.citations_common.citationAgentInfoGroup.name": "Agent",
 
-  "field.citations_common.citationNote.name": "Citation note",
+  "field.citations_common.citationNote.name": "Note",
 
   "field.citations_common.citationPublicationInfoGroup.name": "Publication",
 
@@ -657,9 +666,15 @@ export default {
 
   "field.citations_common.citationTermGroupList.required": "At least one term display name is required. Please enter a value.",
 
+  "field.citations_common.edition.fullName": "Publication edition",
+
   "field.citations_common.edition.name": "Edition",
 
+  "field.citations_common.note.fullName": "Agent note",
+
   "field.citations_common.note.name": "Note",
+
+  "field.citations_common.pages.fullName": "Publication page(s)",
 
   "field.citations_common.pages.name": "Page(s)",
 
@@ -681,11 +696,15 @@ export default {
 
   "field.citations_common.relationType.name": "Type",
 
+  "field.citations_common.resourceIdent.fullName": "Resource identifier",
+
   "field.citations_common.resourceIdent.name": "Identifier",
 
   "field.citations_common.role.fullName": "Agent role",
 
   "field.citations_common.role.name": "Role",
+
+  "field.citations_common.termDisplayName.fullName": "Term display name",
 
   "field.citations_common.termDisplayName.name": "Display name",
 
@@ -693,7 +712,11 @@ export default {
 
   "field.citations_common.termFlag.name": "Flag",
 
+  "field.citations_common.termFullCitation.fullName": "Term full citation",
+
   "field.citations_common.termFullCitation.name": "Full citation",
+
+  "field.citations_common.termIssue.fullName": "Term issue",
 
   "field.citations_common.termIssue.name": "Issue",
 
@@ -701,33 +724,63 @@ export default {
 
   "field.citations_common.termLanguage.name": "Language",
 
+  "field.citations_common.termName.fullName": "Term name",
+
   "field.citations_common.termName.name": "Name",
+
+  "field.citations_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.citations_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.citations_common.termQualifier.fullName": "Term qualifier",
+
   "field.citations_common.termQualifier.name": "Qualifier",
+
+  "field.citations_common.termSectionTitle.fullName": "Term section title",
 
   "field.citations_common.termSectionTitle.name": "Section title",
 
-  "field.citations_common.termSource.fullName": "Source name",
+  "field.citations_common.termSource.fullName": "Term source name",
+
+  "field.citations_common.termSource.groupName": "Source name",
 
   "field.citations_common.termSource.name": "Name",
 
+  "field.citations_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.citations_common.termSourceDetail.groupName": "Source detail",
+
   "field.citations_common.termSourceDetail.name": "Detail",
+
+  "field.citations_common.termSourceID.fullName": "Term source ID",
+
+  "field.citations_common.termSourceID.groupName": "Source ID",
 
   "field.citations_common.termSourceID.name": "ID",
 
+  "field.citations_common.termSourceNote.fullName": "Term source note",
+
+  "field.citations_common.termSourceNote.groupName": "Source note",
+
   "field.citations_common.termSourceNote.name": "Note",
+
+  "field.citations_common.termStatus.fullName": "Term status",
 
   "field.citations_common.termStatus.name": "Status",
 
+  "field.citations_common.termSubTitle.fullName": "Term subtitle",
+
   "field.citations_common.termSubTitle.name": "Subtitle",
+
+  "field.citations_common.termTitle.fullName": "Term title",
 
   "field.citations_common.termTitle.name": "Title",
 
   "field.citations_common.termType.fullName": "Term type",
 
   "field.citations_common.termType.name": "Type",
+
+  "field.citations_common.termVolume.fullName": "Term volume",
 
   "field.citations_common.termVolume.name": "Volume",
 
@@ -743,13 +796,21 @@ export default {
 
   "field.collectionobjects_common.ageQualifier.name": "Qualifier",
 
+  "field.collectionobjects_common.ageUnit.fullName": "Age unit",
+
   "field.collectionobjects_common.ageUnit.name": "Unit",
+
+  "field.collectionobjects_common.assocActivity.fullName": "Associated activity",
 
   "field.collectionobjects_common.assocActivity.name": "Activity",
 
   "field.collectionobjects_common.assocActivityGroup.name": "Associated activity",
 
+  "field.collectionobjects_common.assocActivityNote.fullName": "Associated activity note",
+
   "field.collectionobjects_common.assocActivityNote.name": "Note",
+
+  "field.collectionobjects_common.assocActivityType.fullName": "Associated activity type",
 
   "field.collectionobjects_common.assocActivityType.name": "Type",
 
@@ -759,25 +820,43 @@ export default {
 
   "field.collectionobjects_common.assocConceptGroup.name": "Associated concept",
 
+  "field.collectionobjects_common.assocConceptNote.fullName": "Associated concept note",
+
   "field.collectionobjects_common.assocConceptNote.name": "Note",
 
+  "field.collectionobjects_common.assocConceptType.fullName": "Associated concept type",
+
   "field.collectionobjects_common.assocConceptType.name": "Type",
+
+  "field.collectionobjects_common.assocCulturalContext.fullName": "Associated cultural affinity",
 
   "field.collectionobjects_common.assocCulturalContext.name": "Cultural affinity",
 
   "field.collectionobjects_common.assocCulturalContextGroup.name": "Associated cultural affinity",
 
+  "field.collectionobjects_common.assocCulturalContextNote.fullName": "Associated cultural affinity note",
+
   "field.collectionobjects_common.assocCulturalContextNote.name": "Note",
+
+  "field.collectionobjects_common.assocCulturalContextType.fullName": "Associated cultural affinity type",
 
   "field.collectionobjects_common.assocCulturalContextType.name": "Type",
 
   "field.collectionobjects_common.assocDateGroup.name": "Associated date",
 
+  "field.collectionobjects_common.assocDateNote.fullName": "Associated date note",
+
   "field.collectionobjects_common.assocDateNote.name": "Note",
+
+  "field.collectionobjects_common.assocDateType.fullName": "Associated date type",
 
   "field.collectionobjects_common.assocDateType.name": "Type",
 
+  "field.collectionobjects_common.assocEventName.fullName": "Associated event",
+
   "field.collectionobjects_common.assocEventName.name": "Event",
+
+  "field.collectionobjects_common.assocEventNameType.fullName": "Associated event type",
 
   "field.collectionobjects_common.assocEventNameType.name": "Type",
 
@@ -791,11 +870,17 @@ export default {
 
   "field.collectionobjects_common.assocEventPlace.name": "Associated event place",
 
+  "field.collectionobjects_common.assocObject.fullName": "Associated object",
+
   "field.collectionobjects_common.assocObject.name": "Object",
 
   "field.collectionobjects_common.assocObjectGroup.name": "Associated object",
 
+  "field.collectionobjects_common.assocObjectNote.fullName": "Associated object note",
+
   "field.collectionobjects_common.assocObjectNote.name": "Note",
+
+  "field.collectionobjects_common.assocObjectType.fullName": "Associated object type",
 
   "field.collectionobjects_common.assocObjectType.name": "Type",
 
@@ -805,7 +890,11 @@ export default {
 
   "field.collectionobjects_common.assocOrganizationGroup.name": "Associated organization",
 
+  "field.collectionobjects_common.assocOrganizationNote.fullName": "Associated organization note",
+
   "field.collectionobjects_common.assocOrganizationNote.name": "Note",
+
+  "field.collectionobjects_common.assocOrganizationType.fullName": "Associated organization type",
 
   "field.collectionobjects_common.assocOrganizationType.name": "Type",
 
@@ -815,7 +904,11 @@ export default {
 
   "field.collectionobjects_common.assocPeopleGroup.name": "Associated people",
 
+  "field.collectionobjects_common.assocPeopleNote.fullName": "Associated people note",
+
   "field.collectionobjects_common.assocPeopleNote.name": "Note",
+
+  "field.collectionobjects_common.assocPeopleType.fullName": "Associated people type",
 
   "field.collectionobjects_common.assocPeopleType.name": "Type",
 
@@ -825,7 +918,11 @@ export default {
 
   "field.collectionobjects_common.assocPersonGroup.name": "Associated person",
 
+  "field.collectionobjects_common.assocPersonNote.fullName": "Associated person note",
+
   "field.collectionobjects_common.assocPersonNote.name": "Note",
+
+  "field.collectionobjects_common.assocPersonType.fullName": "Associated person type",
 
   "field.collectionobjects_common.assocPersonType.name": "Type",
 
@@ -835,13 +932,19 @@ export default {
 
   "field.collectionobjects_common.assocPlaceGroup.name": "Associated place",
 
+  "field.collectionobjects_common.assocPlaceNote.fullName": "Associated place note",
+
   "field.collectionobjects_common.assocPlaceNote.name": "Note",
+
+  "field.collectionobjects_common.assocPlaceType.fullName": "Associated place type",
 
   "field.collectionobjects_common.assocPlaceType.name": "Type",
 
-  "field.collectionobjects_common.assocStructuredDateGroup.fullName": "Associated date",
+  "field.collectionobjects_common.assocStructuredDateGroup.fullName": "Associated date value",
 
-  "field.collectionobjects_common.assocStructuredDateGroup.name": "Date",
+  "field.collectionobjects_common.assocStructuredDateGroup.groupName": "Value",
+
+  "field.collectionobjects_common.assocStructuredDateGroup.name": "Value",
 
   "field.collectionobjects_common.briefDescription.name": "Brief description",
 
@@ -853,6 +956,8 @@ export default {
 
   "field.collectionobjects_common.computedCurrentLocation.name": "Computed current location",
 
+  "field.collectionobjects_common.contentActivity.fullName": "Content activity",
+
   "field.collectionobjects_common.contentActivity.name": "Activity",
 
   "field.collectionobjects_common.contentConcept.fullName": "Content concept",
@@ -863,11 +968,19 @@ export default {
 
   "field.collectionobjects_common.contentDateGroup.name": "Date",
 
+  "field.collectionobjects_common.contentDescription.fullName": "Content description",
+
   "field.collectionobjects_common.contentDescription.name": "Description",
+
+  "field.collectionobjects_common.contentEventName.fullName": "Content event name",
 
   "field.collectionobjects_common.contentEventName.name": "Name",
 
+  "field.collectionobjects_common.contentEventNameGroup.fullName": "Content event",
+
   "field.collectionobjects_common.contentEventNameGroup.name": "Event",
+
+  "field.collectionobjects_common.contentEventNameType.fullName": "Content event type",
 
   "field.collectionobjects_common.contentEventNameType.name": "Type",
 
@@ -875,11 +988,19 @@ export default {
 
   "field.collectionobjects_common.contentLanguage.name": "Language",
 
+  "field.collectionobjects_common.contentNote.fullName": "Content note",
+
   "field.collectionobjects_common.contentNote.name": "Note",
+
+  "field.collectionobjects_common.contentObject.fullName": "Content object name",
 
   "field.collectionobjects_common.contentObject.name": "Name",
 
+  "field.collectionobjects_common.contentObjectGroup.fullName": "Content object",
+
   "field.collectionobjects_common.contentObjectGroup.name": "Object",
+
+  "field.collectionobjects_common.contentObjectType.fullName": "Content object type",
 
   "field.collectionobjects_common.contentObjectType.name": "Type",
 
@@ -887,11 +1008,19 @@ export default {
 
   "field.collectionobjects_common.contentOrganization.name": "Organization",
 
+  "field.collectionobjects_common.contentOther.fullName": "Content other name",
+
   "field.collectionobjects_common.contentOther.name": "Name",
+
+  "field.collectionobjects_common.contentOtherGroup.fullName": "Content other",
 
   "field.collectionobjects_common.contentOtherGroup.name": "Other",
 
+  "field.collectionobjects_common.contentOtherType.fullName": "Content other type",
+
   "field.collectionobjects_common.contentOtherType.name": "Type",
+
+  "field.collectionobjects_common.contentPeople.fullName": "Content people",
 
   "field.collectionobjects_common.contentPeople.name": "People",
 
@@ -899,9 +1028,15 @@ export default {
 
   "field.collectionobjects_common.contentPerson.name": "Person",
 
+  "field.collectionobjects_common.contentPlace.fullName": "Content place",
+
   "field.collectionobjects_common.contentPlace.name": "Place",
 
+  "field.collectionobjects_common.contentPosition.fullName": "Content position",
+
   "field.collectionobjects_common.contentPosition.name": "Position",
+
+  "field.collectionobjects_common.contentScript.fullName": "Content script",
 
   "field.collectionobjects_common.contentScript.name": "Script",
 
@@ -931,6 +1066,8 @@ export default {
 
   "field.collectionobjects_common.form.name": "Form",
 
+  "field.collectionobjects_common.inscriptionContent.fullName": "Textual inscription content",
+
   "field.collectionobjects_common.inscriptionContent.name": "Inscription content",
 
   "field.collectionobjects_common.inscriptionContentDateGroup.fullName": "Textual inscription date",
@@ -941,23 +1078,39 @@ export default {
 
   "field.collectionobjects_common.inscriptionContentInscriber.name": "Inscriber",
 
+  "field.collectionobjects_common.inscriptionContentInterpretation.fullName": "Textual inscription interpretation",
+
   "field.collectionobjects_common.inscriptionContentInterpretation.name": "Interpretation",
 
   "field.collectionobjects_common.inscriptionContentLanguage.fullName": "Textual inscription language",
 
   "field.collectionobjects_common.inscriptionContentLanguage.name": "Language",
 
+  "field.collectionobjects_common.inscriptionContentMethod.fullName": "Textual inscription method",
+
   "field.collectionobjects_common.inscriptionContentMethod.name": "Method",
+
+  "field.collectionobjects_common.inscriptionContentPosition.fullName": "Textual inscription position",
 
   "field.collectionobjects_common.inscriptionContentPosition.name": "Position",
 
+  "field.collectionobjects_common.inscriptionContentScript.fullName": "Textual inscription script",
+
   "field.collectionobjects_common.inscriptionContentScript.name": "Script",
+
+  "field.collectionobjects_common.inscriptionContentTranslation.fullName": "Textual inscription translation",
 
   "field.collectionobjects_common.inscriptionContentTranslation.name": "Translation",
 
+  "field.collectionobjects_common.inscriptionContentTransliteration.fullName": "Textual inscription transliteration",
+
   "field.collectionobjects_common.inscriptionContentTransliteration.name": "Transliteration",
 
+  "field.collectionobjects_common.inscriptionContentType.fullName": "Textual inscription type",
+
   "field.collectionobjects_common.inscriptionContentType.name": "Type",
+
+  "field.collectionobjects_common.inscriptionDescription.fullName": "Non-textual inscription description",
 
   "field.collectionobjects_common.inscriptionDescription.name": "Inscription description",
 
@@ -969,13 +1122,19 @@ export default {
 
   "field.collectionobjects_common.inscriptionDescriptionInscriber.name": "Inscriber",
 
+  "field.collectionobjects_common.inscriptionDescriptionInterpretation.fullName": "Non-textual inscription interpretation",
+
   "field.collectionobjects_common.inscriptionDescriptionInterpretation.name": "Interpretation",
 
   "field.collectionobjects_common.inscriptionDescriptionMethod.fullName": "Non-textual inscription method",
 
   "field.collectionobjects_common.inscriptionDescriptionMethod.name": "Method",
 
+  "field.collectionobjects_common.inscriptionDescriptionPosition.fullName": "Non-textual inscription position",
+
   "field.collectionobjects_common.inscriptionDescriptionPosition.name": "Position",
+
+  "field.collectionobjects_common.inscriptionDescriptionType.fullName": "Non-textual inscription type",
 
   "field.collectionobjects_common.inscriptionDescriptionType.name": "Type",
 
@@ -1001,6 +1160,8 @@ export default {
 
   "field.collectionobjects_common.materialSource.name": "Source",
 
+  "field.collectionobjects_common.nonTextualInscriptionGroup.fullName": "Non-textual inscription",
+
   "field.collectionobjects_common.numberOfObjects.name": "Number of objects",
 
   "field.collectionobjects_common.numberType.fullName": "Other number type",
@@ -1009,9 +1170,11 @@ export default {
 
   "field.collectionobjects_common.numberValue.fullName": "Other number",
 
-  "field.collectionobjects_common.numberValue.name": "Number",
+  "field.collectionobjects_common.numberValue.name": "Value",
 
   "field.collectionobjects_common.objectComponentGroup.name": "Object component",
+
+  "field.collectionobjects_common.objectComponentInformation.fullName": "Object component information",
 
   "field.collectionobjects_common.objectComponentInformation.name": "Information",
 
@@ -1025,6 +1188,8 @@ export default {
 
   "field.collectionobjects_common.objectName.name": "Name",
 
+  "field.collectionobjects_common.objectNameCurrency.fullName": "Object name currency",
+
   "field.collectionobjects_common.objectNameCurrency.name": "Currency",
 
   "field.collectionobjects_common.objectNameGroup.name": "Object name",
@@ -1033,11 +1198,19 @@ export default {
 
   "field.collectionobjects_common.objectNameLanguage.name": "Language",
 
+  "field.collectionobjects_common.objectNameLevel.fullName": "Object name level",
+
   "field.collectionobjects_common.objectNameLevel.name": "Level",
+
+  "field.collectionobjects_common.objectNameNote.fullName": "Object name note",
 
   "field.collectionobjects_common.objectNameNote.name": "Note",
 
+  "field.collectionobjects_common.objectNameSystem.fullName": "Object name system",
+
   "field.collectionobjects_common.objectNameSystem.name": "System",
+
+  "field.collectionobjects_common.objectNameType.fullName": "Object name type",
 
   "field.collectionobjects_common.objectNameType.name": "Type",
 
@@ -1053,6 +1226,8 @@ export default {
 
   "field.collectionobjects_common.objectProductionOrganizationGroup.name": "Production organization",
 
+  "field.collectionobjects_common.objectProductionOrganizationRole.fullName": "Production organization role",
+
   "field.collectionobjects_common.objectProductionOrganizationRole.name": "Role",
 
   "field.collectionobjects_common.objectProductionPeople.fullName": "Production people",
@@ -1060,6 +1235,8 @@ export default {
   "field.collectionobjects_common.objectProductionPeople.name": "People",
 
   "field.collectionobjects_common.objectProductionPeopleGroup.name": "Production people",
+
+  "field.collectionobjects_common.objectProductionPeopleRole.fullName": "Production people role",
 
   "field.collectionobjects_common.objectProductionPeopleRole.name": "Role",
 
@@ -1069,6 +1246,8 @@ export default {
 
   "field.collectionobjects_common.objectProductionPersonGroup.name": "Production person",
 
+  "field.collectionobjects_common.objectProductionPersonRole.fullName": "Production person role",
+
   "field.collectionobjects_common.objectProductionPersonRole.name": "Role",
 
   "field.collectionobjects_common.objectProductionPlace.fullName": "Production place",
@@ -1076,6 +1255,8 @@ export default {
   "field.collectionobjects_common.objectProductionPlace.name": "Place",
 
   "field.collectionobjects_common.objectProductionPlaceGroup.name": "Production place",
+
+  "field.collectionobjects_common.objectProductionPlaceRole.fullName": "Production place role",
 
   "field.collectionobjects_common.objectProductionPlaceRole.name": "Role",
 
@@ -1095,17 +1276,21 @@ export default {
 
   "field.collectionobjects_common.ownershipDateGroup.name": "Ownership date",
 
+  "field.collectionobjects_common.ownershipExchangeMethod.fullName": "Ownership exchange method",
+
   "field.collectionobjects_common.ownershipExchangeMethod.name": "Method",
+
+  "field.collectionobjects_common.ownershipExchangeNote.fullName": "Ownership exchange note",
 
   "field.collectionobjects_common.ownershipExchangeNote.name": "Note",
 
-  "field.collectionobjects_common.ownershipExchangePriceCurrency.fullName": "Ownership exchange currency",
+  "field.collectionobjects_common.ownershipExchangePriceCurrency.fullName": "Ownership exchange price currency",
 
-  "field.collectionobjects_common.ownershipExchangePriceCurrency.name": "Currency",
+  "field.collectionobjects_common.ownershipExchangePriceCurrency.name": "Price currency",
 
-  "field.collectionobjects_common.ownershipExchangePriceValue.fullName": "Ownership exchange price",
+  "field.collectionobjects_common.ownershipExchangePriceValue.fullName": "Ownership exchange price value",
 
-  "field.collectionobjects_common.ownershipExchangePriceValue.name": "Price",
+  "field.collectionobjects_common.ownershipExchangePriceValue.name": "Price value",
 
   "field.collectionobjects_common.ownershipPlace.name": "Ownership place",
 
@@ -1125,6 +1310,10 @@ export default {
 
   "field.collectionobjects_common.reference.name": "Reference",
 
+  "field.collectionobjects_common.referenceGroup.fullName": "Reference",
+
+  "field.collectionobjects_common.referenceNote.fullName": "Reference note",
+
   "field.collectionobjects_common.referenceNote.name": "Note",
 
   "field.collectionobjects_common.responsibleDepartment.name": "Responsible department",
@@ -1139,7 +1328,11 @@ export default {
 
   "field.collectionobjects_common.technicalAttributeGroup.name": "Technical attribute",
 
+  "field.collectionobjects_common.technicalAttributeMeasurement.fullName": "Technical attribute measurement",
+
   "field.collectionobjects_common.technicalAttributeMeasurement.name": "Measurement",
+
+  "field.collectionobjects_common.technicalAttributeMeasurementUnit.fullName": "Technical attribute measurement unit",
 
   "field.collectionobjects_common.technicalAttributeMeasurementUnit.name": "Unit",
 
@@ -1149,7 +1342,11 @@ export default {
 
   "field.collectionobjects_common.techniqueGroup.name": "Production technique",
 
+  "field.collectionobjects_common.techniqueType.fullName": "Production technique type",
+
   "field.collectionobjects_common.techniqueType.name": "Type",
+
+  "field.collectionobjects_common.textualInscriptionGroup.fullName": "Textual inscription",
 
   "field.collectionobjects_common.title.name": "Title",
 
@@ -1159,19 +1356,27 @@ export default {
 
   "field.collectionobjects_common.titleLanguage.name": "Language",
 
+  "field.collectionobjects_common.titleTranslation.fullName": "Title translation",
+
   "field.collectionobjects_common.titleTranslation.name": "Translation",
 
   "field.collectionobjects_common.titleTranslationLanguage.fullName": "Title translation language",
 
   "field.collectionobjects_common.titleTranslationLanguage.name": "Language",
 
+  "field.collectionobjects_common.titleTranslationSubGroup.fullName": "Title translation",
+
   "field.collectionobjects_common.titleTranslationSubGroup.name": "Translation",
+
+  "field.collectionobjects_common.titleType.fullName": "Title type",
 
   "field.collectionobjects_common.titleType.name": "Type",
 
   "field.collectionobjects_common.usage.name": "Usage",
 
   "field.collectionobjects_common.usageGroup.name": "Usage",
+
+  "field.collectionobjects_common.usageNote.fullName": "Usage note",
 
   "field.collectionobjects_common.usageNote.name": "Note",
 
@@ -1185,19 +1390,31 @@ export default {
 
   "field.collectionobjects_common.viewersRole.name": "Viewer's role",
 
-  "field.concepts_common.additionalSource.name": "Name",
+  "field.concepts_common.additionalSource.fullName": "Additional source",
+
+  "field.concepts_common.additionalSource.name": "Source",
+
+  "field.concepts_common.additionalSourceDetail.fullName": "Additional source detail",
 
   "field.concepts_common.additionalSourceDetail.name": "Detail",
 
   "field.concepts_common.additionalSourceGroup.name": "Additional source",
 
+  "field.concepts_common.additionalSourceID.fullName": "Additional source ID",
+
   "field.concepts_common.additionalSourceID.name": "ID",
+
+  "field.concepts_common.additionalSourceNote.fullName": "Additional source note",
 
   "field.concepts_common.additionalSourceNote.name": "Note",
 
   "field.concepts_common.citationGroup.name": "Citation",
 
-  "field.concepts_common.citationSource.name": "Citation",
+  "field.concepts_common.citationSource.fullName": "Citation source",
+
+  "field.concepts_common.citationSource.name": "Source",
+
+  "field.concepts_common.citationSourceDetail.fullName": "Citation source detail",
 
   "field.concepts_common.citationSourceDetail.name": "Source detail",
 
@@ -1207,13 +1424,23 @@ export default {
 
   "field.concepts_common.conceptTermGroupList.required": "At least one term display name is required. Please enter a value.",
 
+  "field.concepts_common.historicalStatus.fullName": "Term historical status",
+
   "field.concepts_common.historicalStatus.name": "Historical status",
+
+  "field.concepts_common.scopeNote.fullName": "Scope note",
 
   "field.concepts_common.scopeNote.name": "Note",
 
+  "field.concepts_common.scopeNoteSource.fullName": "Scope note source",
+
   "field.concepts_common.scopeNoteSource.name": "Source",
 
+  "field.concepts_common.scopeNoteSourceDetail.fullName": "Scope note source detail",
+
   "field.concepts_common.scopeNoteSourceDetail.name": "Source detail",
+
+  "field.concepts_common.termDisplayName.fullName": "Term display name",
 
   "field.concepts_common.termDisplayName.name": "Display name",
 
@@ -1225,25 +1452,51 @@ export default {
 
   "field.concepts_common.termLanguage.name": "Language",
 
+  "field.concepts_common.termName.fullName": "Term name",
+
   "field.concepts_common.termName.name": "Name",
+
+  "field.concepts_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.concepts_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.concepts_common.termQualifier.fullName": "Term qualifier",
+
   "field.concepts_common.termQualifier.name": "Qualifier",
 
-  "field.concepts_common.termSource.fullName": "Source name",
+  "field.concepts_common.termSource.fullName": "Term source name",
+
+  "field.concepts_common.termSource.groupName": "Source name",
 
   "field.concepts_common.termSource.name": "Name",
 
+  "field.concepts_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.concepts_common.termSourceDetail.groupName": "Source detail",
+
   "field.concepts_common.termSourceDetail.name": "Detail",
+
+  "field.concepts_common.termSourceID.fullName": "Term source ID",
+
+  "field.concepts_common.termSourceID.groupName": "Source ID",
 
   "field.concepts_common.termSourceID.name": "ID",
 
+  "field.concepts_common.termSourceNote.fullName": "Term source note",
+
+  "field.concepts_common.termSourceNote.groupName": "Source note",
+
   "field.concepts_common.termSourceNote.name": "Note",
+
+  "field.concepts_common.termStatus.fullName": "Term status",
 
   "field.concepts_common.termStatus.name": "Status",
 
+  "field.concepts_common.termType.fullName": "Term type",
+
   "field.concepts_common.termType.name": "Type",
+
+  "field.conditionchecks_common.completeness.fullName": "Completeness description",
 
   "field.conditionchecks_common.completeness.name": "Description",
 
@@ -1252,6 +1505,8 @@ export default {
   "field.conditionchecks_common.completenessDate.name": "Date",
 
   "field.conditionchecks_common.completenessGroup.name": "Completeness",
+
+  "field.conditionchecks_common.completenessNote.fullName": "Completeness note",
 
   "field.conditionchecks_common.completenessNote.name": "Note",
 
@@ -1277,11 +1532,15 @@ export default {
 
   "field.conditionchecks_common.conditionDate.name": "Date",
 
+  "field.conditionchecks_common.conditionNote.fullName": "Condition note",
+
   "field.conditionchecks_common.conditionNote.name": "Note",
 
   "field.conditionchecks_common.conservationTreatmentPriority.name": "Conservation treatment priority",
 
   "field.conditionchecks_common.displayRecommendations.name": "Display recommendation",
+
+  "field.conditionchecks_common.envConditionNote.fullName": "Environmental condition note",
 
   "field.conditionchecks_common.envConditionNote.name": "Note",
 
@@ -1295,6 +1554,8 @@ export default {
 
   "field.conditionchecks_common.handlingRecommendations.name": "Handling recommendation",
 
+  "field.conditionchecks_common.hazard.fullName": "Hazard description",
+
   "field.conditionchecks_common.hazard.name": "Description",
 
   "field.conditionchecks_common.hazardDate.fullName": "Hazard date",
@@ -1303,23 +1564,29 @@ export default {
 
   "field.conditionchecks_common.hazardGroup.name": "Hazard",
 
+  "field.conditionchecks_common.hazardNote.fullName": "Hazard note",
+
   "field.conditionchecks_common.hazardNote.name": "Note",
+
+  "field.conditionchecks_common.legalReqsHeld.fullName": "Legal/license requirement held description",
 
   "field.conditionchecks_common.legalReqsHeld.name": "Description",
 
-  "field.conditionchecks_common.legalReqsHeldBeginDate.fullName": "Legal/license requirement begin date",
+  "field.conditionchecks_common.legalReqsHeldBeginDate.fullName": "Legal/license requirement held begin date",
 
   "field.conditionchecks_common.legalReqsHeldBeginDate.name": "Begin date",
 
-  "field.conditionchecks_common.legalReqsHeldEndDate.fullName": "Legal/license requirement end date",
+  "field.conditionchecks_common.legalReqsHeldEndDate.fullName": "Legal/license requirement held end date",
 
   "field.conditionchecks_common.legalReqsHeldEndDate.name": "End date",
 
   "field.conditionchecks_common.legalReqsHeldGroup.name": "Legal/license requirement held",
 
+  "field.conditionchecks_common.legalReqsHeldNumber.fullName": "Legal/license requirement held number",
+
   "field.conditionchecks_common.legalReqsHeldNumber.name": "Number",
 
-  "field.conditionchecks_common.legalReqsHeldRenewDate.fullName": "Legal/license requirement renewal date",
+  "field.conditionchecks_common.legalReqsHeldRenewDate.fullName": "Legal/license requirement held renewal date",
 
   "field.conditionchecks_common.legalReqsHeldRenewDate.name": "Renewal date",
 
@@ -1330,6 +1597,8 @@ export default {
   "field.conditionchecks_common.objectAuditCategory.name": "Object audit category",
 
   "field.conditionchecks_common.packingRecommendations.name": "Packing recommendation",
+
+  "field.conditionchecks_common.salvagePriorityCode.fullName": "Salvage priority code",
 
   "field.conditionchecks_common.salvagePriorityCode.name": "Code",
 
@@ -1344,6 +1613,8 @@ export default {
   "field.conditionchecks_common.specialRequirements.name": "Special requirement",
 
   "field.conditionchecks_common.storageRequirements.name": "Storage recommendation",
+
+  "field.conditionchecks_common.techAssessment.fullName": "Technical assessment description",
 
   "field.conditionchecks_common.techAssessment.name": "Description",
 
@@ -1367,6 +1638,8 @@ export default {
 
   "field.conservation_common.conservator.name": "Conservator",
 
+  "field.conservation_common.destAnalysisApprovalNote.fullName": "Destructive analysis approval note",
+
   "field.conservation_common.destAnalysisApprovalNote.name": "Approval note",
 
   "field.conservation_common.destAnalysisApprovedDate.fullName": "Destructive analysis approval date",
@@ -1381,11 +1654,17 @@ export default {
 
   "field.conservation_common.examinationGroup.name": "Examination",
 
+  "field.conservation_common.examinationNote.fullName": "Examination note",
+
   "field.conservation_common.examinationNote.name": "Note",
+
+  "field.conservation_common.examinationPhase.fullName": "Examination phase of treatment",
 
   "field.conservation_common.examinationPhase.name": "Phase of treatment",
 
-  "field.conservation_common.examinationStaff.name": "Exam staff",
+  "field.conservation_common.examinationStaff.fullName": "Examination staff",
+
+  "field.conservation_common.examinationStaff.name": "Staff",
 
   "field.conservation_common.fabricationNote.name": "Fabrication note",
 
@@ -1394,6 +1673,8 @@ export default {
   "field.conservation_common.otherParty.name": "Name",
 
   "field.conservation_common.otherPartyGroup.name": "Other treatment party",
+
+  "field.conservation_common.otherPartyNote.fullName": "Other treatment party note",
 
   "field.conservation_common.otherPartyNote.name": "Note",
 
@@ -1409,15 +1690,27 @@ export default {
 
   "field.conservation_common.proposedTreatment.name": "Proposed treatment",
 
+  "field.conservation_common.researcher.fullName": "Analysis researcher",
+
   "field.conservation_common.researcher.name": "Researcher",
+
+  "field.conservation_common.sampleBy.fullName": "Destructive analysis sample taken by",
 
   "field.conservation_common.sampleBy.name": "Sample taken by",
 
+  "field.conservation_common.sampleDate.fullName": "Destructive analysis sample date",
+
   "field.conservation_common.sampleDate.name": "Sample date",
+
+  "field.conservation_common.sampleDescription.fullName": "Destructive analysis sample description",
 
   "field.conservation_common.sampleDescription.name": "Sample description",
 
-  "field.conservation_common.sampleReturned.name": "Sample returned",
+  "field.conservation_common.sampleReturned.fullName": "Destructive analysis sample returned",
+
+  "field.conservation_common.sampleReturned.nadme": "Sample returned",
+
+  "field.conservation_common.sampleReturnedLocation.fullName": "Destructive analysis sample returned location",
 
   "field.conservation_common.sampleReturnedLocation.name": "Sample returned location",
 
@@ -1483,31 +1776,53 @@ export default {
 
   "field.exhibitions_common.exhibitionNumber.name": "Exhibition number",
 
+  "field.exhibitions_common.exhibitionObjectCase.fullName": "Object case",
+
   "field.exhibitions_common.exhibitionObjectCase.name": "Case",
 
+  "field.exhibitions_common.exhibitionObjectConsCheckDate.fullName": "Object cons. check",
+
   "field.exhibitions_common.exhibitionObjectConsCheckDate.name": "Cons. check",
+
+  "field.exhibitions_common.exhibitionObjectConsTreatment.fullName": "Object cons. treatment",
 
   "field.exhibitions_common.exhibitionObjectConsTreatment.name": "Cons. treatment",
 
   "field.exhibitions_common.exhibitionObjectGroup.name": "Object checklist",
 
+  "field.exhibitions_common.exhibitionObjectMount.fullName": "Object mount",
+
   "field.exhibitions_common.exhibitionObjectMount.name": "Mount",
+
+  "field.exhibitions_common.exhibitionObjectName.fullName": "Object name",
 
   "field.exhibitions_common.exhibitionObjectName.name": "Name",
 
+  "field.exhibitions_common.exhibitionObjectNote.fullName": "Object note",
+
   "field.exhibitions_common.exhibitionObjectNote.name": "Note",
 
-  "field.exhibitions_common.exhibitionObjectNumber.name": "Object",
+  "field.exhibitions_common.exhibitionObjectNumber.fullName": "Object number",
+
+  "field.exhibitions_common.exhibitionObjectNumber.name": "Number",
+
+  "field.exhibitions_common.exhibitionObjectRotation.fullName": "Object rotation",
 
   "field.exhibitions_common.exhibitionObjectRotation.name": "Rotation",
 
+  "field.exhibitions_common.exhibitionObjectSection.fullName": "Object section",
+
   "field.exhibitions_common.exhibitionObjectSection.name": "Section",
+
+  "field.exhibitions_common.exhibitionObjectSeqNum.fullName": "Object seq. #",
 
   "field.exhibitions_common.exhibitionObjectSeqNum.name": "Seq. #",
 
   "field.exhibitions_common.exhibitionPerson.fullName": "Working group member name",
 
   "field.exhibitions_common.exhibitionPerson.name": "Name",
+
+  "field.exhibitions_common.exhibitionPersonGroup.fullName": "Working group member",
 
   "field.exhibitions_common.exhibitionPersonGroup.name": "Member",
 
@@ -1521,6 +1836,8 @@ export default {
 
   "field.exhibitions_common.exhibitionReferenceGroup.name": "Bibliographic reference",
 
+  "field.exhibitions_common.exhibitionReferenceNote.fullName": "Bibliographic reference note",
+
   "field.exhibitions_common.exhibitionReferenceNote.name": "Note",
 
   "field.exhibitions_common.exhibitionReferenceType.fullName": "Bibliographic reference type",
@@ -1529,13 +1846,23 @@ export default {
 
   "field.exhibitions_common.exhibitionSectionGroup.name": "Exhibition section",
 
+  "field.exhibitions_common.exhibitionSectionLocation.fullName": "Exhibition section location",
+
   "field.exhibitions_common.exhibitionSectionLocation.name": "Location",
 
-  "field.exhibitions_common.exhibitionSectionName.name": "Section",
+  "field.exhibitions_common.exhibitionSectionName.fullName": "Exhibition section name",
+
+  "field.exhibitions_common.exhibitionSectionName.name": "Name",
+
+  "field.exhibitions_common.exhibitionSectionNote.fullName": "Exhibition section note",
 
   "field.exhibitions_common.exhibitionSectionNote.name": "Note",
 
+  "field.exhibitions_common.exhibitionSectionObjects.fullName": "Exhibition section objects",
+
   "field.exhibitions_common.exhibitionSectionObjects.name": "Objects",
+
+  "field.exhibitions_common.exhibitionStatus.fullName": "Exhibition status",
 
   "field.exhibitions_common.exhibitionStatus.name": "Status",
 
@@ -1545,6 +1872,8 @@ export default {
 
   "field.exhibitions_common.exhibitionStatusGroup.name": "Exhibition status",
 
+  "field.exhibitions_common.exhibitionStatusNote.fullName": "Exhibition status note",
+
   "field.exhibitions_common.exhibitionStatusNote.name": "Note",
 
   "field.exhibitions_common.galleryRotationEndDateGroup.fullName": "Gallery rotation end date",
@@ -1553,7 +1882,11 @@ export default {
 
   "field.exhibitions_common.galleryRotationGroup.name": "Gallery rotation",
 
+  "field.exhibitions_common.galleryRotationName.fullName": "Gallery rotation name",
+
   "field.exhibitions_common.galleryRotationName.name": "Name",
+
+  "field.exhibitions_common.galleryRotationNote.fullName": "Gallery rotation note",
 
   "field.exhibitions_common.galleryRotationNote.name": "Note",
 
@@ -1577,6 +1910,8 @@ export default {
 
   "field.exhibitions_common.venue.name": "Name",
 
+  "field.exhibitions_common.venueAttendance.fullName": "Venue attendance",
+
   "field.exhibitions_common.venueAttendance.name": "Attendance",
 
   "field.exhibitions_common.venueClosingDate.fullName": "Venue closing date",
@@ -1589,23 +1924,41 @@ export default {
 
   "field.exhibitions_common.venueOpeningDate.name": "Opening date",
 
+  "field.exhibitions_common.venueUrl.fullName": "Venue web address",
+
   "field.exhibitions_common.venueUrl.name": "Web address",
 
   "field.exhibitions_common.workingGroup.name": "Working group",
 
+  "field.exhibitions_common.workingGroupNote.fullName": "Working group note",
+
   "field.exhibitions_common.workingGroupNote.name": "Note",
+
+  "field.exhibitions_common.workingGroupTitle.fullName": "Working group title",
 
   "field.exhibitions_common.workingGroupTitle.name": "Title",
 
+  "field.ext.address.addressCountry.fullName": "Address country",
+
   "field.ext.address.addressCountry.name": "Country",
+
+  "field.ext.address.addressMunicipality.fullName": "Address municipality",
 
   "field.ext.address.addressMunicipality.name": "Municipality",
 
+  "field.ext.address.addressPlace1.fullName": "Address line 1",
+
   "field.ext.address.addressPlace1.name": "Line 1",
+
+  "field.ext.address.addressPlace2.fullName": "Address line 2",
 
   "field.ext.address.addressPlace2.name": "Line 2",
 
+  "field.ext.address.addressPostCode.fullName": "Address postal code",
+
   "field.ext.address.addressPostCode.name": "Postal code",
+
+  "field.ext.address.addressStateOrProvince.fullName": "Address state/province",
 
   "field.ext.address.addressStateOrProvince.name": "State/Province",
 
@@ -1615,11 +1968,23 @@ export default {
 
   "field.ext.address.addrGroup.name": "Address",
 
+  "field.ext.authItem.csid.name": "System CSID",
+
+  "field.ext.authItem.inAuthority.name": "System authority CSID",
+
+  "field.ext.authItem.refName.name": "System ref name",
+
+  "field.ext.authItem.shortIdentifier.name": "System short ID",
+
   "field.ext.core.createdAt.name": "Created time",
+
+  "field.ext.core.createdBy.name": "Created by",
 
   "field.ext.core.updatedAt.name": "Last updated time",
 
   "field.ext.core.updatedBy.name": "Last updated by",
+
+  "field.ext.dimension.dimension.fullName": "Measurement dimension",
 
   "field.ext.dimension.dimension.name": "Dimension",
 
@@ -1629,15 +1994,23 @@ export default {
 
   "field.ext.dimension.dimensionSubGroup.name": "Measurement",
 
+  "field.ext.dimension.dimensionSummary.fullName": "Dimension summary",
+
   "field.ext.dimension.dimensionSummary.name": "Summary",
 
   "field.ext.dimension.measuredBy.name": "Measured by",
+
+  "field.ext.dimension.measuredPart.fullName": "Measured part",
 
   "field.ext.dimension.measuredPart.name": "Part",
 
   "field.ext.dimension.measuredPartGroup.name": "Dimensions",
 
+  "field.ext.dimension.measurementMethod.fullName": "Measurement method",
+
   "field.ext.dimension.measurementMethod.name": "Method",
+
+  "field.ext.dimension.measurementUnit.fullName": "Measurement unit",
 
   "field.ext.dimension.measurementUnit.name": "Unit",
 
@@ -1649,7 +2022,55 @@ export default {
 
   "field.ext.dimension.valueDate.name": "Date",
 
+  "field.ext.dimension.valueQualifier.fullName": "Measurement qualifier",
+
   "field.ext.dimension.valueQualifier.name": "Qualifier",
+
+  "field.ext.structuredDate.dateAssociation.fullName": "Association",
+
+  "field.ext.structuredDate.dateDisplayDate.fullName": "Display date",
+
+  "field.ext.structuredDate.dateEarliestScalarValue.fullName": "Earliest represented date",
+
+  "field.ext.structuredDate.dateEarliestSingleCertainty.fullName": "Earliest/single certainty",
+
+  "field.ext.structuredDate.dateEarliestSingleDay.fullName": "Earliest/single day",
+
+  "field.ext.structuredDate.dateEarliestSingleEra.fullName": "Earliest/single era",
+
+  "field.ext.structuredDate.dateEarliestSingleMonth.fullName": "Earliest/single month",
+
+  "field.ext.structuredDate.dateEarliestSingleQualifier.fullName": "Earliest/single qualifier",
+
+  "field.ext.structuredDate.dateEarliestSingleQualifierUnit.fullName": "Earliest/single qualifier unit",
+
+  "field.ext.structuredDate.dateEarliestSingleQualifierValue.fullName": "Earliest/single qualifier value",
+
+  "field.ext.structuredDate.dateEarliestSingleYear.fullName": "Earliest/single year",
+
+  "field.ext.structuredDate.dateLatestCertainty.fullName": "Latest certainty",
+
+  "field.ext.structuredDate.dateLatestDay.fullName": "Latest day",
+
+  "field.ext.structuredDate.dateLatestEra.fullName": "Latest era",
+
+  "field.ext.structuredDate.dateLatestMonth.fullName": "Latest month",
+
+  "field.ext.structuredDate.dateLatestQualifier.fullName": "Latest qualifier",
+
+  "field.ext.structuredDate.dateLatestQualifierUnit.fullName": "Latest qualifier unit",
+
+  "field.ext.structuredDate.dateLatestQualifierValue.fullName": "Latest qualifier value",
+
+  "field.ext.structuredDate.dateLatestScalarValue.fullName": "Latest represented date",
+
+  "field.ext.structuredDate.dateLatestYear.fullName": "Latest year",
+
+  "field.ext.structuredDate.dateNote.fullName": "Note",
+
+  "field.ext.structuredDate.datePeriod.fullName": "Period",
+
+  "field.ext.structuredDate.scalarValuesComputed.fullName": "Represented dates computed",
 
   "field.groups_common.groupEarliestSingleDate.name": "Earliest/single date",
 
@@ -1683,17 +2104,29 @@ export default {
 
   "field.intakes_common.approvalStatus.name": "Status",
 
-  "field.intakes_common.conditionCheckDate.name": "Condition check date",
+  "field.intakes_common.conditionCheckDate.fullName": "Condition check date",
 
-  "field.intakes_common.conditionCheckerOrAssessor.name": "Condition check assessor",
+  "field.intakes_common.conditionCheckDate.name": "Date",
 
-  "field.intakes_common.conditionCheckMethod.name": "Condition check method",
+  "field.intakes_common.conditionCheckerOrAssessor.fullName": "Condition check assessor",
 
-  "field.intakes_common.conditionCheckNote.name": "Condition check note",
+  "field.intakes_common.conditionCheckerOrAssessor.name": "Assessor",
 
-  "field.intakes_common.conditionCheckReason.name": "Condition check reason",
+  "field.intakes_common.conditionCheckMethod.fullName": "Condition check method",
 
-  "field.intakes_common.conditionCheckReferenceNumber.name": "Condition check reference number",
+  "field.intakes_common.conditionCheckMethod.name": "Method",
+
+  "field.intakes_common.conditionCheckNote.fullName": "Condition check note",
+
+  "field.intakes_common.conditionCheckNote.name": "Note",
+
+  "field.intakes_common.conditionCheckReason.fullName": "Condition check reason",
+
+  "field.intakes_common.conditionCheckReason.name": "Reason",
+
+  "field.intakes_common.conditionCheckReferenceNumber.fullName": "Condition check reference number",
+
+  "field.intakes_common.conditionCheckReferenceNumber.name": "Reference number",
 
   "field.intakes_common.currentLocation.fullName": "Current location",
 
@@ -1705,6 +2138,8 @@ export default {
 
   "field.intakes_common.currentLocationGroup.name": "Current location",
 
+  "field.intakes_common.currentLocationNote.fullName": "Current location note",
+
   "field.intakes_common.currentLocationNote.name": "Note",
 
   "field.intakes_common.currentOwner.name": "Current owner",
@@ -1712,6 +2147,8 @@ export default {
   "field.intakes_common.depositor.fullName": "Depositor name",
 
   "field.intakes_common.depositor.name": "Name",
+
+  "field.intakes_common.despositorsRequirements.fullName": "Depositor requirements",
 
   "field.intakes_common.despositorsRequirements.name": "Requirements",
 
@@ -1741,9 +2178,15 @@ export default {
 
   "field.intakes_common.fieldCollector.name": "Field collector",
 
-  "field.intakes_common.insuranceNote.name": "Insurance note",
+  "field.intakes_common.insuranceNote.fullName": "Insurance note",
+
+  "field.intakes_common.insuranceNote.name": "Note",
+
+  "field.intakes_common.insurancePolicyNumber.fullName": "Insurance policy number",
 
   "field.intakes_common.insurancePolicyNumber.name": "Policy number",
+
+  "field.intakes_common.insuranceReferenceNumber.fullName": "Insurance reference number",
 
   "field.intakes_common.insuranceReferenceNumber.name": "Reference number",
 
@@ -1760,6 +2203,8 @@ export default {
   "field.intakes_common.packingNote.name": "Packing note",
 
   "field.intakes_common.returnDate.name": "Return date",
+
+  "field.intakes_common.valuationReferenceNumber.fullName": "Valuation reference number",
 
   "field.intakes_common.valuationReferenceNumber.name": "Reference number",
 
@@ -1827,6 +2272,8 @@ export default {
 
   "field.loansin_common.loanStatusGroup.name": "Loan status",
 
+  "field.loansin_common.loanStatusNote.fullName": "Loan status note",
+
   "field.loansin_common.loanStatusNote.name": "Note",
 
   "field.loansout_common.borrower.fullName": "Borrower name",
@@ -1887,6 +2334,8 @@ export default {
 
   "field.loansout_common.loanStatusGroup.name": "Loan status",
 
+  "field.loansout_common.loanStatusNote.fullName": "Loan status note",
+
   "field.loansout_common.loanStatusNote.name": "Note",
 
   "field.loansout_common.specialConditionsOfLoan.name": "Conditions of loan",
@@ -1911,6 +2360,8 @@ export default {
 
   "field.locations_common.securityNote.name": "Security note",
 
+  "field.locations_common.termDisplayName.fullName": "Term display name",
+
   "field.locations_common.termDisplayName.name": "Display name",
 
   "field.locations_common.termFlag.fullName": "Term flag",
@@ -1921,23 +2372,47 @@ export default {
 
   "field.locations_common.termLanguage.name": "Language",
 
+  "field.locations_common.termName.fullName": "Term name",
+
   "field.locations_common.termName.name": "Name",
+
+  "field.locations_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.locations_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.locations_common.termQualifier.fullName": "Term qualifier",
+
   "field.locations_common.termQualifier.name": "Qualifier",
 
-  "field.locations_common.termSource.fullName": "Source name",
+  "field.locations_common.termSource.fullName": "Term source name",
+
+  "field.locations_common.termSource.groupName": "Source name",
 
   "field.locations_common.termSource.name": "Name",
 
+  "field.locations_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.locations_common.termSourceDetail.groupName": "Source detail",
+
   "field.locations_common.termSourceDetail.name": "Detail",
+
+  "field.locations_common.termSourceID.fullName": "Term source ID",
+
+  "field.locations_common.termSourceID.groupName": "Source ID",
 
   "field.locations_common.termSourceID.name": "ID",
 
+  "field.locations_common.termSourceNote.fullName": "Term source note",
+
+  "field.locations_common.termSourceNote.groupName": "Source note",
+
   "field.locations_common.termSourceNote.name": "Note",
 
+  "field.locations_common.termStatus.fullName": "Term status",
+
   "field.locations_common.termStatus.name": "Status",
+
+  "field.locations_common.termType.fullName": "Term type",
 
   "field.locations_common.termType.name": "Type",
 
@@ -1977,7 +2452,11 @@ export default {
 
   "field.movements_common.currentLocation.name": "Location",
 
+  "field.movements_common.currentLocationFitness.fullName": "Current location fitness",
+
   "field.movements_common.currentLocationFitness.name": "Fitness",
+
+  "field.movements_common.currentLocationNote.fullName": "Current location note",
 
   "field.movements_common.currentLocationNote.name": "Note",
 
@@ -2002,6 +2481,8 @@ export default {
   "field.movements_common.movementContact.name": "Contact",
 
   "field.movements_common.movementMethod.name": "Movement method",
+
+  "field.movements_common.movementNote.fullName": "Movement note",
 
   "field.movements_common.movementNote.name": "Note",
 
@@ -2095,6 +2576,10 @@ export default {
 
   "field.objectexit_common.packingNote.name": "Packing note",
 
+  "field.organizations_common.additionsToName.fullName": "Term name addition",
+
+  "field.organizations_common.additionsToName.groupName": "Name addition",
+
   "field.organizations_common.additionsToName.name": "Addition",
 
   "field.organizations_common.contactName.name": "Contact name",
@@ -2111,6 +2596,8 @@ export default {
 
   "field.organizations_common.historyNote.name": "History",
 
+  "field.organizations_common.mainBodyName.fullName": "Term main body name",
+
   "field.organizations_common.mainBodyName.name": "Main body name",
 
   "field.organizations_common.organizationRecordType.name": "Organization type",
@@ -2118,6 +2605,8 @@ export default {
   "field.organizations_common.orgTermGroup.name": "Term",
 
   "field.organizations_common.orgTermGroupList.required": "At least one term display name is required. Please enter a value.",
+
+  "field.organizations_common.termDisplayName.fullName": "Term display name",
 
   "field.organizations_common.termDisplayName.name": "Display name",
 
@@ -2129,23 +2618,47 @@ export default {
 
   "field.organizations_common.termLanguage.name": "Language",
 
+  "field.organizations_common.termName.fullName": "Term name",
+
   "field.organizations_common.termName.name": "Name",
+
+  "field.organizations_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.organizations_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.organizations_common.termQualifier.fullName": "Term qualifier",
+
   "field.organizations_common.termQualifier.name": "Qualifier",
 
-  "field.organizations_common.termSource.fullName": "Source name",
+  "field.organizations_common.termSource.fullName": "Term source name",
+
+  "field.organizations_common.termSource.groupName": "Source name",
 
   "field.organizations_common.termSource.name": "Name",
 
+  "field.organizations_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.organizations_common.termSourceDetail.groupName": "Source detail",
+
   "field.organizations_common.termSourceDetail.name": "Detail",
+
+  "field.organizations_common.termSourceID.fullName": "Term source ID",
+
+  "field.organizations_common.termSourceID.groupName": "Source ID",
 
   "field.organizations_common.termSourceID.name": "ID",
 
+  "field.organizations_common.termSourceNote.fullName": "Term source note",
+
+  "field.organizations_common.termSourceNote.groupName": "Source note",
+
   "field.organizations_common.termSourceNote.name": "Note",
 
+  "field.organizations_common.termStatus.fullName": "Term status",
+
   "field.organizations_common.termStatus.name": "Status",
+
+  "field.organizations_common.termType.fullName": "Term type",
 
   "field.organizations_common.termType.name": "Type",
 
@@ -2161,15 +2674,25 @@ export default {
 
   "field.persons_common.deathPlace.name": "Place of death",
 
+  "field.persons_common.forename.fullName": "Term forename",
+
   "field.persons_common.forename.name": "Forename",
 
   "field.persons_common.gender.name": "Gender",
 
   "field.persons_common.group.name": "Group",
 
+  "field.persons_common.initials.fullName": "Term initials",
+
   "field.persons_common.initials.name": "Initials",
 
+  "field.persons_common.middleName.fullName": "Term middle name",
+
   "field.persons_common.middleName.name": "Middle name",
+
+  "field.persons_common.nameAdditions.fullName": "Term name addition",
+
+  "field.persons_common.nameAdditions.groupName": "Name addition",
 
   "field.persons_common.nameAdditions.name": "Addition",
 
@@ -2185,11 +2708,17 @@ export default {
 
   "field.persons_common.personTermGroupList.required": "At least one term display name is required. Please enter a value.",
 
+  "field.persons_common.salutation.fullName": "Term salutation",
+
   "field.persons_common.salutation.name": "Salutation",
 
   "field.persons_common.schoolOrStyle.name": "School/style",
 
+  "field.persons_common.surname.fullName": "Term surname",
+
   "field.persons_common.surname.name": "Surname",
+
+  "field.persons_common.termDisplayName.fullName": "Term display name",
 
   "field.persons_common.termDisplayName.name": "Display name",
 
@@ -2197,27 +2726,51 @@ export default {
 
   "field.persons_common.termFlag.name": "Flag",
 
+  "field.persons_common.termFormattedDisplayName.fullName": "Term formatted display name",
+
   "field.persons_common.termFormattedDisplayName.name": "Formatted display name",
 
   "field.persons_common.termLanguage.fullName": "Term language",
 
   "field.persons_common.termLanguage.name": "Language",
 
+  "field.persons_common.termName.fullName": "Term name",
+
   "field.persons_common.termName.name": "Name",
+
+  "field.persons_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.persons_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.persons_common.termQualifier.fullName": "Term qualifier",
+
   "field.persons_common.termQualifier.name": "Qualifier",
 
-  "field.persons_common.termSource.fullName": "Source name",
+  "field.persons_common.termSource.fullName": "Term source name",
+
+  "field.persons_common.termSource.groupName": "Source name",
 
   "field.persons_common.termSource.name": "Name",
 
+  "field.persons_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.persons_common.termSourceDetail.groupName": "Source detail",
+
   "field.persons_common.termSourceDetail.name": "Detail",
+
+  "field.persons_common.termSourceID.fullName": "Term source ID",
+
+  "field.persons_common.termSourceID.groupName": "Source ID",
 
   "field.persons_common.termSourceID.name": "ID",
 
+  "field.persons_common.termSourceNote.fullName": "Term source note",
+
+  "field.persons_common.termSourceNote.groupName": "Source note",
+
   "field.persons_common.termSourceNote.name": "Note",
+
+  "field.persons_common.termStatus.fullName": "Term status",
 
   "field.persons_common.termStatus.name": "Status",
 
@@ -2225,21 +2778,39 @@ export default {
 
   "field.persons_common.termType.name": "Type",
 
+  "field.persons_common.title.fullName": "Term title",
+
   "field.persons_common.title.name": "Title",
+
+  "field.places_common.coordPrecision.fullName": "Georeference precision",
 
   "field.places_common.coordPrecision.name": "Precision",
 
+  "field.places_common.coordUncertaintyInMeters.fullName": "Georeference uncertainty (m)",
+
   "field.places_common.coordUncertaintyInMeters.name": "Uncertainty (m)",
+
+  "field.places_common.decimalLatitude.fullName": "Georeference decimal latitude",
 
   "field.places_common.decimalLatitude.name": "Decimal latitude",
 
+  "field.places_common.decimalLongitude.fullName": "Georeference decimal longitude",
+
   "field.places_common.decimalLongitude.name": "Decimal longitude",
+
+  "field.places_common.footprintSpatialFit.fullName": "Georeference footprint spatial fit",
 
   "field.places_common.footprintSpatialFit.name": "Footprint spatial fit",
 
+  "field.places_common.footprintSRS.fullName": "Georeference footprint SRS",
+
   "field.places_common.footprintSRS.name": "Footprint SRS",
 
+  "field.places_common.footprintWKT.fullName": "Georeference footprint WKT",
+
   "field.places_common.footprintWKT.name": "Footprint WKT",
+
+  "field.places_common.geodeticDatum.fullName": "Georeference datum",
 
   "field.places_common.geodeticDatum.name": "Datum",
 
@@ -2249,15 +2820,27 @@ export default {
 
   "field.places_common.geoReferencedBy.name": "Georeferenced by",
 
-  "field.places_common.geoRefPlaceName.name": "Georeference place name",
+  "field.places_common.geoRefPlaceName.fullName": "Georeference place name",
+
+  "field.places_common.geoRefPlaceName.name": "Place name",
+
+  "field.places_common.geoRefProtocol.fullName": "Georeference protocol",
 
   "field.places_common.geoRefProtocol.name": "Protocol",
 
+  "field.places_common.geoRefRemarks.fullName": "Georeference remarks",
+
   "field.places_common.geoRefRemarks.name": "Remarks",
+
+  "field.places_common.geoRefSource.fullName": "Georeference source",
 
   "field.places_common.geoRefSource.name": "Source",
 
+  "field.places_common.geoRefVerificationStatus.fullName": "Georeference verification",
+
   "field.places_common.geoRefVerificationStatus.name": "Verification",
+
+  "field.places_common.historicalStatus.fullName": "Term historical status",
 
   "field.places_common.historicalStatus.name": "Historical status",
 
@@ -2273,11 +2856,15 @@ export default {
 
   "field.places_common.minElevationInMeters.name": "Min elevation (m)",
 
+  "field.places_common.nameAbbrev.fullName": "Term abbreviation",
+
   "field.places_common.nameAbbrev.name": "Abbreviation",
 
-  "field.places_common.nameDateGroup.fullName": "Name date",
+  "field.places_common.nameDateGroup.fullName": "Term date",
 
   "field.places_common.nameDateGroup.name": "Date",
+
+  "field.places_common.nameNote.fullName": "Term note",
 
   "field.places_common.nameNote.name": "Note",
 
@@ -2287,7 +2874,11 @@ export default {
 
   "field.places_common.ownershipDateGroup.name": "Date",
 
+  "field.places_common.ownershipNote.fullName": "Ownership note",
+
   "field.places_common.ownershipNote.name": "Note",
+
+  "field.places_common.placeGeoRefGroup.fullName": "Georeference",
 
   "field.places_common.placeNote.name": "Place note",
 
@@ -2301,7 +2892,11 @@ export default {
 
   "field.places_common.placeType.name": "Place type",
 
+  "field.places_common.pointRadiusSpatialFit.fullName": "Georeference point radius spatial fit",
+
   "field.places_common.pointRadiusSpatialFit.name": "Point radius spatial fit",
+
+  "field.places_common.termDisplayName.fullName": "Term display name",
 
   "field.places_common.termDisplayName.name": "Display name",
 
@@ -2313,23 +2908,47 @@ export default {
 
   "field.places_common.termLanguage.name": "Language",
 
+  "field.places_common.termName.fullName": "Term name",
+
   "field.places_common.termName.name": "Name",
+
+  "field.places_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.places_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.places_common.termQualifier.fullName": "Term qualifier",
+
   "field.places_common.termQualifier.name": "Qualifier",
 
-  "field.places_common.termSource.fullName": "Source name",
+  "field.places_common.termSource.fullName": "Term source name",
+
+  "field.places_common.termSource.groupName": "Source name",
 
   "field.places_common.termSource.name": "Name",
 
+  "field.places_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.places_common.termSourceDetail.groupName": "Source detail",
+
   "field.places_common.termSourceDetail.name": "Detail",
+
+  "field.places_common.termSourceID.fullName": "Term source ID",
+
+  "field.places_common.termSourceID.groupName": "Source ID",
 
   "field.places_common.termSourceID.name": "ID",
 
+  "field.places_common.termSourceNote.fullName": "Term source note",
+
+  "field.places_common.termSourceNote.groupName": "Source note",
+
   "field.places_common.termSourceNote.name": "Note",
 
+  "field.places_common.termStatus.fullName": "Term status",
+
   "field.places_common.termStatus.name": "Status",
+
+  "field.places_common.termType.fullName": "Term type",
 
   "field.places_common.termType.name": "Type",
 
@@ -2354,20 +2973,6 @@ export default {
   "field.places_common.vSpatialReferenceSystem.name": "Spatial ref system",
 
   "field.places_common.vUnitofMeasure.name": "Unit of measure",
-
-  "field.pottags_common.commonName.name": "Common name",
-
-  "field.pottags_common.family.name": "Family",
-
-  "field.pottags_common.labelData.name": "Label data",
-
-  "field.pottags_common.locale.name": "Country name/locale",
-
-  "field.pottags_common.numberOfLabels.name": "Number of labels",
-
-  "field.pottags_common.printLabels.name": "Print labels",
-
-  "field.pottags_common.taxonName.name": "Taxon name",
 
   "field.report.systematicInventory.endLocation.name": "To location",
 
@@ -2417,7 +3022,7 @@ export default {
 
   "field.structuredDate.latest": "Latest",
 
-  "field.uoc_common.authorizationDate.fulName": "Authorization date",
+  "field.uoc_common.authorizationDate.fullName": "Authorization date",
 
   "field.uoc_common.authorizationDate.name": "Date",
 
@@ -2517,6 +3122,8 @@ export default {
 
   "field.works_common.publisherType.name": "Type",
 
+  "field.works_common.termDisplayName.fullName": "Term display name",
+
   "field.works_common.termDisplayName.name": "Display name",
 
   "field.works_common.termFlag.fullName": "Term flag",
@@ -2527,23 +3134,47 @@ export default {
 
   "field.works_common.termLanguage.name": "Language",
 
+  "field.works_common.termName.fullName": "Term name",
+
   "field.works_common.termName.name": "Name",
+
+  "field.works_common.termPrefForLang.fullName": "Term preferred for lang",
 
   "field.works_common.termPrefForLang.name": "Preferred for lang",
 
+  "field.works_common.termQualifier.fullName": "Term qualifier",
+
   "field.works_common.termQualifier.name": "Qualifier",
 
-  "field.works_common.termSource.fullName": "Source name",
+  "field.works_common.termSource.fullName": "Term source name",
+
+  "field.works_common.termSource.groupName": "Source name",
 
   "field.works_common.termSource.name": "Name",
 
+  "field.works_common.termSourceDetail.fullName": "Term source detail",
+
+  "field.works_common.termSourceDetail.groupName": "Source detail",
+
   "field.works_common.termSourceDetail.name": "Detail",
+
+  "field.works_common.termSourceID.fullName": "Term source ID",
+
+  "field.works_common.termSourceID.groupName": "Source ID",
 
   "field.works_common.termSourceID.name": "ID",
 
+  "field.works_common.termSourceNote.fullName": "Term source note",
+
+  "field.works_common.termSourceNote.groupName": "Source note",
+
   "field.works_common.termSourceNote.name": "Note",
 
+  "field.works_common.termStatus.fullName": "Term status",
+
   "field.works_common.termStatus.name": "Status",
+
+  "field.works_common.termType.fullName": "Term type",
 
   "field.works_common.termType.name": "Type",
 
@@ -2556,38 +3187,6 @@ export default {
   "field.works_common.workTermGroupList.required": "At least one term display name is required. Please enter a value.",
 
   "field.works_common.workType.name": "Work type",
-
-  "fieldConditionInput.OP_CONTAIN.compact": "contains",
-
-  "fieldConditionInput.OP_CONTAIN.full": "contains",
-
-  "fieldConditionInput.OP_EQ.compact": "=",
-
-  "fieldConditionInput.OP_EQ.full": "is",
-
-  "fieldConditionInput.OP_GT.compact": ">",
-
-  "fieldConditionInput.OP_GT.full": "is greater than",
-
-  "fieldConditionInput.OP_GTE.compact": "≥",
-
-  "fieldConditionInput.OP_GTE.full": "is greater than or equal to",
-
-  "fieldConditionInput.OP_LT.compact": "<",
-
-  "fieldConditionInput.OP_LT.full": "is less than",
-
-  "fieldConditionInput.OP_LTE.compact": "≤",
-
-  "fieldConditionInput.OP_LTE.full": "is less than or equal to",
-
-  "fieldConditionInput.OP_MATCH.compact": "matches",
-
-  "fieldConditionInput.OP_MATCH.full": "matches",
-
-  "fieldConditionInput.OP_RANGE.compact": "between",
-
-  "fieldConditionInput.OP_RANGE.full": "is between",
 
   "footer.about": "About CollectionSpace",
 
@@ -2677,8 +3276,6 @@ export default {
 
   "form.place.mini.name": "Mini Template",
 
-  "form.pottag.default.name": "Standard Template",
-
   "form.report.default.name": "Standard Template",
 
   "form.uoc.default.name": "Standard Template",
@@ -2690,6 +3287,12 @@ export default {
   "form.work.default.name": "Standard Template",
 
   "form.work.mini.name": "Mini Template",
+
+  "GroupConditionInput.groupInput.compactLabel": "In {groupInput}:",
+
+  "GroupConditionInput.groupInput.pendingLabel": "In a single {groupInput} ...",
+
+  "GroupConditionInput.groupInput.selectedLabel": "In a single {groupInput} group:",
 
   "hierarchyInput.citation.children": "Narrower citations",
 
@@ -3000,6 +3603,78 @@ export default {
 
   // Label of the open button.
   "openButton.label": "Open",
+
+  "operatorInput.compact.OP_COMPLETE": "is complete",
+
+  "operatorInput.compact.OP_CONTAIN": "contains",
+
+  "operatorInput.compact.OP_EQ": "=",
+
+  "operatorInput.compact.OP_GT": ">",
+
+  "operatorInput.compact.OP_GTC": "> or contains",
+
+  "operatorInput.compact.OP_GTE": "≥",
+
+  "operatorInput.compact.OP_LT": "<",
+
+  "operatorInput.compact.OP_LTC": "< or contains",
+
+  "operatorInput.compact.OP_LTE": "≤",
+
+  "operatorInput.compact.OP_MATCH": "matches",
+
+  "operatorInput.compact.OP_NOT_COMPLETE": "is incomplete",
+
+  "operatorInput.compact.OP_NOT_CONTAIN": "doesn't contain",
+
+  "operatorInput.compact.OP_NOT_EQ": "≠",
+
+  "operatorInput.compact.OP_NOT_MATCH": "doesn't match",
+
+  "operatorInput.compact.OP_NOT_NULL": "isn't blank",
+
+  "operatorInput.compact.OP_NOT_RANGE": "isn't between",
+
+  "operatorInput.compact.OP_NULL": "is blank",
+
+  "operatorInput.compact.OP_RANGE": "is between",
+
+  "operatorInput.OP_COMPLETE": "is complete",
+
+  "operatorInput.OP_CONTAIN": "contains",
+
+  "operatorInput.OP_EQ": "is",
+
+  "operatorInput.OP_GT": "is greater than",
+
+  "operatorInput.OP_GTC": "is greater than or contains",
+
+  "operatorInput.OP_GTE": "is at least",
+
+  "operatorInput.OP_LT": "is less than",
+
+  "operatorInput.OP_LTC": "is less than or contains",
+
+  "operatorInput.OP_LTE": "is at most",
+
+  "operatorInput.OP_MATCH": "matches",
+
+  "operatorInput.OP_NOT_COMPLETE": "is incomplete",
+
+  "operatorInput.OP_NOT_CONTAIN": "does not contain",
+
+  "operatorInput.OP_NOT_EQ": "is not",
+
+  "operatorInput.OP_NOT_MATCH": "does not match",
+
+  "operatorInput.OP_NOT_NULL": "is not blank",
+
+  "operatorInput.OP_NOT_RANGE": "is not between",
+
+  "operatorInput.OP_NULL": "is blank",
+
+  "operatorInput.OP_RANGE": "is between",
 
   "option.accountStatuses.active": "active",
 
@@ -4243,10 +4918,6 @@ export default {
 
   "option.positions.verso": "verso",
 
-  "option.printLabelOptions.no": "no",
-
-  "option.printLabelOptions.yes": "yes",
-
   "option.recordStatuses.approved": "approved",
 
   "option.recordStatuses.in-process": "in process",
@@ -4445,7 +5116,7 @@ export default {
 
   "panel.group.info": "Group Information",
 
-  "panel.intake.condition": "Condition Information",
+  "panel.intake.condition": "Condition Check Information",
 
   "panel.intake.insurance": "Insurance Information",
 
@@ -4494,8 +5165,6 @@ export default {
   "panel.place.info": "Place Information",
 
   "panel.place.localityInfo": "Locality Information",
-
-  "panel.pottag.info": "Pot Tag Information",
 
   "panel.report.mode": "Runs on",
 
@@ -4649,6 +5318,12 @@ export default {
   "record.batch.singleTargetMissing": "Select a record on which to run this data update.",
 
   // The name of a collection of records of the type.
+  "record.batchinvocation.collectionName": "Data Update Invocations",
+
+  // The name of the record type.
+  "record.batchinvocation.name": "Data Update Invocation",
+
+  // The name of a collection of records of the type.
   "record.blob.collectionName": "Blobs",
 
   // The name of the record type.
@@ -4775,12 +5450,6 @@ export default {
   "record.place.name": "Place",
 
   // The name of a collection of records of the type.
-  "record.pottag.collectionName": "Pot Tags",
-
-  // The name of the record type.
-  "record.pottag.name": "Pot Tag",
-
-  // The name of a collection of records of the type.
   "record.procedure.collectionName": "Procedures",
 
   // The name of the record type.
@@ -4809,6 +5478,12 @@ export default {
 
   // The message shown when a record of the type is invoked, and the invocation target has not been supplied in single mode.
   "record.report.singleTargetMissing": "Select a record on which to run this report.",
+
+  // The name of a collection of records of the type.
+  "record.reportinvocation.collectionName": "Report Invocations",
+
+  // The name of the record type.
+  "record.reportinvocation.name": "Report Invocation",
 
   // The name of a collection of records of the type.
   "record.structureddates.collectionName": "Structured Date Parser",
@@ -4841,6 +5516,8 @@ export default {
   "record.work.name": "Work",
 
   "recordBatchPanel.title": "Data Updates",
+
+  "recordBrowserNavBar.close": "close",
 
   "recordBrowserNavBar.moreRelated": "+ Related",
 
