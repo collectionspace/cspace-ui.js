@@ -43,6 +43,7 @@ export default () => ({
       // implement these extensions won't necessarily be loaded for tests.
 
       address: {},
+      authItem: {},
       core: {
         advancedSearch: [],
       },
