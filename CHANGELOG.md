@@ -1,5 +1,13 @@
 # Change Log
 
+## v4.0.0
+
+### Breaking Changes
+
+- All fields may now be searched using advanced search. Any new fields you've added in your configuration should have `fullName` and/or `groupName` messages configured, when necessary. See the [configuration documentation](./docs/configuration/FieldConfiguration.md#messages) and [style guide](./docs/style) for usage of these messages. Ensure that any added fields are displayed as you expect in advanced search.
+
+- Many fields now have `fullName` and/or `groupName` messages configured, when they did not previously. If you are relabeling a field in your configuration by overriding its `name` message, you should now also override the `fullName` and `groupName` messages, if present. Otherwise, the field will not be relabeled in advanced search. Consult the [messages reference](./docs/configuration/messages.js) or the source code for the record type to see if a `fullName` or `groupName` is present.
+
 ## v3.0.0
 
 v3.0.0 adds support for CollectionSpace 5.2.
