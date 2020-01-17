@@ -184,6 +184,7 @@ export default class PermissionsInput extends Component {
 
     const {
       deletePermType,
+      lockable,
       serviceConfig,
     } = recordTypeConfig;
 
@@ -209,6 +210,22 @@ export default class PermissionsInput extends Component {
         updates[softDeleteResourceName] = 'CRUDL';
       } else {
         updates[softDeleteResourceName] = 'RL';
+      }
+    }
+
+    if (lockable) {
+      const lockResourceName = `/${resourceName}/*/workflow/lock`;
+
+      if (!actionGroup) {
+        updates[lockResourceName] = '';
+      } else if (
+        actionGroup.includes('C')
+        || actionGroup.includes('U')
+        || actionGroup.includes('D')
+      ) {
+        updates[lockResourceName] = 'CRUDL';
+      } else {
+        updates[lockResourceName] = 'RL';
       }
     }
 

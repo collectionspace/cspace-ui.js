@@ -52,6 +52,7 @@ const config = {
     },
     movement: {
       name: 'movement',
+      lockable: true,
       messages: {
         record: {
           collectionName: {
@@ -362,6 +363,99 @@ describe('PermissionsInput', () => {
     ]));
   });
 
+  it('should convert delete permission on a lockable record to CRUDL on the lock workflow', function test() {
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            onCommit={handleCommit}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    const input = this.container.querySelector('input[data-name="movement"][value="CRUDL"]');
+
+    input.checked = 'true';
+
+    Simulate.change(input);
+
+    committedValue.should.equal(Immutable.fromJS([
+      { resourceName: 'movements', actionGroup: 'CRUL' },
+      { resourceName: '/movements/*/workflow/delete', actionGroup: 'CRUDL' },
+      { resourceName: '/movements/*/workflow/lock', actionGroup: 'CRUDL' },
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
+    ]));
+  });
+
+  it('should convert write permission on a lockable record to CRUDL on the lock workflow', function test() {
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            onCommit={handleCommit}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    const input = this.container.querySelector('input[data-name="movement"][value="CRUL"]');
+
+    input.checked = 'true';
+
+    Simulate.change(input);
+
+    committedValue.should.equal(Immutable.fromJS([
+      { resourceName: 'movements', actionGroup: 'CRUL' },
+      { resourceName: '/movements/*/workflow/delete', actionGroup: 'RL' },
+      { resourceName: '/movements/*/workflow/lock', actionGroup: 'CRUDL' },
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
+    ]));
+  });
+
+  it('should convert none permission on a lockable record to no permission on the lock workflow', function test() {
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <PermissionsInput
+            resourceNames={resourceNames}
+            onCommit={handleCommit}
+          />
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    const input = this.container.querySelector('input[data-name="movement"][value=""]');
+
+    input.checked = 'true';
+
+    Simulate.change(input);
+
+    committedValue.should.equal(Immutable.fromJS([
+      { resourceName: 'servicegroups', actionGroup: 'RL' },
+    ]));
+  });
+
   context('for relations', () => {
     it('should set delete permissions on the resource and the delete workflow when delete is selected', function test() {
       let committedValue = null;
@@ -581,6 +675,7 @@ describe('PermissionsInput', () => {
         { resourceName: '/groups/*/workflow/delete', actionGroup: 'RL' },
         { resourceName: '/loansin/*/workflow/delete', actionGroup: 'RL' },
         { resourceName: '/movements/*/workflow/delete', actionGroup: 'RL' },
+        { resourceName: '/movements/*/workflow/lock', actionGroup: 'RL' },
         { resourceName: 'groups', actionGroup: 'RL' },
         { resourceName: 'loansin', actionGroup: 'RL' },
         { resourceName: 'movements', actionGroup: 'RL' },

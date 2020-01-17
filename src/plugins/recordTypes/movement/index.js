@@ -19,6 +19,7 @@ export default () => (configContext) => ({
       columns: columns(configContext),
       fields: fields(configContext),
       forms: forms(configContext),
+      lockable: true,
       lockOnSave: 'prompt', // or true/false boolean
       title: title(configContext),
     },
