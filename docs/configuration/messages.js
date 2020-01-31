@@ -9,7 +9,7 @@
 
 export default {
   // Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.
-  "about.contentHTML": "<p> CollectionSpace is a free, open-source collections management application for museums, historical societies, natural science collections, and more. </p>",
+  "about.contentHTML": "<p> CollectionSpace is a community-supported collections management application for museums, historical societies, natural science collections, and more. </p>",
 
   // Title of the about page.
   "about.title": "Welcome to CollectionSpace",

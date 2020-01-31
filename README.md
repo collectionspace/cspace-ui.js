@@ -32,4 +32,4 @@ See the [developer documentation](https://github.com/collectionspace/cspace-ui.j
 
 ## About CollectionSpace
 
-[CollectionSpace](http://www.collectionspace.org/) is a free, open-source collections management application for museums, historical societies, natural science collections, and more.
+[CollectionSpace](http://www.collectionspace.org/) is a community-supported collections management application for museums, historical societies, natural science collections, and more.
