@@ -832,11 +832,11 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'collectionRegions'
+                source: 'collectionRegions',
               },
             },
           },
-        }
+        },
       },
     },
   };
