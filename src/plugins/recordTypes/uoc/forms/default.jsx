@@ -40,7 +40,7 @@ const template = (configContext) => {
             </Col>
 
             <Col>
-              <Field name="collectionRegion" />
+              <Field name="subcollection" />
             </Col>
 
             <Col>
@@ -86,7 +86,7 @@ const template = (configContext) => {
         </Field>
 
         <Field name="useDateGroupList">
-          <Field name="useDateGroup" >
+          <Field name="useDateGroup">
             <Field name="useDate" />
             <Field name="useDateTimeNote" />
             <Field name="useDateNumberOfVisitors" />

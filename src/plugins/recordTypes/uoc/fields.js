@@ -821,18 +821,18 @@ export default (configContext) => {
             },
           },
         },
-        collectionRegion: {
+        subcollection: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.uoc_common.collectionRegion.name',
-                defaultMessage: 'Region or collection',
+                id: 'field.uoc_common.subcollection.name',
+                defaultMessage: 'Subcollection',
               },
             }),
             view: {
               type: TermPickerInput,
               props: {
-                source: 'collectionRegions',
+                source: 'uocSubcollections',
               },
             },
           },
