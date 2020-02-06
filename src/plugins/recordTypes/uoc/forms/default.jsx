@@ -40,6 +40,10 @@ const template = (configContext) => {
             </Col>
 
             <Col>
+              <Field name="collectionRegion" />
+            </Col>
+
+            <Col>
               <Field name="materialTypeList">
                 <Field name="materialType" />
               </Field>

@@ -821,6 +821,22 @@ export default (configContext) => {
             },
           },
         },
+        collectionRegion: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.uoc_common.collectionRegion.name',
+                defaultMessage: 'Region or collection',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'collectionRegions'
+              },
+            },
+          },
+        }
       },
     },
   };
