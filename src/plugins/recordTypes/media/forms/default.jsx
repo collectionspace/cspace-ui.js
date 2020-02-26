@@ -9,7 +9,6 @@ const template = (configContext) => {
     Col,
     Cols,
     Panel,
-    Row,
   } = configContext.layoutComponents;
 
   const {
@@ -24,10 +23,18 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Panel name="media" collapsible>
-        <Row>
-          <Field name="identificationNumber" />
-          <Field name="title" />
-        </Row>
+        <Cols>
+          <Col>
+            <Field name="identificationNumber" />
+            <Field name="title" />
+          </Col>
+
+          <Col>
+            <Field name="publishToList">
+              <Field name="publishTo" />
+            </Field>
+          </Col>
+        </Cols>
 
         <Panel name="file" collapsible>
           <Subrecord name="blob" showDetachButton />

@@ -335,6 +335,30 @@ export default (configContext) => {
             },
           },
         },
+        publishToList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          publishTo: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.media_common.publishTo.name',
+                  defaultMessage: 'Publish to',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'publishto',
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
