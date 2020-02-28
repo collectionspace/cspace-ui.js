@@ -89,6 +89,9 @@ const perms = Immutable.fromJS({
   batch: {
     data: 'CRUL',
   },
+  batchinvocation: {
+    data: 'CRUD',
+  },
 });
 
 const context = {
