@@ -84,7 +84,7 @@ describe('ReportViewerPageContainer', () => {
       .then(() => {
         const request = moxios.requests.mostRecent();
 
-        request.url.should.equal(`/cspace-services/reports/${reportCsid}`);
+        request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
         request.responseType.should.equal('blob');
 
         const jsonData = request.config.data;

@@ -91,7 +91,7 @@ describe('report action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/reports/${reportCsid}`);
+          request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 
@@ -129,7 +129,7 @@ describe('report action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/reports/${reportCsid}`);
+          request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 
@@ -166,7 +166,7 @@ describe('report action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/reports/${reportCsid}`);
+          request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 
