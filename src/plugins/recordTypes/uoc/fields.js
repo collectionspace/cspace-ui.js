@@ -85,7 +85,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.uoc_common.projectDescription.name',
-                defaultMessage: 'Project Description',
+                defaultMessage: 'Project description',
               },
             }),
             view: {
@@ -176,8 +176,8 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
-                  fulName: {
-                    id: 'field.uoc_common.authorizationDate.fulName',
+                  fullName: {
+                    id: 'field.uoc_common.authorizationDate.fullName',
                     defaultMessage: 'Authorization date',
                   },
                   name: {
@@ -210,6 +210,10 @@ export default (configContext) => {
             authorizationStatus: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.authorizationStatus.fullName',
+                    defaultMessage: 'Authorization status',
+                  },
                   name: {
                     id: 'field.uoc_common.authorizationStatus.name',
                     defaultMessage: 'Status',
@@ -236,7 +240,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.uoc_common.useDateGroup.name',
-                  defaultMessage: 'Start/single date', // FIX ME
+                  defaultMessage: 'Start/single date', // FIX ME Ray agrees that this label is not good and  also fix the fullNames in the fields in the group
                 },
               }),
               repeating: true,
@@ -406,11 +410,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.uoc_common.userUocRole.fullName',
-                    defaultMessage: 'User Use of Collections role',
+                    defaultMessage: 'User role',
                   },
                   name: {
                     id: 'field.uoc_common.userUocRole.name',
-                    defaultMessage: 'Use of Collections role',
+                    defaultMessage: 'Role',
                   },
                 }),
                 view: {
@@ -664,9 +668,13 @@ export default (configContext) => {
             staffNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.staffNote.fullName',
+                    defaultMessage: 'Staff note',
+                  },
                   name: {
                     id: 'field.uoc_common.staffNote.name',
-                    defaultMessage: 'Staff note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -771,7 +779,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.uoc_common.feeValue.fullName',
-                    defaultMessage: 'Fee Value',
+                    defaultMessage: 'Fee value',
                   },
                   name: {
                     id: 'field.uoc_common.feeValue.name',
@@ -789,7 +797,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.uoc_common.feeNote.fullName',
-                    defaultMessage: 'Fee Note',
+                    defaultMessage: 'Fee note',
                   },
                   name: {
                     id: 'field.uoc_common.feeNote.name',
@@ -806,7 +814,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.uoc_common.feePaid.fullName',
-                    defaultMessage: 'Fee Paid',
+                    defaultMessage: 'Fee paid',
                   },
                   name: {
                     id: 'field.uoc_common.feePaid.name',

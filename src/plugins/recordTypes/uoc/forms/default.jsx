@@ -20,36 +20,30 @@ const template = (configContext) => {
     <Field name="document">
       <Panel name="useOfCollections" collapsible>
 
-        <Row>
-          <Field name="referenceNumber" />
-          <Field name="projectId" />
-        </Row>
-
-        <Row>
-          <Cols>
-            <Col>
+        <Cols>
+          <Col>
+            <Field name="referenceNumber" />
+            <Row>
               <Field name="methodList">
                 <Field name="method" />
               </Field>
-            </Col>
 
-            <Col>
               <Field name="collectionTypeList">
                 <Field name="collectionType" />
               </Field>
-            </Col>
+            </Row>
+          </Col>
 
-            <Col>
+          <Col>
+            <Field name="projectId" />
+            <Row>
               <Field name="subcollection" />
-            </Col>
-
-            <Col>
               <Field name="materialTypeList">
                 <Field name="materialType" />
               </Field>
-            </Col>
-          </Cols>
-        </Row>
+            </Row>
+          </Col>
+        </Cols>
 
         <Field name="userGroupList">
           <Field name="userGroup">
