@@ -18,7 +18,9 @@ export default (configContext) => (data) => {
   }
 
   const title = common.get('title');
-  const owner = getDisplayName(common.get('owner'));
+  let owner = common.get('owner');
+
+  owner = getDisplayName(owner) || owner;
 
   return [title, owner].filter((part) => !!part).join(' – ');
 };
