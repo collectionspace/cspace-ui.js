@@ -9,6 +9,14 @@ import {
   ERR_PW_NOT_CONFIRMED,
 } from '../../../constants/errorCodes';
 
+const isMetadataImmutable = ({ recordData }) => (
+  recordData.getIn(['ns2:accounts_common', 'metadataProtection']) === 'immutable'
+);
+
+const areRolesImmutable = ({ recordData }) => (
+  recordData.getIn(['ns2:accounts_common', 'rolesProtection']) === 'immutable'
+);
+
 export default (configContext) => {
   const {
     CompoundInput,
@@ -86,6 +94,7 @@ export default (configContext) => {
               defaultMessage: 'Full name',
             },
           }),
+          readOnly: isMetadataImmutable,
           required: true,
           view: {
             type: TextInput,
@@ -110,6 +119,7 @@ export default (configContext) => {
               defaultMessage: 'Email address',
             },
           }),
+          readOnly: isMetadataImmutable,
           required: true,
           validate: ({ data, fieldDescriptor }) => {
             if (!isValidEmail(data)) {
@@ -191,6 +201,7 @@ export default (configContext) => {
               defaultMessage: 'Status',
             },
           }),
+          readOnly: isMetadataImmutable,
           required: true,
           view: {
             type: OptionPickerInput,
@@ -243,6 +254,7 @@ export default (configContext) => {
                 defaultMessage: 'Roles',
               },
             }),
+            readOnly: areRolesImmutable,
             view: {
               type: RolesInput,
             },

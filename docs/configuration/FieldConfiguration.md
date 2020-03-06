@@ -124,6 +124,24 @@ A [react-intl message descriptor map](https://github.com/yahoo/react-intl/wiki/A
 
 The [style guide](../style) has more information, including examples, about the usage of each message.
 
+### readOnly
+```
+required: boolean | (computeContext) => boolean
+```
+If true, the field is read only. It will not be editable when rendered.
+
+If a function is provided, the function will be called with a computeContext object as an argument,  and it must return a boolean. The computeContext has the following properties:
+
+| Property          | Type           | Description |
+| ----------------- | -------------- | ----------- |
+| `fieldDescriptor` | Object         | The field's descriptor, containing its configuration and the configuration of any descendants. |
+| `form`            | String         | The name of the form (template) that is in use. |
+| `path`            | Array          | The path to the field in the record data. |
+| `recordData`      | Immutable.Map  | The record data. |
+| `recordType`      | String         | The name of the record type. |
+| `roleNames`       | Immutable.List | The current user's roles. |
+| `subrecordData`   | Immutable.Map  | The data of the record's subrecords, if any (e.g. blob in media, contact in person/organization). |
+
 ### repeating
 ```
 repeating: boolean = false
@@ -132,11 +150,11 @@ If true, the field is repeating (multivalued), and will be rendered with add and
 
 ### required
 ```
-required: boolean | (requiredContext) => boolean
+required: boolean | (computeContext) => boolean
 ```
 If true, the field is required. It will be rendered with a required indictor, and will trigger an error notification if it is left empty.
 
-If a function is provided, the function will be called with a requiredContext object as an argument,  and it must return a boolean. The requiredContext has the following properties:
+If a function is provided, the function will be called with a computeContext object as an argument,  and it must return a boolean. The computeContext has the following properties:
 
 | Property          | Type           | Description |
 | ----------------- | -------------- | ----------- |

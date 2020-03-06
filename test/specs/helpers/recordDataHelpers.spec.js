@@ -62,7 +62,6 @@ import {
   isRecordImmutable,
   isRecordLocked,
   isRecordReplicated,
-  isSecurityRecordImmutable,
   normalizeFieldValue,
   normalizeRecordData,
   prepareClonedHierarchy,
@@ -3214,16 +3213,6 @@ describe('recordDataHelpers', () => {
 
       isRecordImmutable(data).should.equal(true);
     });
-
-    it('should return true if the record is an immutable security record', () => {
-      const data = Immutable.fromJS({
-        'ns2:role': {
-          permsProtection: 'immutable',
-        },
-      });
-
-      isRecordImmutable(data).should.equal(true);
-    });
   });
 
   describe('isRecordLocked', () => {
@@ -3271,36 +3260,6 @@ describe('recordDataHelpers', () => {
 
     it('should return false if no data is supplied', () => {
       isRecordReplicated().should.equal(false);
-    });
-  });
-
-  describe('isSecurityRecordImmutable', () => {
-    it('should return true if permsProtection is \'immutable\'', () => {
-      const data = Immutable.fromJS({
-        'ns2:role': {
-          permsProtection: 'immutable',
-        },
-      });
-
-      isSecurityRecordImmutable(data).should.equal(true);
-    });
-
-    it('should return true if rolesProtection is \'immutable\'', () => {
-      const data = Immutable.fromJS({
-        'ns2:account': {
-          rolesProtection: 'immutable',
-        },
-      });
-
-      isSecurityRecordImmutable(data).should.equal(true);
-    });
-
-    it('should return false if no data is supplied', () => {
-      isSecurityRecordImmutable().should.equal(false);
-    });
-
-    it('should return false if no data is supplied', () => {
-      isSecurityRecordImmutable().should.equal(false);
     });
   });
 

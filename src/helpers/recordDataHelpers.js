@@ -981,30 +981,10 @@ export const isRecordLocked = (data) => isLocked(getWorkflowState(data));
 
 export const isRecordReplicated = (data) => isReplicated(getWorkflowState(data));
 
-export const isSecurityRecordImmutable = (data) => {
-  // Accounts and roles have the concept of "immutability", which is basically the same as
-  // locked.
-
-  if (data) {
-    const doc = data.first();
-
-    return (
-      doc
-      && (
-        doc.get('permsProtection') === 'immutable'
-        || doc.get('rolesProtection') === 'immutable'
-      )
-    );
-  }
-
-  return false;
-};
-
 export const isRecordImmutable = (data) => (
   isRecordLocked(data)
   || isRecordDeprecated(data)
   || isRecordReplicated(data)
-  || isSecurityRecordImmutable(data)
 );
 
 export const hasHierarchyRelations = (data) => {

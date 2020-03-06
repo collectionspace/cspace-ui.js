@@ -13,6 +13,7 @@ import {
 import {
   configKey,
   dataPathToFieldDescriptorPath,
+  isFieldReadOnly,
   isFieldRequired,
 } from '../../helpers/configHelpers';
 
@@ -28,7 +29,7 @@ const {
 
 const { Label } = inputComponents;
 
-const renderLabel = (fieldDescriptor, providedLabelMessage, requiredContext, props) => {
+const renderLabel = (fieldDescriptor, providedLabelMessage, computeContext, props) => {
   const fieldConfig = fieldDescriptor[configKey];
   const message = providedLabelMessage || get(fieldConfig, ['messages', 'name']);
 
@@ -39,11 +40,11 @@ const renderLabel = (fieldDescriptor, providedLabelMessage, requiredContext, pro
   const configuredProps = {};
 
   if ('required' in fieldConfig) {
-    configuredProps.required = isFieldRequired(requiredContext);
+    configuredProps.required = isFieldRequired(computeContext);
   }
 
   if ('readOnly' in fieldConfig) {
-    configuredProps.readOnly = fieldConfig.readOnly;
+    configuredProps.readOnly = isFieldReadOnly(computeContext);
   }
 
   return (
@@ -168,7 +169,17 @@ export default function Field(props, context) {
     }
   });
 
-  const effectiveReadOnly = providedProps.readOnly || configuredProps.readOnly;
+  const computeContext = {
+    path,
+    recordData,
+    subrecordData,
+    fieldDescriptor: field,
+    recordType,
+    form: formName,
+    roleNames,
+  };
+
+  const effectiveReadOnly = providedProps.readOnly || isFieldReadOnly(computeContext);
   const computedProps = {};
 
   if (fieldConfig.repeating && viewType !== 'search') {
@@ -176,17 +187,7 @@ export default function Field(props, context) {
   }
 
   if ('label' in basePropTypes) {
-    const requiredContext = {
-      path,
-      recordData,
-      subrecordData,
-      fieldDescriptor: field,
-      recordType,
-      form: formName,
-      roleNames,
-    };
-
-    computedProps.label = renderLabel(field, labelMessage, requiredContext, {
+    computedProps.label = renderLabel(field, labelMessage, computeContext, {
       readOnly: effectiveReadOnly,
     });
   }
@@ -205,7 +206,7 @@ export default function Field(props, context) {
       const childLabelMessage = childInput.props.labelMessage;
       const childField = field[childName];
 
-      const requiredContext = {
+      const childComputeContext = {
         path: [...path, childName],
         recordData,
         subrecordData,
@@ -215,7 +216,7 @@ export default function Field(props, context) {
         roleNames,
       };
 
-      return (childField && renderLabel(childField, childLabelMessage, requiredContext, {
+      return (childField && renderLabel(childField, childLabelMessage, childComputeContext, {
         key: childName,
         readOnly: effectiveReadOnly,
       }));

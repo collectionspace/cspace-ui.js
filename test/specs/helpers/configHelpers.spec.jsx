@@ -33,6 +33,7 @@ import {
   getVocabularyConfigByShortID,
   getVocabularyConfigByServicePath,
   isFieldCloneable,
+  isFieldReadOnly,
   isFieldRequired,
   isFieldRepeating,
   getDefaultSearchRecordType,
@@ -999,6 +1000,83 @@ describe('configHelpers', () => {
     });
   });
 
+  describe('isFieldReadOnly', () => {
+    it('should return the readOnly configuration setting', () => {
+      isFieldReadOnly({
+        fieldDescriptor: {
+          [configKey]: {
+            readOnly: false,
+          },
+        },
+      }).should.equal(false);
+
+      isFieldReadOnly({
+        fieldDescriptor: {
+          [configKey]: {
+            readOnly: true,
+          },
+        },
+      }).should.equal(true);
+    });
+
+    it('should return the result of calling the readOnly function, if it is a function', () => {
+      const recordData = Immutable.Map();
+
+      let readOnlyRecordData = null;
+
+      isFieldReadOnly({
+        recordData,
+        fieldDescriptor: {
+          [configKey]: {
+            readOnly: (computeContext) => {
+              readOnlyRecordData = computeContext.recordData;
+
+              return false;
+            },
+          },
+        },
+      }).should.equal(false);
+
+      readOnlyRecordData.should.equal(recordData);
+    });
+
+    it('should not include the data property in the compute context passed to a readOnly function', () => {
+      const recordData = Immutable.Map();
+
+      let computeContext = null;
+
+      isFieldReadOnly({
+        recordData,
+        fieldDescriptor: {
+          [configKey]: {
+            readOnly: (computeContextArg) => {
+              computeContext = computeContextArg;
+
+              return true;
+            },
+          },
+        },
+        data: '123',
+      }).should.equal(true);
+
+      computeContext.should.have.property('recordData');
+      computeContext.should.have.property('fieldDescriptor');
+      computeContext.should.not.have.property('data');
+    });
+
+    it('should default to false', () => {
+      isFieldReadOnly({
+        fieldDescriptor: {},
+      }).should.equal(false);
+
+      isFieldReadOnly({
+        fieldDescriptor: {
+          [configKey]: {},
+        },
+      }).should.equal(false);
+    });
+  });
+
   describe('isFieldRequired', () => {
     it('should return the required configuration setting', () => {
       isFieldRequired({
@@ -1027,8 +1105,8 @@ describe('configHelpers', () => {
         recordData,
         fieldDescriptor: {
           [configKey]: {
-            required: (requiredContext) => {
-              requiredRecordData = requiredContext.recordData;
+            required: (computeContext) => {
+              requiredRecordData = computeContext.recordData;
 
               return false;
             },
@@ -1039,17 +1117,17 @@ describe('configHelpers', () => {
       requiredRecordData.should.equal(recordData);
     });
 
-    it('should not include the data property from the validation context in the context passed to a required function', () => {
+    it('should not include the data property in the compute context passed to a required function', () => {
       const recordData = Immutable.Map();
 
-      let requiredContext = null;
+      let computeContext = null;
 
       isFieldRequired({
         recordData,
         fieldDescriptor: {
           [configKey]: {
-            required: (requiredContextArg) => {
-              requiredContext = requiredContextArg;
+            required: (computeContextArg) => {
+              computeContext = computeContextArg;
 
               return true;
             },
@@ -1058,9 +1136,9 @@ describe('configHelpers', () => {
         data: '123',
       }).should.equal(true);
 
-      requiredContext.should.have.property('recordData');
-      requiredContext.should.have.property('fieldDescriptor');
-      requiredContext.should.not.have.property('data');
+      computeContext.should.have.property('recordData');
+      computeContext.should.have.property('fieldDescriptor');
+      computeContext.should.not.have.property('data');
     });
 
     it('should default to false', () => {

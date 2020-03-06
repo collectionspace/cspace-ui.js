@@ -492,6 +492,26 @@ export const isFieldCloneable = (fieldDescriptor) => {
   return true;
 };
 
+export const isFieldReadOnly = (computeContext) => {
+  const { fieldDescriptor } = computeContext;
+
+  let readOnly = get(fieldDescriptor, [configKey, 'readOnly']);
+
+  if (typeof readOnly === 'function') {
+    const callComputeContext = { ...computeContext };
+
+    // Don't include the data property of the compute context when calling the function, since it
+    // doesn't really make sense to have the read only state of a field depend on the value in the
+    // field.
+
+    delete callComputeContext.data;
+
+    readOnly = readOnly(callComputeContext);
+  }
+
+  return !!readOnly;
+};
+
 export const isFieldRepeating = (fieldDescriptor) => {
   const config = fieldDescriptor[configKey];
 
@@ -502,21 +522,21 @@ export const isFieldRepeating = (fieldDescriptor) => {
   return false;
 };
 
-export const isFieldRequired = (validationContext) => {
-  const { fieldDescriptor } = validationContext;
+export const isFieldRequired = (computeContext) => {
+  const { fieldDescriptor } = computeContext;
 
   let required = get(fieldDescriptor, [configKey, 'required']);
 
   if (typeof required === 'function') {
-    const requiredContext = { ...validationContext };
+    const callComputeContext = { ...computeContext };
 
-    // Don't include the data property of the validation context in the required context, since it
+    // Don't include the data property of the compute context when calling the function, since it
     // doesn't really make sense to have the required state of a field depend on the value in the
     // field.
 
-    delete requiredContext.data;
+    delete callComputeContext.data;
 
-    required = required(requiredContext);
+    required = required(callComputeContext);
   }
 
   return !!required;
