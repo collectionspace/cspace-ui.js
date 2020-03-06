@@ -8,6 +8,10 @@ import imageFullscreenIcon from '../../../images/imageFullscreen.svg';
 import imageFullscreenActiveIcon from '../../../images/imageFullscreenActive.svg';
 import imageHomeIcon from '../../../images/imageHome.svg';
 import imageHomeActiveIcon from '../../../images/imageHomeActive.svg';
+import imageRotateLeftIcon from '../../../images/imageRotateLeft.svg';
+import imageRotateLeftActiveIcon from '../../../images/imageRotateLeftActive.svg';
+import imageRotateRightIcon from '../../../images/imageRotateRight.svg';
+import imageRotateRightActiveIcon from '../../../images/imageRotateRightActive.svg';
 import imageZoomInIcon from '../../../images/imageZoomIn.svg';
 import imageZoomInActiveIcon from '../../../images/imageZoomInActive.svg';
 import imageZoomOutIcon from '../../../images/imageZoomOut.svg';
@@ -64,9 +68,25 @@ export default class ImageViewer extends Component {
           HOVER: imageFullscreenActiveIcon,
           DOWN: imageFullscreenActiveIcon,
         },
+        rotateleft: {
+          REST: imageRotateLeftIcon,
+          GROUP: blankIcon,
+          HOVER: imageRotateLeftActiveIcon,
+          DOWN: imageRotateLeftActiveIcon,
+        },
+        rotateright: {
+          REST: imageRotateRightIcon,
+          GROUP: blankIcon,
+          HOVER: imageRotateRightActiveIcon,
+          DOWN: imageRotateRightActiveIcon,
+        },
+      },
+      gestureSettingsTouch: {
+        pinchRotate: true,
       },
       prefixUrl: '',
       showNavigator: true,
+      showRotationControl: true,
       tileSources: {
         type: 'image',
         url: blobUrl,
