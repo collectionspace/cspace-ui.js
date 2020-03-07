@@ -39,10 +39,4 @@ export default {
       defaultMessage: 'Condition Check Information',
     },
   }),
-  inputTable: defineMessages({
-    depositor: {
-      id: 'inputTable.intake.depositor',
-      defaultMessage: 'Depositor',
-    },
-  }),
 };

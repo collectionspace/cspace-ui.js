@@ -35,11 +35,11 @@ export default (configContext) => {
       },
       {
         op: OP_EQ,
-        path: 'ns2:intakes_common/currentOwner',
+        path: 'ns2:intakes_common/currentOwners/currentOwner',
       },
       {
         op: OP_EQ,
-        path: 'ns2:intakes_common/depositor',
+        path: 'ns2:intakes_common/depositorGroupList/depositorGroup/depositor',
       },
       {
         op: OP_CONTAIN,

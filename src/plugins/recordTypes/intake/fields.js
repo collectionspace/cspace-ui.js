@@ -129,56 +129,88 @@ export default (configContext) => {
             },
           },
         },
-        currentOwner: {
+        currentOwners: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.intakes_common.currentOwner.name',
-                defaultMessage: 'Current owner',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared,organization/local,organization/shared',
+              type: CompoundInput,
+            },
+          },
+          currentOwner: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.intakes_common.currentOwner.name',
+                  defaultMessage: 'Current owner',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'person/local,person/shared,organization/local,organization/shared',
+                },
               },
             },
           },
         },
-        depositor: {
+        depositorGroupList: {
           [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.intakes_common.depositor.fullName',
-                defaultMessage: 'Depositor name',
-              },
-              name: {
-                id: 'field.intakes_common.depositor.name',
-                defaultMessage: 'Name',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared,organization/local,organization/shared',
-              },
+              type: CompoundInput,
             },
           },
-        },
-        depositorsRequirements: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.intakes_common.despositorsRequirements.fullName',
-                defaultMessage: 'Depositor requirements',
+          depositorGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.intakes_common.depositorGroup.name',
+                  defaultMessage: 'Depositor',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
               },
-              name: {
-                id: 'field.intakes_common.despositorsRequirements.name',
-                defaultMessage: 'Requirements',
+            },
+            depositor: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.depositor.fullName',
+                    defaultMessage: 'Depositor name',
+                  },
+                  name: {
+                    id: 'field.intakes_common.depositor.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared,organization/local,organization/shared',
+                  },
+                },
               },
-            }),
-            view: {
-              type: TextInput,
+            },
+            depositorsRequirements: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.intakes_common.despositorsRequirements.fullName',
+                    defaultMessage: 'Depositor requirements',
+                  },
+                  name: {
+                    id: 'field.intakes_common.despositorsRequirements.name',
+                    defaultMessage: 'Requirements',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
             },
           },
         },
