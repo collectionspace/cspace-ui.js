@@ -89,7 +89,7 @@ const handleSearchStarted = (state, action) => {
     const mostRecentSearchState = namedSearch.getIn(['byKey', mostRecentKey]);
     const mostRecentSearchDescriptor = mostRecentSearchState.get('descriptor');
 
-    const changes = diff(searchDescriptor.toJS(), mostRecentSearchDescriptor.toJS(), 3);
+    const changes = diff(searchDescriptor.toJS(), mostRecentSearchDescriptor.toJS());
     const changeCount = Object.keys(changes).length;
 
     const pageChanged = 'searchQuery.p' in changes;
@@ -149,7 +149,6 @@ const handleSearchStarted = (state, action) => {
 
       if (Object.keys(changes).length > 0) {
         // Something other than page num, page size, sort, or seq id changed. Clear selected items.
-
         updatedNamedSearch = updatedNamedSearch.delete('selected');
       }
     }
