@@ -2148,6 +2148,8 @@ export default {
 
   "field.intakes_common.depositor.name": "Name",
 
+  "field.intakes_common.depositorGroup.name": "Depositor",
+
   "field.intakes_common.despositorsRequirements.fullName": "Depositor requirements",
 
   "field.intakes_common.despositorsRequirements.name": "Requirements",
@@ -2436,6 +2438,8 @@ export default {
 
   "field.media_common.publisher.name": "Publisher",
 
+  "field.media_common.publishTo.name": "Publish to",
+
   "field.media_common.relation.name": "Relation",
 
   "field.media_common.rightsHolder.name": "Rights holder",
@@ -2582,7 +2586,31 @@ export default {
 
   "field.organizations_common.additionsToName.name": "Addition",
 
-  "field.organizations_common.contactName.name": "Contact name",
+  "field.organizations_common.contactDateGroup.fullName": "Contact date",
+
+  "field.organizations_common.contactDateGroup.groupName": "Date",
+
+  "field.organizations_common.contactDateGroup.name": "Date",
+
+  "field.organizations_common.contactEndDateGroup.fullName": "Contact end date",
+
+  "field.organizations_common.contactEndDateGroup.groupName": "End date",
+
+  "field.organizations_common.contactEndDateGroup.name": "End date",
+
+  "field.organizations_common.contactGroup.name": "Contact person",
+
+  "field.organizations_common.contactName.fullName": "Contact name",
+
+  "field.organizations_common.contactName.name": "Name",
+
+  "field.organizations_common.contactRole.fullName": "Contact role",
+
+  "field.organizations_common.contactRole.name": "Role",
+
+  "field.organizations_common.contactStatus.fullName": "Contact status",
+
+  "field.organizations_common.contactStatus.name": "Status",
 
   "field.organizations_common.dissolutionDateGroup.name": "Dissolution date",
 
@@ -3419,8 +3447,6 @@ export default {
   "inputTable.concept.scopeNote": "Scope note",
 
   "inputTable.concept.termSource": "Source",
-
-  "inputTable.intake.depositor": "Depositor",
 
   "inputTable.loanin.borrower": "Borrower",
 
@@ -5811,15 +5837,6 @@ export default {
 
   // The name of the vocabulary.
   "vocab.concept.associated.name": "Associated",
-
-  // The name of a collection of records from the ethculture concept vocabulary.
-  "vocab.concept.ethculture.collectionName": "Ethnographic Cultures",
-
-  // The name of a record from the vocabulary.
-  "vocab.concept.ethculture.itemName": "Ethnographic Culture",
-
-  // The name of the ethculture concept vocabulary.
-  "vocab.concept.ethculture.name": "Ethnographic Culture",
 
   // The name of a collection of records from the vocabulary.
   "vocab.concept.material.collectionName": "Material Concepts",

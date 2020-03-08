@@ -443,25 +443,131 @@ export default (configContext) => {
           },
           ...extensions.structuredDate.fields,
         },
-        contactNames: {
+        contactGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          contactName: {
+          contactGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.organizations_common.contactName.name',
-                  defaultMessage: 'Contact name',
+                  id: 'field.organizations_common.contactGroup.name',
+                  defaultMessage: 'Contact person',
                 },
               }),
               repeating: true,
               view: {
-                type: AutocompleteInput,
+                type: CompoundInput,
                 props: {
-                  source: 'person/local',
+                  tabular: true,
+                },
+              },
+            },
+            contactName: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.contactName.fullName',
+                    defaultMessage: 'Contact name',
+                  },
+                  name: {
+                    id: 'field.organizations_common.contactName.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local',
+                  },
+                },
+              },
+            },
+            contactRole: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.contactRole.fullName',
+                    defaultMessage: 'Contact role',
+                  },
+                  name: {
+                    id: 'field.organizations_common.contactRole.name',
+                    defaultMessage: 'Role',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'contactrole',
+                  },
+                },
+              },
+            },
+            contactDateGroup: {
+              [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.contactDateGroup.fullName',
+                    defaultMessage: 'Contact date',
+                  },
+                  groupName: {
+                    id: 'field.organizations_common.contactDateGroup.groupName',
+                    defaultMessage: 'Date',
+                  },
+                  name: {
+                    id: 'field.organizations_common.contactDateGroup.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: StructuredDateInput,
+                },
+              },
+              ...extensions.structuredDate.fields,
+            },
+            contactEndDateGroup: {
+              [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.contactEndDateGroup.fullName',
+                    defaultMessage: 'Contact end date',
+                  },
+                  groupName: {
+                    id: 'field.organizations_common.contactEndDateGroup.groupName',
+                    defaultMessage: 'End date',
+                  },
+                  name: {
+                    id: 'field.organizations_common.contactEndDateGroup.name',
+                    defaultMessage: 'End date',
+                  },
+                }),
+                view: {
+                  type: StructuredDateInput,
+                },
+              },
+              ...extensions.structuredDate.fields,
+            },
+            contactStatus: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.organizations_common.contactStatus.fullName',
+                    defaultMessage: 'Contact status',
+                  },
+                  name: {
+                    id: 'field.organizations_common.contactStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'contactstatus',
+                  },
                 },
               },
             },
