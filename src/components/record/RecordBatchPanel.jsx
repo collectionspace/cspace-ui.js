@@ -46,6 +46,8 @@ const propTypes = {
   invoke: PropTypes.func,
 };
 
+const invocationType = 'batchinvocation';
+
 export default class RecordBatchPanel extends Component {
   constructor(props) {
     super(props);
@@ -181,11 +183,11 @@ export default class RecordBatchPanel extends Component {
       return null;
     }
 
-    if (!canList('batch', perms)) {
+    if (!canList(invocationType, perms)) {
       return null;
     }
 
-    const canRun = canCreate('batch', perms);
+    const canRun = canCreate(invocationType, perms);
 
     return (
       <div>
