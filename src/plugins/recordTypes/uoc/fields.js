@@ -240,7 +240,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.uoc_common.useDateGroup.name',
-                  defaultMessage: 'Start/single date', // FIX ME Ray agrees that this label is not good and  also fix the fullNames in the fields in the group
+                  defaultMessage: 'Start/ongoing dates',
                 },
               }),
               repeating: true,
