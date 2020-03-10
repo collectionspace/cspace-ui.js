@@ -240,7 +240,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.uoc_common.useDateGroup.name',
-                  defaultMessage: 'Start/ongoing dates',
+                  defaultMessage: 'Start/ongoing date',
                 },
               }),
               repeating: true,
@@ -255,6 +255,10 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.useDate.fullName',
+                    defaultMessage: 'Start/ongoing date',
+                  },
                   name: {
                     id: 'field.uoc_common.useDate.name',
                     defaultMessage: 'Date',
@@ -268,13 +272,13 @@ export default (configContext) => {
             useDateTimeNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.useDateTimeNote.fullName',
+                    defaultMessage: 'Start/ongoing date time note',
+                  },
                   name: {
                     id: 'field.uoc_common.useDateTimeNote.name',
                     defaultMessage: 'Time note',
-                  },
-                  fullName: {
-                    id: 'field.uoc_common.useDateTimeNote.fullName',
-                    defaultMessage: 'Use date time note',
                   },
                 }),
                 view: {
@@ -285,6 +289,10 @@ export default (configContext) => {
             useDateNumberOfVisitors: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.useDateNumberOfVisitors.fullName',
+                    defaultMessage: 'Start/ongoing date no. of visitors',
+                  },
                   name: {
                     id: 'field.uoc_common.useDateNumberOfVisitors.name',
                     defaultMessage: 'No. of visitors',
@@ -299,6 +307,10 @@ export default (configContext) => {
             useDateHoursSpent: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.uoc_common.hoursSpent.fullName',
+                    defaultMessage: 'Start/ongoing date hours spent',
+                  },
                   name: {
                     id: 'field.uoc_common.hoursSpent.name',
                     defaultMessage: 'Hours spent',
@@ -315,11 +327,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.uoc_common.useDateVisitorNote.fullName',
-                    defaultMessage: 'Visitor note',
+                    defaultMessage: 'Start/ongoing date visitor note',
                   },
                   name: {
                     id: 'field.uoc_common.useDateVisitorNote.name',
-                    defaultMessage: 'Note',
+                    defaultMessage: 'Visitor note',
                   },
                 }),
                 view: {

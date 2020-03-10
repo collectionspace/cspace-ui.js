@@ -19,28 +19,38 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Panel name="useOfCollections" collapsible>
-
         <Cols>
           <Col>
             <Field name="referenceNumber" />
-            <Row>
-              <Field name="methodList">
-                <Field name="method" />
-              </Field>
 
-              <Field name="collectionTypeList">
-                <Field name="collectionType" />
-              </Field>
+            <Row>
+              <Col>
+                <Field name="methodList">
+                  <Field name="method" />
+                </Field>
+              </Col>
+
+              <Col>
+                <Field name="collectionTypeList">
+                  <Field name="collectionType" />
+                </Field>
+              </Col>
             </Row>
           </Col>
 
           <Col>
             <Field name="projectId" />
+
             <Row>
-              <Field name="subcollection" />
-              <Field name="materialTypeList">
-                <Field name="materialType" />
-              </Field>
+              <Col>
+                <Field name="subcollection" />
+              </Col>
+
+              <Col>
+                <Field name="materialTypeList">
+                  <Field name="materialType" />
+                </Field>
+              </Col>
             </Row>
           </Col>
         </Cols>
@@ -48,13 +58,14 @@ const template = (configContext) => {
         <Field name="userGroupList">
           <Field name="userGroup">
             <Field name="user" />
-            <Field name="userInstitutionRole" />
             <Field name="userUocRole" />
             <Field name="userInstitution" />
+            <Field name="userInstitutionRole" />
           </Field>
         </Field>
 
         <Field name="title" />
+
         <Cols>
           <Col>
             <Field name="dateRequested" />
@@ -74,8 +85,8 @@ const template = (configContext) => {
           <Field name="authorizationGroup">
             <Field name="authorizedBy" />
             <Field name="authorizationDate" />
-            <Field name="authorizationNote" />
             <Field name="authorizationStatus" />
+            <Field name="authorizationNote" />
           </Field>
         </Field>
 
@@ -93,6 +104,7 @@ const template = (configContext) => {
           <Col>
             <Field name="endDate" />
           </Col>
+
           <Col />
         </Cols>
 
@@ -108,21 +120,22 @@ const template = (configContext) => {
         <Row>
           <Field name="locationList">
             <Field name="location" />
-
           </Field>
+
           <Row>
             <Field name="feeGroupList">
               <Field name="feeGroup">
                 <Field name="feeCurrency" />
                 <Field name="feeValue" />
-                <Field name="feeNote" />
                 <Field name="feePaid" />
+                <Field name="feeNote" />
               </Field>
             </Field>
           </Row>
         </Row>
 
         <Field name="note" />
+
         <Row>
           <Field name="provisos" />
           <Field name="obligationsFulfilled" />
