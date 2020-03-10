@@ -19,9 +19,20 @@ export default (configContext) => {
       },
       {
         op: OP_EQ,
-        path: 'ns2:uoc_common/authorizedBy',
+        path: 'ns2:uoc_common/authorizationGroupList/authorizationGroup/authorizedBy',
       },
-
+      {
+        op: OP_EQ,
+        path: 'ns2:uoc_common/userGroupList/userGroup/user',
+      },
+      {
+        op: OP_EQ,
+        path: 'ns2:uoc_common/obligationsFulfilled',
+      },
+      {
+        op: OP_EQ,
+        path: 'ns2:uoc_common/staffGroupList/staffGroup/staffName',
+      },
       ...extensions.core.advancedSearch,
     ],
   };

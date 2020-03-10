@@ -14,53 +14,119 @@ const template = (configContext) => {
 
   const {
     Field,
-    InputTable,
   } = configContext.recordComponents;
 
   return (
     <Field name="document">
       <Panel name="useOfCollections" collapsible>
 
-        <Row>
+        <Cols>
           <Col>
             <Field name="referenceNumber" />
+            <Row>
+              <Field name="methodList">
+                <Field name="method" />
+              </Field>
+
+              <Field name="collectionTypeList">
+                <Field name="collectionType" />
+              </Field>
+            </Row>
           </Col>
 
           <Col>
-            <Field name="methodList">
-              <Field name="method" />
-            </Field>
+            <Field name="projectId" />
+            <Row>
+              <Field name="subcollection" />
+              <Field name="materialTypeList">
+                <Field name="materialType" />
+              </Field>
+            </Row>
           </Col>
-        </Row>
+        </Cols>
+
+        <Field name="userGroupList">
+          <Field name="userGroup">
+            <Field name="user" />
+            <Field name="userInstitutionRole" />
+            <Field name="userUocRole" />
+            <Field name="userInstitution" />
+          </Field>
+        </Field>
 
         <Field name="title" />
+        <Cols>
+          <Col>
+            <Field name="dateRequested" />
+            <Field name="dateCompleted" />
 
-        <InputTable name="authorizedBy">
-          <Field name="authorizedBy" />
-          <Field name="authorizationDate" />
-          <Field name="authorizationNote" />
-        </InputTable>
+            <Field name="occasionList">
+              <Field name="occasion" />
+            </Field>
+          </Col>
+
+          <Col>
+            <Field name="projectDescription" />
+          </Col>
+        </Cols>
+
+        <Field name="authorizationGroupList">
+          <Field name="authorizationGroup">
+            <Field name="authorizedBy" />
+            <Field name="authorizationDate" />
+            <Field name="authorizationNote" />
+            <Field name="authorizationStatus" />
+          </Field>
+        </Field>
+
+        <Field name="useDateGroupList">
+          <Field name="useDateGroup">
+            <Field name="useDate" />
+            <Field name="useDateTimeNote" />
+            <Field name="useDateNumberOfVisitors" />
+            <Field name="useDateHoursSpent" />
+            <Field name="useDateVisitorNote" />
+          </Field>
+        </Field>
 
         <Cols>
           <Col>
-            <Field name="startSingleDate" />
             <Field name="endDate" />
+          </Col>
+          <Col />
+        </Cols>
 
-            <Field name="userGroupList">
-              <Field name="userGroup">
-                <Field name="user" />
-                <Field name="userType" />
+        <Field name="staffGroupList">
+          <Field name="staffGroup">
+            <Field name="staffName" />
+            <Field name="staffRole" />
+            <Field name="staffHours" />
+            <Field name="staffNote" />
+          </Field>
+        </Field>
+
+        <Row>
+          <Field name="locationList">
+            <Field name="location" />
+
+          </Field>
+          <Row>
+            <Field name="feeGroupList">
+              <Field name="feeGroup">
+                <Field name="feeCurrency" />
+                <Field name="feeValue" />
+                <Field name="feeNote" />
+                <Field name="feePaid" />
               </Field>
             </Field>
+          </Row>
+        </Row>
 
-            <Field name="location" />
-          </Col>
-
-          <Col>
-            <Field name="note" />
-            <Field name="provisos" />
-          </Col>
-        </Cols>
+        <Field name="note" />
+        <Row>
+          <Field name="provisos" />
+          <Field name="obligationsFulfilled" />
+        </Row>
 
         <Field name="result" />
       </Panel>
