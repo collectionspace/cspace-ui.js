@@ -113,7 +113,7 @@ describe('batch action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}`);
+          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 
@@ -159,7 +159,7 @@ describe('batch action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}`);
+          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 
@@ -205,7 +205,7 @@ describe('batch action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}`);
+          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 
@@ -251,7 +251,7 @@ describe('batch action creator', () => {
         .then(() => {
           const request = moxios.requests.mostRecent();
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}`);
+          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
 
           const data = JSON.parse(request.config.data);
 

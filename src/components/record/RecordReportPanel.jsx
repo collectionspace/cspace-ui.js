@@ -43,6 +43,8 @@ const propTypes = {
   openReport: PropTypes.func,
 };
 
+const invocationType = 'reportinvocation';
+
 export default class RecordReportPanel extends Component {
   constructor(props) {
     super(props);
@@ -145,11 +147,11 @@ export default class RecordReportPanel extends Component {
       return null;
     }
 
-    if (!canList('report', perms)) {
+    if (!canList(invocationType, perms)) {
       return null;
     }
 
-    const canRun = canCreate('report', perms);
+    const canRun = canCreate(invocationType, perms);
 
     return (
       <div>

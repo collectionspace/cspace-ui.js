@@ -68,6 +68,9 @@ const perms = Immutable.fromJS({
   report: {
     data: 'CRUDL',
   },
+  reportinvocation: {
+    data: 'CRUDL',
+  },
 });
 
 describe('RecordReportPanel', () => {

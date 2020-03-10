@@ -69,6 +69,9 @@ const perms = Immutable.fromJS({
   batch: {
     data: 'CRUDL',
   },
+  batchinvocation: {
+    data: 'CRUDL',
+  },
 });
 
 describe('RecordBatchPanel', () => {

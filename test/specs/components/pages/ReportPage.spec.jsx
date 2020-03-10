@@ -72,7 +72,10 @@ const store = mockStore({
 
 const perms = Immutable.fromJS({
   report: {
-    data: 'CRUL',
+    data: 'CRUD',
+  },
+  reportinvocation: {
+    data: 'CRUD',
   },
 });
 
