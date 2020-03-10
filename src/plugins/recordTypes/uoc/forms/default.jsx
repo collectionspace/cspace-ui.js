@@ -68,8 +68,10 @@ const template = (configContext) => {
 
         <Cols>
           <Col>
-            <Field name="dateRequested" />
-            <Field name="dateCompleted" />
+            <Row>
+              <Field name="dateRequested" />
+              <Field name="dateCompleted" />
+            </Row>
 
             <Field name="occasionList">
               <Field name="occasion" />
