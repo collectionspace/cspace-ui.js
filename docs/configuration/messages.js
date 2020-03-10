@@ -3054,19 +3054,63 @@ export default {
 
   "field.uoc_common.authorizationDate.name": "Date",
 
+  "field.uoc_common.authorizationGroup.name": "Authorization",
+
   "field.uoc_common.authorizationNote.fullName": "Authorization note",
 
   "field.uoc_common.authorizationNote.name": "Note",
 
+  "field.uoc_common.authorizationStatus.fullName": "Authorization status",
+
+  "field.uoc_common.authorizationStatus.name": "Status",
+
   "field.uoc_common.authorizedBy.name": "Authorized by",
+
+  "field.uoc_common.collectionType.name": "Collection type",
+
+  "field.uoc_common.dateCompleted.name": "Date completed",
+
+  "field.uoc_common.dateRequested.name": "Date requested",
 
   "field.uoc_common.endDate.name": "End date",
 
+  "field.uoc_common.feeCurrency.fullName": "Fee currency",
+
+  "field.uoc_common.feeCurrency.name": "Currency",
+
+  "field.uoc_common.feeGroup.name": "Fee charged",
+
+  "field.uoc_common.feeNote.fullName": "Fee note",
+
+  "field.uoc_common.feeNote.name": "Note",
+
+  "field.uoc_common.feePaid.fullName": "Fee paid",
+
+  "field.uoc_common.feePaid.name": "Paid",
+
+  "field.uoc_common.feeValue.fullName": "Fee value",
+
+  "field.uoc_common.feeValue.name": "Value",
+
+  "field.uoc_common.hoursSpent.fullName": "Start/ongoing date hours spent",
+
+  "field.uoc_common.hoursSpent.name": "Hours spent",
+
   "field.uoc_common.location.name": "Location",
+
+  "field.uoc_common.materialType.name": "Material type",
 
   "field.uoc_common.method.name": "Method",
 
   "field.uoc_common.note.name": "Note",
+
+  "field.uoc_common.obligationsFulfilled.name": "Obligations fulfilled",
+
+  "field.uoc_common.occasion.name": "Occasion",
+
+  "field.uoc_common.projectDescription.name": "Project description",
+
+  "field.uoc_common.projectId.name": "Project ID",
 
   "field.uoc_common.provisos.name": "Provisos",
 
@@ -3074,9 +3118,45 @@ export default {
 
   "field.uoc_common.result.name": "Result",
 
-  "field.uoc_common.startSingleDate.name": "Start/single date",
+  "field.uoc_common.staffGroup.name": "Staff",
+
+  "field.uoc_common.staffHours.fullName": "Staff hours spent",
+
+  "field.uoc_common.staffHours.name": "Hours spent",
+
+  "field.uoc_common.staffName.fullName": "Staff name",
+
+  "field.uoc_common.staffName.name": "Name",
+
+  "field.uoc_common.staffNote.fullName": "Staff note",
+
+  "field.uoc_common.staffNote.name": "Note",
+
+  "field.uoc_common.staffRole.fullName": "Staff role",
+
+  "field.uoc_common.staffRole.name": "Role",
+
+  "field.uoc_common.subcollection.name": "Subcollection",
 
   "field.uoc_common.title.name": "Title",
+
+  "field.uoc_common.useDate.fullName": "Start/ongoing date",
+
+  "field.uoc_common.useDate.name": "Date",
+
+  "field.uoc_common.useDateGroup.name": "Start/ongoing date",
+
+  "field.uoc_common.useDateNumberOfVisitors.fullName": "Start/ongoing date no. of visitors",
+
+  "field.uoc_common.useDateNumberOfVisitors.name": "No. of visitors",
+
+  "field.uoc_common.useDateTimeNote.fullName": "Start/ongoing date time note",
+
+  "field.uoc_common.useDateTimeNote.name": "Time note",
+
+  "field.uoc_common.useDateVisitorNote.fullName": "Start/ongoing date visitor note",
+
+  "field.uoc_common.useDateVisitorNote.name": "Visitor note",
 
   "field.uoc_common.user.fullName": "User name",
 
@@ -3084,9 +3164,17 @@ export default {
 
   "field.uoc_common.userGroup.name": "User",
 
-  "field.uoc_common.userType.fullName": "User type",
+  "field.uoc_common.userInstitution.fullName": "User institution",
 
-  "field.uoc_common.userType.name": "Type",
+  "field.uoc_common.userInstitution.name": "Institution",
+
+  "field.uoc_common.userInstitutionRole.fullName": "User institution role",
+
+  "field.uoc_common.userInstitutionRole.name": "Institution role",
+
+  "field.uoc_common.userUocRole.fullName": "User role",
+
+  "field.uoc_common.userUocRole.name": "Role",
 
   "field.valuationcontrols_common.valuationcontrolRefNumber.name": "Reference number",
 
@@ -5855,6 +5943,15 @@ export default {
 
   // The name of the nomenclature concept vocabulary.
   "vocab.concept.nomenclature.name": "Nomenclature",
+
+  // The name of a collection of records from the vocabulary.
+  "vocab.concept.occasion.collectionName": "Occasion Concepts",
+
+  // The name of a record from the vocabulary.
+  "vocab.concept.occasion.itemName": "Occasion Concept",
+
+  // The name of the vocabulary.
+  "vocab.concept.occasion.name": "Occasion",
 
   // The name of a collection of records from the vocabulary.
   "vocab.location.all.collectionName": "All Locations",
