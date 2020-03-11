@@ -13,8 +13,8 @@ import {
 import {
   configKey,
   dataPathToFieldDescriptorPath,
-  isFieldReadOnly,
   isFieldRequired,
+  isFieldViewReadOnly,
 } from '../../helpers/configHelpers';
 
 import {
@@ -43,8 +43,10 @@ const renderLabel = (fieldDescriptor, providedLabelMessage, computeContext, prop
     configuredProps.required = isFieldRequired(computeContext);
   }
 
-  if ('readOnly' in fieldConfig) {
-    configuredProps.readOnly = isFieldReadOnly(computeContext);
+  const viewReadOnly = isFieldViewReadOnly(computeContext);
+
+  if (typeof viewReadOnly !== 'undefined') {
+    configuredProps.readOnly = viewReadOnly;
   }
 
   return (
@@ -179,7 +181,7 @@ export default function Field(props, context) {
     roleNames,
   };
 
-  const effectiveReadOnly = providedProps.readOnly || isFieldReadOnly(computeContext);
+  const effectiveReadOnly = providedProps.readOnly || isFieldViewReadOnly(computeContext);
   const computedProps = {};
 
   if (fieldConfig.repeating && viewType !== 'search') {

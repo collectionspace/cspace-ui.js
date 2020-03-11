@@ -121,9 +121,11 @@ const config = {
                 defaultMessage: 'formatted {value}',
               },
             },
-            readOnly: true,
             view: {
               type: TestInput,
+              props: {
+                readOnly: true,
+              },
             },
           },
         },
@@ -220,7 +222,7 @@ describe('Field', () => {
     this.container.textContent.should.equal('message for field.color.name');
   });
 
-  it('should set readOnly prop of the label if the field is configured to be read only', () => {
+  it('should set readOnly prop of the label if the field view is configured to be read only', () => {
     const context = {
       config,
       recordType: 'collectionobject',

@@ -94,13 +94,13 @@ export default (configContext) => {
               defaultMessage: 'Full name',
             },
           }),
-          readOnly: isMetadataImmutable,
           required: true,
           view: {
             type: TextInput,
             props: {
               // Suppress Chrome autofill
               autoComplete: 'cspace-name',
+              readOnly: isMetadataImmutable,
             },
           },
         },
@@ -119,7 +119,6 @@ export default (configContext) => {
               defaultMessage: 'Email address',
             },
           }),
-          readOnly: isMetadataImmutable,
           required: true,
           validate: ({ data, fieldDescriptor }) => {
             if (!isValidEmail(data)) {
@@ -137,6 +136,7 @@ export default (configContext) => {
             props: {
               // Suppress Chrome autofill
               autoComplete: 'cspace-email',
+              readOnly: isMetadataImmutable,
             },
           },
         },
@@ -201,11 +201,11 @@ export default (configContext) => {
               defaultMessage: 'Status',
             },
           }),
-          readOnly: isMetadataImmutable,
           required: true,
           view: {
             type: OptionPickerInput,
             props: {
+              readOnly: isMetadataImmutable,
               source: 'accountStatuses',
             },
           },
@@ -230,7 +230,6 @@ export default (configContext) => {
               defaultMessage: 'User ID',
             },
           }),
-          readOnly: true,
           view: {
             type: TextInput,
             props: {
@@ -254,9 +253,11 @@ export default (configContext) => {
                 defaultMessage: 'Roles',
               },
             }),
-            readOnly: areRolesImmutable,
             view: {
               type: RolesInput,
+              props: {
+                readOnly: areRolesImmutable,
+              },
             },
           },
         },

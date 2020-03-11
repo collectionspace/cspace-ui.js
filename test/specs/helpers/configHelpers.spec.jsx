@@ -33,9 +33,9 @@ import {
   getVocabularyConfigByShortID,
   getVocabularyConfigByServicePath,
   isFieldCloneable,
-  isFieldReadOnly,
   isFieldRequired,
   isFieldRepeating,
+  isFieldViewReadOnly,
   getDefaultSearchRecordType,
   getDefaultSearchVocabulary,
   validateLocation,
@@ -1000,20 +1000,28 @@ describe('configHelpers', () => {
     });
   });
 
-  describe('isFieldReadOnly', () => {
-    it('should return the readOnly configuration setting', () => {
-      isFieldReadOnly({
+  describe('isFieldViewReadOnly', () => {
+    it('should return the readOnly prop of the view configuration setting', () => {
+      isFieldViewReadOnly({
         fieldDescriptor: {
           [configKey]: {
-            readOnly: false,
+            view: {
+              props: {
+                readOnly: false,
+              },
+            },
           },
         },
       }).should.equal(false);
 
-      isFieldReadOnly({
+      isFieldViewReadOnly({
         fieldDescriptor: {
           [configKey]: {
-            readOnly: true,
+            view: {
+              props: {
+                readOnly: true,
+              },
+            },
           },
         },
       }).should.equal(true);
@@ -1024,14 +1032,18 @@ describe('configHelpers', () => {
 
       let readOnlyRecordData = null;
 
-      isFieldReadOnly({
+      isFieldViewReadOnly({
         recordData,
         fieldDescriptor: {
           [configKey]: {
-            readOnly: (computeContext) => {
-              readOnlyRecordData = computeContext.recordData;
+            view: {
+              props: {
+                readOnly: (computeContext) => {
+                  readOnlyRecordData = computeContext.recordData;
 
-              return false;
+                  return false;
+                },
+              },
             },
           },
         },
@@ -1045,14 +1057,18 @@ describe('configHelpers', () => {
 
       let computeContext = null;
 
-      isFieldReadOnly({
+      isFieldViewReadOnly({
         recordData,
         fieldDescriptor: {
           [configKey]: {
-            readOnly: (computeContextArg) => {
-              computeContext = computeContextArg;
+            view: {
+              props: {
+                readOnly: (computeContextArg) => {
+                  computeContext = computeContextArg;
 
-              return true;
+                  return true;
+                },
+              },
             },
           },
         },
@@ -1065,11 +1081,11 @@ describe('configHelpers', () => {
     });
 
     it('should default to false', () => {
-      isFieldReadOnly({
+      isFieldViewReadOnly({
         fieldDescriptor: {},
       }).should.equal(false);
 
-      isFieldReadOnly({
+      isFieldViewReadOnly({
         fieldDescriptor: {
           [configKey]: {},
         },
