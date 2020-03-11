@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import FieldInput from './FieldInput';
@@ -42,6 +43,14 @@ const propTypes = {
   onCommit: PropTypes.func,
   onRemove: PropTypes.func,
 };
+
+const messages = defineMessages({
+  notFound: {
+    id: 'fieldConditionInput.notFound',
+    description: 'Message displayed in advanced search when a field is not found',
+    defaultMessage: 'field not found',
+  },
+});
 
 const isFieldControlled = (fieldDescriptor) => {
   const viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
@@ -281,7 +290,7 @@ export default class FieldConditionInput extends Component {
     const fieldDescriptor = get(config, ['recordTypes', recordType, 'fields', ...path]);
 
     if (!fieldDescriptor) {
-      return null;
+      return (inline ? null : <div><FormattedMessage {...messages.notFound} /></div>);
     }
 
     const dataType = getFieldDataType(fieldDescriptor);
@@ -325,7 +334,7 @@ export default class FieldConditionInput extends Component {
       const fieldDescriptor = get(config, ['recordTypes', recordType, 'fields', ...path]);
 
       if (!fieldDescriptor) {
-        return null;
+        return <div />;
       }
 
       const dataType = getFieldDataType(fieldDescriptor);
