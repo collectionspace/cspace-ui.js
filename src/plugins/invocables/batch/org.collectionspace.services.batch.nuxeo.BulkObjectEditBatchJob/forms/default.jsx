@@ -18,7 +18,6 @@ const template = (configContext) => {
   return (
     <Field name="params">
 
-      <Panel name="keyInfo" collapsible collapsed>
         <Cols>
           <Col>
             <Field name="inventoryCount"/>
@@ -88,24 +87,12 @@ const template = (configContext) => {
             </Field>
           </Col>
 
-        
         </Cols>
 
         <Field name="briefDescriptions">
           <Field name="briefDescription"/>       
         </Field>
 
-        <Cols>
-          <Col>
-
-          </Col> 
-          <Col>
-
-          </Col>
-        </Cols>
-
-      </Panel>
-    
   </Field>
   );
 };
