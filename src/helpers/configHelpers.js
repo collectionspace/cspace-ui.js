@@ -493,20 +493,33 @@ export const isFieldCloneable = (fieldDescriptor) => {
 };
 
 export const isFieldViewReadOnly = (computeContext) => {
-  const { fieldDescriptor } = computeContext;
+  const {
+    fieldDescriptor,
+    isSearch,
+  } = computeContext;
 
-  let readOnly = get(fieldDescriptor, [configKey, 'view', 'props', 'readOnly']);
+  let readOnly;
 
-  if (typeof readOnly === 'function') {
-    const callComputeContext = { ...computeContext };
+  const fieldConfig = get(fieldDescriptor, configKey);
 
-    // Don't include the data property of the compute context when calling the function, since it
-    // doesn't really make sense to have the read only state of a field depend on the value in the
-    // field.
+  if (fieldConfig) {
+    const viewConfig = isSearch
+      ? fieldConfig.searchView || fieldConfig.view
+      : fieldConfig.view;
 
-    delete callComputeContext.data;
+    readOnly = get(viewConfig, ['props', 'readOnly']);
 
-    readOnly = readOnly(callComputeContext);
+    if (typeof readOnly === 'function') {
+      const callComputeContext = { ...computeContext };
+
+      // Don't include the data property of the compute context when calling the function, since it
+      // doesn't really make sense to have the read only state of a field depend on the value in the
+      // field.
+
+      delete callComputeContext.data;
+
+      readOnly = readOnly(callComputeContext);
+    }
   }
 
   return !!readOnly;

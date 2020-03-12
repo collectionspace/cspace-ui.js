@@ -172,6 +172,7 @@ export default function Field(props, context) {
   });
 
   const computeContext = {
+    isSearch,
     path,
     recordData,
     subrecordData,
