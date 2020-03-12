@@ -10,17 +10,17 @@ v4.0.0 adds support for CollectionSpace 6.0.
 
 - Many fields now have `fullName` and/or `groupName` messages configured, when they did not previously. If you are relabeling a field in your configuration by overriding its `name` message, you should now also override the `fullName` and `groupName` messages, if present. Otherwise, the field will not be relabeled in advanced search. Consult the [messages reference](./docs/configuration/messages.js) or the source code for the record type to see if a `fullName` or `groupName` is present.
 
-- On the intake record:
-  - The field `currentOwner` has been replaced with the repeating field `currentOwners/currentOwner`. If you've changed the configuration of `currentOwner`, move that configuration under `currentOwners`. If you've overridden any form templates, replace `currentOwner` with `currentOwners/currentOwner` in any templates in which it appears.
-  - The fields `depositor` and `depositorsRequirements` have been moved into the repeating group `depositorGroupList/depositorGroup`. If you've changed the configuration of either of those fields, move that configuration under `depositorGroupList/depositorGroup`. If you've overridden any form templates, move the `depositor` and `depositorsRequirements` fields under `depositorGroupList/depositorGroup`.
+- Intake record:
+  - The field `currentOwner` has been replaced with the repeating field `currentOwners/currentOwner`. If you've changed the configuration of `currentOwner`, move that configuration under `currentOwners`. If you've overridden any form templates, replace `currentOwner` with `currentOwners/currentOwner` in any templates in which it appears. If you've customized the advanced search form, and `currentOwners` is present, replace it with `currentOwners/currentOwner`.
+  - The fields `depositor` and `depositorsRequirements` have been moved into the repeating group `depositorGroupList/depositorGroup`. If you've changed the configuration of either of those fields, move that configuration under `depositorGroupList/depositorGroup`. If you've overridden any form templates, move the `depositor` and `depositorsRequirements` fields under `depositorGroupList/depositorGroup`. If you've customized the advanced search form, and `depositor` or `depositorsRequirements` is present, replace it with the corresponding field under `depositorGroupList/depositorGroup`.
 
-- On the media record:
+- Media record:
   - A new field, `publishToList/publishTo`, has been added to the record editor form. This field exists in CollectionSpace 6.0, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
 
-- On the organization record:
-  - The field `contactName` has been moved from `contactNames` into the repeating group `contactGroupList/contactGroup`, and `contactNames` has been removed. If you've changed the configuration of `contactName`, move that configuration under the `contactGroupList/contactGroup` path. If you've overridden any form templates, move the `contactName` field under `contactGroupList/contactGroup`, and remove `contactNames`.
+- Organization record:
+  - The field `contactName` has been moved from `contactNames` into the repeating group `contactGroupList/contactGroup`, and `contactNames` has been removed. If you've changed the configuration of `contactName`, move that configuration under the `contactGroupList/contactGroup` path. If you've overridden any form templates, move the `contactName` field under `contactGroupList/contactGroup`, and remove `contactNames`. If you've customized the advanced search form, and `contactNames/contactName` is present, replace it with  `contactGroupList/contactGroup/contactName`.
 
-- On the use of collections record:
+- Use of collections record:
   - [TK]
 
 ## v3.0.0

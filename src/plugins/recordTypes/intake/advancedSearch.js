@@ -33,13 +33,9 @@ export default (configContext) => {
         op: OP_RANGE,
         path: 'ns2:intakes_common/returnDate',
       },
-      // {
-      //   op: OP_EQ,
-      //   path: 'ns2:intakes_common/currentOwners/currentOwner',
-      // },
       {
         op: OP_EQ,
-        path: 'ns2:intakes_common/currentOwner',
+        path: 'ns2:intakes_common/currentOwners/currentOwner',
       },
       {
         op: OP_EQ,
