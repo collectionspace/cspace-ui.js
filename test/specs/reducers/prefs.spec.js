@@ -168,7 +168,9 @@ describe('prefs reducer', () => {
       ],
     });
 
-    const state = reducer(Immutable.Map(), {
+    let state;
+
+    state = reducer(Immutable.Map(), {
       type: SET_SEARCH_PAGE_ADVANCED,
       payload: condition,
       meta: {
@@ -187,6 +189,18 @@ describe('prefs reducer', () => {
 
     getSearchCondition(state, recordType).should
       .equal(clearAdvancedSearchConditionValues(condition));
+
+    // Should do nothing if recordType is not supplied.
+
+    state = reducer(Immutable.Map(), {
+      type: SET_SEARCH_PAGE_ADVANCED,
+      payload: condition,
+      meta: {
+        recordType: undefined,
+      },
+    });
+
+    state.should.equal(Immutable.Map());
   });
 
   it('should handle SET_SEARCH_TO_SELECT_ADVANCED', () => {
@@ -204,7 +218,9 @@ describe('prefs reducer', () => {
       ],
     });
 
-    const state = reducer(Immutable.Map(), {
+    let state;
+
+    state = reducer(Immutable.Map(), {
       type: SET_SEARCH_TO_SELECT_ADVANCED,
       payload: condition,
       meta: {
@@ -223,6 +239,18 @@ describe('prefs reducer', () => {
 
     getSearchCondition(state, recordType).should
       .equal(clearAdvancedSearchConditionValues(condition));
+
+    // Should do nothing if recordType is not supplied.
+
+    state = reducer(Immutable.Map(), {
+      type: SET_SEARCH_TO_SELECT_ADVANCED,
+      payload: condition,
+      meta: {
+        recordType: undefined,
+      },
+    });
+
+    state.should.equal(Immutable.Map());
   });
 
   it('should handle SET_SEARCH_PAGE_RECORD_TYPE', () => {

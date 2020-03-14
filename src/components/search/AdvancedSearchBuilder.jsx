@@ -101,7 +101,7 @@ export default class AdvancedSearchBuilder extends Component {
       onConditionCommit,
     } = this.props;
 
-    if (onConditionCommit) {
+    if (recordType && onConditionCommit) {
       let normalizedCondition;
 
       if (condition) {
@@ -123,6 +123,8 @@ export default class AdvancedSearchBuilder extends Component {
       }
 
       if (normalizedCondition !== condition) {
+        console.log('normalized:');
+        console.log(normalizedCondition.toJS());
         onConditionCommit(normalizedCondition);
       }
     }

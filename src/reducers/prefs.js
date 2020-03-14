@@ -25,6 +25,12 @@ import {
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
+  const { recordType } = action.meta;
+
+  if (!recordType) {
+    return state;
+  }
+
   const condition = action.payload;
   const op = condition ? condition.get('op') : null;
 
@@ -33,8 +39,6 @@ const handleAdvancedSearchConditionChange = (state, action) => {
   if (op === OP_AND || op === OP_OR) {
     nextState = nextState.set('advancedSearchBooleanOp', op);
   }
-
-  const { recordType } = action.meta;
 
   nextState = nextState.setIn(
     ['searchCond', recordType],
