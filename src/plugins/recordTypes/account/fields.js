@@ -170,6 +170,7 @@ export default (configContext) => {
             type: PasswordInput,
             props: {
               autoComplete: 'new-password',
+              readOnly: isMetadataImmutable,
             },
           },
         },
@@ -188,6 +189,7 @@ export default (configContext) => {
             type: PasswordInput,
             props: {
               autoComplete: 'new-password',
+              readOnly: isMetadataImmutable,
             },
           },
         },
