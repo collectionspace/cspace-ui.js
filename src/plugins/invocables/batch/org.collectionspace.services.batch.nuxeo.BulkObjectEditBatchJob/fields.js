@@ -443,43 +443,6 @@ export default (configContext) => {
           },
         },
       },
-      taxonomicIdentGroup: {
-        [config]: {
-          messages: defineMessages({
-            name: {
-              id: 'field.BulkObjectEditBatchJob.taxonomicIdentGroup.name',
-              defaultMessage: 'Taxonomic Group',
-            },
-          }),
-          repeating: true,
-          view: {
-            type: CompoundInput,
-            props: {
-              tabular: true,
-            },
-          },
-        },
-        taxon: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.BulkObjectEditBatchJob.taxon.fullName',
-                defaultMessage: 'Taxon scientific name',
-              },
-              name: {
-                id: 'field.BulkObjectEditBatchJob.taxon.name',
-                defaultMessage: 'Scientific name',
-              },
-            }),
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'taxon/local',
-              },
-            },
-          },
-        },
-      },
     },
   };
 };
