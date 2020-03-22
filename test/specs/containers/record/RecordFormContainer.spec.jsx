@@ -85,7 +85,7 @@ describe('RecordFormContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onAddInstance(path);
+    result.props.onAddInstance(recordTypeConfig, csid, path);
 
     const action = store.getActions()[0];
 
@@ -109,7 +109,7 @@ describe('RecordFormContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onCommit(path, 'value');
+    result.props.onCommit(recordTypeConfig, csid, path, 'value');
 
     const action = store.getActions()[0];
 
@@ -133,7 +133,7 @@ describe('RecordFormContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onMoveInstance(path, '0');
+    result.props.onMoveInstance(recordTypeConfig, csid, path, '0');
 
     const action = store.getActions()[0];
 
@@ -157,7 +157,7 @@ describe('RecordFormContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onRemoveInstance(path, '0');
+    result.props.onRemoveInstance(recordTypeConfig, csid, path);
 
     const action = store.getActions()[0];
 
@@ -180,7 +180,7 @@ describe('RecordFormContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.onSortInstances(path, 'byField');
+    result.props.onSortInstances(config, recordTypeConfig, csid, path, 'byField');
 
     const action = store.getActions()[0];
 

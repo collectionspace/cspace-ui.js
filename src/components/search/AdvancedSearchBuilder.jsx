@@ -123,8 +123,6 @@ export default class AdvancedSearchBuilder extends Component {
       }
 
       if (normalizedCondition !== condition) {
-        console.log('normalized:');
-        console.log(normalizedCondition.toJS());
         onConditionCommit(normalizedCondition);
       }
     }

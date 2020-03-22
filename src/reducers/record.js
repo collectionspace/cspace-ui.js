@@ -844,10 +844,24 @@ export const getError = (state, csid) => state.getIn([csid, 'error']);
 
 export const getSubrecordCsid = (state, csid, subrecordName) => state.getIn([csid, 'subrecord', subrecordName]);
 
+let subrecordDataMemo = null;
+
 export const getSubrecordData = (state, csid) => {
   const subrecords = state.getIn([csid, 'subrecord']);
 
-  return (subrecords ? subrecords.map((subrecordCsid) => getData(state, subrecordCsid)) : null);
+  let subrecordData = null;
+
+  if (subrecords) {
+    subrecordData = subrecords.map((subrecordCsid) => getData(state, subrecordCsid));
+
+    if (Immutable.is(subrecordDataMemo, subrecordData)) {
+      return subrecordDataMemo;
+    }
+  }
+
+  subrecordDataMemo = subrecordData;
+
+  return subrecordData;
 };
 
 export const getRelationUpdatedTimestamp = (state, csid) => state.getIn([csid, 'relationUpdatedTime']);

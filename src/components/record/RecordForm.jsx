@@ -1,4 +1,4 @@
-import React, { Component, isValidElement } from 'react';
+import React, { isValidElement, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
@@ -84,7 +84,7 @@ const childContextTypes = {
   readOnly: PropTypes.bool,
 };
 
-export default class RecordForm extends Component {
+export default class RecordForm extends PureComponent {
   getChildContext() {
     const {
       config,
@@ -122,6 +122,7 @@ export default class RecordForm extends Component {
   render() {
     const {
       config,
+      csid,
       data,
       formName,
       readOnly,
@@ -145,11 +146,21 @@ export default class RecordForm extends Component {
     } = recordTypeConfig;
 
     const handlers = {
-      onAddInstance,
-      onCommit,
-      onSortInstances,
-      onMoveInstance,
-      onRemoveInstance,
+      onAddInstance: (path, position) => {
+        onAddInstance(recordTypeConfig, csid, path, position);
+      },
+      onCommit: (path, value) => {
+        onCommit(recordTypeConfig, csid, path, value);
+      },
+      onSortInstances: (path, byField) => {
+        onSortInstances(config, recordTypeConfig, csid, path, byField);
+      },
+      onMoveInstance: (path, newPosition) => {
+        onMoveInstance(recordTypeConfig, csid, path, newPosition);
+      },
+      onRemoveInstance: (path) => {
+        onRemoveInstance(recordTypeConfig, csid, path);
+      },
     };
 
     let formTemplate;
