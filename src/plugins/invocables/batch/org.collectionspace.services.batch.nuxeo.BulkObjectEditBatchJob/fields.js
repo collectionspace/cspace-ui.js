@@ -22,7 +22,6 @@ export default (configContext) => {
       // core
       numberOfObjects: {
         [config]: {
-          // dataType: DATA_TYPE_INT,
           messages: defineMessages({
             name: {
               id: 'field.BulkObjectEditBatchJob.numberOfObjects.name',
@@ -35,196 +34,110 @@ export default (configContext) => {
         },
       },
       // core
-      otherNumberList: {
-        [config]: {
-          view: {
-            type: CompoundInput,
-          },
-        },
-        otherNumber: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.otherNumber.name',
-                defaultMessage: 'Other number',
-              },
-            }),
-            repeating: true,
-            view: {
-              type: CompoundInput,
-              props: {
-                tabular: true,
-              },
-            },
-          },
-          numberValue: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.BulkObjectEditBatchJob.numberValue.name',
-                  defaultMessage: 'Number',
-                },
-              }),
-              view: {
-                type: TextInput,
-              },
-            },
-          },
-          numberType: {
-            [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.BulkObjectEditBatchJob.numberType.name',
-                  defaultMessage: 'Type',
-                },
-              }),
-              view: {
-                type: OptionPickerInput,
-                props: {
-                  source: 'numberTypes',
-                },
-              },
-            },
-          },
-        },
-      },
-      // core
-      objectStatusList: {
-        [config]: {
-          view: {
-            type: CompoundInput,
-          },
-        },
-        objectStatus: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.objectStatus.name',
-                defaultMessage: 'Object status',
-              },
-            }),
-            repeating: true,
-            view: {
-              type: OptionPickerInput,
-              props: {
-                source: 'objectStatuses',
-              },
-            },
-          },
-        },
-      },
-      // core
-      materialGroup: {
+      numberValue: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.BulkObjectEditBatchJob.materialGroup.name',
+              id: 'field.BulkObjectEditBatchJob.numberValue.name',
+              defaultMessage: 'Other number',
+            },
+          }),
+          view: {
+            type: TextInput,
+          },
+        },
+      },
+      numberType: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.numberType.name',
+              defaultMessage: 'Other number type',
+            },
+          }),
+          view: {
+            type: OptionPickerInput,
+            props: {
+              source: 'numberTypes',
+            },
+          },
+        },
+      },
+      // core
+      objectStatus: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.objectStatus.name',
+              defaultMessage: 'Object status',
+            },
+          }),
+          view: {
+            type: OptionPickerInput,
+            props: {
+              source: 'objectStatuses',
+            },
+          },
+        },
+      },
+      // core
+      material: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.material.name',
               defaultMessage: 'Material',
             },
           }),
-          repeating: true,
           view: {
-            type: CompoundInput,
-            props: {
-              tabular: true,
-            },
-          },
-        },
-        material: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.material.name',
-                defaultMessage: 'Material',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
+            type: TextInput,
           },
         },
       },
       // core
-      briefDescriptions: {
-        [config]: {
-          view: {
-            type: CompoundInput,
-          },
-        },
-        briefDescription: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.briefDescription.name',
-                defaultMessage: 'Brief description',
-              },
-            }),
-            repeating: true,
-            view: {
-              type: TextInput,
-              props: {
-                multiline: true,
-              },
-            },
-          },
-        },
-      },
-      // core
-      objectNameGroup: {
+      briefDescription: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.BulkObjectEditBatchJob.objectNameGroup.name',
-              defaultMessage: 'Object name',
+              id: 'field.BulkObjectEditBatchJob.briefDescription.name',
+              defaultMessage: 'Brief description',
             },
           }),
-          repeating: true,
           view: {
-            type: CompoundInput,
+            type: TextInput,
             props: {
-              tabular: true,
-            },
-          },
-        },
-        objectName: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.BulkObjectEditBatchJob.objectName.fullName',
-                defaultMessage: 'Object name',
-              },
-              name: {
-                id: 'field.BulkObjectEditBatchJob.objectName.name',
-                defaultMessage: 'Name',
-              },
-            }),
-            view: {
-              type: TextInput,
+              multiline: true,
             },
           },
         },
       },
       // core
-      responsibleDepartments: {
+      objectName: {
         [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.objectName.name',
+              defaultMessage: 'Object name',
+            },
+          }),
           view: {
-            type: CompoundInput,
+            type: TextInput,
           },
         },
-        responsibleDepartment: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.responsibleDepartment.name',
-                defaultMessage: 'Responsible department',
-              },
-            }),
-            repeating: true,
-            view: {
-              type: OptionPickerInput,
-              props: {
-                source: 'departments',
-              },
+      },
+      // core
+      responsibleDepartment: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.responsibleDepartment.name',
+              defaultMessage: 'Responsible department',
+            },
+          }),
+          view: {
+            type: OptionPickerInput,
+            props: {
+              source: 'departments',
             },
           },
         },
@@ -247,26 +160,18 @@ export default (configContext) => {
         },
       },
       // core
-      fieldCollectors: {
+      fieldCollector: {
         [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.fieldCollector.name',
+              defaultMessage: 'Field collector',
+            },
+          }),
           view: {
-            type: CompoundInput,
-          },
-        },
-        fieldCollector: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.fieldCollector.name',
-                defaultMessage: 'Field collector',
-              },
-            }),
-            repeating: true,
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared,organization/local,organization/shared',
-              },
+            type: AutocompleteInput,
+            props: {
+              source: 'person/local,person/shared,organization/local,organization/shared',
             },
           },
         },
@@ -286,74 +191,32 @@ export default (configContext) => {
         },
       },
       // core
-      objectProductionPlaceGroup: {
+      objectProductionPlace: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.BulkObjectEditBatchJob.objectProductionPlaceGroup.name',
-              defaultMessage: 'Production place',
+              id: 'field.BulkObjectEditBatchJob.objectProductionPlace.name',
+              defaultMessage: 'Production Place',
             },
           }),
-          repeating: true,
           view: {
-            type: CompoundInput,
-            props: {
-              tabular: true,
-            },
-          },
-        },
-        objectProductionPlace: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.BulkObjectEditBatchJob.objectProductionPlace.fullName',
-                defaultMessage: 'Production place',
-              },
-              name: {
-                id: 'field.BulkObjectEditBatchJob.objectProductionPlace.name',
-                defaultMessage: 'Place',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
+            type: TextInput,
           },
         },
       },
       // core
-      objectProductionPersonGroup: {
+      objectProductionPerson: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.BulkObjectEditBatchJob.objectProductionPersonGroup.name',
-              defaultMessage: 'Production person',
+              id: 'field.BulkObjectEditBatchJob.objectProductionPerson.name',
+              defaultMessage: 'Production Person',
             },
           }),
-          repeating: true,
           view: {
-            type: CompoundInput,
+            type: AutocompleteInput,
             props: {
-              tabular: true,
-            },
-          },
-        },
-        objectProductionPerson: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.BulkObjectEditBatchJob.objectProductionPerson.fullName',
-                defaultMessage: 'Production person',
-              },
-              name: {
-                id: 'field.BulkObjectEditBatchJob.objectProductionPerson.name',
-                defaultMessage: 'Person',
-              },
-            }),
-            view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'person/local,person/shared',
-              },
+              source: 'person/local,person/shared',
             },
           },
         },
@@ -378,7 +241,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.BulkObjectEditBatchJob.contentDateGroup.name',
-              defaultMessage: 'Date',
+              defaultMessage: 'Date depicted',
             },
           }),
           view: {
@@ -387,59 +250,30 @@ export default (configContext) => {
         },
       },
       // core
-      contentPlaces: {
+      contentPlace: {
         [config]: {
-          view: {
-            type: CompoundInput,
-          },
-        },
-        contentPlace: {
-          [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.BulkObjectEditBatchJob.contentPlace.name',
-                defaultMessage: 'Place',
-              },
-            }),
-            repeating: true,
-            view: {
-              type: TextInput,
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.contentPlace.name',
+              defaultMessage: 'Verbatim field collection place',
             },
+          }),
+          view: {
+            type: TextInput,
           },
         },
       },
       // core
-      assocPeopleGroup: {
+      assocPeople: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.BulkObjectEditBatchJob.assocPeopleGroup.name',
+              id: 'field.BulkObjectEditBatchJob.assocPeople.name',
               defaultMessage: 'Associated people',
             },
           }),
-          repeating: true,
           view: {
-            type: CompoundInput,
-            props: {
-              tabular: true,
-            },
-          },
-        },
-        assocPeople: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.BulkObjectEditBatchJob.assocPeople.fullName',
-                defaultMessage: 'Associated people',
-              },
-              name: {
-                id: 'field.BulkObjectEditBatchJob.assocPeople.name',
-                defaultMessage: 'People',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
+            type: TextInput,
           },
         },
       },
