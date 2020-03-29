@@ -13,7 +13,11 @@ describe('intake record title', () => {
       document: {
         'ns2:intakes_common': {
           entryNumber: 'IN.2017.2',
-          currentOwner: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+          currentOwners: {
+            currentOwner: [
+              'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+            ],
+          },
         },
       },
     });
@@ -26,7 +30,7 @@ describe('intake record title', () => {
       document: {
         'ns2:intakes_common': {
           entryNumber: 'IN.2017.2',
-          currentOwner: '',
+          currentOwners: {},
         },
       },
     });
@@ -39,7 +43,11 @@ describe('intake record title', () => {
       document: {
         'ns2:intakes_common': {
           entryNumber: '',
-          currentOwner: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+          currentOwners: {
+            currentOwner: [
+              'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+            ],
+          },
         },
       },
     });
@@ -57,7 +65,11 @@ describe('intake record title', () => {
       document: {
         'ns2:intakes_extension': {
           entryNumber: 'IN.2017.2',
-          currentOwner: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+          currentOwners: {
+            currentOwner: [
+              'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1480570017652)\'David Bowie\'',
+            ],
+          },
         },
       },
     });

@@ -18,7 +18,7 @@ export default (configContext) => (data) => {
   }
 
   const entryNumber = common.get('entryNumber');
-  const currentOwner = getDisplayName(common.get('currentOwner'));
+  const currentOwner = getDisplayName(common.getIn(['currentOwners', 'currentOwner', 0]));
 
   return [entryNumber, currentOwner].filter((part) => !!part).join(' – ');
 };
