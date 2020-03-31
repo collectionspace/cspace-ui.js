@@ -24,7 +24,6 @@ const template = (configContext) => {
           <Field name="material" />
           <Field name="fieldCollectionPlace" />
           <Field name="responsibleDepartment" />
-
         </Col>
 
         <Col>

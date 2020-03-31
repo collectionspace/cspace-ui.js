@@ -4,6 +4,7 @@ export default (configContext) => {
   const {
     CompoundInput,
     AutocompleteInput,
+    StructuredDateInput,
     TextInput,
     OptionPickerInput,
   } = configContext.inputComponents;
@@ -11,6 +12,10 @@ export default (configContext) => {
   const {
     configKey: config,
   } = configContext.configHelpers;
+
+  const {
+    extensions,
+  } = configContext.config;
 
   return {
     params: {
@@ -239,16 +244,34 @@ export default (configContext) => {
       contentDateGroup: {
         [config]: {
           messages: defineMessages({
+            fullName: {
+              id: 'field.collectionobjects_common.contentDateGroup.fullName',
+              defaultMessage: 'Content date',
+            },
             name: {
-              id: 'field.BulkObjectEditBatchJob.contentDateGroup.name',
-              defaultMessage: 'Date depicted',
+              id: 'field.collectionobjects_common.contentDateGroup.name',
+              defaultMessage: 'Date',
             },
           }),
           view: {
-            type: TextInput,
+            type: StructuredDateInput,
           },
         },
+        ...extensions.structuredDate.fields,
       },
+      // contentDate: {
+      //   [config]: {
+      //     messages: defineMessages({
+      //       name: {
+      //         id: 'field.BulkObjectEditBatchJob.contentDate.name',
+      //         defaultMessage: 'Date depicted',
+      //       },
+      //     }),
+      //     view: {
+      //       type: TextInput,
+      //     },
+      //   },
+      // },
       // core
       contentPlace: {
         [config]: {
