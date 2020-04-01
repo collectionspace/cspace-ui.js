@@ -33,7 +33,7 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName, partialTerm, 
         vocabulary,
       },
     });
-
+    
     let newRecordData = Immutable.Map();
 
     if (clone) {
