@@ -548,6 +548,11 @@ export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, clon
       });
     }
 
+    const computeContext = {
+      form: getForm(state, recordTypeConfig.name),
+      roleNames: getUserRoleNames(state),
+    };
+
     return (
       readClone.then(() => dispatch({
         type: CREATE_NEW_RECORD,
@@ -556,7 +561,7 @@ export const createNewRecord = (config, recordTypeConfig, vocabularyConfig, clon
           recordTypeConfig,
           cloneCsid,
           stickyFields: getStickyFields(state),
-          form: getForm(state, recordTypeConfig.name),
+          computeContext,
         },
       }))
     );

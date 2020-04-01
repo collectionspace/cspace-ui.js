@@ -157,7 +157,7 @@ const sortFieldInstances = (state, action) => {
   return setCurrentData(state, csid, updatedData);
 };
 
-const doCreateNew = (state, config, recordTypeConfig, options = {}, form) => {
+const doCreateNew = (state, config, recordTypeConfig, computeContext, options = {}) => {
   const {
     cloneCsid,
     subrecordName,
@@ -170,10 +170,8 @@ const doCreateNew = (state, config, recordTypeConfig, options = {}, form) => {
     recordTypeConfig,
     csid: cloneCsid,
     data: getCurrentData(state, cloneCsid),
-    form,
+    computeContext,
   };
-
-// export const cloneRecordData = (recordTypeConfig, csid, data) => {
 
   if (cloneCsid) {
     data = cloneRecordData(cloneContext);
@@ -251,13 +249,13 @@ const createNewRecord = (state, action) => {
     recordTypeConfig,
     cloneCsid,
     stickyFields,
-    form,
+    computeContext,
   } = action.meta;
 
-  return doCreateNew(state, config, recordTypeConfig, {
+  return doCreateNew(state, config, recordTypeConfig, computeContext, {
     cloneCsid,
     stickyFields,
-  }, form);
+  });
 };
 
 const deleteFieldValue = (state, action) => {
@@ -529,14 +527,14 @@ const createNewSubrecord = (state, action) => {
     cloneCsid,
     isDefault,
     stickyFields,
-    form,
+    computeContext,
   } = action.meta;
 
-  let nextState = doCreateNew(state, config, subrecordTypeConfig, {
+  let nextState = doCreateNew(state, config, subrecordTypeConfig, computeContext, {
     cloneCsid,
     subrecordName,
     stickyFields,
-  }, form);
+  });
 
   const subrecordCsid = unsavedRecordKey(subrecordName);
 
