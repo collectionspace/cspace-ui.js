@@ -10,7 +10,7 @@ type FieldDescriptor = {
 ```
 ```
 type FieldConfig = {
-  cloneable: boolean,
+  cloneable: boolean | function,
   defaultValue: Immutable.Map | Immutable.List | string,
   dataType: string,
   messages: MessageDescriptorMap,
@@ -98,9 +98,16 @@ The field configuration object may contain the following properties:
 
 ### cloneable
 ```
-cloneable: boolean = true
+required: boolean | (computeContext) => boolean
 ```
 If true, when a record is cloned, the value of this field is cloned to the new record. Otherwise, the field in the new record will be set to the default value if one exists; otherwise, it will be empty.
+
+If a function is provided, the function will be called with a computeContext object as an argument, and must return a boolean.The computeContext has the following properties:
+
+| Property          | Type           | Description |
+| ----------------- | -------------- | ----------- |
+| `form`            | String         | The name of the form (template) that is in use. |
+| `roleNames`       | Immutable.List | The current user's roles. |
 
 ### defaultValue
 ```
