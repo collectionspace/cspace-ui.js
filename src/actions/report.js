@@ -24,7 +24,6 @@ import {
 import {
   getNewRecordData,
   getRecordValidationErrors,
-  getRecordData,
 } from '../reducers';
 
 const messages = defineMessages({
