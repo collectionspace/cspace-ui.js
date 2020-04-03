@@ -27,23 +27,64 @@ const {
 } = inputEnhancers;
 
 export const AutocompleteInput = repeatable(labelable(MiniViewPopupAutocompleteInputContainer));
+AutocompleteInput.toJSON = () => 'AutocompleteInput';
+
 export const { Button } = inputComponents;
+Button.toJSON = () => 'Button';
+
 export const CheckboxInput = withBooleanValue(CheckboxInputComponent);
+CheckboxInput.toJSON = () => 'CheckboxInput';
+
 export const { CompoundInput } = inputComponents;
+CompoundInput.toJSON = () => 'CompoundInput';
+
 export const DateInput = DateInputContainer;
+DateInput.toJSON = () => 'DateInput';
+
 export const DateTimeInput = DateTimeInputContainer;
+DateTimeInput.toJSON = () => 'DateTimeInput';
+
 export const HierarchyInput = withCsid(HierarchyInputContainer);
+HierarchyInput.toJSON = () => 'HierarchyInput';
+
 export const IDGeneratorInput = IDGeneratorInputContainer;
+IDGeneratorInput.toJSON = () => 'IDGeneratorInput';
+
 export const ObjectNameInput = repeatable(labelable(ObjectNameInputComponent));
+ObjectNameInput.toJSON = () => 'ObjectNameInput';
+
 export const { PasswordInput } = inputComponents;
+PasswordInput.toJSON = () => 'PasswordInput';
+
 export const PermissionsInput = labelable(PermissionsInputContainer);
+PermissionsInput.toJSON = () => 'PermissionsInput';
+
 export const RolesInput = labelable(RolesInputContainer);
+RolesInput.toJSON = () => 'RolesInput';
+
 export const StructuredDateInput = StructuredDateInputContainer;
+StructuredDateInput.toJSON = () => 'StructuredDateInput';
+
 export const { ReadOnlyInput } = inputComponents;
+ReadOnlyInput.toJSON = () => 'ReadOnlyInput';
+
 export const { RichTextInput } = inputComponents;
+RichTextInput.toJSON = () => 'RichTextInput';
+
 export const { TextInput } = inputComponents;
+TextInput.toJSON = () => 'TextInput';
+
 export const OptionPickerInput = OptionPickerInputContainer;
+OptionPickerInput.toJSON = () => 'OptionPickerInput';
+
 export const TermPickerInput = TermPickerInputContainer;
+TermPickerInput.toJSON = () => 'TermPickerInput';
+
 export const UploadInput = UploadInputContainer;
+UploadInput.toJSON = () => 'UploadInput';
+
 export const URLInput = URLInputComponent;
+URLInput.toJSON = () => 'URLInput';
+
 export const WorkflowStateInput = WorkflowStateInputComponent;
+WorkflowStateInput.toJSON = () => 'WorkflowStateInput';
