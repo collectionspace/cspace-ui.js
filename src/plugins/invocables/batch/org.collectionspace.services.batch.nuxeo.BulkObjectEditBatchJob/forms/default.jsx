@@ -20,7 +20,6 @@ const template = (configContext) => {
         <Col>
           <Field name="numberOfObjects" />
           <Field name="numberValue" />
-          <Field name="fieldCollectionDate" />
           <Field name="material" />
           <Field name="fieldCollectionPlace" />
           <Field name="responsibleDepartment" />
@@ -30,14 +29,12 @@ const template = (configContext) => {
           <Field name="assocPeople" />
           <Field name="numberType" />
           <Field name="objectProductionPerson" />
-          <Field name="objectProductionDate" />
           <Field name="objectProductionPlace" />
         </Col>
 
         <Col>
           <Field name="fieldCollector" />
           <Field name="objectStatus" />
-          <Field name="contentDateGroup" />
           <Field name="contentPlace" />
           <Field name="objectName" />
         </Col>
