@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     CompoundInput,
     AutocompleteInput,
-    StructuredDateInput,
     TextInput,
     OptionPickerInput,
   } = configContext.inputComponents;
@@ -13,9 +12,6 @@ export default (configContext) => {
     configKey: config,
   } = configContext.configHelpers;
 
-  const {
-    extensions,
-  } = configContext.config;
 
   return {
     params: {
@@ -181,20 +177,6 @@ export default (configContext) => {
           },
         },
       },
-      // core:  structured date
-      fieldCollectionDate: {
-        [config]: {
-          messages: defineMessages({
-            name: {
-              id: 'field.BulkObjectEditBatchJob.fieldCollectionDate.name',
-              defaultMessage: 'Field collection date',
-            },
-          }),
-          view: {
-            type: TextInput,
-          },
-        },
-      },
       // core
       objectProductionPlace: {
         [config]: {
@@ -226,59 +208,12 @@ export default (configContext) => {
           },
         },
       },
-      // core: structured date
-      objectProductionDate: {
-        [config]: {
-          messages: defineMessages({
-            name: {
-              id: 'field.BulkObjectEditBatchJob.objectProductionDate.name',
-              defaultMessage: 'Field collection date',
-            },
-          }),
-          view: {
-            type: TextInput,
-          },
-        },
-      },
-      // core:  structured date
-      contentDateGroup: {
-        [config]: {
-          messages: defineMessages({
-            fullName: {
-              id: 'field.collectionobjects_common.contentDateGroup.fullName',
-              defaultMessage: 'Content date',
-            },
-            name: {
-              id: 'field.collectionobjects_common.contentDateGroup.name',
-              defaultMessage: 'Date',
-            },
-          }),
-          view: {
-            type: StructuredDateInput,
-          },
-        },
-        ...extensions.structuredDate.fields,
-      },
-      // contentDate: {
-      //   [config]: {
-      //     messages: defineMessages({
-      //       name: {
-      //         id: 'field.BulkObjectEditBatchJob.contentDate.name',
-      //         defaultMessage: 'Date depicted',
-      //       },
-      //     }),
-      //     view: {
-      //       type: TextInput,
-      //     },
-      //   },
-      // },
-      // core
       contentPlace: {
         [config]: {
           messages: defineMessages({
             name: {
               id: 'field.BulkObjectEditBatchJob.contentPlace.name',
-              defaultMessage: 'Verbatim field collection place',
+              defaultMessage: 'Content place',
             },
           }),
           view: {
