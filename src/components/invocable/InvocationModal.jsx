@@ -7,13 +7,15 @@ import { components as inputComponents } from 'cspace-input';
 import { Modal } from 'cspace-layout';
 import InvokeButton from './InvokeButton';
 import InvocationEditorContainer from '../../containers/invocable/InvocationEditorContainer';
-import OptionPickerInputContainer from '../../containers/record/OptionPickerInputContainer';
 import { normalizeInvocationDescriptor } from '../../helpers/invocationHelpers';
 import CancelButton from '../navigation/CancelButton';
 import styles from '../../../styles/cspace-ui/InvocationModal.css';
 import formatPickerStyles from '../../../styles/cspace-ui/InvocationFormatPicker.css';
+import { OptionPickerInput } from '../../helpers/configContextInputs';
+
 
 const { Label } = inputComponents;
+
 
 const messages = defineMessages({
   cancel: {
@@ -223,30 +225,36 @@ export default class InvocationModal extends Component {
   renderFormatPicker() {
     const {
       recordType,
+      data,
     } = this.props;
 
     const {
       invocationDescriptor,
     } = this.state;
 
-    // TODO: Use reports/mimetypes endpoint to get options, and [recordType]/mimetypes to check if
-    // a format picker should be shown instead of hardcoding (batch/mimetypes will return 404, so
-    // format picker should not be shown).
-
     if (recordType === 'report') {
+      let mimeList = [];
+
+      if (data) {
+        mimeList = data.getIn(['document', 'ns2:reports_common', 'supportsOutputMIMEList', 'outputMIME']);
+      }
+
+      const prefilter = (option) => mimeList.includes(option.value);
+
       return (
         <div className={formatPickerStyles.common}>
-          <OptionPickerInputContainer
+          <OptionPickerInput
             blankable={false}
             label={<Label><FormattedMessage {...messages.format} /></Label>}
             source="reportMimeTypes"
+            prefilter={mimeList ? prefilter : null}
             value={invocationDescriptor.get('outputMIME')}
             onCommit={this.handleFormatPickerCommit}
+            // blankable
           />
         </div>
       );
     }
-
     return null;
   }
 
