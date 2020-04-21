@@ -311,9 +311,31 @@ export const initializeChildren = (fieldDescriptor, data, value = null) => {
 
   const map = data || Immutable.Map();
 
-  return childKeys.reduce((updatedMap, key) => (
-    (typeof updatedMap.get(key) === 'undefined') ? updatedMap.set(key, value) : updatedMap
-  ), map);
+  return childKeys.reduce((updatedMap, childKey) => {
+    const childValue = updatedMap.get(childKey);
+
+    if ((typeof childValue === 'undefined')) {
+      return updatedMap.set(childKey, value);
+    }
+
+    if (Immutable.Map.isMap(childValue)) {
+      return updatedMap.set(
+        childKey,
+        initializeChildren(fieldDescriptor[childKey], childValue, value),
+      );
+    }
+
+    if (Immutable.List.isList(childValue)) {
+      return updatedMap.set(
+        childKey,
+        childValue.map((childValueListItem) => (
+          initializeChildren(fieldDescriptor[childKey], childValueListItem, value)
+        )),
+      );
+    }
+
+    return updatedMap;
+  }, map);
 };
 
 /**

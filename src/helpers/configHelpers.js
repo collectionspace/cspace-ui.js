@@ -420,7 +420,9 @@ export const getDefaultValue = (fieldDescriptor) => {
       // If an object is supplied as a default value, convert it to an immutable map.
 
       return Immutable.fromJS(defaultValue);
-    } if (typeof defaultValue === 'undefined' && dataType === DATA_TYPE_BOOL) {
+    }
+
+    if (typeof defaultValue === 'undefined' && dataType === DATA_TYPE_BOOL) {
       // If no default value is configured for a boolean field, consider it to be false.
 
       return false;

@@ -1580,6 +1580,122 @@ describe('recordDataHelpers', () => {
       });
     });
 
+    it('should recursively initialize complex children', () => {
+      const fieldDescriptor = {
+        [configKey]: {},
+        field1: {
+          [configKey]: {},
+        },
+        field2: {
+          [configKey]: {},
+          field2child1: {
+            [configKey]: {},
+            field2child1child1: {
+              [configKey]: {},
+            },
+          },
+        },
+        field3: {
+          [configKey]: {},
+          field3child1: {
+            [configKey]: {},
+          },
+          field3child2: {
+            [configKey]: {},
+          },
+        },
+      };
+
+      const data = Immutable.fromJS({
+        field2: {
+          field2child1: {},
+        },
+        field3: {
+          field3child2: 'foo',
+        },
+      });
+
+      const updatedData = initializeChildren(fieldDescriptor, data);
+
+      updatedData.toJS().should.deep.equal({
+        field1: null,
+        field2: {
+          field2child1: {
+            field2child1child1: null,
+          },
+        },
+        field3: {
+          field3child1: null,
+          field3child2: 'foo',
+        },
+      });
+    });
+
+    it('should recursively initialize lists of complex children', () => {
+      const fieldDescriptor = {
+        [configKey]: {},
+        field1: {
+          [configKey]: {},
+        },
+        field2: {
+          [configKey]: {},
+        },
+        field3: {
+          [configKey]: {},
+          fooGroupList: {
+            [configKey]: {},
+            fooGroup: {
+              [configKey]: {
+                repeating: true,
+              },
+              bar: {
+                [configKey]: {},
+              },
+              baz: {
+                [configKey]: {},
+              },
+            },
+          },
+        },
+      };
+
+      const data = Immutable.fromJS({
+        field3: {
+          fooGroupList: {
+            fooGroup: [
+              {
+                baz: '123',
+              },
+              {
+                bar: 'abc',
+              },
+            ],
+          },
+        },
+      });
+
+      const updatedData = initializeChildren(fieldDescriptor, data);
+
+      updatedData.toJS().should.deep.equal({
+        field1: null,
+        field2: null,
+        field3: {
+          fooGroupList: {
+            fooGroup: [
+              {
+                bar: null,
+                baz: '123',
+              },
+              {
+                bar: 'abc',
+                baz: null,
+              },
+            ],
+          },
+        },
+      });
+    });
+
     it('should return the data if the field descriptor does not define child fields', () => {
       const fieldDescriptor = {
         [configKey]: {},
