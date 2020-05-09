@@ -239,11 +239,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.acquisitions_common.approvalGroup.fullName',
+                    id: 'field.acquisitions_common.approvalGroup.approvalGroup.fullName',
                     defaultMessage: 'Approval group',
                   },
                   name: {
-                    id: 'field.approvalGroupField.approvalGroup.name',
+                    id: 'field.acquisitions_common.approvalGroup.approvalGroup.name',
                     defaultMessage: 'Group',
                   },
                 }),
