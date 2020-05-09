@@ -225,7 +225,7 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   name: {
-                    id: 'field.contacts_common.webAddressTypeType.name',
+                    id: 'field.contacts_common.webAddressType.name',
                     defaultMessage: 'Type',
                   },
                 }),

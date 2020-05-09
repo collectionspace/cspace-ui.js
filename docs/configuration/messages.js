@@ -514,6 +514,10 @@ export default {
 
   "field.acquisitions_common.acquisitionFundingSource.name": "Source",
 
+  "field.acquisitions_common.acquisitionFundingSourceProvisos.fullName": "Funding source provisos",
+
+  "field.acquisitions_common.acquisitionFundingSourceProvisos.name": "Source provisos",
+
   "field.acquisitions_common.acquisitionFundingValue.fullName": "Funding value",
 
   "field.acquisitions_common.acquisitionFundingValue.name": "Value",
@@ -534,7 +538,9 @@ export default {
 
   "field.acquisitions_common.approvalDate.name": "Date",
 
-  "field.acquisitions_common.approvalGroup.fullName": "Approval group",
+  "field.acquisitions_common.approvalGroup.approvalGroup.fullName": "Approval group",
+
+  "field.acquisitions_common.approvalGroup.approvalGroup.name": "Group",
 
   "field.acquisitions_common.approvalGroup.name": "Approval",
 
@@ -597,14 +603,6 @@ export default {
   "field.acquisitions_common.owner.name": "Owner",
 
   "field.acquisitions_common.transferOfTitleNumber.name": "Transfer of title number",
-
-  "field.acquistions_common.acquisitionFundingSourceProvisos.fullName": "Funding source provisos",
-
-  "field.acquistions_common.acquisitionFundingSourceProvisos.name": "Source provisos",
-
-  "field.approvalGroupField.approvalGroup.name": "Group",
-
-  "field.approvalGroupField.approvalGroup.name": "Group",
 
   "field.authrole.description.name": "Description",
 
@@ -1768,7 +1766,7 @@ export default {
 
   "field.contacts_common.webAddressGroup.name": "Web site",
 
-  "field.contacts_common.webAddressTypeType.name": "Type",
+  "field.contacts_common.webAddressType.name": "Type",
 
   "field.exhibitions_common.boilerplateText.name": "Boilerplate text",
 
@@ -2088,7 +2086,9 @@ export default {
 
   "field.intakes_common.approvalDate.name": "Date",
 
-  "field.intakes_common.approvalGroup.fullName": "Approval group",
+  "field.intakes_common.approvalGroup.approvalGroup.fullName": "Approval group",
+
+  "field.intakes_common.approvalGroup.approvalGroup.name": "Group",
 
   "field.intakes_common.approvalGroup.name": "Approval",
 
@@ -2150,9 +2150,9 @@ export default {
 
   "field.intakes_common.depositorGroup.name": "Depositor",
 
-  "field.intakes_common.despositorsRequirements.fullName": "Depositor requirements",
+  "field.intakes_common.depositorsRequirements.fullName": "Depositor requirements",
 
-  "field.intakes_common.despositorsRequirements.name": "Requirements",
+  "field.intakes_common.depositorsRequirements.name": "Requirements",
 
   "field.intakes_common.entryDate.name": "Entry date",
 
@@ -3303,6 +3303,9 @@ export default {
   "field.works_common.workTermGroupList.required": "At least one term display name is required. Please enter a value.",
 
   "field.works_common.workType.name": "Work type",
+
+  // Message displayed in advanced search when a field is not found
+  "fieldConditionInput.notFound": "field not found",
 
   "footer.about": "About CollectionSpace",
 

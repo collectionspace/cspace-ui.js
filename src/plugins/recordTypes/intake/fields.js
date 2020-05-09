@@ -199,11 +199,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.intakes_common.despositorsRequirements.fullName',
+                    id: 'field.intakes_common.depositorsRequirements.fullName',
                     defaultMessage: 'Depositor requirements',
                   },
                   name: {
-                    id: 'field.intakes_common.despositorsRequirements.name',
+                    id: 'field.intakes_common.depositorsRequirements.name',
                     defaultMessage: 'Requirements',
                   },
                 }),

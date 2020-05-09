@@ -667,11 +667,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.acquistions_common.acquisitionFundingSourceProvisos.fullName',
+                    id: 'field.acquisitions_common.acquisitionFundingSourceProvisos.fullName',
                     defaultMessage: 'Funding source provisos',
                   },
                   name: {
-                    id: 'field.acquistions_common.acquisitionFundingSourceProvisos.name',
+                    id: 'field.acquisitions_common.acquisitionFundingSourceProvisos.name',
                     defaultMessage: 'Source provisos',
                   },
                 }),
