@@ -2702,9 +2702,9 @@ export default {
 
   "field.persons_common.deathPlace.name": "Place of death",
 
-  "field.persons_common.forename.fullName": "Term forename",
+  "field.persons_common.foreName.fullName": "Term forename",
 
-  "field.persons_common.forename.name": "Forename",
+  "field.persons_common.foreName.name": "Forename",
 
   "field.persons_common.gender.name": "Gender",
 
@@ -2742,9 +2742,9 @@ export default {
 
   "field.persons_common.schoolOrStyle.name": "School/style",
 
-  "field.persons_common.surname.fullName": "Term surname",
+  "field.persons_common.surName.fullName": "Term surname",
 
-  "field.persons_common.surname.name": "Surname",
+  "field.persons_common.surName.name": "Surname",
 
   "field.persons_common.termDisplayName.fullName": "Term display name",
 

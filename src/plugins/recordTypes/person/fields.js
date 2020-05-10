@@ -315,11 +315,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.persons_common.forename.fullName',
+                    id: 'field.persons_common.foreName.fullName',
                     defaultMessage: 'Term forename',
                   },
                   name: {
-                    id: 'field.persons_common.forename.name',
+                    id: 'field.persons_common.foreName.name',
                     defaultMessage: 'Forename',
                   },
                 }),
@@ -357,11 +357,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.persons_common.surname.fullName',
+                    id: 'field.persons_common.surName.fullName',
                     defaultMessage: 'Term surname',
                   },
                   name: {
-                    id: 'field.persons_common.surname.name',
+                    id: 'field.persons_common.surName.name',
                     defaultMessage: 'Surname',
                   },
                 }),
