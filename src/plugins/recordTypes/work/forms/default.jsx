@@ -56,9 +56,7 @@ const template = (configContext) => {
             <Field name="workType" />
 
             <Field name="workDateGroupList">
-              <Field name="workDateGroup">
-                <Field name="workDate" />
-              </Field>
+              <Field name="workDateGroup" />
             </Field>
 
             <Field name="workHistoryNote" />
