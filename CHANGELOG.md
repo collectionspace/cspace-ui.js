@@ -27,14 +27,14 @@ v4.0.0 adds support for CollectionSpace 6.0.
   - A new field, `publishToList/publishTo`, has been added to the record editor form. This field exists in CollectionSpace 6.0, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
 
 - Organization record:
-  - The field `contactName` has been moved from `contactNames` into the repeating group `contactGroupList/contactGroup`, and `contactNames` has been removed. If you've changed the configuration of `contactName`, move that configuration under the `contactGroupList/contactGroup` path. If you've overridden any form templates, move the `contactName` field under `contactGroupList/contactGroup`, and remove `contactNames`. If you've customized the advanced search form, and `contactNames/contactName` is present, replace it with  `contactGroupList/contactGroup/contactName`.
+  - The field `contactName` has been moved from `contactNames` into the repeating group `contactGroupList/contactGroup`, and `contactNames` has been removed. If you've changed the configuration of `contactName`, move that configuration under the `contactGroupList/contactGroup` path. If you've overridden any form templates, move the `contactName` field under `contactGroupList/contactGroup`, and remove `contactNames`. If you've customized the advanced search form, and `contactNames/contactName` is present, replace it with `contactGroupList/contactGroup/contactName`.
 
 - Person record:
   - The message IDs of the labels for the field `personTermGroupList/personTermGroup/foreName` have changed. They are now `field.persons_common.foreName.fullName` and `field.persons_common.foreName.name`. If you have customized these labels using the previous message IDs (`field.persons_common.forename.fullName` and `field.persons_common.forename.name`, respectively), update your configuration to use the new IDs. Note the uppercase "N" in "foreName" in the new IDs.
   - The message IDs of the labels for the field `personTermGroupList/personTermGroup/surName` have changed. They are now `field.persons_common.surName.fullName` and `field.persons_common.surName.name`. If you have customized these labels using the previous message IDs (`field.persons_common.surname.fullName` and `field.persons_common.surname.name`, respectively), update your configuration to use the new IDs. Note the uppercase "N" in "surName" in the new IDs.
 
 - Use of collections record:
-  - [TK]
+  - The record editor form has been updated to display new fields that were added in 6.0, and to hide fields that were migrated into new fields. To use this version of cspace-ui with an older version of the CollectionSpace server, the use of collections form should be replaced with one from a prior version of cspace-ui that is compatible with that version of the server.
 
 ## v3.0.0
 
