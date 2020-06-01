@@ -130,6 +130,7 @@ export default class RecordEditor extends Component {
       vocabulary,
       csid,
       cloneCsid,
+      data,
     } = this.props;
 
     const {
@@ -137,6 +138,7 @@ export default class RecordEditor extends Component {
       vocabulary: prevVocabulary,
       csid: prevCsid,
       cloneCsid: prevCloneCsid,
+      data: prevData,
     } = prevProps;
 
     if (
@@ -144,6 +146,8 @@ export default class RecordEditor extends Component {
       || vocabulary !== prevVocabulary
       || csid !== prevCsid
       || cloneCsid !== prevCloneCsid
+      // DRYD-859: Re-init when data is reset but other props stay the same.
+      || (prevData.size > 0 && data.size === 0)
     ) {
       this.initRecord();
     }
@@ -574,7 +578,7 @@ export default class RecordEditor extends Component {
 
     const recordTypeConfig = config.recordTypes[recordType];
 
-    if (!recordTypeConfig) {
+    if (!data || !recordTypeConfig) {
       return null;
     }
 
