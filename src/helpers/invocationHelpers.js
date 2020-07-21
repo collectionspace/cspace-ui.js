@@ -1,5 +1,23 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import qs from 'qs';
+
+export const VIEWER_WINDOW_NAME = undefined;
+
+const prepareIncludeFields = (includeFields) => {
+  if (includeFields) {
+    return {
+      field: includeFields.filter((field) => !!field).map((field) => {
+        const [schema, ...path] = field.split('/');
+        const partName = schema.substring(schema.indexOf(':') + 1);
+
+        return `${partName}:${path.join('/')}`;
+      }),
+    };
+  }
+
+  return undefined;
+};
 
 const prepareParams = (params) => {
   if (params) {
@@ -25,6 +43,7 @@ const prepareParams = (params) => {
 
 export const createInvocationData = (config, invocationDescriptor, params) => {
   const {
+    includeFields,
     mode,
     outputMIME,
     recordType: invocationRecordType,
@@ -34,6 +53,7 @@ export const createInvocationData = (config, invocationDescriptor, params) => {
   const invocationContext = {
     mode,
     outputMIME,
+    includeFields: prepareIncludeFields(includeFields),
     params: prepareParams(params),
     docType: get(config, ['recordTypes', invocationRecordType, 'serviceConfig', 'objectName']),
   };
@@ -71,4 +91,39 @@ export const normalizeInvocationDescriptor = (invocationDescriptor, invocationMe
   }
 
   return normalizedInvocationDescriptor;
+};
+
+export const getReportViewerPath = (config, reportCsid, invocationDescriptor, reportParams) => {
+  const {
+    basename,
+  } = config;
+
+  const reportParamsJson = reportParams && JSON.stringify(reportParams);
+
+  const queryParams = {
+    mode: invocationDescriptor.get('mode'),
+    csid: invocationDescriptor.get('csid'),
+    outputMIME: invocationDescriptor.get('outputMIME'),
+    recordType: invocationDescriptor.get('recordType'),
+    params: reportParamsJson,
+  };
+
+  return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams)}`;
+};
+
+export const getExportViewerPath = (config, invocationDescriptor) => {
+  const {
+    basename,
+  } = config;
+
+  const queryParams = {
+    mode: invocationDescriptor.get('mode'),
+    csid: invocationDescriptor.get('csid').toJS(),
+    outputMIME: invocationDescriptor.get('outputMIME'),
+    recordType: invocationDescriptor.get('recordType'),
+    vocabulary: invocationDescriptor.get('vocabulary'),
+    includeFields: invocationDescriptor.get('includeFields').toJS(),
+  };
+
+  return `${basename || ''}/export?${qs.stringify(queryParams)}`;
 };

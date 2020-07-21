@@ -8,12 +8,14 @@ import Immutable from 'immutable';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import ErrorPage from './ErrorPage';
+import ExportButton from '../search/ExportButton';
 import RelateButton from '../record/RelateButton';
 import Pager from '../search/Pager';
 import SearchResultSidebar from '../search/SearchResultSidebar';
 import SearchResultSummary from '../search/SearchResultSummary';
 import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import SelectBar from '../search/SelectBar';
+import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
 import SearchResultSidebarToggleButtonContainer from '../../containers/search/SearchResultSidebarToggleButtonContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
@@ -61,6 +63,7 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object,
   }),
+  openExport: PropTypes.func,
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
@@ -92,6 +95,8 @@ export default class SearchResultPage extends Component {
     this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
     this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
+    this.handleExportButtonClick = this.handleExportButtonClick.bind(this);
+    this.handleExportOpened = this.handleExportOpened.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -105,6 +110,7 @@ export default class SearchResultPage extends Component {
     this.search = this.search.bind(this);
 
     this.state = {
+      isExportModalOpen: false,
       isSearchToRelateModalOpen: false,
     };
   }
@@ -257,6 +263,27 @@ export default class SearchResultPage extends Component {
     })).toJS();
   }
 
+  isResultExportable(searchDescriptor) {
+    const {
+      config,
+    } = this.context;
+
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
+
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
+    return (
+      subresource !== 'terms'
+      && subresource !== 'refs'
+      && (
+        serviceType === 'procedure'
+        || serviceType === 'object'
+        || serviceType === 'authority'
+      )
+    );
+  }
+
   isResultRelatable(searchDescriptor) {
     const {
       config,
@@ -268,7 +295,8 @@ export default class SearchResultPage extends Component {
     const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
 
     return (
-      subresource !== 'terms' && (
+      subresource !== 'terms'
+      && (
         serviceType === 'procedure'
         || serviceType === 'object'
         || recordType === 'procedure'
@@ -279,6 +307,7 @@ export default class SearchResultPage extends Component {
 
   closeModal() {
     this.setState({
+      isExportModalOpen: false,
       isSearchToRelateModalOpen: false,
       selectionValidationError: undefined,
     });
@@ -468,6 +497,16 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  handleExportButtonClick() {
+    this.setState({
+      isExportModalOpen: true,
+    });
+  }
+
+  handleExportOpened() {
+    this.closeModal();
+  }
+
   handleModalCancelButtonClick() {
     this.closeModal();
   }
@@ -647,9 +686,21 @@ export default class SearchResultPage extends Component {
         );
       }
 
+      let exportButton;
+
+      if (this.isResultExportable(searchDescriptor)) {
+        exportButton = (
+          <ExportButton
+            disabled={selectedCount < 1}
+            key="export"
+            onClick={this.handleExportButtonClick}
+          />
+        );
+      }
+
       selectBar = (
         <SelectBar
-          buttons={[relateButton]}
+          buttons={[relateButton, exportButton]}
           config={config}
           listType={listType}
           searchDescriptor={searchDescriptor}
@@ -728,6 +779,7 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     const {
+      isExportModalOpen,
       isSearchToRelateModalOpen,
       selectionValidationError,
     } = this.state;
@@ -752,11 +804,9 @@ export default class SearchResultPage extends Component {
       );
     }
 
-    const isResultRelatable = this.isResultRelatable(searchDescriptor);
-
     let searchToRelateModal;
 
-    if (isResultRelatable) {
+    if (this.isResultRelatable(searchDescriptor)) {
       searchToRelateModal = (
         <SearchToRelateModalContainer
           allowedServiceTypes={['object', 'procedure']}
@@ -768,6 +818,23 @@ export default class SearchResultPage extends Component {
           onCancelButtonClick={this.handleModalCancelButtonClick}
           onCloseButtonClick={this.handleModalCloseButtonClick}
           onRelationsCreated={this.handleRelationsCreated}
+        />
+      );
+    }
+
+    let exportModal;
+
+    if (this.isResultExportable(searchDescriptor)) {
+      exportModal = (
+        <ExportModalContainer
+          config={config}
+          isOpen={isExportModalOpen}
+          recordType={recordType}
+          vocabulary={vocabulary}
+          selectedItems={selectedItems}
+          onCancelButtonClick={this.handleModalCancelButtonClick}
+          onCloseButtonClick={this.handleModalCloseButtonClick}
+          onExportOpened={this.handleExportOpened}
         />
       );
     }
@@ -818,6 +885,7 @@ export default class SearchResultPage extends Component {
         </div>
 
         {searchToRelateModal}
+        {exportModal}
       </div>
     );
   }

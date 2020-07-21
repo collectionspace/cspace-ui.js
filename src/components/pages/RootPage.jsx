@@ -11,6 +11,7 @@ import ConfigPage from './ConfigPage';
 import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
 import CreatePageContainer from '../../containers/pages/CreatePageContainer';
 import DashboardPage from './DashboardPage';
+import ExportViewerPageContainer from '../../containers/pages/ExportViewerPageContainer';
 import ToolPageContainer from '../../containers/pages/ToolPageContainer';
 import LoginPageContainer from '../../containers/pages/LoginPageContainer';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
@@ -105,6 +106,12 @@ function RootPage(props) {
         <ProtectedRouteContainer
           path="/report/:reportCsid"
           component={ReportViewerPageContainer}
+          decorated={false}
+        />
+
+        <ProtectedRouteContainer
+          path="/export"
+          component={ExportViewerPageContainer}
           decorated={false}
         />
       </Switch>

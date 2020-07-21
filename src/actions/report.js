@@ -5,9 +5,13 @@ import get from 'lodash/get';
 import getSession from '../helpers/session';
 import getErrorDescription from '../helpers/getErrorDescription';
 import getNotificationID from '../helpers/notificationHelpers';
-import { createInvocationData } from '../helpers/invocationHelpers';
 import { getCsid } from '../helpers/recordDataHelpers';
-import { getReportViewerPath, VIEWER_WINDOW_NAME } from '../helpers/reportHelpers';
+
+import {
+  createInvocationData,
+  getReportViewerPath,
+  VIEWER_WINDOW_NAME,
+} from '../helpers/invocationHelpers';
 
 import {
   validateRecordData,

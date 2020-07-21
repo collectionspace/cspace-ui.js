@@ -6,14 +6,14 @@ import styles from '../../../styles/cspace-ui/ContentViewerPage.css';
 
 const messages = defineMessages({
   error: {
-    id: 'reportViewerPage.error',
-    description: 'Message displayed when a report invocation fails.',
-    defaultMessage: 'Error running report: {error}',
+    id: 'exportViewerPage.error',
+    description: 'Message displayed when an export invocation fails.',
+    defaultMessage: 'Error generating export: {error}',
   },
   loading: {
-    id: 'reportViewerPage.loading',
-    description: 'Message displayed when a report is loading.',
-    defaultMessage: 'Generating report…',
+    id: 'exportViewerPage.loading',
+    description: 'Message displayed when a export is loading.',
+    defaultMessage: 'Generating export…',
   },
 });
 
@@ -34,7 +34,7 @@ const renderError = (error) => (
   </div>
 );
 
-export default function ReportViewerPage(props) {
+export default function ExportViewerPage(props) {
   return (
     <ContentViewerPage
       renderError={renderError}

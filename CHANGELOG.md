@@ -1,5 +1,13 @@
 # Change Log
 
+## v5.0.0
+
+v5.0.0 adds support for CollectionSpace 6.1.
+
+### Breaking Changes
+
+- An Export button now appears on search results. This feature requires CollectionSpace 6.1. If this version of the UI is used with an older version of the CollectionSpace server, attempting to export search results will result in an error.
+
 ## v4.0.0
 
 v4.0.0 adds support for CollectionSpace 6.0.

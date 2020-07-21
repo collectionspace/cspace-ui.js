@@ -3,6 +3,7 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   createInvocationData,
+  getReportViewerPath,
   normalizeInvocationDescriptor,
 } from '../../../src/helpers/invocationHelpers';
 
@@ -10,6 +11,7 @@ chai.use(chaiImmutable);
 
 describe('invocationHelpers', () => {
   const config = {
+    basename: 'base',
     recordTypes: {
       collectionobject: {
         serviceConfig: {
@@ -30,6 +32,7 @@ describe('invocationHelpers', () => {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'nocontext',
           docType: undefined,
+          includeFields: undefined,
           outputMIME: undefined,
           params: undefined,
         },
@@ -48,6 +51,7 @@ describe('invocationHelpers', () => {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'single',
           docType: 'CollectionObject',
+          includeFields: undefined,
           singleCSID: '1234',
           outputMIME: undefined,
           params: undefined,
@@ -67,6 +71,7 @@ describe('invocationHelpers', () => {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'list',
           docType: 'CollectionObject',
+          includeFields: undefined,
           listCSIDs: {
             csid: [
               '1234',
@@ -91,6 +96,7 @@ describe('invocationHelpers', () => {
           mode: 'group',
           docType: undefined,
           groupCSID: '1234',
+          includeFields: undefined,
           outputMIME: undefined,
           params: undefined,
         },
@@ -112,6 +118,7 @@ describe('invocationHelpers', () => {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'nocontext',
           docType: undefined,
+          includeFields: undefined,
           outputMIME: undefined,
           params: {
             param: [
@@ -137,6 +144,7 @@ describe('invocationHelpers', () => {
           '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
           mode: 'nocontext',
           docType: undefined,
+          includeFields: undefined,
           outputMIME: undefined,
           params: {
             param: [
@@ -182,6 +190,37 @@ describe('invocationHelpers', () => {
       normalizeInvocationDescriptor(invocationDescriptor, metadata).should.equal(Immutable.Map({
         outputMIME: 'application/pdf',
       }));
+    });
+  });
+
+  describe('getReportViewerPath', () => {
+    const reportCsid = '1234';
+
+    const csid = '8888';
+    const recordType = 'collectionobject';
+
+    const invocationDescriptor = Immutable.Map({
+      csid,
+      recordType,
+    });
+
+    const params = {
+      foo: 'abc',
+    };
+
+    it('should prepend the basename and \'report\' to the report csid, and add query parameters', () => {
+      getReportViewerPath(config, reportCsid, invocationDescriptor, params).should
+        .equal(`${config.basename}/report/${reportCsid}?csid=${csid}&recordType=${recordType}&params=%7B%22foo%22%3A%22abc%22%7D`);
+    });
+
+    it('should not prepend the basename if it is falsy', () => {
+      const nullBasenameConfig = {
+        ...config,
+        basename: null,
+      };
+
+      getReportViewerPath(nullBasenameConfig, reportCsid, invocationDescriptor).should
+        .equal(`/report/${reportCsid}?csid=${csid}&recordType=${recordType}`);
     });
   });
 });

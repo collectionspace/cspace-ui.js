@@ -18,6 +18,7 @@ const propTypes = {
   config: PropTypes.shape({
     locale: PropTypes.string,
   }).isRequired,
+  embedded: PropTypes.bool,
   intl: intlShape.isRequired,
   name: PropTypes.string,
   placeholder: PropTypes.string,
@@ -34,6 +35,7 @@ const propTypes = {
 export function BaseFieldInput(props) {
   const {
     config,
+    embedded,
     intl,
     name,
     placeholder,
@@ -110,6 +112,7 @@ export function BaseFieldInput(props) {
   return (
     <OptionPickerInput
       blankable={false}
+      embedded={embedded}
       name={name}
       placeholder={placeholder}
       source={getRecordFieldOptionListName(recordType, rootPath)}
