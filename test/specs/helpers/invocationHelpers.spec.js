@@ -3,6 +3,7 @@ import chaiImmutable from 'chai-immutable';
 
 import {
   createInvocationData,
+  getExportViewerPath,
   getReportViewerPath,
   normalizeInvocationDescriptor,
 } from '../../../src/helpers/invocationHelpers';
@@ -97,6 +98,32 @@ describe('invocationHelpers', () => {
           docType: undefined,
           groupCSID: '1234',
           includeFields: undefined,
+          outputMIME: undefined,
+          params: undefined,
+        },
+      });
+    });
+
+    it('should convert include fields to part:xpath format', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        mode: 'nocontext',
+        includeFields: [
+          'ns2:collectionobjects_common/objectNumber',
+          'ns2:collectionobjects_common/titleGroupList/titleGroup/title',
+        ],
+      });
+
+      createInvocationData(config, invocationDescriptor).should.deep.equal({
+        'ns2:invocationContext': {
+          '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+          mode: 'nocontext',
+          docType: undefined,
+          includeFields: {
+            field: [
+              'collectionobjects_common:objectNumber',
+              'collectionobjects_common:titleGroupList/titleGroup/title',
+            ],
+          },
           outputMIME: undefined,
           params: undefined,
         },
@@ -221,6 +248,33 @@ describe('invocationHelpers', () => {
 
       getReportViewerPath(nullBasenameConfig, reportCsid, invocationDescriptor).should
         .equal(`/report/${reportCsid}?csid=${csid}&recordType=${recordType}`);
+    });
+  });
+
+  describe('getExportViewerPath', () => {
+    const csid = Immutable.List(['8888', '9999', '0000']);
+    const recordType = 'collectionobject';
+    const includeFields = Immutable.List(['title', 'name']);
+
+    const invocationDescriptor = Immutable.Map({
+      csid,
+      recordType,
+      includeFields,
+    });
+
+    it('should prepend the basename and \'export\', and add query parameters', () => {
+      getExportViewerPath(config, invocationDescriptor).should
+        .equal(`${config.basename}/export?csid%5B0%5D=${csid.get(0)}&csid%5B1%5D=${csid.get(1)}&csid%5B2%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B0%5D=${includeFields.get(0)}&includeFields%5B1%5D=${includeFields.get(1)}`);
+    });
+
+    it('should not prepend the basename if it is falsy', () => {
+      const nullBasenameConfig = {
+        ...config,
+        basename: null,
+      };
+
+      getExportViewerPath(nullBasenameConfig, invocationDescriptor).should
+        .equal(`/export?csid%5B0%5D=${csid.get(0)}&csid%5B1%5D=${csid.get(1)}&csid%5B2%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B0%5D=${includeFields.get(0)}&includeFields%5B1%5D=${includeFields.get(1)}`);
     });
   });
 });

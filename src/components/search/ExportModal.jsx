@@ -62,29 +62,26 @@ export default class ExportModal extends Component {
       invocationDescriptor: Immutable.fromJS({
         mode: 'list',
         outputMIME: 'text/csv',
+        includeFields: [],
       }),
     };
   }
 
-  componentDidMount() {
-    this.initInvocationDescriptor();
-  }
-
-  componentDidUpdate(prevProps) {
+  componentWillReceiveProps(nextProps) {
     const {
       isOpen,
     } = this.props;
 
     const {
-      isOpen: prevIsOpen,
-    } = prevProps;
+      isOpen: nextIsOpen,
+    } = nextProps;
 
-    if (!prevIsOpen && isOpen) {
-      this.initInvocationDescriptor();
+    if (!isOpen && nextIsOpen) {
+      this.initInvocationDescriptor(nextProps);
     }
   }
 
-  initInvocationDescriptor() {
+  initInvocationDescriptor(props) {
     const {
       invocationDescriptor,
     } = this.state;
@@ -93,7 +90,7 @@ export default class ExportModal extends Component {
       recordType,
       vocabulary,
       selectedItems,
-    } = this.props;
+    } = props;
 
     const nextInvocationDescriptor = invocationDescriptor
       .set('recordType', recordType)

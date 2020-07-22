@@ -18,6 +18,7 @@ import mockHistory from '../../../helpers/mockHistory';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
+import ExportModalContainer from '../../../../src/containers/search/ExportModalContainer';
 import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
 import WatchedSearchResultTableContainer from '../../../../src/containers/search/WatchedSearchResultTableContainer';
 import { searchKey } from '../../../../src/reducers/search';
@@ -1096,6 +1097,45 @@ describe('SearchResultPage', () => {
         state: location.state,
       });
     });
+  });
+
+  it('should close the export modal when an export has been invoked', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const exportButton = selectBar.props.buttons[1];
+
+    exportButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, ExportModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onExportOpened();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, ExportModalContainer);
+
+    modal.props.isOpen.should.equal(false);
   });
 
   it('should render a search to relate modal if the search record type is object an object or procedure', () => {

@@ -116,13 +116,16 @@ export const getExportViewerPath = (config, invocationDescriptor) => {
     basename,
   } = config;
 
+  const csid = invocationDescriptor.get('csid');
+  const includeFields = invocationDescriptor.get('includeFields');
+
   const queryParams = {
     mode: invocationDescriptor.get('mode'),
-    csid: invocationDescriptor.get('csid').toJS(),
+    csid: Immutable.List.isList(csid) ? csid.toJS() : csid,
     outputMIME: invocationDescriptor.get('outputMIME'),
     recordType: invocationDescriptor.get('recordType'),
     vocabulary: invocationDescriptor.get('vocabulary'),
-    includeFields: invocationDescriptor.get('includeFields').toJS(),
+    includeFields: Immutable.List.isList(includeFields) ? includeFields.toJS() : includeFields,
   };
 
   return `${basename || ''}/export?${qs.stringify(queryParams)}`;
