@@ -33,7 +33,10 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName, partialTerm, 
         vocabulary,
       },
     });
-
+    // data,
+    // csid,
+    // recordTypeConfig,
+    // computeContext,
     let newRecordData = Immutable.Map();
 
     if (clone) {
@@ -43,7 +46,12 @@ export const addTerm = (recordTypeConfig, vocabulary, displayName, partialTerm, 
         const cloneFromData = getRecordData(getState(), cloneFromCsid);
 
         if (cloneFromData) {
-          newRecordData = cloneRecordData(recordTypeConfig, cloneFromCsid, cloneFromData);
+          const cloneContext = {
+            recordTypeConfig,
+            csid: cloneFromCsid,
+            data: cloneFromData,
+          }
+          newRecordData = cloneRecordData(cloneContext);
         }
       }
     }
