@@ -411,14 +411,7 @@ export const prepareClonedHierarchy = (fromCsid, data) => {
 /**
  * Create a new record as a clone of a given record.
  */
-export const cloneRecordData = (cloneContext) => {
-  const {
-    data,
-    csid,
-    recordTypeConfig,
-    computeContext,
-  } = cloneContext;
-  
+export const cloneRecordData = (recordTypeConfig, csid, data, computeContext) => { 
   if (!data) {
     return data;
   }
