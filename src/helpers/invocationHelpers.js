@@ -1,17 +1,80 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import qs from 'qs';
+import { getFieldDataType, isAutocompleteField, configKey } from './configHelpers';
+import { DATA_TYPE_STRUCTURED_DATE } from '../constants/dataTypes';
 
 export const VIEWER_WINDOW_NAME = undefined;
 
-const prepareIncludeFields = (includeFields) => {
+const prepareIncludeFields = (config, recordType, includeFields) => {
   if (includeFields) {
     return {
-      field: includeFields.filter((field) => !!field).map((field) => {
-        const [schema, ...path] = field.split('/');
-        const partName = schema.substring(schema.indexOf(':') + 1);
+      field: includeFields.filter((field) => !!field).flatMap((field) => {
+        const fieldSegments = field.split('/');
 
-        return `${partName}:${path.join('/')}`;
+        const fieldDescriptor = get(
+          config,
+          ['recordTypes', recordType, 'fields', 'document', ...fieldSegments],
+        );
+
+        const fieldDataType = fieldDescriptor && getFieldDataType(fieldDescriptor);
+
+        const [schema, ...path] = fieldSegments;
+        const partName = schema.substring(schema.indexOf(':') + 1);
+        const fieldSpec = `${partName}:${path.join('/')}`;
+
+        if (fieldDataType === DATA_TYPE_STRUCTURED_DATE) {
+          // TODO: Do this for export only? Currently don't know at this point if this is an export.
+          // Will need an additional arg.
+
+          // For struct date groups, append dateDisplayDate to the field path, and specify the
+          // group name as the name. This causes exports to use the group name as the column name,
+          // but the display date as the value, which is expected by the converter tool.
+
+          return {
+            '@name': fieldSegments[fieldSegments.length - 1],
+            '.': `${fieldSpec}/dateDisplayDate`,
+          };
+        }
+
+        if (isAutocompleteField(fieldDescriptor)) {
+          // TODO: Do this for export only. Currently don't know at this point if this is an export.
+          // Will need an additional arg.
+
+          // For authority-controlled fields, if values can be sourced from multiple authorities,
+          // create a separate column for each authority. This is expected by the converter tool.
+
+          const sourceSpec = get(fieldDescriptor, [configKey, 'view', 'props', 'source']);
+          const sources = sourceSpec.split(',');
+
+          if (sources.length > 1) {
+            const authorities = {};
+
+            sources.forEach((source) => {
+              const [authority] = source.split('/');
+
+              authorities[authority] = true;
+            });
+
+            const uniqueAuthorities = Object.keys(authorities);
+
+            if (uniqueAuthorities.length > 1) {
+              return uniqueAuthorities.map((authority) => {
+                const fieldName = path[path.length - 1];
+                const authorityServiceConfig = get(config, ['recordTypes', authority, 'serviceConfig']);
+                const authorityObjectName = get(authorityServiceConfig, 'objectName');
+                const authorityServicePath = get(authorityServiceConfig, 'servicePath');
+
+                return {
+                  '@name': `${fieldName}${authorityObjectName}`,
+                  '.': `${fieldSpec}[contains(., ':${authorityServicePath}:')]`,
+                };
+              });
+            }
+          }
+        }
+
+        return fieldSpec;
       }),
     };
   }
@@ -53,7 +116,7 @@ export const createInvocationData = (config, invocationDescriptor, params) => {
   const invocationContext = {
     mode,
     outputMIME,
-    includeFields: prepareIncludeFields(includeFields),
+    includeFields: prepareIncludeFields(config, invocationRecordType, includeFields),
     params: prepareParams(params),
     docType: get(config, ['recordTypes', invocationRecordType, 'serviceConfig', 'objectName']),
   };

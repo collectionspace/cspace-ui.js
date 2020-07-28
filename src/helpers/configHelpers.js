@@ -484,6 +484,12 @@ export const getStickyFields = (fieldDescriptor, currentPath = []) => {
     }, []);
 };
 
+export const isAutocompleteField = (fieldDescriptor) => {
+  const viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
+
+  return (JSON.stringify(viewType) === '"AutocompleteInput"');
+};
+
 export const isFieldCloneable = (fieldDescriptor) => {
   const config = fieldDescriptor[configKey];
 

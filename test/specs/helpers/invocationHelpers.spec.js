@@ -1,6 +1,10 @@
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
+import { configKey } from '../../../src/helpers/configHelpers';
+import { DATA_TYPE_STRUCTURED_DATE } from '../../../src/constants/dataTypes';
+import { AutocompleteInput } from '../../../src/helpers/configContextInputs';
+
 import {
   createInvocationData,
   getExportViewerPath,
@@ -17,6 +21,39 @@ describe('invocationHelpers', () => {
       collectionobject: {
         serviceConfig: {
           objectName: 'CollectionObject',
+        },
+        fields: {
+          document: {
+            'ns2:collectionobjects_common': {
+              fieldCollectionDateGroup: {
+                [configKey]: {
+                  dataType: DATA_TYPE_STRUCTURED_DATE,
+                },
+              },
+              owner: {
+                [configKey]: {
+                  view: {
+                    type: AutocompleteInput,
+                    props: {
+                      source: 'person/local,organization/local',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      person: {
+        serviceConfig: {
+          objectName: 'Person',
+          servicePath: 'personauthorities',
+        },
+      },
+      organization: {
+        serviceConfig: {
+          objectName: 'Organization',
+          servicePath: 'orgauthorities',
         },
       },
     },
@@ -122,6 +159,66 @@ describe('invocationHelpers', () => {
             field: [
               'collectionobjects_common:objectNumber',
               'collectionobjects_common:titleGroupList/titleGroup/title',
+            ],
+          },
+          outputMIME: undefined,
+          params: undefined,
+        },
+      });
+    });
+
+    it('should convert include fields that are structured date groups to use the display date', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        mode: 'nocontext',
+        recordType: 'collectionobject',
+        includeFields: [
+          'ns2:collectionobjects_common/fieldCollectionDateGroup',
+        ],
+      });
+
+      createInvocationData(config, invocationDescriptor).should.deep.equal({
+        'ns2:invocationContext': {
+          '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+          mode: 'nocontext',
+          docType: 'CollectionObject',
+          includeFields: {
+            field: [
+              {
+                '@name': 'fieldCollectionDateGroup',
+                '.': 'collectionobjects_common:fieldCollectionDateGroup/dateDisplayDate',
+              },
+            ],
+          },
+          outputMIME: undefined,
+          params: undefined,
+        },
+      });
+    });
+
+    it('should convert include fields that are controlled by multiple authorities to separate fields for each authority type', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        mode: 'nocontext',
+        recordType: 'collectionobject',
+        includeFields: [
+          'ns2:collectionobjects_common/owner',
+        ],
+      });
+
+      createInvocationData(config, invocationDescriptor).should.deep.equal({
+        'ns2:invocationContext': {
+          '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+          mode: 'nocontext',
+          docType: 'CollectionObject',
+          includeFields: {
+            field: [
+              {
+                '@name': 'ownerPerson',
+                '.': 'collectionobjects_common:owner[contains(., \':personauthorities:\')]',
+              },
+              {
+                '@name': 'ownerOrganization',
+                '.': 'collectionobjects_common:owner[contains(., \':orgauthorities:\')]',
+              },
             ],
           },
           outputMIME: undefined,

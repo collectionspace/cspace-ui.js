@@ -53,7 +53,10 @@ export default class ExportFieldEditor extends Component {
     } = this.props;
 
     if (buildRecordFieldOptionLists) {
-      buildRecordFieldOptionLists(config, recordType);
+      // Converter doesn't support importing struct date parts, so set the includeStructDateFields
+      // arg to false.
+
+      buildRecordFieldOptionLists(config, recordType, undefined, false);
     }
   }
 
