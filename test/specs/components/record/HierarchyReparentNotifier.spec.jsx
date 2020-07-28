@@ -192,7 +192,6 @@ describe('HierarchyReparentNotifier', () => {
         />, this.container,
       );
 
-
       notificationItems.should.have.lengthOf(1);
 
       notificationItems[0].should.have.property('values').that.contains({

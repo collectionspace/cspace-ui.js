@@ -3,7 +3,6 @@ export default (configContext) => (data) => {
     getPart,
   } = configContext.recordDataHelpers;
 
-
   if (!data) {
     return '';
   }

@@ -799,7 +799,6 @@ describe('reducer', () => {
     });
   });
 
-
   describe('getMostRecentSearchDescriptor selector', () => {
     it('should select from the search key', () => {
       const searchDescriptor = Immutable.Map({

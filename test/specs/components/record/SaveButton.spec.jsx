@@ -14,7 +14,6 @@ describe('SaveButton', () => {
     this.container = createTestContainer(this);
   });
 
-
   it('should render nothing when readOnly is true', function test() {
     render(
       <IntlProvider locale="en">

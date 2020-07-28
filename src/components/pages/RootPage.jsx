@@ -24,7 +24,6 @@ import NotificationBarContainer from '../../containers/notification/Notification
 import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
 
-
 const messages = defineMessages({
   title: {
     id: 'rootPage.title',

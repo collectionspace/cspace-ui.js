@@ -102,7 +102,6 @@ describe('PageSizeChooser', () => {
     changedToPageSize.should.equal(20);
   });
 
-
   it('should call onPageSizeChange when a page size is entered in the input', function test() {
     let changedToPageSize = null;
 
@@ -172,7 +171,6 @@ describe('PageSizeChooser', () => {
 
     expect(changedToPageSize).to.equal(null);
   });
-
 
   it('should not call onPageSizeChange when the current page size is selected', function test() {
     let changedToPageSize = null;

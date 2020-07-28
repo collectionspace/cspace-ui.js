@@ -6,7 +6,6 @@ import { FormattedMessage, FormattedTime } from 'react-intl';
 import MiniCloseButton from '../navigation/MiniCloseButton';
 import styles from '../../../styles/cspace-ui/Notification.css';
 
-
 const propTypes = {
   id: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),

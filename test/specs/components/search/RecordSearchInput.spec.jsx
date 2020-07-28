@@ -6,7 +6,6 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import RecordSearchInput from '../../../../src/components/search/RecordSearchInput';
 
-
 chai.should();
 
 describe('RecordSearchInput', () => {

@@ -279,7 +279,6 @@ describe('RecordEditor', () => {
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
 
-
   it('should render with correct class', function test() {
     render(
       <IntlProvider locale="en">

@@ -6,7 +6,6 @@ import withBooleanValue from '../../../src/enhancers/withBooleanValue';
 
 chai.should();
 
-
 describe('withBooleanValue', () => {
   const StubComponent = () => null;
 

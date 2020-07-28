@@ -75,7 +75,6 @@ export default class SearchResultTraverser extends Component {
       search,
     } = this.props;
 
-
     if (search) {
       if (searchDescriptor && !searchState) {
         // We have a search descriptor, but it's not associated with any state. This happens when

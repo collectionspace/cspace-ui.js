@@ -13,9 +13,7 @@ import styles from '../../../styles/cspace-ui/InvocationModal.css';
 import formatPickerStyles from '../../../styles/cspace-ui/InvocationFormatPicker.css';
 import { OptionPickerInput } from '../../helpers/configContextInputs';
 
-
 const { Label } = inputComponents;
-
 
 const messages = defineMessages({
   cancel: {

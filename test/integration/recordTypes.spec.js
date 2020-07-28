@@ -22,7 +22,6 @@ describe('record types', () => {
       createPage.becomesVisible();
     });
 
-
     testParams.visibleRecordTypes.forEach((recordTypeDescriptor) => {
       const [
         serviceType,

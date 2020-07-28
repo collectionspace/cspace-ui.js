@@ -271,7 +271,6 @@ describe('record reducer', () => {
     });
   });
 
-
   describe('on CREATE_NEW_RECORD', () => {
     it('should create new record data when there is no existing new record data', () => {
       const state = reducer(undefined, {

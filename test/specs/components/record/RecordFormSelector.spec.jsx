@@ -118,7 +118,6 @@ describe('RecordFormSelector', () => {
     expect(this.container.firstElementChild).to.equal(null);
   });
 
-
   it('should render nothing if only one form is enabled for the record type', function test() {
     render(
       <IntlProvider locale="en">

@@ -1222,7 +1222,6 @@ describe('search reducer', () => {
     });
   });
 
-
   it('should handle LOGOUT_FULFILLED', () => {
     const state = reducer(Immutable.fromJS({
       searchName1: {},

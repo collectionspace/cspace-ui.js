@@ -6,6 +6,8 @@
     // TODO: Rationalize prop definitions -- add isRequired where needed, and add defaults
     // elsewhere. For now turn off this rule.
     "react/require-default-props": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    // TODO: Use more specific prop types where needed.
+    "react/forbid-prop-types": "off"
   }
 }
