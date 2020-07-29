@@ -228,6 +228,22 @@ export default (configContext) => {
             },
           },
         },
+        namedCollection: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.namedCollection.name',
+                defaultMessage: 'Named collection',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'work/local',
+              },
+            },
+          },
+        },
         recordStatus: {
           [config]: {
             defaultValue: 'new',

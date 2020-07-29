@@ -31,7 +31,10 @@ const template = (configContext) => {
               <Field name="responsibleDepartment" />
             </Field>
 
-            <Field name="collection" />
+            <Row>
+              <Field name="collection" />
+              <Field name="namedCollection" />
+            </Row>
           </Col>
 
           <Col>
