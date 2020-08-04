@@ -171,7 +171,7 @@ export const getReportViewerPath = (config, reportCsid, invocationDescriptor, re
     params: reportParamsJson,
   };
 
-  return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams)}`;
+  return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams, { arrayFormat: 'brackets' })}`;
 };
 
 export const getExportViewerPath = (config, invocationDescriptor) => {
@@ -191,5 +191,5 @@ export const getExportViewerPath = (config, invocationDescriptor) => {
     includeFields: Immutable.List.isList(includeFields) ? includeFields.toJS() : includeFields,
   };
 
-  return `${basename || ''}/export?${qs.stringify(queryParams)}`;
+  return `${basename || ''}/export?${qs.stringify(queryParams, { arrayFormat: 'brackets' })}`;
 };

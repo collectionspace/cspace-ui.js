@@ -239,7 +239,7 @@ describe('export action creator', () => {
 
       return store.dispatch(openExport(config, invocationDescriptor))
         .then(() => {
-          openedPath.should.equal(`/export?mode=list&csid%5B0%5D=${recordCsid}&outputMIME=${outputMIME}&recordType=${recordType}&includeFields%5B0%5D=${includeField}`);
+          openedPath.should.equal(`/export?mode=list&csid%5B%5D=${recordCsid}&outputMIME=${outputMIME}&recordType=${recordType}&includeFields%5B%5D=${includeField}`);
 
           window.open = savedWindowOpen;
         });

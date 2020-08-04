@@ -361,7 +361,7 @@ describe('invocationHelpers', () => {
 
     it('should prepend the basename and \'export\', and add query parameters', () => {
       getExportViewerPath(config, invocationDescriptor).should
-        .equal(`${config.basename}/export?csid%5B0%5D=${csid.get(0)}&csid%5B1%5D=${csid.get(1)}&csid%5B2%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B0%5D=${includeFields.get(0)}&includeFields%5B1%5D=${includeFields.get(1)}`);
+        .equal(`${config.basename}/export?csid%5B%5D=${csid.get(0)}&csid%5B%5D=${csid.get(1)}&csid%5B%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B%5D=${includeFields.get(0)}&includeFields%5B%5D=${includeFields.get(1)}`);
     });
 
     it('should not prepend the basename if it is falsy', () => {
@@ -371,7 +371,7 @@ describe('invocationHelpers', () => {
       };
 
       getExportViewerPath(nullBasenameConfig, invocationDescriptor).should
-        .equal(`/export?csid%5B0%5D=${csid.get(0)}&csid%5B1%5D=${csid.get(1)}&csid%5B2%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B0%5D=${includeFields.get(0)}&includeFields%5B1%5D=${includeFields.get(1)}`);
+        .equal(`/export?csid%5B%5D=${csid.get(0)}&csid%5B%5D=${csid.get(1)}&csid%5B%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B%5D=${includeFields.get(0)}&includeFields%5B%5D=${includeFields.get(1)}`);
     });
   });
 });
