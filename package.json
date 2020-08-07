@@ -1,5 +1,5 @@
 {
-  "name": "cspace-ui",
+  "name": "@ucb-cspace/cspace-ui",
   "version": "4.0.0-ucb.1.rc.2",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <ray.lee@lyrasis.org>",
