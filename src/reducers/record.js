@@ -166,8 +166,15 @@ const doCreateNew = (state, config, recordTypeConfig, computeContext, options = 
 
   let data;
 
+  const cloneContext = {
+    recordTypeConfig,
+    csid: cloneCsid,
+    data: getCurrentData(state, cloneCsid),
+    computeContext,
+  };
+
   if (cloneCsid) {
-    data = cloneRecordData(recordTypeConfig, cloneCsid,getCurrentData(state, cloneCsid), computeContext);
+    data = cloneRecordData(cloneContext);
   }
 
   if (!data) {
@@ -210,6 +217,7 @@ const doCreateNew = (state, config, recordTypeConfig, computeContext, options = 
           nextState,
           config,
           subrecordTypeConfig,
+          computeContext,
           {
             cloneCsid: subrecordCsid,
             subrecordName: name,
@@ -521,6 +529,7 @@ const createNewSubrecord = (state, action) => {
     isDefault,
     stickyFields,
     computeContext,
+    form,
   } = action.meta;
 
   let nextState = doCreateNew(state, config, subrecordTypeConfig, computeContext, {
