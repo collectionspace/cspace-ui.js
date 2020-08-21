@@ -158,6 +158,7 @@ const sortFieldInstances = (state, action) => {
 };
 
 const doCreateNew = (state, config, recordTypeConfig, computeContext, options = {}) => {
+  
   const {
     cloneCsid,
     subrecordName,
@@ -166,15 +167,8 @@ const doCreateNew = (state, config, recordTypeConfig, computeContext, options = 
 
   let data;
 
-  const cloneContext = {
-    recordTypeConfig,
-    csid: cloneCsid,
-    data: getCurrentData(state, cloneCsid),
-    computeContext,
-  };
-
   if (cloneCsid) {
-    data = cloneRecordData(cloneContext);
+    data = cloneRecordData(recordTypeConfig, cloneCsid, getCurrentData(state, cloneCsid), computeContext);
   }
 
   if (!data) {
