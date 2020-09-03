@@ -107,7 +107,7 @@ export default {
       'inhabited-place',
       'island',
       'island-group',
-      'locality',
+      'localilty',
       'metropolitan-area',
       'municipality',
       'nation',
@@ -191,7 +191,7 @@ export default {
         id: 'option.placeTypes.island-group',
         defaultMessage: 'island group',
       },
-      locality: {
+      localilty: {
         id: 'option.placeTypes.locality',
         defaultMessage: 'locality',
       },
