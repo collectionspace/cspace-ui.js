@@ -1,6 +1,6 @@
 {
   "name": "cspace-ui",
-  "version": "5.0.0-rc.6",
+  "version": "5.0.0",
   "description": "CollectionSpace user interface for browsers",
   "author": "Ray Lee <ray.lee@lyrasis.org>",
   "license": "ECL-2.0",
@@ -105,7 +105,7 @@
     "loglevel": "^1.6.1",
     "mocha": "^5.2.0",
     "moxios": "^0.3.0",
-    "nyc": "^14.1.1",
+    "nyc": "^15.1.0",
     "react-shallow-testutils": "^3.0.1",
     "react-test-renderer": "^15.6.2",
     "redux-mock-store": "^1.5.1",

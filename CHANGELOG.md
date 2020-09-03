@@ -8,7 +8,7 @@ v5.0.0 adds support for CollectionSpace 6.1.
 
 - An Export button now appears on search results. This feature requires CollectionSpace 6.1. If this version of the UI is used with an older version of the CollectionSpace server, attempting to export search results will result in an error.
 
-- Obejct record:
+- Object record:
   - A new field, `namedCollection`, has been added to the record editor form. This field exists in CollectionSpace 6.1, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
 
 ## v4.0.0
