@@ -120,6 +120,7 @@ export default {
       'state',
       'state-province',
       'territory',
+      'township',
       'union-territory',
       'unitary-authority',
       'urban-prefecture',
@@ -190,7 +191,7 @@ export default {
         id: 'option.placeTypes.island-group',
         defaultMessage: 'island group',
       },
-      locality: {
+      localilty: {
         id: 'option.placeTypes.locality',
         defaultMessage: 'locality',
       },
@@ -241,6 +242,10 @@ export default {
       territory: {
         id: 'option.placeTypes.territory',
         defaultMessage: 'territory',
+      },
+      township: {
+        id: 'option.placeTypes.township',
+        defaultMessage: 'township',
       },
       'union-territory': {
         id: 'option.placeTypes.union-territory',
