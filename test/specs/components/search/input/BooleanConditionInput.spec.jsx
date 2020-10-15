@@ -160,6 +160,7 @@ describe('BooleanConditionInput', () => {
                 condition={condition}
                 config={config}
                 getSearchConditionInputComponent={getSearchConditionInputComponent}
+                recordType="collectionobject"
               />
             </RecordTypeProvider>
           </ConfigProvider>

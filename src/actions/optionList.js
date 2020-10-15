@@ -1,6 +1,9 @@
+import React from 'react';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import warning from 'warning';
 import { getOptionList } from '../reducers';
+import Field from '../components/record/Field';
 import { DATA_TYPE_STRUCTURED_DATE } from '../constants/dataTypes';
 import { formatExtensionFieldName } from '../helpers/formatHelpers';
 
@@ -50,6 +53,22 @@ export const deleteOptionList = (name) => ({
   payload: name,
 });
 
+const isSearchDisabled = (fieldConfig) => {
+  const searchDisabled = get(fieldConfig, 'searchDisabled');
+
+  // If searchDisabled is explicitly specified, return it.
+
+  if (typeof searchDisabled !== 'undefined') {
+    return !!searchDisabled;
+  }
+
+  // Otherwise, default to disabled if the field is not used on a form.
+
+  const used = get(fieldConfig, 'used');
+
+  return !used;
+};
+
 const collectLeafFields = (options, path, fieldDescriptor, level, includeStructDateFields) => {
   warning(
     typeof fieldDescriptor === 'object',
@@ -67,9 +86,8 @@ const collectLeafFields = (options, path, fieldDescriptor, level, includeStructD
   }
 
   const config = fieldDescriptor[configKey];
-  const searchDisabled = get(config, 'searchDisabled');
 
-  if (searchDisabled) {
+  if (isSearchDisabled(config)) {
     return;
   }
 
@@ -146,9 +164,8 @@ const collectGroupFields = (options, path, fieldDescriptor, level) => {
   }
 
   const config = fieldDescriptor[configKey];
-  const searchDisabled = get(config, 'searchDisabled');
 
-  if (searchDisabled) {
+  if (isSearchDisabled(config)) {
     return;
   }
 
@@ -223,6 +240,60 @@ const getRecordGroupOptions = (fields, rootPath) => {
   return options;
 };
 
+const markComponentFields = (fieldDescriptor, component, parentPath = []) => {
+  const { props, type } = component;
+  const { children, name } = props;
+
+  let componentFieldDescriptor = fieldDescriptor;
+  let path = parentPath;
+
+  if (type === Field) {
+    let { subpath } = props;
+
+    if (typeof subpath === 'undefined') {
+      subpath = get(fieldDescriptor, [configKey, 'view', 'props', 'defaultChildSubpath']);
+    }
+
+    if (!subpath) {
+      subpath = [];
+    } else if (!Array.isArray(subpath)) {
+      subpath = subpath.split('/');
+    }
+
+    const relativePath = [...subpath, name];
+
+    relativePath.forEach((fieldName) => {
+      if (componentFieldDescriptor) {
+        componentFieldDescriptor = componentFieldDescriptor[fieldName];
+
+        if (componentFieldDescriptor) {
+          set(componentFieldDescriptor, [configKey, 'used'], true);
+        }
+      }
+    });
+
+    path = [...parentPath, ...relativePath];
+  }
+
+  React.Children.forEach(children, (child) => {
+    markComponentFields(componentFieldDescriptor, child, path);
+  });
+};
+
+const markFormUsedFields = (fields, form) => {
+  markComponentFields(fields, form.template);
+};
+
+/*
+ * Scan forms for fields that are used, and mark them by setting the used property in the field
+ * configuration.
+ */
+const markUsedFields = (fields, forms = {}) => {
+  Object.keys(forms).forEach((formName) => {
+    markFormUsedFields(fields, forms[formName]);
+  });
+};
+
 export const buildRecordFieldOptionLists = (
   config,
   recordType,
@@ -241,8 +312,15 @@ export const buildRecordFieldOptionLists = (
     return undefined;
   }
 
-  const fields = get(config, ['recordTypes', recordType, 'fields']);
+  const recordTypeConfig = get(config, ['recordTypes', recordType]);
+  const { fields, forms } = recordTypeConfig;
   const lists = {};
+
+  if (!recordTypeConfig.usedFieldsMarked) {
+    markUsedFields(fields, forms);
+
+    recordTypeConfig.usedFieldsMarked = true;
+  }
 
   if (!fieldOptionList) {
     lists[fieldOptionListName] = getRecordFieldOptions(fields, rootPath, includeStructDateFields);

@@ -21,7 +21,8 @@ export default (configContext) => {
 
   // NB: These field configurations are currently only used for search. For editing, view config
   // for structured date fields is hardcoded into the StructuredDateInput component from
-  // cspace-input.
+  // cspace-input. Since the fields are not configured directly in any forms, searchDisabled must
+  // be set explicitly to false so that they will appear in search.
 
   return {
     dateDisplayDate: {
@@ -32,6 +33,7 @@ export default (configContext) => {
             defaultMessage: 'Display date',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -45,6 +47,7 @@ export default (configContext) => {
             defaultMessage: 'Period',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -58,6 +61,7 @@ export default (configContext) => {
             defaultMessage: 'Association',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -71,6 +75,7 @@ export default (configContext) => {
             defaultMessage: 'Note',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -85,6 +90,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single year',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -99,6 +105,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single month',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -113,6 +120,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single day',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -126,6 +134,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single era',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TermPickerInput,
           props: {
@@ -142,6 +151,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single certainty',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TermPickerInput,
           props: {
@@ -158,6 +168,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single qualifier',
           },
         }),
+        searchDisabled: false,
         view: {
           type: OptionPickerInput,
           props: {
@@ -175,6 +186,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single qualifier value',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -188,6 +200,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest/single qualifier unit',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TermPickerInput,
           props: {
@@ -205,6 +218,7 @@ export default (configContext) => {
             defaultMessage: 'Latest year',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -219,6 +233,7 @@ export default (configContext) => {
             defaultMessage: 'Latest month',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -233,6 +248,7 @@ export default (configContext) => {
             defaultMessage: 'Latest day',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -246,6 +262,7 @@ export default (configContext) => {
             defaultMessage: 'Latest era',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TermPickerInput,
           props: {
@@ -262,6 +279,7 @@ export default (configContext) => {
             defaultMessage: 'Latest certainty',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TermPickerInput,
           props: {
@@ -278,6 +296,7 @@ export default (configContext) => {
             defaultMessage: 'Latest qualifier',
           },
         }),
+        searchDisabled: false,
         view: {
           type: OptionPickerInput,
           props: {
@@ -295,6 +314,7 @@ export default (configContext) => {
             defaultMessage: 'Latest qualifier value',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TextInput,
         },
@@ -308,6 +328,7 @@ export default (configContext) => {
             defaultMessage: 'Latest qualifier unit',
           },
         }),
+        searchDisabled: false,
         view: {
           type: TermPickerInput,
           props: {
@@ -325,6 +346,7 @@ export default (configContext) => {
             defaultMessage: 'Earliest represented date',
           },
         }),
+        searchDisabled: false,
         view: {
           type: DateInput,
         },
@@ -339,6 +361,7 @@ export default (configContext) => {
             defaultMessage: 'Latest represented date',
           },
         }),
+        searchDisabled: false,
         view: {
           type: DateInput,
         },
@@ -353,6 +376,7 @@ export default (configContext) => {
             defaultMessage: 'Represented dates computed',
           },
         }),
+        searchDisabled: false,
         view: {
           type: CheckboxInput,
         },

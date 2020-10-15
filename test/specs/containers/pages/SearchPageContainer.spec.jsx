@@ -150,7 +150,13 @@ describe('SearchPageContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.buildRecordFieldOptionLists({}, 'collectionobject');
+    result.props.buildRecordFieldOptionLists({
+      recordTypes: {
+        collectionobject: {
+          fields: {},
+        },
+      },
+    }, 'collectionobject');
 
     const action = store.getActions()[0];
 

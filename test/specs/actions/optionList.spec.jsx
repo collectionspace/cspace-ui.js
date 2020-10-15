@@ -1,6 +1,8 @@
+import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
+import Field from '../../../src/components/record/Field';
 import { DATA_TYPE_STRUCTURED_DATE } from '../../../src/constants/dataTypes';
 
 import {
@@ -74,6 +76,13 @@ describe('optionList action creator', () => {
         collectionobject: {
           fields: {
             document: {
+              [configKey]: {
+                view: {
+                  props: {
+                    defaultChildSubpath: 'ns2:collectionobjects_common',
+                  },
+                },
+              },
               'ns2:collectionobjects_common': {
                 objectNumber: {},
                 phase: {},
@@ -99,17 +108,56 @@ describe('optionList action creator', () => {
               },
             },
           },
+          forms: {
+            default: {
+              template: (
+                <Field name="document">
+                  <Field name="objectNumber" />
+                  <Field name="phase" />
+                  <Field name="form" />
+
+                  <Field name="referenceGroupList">
+                    <Field name="referenceGroup">
+                      <Field name="reference" />
+                      <Field name="referenceNote" />
+                    </Field>
+                  </Field>
+
+                  <Field name="titleGroupList">
+                    <Field name="titleGroup">
+                      <Field name="title" />
+                      <Field name="titleLanguage" />
+
+                      <Field name="titleTranslationSubGroupList">
+                        <Field name="titleTranslationSubGroup">
+                          <Field name="titleTranslation" />
+                          <Field name="titleTranslationLanguage" />
+                        </Field>
+                      </Field>
+                    </Field>
+                  </Field>
+                </Field>
+              ),
+            },
+          },
         },
         group: {
           fields: {
             document: {
+              [configKey]: {
+                searchDisabled: false,
+              },
               'ns2:groups_common': {
+                [configKey]: {
+                  searchDisabled: false,
+                },
                 title: {
                   [configKey]: {
                     messages: {
                       fullName: { id: 'title fullName message' },
                       name: { id: 'title name message' },
                     },
+                    searchDisabled: false,
                   },
                 },
                 owner: {
@@ -117,15 +165,20 @@ describe('optionList action creator', () => {
                     messages: {
                       name: { id: 'owner name message' },
                     },
+                    searchDisabled: false,
                   },
                 },
                 fooGroupList: {
+                  [configKey]: {
+                    searchDisabled: false,
+                  },
                   fooGroup: {
                     [configKey]: {
                       messages: {
                         fullName: { id: 'foo fullName message' },
                         name: { id: 'foo name message' },
                       },
+                      searchDisabled: false,
                     },
                     fooName: {
                       [configKey]: {
@@ -134,6 +187,7 @@ describe('optionList action creator', () => {
                           groupName: { id: 'fooName groupName message' },
                           name: { id: 'fooName name message' },
                         },
+                        searchDisabled: false,
                       },
                     },
                     fooType: {
@@ -142,6 +196,7 @@ describe('optionList action creator', () => {
                           fullName: { id: 'fooType fullName message' },
                           name: { id: 'fooType name message' },
                         },
+                        searchDisabled: false,
                       },
                     },
                     fooNote: {
@@ -149,19 +204,32 @@ describe('optionList action creator', () => {
                         messages: {
                           fullName: { id: 'fooNote fullName message' },
                         },
+                        searchDisabled: false,
                       },
                     },
                   },
                 },
                 barGroupList: {
+                  [configKey]: {
+                    searchDisabled: false,
+                  },
                   barGroup: {
                     [configKey]: {
                       messages: {
                         name: { id: 'bar name message' },
                       },
+                      searchDisabled: false,
                     },
-                    barType: {},
-                    barNote: {},
+                    barType: {
+                      [configKey]: {
+                        searchDisabled: false,
+                      },
+                    },
+                    barNote: {
+                      [configKey]: {
+                        searchDisabled: false,
+                      },
+                    },
                   },
                 },
               },
@@ -171,6 +239,13 @@ describe('optionList action creator', () => {
         loanin: {
           fields: {
             document: {
+              [configKey]: {
+                view: {
+                  props: {
+                    defaultChildSubpath: 'ns2:loansin_common',
+                  },
+                },
+              },
               'ns2:loansin_common': {
                 structDate: {
                   [configKey]: {
@@ -185,6 +260,7 @@ describe('optionList action creator', () => {
                         name: { id: 'dateDisplayDate name message' },
                         fullName: { id: 'dateDisplayDate fullName message' },
                       },
+                      searchDisabled: false,
                     },
                   },
                   dateNote: {
@@ -195,22 +271,45 @@ describe('optionList action creator', () => {
                       messages: {
                         fullName: { id: 'dateNote fullName message' },
                       },
+                      searchDisabled: false,
                     },
                   },
                 },
               },
             },
           },
+          forms: {
+            default: {
+              template: (
+                <Field name="document">
+                  <Field name="structDate" />
+                </Field>
+              ),
+            },
+          },
         },
         loanout: {
           fields: {
             document: {
+              [configKey]: {
+                searchDisabled: false,
+              },
               'ns2:loansout_common': {
+                [configKey]: {
+                  searchDisabled: false,
+                },
                 groupList: {
+                  [configKey]: {
+                    searchDisabled: false,
+                  },
                   group: {
+                    [configKey]: {
+                      searchDisabled: false,
+                    },
                     structDate: {
                       [configKey]: {
                         dataType: DATA_TYPE_STRUCTURED_DATE,
+                        searchDisabled: false,
                       },
                       dateDisplayDate: {
                         [configKey]: {
@@ -221,6 +320,7 @@ describe('optionList action creator', () => {
                             name: { id: 'dateDisplayDate name message' },
                             fullName: { id: 'dateDisplayDate fullName message' },
                           },
+                          searchDisabled: false,
                         },
                       },
                       dateNote: {
@@ -231,6 +331,7 @@ describe('optionList action creator', () => {
                           messages: {
                             fullName: { id: 'dateNote fullName message' },
                           },
+                          searchDisabled: false,
                         },
                       },
                       datePeriod: {
@@ -243,6 +344,7 @@ describe('optionList action creator', () => {
                             groupName: { id: 'datePeriod groupName message' },
                             fullName: { id: 'datePeriod fullName message' },
                           },
+                          searchDisabled: false,
                         },
                       },
                     },
@@ -255,8 +357,22 @@ describe('optionList action creator', () => {
         intake: {
           fields: {
             document: {
+              [configKey]: {
+                view: {
+                  props: {
+                    defaultChildSubpath: 'ns2:intakes_common',
+                  },
+                },
+              },
               'rel:relations-common-list': {
-                'relation-list-item': {},
+                [configKey]: {
+                  searchDisabled: false,
+                },
+                'relation-list-item': {
+                  [configKey]: {
+                    searchDisabled: false,
+                  },
+                },
               },
               'ns2:intakes_common': {
                 foo: {
@@ -276,17 +392,42 @@ describe('optionList action creator', () => {
               },
             },
           },
+          forms: {
+            default: {
+              template: (
+                <Field name="document">
+                  <Field name="foo" />
+
+                  <Field name="barGroupList">
+                    <Field name="barGroup">
+                      <Field name="barName" />
+                      <Field name="barType" />
+                    </Field>
+                  </Field>
+                </Field>
+              ),
+            },
+          },
         },
         conditioncheck: {
           fields: {
             document: {
+              [configKey]: {
+                searchDisabled: false,
+              },
               'ns2:conditionchecks_common': {
+                [configKey]: {
+                  searchDisabled: false,
+                },
                 badfield: {
                   // Oh no, forgot the [configKey] key.
                   messages: {
                     id: 'message id',
                   },
+                  searchDisabled: false,
                 },
+                // Oops, put this outside the config.
+                searchDisabled: true,
               },
             },
           },
@@ -294,6 +435,13 @@ describe('optionList action creator', () => {
         objectexit: {
           fields: {
             document: {
+              [configKey]: {
+                view: {
+                  props: {
+                    defaultChildSubpath: 'ns2:objectexit_common',
+                  },
+                },
+              },
               'ns2:objectexit_common': {
                 fooGroupList: {
                   fooGroup: {
@@ -311,6 +459,22 @@ describe('optionList action creator', () => {
                   },
                 },
               },
+            },
+          },
+          forms: {
+            default: {
+              template: (
+                <Field name="document">
+                  <Field name="fooGroupList">
+                    <Field name="fooGroup">
+                      <Field name="barGroup">
+                        <Field name="barName" />
+                        <Field name="barType" />
+                      </Field>
+                    </Field>
+                  </Field>
+                </Field>
+              ),
             },
           },
         },
