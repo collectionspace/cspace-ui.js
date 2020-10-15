@@ -30,7 +30,7 @@ export default (configContext) => {
             type: AutocompleteInput,
             props: {
               disableAltTerms: true,
-              source: 'citation/local,citation/worldcat,concept/activity,concept/associated,concept/material,organization/local,organization/ulan,person/local,person/ulan,place/local,place/tgn,location/local,location/offsite,work/local',
+              source: 'citation/local,citation/worldcat,concept/activity,concept/associated,concept/material,concept/occasion,organization/local,organization/ulan,person/local,person/ulan,place/local,place/tgn,location/local,location/offsite,work/local',
               showQuickAdd: false,
             },
           },
