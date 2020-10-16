@@ -228,18 +228,26 @@ export default (configContext) => {
             },
           },
         },
-        namedCollection: {
+        namedCollections: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.namedCollection.name',
-                defaultMessage: 'Named collection',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'work/local',
+              type: CompoundInput,
+            },
+          },
+          namedCollection: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.namedCollection.name',
+                  defaultMessage: 'Named collection',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'work/local',
+                },
               },
             },
           },

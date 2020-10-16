@@ -41,7 +41,12 @@ const template = (configContext) => {
 
             <Row>
               <Field name="collection" />
-              <Field name="namedCollection" />
+
+              <Col>
+                <Field name="namedCollections">
+                  <Field name="namedCollection" />
+                </Field>
+              </Col>
             </Row>
 
             <Field name="recordStatus" />
