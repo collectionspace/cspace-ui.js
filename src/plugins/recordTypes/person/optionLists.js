@@ -232,6 +232,7 @@ export default {
       'pansexual',
       'polygender',
       'questioning',
+      'transgender',
       'two-spirit'
     ],
     messages: defineMessages({
@@ -294,6 +295,10 @@ export default {
       questioning: {
         id: 'option.genders.questioning',
         defaultMessage: 'questioning',
+      },
+      transgender: {
+        id: 'option.genders.transgender',
+        defaultMessage: 'transgender',
       },
       'two-spirit': {
         id: 'option.genders.two-spirit',
