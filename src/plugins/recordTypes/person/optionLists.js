@@ -233,6 +233,7 @@ export default {
       'polygender',
       'questioning',
       'transgender',
+      'transsexual',
       'two-spirit'
     ],
     messages: defineMessages({
@@ -299,6 +300,10 @@ export default {
       transgender: {
         id: 'option.genders.transgender',
         defaultMessage: 'transgender',
+      },
+      transsexual: {
+        id: 'option.genders.transsexual',
+        defaultMessage: 'transsexual',
       },
       'two-spirit': {
         id: 'option.genders.two-spirit',
