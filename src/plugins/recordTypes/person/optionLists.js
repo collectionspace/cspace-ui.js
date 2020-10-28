@@ -217,17 +217,87 @@ export default {
   },
   genders: {
     values: [
+      'agender',
+      'bigender',
+      'dyadic'
       'female',
+      'feminine',
+      'gender-fluid',
+      'gender-neutral',
+      'gender-non-binary',
+      'genderqueer',
+      'intersex',
       'male',
+      'masculine',
+      'pansexual',
+      'polygender',
+      'questioning',
+      'two-spirit'
     ],
     messages: defineMessages({
+      agender: {
+        id: 'option.genders.agender',
+        defaultMessage: 'agender',
+      },
+      bigender: {
+        id: 'option.genders.bigender',
+        defaultMessage: 'bigender',
+      },
+      dyadic: {
+        id: 'option.genders.dyadic',
+        defaultMessage: 'dyadic',
+      },
       female: {
         id: 'option.genders.female',
         defaultMessage: 'female',
       },
+      feminine: {
+        id: 'option.genders.feminine',
+        defaultMessage: 'feminine',
+      },
+      'gender-fluid': {
+        id: 'option.genders.gender-fluid',
+        defaultMessage: 'gender-fluid',
+      },
+      'gender-neutral': {
+        id: 'option.genders.gender-neutral',
+        defaultMessage: 'gender-neutral',
+      },
+      'gender-non-binary': {
+        id: 'option.genders.gender-non-binary',
+        defaultMessage: 'gender non-binary',
+      },
+      genderqueer: {
+        id: 'option.genders.genderqueer',
+        defaultMessage: 'genderqueer',
+      },
+      intersex: {
+        id: 'option.genders.intersex',
+        defaultMessage: 'intersex',
+      },
       male: {
         id: 'option.genders.male',
         defaultMessage: 'male',
+      },
+      masculine: {
+        id: 'option.genders.masculine',
+        defaultMessage: 'masculine',
+      },
+      pansexual: {
+        id: 'option.genders.pansexual',
+        defaultMessage: 'pansexual',
+      },
+      polygender: {
+        id: 'option.genders.polygender',
+        defaultMessage: 'polygender',
+      },
+      questioning: {
+        id: 'option.genders.questioning',
+        defaultMessage: 'questioning',
+      },
+      'two-spirit': {
+        id: 'option.genders.two-spirit',
+        defaultMessage: 'two-spirit',
       },
     }),
   },
