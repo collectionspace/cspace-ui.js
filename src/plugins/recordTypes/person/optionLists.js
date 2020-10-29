@@ -85,7 +85,7 @@ export default {
       'Governor',
       'Honorable',
       'Judge',
-      'King', 
+      'King',
       'Lady',
       'Lord',
       'Miss',
