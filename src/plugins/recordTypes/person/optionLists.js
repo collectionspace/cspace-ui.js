@@ -219,7 +219,7 @@ export default {
     values: [
       'agender',
       'bigender',
-      'dyadic'
+      'dyadic',
       'female',
       'feminine',
       'gender-fluid',
@@ -234,7 +234,7 @@ export default {
       'questioning',
       'transgender',
       'transsexual',
-      'two-spirit'
+      'two-spirit',
     ],
     messages: defineMessages({
       agender: {
