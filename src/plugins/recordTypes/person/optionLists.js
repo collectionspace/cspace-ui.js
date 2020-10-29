@@ -93,7 +93,7 @@ export default {
       'Mrs',
       'Ms',
       'Prince',
-      'Princess'
+      'Princess',
       'Professor',
       'Queen',
       'Reverend',
