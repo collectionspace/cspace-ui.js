@@ -39,7 +39,7 @@ export default (configContext) => {
           },
         }),
         order: 30,
-        sortBy: 'uoc_common:authorizedBy',
+        sortBy: 'uoc_common:authorizationGroupList/0/authorizedBy',
         width: 300,
       },
       updatedAt: {
