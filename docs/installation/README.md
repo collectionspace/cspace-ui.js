@@ -2,7 +2,7 @@
 
 This document is intended for CollectionSpace system administrators who wish to install and configure the CollectionSpace UI application on a web server, so that it is available to CollectionSpace end-users.
 
-ℹ️ Starting with CollectionSpace release 5.0, installing a CollectionSpace server according to the [installation instructions](https://wiki.collectionspace.org/display/UNRELEASED/Installing+CollectionSpace) automatically installs an instance of the UI application in CollectionSpace's Tomcat server. For example, in a standard installation using the core profile, the HTML page for the UI is located in the file `webapps/cspace#core/index.html` under the tomcat installation directory (typically, `/usr/local/share/apache-tomcat-7.0.64`).
+ℹ️ Starting with CollectionSpace release 5.0, installing a CollectionSpace server according to the [installation instructions](https://wiki.collectionspace.org/display/UNRELEASED/Installing+CollectionSpace) automatically installs an instance of the UI application in CollectionSpace's Tomcat server. For example, in a standard installation using the core profile, the HTML page for the UI is located in the file `webapps/cspace#core/index.html` under the tomcat installation directory (typically, `/usr/local/share/apache-tomcat-8.5.51`).
 
 ## Creating an HTML Page
 

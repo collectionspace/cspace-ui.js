@@ -1,4 +1,4 @@
-# Changing a field label
+# Changing field labels
 
 To change the label of a field in a record, provide a message override using the [`messages`](../README.md#messages) configuration property.
 

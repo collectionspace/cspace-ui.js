@@ -25,7 +25,7 @@ Set the `logo` property to an `http` or `https` URL.
 
 ## Using an image on the CollectionSpace server
 
-Upload the image to your CollectionSpace server, and place it in the tenant's subdirectory under the tomcat `webapps` directory. For example, if you're changing the logo for the core tenant, and the new logo is in a file called `mylogo.png`, the file should be located at `/usr/local/share/apache-tomcat-7.0.64/webapps/cspace#core/mylogo.png`.
+Upload the image to your CollectionSpace server, and place it in the tenant's subdirectory under the tomcat `webapps` directory. For example, if you're changing the logo for the core tenant, and the new logo is in a file called `mylogo.png`, the file should be located at `/usr/local/share/apache-tomcat-8.5.51/webapps/cspace#core/mylogo.png`.
 
 Set the `logo` property to the path to the image from the `webapps` directory. Replace the `#` in the tenant's subdirectory name with `/`. The path should start with `/`.
 
