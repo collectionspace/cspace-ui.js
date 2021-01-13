@@ -13,6 +13,7 @@ import conditioncheck from './conditioncheck';
 import conservation from './conservation';
 import contact from './contact';
 import exhibition from './exhibition';
+import exxport from './export';
 import group from './group';
 import idgenerator from './idgenerator';
 import intake from './intake';
@@ -52,6 +53,7 @@ export default [
   conservation,
   contact,
   exhibition,
+  exxport,
   group,
   idgenerator,
   intake,
