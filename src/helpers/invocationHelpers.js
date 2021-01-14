@@ -1,3 +1,5 @@
+/* global window */
+
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import qs from 'qs';
@@ -5,6 +7,8 @@ import { getFieldDataType, isAutocompleteField, configKey } from './configHelper
 import { DATA_TYPE_STRUCTURED_DATE } from '../constants/dataTypes';
 
 export const VIEWER_WINDOW_NAME = undefined;
+
+export const storageKey = 'cspace-ui-invocation';
 
 const prepareIncludeFields = (config, recordType, includeFields) => {
   if (includeFields) {
@@ -174,22 +178,54 @@ export const getReportViewerPath = (config, reportCsid, invocationDescriptor, re
   return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams, { arrayFormat: 'brackets' })}`;
 };
 
-export const getExportViewerPath = (config, invocationDescriptor) => {
+// export const getExportViewerPath = (config, invocationDescriptor) => {
+//   const {
+//     basename,
+//   } = config;
+
+//   const csid = invocationDescriptor.get('csid');
+//   const includeFields = invocationDescriptor.get('includeFields');
+
+//   const queryParams = {
+//     mode: invocationDescriptor.get('mode'),
+//     csid: Immutable.List.isList(csid) ? csid.toJS() : csid,
+//     outputMIME: invocationDescriptor.get('outputMIME'),
+//     recordType: invocationDescriptor.get('recordType'),
+//     vocabulary: invocationDescriptor.get('vocabulary'),
+//     includeFields: Immutable.List.isList(includeFields) ? includeFields.toJS() : includeFields,
+//   };
+
+//   return `${basename || ''}/export?${qs.stringify(queryParams, { arrayFormat: 'brackets' })}`;
+// };
+
+export const getExportViewerPath = (config) => {
   const {
     basename,
   } = config;
 
-  const csid = invocationDescriptor.get('csid');
-  const includeFields = invocationDescriptor.get('includeFields');
+  return `${basename || ''}/export`;
+};
 
-  const queryParams = {
-    mode: invocationDescriptor.get('mode'),
-    csid: Immutable.List.isList(csid) ? csid.toJS() : csid,
-    outputMIME: invocationDescriptor.get('outputMIME'),
-    recordType: invocationDescriptor.get('recordType'),
-    vocabulary: invocationDescriptor.get('vocabulary'),
-    includeFields: Immutable.List.isList(includeFields) ? includeFields.toJS() : includeFields,
-  };
+export const storeInvocationDescriptor = (invocationDescriptor) => {
+  window.localStorage.setItem(storageKey, JSON.stringify(invocationDescriptor.toJS()));
+};
 
-  return `${basename || ''}/export?${qs.stringify(queryParams, { arrayFormat: 'brackets' })}`;
+export const loadInvocationDescriptor = (deleteAfterLoad) => {
+  const serializedInvocationDescriptor = window.localStorage.getItem(storageKey);
+
+  let invocationDescriptor = null;
+
+  if (serializedInvocationDescriptor) {
+    try {
+      invocationDescriptor = Immutable.fromJS(JSON.parse(serializedInvocationDescriptor));
+    } catch (error) {
+      invocationDescriptor = null;
+    }
+  }
+
+  if (deleteAfterLoad) {
+    window.localStorage.removeItem(storageKey);
+  }
+
+  return invocationDescriptor;
 };

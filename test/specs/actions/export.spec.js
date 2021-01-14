@@ -23,6 +23,10 @@ import {
   STATUS_ERROR,
 } from '../../../src/constants/notificationStatusCodes';
 
+import {
+  loadInvocationDescriptor,
+} from '../../../src/helpers/invocationHelpers';
+
 chai.use(chaiImmutable);
 chai.should();
 
@@ -239,7 +243,33 @@ describe('export action creator', () => {
 
       return store.dispatch(openExport(config, invocationDescriptor))
         .then(() => {
-          openedPath.should.equal(`/export?mode=list&csid%5B%5D=${recordCsid}&outputMIME=${outputMIME}&recordType=${recordType}&includeFields%5B%5D=${includeField}`);
+          openedPath.should.equal('/export');
+
+          window.open = savedWindowOpen;
+        });
+    });
+
+    it('should store the invocation descriptor', () => {
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const outputMIME = 'someMimeType';
+      const includeField = 'someFieldPath';
+
+      const invocationDescriptor = Immutable.fromJS({
+        outputMIME,
+        recordType,
+        csid: [recordCsid],
+        mode: 'list',
+        includeFields: [includeField],
+      });
+
+      const savedWindowOpen = window.open;
+
+      window.open = () => {};
+
+      return store.dispatch(openExport(config, invocationDescriptor))
+        .then(() => {
+          loadInvocationDescriptor().should.equal(invocationDescriptor);
 
           window.open = savedWindowOpen;
         });

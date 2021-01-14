@@ -1,6 +1,4 @@
 import { connect } from 'react-redux';
-import Immutable from 'immutable';
-import qs from 'qs';
 import ExportViewerPage from '../../components/pages/ExportViewerPage';
 import withConfig from '../../enhancers/withConfig';
 
@@ -8,10 +6,16 @@ import {
   invoke,
 } from '../../actions/export';
 
+import {
+  loadInvocationDescriptor,
+} from '../../helpers/invocationHelpers';
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  readContent: (location) => {
-    const invocationDescriptorObject = qs.parse(location.search, { ignoreQueryPrefix: true });
-    const invocationDescriptor = Immutable.fromJS(invocationDescriptorObject);
+  readContent: () => {
+    // const invocationDescriptorObject = qs.parse(location.search, { ignoreQueryPrefix: true });
+    // const invocationDescriptor = Immutable.fromJS(invocationDescriptorObject);
+
+    const invocationDescriptor = loadInvocationDescriptor(true);
 
     return dispatch(
       invoke(ownProps.config, invocationDescriptor),

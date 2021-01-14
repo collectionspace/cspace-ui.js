@@ -8,6 +8,7 @@ import getNotificationID from '../helpers/notificationHelpers';
 import {
   createInvocationData,
   getExportViewerPath,
+  storeInvocationDescriptor,
   VIEWER_WINDOW_NAME,
 } from '../helpers/invocationHelpers';
 
@@ -28,6 +29,8 @@ const messages = defineMessages({
 });
 
 export const openExport = (config, invocationDescriptor) => () => {
+  storeInvocationDescriptor(invocationDescriptor);
+
   const viewerPath = getExportViewerPath(config, invocationDescriptor);
 
   return new Promise((resolve) => {

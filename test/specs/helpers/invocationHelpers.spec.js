@@ -1,3 +1,5 @@
+/* global window */
+
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
@@ -9,8 +11,13 @@ import {
   createInvocationData,
   getExportViewerPath,
   getReportViewerPath,
+  loadInvocationDescriptor,
   normalizeInvocationDescriptor,
+  storageKey,
+  storeInvocationDescriptor,
 } from '../../../src/helpers/invocationHelpers';
+
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 
@@ -359,9 +366,26 @@ describe('invocationHelpers', () => {
       includeFields,
     });
 
-    it('should prepend the basename and \'export\', and add query parameters', () => {
+    /* eslint-disable max-len */
+    // it('should prepend the basename and \'export\', and add query parameters', () => {
+    //   getExportViewerPath(config, invocationDescriptor).should
+    //     .equal(`${config.basename}/export?csid%5B%5D=${csid.get(0)}&csid%5B%5D=${csid.get(1)}&csid%5B%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B%5D=${includeFields.get(0)}&includeFields%5B%5D=${includeFields.get(1)}`);
+    // });
+
+    // it('should not prepend the basename if it is falsy', () => {
+    //   const nullBasenameConfig = {
+    //     ...config,
+    //     basename: null,
+    //   };
+
+    //   getExportViewerPath(nullBasenameConfig, invocationDescriptor).should
+    //     .equal(`/export?csid%5B%5D=${csid.get(0)}&csid%5B%5D=${csid.get(1)}&csid%5B%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B%5D=${includeFields.get(0)}&includeFields%5B%5D=${includeFields.get(1)}`);
+    // });
+    /* eslint-enable max-len */
+
+    it('should concat the basename and \'export\'', () => {
       getExportViewerPath(config, invocationDescriptor).should
-        .equal(`${config.basename}/export?csid%5B%5D=${csid.get(0)}&csid%5B%5D=${csid.get(1)}&csid%5B%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B%5D=${includeFields.get(0)}&includeFields%5B%5D=${includeFields.get(1)}`);
+        .equal(`${config.basename}/export`);
     });
 
     it('should not prepend the basename if it is falsy', () => {
@@ -371,7 +395,82 @@ describe('invocationHelpers', () => {
       };
 
       getExportViewerPath(nullBasenameConfig, invocationDescriptor).should
-        .equal(`/export?csid%5B%5D=${csid.get(0)}&csid%5B%5D=${csid.get(1)}&csid%5B%5D=${csid.get(2)}&recordType=${recordType}&includeFields%5B%5D=${includeFields.get(0)}&includeFields%5B%5D=${includeFields.get(1)}`);
+        .equal('/export');
+    });
+  });
+
+  describe('storeInvocationDescriptor', () => {
+    it('should store the given invocation descriptor to local storage', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        csid: [
+          '8888',
+          '9999',
+        ],
+        recordType: 'collectionobject',
+        includeFields: [
+          'title',
+          'name',
+        ],
+      });
+
+      storeInvocationDescriptor(invocationDescriptor);
+
+      Immutable.fromJS(JSON.parse(window.localStorage.getItem(storageKey)))
+        .should.equal(invocationDescriptor);
+    });
+  });
+
+  describe('loadInvocationDescriptor', () => {
+    it('should load the invocation descriptor from local storage', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        csid: [
+          '8888',
+          '9999',
+        ],
+        recordType: 'collectionobject',
+        includeFields: [
+          'title',
+          'name',
+        ],
+      });
+
+      window.localStorage.setItem(storageKey, JSON.stringify(invocationDescriptor.toJS()));
+
+      loadInvocationDescriptor().should.equal(invocationDescriptor);
+
+      window.localStorage.getItem(storageKey).should.not.equal(null);
+    });
+
+    it('should return null if no invocation descriptor exists in local storage', () => {
+      window.localStorage.removeItem(storageKey);
+
+      expect(loadInvocationDescriptor()).to.equal(null);
+    });
+
+    it('should return null if the saved invocation descriptor is not valid JSON', () => {
+      window.localStorage.setItem(storageKey, 'foo>bar');
+
+      expect(loadInvocationDescriptor()).to.equal(null);
+    });
+
+    it('should delete the invocation descriptor from local storage if deleteAfterLoad is true', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        csid: [
+          '8888',
+          '9999',
+        ],
+        recordType: 'collectionobject',
+        includeFields: [
+          'title',
+          'name',
+        ],
+      });
+
+      window.localStorage.setItem(storageKey, JSON.stringify(invocationDescriptor.toJS()));
+
+      loadInvocationDescriptor(true).should.equal(invocationDescriptor);
+
+      expect(window.localStorage.getItem(storageKey)).to.equal(null);
     });
   });
 });

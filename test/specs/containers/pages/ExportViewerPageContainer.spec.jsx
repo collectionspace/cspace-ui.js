@@ -4,13 +4,19 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import moxios from 'moxios';
-import get from 'lodash/get';
 import ExportViewerPage from '../../../../src/components/pages/ExportViewerPage';
 import { ConnectedExportViewerPage } from '../../../../src/containers/pages/ExportViewerPageContainer';
 
 import {
   configureCSpace,
 } from '../../../../src/actions/cspace';
+
+import {
+  loadInvocationDescriptor,
+  storeInvocationDescriptor,
+} from '../../../../src/helpers/invocationHelpers';
+
+const { expect } = chai;
 
 chai.should();
 
@@ -46,7 +52,7 @@ describe('ExportViewerPageContainer', () => {
     result.props.should.have.property('readContent').that.is.a('function');
   });
 
-  it('should connect readContent to an action that invokes the export', () => {
+  it('should connect readContent to an action that loads the invocation descriptor and invokes the export', () => {
     moxios.stubRequest(/./, {
       status: 200,
       response: {},
@@ -63,11 +69,19 @@ describe('ExportViewerPageContainer', () => {
     const recordType = 'collectionobject';
     const includeField = 'ns2:collectionspace_core/updatedAt';
 
-    const location = {
-      search: `?mode=list&csid[0]=${recordCsid}&recordType=${recordType}&includeFields[0]=${includeField}`,
-    };
+    const invocationDescriptor = Immutable.fromJS({
+      recordType,
+      csid: recordCsid,
+      mode: 'single',
+      outputMIME: 'text/csv',
+      includeFields: [
+        includeField,
+      ],
+    });
 
-    return result.props.readContent(location)
+    storeInvocationDescriptor(invocationDescriptor);
+
+    return result.props.readContent()
       .then(() => {
         const request = moxios.requests.mostRecent();
 
@@ -77,9 +91,23 @@ describe('ExportViewerPageContainer', () => {
         const jsonData = request.config.data;
         const data = JSON.parse(jsonData);
 
-        get(data, ['ns2:invocationContext', 'includeFields', 'field']).should.deep.equal([
-          'collectionspace_core:updatedAt',
-        ]);
+        data.should.deep.equal({
+          'ns2:invocationContext': {
+            '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+            includeFields: {
+              field: [
+                'collectionspace_core:updatedAt',
+              ],
+            },
+            mode: 'single',
+            outputMIME: 'text/csv',
+            singleCSID: recordCsid,
+          },
+        });
+
+        // The stored invocation descriptor should have been removed.
+
+        expect(loadInvocationDescriptor()).to.equal(null);
       });
   });
 });
