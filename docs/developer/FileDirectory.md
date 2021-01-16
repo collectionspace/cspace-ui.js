@@ -50,10 +50,6 @@ Tests are located in the `test` directory.
 
 Contains definitions of helper/utility functions used for testing.
 
-### integration
-
-Contains integration tests.
-
 ### specs
 
 Contains unit tests (aka specifications). The `src` tree is more-or-less mirrored here; there is usually a spec file for each JS file in `src`.

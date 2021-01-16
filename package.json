@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "build": "npm run build-cjs && npm run build-umd",
-    "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib && cross-env BABEL_ENV=cjs babel ./test/integration -d lib/test/integration",
+    "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib",
     "build-umd": "npm run build-umd-dev && npm run build-umd-prod",
     "build-umd-dev": "webpack",
     "build-umd-prod": "cross-env NODE_ENV=production webpack",
@@ -39,8 +39,7 @@
     "lint": "eslint --ext .jsx,.js *.js src test examples",
     "prepare": "npm run clean && npm run build",
     "start": "cross-env NODE_ENV=test karma start",
-    "test": "cross-env NODE_ENV=test karma start --singleRun=true",
-    "test-selenium": "wdio wdio.conf.js"
+    "test": "cross-env NODE_ENV=test karma start --singleRun=true"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -112,12 +111,6 @@
     "rimraf": "^2.6.2",
     "style-loader": "^0.13.1",
     "url-loader": "^1.0.1",
-    "wdio-dot-reporter": "0.0.9",
-    "wdio-mocha-framework": "^0.5.12",
-    "wdio-sauce-service": "^0.4.12",
-    "wdio-selenium-standalone-service": "0.0.10",
-    "wdio-spec-reporter": "^0.1.5",
-    "webdriverio": "^4.13.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1"
