@@ -359,6 +359,22 @@ export default (configContext) => {
             },
           },
         },
+        altText: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.media_common.altText.name',
+                defaultMessage: 'Alt text',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
     },
   };
