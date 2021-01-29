@@ -547,7 +547,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.exhibition_common.publishTo.name',
+                  id: 'field.exhibitions_common.publishTo.name',
                   defaultMessage: 'Publish to',
                 },
               }),
