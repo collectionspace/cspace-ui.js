@@ -34,6 +34,10 @@ const template = (configContext) => {
             <Field name="organizers">
               <Field name="organizer" />
             </Field>
+
+            <Field name="publishToList">
+              <Field name="publishTo" />
+            </Field>
           </Col>
         </Cols>
 
