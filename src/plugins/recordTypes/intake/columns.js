@@ -28,7 +28,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'intakes_common:currentOwner',
+        sortBy: 'intakes_common:currentOwners/0',
         width: 450,
       },
       updatedAt: {
