@@ -1,5 +1,17 @@
 # Change Log
 
+## v6.0.0
+
+v5.0.0 adds support for CollectionSpace 6.2.
+
+### Breaking Changes
+
+- Exhibition record:
+  - A new field, `publishTo`, has been added to the record editor form for exhibition records. This field exists in CollectionSpace 6.2, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
+
+- Media record:
+  - A new field, `altText`, has been added to the record editor form for media records. This field exists in CollectionSpace 6.2, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
+
 ## v5.0.0
 
 v5.0.0 adds support for CollectionSpace 6.1.
