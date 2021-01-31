@@ -288,6 +288,7 @@ export const validateFieldValue = (recordTypeConfig, csid, path, value) => (disp
   const state = getState();
 
   const validationContext = {
+    csid,
     data: value,
     path: [],
     recordData: getRecordData(state, csid),
