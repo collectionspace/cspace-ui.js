@@ -25,6 +25,7 @@ import {
   clearSelected,
   clearSearchResults,
   deselectResultItem,
+  findFirst,
   search,
   setResultItemSelected,
   setAllResultItemsSelected,
@@ -667,6 +668,156 @@ describe('search action creator', () => {
             },
           });
         });
+    });
+  });
+
+  describe('findFirst', () => {
+    beforeEach(() => {
+      moxios.install();
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
+    });
+
+    it('should make an advanced search request for procedures', () => {
+      const config = {
+        recordTypes: {
+          loanin: {
+            serviceConfig: {
+              servicePath: 'loansin',
+            },
+          },
+        },
+      };
+
+      const data = {
+        foo: 'bar',
+      };
+
+      moxios.stubRequest('/cspace-services/loansin?as=%28part%3Abaz%20%3D%20%221234%22%29&pgSz=1&wf_deleted=false', {
+        status: 200,
+        response: data,
+      });
+
+      return findFirst(config, 'loanin', 'part:baz', '1234')
+        .then((response) => {
+          response.data.should.equal(data);
+        });
+    });
+
+    it('should make an advanced search request for authorities', () => {
+      const config = {
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+            vocabularies: {
+              all: {
+                serviceConfig: {
+                  servicePath: '_ALL_',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const data = {
+        foo: 'bar',
+      };
+
+      moxios.stubRequest('/cspace-services/personauthorities/_ALL_/items?as=%28part%3Abaz%20%3D%20%221234%22%29&pgSz=1&wf_deleted=false', {
+        status: 200,
+        response: data,
+      });
+
+      return findFirst(config, 'person', 'part:baz', '1234')
+        .then((response) => {
+          response.data.should.equal(data);
+        });
+    });
+
+    it('should escape quotes in the value', () => {
+      const config = {
+        recordTypes: {
+          loanin: {
+            serviceConfig: {
+              servicePath: 'loansin',
+            },
+          },
+        },
+      };
+
+      const data = {
+        foo: 'bar',
+      };
+
+      moxios.stubRequest('/cspace-services/loansin?as=%28part%3Abaz%20%3D%20%22%5C%221234%5C%22%22%29&pgSz=1&wf_deleted=false', {
+        status: 200,
+        response: data,
+      });
+
+      return findFirst(config, 'loanin', 'part:baz', '"1234"')
+        .then((response) => {
+          response.data.should.equal(data);
+        });
+    });
+
+    it('should reject if no record type config is found', () => {
+      const config = {
+        recordTypes: {},
+      };
+
+      return findFirst(config, 'person', 'part:baz', '1234').should.eventually.be.rejected;
+    });
+
+    it('should reject if no record service path is found', () => {
+      const config = {
+        recordTypes: {
+          group: {
+            serviceConfig: {},
+          },
+        },
+      };
+
+      return findFirst(config, 'group', 'part:baz', '1234').should.eventually.be.rejected;
+    });
+
+    it('should reject if no vocabulary service path is found for an authority', () => {
+      const config = {
+        recordTypes: {
+          person: {
+            serviceConfig: {
+              servicePath: 'personauthorities',
+              serviceType: 'authority',
+            },
+            vocabularies: {
+              all: {
+                serviceConfig: {},
+              },
+            },
+          },
+        },
+      };
+
+      return findFirst(config, 'person', 'part:baz', '1234').should.eventually.be.rejected;
+    });
+
+    it('should reject if the field name is invalid', () => {
+      const config = {
+        recordTypes: {
+          loanin: {
+            serviceConfig: {
+              servicePath: 'loansin',
+            },
+          },
+        },
+      };
+
+      return findFirst(config, 'loanin', '"part:baz"', '1234').should.eventually.be.rejected;
     });
   });
 

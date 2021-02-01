@@ -7,6 +7,7 @@ import { helpers as inputHelpers } from 'cspace-input';
 import { Col, Cols, Row } from 'cspace-layout';
 import { getDisplayName } from 'cspace-refname';
 
+import { findFirst } from '../actions/search';
 import Panel from '../containers/layout/PanelContainer';
 import Field from '../components/record/Field';
 import InputTable from '../components/record/InputTable';
@@ -37,6 +38,9 @@ export default () => ({
   formatHelpers,
   inputComponents,
   searchOperators,
+  actions: {
+    findFirst,
+  },
   config: {
     extensions: {
       // Initialize the default extensions. This makes testing easier, since the plugins that
