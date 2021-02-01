@@ -262,10 +262,20 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     }));
 };
 
-export const searchCsid = (config, recordType, csid) => () => {
+const validFieldNamePattern = /^[a-zA-Z]+:[a-zA-Z]+$/;
+
+const validateFieldName = (asFieldName) => validFieldNamePattern.test(asFieldName);
+
+export const findFirst = (config, recordType, asFieldName, asValue) => {
+  if (!validateFieldName(asFieldName)) {
+    return Promise.reject();
+  }
+
+  const value = asValue.replaceAll('"', '\\"');
+
   const requestConfig = {
     params: {
-      as: `(ecm:name = "${csid}")`,
+      as: `(${asFieldName} = "${value}")`,
       pgSz: 1,
       wf_deleted: false,
     },
@@ -301,6 +311,10 @@ export const searchCsid = (config, recordType, csid) => () => {
 
   return getSession().read(path, requestConfig);
 };
+
+export const searchCsid = (config, recordType, csid) => () => (
+  findFirst(config, recordType, 'ecm:name', csid)
+);
 
 export const setResultItemSelected = (config, searchName, searchDescriptor, listType = 'common', index, isSelected) => {
   const listTypeConfig = config.listTypes[listType];
