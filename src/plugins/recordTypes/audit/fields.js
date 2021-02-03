@@ -43,11 +43,11 @@ export default (configContext) => {
             ns: 'XYZ' // TO DO: hook up  to  the backend
           },
         },
-        id: {
+        idNumber: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.id.name',
+                id: 'field.audits_common.idNumber.name',
                 defaultMessage: 'Identification number',
               },
             }),
