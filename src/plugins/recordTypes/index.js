@@ -1,6 +1,7 @@
 import account from './account';
 import acquisition from './acquisition';
 import all from './all';
+import audit from './audit';
 import authority from './authority';
 import authrole from './authrole';
 import batch from './batch';
@@ -40,6 +41,7 @@ export default [
   account,
   acquisition,
   all,
+  audit,
   authority,
   authrole,
   batch,

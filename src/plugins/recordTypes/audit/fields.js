@@ -1,4 +1,3 @@
-import { defineLocale } from 'moment';
 import { defineMessages } from 'react-intl';
 
 export default (configContext) => {
@@ -25,14 +24,6 @@ export default (configContext) => {
           type: CompoundInput,
           props: {
             defaultChildSubpath: 'ns2:audits_common', // FIX ME: audit vs audits?
-          },
-        },
-      },
-      // TO DO: Do we need this list?
-      'rel:  relations-common-list': {
-        [config]: {
-          service: {
-            ns: 'XYZ' // TO DO: after backend hook up
           },
         },
       },
@@ -95,11 +86,11 @@ export default (configContext) => {
                   id: 'field.audits_common.fieldChangedGroup.name',
                   defaultMessage: 'Field changed'
                 },
-                repeating: true,
-                view: {
-                  type: CompoundInput,
-                },
               }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
             },
             fieldName: {
               [config]: {
@@ -174,7 +165,9 @@ export default (configContext) => {
         },
         relationshipGroupList: {
           [config]: {
-            type: CompoundInput,
+            view: {
+              type: CompoundInput,
+            },
           },
           relationshipGroup: {
             [config]: {

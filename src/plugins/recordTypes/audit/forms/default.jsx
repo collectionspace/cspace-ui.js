@@ -21,7 +21,7 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Panel name="auditInfo">
-        <Field name="id" />
+        <Field name="idNumber" />
       </Panel>
 
       <Panel name="changeInfo">
