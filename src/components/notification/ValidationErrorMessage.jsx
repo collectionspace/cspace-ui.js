@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { ERROR_KEY } from '../../helpers/recordDataHelpers';
 import { configKey, dataPathToFieldDescriptorPath } from '../../helpers/configHelpers';
+import styles from '../../../styles/cspace-ui/ValidationErrorMessage.css';
 
 import {
   ERR_MISSING_REQ_FIELD,
@@ -66,9 +67,12 @@ const formatErrors = (fieldDescriptor, errors, path = []) => {
       if (error) {
         const errorMessage = error.get('message') || messages[error.get('code')] || messages.default;
         const values = error.set('fieldName', fieldName).toJS();
+        const className = error.get('nonblocking') ? styles.nonblocking : undefined;
 
         const formattedMessage = (
-          <li key={id}><FormattedMessage {...errorMessage} values={values} /></li>
+          <li className={className} key={id}>
+            <FormattedMessage {...errorMessage} values={values} />
+          </li>
         );
 
         formattedErrors.push(formattedMessage);

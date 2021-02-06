@@ -6,6 +6,7 @@ import getSession from '../helpers/session';
 import getErrorDescription from '../helpers/getErrorDescription';
 import getNotificationID from '../helpers/notificationHelpers';
 import { getCsid } from '../helpers/recordDataHelpers';
+import { hasBlockingError } from '../helpers/validationHelpers';
 
 import {
   createInvocationData,
@@ -53,7 +54,7 @@ export const openReport = (config, reportMetadata, invocationDescriptor) => (
     if (paramRecordTypeConfig) {
       validateParams = dispatch(validateRecordData(paramRecordTypeConfig, paramRecordCsid))
         .then(() => {
-          if (getRecordValidationErrors(getState(), paramRecordCsid)) {
+          if (hasBlockingError(getRecordValidationErrors(getState(), paramRecordCsid))) {
             return Promise.reject();
           }
 

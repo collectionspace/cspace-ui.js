@@ -24,6 +24,10 @@ export default (configContext) => {
     DATA_TYPE_STRUCTURED_DATE,
   } = configContext.dataTypes;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -45,6 +49,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.media_common.identificationNumber.inUse',
+                defaultMessage: 'The identification number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.media_common.identificationNumber.name',
                 defaultMessage: 'Identification number',
@@ -54,6 +62,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'media_common:identificationNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {

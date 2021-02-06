@@ -13,6 +13,7 @@ import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import { components as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { ERROR_KEY } from '../../../../src/helpers/recordDataHelpers';
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import RecordHeader from '../../../../src/components/record/RecordHeader';
@@ -809,7 +810,9 @@ describe('RecordEditor', () => {
               perms={perms}
               recordType="collectionobject"
               validateRecordData={validateRecordData}
-              validationErrors={Immutable.Map()}
+              validationErrors={Immutable.fromJS({
+                [ERROR_KEY]: {},
+              })}
             />
           </Router>
         </StoreProvider>
@@ -840,7 +843,9 @@ describe('RecordEditor', () => {
               perms={perms}
               recordType="collectionobject"
               validateRecordData={validateRecordData}
-              validationErrors={Immutable.Map()}
+              validationErrors={Immutable.fromJS({
+                [ERROR_KEY]: {},
+              })}
             />
           </Router>
         </StoreProvider>

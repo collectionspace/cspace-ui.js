@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import SaveButton from '../../../../src/components/record/SaveButton';
+import { ERROR_KEY } from '../../../../src/helpers/recordDataHelpers';
 
 const { expect } = chai;
 
@@ -80,7 +81,13 @@ describe('SaveButton', () => {
     it('should render a div with a save button and an error badge', function test() {
       render(
         <IntlProvider locale="en">
-          <SaveButton validationErrors={Immutable.Map()} />
+          <SaveButton
+            validationErrors={
+              Immutable.fromJS({
+                [ERROR_KEY]: {},
+              })
+            }
+          />
         </IntlProvider>, this.container,
       );
 
@@ -95,11 +102,35 @@ describe('SaveButton', () => {
     it('should render a disabled save button', function test() {
       render(
         <IntlProvider locale="en">
-          <SaveButton validationErrors={Immutable.Map()} />
+          <SaveButton
+            validationErrors={
+              Immutable.fromJS({
+                [ERROR_KEY]: {},
+              })
+            }
+          />
         </IntlProvider>, this.container,
       );
 
       this.container.querySelector('button[name="save"]').disabled.should.equal(true);
+    });
+
+    it('should render an enabled button with no error badge if there are only nonblocking errors', function test() {
+      render(
+        <IntlProvider locale="en">
+          <SaveButton
+            validationErrors={
+              Immutable.fromJS({
+                [ERROR_KEY]: {
+                  nonblocking: true,
+                },
+              })
+            }
+          />
+        </IntlProvider>, this.container,
+      );
+
+      this.container.firstElementChild.nodeName.should.equal('BUTTON');
     });
   });
 });

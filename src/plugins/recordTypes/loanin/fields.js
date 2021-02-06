@@ -23,6 +23,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -44,6 +48,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.loansin_common.loanInNumber.inUse',
+                defaultMessage: 'The loan in number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.loansin_common.loanInNumber.name',
                 defaultMessage: 'Loan in number',
@@ -53,6 +61,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'loansin_common:loanInNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {

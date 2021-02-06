@@ -262,7 +262,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     }));
 };
 
-const validFieldNamePattern = /^[a-zA-Z]+:[a-zA-Z]+$/;
+const validFieldNamePattern = /^[a-zA-Z_]+:[a-zA-Z_]+$/;
 
 const validateFieldName = (asFieldName) => validFieldNamePattern.test(asFieldName);
 

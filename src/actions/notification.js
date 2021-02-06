@@ -1,11 +1,15 @@
 /* global window */
 
+import { hasBlockingError } from '../helpers/validationHelpers';
+
 import {
   getOpenModalName,
+  getRecordValidationErrors,
 } from '../reducers';
 
 import {
   STATUS_ERROR,
+  STATUS_WARNING,
 } from '../constants/notificationStatusCodes';
 
 import {
@@ -34,13 +38,18 @@ export const removeNotification = (notificationID) => ({
   },
 });
 
-export const showValidationNotification = (recordType, csid) => showNotification({
-  recordType,
-  csid,
-  type: 'validation',
-  date: new Date(),
-  status: STATUS_ERROR,
-}, NOTIFICATION_ID_VALIDATION);
+export const showValidationNotification = (recordType, csid) => (dispatch, getState) => dispatch(
+  showNotification({
+    recordType,
+    csid,
+    type: 'validation',
+    date: new Date(),
+    status:
+      hasBlockingError(getRecordValidationErrors(getState(), csid))
+        ? STATUS_ERROR
+        : STATUS_WARNING,
+  }, NOTIFICATION_ID_VALIDATION),
+);
 
 export const removeValidationNotification = () => removeNotification(NOTIFICATION_ID_VALIDATION);
 
