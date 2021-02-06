@@ -27,6 +27,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -96,6 +100,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.collectionobjects_common.objectNumber.inUse',
+                defaultMessage: 'The identification number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.collectionobjects_common.objectNumber.name',
                 defaultMessage: 'Identification number',
@@ -105,6 +113,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'collectionobjects_common:objectNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {

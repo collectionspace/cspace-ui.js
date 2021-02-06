@@ -3,6 +3,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
+import { ERROR_KEY } from '../../../src/helpers/recordDataHelpers';
 
 import {
   SHOW_NOTIFICATION,
@@ -74,7 +75,24 @@ describe('notification action creator', () => {
     const csid = '1234';
 
     it('should create a SHOW_NOTIFICATION action', () => {
-      const action = showValidationNotification(recordType, csid);
+      const store = mockStore({
+        notification: Immutable.Map(),
+        record: Immutable.fromJS({
+          [csid]: {
+            validation: {
+              [ERROR_KEY]: {},
+            },
+          },
+        }),
+      });
+
+      store.dispatch(showValidationNotification(recordType, csid));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(1);
+
+      const action = actions[0];
 
       action.type.should.equal(SHOW_NOTIFICATION);
 

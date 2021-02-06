@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+
 import {
-  defineMessages, injectIntl, intlShape, FormattedMessage,
+  defineMessages,
+  injectIntl,
+  intlShape,
+  FormattedMessage,
 } from 'react-intl';
+
 import classNames from 'classnames';
 import { components as inputComponents } from 'cspace-input';
 import ErrorBadge from './ErrorBadge';
+import { hasBlockingError } from '../../helpers/validationHelpers';
 import styles from '../../../styles/cspace-ui/SaveButton.css';
 
 const { Button } = inputComponents;
@@ -72,18 +78,20 @@ function SaveButton(props) {
     label = <FormattedMessage {...messages.label} />;
   }
 
-  const errorBadge = validationErrors
+  const isValidationBlocked = hasBlockingError(validationErrors);
+
+  const errorBadge = isValidationBlocked
     ? <ErrorBadge onClick={onErrorBadgeClick} />
     : null;
 
-  const title = validationErrors
+  const title = isValidationBlocked
     ? intl.formatMessage(messages.validationErrors)
     : '';
 
   const button = (
     <Button
       className={classes}
-      disabled={validationErrors || isSavePending}
+      disabled={isValidationBlocked || isSavePending}
       icon
       name="save"
       title={title}

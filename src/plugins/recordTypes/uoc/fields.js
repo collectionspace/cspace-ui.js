@@ -26,6 +26,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -47,6 +51,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.uoc_common.referenceNumber.inUse',
+                defaultMessage: 'The reference number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.uoc_common.referenceNumber.name',
                 defaultMessage: 'Reference number',
@@ -56,6 +64,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'uoc_common:referenceNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {

@@ -45,7 +45,8 @@
   composes: common;
 }
 
-.warning ul > li {
+.warning ul > li,
+.error ul > li:global(.cspace-ui-ValidationErrorMessage--nonblocking) {
   background-image: url(../../images/warning.svg);
 }
 
@@ -57,13 +58,17 @@
   color: rgb(219, 161, 161);
 }
 
-.error > div > div,
+.error > div > div > ul > li,
 .error a {
   color: rgb(220, 0, 0);
 }
 
 .error ul > li {
   background-image: url(../../images/error.svg);
+}
+
+.error ul > li:global(.cspace-ui-ValidationErrorMessage--nonblocking) {
+  color: unset;
 }
 
 .pending {

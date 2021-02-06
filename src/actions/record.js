@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 import getSession from '../helpers/session';
 import getNotificationID from '../helpers/notificationHelpers';
 import getErrorDescription from '../helpers/getErrorDescription';
+import { hasBlockingError } from '../helpers/validationHelpers';
 import HierarchyReparentNotifier from '../components/record/HierarchyReparentNotifier';
 
 import {
@@ -729,7 +730,7 @@ export const saveRecord = (
   return dispatch(computeRecordData(currentRecordTypeConfig, currentCsid))
     .then(() => dispatch(validateRecordData(currentRecordTypeConfig, currentCsid)))
     .then(() => {
-      if (getRecordValidationErrors(getState(), currentCsid)) {
+      if (hasBlockingError(getRecordValidationErrors(getState(), currentCsid))) {
         return null;
       }
 

@@ -400,6 +400,15 @@ export const patternValueToNXQL = (value) => {
   return value.replace(/(^|(\\\\)+|[^\\])\*+/g, '$1%');
 };
 
+// const isComarisonOp = (op) => (
+//   op === OP_LT ||
+//   op === OP_LTE ||
+//   op === OP_GT ||
+//   op === OP_GTE ||
+//   op === OP_RANGE ||
+//   op === OP_NOT_RANGE
+// );
+
 const operatorToNXQLMap = {
   [OP_AND]: 'AND',
   [OP_OR]: 'OR',
@@ -415,7 +424,6 @@ const operatorToNXQLMap = {
   [OP_NOT_MATCH]: 'NOT ILIKE',
   [OP_NOT_RANGE]: 'NOT BETWEEN',
   [OP_NOT_NULL]: 'IS NOT NULL',
-
 };
 
 export const pathToNXQL = (fieldDescriptor, path) => {

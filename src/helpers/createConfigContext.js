@@ -30,6 +30,10 @@ import {
   isNewRecord,
 } from './recordDataHelpers';
 
+import {
+  validateNotInUse,
+} from './validationHelpers';
+
 import * as formatHelpers from './formatHelpers';
 import * as inputComponents from './configContextInputs';
 
@@ -89,5 +93,8 @@ export default () => ({
   },
   refNameHelpers: {
     getDisplayName,
+  },
+  validationHelpers: {
+    validateNotInUse,
   },
 });

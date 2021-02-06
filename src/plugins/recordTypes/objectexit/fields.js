@@ -27,6 +27,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -48,6 +52,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.objectexit_common.exitNumber.inUse',
+                defaultMessage: 'The exit number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.objectexit_common.exitNumber.name',
                 defaultMessage: 'Exit number',
@@ -57,6 +65,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'objectexit_common:exitNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {

@@ -25,6 +25,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -46,6 +50,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.exhibitions_common.exhibitionNumber.inUse',
+                defaultMessage: 'The exhibition number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.exhibitions_common.exhibitionNumber.name',
                 defaultMessage: 'Exhibition number',
@@ -55,6 +63,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'exhibitions_common:exhibitionNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {

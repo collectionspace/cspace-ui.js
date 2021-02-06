@@ -962,7 +962,7 @@ describe('record action creator', () => {
         moxios.uninstall();
       });
 
-      it('should dispatch VALIDATION_FAILED if there are validation errors', () => {
+      it('should dispatch VALIDATION_FAILED if there are blocking validation errors', () => {
         const recordTypeConfigWithRequiredField = {
           ...recordTypeConfig,
           fields: {
@@ -987,7 +987,9 @@ describe('record action creator', () => {
                   },
                 },
               },
-              validation: {},
+              validation: {
+                [ERROR_KEY]: {},
+              },
             },
           }),
           user: Immutable.Map(),

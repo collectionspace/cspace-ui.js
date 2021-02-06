@@ -5,6 +5,7 @@ import getErrorDescription from '../helpers/getErrorDescription';
 import { createInvocationData } from '../helpers/invocationHelpers';
 import { getCsid } from '../helpers/recordDataHelpers';
 import getNotificationID from '../helpers/notificationHelpers';
+import { hasBlockingError } from '../helpers/validationHelpers';
 import { getNewRecordData, getRecordValidationErrors } from '../reducers';
 import { showNotification } from './notification';
 import { validateRecordData } from './record';
@@ -58,7 +59,7 @@ export const invoke = (config, batchMetadata, invocationDescriptor, onValidation
     if (paramRecordTypeConfig) {
       validateParams = dispatch(validateRecordData(paramRecordTypeConfig, paramRecordCsid))
         .then(() => {
-          if (getRecordValidationErrors(getState(), paramRecordCsid)) {
+          if (hasBlockingError(getRecordValidationErrors(getState(), paramRecordCsid))) {
             return Promise.reject();
           }
 

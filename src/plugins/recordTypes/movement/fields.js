@@ -22,6 +22,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -42,6 +46,10 @@ export default (configContext) => {
         movementReferenceNumber: {
           [config]: {
             messages: defineMessages({
+              inUse: {
+                id: 'field.movements_common.movementReferenceNumber.inUse',
+                defaultMessage: 'The reference number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.movements_common.movementReferenceNumber.name',
                 defaultMessage: 'Reference number',
@@ -50,6 +58,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'movements_common:movementReferenceNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {
