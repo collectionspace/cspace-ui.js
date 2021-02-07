@@ -183,6 +183,8 @@ export const dataTypeSupportsMultipleValues = (dataType) => (
 
 const getDataType = (fieldDescriptor, path) => get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'dataType']);
 
+const getSearchCompareField = (fieldDescriptor, path) => get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'searchCompareField']);
+
 const getSearchValueTransform = (fieldDescriptor, path) => get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'searchTransform']);
 
 export const normalizeStringFieldValue = (value) => {
@@ -400,14 +402,14 @@ export const patternValueToNXQL = (value) => {
   return value.replace(/(^|(\\\\)+|[^\\])\*+/g, '$1%');
 };
 
-// const isComarisonOp = (op) => (
-//   op === OP_LT ||
-//   op === OP_LTE ||
-//   op === OP_GT ||
-//   op === OP_GTE ||
-//   op === OP_RANGE ||
-//   op === OP_NOT_RANGE
-// );
+const isComparisonOp = (op) => (
+  op === OP_LT
+  || op === OP_LTE
+  || op === OP_GT
+  || op === OP_GTE
+  || op === OP_RANGE
+  || op === OP_NOT_RANGE
+);
 
 const operatorToNXQLMap = {
   [OP_AND]: 'AND',
@@ -805,7 +807,23 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
   );
 };
 
-export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
+const resolveSearchCompareField = (fieldDescriptor, condition) => {
+  const op = condition.get('op');
+  const path = condition.get('path');
+
+  if (isComparisonOp(op)) {
+    const searchCompareField = getSearchCompareField(fieldDescriptor, path);
+
+    if (searchCompareField) {
+      return condition.set('path', searchCompareField);
+    }
+  }
+
+  return condition;
+};
+
+export const rangeFieldConditionToNXQL = (fieldDescriptor, rangeFieldCondition, counter) => {
+  const condition = resolveSearchCompareField(fieldDescriptor, rangeFieldCondition);
   const path = condition.get('path');
   const dataType = getDataType(fieldDescriptor, path);
 
@@ -834,7 +852,8 @@ export const rangeFieldConditionToNXQL = (fieldDescriptor, condition, counter) =
   return `${nxqlPath} ${nxqlOp} ${nxqlValue}`;
 };
 
-export const fieldConditionToNXQL = (fieldDescriptor, condition, counter) => {
+export const fieldConditionToNXQL = (fieldDescriptor, fieldCondition, counter) => {
+  const condition = resolveSearchCompareField(fieldDescriptor, fieldCondition);
   const path = condition.get('path');
   const dataType = getDataType(fieldDescriptor, path);
 
