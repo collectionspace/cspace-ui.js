@@ -1,6 +1,7 @@
 .common {
   display: flex;
   align-items: baseline;
+  margin-bottom: 60px;
 }
 
 .common > .about {
