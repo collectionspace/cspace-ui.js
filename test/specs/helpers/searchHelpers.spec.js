@@ -1038,6 +1038,12 @@ describe('searchHelpers', () => {
               dataType: DATA_TYPE_DATETIME,
             },
           },
+          id: {
+            [configKey]: {
+              dataType: DATA_TYPE_STRING,
+              searchCompareField: 'ns2:part/sortableID',
+            },
+          },
         },
       },
     };
@@ -1074,6 +1080,17 @@ describe('searchHelpers', () => {
       rangeFieldConditionToNXQL(fields, condition).should
         .equal('(part:date/dateEarliestScalarValue <= "2000-12-31" AND part:date/dateLatestScalarValue > "2000-01-01")');
     });
+
+    it('should resolve the sortCompareField path', () => {
+      const condition = Immutable.fromJS({
+        op: OP_RANGE,
+        path: 'ns2:part/id',
+        value: ['c', 'g'],
+      });
+
+      rangeFieldConditionToNXQL(fields, condition).should
+        .equal('part:sortableID BETWEEN "c" AND "g"');
+    });
   });
 
   describe('fieldConditionToNXQL', () => {
@@ -1098,6 +1115,12 @@ describe('searchHelpers', () => {
           updatedAt: {
             [configKey]: {
               dataType: DATA_TYPE_DATETIME,
+            },
+          },
+          id: {
+            [configKey]: {
+              dataType: DATA_TYPE_STRING,
+              searchCompareField: 'ns2:part/sortableID',
             },
           },
         },
@@ -1252,6 +1275,28 @@ describe('searchHelpers', () => {
 
       fieldConditionToNXQL(fields, condition).should
         .match(/part:updatedAt < TIMESTAMP "2015-08-1\dT\d\d:00:00.000Z"/);
+    });
+
+    it('should resolve the searchCompareField path when the condition has a comparison operator', () => {
+      const condition = Immutable.fromJS({
+        op: OP_LT,
+        path: 'ns2:part/id',
+        value: '2020.1',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .match(/part:sortableID < "2020.1"/);
+    });
+
+    it('should not resolve the searchCompareField path when the condition does not have a comparison operator', () => {
+      const condition = Immutable.fromJS({
+        op: OP_CONTAIN,
+        path: 'ns2:part/id',
+        value: '2020.1',
+      });
+
+      fieldConditionToNXQL(fields, condition).should
+        .match(/part:id ILIKE "%2020.1%"/);
     });
   });
 

@@ -12,6 +12,16 @@ import styles from '../../../styles/cspace-ui/RecordSidebar.css';
 
 const propTypes = {
   config: PropTypes.shape({
+    altMediaSnapshot: PropTypes.shape({
+      mediaRecordType: PropTypes.string.isRequired,
+      mediaRecordBlobCsidField: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      sort: PropTypes.string.isRequired,
+      titleMessage: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        defaultMessage: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
     mediaSnapshotSort: PropTypes.string,
     recordTypes: PropTypes.object,
   }),
@@ -61,6 +71,7 @@ export default function RecordSidebar(props) {
     || [{ recordType: 'collectionobject' }, { recordType: 'procedure' }];
 
   let mediaSnapshot = null;
+  let altMediaSnapshot = null;
   let relatedRecords = null;
   let usedBy = null;
   let reports = null;
@@ -76,6 +87,30 @@ export default function RecordSidebar(props) {
         sort={config.mediaSnapshotSort}
       />
     );
+
+    if (config.altMediaSnapshot) {
+      const {
+        mediaRecordType,
+        mediaRecordBlobCsidField,
+        name,
+        sort,
+        titleMessage,
+      } = config.altMediaSnapshot;
+
+      altMediaSnapshot = (
+        <MediaSnapshotPanelContainer
+          color={panelColor}
+          csid={csid}
+          config={config}
+          mediaRecordType={mediaRecordType}
+          mediaRecordBlobCsidField={mediaRecordBlobCsidField}
+          name={name}
+          recordType={recordType}
+          sort={sort}
+          titleMessage={titleMessage}
+        />
+      );
+    }
 
     relatedRecords = relatedRecordDescriptors.map((relatedRecordDescriptor) => {
       const {
@@ -137,6 +172,7 @@ export default function RecordSidebar(props) {
   return (
     <div className={styles[serviceType]}>
       {mediaSnapshot}
+      {altMediaSnapshot}
       <TermsUsedPanelContainer
         color={panelColor}
         csid={csid}
