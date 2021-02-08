@@ -16,6 +16,7 @@ const messages = defineMessages({
 const getSearchDescriptor = (props) => {
   const {
     csid,
+    mediaRecordType,
     recordData,
     recordRelationUpdatedTimestamp,
     recordType,
@@ -26,7 +27,7 @@ const getSearchDescriptor = (props) => {
 
   let updatedTimestamp = recordRelationUpdatedTimestamp;
 
-  if (recordType === 'media') {
+  if (recordType === mediaRecordType) {
     // For a media record, the media snapshot needs to be updated when either the record data
     // changes (because the blobCsid may have changed), or relations have changed.
 
@@ -38,7 +39,7 @@ const getSearchDescriptor = (props) => {
   }
 
   return Immutable.fromJS({
-    recordType: 'media',
+    recordType: mediaRecordType,
     searchQuery: {
       sort,
       rel: csid,
@@ -55,6 +56,9 @@ const propTypes = {
     listTypes: PropTypes.object,
   }),
   csid: PropTypes.string,
+  mediaRecordType: PropTypes.string,
+  mediaRecordBlobCsidField: PropTypes.string,
+  name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
   // These uses aren't detected by eslint.
@@ -63,10 +67,18 @@ const propTypes = {
   recordRelationUpdatedTimestamp: PropTypes.string,
   /* eslint-enable react/no-unused-prop-types */
   recordType: PropTypes.string,
+  titleMessage: PropTypes.shape({
+    id: PropTypes.string,
+    defaultMessage: PropTypes.string,
+  }),
 };
 
 const defaultProps = {
+  mediaRecordType: 'media',
+  mediaRecordBlobCsidField: 'ns2:media_common/blobCsid',
+  name: 'mediaSnapshotPanel',
   sort: 'title',
+  titleMessage: messages.title,
 };
 
 export default function MediaSnapshotPanel(props) {
@@ -74,9 +86,13 @@ export default function MediaSnapshotPanel(props) {
     color,
     config,
     csid,
+    mediaRecordType,
+    mediaRecordBlobCsidField,
+    name,
     perms,
     recordData,
     recordType,
+    titleMessage,
   } = props;
 
   const searchDescriptor = getSearchDescriptor(props);
@@ -84,17 +100,17 @@ export default function MediaSnapshotPanel(props) {
   // Don't render if list permissions on media are not present.
   // Don't render until after the record has loaded.
 
-  if (!canList('media', perms) || !getUpdatedTimestamp(recordData)) {
+  if (!canList(mediaRecordType, perms) || !getUpdatedTimestamp(recordData)) {
     return null;
   }
 
   let ownBlobCsid;
 
-  if (recordType === 'media') {
+  if (recordType === mediaRecordType) {
     // For media records, pass in the record's own blobCsid. Other types only have related media
     // blobs.
 
-    ownBlobCsid = recordData.getIn(['document', 'ns2:media_common', 'blobCsid']);
+    ownBlobCsid = recordData.getIn(['document', ...mediaRecordBlobCsidField.split('/')]);
   }
 
   return (
@@ -103,11 +119,11 @@ export default function MediaSnapshotPanel(props) {
       color={color}
       config={config}
       csid={csid}
-      name="mediaSnapshotPanel"
+      name={name}
       ownBlobCsid={ownBlobCsid}
       searchDescriptor={searchDescriptor}
       recordType={recordType}
-      title={<FormattedMessage {...messages.title} />}
+      title={<FormattedMessage {...titleMessage} />}
     />
   );
 }
