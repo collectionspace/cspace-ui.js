@@ -32,6 +32,7 @@ import relation from './relation';
 import report from './report';
 import reportinvocation from './reportinvocation';
 import structdateparser from './structdateparser';
+import transport from './transport';
 import uoc from './uoc';
 import valuation from './valuation';
 import vocabulary from './vocabulary';
@@ -67,6 +68,7 @@ export default [
   organization,
   person,
   place,
+  transport,
   uoc,
   procedure,
   relation,
