@@ -94,7 +94,7 @@ export default class SearchForm extends Component {
       buildRecordFieldOptionLists,
     } = this.props;
 
-    if (buildRecordFieldOptionLists) {
+    if (buildRecordFieldOptionLists && recordTypeValue) {
       buildRecordFieldOptionLists(config, recordTypeValue);
     }
   }
@@ -117,7 +117,7 @@ export default class SearchForm extends Component {
         deleteOptionList(getRecordGroupOptionListName(prevRecordTypeValue));
       }
 
-      if (buildRecordFieldOptionLists) {
+      if (buildRecordFieldOptionLists && recordTypeValue) {
         buildRecordFieldOptionLists(config, recordTypeValue);
       }
     }
