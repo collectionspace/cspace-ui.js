@@ -14,15 +14,15 @@ export default (configContext) => {
     value: [
       {
         op: OP_CONTAIN,
-        path: 'ns2:audits_common/idNumber'
+        path: 'ns2:audit_common/idNumber'
       },
       {
         op: OP_EQ,
-        path: 'ns2:audits_common/recordType'
+        path: 'ns2:audit_common/recordType'
       },
       {
         op: OP_CONTAIN,
-        path: 'ns2:audits_common/recordId'
+        path: 'ns2:audit_common/recordId'
       },
       ...extensions.core.advancedSearch,
     ],

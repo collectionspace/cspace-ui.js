@@ -23,12 +23,12 @@ export default (configContext) => {
         view: {
           type: CompoundInput,
           props: {
-            defaultChildSubpath: 'ns2:audits_common', // FIX ME: audit vs audits?
+            defaultChildSubpath: 'ns2:audit_common', // FIX ME: audit vs audit?
           },
         },
       },
       ...extensions.core.fields,
-      'ns2:audits_common': {
+      'ns2:audit_common': {
         [config]: {
           service: {
             ns: 'XYZ' // TO DO: hook up  to  the backend
@@ -38,7 +38,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.idNumber.name',
+                id: 'field.audit_common.idNumber.name',
                 defaultMessage: 'Identification number',
               },
             }),
@@ -51,7 +51,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.recordType.name',
+                id: 'field.audit_common.recordType.name',
                 defaultMessage: 'Record type',
               },
             }),
@@ -64,7 +64,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.recordId.name',
+                id: 'field.audit_common.recordId.name',
                 defaultMessage: 'Record identification number',
               },
             }),
@@ -83,7 +83,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.audits_common.fieldChangedGroup.name',
+                  id: 'field.audit_common.fieldChangedGroup.name',
                   defaultMessage: 'Field changed'
                 },
               }),
@@ -96,11 +96,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.fieldName.fullName',
+                    id: 'field.audit_common.fieldName.fullName',
                     defaultMessage: 'Field changed name',
                   },
                   name: {
-                    id: 'field.audits_common.fieldName.name',
+                    id: 'field.audit_common.fieldName.name',
                     defaultMessage: 'Field',
                   },
                 }),
@@ -113,11 +113,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.originalValue.fullName',
+                    id: 'field.audit_common.originalValue.fullName',
                     defaultMessage: 'Field changed original value',
                   },
                   name: {
-                    id: 'field.audits_common.originalValue.name',
+                    id: 'field.audit_common.originalValue.name',
                     defaultMessage: 'Original value',
                   },
                 }),
@@ -130,11 +130,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.newValue.fullName',
+                    id: 'field.audit_common.newValue.fullName',
                     defaultMessage: 'Field changed new value',
                   },
                   name: {
-                    id: 'field.audits_common.newValue.name',
+                    id: 'field.audit_common.newValue.name',
                     defaultMessage: 'New value',
                   },
                 }),
@@ -147,11 +147,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.changeReason.fullName',
+                    id: 'field.audit_common.changeReason.fullName',
                     defaultMessage: 'Field change reason',
                   },
                   name: {
-                    id: 'field.audits_common.changeReason.name',
+                    id: 'field.audit_common.changeReason.name',
                     defaultMessage: 'Reason for change',
                     // TO DO: Fix awk wording?
                   },
@@ -173,7 +173,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.audits_common.relationshipGroup.name',
+                  id: 'field.audit_common.relationshipGroup.name',
                   defaultMessage: 'Relationship changed',
                 },
               }),
@@ -186,11 +186,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.relPredicate.fullName',
+                    id: 'field.audit_common.relPredicate.fullName',
                     defaultMessage: 'Relationship change predicate',
                   },
                   name: {
-                    id: 'field.audits_common.relPredicate.name',
+                    id: 'field.audit_common.relPredicate.name',
                     defaultMessage: 'Predicate',
                   },
                 }),
@@ -203,11 +203,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.relObjRecordType.fullName',
+                    id: 'field.audit_common.relObjRecordType.fullName',
                     defaultMessage: 'Relationship object record type',
                   },
                   name: {
-                    id: 'field.audits_common.relObjRecordType.name',
+                    id: 'field.audit_common.relObjRecordType.name',
                     defaultMessage: 'Object record type',
                   },
                 }),
@@ -220,11 +220,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.relObjectTitle.fullName',
+                    id: 'field.audit_common.relObjectTitle.fullName',
                     defaultMessage: 'Relationship object title/summary',
                   },
                   name: {
-                    id: 'field.audits_common.relObjectTitle.name',
+                    id: 'field.audit_common.relObjectTitle.name',
                     defaultMessage: 'Title/summary',
                   },
                 }),
@@ -237,11 +237,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.audits_common.relChange.fullName',
+                    id: 'field.audit_common.relChange.fullName',
                     defaultMessage: 'Relationship change',
                   },
                   name: {
-                    id: 'field.audits_common.relChange.name',
+                    id: 'field.audit_common.relChange.name',
                     defaultMessage: 'Change',
                   },
                 }),
@@ -262,7 +262,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.audits_common.relRecordChecksum.name',
+                  id: 'field.audit_common.relRecordChecksum.name',
                   defaultMessage: 'Related blob checksum',
                 },
               }),
@@ -276,7 +276,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.saveMessage.name',
+                id: 'field.audit_common.saveMessage.name',
                 defaultMessage: 'Save  message',
               },
             }),
@@ -289,7 +289,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.updatedBy.name',
+                id: 'field.audit_common.updatedBy.name',
                 defaultMessage: 'Updated by',
               },
             }),
@@ -302,7 +302,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.updatedAt.name',
+                id: 'field.audit_common.updatedAt.name',
                 defaultMessage: 'Updated at',
               },
             }),
@@ -315,7 +315,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.audits_common.recordChecksum.name',
+                id: 'field.audit_common.recordChecksum.name',
                 defaultMessage: 'Record checksum',
               },
             }),

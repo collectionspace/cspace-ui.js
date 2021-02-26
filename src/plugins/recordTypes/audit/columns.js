@@ -25,7 +25,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'audits_common:saveMessage',
+        sortBy: 'audit_common:saveMessage',
         width: 250,
         
         // newValue
@@ -39,7 +39,7 @@ export default (configContext) => {
           },
         }),
         order: 30,
-        sortBy: 'audits_common:fieldChangedGroupList/0/originalValue',
+        sortBy: 'audit_common:fieldChangedGroupList/0/originalValue',
         width: 250,
       },
       newValue: {
@@ -50,7 +50,7 @@ export default (configContext) => {
           },
         }),
         order: 30,
-        sortBy: 'audits_common:fieldChangedGroupList/0  newValue',
+        sortBy: 'audit_common:fieldChangedGroupList/0  newValue',
         width: 250,
       },
       changeReason: {
@@ -61,7 +61,7 @@ export default (configContext) => {
           },
         }),
         order: 40,
-        sortBy: 'audits_common:fieldChangedGroupList/0  changeReason',
+        sortBy: 'audit_common:fieldChangedGroupList/0  changeReason',
         width: 250,
       },
     },

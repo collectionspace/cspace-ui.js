@@ -1,6 +1,6 @@
 export default {
-  serviceName: 'Audits',
-  servicePath: 'audits',
+  serviceName: 'Audit',
+  servicePath: 'audit',
   serviceType: 'procedure',
 
   objectName: 'Audit',
