@@ -17,13 +17,14 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  // TO DO: Specify field types
   return {
     document: {
       [config]: {
         view: {
           type: CompoundInput,
           props: {
-            defaultChildSubpath: 'ns2:audit_common', // FIX ME: audit vs audit?
+            defaultChildSubpath: 'ns2:audit_common',
           },
         },
       },
@@ -31,7 +32,7 @@ export default (configContext) => {
       'ns2:audit_common': {
         [config]: {
           service: {
-            ns: 'XYZ' // TO DO: hook up  to  the backend
+            ns: 'http://collectionspace.org/services/audit',
           },
         },
         idNumber: {
@@ -43,7 +44,7 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: TextInput, // FIX ME: Generator
+              type: TextInput,
             },
           },
         },
@@ -56,7 +57,7 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: TextInput, // FIX ME: add list of record types
+              type: TextInput,
             },
           },
         },
@@ -153,7 +154,6 @@ export default (configContext) => {
                   name: {
                     id: 'field.audit_common.changeReason.name',
                     defaultMessage: 'Reason for change',
-                    // TO DO: Fix awk wording?
                   },
                 }),
                 view: {

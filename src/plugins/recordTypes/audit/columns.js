@@ -17,19 +17,27 @@ export default (configContext) => {
         order: 10,
         width: 32
       },
+      idNumber: {
+        messages: defineMessages({
+          label: {
+            id: 'column.audit.default.idNumber',
+            defaultMessage: 'Identification number',
+          },
+        }),
+        order: 20,
+        sortBy: 'audit_common:idNumber',
+        width: 250,
+      },
       saveMessage: {
         messages: defineMessages({
           label: {
-            id: 'column.audit.default.termDisplayName',
+            id: 'column.audit.default.saveMessage',
             defaultMessage: 'Save message',
           },
         }),
         order: 20,
         sortBy: 'audit_common:saveMessage',
         width: 250,
-        
-        // newValue
-        // Reason
       },
       originalValue: {
         messages: defineMessages({
@@ -46,22 +54,22 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.audit.default newValue',
-            defaultMessage: 'Original value',
+            defaultMessage: 'New value',
           },
         }),
-        order: 30,
-        sortBy: 'audit_common:fieldChangedGroupList/0  newValue',
+        order: 40,
+        sortBy: 'audit_common:fieldChangedGroupList/0/newValue',
         width: 250,
       },
       changeReason: {
         messages: defineMessages({
           label: {
             id: 'column.audit.default changeReason',
-            defaultMessage: 'Original value',
+            defaultMessage: 'Change Reason',
           },
         }),
-        order: 40,
-        sortBy: 'audit_common:fieldChangedGroupList/0  changeReason',
+        order: 50,
+        sortBy: 'audit_common:fieldChangedGroupList/0/changeReason',
         width: 250,
       },
     },

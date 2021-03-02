@@ -21,7 +21,13 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Panel name="auditInfo">
-        <Field name="idNumber" />
+        <Cols>
+          <Col>
+            <Field name="idNumber" />          
+          </Col>
+          <Col/>
+          <Col/> 
+        </Cols>
       </Panel>
 
       <Panel name="changeInfo">
@@ -36,20 +42,23 @@ const template = (configContext) => {
 
         <Field name="fieldChangedGroupList">
           <Field name="fieldChangedGroup">
-            <Field name="fieldName" />
-            <Field name="originalValue" />
-            <Field name="newValue" />
-            <Field name="changeReason" />
+            <Row>
+              <Field name="fieldName" />
+              <Field name="originalValue" />
+              <Field name="newValue" />
+              <Field name="changeReason" />
+              </Row>
           </Field>
         </Field>
 
-        
         <Field name="relationshipGroupList">
           <Field name="relationshipGroup">
-            <Field name="relPredicate" />
-            <Field name="relObjRecordType" />
-            <Field name="relObjectTitle" />
-            <Field name="relChange" />
+            <Row>
+              <Field name="relPredicate" />
+              <Field name="relObjRecordType" />
+              <Field name="relObjectTitle" />
+              <Field name="relChange" />
+            </Row>
           </Field>
         </Field>
 
