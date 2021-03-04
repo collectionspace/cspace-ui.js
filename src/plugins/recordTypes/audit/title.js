@@ -11,7 +11,7 @@ export default (configContext) => (data) => {
     return '';
   }
 
-  const common = getPart(data, 'audits_common');
+  const common = getPart(data, 'audit_common');
 
   if (!common) {
     return '';
