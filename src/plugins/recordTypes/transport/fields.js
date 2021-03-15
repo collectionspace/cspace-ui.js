@@ -16,6 +16,7 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   const {
+    DATA_TYPE_INT,
     DATA_TYPE_FLOAT,
     DATA_TYPE_DATE,
   } = configContext.dataTypes;
@@ -238,7 +239,7 @@ export default (configContext) => {
         },
         numberOfCrates: {
           [config]: {
-            dataType: DATA_TYPE_FLOAT,
+            dataType: DATA_TYPE_INT,
             messages: defineMessages({
               name: {
                 id: 'field.transports_common.numberOfCrates.name',
