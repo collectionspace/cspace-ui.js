@@ -3,17 +3,17 @@ import { defineMessages } from 'react-intl';
 export default {
   transportMethodType: {
     values: [
-      'Cargo aircraft',
-      'Combi aircraft',
-      'Common carrier',
-      'Exclusive-use truck',
-      'Expedited use freight',
+      'cargo aircraft',
+      'combi aircraft',
+      'common carrier',
+      'exclusive-use truck',
+      'expedited use freight',
       'LOFO freight',
-      'Mail',
-      'Non-commercial carrier',
-      'Ocean freight',
-      'Passenger aircraft',
-      'Shuttle service',
+      'mail',
+      'non-commercial carrier',
+      'ocean freight',
+      'passenger aircraft',
+      'shuttle service',
     ],
     messages: defineMessages({
       'Cargo aircraft': {
@@ -38,7 +38,7 @@ export default {
       },
       'LOFO freight': {
         id: 'option.transportMethodType.LOFO freight',
-        defaultMessage: 'lofo freight',
+        defaultMessage: 'LOFO freight',
       },
       Mail: {
         id: 'option.transportMethodType.Mail',
