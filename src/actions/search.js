@@ -271,7 +271,7 @@ export const findFirst = (config, recordType, asFieldName, asValue) => {
     return Promise.reject();
   }
 
-  const value = asValue.replaceAll('"', '\\"');
+  const value = (typeof asValue === 'undefined') ? undefined : asValue.replaceAll('"', '\\"');
 
   const requestConfig = {
     params: {
