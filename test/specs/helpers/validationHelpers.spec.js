@@ -9,7 +9,7 @@ chai.should();
 
 describe('validationHelpers', () => {
   describe('validateNotInUse', () => {
-    it('should return an error if the specified field value exists on a different record', () => {
+    it('should resolve to an error if the specified field value exists on a different record', () => {
       const configContext = createConfigContext();
 
       configContext.actions.findFirst = () => Promise.resolve({
@@ -40,7 +40,7 @@ describe('validationHelpers', () => {
       });
     });
 
-    it('should return undefined if the specified field value exists on a the same record', () => {
+    it('should resolve to undefined if the specified field value exists on a the same record', () => {
       const configContext = createConfigContext();
 
       configContext.actions.findFirst = () => Promise.resolve({
@@ -68,7 +68,7 @@ describe('validationHelpers', () => {
       });
     });
 
-    it('should return undefined if the specified field value does not exist on any record', () => {
+    it('should resolve to undefined if the specified field value does not exist on any record', () => {
       const configContext = createConfigContext();
 
       configContext.actions.findFirst = () => Promise.resolve({
@@ -88,6 +88,46 @@ describe('validationHelpers', () => {
       }).then((error) => {
         expect(error).to.equal(undefined);
       });
+    });
+
+    it('should return undefined if the field value is empty', () => {
+      const configContext = createConfigContext();
+
+      configContext.actions.findFirst = () => Promise.resolve({
+        data: {},
+      });
+
+      const validationContext = {
+        recordType: 'loanin',
+        csid: '1234',
+        data: '',
+      };
+
+      expect(validateNotInUse({
+        configContext,
+        validationContext,
+        fieldName: 'loansin_common:loanInNumber',
+      })).to.equal(undefined);
+    });
+
+    it('should return undefined if the field value is undefined', () => {
+      const configContext = createConfigContext();
+
+      configContext.actions.findFirst = () => Promise.resolve({
+        data: {},
+      });
+
+      const validationContext = {
+        recordType: 'loanin',
+        csid: '1234',
+        data: undefined,
+      };
+
+      expect(validateNotInUse({
+        configContext,
+        validationContext,
+        fieldName: 'loansin_common:loanInNumber',
+      })).to.equal(undefined);
     });
   });
 });

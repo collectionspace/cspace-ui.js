@@ -57,6 +57,10 @@ export const validateNotInUse = ({
     findFirst,
   } = actions;
 
+  if (!value) {
+    return undefined;
+  }
+
   return findFirst(config, recordType, fieldName, value)
     .then((response) => {
       const { lodash } = lib;
