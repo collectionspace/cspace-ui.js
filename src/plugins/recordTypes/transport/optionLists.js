@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl';
 
 export default {
-  transportMethodType: {
+  transportMethodTypes: {
     values: [
       'cargo aircraft',
       'combi aircraft',
@@ -16,48 +16,48 @@ export default {
       'shuttle service',
     ],
     messages: defineMessages({
-      'Cargo aircraft': {
-        id: 'option.transportMethodType.Cargo aircraft',
+      'cargo aircraft': {
+        id: 'option.transportMethodTypes.cargo aircraft',
         defaultMessage: 'cargo aircraft',
       },
-      'Combi aircraft': {
-        id: 'option.transportMethodType.Combi aircraft',
+      'combi aircraft': {
+        id: 'option.transportMethodTypes.combi aircraft',
         defaultMessage: 'combi aircraft',
       },
-      'Common carrier': {
-        id: 'option.transportMethodType.Common carrier',
+      'common carrier': {
+        id: 'option.transportMethodTypes.common carrier',
         defaultMessage: 'common carrier',
       },
-      'Exclusive-use truck': {
-        id: 'option.transportMethodType.Exclusive-use truck',
+      'exclusive-use truck': {
+        id: 'option.transportMethodTypes.exclusive-use truck',
         defaultMessage: 'exclusive-use truck',
       },
-      'Expedited use freight': {
-        id: 'option.transportMethodType.Expedited use freight',
+      'expedited use freight': {
+        id: 'option.transportMethodTypes.expedited use freight',
         defaultMessage: 'expedited use freight',
       },
       'LOFO freight': {
-        id: 'option.transportMethodType.LOFO freight',
+        id: 'option.transportMethodTypes.LOFO freight',
         defaultMessage: 'LOFO freight',
       },
-      Mail: {
-        id: 'option.transportMethodType.Mail',
+      mail: {
+        id: 'option.transportMethodTypes.mail',
         defaultMessage: 'mail',
       },
-      'Non-commercial carrier': {
-        id: 'option.transportMethodType.Non-commercial carrier',
+      'non-commercial carrier': {
+        id: 'option.transportMethodTypes.non-commercial carrier',
         defaultMessage: 'non-commercial carrier',
       },
-      'Ocean freight': {
-        id: 'option.transportMethodType.Ocean freight',
+      'ocean freight': {
+        id: 'option.transportMethodTypes.ocean freight',
         defaultMessage: 'ocean freight',
       },
-      'Passenger aircraft': {
-        id: 'option.transportMethodType.Passenger aircraft',
+      'passenger aircraft': {
+        id: 'option.transportMethodTypes.passenger aircraft',
         defaultMessage: 'passenger aircraft',
       },
-      'Shuttle service': {
-        id: 'option.transportMethodType.Shuttle service',
+      'shuttle service': {
+        id: 'option.transportMethodTypes.shuttle service',
         defaultMessage: 'shuttle service',
       },
     }),
