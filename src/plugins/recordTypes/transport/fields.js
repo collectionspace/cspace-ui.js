@@ -79,9 +79,13 @@ export default (configContext) => {
         transporter: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transporter.fullName',
+                defaultMessage: 'Transporter name',
+              },
               name: {
                 id: 'field.transports_common.transporter.name',
-                defaultMessage: 'Transporter',
+                defaultMessage: 'Name',
               },
             }),
             view: {
@@ -95,9 +99,13 @@ export default (configContext) => {
         transporterContact: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transporterContact.fullName',
+                defaultMessage: 'Transporter contact',
+              },
               name: {
                 id: 'field.transports_common.transporterContact.name',
-                defaultMessage: 'Transporter contact',
+                defaultMessage: 'Contact',
               },
             }),
             view: {
@@ -111,22 +119,34 @@ export default (configContext) => {
         transporterContactNumber: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transporterContactNumber.fullName',
+                defaultMessage: 'Transporter contact number',
+              },
               name: {
                 id: 'field.transports_common.transporterContactNumber.name',
-                defaultMessage: 'Transporter contact number',
+                defaultMessage: 'Contact number',
               },
             }),
             view: {
               type: TextInput,
+              props: {
+                // Suppress Chrome autofill
+                autoComplete: 'cspace-number',
+              },
             },
           },
         },
         transportAuthorizer: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transportAuthorizer.fullName',
+                defaultMessage: 'Transport authorizer',
+              },
               name: {
                 id: 'field.transports_common.transportAuthorizer.name',
-                defaultMessage: 'Transport authorizer',
+                defaultMessage: 'Authorizer',
               },
             }),
             view: {
@@ -141,9 +161,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transportAuthorizationDate.fullName',
+                defaultMessage: 'Authorization date',
+              },
               name: {
                 id: 'field.transports_common.transportAuthorizationDate.name',
-                defaultMessage: 'Transport authorization date',
+                defaultMessage: 'Date',
               },
             }),
             view: {
@@ -154,9 +178,13 @@ export default (configContext) => {
         departurePoint: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.departurePoint.fullName',
+                defaultMessage: 'Departure point',
+              },
               name: {
                 id: 'field.transports_common.departurePoint.name',
-                defaultMessage: 'Departure point',
+                defaultMessage: 'Point',
               },
             }),
             view: {
@@ -171,9 +199,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transportDepartureDate.fullName',
+                defaultMessage: 'Departure date',
+              },
               name: {
                 id: 'field.transports_common.transportDepartureDate.name',
-                defaultMessage: 'Departure date',
+                defaultMessage: 'Date',
               },
             }),
             view: {
@@ -184,9 +216,13 @@ export default (configContext) => {
         transportDepartureTime: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transportDepartureTime.fullName',
+                defaultMessage: 'Departure time',
+              },
               name: {
                 id: 'field.transports_common.transportDepartureTime.name',
-                defaultMessage: 'Departure time',
+                defaultMessage: 'Time',
               },
             }),
             view: {
@@ -197,9 +233,13 @@ export default (configContext) => {
         destination: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.destination.fullName',
+                defaultMessage: 'Arrival point',
+              },
               name: {
                 id: 'field.transports_common.destination.name',
-                defaultMessage: 'Arrival point',
+                defaultMessage: 'Point',
               },
             }),
             view: {
@@ -214,9 +254,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transportArrivalDate.fullName',
+                defaultMessage: 'Arrival date',
+              },
               name: {
                 id: 'field.transports_common.transportArrivalDate.name',
-                defaultMessage: 'Arrival date',
+                defaultMessage: 'Date',
               },
             }),
             view: {
@@ -227,9 +271,13 @@ export default (configContext) => {
         transportArrivalTime: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.transportArrivalTime.fullName',
+                defaultMessage: 'Arrival time',
+              },
               name: {
                 id: 'field.transports_common.transportArrivalTime.name',
-                defaultMessage: 'Arrival time',
+                defaultMessage: 'Time',
               },
             }),
             view: {
@@ -292,9 +340,13 @@ export default (configContext) => {
             courier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.courier.fullName',
+                    defaultMessage: 'Courier name',
+                  },
                   name: {
                     id: 'field.transports_common.courier.name',
-                    defaultMessage: 'Courier',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -308,9 +360,13 @@ export default (configContext) => {
             courierContactNumber: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.courierContactNumber.fullName',
+                    defaultMessage: 'Courier contact number',
+                  },
                   name: {
                     id: 'field.transports_common.courierContactNumber.name',
-                    defaultMessage: 'Courier contact number',
+                    defaultMessage: 'Contact number',
                   },
                 }),
                 view: {
@@ -345,9 +401,13 @@ export default (configContext) => {
             transportTrackingNumber: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.transportTrackingNumber.fullName',
+                    defaultMessage: 'Tracking number',
+                  },
                   name: {
                     id: 'field.transports_common.transportTrackingNumber.name',
-                    defaultMessage: 'Tracking number(s)',
+                    defaultMessage: 'Number',
                   },
                 }),
                 view: {
@@ -358,9 +418,13 @@ export default (configContext) => {
             transportTrackingNumberNote: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.transportTrackingNumberNote.fullName',
+                    defaultMessage: 'Tracking number note',
+                  },
                   name: {
                     id: 'field.transports_common.transportTrackingNumberNote.name',
-                    defaultMessage: 'Tracking number note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -375,7 +439,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.transports_common.transportRemarks.name',
-                defaultMessage: 'Transport remarks',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -405,9 +469,13 @@ export default (configContext) => {
         finalShippingCostCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.finalShippingCostCurrency.fullName',
+                defaultMessage: 'Final shipping cost currency',
+              },
               name: {
                 id: 'field.transports_common.finalShippingCostCurrency.name',
-                defaultMessage: 'Final shipping cost currency',
+                defaultMessage: 'Currency',
               },
             }),
             view: {
@@ -422,9 +490,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.finalShippingCostValue.fullName',
+                defaultMessage: 'Final shipping cost value',
+              },
               name: {
                 id: 'field.transports_common.finalShippingCostValue.name',
-                defaultMessage: 'Final shipping cost value',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -437,7 +509,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.transports_common.transportCostResponsibleParty.name',
-                defaultMessage: 'Transport cost responsbile party',
+                defaultMessage: 'Transport cost responsible party',
               },
             }),
             view: {
@@ -453,7 +525,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.transports_common.insuranceCostResponsibleParty.name',
-                defaultMessage: 'Insurance/Indemnity cost responsbile party',
+                defaultMessage: 'Insurance/indemnity cost responsible party',
               },
             }),
             view: {
@@ -475,7 +547,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.transports_common.additionalCostsGroup.name',
-                  defaultMessage: 'Additional costs',
+                  defaultMessage: 'Additional cost',
                 },
               }),
               repeating: true,
@@ -489,9 +561,13 @@ export default (configContext) => {
             additionalCostsType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.additionalCostsType.fullName',
+                    defaultMessage: 'Additional cost type',
+                  },
                   name: {
                     id: 'field.transports_common.additionalCostsType.name',
-                    defaultMessage: 'Additional costs type',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -505,9 +581,13 @@ export default (configContext) => {
             additionalCostsCurrency: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.additionalCostsCurrency.fullName',
+                    defaultMessage: 'Additional cost currency',
+                  },
                   name: {
                     id: 'field.transports_common.additionalCostsCurrency.name',
-                    defaultMessage: 'Additional costs currency',
+                    defaultMessage: 'Currency',
                   },
                 }),
                 view: {
@@ -522,9 +602,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.additionalCostsValue.fullName',
+                    defaultMessage: 'Additional cost value',
+                  },
                   name: {
                     id: 'field.transports_common.additionalCostsValue.name',
-                    defaultMessage: 'Additional costs value',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {
@@ -537,9 +621,13 @@ export default (configContext) => {
         customsBroker: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsBroker.fullName',
+                defaultMessage: 'Customs broker name',
+              },
               name: {
                 id: 'field.transports_common.customsBroker.name',
-                defaultMessage: 'Customs broker',
+                defaultMessage: 'Name',
               },
             }),
             view: {
@@ -553,9 +641,13 @@ export default (configContext) => {
         customsBrokerContact: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsBrokerContact.fullName',
+                defaultMessage: 'Customs broker contact',
+              },
               name: {
                 id: 'field.transports_common.customsBrokerContact.name',
-                defaultMessage: 'Customs broker contact',
+                defaultMessage: 'Contact',
               },
             }),
             view: {
@@ -569,9 +661,13 @@ export default (configContext) => {
         customsDeclaredValueCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsDeclaredValueCurrency.fullName',
+                defaultMessage: 'Declared value for customs currency',
+              },
               name: {
                 id: 'field.transports_common.customsDeclaredValueCurrency.name',
-                defaultMessage: 'Declared value currency for customs',
+                defaultMessage: 'Currency',
               },
             }),
             view: {
@@ -586,9 +682,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsDeclaredValueAmount.fullName',
+                defaultMessage: 'Declared value for customs amount',
+              },
               name: {
                 id: 'field.transports_common.customsDeclaredValueAmount.name',
-                defaultMessage: 'Declared value amount for customs',
+                defaultMessage: 'Amount',
               },
             }),
             view: {
@@ -599,9 +699,13 @@ export default (configContext) => {
         customsFeeCurrency: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsFeeCurrency.fullName',
+                defaultMessage: 'Customs fee currency',
+              },
               name: {
                 id: 'field.transports_common.customsFeeCurrency.name',
-                defaultMessage: 'Customs fee currency',
+                defaultMessage: 'Currency',
               },
             }),
             view: {
@@ -616,9 +720,13 @@ export default (configContext) => {
           [config]: {
             dataType: DATA_TYPE_FLOAT,
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsFeeValue.fullName',
+                defaultMessage: 'Customs fee value',
+              },
               name: {
                 id: 'field.transports_common.customsFeeValue.name',
-                defaultMessage: 'Customs fee value',
+                defaultMessage: 'Value',
               },
             }),
             view: {
@@ -629,9 +737,13 @@ export default (configContext) => {
         customsFeeNote: {
           [config]: {
             messages: defineMessages({
+              fullName: {
+                id: 'field.transports_common.customsFeeNote.fullName',
+                defaultMessage: 'Customs fee note',
+              },
               name: {
                 id: 'field.transports_common.customsFeeNote.name',
-                defaultMessage: 'Customs fee note',
+                defaultMessage: 'Note',
               },
             }),
             view: {
@@ -639,13 +751,13 @@ export default (configContext) => {
             },
           },
         },
-        shippingQuotesList: {
+        shippingQuoteGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          shippingQuotes: {
+          shippingQuoteGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
@@ -664,9 +776,13 @@ export default (configContext) => {
             shippingQuoteProvider: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.shippingQuoteProvider.fullName',
+                    defaultMessage: 'Shipping quote provider',
+                  },
                   name: {
                     id: 'field.transports_common.shippingQuoteProvider.name',
-                    defaultMessage: 'Shipping quote provider',
+                    defaultMessage: 'Provider',
                   },
                 }),
                 view: {
@@ -680,9 +796,13 @@ export default (configContext) => {
             shippingQuoteCurrency: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.shippingQuoteCurrency.fullName',
+                    defaultMessage: 'Shipping quote currency',
+                  },
                   name: {
                     id: 'field.transports_common.shippingQuoteCurrency.name',
-                    defaultMessage: 'Shipping quote currency',
+                    defaultMessage: 'Currency',
                   },
                 }),
                 view: {
@@ -697,9 +817,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_FLOAT,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.shippingQuoteValue.fullName',
+                    defaultMessage: 'Shipping quote value',
+                  },
                   name: {
                     id: 'field.transports_common.shippingQuoteValue.name',
-                    defaultMessage: 'Shipping quote value',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {
@@ -711,9 +835,13 @@ export default (configContext) => {
               [config]: {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.transports_common.shippingQuoteDate.fullName',
+                    defaultMessage: 'Shipping quote date',
+                  },
                   name: {
                     id: 'field.transports_common.shippingQuoteDate.name',
-                    defaultMessage: 'Shipping quote date',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {

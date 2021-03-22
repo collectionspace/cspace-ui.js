@@ -26,19 +26,17 @@ const template = (configContext) => {
           <Field name="numberOfCrates" />
         </Row>
 
-        <InputTable>
+        <InputTable name="transporter">
           <Field name="transporter" />
           <Field name="transporterContact" />
           <Field name="transporterContactNumber" />
         </InputTable>
 
-        <Cols>
-          <Col>
-            <InputTable>
-              <Field name="transportAuthorizer" />
-              <Field name="transportAuthorizationDate" />
-            </InputTable>
-          </Col>
+        <Row>
+          <InputTable name="authorization">
+            <Field name="transportAuthorizer" />
+            <Field name="transportAuthorizationDate" />
+          </InputTable>
 
           <Col>
             <Field name="transportTrackingNumberGroupList">
@@ -48,31 +46,19 @@ const template = (configContext) => {
               </Field>
             </Field>
           </Col>
-        </Cols>
+        </Row>
 
-        <Cols>
-          <Col>
-            <Field name="departurePoint" />
-          </Col>
-          <Col>
-            <InputTable>
-              <Field name="transportDepartureDate" />
-              <Field name="transportDepartureTime" />
-            </InputTable>
-          </Col>
-        </Cols>
+        <InputTable name="departure">
+          <Field name="departurePoint" />
+          <Field name="transportDepartureDate" />
+          <Field name="transportDepartureTime" />
+        </InputTable>
 
-        <Cols>
-          <Col>
-            <Field name="destination" />
-          </Col>
-          <Col>
-            <InputTable>
-              <Field name="transportArrivalDate" />
-              <Field name="transportArrivalTime" />
-            </InputTable>
-          </Col>
-        </Cols>
+        <InputTable name="arrival">
+          <Field name="destination" />
+          <Field name="transportArrivalDate" />
+          <Field name="transportArrivalTime" />
+        </InputTable>
 
         <Cols>
           <Col>
@@ -89,29 +75,29 @@ const template = (configContext) => {
         </Cols>
       </Panel>
 
-      <Panel name="transportCosts" collapsible>
+      <Panel name="cost" collapsible>
         <Row>
           <Field name="transportCostType" />
           <Field name="transportCostResponsibleParty" />
           <Field name="insuranceCostResponsibleParty" />
         </Row>
 
-        <InputTable>
+        <InputTable name="finalShippingCost">
           <Field name="finalShippingCostCurrency" />
           <Field name="finalShippingCostValue" />
         </InputTable>
 
-        <InputTable>
+        <InputTable name="customsBroker">
           <Field name="customsBroker" />
           <Field name="customsBrokerContact" />
         </InputTable>
 
-        <InputTable>
+        <InputTable name="customsDeclaredValue">
           <Field name="customsDeclaredValueCurrency" />
           <Field name="customsDeclaredValueAmount" />
         </InputTable>
 
-        <InputTable>
+        <InputTable name="customsFee">
           <Field name="customsFeeCurrency" />
           <Field name="customsFeeValue" />
           <Field name="customsFeeNote" />
@@ -125,8 +111,8 @@ const template = (configContext) => {
           </Field>
         </Field>
 
-        <Field name="shippingQuotesList">
-          <Field name="shippingQuotes">
+        <Field name="shippingQuoteGroupList">
+          <Field name="shippingQuoteGroup">
             <Field name="shippingQuoteProvider" />
             <Field name="shippingQuoteCurrency" />
             <Field name="shippingQuoteValue" />
