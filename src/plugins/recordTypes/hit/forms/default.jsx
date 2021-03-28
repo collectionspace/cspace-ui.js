@@ -6,6 +6,8 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
+    Col,
+    Cols,
     Panel,
   } = configContext.layoutComponents;
 
@@ -16,7 +18,24 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Panel name="hitInfo" collapsible>
-        <Field name="hitNumber" />
+        <Cols>
+          <Col>
+            <Field name="hitNumber" />
+            <Field name="entryDate" />
+          </Col>
+
+          <Col>
+            <Field name="hitDepositorGroupList">
+              <Field name="hitDepositorGroup">
+                <Field name="depositor" />
+                <Field name="depositorContact" />
+                <Field name="depositorContactType" />
+                <Field name="depositorNote" />
+              </Field>
+            </Field>
+          </Col>
+
+        </Cols>
       </Panel>
     </Field>
   );

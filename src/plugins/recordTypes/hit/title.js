@@ -1,7 +1,12 @@
 export default (configContext) => (data) => {
   const {
     getPart,
+    deepGet,
   } = configContext.recordDataHelpers;
+
+  const {
+    getDisplayName,
+  } = configContext.refNameHelpers;
 
   if (!data) {
     return '';
@@ -14,6 +19,7 @@ export default (configContext) => (data) => {
   }
 
   const hitNumber = common.get('hitNumber');
+  const depositor = getDisplayName(deepGet(common, ['hitDepositorGroupList', 'hitDepositorGroup', 0, 'depositor']));
 
-  return hitNumber;
+  return [hitNumber, depositor].filter((part) => !!part).join(' – ');
 };
