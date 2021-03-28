@@ -17,6 +17,7 @@ import exhibition from './exhibition';
 import group from './group';
 import idgenerator from './idgenerator';
 import intake from './intake';
+import hit from './hit';
 import loanin from './loanin';
 import loanout from './loanout';
 import location from './location';
@@ -57,6 +58,7 @@ export default [
   group,
   idgenerator,
   intake,
+  hit,
   loanin,
   loanout,
   location,
