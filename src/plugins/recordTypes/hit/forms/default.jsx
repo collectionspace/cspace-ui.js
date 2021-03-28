@@ -21,21 +21,19 @@ const template = (configContext) => {
         <Cols>
           <Col>
             <Field name="hitNumber" />
+          </Col>
+          <Col>
             <Field name="entryDate" />
           </Col>
-
-          <Col>
-            <Field name="hitDepositorGroupList">
-              <Field name="hitDepositorGroup">
-                <Field name="depositor" />
-                <Field name="depositorContact" />
-                <Field name="depositorContactType" />
-                <Field name="depositorNote" />
-              </Field>
-            </Field>
-          </Col>
-
         </Cols>
+        <Field name="hitDepositorGroupList">
+          <Field name="hitDepositorGroup">
+            <Field name="depositor" />
+            <Field name="depositorContact" />
+            <Field name="depositorContactType" />
+            <Field name="depositorNote" />
+          </Field>
+        </Field>
       </Panel>
     </Field>
   );
