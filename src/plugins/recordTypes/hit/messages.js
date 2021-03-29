@@ -18,5 +18,9 @@ export default {
       id: 'panel.hit.hitInfo',
       defaultMessage: 'Held-in-Trust Information',
     },
+    fieldCollectionInfo: {
+      id: 'panel.hit.fieldCollectionInfo',
+      defaultMessage: 'Field Collection Information',
+    },
   }),
 };
