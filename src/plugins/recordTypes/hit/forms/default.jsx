@@ -6,6 +6,7 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
+    Row,
     Col,
     Cols,
     Panel,
@@ -13,6 +14,7 @@ const template = (configContext) => {
 
   const {
     Field,
+    Subrecord,
   } = configContext.recordComponents;
 
   return (
@@ -104,6 +106,41 @@ const template = (configContext) => {
           </Col>
         </Cols>
       </Panel>
+
+      <Panel name="cultureCareAndHandling" collapsible collapsed>
+        <Field name="handlingPreferences" />
+        <Field name="handlingLimitationsGroupList">
+          <Field name="handlingLimitationsGroup">
+            <Panel>
+              <Row>
+                <Col>
+                  <Field name="handlingLimitationsType" />
+                  <Field name="handlingLimitationsLevel" />
+                  <Field name="handlingLimitationsDetail" />
+                </Col>
+                <Col>
+                  <Field name="handlingLimitationsRequestor" />
+                  <Field name="handlingLimitationsOnBehalfOf" />
+                  <Field name="handlingLimitationsDate" />
+                </Col>
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+      </Panel>
+
+      <Panel name="correspondence" collapsible collapsed>
+        <Field name="correspondenceGroupList">
+          <Field name="correspondenceGroup">
+            <Field name="correspondenceDate" />
+            <Field name="correspondenceSender" />
+            <Field name="correspondenceRecipient" />
+            <Field name="correspondenceSummary" />
+            <Field name="correspondenceReference" />
+          </Field>
+        </Field>
+      </Panel>
+
     </Field>
   );
 };

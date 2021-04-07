@@ -22,5 +22,17 @@ export default {
       id: 'panel.hit.fieldCollectionInfo',
       defaultMessage: 'Field Collection Information',
     },
+    cultureCareAndHandling: {
+      id: 'panel.hit.cultureCareAndHandling',
+      defaultMessage: 'Culture Care and Handling',
+    },
+    correspondence: {
+      id: 'panel.hit.correspondence',
+      defaultMessage: 'Correspondence',
+    },
+    file: {
+      id: 'panel.media.file',
+      defaultMessage: 'File Information',
+    },
   }),
 };
