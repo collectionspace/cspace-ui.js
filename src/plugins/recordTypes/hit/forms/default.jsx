@@ -76,35 +76,34 @@ const template = (configContext) => {
           </Field>
         </Field>
       </Panel>
+
       <Panel name="fieldCollectionInfo" collapsible collapsed>
-        <Cols>
-          <Col>
-            <Field name="fieldCollectionDate" />
-
-            <Field name="fieldCollectionMethods">
-              <Field name="fieldCollectionMethod" />
-            </Field>
-
-            <Field name="fieldCollectionNote" />
-            <Field name="fieldCollectionNumber" />
-          </Col>
-
-          <Col>
-            <Field name="fieldCollectionPlace" />
-
-            <Field name="fieldCollectionSources">
-              <Field name="fieldCollectionSource" />
-            </Field>
-
-            <Field name="fieldCollectors">
-              <Field name="fieldCollector" />
-            </Field>
-
-            <Field name="fieldCollectionEventNames">
-              <Field name="fieldCollectionEventName" />
-            </Field>
-          </Col>
-        </Cols>
+        <Field name="fieldCollectionGroupList">
+          <Field name="fieldCollectionGroup">
+            <Cols>
+              <Col>
+                <Field name="fieldCollectionDate" />
+                <Field name="fieldCollectionMethods">
+                  <Field name="fieldCollectionMethod" />
+                </Field>
+                <Field name="fieldCollectionNote" />
+                <Field name="fieldCollectionNumber" />
+              </Col>
+              <Col>
+                <Field name="fieldCollectionPlace" />
+                <Field name="fieldCollectionSources">
+                  <Field name="fieldCollectionSource" />
+                </Field>
+                <Field name="fieldCollectors">
+                  <Field name="fieldCollector" />
+                </Field>
+                <Field name="fieldCollectionEventNames">
+                  <Field name="fieldCollectionEventName" />
+                </Field>
+              </Col>
+            </Cols>
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="cultureCareAndHandling" collapsible collapsed>
