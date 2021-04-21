@@ -82,7 +82,9 @@ const template = (configContext) => {
           <Field name="fieldCollectionGroup">
             <Cols>
               <Col>
-                <Field name="fieldCollectionDate" />
+                <Field name="fieldCollectionDates" >
+                  <Field name="fieldCollectionDate" />
+                </Field>
                 <Field name="fieldCollectionMethods">
                   <Field name="fieldCollectionMethod" />
                 </Field>
@@ -90,7 +92,10 @@ const template = (configContext) => {
                 <Field name="fieldCollectionNumber" />
               </Col>
               <Col>
-                <Field name="fieldCollectionPlace" />
+                <Field name="fieldCollectionPlaces" >
+                  <Field name="fieldCollectionPlace" />
+                </Field>
+                <Field name="fieldCollectionPlaceVerbatim" />
                 <Field name="fieldCollectionSources">
                   <Field name="fieldCollectionSource" />
                 </Field>

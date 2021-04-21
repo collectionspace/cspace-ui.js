@@ -132,7 +132,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,organization/local',
+                    source: 'person/local',
                   },
                 },
               },
@@ -615,6 +615,19 @@ export default (configContext) => {
                 },
               },
             },
+            fieldCollectionPlaceVerbatim: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.hits_common.fieldCollectionPlaceVerbatim.name',
+                    defaultMessage: 'Field collection place (verbatim)',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
             fieldCollectionSources: {
               [config]: {
                 view: {
@@ -737,7 +750,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'handlinglimitationstypes',
+                    source: 'limitationtype',
                   },
                 },
               },
@@ -777,7 +790,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'handlinglimitationslevels',
+                    source: 'limitationlevel',
                   },
                 },
               },
