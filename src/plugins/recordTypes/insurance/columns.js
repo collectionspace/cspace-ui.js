@@ -12,7 +12,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.insurance.default.insuranceIndemnityReferenceNumber',
-            defaultMessage: 'Insurance/Indemnity reference number',
+            defaultMessage: 'Reference number',
           },
         }),
         order: 10,
@@ -24,7 +24,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.insurance.default.insurerIndemnifier',
-            defaultMessage: 'Insurer/Indemnifier',
+            defaultMessage: 'Insurer/indemnifier',
           },
         }),
         order: 20,

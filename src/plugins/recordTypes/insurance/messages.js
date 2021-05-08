@@ -16,7 +16,7 @@ export default {
   inputTable: defineMessages({
     insurancePurchasePrice: {
       id: 'inputTable.insurance.insurancePurchasePrice',
-      defaultMessage: 'Insurance/Indemnity price',
+      defaultMessage: 'Insurance/indemnity price',
     },
     minimumLiabilityPrice: {
       id: 'inputTable.insurance.minimumLiabilityPrice',

@@ -54,7 +54,7 @@ export default (configContext) => {
               },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityReferenceNumber.name',
-                defaultMessage: 'Insurance/Indemnity reference number',
+                defaultMessage: 'Reference number',
               },
             }),
             required: true,
@@ -79,7 +79,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.insurances_common.insuranceIndemnityType.name',
-                defaultMessage: 'Insurance or Indemnity type',
+                defaultMessage: 'Type',
               },
             }),
             view: {
@@ -95,7 +95,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.insurances_common.insurerIndemnifier.name',
-                defaultMessage: 'Insurer/Indemnifier',
+                defaultMessage: 'Insurer/indemnifier',
               },
             }),
             view: {
@@ -109,10 +109,6 @@ export default (configContext) => {
         insuranceIndemnityPolicyNumber: {
           [config]: {
             messages: defineMessages({
-              fullName: {
-                id: 'field.insurances_common.insuranceIndemnityPolicyNumber.fullName',
-                defaultMessage: 'Insurance/Indemnity policy number',
-              },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityPolicyNumber.name',
                 defaultMessage: 'Policy number',
@@ -128,7 +124,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.insurances_common.insuranceIndemnityCurrency.fullName',
-                defaultMessage: 'Insurance/Indemnity currency',
+                defaultMessage: 'Insurance/indemnity price currency',
               },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityCurrency.name',
@@ -149,7 +145,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.insurances_common.insuranceIndemnityValue.fullName',
-                defaultMessage: 'Insurance/Indemnity value',
+                defaultMessage: 'Insurance/indemnity price value',
               },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityValue.name',
@@ -166,7 +162,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.insurances_common.minimumLiabilityCurrency.fullName',
-                defaultMessage: 'Object minimum liability currency',
+                defaultMessage: 'Minimum liability price currency',
               },
               name: {
                 id: 'field.insurances_common.minimumLiabilityCurrency.name',
@@ -187,7 +183,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.insurances_common.minimumLiabilityValue.fullName',
-                defaultMessage: 'Object minimum liability value',
+                defaultMessage: 'Minimum liability price value',
               },
               name: {
                 id: 'field.insurances_common.minimumLiabilityValue.name',
@@ -202,10 +198,6 @@ export default (configContext) => {
         insuranceIndemnityAuthorizer: {
           [config]: {
             messages: defineMessages({
-              fullName: {
-                id: 'field.insurances_common.insuranceIndemnityAuthorizer.fullName',
-                defaultMessage: 'Insurance/Indemnity authorizer',
-              },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityAuthorizer.name',
                 defaultMessage: 'Authorizer',
@@ -225,7 +217,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.insurances_common.insuranceIndemnityAuthorizationDate.fullName',
-                defaultMessage: 'Insurance/Indemnity authorization date',
+                defaultMessage: 'Authorization date',
               },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityAuthorizationDate.name',
@@ -264,7 +256,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityStatus.fullName',
-                    defaultMessage: 'Insurance/Indemnity status',
+                    defaultMessage: 'Status type',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityStatus.name',
@@ -284,7 +276,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityStatusDate.fullName',
-                    defaultMessage: 'Insurance/Indemnity status date',
+                    defaultMessage: 'Status date',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityStatusDate.name',
@@ -302,7 +294,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityStatusNote.fullName',
-                    defaultMessage: 'Insurance/Indemnity status note',
+                    defaultMessage: 'Status note',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityStatusNote.name',
@@ -319,10 +311,6 @@ export default (configContext) => {
         insuranceIndemnityNote: {
           [config]: {
             messages: defineMessages({
-              fullName: {
-                id: 'field.insurances_common.insuranceIndemnityNote.fullName',
-                defaultMessage: 'Insurance/Indemnity note',
-              },
               name: {
                 id: 'field.insurances_common.insuranceIndemnityNote.name',
                 defaultMessage: 'Note',
@@ -347,7 +335,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.insurances_common.quoteProviderGroup.name',
-                  defaultMessage: 'Insurance/Indemnity quote',
+                  defaultMessage: 'Quote',
                 },
               }),
               repeating: true,
@@ -363,7 +351,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteProvider.fullName',
-                    defaultMessage: 'Insurance/Indemnity quote provider',
+                    defaultMessage: 'Quote provider',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteProvider.name',
@@ -383,7 +371,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteCurrency.fullName',
-                    defaultMessage: 'Insurance/Indemnity quote currency',
+                    defaultMessage: 'Quote currency',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteCurrency.name',
@@ -404,7 +392,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteValue.fullName',
-                    defaultMessage: 'Insurance/Indemnity quote value',
+                    defaultMessage: 'Quote value',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteValue.name',
@@ -422,7 +410,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteDate.fullName',
-                    defaultMessage: 'Insurance/Indemnity quote date',
+                    defaultMessage: 'Quote date',
                   },
                   name: {
                     id: 'field.insurances_common.insuranceIndemnityQuoteDate.name',

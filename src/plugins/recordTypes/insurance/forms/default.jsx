@@ -22,16 +22,17 @@ const template = (configContext) => {
         <Cols>
           <Col>
             <Field name="insuranceIndemnityReferenceNumber" />
+            <Field name="insuranceIndemnityType" />
             <Field name="insurerIndemnifier" />
+          </Col>
+
+          <Col>
+            <Field name="insuranceIndemnityPolicyNumber" />
 
             <InputTable name="insurancePurchasePrice">
               <Field name="insuranceIndemnityCurrency" />
               <Field name="insuranceIndemnityValue" />
             </InputTable>
-          </Col>
-          <Col>
-            <Field name="insuranceIndemnityType" />
-            <Field name="insuranceIndemnityPolicyNumber" />
 
             <InputTable name="minimumLiabilityPrice">
               <Field name="minimumLiabilityCurrency" />
