@@ -10,7 +10,7 @@ export default {
     collectionName: {
       id: 'record.insurance.collectionName',
       description: 'The name of a collection of records of the type.',
-      defaultMessage: 'Insurances/Indemnities',
+      defaultMessage: 'Insurance/Indemnities',
     },
   }),
   inputTable: defineMessages({
