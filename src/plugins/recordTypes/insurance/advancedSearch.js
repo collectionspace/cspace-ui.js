@@ -18,7 +18,7 @@ export default (configContext) => {
         path: 'ns2:insurances_common/insuranceIndemnityReferenceNumber',
       },
       {
-        op: OP_CONTAIN,
+        op: OP_EQ,
         path: 'ns2:insurances_common/insuranceIndemnityType',
       },
       {
