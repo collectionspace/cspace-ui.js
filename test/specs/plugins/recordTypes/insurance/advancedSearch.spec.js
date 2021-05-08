@@ -23,7 +23,7 @@ describe('insurance record advanced search', () => {
 
   it('should include a search operation for `insuranceIndemnityType`', () => {
     advancedSearch(configContext).value.should.include({
-      op: configContext.searchOperators.OP_CONTAIN,
+      op: configContext.searchOperators.OP_EQ,
       path: 'ns2:insurances_common/insuranceIndemnityType',
     });
   });
