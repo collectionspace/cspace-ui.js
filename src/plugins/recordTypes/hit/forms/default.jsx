@@ -14,7 +14,6 @@ const template = (configContext) => {
 
   const {
     Field,
-    Subrecord,
   } = configContext.recordComponents;
 
   return (
@@ -79,34 +78,41 @@ const template = (configContext) => {
 
       <Panel name="fieldCollectionInfo" collapsible collapsed>
         <Field name="fieldCollectionGroupList">
-          <Field name="fieldCollectionGroup">
-            <Cols>
-              <Col>
-                <Field name="fieldCollectionDates" >
-                  <Field name="fieldCollectionDate" />
-                </Field>
-                <Field name="fieldCollectionMethods">
-                  <Field name="fieldCollectionMethod" />
-                </Field>
+            <Field name="fieldCollectionGroup">
+              <Panel>
+                <Cols>
+                  <Col>
+                    <Field name="fieldCollectionDates" >
+                      <Field name="fieldCollectionDate" />
+                    </Field>
+                  
+                    <Field name="fieldCollectionMethods">
+                      <Field name="fieldCollectionMethod" />
+                    </Field>
+                    
+                    <Field name="fieldCollectionPlaces" >
+                      <Field name="fieldCollectionPlace" />
+                    </Field>
+                    
+                    <Field name="fieldCollectionPlaceVerbatim" />
+                  </Col>
+                  <Col>
+                    <Field name="fieldCollectionNumber" />
+
+                    <Field name="fieldCollectionSources">
+                      <Field name="fieldCollectionSource" />
+                    </Field>
+
+                    <Field name="fieldCollectors">
+                      <Field name="fieldCollector" />
+                    </Field>
+                    <Field name="fieldCollectionEventNames">
+                      <Field name="fieldCollectionEventName" />
+                    </Field>
+                  </Col>
+                </Cols>
                 <Field name="fieldCollectionNote" />
-                <Field name="fieldCollectionNumber" />
-              </Col>
-              <Col>
-                <Field name="fieldCollectionPlaces" >
-                  <Field name="fieldCollectionPlace" />
-                </Field>
-                <Field name="fieldCollectionPlaceVerbatim" />
-                <Field name="fieldCollectionSources">
-                  <Field name="fieldCollectionSource" />
-                </Field>
-                <Field name="fieldCollectors">
-                  <Field name="fieldCollector" />
-                </Field>
-                <Field name="fieldCollectionEventNames">
-                  <Field name="fieldCollectionEventName" />
-                </Field>
-              </Col>
-            </Cols>
+            </Panel>
           </Field>
         </Field>
       </Panel>

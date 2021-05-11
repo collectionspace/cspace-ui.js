@@ -496,7 +496,6 @@ export default (configContext) => {
             },
           },
         },
-
         fieldCollectionGroupList: {
           [config]: {
             view: {
@@ -505,12 +504,6 @@ export default (configContext) => {
           },
           fieldCollectionGroup: {
             [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.hits_common.fieldCollectionGroup.name',
-                  defaultMessage: 'Field Collection Information',
-                },
-              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -524,8 +517,7 @@ export default (configContext) => {
               },
               fieldCollectionDate: {
                 [config]: {
-                  dataType: DATA_TYPE_DATE,
-                  messages: defineMessages({
+                  messages: defineMessages( {
                     name: {
                       id: 'field.hits_common.fieldCollectionDate.name',
                       defaultMessage: 'Field collection date',
@@ -533,7 +525,7 @@ export default (configContext) => {
                   }),
                   repeating: true,
                   view: {
-                    type: DateInput,
+                    type: TextInput,
                   },
                 },
               },
