@@ -86,7 +86,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.hits_common.hitDepositorGroup.name',
-                  defaultMessage: 'Depositor',
+                  defaultMessage: 'Name',
                 },
               }),
               repeating: true,
@@ -102,11 +102,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.hits_common.depositor.fullName',
-                    defaultMessage: 'Depositor',
+                    defaultMessage: 'Depositor name',
                   },
                   name: {
                     id: 'field.hits_common.depositor.name',
-                    defaultMessage: 'Depositor',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -126,7 +126,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.depositorContact.name',
-                    defaultMessage: 'Depositor contact',
+                    defaultMessage: 'Contact',
                   },
                 }),
                 view: {
@@ -166,7 +166,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.depositorNote.name',
-                    defaultMessage: 'Depositor note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -291,7 +291,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.internalApprovalGroup.name',
-                    defaultMessage: 'Internal approval group',
+                    defaultMessage: 'Group',
                   },
                 }),
                 view: {
@@ -311,7 +311,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.internalApprovalIndividual.name',
-                    defaultMessage: 'Internal approval individual',
+                    defaultMessage: 'Individual',
                   },
                 }),
                 view: {
@@ -331,7 +331,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.internalApprovalStatus.name',
-                    defaultMessage: 'Internal approval status',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
@@ -351,7 +351,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.internalApprovalDate.name',
-                    defaultMessage: 'Internal approval date',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -364,7 +364,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.hits_common.internalApprovalNote.fullName',
-                    defaultMessage: 'Internal approval note',
+                    defaultMessage: 'Note',
                   },
                   name: {
                     id: 'field.hits_common.internalApprovalNote.name',
@@ -409,7 +409,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.externalApprovalGroup.name',
-                    defaultMessage: 'External approval group',
+                    defaultMessage: 'Group',
                   },
                 }),
                 view: {
@@ -429,7 +429,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.externalApprovalIndividual.name',
-                    defaultMessage: 'External approval individual',
+                    defaultMessage: 'Individual',
                   },
                 }),
                 view: {
@@ -449,7 +449,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.externalApprovalStatus.name',
-                    defaultMessage: 'External approval status',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
@@ -469,7 +469,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.externalApprovalDate.name',
-                    defaultMessage: 'External approval date',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
@@ -517,6 +517,7 @@ export default (configContext) => {
               },
               fieldCollectionDate: {
                 [config]: {
+                  dataType: DATA_TYPE_DATE,
                   messages: defineMessages( {
                     name: {
                       id: 'field.hits_common.fieldCollectionDate.name',
@@ -525,7 +526,7 @@ export default (configContext) => {
                   }),
                   repeating: true,
                   view: {
-                    type: TextInput,
+                    type: DateInput,
                   },
                 },
               },
@@ -874,7 +875,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.correspondenceDate.name',
-                    defaultMessage: 'Correspondence date',
+                    defaultMessage: 'Date',
                   },
                 }),
                 view: {
