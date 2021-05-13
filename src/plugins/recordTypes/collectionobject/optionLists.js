@@ -136,7 +136,7 @@ export default {
         id: 'option.inscriptionTypes.maker\'s-mark',
         defaultMessage: 'maker\'s mark',
       },
-       plaque: {
+      plaque: {
         id: 'option.inscriptionTypes.plaque',
         defaultMessage: 'plaque',
       },
