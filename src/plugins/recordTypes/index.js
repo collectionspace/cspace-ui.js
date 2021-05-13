@@ -16,6 +16,7 @@ import exhibition from './exhibition';
 import exxport from './export';
 import group from './group';
 import idgenerator from './idgenerator';
+import insurance from './insurance';
 import intake from './intake';
 import loanin from './loanin';
 import loanout from './loanout';
@@ -57,6 +58,7 @@ export default [
   exxport,
   group,
   idgenerator,
+  insurance,
   intake,
   loanin,
   loanout,
