@@ -86,7 +86,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.hits_common.hitDepositorGroup.name',
-                  defaultMessage: 'Name',
+                  defaultMessage: 'Depositor',
                 },
               }),
               repeating: true,
