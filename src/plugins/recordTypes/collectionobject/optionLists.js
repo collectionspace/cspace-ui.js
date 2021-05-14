@@ -98,16 +98,23 @@ export default {
   inscriptionTypes: {
     values: [
       'brand',
+      'credits',
       'decoration',
       'estate-stamp',
       'graffiti',
       'label',
       'maker\'s-mark',
+      'plaque',
+      'signage',
     ],
     messages: defineMessages({
       brand: {
         id: 'option.inscriptionTypes.brand',
         defaultMessage: 'brand',
+      },
+      credits: {
+        id: 'option.inscriptionTypes.credits',
+        defaultMessage: 'credits',
       },
       decoration: {
         id: 'option.inscriptionTypes.decoration',
@@ -128,6 +135,14 @@ export default {
       'maker\'s-mark': {
         id: 'option.inscriptionTypes.maker\'s-mark',
         defaultMessage: 'maker\'s mark',
+      },
+      plaque: {
+        id: 'option.inscriptionTypes.plaque',
+        defaultMessage: 'plaque',
+      },
+      signage: {
+        id: 'option.inscriptionTypes.signage',
+        defaultMessage: 'signage',
       },
     }),
   },
