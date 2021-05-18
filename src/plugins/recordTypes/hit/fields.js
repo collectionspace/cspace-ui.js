@@ -9,6 +9,7 @@ export default (configContext) => {
     AutocompleteInput,
     IDGeneratorInput,
     TermPickerInput,
+    StructuredDateInput,
   } = configContext.inputComponents;
 
   const {
@@ -596,26 +597,26 @@ export default (configContext) => {
                 type: CompoundInput,
               },
             },
-            fieldCollectionDates: {
+            fieldCollectionDateGroupList: {
               [config]: {
                 view: {
                   type: CompoundInput,
                 },
               },
-              fieldCollectionDate: {
+              fieldCollectionDateGroup: {
                 [config]: {
-                  dataType: DATA_TYPE_DATE,
-                  messages: defineMessages( {
+                  messages: defineMessages({
                     name: {
-                      id: 'field.hits_common.fieldCollectionDate.name',
+                      id: 'field.collectionobjects_common.fieldCollectionDateGroup.name',
                       defaultMessage: 'Field collection date',
                     },
                   }),
                   repeating: true,
                   view: {
-                    type: DateInput,
+                    type: StructuredDateInput,
                   },
                 },
+                ...extensions.structuredDate.fields,
               },
             },
             fieldCollectionMethods: {
