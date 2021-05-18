@@ -35,6 +35,14 @@ const template = (configContext) => {
             <Field name="depositorNote" />
           </Field>
         </Field>
+
+        <Field name="agreementGroupList">
+          <Field name="agreementGroup">
+            <Field name="agreementStatus" />
+            <Field name="agreementStatusDate" />
+            <Field name="agreementStatusNote" />
+          </Field>
+        </Field>
         <Cols>
           <Col>
             <Field name="entryMethods">
@@ -43,7 +51,9 @@ const template = (configContext) => {
           </Col>
           <Col>
             <Col>
-              <Field name="agreementRenewalDate" />
+              <Field name="agreementRenewalDates">
+                <Field name="agreementRenewalDate" />
+              </Field>
             </Col>
           </Col>
         </Cols>
@@ -82,10 +92,11 @@ const template = (configContext) => {
               <Panel>
                 <Cols>
                   <Col>
-                    <Field name="fieldCollectionDates" >
-                      <Field name="fieldCollectionDate" />
+                    
+                    <Field name="fieldCollectionDateGroupList">
+                      <Field name="fieldCollectionDateGroup" />
                     </Field>
-                  
+
                     <Field name="fieldCollectionMethods">
                       <Field name="fieldCollectionMethod" />
                     </Field>
