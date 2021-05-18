@@ -200,17 +200,104 @@ export default (configContext) => {
             },
           },
         },
-        agreementRenewalDate: {
+        agreementGroupList: {
           [config]: {
-            dataType: DATA_TYPE_DATE,
-            messages: defineMessages({
-              name: {
-                id: 'field.hits_common.agreementRenewalDate.name',
-                defaultMessage: 'Agreement renewal date',
-              },
-            }),
             view: {
-              type: DateInput,
+              type: CompoundInput,
+            },
+          },
+          agreementGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.hits_common.agreementGroup.name',
+                  defaultMessage: 'Agreement status',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            agreementStatus: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.hits_common.agreementStatus.fullName',
+                    defaultMessage: 'Agreement status',
+                  },
+                  name: {
+                    id: 'field.hits_common.agreementStatus.name',
+                    defaultMessage: 'Status',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'agreementstatuses',
+                  },
+                },
+              },
+            },
+            agreementStatusDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.hits_common.agreementStatusDate.fullName',
+                    defaultMessage: 'Agreement status date',
+                  },
+                  name: {
+                    id: 'field.hits_common.agreementStatusDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            agreementStatusNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.hits_common.agreementStatusNote.fullName',
+                    defaultMessage: 'Agreement status note',
+                  },
+                  name: {
+                    id: 'field.hits_common.agreementStatusNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        agreementRenewalDates: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          agreementRenewalDate: {
+            [config]: {
+              dataType: DATA_TYPE_DATE,
+              messages: defineMessages({
+                name: {
+                  id: 'field.hits_common.agreementRenewalDate.name',
+                  defaultMessage: 'Agreement renewal date',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: DateInput,
+              },
             },
           },
         },
@@ -364,11 +451,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.hits_common.internalApprovalNote.fullName',
-                    defaultMessage: 'Note',
+                    defaultMessage: 'Internal approval note',
                   },
                   name: {
                     id: 'field.hits_common.internalApprovalNote.name',
-                    defaultMessage: 'Internal approval note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
@@ -486,7 +573,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.hits_common.externalApprovalNote.name',
-                    defaultMessage: 'External approval note',
+                    defaultMessage: 'Note',
                   },
                 }),
                 view: {
