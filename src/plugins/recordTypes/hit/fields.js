@@ -597,26 +597,26 @@ export default (configContext) => {
                 type: CompoundInput,
               },
             },
-            fieldCollectionDateGroupList: {
+            fieldCollectionDates: {
               [config]: {
                 view: {
                   type: CompoundInput,
                 },
               },
-              fieldCollectionDateGroup: {
+              fieldCollectionDate: {
                 [config]: {
-                  messages: defineMessages({
+                  dataType: DATA_TYPE_DATE,
+                  messages: defineMessages( {
                     name: {
-                      id: 'field.collectionobjects_common.fieldCollectionDateGroup.name',
+                      id: 'field.hits_common.fieldCollectionDate.name',
                       defaultMessage: 'Field collection date',
                     },
                   }),
                   repeating: true,
                   view: {
-                    type: StructuredDateInput,
+                    type: DateInput,
                   },
                 },
-                ...extensions.structuredDate.fields,
               },
             },
             fieldCollectionMethods: {

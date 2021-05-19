@@ -93,8 +93,8 @@ const template = (configContext) => {
                 <Cols>
                   <Col>
                     
-                    <Field name="fieldCollectionDateGroupList">
-                      <Field name="fieldCollectionDateGroup" />
+                    <Field name="fieldCollectionDates">
+                      <Field name="fieldCollectionDate" />
                     </Field>
 
                     <Field name="fieldCollectionMethods">
