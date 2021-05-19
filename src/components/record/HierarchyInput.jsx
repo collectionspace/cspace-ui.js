@@ -112,7 +112,8 @@ export default class HierarchyInput extends Component {
     this.handleCommit = this.handleCommit.bind(this);
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     const {
       csid,
       value,
@@ -121,7 +122,8 @@ export default class HierarchyInput extends Component {
     this.initHierarchy(csid, value);
   }
 
-  componentWillUpdate(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillUpdate(nextProps) {
     const {
       csid,
       value,

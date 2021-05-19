@@ -106,7 +106,8 @@ export default class RelatedRecordPanel extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const searchDescriptor = getSearchDescriptor(this.props);
 
     let nextSearchDescriptor = getSearchDescriptor(nextProps);

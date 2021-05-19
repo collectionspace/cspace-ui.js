@@ -78,7 +78,8 @@ export default class InvocationModal extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       data,
       isOpen,

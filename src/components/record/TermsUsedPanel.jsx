@@ -55,7 +55,8 @@ export default class TermsUsedPanel extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { searchDescriptor } = this.state;
 
     let nextSearchDescriptor = getSearchDescriptor(nextProps);

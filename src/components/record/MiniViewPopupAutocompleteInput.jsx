@@ -60,7 +60,8 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
     };
   }
 
-  componentWillUpdate(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillUpdate(nextProps) {
     const {
       value,
     } = this.props;
