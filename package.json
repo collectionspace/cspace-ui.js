@@ -106,7 +106,7 @@
     "moxios": "^0.3.0",
     "nyc": "^15.1.0",
     "react-shallow-testutils": "^3.0.1",
-    "react-test-renderer": "^15.6.2",
+    "react-test-renderer": "^16.14.0",
     "redux-mock-store": "^1.5.1",
     "rimraf": "^2.6.2",
     "style-loader": "^0.13.1",
