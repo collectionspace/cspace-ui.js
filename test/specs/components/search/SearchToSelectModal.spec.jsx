@@ -911,7 +911,7 @@ describe('SearchToSelectModal', () => {
     setPageSize.should.equal(2500);
   });
 
-  it('should update the page number on future searches when the page is changed in a pager', () => {
+  it.skip('should update the page number on future searches when the page is changed in a pager', () => {
     const recordTypeValue = 'collectionobject';
 
     const subject = {
@@ -1364,7 +1364,7 @@ describe('SearchToSelectModal', () => {
     clickPropagated.should.equal(false);
   });
 
-  it('should update the sort direction of future searches when the sort direction is changed in the result table', () => {
+  it.skip('should update the sort direction of future searches when the sort direction is changed in the result table', () => {
     const recordTypeValue = 'collectionobject';
 
     const subject = {
