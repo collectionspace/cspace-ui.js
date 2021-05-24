@@ -300,16 +300,16 @@ describe('RecordTitleBar', () => {
       removeEventListener: window.removeEventListener,
     };
 
-    let addEventListenerCalled = null;
+    const addEventListenerCalled = new Set();
 
     window.addEventListener = (eventName) => {
-      addEventListenerCalled = eventName;
+      addEventListenerCalled.add(eventName);
     };
 
-    let removeEventListenerCalled = null;
+    const removeEventListenerCalled = new Set();
 
     window.removeEventListener = (eventName) => {
-      removeEventListenerCalled = eventName;
+      removeEventListenerCalled.add(eventName);
     };
 
     render(
@@ -322,8 +322,10 @@ describe('RecordTitleBar', () => {
 
     ReactDOM.unmountComponentAtNode(this.container);
 
-    addEventListenerCalled.should.equal('scroll');
-    removeEventListenerCalled.should.equal('scroll');
+    // todo: for some reason doing this on the Set throws an error,
+    // should take  a second look after the test libraries get updated
+    Array.from(addEventListenerCalled).should.include('scroll');
+    Array.from(removeEventListenerCalled).should.include('scroll');
 
     window.addEventListener = saved.addEventListener;
     window.removeEventListener = saved.removeEventListener;
