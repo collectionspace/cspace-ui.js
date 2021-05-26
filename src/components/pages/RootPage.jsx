@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch } from 'react-router';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
