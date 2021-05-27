@@ -68,7 +68,7 @@ const template = (configContext) => {
         <Field name="entryNote" />
         <Field name="internalApprovalGroupList">
           <Field name="internalApprovalGroup">
-            <Field name="internalApprovalGroup" />
+            <Field name="internalApprovalGroupName" />
             <Field name="internalApprovalIndividual" />
             <Field name="internalApprovalStatus" />
             <Field name="internalApprovalDate" />
@@ -77,53 +77,11 @@ const template = (configContext) => {
         </Field>
         <Field name="externalApprovalGroupList">
           <Field name="externalApprovalGroup">
-            <Field name="externalApprovalGroup" />
+            <Field name="externalApprovalGroupName" />
             <Field name="externalApprovalIndividual" />
             <Field name="externalApprovalStatus" />
             <Field name="externalApprovalDate" />
             <Field name="externalApprovalNote" />
-          </Field>
-        </Field>
-      </Panel>
-
-      <Panel name="fieldCollectionInfo" collapsible collapsed>
-        <Field name="fieldCollectionGroupList">
-            <Field name="fieldCollectionGroup">
-              <Panel>
-                <Cols>
-                  <Col>
-                    
-                    <Field name="fieldCollectionDates">
-                      <Field name="fieldCollectionDate" />
-                    </Field>
-
-                    <Field name="fieldCollectionMethods">
-                      <Field name="fieldCollectionMethod" />
-                    </Field>
-                    
-                    <Field name="fieldCollectionPlaces" >
-                      <Field name="fieldCollectionPlace" />
-                    </Field>
-                    
-                    <Field name="fieldCollectionPlaceVerbatim" />
-                  </Col>
-                  <Col>
-                    <Field name="fieldCollectionNumber" />
-
-                    <Field name="fieldCollectionSources">
-                      <Field name="fieldCollectionSource" />
-                    </Field>
-
-                    <Field name="fieldCollectors">
-                      <Field name="fieldCollector" />
-                    </Field>
-                    <Field name="fieldCollectionEventNames">
-                      <Field name="fieldCollectionEventName" />
-                    </Field>
-                  </Col>
-                </Cols>
-                <Field name="fieldCollectionNote" />
-            </Panel>
           </Field>
         </Field>
       </Panel>
