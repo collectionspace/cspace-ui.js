@@ -35,7 +35,7 @@ TestRouter.propTypes = {
   children: PropTypes.node,
 };
 
-describe.only('App', () => {
+describe('App', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
