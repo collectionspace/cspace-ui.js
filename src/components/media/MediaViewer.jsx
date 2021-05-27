@@ -124,6 +124,9 @@ export default class MediaViewer extends Component {
 
     return {
       blobCsid,
+      // note: react-image-gallery requires item.original to be non-null, so it might be best to
+      // move from snapshot to original here to keep similar semantics
+      original: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
       snapshot: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
       thumbnail: getContentPath(config, 'blob', undefined, blobCsid, thumbnailSubresource),
     };
