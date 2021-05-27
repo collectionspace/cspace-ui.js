@@ -47,7 +47,7 @@
     "cspace-input": "file:../ui/cspace-input.js",
     "cspace-layout": "file:../ui/cspace-layout.js",
     "cspace-refname": "^1.0.2",
-    "history": "4.6.2",
+    "history": "^5.0.0",
     "immutable": "^3.8.2",
     "lodash": "^4.17.21",
     "moment": "^2.21.0",
@@ -64,7 +64,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.0",
     "redux-thunk": "^2.1.0",
-    "warning": "^3.0.0"
+    "warning": "^4.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
