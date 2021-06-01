@@ -84,8 +84,7 @@ export default class ConfirmRecordDeleteModal extends Component {
     this.state = {};
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const {
       isOpen,
     } = this.props;
