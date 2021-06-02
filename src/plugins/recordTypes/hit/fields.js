@@ -370,15 +370,15 @@ export default (configContext) => {
                 },
               },
             },
-            internalApprovalGroup: {
+            internalApprovalGroupName: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.internalApprovalGroup.fullName',
+                    id: 'field.hits_common.internalApprovalGroupName.fullName',
                     defaultMessage: 'Internal approval group',
                   },
                   name: {
-                    id: 'field.hits_common.internalApprovalGroup.name',
+                    id: 'field.hits_common.internalApprovalGroupName.name',
                     defaultMessage: 'Group',
                   },
                 }),
@@ -488,15 +488,15 @@ export default (configContext) => {
                 },
               },
             },
-            externalApprovalGroup: {
+            externalApprovalGroupName: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.externalApprovalGroup.fullName',
+                    id: 'field.hits_common.externalApprovalGroupName.fullName',
                     defaultMessage: 'External approval group',
                   },
                   name: {
-                    id: 'field.hits_common.externalApprovalGroup.name',
+                    id: 'field.hits_common.externalApprovalGroupName.name',
                     defaultMessage: 'Group',
                   },
                 }),
@@ -584,203 +584,6 @@ export default (configContext) => {
             },
           },
         },
-        fieldCollectionGroupList: {
-          [config]: {
-            view: {
-              type: CompoundInput,
-            },
-          },
-          fieldCollectionGroup: {
-            [config]: {
-              repeating: true,
-              view: {
-                type: CompoundInput,
-              },
-            },
-            fieldCollectionDates: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              fieldCollectionDate: {
-                [config]: {
-                  dataType: DATA_TYPE_DATE,
-                  messages: defineMessages( {
-                    name: {
-                      id: 'field.hits_common.fieldCollectionDate.name',
-                      defaultMessage: 'Field collection date',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: DateInput,
-                  },
-                },
-              },
-            },
-            fieldCollectionMethods: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              fieldCollectionMethod: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.hits_common.fieldCollectionMethod.name',
-                      defaultMessage: 'Field collection method',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: TermPickerInput,
-                    props: {
-                      source: 'collectionmethod',
-                    },
-                  },
-                },
-              },
-            },
-            fieldCollectionNote: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.hits_common.fieldCollectionNote.name',
-                    defaultMessage: 'Field collection note',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                  props: {
-                    multiline: true,
-                  },
-                },
-              },
-            },
-            fieldCollectionNumber: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.hits_common.fieldCollectionNumber.name',
-                    defaultMessage: 'Field collection number',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            fieldCollectionPlaces: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              fieldCollectionPlace: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.hits_common.fieldCollectionPlace.name',
-                      defaultMessage: 'Field collection place',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: AutocompleteInput,
-                    props: {
-                      source: 'place/local',
-                    },
-                  },
-                },
-              },
-            },
-            fieldCollectionPlaceVerbatim: {
-              [config]: {
-                messages: defineMessages({
-                  name: {
-                    id: 'field.hits_common.fieldCollectionPlaceVerbatim.name',
-                    defaultMessage: 'Field collection place (verbatim)',
-                  },
-                }),
-                view: {
-                  type: TextInput,
-                },
-              },
-            },
-            fieldCollectionSources: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              fieldCollectionSource: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.hits_common.fieldCollectionSource.name',
-                      defaultMessage: 'Field collection source',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: AutocompleteInput,
-                    props: {
-                      source: 'person/local,person/shared,concept/ethculture,organization/local',
-                    },
-                  },
-                },
-              },
-            },
-            fieldCollectors: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              fieldCollector: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.hits_common.fieldCollector.name',
-                      defaultMessage: 'Field collector',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: AutocompleteInput,
-                    props: {
-                      source: 'person/local,person/shared,organization/local,organization/shared',
-                    },
-                  },
-                },
-              },
-            },
-            fieldCollectionEventNames: {
-              [config]: {
-                view: {
-                  type: CompoundInput,
-                },
-              },
-              fieldCollectionEventName: {
-                [config]: {
-                  messages: defineMessages({
-                    name: {
-                      id: 'field.hits_common.fieldCollectionEventName.name',
-                      defaultMessage: 'Field collection event name',
-                    },
-                  }),
-                  repeating: true,
-                  view: {
-                    type: TextInput,
-                  },
-                },
-              },
-            },
-          },
-        },
-
         handlingPreferences: {
           [config]: {
             messages: defineMessages({
