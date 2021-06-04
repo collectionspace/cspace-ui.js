@@ -634,7 +634,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'limitationtype',
+                    source: 'handlinglimitationstypes',
                   },
                 },
               },
@@ -674,7 +674,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'limitationlevel',
+                    source: 'handlinglimitationslevels',
                   },
                 },
               },
