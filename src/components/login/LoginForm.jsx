@@ -370,4 +370,5 @@ LoginForm.propTypes = propTypes;
 LoginForm.defaultProps = defaultProps;
 LoginForm.contextTypes = contextTypes;
 
+export { LoginForm as BaseLoginForm };
 export default injectIntl(LoginForm);
