@@ -1,6 +1,7 @@
 /* global window, document */
 
 import React from 'react';
+import { shallow as enzymeShallow } from 'enzyme';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { render, unmountComponentAtNode } from 'react-dom';
@@ -911,7 +912,7 @@ describe('SearchToSelectModal', () => {
     setPageSize.should.equal(2500);
   });
 
-  it.skip('should update the page number on future searches when the page is changed in a pager', () => {
+  it.skip('should update the page number on future searches when the page is changed in a pager', async () => {
     const recordTypeValue = 'collectionobject';
 
     const subject = {
@@ -937,6 +938,7 @@ describe('SearchToSelectModal', () => {
       },
     });
 
+    // todo: the shallow renderer does not call componentDidUpdate which is necessary for this test to pass
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -1378,6 +1380,7 @@ describe('SearchToSelectModal', () => {
       searchedSearchDescriptor = searchDescriptorArg;
     };
 
+    // todo: the shallow renderer does not call componentDidUpdate which is necessary for this test to pass
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
