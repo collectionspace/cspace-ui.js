@@ -33,7 +33,7 @@ describe('Dock', () => {
     this.container.firstElementChild.nodeName.should.equal('HEADER');
   });
 
-  it.skip('should dock and undock when scrolled', function test() {
+  it('should dock and undock when scrolled', function test() {
     this.timeout(4000);
 
     const dockTop = 0;
