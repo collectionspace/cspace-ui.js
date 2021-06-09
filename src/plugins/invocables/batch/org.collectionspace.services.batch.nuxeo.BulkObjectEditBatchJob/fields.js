@@ -235,6 +235,23 @@ export default (configContext) => {
           },
         },
       },
+      // naturalhistory
+      taxon: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.taxon.name',
+              defaultMessage: 'Taxon',
+            },
+          }),
+          view: {
+            type: AutocompleteInput,
+            props: {
+              source: 'taxon/local',
+            },
+          },
+        },
+      },
     },
   };
 };
