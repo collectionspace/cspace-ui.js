@@ -1,7 +1,6 @@
 /* global window, document */
 
 import React from 'react';
-import { shallow as enzymeShallow } from 'enzyme';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { render, unmountComponentAtNode } from 'react-dom';
