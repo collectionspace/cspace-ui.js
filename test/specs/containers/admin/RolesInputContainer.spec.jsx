@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import RolesInput from '../../../../src/components/admin/RolesInput';
 import ConnectedRolesInput from '../../../../src/containers/admin/RolesInputContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -24,13 +25,14 @@ describe('RolesInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedRolesInput />, context,
+      <ConnectedRolesInput store={store} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const rolesInput = findWithType(result, RolesInput);
 
-    result.type.should.equal(RolesInput);
-    result.props.should.have.property('roles').that.is.instanceOf(Immutable.List);
-    result.props.should.have.property('readRoles').that.is.a('function');
+    rolesInput.should.not.be.null;
+    rolesInput.props.should.have.property('roles').that.is.instanceOf(Immutable.List);
+    rolesInput.props.should.have.property('readRoles').that.is.a('function');
   });
 });

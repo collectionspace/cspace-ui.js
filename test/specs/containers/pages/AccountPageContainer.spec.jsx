@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import AccountPage from '../../../../src/components/pages/AccountPage';
 import AccountPageContainer from '../../../../src/containers/pages/AccountPageContainer';
+import findWithType from 'react-shallow-testutils/lib/find-with-type';
 
 chai.should();
 
@@ -30,12 +31,13 @@ describe('AccountPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<AccountPageContainer />, context);
+    shallowRenderer.render(<AccountPageContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const accountPage = findWithType(result, AccountPage);
 
-    result.type.should.equal(AccountPage);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('setAdminTab').that.is.a('function');
+    accountPage.should.not.be.null;
+    accountPage.props.should.have.property('perms', perms);
+    accountPage.props.should.have.property('setAdminTab').that.is.a('function');
   });
 });

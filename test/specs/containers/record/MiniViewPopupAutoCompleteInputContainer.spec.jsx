@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import MiniViewPopupAutocompleteInput from '../../../../src/components/record/MiniViewPopupAutocompleteInput';
 import MiniViewPopupAutoCompleteInputContainer from '../../../../src/containers/record/MiniViewPopupAutocompleteInputContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -26,11 +27,12 @@ describe('MiniViewPopupAutoCompleteInput', () => {
     const context = { store };
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<MiniViewPopupAutoCompleteInputContainer />, context);
+    shallowRenderer.render(<MiniViewPopupAutoCompleteInputContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, MiniViewPopupAutocompleteInput);
 
-    result.type.should.equal(MiniViewPopupAutocompleteInput);
-    result.props.should.have.property('perms', perms);
+    input.should.not.be.null;
+    input.props.should.have.property('perms', perms);
   });
 });

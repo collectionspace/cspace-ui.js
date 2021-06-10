@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import ToolPage from '../../../../src/components/pages/ToolPage';
 import ToolPageContainer from '../../../../src/containers/pages/ToolPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -35,12 +36,13 @@ describe('ToolPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ToolPageContainer />, context);
+    shallowRenderer.render(<ToolPageContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const toolPage = findWithType(result, ToolPage);
 
-    result.type.should.equal(ToolPage);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('preferredTab', toolTab);
+    toolPage.type.should.equal(ToolPage);
+    toolPage.props.should.have.property('perms', perms);
+    toolPage.props.should.have.property('preferredTab', toolTab);
   });
 });

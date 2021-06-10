@@ -6,6 +6,7 @@ import chaiImmutable from 'chai-immutable';
 import SearchResultLink from '../../../../src/components/search/SearchResultLink';
 import SearchResultLinkContainer from '../../../../src/containers/search/SearchResultLinkContainer';
 import { searchKey } from '../../../../src/reducers/search';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -61,17 +62,18 @@ describe('SearchResultLinkContainer', () => {
 
     shallowRenderer.render(
       <SearchResultLinkContainer
+        store={store}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const searchResultLink = findWithType(result, SearchResultLink);
 
-    result.type.should.equal(SearchResultLink);
-
-    result.props.isSearchPending.should.equal(true);
-    result.props.searchResult.should.equal(Immutable.fromJS(searchResult));
-    result.props.searchError.should.equal(Immutable.fromJS(searchError));
+    searchResultLink.should.not.be.null;
+    searchResultLink.props.isSearchPending.should.equal(true);
+    searchResultLink.props.searchResult.should.equal(Immutable.fromJS(searchResult));
+    searchResultLink.props.searchError.should.equal(Immutable.fromJS(searchError));
   });
 });

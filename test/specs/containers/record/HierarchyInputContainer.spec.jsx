@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import HierarchyInput from '../../../../src/components/record/HierarchyInput';
 import HierarchyInputContainer from '../../../../src/containers/record/HierarchyInputContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -40,14 +41,15 @@ describe('HierarchyInputContainer', () => {
 
     shallowRenderer.render(
       <HierarchyInputContainer
+        store={store}
         csid={csid}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, HierarchyInput);
 
-    result.type.should.equal(HierarchyInput);
-
-    result.props.should.have.property('isRecordModified', true);
+    input.should.not.be.null;
+    input.props.should.have.property('isRecordModified', true);
   });
 });

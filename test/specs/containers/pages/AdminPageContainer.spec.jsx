@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import AdminPage from '../../../../src/components/pages/AdminPage';
 import AdminPageContainer from '../../../../src/containers/pages/AdminPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -35,12 +36,13 @@ describe('AdminPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<AdminPageContainer />, context);
+    shallowRenderer.render(<AdminPageContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const admin = findWithType(result, AdminPage);
 
-    result.type.should.equal(AdminPage);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('preferredTab', adminTab);
+    admin.type.should.equal(AdminPage);
+    admin.props.should.have.property('perms', perms);
+    admin.props.should.have.property('preferredTab', adminTab);
   });
 });

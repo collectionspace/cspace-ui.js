@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import thunk from 'redux-thunk';
 import HierarchySiblingList from '../../../../src/components/record/HierarchySiblingList';
@@ -34,16 +35,18 @@ describe('HierarchySiblingListContainer', () => {
 
     shallowRenderer.render(
       <HierarchySiblingListContainer
+        store={store}
         parentCsid={parentCsid}
         recordType={recordType}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const list = findWithType(result, HierarchySiblingList);
 
-    result.type.should.equal(HierarchySiblingList);
-    result.props.should.have.property('findResult', findResult);
-    result.props.should.have.property('findRelations').that.is.a('function');
+    list.should.not.be.null;
+    list.props.should.have.property('findResult', findResult);
+    list.props.should.have.property('findRelations').that.is.a('function');
   });
 
   it('should connect findRelations to find action creator', () => {
@@ -74,19 +77,21 @@ describe('HierarchySiblingListContainer', () => {
 
     shallowRenderer.render(
       <HierarchySiblingListContainer
+        store={store}
         parentCsid={parentCsid}
         recordType={recordType}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const list = findWithType(result, HierarchySiblingList);
 
     // The call to findRelationw will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the find action creator gets called, and
     // dispatches RELATION_FIND_STARTED.
 
     try {
-      result.props.findRelations(config, subject, object, predicate);
+      list.props.findRelations(config, subject, object, predicate);
     } catch (error) {
       const action = store.getActions()[0];
 

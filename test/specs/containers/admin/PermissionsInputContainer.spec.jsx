@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import PermissionsInput from '../../../../src/components/admin/PermissionsInput';
 import ConnectedPermissionsInput from '../../../../src/containers/admin/PermissionsInputContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -24,13 +25,14 @@ describe('PermissionsInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedPermissionsInput />, context,
+      <ConnectedPermissionsInput store={store} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, PermissionsInput);
 
-    result.type.should.equal(PermissionsInput);
-    result.props.should.have.property('resourceNames').that.is.instanceOf(Immutable.List);
-    result.props.should.have.property('readPerms').that.is.a('function');
+    input.should.not.be.null;
+    input.props.should.have.property('resourceNames').that.is.instanceOf(Immutable.List);
+    input.props.should.have.property('readPerms').that.is.a('function');
   });
 });

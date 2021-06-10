@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import CreatePage from '../../../../src/components/pages/CreatePage';
 import CreatePageContainer from '../../../../src/containers/pages/CreatePageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -37,13 +38,14 @@ describe('CreatePageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<CreatePageContainer />, context);
+    shallowRenderer.render(<CreatePageContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, CreatePage);
 
-    result.type.should.equal(CreatePage);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('getAuthorityVocabWorkflowState').that.is.a('function');
+    page.should.not.be.null;
+    page.props.should.have.property('perms', perms);
+    page.props.should.have.property('getAuthorityVocabWorkflowState').that.is.a('function');
   });
 
   it('should return the workflow state from the store when getAuthorityVocabWorkflowState is called', () => {
@@ -51,10 +53,11 @@ describe('CreatePageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<CreatePageContainer />, context);
+    shallowRenderer.render(<CreatePageContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, CreatePage);
 
-    result.props.getAuthorityVocabWorkflowState('person', 'local').should.equal('project');
+    page.props.getAuthorityVocabWorkflowState('person', 'local').should.equal('project');
   });
 });

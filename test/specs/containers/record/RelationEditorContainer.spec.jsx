@@ -11,6 +11,7 @@ import {
   RELATION_FIND_STARTED,
   RELATION_SAVE_STARTED,
 } from '../../../../src/constants/actionCodes';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -67,6 +68,7 @@ describe('RelationEditorContainer', () => {
 
     shallowRenderer.render(
       <RelationEditorContainer
+        store={store}
         subject={subject}
         object={object}
         predicate={predicate}
@@ -74,12 +76,13 @@ describe('RelationEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RelationEditor);
 
-    result.type.should.equal(RelationEditor);
-    result.props.should.have.property('findResult').that.equals(findResult);
-    result.props.should.have.property('createRelation').that.is.a('function');
-    result.props.should.have.property('findRelation').that.is.a('function');
-    result.props.should.have.property('onUnmount').that.is.a('function');
+    editor.should.not.be.null;
+    editor.props.should.have.property('findResult').that.equals(findResult);
+    editor.props.should.have.property('createRelation').that.is.a('function');
+    editor.props.should.have.property('findRelation').that.is.a('function');
+    editor.props.should.have.property('onUnmount').that.is.a('function');
   });
 
   it('should connect createRelation to createBidirectional action creator', () => {
@@ -87,6 +90,7 @@ describe('RelationEditorContainer', () => {
 
     shallowRenderer.render(
       <RelationEditorContainer
+        store={store}
         subject={subject}
         object={object}
         predicate={predicate}
@@ -94,13 +98,14 @@ describe('RelationEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RelationEditor);
 
     // The call to createRelation will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the readRecord createBidirectional creator gets called,
     // and dispatches RELATION_SAVE_STARTED.
 
     try {
-      result.props.createRelation(subject, object, predicate);
+      editor.props.createRelation(subject, object, predicate);
     } catch (error) {
       const action = store.getActions()[0];
 
@@ -121,6 +126,7 @@ describe('RelationEditorContainer', () => {
 
     shallowRenderer.render(
       <RelationEditorContainer
+        store={store}
         subject={subject}
         object={newObject}
         predicate={predicate}
@@ -128,13 +134,14 @@ describe('RelationEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RelationEditor);
 
     // The call to findRelation will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the find action creator gets called, and
     // dispatches RELATION_FIND_STARTED.
 
     try {
-      result.props.findRelation(config, subject, newObject, predicate);
+      editor.props.findRelation(config, subject, newObject, predicate);
     } catch (error) {
       const action = store.getActions()[0];
 
@@ -150,6 +157,7 @@ describe('RelationEditorContainer', () => {
 
     shallowRenderer.render(
       <RelationEditorContainer
+        store={store}
         subject={subject}
         object={object}
         predicate={predicate}
@@ -157,8 +165,9 @@ describe('RelationEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RelationEditor);
 
-    result.props.onUnmount();
+    editor.props.onUnmount();
 
     const action = store.getActions()[0];
 

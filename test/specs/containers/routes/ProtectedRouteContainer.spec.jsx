@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import ProtectedRoute from '../../../../src/components/routes/ProtectedRoute';
 import ProtectedRouteContainer from '../../../../src/containers/routes/ProtectedRouteContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -42,14 +43,15 @@ describe('ProtectedRouteContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ProtectedRouteContainer />, context);
+    shallowRenderer.render(<ProtectedRouteContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const route = findWithType(result, ProtectedRoute);
 
-    result.type.should.equal(ProtectedRoute);
-    result.props.should.have.property('openModalName', openModalName);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('username', username);
-    result.props.should.have.property('screenName', screenName);
+    route.should.not.be.null;
+    route.props.should.have.property('openModalName', openModalName);
+    route.props.should.have.property('perms', perms);
+    route.props.should.have.property('username', username);
+    route.props.should.have.property('screenName', screenName);
   });
 });

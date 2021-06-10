@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import BatchPage from '../../../../src/components/pages/BatchPage';
 import BatchPageContainer from '../../../../src/containers/pages/BatchPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -42,17 +43,19 @@ describe('BatchPageContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <BatchPageContainer />, context,
+      <BatchPageContainer store={store} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const batchPage = findWithType(result, BatchPage);
 
-    result.type.should.equal(BatchPage);
-    result.props.should.have.property('openModalName', openModalName);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('closeModal').that.is.a('function');
-    result.props.should.have.property('openModal').that.is.a('function');
-    result.props.should.have.property('invoke').that.is.a('function');
-    result.props.should.have.property('setToolTab').that.is.a('function');
+    batchPage.should.not.be.null;
+    batchPage.type.should.equal(BatchPage);
+    batchPage.props.should.have.property('openModalName', openModalName);
+    batchPage.props.should.have.property('perms', perms);
+    batchPage.props.should.have.property('closeModal').that.is.a('function');
+    batchPage.props.should.have.property('openModal').that.is.a('function');
+    batchPage.props.should.have.property('invoke').that.is.a('function');
+    batchPage.props.should.have.property('setToolTab').that.is.a('function');
   });
 });

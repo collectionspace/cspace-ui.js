@@ -5,6 +5,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import RecordPage from '../../../../src/components/pages/RecordPage';
 import { ConnectedRecordPage } from '../../../../src/containers/pages/RecordPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -54,15 +55,17 @@ describe('RecordPageContainer', () => {
 
     shallowRenderer.render(
       <ConnectedRecordPage
+        store={store}
         config={config}
         match={match}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, RecordPage);
 
-    result.type.should.equal(RecordPage);
-
-    result.props.should.have.property('error', error);
+    page.should.not.be.null;
+    page.type.should.equal(RecordPage);
+    page.props.should.have.property('error', error);
   });
 });

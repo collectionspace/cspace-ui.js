@@ -54,6 +54,7 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
@@ -76,6 +77,7 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
@@ -100,6 +102,7 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
@@ -124,6 +127,7 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
@@ -148,6 +152,7 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
@@ -171,6 +176,7 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}

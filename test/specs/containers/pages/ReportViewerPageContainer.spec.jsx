@@ -44,7 +44,7 @@ describe('ReportViewerPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedReportViewerPage />, context);
+    shallowRenderer.render(<ConnectedReportViewerPage store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -71,7 +71,7 @@ describe('ReportViewerPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedReportViewerPage />, context);
+    shallowRenderer.render(<ConnectedReportViewerPage store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 

@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import OptionPickerInput from '../../../../src/components/record/OptionPickerInput';
 import ConnectedOptionPickerInput from '../../../../src/containers/record/OptionPickerInputContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -41,12 +42,16 @@ describe('OptionPickerInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedOptionPickerInput source={optionListName} />, context,
+      <ConnectedOptionPickerInput
+        store={store}
+        source={optionListName}
+      />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, OptionPickerInput);
 
-    result.type.should.equal(OptionPickerInput);
-    result.props.options.should.deep.equal(options);
+    input.should.not.be.null;
+    input.props.options.should.deep.equal(options);
   });
 });

@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import VocabularyPage from '../../../../src/components/pages/VocabularyPage';
 import VocabularyPageContainer from '../../../../src/containers/pages/VocabularyPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -42,6 +43,7 @@ describe('VocabularyPageContainer', () => {
 
     shallowRenderer.render(
       <VocabularyPageContainer
+        store={store}
         match={{
           params: {
             csid,
@@ -51,11 +53,12 @@ describe('VocabularyPageContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, VocabularyPage);
 
-    result.type.should.equal(VocabularyPage);
-    result.props.should.have.property('data', data);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('readVocabularyItemRefs').that.is.a('function');
-    result.props.should.have.property('setToolTab').that.is.a('function');
+    page.should.not.be.null;
+    page.props.should.have.property('data', data);
+    page.props.should.have.property('perms', perms);
+    page.props.should.have.property('readVocabularyItemRefs').that.is.a('function');
+    page.props.should.have.property('setToolTab').that.is.a('function');
   });
 });

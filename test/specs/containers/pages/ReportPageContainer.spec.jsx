@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import ReportPage from '../../../../src/components/pages/ReportPage';
 import ReportPageContainer from '../../../../src/containers/pages/ReportPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -42,17 +43,18 @@ describe('ReportPageContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportPageContainer />, context,
+      <ReportPageContainer store={store} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, ReportPage);
 
-    result.type.should.equal(ReportPage);
-    result.props.should.have.property('openModalName', openModalName);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('closeModal').that.is.a('function');
-    result.props.should.have.property('openModal').that.is.a('function');
-    result.props.should.have.property('openReport').that.is.a('function');
-    result.props.should.have.property('setToolTab').that.is.a('function');
+    page.should.not.be.null;
+    page.props.should.have.property('openModalName', openModalName);
+    page.props.should.have.property('perms', perms);
+    page.props.should.have.property('closeModal').that.is.a('function');
+    page.props.should.have.property('openModal').that.is.a('function');
+    page.props.should.have.property('openReport').that.is.a('function');
+    page.props.should.have.property('setToolTab').that.is.a('function');
   });
 });

@@ -23,7 +23,7 @@ describe('PasswordResetRequestFormContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedPasswordResetRequestForm />, context);
+    shallowRenderer.render(<ConnectedPasswordResetRequestForm store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -57,7 +57,7 @@ describe('PasswordResetRequestFormContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedPasswordResetRequestForm config={config} />, context,
+      <ConnectedPasswordResetRequestForm store={store} config={config} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();

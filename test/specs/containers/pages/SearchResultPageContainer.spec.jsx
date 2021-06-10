@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
 import SearchResultPageContainer from '../../../../src/containers/pages/SearchResultPageContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -36,16 +37,21 @@ describe('SearchResultPageContainer', () => {
     };
 
     shallowRenderer.render(
-      <SearchResultPageContainer location={location} params={params} />, context,
+      <SearchResultPageContainer
+        store={store}
+        location={location}
+        params={params}
+      />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, SearchResultPage);
 
-    result.type.should.equal(SearchResultPage);
-    result.props.should.have.property('preferredPageSize', 10);
-    result.props.should.have.property('search').that.is.a('function');
-    result.props.should.have.property('setPreferredPageSize').that.is.a('function');
-    result.props.should.have.property('setSearchPageAdvanced').that.is.a('function');
-    result.props.should.have.property('setSearchPageKeyword').that.is.a('function');
+    page.should.not.be.null;
+    page.props.should.have.property('preferredPageSize', 10);
+    page.props.should.have.property('search').that.is.a('function');
+    page.props.should.have.property('setPreferredPageSize').that.is.a('function');
+    page.props.should.have.property('setSearchPageAdvanced').that.is.a('function');
+    page.props.should.have.property('setSearchPageKeyword').that.is.a('function');
   });
 });

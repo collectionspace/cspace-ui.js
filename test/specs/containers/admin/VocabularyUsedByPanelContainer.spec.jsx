@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import VocabularyUsedByPanel from '../../../../src/components/admin/VocabularyUsedByPanel';
 import VocabularyUsedByPanelContainer from '../../../../src/containers/admin/VocabularyUsedByPanelContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -35,12 +36,16 @@ describe('VocabularyUsedByPanelContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <VocabularyUsedByPanelContainer csid={csid} />, context,
+      <VocabularyUsedByPanelContainer
+        store={store}
+        csid={csid}
+      />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const panel = findWithType(result, VocabularyUsedByPanel);
 
-    result.type.should.equal(VocabularyUsedByPanel);
-    result.props.data.should.equal(data);
+    panel.should.not.be.null;
+    panel.props.data.should.equal(data);
   });
 });

@@ -50,7 +50,7 @@ describe('ExportViewerPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedExportViewerPage />, context);
+    shallowRenderer.render(<ConnectedExportViewerPage store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -73,7 +73,7 @@ describe('ExportViewerPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedExportViewerPage />, context);
+    shallowRenderer.render(<ConnectedExportViewerPage store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
     const recordCsid = '1234';

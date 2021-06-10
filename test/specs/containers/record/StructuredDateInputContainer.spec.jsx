@@ -9,6 +9,7 @@ import { ConnectedStructuredDateInput } from '../../../../src/containers/record/
 import {
   READ_VOCABULARY_ITEMS_STARTED,
 } from '../../../../src/constants/actionCodes';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -56,16 +57,20 @@ describe('StructuredDateInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedStructuredDateInput config={config} />, context,
+      <ConnectedStructuredDateInput
+        store={store}
+        config={config}
+      />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, StructuredDateInput);
 
-    result.type.should.equal(StructuredDateInput);
-    result.props.optionLists.should.deep.equal(optionLists);
-    result.props.perms.should.equal(perms);
+    input.should.not.be.null;
+    input.props.optionLists.should.deep.equal(optionLists);
+    input.props.perms.should.equal(perms);
 
-    result.props.terms.should.deep.equal({
+    input.props.terms.should.deep.equal({
       dateera: [],
       datecertainty: [],
       datequalifier: [],
@@ -152,17 +157,21 @@ describe('StructuredDateInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedStructuredDateInput config={config} />, context,
+      <ConnectedStructuredDateInput
+        store={store}
+        config={config}
+      />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, StructuredDateInput);
 
     // The call to readTerms will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the readVocabularyItems action creator gets called, and
     // dispatches READ_VOCABULARY_ITEMS_STARTED.
 
     try {
-      result.props.readTerms(vocabularyName);
+      input.props.readTerms(vocabularyName);
     } catch (error) {
       const action = store.getActions()[0];
 

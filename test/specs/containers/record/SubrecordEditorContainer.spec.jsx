@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import SubrecordEditor from '../../../../src/components/record/SubrecordEditor';
 import SubrecordEditorContainer from '../../../../src/containers/record/SubrecordEditorContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -55,16 +56,18 @@ describe('SubrecordEditorContainer', () => {
 
     shallowRenderer.render(
       <SubrecordEditorContainer
+        store={store}
         containerCsid={containerCsid}
         name={subrecordName}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, SubrecordEditor);
 
-    result.type.should.equal(SubrecordEditor);
-    result.props.should.have.property('csid').that.equals(subrecordCsid);
-    result.props.should.have.property('data').that.equals(subrecordData);
-    result.props.should.have.property('perms').that.equals(perms);
+    editor.should.not.be.null;
+    editor.props.should.have.property('csid').that.equals(subrecordCsid);
+    editor.props.should.have.property('data').that.equals(subrecordData);
+    editor.props.should.have.property('perms').that.equals(perms);
   });
 });

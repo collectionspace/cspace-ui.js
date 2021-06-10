@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import { ConnectedComboBoxInput } from '../../../../src/containers/input/ComboBoxInputContainer';
+import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -31,15 +32,18 @@ describe('ComboBoxInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedComboBoxInput source={optionListName} />, context,
+      <ConnectedComboBoxInput
+        store={store}
+        source={optionListName}
+      />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, ComboBoxInput);
 
-    result.type.should.equal(ComboBoxInput);
-
-    result.props.options.should.deep.equal(options);
-    result.props.formatOptionLabel.should.be.a('function');
+    input.should.not.be.null;
+    input.props.options.should.deep.equal(options);
+    input.props.formatOptionLabel.should.be.a('function');
   });
 
   it('should connect formatOptionLabel to intl.formatMessage', () => {
@@ -76,14 +80,16 @@ describe('ComboBoxInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedComboBoxInput
+        store={store}
         intl={context.intl}
         source={optionListName}
       />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, ComboBoxInput);
 
-    result.props.formatOptionLabel(options[0]);
+    input.props.formatOptionLabel(options[0]);
 
     formatMessageCalled.should.equal(true);
   });

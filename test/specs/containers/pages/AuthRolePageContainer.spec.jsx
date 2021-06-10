@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import AuthRolePage from '../../../../src/components/pages/AuthRolePage';
 import AuthRolePageContainer from '../../../../src/containers/pages/AuthRolePageContainer';
@@ -30,12 +31,13 @@ describe('AuthRolePageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<AuthRolePageContainer />, context);
+    shallowRenderer.render(<AuthRolePageContainer store={store} />, context);
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, AuthRolePage);
 
-    result.type.should.equal(AuthRolePage);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('setAdminTab').that.is.a('function');
+    page.should.not.be.null;
+    page.props.should.have.property('perms', perms);
+    page.props.should.have.property('setAdminTab').that.is.a('function');
   });
 });

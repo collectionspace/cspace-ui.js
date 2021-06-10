@@ -8,6 +8,7 @@ import MediaViewerContainer from '../../../../src/containers/media/MediaViewerCo
 import {
   searchKey,
 } from '../../../../src/reducers/search';
+import findWithType from 'react-shallow-testutils/lib/find-with-type';
 
 chai.should();
 
@@ -43,6 +44,7 @@ describe('MediaViewerContainer', () => {
 
     shallowRenderer.render(
       <MediaViewerContainer
+        store={store}
         config={config}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
@@ -50,10 +52,11 @@ describe('MediaViewerContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const viewer = findWithType(result, MediaViewer);
 
-    result.type.should.equal(MediaViewer);
-    result.props.should.have.property('isSearchPending', isPending);
-    result.props.should.have.property('searchResult', searchResult);
-    result.props.should.have.property('searchError', searchError);
+    viewer.should.not.be.null;
+    viewer.props.should.have.property('isSearchPending', isPending);
+    viewer.props.should.have.property('searchResult', searchResult);
+    viewer.props.should.have.property('searchError', searchError);
   });
 });
