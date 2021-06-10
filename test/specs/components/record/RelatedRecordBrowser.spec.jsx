@@ -613,7 +613,7 @@ describe('RelatedRecordBrowser', () => {
       </IntlProvider>, this.container,
     );
 
-    const panel = findRenderedComponentWithType(resultTree, RelatedRecordPanelContainer);
+    const panel = findRenderedComponentWithType(resultTree, RelatedRecordPanel);
 
     panel.props.onUnrelated([
       { csid: '1111' },
