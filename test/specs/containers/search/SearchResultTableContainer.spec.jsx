@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
@@ -46,6 +47,7 @@ describe('SearchResultTableContainer', () => {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        store={store}
         config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
@@ -53,15 +55,15 @@ describe('SearchResultTableContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const table = findWithType(result, SearchResultTable);
 
-    result.type.should.equal(SearchResultTable);
+    table.should.not.be.null;
+    table.props.isSearchPending.should.equal(true);
+    table.props.searchResult.should.equal(Immutable.fromJS(searchResult));
+    table.props.searchError.should.equal(Immutable.fromJS(searchError));
 
-    result.props.isSearchPending.should.equal(true);
-    result.props.searchResult.should.equal(Immutable.fromJS(searchResult));
-    result.props.searchError.should.equal(Immutable.fromJS(searchError));
-
-    result.props.formatCellData.should.be.a('function');
-    result.props.formatColumnLabel.should.be.a('function');
+    table.props.formatCellData.should.be.a('function');
+    table.props.formatColumnLabel.should.be.a('function');
   });
 
   it('should connect formatColumnLabel to intl.formatMessage', () => {
@@ -82,6 +84,7 @@ describe('SearchResultTableContainer', () => {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        store={store}
         config={{}}
         intl={intl}
         searchName={searchName}
@@ -91,7 +94,8 @@ describe('SearchResultTableContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.formatColumnLabel({
+    const table = findWithType(result, SearchResultTable);
+    table.props.formatColumnLabel({
       messages: {
         label: {
           id: 'column.object.objectNumber',
@@ -117,6 +121,7 @@ describe('SearchResultTableContainer', () => {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        store={store}
         intl={intl}
         config={config}
         searchName={searchName}
@@ -125,11 +130,12 @@ describe('SearchResultTableContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const table = findWithType(result, SearchResultTable);
 
     let suppliedIntl = null;
     let suppliedConfig = null;
 
-    result.props.formatCellData({
+    table.props.formatCellData({
       formatValue: (data, { intl: intlArg, config: configArg }) => {
         suppliedIntl = intlArg;
         suppliedConfig = configArg;
@@ -154,6 +160,7 @@ describe('SearchResultTableContainer', () => {
 
     shallowRenderer.render(
       <ConnectedSearchResultTable
+        store={store}
         config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
@@ -161,7 +168,8 @@ describe('SearchResultTableContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const table = findWithType(result, SearchResultTable);
 
-    result.props.formatCellData({}, 'data').should.equal('data');
+    table.props.formatCellData({}, 'data').should.equal('data');
   });
 });
