@@ -59,7 +59,7 @@
     "react-helmet": "^6.1.0",
     "react-image-gallery": "^1.0.9",
     "react-intl": "^2.4.0",
-    "react-redux": "^5.1.2",
+    "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.0",
