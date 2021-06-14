@@ -4,7 +4,10 @@ import { Route } from 'react-router';
 import PublicPage from '../pages/PublicPage';
 
 const propTypes = {
-  component: PropTypes.func,
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+  ]),
 };
 
 export default function PublicRoute(props) {
