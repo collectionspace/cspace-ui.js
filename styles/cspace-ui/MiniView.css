@@ -18,3 +18,7 @@
   composes: common;
   background-color: #F0F5FB;
 }
+
+.secondaryTitle {
+  margin-left: 4px;
+}
