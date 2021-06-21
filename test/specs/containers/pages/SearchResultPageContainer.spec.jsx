@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
 import SearchResultPageContainer from '../../../../src/containers/pages/SearchResultPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -32,7 +32,6 @@ describe('SearchResultPageContainer', () => {
     const shallowRenderer = createRenderer();
 
     const context = {
-      store,
       config,
     };
 
@@ -47,7 +46,6 @@ describe('SearchResultPageContainer', () => {
     const result = shallowRenderer.getRenderOutput();
     const page = findWithType(result, SearchResultPage);
 
-    page.should.not.be.null;
     page.props.should.have.property('preferredPageSize', 10);
     page.props.should.have.property('search').that.is.a('function');
     page.props.should.have.property('setPreferredPageSize').that.is.a('function');

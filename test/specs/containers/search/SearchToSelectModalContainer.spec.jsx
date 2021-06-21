@@ -3,9 +3,9 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import SearchToSelectModal from '../../../../src/components/search/SearchToSelectModal';
 import SearchToSelectModalContainer from '../../../../src/containers/search/SearchToSelectModalContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -34,18 +34,13 @@ describe('SearchToSelectModalContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    const context = {
-      store,
-    };
-
     shallowRenderer.render(
-      <SearchToSelectModalContainer store={store} />, context,
+      <SearchToSelectModalContainer store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, SearchToSelectModal);
 
-    modal.should.not.be.null;
     modal.props.should.have.property('keywordValue', 'foo');
     modal.props.should.have.property('recordTypeValue', 'person');
     modal.props.should.have.property('vocabularyValue', 'local');
@@ -85,12 +80,8 @@ describe('SearchToSelectModalContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    const context = {
-      store,
-    };
-
     shallowRenderer.render(
-      <SearchToSelectModalContainer store={store} />, context,
+      <SearchToSelectModalContainer store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();

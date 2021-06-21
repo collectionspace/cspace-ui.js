@@ -4,9 +4,9 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 import HierarchyReparentNotifierContainer from '../../../../src/containers/record/HierarchyReparentNotifierContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -51,8 +51,6 @@ describe('HierarchyReparentNotifierContainer', () => {
       }),
     });
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -61,13 +59,11 @@ describe('HierarchyReparentNotifierContainer', () => {
         config={config}
         csid={csid}
         childRefNames={childRefNames}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const notifier = findWithType(result, HierarchyReparentNotifier);
-
-    notifier.should.not.be.null;
 
     notifier.props.should.have.property('childData').that.equals(Immutable.Map({
       'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(Alameda)\'Alameda\'': 'Alameda data',

@@ -27,16 +27,13 @@ const store = mockStore({
 
 describe('AuthRolePageContainer', () => {
   it('should set props on AuthRolePage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<AuthRolePageContainer store={store} />, context);
+    shallowRenderer.render(<AuthRolePageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const page = findWithType(result, AuthRolePage);
 
-    page.should.not.be.null;
     page.props.should.have.property('perms', perms);
     page.props.should.have.property('setAdminTab').that.is.a('function');
   });

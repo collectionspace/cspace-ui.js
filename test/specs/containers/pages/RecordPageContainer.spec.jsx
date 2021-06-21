@@ -3,9 +3,9 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import RecordPage from '../../../../src/components/pages/RecordPage';
 import { ConnectedRecordPage } from '../../../../src/containers/pages/RecordPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -49,22 +49,17 @@ describe('RecordPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    const context = {
-      store,
-    };
-
     shallowRenderer.render(
       <ConnectedRecordPage
         store={store}
         config={config}
         match={match}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const page = findWithType(result, RecordPage);
 
-    page.should.not.be.null;
     page.type.should.equal(RecordPage);
     page.props.should.have.property('error', error);
   });

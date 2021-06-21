@@ -4,6 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
+import { findWithType } from 'react-shallow-testutils';
 import { ConnectedAutocompleteInput } from '../../../../src/containers/input/AutocompleteInputContainer';
 
 import {
@@ -11,7 +12,6 @@ import {
   PARTIAL_TERM_SEARCH_STARTED,
   CLEAR_PARTIAL_TERM_SEARCH_RESULTS,
 } from '../../../../src/constants/actionCodes';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -33,10 +33,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -64,13 +60,12 @@ describe('AutocompleteInputContainer', () => {
         store={store}
         source="person/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, AutocompleteInput);
 
-    input.should.not.be.null;
     input.props.should.have.property('matches', matches);
     input.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
     input.props.should.have.property('formatAddPrompt').that.is.a('function');
@@ -99,10 +94,6 @@ describe('AutocompleteInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const config = {
       recordTypes: {
         person: {
@@ -128,13 +119,23 @@ describe('AutocompleteInputContainer', () => {
       <ConnectedAutocompleteInput
         store={store}
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, AutocompleteInput);
 
-    input.should.not.be.null;
+    input.props.should.have.property('matches', matches);
+    input.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
+    input.props.should.have.property('formatAddPrompt').that.is.a('function');
+    input.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
+    input.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
+    input.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
+    input.props.should.have.property('formatSearchResultMessage').that.is.a('function');
+    input.props.should.have.property('formatSourceName').that.is.a('function');
+    input.props.should.have.property('addTerm').that.is.a('function');
+    input.props.should.have.property('findMatchingTerms').that.is.a('function');
+    input.props.should.have.property('onClose').that.is.a('function');
   });
 
   it('should remove from source any record types for which there are not list permissions', () => {
@@ -154,10 +155,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -199,7 +196,7 @@ describe('AutocompleteInputContainer', () => {
         store={store}
         source="person/local,organization/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -231,10 +228,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -281,7 +274,7 @@ describe('AutocompleteInputContainer', () => {
         store={store}
         source="person/local,person/shared,organization/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -304,10 +297,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -336,7 +325,7 @@ describe('AutocompleteInputContainer', () => {
         store={store}
         source="person/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -407,10 +396,6 @@ describe('AutocompleteInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const config = {
       recordTypes: {
         person: {
@@ -438,7 +423,7 @@ describe('AutocompleteInputContainer', () => {
         source="person/local"
         intl={intl}
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

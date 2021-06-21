@@ -127,10 +127,6 @@ describe('RecordEditorContainer', () => {
     user: Immutable.Map(),
   });
 
-  const context = {
-    store,
-  };
-
   before(() => {
     worker.start({ quiet: true });
 
@@ -156,13 +152,12 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const editor = findWithType(result, RecordEditor);
 
-    editor.should.not.be.null;
     editor.props.should.have.property('data', data);
     editor.props.should.have.property('isModified', true);
     editor.props.should.have.property('createNewRecord').that.is.a('function');
@@ -184,7 +179,7 @@ describe('RecordEditorContainer', () => {
         csid={csid}
         recordType={authRecordType}
         vocabulary={vocabulary}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -214,7 +209,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid="abcd"
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -246,7 +241,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid="abcd"
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -276,7 +271,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -299,7 +294,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -336,7 +331,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -376,7 +371,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -398,7 +393,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -422,7 +417,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -445,7 +440,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -478,7 +473,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -511,7 +506,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -537,7 +532,7 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -579,11 +574,10 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const editor = findWithType(result, RecordEditor);
 
     return result.props.checkForRelations(predicate).should.eventually.be.fulfilled;
   });
@@ -612,11 +606,10 @@ describe('RecordEditorContainer', () => {
         csid={csid}
         recordType={authRecordType}
         vocabulary={vocabulary}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const editor = findWithType(result, RecordEditor);
 
     return result.props.checkForUses().should.eventually.be.fulfilled;
   });
@@ -636,11 +629,10 @@ describe('RecordEditorContainer', () => {
         config={config}
         csid={csid}
         recordType="authrole"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
-    const editor = findWithType(result, RecordEditor);
 
     return result.props.checkForRoleUses().should.eventually.be.fulfilled;
   });

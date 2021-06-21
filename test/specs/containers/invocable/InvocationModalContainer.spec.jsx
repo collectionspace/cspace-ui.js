@@ -4,13 +4,13 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { setupWorker, rest } from 'msw';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 
 import {
   configureCSpace,
 } from '../../../../src/actions/cspace';
-import { findWithType } from 'react-shallow-testutils';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -32,10 +32,6 @@ const store = mockStore({
     },
   }),
 });
-
-const context = {
-  store,
-};
 
 const config = {
   recordTypes: {
@@ -76,13 +72,12 @@ describe('InvocationModalContainer', () => {
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, InvocationModal);
 
-    modal.should.not.be.null;
     modal.props.should.have.property('data', data);
     modal.props.should.have.property('readRecord').that.is.a('function');
   });
@@ -96,7 +91,7 @@ describe('InvocationModalContainer', () => {
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -126,7 +121,7 @@ describe('InvocationModalContainer', () => {
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

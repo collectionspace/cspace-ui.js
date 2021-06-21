@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import ProtectedRoute from '../../../../src/components/routes/ProtectedRoute';
 import ProtectedRouteContainer from '../../../../src/containers/routes/ProtectedRouteContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -39,16 +39,13 @@ const store = mockStore({
 
 describe('ProtectedRouteContainer', () => {
   it('should set props on ProtectedRoute', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ProtectedRouteContainer store={store} />, context);
+    shallowRenderer.render(<ProtectedRouteContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const route = findWithType(result, ProtectedRoute);
 
-    route.should.not.be.null;
     route.props.should.have.property('openModalName', openModalName);
     route.props.should.have.property('perms', perms);
     route.props.should.have.property('username', username);

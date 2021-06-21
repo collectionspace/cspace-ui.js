@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import SubrecordEditor from '../../../../src/components/record/SubrecordEditor';
 import SubrecordEditorContainer from '../../../../src/containers/record/SubrecordEditorContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -47,10 +47,6 @@ describe('SubrecordEditorContainer', () => {
     }),
   });
 
-  const context = {
-    store,
-  };
-
   it('should set props on SubrecordEditor', () => {
     const shallowRenderer = createRenderer();
 
@@ -59,13 +55,12 @@ describe('SubrecordEditorContainer', () => {
         store={store}
         containerCsid={containerCsid}
         name={subrecordName}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const editor = findWithType(result, SubrecordEditor);
 
-    editor.should.not.be.null;
     editor.props.should.have.property('csid').that.equals(subrecordCsid);
     editor.props.should.have.property('data').that.equals(subrecordData);
     editor.props.should.have.property('perms').that.equals(perms);

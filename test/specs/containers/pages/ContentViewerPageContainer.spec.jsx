@@ -40,16 +40,13 @@ describe('ContentViewerPageContainer', () => {
   });
 
   it('should set props on ContentViewerPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ContentViewerPageContainer store={store} />, context);
+    shallowRenderer.render(<ContentViewerPageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const page = findWithType(result, ContentViewerPage);
 
-    page.should.not.be.null;
     page.props.should.have.property('readContent').that.is.a('function');
   });
 
@@ -60,14 +57,11 @@ describe('ContentViewerPageContainer', () => {
       rest.get(`/cspace-services/${contentPath}`, (req, res, ctx) => res(ctx.json({}))),
     );
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ContentViewerPageContainer store={store} />, context);
+    shallowRenderer.render(<ContentViewerPageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
-    // const page = findWithType(result, ContentViewerPage);
 
     const match = {
       params: {

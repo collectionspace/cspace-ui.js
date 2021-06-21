@@ -3,10 +3,10 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { findWithType } from 'react-shallow-testutils';
 import SearchResultLink from '../../../../src/components/search/SearchResultLink';
 import SearchResultLinkContainer from '../../../../src/containers/search/SearchResultLinkContainer';
 import { searchKey } from '../../../../src/reducers/search';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -52,10 +52,6 @@ const store = mockStore({
   }),
 });
 
-const context = {
-  store,
-};
-
 describe('SearchResultLinkContainer', () => {
   it('should set props on SearchResultLink', () => {
     const shallowRenderer = createRenderer();
@@ -65,13 +61,12 @@ describe('SearchResultLinkContainer', () => {
         store={store}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const searchResultLink = findWithType(result, SearchResultLink);
 
-    searchResultLink.should.not.be.null;
     searchResultLink.props.isSearchPending.should.equal(true);
     searchResultLink.props.searchResult.should.equal(Immutable.fromJS(searchResult));
     searchResultLink.props.searchError.should.equal(Immutable.fromJS(searchError));

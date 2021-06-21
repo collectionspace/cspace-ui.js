@@ -3,8 +3,8 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
-import { ConnectedComboBoxInput } from '../../../../src/containers/input/ComboBoxInputContainer';
 import { findWithType } from 'react-shallow-testutils';
+import { ConnectedComboBoxInput } from '../../../../src/containers/input/ComboBoxInputContainer';
 
 chai.should();
 
@@ -25,23 +25,18 @@ describe('ComboBoxInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedComboBoxInput
         store={store}
         source={optionListName}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, ComboBoxInput);
 
-    input.should.not.be.null;
     input.props.options.should.deep.equal(options);
     input.props.formatOptionLabel.should.be.a('function');
   });
@@ -67,12 +62,9 @@ describe('ComboBoxInputContainer', () => {
 
     let formatMessageCalled = false;
 
-    const context = {
-      store,
-      intl: {
-        formatMessage: () => {
-          formatMessageCalled = true;
-        },
+    const intl = {
+      formatMessage: () => {
+        formatMessageCalled = true;
       },
     };
 
@@ -81,9 +73,9 @@ describe('ComboBoxInputContainer', () => {
     shallowRenderer.render(
       <ConnectedComboBoxInput
         store={store}
-        intl={context.intl}
+        intl={intl}
         source={optionListName}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

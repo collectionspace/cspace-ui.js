@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import VocabularyPage from '../../../../src/components/pages/VocabularyPage';
 import VocabularyPageContainer from '../../../../src/containers/pages/VocabularyPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -37,8 +37,6 @@ const store = mockStore({
 
 describe('VocabularyPageContainer', () => {
   it('should set props on VocabularyPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -49,13 +47,12 @@ describe('VocabularyPageContainer', () => {
             csid,
           },
         }}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const page = findWithType(result, VocabularyPage);
 
-    page.should.not.be.null;
     page.props.should.have.property('data', data);
     page.props.should.have.property('perms', perms);
     page.props.should.have.property('readVocabularyItemRefs').that.is.a('function');

@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import LoginForm from '../../../../src/components/login/LoginForm';
 import LoginFormContainer from '../../../../src/containers/login/LoginFormContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -22,15 +22,13 @@ describe('LoginFormContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<LoginFormContainer store={store} />, context);
+    shallowRenderer.render(<LoginFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const form = findWithType(result, LoginForm);
 
-    form.should.not.be.null;
     form.type.should.equal(LoginForm);
     form.props.should.have.property('isPending', true);
     form.props.should.have.property('username', username);

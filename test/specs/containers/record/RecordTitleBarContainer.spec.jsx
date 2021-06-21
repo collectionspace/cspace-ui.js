@@ -26,20 +26,18 @@ describe('RecordTitleBarContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RecordTitleBarContainer
         store={store}
         csid={csid}
-      />, context
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const titleBar = findWithType(result, RecordTitleBar);
 
-    titleBar.should.not.be.null;
     titleBar.props.should.have.property('data', data);
     titleBar.props.should.have.property('isReadPending', true);
   });

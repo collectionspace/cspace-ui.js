@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import InvocationEditor from '../../../../src/components/invocable/InvocationEditor';
 import InvocationEditorContainer from '../../../../src/containers/invocable/InvocationEditorContainer';
 
@@ -13,7 +14,6 @@ import {
 import {
   CREATE_NEW_RECORD,
 } from '../../../../src/constants/actionCodes';
-import { findWithType } from 'react-shallow-testutils';
 
 const { expect } = chai;
 
@@ -35,10 +35,6 @@ const store = mockStore({
   }),
 });
 
-const context = {
-  store,
-};
-
 describe('InvocationEditorContainer', () => {
   before(() => store.dispatch(configureCSpace())
     .then(() => store.clearActions()));
@@ -51,13 +47,12 @@ describe('InvocationEditorContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <InvocationEditorContainer store={store} />, context,
+      <InvocationEditorContainer store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const editor = findWithType(result, InvocationEditor);
 
-    editor.should.not.be.null;
     editor.props.should.have.property('paramData', paramData);
     editor.props.should.have.property('createNewRecord').that.is.a('function');
   });
@@ -98,7 +93,7 @@ describe('InvocationEditorContainer', () => {
         config={config}
         metadata={metadata}
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -145,7 +140,7 @@ describe('InvocationEditorContainer', () => {
         config={config}
         metadata={metadata}
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

@@ -34,7 +34,6 @@ describe('MediaViewerPanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -42,13 +41,12 @@ describe('MediaViewerPanelContainer', () => {
         store={store}
         name={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const panel = findWithType(result, MediaViewerPanel);
 
-    panel.should.not.be.null;
     panel.props.should.have.property('searchResult', searchResult);
     panel.props.should.have.property('search').that.is.a('function');
   });

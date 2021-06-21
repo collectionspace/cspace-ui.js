@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import ToolPage from '../../../../src/components/pages/ToolPage';
 import ToolPageContainer from '../../../../src/containers/pages/ToolPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -32,11 +32,9 @@ const store = mockStore({
 
 describe('ToolPageContainer', () => {
   it('should set props on ToolPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ToolPageContainer store={store} />, context);
+    shallowRenderer.render(<ToolPageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const toolPage = findWithType(result, ToolPage);

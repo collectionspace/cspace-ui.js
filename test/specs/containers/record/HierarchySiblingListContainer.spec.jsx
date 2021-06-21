@@ -29,8 +29,6 @@ describe('HierarchySiblingListContainer', () => {
       relation: relationStore,
     });
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -38,13 +36,12 @@ describe('HierarchySiblingListContainer', () => {
         store={store}
         parentCsid={parentCsid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const list = findWithType(result, HierarchySiblingList);
 
-    list.should.not.be.null;
     list.props.should.have.property('findResult', findResult);
     list.props.should.have.property('findRelations').that.is.a('function');
   });
@@ -68,8 +65,6 @@ describe('HierarchySiblingListContainer', () => {
       relation: Immutable.Map(),
     });
 
-    const context = { store };
-
     const config = {
     };
 
@@ -80,7 +75,7 @@ describe('HierarchySiblingListContainer', () => {
         store={store}
         parentCsid={parentCsid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

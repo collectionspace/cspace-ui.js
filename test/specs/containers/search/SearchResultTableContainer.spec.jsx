@@ -39,10 +39,6 @@ describe('SearchResultTableContainer', () => {
       user: Immutable.Map(),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -51,13 +47,12 @@ describe('SearchResultTableContainer', () => {
         config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const table = findWithType(result, SearchResultTable);
 
-    table.should.not.be.null;
     table.props.isSearchPending.should.equal(true);
     table.props.searchResult.should.equal(Immutable.fromJS(searchResult));
     table.props.searchError.should.equal(Immutable.fromJS(searchError));
@@ -72,10 +67,6 @@ describe('SearchResultTableContainer', () => {
       user: Immutable.Map(),
     });
 
-    const context = {
-      store,
-    };
-
     const intl = {
       formatMessage: (message) => `formatted ${message.id}`,
     };
@@ -89,7 +80,7 @@ describe('SearchResultTableContainer', () => {
         intl={intl}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -110,10 +101,6 @@ describe('SearchResultTableContainer', () => {
       user: Immutable.Map(),
     });
 
-    const context = {
-      store,
-    };
-
     const intl = {};
     const config = {};
 
@@ -126,7 +113,7 @@ describe('SearchResultTableContainer', () => {
         config={config}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -152,10 +139,6 @@ describe('SearchResultTableContainer', () => {
       user: Immutable.Map(),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -164,7 +147,7 @@ describe('SearchResultTableContainer', () => {
         config={{}}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

@@ -34,18 +34,12 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer store={store} />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const form = findWithType(result, QuickSearchForm);
-
-    form.should.not.be.null;
 
     form.props.keywordValue.should.equal('hello world');
     form.props.recordTypeValue.should.equal('concept');
@@ -80,13 +74,9 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer store={store} />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const form = findWithType(result, QuickSearchForm);
@@ -109,13 +99,9 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer store={store} />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const form = findWithType(result, QuickSearchForm);
@@ -143,13 +129,9 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer store={store} />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const form = findWithType(result, QuickSearchForm);
@@ -177,13 +159,9 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer store={store} />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const form = findWithType(result, QuickSearchForm);
@@ -211,10 +189,6 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     let pushedLocation = null;
 
     const history = mockHistory({
@@ -229,7 +203,7 @@ describe('QuickSearchFormContainer', () => {
       <QuickSearchFormContainer
         store={store}
         history={history}
-      />, context
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

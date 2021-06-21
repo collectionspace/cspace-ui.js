@@ -654,7 +654,7 @@ describe('RecordPage', () => {
     });
 
     it('should render a RecordTitleBarContainer with correct csid and recordType', function test() {
-      const resultTree = render(
+      render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
@@ -674,7 +674,6 @@ describe('RecordPage', () => {
       // so search for the title bar in the dom and check that the text content is correct
       // not quite 1:1 with the previous test, but close
       const domElement = this.container.querySelector('.cspace-ui-TitleBar--object');
-      domElement.should.not.be.null;
       domElement.textContent.should.equal(objectRecordType);
     });
 

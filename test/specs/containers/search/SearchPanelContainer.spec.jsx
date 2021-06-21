@@ -49,10 +49,6 @@ describe('SearchPanelContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -61,13 +57,12 @@ describe('SearchPanelContainer', () => {
         name={panelName}
         recordType={recordType}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const panel = findWithType(result, SearchPanel);
 
-    panel.should.not.be.null;
     panel.props.searchResult.should.equal(Immutable.fromJS(searchResult));
     panel.props.searchDescriptor.should.be.an('object');
     panel.props.search.should.be.a('function');
@@ -98,10 +93,6 @@ describe('SearchPanelContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -110,7 +101,7 @@ describe('SearchPanelContainer', () => {
         name={panelName}
         recordType={recordType}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

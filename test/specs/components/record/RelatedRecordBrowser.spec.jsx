@@ -19,7 +19,6 @@ import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
 import RelatedRecordBrowser from '../../../../src/components/record/RelatedRecordBrowser';
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
-import RelatedRecordPanelContainer from '../../../../src/containers/record/RelatedRecordPanelContainer';
 
 const { expect } = chai;
 

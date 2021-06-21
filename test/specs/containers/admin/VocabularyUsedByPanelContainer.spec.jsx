@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import VocabularyUsedByPanel from '../../../../src/components/admin/VocabularyUsedByPanel';
 import VocabularyUsedByPanelContainer from '../../../../src/containers/admin/VocabularyUsedByPanelContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -28,10 +28,6 @@ describe('VocabularyUsedByPanelContainer', () => {
     }),
   });
 
-  const context = {
-    store,
-  };
-
   it('should set props on VocabularyUsedByPanel', () => {
     const shallowRenderer = createRenderer();
 
@@ -39,13 +35,12 @@ describe('VocabularyUsedByPanelContainer', () => {
       <VocabularyUsedByPanelContainer
         store={store}
         csid={csid}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const panel = findWithType(result, VocabularyUsedByPanel);
 
-    panel.should.not.be.null;
     panel.props.data.should.equal(data);
   });
 });

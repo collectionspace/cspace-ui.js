@@ -23,19 +23,18 @@ describe('ValidationErrorNotificationContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ValidationErrorNotificationContainer
         store={store}
         csid={csid}
-      />, context);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const notification = findWithType(result, ValidationErrorNotification);
 
-    notification.should.not.be.null;
     notification.props.should.have.property('errors', validationErrors);
   });
 });

@@ -41,21 +41,15 @@ describe('TermPickerInputContainer', () => {
       },
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer store={store} source={vocabularyName} />, context,
+      <ConnectedTermPickerInput store={store} source={vocabularyName} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const picker = findWithType(result, TermPickerInput);
 
-    picker.should.not.be.null;
-    picker.type.should.equal(TermPickerInput);
     picker.props.should.have.property('terms', vocabulary.items);
     picker.props.should.have.property('perms', perms);
     picker.props.should.have.property('readTerms').that.is.a('function');
@@ -69,14 +63,10 @@ describe('TermPickerInputContainer', () => {
       vocabulary: {},
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer store={store} sourcestore={vocabularyName} />, context,
+      <ConnectedTermPickerInput store={store} sourcestore={vocabularyName} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -102,14 +92,10 @@ describe('TermPickerInputContainer', () => {
       },
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer store={store} source={vocabularyName} />, context,
+      <ConnectedTermPickerInput store={store} source={vocabularyName} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -167,10 +153,6 @@ describe('TermPickerInputContainer', () => {
       },
     });
 
-    const context = {
-      store,
-    };
-
     let transformRecordData = null;
 
     const transformTerms = ({ recordData: recordDataArg }, terms) => {
@@ -188,16 +170,17 @@ describe('TermPickerInputContainer', () => {
       <ConnectedTermPickerInput
         csid={recordCsid}
         source="languages"
+        store={store}
         transformTerms={transformTerms}
       />,
-      context,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const picker = findWithType(result, TermPickerInput);
 
     transformRecordData.should.equal(recordData);
 
-    result.props.terms.should.deep.equal([
+    picker.props.terms.should.deep.equal([
       { refname: 'en', displayName: 'Transformed English' },
     ]);
   });

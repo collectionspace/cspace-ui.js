@@ -41,10 +41,6 @@ describe('RecordFormContainer', () => {
     user: Immutable.Map(),
   });
 
-  const context = {
-    store,
-  };
-
   afterEach(() => {
     store.clearActions();
   });
@@ -59,7 +55,7 @@ describe('RecordFormContainer', () => {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -82,7 +78,7 @@ describe('RecordFormContainer', () => {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -107,7 +103,7 @@ describe('RecordFormContainer', () => {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -132,7 +128,7 @@ describe('RecordFormContainer', () => {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -157,7 +153,7 @@ describe('RecordFormContainer', () => {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -181,7 +177,7 @@ describe('RecordFormContainer', () => {
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

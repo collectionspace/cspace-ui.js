@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelationEditorContainer from '../../../../src/containers/record/RelationEditorContainer';
 
@@ -11,7 +12,6 @@ import {
   RELATION_FIND_STARTED,
   RELATION_SAVE_STARTED,
 } from '../../../../src/constants/actionCodes';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -52,10 +52,6 @@ describe('RelationEditorContainer', () => {
     record: Immutable.Map(),
   });
 
-  const context = {
-    store,
-  };
-
   const config = {
   };
 
@@ -72,13 +68,12 @@ describe('RelationEditorContainer', () => {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const editor = findWithType(result, RelationEditor);
 
-    editor.should.not.be.null;
     editor.props.should.have.property('findResult').that.equals(findResult);
     editor.props.should.have.property('createRelation').that.is.a('function');
     editor.props.should.have.property('findRelation').that.is.a('function');
@@ -94,7 +89,7 @@ describe('RelationEditorContainer', () => {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -130,7 +125,7 @@ describe('RelationEditorContainer', () => {
         subject={subject}
         object={newObject}
         predicate={predicate}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -161,7 +156,7 @@ describe('RelationEditorContainer', () => {
         subject={subject}
         object={object}
         predicate={predicate}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

@@ -18,6 +18,8 @@ const { IDGeneratorInput } = inputComponents;
 const mockStore = configureMockStore([thunk]);
 
 describe('IDGeneratorInputContainer', () => {
+  const config = Immutable.Map();
+
   const store = mockStore({
     idGenerator: Immutable.fromJS({
       accession: {
@@ -42,12 +44,6 @@ describe('IDGeneratorInputContainer', () => {
     }),
   });
 
-  const config = {};
-
-  const context = {
-    store,
-  };
-
   const intl = {
     formatDate: () => null,
     formatTime: () => null,
@@ -68,17 +64,16 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        config={config}
         store={store}
+        config={config}
         intl={intl}
         source="accession"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, IDGeneratorInput);
 
-    input.should.not.be.null;
     input.props.patterns.should.deep.equal([{
       name: 'accession',
       type: 'formatted idGenerator.accession.type',
@@ -91,17 +86,16 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        config={config}
         store={store}
+        config={config}
         intl={intl}
         source="accession,loanin"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, IDGeneratorInput);
 
-    input.should.not.be.null;
     input.props.patterns.should.deep.equal([
       {
         name: 'accession',
@@ -125,13 +119,12 @@ describe('IDGeneratorInputContainer', () => {
         store={store}
         intl={intl}
         source={['accession', 'loanin']}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, IDGeneratorInput);
 
-    input.should.not.be.null;
     input.props.patterns.should.deep.equal([
       {
         name: 'accession',
@@ -156,16 +149,18 @@ describe('IDGeneratorInputContainer', () => {
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
         config={transformConfig}
+        store={store}
         intl={intl}
         source={['accession', 'loanin']}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, IDGeneratorInput);
 
-    result.type.should.equal(IDGeneratorInput);
+    input.type.should.equal(IDGeneratorInput);
 
-    result.props.patterns.should.deep.equal([
+    input.props.patterns.should.deep.equal([
       {
         name: 'accession',
         type: 'formatted idGenerator.accession.type',
@@ -188,7 +183,7 @@ describe('IDGeneratorInputContainer', () => {
         store={store}
         intl={intl}
         source="accession"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -202,11 +197,11 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        config={config}
         store={store}
+        config={config}
         intl={intl}
         source="accession"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -224,7 +219,7 @@ describe('IDGeneratorInputContainer', () => {
         store={store}
         intl={intl}
         source="accession"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -257,12 +252,12 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
-        config={config}
         store={store}
         csid={csid}
         source={idGeneratorName}
         intl={intl}
-      />, context,
+        config={config}
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

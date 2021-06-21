@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import mockHistory from '../../../helpers/mockHistory';
 import SearchPage from '../../../../src/components/pages/SearchPage';
 import { ConnectedSearchPage } from '../../../../src/containers/pages/SearchPageContainer';
@@ -15,7 +16,6 @@ import {
   SET_SEARCH_PAGE_RECORD_TYPE,
   SET_SEARCH_PAGE_VOCABULARY,
 } from '../../../../src/constants/actionCodes';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -46,18 +46,13 @@ describe('SearchPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    const context = {
-      store,
-    };
-
     shallowRenderer.render(
-      <ConnectedSearchPage store={store} />, context,
+      <ConnectedSearchPage store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
 
-    searchPage.should.not.be.null;
     searchPage.props.should.have.property('keywordValue', 'foo');
     searchPage.props.should.have.property('recordTypeValue', 'person');
     searchPage.props.should.have.property('vocabularyValue', 'local');
@@ -99,13 +94,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -143,13 +134,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -195,13 +182,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -241,13 +224,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -282,13 +261,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -323,13 +298,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -364,10 +335,6 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     let pushedLocation = null;
 
     const history = mockHistory({
@@ -378,7 +345,7 @@ describe('SearchPageContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} history={history} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} history={history} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);
@@ -425,13 +392,9 @@ describe('SearchPageContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedSearchPage store={store} />, context);
+    shallowRenderer.render(<ConnectedSearchPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const searchPage = findWithType(result, SearchPage);

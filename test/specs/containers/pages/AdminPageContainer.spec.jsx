@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import AdminPage from '../../../../src/components/pages/AdminPage';
 import AdminPageContainer from '../../../../src/containers/pages/AdminPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -32,11 +32,9 @@ const store = mockStore({
 
 describe('AdminPageContainer', () => {
   it('should set props on AdminPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<AdminPageContainer store={store} />, context);
+    shallowRenderer.render(<AdminPageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const admin = findWithType(result, AdminPage);

@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import ReportPage from '../../../../src/components/pages/ReportPage';
 import ReportPageContainer from '../../../../src/containers/pages/ReportPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -38,18 +38,15 @@ const store = mockStore({
 
 describe('ReportPageContainer', () => {
   it('should set props on ReportPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ReportPageContainer store={store} />, context,
+      <ReportPageContainer store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const page = findWithType(result, ReportPage);
 
-    page.should.not.be.null;
     page.props.should.have.property('openModalName', openModalName);
     page.props.should.have.property('perms', perms);
     page.props.should.have.property('closeModal').that.is.a('function');

@@ -2,9 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import BatchPage from '../../../../src/components/pages/BatchPage';
 import BatchPageContainer from '../../../../src/containers/pages/BatchPageContainer';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -38,18 +38,15 @@ const store = mockStore({
 
 describe('BatchPageContainer', () => {
   it('should set props on BatchPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <BatchPageContainer store={store} />, context,
+      <BatchPageContainer store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const batchPage = findWithType(result, BatchPage);
 
-    batchPage.should.not.be.null;
     batchPage.type.should.equal(BatchPage);
     batchPage.props.should.have.property('openModalName', openModalName);
     batchPage.props.should.have.property('perms', perms);

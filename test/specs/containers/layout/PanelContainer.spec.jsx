@@ -55,7 +55,6 @@ describe('PanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -64,13 +63,12 @@ describe('PanelContainer', () => {
         config={config}
         recordType={recordType}
         name={panelName}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const panel = findWithType(result, Panel);
 
-    panel.should.not.be.null;
     panel.type.should.equal(Panel);
     panel.props.should.have.property('collapsed', true);
     panel.props.should.have.property('header').that.is.an('object');
@@ -97,7 +95,6 @@ describe('PanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -107,7 +104,7 @@ describe('PanelContainer', () => {
         recordType={recordType}
         name={panelName}
         collapsed
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -123,7 +120,6 @@ describe('PanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -132,7 +128,7 @@ describe('PanelContainer', () => {
         config={config}
         recordType={recordType}
         name={panelName}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -150,7 +146,6 @@ describe('PanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -160,7 +155,7 @@ describe('PanelContainer', () => {
         recordType={recordType}
         name={panelName}
         msgkey="foo"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -178,7 +173,6 @@ describe('PanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -188,7 +182,7 @@ describe('PanelContainer', () => {
         recordType={recordType}
         name={panelName}
         msgkey="bar"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

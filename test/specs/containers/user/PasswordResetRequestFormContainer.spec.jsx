@@ -17,13 +17,9 @@ describe('PasswordResetRequestFormContainer', () => {
   it('should set props on PasswordResetRequestForm', () => {
     const store = mockStore();
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedPasswordResetRequestForm store={store} />, context);
+    shallowRenderer.render(<ConnectedPasswordResetRequestForm store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -50,14 +46,10 @@ describe('PasswordResetRequestFormContainer', () => {
 
     const store = mockStore();
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedPasswordResetRequestForm store={store} config={config} />, context,
+      <ConnectedPasswordResetRequestForm store={store} config={config} />,
     );
 
     const result = shallowRenderer.getRenderOutput();

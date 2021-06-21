@@ -29,18 +29,13 @@ describe('SearchToRelateModalContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    const context = {
-      store,
-    };
-
     shallowRenderer.render(
-      <SearchToRelateModalContainer store={store} />, context,
+      <SearchToRelateModalContainer store={store} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const modal = findWithType(result, SearchToRelateModal);
 
-    modal.should.not.be.null;
     modal.props.should.have.property('perms').that.equals(perms);
     modal.props.should.have.property('showRelationNotification').that.is.a('function');
     modal.props.should.have.property('createRelations').that.is.a('function');

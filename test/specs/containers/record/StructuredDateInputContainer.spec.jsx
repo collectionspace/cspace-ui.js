@@ -3,13 +3,13 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import StructuredDateInput from '../../../../src/components/record/StructuredDateInput';
 import { ConnectedStructuredDateInput } from '../../../../src/containers/record/StructuredDateInputContainer';
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
 } from '../../../../src/constants/actionCodes';
-import { findWithType } from 'react-shallow-testutils';
 
 chai.should();
 
@@ -50,23 +50,18 @@ describe('StructuredDateInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedStructuredDateInput
         store={store}
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, StructuredDateInput);
 
-    input.should.not.be.null;
     input.props.optionLists.should.deep.equal(optionLists);
     input.props.perms.should.equal(perms);
 
@@ -107,22 +102,20 @@ describe('StructuredDateInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedStructuredDateInput
         config={config}
+        store={store}
         structDateVocabNames={['foobar']}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, StructuredDateInput);
 
-    result.props.terms.should.deep.equal({
+    input.props.terms.should.deep.equal({
       foobar: [],
     });
   });
@@ -150,17 +143,13 @@ describe('StructuredDateInputContainer', () => {
       },
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedStructuredDateInput
         store={store}
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

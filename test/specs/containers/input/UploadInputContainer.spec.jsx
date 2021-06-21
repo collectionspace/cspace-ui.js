@@ -25,10 +25,6 @@ describe('UploadInputContainer', () => {
     }),
   });
 
-  const context = {
-    store,
-  };
-
   const intl = {
     formatDate: () => null,
     formatTime: () => null,
@@ -51,13 +47,12 @@ describe('UploadInputContainer', () => {
       <ConnectedUploadInput
         store={store}
         intl={intl}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
     const input = findWithType(result, UploadInput);
 
-    input.should.not.be.null;
     input.props.type.should.equal(uploadType);
     input.props.onTypeChanged.should.be.a('function');
     input.props.typeInputLabel.should.be.a('string');
@@ -84,7 +79,7 @@ describe('UploadInputContainer', () => {
       <ConnectedUploadInput
         store={store}
         intl={intl}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -111,7 +106,7 @@ describe('UploadInputContainer', () => {
       <ConnectedUploadInput
         store={store}
         intl={intl}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
