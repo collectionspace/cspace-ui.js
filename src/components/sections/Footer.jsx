@@ -42,6 +42,30 @@ const messages = defineMessages({
     description: 'Message shown in the footer when a connection to the CollectionSpace server can not be established.',
     defaultMessage: 'Not connected to {serverUrl}',
   },
+  accessibility: {
+    id: 'footer.accessibility',
+    defaultMessage: 'Acessibility',
+  },
+  nondiscrimination: {
+    id: 'footer.nondiscrimination',
+    defaultMessage: 'Nondiscrimination',
+  },
+  privacy: {
+    id: 'footer.privacy',
+    defaultMessage: 'Privacy',
+  },
+  accessibilityUrl: {
+    id: 'footer.accessibilityUrl',
+    defaultMessage: 'https://dac.berkeley.edu/web-accessibility',
+  },
+  nondiscriminationUrl: {
+    id: 'footer.nondiscriminationUrl',
+    defaultMessage: 'https://ophd.berkeley.edu/policies-and-procedures/nondiscrimination-policy-statement',
+  },
+  privacyUrl: {
+    id: 'footer.privacyUrl',
+    defaultMessage: 'Privacy',
+  },
 });
 
 const propTypes = {
@@ -147,6 +171,20 @@ export default function Footer(props) {
         <li>
           <a href={intl.formatMessage(messages.feedbackUrl)}>
             <FormattedMessage {...messages.feedback} />
+          </a>
+        </li>
+
+        <li>
+          <a href={intl.formatMessage(messages.accessibilityUrl)}>
+            <FormattedMessage {...messages.accessibility} />
+          </a>
+          |
+          <a href={intl.formatMessage(messages.privacyUrl)}>
+            <FormattedMessage {...messages.privacy} />
+          </a>
+          |
+          <a href={intl.formatMessage(messages.nondiscriminationUrl)}>
+            <FormattedMessage {...messages.nondiscrimination} />
           </a>
         </li>
       </ul>
