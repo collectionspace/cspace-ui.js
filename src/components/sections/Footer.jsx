@@ -62,8 +62,9 @@ const formatReleaseVersion = (systemInfo) => {
 
   const major = version.get('major');
   const minor = version.get('minor');
+  const build = version.get('build');
 
-  return `${major}.${minor}`;
+  return `${major}.${minor}-${build}`;
 };
 
 const renderPluginInfo = (config, intl) => {
