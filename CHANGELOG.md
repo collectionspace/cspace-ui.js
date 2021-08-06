@@ -2,7 +2,7 @@
 
 ## v6.0.0
 
-v5.0.0 adds support for CollectionSpace 6.2.
+v6.0.0 adds support for CollectionSpace 7.0.
 
 ### Breaking Changes
 
