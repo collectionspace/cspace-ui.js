@@ -245,7 +245,7 @@ export default (configContext) => {
             view: {
               type: AutocompleteInput,
               props: {
-                source: 'person/local,person/shared,organization/local,organization/shared',
+                source: 'place/local,place/shared,organization/local,organization/shared',
               },
             },
           },
