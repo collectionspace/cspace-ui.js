@@ -2,6 +2,7 @@
 
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import upperFirst from 'lodash/upperFirst';
 import qs from 'qs';
 import { getFieldDataType, isAutocompleteField, configKey } from './configHelpers';
 import { DATA_TYPE_STRUCTURED_DATE } from '../constants/dataTypes';
@@ -48,34 +49,38 @@ const prepareIncludeFields = (config, recordType, includeFields) => {
           // For authority-controlled fields, if values can be sourced from multiple authorities,
           // create a separate column for each authority. This is expected by the converter tool.
 
+          const fieldName = path[path.length - 1];
           const sourceSpec = get(fieldDescriptor, [configKey, 'view', 'props', 'source']);
           const sources = sourceSpec.split(',');
 
-          if (sources.length > 1) {
-            const authorities = {};
+          return sources
+            .map((source) => {
+              const [authority, vocabulary] = source.split('/');
 
-            sources.forEach((source) => {
-              const [authority] = source.split('/');
+              const authorityConfig = get(config, ['recordTypes', authority]);
 
-              authorities[authority] = true;
-            });
+              if (authorityConfig) {
+                const authorityServicePath = get(authorityConfig, ['serviceConfig', 'servicePath']);
 
-            const uniqueAuthorities = Object.keys(authorities);
+                const vocabularyServicePath = get(
+                  authorityConfig,
+                  ['vocabularies', vocabulary, 'serviceConfig', 'servicePath'],
+                );
 
-            if (uniqueAuthorities.length > 1) {
-              return uniqueAuthorities.map((authority) => {
-                const fieldName = path[path.length - 1];
-                const authorityServiceConfig = get(config, ['recordTypes', authority, 'serviceConfig']);
-                const authorityObjectName = get(authorityServiceConfig, 'objectName');
-                const authorityServicePath = get(authorityServiceConfig, 'servicePath');
+                if (vocabularyServicePath) {
+                  const match = vocabularyServicePath.match(/urn:cspace:name\((.*?)\)/);
+                  const vocabularyShortId = match ? match[1] : '';
 
-                return {
-                  '@name': `${fieldName}${authorityObjectName}`,
-                  '.': `${fieldSpec}[contains(., ':${authorityServicePath}:')]`,
-                };
-              });
-            }
-          }
+                  return {
+                    '@name': `${fieldName}${upperFirst(authority)}${upperFirst(vocabulary)}`,
+                    '.': `${fieldSpec}[contains(., ':${authorityServicePath}:name(${vocabularyShortId}):')]`,
+                  };
+                }
+              }
+
+              return null;
+            })
+            .filter((item) => !!item);
         }
 
         return fieldSpec;

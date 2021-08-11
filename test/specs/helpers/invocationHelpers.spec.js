@@ -42,7 +42,17 @@ describe('invocationHelpers', () => {
                   view: {
                     type: AutocompleteInput,
                     props: {
-                      source: 'person/local,organization/local',
+                      source: 'person/local,organization/local,organization/ulan',
+                    },
+                  },
+                },
+              },
+              fieldCollectionPlace: {
+                [configKey]: {
+                  view: {
+                    type: AutocompleteInput,
+                    props: {
+                      source: 'place/local,place/shared',
                     },
                   },
                 },
@@ -56,11 +66,44 @@ describe('invocationHelpers', () => {
           objectName: 'Person',
           servicePath: 'personauthorities',
         },
+        vocabularies: {
+          local: {
+            serviceConfig: {
+              servicePath: 'urn:cspace:name(local)',
+            },
+          },
+        },
       },
       organization: {
         serviceConfig: {
           objectName: 'Organization',
           servicePath: 'orgauthorities',
+        },
+        vocabularies: {
+          local: {
+            serviceConfig: {
+              servicePath: 'urn:cspace:name(local)',
+            },
+          },
+          ulan: {
+            serviceConfig: {
+              servicePath: 'urn:cspace:name(ulan)',
+            },
+          },
+        },
+      },
+      place: {
+        serviceConfig: {
+          objectName: 'Place',
+          servicePath: 'placeauthorities',
+        },
+        vocabularies: {
+          local: {
+            serviceConfig: {
+              servicePath: 'urn:cspace:name(local)',
+            },
+          },
+          // shared intentionally omitted
         },
       },
     },
@@ -202,7 +245,7 @@ describe('invocationHelpers', () => {
       });
     });
 
-    it('should convert include fields that are controlled by multiple authorities to separate fields for each authority type', () => {
+    it('should convert include fields that are controlled by multiple vocabularies to separate fields for each vocabulary', () => {
       const invocationDescriptor = Immutable.fromJS({
         mode: 'nocontext',
         recordType: 'collectionobject',
@@ -219,12 +262,44 @@ describe('invocationHelpers', () => {
           includeFields: {
             field: [
               {
-                '@name': 'ownerPerson',
-                '.': 'collectionobjects_common:owner[contains(., \':personauthorities:\')]',
+                '@name': 'ownerPersonLocal',
+                '.': 'collectionobjects_common:owner[contains(., \':personauthorities:name(local):\')]',
               },
               {
-                '@name': 'ownerOrganization',
-                '.': 'collectionobjects_common:owner[contains(., \':orgauthorities:\')]',
+                '@name': 'ownerOrganizationLocal',
+                '.': 'collectionobjects_common:owner[contains(., \':orgauthorities:name(local):\')]',
+              },
+              {
+                '@name': 'ownerOrganizationUlan',
+                '.': 'collectionobjects_common:owner[contains(., \':orgauthorities:name(ulan):\')]',
+              },
+            ],
+          },
+          outputMIME: undefined,
+          params: undefined,
+        },
+      });
+    });
+
+    it('should ignore vocabularies that are not defined when generating fields', () => {
+      const invocationDescriptor = Immutable.fromJS({
+        mode: 'nocontext',
+        recordType: 'collectionobject',
+        includeFields: [
+          'ns2:collectionobjects_common/fieldCollectionPlace',
+        ],
+      });
+
+      createInvocationData(config, invocationDescriptor).should.deep.equal({
+        'ns2:invocationContext': {
+          '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
+          mode: 'nocontext',
+          docType: 'CollectionObject',
+          includeFields: {
+            field: [
+              {
+                '@name': 'fieldCollectionPlacePlaceLocal',
+                '.': 'collectionobjects_common:fieldCollectionPlace[contains(., \':placeauthorities:name(local):\')]',
               },
             ],
           },
