@@ -22,8 +22,6 @@ const messages = defineMessages({
   },
 });
 
-const listType = 'common';
-
 const getSearchDescriptor = (props) => {
   const {
     csid,
@@ -57,6 +55,7 @@ const propTypes = {
     listTypes: PropTypes.object,
   }),
   csid: PropTypes.string,
+  listType: PropTypes.string,
   linkItems: PropTypes.bool,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -85,6 +84,7 @@ const propTypes = {
 
 const defaultProps = {
   collapsed: true,
+  listType: 'common',
 };
 
 export default class RelatedRecordPanel extends Component {
@@ -158,6 +158,7 @@ export default class RelatedRecordPanel extends Component {
     const {
       config,
       name,
+      listType,
       onItemSelectChange,
     } = this.props;
 
@@ -310,6 +311,7 @@ export default class RelatedRecordPanel extends Component {
       config,
       name,
       perms,
+      listType,
       relatedRecordType,
       selectedItems,
       showCheckboxColumn,
@@ -373,6 +375,7 @@ export default class RelatedRecordPanel extends Component {
       columnSetName,
       config,
       csid,
+      listType,
       linkItems,
       name,
       perms,
@@ -420,6 +423,7 @@ export default class RelatedRecordPanel extends Component {
         columnSetName={columnSetName}
         config={config}
         csid={csid}
+        listType={listType}
         linkItems={linkItems}
         name={name}
         searchDescriptor={searchDescriptor}
