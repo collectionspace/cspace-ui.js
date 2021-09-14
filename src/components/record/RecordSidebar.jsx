@@ -136,6 +136,22 @@ export default function RecordSidebar(props) {
     });
   }
 
+  const audit = (
+    <RelatedRecordPanelContainer
+      color={panelColor}
+      csid={csid}
+      columnSetName="narrow"
+      config={config}
+      initialSort={undefined}
+      key="audit"
+      name="relatedAuditPanel"
+      recordType={recordType}
+      relatedRecordType="audit"
+      showAddButton={false}
+      listType="audit"
+    />
+  );
+
   if (!isUtility) {
     reports = (
       <RecordReportPanelContainer
@@ -184,6 +200,7 @@ export default function RecordSidebar(props) {
       {usedBy}
       {reports}
       {batchJobs}
+      {audit}
     </div>
   );
 }
