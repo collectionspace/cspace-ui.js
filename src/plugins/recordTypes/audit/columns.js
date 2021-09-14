@@ -7,7 +7,7 @@ export default (configContext) => {
 
   return {
     default: {
-      updatedBy: {
+      principal: {
         messages: defineMessages({
           label: {
             id: 'column.audit.default.updatedBy',
@@ -15,10 +15,10 @@ export default (configContext) => {
           },
         }),
         order: 10,
-        sortBy: 'audits_common:updatedBy',
-        width: 200,
+        sortBy: 'audits_common:principal',
+        width: 450,
       },
-      updatedAt: {
+      eventDate: {
         formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
@@ -27,7 +27,7 @@ export default (configContext) => {
           },
         }),
         order: 30,
-        sortBy: 'collectionspace_core:updatedAt',
+        sortBy: 'audits_common:eventDate',
         width: 150,
       },
     },
