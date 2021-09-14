@@ -35,7 +35,6 @@ export default (configContext) => {
             },
           }),
         },
-
       },
       resourceType: {
         [config]: {
@@ -56,7 +55,6 @@ export default (configContext) => {
             },
           }),
         },
-
       },
       eventType: {
         [config]: {
@@ -77,7 +75,6 @@ export default (configContext) => {
             },
           }),
         },
-
       },
       eventDate: {
         [config]: {
