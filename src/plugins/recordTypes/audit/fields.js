@@ -10,7 +10,7 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   return {
-    'ns2:audit_common': {
+    'ns3:audit_common': {
       [config]: {
         service: {
           ns: 'http://collectionspace.org/services/audit',
