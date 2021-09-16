@@ -3,7 +3,8 @@ import { defineMessages } from 'react-intl';
 export default (configContext) => {
   const {
     CompoundInput,
-    DateInput,
+    DateTimeInput,
+    ObjectNameInput,
     TextInput,
   } = configContext.inputComponents;
 
@@ -74,7 +75,7 @@ export default (configContext) => {
             },
           }),
           view: {
-            type: TextInput,
+            type: ObjectNameInput,
             props: {
               readOnly: true,
             },
@@ -171,7 +172,7 @@ export default (configContext) => {
             },
           }),
           view: {
-            type: DateInput,
+            type: DateTimeInput,
             props: {
               readOnly: true,
             },
