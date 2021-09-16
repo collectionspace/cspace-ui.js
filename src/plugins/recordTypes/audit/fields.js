@@ -3,6 +3,8 @@ import { defineMessages } from 'react-intl';
 export default (configContext) => {
   const {
     CompoundInput,
+    DateInput,
+    TextInput,
   } = configContext.inputComponents;
 
   const {
@@ -19,35 +21,64 @@ export default (configContext) => {
         service: {
           ns: 'http://collectionspace.org/services/audit',
         },
+        view: {
+          type: CompoundInput,
+        },
       },
       csid: {
         [config]: {
           messages: defineMessages({
             name: {
               id: 'field.audit_common.csid.name',
-              defaultMessage: 'CSID',
+              defaultMessage: 'Audit record identifier',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       idNumber: {
         [config]: {
           messages: defineMessages({
+            fullName: {
+              id: 'field.audit_common.idNumber.fullName',
+              defaultMessage: 'Audit record id',
+            },
             name: {
               id: 'field.audit_common.idNumber.name',
-              defaultMessage: 'Id Number',
+              defaultMessage: 'Id',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       resourceType: {
         [config]: {
           messages: defineMessages({
+            fullName: {
+              id: 'field.audit_common.resourceType.fullName',
+              defaultMessage: 'Related record type',
+            },
             name: {
               id: 'field.audit_common.resourceType.name',
-              defaultMessage: 'Resource type',
+              defaultMessage: 'Record type',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       resourceCSID: {
@@ -55,9 +86,15 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.audit_common.resourceCSID.name',
-              defaultMessage: 'Resource CSID',
+              defaultMessage: 'Audited record identifier',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       saveMessage: {
@@ -68,6 +105,12 @@ export default (configContext) => {
               defaultMessage: 'Save message',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       eventComment: {
@@ -78,6 +121,12 @@ export default (configContext) => {
               defaultMessage: 'Event comment',
             },
           },
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       eventType: {
@@ -85,9 +134,15 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.audit_common.eventType.name',
-              defaultMessage: 'Event type',
+              defaultMessage: 'Audit event type',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       principal: {
@@ -95,9 +150,15 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.audit_common.principal.name',
-              defaultMessage: 'Principal',
+              defaultMessage: 'Updated by',
             },
           }),
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       eventDate: {
@@ -106,9 +167,15 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.audit_common.eventDate.name',
-              defaultMessage: 'Event date',
+              defaultMessage: 'Updated at',
             },
           }),
+          view: {
+            type: DateInput,
+            props: {
+              readOnly: true,
+            },
+          },
         },
       },
       fieldChangedGroupList: {
@@ -119,12 +186,10 @@ export default (configContext) => {
         },
         fieldChangedGroup: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.audit_common.fieldChangedGroup.name',
-                defaultMessage: 'Field changed',
-              },
-            }),
+            repeating: true,
+            view: {
+              type: CompoundInput,
+            },
           },
           key: {
             [config]: {
@@ -134,6 +199,12 @@ export default (configContext) => {
                   defaultMessage: 'Key',
                 },
               }),
+              view: {
+                type: TextInput,
+                props: {
+                  readOnly: true,
+                },
+              },
             },
           },
           fieldName: {
@@ -141,9 +212,15 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.audit_common.fieldName.name',
-                  defaultMessage: 'Field name',
+                  defaultMessage: 'Field',
                 },
               }),
+              view: {
+                type: TextInput,
+                props: {
+                  readOnly: true,
+                },
+              },
             },
           },
           originalValue: {
@@ -154,6 +231,12 @@ export default (configContext) => {
                   defaultMessage: 'Original value',
                 },
               }),
+              view: {
+                type: TextInput,
+                props: {
+                  readOnly: true,
+                },
+              },
             },
           },
           newValue: {
@@ -164,6 +247,12 @@ export default (configContext) => {
                   defaultMessage: 'New value',
                 },
               }),
+              view: {
+                type: TextInput,
+                props: {
+                  readOnly: true,
+                },
+              },
             },
           },
           changeReason: {
@@ -174,6 +263,12 @@ export default (configContext) => {
                   defaultMessage: 'Change reason',
                 },
               }),
+              view: {
+                type: TextInput,
+                props: {
+                  readOnly: true,
+                },
+              },
             },
           },
         },
