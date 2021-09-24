@@ -5,6 +5,7 @@ export default (configContext) => {
     CompoundInput,
     DateTimeInput,
     ObjectNameInput,
+    OptionPickerInput,
     TextInput,
   } = configContext.inputComponents;
 
@@ -139,8 +140,9 @@ export default (configContext) => {
             },
           }),
           view: {
-            type: TextInput,
+            type: OptionPickerInput,
             props: {
+              source: 'eventTypes',
               readOnly: true,
             },
           },

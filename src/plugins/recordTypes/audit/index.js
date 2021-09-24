@@ -3,9 +3,11 @@ import fields from './fields';
 import forms from './forms';
 import title from './title';
 import messages from './messages';
+import optionLists from './optionLists';
 import serviceConfig from './serviceConfig';
 
 export default () => (configContext) => ({
+  optionLists,
   recordTypes: {
     audit: {
       messages,
