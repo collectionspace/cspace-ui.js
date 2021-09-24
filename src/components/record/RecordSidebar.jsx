@@ -79,7 +79,7 @@ export default function RecordSidebar(props) {
   let reports = null;
   let batchJobs = null;
 
-  if (!isAuthority && !isUtility) {
+  if (!isAuthority && !isUtility && !isAudit) {
     mediaSnapshot = (
       <MediaSnapshotPanelContainer
         color={panelColor}
