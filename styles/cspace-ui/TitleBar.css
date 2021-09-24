@@ -40,6 +40,7 @@
   text-align: right;
 }
 
+.audit > div > div > aside > h2,
 .object > div > div > aside > h2,
 .procedure > div > div > aside > h2,
 .utility > div > div > aside > h2 {
