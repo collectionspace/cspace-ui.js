@@ -7,10 +7,10 @@ v6.0.0 adds support for CollectionSpace 7.0.
 ### Breaking Changes
 
 - Exhibition record:
-  - A new field, `publishTo`, has been added to the record editor form for exhibition records. This field exists in CollectionSpace 6.2, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
+  - A new field, `publishTo`, has been added to the record editor form for exhibition records. This field exists in CollectionSpace 7, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
 
 - Media record:
-  - A new field, `altText`, has been added to the record editor form for media records. This field exists in CollectionSpace 6.2, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
+  - A new field, `altText`, has been added to the record editor form for media records. This field exists in CollectionSpace 7, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, this new field should be hidden; otherwise, any value entered will not be saved.
 
 - The format of column names in exported CSV files has changed. For fields that are controlled by authorities, the column name now always includes both the authority and vocabulary name, in addition to the field name. Previously, the column name only included the authority name, if the field was controlled by more than one authority. For example, on the Object record, the Content Organization field was previously exported to the column `contentOrganization`, but it is now exported to the columns `contentOrganizationOrganizationLocal` and `contentOrganizationOrganizationUlan`.
 
