@@ -3,6 +3,7 @@ import { defineMessages } from 'react-intl';
 export default (configContext) => {
   const {
     formatTimestamp,
+    formatRefName,
   } = configContext.formatHelpers;
 
   return {
@@ -17,6 +18,18 @@ export default (configContext) => {
         order: 10,
         sortBy: 'hits_common:hitNumber',
         width: 200,
+      },
+      depositor: {
+        formatValue: formatRefName,
+        messages: defineMessages({
+          label: {
+            id: 'column.hit.default.depositor',
+            defaultMessage: 'Depositor',
+          },
+        }),
+        order: 20,
+        sortBy: 'hits_common:hitDepositorGroupList/0/depositor',
+        width: 450,
       },
       updatedAt: {
         formatValue: formatTimestamp,
