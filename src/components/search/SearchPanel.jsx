@@ -52,6 +52,7 @@ const propTypes = {
   showAddButton: PropTypes.bool,
   showSearchButton: PropTypes.bool,
   showCheckboxColumn: PropTypes.bool,
+  showFooter: PropTypes.bool,
   renderCheckbox: PropTypes.func,
   renderTableHeader: PropTypes.func,
   search: PropTypes.func,
@@ -67,6 +68,7 @@ const defaultProps = {
   listType: 'common',
   pageSizeOptionListName: 'searchPanelPageSizes',
   showSearchButton: true,
+  showFooter: true,
 };
 
 const contextTypes = {
@@ -317,9 +319,10 @@ export default class SearchPanel extends Component {
       config,
       listType,
       pageSizeOptionListName,
+      showFooter,
     } = this.props;
 
-    if (searchResult) {
+    if (showFooter && searchResult) {
       const listTypeConfig = config.listTypes[listType];
       const list = searchResult.get(listTypeConfig.listNodeName);
 
