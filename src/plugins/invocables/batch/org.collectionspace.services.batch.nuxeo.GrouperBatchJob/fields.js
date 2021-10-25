@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     CompoundInput,
     TextInput,
-    CheckboxInput,
   } = configContext.inputComponents;
 
   const {

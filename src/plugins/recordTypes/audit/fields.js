@@ -2,11 +2,8 @@ import { defineMessages } from 'react-intl';
 
 export default (configContext) => {
   const {
-    AutocompleteInput,
     CompoundInput,
-    OptionPickerInput,
     TextInput,
-    TermPickerInput,
   } = configContext.inputComponents;
 
   const {
@@ -70,7 +67,7 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: TextInput
+              type: TextInput,
             },
           },
         },
@@ -85,7 +82,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.audit_common.fieldChangedGroup.name',
-                  defaultMessage: 'Field changed'
+                  defaultMessage: 'Field changed',
                 },
               }),
               repeating: true,

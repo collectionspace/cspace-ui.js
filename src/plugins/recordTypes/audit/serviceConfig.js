@@ -4,5 +4,5 @@ export default {
   serviceType: 'procedure',
 
   objectName: 'Audit',
-  documentName: 'audit'
-}
+  documentName: 'audit',
+};

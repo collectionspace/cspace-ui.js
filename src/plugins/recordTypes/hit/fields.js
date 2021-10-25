@@ -9,7 +9,6 @@ export default (configContext) => {
     AutocompleteInput,
     IDGeneratorInput,
     TermPickerInput,
-    StructuredDateInput,
   } = configContext.inputComponents;
 
   const {

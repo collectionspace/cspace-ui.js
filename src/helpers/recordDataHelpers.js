@@ -353,7 +353,7 @@ export const createRecordData = (recordTypeConfig) => applyDefaults(
 export const clearUncloneable = (fieldDescriptor, data, computeContext) => {
   if (!fieldDescriptor) {
     return data;
-  } 
+  }
 
   if (typeof data !== 'undefined' && !isFieldCloneable(fieldDescriptor, computeContext)) {
     // If the field has been configured as not cloneable and there is an existing value, replace
@@ -411,7 +411,7 @@ export const prepareClonedHierarchy = (fromCsid, data) => {
 /**
  * Create a new record as a clone of a given record.
  */
-export const cloneRecordData = (recordTypeConfig, csid, data, computeContext) => { 
+export const cloneRecordData = (recordTypeConfig, csid, data, computeContext) => {
   if (!data) {
     return data;
   }
