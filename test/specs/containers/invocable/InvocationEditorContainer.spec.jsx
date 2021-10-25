@@ -32,6 +32,7 @@ const store = mockStore({
       },
     },
   }),
+  user: Immutable.Map(),
 });
 
 const context = {

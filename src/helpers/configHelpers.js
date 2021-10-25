@@ -488,9 +488,8 @@ export const isFieldCloneable = (fieldDescriptor, computeContext) => {
   const config = fieldDescriptor[configKey];
 
   if (config && 'cloneable' in config) {
-    let {
-      cloneable,
-    } = config.cloneable;
+    // eslint-disable-next-line prefer-destructuring
+    let cloneable = config.cloneable;
 
     if (typeof (cloneable) === 'function') {
       cloneable = cloneable(computeContext);
