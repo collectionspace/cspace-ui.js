@@ -2,9 +2,6 @@ import { defineMessages } from 'react-intl';
 
 export default (configContext) => {
   const {
-    formatOption,
-    formatRefNameAsVocabularyName,
-    formatTimestamp,
     formatWorkflowStateIcon,
   } = configContext.formatHelpers;
 
@@ -15,7 +12,7 @@ export default (configContext) => {
         flexShrink: 0,
         formatValue: formatWorkflowStateIcon,
         order: 10,
-        width: 32
+        width: 32,
       },
       idNumber: {
         messages: defineMessages({

@@ -17,5 +17,5 @@ export const getReportViewerPath = (config, reportCsid, invocationDescriptor, re
     params: reportParamsJson,
   };
 
-  return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams, {arrayFormat: 'brackets'})}`;
+  return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams, { rrayFormat: 'brackets' })}`;
 };

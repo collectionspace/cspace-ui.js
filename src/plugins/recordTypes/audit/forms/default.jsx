@@ -15,7 +15,6 @@ const template = (configContext) => {
 
   const {
     Field,
-    InputTable
   } = configContext.recordComponents;
 
   return (
@@ -23,10 +22,10 @@ const template = (configContext) => {
       <Panel name="auditInfo">
         <Cols>
           <Col>
-            <Field name="idNumber" />          
+            <Field name="idNumber" />
           </Col>
-          <Col/>
-          <Col/> 
+          <Col />
+          <Col />
         </Cols>
       </Panel>
 
@@ -47,7 +46,7 @@ const template = (configContext) => {
               <Field name="originalValue" />
               <Field name="newValue" />
               <Field name="changeReason" />
-              </Row>
+            </Row>
           </Field>
         </Field>
 

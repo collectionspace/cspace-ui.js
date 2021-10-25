@@ -3,10 +3,6 @@ export default (configContext) => (data) => {
     getPart,
   } = configContext.recordDataHelpers;
 
-  const {
-    getDisplayName,
-  } = configContext.refNameHelpers;
-
   if (!data) {
     return '';
   }
