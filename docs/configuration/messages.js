@@ -233,6 +233,12 @@ export default {
 
   "column.group.default.updatedAt": "Updated",
 
+  "column.insurance.default.insuranceIndemnityReferenceNumber": "Reference number",
+
+  "column.insurance.default.insurerIndemnifier": "Insurer/indemnifier",
+
+  "column.insurance.default.updatedAt": "Updated",
+
   "column.intake.default.currentOwner": "Current owner",
 
   "column.intake.default.entryNumber": "Entry number",
@@ -348,6 +354,12 @@ export default {
   "column.terms.type": "Type",
 
   "column.terms.vocabulary": "Vocabulary",
+
+  "column.transport.default.transporter": "Transporter",
+
+  "column.transport.default.transportReferenceNumber": "Transport reference number",
+
+  "column.transport.default.updatedAt": "Updated",
 
   "column.uoc.default.authorizedBy": "Authorized by",
 
@@ -471,6 +483,31 @@ export default {
 
   "errorPage.title": "Page Not Found",
 
+  // Notification message shown when an export fails.
+  "export.error": "Error generating export: {error}",
+
+  // Label of the export button.
+  "exportButton.label": "Export…",
+
+  // Prompt message in the field editor for exports.
+  "exportFieldEditor.prompt": "Select fields to include.",
+
+  // Label of the cancel button in the export modal.
+  "exportModal.cancel": "Cancel",
+
+  // Label of the export button in the export modal.
+  "exportModal.export": "Export",
+
+  "exportModal.label": "Export",
+
+  "exportModal.title": "Export as CSV",
+
+  // Message displayed when an export invocation fails.
+  "exportViewerPage.error": "Error generating export: {error}",
+
+  // Message displayed when a export is loading.
+  "exportViewerPage.loading": "Generating export…",
+
   "field.account.role.name": "Roles",
 
   // Message to display when the email is invalid on the user account form.
@@ -529,6 +566,8 @@ export default {
   "field.acquisitions_common.acquisitionProvisos.name": "Provisos",
 
   "field.acquisitions_common.acquisitionReason.name": "Acquisition reason",
+
+  "field.acquisitions_common.acquisitionReferenceNumber.inUse": "The reference number {value} is in use by another record.",
 
   "field.acquisitions_common.acquisitionReferenceNumber.name": "Reference number",
 
@@ -785,6 +824,24 @@ export default {
   "field.citations_common.type.fullName": "Resource identifier type",
 
   "field.citations_common.type.name": "Type",
+
+  "field.collectionobjects_annotation.annotationAuthor.fullName": "Annotation author",
+
+  "field.collectionobjects_annotation.annotationAuthor.name": "Author",
+
+  "field.collectionobjects_annotation.annotationDate.fullName": "Annotation date",
+
+  "field.collectionobjects_annotation.annotationDate.name": "Date",
+
+  "field.collectionobjects_annotation.annotationGroup.name": "Annotation",
+
+  "field.collectionobjects_annotation.annotationNote.fullName": "Annotation note",
+
+  "field.collectionobjects_annotation.annotationNote.name": "Note",
+
+  "field.collectionobjects_annotation.annotationType.fullName": "Annotation type",
+
+  "field.collectionobjects_annotation.annotationType.name": "Type",
 
   "field.collectionobjects_common.age.fullName": "Age value",
 
@@ -1158,6 +1215,8 @@ export default {
 
   "field.collectionobjects_common.materialSource.name": "Source",
 
+  "field.collectionobjects_common.namedCollection.name": "Named collection",
+
   "field.collectionobjects_common.nonTextualInscriptionGroup.fullName": "Non-textual inscription",
 
   "field.collectionobjects_common.numberOfObjects.name": "Number of objects",
@@ -1211,6 +1270,8 @@ export default {
   "field.collectionobjects_common.objectNameType.fullName": "Object name type",
 
   "field.collectionobjects_common.objectNameType.name": "Type",
+
+  "field.collectionobjects_common.objectNumber.inUse": "The identification number {value} is in use by another record.",
 
   "field.collectionobjects_common.objectNumber.name": "Identification number",
 
@@ -1524,6 +1585,8 @@ export default {
 
   "field.conditionchecks_common.conditionCheckReason.name": "Reason",
 
+  "field.conditionchecks_common.conditionCheckRefNumber.inUse": "The reference number {value} is in use by another record.",
+
   "field.conditionchecks_common.conditionCheckRefNumber.name": "Reference number",
 
   "field.conditionchecks_common.conditionDate.fullName": "Condition date",
@@ -1629,6 +1692,8 @@ export default {
   "field.conservation_common.approvedBy.name": "Approved by",
 
   "field.conservation_common.approvedDate.name": "Approval date",
+
+  "field.conservation_common.conservationNumber.inUse": "The reference number {value} is in use by another record.",
 
   "field.conservation_common.conservationNumber.name": "Reference number",
 
@@ -1772,6 +1837,8 @@ export default {
 
   "field.exhibitions_common.curatorialNote.name": "Curatorial note",
 
+  "field.exhibitions_common.exhibitionNumber.inUse": "The exhibition number {value} is in use by another record.",
+
   "field.exhibitions_common.exhibitionNumber.name": "Exhibition number",
 
   "field.exhibitions_common.exhibitionObjectCase.fullName": "Object case",
@@ -1897,6 +1964,8 @@ export default {
   "field.exhibitions_common.organizer.name": "Organizer",
 
   "field.exhibitions_common.planningNote.name": "Planning note",
+
+  "field.exhibitions_common.publishTo.name": "Publish to",
 
   "field.exhibitions_common.sponsor.name": "Sponsor",
 
@@ -2082,6 +2151,72 @@ export default {
 
   "field.groups_common.title.name": "Title",
 
+  "field.insurances_common.insuranceIndemnityAuthorizationDate.fullName": "Authorization date",
+
+  "field.insurances_common.insuranceIndemnityAuthorizationDate.name": "Date",
+
+  "field.insurances_common.insuranceIndemnityAuthorizer.name": "Authorizer",
+
+  "field.insurances_common.insuranceIndemnityCurrency.fullName": "Insurance/indemnity price currency",
+
+  "field.insurances_common.insuranceIndemnityCurrency.name": "Currency",
+
+  "field.insurances_common.insuranceIndemnityNote.name": "Note",
+
+  "field.insurances_common.insuranceIndemnityPolicyNumber.name": "Policy number",
+
+  "field.insurances_common.insuranceIndemnityQuoteCurrency.fullName": "Quote currency",
+
+  "field.insurances_common.insuranceIndemnityQuoteCurrency.name": "Currency",
+
+  "field.insurances_common.insuranceIndemnityQuoteDate.fullName": "Quote date",
+
+  "field.insurances_common.insuranceIndemnityQuoteDate.name": "Date",
+
+  "field.insurances_common.insuranceIndemnityQuoteProvider.fullName": "Quote provider",
+
+  "field.insurances_common.insuranceIndemnityQuoteProvider.name": "Provider",
+
+  "field.insurances_common.insuranceIndemnityQuoteValue.fullName": "Quote value",
+
+  "field.insurances_common.insuranceIndemnityQuoteValue.name": "Value",
+
+  "field.insurances_common.insuranceIndemnityReferenceNumber.inUse": "The reference number {value} is in use by another record.",
+
+  "field.insurances_common.insuranceIndemnityReferenceNumber.name": "Reference number",
+
+  "field.insurances_common.insuranceIndemnityStatus.fullName": "Status type",
+
+  "field.insurances_common.insuranceIndemnityStatus.name": "Type",
+
+  "field.insurances_common.insuranceIndemnityStatusDate.fullName": "Status date",
+
+  "field.insurances_common.insuranceIndemnityStatusDate.name": "Date",
+
+  "field.insurances_common.insuranceIndemnityStatusGroup.name": "Status",
+
+  "field.insurances_common.insuranceIndemnityStatusNote.fullName": "Status note",
+
+  "field.insurances_common.insuranceIndemnityStatusNote.name": "Note",
+
+  "field.insurances_common.insuranceIndemnityType.name": "Type",
+
+  "field.insurances_common.insuranceIndemnityValue.fullName": "Insurance/indemnity price value",
+
+  "field.insurances_common.insuranceIndemnityValue.name": "Value",
+
+  "field.insurances_common.insurerIndemnifier.name": "Insurer/indemnifier",
+
+  "field.insurances_common.minimumLiabilityCurrency.fullName": "Minimum liability price currency",
+
+  "field.insurances_common.minimumLiabilityCurrency.name": "Currency",
+
+  "field.insurances_common.minimumLiabilityValue.fullName": "Minimum liability price value",
+
+  "field.insurances_common.minimumLiabilityValue.name": "Value",
+
+  "field.insurances_common.quoteProviderGroup.name": "Quote",
+
   "field.intakes_common.approvalDate.fullName": "Approval status date",
 
   "field.intakes_common.approvalDate.name": "Date",
@@ -2159,6 +2294,8 @@ export default {
   "field.intakes_common.entryMethod.name": "Entry method",
 
   "field.intakes_common.entryNote.name": "Entry note",
+
+  "field.intakes_common.entryNumber.inUse": "The entry number {value} is in use by another record.",
 
   "field.intakes_common.entryNumber.name": "Entry number",
 
@@ -2256,6 +2393,8 @@ export default {
 
   "field.loansin_common.loanInNote.name": "Note",
 
+  "field.loansin_common.loanInNumber.inUse": "The loan in number {value} is in use by another record.",
+
   "field.loansin_common.loanInNumber.name": "Loan in number",
 
   "field.loansin_common.loanPurpose.name": "Loan purpose",
@@ -2317,6 +2456,8 @@ export default {
   "field.loansout_common.loanOutDate.name": "Loan out date",
 
   "field.loansout_common.loanOutNote.name": "Note",
+
+  "field.loansout_common.loanOutNumber.inUse": "The loan out number {value} is in use by another record.",
 
   "field.loansout_common.loanOutNumber.name": "Loan out number",
 
@@ -2418,6 +2559,8 @@ export default {
 
   "field.locations_common.termType.name": "Type",
 
+  "field.media_common.altText.name": "Alt text",
+
   "field.media_common.contributor.name": "Contributor",
 
   "field.media_common.copyrightStatement.name": "Copyright statement",
@@ -2431,6 +2574,8 @@ export default {
   "field.media_common.description.name": "Description",
 
   "field.media_common.externalUrl.name": "External URL",
+
+  "field.media_common.identificationNumber.inUse": "The identification number {value} is in use by another record.",
 
   "field.media_common.identificationNumber.name": "Identification number",
 
@@ -2489,6 +2634,8 @@ export default {
   "field.movements_common.movementNote.fullName": "Movement note",
 
   "field.movements_common.movementNote.name": "Note",
+
+  "field.movements_common.movementReferenceNumber.inUse": "The reference number {value} is in use by another record.",
 
   "field.movements_common.movementReferenceNumber.name": "Reference number",
 
@@ -2563,6 +2710,8 @@ export default {
   "field.objectexit_common.exitMethod.name": "Exit method",
 
   "field.objectexit_common.exitNote.name": "Exit note",
+
+  "field.objectexit_common.exitNumber.inUse": "The exit number {value} is in use by another record.",
 
   "field.objectexit_common.exitNumber.name": "Exit number",
 
@@ -3050,6 +3199,152 @@ export default {
 
   "field.structuredDate.latest": "Latest",
 
+  "field.transports_common.additionalCostsCurrency.fullName": "Additional cost currency",
+
+  "field.transports_common.additionalCostsCurrency.name": "Currency",
+
+  "field.transports_common.additionalCostsGroup.name": "Additional cost",
+
+  "field.transports_common.additionalCostsType.fullName": "Additional cost type",
+
+  "field.transports_common.additionalCostsType.name": "Type",
+
+  "field.transports_common.additionalCostsValue.fullName": "Additional cost value",
+
+  "field.transports_common.additionalCostsValue.name": "Value",
+
+  "field.transports_common.courier.fullName": "Courier name",
+
+  "field.transports_common.courier.name": "Name",
+
+  "field.transports_common.courierContactNumber.fullName": "Courier contact number",
+
+  "field.transports_common.courierContactNumber.name": "Contact number",
+
+  "field.transports_common.customsBroker.fullName": "Customs broker name",
+
+  "field.transports_common.customsBroker.name": "Name",
+
+  "field.transports_common.customsBrokerContact.fullName": "Customs broker contact",
+
+  "field.transports_common.customsBrokerContact.name": "Contact",
+
+  "field.transports_common.customsDeclaredValueAmount.fullName": "Declared value for customs amount",
+
+  "field.transports_common.customsDeclaredValueAmount.name": "Amount",
+
+  "field.transports_common.customsDeclaredValueCurrency.fullName": "Declared value for customs currency",
+
+  "field.transports_common.customsDeclaredValueCurrency.name": "Currency",
+
+  "field.transports_common.customsFeeCurrency.fullName": "Customs fee currency",
+
+  "field.transports_common.customsFeeCurrency.name": "Currency",
+
+  "field.transports_common.customsFeeNote.fullName": "Customs fee note",
+
+  "field.transports_common.customsFeeNote.name": "Note",
+
+  "field.transports_common.customsFeeValue.fullName": "Customs fee value",
+
+  "field.transports_common.customsFeeValue.name": "Value",
+
+  "field.transports_common.departurePoint.fullName": "Departure point",
+
+  "field.transports_common.departurePoint.name": "Point",
+
+  "field.transports_common.destination.fullName": "Arrival point",
+
+  "field.transports_common.destination.name": "Point",
+
+  "field.transports_common.finalShippingCostCurrency.fullName": "Final shipping cost currency",
+
+  "field.transports_common.finalShippingCostCurrency.name": "Currency",
+
+  "field.transports_common.finalShippingCostValue.fullName": "Final shipping cost value",
+
+  "field.transports_common.finalShippingCostValue.name": "Value",
+
+  "field.transports_common.insuranceCostResponsibleParty.name": "Insurance/indemnity cost responsible party",
+
+  "field.transports_common.numberOfCrates.name": "Number of crates/objects",
+
+  "field.transports_common.shippingQuoteCurrency.fullName": "Shipping quote currency",
+
+  "field.transports_common.shippingQuoteCurrency.name": "Currency",
+
+  "field.transports_common.shippingQuoteDate.fullName": "Shipping quote date",
+
+  "field.transports_common.shippingQuoteDate.name": "Date",
+
+  "field.transports_common.shippingQuoteProvider.fullName": "Shipping quote provider",
+
+  "field.transports_common.shippingQuoteProvider.name": "Provider",
+
+  "field.transports_common.shippingQuotesGroup.name": "Shipping quote",
+
+  "field.transports_common.shippingQuoteValue.fullName": "Shipping quote value",
+
+  "field.transports_common.shippingQuoteValue.name": "Value",
+
+  "field.transports_common.transportArrivalDate.fullName": "Arrival date",
+
+  "field.transports_common.transportArrivalDate.name": "Date",
+
+  "field.transports_common.transportArrivalTime.fullName": "Arrival time",
+
+  "field.transports_common.transportArrivalTime.name": "Time",
+
+  "field.transports_common.transportAuthorizationDate.fullName": "Authorization date",
+
+  "field.transports_common.transportAuthorizationDate.name": "Date",
+
+  "field.transports_common.transportAuthorizer.fullName": "Transport authorizer",
+
+  "field.transports_common.transportAuthorizer.name": "Authorizer",
+
+  "field.transports_common.transportCostResponsibleParty.name": "Transport cost responsible party",
+
+  "field.transports_common.transportCostType.name": "Transport cost type",
+
+  "field.transports_common.transportDepartureDate.fullName": "Departure date",
+
+  "field.transports_common.transportDepartureDate.name": "Date",
+
+  "field.transports_common.transportDepartureTime.fullName": "Departure time",
+
+  "field.transports_common.transportDepartureTime.name": "Time",
+
+  "field.transports_common.transporter.fullName": "Transporter name",
+
+  "field.transports_common.transporter.name": "Name",
+
+  "field.transports_common.transporterContact.fullName": "Transporter contact",
+
+  "field.transports_common.transporterContact.name": "Contact",
+
+  "field.transports_common.transporterContactNumber.fullName": "Transporter contact number",
+
+  "field.transports_common.transporterContactNumber.name": "Contact number",
+
+  "field.transports_common.transportMethod.name": "Transport method",
+
+  "field.transports_common.transportReferenceNumber.inUse": "The reference number {value} is in use by another record.",
+
+  "field.transports_common.transportReferenceNumber.name": "Transport reference number",
+
+  "field.transports_common.transportRemarks.name": "Note",
+
+  "field.transports_common.transportTrackingNumber.fullName": "Tracking number",
+
+  "field.transports_common.transportTrackingNumber.name": "Number",
+
+  "field.transports_common.transportTrackingNumberGroup.name": "Tracking number",
+
+  "field.transports_common.transportTrackingNumberNote.fullName": "Tracking number note",
+
+  "field.transports_common.transportTrackingNumberNote.name": "Note",
+
   "field.uoc_common.authorizationDate.fullName": "Authorization date",
 
   "field.uoc_common.authorizationDate.name": "Date",
@@ -3114,6 +3409,8 @@ export default {
 
   "field.uoc_common.provisos.name": "Provisos",
 
+  "field.uoc_common.referenceNumber.inUse": "The reference number {value} is in use by another record.",
+
   "field.uoc_common.referenceNumber.name": "Reference number",
 
   "field.uoc_common.result.name": "Result",
@@ -3175,6 +3472,8 @@ export default {
   "field.uoc_common.userUocRole.fullName": "User role",
 
   "field.uoc_common.userUocRole.name": "Role",
+
+  "field.valuationcontrols_common.valuationcontrolRefNumber.inUse": "The reference number {value} is in use by another record.",
 
   "field.valuationcontrols_common.valuationcontrolRefNumber.name": "Reference number",
 
@@ -3307,6 +3606,8 @@ export default {
   // Message displayed in advanced search when a field is not found
   "fieldConditionInput.notFound": "field not found",
 
+  "fields.transports_common.courierGroup.name": "Courier",
+
   "footer.about": "About CollectionSpace",
 
   // The name of the application, displayed in the footer.
@@ -3365,6 +3666,8 @@ export default {
 
   "form.group.default.name": "Standard Template",
 
+  "form.insurance.default.name": "Standard Template",
+
   "form.intake.default.name": "Standard Template",
 
   "form.intake.doorstep.name": "Doorstep Donation Template",
@@ -3396,6 +3699,8 @@ export default {
   "form.place.mini.name": "Mini Template",
 
   "form.report.default.name": "Standard Template",
+
+  "form.transport.default.name": "Standard Template",
 
   "form.uoc.default.name": "Standard Template",
 
@@ -3485,6 +3790,10 @@ export default {
 
   "idGenerator.exhibition.type": "Exhibition",
 
+  "idGenerator.indemnity.type": "Indemnity",
+
+  "idGenerator.insurance.type": "Insurance",
+
   "idGenerator.intake.type": "Intake",
 
   "idGenerator.inventory.type": "Inventory",
@@ -3504,6 +3813,8 @@ export default {
   "idGenerator.objectexit.type": "Object Exit",
 
   "idGenerator.study.type": "Study",
+
+  "idGenerator.transport.type": "Transport",
 
   "idGenerator.uoc.type": "Use of Collections",
 
@@ -3539,6 +3850,12 @@ export default {
 
   "inputTable.concept.termSource": "Source",
 
+  "inputTable.insurance.authorization": "Authorization",
+
+  "inputTable.insurance.insurancePurchasePrice": "Insurance/indemnity price",
+
+  "inputTable.insurance.minimumLiabilityPrice": "Minimum liability price",
+
   "inputTable.loanin.borrower": "Borrower",
 
   "inputTable.loanout.borrower": "Borrower",
@@ -3564,6 +3881,22 @@ export default {
   "inputTable.place.nameDetail": "Name detail",
 
   "inputTable.place.termSource": "Source",
+
+  "inputTable.transport.arrival": "Arrival",
+
+  "inputTable.transport.authorization": "Authorization",
+
+  "inputTable.transport.customsBroker": "Customs broker",
+
+  "inputTable.transport.customsDeclaredValue": "Declared value for customs",
+
+  "inputTable.transport.customsFee": "Customs fee",
+
+  "inputTable.transport.departure": "Departure",
+
+  "inputTable.transport.finalShippingCost": "Final shipping cost",
+
+  "inputTable.transport.transporter": "Transporter",
 
   "inputTable.uoc.authorizedBy": "Authorization",
 
@@ -4511,9 +4844,41 @@ export default {
 
   "option.forms.wet": "wet",
 
+  "option.genders.agender": "agender",
+
+  "option.genders.bigender": "bigender",
+
+  "option.genders.dyadic": "dyadic",
+
   "option.genders.female": "female",
 
+  "option.genders.feminine": "feminine",
+
+  "option.genders.gender-fluid": "gender-fluid",
+
+  "option.genders.gender-neutral": "gender-neutral",
+
+  "option.genders.gender-non-binary": "gender non-binary",
+
+  "option.genders.genderqueer": "genderqueer",
+
+  "option.genders.intersex": "intersex",
+
   "option.genders.male": "male",
+
+  "option.genders.masculine": "masculine",
+
+  "option.genders.pansexual": "pansexual",
+
+  "option.genders.polygender": "polygender",
+
+  "option.genders.questioning": "questioning",
+
+  "option.genders.transgender": "transgender",
+
+  "option.genders.transsexual": "transsexual",
+
+  "option.genders.two-spirit": "two-spirit",
 
   "option.geodeticDatums.epsg4267-nad27": "EPSG:4267-NAD27",
 
@@ -4543,6 +4908,8 @@ export default {
 
   "option.inscriptionTypes.brand": "brand",
 
+  "option.inscriptionTypes.credits": "credits",
+
   "option.inscriptionTypes.decoration": "decoration",
 
   "option.inscriptionTypes.estate-stamp": "estate stamp",
@@ -4552,6 +4919,10 @@ export default {
   "option.inscriptionTypes.label": "label",
 
   "option.inscriptionTypes.maker's-mark": "maker's mark",
+
+  "option.inscriptionTypes.plaque": "plaque",
+
+  "option.inscriptionTypes.signage": "signage",
 
   "option.invActions.conservation": "conservation",
 
@@ -4883,13 +5254,35 @@ export default {
 
   "option.personTermTypes.used for term": "used for term",
 
+  "option.personTitles.Admiral": "Admiral",
+
   "option.personTitles.Baron": "Baron",
 
   "option.personTitles.Baroness": "Baroness",
 
+  "option.personTitles.Captain": "Captain",
+
+  "option.personTitles.Commander": "Commander",
+
+  "option.personTitles.Commodore": "Commodore",
+
+  "option.personTitles.Count": "Count",
+
+  "option.personTitles.Countess": "Countess",
+
   "option.personTitles.Dame": "Dame",
 
   "option.personTitles.Dr": "Dr",
+
+  "option.personTitles.General": "General",
+
+  "option.personTitles.Governor": "Governor",
+
+  "option.personTitles.Honorable": "Honorable",
+
+  "option.personTitles.Judge": "Judge",
+
+  "option.personTitles.King": "King",
 
   "option.personTitles.Lady": "Lady",
 
@@ -4903,7 +5296,17 @@ export default {
 
   "option.personTitles.Ms": "Ms",
 
+  "option.personTitles.Prince": "Prince",
+
+  "option.personTitles.Princess": "Princess",
+
   "option.personTitles.Professor": "Professor",
+
+  "option.personTitles.Queen": "Queen",
+
+  "option.personTitles.Reverend": "Reverend",
+
+  "option.personTitles.Saint": "Saint",
 
   "option.personTitles.Sir": "Sir",
 
@@ -5002,6 +5405,8 @@ export default {
   "option.placeTypes.state-province": "state province",
 
   "option.placeTypes.territory": "territory",
+
+  "option.placeTypes.township": "township",
 
   "option.placeTypes.union-territory": "union territory",
 
@@ -5133,6 +5538,28 @@ export default {
 
   "option.titleTypes.trade": "trade",
 
+  "option.transportMethodTypes.cargo aircraft": "cargo aircraft",
+
+  "option.transportMethodTypes.combi aircraft": "combi aircraft",
+
+  "option.transportMethodTypes.common carrier": "common carrier",
+
+  "option.transportMethodTypes.exclusive-use truck": "exclusive-use truck",
+
+  "option.transportMethodTypes.expedited use freight": "expedited use freight",
+
+  "option.transportMethodTypes.LOFO freight": "LOFO freight",
+
+  "option.transportMethodTypes.mail": "mail",
+
+  "option.transportMethodTypes.non-commercial carrier": "non-commercial carrier",
+
+  "option.transportMethodTypes.ocean freight": "ocean freight",
+
+  "option.transportMethodTypes.passenger aircraft": "passenger aircraft",
+
+  "option.transportMethodTypes.shuttle service": "shuttle service",
+
   "option.valueTypes.Current Value": "current value",
 
   "option.valueTypes.Original Value": "original value",
@@ -5233,6 +5660,8 @@ export default {
 
   "panel.group.info": "Group Information",
 
+  "panel.insurance.info": "Insurance and Indemnity Information",
+
   "panel.intake.condition": "Condition Check Information",
 
   "panel.intake.insurance": "Insurance Information",
@@ -5284,6 +5713,10 @@ export default {
   "panel.place.localityInfo": "Locality Information",
 
   "panel.report.mode": "Runs on",
+
+  "panel.transport.cost": "Cost Information",
+
+  "panel.transport.info": "Transport Information",
 
   "panel.uoc.useOfCollections": "Use of Collections Information",
 
@@ -5489,6 +5922,12 @@ export default {
   "record.exhibition.name": "Exhibition",
 
   // The name of a collection of records of the type.
+  "record.export.collectionName": "Exports",
+
+  // The name of the record type.
+  "record.export.name": "Export",
+
+  // The name of a collection of records of the type.
   "record.group.collectionName": "Groups",
 
   // The name of the record type.
@@ -5499,6 +5938,12 @@ export default {
 
   // The name of the record type.
   "record.idgenerator.name": "ID Generator",
+
+  // The name of a collection of records of the type.
+  "record.insurance.collectionName": "Insurance/Indemnities",
+
+  // The name of the record type.
+  "record.insurance.name": "Insurance/Indemnity",
 
   // The name of a collection of records of the type.
   "record.intake.collectionName": "Intakes",
@@ -5607,6 +6052,12 @@ export default {
 
   // The name of the record type.
   "record.structureddates.name": "Structured Date Parser",
+
+  // The name of a collection of records of the type.
+  "record.transport.collectionName": "Transports",
+
+  // The name of the record type
+  "record.transport.name": "Transport",
 
   // The name of a collection of records of the type.
   "record.uoc.collectionName": "Use of Collections",
