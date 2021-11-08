@@ -34,7 +34,7 @@ const template = (configContext) => {
       <Panel name="change" collapsible>
         <Field name="fieldChangedGroupList">
           <Field name="fieldChangedGroup">
-            <Field name="fieldName" />
+            <Field name="key" />
             <Field name="originalValue" />
             <Field name="newValue" />
           </Field>
