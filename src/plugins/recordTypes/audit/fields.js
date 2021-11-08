@@ -6,6 +6,7 @@ export default (configContext) => {
     DateTimeInput,
     ObjectNameInput,
     OptionPickerInput,
+    FieldTextInput,
     TextInput,
   } = configContext.inputComponents;
 
@@ -203,7 +204,7 @@ export default (configContext) => {
                 },
               }),
               view: {
-                type: TextInput,
+                type: FieldTextInput,
                 props: {
                   readOnly: true,
                 },
@@ -237,6 +238,7 @@ export default (configContext) => {
               view: {
                 type: TextInput,
                 props: {
+                  multiline: true,
                   readOnly: true,
                 },
               },
@@ -253,6 +255,7 @@ export default (configContext) => {
               view: {
                 type: TextInput,
                 props: {
+                  multiline: true,
                   readOnly: true,
                 },
               },
