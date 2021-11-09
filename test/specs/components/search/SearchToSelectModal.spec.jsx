@@ -4,7 +4,7 @@ import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { Simulate } from 'react-dom/test-utils';
+import { act, Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
@@ -100,24 +100,26 @@ describe('SearchToSelectModal', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render a modal', function test() {
+  it('should render a modal', async function test() {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
     };
 
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <SearchToSelectModal
-            config={config}
-            isOpen
-            recordTypeValue="collectionobject"
-            subjects={[subject]}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <SearchToSelectModal
+              config={config}
+              isOpen
+              recordTypeValue="collectionobject"
+              subjects={[subject]}
+            />
+          </StoreProvider>
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -341,24 +343,26 @@ describe('SearchToSelectModal', () => {
     unmountComponentAtNode(this.container);
   });
 
-  it('should render a search form', function test() {
+  it('should render a search form', async function test() {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
     };
 
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <SearchToSelectModal
-            config={config}
-            isOpen
-            recordTypeValue="collectionobject"
-            subjects={[subject]}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <SearchToSelectModal
+              config={config}
+              isOpen
+              recordTypeValue="collectionobject"
+              subjects={[subject]}
+            />
+          </StoreProvider>
+        </IntlProvider>, this.container,
+      );
+    });
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 

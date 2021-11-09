@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
@@ -42,19 +43,21 @@ describe('ConfirmRecordUnrelateModal', () => {
     Modal.setAppElement(this.container);
   });
 
-  it('should render a modal', function test() {
+  it('should render a modal', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordUnrelateModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordUnrelateModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -116,19 +119,21 @@ describe('ConfirmRecordUnrelateModal', () => {
     unmountComponentAtNode(this.container);
   });
 
-  it('should render a prompt message containing the record title', function test() {
+  it('should render a prompt message containing the record title', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordUnrelateModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordUnrelateModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelate Group Record Title from the primary record?');
@@ -136,21 +141,23 @@ describe('ConfirmRecordUnrelateModal', () => {
     unmountComponentAtNode(this.container);
   });
 
-  it('should render a prompt message containing the record count if isMultiSelect is true', function test() {
+  it('should render a prompt message containing the record count if isMultiSelect is true', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordUnrelateModal
-          config={config}
-          data={data}
-          isMultiSelect
-          isOpen
-          recordCount={4}
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordUnrelateModal
+            config={config}
+            data={data}
+            isMultiSelect
+            isOpen
+            recordCount={4}
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelate 4 selected records from the primary record?');
@@ -158,20 +165,22 @@ describe('ConfirmRecordUnrelateModal', () => {
     unmountComponentAtNode(this.container);
   });
 
-  it('should render an unrelating message if isUnrelating is true', function test() {
+  it('should render an unrelating message if isUnrelating is true', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordUnrelateModal
-          config={config}
-          data={data}
-          isOpen
-          isUnrelating
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordUnrelateModal
+            config={config}
+            data={data}
+            isOpen
+            isUnrelating
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Unrelating...');

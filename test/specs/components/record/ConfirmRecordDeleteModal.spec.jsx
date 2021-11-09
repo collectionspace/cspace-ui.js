@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
@@ -75,19 +76,21 @@ describe('ConfirmRecordDeleteModal', () => {
     Modal.setAppElement(this.container);
   });
 
-  it('should render a modal', function test() {
+  it('should render a modal', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
@@ -131,19 +134,21 @@ describe('ConfirmRecordDeleteModal', () => {
     unmountComponentAtNode(this.container);
   });
 
-  it('should render a prompt message containing the record title', function test() {
+  it('should render a prompt message containing the record title', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .equal('Delete Group Record Title?');
@@ -307,7 +312,7 @@ describe('ConfirmRecordDeleteModal', () => {
     });
   });
 
-  it('should render a warning message and no prompt when the record data contains hierarchy relations', function test() {
+  it('should render a warning message and no prompt when the record data contains hierarchy relations', async function test() {
     const data = Immutable.fromJS({
       document: {
         'rel:relations-common-list': {
@@ -319,16 +324,18 @@ describe('ConfirmRecordDeleteModal', () => {
       },
     });
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
+    });
 
     document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
       .not.contain('Delete Group Record Title?');
