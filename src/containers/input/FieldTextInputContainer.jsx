@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { components as inputComponents } from 'cspace-input';
 import { injectIntl, intlShape } from 'react-intl';
-import get from 'lodash/get';
 import { formatRecordTypeSourceField } from '../../helpers/formatHelpers';
 import withConfig from '../../enhancers/withConfig';
 import withCsid from '../../enhancers/withCsid';
@@ -25,20 +24,21 @@ const mapStateToProps = (state, ownProps) => {
     value,
   } = ownProps;
 
-  console.log(`Formatting value for csid: ${csid} intl:${intl} config:${config} ${value}`);
-  let formattedValue = value;
+  let formattedValue;
   const recordData = getRecordData(state, csid);
   if (recordData && value) {
     const auditedType = recordData.getIn(['ns3:audit_common', 'resourceType']).toLowerCase();
-    console.log(`formatted value = ${formatRecordTypeSourceField(auditedType, value, { intl, config })}`);
-    const recordTypeConfig = config.recordTypes[auditedType];
-    console.log(`descriptor = ${get(recordTypeConfig, ['fields', 'ns3:audit_common'])}`);
-    // const partDescriptor = get(recordTypeConfig, ['fields', 'document', `${NS_PREFIX}:${partName}`]);
-    formattedValue = formatRecordTypeSourceField(auditedType, value, { intl, config });
+    const formatted = formatRecordTypeSourceField(auditedType, value, { intl, config });
+
+    // when the fieldConfig isn't found, the return is of the form [${fieldName}], which is
+    // less readable than the value itself
+    if (formatted[0] !== ('[')) {
+      formattedValue = formatted;
+    }
   }
 
   return {
-    value: formattedValue,
+    value: formattedValue || value,
   };
 };
 
