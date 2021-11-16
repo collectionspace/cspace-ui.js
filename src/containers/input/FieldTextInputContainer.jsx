@@ -16,6 +16,14 @@ const propTypes = {
   value: PropTypes.string,
 };
 
+export const formatHumanReadable = (type, value, context) => {
+  const formatted = formatRecordTypeSourceField(type, value, context);
+
+  // when the fieldConfig isn't found, the return is of the form [${fieldName}], which is
+  // less readable than the value itself
+  return formatted[0] === '[' ? value : formatted;
+};
+
 const mapStateToProps = (state, ownProps) => {
   const {
     intl,
@@ -28,13 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   const recordData = getRecordData(state, csid);
   if (recordData && value) {
     const auditedType = recordData.getIn(['ns3:audit_common', 'resourceType']).toLowerCase();
-    const formatted = formatRecordTypeSourceField(auditedType, value, { intl, config });
-
-    // when the fieldConfig isn't found, the return is of the form [${fieldName}], which is
-    // less readable than the value itself
-    if (formatted[0] !== ('[')) {
-      formattedValue = formatted;
-    }
+    formattedValue = formatHumanReadable(auditedType, value, { intl, config });
   }
 
   return {
