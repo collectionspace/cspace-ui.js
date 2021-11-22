@@ -81,7 +81,7 @@ export default class HierarchySiblingList extends Component {
 
         items = items
           .filter((item) => item.getIn(['subject', 'csid']) !== csid)
-          .sort((itemA, itemB) => itemA.getIn(['subject', 'number']).localeCompare(itemB.getIn(['subject', 'number'])));
+          .sort((itemA, itemB) => (itemA.getIn(['subject', 'number']) || '').localeCompare(itemB.getIn(['subject', 'number']) || ''));
 
         siblings = items.map((item) => {
           const subject = item.get('subject');
