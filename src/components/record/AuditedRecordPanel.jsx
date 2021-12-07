@@ -10,7 +10,6 @@ const propTypes = {
   config: PropTypes.object,
   columnSetName: PropTypes.string,
   csid: PropTypes.string,
-  listType: PropTypes.string,
   name: PropTypes.string,
   recordType: PropTypes.string,
   recordData: PropTypes.instanceOf(Immutable.Map),
@@ -37,7 +36,6 @@ export default class AuditedRecordPanel extends React.Component {
       color,
       columnSetName,
       config,
-      listType,
       name,
       recordData,
     } = this.props;
@@ -50,12 +48,10 @@ export default class AuditedRecordPanel extends React.Component {
     // get csid and type of the audited record
     const auditedCsid = recordData.getIn(['ns3:audit_common', 'resourceCSID']);
     const auditedType = recordData.getIn(['ns3:audit_common', 'resourceType']);
-
-    console.log(`auditedCsid: ${auditedCsid}`);
-    console.log(`auditedType: ${auditedType}`);
+    const formattedType = auditedType.toLowerCase();
 
     const searchDescriptor = Immutable.fromJS({
-      recordType: 'all',
+      recordType: formattedType,
       searchQuery: {
         csid: auditedCsid,
         p: 0,
@@ -70,11 +66,11 @@ export default class AuditedRecordPanel extends React.Component {
         columnSetName={columnSetName}
         config={config}
         csid={auditedCsid}
-        listType={listType}
         name={name}
-        recordType={auditedType}
+        recordType={formattedType}
         searchDescriptor={searchDescriptor}
         title={this.renderTitle()}
+        showFooter={false}
         showAddButton={false}
         showCheckboxColumn={false}
       />
