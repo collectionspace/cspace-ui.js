@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import upperFirst from 'lodash/upperFirst';
+import AuditedRecordPanelContainer from '../../containers/record/AuditedRecordPanelContainer';
 import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPanelContainer';
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RecordBatchPanelContainer from '../../containers/record/RecordBatchPanelContainer';
@@ -73,6 +74,7 @@ export default function RecordSidebar(props) {
 
   let mediaSnapshot = null;
   let altMediaSnapshot = null;
+  let auditedRecord = null;
   let relatedRecords = null;
   let audit = null;
   let usedBy = null;
@@ -155,6 +157,16 @@ export default function RecordSidebar(props) {
         listType="audit"
       />
     );
+  } else {
+    auditedRecord = (
+      <AuditedRecordPanelContainer
+        color={panelColor}
+        csid={csid}
+        columnSetName="narrow"
+        config={config}
+        name="auditedRecord"
+      />
+    );
   }
 
   if (!isUtility) {
@@ -206,6 +218,7 @@ export default function RecordSidebar(props) {
       {reports}
       {batchJobs}
       {audit}
+      {auditedRecord}
     </div>
   );
 }
