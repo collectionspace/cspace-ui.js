@@ -151,6 +151,7 @@ export default function RecordSidebar(props) {
         recordType={recordType}
         relatedRecordType="audit"
         showAddButton={false}
+        showSearchButton={false}
         listType="audit"
       />
     );
