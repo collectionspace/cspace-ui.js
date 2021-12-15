@@ -66,6 +66,7 @@ const mergeProps = (stateProps, _dispatchProps, ownProps) => {
     intl,
     csid,
     config,
+    value,
     ...remainingProps
   } = ownProps;
 
