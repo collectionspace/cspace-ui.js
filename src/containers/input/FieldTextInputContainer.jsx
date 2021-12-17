@@ -45,7 +45,18 @@ export const formatHumanReadable = (type, value, context) => {
   const parts = value.split(':');
   const [partName, fieldName] = parts;
   if (parts.length === 2) {
-    formatted = formatRecordTypeSourceField(type, value, context);
+    let searchField = fieldName;
+
+    // two named groups to capture the name of the group and the field
+    const groupRegex = /(?<groupList>\w+GroupList)(\/\d+\/(?<groupField>\w+$))?/;
+    const match = groupRegex.exec(fieldName);
+    if (match) {
+      searchField = match.groups.groupField
+        ? match.groups.groupField
+        : getFirstChild(type, partName, fieldName, context);
+    }
+
+    formatted = formatRecordTypeSourceField(type, `${partName}:${searchField}`, context);
   } else if (parts.length === 3) {
     // todo: display index?
     const childName = getFirstChild(type, partName, fieldName, context);
