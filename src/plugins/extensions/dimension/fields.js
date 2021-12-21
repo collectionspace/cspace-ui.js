@@ -245,6 +245,23 @@ export default (configContext) => {
             },
           },
         },
+        measuredPartNote: {
+          [config]: {
+            messages: defineMessages({
+              fullName: {
+                id: 'ield.ext.dimension.measuredPartNote.fullName',
+                defaultMessage: 'Measurement dimension part note',
+              },
+              name: {
+                id: 'field.ext.dimension.measuredPartNote.name',
+                defaultMessage: 'Note',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
       },
     },
   };
