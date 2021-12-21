@@ -47,13 +47,15 @@ export const formatHumanReadable = (type, value, context) => {
   if (parts.length === 2) {
     let searchField = fieldName;
 
-    // two named groups to capture the name of the group and the field
-    const groupRegex = /(?<groupList>\w+GroupList)(\/\d+\/(?<groupField>\w+$))?/;
-    const match = groupRegex.exec(fieldName);
+    // two regexes to capture either the last field or the full name of the group list
+    const groupRegex = /(?<groupList>\w+GroupList)$/;
+    const fieldRegex = /\w+\/\d+\/(?<field>\w+\/?)+$/;
+
+    const match = fieldRegex.exec(fieldName);
     if (match) {
-      searchField = match.groups.groupField
-        ? match.groups.groupField
-        : getFirstChild(type, partName, fieldName, context);
+      searchField = match.groups.field;
+    } else if (groupRegex.exec(fieldName)) {
+      searchField = getFirstChild(type, partName, fieldName, context);
     }
 
     formatted = formatRecordTypeSourceField(type, `${partName}:${searchField}`, context);
