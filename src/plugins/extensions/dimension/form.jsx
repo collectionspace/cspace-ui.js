@@ -32,6 +32,8 @@ export default (configContext) => {
               <Field name="valueDate" />
             </Field>
           </Field>
+
+          <Field name="measuredPartNote" />
         </Panel>
       </Field>
     </Field>
