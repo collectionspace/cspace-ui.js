@@ -134,7 +134,7 @@ Determines the default algorithm to use for filtering options in dropdown lists 
 ```
 defaultSearchPageSize: number = 20
 ```
-The default page size for search results presented as the main content of a page, for example, on Search or My CollectionSpace.
+The default page size for search results presented as the main content of a page, for example, on Search.
 
 ### defaultSearchPanelSize
 ```

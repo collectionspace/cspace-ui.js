@@ -28,7 +28,7 @@ const contextTypes = {
 
 const recordType = 'all';
 
-const getSearchDescriptor = (config) => {
+const getSearchDescriptor = () => {
   const range = 7 * 24 * 60 * 60 * 1000; // 7 days
   const afterDate = new Date(Date.now() - range);
 
@@ -40,7 +40,7 @@ const getSearchDescriptor = (config) => {
         path: 'ns2:collectionspace_core/updatedAt',
         value: afterDate.toISOString(),
       },
-      size: config.defaultSearchPageSize || 20,
+      size: 20,
     },
   });
 };
