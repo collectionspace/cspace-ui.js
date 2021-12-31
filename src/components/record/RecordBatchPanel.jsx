@@ -24,7 +24,7 @@ const getSearchDescriptor = (config, recordType) => {
     recordType: 'batch',
     searchQuery: {
       p: 0,
-      size: 5,
+      size: config.defaultSearchPanelSize || 5,
       doctype: objectName,
       mode: (recordType === 'group' ? ['single', 'group'] : 'single'),
     },

@@ -31,6 +31,8 @@ const defaultConfig = mergeConfig({
   container: '#cspace',
   defaultAdvancedSearchBooleanOp: OP_OR,
   defaultDropdownFilter: 'substring',
+  defaultSearchPageSize: 20,
+  defaultSearchPanelSize: 5,
   defaultUserPrefs: {
     panels: {
       collectionobject: {

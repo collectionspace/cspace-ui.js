@@ -22,7 +22,7 @@ const getSearchDescriptor = (config, recordType) => {
     recordType: 'report',
     searchQuery: {
       p: 0,
-      size: 5,
+      size: config.defaultSearchPanelSize || 5,
       doctype: objectName,
       mode: 'list',
     },

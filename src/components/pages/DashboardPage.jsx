@@ -28,7 +28,7 @@ const contextTypes = {
 
 const recordType = 'all';
 
-const getSearchDescriptor = () => {
+const getSearchDescriptor = (config) => {
   const range = 7 * 24 * 60 * 60 * 1000; // 7 days
   const afterDate = new Date(Date.now() - range);
 
@@ -40,19 +40,23 @@ const getSearchDescriptor = () => {
         path: 'ns2:collectionspace_core/updatedAt',
         value: afterDate.toISOString(),
       },
-      size: 20,
+      size: config.defaultSearchPageSize || 20,
     },
   });
 };
 
 export default class DashboardPage extends Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
+    const {
+      config,
+    } = context;
+
     this.state = {
-      searchDescriptor: getSearchDescriptor(),
+      searchDescriptor: getSearchDescriptor(config),
     };
   }
 

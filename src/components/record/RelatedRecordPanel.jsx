@@ -26,6 +26,7 @@ const listType = 'common';
 
 const getSearchDescriptor = (props) => {
   const {
+    config,
     csid,
     initialSort,
     recordRelationUpdatedTimestamp,
@@ -38,7 +39,7 @@ const getSearchDescriptor = (props) => {
       rel: csid,
       relType: 'affects',
       p: 0,
-      size: 5,
+      size: config.defaultSearchPanelSize || 5,
       sort: initialSort,
     },
     seqID: recordRelationUpdatedTimestamp,

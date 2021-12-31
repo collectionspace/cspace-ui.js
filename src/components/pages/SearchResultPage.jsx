@@ -34,9 +34,6 @@ import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import sidebarToggleBarStyles from '../../../styles/cspace-ui/SidebarToggleBar.css';
 
-// FIXME: Make default page size configurable
-const defaultPageSize = 20;
-
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
 // };
@@ -315,6 +312,10 @@ export default class SearchResultPage extends Component {
 
   normalizeQuery() {
     const {
+      config,
+    } = this.context;
+
+    const {
       history,
       location,
       preferredPageSize,
@@ -332,7 +333,7 @@ export default class SearchResultPage extends Component {
       const pageSize = parseInt(query.size, 10);
 
       if (Number.isNaN(pageSize) || pageSize < 1) {
-        const normalizedPageSize = preferredPageSize || defaultPageSize;
+        const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
 
         normalizedQueryParams.size = normalizedPageSize.toString();
       } else if (pageSize > 2500) {
