@@ -274,7 +274,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.numberValue.fullName',
-                    defaultMessage: 'Other number',
+                    defaultMessage: 'Other number value',
                   },
                   name: {
                     id: 'field.collectionobjects_common.numberValue.name',
