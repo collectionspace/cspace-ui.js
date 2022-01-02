@@ -30,9 +30,14 @@ const columnMessages = defineMessages({
 
 const mapStateToProps = (state, ownProps) => {
   const {
+    config,
     source,
     intl,
   } = ownProps;
+
+  const {
+    idGeneratorTransform: transform,
+  } = config;
 
   const idGeneratorNames = Array.isArray(source) ? source : source.split(',');
   const patterns = [];
@@ -41,10 +46,12 @@ const mapStateToProps = (state, ownProps) => {
     const idGenerator = getIDGenerator(state, idGeneratorName);
 
     if (idGenerator) {
+      const sample = idGenerator.get('sample');
+
       patterns.push({
         name: idGeneratorName,
         type: intl.formatMessage(idGenerator.getIn(['messages', 'type']).toJS()),
-        sample: idGenerator.get('sample'),
+        sample: transform ? transform(sample) : sample,
       });
     }
   });
@@ -63,11 +70,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     recordType,
   } = ownProps;
 
+  const {
+    idGeneratorTransform: transform,
+  } = config;
+
   return {
     generateID: (idGeneratorName, path) => {
       const recordTypeConfig = get(config, ['recordTypes', recordType]);
 
-      dispatch(createID(recordTypeConfig, idGeneratorName, csid, path));
+      dispatch(createID(recordTypeConfig, idGeneratorName, csid, path, transform));
     },
     onOpen: (patterns) => {
       patterns.forEach((pattern) => {

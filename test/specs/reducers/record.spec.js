@@ -1353,6 +1353,34 @@ describe('record reducer', () => {
     }));
 
     isModified(state, csid).should.equal(true);
+
+    // Transform function should be applied to the value
+
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data: {
+          current: data,
+        },
+      },
+    }), {
+      type: CREATE_ID_FULFILLED,
+      payload: {
+        data: 'c',
+      },
+      meta: {
+        csid,
+        path: ['foo', 'bar'],
+        transform: (number) => `FOO ${number}`,
+      },
+    });
+
+    getData(state, csid).should.equal(Immutable.fromJS({
+      foo: {
+        bar: 'FOO c',
+      },
+    }));
+
+    isModified(state, csid).should.equal(true);
   });
 
   it('should handle VALIDATION_PASSED', () => {

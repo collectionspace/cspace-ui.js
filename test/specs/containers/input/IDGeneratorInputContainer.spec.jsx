@@ -41,6 +41,8 @@ describe('IDGeneratorInputContainer', () => {
     }),
   });
 
+  const config = {};
+
   const context = {
     store,
   };
@@ -65,6 +67,7 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         intl={intl}
         source="accession"
       />, context,
@@ -86,6 +89,7 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         intl={intl}
         source="accession,loanin"
       />, context,
@@ -114,6 +118,7 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         intl={intl}
         source={['accession', 'loanin']}
       />, context,
@@ -137,11 +142,45 @@ describe('IDGeneratorInputContainer', () => {
     ]);
   });
 
+  it('should apply the idGeneratorTransfrom from config to the sample values', () => {
+    const transformConfig = {
+      idGeneratorTransform: (number) => (number ? `FOO ${number}` : number),
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedIDGeneratorInput
+        config={transformConfig}
+        intl={intl}
+        source={['accession', 'loanin']}
+      />, context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(IDGeneratorInput);
+
+    result.props.patterns.should.deep.equal([
+      {
+        name: 'accession',
+        type: 'formatted idGenerator.accession.type',
+        sample: 'FOO 2016.1.23',
+      },
+      {
+        name: 'loanin',
+        type: 'formatted idGenerator.loanin.type',
+        sample: undefined,
+      },
+    ]);
+  });
+
   it('should set sampleColumnLabel from intl', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         intl={intl}
         source="accession"
       />, context,
@@ -157,6 +196,7 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         intl={intl}
         source="accession"
       />, context,
@@ -172,6 +212,7 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         intl={intl}
         source="accession"
       />, context,
@@ -206,6 +247,7 @@ describe('IDGeneratorInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedIDGeneratorInput
+        config={config}
         csid={csid}
         source={idGeneratorName}
         intl={intl}
