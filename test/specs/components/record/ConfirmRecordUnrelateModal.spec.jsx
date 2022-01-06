@@ -36,11 +36,41 @@ const config = {
   },
 };
 
+function tryQuery(queryString, resolve, reject, attempt) {
+  if (attempt * 50 > 1000) {
+    reject();
+  }
+
+  setTimeout(() => {
+    // console.log(`query #${attempt} for ${queryString}`);
+    const result = document.querySelector(queryString);
+    if (result) {
+      // console.log(`found it ${result}`);
+      resolve(result);
+    }
+
+    // console.log(`is null ? ${result}`);
+    tryQuery(queryString, resolve, reject, attempt + 1);
+  }, 50);
+}
+
+function query(queryString) {
+  return new Promise((resolve, reject) => {
+    tryQuery(queryString, resolve, reject, 0);
+  });
+}
+
 describe('ConfirmRecordUnrelateModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
 
     Modal.setAppElement(this.container);
+  });
+
+  afterEach(function after() {
+    unmountComponentAtNode(this.container);
+    this.container.remove();
+    this.container = null;
   });
 
   it('should render a modal', async function test() {
@@ -59,9 +89,8 @@ describe('ConfirmRecordUnrelateModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
-
-    unmountComponentAtNode(this.container);
+    const modal = await query('.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
   });
 
   it('should render nothing if isOpen is false', function test() {
@@ -80,8 +109,6 @@ describe('ConfirmRecordUnrelateModal', () => {
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should render nothing if isMultiSelect is false and data is not supplied', function test() {
@@ -97,8 +124,6 @@ describe('ConfirmRecordUnrelateModal', () => {
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should render nothing if isMultiSelect is true and recordCount is zero', function test() {
@@ -115,8 +140,6 @@ describe('ConfirmRecordUnrelateModal', () => {
 
     expect(this.container.firstElementChild).to.equal(null);
     expect(document.querySelector('.ReactModal__Content--after-open')).to.equal(null);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should render a prompt message containing the record title', async function test() {
@@ -135,10 +158,8 @@ describe('ConfirmRecordUnrelateModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-      .equal('Unrelate Group Record Title from the primary record?');
-
-    unmountComponentAtNode(this.container);
+    const modal = await query('.ReactModal__Content--after-open > div > div');
+    modal.textContent.should.equal('Unrelate Group Record Title from the primary record?');
   });
 
   it('should render a prompt message containing the record count if isMultiSelect is true', async function test() {
@@ -159,10 +180,8 @@ describe('ConfirmRecordUnrelateModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-      .equal('Unrelate 4 selected records from the primary record?');
-
-    unmountComponentAtNode(this.container);
+    const modal = await query('.ReactModal__Content--after-open > div > div');
+    modal.textContent.should.equal('Unrelate 4 selected records from the primary record?');
   });
 
   it('should render an unrelating message if isUnrelating is true', async function test() {
@@ -182,9 +201,8 @@ describe('ConfirmRecordUnrelateModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-      .equal('Unrelating...');
-
-    unmountComponentAtNode(this.container);
+    // todo: this or query on confirm record unrelate div?
+    const modal = await query('.ReactModal__Content--after-open > div > div');
+    modal.textContent.should.equal('Unrelating...');
   });
 });

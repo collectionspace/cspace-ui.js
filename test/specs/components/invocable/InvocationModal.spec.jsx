@@ -8,6 +8,8 @@ import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider as StoreProvider } from 'react-redux';
+import Modal from 'cspace-layout/lib/components/Modal';
+import asyncQuery from '../../../helpers/asyncQuery';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
@@ -115,6 +117,8 @@ const invocationDescriptor = Immutable.fromJS({
 describe('InvocationModal', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
+
+    Modal.setAppElement(this.container);
   });
 
   it('should render a modal', async function test() {
@@ -140,6 +144,7 @@ describe('InvocationModal', () => {
     document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render nothing if isOpen is false', function test() {
@@ -186,7 +191,7 @@ describe('InvocationModal', () => {
   });
 
   it('should render a title using the data', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -206,15 +211,16 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render title using data');
 
     modal.querySelector('h1').textContent.should.equal('Test Report');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render the record name as the title if no title is found in the data', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -234,15 +240,16 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render the record name as title');
 
     modal.querySelector('h1').textContent.should.equal('Report');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render a no-break space as the title if data is undefined', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -261,15 +268,16 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a no-break space');
 
     modal.querySelector('header > div').textContent.should.equal(' ');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render an unsaved warning if isRecordModified is true', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -289,15 +297,16 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a no-break space');
 
     modal.querySelector('.cspace-ui-FormStatusMessage--warning').textContent.should.equal('Unsaved changes!');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render a running message if isRunning is true', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -317,15 +326,16 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
 
     modal.querySelector('p').textContent.should.contain('Running');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render a format picker if recordType is report', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -344,15 +354,16 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
 
     modal.querySelector('.cspace-ui-InvocationFormatPicker--common').should.not.equal(null);
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should not render a format picker if recordType is not report', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -370,11 +381,12 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
 
     expect(modal.querySelector('.cspace-ui-InvocationFormatPicker--common')).to.equal(null);
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should call onInvokeButtonClick when the invoke button is clicked', async function test() {
@@ -384,7 +396,7 @@ describe('InvocationModal', () => {
       invokeButtonClicked = true;
     };
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -404,17 +416,18 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
     const button = modal.querySelector('button[name="invoke"]');
 
     Simulate.click(button);
 
     invokeButtonClicked.should.equal(true);
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should update the invocation descriptor when a change is committed', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -433,7 +446,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
     const dropdownMenuInput = modal.querySelector('.cspace-input-DropdownMenuInput--common');
     const input = dropdownMenuInput.querySelector('input');
 
@@ -447,6 +460,7 @@ describe('InvocationModal', () => {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         unmountComponentAtNode(this.container);
+        this.container.remove();
 
         resolve();
       }, 0);
@@ -460,7 +474,7 @@ describe('InvocationModal', () => {
       invokedDescriptor = invocationDescriptorArg;
     };
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -480,7 +494,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
     const input = dropdownMenuInput.querySelector('input');
 
@@ -500,6 +514,7 @@ describe('InvocationModal', () => {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         unmountComponentAtNode(this.container);
+        this.container.remove();
 
         resolve();
       }, 0);
@@ -513,7 +528,7 @@ describe('InvocationModal', () => {
       readRecordCalled = true;
     };
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -533,7 +548,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -556,6 +571,7 @@ describe('InvocationModal', () => {
     readRecordCalled.should.equal(true);
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should call searchCsid when opened if the initial invocation descriptor has a single csid and no item data', async function test() {
@@ -587,7 +603,7 @@ describe('InvocationModal', () => {
       });
     };
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -606,7 +622,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -630,15 +646,17 @@ describe('InvocationModal', () => {
     searchedRecordType.should.equal('collectionobject');
     searchedCsid.should.equal('1234');
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+
     modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1-1234');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should update the mime type when data is received', async function test() {
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -656,7 +674,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -675,12 +693,13 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
     const input = dropdownMenuInput.querySelector('input');
 
     input.value.should.equal('CSV');
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should create an item containing the invocation descriptor csid if no item is found by searchCsid', async function test() {
@@ -696,7 +715,7 @@ describe('InvocationModal', () => {
       },
     });
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -715,7 +734,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -735,12 +754,13 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
 
     modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1234');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should create an item containing the invocation descriptor csid if searchCsid fails', async function test() {
@@ -752,7 +772,7 @@ describe('InvocationModal', () => {
 
     const searchCsid = () => Promise.reject();
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -771,7 +791,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    await act(async () => {
+    act(() => {
       render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
@@ -791,11 +811,12 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
 
     modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1234');
 
     unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 });

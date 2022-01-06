@@ -11,6 +11,7 @@ import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import Modal from 'cspace-layout/lib/components/Modal';
+import asyncQuery from '../../../helpers/asyncQuery';
 import SearchToSelectModal, { BaseSearchToSelectModal, searchName } from '../../../../src/components/search/SearchToSelectModal';
 import AcceptSelectionButton from '../../../../src/components/search/AcceptSelectionButton';
 import SearchButton from '../../../../src/components/search/SearchButton';
@@ -160,7 +161,8 @@ describe('SearchToSelectModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
+    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
   });
 
   it('should call onRecordTypeCommit with the default record type when opened', function test() {
