@@ -9,7 +9,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider as StoreProvider } from 'react-redux';
 import Modal from 'cspace-layout/lib/components/Modal';
-import asyncQuery from '../../../helpers/asyncQuery';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
@@ -211,7 +211,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render title using data');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render title using data');
 
     modal.querySelector('h1').textContent.should.equal('Test Report');
 
@@ -240,7 +240,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render the record name as title');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render the record name as title');
 
     modal.querySelector('h1').textContent.should.equal('Report');
 
@@ -268,7 +268,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a no-break space');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a no-break space');
 
     modal.querySelector('header > div').textContent.should.equal(' ');
 
@@ -297,7 +297,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a no-break space');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a no-break space');
 
     modal.querySelector('.cspace-ui-FormStatusMessage--warning').textContent.should.equal('Unsaved changes!');
 
@@ -326,7 +326,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
 
     modal.querySelector('p').textContent.should.contain('Running');
 
@@ -354,7 +354,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
 
     modal.querySelector('.cspace-ui-InvocationFormatPicker--common').should.not.equal(null);
 
@@ -381,7 +381,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
 
     expect(modal.querySelector('.cspace-ui-InvocationFormatPicker--common')).to.equal(null);
 
@@ -416,7 +416,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
     const button = modal.querySelector('button[name="invoke"]');
 
     Simulate.click(button);
@@ -446,7 +446,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
     const dropdownMenuInput = modal.querySelector('.cspace-input-DropdownMenuInput--common');
     const input = dropdownMenuInput.querySelector('input');
 
@@ -494,7 +494,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open', 'render a running message');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
     const input = dropdownMenuInput.querySelector('input');
 
@@ -646,7 +646,7 @@ describe('InvocationModal', () => {
     searchedRecordType.should.equal('collectionobject');
     searchedCsid.should.equal('1234');
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
     modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1-1234');
@@ -693,7 +693,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
     const input = dropdownMenuInput.querySelector('input');
 
@@ -754,7 +754,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
     modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1234');
@@ -811,7 +811,7 @@ describe('InvocationModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
     modal.querySelector('.cspace-input-ChooserInput--common > div').textContent
       .should.equal('1234');

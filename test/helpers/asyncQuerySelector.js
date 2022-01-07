@@ -4,13 +4,10 @@ function tryQuery(element, queryString, name, resolve, reject, attempt) {
   }
 
   setTimeout(() => {
-    console.log(`${name} query #${attempt} for ${queryString}`);
     const result = element.querySelector(queryString);
     if (result) {
-      console.log(`found it ${result}`);
       resolve(result);
     } else {
-      // console.log(`is null ? ${result}`);
       tryQuery(element, queryString, name, resolve, reject, attempt + 1);
     }
   }, 50);

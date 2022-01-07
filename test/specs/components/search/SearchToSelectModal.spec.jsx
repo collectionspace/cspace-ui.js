@@ -11,7 +11,7 @@ import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import Modal from 'cspace-layout/lib/components/Modal';
-import asyncQuery from '../../../helpers/asyncQuery';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import SearchToSelectModal, { BaseSearchToSelectModal, searchName } from '../../../../src/components/search/SearchToSelectModal';
 import AcceptSelectionButton from '../../../../src/components/search/AcceptSelectionButton';
 import SearchButton from '../../../../src/components/search/SearchButton';
@@ -161,7 +161,7 @@ describe('SearchToSelectModal', () => {
       );
     });
 
-    const modal = await asyncQuery(document, '.ReactModal__Content--after-open');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
     modal.should.not.equal(null);
   });
 

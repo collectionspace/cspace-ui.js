@@ -11,7 +11,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import moxios from 'moxios';
 import { Modal } from 'cspace-layout';
-import asyncQuery from '../../../helpers/asyncQuery';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
@@ -506,7 +506,7 @@ describe('RelatedRecordBrowser', () => {
       </IntlProvider>, this.container,
     );
 
-    const button = await asyncQuery(this.container, 'button[name="relate"]');
+    const button = await asyncQuerySelector(this.container, 'button[name="relate"]');
 
     Simulate.click(button);
 
@@ -514,7 +514,7 @@ describe('RelatedRecordBrowser', () => {
       window.setTimeout(() => {
         let modalNode;
 
-        modalNode = asyncQuery(document, '.ReactModal__Content--after-open');
+        modalNode = asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
         modalNode.should.not.equal(null);
 
@@ -550,7 +550,7 @@ describe('RelatedRecordBrowser', () => {
       </IntlProvider>, this.container,
     );
 
-    const button = await asyncQuery(this.container, 'button[name="relate"]');
+    const button = await asyncQuerySelector(this.container, 'button[name="relate"]');
 
     Simulate.click(button);
 
@@ -558,7 +558,7 @@ describe('RelatedRecordBrowser', () => {
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        modalNode = asyncQuery(document, '.ReactModal__Content--after-open');
+        modalNode = asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
         modalNode.should.not.equal(null);
 
