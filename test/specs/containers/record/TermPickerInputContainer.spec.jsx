@@ -4,7 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 import TermPickerInput from '../../../../src/components/record/TermPickerInput';
-import TermPickerInputContainer from '../../../../src/containers/record/TermPickerInputContainer';
+import { ConnectedTermPickerInput } from '../../../../src/containers/record/TermPickerInputContainer';
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
@@ -47,7 +47,7 @@ describe('TermPickerInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer source={vocabularyName} />, context,
+      <ConnectedTermPickerInput source={vocabularyName} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -73,7 +73,7 @@ describe('TermPickerInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer source={vocabularyName} />, context,
+      <ConnectedTermPickerInput source={vocabularyName} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -105,7 +105,7 @@ describe('TermPickerInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <TermPickerInputContainer source={vocabularyName} />, context,
+      <ConnectedTermPickerInput source={vocabularyName} />, context,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -122,5 +122,78 @@ describe('TermPickerInputContainer', () => {
       action.should.have.property('type', READ_VOCABULARY_ITEMS_STARTED);
       action.should.have.deep.property('meta.vocabularyName', vocabularyName);
     }
+  });
+
+  it('should apply the transformTerms function to the vocabulary terms', () => {
+    const vocabularyName = 'languages';
+
+    const vocabulary = {
+      items: [
+        { refname: 'en', displayName: 'English' },
+      ],
+    };
+
+    const perms = Immutable.fromJS({
+      collectionobject: {
+        data: 'CRUDL',
+      },
+    });
+
+    const recordCsid = '1234';
+
+    const recordData = Immutable.Map({
+      foo: 'bar',
+    });
+
+    const store = mockStore({
+      record: Immutable.fromJS({
+        [recordCsid]: {
+          data: {
+            baseline: recordData,
+            current: recordData,
+          },
+        },
+      }),
+      user: Immutable.Map({
+        perms,
+      }),
+      vocabulary: {
+        [vocabularyName]: vocabulary,
+      },
+    });
+
+    const context = {
+      store,
+    };
+
+    let transformRecordData = null;
+
+    const transformTerms = ({ recordData: recordDataArg }, terms) => {
+      transformRecordData = recordDataArg;
+
+      return terms.map((term) => ({
+        ...term,
+        displayName: `Transformed ${term.displayName}`,
+      }));
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedTermPickerInput
+        csid={recordCsid}
+        source="languages"
+        transformTerms={transformTerms}
+      />,
+      context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    transformRecordData.should.equal(recordData);
+
+    result.props.terms.should.deep.equal([
+      { refname: 'en', displayName: 'Transformed English' },
+    ]);
   });
 });
