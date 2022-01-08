@@ -72,6 +72,56 @@ describe('StructuredDateInputContainer', () => {
     });
   });
 
+  it('should override vocab names in config with vocab names in props if present', () => {
+    const dateQualifiers = [
+      { value: 'qual1', label: 'Qual 1' },
+    ];
+
+    const optionLists = {
+      dateQualifiers,
+    };
+
+    const vocabulary = {
+      dateera: { items: [] },
+      datecertainty: { items: [] },
+      datequalifier: { items: [] },
+      foobar: { items: [] },
+    };
+
+    const perms = Immutable.fromJS({
+      collectionobject: {
+        data: 'CRUDL',
+      },
+    });
+
+    const store = mockStore({
+      vocabulary,
+      optionList: Immutable.Map(optionLists),
+      user: Immutable.Map({
+        perms,
+      }),
+    });
+
+    const context = {
+      store,
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <ConnectedStructuredDateInput
+        config={config}
+        structDateVocabNames={['foobar']}
+      />, context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.terms.should.deep.equal({
+      foobar: [],
+    });
+  });
+
   it('should connect readTerms to readVocabularyItems action creator', () => {
     const dateQualifiers = [
       { value: 'qual1', label: 'Qual 1' },

@@ -82,6 +82,7 @@ const propTypes = {
   intl: intlShape,
   perms: PropTypes.instanceOf(Immutable.Map),
   readTerms: PropTypes.func,
+  structDateVocabNames: PropTypes.arrayOf(PropTypes.string),
 };
 
 class StructuredDateInput extends Component {
@@ -97,10 +98,13 @@ class StructuredDateInput extends Component {
     const {
       config,
       readTerms,
+      structDateVocabNames: propStructDateVocabNames,
     } = this.props;
 
     if (readTerms) {
-      config.structDateVocabNames.forEach((vocabName) => {
+      const structDateVocabNames = propStructDateVocabNames || config.structDateVocabNames;
+
+      structDateVocabNames.forEach((vocabName) => {
         readTerms(vocabName);
       });
     }
@@ -111,6 +115,7 @@ class StructuredDateInput extends Component {
       config,
       perms,
       readTerms,
+      structDateVocabNames: propStructDateVocabNames,
     } = this.props;
 
     const {
@@ -118,7 +123,9 @@ class StructuredDateInput extends Component {
     } = prevProps;
 
     if (readTerms && perms !== prevPerms) {
-      config.structDateVocabNames.forEach((vocabName) => {
+      const structDateVocabNames = propStructDateVocabNames || config.structDateVocabNames;
+
+      structDateVocabNames.forEach((vocabName) => {
         readTerms(vocabName);
       });
     }
@@ -154,6 +161,7 @@ class StructuredDateInput extends Component {
       intl,
       perms,
       readTerms,
+      structDateVocabNames,
       ...remainingProps
     } = this.props;
 
