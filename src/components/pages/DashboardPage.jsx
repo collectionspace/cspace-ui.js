@@ -46,13 +46,17 @@ const getSearchDescriptor = () => {
 };
 
 export default class DashboardPage extends Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
+    const {
+      config,
+    } = context;
+
     this.state = {
-      searchDescriptor: getSearchDescriptor(),
+      searchDescriptor: getSearchDescriptor(config),
     };
   }
 

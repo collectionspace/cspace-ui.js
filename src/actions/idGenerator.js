@@ -60,53 +60,56 @@ export const readIDGenerator = (idGeneratorName) => (dispatch, getState) => {
     }));
 };
 
-export const createID = (recordTypeConfig, idGeneratorName, csid, path) => (dispatch, getState) => {
-  let idGeneratorCsid = null;
+export const createID = (recordTypeConfig, idGeneratorName, csid, path, transform) => (
+  (dispatch, getState) => {
+    let idGeneratorCsid = null;
 
-  const idGenerator = getIDGenerator(getState(), idGeneratorName);
+    const idGenerator = getIDGenerator(getState(), idGeneratorName);
 
-  if (idGenerator) {
-    idGeneratorCsid = idGenerator.get('csid');
-  }
+    if (idGenerator) {
+      idGeneratorCsid = idGenerator.get('csid');
+    }
 
-  if (!idGeneratorCsid) {
-    return null;
-  }
+    if (!idGeneratorCsid) {
+      return null;
+    }
 
-  dispatch({
-    type: CREATE_ID_STARTED,
-    meta: {
-      recordTypeConfig,
-      idGeneratorName,
-      csid,
-      path,
-    },
-  });
-
-  return getSession().create(`idgenerators/${idGeneratorCsid}/ids`)
-    .then((response) => {
-      dispatch({
-        type: CREATE_ID_FULFILLED,
-        payload: response,
-        meta: {
-          recordTypeConfig,
-          idGeneratorName,
-          csid,
-          path,
-        },
-      });
-
-      return dispatch(computeRecordData(recordTypeConfig, csid))
-        .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
-    })
-    .catch((error) => dispatch({
-      type: CREATE_ID_REJECTED,
-      payload: error,
+    dispatch({
+      type: CREATE_ID_STARTED,
       meta: {
         recordTypeConfig,
         idGeneratorName,
         csid,
         path,
       },
-    }));
-};
+    });
+
+    return getSession().create(`idgenerators/${idGeneratorCsid}/ids`)
+      .then((response) => {
+        dispatch({
+          type: CREATE_ID_FULFILLED,
+          payload: response,
+          meta: {
+            recordTypeConfig,
+            idGeneratorName,
+            csid,
+            path,
+            transform,
+          },
+        });
+
+        return dispatch(computeRecordData(recordTypeConfig, csid))
+          .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
+      })
+      .catch((error) => dispatch({
+        type: CREATE_ID_REJECTED,
+        payload: error,
+        meta: {
+          recordTypeConfig,
+          idGeneratorName,
+          csid,
+          path,
+        },
+      }));
+  }
+);

@@ -14,6 +14,7 @@ const messages = defineMessages({
 
 const getSearchDescriptor = (props) => {
   const {
+    config,
     recordType,
     vocabulary,
     csid,
@@ -27,7 +28,7 @@ const getSearchDescriptor = (props) => {
     subresource: 'terms',
     searchQuery: {
       p: 0,
-      size: 5,
+      size: config.defaultSearchPanelSize || 5,
     },
     seqID: getUpdatedTimestamp(recordData),
   });

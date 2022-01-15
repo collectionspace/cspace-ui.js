@@ -170,6 +170,7 @@ describe('ID generator action creator', () => {
     const createIDUrl = `/cspace-services/idgenerators/${idGeneratorCsid}/ids`;
     const csid = '9987';
     const path = ['collectionobjects_common', 'objectNumber'];
+    const transform = (number) => number;
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
@@ -189,7 +190,7 @@ describe('ID generator action creator', () => {
         response: '2016.1.1',
       });
 
-      return store.dispatch(createID(recordTypeConfig, idGeneratorName, csid, path))
+      return store.dispatch(createID(recordTypeConfig, idGeneratorName, csid, path, transform))
         .then(() => {
           const actions = store.getActions();
 
@@ -218,6 +219,7 @@ describe('ID generator action creator', () => {
               idGeneratorName,
               csid,
               path,
+              transform,
             },
           });
 

@@ -6,12 +6,19 @@ import { getOptionList, getUserPerms, getVocabulary } from '../../reducers';
 import withConfig from '../../enhancers/withConfig';
 
 const mapStateToProps = (state, ownProps) => {
-  const { config } = ownProps;
+  const {
+    config,
+    structDateOptionListNames: ownStructDateOptionListNames,
+    structDateVocabNames: ownStructDateVocabNames,
+  } = ownProps;
 
   const {
-    structDateOptionListNames,
-    structDateVocabNames,
+    structDateOptionListNames: configStructDateOptionListNames,
+    structDateVocabNames: configStructDateVocabNames,
   } = config;
+
+  const structDateOptionListNames = ownStructDateOptionListNames || configStructDateOptionListNames;
+  const structDateVocabNames = ownStructDateVocabNames || configStructDateVocabNames;
 
   const optionLists = {};
   const terms = {};
@@ -38,9 +45,23 @@ const mapDispatchToProps = {
   readTerms: readVocabularyItems,
 };
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const {
+    structDateOptionListNames,
+    ...remainingOwnProps
+  } = ownProps;
+
+  return {
+    ...remainingOwnProps,
+    ...stateProps,
+    ...dispatchProps,
+  };
+};
+
 export const ConnectedStructuredDateInput = connect(
   mapStateToProps,
   mapDispatchToProps,
+  mergeProps,
 )(StructuredDateInput);
 
 const ConnectedStructuredDateInputWithConfig = withConfig(ConnectedStructuredDateInput);

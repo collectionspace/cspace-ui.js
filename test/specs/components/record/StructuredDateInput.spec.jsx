@@ -47,6 +47,28 @@ describe('StructuredDateInput', () => {
     readTermsSources.should.deep.equal(config.structDateVocabNames);
   });
 
+  it('should override vocab names in config with vocab names in props if present', function test() {
+    const readTermsSources = [];
+
+    const readTerms = (sourceArg) => {
+      readTermsSources.push(sourceArg);
+    };
+
+    const vocabNames = ['foo', 'bar'];
+
+    render(
+      <IntlProvider locale="en">
+        <StructuredDateInput
+          config={config}
+          readTerms={readTerms}
+          structDateVocabNames={vocabNames}
+        />
+      </IntlProvider>, this.container,
+    );
+
+    readTermsSources.should.deep.equal(vocabNames);
+  });
+
   it('should call readTerms when new perms are supplied via props', function test() {
     const readTermsSources = [];
 

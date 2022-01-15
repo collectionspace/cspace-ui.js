@@ -40,8 +40,8 @@ const findParent = (csid, relations) => {
 
 const findChildren = (csid, relations) => findNarrowerRelations(csid, relations)
   .sort((relationA, relationB) => {
-    const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName']));
-    const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName']));
+    const displayNameA = getDisplayName(relationA.getIn(['subject', 'refName'])) || '';
+    const displayNameB = getDisplayName(relationB.getIn(['subject', 'refName'])) || '';
 
     if (displayNameA && displayNameB) {
       return displayNameA.localeCompare(displayNameB);

@@ -1,18 +1,35 @@
 import { connect } from 'react-redux';
 import { readVocabularyItems } from '../../actions/vocabulary';
-import { getUserPerms, getVocabulary } from '../../reducers';
+
+import {
+  getRecordData,
+  getUserPerms,
+  getVocabulary,
+} from '../../reducers';
+
 import TermPickerInput from '../../components/record/TermPickerInput';
+import withCsid from '../../enhancers/withCsid';
 
 const mapStateToProps = (state, ownProps) => {
   const {
+    csid,
+    transformTerms,
     source,
   } = ownProps;
 
   const vocabulary = getVocabulary(state, source);
 
+  let items = vocabulary ? vocabulary.items : null;
+
+  if (transformTerms && items) {
+    const recordData = getRecordData(state, csid);
+
+    items = transformTerms({ recordData }, items);
+  }
+
   return {
     perms: getUserPerms(state),
-    terms: vocabulary ? vocabulary.items : null,
+    terms: items,
   };
 };
 
@@ -20,11 +37,28 @@ const mapDispatchToProps = {
   readTerms: readVocabularyItems,
 };
 
-const ConnectedTermPickerInput = connect(
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const {
+    csid,
+    transformTerms,
+    ...remainingOwnProps
+  } = ownProps;
+
+  return {
+    ...remainingOwnProps,
+    ...stateProps,
+    ...dispatchProps,
+  };
+};
+
+export const ConnectedTermPickerInput = connect(
   mapStateToProps,
   mapDispatchToProps,
+  mergeProps,
 )(TermPickerInput);
 
-ConnectedTermPickerInput.propTypes = TermPickerInput.propTypes;
+const WithCsidTermPickerInput = withCsid(ConnectedTermPickerInput);
 
-export default ConnectedTermPickerInput;
+WithCsidTermPickerInput.propTypes = TermPickerInput.propTypes;
+
+export default WithCsidTermPickerInput;

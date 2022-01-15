@@ -566,6 +566,7 @@ const handleCreateIDFulfilled = (state, action) => {
   const {
     csid,
     path,
+    transform,
   } = action.meta;
 
   const data = getCurrentData(state, csid);
@@ -576,7 +577,8 @@ const handleCreateIDFulfilled = (state, action) => {
 
   const value = action.payload.data;
   const createdID = (typeof value === 'number') ? value.toString() : value;
-  const updatedData = deepSet(data, path, createdID);
+  const id = transform ? transform(createdID) : createdID;
+  const updatedData = deepSet(data, path, id);
   const nextState = setCurrentData(state, csid, updatedData);
 
   return nextState;
