@@ -35,7 +35,7 @@ describe('Header', () => {
         <StoreProvider store={store}>
           <ConfigProvider config={config}>
             <Router>
-              <Header username="username" />
+              <Header username="username" screenName="username" />
             </Router>
           </ConfigProvider>
         </StoreProvider>

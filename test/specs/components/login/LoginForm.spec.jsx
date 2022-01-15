@@ -5,11 +5,10 @@ import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
-import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import { ERR_INVALID_CREDENTIALS } from '../../../../src/constants/errorCodes';
 import createTestContainer from '../../../helpers/createTestContainer';
-import LoginForm from '../../../../src/components/login/LoginForm';
+import LoginForm, { BaseLoginForm } from '../../../../src/components/login/LoginForm';
 
 const { expect } = chai;
 
@@ -343,9 +342,7 @@ describe('LoginForm', () => {
     const username = 'admin@core.collectionspace.org';
 
     const renderTree = render(
-      <IntlProvider
-        locale="en"
-      >
+      <IntlProvider locale="en">
         <Router>
           <LoginForm />
         </Router>
@@ -358,9 +355,10 @@ describe('LoginForm', () => {
 
     Simulate.change(usernameInput);
 
-    const link = findRenderedComponentWithType(renderTree, Link);
-
-    link.props.to.state.username.should.equal(username);
+    // this is slightly different from before because of changes to Link
+    // but just check the state in the LoginForm since it is used to render anyways
+    const form = findRenderedComponentWithType(renderTree, BaseLoginForm);
+    form.state.username.should.equal(username);
   });
 
   it('should show the forgot password link when showForgotLink is true', function test() {

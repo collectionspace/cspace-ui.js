@@ -4,12 +4,14 @@ import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { Simulate } from 'react-dom/test-utils';
+import { act, Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import Modal from 'cspace-layout/lib/components/Modal';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import SearchToSelectModal, { BaseSearchToSelectModal, searchName } from '../../../../src/components/search/SearchToSelectModal';
 import AcceptSelectionButton from '../../../../src/components/search/AcceptSelectionButton';
 import SearchButton from '../../../../src/components/search/SearchButton';
@@ -20,6 +22,7 @@ import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultSummary from '../../../../src/components/search/SearchResultSummary';
 import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { searchKey } from '../../../../src/reducers/search';
 
 const { expect } = chai;
 
@@ -39,6 +42,12 @@ const config = {
     common: {
       listNodeName: 'ns2:abstract-common-list',
       itemNodeName: 'list-item',
+      messages: {
+        resultCount: {
+          id: 'list.common.resultCount',
+          defaultMessage: 'Result count',
+        },
+      },
     },
   },
   recordTypes: {
@@ -55,6 +64,21 @@ const config = {
       serviceConfig: {
         servicePath: 'collectionobjects',
         serviceType: 'object',
+      },
+      columns: {
+        default: {
+          objectNumber: {
+            messages: {
+              label: {
+                id: 'column.collectionobject.default.objectNumber',
+                defaultMessage: 'Identification number',
+              },
+            },
+            order: 10,
+            sortBy: 'collectionobjects_common:objectNumber',
+            width: 200,
+          },
+        },
       },
     },
     person: {
@@ -96,32 +120,49 @@ const intl = {
 };
 
 describe('SearchToSelectModal', () => {
-  beforeEach(function before() {
-    this.container = createTestContainer(this);
+  before(() => {
+    // clean up any existing modals from other tests
+    document.querySelectorAll('.cspace-ui-SearchToSelectModal--common').forEach((child) => {
+      unmountComponentAtNode(child);
+      child.remove();
+    });
   });
 
-  it('should render a modal', function test() {
+  beforeEach(function before() {
+    this.container = createTestContainer(this);
+
+    Modal.setAppElement(this.container);
+  });
+
+  afterEach(function after() {
+    unmountComponentAtNode(this.container);
+    this.container.remove();
+    this.container = null;
+  });
+
+  it('should render a modal', async function test() {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
     };
 
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <SearchToSelectModal
-            config={config}
-            isOpen
-            recordTypeValue="collectionobject"
-            subjects={[subject]}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <SearchToSelectModal
+              config={config}
+              isOpen
+              recordTypeValue="collectionobject"
+              subjects={[subject]}
+            />
+          </StoreProvider>
+        </IntlProvider>, this.container,
+      );
+    });
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
-
-    unmountComponentAtNode(this.container);
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
   });
 
   it('should call onRecordTypeCommit with the default record type when opened', function test() {
@@ -168,8 +209,6 @@ describe('SearchToSelectModal', () => {
     );
 
     committedRecordType.should.equal(defaultRecordTypeValue);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should call onVocabularyCommit with the default vocabulary when opened with an authority record type', function test() {
@@ -222,8 +261,6 @@ describe('SearchToSelectModal', () => {
     );
 
     committedVocabulary.should.equal(defaultVocabularyValue);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should call onVocabularyCommit with the default vocabulary when the record type is changed to an authority', function test() {
@@ -277,8 +314,6 @@ describe('SearchToSelectModal', () => {
     );
 
     committedVocabulary.should.equal(defaultVocabularyValue);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should call clearSearchResults and onRecordTypeCommit with empty value when closed', function test() {
@@ -337,34 +372,32 @@ describe('SearchToSelectModal', () => {
 
     clearedSearchName.should.equal(searchName);
     committedRecordType.should.equal('');
-
-    unmountComponentAtNode(this.container);
   });
 
-  it('should render a search form', function test() {
+  it('should render a search form', async function test() {
     const subject = {
       csid: '1234',
       recordType: 'collectionobject',
     };
 
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <SearchToSelectModal
-            config={config}
-            isOpen
-            recordTypeValue="collectionobject"
-            subjects={[subject]}
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container,
-    );
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <StoreProvider store={store}>
+            <SearchToSelectModal
+              config={config}
+              isOpen
+              recordTypeValue="collectionobject"
+              subjects={[subject]}
+            />
+          </StoreProvider>
+        </IntlProvider>, this.container,
+      );
+    });
 
     const modal = document.querySelector('.ReactModal__Content--after-open');
 
     modal.querySelector('.cspace-ui-SearchForm--common').should.not.equal(null);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should render a record type dropdown without the "all" option when allowedServiceTypes is supplied', () => {
@@ -911,8 +944,50 @@ describe('SearchToSelectModal', () => {
     setPageSize.should.equal(2500);
   });
 
-  it('should update the page number on future searches when the page is changed in a pager', () => {
+  it('should update the page number of future searches when the page is changed in a pager', function test() {
     const recordTypeValue = 'collectionobject';
+
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        itemsInPage: '3',
+        totalItems: '5',
+        pageNum: '0',
+        pageSize: '3',
+        'list-item': [
+          { csid: '1111', objectNumber: '1111' },
+          { csid: '2222', objectNumber: '2222' },
+          { csid: '3333', objectNumber: '3333' },
+          { csid: '4444', objectNumber: '4444' },
+          { csid: '5555', objectNumber: '5555' },
+        ],
+      },
+    });
+
+    const key = searchKey(Immutable.fromJS({
+      recordType: recordTypeValue,
+      searchQuery: {
+        p: 0,
+        size: 20,
+      },
+      vocabulary: null,
+    }));
+
+    const stsStore = mockStore({
+      user: Immutable.Map(),
+      optionList: Immutable.Map(),
+      prefs: Immutable.Map(),
+      search: Immutable.fromJS({
+        [searchName]: {
+          mostRecentKey: key,
+          byKey: {
+            [key]: {
+              isPending: false,
+              result: searchResult,
+            },
+          },
+        },
+      }),
+    });
 
     const subject = {
       csid: '1234',
@@ -925,52 +1000,37 @@ describe('SearchToSelectModal', () => {
       searchedSearchDescriptor = searchDescriptorArg;
     };
 
-    const searchResult = Immutable.fromJS({
-      'ns2:abstract-common-list': {
-        itemsInPage: '1',
-        totalItems: '1',
-        pageNum: '0',
-        pageSize: '3',
-        'list-item': {
-          csid: '1111',
-        },
-      },
-    });
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <BaseSearchToSelectModal
-        config={config}
-        intl={intl}
-        isOpen
-        recordTypeValue={recordTypeValue}
-        subjects={[subject]}
-        search={search}
-      />,
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={stsStore}>
+          <SearchToSelectModal
+            config={config}
+            isOpen
+            recordTypeValue={recordTypeValue}
+            subjects={[subject]}
+            search={search}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
     );
 
-    let result;
+    const modal = document.querySelector('.cspace-ui-SearchToSelectModal--common');
 
-    result = shallowRenderer.getRenderOutput();
+    // get the search button + click it
+    const searchButton = modal.querySelector('button[name="search"]');
+    act(() => {
+      // eslint-disable-next-line no-undef
+      searchButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
-    const buttonBar = result.props.renderButtonBar();
-    const searchButton = findWithType(buttonBar, SearchButton);
+    // get the pager + click
+    const pager = modal.querySelector('button[data-pagenum="1"]');
+    act(() => {
+      // eslint-disable-next-line no-undef
+      pager.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
-    searchButton.props.onClick();
-
-    result = shallowRenderer.getRenderOutput();
-
-    const searchResultTable = findWithType(result, SearchResultTableContainer);
-    const footer = searchResultTable.props.renderFooter({ searchResult });
-    const pager = findWithType(footer, Pager);
-
-    const newPage = 7;
-
-    pager.props.onPageChange(newPage);
-
-    searchButton.props.onClick();
-
+    const newPage = 1;
     searchedSearchDescriptor.getIn(['searchQuery', 'p']).should.equal(newPage);
   });
 
@@ -1364,8 +1424,50 @@ describe('SearchToSelectModal', () => {
     clickPropagated.should.equal(false);
   });
 
-  it('should update the sort direction of future searches when the sort direction is changed in the result table', () => {
+  it('should update the sort direction of future searches when the sort direction is changed in the result table', function test() {
     const recordTypeValue = 'collectionobject';
+
+    const searchResult = Immutable.fromJS({
+      'ns2:abstract-common-list': {
+        itemsInPage: '3',
+        totalItems: '5',
+        pageNum: '0',
+        pageSize: '3',
+        'list-item': [
+          { csid: '1111', objectNumber: '1111' },
+          { csid: '2222', objectNumber: '2222' },
+          { csid: '3333', objectNumber: '3333' },
+          { csid: '4444', objectNumber: '4444' },
+          { csid: '5555', objectNumber: '5555' },
+        ],
+      },
+    });
+
+    const key = searchKey(Immutable.fromJS({
+      recordType: recordTypeValue,
+      searchQuery: {
+        p: 0,
+        size: 20,
+      },
+      vocabulary: null,
+    }));
+
+    const stsStore = mockStore({
+      user: Immutable.Map(),
+      optionList: Immutable.Map(),
+      prefs: Immutable.Map(),
+      search: Immutable.fromJS({
+        [searchName]: {
+          mostRecentKey: key,
+          byKey: {
+            [key]: {
+              isPending: false,
+              result: searchResult,
+            },
+          },
+        },
+      }),
+    });
 
     const subject = {
       csid: '1234',
@@ -1378,37 +1480,38 @@ describe('SearchToSelectModal', () => {
       searchedSearchDescriptor = searchDescriptorArg;
     };
 
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <BaseSearchToSelectModal
-        config={config}
-        intl={intl}
-        isOpen
-        recordTypeValue={recordTypeValue}
-        subjects={[subject]}
-        search={search}
-      />,
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={stsStore}>
+          <SearchToSelectModal
+            config={config}
+            isOpen
+            recordTypeValue={recordTypeValue}
+            subjects={[subject]}
+            search={search}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
     );
 
-    let result;
+    const modal = document.querySelector('.cspace-ui-SearchToSelectModal--common');
 
-    result = shallowRenderer.getRenderOutput();
+    // get the search button + click it
+    const searchButton = modal.querySelector('button[name="search"]');
+    act(() => {
+      // eslint-disable-next-line no-undef
+      searchButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
-    const buttonBar = result.props.renderButtonBar();
-    const searchButton = findWithType(buttonBar, SearchButton);
+    // grab a column + click
+    const col = modal.querySelector('div[aria-label="Identification number"]');
+    act(() => {
+      // eslint-disable-next-line no-undef
+      col.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
 
-    searchButton.props.onClick();
-
-    result = shallowRenderer.getRenderOutput();
-
-    const searchResultTable = findWithType(result, SearchResultTableContainer);
-    const newSort = 'newSort';
-
-    searchResultTable.props.onSortChange(newSort);
-
-    searchButton.props.onClick();
-
+    // newSort comes from the column definition above
+    const newSort = 'objectNumber';
     searchedSearchDescriptor.getIn(['searchQuery', 'sort']).should.equal(newSort);
   });
 

@@ -17,7 +17,7 @@ import {
 import styles from '../../../styles/cspace-ui/MediaViewer.css';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
-import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery-no-icon.css';
+import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery.css';
 
 const { MiniButton } = inputComponents;
 
@@ -124,6 +124,9 @@ export default class MediaViewer extends Component {
 
     return {
       blobCsid,
+      // note: react-image-gallery requires item.original to be non-null, so it might be best to
+      // move from snapshot to original here to keep similar semantics
+      original: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
       snapshot: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
       thumbnail: getContentPath(config, 'blob', undefined, blobCsid, thumbnailSubresource),
     };
@@ -179,7 +182,7 @@ export default class MediaViewer extends Component {
         <div className={styles.normal}>
           <ImageGallery
             items={images}
-            disableArrowKeys
+            disableKeyDown
             lazyLoad
             renderLeftNav={renderLeftNav}
             renderRightNav={renderRightNav}

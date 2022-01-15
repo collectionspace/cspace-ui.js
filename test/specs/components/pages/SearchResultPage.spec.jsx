@@ -69,6 +69,10 @@ const config = {
       name: 'collectionobject',
       messages: {
         record: {
+          name: {
+            id: 'record.collectionobject.name',
+            defaultMessage: 'Objects',
+          },
           collectionName: {
             id: 'record.collectionobject.collectionName',
             defaultMessage: 'Objects',
@@ -641,7 +645,7 @@ describe('SearchResultPage', () => {
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <Router>
-                { searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult }) }
+                {searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult })}
               </Router>
             </ConfigProvider>
           </StoreProvider>
@@ -1505,8 +1509,8 @@ describe('SearchResultPage', () => {
           },
         }),
       },
-      preventDefault: () => {},
-      stopPropagation: () => {},
+      preventDefault: () => { },
+      stopPropagation: () => { },
     });
 
     return new Promise((resolve) => {

@@ -42,6 +42,7 @@ describe('App', () => {
 
   it('should render', function test() {
     const config = {
+      index: '/',
       locale: 'en',
     };
 
@@ -59,6 +60,7 @@ describe('App', () => {
 
   it('should render a BrowserRouter if no router prop is supplied and prettyUrls is true', () => {
     const config = {
+      index: '/',
       locale: 'en',
       prettyUrls: true,
     };
@@ -79,6 +81,7 @@ describe('App', () => {
 
   it('should render a HashRouter if no router prop is supplied and prettyUrls is true', () => {
     const config = {
+      index: '/',
       locale: 'en',
       prettyUrls: false,
     };
@@ -99,6 +102,7 @@ describe('App', () => {
 
   it('should call openModal to confirm router navigation', () => {
     const config = {
+      index: '/',
       locale: 'en',
     };
 

@@ -67,7 +67,8 @@ export default class ExportModal extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       isOpen,
     } = this.props;

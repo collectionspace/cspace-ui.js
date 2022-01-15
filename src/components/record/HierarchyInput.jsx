@@ -63,6 +63,15 @@ const findChildren = (csid, relations) => findNarrowerRelations(csid, relations)
     type: relation.get('relationshipMetaType'),
   }));
 
+function createHierarchy(csid, value) {
+  const relations = normalizeRelationList(value);
+
+  return Immutable.fromJS({
+    parent: findParent(csid, relations) || Immutable.Map(),
+    children: findChildren(csid, relations),
+  });
+}
+
 const propTypes = {
   csid: PropTypes.string,
   messages: PropTypes.shape({
@@ -104,37 +113,45 @@ const contextTypes = {
 };
 
 export default class HierarchyInput extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    const {
+      csid,
+      value,
+    } = props;
+
+    this.state = {
+      csid,
+      value,
+      hierarchy: createHierarchy(csid, value),
+    };
 
     this.handleAddChild = this.handleAddChild.bind(this);
     this.handleRemoveChild = this.handleRemoveChild.bind(this);
     this.handleCommit = this.handleCommit.bind(this);
   }
 
-  componentWillMount() {
+  static getDerivedStateFromProps(props, state) {
     const {
       csid,
       value,
-    } = this.props;
-
-    this.initHierarchy(csid, value);
-  }
-
-  componentWillUpdate(nextProps) {
-    const {
-      csid,
-      value,
-    } = this.props;
+    } = props;
 
     const {
-      csid: nextCsid,
-      value: nextValue,
-    } = nextProps;
+      csid: oldCsid,
+      value: oldValue,
+    } = state;
 
-    if (nextCsid !== csid || nextValue !== value) {
-      this.initHierarchy(nextCsid, nextValue);
+    if (oldCsid !== csid || oldValue !== value) {
+      return {
+        csid,
+        value,
+        hierarchy: createHierarchy(csid, value),
+      };
     }
+
+    return null;
   }
 
   getRelationItems(hierarchy) {
@@ -172,19 +189,6 @@ export default class HierarchyInput extends Component {
     });
 
     return childRelationItems.push(parentRelationItem);
-  }
-
-  initHierarchy(csid, value) {
-    const relations = normalizeRelationList(value);
-
-    const hierarchy = Immutable.fromJS({
-      parent: findParent(csid, relations) || Immutable.Map(),
-      children: findChildren(csid, relations),
-    });
-
-    this.setState({
-      hierarchy,
-    });
   }
 
   handleAddChild() {

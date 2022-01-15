@@ -59,7 +59,8 @@ export default class InvocationDescriptorEditor extends Component {
     initMode(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     initMode(nextProps);
   }
 

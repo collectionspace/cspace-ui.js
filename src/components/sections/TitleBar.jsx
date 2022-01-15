@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/TitleBar.css';
 import subtitleStyles from '../../../styles/cspace-ui/Subtitle.css';

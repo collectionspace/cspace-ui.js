@@ -65,7 +65,8 @@ export default class RecordReportPanel extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       recordType,
     } = this.props;

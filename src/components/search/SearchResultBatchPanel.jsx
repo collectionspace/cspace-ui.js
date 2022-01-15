@@ -64,7 +64,8 @@ export default class SearchResultBatchPanel extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       recordType,
     } = this.props;

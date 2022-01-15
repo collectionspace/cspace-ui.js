@@ -128,7 +128,8 @@ class LoginForm extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       username: nextProps.username,
     });
@@ -369,4 +370,5 @@ LoginForm.propTypes = propTypes;
 LoginForm.defaultProps = defaultProps;
 LoginForm.contextTypes = contextTypes;
 
+export { LoginForm as BaseLoginForm };
 export default injectIntl(LoginForm);

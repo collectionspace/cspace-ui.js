@@ -1,7 +1,7 @@
 /* global window, document */
 
 import React from 'react';
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
@@ -10,6 +10,8 @@ import thunk from 'redux-thunk';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import moxios from 'moxios';
+import { Modal } from 'cspace-layout';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
@@ -134,6 +136,7 @@ describe('RelatedRecordBrowser', () => {
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
+    Modal.setAppElement(this.container);
 
     moxios.install();
   });
@@ -152,6 +155,8 @@ describe('RelatedRecordBrowser', () => {
     );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
+    unmountComponentAtNode(this.container);
+    this.container.remove();
   });
 
   it('should render a relation editor if a related csid is provided', function test() {
@@ -461,22 +466,30 @@ describe('RelatedRecordBrowser', () => {
 
     Simulate.click(button);
 
-    let modalNode;
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        let modalNode;
 
-    modalNode = document.querySelector('.ReactModal__Content--after-open');
+        modalNode = document.querySelector('.ReactModal__Content--after-open');
 
-    modalNode.should.not.equal(null);
+        modalNode.should.not.equal(null);
 
-    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
+        const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
 
-    modalComponent.props.onCloseButtonClick();
+        modalComponent.props.onCloseButtonClick();
 
-    modalNode = document.querySelector('.ReactModal__Content--after-open');
+        modalNode = document.querySelector('.ReactModal__Content--after-open');
 
-    expect(modalNode).to.equal(null);
+        expect(modalNode).to.equal(null);
+
+        unmountComponentAtNode(this.container);
+        this.container.remove();
+        resolve();
+      }, 0);
+    });
   });
 
-  it('should close the search to relate modal when the cancel button is clicked', function test() {
+  it('should close the search to relate modal when the cancel button is clicked', async function test() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -493,26 +506,34 @@ describe('RelatedRecordBrowser', () => {
       </IntlProvider>, this.container,
     );
 
-    const button = this.container.querySelector('button[name="relate"]');
+    const button = await asyncQuerySelector(this.container, 'button[name="relate"]');
 
     Simulate.click(button);
 
-    let modalNode;
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        let modalNode;
 
-    modalNode = document.querySelector('.ReactModal__Content--after-open');
+        modalNode = asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
-    modalNode.should.not.equal(null);
+        modalNode.should.not.equal(null);
 
-    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
+        const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
 
-    modalComponent.props.onCancelButtonClick();
+        modalComponent.props.onCancelButtonClick();
 
-    modalNode = document.querySelector('.ReactModal__Content--after-open');
+        modalNode = document.querySelector('.ReactModal__Content--after-open');
 
-    expect(modalNode).to.equal(null);
+        expect(modalNode).to.equal(null);
+
+        unmountComponentAtNode(this.container);
+        this.container.remove();
+        resolve();
+      }, 0);
+    });
   });
 
-  it('should close the search to relate modal when relations have been created', function test() {
+  it('should close the search to relate modal when relations have been created', async function test() {
     const resultTree = render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -529,23 +550,31 @@ describe('RelatedRecordBrowser', () => {
       </IntlProvider>, this.container,
     );
 
-    const button = this.container.querySelector('button[name="relate"]');
+    const button = await asyncQuerySelector(this.container, 'button[name="relate"]');
 
     Simulate.click(button);
 
     let modalNode;
 
-    modalNode = document.querySelector('.ReactModal__Content--after-open');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        modalNode = asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
-    modalNode.should.not.equal(null);
+        modalNode.should.not.equal(null);
 
-    const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
+        const modalComponent = findRenderedComponentWithType(resultTree, SearchToRelateModal);
 
-    modalComponent.props.onRelationsCreated();
+        modalComponent.props.onRelationsCreated();
 
-    modalNode = document.querySelector('.ReactModal__Content--after-open');
+        modalNode = document.querySelector('.ReactModal__Content--after-open');
 
-    expect(modalNode).to.equal(null);
+        expect(modalNode).to.equal(null);
+
+        unmountComponentAtNode(this.container);
+        this.container.remove();
+        resolve();
+      }, 0);
+    });
   });
 
   it('should replace history when the related record is unrelated in the related record panel', function test() {

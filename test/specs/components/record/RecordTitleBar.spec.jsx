@@ -300,16 +300,20 @@ describe('RecordTitleBar', () => {
       removeEventListener: window.removeEventListener,
     };
 
-    let addEventListenerCalled = null;
-
+    // after react 16, addEventListener is being called multiple times
+    // so track whether or not the 'scroll' event was added and removed
+    let addEventListenerCalled = false;
     window.addEventListener = (eventName) => {
-      addEventListenerCalled = eventName;
+      if (eventName === 'scroll') {
+        addEventListenerCalled = true;
+      }
     };
 
-    let removeEventListenerCalled = null;
-
+    let removeEventListenerCalled = false;
     window.removeEventListener = (eventName) => {
-      removeEventListenerCalled = eventName;
+      if (eventName === 'scroll') {
+        removeEventListenerCalled = true;
+      }
     };
 
     render(
@@ -322,8 +326,8 @@ describe('RecordTitleBar', () => {
 
     ReactDOM.unmountComponentAtNode(this.container);
 
-    addEventListenerCalled.should.equal('scroll');
-    removeEventListenerCalled.should.equal('scroll');
+    addEventListenerCalled.should.equal(true);
+    removeEventListenerCalled.should.equal(true);
 
     window.addEventListener = saved.addEventListener;
     window.removeEventListener = saved.removeEventListener;
