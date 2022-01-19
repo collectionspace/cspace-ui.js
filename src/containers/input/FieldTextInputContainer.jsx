@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { components as inputComponents } from 'cspace-input';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
 import get from 'lodash/get';
 import { NS_PREFIX } from '../../constants/xmlNames';
 import { configKey } from '../../helpers/configHelpers';
@@ -18,6 +18,14 @@ const propTypes = {
   config: PropTypes.object,
   value: PropTypes.string,
 };
+
+const messages = defineMessages({
+  listItem: {
+    id: 'fieldTextInput.listItem',
+    description: 'Item in a group list',
+    defaultMessage: '{groupList} #{index} — {listItem}',
+  },
+});
 
 export const getFirstChild = (recordType, partName, fieldName, { config }) => {
   const recordTypeConfig = config.recordTypes[recordType];
@@ -47,20 +55,29 @@ export const formatHumanReadable = (type, value, context) => {
   if (parts.length === 2) {
     let searchField = fieldName;
 
-    // two regexes to capture either the last field or the full name of the group list
+    // capture either the last field or the full name of the group list
     const groupRegex = /(?<groupList>\w+GroupList)$/;
-    const fieldRegex = /\w+\/\d+\/(?<field>\w+\/?)+$/;
+    const fieldRegex = /(?<groupList>\w+)\/(?<index>\d+)\/(?<field>\w+\/?)+$/;
 
     const match = fieldRegex.exec(fieldName);
     if (match) {
-      searchField = match.groups.field;
-    } else if (groupRegex.exec(fieldName)) {
+      const { intl } = context;
+      const groupChild = getFirstChild(type, partName, match.groups.groupList, context);
+      const formattedGroup = formatRecordTypeSourceField(type, `${partName}:${groupChild}`, context);
+      const formattedListItem = formatRecordTypeSourceField(type, `${partName}:${match.groups.field}`, context);
+      return intl.formatMessage(messages.listItem, {
+        groupList: formattedGroup,
+        index: match.groups.index,
+        listItem: formattedListItem,
+      });
+    }
+
+    if (groupRegex.exec(fieldName)) {
       searchField = getFirstChild(type, partName, fieldName, context);
     }
 
     formatted = formatRecordTypeSourceField(type, `${partName}:${searchField}`, context);
   } else if (parts.length === 3) {
-    // todo: display index?
     const childName = getFirstChild(type, partName, fieldName, context);
     formatted = formatRecordTypeSourceField(type, `${partName}:${childName}`, context);
   } else {
