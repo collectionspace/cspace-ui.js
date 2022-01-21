@@ -150,10 +150,10 @@ export default class InvocationEditor extends Component {
 
     const invocableNameGetter = get(config, ['recordTypes', recordType, 'invocableName']);
     const invocableName = invocableNameGetter && invocableNameGetter(metadata);
-    const invocableShortName = invocableName.slice(
+    const invocableShortName = invocableName ? invocableName.slice(
       invocableName.lastIndexOf('.') + 1,
       invocableName.length,
-    );
+    ) : '';
 
     const paramRecordTypeConfig = get(config, ['invocables', recordType, invocableName]);
 
