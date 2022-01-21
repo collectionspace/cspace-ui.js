@@ -19,23 +19,23 @@ const template = (configContext) => {
       <Cols>
         <Col>
           <Field name="numberOfObjects" />
-          <Field name="numberValue" />
-          <Field name="material" />
+          <Field name="fieldCollector" />
           <Field name="fieldCollectionPlace" />
+          <Field name="objectProductionPerson" />
           <Field name="responsibleDepartment" />
         </Col>
 
         <Col>
+          <Field name="numberValue" />
           <Field name="assocPeople" />
-          <Field name="numberType" />
-          <Field name="objectProductionPerson" />
+          <Field name="contentPlace" />
           <Field name="objectProductionPlace" />
         </Col>
 
         <Col>
-          <Field name="fieldCollector" />
+          <Field name="numberType" />
+          <Field name="material" />
           <Field name="objectStatus" />
-          <Field name="contentPlace" />
           <Field name="objectName" />
         </Col>
       </Cols>
