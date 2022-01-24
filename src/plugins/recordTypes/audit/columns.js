@@ -15,7 +15,6 @@ export default (configContext) => {
           },
         }),
         order: 10,
-        sortBy: 'audits_common:principal',
         width: 450,
       },
       eventDate: {
@@ -27,7 +26,6 @@ export default (configContext) => {
           },
         }),
         order: 30,
-        sortBy: 'audits_common:eventDate',
         width: 150,
       },
     },
