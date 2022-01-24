@@ -7,7 +7,7 @@ export default () => ({
       itemNodeName: 'audit-list-item',
       messages: defineMessages({
         resultCount: {
-          id: 'list.common.resultCount',
+          id: 'list.audit.resultCount',
           defaultMessage: `{totalItems, plural,
             =0 {No records}
             one {1 record}
@@ -15,7 +15,7 @@ export default () => ({
           } found`,
         },
         searching: {
-          id: 'list.common.searching',
+          id: 'list.audit.searching',
           defaultMessage: 'Finding audit records...',
         },
       }),
