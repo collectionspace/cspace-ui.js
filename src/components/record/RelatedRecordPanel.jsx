@@ -22,8 +22,6 @@ const messages = defineMessages({
   },
 });
 
-const listType = 'common';
-
 const getSearchDescriptor = (props) => {
   const {
     config,
@@ -58,6 +56,7 @@ const propTypes = {
     listTypes: PropTypes.object,
   }),
   csid: PropTypes.string,
+  listType: PropTypes.string,
   linkItems: PropTypes.bool,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -71,6 +70,7 @@ const propTypes = {
   relatedRecordType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   showCheckboxColumn: PropTypes.bool,
+  showSearchButton: PropTypes.bool,
   showAddButton: PropTypes.bool,
   openModalName: PropTypes.string,
   closeModal: PropTypes.func,
@@ -86,6 +86,7 @@ const propTypes = {
 
 const defaultProps = {
   collapsed: true,
+  listType: 'common',
 };
 
 export default class RelatedRecordPanel extends Component {
@@ -160,6 +161,7 @@ export default class RelatedRecordPanel extends Component {
     const {
       config,
       name,
+      listType,
       onItemSelectChange,
     } = this.props;
 
@@ -312,6 +314,7 @@ export default class RelatedRecordPanel extends Component {
       config,
       name,
       perms,
+      listType,
       relatedRecordType,
       selectedItems,
       showCheckboxColumn,
@@ -375,6 +378,7 @@ export default class RelatedRecordPanel extends Component {
       columnSetName,
       config,
       csid,
+      listType,
       linkItems,
       name,
       perms,
@@ -382,6 +386,7 @@ export default class RelatedRecordPanel extends Component {
       recordType,
       relatedRecordType,
       showCheckboxColumn,
+      showSearchButton,
       showAddButton,
       getItemLocation,
       onItemClick,
@@ -422,6 +427,7 @@ export default class RelatedRecordPanel extends Component {
         columnSetName={columnSetName}
         config={config}
         csid={csid}
+        listType={listType}
         linkItems={linkItems}
         name={name}
         searchDescriptor={searchDescriptor}
@@ -429,6 +435,7 @@ export default class RelatedRecordPanel extends Component {
         recordData={recordData}
         title={this.renderTitle()}
         showAddButton={showAddButton}
+        showSearchButton={showSearchButton}
         showCheckboxColumn={showCheckboxColumn}
         renderCheckbox={renderCheckbox}
         renderTableHeader={this.renderTableHeader}

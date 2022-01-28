@@ -63,6 +63,7 @@ export default function RecordSidebar(props) {
   }
 
   const { serviceType } = recordTypeConfig.serviceConfig;
+  const isAudit = serviceType === 'audit';
   const isAuthority = serviceType === 'authority';
   const isUtility = serviceType === 'utility';
   const panelColor = isAuthority ? 'purple' : 'blue';
@@ -73,6 +74,7 @@ export default function RecordSidebar(props) {
   let mediaSnapshot = null;
   let altMediaSnapshot = null;
   let relatedRecords = null;
+  let audit = null;
   let usedBy = null;
   let reports = null;
   let batchJobs = null;
@@ -136,6 +138,25 @@ export default function RecordSidebar(props) {
     });
   }
 
+  if (!isAudit) {
+    audit = (
+      <RelatedRecordPanelContainer
+        color={panelColor}
+        csid={csid}
+        columnSetName="narrow"
+        config={config}
+        initialSort={undefined}
+        key="audit"
+        name="relatedAuditPanel"
+        recordType={recordType}
+        relatedRecordType="audit"
+        showAddButton={false}
+        showSearchButton={false}
+        listType="audit"
+      />
+    );
+  }
+
   if (!isUtility) {
     reports = (
       <RecordReportPanelContainer
@@ -184,6 +205,7 @@ export default function RecordSidebar(props) {
       {usedBy}
       {reports}
       {batchJobs}
+      {audit}
     </div>
   );
 }
