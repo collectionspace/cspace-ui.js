@@ -90,7 +90,9 @@ export default class HierarchyReparentNotifier extends Component {
       const childVocabularyConfig = get(childRecordTypeConfig, ['vocabularies', childVocabulary]);
       const childCsid = refNameToCsid(refName);
 
-      readRecord(config, childRecordTypeConfig, childVocabularyConfig, childCsid);
+      readRecord(config, childRecordTypeConfig, childVocabularyConfig, childCsid, {
+        initSubrecords: false,
+      });
     });
   }
 
