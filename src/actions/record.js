@@ -476,7 +476,7 @@ const doRead = (recordTypeConfig, vocabularyConfig, csid) => {
   return getSession().read(path, requestConfig);
 };
 
-export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) => (
+export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid, options = {}) => (
   (dispatch, getState) => {
     const existingData = getRecordData(getState(), csid);
 
@@ -496,6 +496,10 @@ export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) => 
       },
     });
 
+    const {
+      initSubrecords = true,
+    } = options;
+
     return doRead(recordTypeConfig, vocabularyConfig, csid)
       .then((response) => dispatch({
         type: RECORD_READ_FULFILLED,
@@ -506,7 +510,11 @@ export const readRecord = (config, recordTypeConfig, vocabularyConfig, csid) => 
           csid,
         },
       }))
-      .then(() => dispatch(initializeSubrecords(config, recordTypeConfig, vocabularyConfig, csid)))
+      .then(() => (
+        initSubrecords
+          ? dispatch(initializeSubrecords(config, recordTypeConfig, vocabularyConfig, csid))
+          : Promise.resolve()
+      ))
       .then(() => getRecordData(getState(), csid))
       .catch((error) => dispatch({
         type: RECORD_READ_REJECTED,

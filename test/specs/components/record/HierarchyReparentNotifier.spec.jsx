@@ -95,6 +95,7 @@ describe('HierarchyReparentNotifier', () => {
         config.recordTypes.place,
         config.recordTypes.place.vocabularies.local,
         'urn:cspace:name(Alameda)',
+        { initSubrecords: false },
       ]);
 
       readRecordCalls[1].should.deep.equal([
@@ -102,6 +103,7 @@ describe('HierarchyReparentNotifier', () => {
         config.recordTypes.place,
         config.recordTypes.place.vocabularies.tgn,
         'urn:cspace:name(Berkeley)',
+        { initSubrecords: false },
       ]);
     });
 
@@ -253,6 +255,7 @@ describe('HierarchyReparentNotifier', () => {
         config.recordTypes.place,
         config.recordTypes.place.vocabularies.local,
         'urn:cspace:name(SF)',
+        { initSubrecords: false },
       ]);
     });
 
