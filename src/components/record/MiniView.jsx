@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import RecordForm from './RecordForm';
@@ -18,6 +18,14 @@ const propTypes = {
   data: PropTypes.instanceOf(Immutable.Map),
   readRecord: PropTypes.func,
 };
+
+const messages = defineMessages({
+  authority: {
+    id: 'miniView.authority',
+    description: 'For authority items, the record type and vocabulary displayed next to the title.',
+    defaultMessage: '({recordType} - {vocabulary})',
+  },
+});
 
 export default class MiniView extends Component {
   componentDidMount() {
@@ -68,8 +76,27 @@ export default class MiniView extends Component {
     const csid = getCsid(data);
     const path = ['/record', recordType, vocabulary, csid].filter((part) => !!part).join('/');
 
+    let secondary;
+    if (vocabulary) {
+      const values = {
+        recordType: <FormattedMessage {...recordTypeConfig.messages.record.name} />,
+        vocabulary: <FormattedMessage
+          {...recordTypeConfig.vocabularies[vocabulary].messages.name}
+        />,
+      };
+
+      secondary = (
+        <span className={styles.secondaryTitle}>
+          <FormattedMessage {...messages.authority} values={values} />
+        </span>
+      );
+    }
+
     return (
-      <h3><Link to={path}>{title}</Link></h3>
+      <h3>
+        <Link to={path}>{title}</Link>
+        {secondary}
+      </h3>
     );
   }
 
