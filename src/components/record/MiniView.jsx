@@ -23,7 +23,7 @@ const messages = defineMessages({
   authority: {
     id: 'miniView.authority',
     description: 'For authority items, the record type and vocabulary displayed next to the title.',
-    defaultMessage: '({recordType} - {vocabulary})',
+    defaultMessage: '{recordType} - {vocabulary}',
   },
 });
 

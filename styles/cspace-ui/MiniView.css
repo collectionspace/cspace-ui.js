@@ -7,6 +7,11 @@
   font-weight: 600;
   font-size: 14px;
   margin: 0;
+  display: flex;
+}
+
+.common > h3 > a {
+  flex: 1 1 auto;
 }
 
 .authority {
@@ -20,5 +25,16 @@
 }
 
 .secondaryTitle {
+  flex: 0 0 auto;
   margin-left: 4px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.authority .secondaryTitle {
+  color: #734592;
+}
+
+.procedure .secondaryTitle {
+  color: #305A8D;
 }
