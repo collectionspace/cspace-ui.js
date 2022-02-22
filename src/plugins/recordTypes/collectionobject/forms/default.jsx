@@ -119,6 +119,45 @@ const template = (configContext) => {
             <Field name="objectNameNote" />
           </Field>
         </Field>
+
+        <Field name="objectSignificanceGroupList">
+          <Field name="objectSignificanceGroup">
+            <Field name="assignedSignificance" />
+            <Field name="significanceAssignedBy" />
+            <Field name="significanceAssignedDate" />
+            <Field name="significanceAssignedContact" />
+          </Field>
+        </Field>
+
+        <Row>
+          <Field name="objectSuppliedBy" />
+          <Field name="objectComponentStatus" />
+        </Row>
+
+        <Field name="objectCredentialGroupList">
+          <Field name="objectCredentialGroup">
+            <Field name="credentialType" />
+            <Field name="credentialRequiredForUse" />
+            <Field name="credentialLocation" />
+          </Field>
+        </Field>
+
+        <Field name="objectDistributedLedgerGroupList">
+          <Field name="objectDistributedLedgerGroup">
+            <Field name="distributedStorageLedger" />
+            <Field name="storageLedgerParentIdentifier" />
+            <Field name="storageLedgerObjectIdentifier" />
+          </Field>
+        </Field>
+
+        <Field name="objectLedgerGroupList">
+          <Field name="objectLedgerGroup">
+            <Field name="objectLedger" />
+            <Field name="objectLedgerContactAddress" />
+            <Field name="objectLedgerTokenID" />
+          </Field>
+        </Field>
+
       </Panel>
 
       <Panel name="desc" collapsible collapsed>

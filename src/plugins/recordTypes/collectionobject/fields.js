@@ -3994,6 +3994,359 @@ export default (configContext) => {
             },
           },
         },
+        objectSignificanceGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectSignificanceGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectSignificanceGroup.name',
+                  defaultMessage: 'Object significance',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            assignedSignificance: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assignedSignificance.fullName',
+                    defaultMessage: 'Assigned signifiance',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.assignedSignificance.name',
+                    defaultMessage: 'Signifiance',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'assignedsignificance',
+                  },
+                },
+              },
+            },
+            significanceAssignedBy: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.significanceAssignedBy.fullName',
+                    defaultMessage: 'Significance assigned by',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.significanceAssignedBy.name',
+                    defaultMessage: 'Assigned by',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'significanceassignedby',
+                  },
+                },
+              },
+            },
+            significanceAssignedDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.significanceAssignedDate.fullName',
+                    defaultMessage: 'Significance assigned date',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.significanceAssignedDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            significanceAssignedContact: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.significanceAssignedContact.fullName',
+                    defaultMessage: 'Significance assigned contact',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.significanceAssignedContact.name',
+                    defaultMessage: 'Contact',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared,person/ulan',
+                  },
+                },
+              },
+            },
+          },
+        },
+        objectSuppliedBy: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.objectSuppliedBy.name',
+                defaultMessage: 'Supplied by',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared,person/ulan',
+              },
+            },
+          },
+        },
+        objectComponentStatus: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.objectComponentStatus.name',
+                defaultMessage: 'Component status',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'componentstatus',
+              },
+            },
+          },
+        },
+        objectCredentialGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectCredentialGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectCredentialGroup.name',
+                  defaultMessage: 'Credentials',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            credentialType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.credentialType.fullName',
+                    defaultMessage: 'Credential type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.credentialType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'credentialtype',
+                  },
+                },
+              },
+            },
+            credentialRequiredForUse: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.credentialRequiredForUse.fullName',
+                    defaultMessage: 'Credential required for use',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.credentialRequiredForUse.name',
+                    defaultMessage: 'Required',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'credentialrequiredforuse',
+                  },
+                },
+              },
+            },
+            credentialLocation: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.credentialLocation.fullName',
+                    defaultMessage: 'Credential location',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.credentialLocation.name',
+                    defaultMessage: 'Location',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'location/local,location/offsite',
+                  },
+                },
+              },
+            },
+          },
+        },
+        objectDistributedLedgerGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectDistributedLedgerGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectDistributedLedgerGroup.name',
+                  defaultMessage: 'Distributed ledger',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            distributedStorageLedger: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.distributedStorageLedger.fullName',
+                    defaultMessage: 'Distributed storage ledger',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.distributedStorageLedger.name',
+                    defaultMessage: 'Distributed ledger',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'distributedledgertype',
+                  },
+                },
+              },
+            },
+            storageLedgerParentIdentifier: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.storageLedgerParentIdentifier.name',
+                    defaultMessage: 'Parent identifier',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            storageLedgerObjectIdentifier: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.storageLedgerObjectIdentifier.name',
+                    defaultMessage: 'Object identifier',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        objectLedgerGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectLedgerGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectLedgerGroup.name',
+                  defaultMessage: 'Ledger',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            objectLedger: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.objectLedger.name',
+                    defaultMessage: 'Ledger',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'ledgertype',
+                  },
+                },
+              },
+            },
+            objectLedgerContactAddress: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.objectLedgerContactAddress.name',
+                    defaultMessage: 'Contact address',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            objectLedgerTokenID: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.objectLedgerTokenID.name',
+                    defaultMessage: 'Token ID',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
