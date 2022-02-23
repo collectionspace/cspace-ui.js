@@ -4347,6 +4347,22 @@ export default (configContext) => {
             },
           },
         },
+        intendedBehavior: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.intendedBehavior.name',
+                defaultMessage: 'Intended behavior',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
     },
   };

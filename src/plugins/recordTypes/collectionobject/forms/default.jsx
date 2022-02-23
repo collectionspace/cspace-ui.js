@@ -207,6 +207,7 @@ const template = (configContext) => {
         </Field>
 
         <Field name="physicalDescription" />
+        <Field name="intendedBehavior" />
 
         <Row>
           <Col>
