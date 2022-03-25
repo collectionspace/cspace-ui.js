@@ -9,6 +9,7 @@ import URLInputComponent from '../components/record/URLInput';
 import WorkflowStateInputComponent from '../components/record/WorkflowStateInput';
 import DateInputContainer from '../containers/input/DateInputContainer';
 import DateTimeInputContainer from '../containers/input/DateTimeInputContainer';
+import FieldTextInputContainer from '../containers/input/FieldTextInputContainer';
 import HierarchyInputContainer from '../containers/record/HierarchyInputContainer';
 import IDGeneratorInputContainer from '../containers/input/IDGeneratorInputContainer';
 import OptionPickerInputContainer from '../containers/record/OptionPickerInputContainer';
@@ -43,6 +44,9 @@ DateInput.toJSON = () => 'DateInput';
 
 export const DateTimeInput = DateTimeInputContainer;
 DateTimeInput.toJSON = () => 'DateTimeInput';
+
+export const FieldTextInput = FieldTextInputContainer;
+FieldTextInput.toJSON = () => 'FieldTextInput';
 
 export const HierarchyInput = withCsid(HierarchyInputContainer);
 HierarchyInput.toJSON = () => 'HierarchyInput';

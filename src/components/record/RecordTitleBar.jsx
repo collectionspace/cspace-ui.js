@@ -76,7 +76,8 @@ export default function RecordTitleBar(props, context) {
 
   let nav;
 
-  if (searchDescriptor) {
+  const isAudit = recordType === 'audit';
+  if (searchDescriptor && !isAudit) {
     nav = (
       <SearchResultTraverserContainer
         config={config}

@@ -19,7 +19,11 @@ export default () => ({
           defaultMessage: 'Finding audit records...',
         },
       }),
-      getItemLocationPath: () => null,
+      getItemLocationPath: (item) => {
+        const csid = item.get('csid');
+
+        return `/record/audit/${csid}`;
+      },
     },
   },
 });

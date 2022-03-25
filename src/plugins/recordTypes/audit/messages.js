@@ -13,4 +13,14 @@ export default {
       defaultMessage: 'Audits',
     },
   }),
+  panel: defineMessages({
+    info: {
+      id: 'panel.audit.info',
+      defaultMessage: 'Audit Information',
+    },
+    change: {
+      id: 'panel.audit.change',
+      defaultMessage: 'Record Change Information',
+    },
+  }),
 };

@@ -35,6 +35,12 @@
   content: ' | ';
 }
 
+.audit {
+  composes: common;
+  background-color: #F0F5FB;
+  color: #305A8D;
+}
+
 .object {
   composes: common;
   background-color: #F0F5FB;

@@ -27,10 +27,13 @@ export function IntlAwareDateTimeInput(props) {
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
       formatValue={(timestamp) => {
-        const date = intl.formatDate(timestamp, { day: 'numeric', month: 'short', year: 'numeric' });
-        const time = intl.formatTime(timestamp, { hour: 'numeric', minute: 'numeric', second: 'numeric' });
+        if (timestamp) {
+          const date = intl.formatDate(timestamp, { day: 'numeric', month: 'short', year: 'numeric' });
+          const time = intl.formatTime(timestamp, { hour: 'numeric', minute: 'numeric', second: 'numeric' });
+          return intl.formatMessage(messages.value, { date, time });
+        }
 
-        return intl.formatMessage(messages.value, { date, time });
+        return timestamp;
       }}
     />
   );

@@ -19,6 +19,11 @@
   background-color: #F3EDF6;
 }
 
+.audit {
+  composes: common;
+  background-color: #F0F5FB;
+}
+
 .procedure {
   composes: common;
   background-color: #F0F5FB;
