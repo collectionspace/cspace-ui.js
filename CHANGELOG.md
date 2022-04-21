@@ -1,5 +1,11 @@
 # Change Log
 
+## v6.1.0
+
+- Added barcode option to number types option list.
+- Added collections facility move to move reasons option list.
+- Added the record type and vocabulary to the pop-up that displays when hovering over fields that contain authority items.
+
 ## v6.0.0
 
 v6.0.0 adds support for CollectionSpace 7.0.
