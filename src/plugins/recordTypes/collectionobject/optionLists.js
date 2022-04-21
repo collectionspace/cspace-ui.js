@@ -379,6 +379,7 @@ export default {
   },
   numberTypes: {
     values: [
+      'barcode',
       'lender',
       'obsolete',
       'previous',
@@ -386,6 +387,10 @@ export default {
       'unknown',
     ],
     messages: defineMessages({
+      barcode: {
+        id: 'option.numberTypes.barcode',
+        defaultMessage: 'barcode',
+      },
       lender: {
         id: 'option.numberTypes.lender',
         defaultMessage: 'lender',
