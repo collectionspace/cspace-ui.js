@@ -29,6 +29,7 @@ export default {
   },
   moveReasons: {
     values: [
+      'collections-facility-move',
       'conservation',
       'exhibition',
       'inventory',
@@ -38,6 +39,10 @@ export default {
       'research',
     ],
     messages: defineMessages({
+      collections-facility-move: {
+        id: 'option.moveReasons.collections-facility-move',
+        defaultMessage: 'collections facility move',
+      },
       conservation: {
         id: 'option.moveReasons.conservation',
         defaultMessage: 'conservation',
