@@ -39,7 +39,7 @@ export default {
       'research',
     ],
     messages: defineMessages({
-      collections-facility-move: {
+      'collections-facility-move': {
         id: 'option.moveReasons.collections-facility-move',
         defaultMessage: 'collections facility move',
       },
