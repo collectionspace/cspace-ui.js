@@ -20,8 +20,26 @@ const config = {
           template: <div>Mini template</div>,
         },
       },
+      messages: {
+        record: {
+          name: {
+            id: 'record.person.name',
+            defaultMessage: 'Person',
+          },
+        },
+      },
       name: 'person',
       title: () => 'The computed title',
+      vocabularies: {
+        local: {
+          messages: {
+            name: {
+              id: 'vocab.person.local.name',
+              defaultMessage: 'Local',
+            },
+          },
+        },
+      },
     },
     organization: {
       fields: {},
