@@ -4363,6 +4363,511 @@ export default (configContext) => {
             },
           },
         },
+        programmingLanguageGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          programmingLanguageGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.programmingLanguageGroup.name',
+                  defaultMessage: 'Programming language',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            programmingLanguage: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.programmingLanguage.name',
+                    defaultMessage: 'Language',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'programminglanguages',
+                  },
+                },
+              },
+            },
+            programmingLanguageVersion: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.programmingLanguageVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        utilizedSoftwareGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          utilizedSoftwareGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.utilizedSoftwareGroup.name',
+                  defaultMessage: 'Utilized Software',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            software: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.software.name',
+                    defaultMessage: 'Software',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'utilizedsoftware',
+                  },
+                },
+              },
+            },
+            softwareVersion: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.softwareVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        libraries: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          library: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.library.name',
+                  defaultMessage: 'Library',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'softwarelibraries',
+                },
+              },
+            },
+          },
+        },
+        compilers: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          compiler: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.compiler.name',
+                  defaultMessage: 'Compiler',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'compilers',
+                },
+              },
+            },
+          },
+        },
+        intendedOperatingSystemGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          intendedOperatingSystemGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.intendedOperatingSystemGroup.name',
+                  defaultMessage: 'Intended operating system',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            intendedOperatingSystem: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystem.name',
+                    defaultMessage: 'Operating system',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'operatingsystems',
+                  },
+                },
+              },
+            },
+            intendedOperatingSystemVersion: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystemVersion.fullName',
+                    defaultMessage: 'Operating system version',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystemVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        intendedBrowserGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          intendedBrowserGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.intendedBrowserGroup.name',
+                  defaultMessage: 'Intended Browser',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            intendedBrowser: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.intendedBrowser.name',
+                    defaultMessage: 'Browser',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'webbrowsers',
+                  },
+                },
+              },
+            },
+            intendedBrowserVersion: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.intendedBrowserVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        networkConnectionGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          networkConnectionGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.networkConnectionGroup.name',
+                  defaultMessage: 'Network connection',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            networkConnectionRequired: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.networkConnectionRequired.fullName',
+                    defaultMessage: 'Network connection required',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.networkConnectionRequired.name',
+                    defaultMessage: 'Required',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'required',
+                  },
+                },
+              },
+            },
+            networkConnectionType: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.networkConnectionType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'connectiontype',
+                  },
+                },
+              },
+            },
+          },
+        },
+        domainGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          domainGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.domainGroup.name',
+                  defaultMessage: 'Domain',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            domainName: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.domainName.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            domainHost: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.domainHost.name',
+                    defaultMessage: 'Host',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local,organization/shared',
+                  },
+                },
+              },
+            },
+            domainType: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.domainType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'domaintype',
+                  },
+                },
+              },
+            },
+            domainVersion: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.domainVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            domainOwner: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.domainOwner.name',
+                    defaultMessage: 'Owner',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local,organization/shared',
+                  },
+                },
+              },
+            },
+          },
+        },
+        applicationInteractionGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          applicationInteractionGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.applicationInteractionGroup.name',
+                  defaultMessage: 'Application interaction',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            applicationInteractionRequired: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.applicationInteractionRequired.name',
+                    defaultMessage: 'Interaction required',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'required',
+                  },
+                },
+              },
+            },
+            applicationRequired: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.applicationRequired.name',
+                    defaultMessage: 'Application required',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'requiredapplication',
+                  },
+                },
+              },
+            },
+            applicationRequiredFor: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.applicationRequiredFor.name',
+                    defaultMessage: 'For',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        apiUrl: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.apiUrl.name',
+                defaultMessage: 'API URL',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+
       },
     },
   };

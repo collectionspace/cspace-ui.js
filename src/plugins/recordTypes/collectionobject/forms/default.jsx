@@ -7,6 +7,7 @@ const template = (configContext) => {
 
   const {
     Col,
+    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -409,6 +410,70 @@ const template = (configContext) => {
             <Field name="objectProductionNote" />
           </Col>
         </Row>
+      </Panel>
+
+      <Panel name="software" collapsible collapsed>
+        <Cols>
+          <Col>
+            <Field name="programmingLanguageGroupList">
+              <Field name="programmingLanguageGroup">
+                <Field name="programmingLanguage" />
+                <Field name="programmingLanguageVersion" />
+              </Field>
+            </Field>
+            <Field name="utilizedSoftwareGroupList">
+              <Field name="utilizedSoftwareGroup">
+                <Field name="software" />
+                <Field name="softwareVersion" />
+              </Field>
+            </Field>
+            <Field name="intendedOperatingSystemGroupList">
+              <Field name="intendedOperatingSystemGroup">
+                <Field name="intendedOperatingSystem" />
+                <Field name="intendedOperatingSystemVersion" />
+              </Field>
+            </Field>
+          </Col>
+          <Col>
+            <Row>
+              <Field name="libraries">
+                <Field name="library" />
+              </Field>
+              <Field name="compilers">
+                <Field name="compiler" />
+              </Field>
+            </Row>
+            <Field name="intendedBrowserGroupList">
+              <Field name="intendedBrowserGroup">
+                <Field name="intendedBrowser" />
+                <Field name="intendedBrowserVersion" />
+              </Field>
+            </Field>
+            <Field name="networkConnectionGroupList">
+              <Field name="networkConnectionGroup">
+                <Field name="networkConnectionRequired" />
+                <Field name="networkConnectionType" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
+        <Field name="domainGroupList">
+          <Field name="domainGroup">
+            <Field name="domainName" />
+            <Field name="domainHost" />
+            <Field name="domainType" />
+            <Field name="domainVersion" />
+            <Field name="domainOwner" />
+          </Field>
+        </Field>
+        <Field name="applicationInteractionGroupList">
+          <Field name="applicationInteractionGroup">
+            <Field name="applicationInteractionRequired" />
+            <Field name="applicationRequired" />
+            <Field name="applicationRequiredFor" />
+          </Field>
+        </Field>
+        <Field name="apiUrl" />
       </Panel>
 
       <Panel name="hist" collapsible collapsed>

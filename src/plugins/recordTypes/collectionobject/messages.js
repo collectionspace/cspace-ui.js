@@ -66,6 +66,10 @@ export default {
       id: 'panel.collectionobject.hierarchy',
       defaultMessage: 'Hierarchy',
     },
+    software: {
+      id: 'panel.collectionobject.software',
+      defaultMessage: 'Technical Specifications: Software/Web',
+    },
   }),
   inputTable: defineMessages({
     age: {
