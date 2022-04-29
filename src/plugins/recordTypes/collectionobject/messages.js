@@ -70,6 +70,10 @@ export default {
       id: 'panel.collectionobject.software',
       defaultMessage: 'Technical Specifications: Software/Web',
     },
+    avTechSpecs: {
+      id: 'panel.collectionobject.avTechSpecs',
+      defaultMessage: 'Technical Specifications: Audio/Video',
+    },
   }),
   inputTable: defineMessages({
     age: {

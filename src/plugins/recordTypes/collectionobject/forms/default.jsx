@@ -412,6 +412,49 @@ const template = (configContext) => {
         </Row>
       </Panel>
 
+      <Panel name="avTechSpecs" collapsible collapsed>
+        <Row>
+          <Field name="avFormatGroupList">
+            <Field name="avFormatGroup">
+              <Field name="formatType" />
+              <Field name="format" />
+            </Field>
+          </Field>
+
+          <Field name="numberOfChannels" />
+        </Row>
+
+        <Field name="fileCodecGroupList">
+          <Field name="fileCodecGroup">
+            <Field name="fileCodec" />
+            <Field name="compressionStandard" />
+            <Field name="fileContainer" />
+          </Field>
+        </Field>
+
+        <Cols>
+          <Col>
+            <Field name="audioType" />
+            <Field name="aspectRatioGroupList">
+              <Field name="aspectRatioGroup">
+                <Field name="aspectRatio" />
+                <Field name="aspectRatioType" />
+              </Field>
+            </Field>
+          </Col>
+          <Col>
+            <Field name="audioPreferences" />
+            <Field name="colorSpaceGroupList">
+              <Field name="colorSpaceGroup">
+                <Field name="colorSpace" />
+                <Field name="colorType" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
+        <Field name="avSpecificationNote" />
+      </Panel>
+
       <Panel name="software" collapsible collapsed>
         <Cols>
           <Col>

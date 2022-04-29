@@ -4867,7 +4867,336 @@ export default (configContext) => {
             },
           },
         },
-
+        avFormatGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          avFormatGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.avFormatGroup.name',
+                  defaultMessage: 'Format',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            format: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.format.name',
+                    defaultMessage: 'Format',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'formats',
+                  },
+                },
+              },
+            },
+            formatType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.formatType.fullName',
+                    defaultMessage: 'Format type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.formatType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'formattypenames',
+                  },
+                },
+              },
+            },
+          },
+        },
+        numberOfChannels: {
+          [config]: {
+            dataType: DATA_TYPE_INT,
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.numberOfChannels.name',
+                defaultMessage: 'Number of associated channels',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        fileCodecGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          fileCodecGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.fileCodecGroup.name',
+                  defaultMessage: 'File codecs',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            fileCodec: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.fileCodec.fullName',
+                    defaultMessage: 'File codec',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.fileCodec.name',
+                    defaultMessage: 'Codec',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'filecodecs',
+                  },
+                },
+              },
+            },
+            compressionStandard: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.compressionstandard.name',
+                    defaultMessage: 'Compression standard',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'compressionstandards',
+                  },
+                },
+              },
+            },
+            fileContainer: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.fileContainer.fullName',
+                    defaultMessage: 'File container',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.fileContainer.name',
+                    defaultMessage: 'Container',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'filecontainers',
+                  },
+                },
+              },
+            },
+          },
+        },
+        audioType: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.audioType.name',
+                defaultMessage: 'Audio type',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'audiotypes',
+              },
+            },
+          },
+        },
+        audioPreferences: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.audioPreferences.name',
+                defaultMessage: 'Audio preferences',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'audiopreferences',
+              },
+            },
+          },
+        },
+        aspectRatioGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          aspectRatioGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.aspectRatioGroup.name',
+                  defaultMessage: 'Aspect ratio',
+                },
+              }),
+              repeating: false,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            aspectRatio: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.aspectRatio.fullName',
+                    defaultMessage: 'Aspect ratio',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.aspectRatio.name',
+                    defaultMessage: 'Ratio',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'aspectratios',
+                  },
+                },
+              },
+            },
+            aspectRatioType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.aspectRatioType.fullName',
+                    defaultMessage: 'Aspect ratio type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.aspectRatioType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'aspectratiotypes',
+                  },
+                },
+              },
+            },
+          },
+        },
+        colorSpaceGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          colorSpaceGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.colorSpaceGroup.name',
+                  defaultMessage: 'Color space',
+                },
+              }),
+              repeating: false,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            colorSpace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.colorSpace.fullName',
+                    defaultMessage: 'Color space',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.colorSpace.name',
+                    defaultMessage: 'Space',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'colorspaces',
+                  },
+                },
+              },
+            },
+            colorType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.colorType.fullName',
+                    defaultMessage: 'Color type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.colorType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'colortypes',
+                  },
+                },
+              },
+            },
+          },
+        },
+        avSpecificationNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.avSpecificationNote.name',
+                defaultMessage: 'Audio or video specification note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
     },
   };
