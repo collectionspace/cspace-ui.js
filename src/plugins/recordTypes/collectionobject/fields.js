@@ -4021,11 +4021,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.assignedSignificance.fullName',
-                    defaultMessage: 'Assigned signifiance',
+                    defaultMessage: 'Object significance level',
                   },
                   name: {
                     id: 'field.collectionobjects_common.assignedSignificance.name',
-                    defaultMessage: 'Signifiance',
+                    defaultMessage: 'Level',
                   },
                 }),
                 view: {
@@ -4041,7 +4041,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.significanceAssignedBy.fullName',
-                    defaultMessage: 'Significance assigned by',
+                    defaultMessage: 'Object significance assigned by',
                   },
                   name: {
                     id: 'field.collectionobjects_common.significanceAssignedBy.name',
@@ -4061,7 +4061,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.significanceAssignedDate.fullName',
-                    defaultMessage: 'Significance assigned date',
+                    defaultMessage: 'Object significance assigned date',
                   },
                   name: {
                     id: 'field.collectionobjects_common.significanceAssignedDate.name',
@@ -4078,7 +4078,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.significanceAssignedContact.fullName',
-                    defaultMessage: 'Significance assigned contact',
+                    defaultMessage: 'Object significance assigned contact',
                   },
                   name: {
                     id: 'field.collectionobjects_common.significanceAssignedContact.name',
@@ -4138,7 +4138,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.objectCredentialGroup.name',
-                  defaultMessage: 'Credentials',
+                  defaultMessage: 'Credential',
                 },
               }),
               repeating: true,
@@ -4238,11 +4238,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.distributedStorageLedger.fullName',
-                    defaultMessage: 'Distributed storage ledger',
+                    defaultMessage: 'Distributed ledger type',
                   },
                   name: {
                     id: 'field.collectionobjects_common.distributedStorageLedger.name',
-                    defaultMessage: 'Distributed ledger',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -4256,6 +4256,10 @@ export default (configContext) => {
             storageLedgerParentIdentifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.storageLedgerParentIdentifier.fullName',
+                    defaultMessage: 'Distributed ledger parent identifier',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.storageLedgerParentIdentifier.name',
                     defaultMessage: 'Parent identifier',
@@ -4269,6 +4273,10 @@ export default (configContext) => {
             storageLedgerObjectIdentifier: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.storageLedgerObjectIdentifier.fullName',
+                    defaultMessage: 'Distributed ledger object identifier',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.storageLedgerObjectIdentifier.name',
                     defaultMessage: 'Object identifier',
@@ -4306,9 +4314,13 @@ export default (configContext) => {
             objectLedger: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectLedger.fullName',
+                    defaultMessage: 'Ledger type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectLedger.name',
-                    defaultMessage: 'Ledger',
+                    defaultMessage: 'Type',
                   },
                 }),
                 view: {
@@ -4322,6 +4334,10 @@ export default (configContext) => {
             objectLedgerContactAddress: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectLedgerContactAddress.fullName',
+                    defaultMessage: 'Ledger contact address',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectLedgerContactAddress.name',
                     defaultMessage: 'Contact address',
@@ -4335,6 +4351,10 @@ export default (configContext) => {
             objectLedgerTokenID: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectLedgerTokenID.fullName',
+                    defaultMessage: 'Ledger token ID',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.objectLedgerTokenID.name',
                     defaultMessage: 'Token ID',
@@ -4388,9 +4408,13 @@ export default (configContext) => {
             programmingLanguage: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.programmingLanguage.fullName',
+                    defaultMessage: 'Programming language name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.programmingLanguage.name',
-                    defaultMessage: 'Language',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4404,6 +4428,10 @@ export default (configContext) => {
             programmingLanguageVersion: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.programmingLanguageVersion.fullName',
+                    defaultMessage: 'Programming language version',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.programmingLanguageVersion.name',
                     defaultMessage: 'Version',
@@ -4427,7 +4455,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.utilizedSoftwareGroup.name',
-                  defaultMessage: 'Utilized Software',
+                  defaultMessage: 'Utilized software',
                 },
               }),
               repeating: true,
@@ -4441,9 +4469,13 @@ export default (configContext) => {
             software: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.software.fullName',
+                    defaultMessage: 'Utilized software name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.software.name',
-                    defaultMessage: 'Software',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4457,6 +4489,10 @@ export default (configContext) => {
             softwareVersion: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.softwareVersion.fullName',
+                    defaultMessage: 'Utilized software version',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.softwareVersion.name',
                     defaultMessage: 'Version',
@@ -4542,9 +4578,13 @@ export default (configContext) => {
             intendedOperatingSystem: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystem.fullName',
+                    defaultMessage: 'Intended operating system name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.intendedOperatingSystem.name',
-                    defaultMessage: 'Operating system',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4560,7 +4600,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.intendedOperatingSystemVersion.fullName',
-                    defaultMessage: 'Operating system version',
+                    defaultMessage: 'Intended operating system version',
                   },
                   name: {
                     id: 'field.collectionobjects_common.intendedOperatingSystemVersion.name',
@@ -4585,7 +4625,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.intendedBrowserGroup.name',
-                  defaultMessage: 'Intended Browser',
+                  defaultMessage: 'Intended browser',
                 },
               }),
               repeating: true,
@@ -4599,9 +4639,13 @@ export default (configContext) => {
             intendedBrowser: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedBrowser.fullName',
+                    defaultMessage: 'Itended browser name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.intendedBrowser.name',
-                    defaultMessage: 'Browser',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4615,6 +4659,10 @@ export default (configContext) => {
             intendedBrowserVersion: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedBrowserVersion.fullName',
+                    defaultMessage: 'Itended browser version',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.intendedBrowserVersion.name',
                     defaultMessage: 'Version',
@@ -4672,6 +4720,10 @@ export default (configContext) => {
             networkConnectionType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.networkConnectionType.fullName',
+                    defaultMessage: 'Network connection type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.networkConnectionType.name',
                     defaultMessage: 'Type',
@@ -4712,6 +4764,10 @@ export default (configContext) => {
             domainName: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainName.fullName',
+                    defaultMessage: 'Domain name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.domainName.name',
                     defaultMessage: 'Name',
@@ -4725,6 +4781,10 @@ export default (configContext) => {
             domainHost: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainHost.fullName',
+                    defaultMessage: 'Domain host',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.domainHost.name',
                     defaultMessage: 'Host',
@@ -4741,6 +4801,10 @@ export default (configContext) => {
             domainType: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainType.fullName',
+                    defaultMessage: 'Domain type',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.domainType.name',
                     defaultMessage: 'Type',
@@ -4757,6 +4821,10 @@ export default (configContext) => {
             domainVersion: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainVersion.fullName',
+                    defaultMessage: 'Domain version',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.domainVersion.name',
                     defaultMessage: 'Version',
@@ -4770,6 +4838,10 @@ export default (configContext) => {
             domainOwner: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainOwner.fullName',
+                    defaultMessage: 'Domain owner',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.domainOwner.name',
                     defaultMessage: 'Owner',
@@ -4796,7 +4868,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.applicationInteractionGroup.name',
-                  defaultMessage: 'Application interaction',
+                  defaultMessage: 'Interacting application',
                 },
               }),
               repeating: true,
@@ -4810,9 +4882,13 @@ export default (configContext) => {
             applicationInteractionRequired: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.applicationInteractionRequired.fullName',
+                    defaultMessage: 'Interacting application required',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.applicationInteractionRequired.name',
-                    defaultMessage: 'Interaction required',
+                    defaultMessage: 'Required',
                   },
                 }),
                 view: {
@@ -4826,9 +4902,13 @@ export default (configContext) => {
             applicationRequired: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.applicationRequired.fullName',
+                    defaultMessage: 'Interacting application name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.applicationRequired.name',
-                    defaultMessage: 'Application required',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4842,6 +4922,10 @@ export default (configContext) => {
             applicationRequiredFor: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.applicationRequiredFor.fullName',
+                    defaultMessage: 'Interacting application required for',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.applicationRequiredFor.name',
                     defaultMessage: 'For',
@@ -4892,9 +4976,13 @@ export default (configContext) => {
             format: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.format.fullName',
+                    defaultMessage: 'Format name',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.format.name',
-                    defaultMessage: 'Format',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4952,7 +5040,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.fileCodecGroup.name',
-                  defaultMessage: 'File codecs',
+                  defaultMessage: 'File codec',
                 },
               }),
               repeating: true,
@@ -4968,11 +5056,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.fileCodec.fullName',
-                    defaultMessage: 'File codec',
+                    defaultMessage: 'File codec name',
                   },
                   name: {
                     id: 'field.collectionobjects_common.fileCodec.name',
-                    defaultMessage: 'Codec',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -4986,6 +5074,10 @@ export default (configContext) => {
             compressionStandard: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.compressionstandard.fullName',
+                    defaultMessage: 'File codec compression standard',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.compressionstandard.name',
                     defaultMessage: 'Compression standard',
@@ -5004,7 +5096,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.fileContainer.fullName',
-                    defaultMessage: 'File container',
+                    defaultMessage: 'File codec container',
                   },
                   name: {
                     id: 'field.collectionobjects_common.fileContainer.name',
@@ -5042,7 +5134,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.collectionobjects_common.audioPreferences.name',
-                defaultMessage: 'Audio preferences',
+                defaultMessage: 'Audio preference',
               },
             }),
             view: {
@@ -5080,11 +5172,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.aspectRatio.fullName',
-                    defaultMessage: 'Aspect ratio',
+                    defaultMessage: 'Aspect ratio width:height',
                   },
                   name: {
                     id: 'field.collectionobjects_common.aspectRatio.name',
-                    defaultMessage: 'Ratio',
+                    defaultMessage: 'Width:height',
                   },
                 }),
                 view: {
@@ -5144,11 +5236,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.colorSpace.fullName',
-                    defaultMessage: 'Color space',
+                    defaultMessage: 'Color space name',
                   },
                   name: {
                     id: 'field.collectionobjects_common.colorSpace.name',
-                    defaultMessage: 'Space',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -5164,7 +5256,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.colorType.fullName',
-                    defaultMessage: 'Color type',
+                    defaultMessage: 'Color space type',
                   },
                   name: {
                     id: 'field.collectionobjects_common.colorType.name',
