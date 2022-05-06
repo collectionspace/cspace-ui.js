@@ -344,7 +344,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
    <img align="right" src="./images/groupFieldNoRepetitiveLabels.png">
 
    ```JavaScript
-   // ✅ GOOD - Shorten the member field label
+   // ✔️ BETTER - Shorten the member field label
 
    currentLocationGroupList: {
      [config]: {
@@ -383,7 +383,7 @@ A group field is typically configured with the view type `CompoundInput`. The `C
    <img align="right" src="./images/groupFieldDetailedLabel.png">
 
    ```JavaScript
-   // ✅ GOOD - Change the member field label to
+   // ✅ BEST - Change the member field label to
    // something that further describes the content
    // of the field
 
