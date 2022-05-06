@@ -479,12 +479,16 @@ const template = (configContext) => {
           </Col>
           <Col>
             <Row>
-              <Field name="libraries">
-                <Field name="library" />
-              </Field>
-              <Field name="compilers">
-                <Field name="compiler" />
-              </Field>
+              <Col>
+                <Field name="libraries">
+                  <Field name="library" />
+                </Field>
+              </Col>
+              <Col>
+                <Field name="compilers">
+                  <Field name="compiler" />
+                </Field>
+              </Col>
             </Row>
             <Field name="intendedBrowserGroupList">
               <Field name="intendedBrowserGroup">
