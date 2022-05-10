@@ -30,6 +30,7 @@ const template = (configContext) => {
           <Field name="assocPeople" />
           <Field name="contentPlace" />
           <Field name="objectProductionPlace" />
+          <Field name="publishTo" />
         </Col>
 
         <Col>
@@ -39,6 +40,7 @@ const template = (configContext) => {
           <Field name="objectName" />
         </Col>
       </Cols>
+
       <Field name="briefDescription" />
     </Field>
   );

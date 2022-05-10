@@ -6,6 +6,7 @@ export default (configContext) => {
     AutocompleteInput,
     TextInput,
     OptionPickerInput,
+    TermPickerInput,
   } = configContext.inputComponents;
 
   const {
@@ -248,6 +249,22 @@ export default (configContext) => {
             type: AutocompleteInput,
             props: {
               source: 'taxon/local',
+            },
+          },
+        },
+      },
+      publishTo: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.BulkObjectEditBatchJob.publishTo.name',
+              defaultMessage: 'Publish to',
+            },
+          }),
+          view: {
+            type: TermPickerInput,
+            props: {
+              source: 'publishto',
             },
           },
         },
