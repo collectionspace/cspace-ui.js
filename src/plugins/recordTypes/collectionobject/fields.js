@@ -4182,9 +4182,9 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TermPickerInput,
+                  type: OptionPickerInput,
                   props: {
-                    source: 'credentialrequiredforuse',
+                    source: 'yesNoValues',
                   },
                 },
               },
@@ -4710,9 +4710,9 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TermPickerInput,
+                  type: OptionPickerInput,
                   props: {
-                    source: 'required',
+                    source: 'yesNoValues',
                   },
                 },
               },
@@ -4892,9 +4892,9 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TermPickerInput,
+                  type: OptionPickerInput,
                   props: {
-                    source: 'required',
+                    source: 'yesNoValues',
                   },
                 },
               },
@@ -5159,7 +5159,7 @@ export default (configContext) => {
                   defaultMessage: 'Aspect ratio',
                 },
               }),
-              repeating: false,
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
@@ -5223,7 +5223,7 @@ export default (configContext) => {
                   defaultMessage: 'Color space',
                 },
               }),
-              repeating: false,
+              repeating: true,
               view: {
                 type: CompoundInput,
                 props: {
