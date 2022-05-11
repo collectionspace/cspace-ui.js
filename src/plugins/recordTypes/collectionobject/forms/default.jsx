@@ -135,27 +135,27 @@ const template = (configContext) => {
           <Field name="objectComponentStatus" />
         </Row>
 
-        <Field name="objectCredentialGroupList">
-          <Field name="objectCredentialGroup">
+        <Field name="credentialGroupList">
+          <Field name="credentialGroup">
             <Field name="credentialType" />
             <Field name="credentialRequiredForUse" />
             <Field name="credentialLocation" />
           </Field>
         </Field>
 
-        <Field name="objectDistributedLedgerGroupList">
-          <Field name="objectDistributedLedgerGroup">
+        <Field name="distributedLedgerGroupList">
+          <Field name="distributedLedgerGroup">
             <Field name="distributedStorageLedger" />
-            <Field name="storageLedgerParentIdentifier" />
-            <Field name="storageLedgerObjectIdentifier" />
+            <Field name="distributedLedgerParentIdentifier" />
+            <Field name="distributedLedgerObjectIdentifier" />
           </Field>
         </Field>
 
-        <Field name="objectLedgerGroupList">
-          <Field name="objectLedgerGroup">
-            <Field name="objectLedger" />
-            <Field name="objectLedgerContactAddress" />
-            <Field name="objectLedgerTokenID" />
+        <Field name="ledgerGroupList">
+          <Field name="ledgerGroup">
+            <Field name="ledger" />
+            <Field name="ledgerContactAddress" />
+            <Field name="ledgerTokenID" />
           </Field>
         </Field>
 

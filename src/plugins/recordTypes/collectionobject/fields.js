@@ -4127,17 +4127,17 @@ export default (configContext) => {
             },
           },
         },
-        objectCredentialGroupList: {
+        credentialGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          objectCredentialGroup: {
+          credentialGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.collectionobjects_common.objectCredentialGroup.name',
+                  id: 'field.collectionobjects_common.credentialGroup.name',
                   defaultMessage: 'Credential',
                 },
               }),
@@ -4211,17 +4211,17 @@ export default (configContext) => {
             },
           },
         },
-        objectDistributedLedgerGroupList: {
+        distributedLedgerGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          objectDistributedLedgerGroup: {
+          distributedLedgerGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.collectionobjects_common.objectDistributedLedgerGroup.name',
+                  id: 'field.collectionobjects_common.distributedLedgerGroup.name',
                   defaultMessage: 'Distributed ledger',
                 },
               }),
@@ -4253,15 +4253,15 @@ export default (configContext) => {
                 },
               },
             },
-            storageLedgerParentIdentifier: {
+            distributedLedgerParentIdentifier: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.storageLedgerParentIdentifier.fullName',
+                    id: 'field.collectionobjects_common.distributedLedgerParentIdentifier.fullName',
                     defaultMessage: 'Distributed ledger parent identifier',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.storageLedgerParentIdentifier.name',
+                    id: 'field.collectionobjects_common.distributedLedgerParentIdentifier.name',
                     defaultMessage: 'Parent identifier',
                   },
                 }),
@@ -4270,15 +4270,15 @@ export default (configContext) => {
                 },
               },
             },
-            storageLedgerObjectIdentifier: {
+            distributedLedgerObjectIdentifier: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.storageLedgerObjectIdentifier.fullName',
+                    id: 'field.collectionobjects_common.distributedLedgerObjectIdentifier.fullName',
                     defaultMessage: 'Distributed ledger object identifier',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.storageLedgerObjectIdentifier.name',
+                    id: 'field.collectionobjects_common.distributedLedgerObjectIdentifier.name',
                     defaultMessage: 'Object identifier',
                   },
                 }),
@@ -4289,17 +4289,17 @@ export default (configContext) => {
             },
           },
         },
-        objectLedgerGroupList: {
+        ledgerGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          objectLedgerGroup: {
+          ledgerGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.collectionobjects_common.objectLedgerGroup.name',
+                  id: 'field.collectionobjects_common.ledgerGroup.name',
                   defaultMessage: 'Ledger',
                 },
               }),
@@ -4311,15 +4311,15 @@ export default (configContext) => {
                 },
               },
             },
-            objectLedger: {
+            ledger: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.objectLedger.fullName',
+                    id: 'field.collectionobjects_common.ledger.fullName',
                     defaultMessage: 'Ledger type',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.objectLedger.name',
+                    id: 'field.collectionobjects_common.ledger.name',
                     defaultMessage: 'Type',
                   },
                 }),
@@ -4331,15 +4331,15 @@ export default (configContext) => {
                 },
               },
             },
-            objectLedgerContactAddress: {
+            ledgerContactAddress: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.objectLedgerContactAddress.fullName',
+                    id: 'field.collectionobjects_common.ledgerContactAddress.fullName',
                     defaultMessage: 'Ledger contact address',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.objectLedgerContactAddress.name',
+                    id: 'field.collectionobjects_common.ledgerContactAddress.name',
                     defaultMessage: 'Contact address',
                   },
                 }),
@@ -4348,15 +4348,15 @@ export default (configContext) => {
                 },
               },
             },
-            objectLedgerTokenID: {
+            ledgerTokenID: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.objectLedgerTokenID.fullName',
+                    id: 'field.collectionobjects_common.ledgerTokenID.fullName',
                     defaultMessage: 'Ledger token ID',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.objectLedgerTokenID.name',
+                    id: 'field.collectionobjects_common.ledgerTokenID.name',
                     defaultMessage: 'Token ID',
                   },
                 }),
