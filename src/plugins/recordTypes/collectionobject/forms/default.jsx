@@ -7,6 +7,7 @@ const template = (configContext) => {
 
   const {
     Col,
+    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -119,6 +120,45 @@ const template = (configContext) => {
             <Field name="objectNameNote" />
           </Field>
         </Field>
+
+        <Field name="objectSignificanceGroupList">
+          <Field name="objectSignificanceGroup">
+            <Field name="assignedSignificance" />
+            <Field name="significanceAssignedBy" />
+            <Field name="significanceAssignedDate" />
+            <Field name="significanceAssignedContact" />
+          </Field>
+        </Field>
+
+        <Row>
+          <Field name="objectSuppliedBy" />
+          <Field name="objectComponentStatus" />
+        </Row>
+
+        <Field name="credentialGroupList">
+          <Field name="credentialGroup">
+            <Field name="credentialType" />
+            <Field name="credentialRequiredForUse" />
+            <Field name="credentialLocation" />
+          </Field>
+        </Field>
+
+        <Field name="distributedLedgerGroupList">
+          <Field name="distributedLedgerGroup">
+            <Field name="distributedStorageLedger" />
+            <Field name="distributedLedgerParentIdentifier" />
+            <Field name="distributedLedgerObjectIdentifier" />
+          </Field>
+        </Field>
+
+        <Field name="ledgerGroupList">
+          <Field name="ledgerGroup">
+            <Field name="ledger" />
+            <Field name="ledgerContactAddress" />
+            <Field name="ledgerTokenID" />
+          </Field>
+        </Field>
+
       </Panel>
 
       <Panel name="desc" collapsible collapsed>
@@ -168,6 +208,7 @@ const template = (configContext) => {
         </Field>
 
         <Field name="physicalDescription" />
+        <Field name="intendedBehavior" />
 
         <Row>
           <Col>
@@ -369,6 +410,117 @@ const template = (configContext) => {
             <Field name="objectProductionNote" />
           </Col>
         </Row>
+      </Panel>
+
+      <Panel name="avTechSpecs" collapsible collapsed>
+        <Row>
+          <Field name="avFormatGroupList">
+            <Field name="avFormatGroup">
+              <Field name="formatType" />
+              <Field name="format" />
+            </Field>
+          </Field>
+
+          <Field name="numberOfChannels" />
+        </Row>
+
+        <Field name="fileCodecGroupList">
+          <Field name="fileCodecGroup">
+            <Field name="fileCodec" />
+            <Field name="compressionStandard" />
+            <Field name="fileContainer" />
+          </Field>
+        </Field>
+
+        <Cols>
+          <Col>
+            <Field name="audioType" />
+            <Field name="aspectRatioGroupList">
+              <Field name="aspectRatioGroup">
+                <Field name="aspectRatio" />
+                <Field name="aspectRatioType" />
+              </Field>
+            </Field>
+          </Col>
+          <Col>
+            <Field name="audioPreferences" />
+            <Field name="colorSpaceGroupList">
+              <Field name="colorSpaceGroup">
+                <Field name="colorSpace" />
+                <Field name="colorType" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
+        <Field name="avSpecificationNote" />
+      </Panel>
+
+      <Panel name="software" collapsible collapsed>
+        <Cols>
+          <Col>
+            <Field name="programmingLanguageGroupList">
+              <Field name="programmingLanguageGroup">
+                <Field name="programmingLanguage" />
+                <Field name="programmingLanguageVersion" />
+              </Field>
+            </Field>
+            <Field name="utilizedSoftwareGroupList">
+              <Field name="utilizedSoftwareGroup">
+                <Field name="software" />
+                <Field name="softwareVersion" />
+              </Field>
+            </Field>
+            <Field name="intendedOperatingSystemGroupList">
+              <Field name="intendedOperatingSystemGroup">
+                <Field name="intendedOperatingSystem" />
+                <Field name="intendedOperatingSystemVersion" />
+              </Field>
+            </Field>
+          </Col>
+          <Col>
+            <Row>
+              <Col>
+                <Field name="libraries">
+                  <Field name="library" />
+                </Field>
+              </Col>
+              <Col>
+                <Field name="compilers">
+                  <Field name="compiler" />
+                </Field>
+              </Col>
+            </Row>
+            <Field name="intendedBrowserGroupList">
+              <Field name="intendedBrowserGroup">
+                <Field name="intendedBrowser" />
+                <Field name="intendedBrowserVersion" />
+              </Field>
+            </Field>
+            <Field name="networkConnectionGroupList">
+              <Field name="networkConnectionGroup">
+                <Field name="networkConnectionRequired" />
+                <Field name="networkConnectionType" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
+        <Field name="domainGroupList">
+          <Field name="domainGroup">
+            <Field name="domainName" />
+            <Field name="domainHost" />
+            <Field name="domainType" />
+            <Field name="domainVersion" />
+            <Field name="domainOwner" />
+          </Field>
+        </Field>
+        <Field name="applicationInteractionGroupList">
+          <Field name="applicationInteractionGroup">
+            <Field name="applicationInteractionRequired" />
+            <Field name="applicationRequired" />
+            <Field name="applicationRequiredFor" />
+          </Field>
+        </Field>
+        <Field name="apiUrl" />
       </Panel>
 
       <Panel name="hist" collapsible collapsed>

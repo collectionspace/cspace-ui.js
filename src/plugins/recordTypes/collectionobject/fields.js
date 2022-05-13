@@ -3994,6 +3994,1301 @@ export default (configContext) => {
             },
           },
         },
+        objectSignificanceGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectSignificanceGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectSignificanceGroup.name',
+                  defaultMessage: 'Object significance',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            assignedSignificance: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.assignedSignificance.fullName',
+                    defaultMessage: 'Object significance level',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.assignedSignificance.name',
+                    defaultMessage: 'Level',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'assignedsignificance',
+                  },
+                },
+              },
+            },
+            significanceAssignedBy: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.significanceAssignedBy.fullName',
+                    defaultMessage: 'Object significance assigned by',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.significanceAssignedBy.name',
+                    defaultMessage: 'Assigned by',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'significanceassignedby',
+                  },
+                },
+              },
+            },
+            significanceAssignedDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.significanceAssignedDate.fullName',
+                    defaultMessage: 'Object significance assigned date',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.significanceAssignedDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            significanceAssignedContact: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.significanceAssignedContact.fullName',
+                    defaultMessage: 'Object significance assigned contact',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.significanceAssignedContact.name',
+                    defaultMessage: 'Contact',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared,person/ulan',
+                  },
+                },
+              },
+            },
+          },
+        },
+        objectSuppliedBy: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.objectSuppliedBy.name',
+                defaultMessage: 'Supplied by',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'person/local,person/shared,person/ulan',
+              },
+            },
+          },
+        },
+        objectComponentStatus: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.objectComponentStatus.name',
+                defaultMessage: 'Component status',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'componentstatus',
+              },
+            },
+          },
+        },
+        credentialGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          credentialGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.credentialGroup.name',
+                  defaultMessage: 'Credential',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            credentialType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.credentialType.fullName',
+                    defaultMessage: 'Credential type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.credentialType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'credentialtype',
+                  },
+                },
+              },
+            },
+            credentialRequiredForUse: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.credentialRequiredForUse.fullName',
+                    defaultMessage: 'Credential required for use',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.credentialRequiredForUse.name',
+                    defaultMessage: 'Required',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'yesNoValues',
+                  },
+                },
+              },
+            },
+            credentialLocation: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.credentialLocation.fullName',
+                    defaultMessage: 'Credential location',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.credentialLocation.name',
+                    defaultMessage: 'Location',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'location/local,location/offsite',
+                  },
+                },
+              },
+            },
+          },
+        },
+        distributedLedgerGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          distributedLedgerGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.distributedLedgerGroup.name',
+                  defaultMessage: 'Distributed ledger',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            distributedStorageLedger: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.distributedStorageLedger.fullName',
+                    defaultMessage: 'Distributed ledger type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.distributedStorageLedger.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'distributedledgertype',
+                  },
+                },
+              },
+            },
+            distributedLedgerParentIdentifier: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.distributedLedgerParentIdentifier.fullName',
+                    defaultMessage: 'Distributed ledger parent identifier',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.distributedLedgerParentIdentifier.name',
+                    defaultMessage: 'Parent identifier',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            distributedLedgerObjectIdentifier: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.distributedLedgerObjectIdentifier.fullName',
+                    defaultMessage: 'Distributed ledger object identifier',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.distributedLedgerObjectIdentifier.name',
+                    defaultMessage: 'Object identifier',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        ledgerGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          ledgerGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.ledgerGroup.name',
+                  defaultMessage: 'Ledger',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            ledger: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.ledger.fullName',
+                    defaultMessage: 'Ledger type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.ledger.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'ledgertype',
+                  },
+                },
+              },
+            },
+            ledgerContactAddress: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.ledgerContactAddress.fullName',
+                    defaultMessage: 'Ledger contact address',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.ledgerContactAddress.name',
+                    defaultMessage: 'Contact address',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            ledgerTokenID: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.ledgerTokenID.fullName',
+                    defaultMessage: 'Ledger token ID',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.ledgerTokenID.name',
+                    defaultMessage: 'Token ID',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        intendedBehavior: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.intendedBehavior.name',
+                defaultMessage: 'Intended behavior',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
+        programmingLanguageGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          programmingLanguageGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.programmingLanguageGroup.name',
+                  defaultMessage: 'Programming language',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            programmingLanguage: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.programmingLanguage.fullName',
+                    defaultMessage: 'Programming language name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.programmingLanguage.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'programminglanguages',
+                  },
+                },
+              },
+            },
+            programmingLanguageVersion: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.programmingLanguageVersion.fullName',
+                    defaultMessage: 'Programming language version',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.programmingLanguageVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        utilizedSoftwareGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          utilizedSoftwareGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.utilizedSoftwareGroup.name',
+                  defaultMessage: 'Utilized software',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            software: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.software.fullName',
+                    defaultMessage: 'Utilized software name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.software.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'utilizedsoftware',
+                  },
+                },
+              },
+            },
+            softwareVersion: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.softwareVersion.fullName',
+                    defaultMessage: 'Utilized software version',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.softwareVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        libraries: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          library: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.library.name',
+                  defaultMessage: 'Library',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'softwarelibraries',
+                },
+              },
+            },
+          },
+        },
+        compilers: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          compiler: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.compiler.name',
+                  defaultMessage: 'Compiler',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'compilers',
+                },
+              },
+            },
+          },
+        },
+        intendedOperatingSystemGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          intendedOperatingSystemGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.intendedOperatingSystemGroup.name',
+                  defaultMessage: 'Intended operating system',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            intendedOperatingSystem: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystem.fullName',
+                    defaultMessage: 'Intended operating system name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystem.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'operatingsystems',
+                  },
+                },
+              },
+            },
+            intendedOperatingSystemVersion: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystemVersion.fullName',
+                    defaultMessage: 'Intended operating system version',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.intendedOperatingSystemVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        intendedBrowserGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          intendedBrowserGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.intendedBrowserGroup.name',
+                  defaultMessage: 'Intended browser',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            intendedBrowser: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedBrowser.fullName',
+                    defaultMessage: 'Itended browser name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.intendedBrowser.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'webbrowsers',
+                  },
+                },
+              },
+            },
+            intendedBrowserVersion: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.intendedBrowserVersion.fullName',
+                    defaultMessage: 'Itended browser version',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.intendedBrowserVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        networkConnectionGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          networkConnectionGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.networkConnectionGroup.name',
+                  defaultMessage: 'Network connection',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            networkConnectionRequired: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.networkConnectionRequired.fullName',
+                    defaultMessage: 'Network connection required',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.networkConnectionRequired.name',
+                    defaultMessage: 'Required',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'yesNoValues',
+                  },
+                },
+              },
+            },
+            networkConnectionType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.networkConnectionType.fullName',
+                    defaultMessage: 'Network connection type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.networkConnectionType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'connectiontype',
+                  },
+                },
+              },
+            },
+          },
+        },
+        domainGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          domainGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.domainGroup.name',
+                  defaultMessage: 'Domain',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            domainName: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainName.fullName',
+                    defaultMessage: 'Domain name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.domainName.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            domainHost: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainHost.fullName',
+                    defaultMessage: 'Domain host',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.domainHost.name',
+                    defaultMessage: 'Host',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local,organization/shared',
+                  },
+                },
+              },
+            },
+            domainType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainType.fullName',
+                    defaultMessage: 'Domain type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.domainType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'domaintype',
+                  },
+                },
+              },
+            },
+            domainVersion: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainVersion.fullName',
+                    defaultMessage: 'Domain version',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.domainVersion.name',
+                    defaultMessage: 'Version',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            domainOwner: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.domainOwner.fullName',
+                    defaultMessage: 'Domain owner',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.domainOwner.name',
+                    defaultMessage: 'Owner',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local,organization/shared',
+                  },
+                },
+              },
+            },
+          },
+        },
+        applicationInteractionGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          applicationInteractionGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.applicationInteractionGroup.name',
+                  defaultMessage: 'Interacting application',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            applicationInteractionRequired: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.applicationInteractionRequired.fullName',
+                    defaultMessage: 'Interacting application required',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.applicationInteractionRequired.name',
+                    defaultMessage: 'Required',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'yesNoValues',
+                  },
+                },
+              },
+            },
+            applicationRequired: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.applicationRequired.fullName',
+                    defaultMessage: 'Interacting application name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.applicationRequired.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'requiredapplication',
+                  },
+                },
+              },
+            },
+            applicationRequiredFor: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.applicationRequiredFor.fullName',
+                    defaultMessage: 'Interacting application required for',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.applicationRequiredFor.name',
+                    defaultMessage: 'For',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        apiUrl: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.apiUrl.name',
+                defaultMessage: 'API URL',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        avFormatGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          avFormatGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.avFormatGroup.name',
+                  defaultMessage: 'Format',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            format: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.format.fullName',
+                    defaultMessage: 'Format name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.format.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'formats',
+                  },
+                },
+              },
+            },
+            formatType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.formatType.fullName',
+                    defaultMessage: 'Format type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.formatType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'formattypenames',
+                  },
+                },
+              },
+            },
+          },
+        },
+        numberOfChannels: {
+          [config]: {
+            dataType: DATA_TYPE_INT,
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.numberOfChannels.name',
+                defaultMessage: 'Number of associated channels',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        fileCodecGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          fileCodecGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.fileCodecGroup.name',
+                  defaultMessage: 'File codec',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            fileCodec: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.fileCodec.fullName',
+                    defaultMessage: 'File codec name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.fileCodec.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'filecodecs',
+                  },
+                },
+              },
+            },
+            compressionStandard: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.compressionstandard.fullName',
+                    defaultMessage: 'File codec compression standard',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.compressionstandard.name',
+                    defaultMessage: 'Compression standard',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'compressionstandards',
+                  },
+                },
+              },
+            },
+            fileContainer: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.fileContainer.fullName',
+                    defaultMessage: 'File codec container',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.fileContainer.name',
+                    defaultMessage: 'Container',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'filecontainers',
+                  },
+                },
+              },
+            },
+          },
+        },
+        audioType: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.audioType.name',
+                defaultMessage: 'Audio type',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'audiotypes',
+              },
+            },
+          },
+        },
+        audioPreferences: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.audioPreferences.name',
+                defaultMessage: 'Audio preference',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'audiopreferences',
+              },
+            },
+          },
+        },
+        aspectRatioGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          aspectRatioGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.aspectRatioGroup.name',
+                  defaultMessage: 'Aspect ratio',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            aspectRatio: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.aspectRatio.fullName',
+                    defaultMessage: 'Aspect ratio width:height',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.aspectRatio.name',
+                    defaultMessage: 'Width:height',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'aspectratios',
+                  },
+                },
+              },
+            },
+            aspectRatioType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.aspectRatioType.fullName',
+                    defaultMessage: 'Aspect ratio type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.aspectRatioType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'aspectratiotypes',
+                  },
+                },
+              },
+            },
+          },
+        },
+        colorSpaceGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          colorSpaceGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.colorSpaceGroup.name',
+                  defaultMessage: 'Color space',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            colorSpace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.colorSpace.fullName',
+                    defaultMessage: 'Color space name',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.colorSpace.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'colorspaces',
+                  },
+                },
+              },
+            },
+            colorType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.colorType.fullName',
+                    defaultMessage: 'Color space type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.colorType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'colortypes',
+                  },
+                },
+              },
+            },
+          },
+        },
+        avSpecificationNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.avSpecificationNote.name',
+                defaultMessage: 'Audio or video specification note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
     },
   };
