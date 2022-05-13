@@ -139,22 +139,24 @@ export default function RecordSidebar(props) {
   }
 
   if (!isAudit) {
-    audit = (
-      <RelatedRecordPanelContainer
-        color={panelColor}
-        csid={csid}
-        columnSetName="narrow"
-        config={config}
-        initialSort={undefined}
-        key="audit"
-        name="relatedAuditPanel"
-        recordType={recordType}
-        relatedRecordType="audit"
-        showAddButton={false}
-        showSearchButton={false}
-        listType="audit"
-      />
-    );
+    // Temporarily disable until services support exists.
+    // audit = (
+    //   <RelatedRecordPanelContainer
+    //     color={panelColor}
+    //     csid={csid}
+    //     columnSetName="narrow"
+    //     config={config}
+    //     initialSort={undefined}
+    //     key="audit"
+    //     name="relatedAuditPanel"
+    //     recordType={recordType}
+    //     relatedRecordType="audit"
+    //     showAddButton={false}
+    //     showSearchButton={false}
+    //     listType="audit"
+    //   />
+    // );
+    audit = null;
   }
 
   if (!isUtility) {
