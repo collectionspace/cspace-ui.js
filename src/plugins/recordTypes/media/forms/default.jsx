@@ -44,6 +44,14 @@ const template = (configContext) => {
 
         {extensions.dimension.form}
 
+        <Field name="checksumGroupList">
+          <Field name="checksumGroup">
+            <Field name="checksumValue" />
+            <Field name="checksumType" />
+            <Field name="checksumDate" />
+          </Field>
+        </Field>
+
         <Cols>
           <Col>
             <Field name="contributor" />
