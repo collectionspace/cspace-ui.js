@@ -2,6 +2,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages } from 'react-intl';
+import { OP_EQ } from '../../constants/searchOperators';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
 
 const propTypes = {
@@ -50,12 +51,16 @@ export default class AuditedRecordPanel extends React.Component {
     const auditedType = recordData.getIn(['ns3:audit_common', 'resourceType']);
     const formattedType = auditedType.toLowerCase();
 
+    const advSearch = Immutable.Map()
+      .set('op', OP_EQ)
+      .set('path', 'ecm:name')
+      .set('value', auditedCsid);
+
     const searchDescriptor = Immutable.fromJS({
       recordType: formattedType,
       searchQuery: {
-        csid: auditedCsid,
-        p: 0,
-        size: 0,
+        as: advSearch,
+        size: 1,
       },
     });
 
