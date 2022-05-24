@@ -449,7 +449,7 @@ export const pathToNXQL = (fieldDescriptor, path) => {
 
   const nxqlPath = nxqlPathInPartArray.join('/');
 
-  return `${nxqlPartName}:${nxqlPath}`;
+  return nxqlPath ? `${nxqlPartName}:${nxqlPath}` : nxqlPartName;
 };
 
 export const operatorToNXQL = (operator) => operatorToNXQLMap[operator];
